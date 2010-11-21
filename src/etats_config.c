@@ -4,6 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2006-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      20010 Pierre Biava (grisbi@pierre.biava.name)         */
 /*          http://www.grisbi.org/                                            */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -59,14 +60,14 @@
 static void ajoute_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
 static void ajoute_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
 static void change_comparaison_montant ( GtkWidget *menu_item,
-				  gint amount_comparison_number );
+                        gint amount_comparison_number );
 static void change_comparaison_texte ( GtkWidget *menu_item,
-				gint text_comparison_number );
+                        gint text_comparison_number );
 static void click_bas_classement_etat ( void );
 static void click_haut_classement_etat ( void );
 static void click_liste_etat ( GtkCList *liste,
-			GdkEventButton *evenement,
-			gint origine );
+                        GdkEventButton *evenement,
+                        gint origine );
 static GtkWidget *cree_bouton_champ ( gint text_comparison_number );
 static GtkWidget *cree_bouton_comparateur_montant ( gint amount_comparison_number );
 static GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number );
@@ -101,44 +102,44 @@ static void remplissage_liste_tiers_etats ( void );
 static void remplit_liste_comparaisons_montants_etat ( void );
 static void remplit_liste_comparaisons_textes_etat ( void );
 static gboolean report_config_budget_select_all ( GtkWidget *button,
-						  gboolean *select_ptr );
+                        gboolean *select_ptr );
 static gboolean report_config_budget_select_type ( GtkWidget *button,
-						   gboolean *type_ptr );
+                        gboolean *type_ptr );
 static GSList *report_config_categ_budget_get_selected ( gboolean is_categ );
 static gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
-						     gchar *path_str,
-						     GtkTreeStore *store );
+                        gchar *path_str,
+                        GtkTreeStore *store );
 static gboolean report_config_category_select_all ( GtkWidget *button,
-						    gboolean *select_ptr );
+                        gboolean *select_ptr );
 static gboolean report_config_category_select_type ( GtkWidget *button,
-						     gboolean *type_ptr );
+                        gboolean *type_ptr );
 static void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
-						  gboolean is_categ );
+                        gboolean is_categ );
 static void report_config_category_update_treeview ( gboolean is_categ );
 static GtkWidget *report_config_create_categ_budget_list ( void );
 static gboolean report_config_fill_categ_budget_list ( gboolean is_categ );
 static gboolean report_config_mix_select_all ( GtkTreeModel *model,
-					       gboolean toggle_value );
+                        gboolean toggle_value );
 static gboolean report_config_mix_select_type ( gboolean is_categ,
-						gboolean type );
+                        gboolean type );
 static void report_config_mixed_list_add_div ( gboolean is_categ,
-					       const gchar *name,
-					       gint number );
+                        const gchar *name,
+                        gint number );
 static void report_config_mixed_list_add_sub_div ( gboolean is_categ,
-						   const gchar *name,
-						   gint number );
+                        const gchar *name,
+                        gint number );
 static gboolean report_tree_selectable_func (GtkTreeSelection *selection,
-				      GtkTreeModel *model,
-				      GtkTreePath *path,
-				      gboolean path_currently_selected,
-				      gpointer data);
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data);
 static gboolean report_tree_update_style ( gint * page_number );
 static gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
-					     GtkTreePath *path,
-					     GtkTreeIter *iter,
-					     gpointer data );
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        gpointer data );
 static gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
-					      GtkTreeModel *model );
+                        GtkTreeModel *model );
 static void retire_ligne_liste_comparaisons_montants_etat ( gint last_amount_comparison_number );
 static void retire_ligne_liste_comparaisons_textes_etat ( gint last_text_comparison_number );
 static void selectionne_devise_categ_etat_courant ( void );
@@ -167,12 +168,6 @@ enum
     REPORT_CATEG_BUDGET_LIST_NB,
 };
 
-
-
-
-/***********************************/
-/* fichier etats_config.c */
-/***********************************/
 
 gchar *liste_plages_dates[] = {
     N_("All"),
@@ -354,8 +349,8 @@ static GtkWidget *vbox_mode_paiement_etat = NULL;
 static GtkWidget *liste_mode_paiement_etat = NULL;
 
 
-static GtkTreeStore * report_tree_model = NULL;
-static GtkWidget * report_tree_view = NULL;
+static GtkTreeStore *report_tree_model = NULL;
+static GtkWidget *report_tree_view = NULL;
 
 /** globals used to speed up the category/budget list
  * and clarify the code */
@@ -365,7 +360,7 @@ static GtkTreeIter parent_iter;
 
 
 /*START_EXTERN*/
-extern GtkWidget * navigation_tree_view;
+extern GtkWidget *navigation_tree_view;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *notebook_general;
@@ -373,11 +368,12 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
-
-/******************************************************************************/
-/* Fontion personnalistation_etat */
-/* affiche la fenetre de personnalisation */
-/******************************************************************************/
+/**
+ * affiche la fenetre de personnalisation
+ *
+ *
+ *
+ * */
 void personnalisation_etat (void)
 {
     GtkWidget * dialog, *sw, *paned;
@@ -389,87 +385,83 @@ void personnalisation_etat (void)
     GtkTreeIter iter, iter2;
     GtkTreeSelection *selection ;
 
-    if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
-	return;
+    if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
+        return;
 
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
-				GSB_REPORTS_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     dialog = gtk_dialog_new_with_buttons ( _("Report properties"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     /* Create model */
     report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS,
-					     G_TYPE_STRING,
-					     G_TYPE_INT,
-					     G_TYPE_INT,
-					     G_TYPE_INT );
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_INT,
+                        G_TYPE_INT );
+
     /* Create container + TreeView */
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
-					 GTK_SHADOW_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
-				    GTK_POLICY_NEVER,
-				    GTK_POLICY_AUTOMATIC);
-    report_tree_view = gtk_tree_view_new();
-    gtk_tree_view_set_model (GTK_TREE_VIEW (report_tree_view),
-			     GTK_TREE_MODEL (report_tree_model));
-    g_object_unref (G_OBJECT(report_tree_model));
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( sw ), GTK_SHADOW_IN );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC );
+
+    report_tree_view = gtk_tree_view_new_with_model  ( GTK_TREE_MODEL (report_tree_model ) );
+    g_object_unref ( G_OBJECT ( report_tree_model ) );
 
     /* Make column */
-    cell = gtk_cell_renderer_text_new ();
-    column =
-	gtk_tree_view_column_new_with_attributes ("Categories",
-						  cell,
-						  "text", REPORT_TREE_TEXT_COLUMN,
-						  "weight", REPORT_TREE_BOLD_COLUMN,
-						  "style", REPORT_TREE_ITALIC_COLUMN,
-						  NULL);
-    gtk_tree_view_append_column (GTK_TREE_VIEW (report_tree_view),
-				 GTK_TREE_VIEW_COLUMN (column));
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW (report_tree_view), FALSE );
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( "Categories",
+                        cell,
+                        "text", REPORT_TREE_TEXT_COLUMN,
+                        "weight", REPORT_TREE_BOLD_COLUMN,
+                        "style", REPORT_TREE_ITALIC_COLUMN,
+                        NULL );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( report_tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( report_tree_view ), FALSE );
 
     /* Handle select */
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (report_tree_view));
-    g_signal_connect (selection, "changed",
-		      ((GCallback) report_tree_view_selection_changed),
-		      report_tree_model);
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( report_tree_view ) );
+    g_signal_connect ( selection,
+                        "changed",
+                        G_CALLBACK ( report_tree_view_selection_changed ),
+                        report_tree_model);
 
     /* Choose which entries will be selectable */
-    gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func,
-					     NULL, NULL );
+    gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func, NULL, NULL );
 
     /* Put the tree in the scroll */
-    gtk_container_add (GTK_CONTAINER (sw), report_tree_view);
+    gtk_container_add ( GTK_CONTAINER ( sw ), report_tree_view );
 
     /* expand all rows after the treeview widget has been realized */
-    g_signal_connect (report_tree_view, "realize",
-		      ((GCallback)gtk_tree_view_expand_all), NULL);
+    g_signal_connect ( report_tree_view,
+                        "realize",
+                        G_CALLBACK ( gtk_tree_view_expand_all ),
+                        NULL );
 
-    paned = gtk_hpaned_new();
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), paned,
-			 TRUE, TRUE, 0 );
+    paned = gtk_hpaned_new ( );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), paned, TRUE, TRUE, 0 );
     gtk_box_set_spacing ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER ( paned ), 0 );
 
-    gtk_paned_add1(GTK_PANED(paned), sw);
+    gtk_paned_add1 ( GTK_PANED ( paned ), sw) ;
 
     /* on commence par créer le notebook parent de la config des états */
-    notebook_config_etat = gtk_notebook_new ();
-    gtk_paned_add2(GTK_PANED(paned), notebook_config_etat );
+    notebook_config_etat = gtk_notebook_new ( );
+    gtk_paned_add2 ( GTK_PANED ( paned ), notebook_config_etat );
 
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ),
-				 FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ),
-				   FALSE );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_config_etat ), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_config_etat ), FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER ( notebook_config_etat ), 0 );
 
     /* on ajoute les onglets dans l'onglet de base correspondant */
@@ -478,63 +470,73 @@ void personnalisation_etat (void)
 
 
     /* Display subtree */
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			REPORT_TREE_TEXT_COLUMN, _("Data selection"),
-			REPORT_TREE_PAGE_COLUMN, -1,
-			REPORT_TREE_BOLD_COLUMN, 800,
-			-1);
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter, NULL );
+    gtk_tree_store_set (GTK_TREE_STORE ( report_tree_model ), &iter,
+                        REPORT_TREE_TEXT_COLUMN, _("Data selection"),
+                        REPORT_TREE_PAGE_COLUMN, -1,
+                        REPORT_TREE_BOLD_COLUMN, 800,
+                        -1 );
 
+    /* append page Dates */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_dates (),
-			       gtk_label_new (SPACIFY(_("Dates"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Dates"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        onglet_etat_dates ( ),
+                        gtk_label_new ( SPACIFY ( _("Dates") ) ) );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_virements (),
-			       gtk_label_new (SPACIFY(_("Transfers"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Transfers"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, _("Dates"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
 
+    /* append page Transferts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_comptes (),
-			       gtk_label_new (SPACIFY(_("Accounts"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Accounts"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        onglet_etat_virements ( ),
+                        gtk_label_new ( SPACIFY ( _("Transfers") ) ) );
 
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_tiers (),
-			       gtk_label_new (SPACIFY(_("Payee"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Payee"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, _("Transfers"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
 
+    /* append page Accounts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_categories (),
-			       gtk_label_new (SPACIFY(_("Categories"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Categories"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        onglet_etat_comptes ( ),
+                        gtk_label_new ( SPACIFY ( _("Accounts") ) ) );
+
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, _("Accounts"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+
+    /* append page Payee */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+                        onglet_etat_tiers ( ),
+                        gtk_label_new ( SPACIFY ( _("Payee") ) ) );
+
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, _("Payee"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+
+    /* append page Categories */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+                        onglet_etat_categories ( ),
+                        gtk_label_new ( SPACIFY ( _("Categories") ) ) );
+
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, _("Categories"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_ib (),
 			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -542,8 +544,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_texte (),
 			       gtk_label_new (SPACIFY(_("Texts"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Texts"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -551,8 +553,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_montant (),
 			       gtk_label_new (SPACIFY(_("Amounts"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Amounts"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -560,8 +562,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_mode_paiement (),
 			       gtk_label_new (SPACIFY(_("Payment methods"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -569,8 +571,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_divers (),
 			       gtk_label_new (SPACIFY(_("Misc."))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -584,8 +586,8 @@ void personnalisation_etat (void)
 			REPORT_TREE_BOLD_COLUMN, 800, -1);
 
     /* Data grouping */
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter );
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Data grouping"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -594,8 +596,8 @@ void personnalisation_etat (void)
 			       gtk_label_new (SPACIFY(_("Data grouping"))) );
 
     /* Data separation */
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Data separation"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -613,8 +615,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_generalites (),
 			       gtk_label_new (SPACIFY(_("Generalities"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Generalities"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -622,8 +624,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_divers (),
 			       gtk_label_new (SPACIFY(_("Titles"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Titles"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -631,8 +633,8 @@ void personnalisation_etat (void)
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_operations (),
 			       gtk_label_new (SPACIFY(_("Transactions"))) );
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Transactions"),
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
@@ -641,8 +643,8 @@ void personnalisation_etat (void)
 			       onglet_affichage_etat_devises (),
 			       gtk_label_new (SPACIFY(_("Currencies"))) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Currencies"),
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
 			REPORT_TREE_PAGE_COLUMN, page++,
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
 
