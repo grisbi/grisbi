@@ -468,7 +468,6 @@ void personnalisation_etat (void)
 
     /* remplissage de l'onglet de sélection */
 
-
     /* Display subtree */
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter, NULL );
     gtk_tree_store_set (GTK_TREE_STORE ( report_tree_model ), &iter,
@@ -486,7 +485,8 @@ void personnalisation_etat (void)
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
                         REPORT_TREE_TEXT_COLUMN, _("Dates"),
                         REPORT_TREE_PAGE_COLUMN, page++,
-                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* append page Transferts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -497,7 +497,8 @@ void personnalisation_etat (void)
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
                         REPORT_TREE_TEXT_COLUMN, _("Transfers"),
                         REPORT_TREE_PAGE_COLUMN, page++,
-                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+                        REPORT_TREE_BOLD_COLUMN, 400, 
+                        -1 );
 
     /* append page Accounts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -508,7 +509,8 @@ void personnalisation_etat (void)
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
                         REPORT_TREE_TEXT_COLUMN, _("Accounts"),
                         REPORT_TREE_PAGE_COLUMN, page++,
-                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* append page Payee */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -519,7 +521,8 @@ void personnalisation_etat (void)
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
                         REPORT_TREE_TEXT_COLUMN, _("Payee"),
                         REPORT_TREE_PAGE_COLUMN, page++,
-                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* append page Categories */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
@@ -530,124 +533,155 @@ void personnalisation_etat (void)
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
                         REPORT_TREE_TEXT_COLUMN, _("Categories"),
                         REPORT_TREE_PAGE_COLUMN, page++,
-                        REPORT_TREE_BOLD_COLUMN, 400, -1 );
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Budgetary lines */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_ib (),
-			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
+                        onglet_etat_ib ( ),
+                        gtk_label_new ( SPACIFY ( _("Budgetary lines") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Texts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_texte (),
-			       gtk_label_new (SPACIFY(_("Texts"))) );
+                        onglet_etat_texte ( ),
+                        gtk_label_new ( SPACIFY (_("Texts") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Texts"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Texts"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Amounts */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_montant (),
-			       gtk_label_new (SPACIFY(_("Amounts"))) );
+                        onglet_etat_montant ( ),
+                        gtk_label_new ( SPACIFY ( _("Amounts") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Amounts"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Amounts"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Payment methods */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_mode_paiement (),
-			       gtk_label_new (SPACIFY(_("Payment methods"))) );
+                        onglet_etat_mode_paiement ( ),
+                        gtk_label_new ( SPACIFY ( _("Payment methods") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Misc. */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_etat_divers (),
-			       gtk_label_new (SPACIFY(_("Misc."))) );
+                        onglet_etat_divers ( ),
+                        gtk_label_new ( SPACIFY ( _("Misc.") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
-
+                        REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* remplissage de l'onglet d'organisation */
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			REPORT_TREE_TEXT_COLUMN, _("Data organization"),
-			REPORT_TREE_PAGE_COLUMN, -1,
-			REPORT_TREE_BOLD_COLUMN, 800, -1);
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter, NULL );
+    gtk_tree_store_set (GTK_TREE_STORE ( report_tree_model ), &iter,
+                        REPORT_TREE_TEXT_COLUMN, _("Data organization"),
+                        REPORT_TREE_PAGE_COLUMN, -1,
+                        REPORT_TREE_BOLD_COLUMN, 800,
+                        -1 );
 
     /* Data grouping */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+                        page_data_grouping ( ),
+                        gtk_label_new ( SPACIFY ( _("Data grouping") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Data grouping"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       page_data_grouping(),
-			       gtk_label_new (SPACIFY(_("Data grouping"))) );
+                        REPORT_TREE_TEXT_COLUMN, _("Data grouping"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* Data separation */
+    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
+                        page_data_separation ( ),
+                        gtk_label_new ( SPACIFY ( _("Data separation") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Data separation"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
-    gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       page_data_separation(),
-			       gtk_label_new (SPACIFY(_("Data separation"))) );
+                        REPORT_TREE_TEXT_COLUMN, _("Data separation"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
     /* remplissage de l'onglet d'affichage */
-    gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter,
-			REPORT_TREE_TEXT_COLUMN, _("Data display"),
-			REPORT_TREE_PAGE_COLUMN, -1,
-			REPORT_TREE_BOLD_COLUMN, 800, -1);
-
+    gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter, NULL );
+    gtk_tree_store_set (GTK_TREE_STORE ( report_tree_model ), &iter,
+                        REPORT_TREE_TEXT_COLUMN, _("Data display"),
+                        REPORT_TREE_PAGE_COLUMN, -1,
+                        REPORT_TREE_BOLD_COLUMN, 800,
+                        -1 );
+    /* append page Generalities */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_affichage_etat_generalites (),
-			       gtk_label_new (SPACIFY(_("Generalities"))) );
+                        onglet_affichage_etat_generalites ( ),
+                        gtk_label_new ( SPACIFY( _("Generalities") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Generalities"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Generalities"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Titles */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_affichage_etat_divers (),
-			       gtk_label_new (SPACIFY(_("Titles"))) );
+                        onglet_affichage_etat_divers ( ),
+                        gtk_label_new ( SPACIFY ( _("Titles") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Titles"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Titles"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Transactions */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_affichage_etat_operations (),
-			       gtk_label_new (SPACIFY(_("Transactions"))) );
+                        onglet_affichage_etat_operations ( ),
+                        gtk_label_new ( SPACIFY( _("Transactions") ) ) );
+
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_TEXT_COLUMN, _("Transactions"),
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
+                        REPORT_TREE_TEXT_COLUMN, _("Transactions"),
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1 );
 
+    /* append page Currencies */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
-			       onglet_affichage_etat_devises (),
-			       gtk_label_new (SPACIFY(_("Currencies"))) );
+                        onglet_affichage_etat_devises ( ),
+                        gtk_label_new ( SPACIFY ( _("Currencies") ) ) );
+
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_append ( GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
     gtk_tree_store_set ( GTK_TREE_STORE ( report_tree_model ), &iter2,
-			REPORT_TREE_PAGE_COLUMN, page++,
-			REPORT_TREE_BOLD_COLUMN, 400, -1);
-
+                        REPORT_TREE_PAGE_COLUMN, page++,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1);
 
     /* on va maintenant remplir toutes les infos de l'état */
 
@@ -655,470 +689,403 @@ void personnalisation_etat (void)
 
     /* on met le name de l'état */
     gtk_entry_set_text ( GTK_ENTRY ( entree_nom_etat ),
-			 gsb_data_report_get_report_name (current_report_number) );
+                        gsb_data_report_get_report_name ( current_report_number ) );
 
     /* on remplit le ctree en fonction du classement courant */
-
-    list_tmp = gsb_data_report_get_sorting_type (current_report_number);
+    list_tmp = gsb_data_report_get_sorting_type ( current_report_number );
     parent = NULL;
     gtk_clist_clear ( GTK_CLIST ( liste_type_classement_etat ));
 
     while ( list_tmp )
     {
-	gchar *text[1];
+        gchar *text[1];
 
-	text[0] = NULL;
+        text[0] = NULL;
 
-	switch ( GPOINTER_TO_INT ( list_tmp -> data ))
-	{
-	    case 1:
-		text[0] = _("Category");
-		break;
+        switch ( GPOINTER_TO_INT ( list_tmp -> data ))
+        {
+            case 1:
+            text[0] = _("Category");
+            break;
 
-	    case 3:
-		text[0] = _("Budgetary line");
-		break;
+            case 3:
+            text[0] = _("Budgetary line");
+            break;
 
-	    case 5:
-		text[0] = _("Account");
-		break;
+            case 5:
+            text[0] = _("Account");
+            break;
 
-	    case 6:
-		text[0] = _("Payee");
-		break;
+            case 6:
+            text[0] = _("Payee");
+            break;
 
-	}
+        }
 
-	if ( text[0] )
-	{
-	    parent = gtk_ctree_insert_node ( GTK_CTREE ( liste_type_classement_etat ),
-					     parent,
-					     NULL,
-					     text,
-					     5,
-					     NULL,
-					     NULL,
-					     NULL,
-					     NULL,
-					     FALSE,
-					     TRUE );
-	    gtk_ctree_node_set_row_data ( GTK_CTREE ( liste_type_classement_etat ),
-					  GTK_CTREE_NODE ( parent ),
-					  list_tmp -> data );
-	}
+        if ( text[0] )
+        {
+            parent = gtk_ctree_insert_node ( GTK_CTREE ( liste_type_classement_etat ),
+                             parent,
+                             NULL,
+                             text,
+                             5,
+                             NULL,
+                             NULL,
+                             NULL,
+                             NULL,
+                             FALSE,
+                             TRUE );
+            gtk_ctree_node_set_row_data ( GTK_CTREE ( liste_type_classement_etat ),
+                          GTK_CTREE_NODE ( parent ),
+                          list_tmp -> data );
+        }
 
-	list_tmp = list_tmp -> next;
+        list_tmp = list_tmp -> next;
     }
 
-    gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ),
-			   0,
-			   0 );
+    gtk_clist_select_row ( GTK_CLIST ( liste_type_classement_etat ), 0, 0 );
 
-    if ( gsb_data_report_get_show_r (current_report_number))
+    if ( gsb_data_report_get_show_r ( current_report_number ) )
     {
-	if ( gsb_data_report_get_show_r (current_report_number) == 1 )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ),
-					   TRUE );
-	else
-	    if (gsb_data_report_get_show_r (current_report_number))
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat ),
-					       TRUE );
+        if ( gsb_data_report_get_show_r (current_report_number) == 1 )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ),
+                           TRUE );
+        else
+            if (gsb_data_report_get_show_r (current_report_number))
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_etat ),
+                               TRUE );
     }
     else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ),
-				       TRUE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ),
+                           TRUE );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ),
-				   gsb_data_report_get_show_report_transactions (current_report_number));
+                        gsb_data_report_get_show_report_transactions ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ),
-				   gsb_data_report_get_show_report_transaction_amount (current_report_number));
+                        gsb_data_report_get_show_report_transaction_amount ( current_report_number ) );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ),
-				   gsb_data_report_get_show_report_transaction_number (current_report_number));
+                        gsb_data_report_get_show_report_transaction_number ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ),
-				   gsb_data_report_get_show_report_date (current_report_number));
+                        gsb_data_report_get_show_report_date ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_value_date_opes ),
-				   gsb_data_report_get_show_report_value_date (current_report_number));
+                        gsb_data_report_get_show_report_value_date ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ),
-				   gsb_data_report_get_show_report_payee (current_report_number));
+                        gsb_data_report_get_show_report_payee ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ),
-				   gsb_data_report_get_show_report_category (current_report_number));
+                        gsb_data_report_get_show_report_category ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ),
-				   gsb_data_report_get_show_report_sub_category (current_report_number));
+                        gsb_data_report_get_show_report_sub_category ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ),
-				   gsb_data_report_get_show_report_method_of_payment (current_report_number));
+                        gsb_data_report_get_show_report_method_of_payment ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ),
-				   gsb_data_report_get_show_report_budget (current_report_number));
+                        gsb_data_report_get_show_report_budget ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ),
-				   gsb_data_report_get_show_report_sub_budget (current_report_number));
+                        gsb_data_report_get_show_report_sub_budget ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ),
-				   gsb_data_report_get_show_report_method_of_payment_content (current_report_number));
+                        gsb_data_report_get_show_report_method_of_payment_content ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ),
-				   gsb_data_report_get_show_report_note (current_report_number));
+                        gsb_data_report_get_show_report_note ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ),
-				   gsb_data_report_get_show_report_voucher (current_report_number));
+                        gsb_data_report_get_show_report_voucher ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ),
-				   gsb_data_report_get_show_report_marked (current_report_number));
+                        gsb_data_report_get_show_report_marked ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ),
-				   gsb_data_report_get_show_report_bank_references (current_report_number));
+                        gsb_data_report_get_show_report_bank_references ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ),
-				   gsb_data_report_get_not_detail_split (current_report_number));
+                        gsb_data_report_get_not_detail_split ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ),
-				   gsb_data_report_get_split_credit_debit (current_report_number));
+                        gsb_data_report_get_split_credit_debit ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ),
-				   gsb_data_report_get_show_report_financial_year (current_report_number));
+                        gsb_data_report_get_show_report_financial_year ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ),
-				   gsb_data_report_get_column_title_show (current_report_number));
+                        gsb_data_report_get_column_title_show ( current_report_number ) );
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ),
-				  gsb_data_report_get_sorting_report (current_report_number));
+                        gsb_data_report_get_sorting_report ( current_report_number ) );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables ),
-				   gsb_data_report_get_report_can_click (current_report_number));
+                        gsb_data_report_get_report_can_click ( current_report_number ) );
 
-    if ( !gsb_data_report_get_column_title_type (current_report_number))
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ),
-				       TRUE );
+    if ( !gsb_data_report_get_column_title_type ( current_report_number ) )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_titre_en_haut ), TRUE );
+
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ),
-				   gsb_data_report_get_append_in_payee (current_report_number));
+                        gsb_data_report_get_append_in_payee ( current_report_number ) );
 
     /* on rend insensitif les sous qque choses si nécessaire */
-    sens_desensitive_pointeur ( bouton_afficher_opes,
-				vbox_show_transactions );
-    sens_desensitive_pointeur ( bouton_afficher_categ_opes,
-				bouton_afficher_sous_categ_opes );
-    sens_desensitive_pointeur ( bouton_afficher_ib_opes,
-				bouton_afficher_sous_ib_opes );
-    sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
-				bouton_titre_changement );
-    sens_desensitive_pointeur ( bouton_afficher_titres_colonnes,
-				bouton_titre_en_haut );
+    sens_desensitive_pointeur ( bouton_afficher_opes, vbox_show_transactions );
+    sens_desensitive_pointeur ( bouton_afficher_categ_opes, bouton_afficher_sous_categ_opes );
+    sens_desensitive_pointeur ( bouton_afficher_ib_opes, bouton_afficher_sous_ib_opes );
+    sens_desensitive_pointeur ( bouton_afficher_titres_colonnes, bouton_titre_changement );
+    sens_desensitive_pointeur ( bouton_afficher_titres_colonnes, bouton_titre_en_haut );
 
     /* mise en forme de la devise */
     gsb_currency_set_combobox_history ( bouton_devise_general_etat,
-					gsb_data_report_get_currency_general (current_report_number));
+                        gsb_data_report_get_currency_general ( current_report_number ) );
 
     /* onglet dates */
-
-
     if ( gsb_data_report_get_use_financial_year (current_report_number))
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ),
-				       TRUE );
-	gtk_widget_set_sensitive ( vbox_utilisation_date,
-				   FALSE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ), TRUE );
+        gtk_widget_set_sensitive ( vbox_utilisation_date, FALSE );
     }
     else
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_dates ),
-				       TRUE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_dates ), TRUE );
 
-    sens_desensitive_pointeur ( radio_button_utilise_exo,
-				bouton_separe_exo_etat );
+    sens_desensitive_pointeur ( radio_button_utilise_exo, bouton_separe_exo_etat );
 
-    if ( gsb_data_report_get_financial_year_type (current_report_number) == 3 )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ),
-				       TRUE );
+    if ( gsb_data_report_get_financial_year_type ( current_report_number ) == 3 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_exo_etat ), TRUE );
     else
     {
-	gtk_widget_set_sensitive ( vbox_generale_exo_etat,
-				   FALSE );
+        gtk_widget_set_sensitive ( vbox_generale_exo_etat, FALSE );
 
-	if ( gsb_data_report_get_financial_year_type (current_report_number))
-	{
-	    if ( gsb_data_report_get_financial_year_type (current_report_number) == 1 )
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ),
-					       TRUE );
-	    else
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ),
-					       TRUE );
-	}
-	else
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ),
-					   TRUE );
+        if ( gsb_data_report_get_financial_year_type ( current_report_number ) )
+        {
+            if ( gsb_data_report_get_financial_year_type ( current_report_number ) == 1 )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ), TRUE );
+            else
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ), TRUE );
+        }
+        else
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ), TRUE );
     }
-
 
     /* on sélectionne les exercices */
-
-    selectionne_liste_exo_etat_courant ();
+    selectionne_liste_exo_etat_courant ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ),
-				   gsb_data_report_get_financial_year_split (current_report_number));
+                        gsb_data_report_get_financial_year_split ( current_report_number ) );
 
     /* on sélectionne la plage de date */
-
     gtk_clist_select_row ( GTK_CLIST ( liste_plages_dates_etat ),
-			   gsb_data_report_get_date_type (current_report_number),
-			   0 );
+                        gsb_data_report_get_date_type ( current_report_number ),
+                        0 );
 
-    if ( gsb_data_report_get_date_type (current_report_number) != 1 )
+    if ( gsb_data_report_get_date_type ( current_report_number ) != 1 )
     {
-	gtk_widget_set_sensitive ( entree_date_init_etat,
-				   FALSE );
-	gtk_widget_set_sensitive ( entree_date_finale_etat,
-				   FALSE );
+        gtk_widget_set_sensitive ( entree_date_init_etat, FALSE );
+        gtk_widget_set_sensitive ( entree_date_finale_etat, FALSE );
     }
     else
     {
-	gtk_widget_set_sensitive ( entree_date_init_etat,
-				   TRUE );
-	gtk_widget_set_sensitive ( entree_date_finale_etat,
-				   TRUE );
+        gtk_widget_set_sensitive ( entree_date_init_etat, TRUE );
+        gtk_widget_set_sensitive ( entree_date_finale_etat, TRUE );
     }
 
     /* on remplit les dates perso si elles existent */
 
-    if ( gsb_data_report_get_personal_date_start (current_report_number))
-	gsb_calendar_entry_set_date ( entree_date_init_etat,
-				      gsb_data_report_get_personal_date_start (current_report_number));
+    if ( gsb_data_report_get_personal_date_start ( current_report_number ) )
+        gsb_calendar_entry_set_date ( entree_date_init_etat,
+                        gsb_data_report_get_personal_date_start ( current_report_number ) );
 
-    if ( gsb_data_report_get_personal_date_end (current_report_number))
-	gsb_calendar_entry_set_date ( entree_date_finale_etat,
-				      gsb_data_report_get_personal_date_end (current_report_number));
+    if ( gsb_data_report_get_personal_date_end ( current_report_number ) )
+        gsb_calendar_entry_set_date ( entree_date_finale_etat,
+                        gsb_data_report_get_personal_date_end ( current_report_number ) );
 
     /* on remplit les détails de la séparation des dates */
-    if ( gsb_data_report_get_period_split (current_report_number))
+    if ( gsb_data_report_get_period_split ( current_report_number ) )
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ),
-				       TRUE );
-	if (gtk_option_menu_get_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat )) == 1)
-        gtk_widget_set_sensitive ( bouton_debut_semaine,
-				   TRUE );
-    else
-        gtk_widget_set_sensitive ( bouton_debut_semaine,
-				   FALSE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ), TRUE );
+
+        if ( gtk_option_menu_get_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) ) == 1)
+            gtk_widget_set_sensitive ( bouton_debut_semaine, TRUE );
+        else
+            gtk_widget_set_sensitive ( bouton_debut_semaine, FALSE );
     }
     else
     {
-	gtk_widget_set_sensitive ( bouton_type_separe_plages_etat,
-				   FALSE );
-	gtk_widget_set_sensitive ( bouton_debut_semaine,
-				   FALSE );
+        gtk_widget_set_sensitive ( bouton_type_separe_plages_etat, FALSE );
+        gtk_widget_set_sensitive ( bouton_debut_semaine, FALSE );
     }
 
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ),
-				  gsb_data_report_get_period_split_type (current_report_number));
+                        gsb_data_report_get_period_split_type ( current_report_number ) );
     gtk_option_menu_set_history ( GTK_OPTION_MENU ( bouton_debut_semaine ),
-				  gsb_data_report_get_period_split_day (current_report_number));
+                        gsb_data_report_get_period_split_day ( current_report_number ) );
 
     /* onglet comptes */
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ),
-				   gsb_data_report_get_account_use_chosen (current_report_number));
+                        gsb_data_report_get_account_use_chosen ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_detaille_comptes_etat,
-				vbox_generale_comptes_etat );
+    sens_desensitive_pointeur ( bouton_detaille_comptes_etat, vbox_generale_comptes_etat );
 
 
-    selectionne_liste_comptes_etat_courant ();
+    selectionne_liste_comptes_etat_courant ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ),
-				   gsb_data_report_get_account_group_reports (current_report_number));
+                        gsb_data_report_get_account_group_reports ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ),
-				   gsb_data_report_get_account_show_amount (current_report_number));
+                        gsb_data_report_get_account_show_amount ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat,
-				bouton_affiche_sous_total_compte );
+    sens_desensitive_pointeur ( bouton_regroupe_ope_compte_etat, bouton_affiche_sous_total_compte );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ),
-				   gsb_data_report_get_account_show_name (current_report_number));
+                        gsb_data_report_get_account_show_name ( current_report_number ) );
 
 
     /* onglet virements */
-
-
-    if ( gsb_data_report_get_transfer_choice (current_report_number))
+    if ( gsb_data_report_get_transfer_choice ( current_report_number ) )
     {
-	if ( gsb_data_report_get_transfer_choice (current_report_number)== 1 )
-	    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ),
-					   TRUE );
-	else
-	{
-	    if ( gsb_data_report_get_transfer_choice (current_report_number)== 2 )
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ),
-					       TRUE );
-	    else
-		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_perso ),
-					       TRUE );
-	}
+        if ( gsb_data_report_get_transfer_choice ( current_report_number ) == 1 )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ), TRUE );
+        else
+        {
+            if ( gsb_data_report_get_transfer_choice ( current_report_number ) == 2 )
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ), TRUE );
+            else
+                gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_perso ), TRUE );
+        }
     }
     else
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ),
-				       TRUE );
-	gtk_widget_set_sensitive ( bouton_exclure_non_virements_etat,
-				   FALSE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ), TRUE );
+        gtk_widget_set_sensitive ( bouton_exclure_non_virements_etat, FALSE );
     }
 
-    sens_desensitive_pointeur ( bouton_inclusion_virements_perso,
-				hbox_liste_comptes_virements );
+    sens_desensitive_pointeur ( bouton_inclusion_virements_perso, hbox_liste_comptes_virements );
 
-    selectionne_liste_virements_etat_courant ();
+    selectionne_liste_virements_etat_courant ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat ),
-				   gsb_data_report_get_transfer_reports_only (current_report_number));
+                        gsb_data_report_get_transfer_reports_only ( current_report_number ) );
 
 
     /* onglet catégories */
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ ),
-				   gsb_data_report_get_category_used (current_report_number));
+                        gsb_data_report_get_category_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( button_group_by_categ,
-				bouton_affiche_sous_total_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
-				bouton_afficher_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
-				bouton_affiche_sous_total_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
-				bouton_afficher_pas_de_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
-				bouton_afficher_noms_categ );
+    sens_desensitive_pointeur ( button_group_by_categ, bouton_affiche_sous_total_categ );
+    sens_desensitive_pointeur ( button_group_by_categ, bouton_afficher_sous_categ );
+    sens_desensitive_pointeur ( button_group_by_categ, bouton_affiche_sous_total_sous_categ );
+    sens_desensitive_pointeur ( button_group_by_categ, bouton_afficher_pas_de_sous_categ );
+    sens_desensitive_pointeur ( button_group_by_categ, bouton_afficher_noms_categ );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_detail_categ ),
-				   gsb_data_report_get_category_detail_used (current_report_number));
+                        gsb_data_report_get_category_detail_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( button_detail_categ,
-				hbox_detaille_categ_etat );
+    sens_desensitive_pointeur ( button_detail_categ, hbox_detaille_categ_etat );
 
     /* select the categories and sub-categories */
-    report_config_category_update_treeview (TRUE);
+    report_config_category_update_treeview ( TRUE );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ),
-				   gsb_data_report_get_category_show_category_amount (current_report_number));
+                        gsb_data_report_get_category_show_category_amount ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ),
-				   gsb_data_report_get_category_show_sub_category (current_report_number));
+                        gsb_data_report_get_category_show_sub_category ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ ),
-				   gsb_data_report_get_category_show_sub_category_amount (current_report_number));
+                        gsb_data_report_get_category_show_sub_category_amount ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ),
-				   gsb_data_report_get_category_show_without_category (current_report_number));
+                        gsb_data_report_get_category_show_without_category ( current_report_number ) );
 
 
     /* mise en forme de la devise */
-
     selectionne_devise_categ_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ),
-				   gsb_data_report_get_category_show_name (current_report_number));
-
+                        gsb_data_report_get_category_show_name ( current_report_number ) );
 
     /* onglet ib */
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ),
-				   gsb_data_report_get_budget_used (current_report_number));
+                    gsb_data_report_get_budget_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_utilise_ib_etat,
-				bouton_affiche_sous_total_ib );
-    sens_desensitive_pointeur ( bouton_utilise_ib_etat,
-				bouton_afficher_sous_ib );
-    sens_desensitive_pointeur ( bouton_utilise_ib_etat,
-				bouton_affiche_sous_total_sous_ib );
-    sens_desensitive_pointeur ( bouton_utilise_ib_etat,
-				bouton_afficher_pas_de_sous_ib );
-    sens_desensitive_pointeur ( bouton_utilise_ib_etat,
-				bouton_afficher_noms_ib );
+    sens_desensitive_pointeur ( bouton_utilise_ib_etat, bouton_affiche_sous_total_ib );
+    sens_desensitive_pointeur ( bouton_utilise_ib_etat, bouton_afficher_sous_ib );
+    sens_desensitive_pointeur ( bouton_utilise_ib_etat, bouton_affiche_sous_total_sous_ib );
+    sens_desensitive_pointeur ( bouton_utilise_ib_etat, bouton_afficher_pas_de_sous_ib );
+    sens_desensitive_pointeur ( bouton_utilise_ib_etat, bouton_afficher_noms_ib );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ),
-				   gsb_data_report_get_budget_detail_used (current_report_number));
+                        gsb_data_report_get_budget_detail_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_detaille_ib_etat,
-				hbox_detaille_ib_etat );
+    sens_desensitive_pointeur ( bouton_detaille_ib_etat, hbox_detaille_ib_etat );
 
     /* select the budgets and sub-budgets */
-    report_config_category_update_treeview (FALSE);
+    report_config_category_update_treeview ( FALSE );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ),
-				   gsb_data_report_get_budget_show_budget_amount (current_report_number));
+                        gsb_data_report_get_budget_show_budget_amount ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ),
-				   gsb_data_report_get_budget_show_sub_budget (current_report_number));
+                        gsb_data_report_get_budget_show_sub_budget ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ),
-				   gsb_data_report_get_budget_show_sub_budget_amount (current_report_number));
+                        gsb_data_report_get_budget_show_sub_budget_amount ( current_report_number ) );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ),
-				   gsb_data_report_get_budget_show_without_budget (current_report_number));
+                        gsb_data_report_get_budget_show_without_budget ( current_report_number ) );
 
     /* mise en forme de la devise */
-
     selectionne_devise_ib_etat_courant ();
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ),
-				   gsb_data_report_get_budget_show_name (current_report_number));
+                        gsb_data_report_get_budget_show_name ( current_report_number ) );
 
     /* onglet tiers */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ),
-				   gsb_data_report_get_payee_used (current_report_number));
+                        gsb_data_report_get_payee_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_utilise_tiers_etat,
-				bouton_afficher_noms_tiers );
-    sens_desensitive_pointeur ( bouton_utilise_tiers_etat,
-				bouton_affiche_sous_total_tiers );
+    sens_desensitive_pointeur ( bouton_utilise_tiers_etat, bouton_afficher_noms_tiers );
+    sens_desensitive_pointeur ( bouton_utilise_tiers_etat, bouton_affiche_sous_total_tiers );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ),
-				   gsb_data_report_get_payee_detail_used (current_report_number));
+                        gsb_data_report_get_payee_detail_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_detaille_tiers_etat,
-				hbox_detaille_tiers_etat );
+    sens_desensitive_pointeur ( bouton_detaille_tiers_etat, hbox_detaille_tiers_etat );
 
 
     /* on sélectionne les tiers choisies */
-
-    selectionne_liste_tiers_etat_courant();
+    selectionne_liste_tiers_etat_courant ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ),
-				   gsb_data_report_get_payee_show_payee_amount (current_report_number));
+                        gsb_data_report_get_payee_show_payee_amount ( current_report_number ) );
 
     /* mise en forme de la devise */
-
-    selectionne_devise_tiers_etat_courant ();
+    selectionne_devise_tiers_etat_courant ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ),
-				   gsb_data_report_get_payee_show_name (current_report_number));
+                        gsb_data_report_get_payee_show_name ( current_report_number ) );
 
     /*  onglet texte */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ),
-				   gsb_data_report_get_text_comparison_used (current_report_number));
-    sens_desensitive_pointeur ( bouton_utilise_texte,
-				vbox_generale_textes_etat );
-    remplit_liste_comparaisons_textes_etat ();
+                        gsb_data_report_get_text_comparison_used ( current_report_number ) );
+    sens_desensitive_pointeur ( bouton_utilise_texte, vbox_generale_textes_etat );
 
+    remplit_liste_comparaisons_textes_etat ( );
 
     /* onglet montant */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ),
-				   gsb_data_report_get_amount_comparison_used (current_report_number));
+                        gsb_data_report_get_amount_comparison_used ( current_report_number ) );
     gsb_currency_set_combobox_history ( bouton_devise_montant_etat,
-					gsb_data_report_get_amount_comparison_currency (current_report_number));
-    sens_desensitive_pointeur ( bouton_utilise_montant,
-				vbox_generale_montants_etat );
-    remplit_liste_comparaisons_montants_etat ();
+                        gsb_data_report_get_amount_comparison_currency ( current_report_number ) );
+    sens_desensitive_pointeur ( bouton_utilise_montant, vbox_generale_montants_etat );
+
+    remplit_liste_comparaisons_montants_etat ( );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ),
-				   gsb_data_report_get_amount_comparison_only_report_non_null (current_report_number));
+                        gsb_data_report_get_amount_comparison_only_report_non_null ( current_report_number ) );
 
     /* onglet modes de paiement */
-
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ),
-				   gsb_data_report_get_method_of_payment_used (current_report_number));
+                        gsb_data_report_get_method_of_payment_used ( current_report_number ) );
 
-    sens_desensitive_pointeur ( bouton_detaille_mode_paiement_etat,
-				vbox_mode_paiement_etat );
+    sens_desensitive_pointeur ( bouton_detaille_mode_paiement_etat, vbox_mode_paiement_etat );
 
     selectionne_liste_modes_paiement_etat_courant ();
 
     gtk_widget_show_all ( dialog );
 
-    switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
+    switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
-	case GTK_RESPONSE_OK:
-	    recuperation_info_perso_etat ();
-	    break;
+        case GTK_RESPONSE_OK:
+            recuperation_info_perso_etat ();
+            break;
 
-	default:
-	    break;
+        default:
+            break;
     }
 
     gtk_widget_destroy ( dialog );
 }
-
 
 
 /**
@@ -1127,27 +1094,31 @@ void personnalisation_etat (void)
  *
  */
 gboolean report_tree_view_selection_changed ( GtkTreeSelection *selection,
-					      GtkTreeModel *model )
+                        GtkTreeModel *model )
 {
     GtkTreeIter iter;
     gint selected;
 
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return(FALSE);
+    if (! gtk_tree_selection_get_selected ( selection, NULL, &iter ) )
+        return(FALSE);
 
     gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_config_etat ), selected);
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_config_etat ), selected );
 
     return FALSE;
 }
 
 
-
+/**
+ *
+ *
+ *
+ */
 gboolean report_tree_selectable_func (GtkTreeSelection *selection,
-				      GtkTreeModel *model,
-				      GtkTreePath *path,
-				      gboolean path_currently_selected,
-				      gpointer data)
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data)
 {
     GtkTreeIter iter;
     gint selectable;
@@ -1159,8 +1130,11 @@ gboolean report_tree_selectable_func (GtkTreeSelection *selection,
 }
 
 
-
-/******************************************************************************/
+/**
+ *
+ *
+ *
+ */
 void selectionne_liste_exo_etat_courant ( void )
 {
     GSList *pointeur_sliste;
@@ -1174,19 +1148,22 @@ void selectionne_liste_exo_etat_courant ( void )
 
     while ( pointeur_sliste )
     {
-	gint row;
+        gint row;
 
-	row = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_exo_etat ),
-					     pointeur_sliste -> data );
-	gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ),
-			       row,
-			       0 );
-	pointeur_sliste = pointeur_sliste -> next;
+        row = gtk_clist_find_row_from_data ( GTK_CLIST ( liste_exo_etat ),
+                             pointeur_sliste -> data );
+        gtk_clist_select_row ( GTK_CLIST ( liste_exo_etat ), row, 0 );
+
+        pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 void selectionne_liste_comptes_etat_courant ( void )
 {
     GSList *pointeur_sliste;
@@ -1196,7 +1173,7 @@ void selectionne_liste_comptes_etat_courant ( void )
 
 
     if ( !liste_comptes_etat )
-	return;
+        return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
@@ -1204,16 +1181,21 @@ void selectionne_liste_comptes_etat_courant ( void )
 
     while ( pointeur_sliste )
     {
-	gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_etat ),
-							      pointeur_sliste -> data ),
-			       0 );
-	pointeur_sliste = pointeur_sliste -> next;
+        gtk_clist_select_row ( GTK_CLIST ( liste_comptes_etat ),
+                        gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_etat ),
+                        pointeur_sliste -> data ),
+                        0 );
+
+        pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 void selectionne_liste_virements_etat_courant ( void )
 {
     GSList *pointeur_sliste;
@@ -1228,40 +1210,53 @@ void selectionne_liste_virements_etat_courant ( void )
 
     while ( pointeur_sliste )
     {
-	gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_virements ),
-							      pointeur_sliste -> data ),
-			       0 );
-	pointeur_sliste = pointeur_sliste -> next;
+        gtk_clist_select_row ( GTK_CLIST ( liste_comptes_virements ),
+                        gtk_clist_find_row_from_data ( GTK_CLIST ( liste_comptes_virements ),
+                        pointeur_sliste -> data ),
+                        0 );
+
+        pointeur_sliste = pointeur_sliste -> next;
     }
 }
 
 
 
+/**
+ *
+ *
+ *
+ */
 void selectionne_devise_categ_etat_courant ( void )
 {
     gint current_report_number;
 
-    current_report_number = gsb_gui_navigation_get_current_report ();
+    current_report_number = gsb_gui_navigation_get_current_report ( );
 
     gsb_currency_set_combobox_history ( bouton_devise_categ_etat,
-					gsb_data_report_get_category_currency (current_report_number));
+                        gsb_data_report_get_category_currency ( current_report_number ) );
 }
-/******************************************************************************/
 
 
-/******************************************************************************/
+/**
+ *
+ *
+ *
+ */
 void selectionne_devise_ib_etat_courant ( void )
 {
     gint current_report_number;
 
-    current_report_number = gsb_gui_navigation_get_current_report ();
+    current_report_number = gsb_gui_navigation_get_current_report ( );
     gsb_currency_set_combobox_history ( bouton_devise_ib_etat,
-					gsb_data_report_get_budget_currency (current_report_number));
+                        gsb_data_report_get_budget_currency ( current_report_number ) );
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 void selectionne_liste_tiers_etat_courant ( void )
 {
     GSList *pointeur_sliste;
@@ -1271,7 +1266,7 @@ void selectionne_liste_tiers_etat_courant ( void )
 
 
     if ( !liste_tiers_etat )
-	return;
+        return;
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
 
@@ -1279,27 +1274,36 @@ void selectionne_liste_tiers_etat_courant ( void )
 
     while ( pointeur_sliste )
     {
-	gtk_clist_select_row ( GTK_CLIST ( liste_tiers_etat ),
-			       gtk_clist_find_row_from_data ( GTK_CLIST ( liste_tiers_etat ),
-							      pointeur_sliste -> data ),
-			       0 );
-	pointeur_sliste = pointeur_sliste -> next;
+        gtk_clist_select_row ( GTK_CLIST ( liste_tiers_etat ),
+                        gtk_clist_find_row_from_data ( GTK_CLIST ( liste_tiers_etat ),
+                        pointeur_sliste -> data ),
+                        0 );
+
+        pointeur_sliste = pointeur_sliste -> next;
     }
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 void selectionne_devise_tiers_etat_courant ( void )
 {
     gint current_report_number;
 
-    current_report_number = gsb_gui_navigation_get_current_report ();
+    current_report_number = gsb_gui_navigation_get_current_report ( );
     gsb_currency_set_combobox_history ( bouton_devise_tiers_etat,
-					gsb_data_report_get_payee_currency (current_report_number));
+                        gsb_data_report_get_payee_currency ( current_report_number ) );
 }
-/******************************************************************************/
 
-/******************************************************************************/
+
+/**
+ *
+ *
+ *
+ */
 void recuperation_info_perso_etat ( void )
 {
     GSList *comparison_list;
@@ -1313,423 +1317,403 @@ void recuperation_info_perso_etat ( void )
 
     /* Check that custom dates are OK, but only if custom date range
      * has been selected. */
-    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
-	 !gsb_date_check_entry ( entree_date_init_etat ) )
+    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1
+     &&
+     !gsb_date_check_entry ( entree_date_init_etat ) )
     {
-	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid initial date '%s'"),
-						gtk_entry_get_text(GTK_ENTRY(entree_date_init_etat)) ) );
-	return;
+        dialogue_error_hint ( _("Grisbi can't parse date. For a list of date formats that Grisbi can use, "
+                        "refer to Grisbi manual."),
+                        g_strdup_printf ( _("Invalid initial date '%s'"),
+                        gtk_entry_get_text ( GTK_ENTRY ( entree_date_init_etat ) ) ) );
+        return;
     }
 
-    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
-	 !gsb_date_check_entry (entree_date_finale_etat ) )
+    if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1
+     &&
+     !gsb_date_check_entry (entree_date_finale_etat ) )
     {
-	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid final date '%s'"),
-						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
-	return;
+        dialogue_error_hint ( _("Grisbi can't parse date. For a list of date formats that Grisbi can use, "
+                        "refer to Grisbi manual."),
+                        g_strdup_printf ( _("Invalid final date '%s'"),
+                        gtk_entry_get_text ( GTK_ENTRY ( entree_date_finale_etat ) ) ) );
+        return;
     }
-
 
     /* on récupère maintenant toutes les données */
     /* récupération du name du rapport */
-
     pointeur_char = gtk_entry_get_text ( GTK_ENTRY ( entree_nom_etat ));
 
     if ( strlen ( pointeur_char )
-	 &&
-	 strcmp ( pointeur_char,
-		  gsb_data_report_get_report_name (current_report_number) ))
+     &&
+     strcmp ( pointeur_char, gsb_data_report_get_report_name ( current_report_number) ) )
     {
-	gsb_data_report_set_report_name ( current_report_number,
-					  pointeur_char );
+        gsb_data_report_set_report_name ( current_report_number, pointeur_char );
     }
 
     /* récupération du type de classement */
+    g_slist_free ( gsb_data_report_get_sorting_type ( current_report_number ) );
 
-    g_slist_free ( gsb_data_report_get_sorting_type (current_report_number));
-
-    gsb_data_report_set_sorting_type ( current_report_number,
-				       NULL );
+    gsb_data_report_set_sorting_type ( current_report_number, NULL );
 
     for ( i=0 ; i<GTK_CLIST ( liste_type_classement_etat ) -> rows ; i++ )
     {
-	gint no;
+        gint no;
 
-	no = GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( liste_type_classement_etat ),
-							     gtk_ctree_node_nth ( GTK_CTREE ( liste_type_classement_etat ),
-										  i )));
+        no = GPOINTER_TO_INT ( gtk_ctree_node_get_row_data ( GTK_CTREE ( liste_type_classement_etat ),
+                        gtk_ctree_node_nth ( GTK_CTREE ( liste_type_classement_etat ), i ) ) );
 
-	gsb_data_report_set_sorting_type ( current_report_number,
-					   g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
-							    GINT_TO_POINTER ( no )));
+        gsb_data_report_set_sorting_type ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_sorting_type ( current_report_number ),
+                        GINT_TO_POINTER ( no ) ) );
 
-	/* rajoute les ss categ et ss ib */
-
-	if ( no == 1 )
-	    gsb_data_report_set_sorting_type ( current_report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
-								GINT_TO_POINTER ( 2 )));
-	if ( no == 3 )
-	    gsb_data_report_set_sorting_type ( current_report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
-								GINT_TO_POINTER ( 4 )));
+        /* rajoute les ss categ et ss ib */
+        if ( no == 1 )
+            gsb_data_report_set_sorting_type ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_sorting_type ( current_report_number ),
+                        GINT_TO_POINTER ( 2 ) ) );
+        if ( no == 3 )
+            gsb_data_report_set_sorting_type ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_sorting_type ( current_report_number ),
+                        GINT_TO_POINTER ( 4 ) ) );
     }
 
     /* récupération de l'affichage ou non des R */
-
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat )) )
-	gsb_data_report_set_show_r ( current_report_number,
-				     0 );
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ) ) )
+        gsb_data_report_set_show_r ( current_report_number, 0 );
     else
     {
-	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat )) )
-	    gsb_data_report_set_show_r ( current_report_number,
-					 1 );
-	else
-	    gsb_data_report_set_show_r ( current_report_number,
-					 2 );
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_non_r_etat ) ) )
+            gsb_data_report_set_show_r ( current_report_number, 1 );
+        else
+            gsb_data_report_set_show_r ( current_report_number, 2 );
     }
 
     /* récupération de l'affichage des opés */
-
     gsb_data_report_set_show_report_transactions ( current_report_number,
-						   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_opes ) ) );
     gsb_data_report_set_show_report_transaction_amount ( current_report_number,
-							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_nb_opes ) ) );
 
     gsb_data_report_set_show_report_transaction_number ( current_report_number,
-							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_ope ) ) );
     gsb_data_report_set_show_report_date ( current_report_number,
-					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_date_opes ) ) );
     gsb_data_report_set_show_report_value_date ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_value_date_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_value_date_opes ) ) );
     gsb_data_report_set_show_report_payee ( current_report_number,
-					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_tiers_opes ) ) );
     gsb_data_report_set_show_report_category ( current_report_number,
-					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_categ_opes ) ) );
     gsb_data_report_set_show_report_sub_category ( current_report_number,
-						   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ_opes ) ) );
     gsb_data_report_set_show_report_method_of_payment ( current_report_number,
-							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_type_ope ) ) );
     gsb_data_report_set_show_report_budget ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_ib_opes ) ) );
     gsb_data_report_set_show_report_sub_budget ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib_opes ) ) );
     gsb_data_report_set_show_report_method_of_payment_content ( current_report_number,
-								gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_cheque ) ) );
     gsb_data_report_set_show_report_note ( current_report_number,
-					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_notes_opes ) ) );
     gsb_data_report_set_show_report_voucher ( current_report_number,
-					      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pc_opes ) ) );
     gsb_data_report_set_show_report_marked ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_no_rappr ) ) );
     gsb_data_report_set_show_report_bank_references ( current_report_number,
-						      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_infobd_opes ) ) );
     gsb_data_report_set_not_detail_split ( current_report_number,
-					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ) ) );
     gsb_data_report_set_split_credit_debit ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separer_revenus_depenses ) ) );
     gsb_data_report_set_show_report_financial_year ( current_report_number,
-						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_exo_opes ) ) );
     gsb_data_report_set_column_title_show ( current_report_number,
-					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_titres_colonnes ) ) );
     gsb_data_report_set_column_title_type ( current_report_number,
-					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_titre_changement ) ) );
 
     gsb_data_report_set_sorting_report ( current_report_number,
-					 GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ) -> menu_item ),
-										 "no_classement" )));
+                        GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( GTK_OPTION_MENU ( bouton_choix_classement_ope_etat ) -> menu_item ),
+                        "no_classement" ) ) );
 
     gsb_data_report_set_report_can_click ( current_report_number,
-					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_rendre_ope_clickables ) ) );
 
     gsb_data_report_set_currency_general ( current_report_number,
-					   gsb_currency_get_currency_from_combobox (bouton_devise_general_etat));
+                        gsb_currency_get_currency_from_combobox (bouton_devise_general_etat) );
     gsb_data_report_set_append_in_payee ( current_report_number,
-					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclure_dans_tiers ) ) );
 
 
     /* récupération des dates */
-
     gsb_data_report_set_use_financial_year ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( radio_button_utilise_exo ) ) );
 
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous )) )
-	gsb_data_report_set_financial_year_type ( current_report_number,
-						  0 );
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_tous ) ) )
+        gsb_data_report_set_financial_year_type ( current_report_number, 0 );
     else
     {
-	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant )) )
-	    gsb_data_report_set_financial_year_type ( current_report_number,
-						      1 );
-	else
-	{
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent )) )
-		gsb_data_report_set_financial_year_type ( current_report_number,
-							  2 );
-	    else
-		gsb_data_report_set_financial_year_type ( current_report_number,
-							  3 );
-	}
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_courant ) ) )
+            gsb_data_report_set_financial_year_type ( current_report_number, 1 );
+        else
+        {
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exo_precedent ) ) )
+                gsb_data_report_set_financial_year_type ( current_report_number, 2 );
+            else
+                gsb_data_report_set_financial_year_type ( current_report_number, 3 );
+        }
     }
 
-    if ( gsb_data_report_get_financial_year_list (current_report_number))
+    if ( gsb_data_report_get_financial_year_list ( current_report_number) )
     {
-	g_slist_free ( gsb_data_report_get_financial_year_list (current_report_number));
-	gsb_data_report_set_financial_year_list ( current_report_number,
-						  NULL );
+        g_slist_free ( gsb_data_report_get_financial_year_list ( current_report_number ) );
+        gsb_data_report_set_financial_year_list ( current_report_number, NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_exo_etat ) -> selection;
 
     while ( list_tmp )
     {
-	gsb_data_report_set_financial_year_list ( current_report_number,
-						  g_slist_append ( gsb_data_report_get_financial_year_list (current_report_number),
-								   gtk_clist_get_row_data ( GTK_CLIST ( liste_exo_etat ),
-											    GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
+        gsb_data_report_set_financial_year_list ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_financial_year_list ( current_report_number ),
+                        gtk_clist_get_row_data ( GTK_CLIST ( liste_exo_etat ),
+                        GPOINTER_TO_INT ( list_tmp -> data ) ) ) );
+
+        list_tmp = list_tmp -> next;
     }
 
-    /*   si tous les exos ont été sélectionnés, on met bouton_detaille_exo_etat à 0 (plus rapide) */
-
+    /* si tous les exos ont été sélectionnés, on met bouton_detaille_exo_etat à 0 (plus rapide) */
     if ( ( g_list_length ( GTK_CLIST ( liste_exo_etat ) -> selection )
-	   ==
-	   GTK_CLIST ( liste_exo_etat ) -> rows )
-	 &&
-	 gsb_data_report_get_financial_year_type (current_report_number) == 3 )
+        ==
+        GTK_CLIST ( liste_exo_etat ) -> rows )
+     &&
+     gsb_data_report_get_financial_year_type (current_report_number) == 3 )
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All financial years have been selected.  Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
-	gsb_data_report_set_financial_year_type ( current_report_number,
-						  0 );
+        dialogue_special ( GTK_MESSAGE_INFO,
+                        make_hint ( _("Performance issue."),
+                        _("All financial years have been selected.  Grisbi will run faster "
+                        "without the \"Detail financial years\" option activated.") ) );
+
+        gsb_data_report_set_financial_year_type ( current_report_number, 0 );
     }
 
 
     gsb_data_report_set_financial_year_split ( current_report_number,
-					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_exo_etat ) ) );
 
     gsb_data_report_set_date_type ( current_report_number,
-				    GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ));
+                        GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) );
 
     gsb_data_report_set_personal_date_start ( current_report_number,
-					      gsb_calendar_entry_get_date (entree_date_init_etat));
+                        gsb_calendar_entry_get_date ( entree_date_init_etat ) );
     gsb_data_report_set_personal_date_end ( current_report_number,
-					    gsb_calendar_entry_get_date (entree_date_finale_etat));
+                        gsb_calendar_entry_get_date ( entree_date_finale_etat ) );
 
     gsb_data_report_set_period_split ( current_report_number,
-				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_separe_plages_etat ) ) );
     gsb_data_report_set_period_split_type ( current_report_number,
-					    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) -> menu_item ),
-										    "type" )));
+                        GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ) -> menu_item ),
+                        "type" ) ) );
     gsb_data_report_set_period_split_day ( current_report_number,
-					   GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
-										   "day" )));
+                        GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( GTK_OPTION_MENU ( bouton_debut_semaine ) -> menu_item ),
+                        "day" ) ) );
 
     /* récupération des comptes */
-
     gsb_data_report_set_account_use_chosen ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ) ) );
 
-    if ( gsb_data_report_get_account_numbers (current_report_number))
+    if ( gsb_data_report_get_account_numbers ( current_report_number ) )
     {
-	g_slist_free ( gsb_data_report_get_account_numbers (current_report_number));
-	gsb_data_report_set_account_numbers ( current_report_number,
-					      NULL );
+        g_slist_free ( gsb_data_report_get_account_numbers ( current_report_number ) );
+        gsb_data_report_set_account_numbers ( current_report_number, NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_comptes_etat ) -> selection;
 
     while ( list_tmp )
     {
-	gsb_data_report_set_account_numbers ( current_report_number,
-					      g_slist_append ( gsb_data_report_get_account_numbers (current_report_number),
-							       gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
-											GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
+        gsb_data_report_set_account_numbers ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_account_numbers ( current_report_number ),
+                        gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
+                        GPOINTER_TO_INT ( list_tmp -> data ) ) ) );
+
+        list_tmp = list_tmp -> next;
     }
 
     /*   si tous les comptes ont été sélectionnés, on met utilise_detail_comptes à 0 (plus rapide) */
-
     if ( ( g_list_length ( GTK_CLIST ( liste_comptes_etat ) -> selection )
-	   ==
-	   GTK_CLIST ( liste_comptes_etat ) -> rows )
-	 &&
-	 gsb_data_report_get_account_use_chosen (current_report_number))
+        ==
+        GTK_CLIST ( liste_comptes_etat ) -> rows )
+     &&
+     gsb_data_report_get_account_use_chosen (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All accounts have been selected.  Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
-	gsb_data_report_set_account_use_chosen ( current_report_number,
-						 0 );
+        dialogue_special ( GTK_MESSAGE_INFO,
+                        make_hint ( _("Performance issue."),
+                        _("All accounts have been selected.  Grisbi will run faster without "
+                        "the \"Detail accounts used\" option activated.") ) );
+
+        gsb_data_report_set_account_use_chosen ( current_report_number, 0 );
     }
 
     gsb_data_report_set_account_group_reports ( current_report_number,
-						gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_regroupe_ope_compte_etat ) ) );
     gsb_data_report_set_account_show_amount ( current_report_number,
-					      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_compte ) ) );
     gsb_data_report_set_account_show_name ( current_report_number,
-					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_comptes ) ) );
 
 
     /* récupération des virements */
-
-    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat )))
-	gsb_data_report_set_transfer_choice ( current_report_number,
-					      1 );
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_actifs_etat ) ) )
+        gsb_data_report_set_transfer_choice ( current_report_number, 1 );
     else
-	if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat )))
-	    gsb_data_report_set_transfer_choice ( current_report_number,
-						  2 );
-	else
-	{
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements )))
-		gsb_data_report_set_transfer_choice ( current_report_number,
-						      0 );
-	    else
-		gsb_data_report_set_transfer_choice ( current_report_number,
-						      3 );
-	}
-
-    if ( gsb_data_report_get_transfer_account_numbers (current_report_number))
     {
-	g_slist_free ( gsb_data_report_get_transfer_account_numbers (current_report_number));
-	gsb_data_report_set_transfer_account_numbers ( current_report_number,
-						       NULL );
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_inclusion_virements_hors_etat ) ) )
+            gsb_data_report_set_transfer_choice ( current_report_number, 2 );
+        else
+        {
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ) ) )
+                gsb_data_report_set_transfer_choice ( current_report_number, 0 );
+            else
+                gsb_data_report_set_transfer_choice ( current_report_number, 3 );
+        }
+    }
+
+    if ( gsb_data_report_get_transfer_account_numbers ( current_report_number ) )
+    {
+        g_slist_free ( gsb_data_report_get_transfer_account_numbers ( current_report_number ) );
+            gsb_data_report_set_transfer_account_numbers ( current_report_number, NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_comptes_virements ) -> selection;
 
     while ( list_tmp )
     {
-	gsb_data_report_set_transfer_account_numbers ( current_report_number,
-						       g_slist_append ( gsb_data_report_get_transfer_account_numbers (current_report_number),
-									gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
-												 GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
+        gsb_data_report_set_transfer_account_numbers ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_transfer_account_numbers ( current_report_number ),
+                        gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
+                        GPOINTER_TO_INT ( list_tmp -> data ) ) ) );
+
+        list_tmp = list_tmp -> next;
     }
 
     gsb_data_report_set_transfer_reports_only ( current_report_number,
-						gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_non_virements_etat )));
-
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
+                        bouton_exclure_non_virements_etat ) ) );
 
     /* get the categories */
     gsb_data_report_set_category_used ( current_report_number,
-					gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ ) ) );
 
     gsb_data_report_set_category_detail_used ( current_report_number,
-					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ ) ) );
 
-    gsb_data_report_set_category_struct (current_report_number, report_config_categ_budget_get_selected (TRUE));
+    gsb_data_report_set_category_struct ( current_report_number,
+                        report_config_categ_budget_get_selected ( TRUE ) );
 
     /* if all was selected, remove the category_detail_used */
-    if (!gsb_data_report_get_category_struct (current_report_number))
-	gsb_data_report_set_category_detail_used ( current_report_number,
-						   FALSE );
+    if (!gsb_data_report_get_category_struct ( current_report_number ) )
+        gsb_data_report_set_category_detail_used ( current_report_number, FALSE );
 
     gsb_data_report_set_category_show_category_amount ( current_report_number,
-							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_categ ) ) );
     gsb_data_report_set_category_show_sub_category ( current_report_number,
-						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_categ ) ) );
     gsb_data_report_set_category_show_sub_category_amount ( current_report_number,
-							    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
+                        bouton_affiche_sous_total_sous_categ ) ) );
     gsb_data_report_set_category_show_without_category ( current_report_number,
-							 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_categ ) ) );
 
     gsb_data_report_set_category_currency ( current_report_number,
-					    gsb_currency_get_currency_from_combobox (bouton_devise_categ_etat));
+                        gsb_currency_get_currency_from_combobox ( bouton_devise_categ_etat ) );
     gsb_data_report_set_category_show_name ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ )));
-
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_categ ) ) );
 
     /* get the budget */
     gsb_data_report_set_budget_used ( current_report_number,
-				      gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat )));
+                    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_ib_etat ) ) );
 
     gsb_data_report_set_budget_detail_used ( current_report_number,
-					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ) ) );
 
-    gsb_data_report_set_budget_struct (current_report_number, report_config_categ_budget_get_selected (FALSE));
+    gsb_data_report_set_budget_struct ( current_report_number,
+                        report_config_categ_budget_get_selected ( FALSE ) ) ;
 
     /* if all was selected, remove the budget_detail_used */
-    if (!gsb_data_report_get_budget_struct (current_report_number))
-	gsb_data_report_set_budget_detail_used ( current_report_number,
-						 FALSE );
+    if (!gsb_data_report_get_budget_struct ( current_report_number ) )
+        gsb_data_report_set_budget_detail_used ( current_report_number, FALSE );
 
     gsb_data_report_set_budget_show_budget_amount ( current_report_number,
-						    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_ib ) ) );
     gsb_data_report_set_budget_show_sub_budget ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (bouton_afficher_sous_ib)));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_sous_ib ) ) );
     gsb_data_report_set_budget_show_sub_budget_amount ( current_report_number,
-							gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_sous_ib ) ) );
     gsb_data_report_set_budget_show_without_budget ( current_report_number,
-						     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_pas_de_sous_ib ) ) );
 
     gsb_data_report_set_budget_currency ( current_report_number,
-					  gsb_currency_get_currency_from_combobox (bouton_devise_ib_etat));
+                        gsb_currency_get_currency_from_combobox ( bouton_devise_ib_etat ) );
     gsb_data_report_set_budget_show_name ( current_report_number,
-					   gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib )));
-
-
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_ib ) ) );
 
     /*   récupération des tiers */
 
     gsb_data_report_set_payee_used ( current_report_number,
-				     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_tiers_etat ) ) );
 
     gsb_data_report_set_payee_detail_used ( current_report_number,
-					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ) ) );
 
     if ( gsb_data_report_get_payee_numbers (current_report_number))
     {
-	g_slist_free ( gsb_data_report_get_payee_numbers (current_report_number));
-	gsb_data_report_set_payee_numbers ( current_report_number,
-					    NULL );
+        g_slist_free ( gsb_data_report_get_payee_numbers ( current_report_number ) );
+        gsb_data_report_set_payee_numbers ( current_report_number, NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_tiers_etat ) -> selection;
 
     while ( list_tmp )
     {
-	gsb_data_report_set_payee_numbers ( current_report_number,
-					    g_slist_append ( gsb_data_report_get_payee_numbers (current_report_number),
-							     gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
-										      GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
+        gsb_data_report_set_payee_numbers ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_payee_numbers ( current_report_number ),
+                        gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
+                            GPOINTER_TO_INT ( list_tmp -> data ) ) ) );
+
+        list_tmp = list_tmp -> next;
     }
 
     /*   si tous les tiers ont été sélectionnés, on met utilise_detail_tiers à 0 (plus rapide) */
-
     if ( ( g_list_length ( GTK_CLIST ( liste_tiers_etat ) -> selection )
-	   ==
-	   GTK_CLIST ( liste_tiers_etat ) -> rows )
-	 &&
-	 gsb_data_report_get_payee_detail_used (current_report_number))
+        ==
+        GTK_CLIST ( liste_tiers_etat ) -> rows )
+     &&
+     gsb_data_report_get_payee_detail_used ( current_report_number ) )
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All payees have been selected.  Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
-	gsb_data_report_set_payee_detail_used ( current_report_number,
-						0 );
+        dialogue_special ( GTK_MESSAGE_INFO,
+                        make_hint ( _("Performance issue."),
+                        _("All payees have been selected.  Grisbi will run faster without "
+                        "the \"Detail payees used\" option activated.") ) );
+
+        gsb_data_report_set_payee_detail_used ( current_report_number, 0 );
     }
 
     gsb_data_report_set_payee_show_payee_amount ( current_report_number,
-						  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_affiche_sous_total_tiers ) ) );
 
     gsb_data_report_set_payee_currency ( current_report_number,
-					 gsb_currency_get_currency_from_combobox (bouton_devise_tiers_etat));
+                        gsb_currency_get_currency_from_combobox ( bouton_devise_tiers_etat) );
     gsb_data_report_set_payee_show_name ( current_report_number,
-					  gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers )));
-
-
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_afficher_noms_tiers ) ) );
 
     /* récupération du texte */
-
     gsb_data_report_set_text_comparison_used ( current_report_number,
-					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ) ) );
 
     /* récupération de la liste des comparaisons de texte */
     /*   il y a au moins une structure de créée, si celle si a l'entrée txt et 2 montants vides, */
@@ -1740,217 +1724,243 @@ void recuperation_info_perso_etat ( void )
     /* on a rentré au moins une comparaison */
     /* on rempli les champs de la structure */
 
-    comparison_list = gsb_data_report_get_text_comparison_list (current_report_number);
+    comparison_list = gsb_data_report_get_text_comparison_list ( current_report_number );
 
     while ( comparison_list )
     {
-	const gchar *string;
-	gint text_comparison_number;
+        const gchar *string;
+        gint text_comparison_number;
 
-	text_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
+        text_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
 
-	if ( gsb_data_report_text_comparison_get_button_link (text_comparison_number))
-	    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
-									       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link (text_comparison_number)) -> menu_item ),
-														       "no_lien" )));
-	else
-	    gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
-									       -1 );
+        if ( gsb_data_report_text_comparison_get_button_link (text_comparison_number))
+            gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_text_comparison_get_button_link (
+                        text_comparison_number) ) -> menu_item ),
+                        "no_lien" ) ) );
+        else
+            gsb_data_report_text_comparison_set_link_to_last_text_comparison ( text_comparison_number, -1 );
 
-	gsb_data_report_text_comparison_set_field ( text_comparison_number,
-						    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_field (text_comparison_number)) -> menu_item ),
-											    "no_champ" )));
-	gsb_data_report_text_comparison_set_use_text ( text_comparison_number,
-						       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (gsb_data_report_text_comparison_get_button_use_text (text_comparison_number))));
-	gsb_data_report_text_comparison_set_operator ( text_comparison_number,
-						       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_operator (text_comparison_number)) -> menu_item ),
-											       "no_operateur" )));
+        gsb_data_report_text_comparison_set_field ( text_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_text_comparison_get_button_field (
+                        text_comparison_number ) ) -> menu_item ),
+                        "no_champ" ) ) );
 
-	string = gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_text (text_comparison_number)));
-	gsb_data_report_text_comparison_set_text ( text_comparison_number,
-						   string );
+        gsb_data_report_text_comparison_set_use_text ( text_comparison_number,
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (
+                        gsb_data_report_text_comparison_get_button_use_text ( text_comparison_number) ) ) );
 
-	gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
-							       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_first_comparison (text_comparison_number)) -> menu_item ),
-												       "no_comparateur" )));
-	gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
-									GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_link_first_to_second_part (text_comparison_number)) -> menu_item ),
-														"no_lien" )));
-	gsb_data_report_text_comparison_set_second_comparison ( text_comparison_number,
-								GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)) -> menu_item ),
-													"no_comparateur" )));
-	gsb_data_report_text_comparison_set_first_amount ( text_comparison_number,
-							   utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)))));
-	gsb_data_report_text_comparison_set_second_amount ( text_comparison_number,
-							    utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number)))));
+        gsb_data_report_text_comparison_set_operator ( text_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_text_comparison_get_button_operator (
+                        text_comparison_number ) ) -> menu_item ),
+                        "no_operateur" )));
 
-	comparison_list = comparison_list -> next;
+        string = gtk_entry_get_text ( GTK_ENTRY (
+                        gsb_data_report_text_comparison_get_entry_text ( text_comparison_number ) ) );
+        gsb_data_report_text_comparison_set_text ( text_comparison_number, string );
+
+        gsb_data_report_text_comparison_set_first_comparison ( text_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_text_comparison_get_button_first_comparison (
+                        text_comparison_number ) ) -> menu_item ),
+                        "no_comparateur" ) ) );
+
+        gsb_data_report_text_comparison_set_link_first_to_second_part ( text_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_text_comparison_get_button_link_first_to_second_part (
+                        text_comparison_number ) ) -> menu_item ),
+                        "no_lien" ) ) );
+
+        gsb_data_report_text_comparison_set_second_comparison ( text_comparison_number,
+                                    GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_text_comparison_get_button_second_comparison (text_comparison_number)) -> menu_item ),
+                                                        "no_comparateur" )));
+        gsb_data_report_text_comparison_set_first_amount ( text_comparison_number,
+                                   utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_first_amount (text_comparison_number)))));
+        gsb_data_report_text_comparison_set_second_amount ( text_comparison_number,
+                                    utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number)))));
+
+        comparison_list = comparison_list -> next;
     }
 
     /* récupération du montant */
 
     gsb_data_report_set_amount_comparison_used ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ) ) );
     gsb_data_report_set_amount_comparison_currency ( current_report_number,
-						     gsb_currency_get_currency_from_combobox (bouton_devise_montant_etat));
+                        gsb_currency_get_currency_from_combobox ( bouton_devise_montant_etat ) );
 
     /* récupération de la liste des comparaisons de montant */
     /*   il y a au moins une structure de créé, si celle si a les 2 montants vides, */
     /* c'est qu'il n'y a aucune liste */
-
-    amount_comparison_number = GPOINTER_TO_INT (gsb_data_report_get_amount_comparison_list (current_report_number)-> data);
+    amount_comparison_number = GPOINTER_TO_INT (
+                        gsb_data_report_get_amount_comparison_list ( current_report_number ) -> data );
 
     if ( g_slist_length ( gsb_data_report_get_amount_comparison_list (current_report_number)) == 1
-	 &&
-	 !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))))
-	 &&
-	 !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number))))
-	 &&
-	 GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))
-	 &&
-	 GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))
+     &&
+     !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))))
+     &&
+     !strlen ( gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number))))
+     &&
+     GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number))
+     &&
+     GTK_WIDGET_SENSITIVE (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))
     {
-	g_slist_free ( gsb_data_report_get_amount_comparison_list (current_report_number));
-	gsb_data_report_set_amount_comparison_list ( current_report_number,
-						     NULL );
+        g_slist_free ( gsb_data_report_get_amount_comparison_list ( current_report_number ) );
+        gsb_data_report_set_amount_comparison_list ( current_report_number, NULL );
     }
     else
     {
-	/* on a rentré au moins une comparaison */
-	/* on rempli les champs de la structure */
+        /* on a rentré au moins une comparaison */
+        /* on rempli les champs de la structure */
+        GSList *comparison_list;
 
-	GSList *comparison_list;
+        comparison_list = gsb_data_report_get_amount_comparison_list ( current_report_number );
 
-	comparison_list = gsb_data_report_get_amount_comparison_list (current_report_number);
+        while ( comparison_list )
+        {
+            amount_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
+ 
+            if ( gsb_data_report_amount_comparison_get_button_link (amount_comparison_number ) )
+                gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (
+                        amount_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (
+                        GTK_OPTION_MENU ( gsb_data_report_amount_comparison_get_button_link (
+                        amount_comparison_number ) ) -> menu_item ),
+                        "no_lien" ) ) );
+            else
+                gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (
+                        amount_comparison_number,
+                        -1 );
 
-	while ( comparison_list )
-	{
-	    amount_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
+            gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (
+                        gsb_data_report_amount_comparison_get_button_first_comparison (
+                        amount_comparison_number ) ) -> menu_item ),
+                        "no_comparateur" ) ) );
 
-	    if ( gsb_data_report_amount_comparison_get_button_link (amount_comparison_number))
-		gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
-										       GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link (amount_comparison_number)) -> menu_item ),
-															       "no_lien" )));
-	    else
-		gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
-										       -1 );
+            gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (
+                        gsb_data_report_amount_comparison_get_button_link_first_to_second_part (
+                        amount_comparison_number ) ) -> menu_item ),
+                        "no_lien" ) ) );
 
-	    gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
-								     GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_first_comparison (amount_comparison_number)) -> menu_item ),
-													     "no_comparateur" )));
+            gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+                        GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (
+                        gsb_data_report_amount_comparison_get_button_second_comparison (
+                        amount_comparison_number ) ) -> menu_item ),
+                        "no_comparateur" ) ) );
 
-	    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
-									      GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_link_first_to_second_part (amount_comparison_number)) -> menu_item ),
-														      "no_lien" )));
-	    gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
-								      GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)) -> menu_item ),
-													      "no_comparateur" )));
-	    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-								 gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)))));
-	    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-								  gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))));
+            gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (
+                        amount_comparison_number ) ) ) ) );
 
-	    comparison_list = comparison_list -> next;
-	}
+            gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (
+                        amount_comparison_number ) ) ) ) );
+
+            comparison_list = comparison_list -> next;
+        }
     }
 
     gsb_data_report_set_amount_comparison_only_report_non_null ( current_report_number,
-								 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ) ) );
 
     /* récupération des modes de paiement */
 
     gsb_data_report_set_method_of_payment_used ( current_report_number,
-						 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat )));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ) ) );
 
-    if ( gsb_data_report_get_method_of_payment_list (current_report_number))
+    if ( gsb_data_report_get_method_of_payment_list ( current_report_number ) )
     {
-	g_slist_free ( gsb_data_report_get_method_of_payment_list (current_report_number));
-	gsb_data_report_set_method_of_payment_list ( current_report_number,
-						     NULL );
+        g_slist_free ( gsb_data_report_get_method_of_payment_list ( current_report_number ) );
+        gsb_data_report_set_method_of_payment_list ( current_report_number, NULL );
     }
 
     list_tmp = GTK_CLIST ( liste_mode_paiement_etat ) -> selection;
 
     while ( list_tmp )
     {
-	gsb_data_report_set_method_of_payment_list ( current_report_number,
-						     g_slist_append ( gsb_data_report_get_method_of_payment_list (current_report_number),
-								      gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
-											       GPOINTER_TO_INT ( list_tmp -> data ))));
-	list_tmp = list_tmp -> next;
+        gsb_data_report_set_method_of_payment_list ( current_report_number,
+                        g_slist_append ( gsb_data_report_get_method_of_payment_list ( current_report_number ),
+                        gtk_clist_get_row_data ( GTK_CLIST ( liste_mode_paiement_etat ),
+                        GPOINTER_TO_INT ( list_tmp -> data ) ) ) );
+
+        list_tmp = list_tmp -> next;
     }
 
     /*   si tous les modes de paiement ont été sélectionnés, on met utilise_mode_paiement à 0 (plus rapide) */
 
     if ( ( g_list_length ( GTK_CLIST ( liste_mode_paiement_etat ) -> selection )
-	   ==
-	   GTK_CLIST ( liste_mode_paiement_etat ) -> rows )
-	 &&
-	 gsb_data_report_get_method_of_payment_used (current_report_number))
+        ==
+        GTK_CLIST ( liste_mode_paiement_etat ) -> rows )
+     &&
+     gsb_data_report_get_method_of_payment_used ( current_report_number ) )
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All methods of payment have been selected.  Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
-	gsb_data_report_set_method_of_payment_used ( current_report_number,
-						     0 );
+        dialogue_special ( GTK_MESSAGE_INFO,
+                        make_hint ( _("Performance issue."),
+                        _("All methods of payment have been selected.  Grisbi will run faster without"
+                        "the \"Detail methods of payment used\" option activated.") ) );
+
+        gsb_data_report_set_method_of_payment_used ( current_report_number, 0 );
     }
 
     /* update the payee combofix in the form, to add that report if asked */
-    gsb_payee_update_combofix ();
+    gsb_payee_update_combofix ( );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
-    /* on réaffiche l'état */
 
-    rafraichissement_etat ( gsb_gui_navigation_get_current_report ());
+    /* on réaffiche l'état */
+    rafraichissement_etat ( gsb_gui_navigation_get_current_report ( ) );
 
     /* on repasse à la 1ère page du notebook */
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_etats ),
-			    0 );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_etats ), 0 );
     gtk_widget_set_sensitive ( navigation_tree_view, TRUE );
 
-    gsb_gui_navigation_update_report ( gsb_gui_navigation_get_current_report ());
+    gsb_gui_navigation_update_report ( gsb_gui_navigation_get_current_report ( ) );
 }
-/******************************************************************************/
-
 
 
 /**
  * If applicable, update report navigation tree style to reflect which
  * pages have been changed.
  *
- * \param page_number	Page that contained an interface element just
- *			changed that triggered this event.
+ * \param page_number   Page that contained an interface element just
+ *          changed that triggered this event.
  *
- * \return		FALSE
+ * \return      FALSE
  */
 gboolean report_tree_update_style ( gint * page_number )
 {
 
     gtk_tree_model_foreach ( GTK_TREE_MODEL(report_tree_model),
-			     (GtkTreeModelForeachFunc) report_tree_update_style_iterator,
-			     GINT_TO_POINTER ( page_number ) );
+                        (GtkTreeModelForeachFunc) report_tree_update_style_iterator,
+                        GINT_TO_POINTER ( page_number ) );
 
     return FALSE;
 }
-
 
 
 /**
  * Iterator that iterates over the report tree model and updates
  * iter of report that is equal to `data'.
  *
- * \param tree_model	Pointer to the model of the navigation tree.
- * \param path		Not used.
- * \param iter		Current iter to test.
- * \param data		Page to be updated.
+ * \param tree_model    Pointer to the model of the navigation tree.
+ * \param path          Not used.
+ * \param iter          Current iter to test.
+ * \param data          Page to be updated.
  *
  * \return TRUE if this iter matches.
  */
 gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
-					     GtkTreePath *path,
-					     GtkTreeIter *iter,
-					     gpointer data )
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
+                        gpointer data )
 {
     gint page_number = GPOINTER_TO_INT(data);
     gint iter_page_number;
@@ -1960,90 +1970,87 @@ gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
 
     if ( iter_page_number != page_number )
     {
-	return FALSE;
+        return FALSE;
     }
 
     switch ( iter_page_number )
     {
-	/* rien pour l'instant */
-	break;
+        /* rien pour l'instant */
+        break;
 
-	case 1:
-	    /* page des virements */
-	    if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements )))
-		italic = TRUE;
-	    break;
+        case 1:
+            /* page des virements */
+            if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_non_inclusion_virements ) ) )
+                italic = TRUE;
+            break;
 
-	case 2:
-	    /* page des comptes */
+        case 2:
+            /* page des comptes */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat ) ) )
+                italic = TRUE;
+            break;
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat )))
-		italic = TRUE;
-	    break;
+        case 3:
+            /* page des tiers */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat ) ) )
+                italic = TRUE;
+            break;
 
-	case 3:
-	    /* page des tiers */
+        case 4:
+            /* page des catégories */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )) )
+                italic = TRUE;
+            break;
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat )))
-		italic = TRUE;
-	    break;
+        case 5:
+            /* page des ib */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat ) ) )
+                italic = TRUE;
+            break;
 
-	case 4:
-	    /* page des catégories */
+        case 6:
+            /* page des textes */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte ) ) )
+                italic = TRUE;
+            break;
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )))
-		italic = TRUE;
-	    break;
+        case 7:
+            /* page des montants */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ) )
+             ||
+             gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat ) ) )
+                italic = TRUE;
+            break;
 
-	case 5:
-	    /* page des ib */
+        case 8:
+            /* page des modes de paiement */
+            if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat ) ) )
+                italic = TRUE;
+            break;
 
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )))
-		italic = TRUE;
-	    break;
-
-	case 6:
-	    /* page des textes */
-
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_texte )))
-		italic = TRUE;
-	    break;
-
-	case 7:
-	    /* page des montants */
-
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_utilise_montant ))
-		 ||
-		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_exclure_ope_nulles_etat )))
-		italic = TRUE;
-	    break;
-
-	case 8:
-	    /* page des modes de paiement */
-
-	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_mode_paiement_etat )))
-		italic = TRUE;
-	    break;
-
-	case 9:
-	    /* page des divers */
-
-	    if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ))
-		 ||
-		 gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation )))
-		italic = TRUE;
-	    break;
+        case 9:
+            /* page des divers */
+            if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_opes_r_et_non_r_etat ) )
+             ||
+             gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_pas_detailler_ventilation ) ) )
+                italic = TRUE;
+            break;
     }
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ),
-			 iter, REPORT_TREE_ITALIC_COLUMN, italic,
-			 -1 );
+                        iter, REPORT_TREE_ITALIC_COLUMN, italic,
+                        -1 );
 
     return TRUE;
 }
 
 
 
+/**
+ *
+ *
+ *
+ */
 GtkWidget *onglet_etat_dates ( void )
 {
     GtkWidget *scrolled_window, *separateur, *vbox;
@@ -2055,114 +2062,73 @@ GtkWidget *onglet_etat_dates ( void )
     vbox_onglet = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
     gtk_widget_show ( vbox_onglet );
 
-    hbox_onglet = gtk_hbox_new ( FALSE,
-				 5 );
+    hbox_onglet = gtk_hbox_new ( FALSE, 5 );
     gtk_widget_show ( hbox_onglet );
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
-			 hbox_onglet,
-			 TRUE,
-			 TRUE,
-			 0 );
-
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), hbox_onglet, TRUE, TRUE, 0 );
 
     /* mise en place de la plage de dates */
-
-    vbox = gtk_vbox_new ( FALSE,
-			  5 );
-    gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
-			 vbox,
-			 TRUE,
-			 TRUE,
-			 0 );
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_onglet ), vbox, TRUE, TRUE, 0 );
     gtk_widget_show ( vbox );
 
-    radio_button_utilise_dates = gtk_radio_button_new_with_label ( NULL,
-								   _("Use dates ranges") );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 radio_button_utilise_dates,
-			 FALSE,
-			 FALSE,
-			 0 );
+    radio_button_utilise_dates = gtk_radio_button_new_with_label ( NULL, _("Use dates ranges") );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), radio_button_utilise_dates, FALSE, FALSE, 0 );
     gtk_widget_show ( radio_button_utilise_dates );
 
     /* on met en dessous une liste avec les plages de date proposées */
-
-    frame = gtk_frame_new (NULL);
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 frame,
-			 TRUE,
-			 TRUE,
-			 0 );
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, TRUE, TRUE, 0 );
     gtk_widget_show ( frame );
 
     vbox_utilisation_date = gtk_vbox_new ( FALSE, 5 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ),
-				     10 );
-    gtk_container_add ( GTK_CONTAINER ( frame ),
-			vbox_utilisation_date );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox_utilisation_date ), 10 );
+    gtk_container_add ( GTK_CONTAINER ( frame ), vbox_utilisation_date );
     gtk_widget_show ( vbox_utilisation_date );
 
     /* on met la connection pour rendre sensitif cette frame */
-
     g_signal_connect ( G_OBJECT ( radio_button_utilise_dates ),
-			 "toggled",
-			 G_CALLBACK ( sens_desensitive_pointeur ),
-			 vbox_utilisation_date );
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        vbox_utilisation_date );
 
-    scrolled_window = gtk_scrolled_window_new ( FALSE,
-						FALSE );
+    scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ),
-			 scrolled_window,
-			 TRUE,
-			 TRUE,
-			 0 );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX ( vbox_utilisation_date ), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
 
     liste_plages_dates_etat = gtk_clist_new ( 1 );
-    gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ),
-				       0,
-				       TRUE );
+    gtk_clist_set_column_auto_resize ( GTK_CLIST ( liste_plages_dates_etat ), 0, TRUE );
     g_signal_connect ( G_OBJECT ( liste_plages_dates_etat ),
-			 "button_press_event",
-			 G_CALLBACK ( click_liste_etat ),
-			 NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			liste_plages_dates_etat );
+                        "button_press_event",
+                        G_CALLBACK ( click_liste_etat ),
+                        NULL );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), liste_plages_dates_etat );
     gtk_widget_show ( liste_plages_dates_etat );
 
     /* on remplit la liste des dates */
-
     plages_dates = liste_plages_dates;
 
     i = 0;
 
     while ( plages_dates[i] )
     {
-	gint row;
-	gchar * plage = _(plages_dates[i]);
+        gint row;
+        gchar *plage = _(plages_dates[i]);
 
-	row = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
-				   &plage );
-	i++;
+        row = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ), &plage );
+        i++;
     }
 
     /* séparation gauche-droite */
-
     separateur = gtk_vseparator_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
-			 separateur,
-			 FALSE,
-			 FALSE,
-			 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_onglet ), separateur, FALSE, FALSE, 0 );
     gtk_widget_show ( separateur );
 
 
     /*   on met en forme la partie de droite : utilisation des exercices */
-
     vbox = gtk_vbox_new ( FALSE,
 			  5 );
     gtk_box_pack_start ( GTK_BOX ( hbox_onglet ),
@@ -2355,8 +2321,8 @@ GtkWidget *onglet_etat_dates ( void )
 /* vérifie où l'on clique et empèche la désélection de row */
 /******************************************************************************/
 void click_liste_etat ( GtkCList *liste,
-			GdkEventButton *evenement,
-			gint origine )
+                        GdkEventButton *evenement,
+                        gint origine )
 {
     gint colonne, x, y;
     gint row;
@@ -3313,8 +3279,8 @@ static gboolean report_config_fill_categ_budget_list ( gboolean is_categ )
  * \return
  * */
 static void report_config_mixed_list_add_div ( gboolean is_categ,
-					       const gchar *name,
-					       gint number )
+                        const gchar *name,
+                        gint number )
 {
     GtkTreeModel *model;
 
@@ -3344,8 +3310,8 @@ static void report_config_mixed_list_add_div ( gboolean is_categ,
  * \return
  * */
 static void report_config_mixed_list_add_sub_div ( gboolean is_categ,
-						   const gchar *name,
-						   gint number )
+                        const gchar *name,
+                        gint number )
 {
     GtkTreeModel *model;
     GtkTreeIter child_iter;
@@ -3379,8 +3345,8 @@ static void report_config_mixed_list_add_sub_div ( gboolean is_categ,
  * \return FALSE
  * */
 static gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
-						     gchar *path_str,
-						     GtkTreeStore *store )
+                        gchar *path_str,
+                        GtkTreeStore *store )
 {
     GtkTreePath *path;
     GtkTreeIter iter;
@@ -3441,7 +3407,7 @@ static gboolean report_config_categ_budget_toggled ( GtkCellRendererToggle *radi
  * \return FALSE
  * */
 static gboolean report_config_category_select_all ( GtkWidget *button,
-						    gboolean *select_ptr )
+                        gboolean *select_ptr )
 {
     return (report_config_mix_select_all (model_categ, GPOINTER_TO_INT (select_ptr)));
 }
@@ -3457,7 +3423,7 @@ static gboolean report_config_category_select_all ( GtkWidget *button,
  * \return FALSE
  * */
 static gboolean report_config_budget_select_all ( GtkWidget *button,
-						  gboolean *select_ptr )
+                        gboolean *select_ptr )
 {
     return (report_config_mix_select_all (model_budget, GPOINTER_TO_INT (select_ptr)));
 }
@@ -3473,7 +3439,7 @@ static gboolean report_config_budget_select_all ( GtkWidget *button,
  * \return FALSE
  * */
 static gboolean report_config_mix_select_all ( GtkTreeModel *model,
-					       gboolean toggle_value )
+                        gboolean toggle_value )
 {
     if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (model), &parent_iter))
 	return FALSE;
@@ -3512,7 +3478,7 @@ static gboolean report_config_mix_select_all ( GtkTreeModel *model,
  * \return FALSE
  * */
 static gboolean report_config_category_select_type ( GtkWidget *button,
-						     gboolean *type_ptr )
+                        gboolean *type_ptr )
 
 {
     return (report_config_mix_select_type (TRUE, GPOINTER_TO_INT (type_ptr)));
@@ -3527,7 +3493,7 @@ static gboolean report_config_category_select_type ( GtkWidget *button,
  * \return FALSE
  * */
 static gboolean report_config_budget_select_type ( GtkWidget *button,
-						   gboolean *type_ptr )
+                        gboolean *type_ptr )
 {
     return (report_config_mix_select_type (FALSE, GPOINTER_TO_INT (type_ptr)));
 }
@@ -3541,7 +3507,7 @@ static gboolean report_config_budget_select_type ( GtkWidget *button,
  * \return FALSE
  * */
 static gboolean report_config_mix_select_type ( gboolean is_categ,
-						gboolean type )
+                        gboolean type )
 
 {
     GtkTreeModel *model;
@@ -3731,7 +3697,7 @@ static void report_config_category_update_treeview ( gboolean is_categ )
  * \return
  * */
 static void report_config_category_toggle_categ ( struct_categ_budget_sel *categ_budget_struct,
-						  gboolean is_categ )
+                        gboolean is_categ )
 {
     GtkTreeModel *model;
 
@@ -5999,7 +5965,7 @@ GtkWidget *cree_bouton_comparateur_texte ( gint text_comparison_number )
 /* donc si on choisit nul, non nul, pos ou nég, on grise l'entrée */
 /******************************************************************************/
 void change_comparaison_texte ( GtkWidget *menu_item,
-				gint text_comparison_number )
+                        gint text_comparison_number )
 {
     gint sensitif;
 
