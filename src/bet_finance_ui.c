@@ -409,13 +409,11 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
     button_1 = gtk_radio_button_new_with_label ( NULL, _("CAGR") );
-    gtk_widget_set_sensitive ( button_1, FALSE );
 
     button_2 = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( button_1 ),
                         _("Proportional rate") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
     g_object_set_data ( G_OBJECT ( parent ), "type_taux", button_2 );
-    gtk_widget_set_sensitive ( button_2, FALSE );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
@@ -949,6 +947,7 @@ gboolean bet_finance_duration_button_changed ( GtkWidget *combobox, GtkWidget *w
  * */
 void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget )
 {
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
     bet_finance_calculer_clicked ( NULL, widget );
 }
 
