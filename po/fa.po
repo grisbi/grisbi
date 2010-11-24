@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 18:13+0100\n"
+"POT-Creation-Date: 2010-11-24 19:28+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -7671,7 +7671,7 @@ msgstr ""
 msgid "Automatic/manual scheduled transaction"
 msgstr ""
 
-#: ../src/gsb_form_transaction.c:357
+#: ../src/gsb_form_transaction.c:370
 #, fuzzy
 msgid "Report : "
 msgstr "گزارش"

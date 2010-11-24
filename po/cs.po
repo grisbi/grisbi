@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 18:13+0100\n"
+"POT-Creation-Date: 2010-11-24 19:28+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -7996,7 +7996,7 @@ msgstr "Zvolte účet"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatická / ruční plánovaná transakce"
 
-#: ../src/gsb_form_transaction.c:357
+#: ../src/gsb_form_transaction.c:370
 msgid "Report : "
 msgstr "Sestava: "
 

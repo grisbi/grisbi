@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 18:13+0100\n"
+"POT-Creation-Date: 2010-11-24 19:28+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team:  <pt@li.org>\n"
@@ -8015,7 +8015,7 @@ msgstr "Alterar a conta"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Agenda de lançamentos automática/manual"
 
-#: ../src/gsb_form_transaction.c:357
+#: ../src/gsb_form_transaction.c:370
 #, fuzzy
 msgid "Report : "
 msgstr "Relatório"

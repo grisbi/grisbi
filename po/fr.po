@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 18:13+0100\n"
+"POT-Creation-Date: 2010-11-24 19:28+0100\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -8059,7 +8059,7 @@ msgstr "Choix du compte affecté"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Opération planifiée automatique / manuelle"
 
-#: ../src/gsb_form_transaction.c:357
+#: ../src/gsb_form_transaction.c:370
 msgid "Report : "
 msgstr "État : "
 

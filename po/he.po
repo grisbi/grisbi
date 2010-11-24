@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-20 18:13+0100\n"
+"POT-Creation-Date: 2010-11-24 19:28+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -8261,7 +8261,7 @@ msgstr "בחירת החשבון"
 msgid "Automatic/manual scheduled transaction"
 msgstr "עיסקה מתוכננת באופן אוטומטי/ידני"
 
-#: ../src/gsb_form_transaction.c:357
+#: ../src/gsb_form_transaction.c:370
 #, fuzzy
 msgid "Report : "
 msgstr "דו\"ח"
