@@ -1017,7 +1017,7 @@ gchar *gsb_real_get_decimal_point ( void )
  * */
 void gsb_real_set_decimal_point ( const gchar *decimal_point )
 {
-    if ( gsb_decimal_point )
+    if ( gsb_decimal_point && strlen ( gsb_decimal_point ) )
         g_free ( gsb_decimal_point );
 
     gsb_decimal_point = g_strdup ( decimal_point );
@@ -1044,7 +1044,7 @@ gchar *gsb_real_get_thousands_sep ( void )
  * */
 void gsb_real_set_thousands_sep ( const gchar *thousands_sep )
 {
-    if ( gsb_thousands_sep )
+    if ( gsb_thousands_sep && strlen ( gsb_thousands_sep ) )
         g_free ( gsb_thousands_sep );
 
     if ( thousands_sep == NULL )
