@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-24 19:28+0100\n"
+"POT-Creation-Date: 2010-11-24 23:14+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team:  <bucuresti@free.fr>\n"
@@ -85,7 +85,7 @@ msgid "Account balances in %s"
 msgstr "Soldul conturilor în %s"
 
 #: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
-#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1656
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1675
 msgid " at "
 msgstr ""
 
@@ -726,14 +726,14 @@ msgstr "Împrumut/Ipotecă : Capital"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1221 ../src/bet_finance_ui.c:273
-#: ../src/bet_finance_ui.c:479 ../src/bet_finance_ui.c:1142
-#: ../src/bet_finance_ui.c:1578
+#: ../src/bet_config.c:1221 ../src/bet_finance_ui.c:278
+#: ../src/bet_finance_ui.c:483 ../src/bet_finance_ui.c:1161
+#: ../src/bet_finance_ui.c:1597
 #, fuzzy
 msgid "Duration"
 msgstr "Traducere"
 
-#: ../src/bet_config.c:1230
+#: ../src/bet_config.c:1230 ../src/bet_finance_ui.c:763
 #, fuzzy
 msgid "year"
 msgstr "Ani"
@@ -745,14 +745,14 @@ msgstr "mod de plată"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1252 ../src/bet_finance_ui.c:1128
-#: ../src/bet_finance_ui.c:1564
+#: ../src/bet_config.c:1252 ../src/bet_finance_ui.c:1147
+#: ../src/bet_finance_ui.c:1583
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1261 ../src/bet_finance_ui.c:268
-#: ../src/bet_finance_ui.c:394 ../src/bet_finance_ui.c:1137
-#: ../src/bet_finance_ui.c:1573
+#: ../src/bet_config.c:1261 ../src/bet_finance_ui.c:273
+#: ../src/bet_finance_ui.c:400 ../src/bet_finance_ui.c:1156
+#: ../src/bet_finance_ui.c:1592
 msgid "%"
 msgstr ""
 
@@ -761,16 +761,16 @@ msgstr ""
 msgid "Fees per month"
 msgstr "%d lună"
 
-#: ../src/bet_config.c:1292 ../src/bet_finance_ui.c:407
+#: ../src/bet_config.c:1292 ../src/bet_finance_ui.c:413
 #, fuzzy
 msgid "Rate Type"
 msgstr "Tip"
 
-#: ../src/bet_config.c:1296 ../src/bet_finance_ui.c:411
+#: ../src/bet_config.c:1296 ../src/bet_finance_ui.c:417
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1300 ../src/bet_finance_ui.c:415
+#: ../src/bet_config.c:1300 ../src/bet_finance_ui.c:420
 msgid "Proportional rate"
 msgstr ""
 
@@ -778,65 +778,67 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:837
-#: ../src/bet_finance_ui.c:1683
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1702
 #, fuzzy
 msgid " year "
 msgstr "anul %d"
 
-#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:839
-#: ../src/bet_finance_ui.c:1685
+#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1704
 #, fuzzy
 msgid " years "
 msgstr "Ani"
 
-#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:687
+#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:223 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:228 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:298 ../src/navigation.c:1200
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Cartă de credit"
 
 #. capital
-#: ../src/bet_finance_ui.c:234 ../src/bet_finance_ui.c:1554
+#: ../src/bet_finance_ui.c:239 ../src/bet_finance_ui.c:1573
 #, fuzzy
 msgid "Loan capital"
 msgstr "Împrumut/Ipotecă : Capital"
 
 #. taux
-#: ../src/bet_finance_ui.c:258
+#: ../src/bet_finance_ui.c:263
 #, fuzzy
 msgid "Annual interest"
 msgstr "Buget anual"
 
-#: ../src/bet_finance_ui.c:288
+#: ../src/bet_finance_ui.c:293
 msgid "Entering Detailed"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:327
+#: ../src/bet_finance_ui.c:332
+msgid "Between 3 and 18 months"
+msgstr ""
+
+#: ../src/bet_finance_ui.c:333
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:328
+#: ../src/bet_finance_ui.c:334
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:384 ../src/bet_finance_ui.c:574
+#: ../src/bet_finance_ui.c:390 ../src/bet_finance_ui.c:578
 #, fuzzy
 msgid "Fees"
 msgstr "Proaspăt"
 
-#: ../src/bet_finance_ui.c:394
+#: ../src/bet_finance_ui.c:400
 msgid " of borrowed capital"
 msgstr ""
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:498
+#: ../src/bet_finance_ui.c:502
 #, fuzzy
 msgid ""
 "Number\n"
@@ -844,85 +846,90 @@ msgid ""
 msgstr "Sold iniţial"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:517
+#: ../src/bet_finance_ui.c:521
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:536
+#: ../src/bet_finance_ui.c:540
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:555
+#: ../src/bet_finance_ui.c:559
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:593 ../src/bet_finance_ui.c:1315
+#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1334
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Lunar"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:612
+#: ../src/bet_finance_ui.c:616
 #, fuzzy
 msgid "Total cost"
 msgstr "Total %s"
 
-#: ../src/bet_finance_ui.c:624
+#: ../src/bet_finance_ui.c:628
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1016 ../src/bet_finance_ui.c:1817
+#: ../src/bet_finance_ui.c:765 ../src/gsb_scheduler_list.c:1849
+#, fuzzy
+msgid "years"
+msgstr "Ani"
+
+#: ../src/bet_finance_ui.c:1035 ../src/bet_finance_ui.c:1836
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1024 ../src/bet_finance_ui.c:1834
+#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1853
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1976
+#: ../src/bet_finance_ui.c:1059 ../src/bet_finance_ui.c:1995
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1042 ../src/bet_finance_ui.c:1851
-#: ../src/bet_finance_ui.c:1978
+#: ../src/bet_finance_ui.c:1061 ../src/bet_finance_ui.c:1870
+#: ../src/bet_finance_ui.c:1997
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1057 ../src/bet_finance_ui.c:1869
+#: ../src/bet_finance_ui.c:1076 ../src/bet_finance_ui.c:1888
 #: ../src/bet_tab.c:1542 ../src/bet_tab.c:2866
 #, fuzzy
 msgid "Print the array"
 msgstr "Imprimantă"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1067 ../src/bet_finance_ui.c:1885
-#: ../src/bet_finance_ui.c:1914 ../src/bet_tab.c:1552
+#: ../src/bet_finance_ui.c:1086 ../src/bet_finance_ui.c:1904
+#: ../src/bet_finance_ui.c:1933 ../src/bet_tab.c:1552
 #, fuzzy
 msgid "Export the array"
 msgstr "Imprimantă"
 
-#: ../src/bet_finance_ui.c:1107 ../src/bet_finance_ui.c:1542
-#: ../src/bet_finance_ui.c:1656
+#: ../src/bet_finance_ui.c:1126 ../src/bet_finance_ui.c:1561
+#: ../src/bet_finance_ui.c:1675
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1118
+#: ../src/bet_finance_ui.c:1137
 #, fuzzy
 msgid "Loan amount"
 msgstr "Încărcarea fişierului"
 
-#: ../src/bet_finance_ui.c:1208 ../src/bet_future.c:770 ../src/bet_tab.c:695
+#: ../src/bet_finance_ui.c:1227 ../src/bet_future.c:770 ../src/bet_tab.c:695
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1289
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
@@ -932,70 +939,75 @@ msgstr "Încărcarea fişierului"
 msgid "Date"
 msgstr "Data"
 
-#: ../src/bet_finance_ui.c:1220 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1239 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:99
 msgid "Number"
 msgstr "Număr"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1239
+#: ../src/bet_finance_ui.c:1258
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1258
+#: ../src/bet_finance_ui.c:1277
 #, fuzzy
 msgid "Interests"
 msgstr "Interes"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1277
+#: ../src/bet_finance_ui.c:1296
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1296
+#: ../src/bet_finance_ui.c:1315
 #, fuzzy
 msgid "Insurance"
 msgstr "Asigurare : Automobile"
 
-#: ../src/bet_finance_ui.c:1799 ../src/bet_finance_ui.c:1802
+#: ../src/bet_finance_ui.c:1818 ../src/bet_finance_ui.c:1821
 #, fuzzy
 msgid "Calculate"
 msgstr "toate datele"
 
-#: ../src/bet_finance_ui.c:1813 ../src/bet_finance_ui.c:1847
+#: ../src/bet_finance_ui.c:1832 ../src/bet_finance_ui.c:1866
 #, fuzzy
 msgid "Amortization"
 msgstr "Acţiune"
 
-#: ../src/bet_finance_ui.c:1830
+#: ../src/bet_finance_ui.c:1849
 #, fuzzy
 msgid "Credits"
 msgstr "Credit"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1866 ../src/bet_tab.c:2863
+#: ../src/bet_finance_ui.c:1885 ../src/bet_tab.c:2863
 #: ../src/barre_outils.c:140 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "Imprimaţi"
 
-#: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2876
+#: ../src/bet_finance_ui.c:1901 ../src/bet_tab.c:2876
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
 msgstr "Exportare"
 
-#: ../src/bet_finance_ui.c:1921
+#: ../src/bet_finance_ui.c:1940
 #, fuzzy
 msgid "credit.csv"
 msgstr "Credit"
 
-#: ../src/bet_finance_ui.c:1938 ../src/bet_tab.c:2991
+#: ../src/bet_finance_ui.c:1957 ../src/bet_tab.c:2991
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "Imposibil de a înregistra fişierul."
+
+#: ../src/bet_finance_ui.c:2035 ../src/gsb_scheduler_list.c:1849
+#, fuzzy
+msgid "months"
+msgstr "Luni"
 
 #: ../src/bet_future.c:227 ../src/bet_future.c:1773 ../src/bet_future.c:1872
 #: ../src/bet_future.c:2419
@@ -8498,16 +8510,6 @@ msgstr "ziua"
 msgid "weeks"
 msgstr "Săptămână"
 
-#: ../src/gsb_scheduler_list.c:1849
-#, fuzzy
-msgid "months"
-msgstr "Luni"
-
-#: ../src/gsb_scheduler_list.c:1849
-#, fuzzy
-msgid "years"
-msgstr "Ani"
-
 #: ../src/gsb_scheduler_list.c:1852
 #, fuzzy
 msgid "Show scheduled transactions"
@@ -11103,6 +11105,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "month"
+#~ msgstr "Luni"
 
 #, fuzzy
 #~ msgid "Period"
