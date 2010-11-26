@@ -201,17 +201,84 @@ GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
  *
  *
  * */
-gdouble bet_data_finance_get_total_cost ( gdouble capital,
-                        gdouble mensualite,
-                        gdouble duree )
+gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance )
 {
+    gdouble capital_du;
     gdouble cost;
+    gdouble echeance = 0.0;
+    gdouble interets;
+    gdouble principal;
+    gint index;
 
-    
-    cost = ( ( mensualite + 0.01) * duree ) - capital;
+
+    capital_du = s_echeance -> capital;
+
+    for ( index = 1; index <= s_echeance -> nbre_echeances; index++ )
+    {
+        interets = bet_data_finance_get_interets ( capital_du, s_echeance -> taux_periodique );
+
+        if ( index == s_echeance -> nbre_echeances )
+        {
+            echeance = bet_data_finance_get_last_echeance (
+                        capital_du,
+                        interets,
+                        s_echeance -> frais );
+            principal = capital_du;
+        }
+        else
+            principal = bet_data_finance_get_principal (
+                        s_echeance -> total_echeance,
+                        interets,
+                        s_echeance -> frais );
+
+        capital_du -= principal;
+    }
+
+    cost = ( s_echeance -> total_echeance * ( s_echeance -> nbre_echeances - 1 ) )
+                        + echeance - s_echeance -> capital;
 
     return cost;
 }
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amortissement )
+{
+    if ( s_amortissement -> str_date )
+        g_free ( s_amortissement -> str_date );
+    if ( s_amortissement -> str_echeance )
+        g_free ( s_amortissement -> str_echeance );
+    if ( s_amortissement -> str_frais )
+        g_free ( s_amortissement -> str_frais );
+
+    g_free ( s_amortissement );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
+{
+    struct_amortissement *s_amortissement;
+
+    s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
+
+    s_amortissement -> str_date = NULL;
+    s_amortissement -> str_echeance = NULL;
+    s_amortissement -> str_frais = NULL;
+
+    return s_amortissement;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

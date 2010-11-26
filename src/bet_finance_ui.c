@@ -45,38 +45,10 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-/* structure échéance */
- typedef struct {
-    gint duree;
-    gint nbre_echeances;
-    gint devise;
-    gdouble taux;
-    gdouble taux_periodique;
-    gdouble capital;
-    gdouble frais;
-    gdouble echeance;
-    gdouble total_echeance;
-    gdouble total_cost;
-}  struct_echeance;
-
-/* structure amortissement */
- typedef struct {
-    gint origin;
-    gint num_echeance;
-    gint devise;
-    gdouble taux_periodique;
-    gdouble interets;
-    gdouble capital_du;
-    gdouble principal;
-    gdouble frais;
-    gdouble echeance;
-    gchar *str_date;
-    gchar *str_echeance;
-    gchar *str_frais;
-}  struct_amortissement;
-
 /*START_STATIC*/
-static void bet_finance_activate_expander ( GtkWidget *expander, GtkWidget *widget );
+static void bet_finance_calcule_show_months_tab ( GtkTreeModel *model,
+                        struct_echeance *s_echeance,
+                        gdouble taux_frais );
 static void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget );
 static GtkWidget *bet_finance_create_amortization_page ( void );
 static GtkWidget *bet_finance_create_amortization_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
@@ -98,7 +70,9 @@ static void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
                         struct_amortissement *s_amortissement );
-static void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echeance );
+static void bet_finance_fill_data_ligne ( GtkTreeModel *model,
+                        struct_echeance *s_echeance,
+                        const gchar *unit );
 static gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gint color_column );
 static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, GtkWidget *tree_view );
 static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
@@ -202,13 +176,12 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 {
     GtkWidget *page;
     GtkWidget *widget;
-    GtkWidget *vbox, *hbox;
+    GtkWidget *hbox;
     GtkWidget *align;
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *tree_view;
-    GtkWidget *expander;
     GtkWidget *toolbar;
 /*     GtkEntryCompletion *completion;  */
 
@@ -280,20 +253,8 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 0 );
 
     /* création du widget saisie détaillée */
-    vbox = gtk_vbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( page ), vbox, FALSE, FALSE, 5);
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
-    expander = gtk_expander_new ( _("Entering Detailed") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), expander, TRUE, TRUE, 5 );
-
     widget = bet_finance_create_saisie_widget ( page );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 5);
-    g_signal_connect_after( G_OBJECT ( expander ),
-                        "activate",
-                        G_CALLBACK ( bet_finance_activate_expander ),
-                        widget );
+    gtk_box_pack_start ( GTK_BOX ( page ), widget, FALSE, FALSE, 5);
 
     /* création de la liste des données */
     tree_view = bet_finance_create_data_tree_view ( page );
@@ -308,7 +269,6 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
 
     gtk_widget_show_all ( page );
-    gtk_widget_hide ( widget );
 
     return page;
 }
@@ -324,6 +284,7 @@ GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent )
 {
     GtkWidget *combobox;
     gchar *text_duration [] = {
+    _("Between 3 and 18 months"),
     _("Between 1 and 15 years"),
     _("Between 15 and 30 years"),
     NULL};
@@ -334,25 +295,6 @@ GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent )
     gsb_combo_box_set_index ( combobox, 0 );
 
     return combobox;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void bet_finance_activate_expander ( GtkWidget *expander, GtkWidget *widget )
-{
-    if ( gtk_expander_get_expanded ( GTK_EXPANDER ( expander ) ) )
-    {
-        gtk_widget_show ( widget );
-    }
-    else
-    {
-        gtk_widget_hide ( widget );
-    }
 }
 
 
@@ -699,10 +641,14 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     switch ( index )
     {
         case 0:
+            duree_min = 3;
+            duree_max = 18;
+            break;
+        case 1:
             duree_min = 1;
             duree_max = 15;
             break;
-        case 1:
+        case 2:
             duree_min = 15;
             duree_max = 30;
             break;
@@ -728,28 +674,34 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
 
-    for ( index = duree_min; index <= duree_max; index++ )
+    if ( index == 0 )
+        bet_finance_calcule_show_months_tab ( model, s_echeance, taux_frais );
+    else
     {
-        s_echeance -> duree = index;
-        s_echeance -> nbre_echeances = index * 12;
-        s_echeance -> frais = bet_data_finance_get_frais_par_echeance ( s_echeance -> capital,
-                        taux_frais,
-                        s_echeance -> nbre_echeances );
+        for ( index = duree_min; index <= duree_max; index++ )
+        {
+            s_echeance -> duree = index;
+            s_echeance -> nbre_echeances = index * 12;
+            s_echeance -> frais = bet_data_finance_get_frais_par_echeance ( s_echeance -> capital,
+                            taux_frais,
+                            s_echeance -> nbre_echeances );
 
-        s_echeance -> echeance = bet_data_finance_get_echeance ( s_echeance -> capital,
-                        s_echeance -> taux_periodique,
-                        s_echeance -> nbre_echeances );
+            s_echeance -> echeance = bet_data_finance_get_echeance ( s_echeance -> capital,
+                            s_echeance -> taux_periodique,
+                            s_echeance -> nbre_echeances );
 
-        s_echeance -> total_echeance = s_echeance -> echeance + s_echeance -> frais;
-        s_echeance -> total_cost = bet_data_finance_get_total_cost ( s_echeance -> capital,
-                        s_echeance -> total_echeance,
-                        s_echeance -> nbre_echeances );
+            s_echeance -> total_echeance = s_echeance -> echeance + s_echeance -> frais;
+            s_echeance -> total_cost = bet_data_finance_get_total_cost ( s_echeance );
 
-        bet_finance_fill_data_ligne ( model, s_echeance );
+            if ( s_echeance -> duree == 1 )
+                bet_finance_fill_data_ligne ( model, s_echeance, _("year") );
+            else
+                bet_finance_fill_data_ligne ( model, s_echeance, _("years") );
 
-        s_echeance -> duree = 0;
-        s_echeance -> nbre_echeances = 0;
-        s_echeance -> echeance = 0;
+            s_echeance -> duree = 0;
+            s_echeance -> nbre_echeances = 0;
+            s_echeance -> echeance = 0;
+        }
     }
 
     bet_finance_list_set_background_color ( tree_view, BET_FINANCE_BACKGROUND_COLOR );
@@ -781,7 +733,12 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
     gdouble number = 0;
 
     widget = g_object_get_data ( G_OBJECT ( parent ), name );
-    if ( GTK_IS_ENTRY ( widget ) )
+
+    if ( GTK_IS_SPIN_BUTTON  ( widget ) )
+    {
+        number = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( widget ) );
+    }
+    else if ( GTK_IS_ENTRY ( widget ) )
     {
         GtkWidget *combobox;
         const gchar *entry;
@@ -805,8 +762,6 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
             }
         }
     }
-    else if ( GTK_IS_SPIN_BUTTON  ( widget ) )
-        number = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( widget ) );
 
     return number;
 }
@@ -818,7 +773,9 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
  *
  *
  * */
-void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echeance )
+void bet_finance_fill_data_ligne ( GtkTreeModel *model,
+                        struct_echeance *s_echeance,
+                        const gchar *unit )
 {
     GtkTreeIter iter;
     gchar *str_duree;
@@ -831,10 +788,7 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model, struct_echeance *s_echea
     gchar buffer[256];
     gint nbre_char;
 
-    if ( s_echeance -> duree == 1 )
-        str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), _(" year "), NULL );
-    else
-        str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), _(" years "), NULL );
+    str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), " ", unit, " ", NULL );
 
     str_capital = gsb_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> capital ),
@@ -1383,7 +1337,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     gtk_notebook_next_page ( GTK_NOTEBOOK ( finance_notebook ) );
 
     /* initialise les données utiles */
-    s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
+    s_amortissement = bet_data_finance_structure_amortissement_init ( );
     gtk_tree_model_get ( model,
                         &iter,
                         BET_FINANCE_DURATION_COLUMN, &str_duree,
@@ -1451,7 +1405,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
     
     gtk_tree_path_free ( path );
-    g_free ( s_amortissement );
+    bet_data_finance_structure_amortissement_free ( s_amortissement );
 }
 
 
@@ -1987,6 +1941,38 @@ void bet_finance_switch_amortization_initial_date ( GtkWidget *widget, GtkWidget
  *
  *
  * */
+void bet_finance_calcule_show_months_tab ( GtkTreeModel *model,
+                        struct_echeance *s_echeance,
+                        gdouble taux_frais )
+{
+    gint duree_min = 3;
+    gint duree_max = 18;
+    gint index;
+
+    for ( index = duree_min; index <= duree_max; index++ )
+    {
+        s_echeance -> duree = index;
+        s_echeance -> nbre_echeances = index;
+        s_echeance -> frais = bet_data_finance_get_frais_par_echeance ( s_echeance -> capital,
+                        taux_frais,
+                        s_echeance -> nbre_echeances );
+
+        s_echeance -> echeance = bet_data_finance_get_echeance ( s_echeance -> capital,
+                        s_echeance -> taux_periodique,
+                        s_echeance -> nbre_echeances );
+
+        s_echeance -> total_echeance = s_echeance -> echeance + s_echeance -> frais;
+        s_echeance -> total_cost = bet_data_finance_get_total_cost ( s_echeance );
+
+        bet_finance_fill_data_ligne ( model, s_echeance, _("months") );
+
+        s_echeance -> duree = 0;
+        s_echeance -> nbre_echeances = 0;
+        s_echeance -> echeance = 0;
+    }
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
