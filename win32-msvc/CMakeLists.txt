@@ -411,7 +411,7 @@ TARGET_LINK_LIBRARIES( grisbi
 
 set_target_properties ( grisbi
 	PROPERTIES ENABLE_EXPORTS 1
-)	
+)
 
 ADD_DEPENDENCIES (grisbi prepare_env prepare_mo)
 
@@ -487,7 +487,7 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
 	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName) mkdir target\\$(PlatformName)\\$(ConfigurationName)
 )
-	
+
 
 # ADD_CUSTOM_COMMAND(TARGET prepare_env
 	# POST_BUILD
@@ -543,13 +543,14 @@ set(
   ../po/fr.po
   ../po/he.po
   ../po/it.po
+  ../po/lv.po
   ../po/nl.po
   ../po/pl.po
   ../po/pt_BR.po
   ../po/ro.po
   ../po/ru.po
   ../po/zh_CN.po
-) 
+)
 
 # set (
   # tips_po_files
@@ -571,15 +572,15 @@ foreach (current_po ${po_files})
     ${current_po}
     NAME_WE
   )
-  
+
   set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}.mo)
-  
+
   add_custom_command(TARGET prepare_mo
     POST_BUILD
 	COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
 	COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
   )
-	
+
   add_custom_command(TARGET prepare_mo
 	POST_BUILD
     # OUTPUT ${mo_file}
@@ -587,22 +588,22 @@ foreach (current_po ${po_files})
     DEPENDS ${current_po}
   )
  endforeach (current_po)
- 
+
  # foreach (current_po ${tips_po_files})
   # get_filename_component(
     # lang
     # ${current_po}
     # NAME_WE
   # )
-  
+
   # set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}-tips.mo)
-  
+
   # add_custom_command(TARGET prepare_mo
     # POST_BUILD
 	# COMMAND IF NOT EXIST target\\lib\\locale\\${lang} mkdir target\\lib\\locale\\${lang}
 	# COMMAND IF NOT EXIST target\\lib\\locale\\${lang}\\LC_MESSAGES mkdir target\\lib\\locale\\${lang}\\LC_MESSAGES
   # )
-	
+
   # add_custom_command(TARGET prepare_mo
 	# POST_BUILD
   ##  OUTPUT ${mo_file}
@@ -610,7 +611,7 @@ foreach (current_po ${po_files})
     # DEPENDS ${current_po}
   # )
  # endforeach (current_po)
- 
+
  add_custom_command(TARGET prepare_mo
 	POST_BUILD
 	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName)\\lib mkdir target\\$(PlatformName)\\$(ConfigurationName)\\lib
