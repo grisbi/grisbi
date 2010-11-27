@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "traitement_variables.h"
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "bet_future.h"
 #include "custom_list.h"
 #include "gsb_calendar.h"
@@ -407,6 +408,7 @@ void init_variables ( void )
     for ( i = 0 ; i < BET_ARRAY_COLUMNS ; i++ )
         bet_array_col_width[i] = bet_array_col_width_init[i];
 
+    bet_data_finance_data_simulator_init ( );
 }
 
 

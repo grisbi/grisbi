@@ -1054,7 +1054,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
     }
 
-
     else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
     {
         gchar **pointeur_char;
@@ -1067,6 +1066,36 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             bet_array_col_width[j] = utils_str_atoi ( pointeur_char[j] );
 
         g_strfreev ( pointeur_char );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
+    {
+        etat.bet_capital = utils_str_strtod ( attribute_values[i], NULL );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
+    {
+        etat.bet_currency = utils_str_atoi ( attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
+    {
+        etat.bet_taux_annuel = utils_str_strtod ( attribute_values[i], NULL );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
+    {
+        etat.bet_index_duree = utils_str_atoi ( attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
+    {
+        etat.bet_frais = utils_str_strtod ( attribute_values[i], NULL );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )
+    {
+        etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
     }
 
     i++;
@@ -1977,7 +2006,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
     {
         gsb_data_account_set_bet_finance_type_taux ( account_number,
-                        g_ascii_strtod ( attribute_values[i], NULL ) );
+                        utils_str_atoi ( attribute_values[i] ) );
         i++;
         continue;
     }

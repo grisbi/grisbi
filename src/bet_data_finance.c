@@ -25,6 +25,9 @@
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"
+#include "gsb_data_currency.h"
+#include "gsb_file_save.h"
+#include "structures.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -35,7 +38,10 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
+
+gdouble bet_taux_step[] = { 0, 0.1, 0.01, 0.001, 0.0001 };
 
 /**
  * retourne l'échéance hors frais
@@ -280,6 +286,41 @@ struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_finance_data_simulator_init ( void )
+{
+    etat.bet_capital = 1000.0;
+    etat.bet_currency = no_devise_totaux_categ;
+    etat.bet_taux_annuel = 4.0;
+    etat.bet_index_duree = 0;
+    etat.bet_frais = 0;
+    etat.bet_type_taux = 1;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits )
+{
+    return bet_taux_step[BET_TAUX_DIGITS];
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

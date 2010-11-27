@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -715,7 +716,13 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tCSV_skipped_lines=\"%s\"\n"
 					   "\t\tMetatree_sort_transactions=\"%d\"\n"
 					   "\t\tAdd_archive_in_total_balance=\"%d\"\n"
-                       "\t\tBet_array_column_width=\"%s\" />\n",
+                       "\t\tBet_array_column_width=\"%s\"\n"
+                       "\t\tBet_capital=\"%s\"\n"
+                       "\t\tBet_currency=\"%d\"\n"
+					   "\t\tBet_taux_annuel=\"%s\"\n"
+					   "\t\tBet_index_duree=\"%d\"\n"
+					   "\t\tBet_frais=\"%s\"\n"
+                       "\t\tBet_type_taux=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
 	etat.crypt_file,
@@ -758,7 +765,14 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(skipped_lines_string),
     etat.metatree_sort_transactions,
     etat.add_archive_in_total_balance,
-    my_safe_null_str ( bet_array_column_width_write ) );
+    my_safe_null_str ( bet_array_column_width_write ),
+    my_safe_null_str ( utils_str_dtostr ( etat.bet_capital,
+    gsb_data_currency_get_floating_point ( etat.bet_currency ), TRUE ) ),
+    etat.bet_currency,
+    my_safe_null_str ( utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
+    etat.bet_index_duree,
+    my_safe_null_str ( utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
+    etat.bet_type_taux );
 
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
@@ -1179,11 +1193,12 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
                 gsb_data_account_get_bet_months ( account_number ),
                 my_safe_null_str ( utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_capital ( account_number ), 2, TRUE ) ),
+                        gsb_data_account_get_bet_finance_capital ( account_number ),
+                        gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
                 my_safe_null_str ( utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_taux_annuel ( account_number ), 2, TRUE ) ),
+                        gsb_data_account_get_bet_finance_taux_annuel ( account_number ), BET_TAUX_DIGITS, TRUE ) ),
                 my_safe_null_str ( utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_frais ( account_number ), 2, TRUE ) ),
+                        gsb_data_account_get_bet_finance_frais ( account_number ), BET_TAUX_DIGITS, TRUE ) ),
                 gsb_data_account_get_bet_finance_type_taux ( account_number ) );
             new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
             g_free ( bet_str );

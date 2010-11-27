@@ -7,6 +7,8 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+#define BET_TAUX_DIGITS 2
+
 /* structure échéance */
  typedef struct {
     gint duree;
@@ -39,6 +41,8 @@
 
 
 /* START_DECLARATION */
+void bet_data_finance_data_simulator_init ( void );
+gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits );
 GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart );
 gdouble bet_data_finance_get_last_echeance ( gdouble capital_du,
                         gdouble interets,

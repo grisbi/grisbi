@@ -50,6 +50,7 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string );
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
                         gint exponent );
+gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr );
 /* END_DECLARATION */
 
 typedef enum GSB_TITLE_NAME {
