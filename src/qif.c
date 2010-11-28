@@ -63,14 +63,15 @@ extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
 
 gchar *last_header = NULL;
+gboolean mismatch_dates = TRUE;
 
 enum
 {
     ORDER_DD_MM_YY = 0,
-    ORDER_DD_YY_MM,
+    ORDER_MM_DD_YY,
     ORDER_YY_MM_DD,
     ORDER_YY_DD_MM,
-    ORDER_MM_DD_YY,
+    ORDER_DD_YY_MM,
     ORDER_MM_YY_DD,
 
     ORDER_MAX,
@@ -109,6 +110,8 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
     qif_file = utf8_fopen ( imported -> name, "r" );
     if ( ! qif_file )
         return FALSE;
+
+    mismatch_dates = TRUE;
 
     /* qif_file pointe sur le qif_file qui a été reconnu comme qif */
     rewind ( qif_file );
@@ -337,113 +340,115 @@ static gint gsb_qif_get_date_order ( GSList *transactions_list )
      * so check for the valids order if the transactions are sorted, normally, only one we be correct */
 
     tmp_list = transactions_list;
-    while (tmp_list)
+    while ( tmp_list )
     {
-	struct struct_ope_importation *transaction = tmp_list -> data;
-	gchar **array;
-	gint year = 0, month = 0, day = 0;
+        struct struct_ope_importation *transaction = tmp_list -> data;
+        gchar **array;
+        gint year = 0, month = 0, day = 0;
 
-	if (!transaction -> date_tmp)
-	    continue;
+        if ( !transaction -> date_tmp )
+            continue;
 
-	array = gsb_qif_get_date_content (transaction -> date_tmp);
+        array = gsb_qif_get_date_content ( transaction -> date_tmp );
 
-	/* if array still contains /, there is a problem (more than 2 / in the first entry) */
-	if (memchr (array[2], '/', strlen (array[2])))
-	{
-	    gchar *string = g_strdup_printf ( _("The date %s seems contains more than 2 separators.\n"
-                                        "This shouldn't happen. Please contact the Grisbi team to try to "
-                                        "add your strange format into Grisbi"),
-                                        transaction -> date_tmp );
-	    dialogue_error ( string );
-	    g_free ( string );
-	    return -1;
-	}
+        /* if array still contains /, there is a problem (more than 2 / in the first entry) */
+        if ( memchr ( array[2], '/', strlen ( array[2] ) ) )
+        {
+            gchar *string = g_strdup_printf ( _("The date %s seems contains more than 2 separators.\n"
+                                            "This shouldn't happen. Please contact the Grisbi team to try to "
+                                            "add your strange format into Grisbi"),
+                                            transaction -> date_tmp );
+            dialogue_error ( string );
+            g_free ( string );
+            return -1;
+        }
 
-	/* get the day, month and year according to the order */
-	switch (order)
-	{
-	    case ORDER_DD_MM_YY:
-		day = atoi (array[0]);
-		month = atoi (array[1]);
-		year = atoi (array[2]);
-		break;
+        /* get the day, month and year according to the order */
+        switch (order)
+        {
+            case ORDER_DD_MM_YY:
+            day = atoi (array[0]);
+            month = atoi (array[1]);
+            year = atoi (array[2]);
+            break;
 
-	    case ORDER_DD_YY_MM:
-		day = atoi (array[0]);
-		month = atoi (array[2]);
-		year = atoi (array[1]);
-		break;
+            case ORDER_MM_DD_YY:
+            day = atoi (array[1]);
+            month = atoi (array[0]);
+            year = atoi (array[2]);
+            break;
 
-	    case ORDER_YY_MM_DD:
-		day = atoi (array[2]);
-		month = atoi (array[1]);
-		year = atoi (array[0]);
-		break;
+            case ORDER_YY_MM_DD:
+            day = atoi (array[2]);
+            month = atoi (array[1]);
+            year = atoi (array[0]);
+            break;
 
-	    case ORDER_YY_DD_MM:
-		day = atoi (array[1]);
-		month = atoi (array[2]);
-		year = atoi (array[0]);
-		break;
+            case ORDER_YY_DD_MM:
+            day = atoi (array[1]);
+            month = atoi (array[2]);
+            year = atoi (array[0]);
+            break;
 
-	    case ORDER_MM_DD_YY:
-		day = atoi (array[1]);
-		month = atoi (array[0]);
-		year = atoi (array[2]);
-		break;
+            case ORDER_DD_YY_MM:
+            day = atoi (array[0]);
+            month = atoi (array[2]);
+            year = atoi (array[1]);
+            break;
 
-	    case ORDER_MM_YY_DD:
-		day = atoi (array[2]);
-		month = atoi (array[0]);
-		year = atoi (array[1]);
-		break;
-	}
+            case ORDER_MM_YY_DD:
+            day = atoi (array[2]);
+            month = atoi (array[0]);
+            year = atoi (array[1]);
+            break;
+        }
 
-	/* the year can be yy or yyyy, we change that here */
-	if (year < 100)
-	{
-	    if (year < 80)
-		year = year + 2000;
-	    else
-		year = year + 1900;
-	}
+        /* the year can be yy or yyyy, we change that here */
+        if ( year < 100 )
+        {
+            if ( year < 80 )
+                year = year + 2000;
+            else
+                year = year + 1900;
+        }
 
-	if (g_date_valid_dmy (day, month, year))
-	    /* the date is valid, go to the next date */
-	    tmp_list = tmp_list -> next;
-	else
-	{
-	    /* the date is not valid, change the order or go away */
-	    date_wrong[order] = transaction -> date_tmp;
-	    order++;
-	    if (order < ORDER_MAX )
-		/* we try again with the new order */
-		tmp_list = transactions_list;
-	    else
-	    {
-		/* the order was already changed for all the formats, we show the problem and leave */
-		gint i;
-		gchar *string = my_strdup (_("The order cannot be determined,\n"));
+        if ( g_date_valid_dmy ( day, month, year ) )
+            /* the date is valid, go to the next date */
+            tmp_list = tmp_list -> next;
+        else
+        {
+            /* the date is not valid, change the order or go away */
+            date_wrong[order] = transaction -> date_tmp;
+            order++;
 
-		for (i=0 ; i<ORDER_MAX ; i++)
-		{
-		    gchar *tmp_str;
-		    tmp_str = g_strconcat ( string,_("Date wrong for the order "),
-					    order_names[i], " : ",
-					    date_wrong[i], "\n", NULL );
-		    g_free (string);
-		    string = tmp_str;
-		}
+            if ( order < ORDER_MAX )
+                /* we try again with the new order */
+                tmp_list = transactions_list;
+            else
+            {
+                /* the order was already changed for all the formats, we show the problem and leave */
+                gint i;
+                gchar *string = my_strdup ( _("The order cannot be determined,\n") );
 
-		dialogue_error (string);
-		g_free (string);
-		g_strfreev (array);
-		return -1;
-	    }
-	}
-	g_strfreev (array);
+                for ( i = 0; i < ORDER_MAX; i++ )
+                {
+                    gchar *tmp_str;
+                    tmp_str = g_strconcat ( string,_("Date wrong for the order "),
+                                order_names[i], " : ",
+                                date_wrong[i], "\n", NULL );
+                    g_free (string);
+                    string = tmp_str;
+                }
+
+                dialogue_error (string);
+                g_free (string);
+                g_strfreev (array);
+                return -1;
+            }
+        }
+        g_strfreev (array);
     }
+
     return order;
 }
 
@@ -472,40 +477,56 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string )
     gchar *tmp_str;
     gint number_of_slash = 0;
 
-    if (!date_string)
-	return NULL;
+    if ( !date_string )
+        return NULL;
 
-    date_string = my_strdup (date_string);
+    date_string = my_strdup ( date_string );
 
     /* some software set a space in the format to annoy us... */
-    tmp_str = my_strdelimit (date_string, " ", "");
-    g_free (date_string);
+    tmp_str = my_strdelimit ( date_string, " ", "" );
+    g_free ( date_string );
     date_string = tmp_str;
 
     /* as the format is risky, we will not check only / ' and -
      * we will remove all wich is not a number */
     pointer = date_string;
-    for (i=0 ; i<strlen (date_string) ; i++)
-	if (!isalnum (pointer[i]))
-	    pointer[i] = '/';
+    for ( i = 0; i < strlen ( date_string ); i++ )
+    {
+        if ( !isalnum ( pointer[i] ) )
+            pointer[i] = '/';
+    }
 
     /* some qif have some text at the end of the date... i don't know what to do with
      * that, so i remove all the text after the 2nd / */
     pointer = date_string;
-    for (i=0 ; i<strlen (date_string) ; i++)
-	if (!isalnum (pointer[i]))
-	{
-	    /* we are on a /, only 2 will survive */
-	    if (number_of_slash < 2)
-		number_of_slash++;
-	    else
-		/* sorry, end game for you*/
-		pointer[i] = 0;
-	}
-
+    for ( i = 0; i < strlen ( date_string ); i++ )
+    {
+        if ( !isalnum ( pointer [i] ) )
+        {
+            /* we are on a /, only 2 will survive */
+            if ( number_of_slash < 2 )
+                number_of_slash++;
+            else
+            /* sorry, end game for you*/
+                pointer[i] = 0;
+        }
+    }
 
     array = g_strsplit (date_string, "/", 3);
+    if ( mismatch_dates && strlen ( array[0] ) == 2 && strlen ( array[1] ) == 2 && strlen ( array[2] ) == 2 )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup ( _("Warning the date has three fields of two numbers. "
+                        "In these circumstances the date might be wrong.") );
+
+        dialogue_warning ( tmp_str );
+        g_free ( tmp_str );
+        mismatch_dates = FALSE;
+    }
+
     g_free (date_string);
+
     return array;
 }
 
@@ -524,68 +545,67 @@ static GDate *gsb_qif_get_date ( gchar *date_string, gint order )
     GDate *date;
     gint year = 0, month = 0, day = 0;
 
-    array = gsb_qif_get_date_content (date_string);
-    if (!array)
-	return NULL;
+    array = gsb_qif_get_date_content ( date_string );
+    if ( !array )
+        return NULL;
 
     /* get the day, month and year according to the order */
     switch (order)
     {
-	case ORDER_DD_MM_YY:
-	    day = atoi (array[0]);
-	    month = atoi (array[1]);
-	    year = atoi (array[2]);
-	    break;
+            case ORDER_DD_MM_YY:
+            day = atoi (array[0]);
+            month = atoi (array[1]);
+            year = atoi (array[2]);
+            break;
 
-	case ORDER_DD_YY_MM:
-	    day = atoi (array[0]);
-	    month = atoi (array[2]);
-	    year = atoi (array[1]);
-	    break;
+            case ORDER_MM_DD_YY:
+            day = atoi (array[1]);
+            month = atoi (array[0]);
+            year = atoi (array[2]);
+            break;
 
-	case ORDER_YY_MM_DD:
-	    day = atoi (array[2]);
-	    month = atoi (array[1]);
-	    year = atoi (array[0]);
-	    break;
+            case ORDER_YY_MM_DD:
+            day = atoi (array[2]);
+            month = atoi (array[1]);
+            year = atoi (array[0]);
+            break;
 
-	case ORDER_YY_DD_MM:
-	    day = atoi (array[1]);
-	    month = atoi (array[2]);
-	    year = atoi (array[0]);
-	    break;
+            case ORDER_YY_DD_MM:
+            day = atoi (array[1]);
+            month = atoi (array[2]);
+            year = atoi (array[0]);
+            break;
 
-	case ORDER_MM_DD_YY:
-	    day = atoi (array[1]);
-	    month = atoi (array[0]);
-	    year = atoi (array[2]);
-	    break;
+            case ORDER_DD_YY_MM:
+            day = atoi (array[0]);
+            month = atoi (array[2]);
+            year = atoi (array[1]);
+            break;
 
-	case ORDER_MM_YY_DD:
-	    day = atoi (array[2]);
-	    month = atoi (array[0]);
-	    year = atoi (array[1]);
-	    break;
+            case ORDER_MM_YY_DD:
+            day = atoi (array[2]);
+            month = atoi (array[0]);
+            year = atoi (array[1]);
+            break;
     }
 
     /* the year can be yy or yyyy, we change that here */
-    if (year < 100)
+    if ( year < 100 )
     {
-	if (year < 80)
-	    year = year + 2000;
-	else
-	    year = year + 1900;
+        if ( year < 80 )
+            year = year + 2000;
+        else
+            year = year + 1900;
     }
 
-    date = g_date_new_dmy (day, month, year);
+    date = g_date_new_dmy ( day, month, year );
 
-    g_strfreev (array);
+    g_strfreev ( array );
 
-    if (!date
-	||
-	!g_date_valid (date))
-	return NULL;
-    return date;
+    if ( !date || !g_date_valid ( date ) )
+        return NULL;
+    else
+        return date;
 }
 
 

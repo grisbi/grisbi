@@ -514,8 +514,9 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 		case TRANSACTION_FORM_BANK:
 		case TRANSACTION_FORM_VOUCHER:
 		    gsb_form_entry_get_focus (form_element -> element_widget);
-		    gtk_entry_set_text ( GTK_ENTRY (form_element -> element_widget),
-					 element -> element_string );
+            if ( element -> element_string )
+                gtk_entry_set_text ( GTK_ENTRY (form_element -> element_widget),
+                                element -> element_string );
 		    break;
 
 		case TRANSACTION_FORM_TYPE:
@@ -549,8 +550,9 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 		case TRANSACTION_FORM_CATEGORY:
 		case TRANSACTION_FORM_BUDGET:
 		    gsb_form_entry_get_focus (form_element -> element_widget);
-		    gtk_combofix_set_text ( GTK_COMBOFIX ( form_element -> element_widget ),
-					    element -> element_string );
+            if ( element -> element_string )
+                gtk_combofix_set_text ( GTK_COMBOFIX ( form_element -> element_widget ),
+                                element -> element_string );
 		    break;
 	    }
 	    form_list = form_list -> next;
