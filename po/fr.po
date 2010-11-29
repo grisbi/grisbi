@@ -9700,7 +9700,7 @@ msgstr "Montrer _quatre lignes par opération"
 
 #: ../src/menu.c:280
 msgid "Debug mode"
-msgstr "Mode de déboggage"
+msgstr "Mode de débogage"
 
 #: ../src/menu.c:282
 msgid "Show transaction _form"
