@@ -25,6 +25,9 @@
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"
+#include "gsb_data_currency.h"
+#include "gsb_file_save.h"
+#include "structures.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -35,7 +38,10 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
+
+gdouble bet_taux_step[] = { 0, 0.1, 0.01, 0.001, 0.0001 };
 
 /**
  * retourne l'échéance hors frais
@@ -78,8 +84,7 @@ gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
     if ( type_taux )
         taux_periodique = ( taux / 100 ) / 12;
     else
-        /* taux_periodique = pow ( 1 + ( taux / 100 ), (1/12) ) - 1; */
-        taux_periodique = 0.004868;
+        taux_periodique = exp ( log ( 1.0 + ( taux / 100 ) ) / 12 ) - 1;
 
     return taux_periodique;
 }
@@ -202,18 +207,120 @@ GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart )
  *
  *
  * */
-gdouble bet_data_finance_get_total_cost ( gdouble capital,
-                        gdouble mensualite,
-                        gdouble duree )
+gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance )
 {
+    gdouble capital_du;
     gdouble cost;
+    gdouble echeance = 0.0;
+    gdouble interets;
+    gdouble principal;
+    gint index;
 
-    
-    cost = ( ( mensualite + 0.01) * duree ) - capital;
+
+    capital_du = s_echeance -> capital;
+
+    for ( index = 1; index <= s_echeance -> nbre_echeances; index++ )
+    {
+        interets = bet_data_finance_get_interets ( capital_du, s_echeance -> taux_periodique );
+
+        if ( index == s_echeance -> nbre_echeances )
+        {
+            echeance = bet_data_finance_get_last_echeance (
+                        capital_du,
+                        interets,
+                        s_echeance -> frais );
+            principal = capital_du;
+        }
+        else
+            principal = bet_data_finance_get_principal (
+                        s_echeance -> total_echeance,
+                        interets,
+                        s_echeance -> frais );
+
+        capital_du -= principal;
+    }
+
+    cost = ( s_echeance -> total_echeance * ( s_echeance -> nbre_echeances - 1 ) )
+                        + echeance - s_echeance -> capital;
 
     return cost;
 }
 
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amortissement )
+{
+    if ( s_amortissement -> str_date )
+        g_free ( s_amortissement -> str_date );
+    if ( s_amortissement -> str_echeance )
+        g_free ( s_amortissement -> str_echeance );
+    if ( s_amortissement -> str_frais )
+        g_free ( s_amortissement -> str_frais );
+
+    g_free ( s_amortissement );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
+{
+    struct_amortissement *s_amortissement;
+
+    s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
+
+    s_amortissement -> str_date = NULL;
+    s_amortissement -> str_echeance = NULL;
+    s_amortissement -> str_frais = NULL;
+
+    return s_amortissement;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_finance_data_simulator_init ( void )
+{
+    etat.bet_capital = 1000.0;
+    etat.bet_currency = no_devise_totaux_categ;
+    etat.bet_taux_annuel = 4.0;
+    etat.bet_index_duree = 0;
+    etat.bet_frais = 0;
+    etat.bet_type_taux = 1;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits )
+{
+    return bet_taux_step[BET_TAUX_DIGITS];
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -203,6 +203,9 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 			final_date_entry,
 			FALSE, FALSE, 0);
 
+    g_object_set_data ( G_OBJECT ( operation ), "init_date_entry", init_date_entry );
+    g_object_set_data ( G_OBJECT ( operation ), "final_date_entry", final_date_entry );
+
     check_button = gsb_autofunc_checkbutton_new (_("Use value date"),
 						 gsb_data_print_config_get_draw_dates_are_value_dates (),
 						 NULL, NULL,
@@ -213,7 +216,6 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     if (!gsb_data_print_config_get_draw_interval_dates ())
 	gtk_widget_set_sensitive (hbox, FALSE);
-
 
     /* set up all the checkbuttons */
     check_button = gsb_autofunc_checkbutton_new (_("Draw the lines between transactions"),
@@ -338,13 +340,26 @@ gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
 					 gpointer null )
 {
     GtkFontButton * font_button_transactions, * font_button_title;
+    GtkWidget *calendar;
 
-    font_button_transactions = g_object_get_data ( G_OBJECT(operation), "font_transaction_button" );
-    font_button_title = g_object_get_data ( G_OBJECT(operation), "font_title_button" );
+    font_button_transactions = g_object_get_data ( G_OBJECT ( operation ), "font_transaction_button" );
+    font_button_title = g_object_get_data ( G_OBJECT( operation ), "font_title_button" );
     
-    gsb_data_print_config_set_font_transaction ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_transactions ) ) );
-    gsb_data_print_config_set_font_title ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_title ) ) );
-    
+    gsb_data_print_config_set_font_transaction ( pango_font_description_from_string (
+                        gtk_font_button_get_font_name ( font_button_transactions ) ) );
+    gsb_data_print_config_set_font_title ( pango_font_description_from_string (
+                        gtk_font_button_get_font_name ( font_button_title ) ) );
+
+
+    if ( gsb_data_print_config_get_draw_interval_dates () )
+    {
+        calendar = g_object_get_data ( G_OBJECT(operation), "init_date_entry" );
+        draw_initial_date = gsb_calendar_entry_get_date ( calendar );
+
+        calendar = g_object_get_data ( G_OBJECT(operation), "final_date_entry" );
+        draw_final_date = gsb_calendar_entry_get_date ( calendar );
+    }
+
     return FALSE;
 }
 
@@ -604,51 +619,57 @@ gboolean print_transactions_list_get_visibles_lines ( gint *number_of_archives,
 
     for (i=0 ; i<custom_list -> num_visibles_rows ; i++)
     {
-	CustomRecord *record;
+        CustomRecord *record;
 
-	record = custom_list -> visibles_rows[i];
-	switch (record -> what_is_line)
-	{
-	    case IS_ARCHIVE:
-		if (gsb_data_print_config_get_draw_archives ())
-		    archives_nb++;
-		break;
-	    case IS_TRANSACTION:
-		if (gsb_data_print_config_get_draw_interval_dates () && draw_initial_date && draw_final_date)
-		{
-		    /* we want an interval, so check the transaction */
-		    gint transaction_number;
-		    const GDate *date;
+        record = custom_list -> visibles_rows[i];
+        switch (record -> what_is_line)
+        {
+            case IS_ARCHIVE:
+            if (gsb_data_print_config_get_draw_archives ())
+                archives_nb++;
+            break;
+            case IS_TRANSACTION:
+            if ( gsb_data_print_config_get_draw_interval_dates () && draw_initial_date && draw_final_date )
+            {
+                /* we want an interval, so check the transaction */
+                gint transaction_number;
+                const GDate *date;
 
-		    transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
-		    if (gsb_data_print_config_get_draw_dates_are_value_dates ())
-		    {
-			date = gsb_data_transaction_get_value_date (transaction_number);
+                transaction_number = gsb_data_transaction_get_transaction_number (record -> transaction_pointer);
+                if (gsb_data_print_config_get_draw_dates_are_value_dates ())
+                {
+                    date = gsb_data_transaction_get_value_date (transaction_number);
 
-			/* if no value date, get the date */
-			if (!date)
-			    date = gsb_data_transaction_get_date (transaction_number);
-		    }
-		    else
-			date = gsb_data_transaction_get_date (transaction_number);
+                    /* if no value date, get the date */
+                    if (!date)
+                        date = gsb_data_transaction_get_date (transaction_number);
+                }
+                else
+                    date = gsb_data_transaction_get_date (transaction_number);
 
-		    if (date
-			&&
-			g_date_compare (date,
-					draw_initial_date) >= 0
-			&&
-			g_date_compare (date,
-					draw_final_date) <= 0)
-			transactions_nb++;
-		}
-		else
-		    transactions_nb++;
-		break;
-	}
+                if (date
+                &&
+                g_date_compare (date,
+                        draw_initial_date) >= 0
+                &&
+                g_date_compare (date,
+                        draw_final_date) <= 0)
+                transactions_nb++;
+            }
+            else
+                transactions_nb++;
+
+            break;
+        }
     }
+
     /* before returning the value, transactions_nb is in fact the number of lines of visibles transactions,
-     * so need to divide by the number of lines for 1 transaction, and remove the white line */
-    transactions_nb = (transactions_nb - custom_list -> nb_rows_by_transaction) / custom_list -> nb_rows_by_transaction;
+     * so need to divide by the number of lines for 1 transaction, and remove the white line if necessary */
+    if ( gsb_data_print_config_get_draw_interval_dates () && draw_initial_date && draw_final_date )
+        transactions_nb = ( transactions_nb ) / custom_list -> nb_rows_by_transaction;
+    else
+        transactions_nb = (transactions_nb - custom_list -> nb_rows_by_transaction)
+                        / custom_list -> nb_rows_by_transaction;
 
     *number_of_archives = archives_nb;
     *number_of_transactions = transactions_nb;

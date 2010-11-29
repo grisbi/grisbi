@@ -29,6 +29,7 @@
 /*START_INCLUDE*/
 #include "bet_config.h"
 #include "bet_data.h"
+#include "bet_data_finance.h"
 #include "bet_finance_ui.h"
 #include "bet_hist.h"
 #include "bet_tab.h"
@@ -1254,7 +1255,8 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
-    spin_button = gtk_spin_button_new_with_range ( 0.0, 100, 0.01);
+    spin_button = gtk_spin_button_new_with_range ( 0.0, 100,
+                        bet_data_finance_get_bet_taux_step ( BET_TAUX_DIGITS ) );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_taux", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
 
@@ -1294,13 +1296,11 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
     button_1 = gtk_radio_button_new_with_label ( NULL, _("CAGR") );
-    gtk_widget_set_sensitive ( button_1, FALSE );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
 
     button_2 = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( button_1 ),
                         _("Proportional rate") );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_type_taux", button_2 );
-    gtk_widget_set_sensitive ( button_2, FALSE );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
@@ -1432,6 +1432,9 @@ void bet_config_finance_apply_clicked ( GtkButton *button, GtkWidget *parent )
     bouton = g_object_get_data ( G_OBJECT ( parent ), "bet_config_type_taux" );
     type_taux = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton ) );
     gsb_data_account_set_bet_finance_type_taux ( account_number, type_taux );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     bet_finance_ui_update_amortization_tab ( account_number );
 }

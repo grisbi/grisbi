@@ -714,7 +714,7 @@ gchar *gsb_date_get_format_date ( void )
  * */
 void gsb_date_set_format_date ( const gchar *format_date )
 {
-    if ( format )
+    if ( format && strlen ( format ) )
         g_free ( format );
 
     if ( format_date == NULL )

@@ -120,7 +120,14 @@ struct gsb_etat_t
 
     /* variables for the module estimate balance */
     gint bet_deb_period;
-    
+
+    /* variables pour le simulateur de crédits */
+    gdouble bet_capital;
+    gint bet_currency;
+    gdouble bet_taux_annuel;
+    gint bet_index_duree;
+    gdouble bet_frais;
+    gint bet_type_taux;
 };
 
 /* declared in parametres.c */

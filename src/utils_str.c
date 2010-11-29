@@ -1001,6 +1001,28 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
  *
  *
  * */
+gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
+{
+    gdouble number;
+
+    if ( str_number == NULL )
+        return 0.0;
+
+    if ( g_strrstr ( str_number, "," ) )
+        str_number = my_strdelimit ( str_number, ",", "." );
+
+    number = g_ascii_strtod ( str_number, endptr);
+
+    return number;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
 {
     gchar **tab_str;
