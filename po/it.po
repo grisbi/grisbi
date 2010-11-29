@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-24 23:14+0100\n"
+"POT-Creation-Date: 2010-11-29 21:38+0100\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -53,7 +53,7 @@ msgid "Account balances in %s"
 msgstr "Saldo in %s"
 
 #: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
-#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1675
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1652
 msgid " at "
 msgstr ""
 
@@ -230,7 +230,7 @@ msgstr "Clicca su anteprima per cambiare il logo dell'homepage"
 
 #. Change fonts
 #: ../src/affichage.c:201 ../src/print_report.c:105 ../src/print_report.c:406
-#: ../src/print_transactions_list.c:258 ../src/print_tree_view_list.c:1010
+#: ../src/print_transactions_list.c:260 ../src/print_tree_view_list.c:1010
 msgid "Fonts"
 msgstr "Caratteri"
 
@@ -532,69 +532,69 @@ msgstr ""
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 
-#: ../src/bet_config.c:90 ../src/etats_config.c:6371
+#: ../src/bet_config.c:91 ../src/etats_config.c:6371
 #, fuzzy
 msgid "Month"
 msgstr "Mesi"
 
-#: ../src/bet_config.c:91 ../src/etats_config.c:6375
+#: ../src/bet_config.c:92 ../src/etats_config.c:6375
 msgid "Year"
 msgstr "Anno"
 
-#: ../src/bet_config.c:111 ../src/parametres.c:569
+#: ../src/bet_config.c:112 ../src/parametres.c:569
 #, fuzzy
 msgid "General Options"
 msgstr "Generalità"
 
 #. Calculation of period
-#: ../src/bet_config.c:115
+#: ../src/bet_config.c:116
 #, fuzzy
 msgid "Common data"
 msgstr "Indirizzi comuni"
 
-#: ../src/bet_config.c:149
+#: ../src/bet_config.c:150
 #, fuzzy
 msgid "Beginning of period"
 msgstr "Bilancio iniziale"
 
-#: ../src/bet_config.c:158
+#: ../src/bet_config.c:159
 #, fuzzy
 msgid "1st day of month"
 msgstr "Ultimi 3 mesi"
 
-#: ../src/bet_config.c:164
+#: ../src/bet_config.c:165
 msgid "date today"
 msgstr ""
 
-#: ../src/bet_config.c:184
+#: ../src/bet_config.c:185
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:212 ../src/parametres.c:578
+#: ../src/bet_config.c:213 ../src/parametres.c:578
 #, fuzzy
 msgid "Accounts data"
 msgstr "Dettagli conto"
 
 #. Data for the forecast
-#: ../src/bet_config.c:234
+#: ../src/bet_config.c:235
 #, fuzzy
 msgid "Data for the forecast"
 msgstr "in cima al rapporto"
 
 #. Sources of historical data
-#: ../src/bet_config.c:239
+#: ../src/bet_config.c:240
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Data inizio"
 
 #. Data for the credit
-#: ../src/bet_config.c:249
+#: ../src/bet_config.c:250
 #, fuzzy
 msgid "Credit Data"
 msgstr "Carta di credito"
 
 #. set the choice of account
-#: ../src/bet_config.c:285 ../src/categories_onglet.c:152
+#: ../src/bet_config.c:286 ../src/categories_onglet.c:152
 #: ../src/etats_config.c:681 ../src/gsb_assistant_reconcile_config.c:399
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
@@ -603,31 +603,31 @@ msgstr "Carta di credito"
 msgid "Account"
 msgstr "Conto"
 
-#: ../src/bet_config.c:299
+#: ../src/bet_config.c:300
 #, fuzzy
 msgid "Use the budget module"
 msgstr "la linea budget"
 
 #. partie mensuelle
-#: ../src/bet_config.c:368
+#: ../src/bet_config.c:369
 #, fuzzy
 msgid "Duration estimation"
 msgstr "Carattere della lista di registrazione"
 
-#: ../src/bet_config.c:531
+#: ../src/bet_config.c:532
 #, fuzzy
 msgid "Labels for transactions"
 msgstr "Tutte le transazioni"
 
-#: ../src/bet_config.c:536 ../src/bet_config.c:554 ../src/bet_config.c:571
+#: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
 #, fuzzy
 msgid "By default"
 msgstr "Ripristina i valori predefiniti"
 
 #. mise en place de la paddingbox des catégories
 #. set the title
-#: ../src/bet_config.c:537 ../src/bet_config.c:555 ../src/bet_config.c:572
-#: ../src/bet_config.c:635 ../src/bet_hist.c:159 ../src/etats_config.c:526
+#: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
+#: ../src/bet_config.c:636 ../src/bet_hist.c:159 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1211
@@ -636,46 +636,46 @@ msgstr "Categorie"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: ../src/bet_config.c:538 ../src/bet_config.c:556 ../src/bet_config.c:573
-#: ../src/bet_config.c:644 ../src/bet_hist.c:168 ../src/etats_config.c:535
+#: ../src/bet_config.c:539 ../src/bet_config.c:557 ../src/bet_config.c:574
+#: ../src/bet_config.c:645 ../src/bet_hist.c:168 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
-#: ../src/etats_config.c:7134 ../src/export_csv.c:802
+#: ../src/etats_config.c:7134 ../src/export_csv.c:805
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
 #: ../src/navigation.c:330 ../src/navigation.c:1222
-#: ../src/traitement_variables.c:85
+#: ../src/traitement_variables.c:86
 msgid "Budgetary lines"
 msgstr "Controllo spese"
 
-#: ../src/bet_config.c:549
+#: ../src/bet_config.c:550
 #, fuzzy
 msgid "Labels for scheduled transactions"
 msgstr "Transazioni pianificate chiuse"
 
-#: ../src/bet_config.c:566
+#: ../src/bet_config.c:567
 msgid "Labels for futur data"
 msgstr ""
 
-#: ../src/bet_config.c:579
+#: ../src/bet_config.c:580
 msgid ""
 "Order by default if the data are not zero: notes, payee, category and "
 "budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:659 ../src/bet_hist.c:188
+#: ../src/bet_config.c:660 ../src/bet_hist.c:188
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Scegli l'anno finanziario"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:874 ../src/bet_hist.c:534
+#: ../src/bet_config.c:875 ../src/bet_hist.c:534
 #: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
-#: ../src/etats_config.c:673 ../src/export_csv.c:793
+#: ../src/etats_config.c:673 ../src/export_csv.c:796
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
-#: ../src/meta_categories.c:65 ../src/traitement_variables.c:93
+#: ../src/meta_categories.c:65 ../src/traitement_variables.c:94
 msgid "Category"
 msgstr "Categoria"
 
-#: ../src/bet_config.c:887 ../src/bet_future.c:816 ../src/bet_future.c:2024
+#: ../src/bet_config.c:888 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1334
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:149
@@ -683,7 +683,7 @@ msgstr "Categoria"
 msgid "Budgetary line"
 msgstr "Imputazione del budget"
 
-#: ../src/bet_config.c:1201
+#: ../src/bet_config.c:1202
 #, fuzzy
 msgid "Loan Capital"
 msgstr "Ipoteche/Mutui : Capitale"
@@ -691,51 +691,51 @@ msgstr "Ipoteche/Mutui : Capitale"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1221 ../src/bet_finance_ui.c:278
-#: ../src/bet_finance_ui.c:483 ../src/bet_finance_ui.c:1161
-#: ../src/bet_finance_ui.c:1597
+#: ../src/bet_config.c:1222 ../src/bet_finance_ui.c:276
+#: ../src/bet_finance_ui.c:465 ../src/bet_finance_ui.c:1138
+#: ../src/bet_finance_ui.c:1574
 #, fuzzy
 msgid "Duration"
 msgstr "Traduzione"
 
-#: ../src/bet_config.c:1230 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1231 ../src/bet_finance_ui.c:743
 #, fuzzy
 msgid "year"
 msgstr "Anni"
 
-#: ../src/bet_config.c:1239
+#: ../src/bet_config.c:1240
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "metodo di pagamento"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1252 ../src/bet_finance_ui.c:1147
-#: ../src/bet_finance_ui.c:1583
+#: ../src/bet_config.c:1253 ../src/bet_finance_ui.c:1124
+#: ../src/bet_finance_ui.c:1560
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1261 ../src/bet_finance_ui.c:273
-#: ../src/bet_finance_ui.c:400 ../src/bet_finance_ui.c:1156
-#: ../src/bet_finance_ui.c:1592
+#: ../src/bet_config.c:1263 ../src/bet_finance_ui.c:271
+#: ../src/bet_finance_ui.c:378 ../src/bet_finance_ui.c:1133
+#: ../src/bet_finance_ui.c:1569
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1269
+#: ../src/bet_config.c:1271
 #, fuzzy
 msgid "Fees per month"
 msgstr "%d mesi"
 
-#: ../src/bet_config.c:1292 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1294 ../src/bet_finance_ui.c:391
 #, fuzzy
 msgid "Rate Type"
 msgstr "Tipo"
 
-#: ../src/bet_config.c:1296 ../src/bet_finance_ui.c:417
+#: ../src/bet_config.c:1298 ../src/bet_finance_ui.c:395
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1300 ../src/bet_finance_ui.c:420
+#: ../src/bet_config.c:1302 ../src/bet_finance_ui.c:398
 msgid "Proportional rate"
 msgstr ""
 
@@ -743,67 +743,63 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1702
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1679
 #, fuzzy
 msgid " year "
 msgstr "anno %d"
 
-#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1704
+#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1681
 #, fuzzy
 msgid " years "
 msgstr "Anni"
 
-#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:673
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:228 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:209 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:298 ../src/navigation.c:1200
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Carta di credito"
 
 #. capital
-#: ../src/bet_finance_ui.c:239 ../src/bet_finance_ui.c:1573
+#: ../src/bet_finance_ui.c:220 ../src/bet_finance_ui.c:1550
 #, fuzzy
 msgid "Loan capital"
 msgstr "Ipoteche/Mutui : Capitale"
 
 #. taux
-#: ../src/bet_finance_ui.c:263
+#: ../src/bet_finance_ui.c:256
 #, fuzzy
 msgid "Annual interest"
 msgstr "Budget annuale"
 
-#: ../src/bet_finance_ui.c:293
-msgid "Entering Detailed"
-msgstr ""
-
-#: ../src/bet_finance_ui.c:332
+#: ../src/bet_finance_ui.c:317
 msgid "Between 3 and 18 months"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:333
+#: ../src/bet_finance_ui.c:318
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:334
+#: ../src/bet_finance_ui.c:319
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:390 ../src/bet_finance_ui.c:578
+#: ../src/bet_finance_ui.c:363 ../src/bet_finance_ui.c:560
 #, fuzzy
 msgid "Fees"
 msgstr "Tassa"
 
-#: ../src/bet_finance_ui.c:400
+#: ../src/bet_finance_ui.c:378
 msgid " of borrowed capital"
 msgstr ""
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:502
+#: ../src/bet_finance_ui.c:484
 #, fuzzy
 msgid ""
 "Number\n"
@@ -811,165 +807,165 @@ msgid ""
 msgstr "Bilancio iniziale"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:521
+#: ../src/bet_finance_ui.c:503
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:540
+#: ../src/bet_finance_ui.c:522
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:559
+#: ../src/bet_finance_ui.c:541
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1334
+#: ../src/bet_finance_ui.c:579 ../src/bet_finance_ui.c:1311
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Mensile"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:616
+#: ../src/bet_finance_ui.c:598
 #, fuzzy
 msgid "Total cost"
 msgstr "Totale %s"
 
-#: ../src/bet_finance_ui.c:628
+#: ../src/bet_finance_ui.c:610
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:765 ../src/gsb_scheduler_list.c:1849
+#: ../src/bet_finance_ui.c:745 ../src/gsb_scheduler_list.c:1849
 #, fuzzy
 msgid "years"
 msgstr "Anni"
 
-#: ../src/bet_finance_ui.c:1035 ../src/bet_finance_ui.c:1836
+#: ../src/bet_finance_ui.c:1012 ../src/bet_finance_ui.c:1813
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1853
+#: ../src/bet_finance_ui.c:1020 ../src/bet_finance_ui.c:1830
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1059 ../src/bet_finance_ui.c:1995
+#: ../src/bet_finance_ui.c:1036 ../src/bet_finance_ui.c:1972
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1061 ../src/bet_finance_ui.c:1870
-#: ../src/bet_finance_ui.c:1997
+#: ../src/bet_finance_ui.c:1038 ../src/bet_finance_ui.c:1847
+#: ../src/bet_finance_ui.c:1974
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1076 ../src/bet_finance_ui.c:1888
+#: ../src/bet_finance_ui.c:1053 ../src/bet_finance_ui.c:1865
 #: ../src/bet_tab.c:1542 ../src/bet_tab.c:2866
 #, fuzzy
 msgid "Print the array"
 msgstr "Stampante"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1086 ../src/bet_finance_ui.c:1904
-#: ../src/bet_finance_ui.c:1933 ../src/bet_tab.c:1552
+#: ../src/bet_finance_ui.c:1063 ../src/bet_finance_ui.c:1881
+#: ../src/bet_finance_ui.c:1910 ../src/bet_tab.c:1552
 #, fuzzy
 msgid "Export the array"
 msgstr "Stampante"
 
-#: ../src/bet_finance_ui.c:1126 ../src/bet_finance_ui.c:1561
-#: ../src/bet_finance_ui.c:1675
+#: ../src/bet_finance_ui.c:1103 ../src/bet_finance_ui.c:1538
+#: ../src/bet_finance_ui.c:1652
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1137
+#: ../src/bet_finance_ui.c:1114
 #, fuzzy
 msgid "Loan amount"
 msgstr "Carica un documento di conto"
 
-#: ../src/bet_finance_ui.c:1227 ../src/bet_future.c:770 ../src/bet_tab.c:695
-#: ../src/etats_affiche.c:2405 ../src/export_csv.c:763
+#: ../src/bet_finance_ui.c:1204 ../src/bet_future.c:770 ../src/bet_tab.c:695
+#: ../src/etats_affiche.c:2405 ../src/export_csv.c:766
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1289
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:339 ../src/gsb_transactions_list.c:146
 #: ../src/import.c:3244 ../src/import_csv.c:79
-#: ../src/traitement_variables.c:82
+#: ../src/traitement_variables.c:83
 msgid "Date"
 msgstr "Data"
 
-#: ../src/bet_finance_ui.c:1239 ../src/etats_affiche.c:2398
-#: ../src/traitement_variables.c:99
+#: ../src/bet_finance_ui.c:1216 ../src/etats_affiche.c:2398
+#: ../src/traitement_variables.c:100
 msgid "Number"
 msgstr "Numero"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1258
+#: ../src/bet_finance_ui.c:1235
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1277
+#: ../src/bet_finance_ui.c:1254
 #, fuzzy
 msgid "Interests"
 msgstr "Interessi"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1296
+#: ../src/bet_finance_ui.c:1273
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1315
+#: ../src/bet_finance_ui.c:1292
 #, fuzzy
 msgid "Insurance"
 msgstr "Assicurazione : Macchina"
 
-#: ../src/bet_finance_ui.c:1818 ../src/bet_finance_ui.c:1821
+#: ../src/bet_finance_ui.c:1795 ../src/bet_finance_ui.c:1798
 #, fuzzy
 msgid "Calculate"
 msgstr "tutte le date"
 
-#: ../src/bet_finance_ui.c:1832 ../src/bet_finance_ui.c:1866
+#: ../src/bet_finance_ui.c:1809 ../src/bet_finance_ui.c:1843
 #, fuzzy
 msgid "Amortization"
 msgstr "Azione"
 
-#: ../src/bet_finance_ui.c:1849
+#: ../src/bet_finance_ui.c:1826
 #, fuzzy
 msgid "Credits"
 msgstr "Credito"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1885 ../src/bet_tab.c:2863
+#: ../src/bet_finance_ui.c:1862 ../src/bet_tab.c:2863
 #: ../src/barre_outils.c:140 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "Stampa"
 
-#: ../src/bet_finance_ui.c:1901 ../src/bet_tab.c:2876
+#: ../src/bet_finance_ui.c:1878 ../src/bet_tab.c:2876
 #: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:554
 msgid "Export"
 msgstr "Esporta"
 
-#: ../src/bet_finance_ui.c:1940
+#: ../src/bet_finance_ui.c:1917
 #, fuzzy
 msgid "credit.csv"
 msgstr "Credito"
 
-#: ../src/bet_finance_ui.c:1957 ../src/bet_tab.c:2991
+#: ../src/bet_finance_ui.c:1934 ../src/bet_tab.c:2991
 #: ../src/imputation_budgetaire.c:391
 msgid "Cannot save file."
 msgstr "Impossibile salvare il file."
 
-#: ../src/bet_finance_ui.c:2035 ../src/gsb_scheduler_list.c:1849
+#: ../src/bet_finance_ui.c:2010 ../src/gsb_scheduler_list.c:1849
 #, fuzzy
 msgid "months"
 msgstr "Mesi"
@@ -994,7 +990,7 @@ msgid "Enter a budget line"
 msgstr "Aggiungi una linea budget"
 
 #: ../src/bet_future.c:313 ../src/bet_future.c:855
-#: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:874
+#: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:876
 #: ../src/gsb_scheduler_list.c:1008
 msgid "Once"
 msgstr "Singola"
@@ -1026,7 +1022,7 @@ msgid "Yearly"
 msgstr "Annuale"
 
 #: ../src/bet_future.c:314 ../src/bet_future.c:869 ../src/etats_config.c:179
-#: ../src/gsb_form_scheduler.c:153 ../src/gsb_form_scheduler.c:884
+#: ../src/gsb_form_scheduler.c:153 ../src/gsb_form_scheduler.c:886
 msgid "Custom"
 msgstr "Personalizzata"
 
@@ -1053,8 +1049,8 @@ msgid "Frequency"
 msgstr "Frequenza"
 
 #: ../src/bet_future.c:336 ../src/bet_future.c:731
-#: ../src/gsb_form_scheduler.c:640 ../src/gsb_form_scheduler.c:833
-#: ../src/gsb_form_scheduler.c:1095
+#: ../src/gsb_form_scheduler.c:642 ../src/gsb_form_scheduler.c:835
+#: ../src/gsb_form_scheduler.c:1097
 msgid "Limit date"
 msgstr "Data limite"
 
@@ -1070,8 +1066,8 @@ msgid "Final date"
 msgstr "Data fine"
 
 #: ../src/bet_future.c:356 ../src/bet_future.c:735
-#: ../src/gsb_form_scheduler.c:205 ../src/gsb_form_scheduler.c:647
-#: ../src/gsb_form_scheduler.c:839
+#: ../src/gsb_form_scheduler.c:205 ../src/gsb_form_scheduler.c:649
+#: ../src/gsb_form_scheduler.c:841
 #, fuzzy
 msgid "Own frequency"
 msgstr "Frequenza"
@@ -1093,34 +1089,34 @@ msgstr "Scegli il metodo di pagamento"
 #: ../src/bet_future.c:788 ../src/etats_affiche.c:2426
 #: ../src/etats_config.c:517 ../src/etats_config.c:520
 #: ../src/etats_config.c:685 ../src/etats_config.c:7022
-#: ../src/export_csv.c:778 ../src/fenetre_principale.c:272
+#: ../src/export_csv.c:781 ../src/fenetre_principale.c:272
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1310
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:339
 #: ../src/gsb_transactions_list.c:148 ../src/import.c:3251
 #: ../src/import_csv.c:81 ../src/meta_payee.c:77
-#: ../src/traitement_variables.c:84
+#: ../src/traitement_variables.c:85
 #, fuzzy
 msgid "Payee"
 msgstr "Debitore/Creditore"
 
 #. Debit method_ptr
 #: ../src/bet_future.c:795 ../src/bet_tab.c:729 ../src/categories_onglet.c:696
-#: ../src/export_csv.c:784 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
+#: ../src/export_csv.c:787 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
 #: ../src/gsb_payment_method_config.c:1082 ../src/gsb_transactions_list.c:150
 #: ../src/import_csv.c:90 ../src/imputation_budgetaire.c:734
-#: ../src/traitement_variables.c:86
+#: ../src/traitement_variables.c:87
 msgid "Debit"
 msgstr "Debito"
 
 #. Credit method_ptr
 #: ../src/bet_future.c:802 ../src/bet_tab.c:747 ../src/categories_onglet.c:696
-#: ../src/export_csv.c:781 ../src/gsb_form.c:1320 ../src/gsb_form_widget.c:420
+#: ../src/export_csv.c:784 ../src/gsb_form.c:1320 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
 #: ../src/gsb_payment_method_config.c:1078 ../src/gsb_transactions_list.c:151
-#: ../src/imputation_budgetaire.c:734 ../src/traitement_variables.c:87
+#: ../src/imputation_budgetaire.c:734 ../src/traitement_variables.c:88
 msgid "Credit"
 msgstr "Credito"
 
@@ -1130,10 +1126,10 @@ msgid "Categories : Sub-categories"
 msgstr "Categorie : Sottocategorie"
 
 #. Notes
-#: ../src/bet_future.c:823 ../src/etats_affiche.c:2447 ../src/export_csv.c:799
+#: ../src/bet_future.c:823 ../src/etats_affiche.c:2447 ../src/export_csv.c:802
 #: ../src/gsb_bank.c:915 ../src/gsb_form.c:1339 ../src/gsb_form_widget.c:448
 #: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:82
-#: ../src/traitement_variables.c:96
+#: ../src/traitement_variables.c:97
 msgid "Notes"
 msgstr "Note"
 
@@ -1142,8 +1138,8 @@ msgstr "Note"
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1422 ../src/bet_future.c:1669
-#: ../src/etats_affiche.c:1844 ../src/export_csv.c:604 ../src/export_csv.c:716
-#: ../src/export_csv.c:728 ../src/gsb_data_category.c:1056
+#: ../src/etats_affiche.c:1844 ../src/export_csv.c:607 ../src/export_csv.c:719
+#: ../src/export_csv.c:731 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
 #: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2298 ../src/import.c:2690
 #: ../src/import.c:2708 ../src/plugins/ofx/ofx.c:461
@@ -1210,11 +1206,11 @@ msgid "Select"
 msgstr "Seleziona tutto"
 
 #: ../src/bet_hist.c:551 ../src/categories_onglet.c:161
-#: ../src/etats_config.c:5239 ../src/export_csv.c:787
+#: ../src/etats_config.c:5239 ../src/export_csv.c:790
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3258
 #: ../src/imputation_budgetaire.c:173 ../src/tiers_onglet.c:240
-#: ../src/traitement_variables.c:89
+#: ../src/traitement_variables.c:90
 msgid "Amount"
 msgstr "Totale"
 
@@ -1281,10 +1277,10 @@ msgstr ""
 msgid "Description"
 msgstr "Descrizione"
 
-#: ../src/bet_tab.c:765 ../src/export_csv.c:790 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:765 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
 #: ../src/gsb_transactions_list.c:2987 ../src/import_csv.c:88
-#: ../src/traitement_variables.c:88
+#: ../src/traitement_variables.c:89
 msgid "Balance"
 msgstr "Saldo"
 
@@ -1696,7 +1692,7 @@ msgstr "Risultato per %s"
 msgid "No sub-category defined"
 msgstr "Nessuna sottocategoria (%d)"
 
-#: ../src/categories_onglet.c:640 ../src/qif.c:889 ../src/qif.c:896
+#: ../src/categories_onglet.c:640 ../src/qif.c:909 ../src/qif.c:916
 #, fuzzy
 msgid "No category defined"
 msgstr "Nessuna sottocategoria (%d)"
@@ -2232,7 +2228,7 @@ msgstr "Totale generale (%d transazioni)"
 msgid "General total"
 msgstr "Totale generale"
 
-#: ../src/etats_affiche.c:1853 ../src/export_csv.c:574
+#: ../src/etats_affiche.c:1853 ../src/export_csv.c:577
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:728
 #: ../src/gsb_form.c:2801 ../src/gsb_form.c:3204
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3405
@@ -2262,17 +2258,17 @@ msgstr "Entrate"
 msgid "Outgoings"
 msgstr "Uscite"
 
-#: ../src/etats_affiche.c:2412 ../src/export_csv.c:766 ../src/gsb_form.c:1294
+#: ../src/etats_affiche.c:2412 ../src/export_csv.c:769 ../src/gsb_form.c:1294
 #: ../src/gsb_form.c:2132 ../src/gsb_form.c:2162 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:147 ../src/import_csv.c:80
-#: ../src/traitement_variables.c:83
+#: ../src/traitement_variables.c:84
 msgid "Value date"
 msgstr "Data di valuta"
 
-#: ../src/etats_affiche.c:2419 ../src/export_csv.c:772
+#: ../src/etats_affiche.c:2419 ../src/export_csv.c:775
 #: ../src/gsb_archive_config.c:98 ../src/gsb_assistant_archive_export.c:150
 #: ../src/gsb_form_widget.c:428 ../src/gsb_transactions_list.c:156
-#: ../src/traitement_variables.c:92
+#: ../src/traitement_variables.c:93
 msgid "Financial year"
 msgstr "Esercizio amministrativo"
 
@@ -2287,15 +2283,15 @@ msgstr "Metodi di pagamento"
 msgid "Cheque"
 msgstr "Assegno"
 
-#: ../src/etats_affiche.c:2468 ../src/export_csv.c:808 ../src/gsb_form.c:1386
+#: ../src/etats_affiche.c:2468 ../src/export_csv.c:811 ../src/gsb_form.c:1386
 #: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:159
-#: ../src/traitement_variables.c:95
+#: ../src/traitement_variables.c:96
 msgid "Voucher"
 msgstr "Voucher"
 
-#: ../src/etats_affiche.c:2475 ../src/export_csv.c:814 ../src/gsb_form.c:1381
+#: ../src/etats_affiche.c:2475 ../src/export_csv.c:817 ../src/gsb_form.c:1381
 #: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:161
-#: ../src/traitement_variables.c:97
+#: ../src/traitement_variables.c:98
 msgid "Bank references"
 msgstr "Riferimento bancario"
 
@@ -2449,7 +2445,7 @@ msgstr "Visualizzazione informazioni"
 msgid "Generalities"
 msgstr "Generalità"
 
-#: ../src/etats_config.c:633 ../src/etats_config.c:636 ../src/export_csv.c:754
+#: ../src/etats_config.c:633 ../src/etats_config.c:636 ../src/export_csv.c:757
 #: ../src/fenetre_principale.c:239 ../src/parametres.c:420
 msgid "Transactions"
 msgstr "Transazioni"
@@ -3562,7 +3558,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr "Seleziona conti da esportare"
 
-#: ../src/export.c:170 ../src/export_csv.c:757
+#: ../src/export.c:170 ../src/export_csv.c:760
 #: ../src/gsb_account_property.c:236 ../src/gsb_data_partial_balance.c:1497
 #: ../src/import.c:1235 ../src/import.c:1260
 msgid "Account name"
@@ -3605,13 +3601,13 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: ../src/export_csv.c:284 ../src/gsb_account_property.c:519
+#: ../src/export_csv.c:285 ../src/gsb_account_property.c:519
 #: ../src/gsb_assistant_reconcile_config.c:433 ../src/gsb_reconcile.c:212
 #: ../src/gsb_reconcile_config.c:232
 msgid "Initial balance"
 msgstr "Bilancio iniziale"
 
-#: ../src/export_csv.c:399
+#: ../src/export_csv.c:402
 #, fuzzy, c-format
 msgid ""
 "Error opening file \"%s\" :\n"
@@ -3620,39 +3616,39 @@ msgstr ""
 "Errore nel file \"%s\" :\n"
 "%s"
 
-#: ../src/export_csv.c:595
+#: ../src/export_csv.c:598
 msgid "B"
 msgstr ""
 
-#: ../src/export_csv.c:718 ../src/gsb_form.c:1899
+#: ../src/export_csv.c:721 ../src/gsb_form.c:1899
 msgid "Deleted account"
 msgstr "Cancella conto"
 
-#: ../src/export_csv.c:760 ../src/import_csv.c:93
+#: ../src/export_csv.c:763 ../src/import_csv.c:93
 msgid "Split"
 msgstr "Ripartizione"
 
-#: ../src/export_csv.c:769
+#: ../src/export_csv.c:772
 #, fuzzy
 msgid "Cheques"
 msgstr "Assegno"
 
-#: ../src/export_csv.c:775 ../src/gsb_transactions_list.c:158
-#: ../src/import_csv.c:92 ../src/traitement_variables.c:94
+#: ../src/export_csv.c:778 ../src/gsb_transactions_list.c:158
+#: ../src/import_csv.c:92 ../src/traitement_variables.c:95
 msgid "C/R"
 msgstr "C/R"
 
-#: ../src/export_csv.c:796 ../src/import_csv.c:85
+#: ../src/export_csv.c:799 ../src/import_csv.c:85
 #, fuzzy
 msgid "Sub-categories"
 msgstr "Totale sotto-categorie"
 
-#: ../src/export_csv.c:805 ../src/import_csv.c:87
+#: ../src/export_csv.c:808 ../src/import_csv.c:87
 #, fuzzy
 msgid "Sub-budgetary lines"
 msgstr "Sotto-budget linee totali"
 
-#: ../src/export_csv.c:811
+#: ../src/export_csv.c:814
 #, fuzzy
 msgid "Reconciliation number"
 msgstr "Rif. di riconciliazione"
@@ -4967,7 +4963,7 @@ msgstr "Crea un nuovo conto"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:569 ../src/traitement_variables.c:318
+#: ../src/gsb_assistant_file.c:569 ../src/traitement_variables.c:319
 #, fuzzy
 msgid "My accounts"
 msgstr "Mostra conti"
@@ -7617,7 +7613,7 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:394
+#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:395
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7625,12 +7621,12 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:399
+#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:400
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "Conto %s non trovato.\n"
 
-#: ../src/gsb_file_load.c:467 ../src/gsb_file_load.c:5425
+#: ../src/gsb_file_load.c:467 ../src/gsb_file_load.c:5454
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Il file non è un Rapporto Grisbi valido"
@@ -7644,14 +7640,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8822
+#: ../src/gsb_file_load.c:8851
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versione %s è richiesta per aprire il file"
 
-#: ../src/gsb_file_load.c:8861
+#: ../src/gsb_file_load.c:8890
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7659,13 +7655,13 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8894
 msgid "Grisbi archive opened"
 msgstr ""
 
 #: ../src/gsb_file_others.c:144 ../src/gsb_file_others.c:225
-#: ../src/gsb_file_others.c:308 ../src/gsb_file_save.c:420
-#: ../src/gsb_file_save.c:439
+#: ../src/gsb_file_others.c:308 ../src/gsb_file_save.c:421
+#: ../src/gsb_file_save.c:440
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Impossibile salvare il gile '%s': %s"
@@ -8028,12 +8024,12 @@ msgid "Free"
 msgstr "Tassa"
 
 #: ../src/gsb_form_widget.c:452 ../src/gsb_transactions_list.c:154
-#: ../src/traitement_variables.c:90
+#: ../src/traitement_variables.c:91
 msgid "Method of payment"
 msgstr "Metodo di pagamento"
 
 #: ../src/gsb_form_widget.c:480 ../src/gsb_transactions_list.c:162
-#: ../src/traitement_variables.c:98
+#: ../src/traitement_variables.c:99
 msgid "Transaction number"
 msgstr "Numero di registrazione"
 
@@ -10385,7 +10381,7 @@ msgid "Lines font"
 msgstr ""
 
 #: ../src/print_report.c:426 ../src/print_report.c:446
-#: ../src/print_transactions_list.c:279 ../src/print_transactions_list.c:302
+#: ../src/print_transactions_list.c:281 ../src/print_transactions_list.c:304
 #: ../src/print_tree_view_list.c:1027 ../src/print_tree_view_list.c:1044
 #: ../src/utils_font.c:121
 #, fuzzy
@@ -10421,62 +10417,62 @@ msgstr "Data inizio"
 msgid "Final date : "
 msgstr "Data fine"
 
-#: ../src/print_transactions_list.c:206
+#: ../src/print_transactions_list.c:209
 #, fuzzy
 msgid "Use value date"
 msgstr "per data di valuta"
 
 #. set up all the checkbuttons
-#: ../src/print_transactions_list.c:219 ../src/print_tree_view_list.c:989
+#: ../src/print_transactions_list.c:221 ../src/print_tree_view_list.c:989
 #, fuzzy
 msgid "Draw the lines between transactions"
 msgstr "Tre linee per registrazione"
 
-#: ../src/print_transactions_list.c:226 ../src/print_tree_view_list.c:996
+#: ../src/print_transactions_list.c:228 ../src/print_tree_view_list.c:996
 msgid "Draw the lines between the columns"
 msgstr ""
 
-#: ../src/print_transactions_list.c:234
+#: ../src/print_transactions_list.c:236
 #, fuzzy
 msgid "Fill the background as the transactions list"
 msgstr "giorni vicini alla data nella transazione importata."
 
-#: ../src/print_transactions_list.c:242
+#: ../src/print_transactions_list.c:244
 #, fuzzy
 msgid "Print the archives lines"
 msgstr "Elimina una categoria personalizzata"
 
-#: ../src/print_transactions_list.c:250 ../src/print_tree_view_list.c:1003
+#: ../src/print_transactions_list.c:252 ../src/print_tree_view_list.c:1003
 #, fuzzy
 msgid "Print the names of the columns"
 msgstr "Inserisci il nome della nuova linea budget"
 
-#: ../src/print_transactions_list.c:267 ../src/print_tree_view_list.c:1017
+#: ../src/print_transactions_list.c:269 ../src/print_tree_view_list.c:1017
 #, fuzzy
 msgid "Transactions font"
 msgstr "Carattere della lista di registrazione"
 
-#: ../src/print_transactions_list.c:290 ../src/print_tree_view_list.c:1034
+#: ../src/print_transactions_list.c:292 ../src/print_tree_view_list.c:1034
 #, fuzzy
 msgid "Title font"
 msgstr "Titoli"
 
-#: ../src/print_transactions_list.c:366 ../src/print_tree_view_list.c:150
+#: ../src/print_transactions_list.c:381 ../src/print_tree_view_list.c:150
 #, fuzzy
 msgid "Fonts & layout"
 msgstr "Caratteri & logo"
 
-#: ../src/qif.c:117
+#: ../src/qif.c:120
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "File di rapporto non valido"
 
-#: ../src/qif.c:185
+#: ../src/qif.c:188
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Conti importati"
 
-#: ../src/qif.c:196
+#: ../src/qif.c:199
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10487,12 +10483,12 @@ msgstr ""
 "Grisbi ha trovato un conto investimenti, che non è ancora implementato.  "
 "Grisbi proverà ad importarlo come un conto bancario."
 
-#: ../src/qif.c:255
+#: ../src/qif.c:258
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Bilancio iniziale"
 
-#: ../src/qif.c:283
+#: ../src/qif.c:286
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10500,7 +10496,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: ../src/qif.c:354
+#: ../src/qif.c:357
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10508,17 +10504,23 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:427
+#: ../src/qif.c:431
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "Il suporto OFX non può essere abilitato!"
 
-#: ../src/qif.c:432
+#: ../src/qif.c:436
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "in cima al rapporto"
 
-#: ../src/qif.c:647
+#: ../src/qif.c:520
+msgid ""
+"Warning the date has three fields of two numbers. In these circumstances the "
+"date might be wrong."
+msgstr ""
+
+#: ../src/qif.c:667
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10526,40 +10528,40 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:710
+#: ../src/qif.c:730
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Errore nell'apertura del file '%s'."
 
-#: ../src/qif.c:1017
+#: ../src/qif.c:1037
 #, fuzzy
 msgid "bank"
 msgstr "Banca"
 
-#: ../src/qif.c:1019
+#: ../src/qif.c:1039
 #, fuzzy
 msgid "invst)"
 msgstr "Links"
 
-#: ../src/qif.c:1021
+#: ../src/qif.c:1041
 msgid "cash)"
 msgstr ""
 
-#: ../src/qif.c:1023
+#: ../src/qif.c:1043
 #, fuzzy
 msgid "oth a)"
 msgstr "la data"
 
-#: ../src/qif.c:1025
+#: ../src/qif.c:1045
 #, fuzzy
 msgid "oth l)"
 msgstr "Mensile"
 
-#: ../src/qif.c:1027
+#: ../src/qif.c:1047
 msgid "ccard)"
 msgstr ""
 
-#: ../src/qif.c:1203 ../src/qif.c:1206
+#: ../src/qif.c:1223 ../src/qif.c:1226
 msgid " [Transaction imported without date]"
 msgstr "[Transazione importata senza data]"
 
@@ -10907,7 +10909,7 @@ msgstr ""
 msgid "Display tips at next start"
 msgstr "Mostra registrazioni"
 
-#: ../src/traitement_variables.c:91
+#: ../src/traitement_variables.c:92
 msgid "Reconciliation ref."
 msgstr "Rif. di riconciliazione"
 
@@ -11034,7 +11036,7 @@ msgstr ""
 msgid "No font defined"
 msgstr "Nessuna linea budget"
 
-#: ../src/utils_str.c:1030
+#: ../src/utils_str.c:1052
 msgid ": "
 msgstr ""
 
