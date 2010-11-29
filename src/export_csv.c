@@ -48,7 +48,6 @@
 #include "utils_str.h"
 #include "utils_files.h"
 #include "gsb_data_transaction.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -57,6 +56,8 @@ static void csv_add_record(FILE* file,
 			   gboolean print_balance );
 static void csv_clear_fields(gboolean clear_all);
 static FILE *gsb_csv_export_open_file ( const gchar *filename );
+gboolean gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1, 
+                        gpointer transaction_pointer_2 );
 static gboolean gsb_csv_export_title_line ( FILE *csv_file,
 					    gboolean print_balance );
 static gboolean gsb_csv_export_transaction ( gint transaction_number,
@@ -325,6 +326,8 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
 
     /* export the transactions */
     pTransactionList = gsb_data_transaction_get_transactions_list ();
+    pTransactionList = g_slist_sort ( pTransactionList,
+                        (GCompareFunc) gsb_csv_export_sort_by_value_date_or_date );
     while ( pTransactionList )
     {
 	gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
@@ -943,6 +946,44 @@ static gboolean gsb_csv_export_tree_view_list_foreach_callback ( GtkTreeModel *m
     CSV_END_RECORD( csv_file );
 
     return FALSE;
+}
+
+
+/**
+ * used to compare 2 iters and sort the by value date or date if not exist
+ * always put the white line below
+ * 
+ * \param iter_1
+ * \param iter_2
+ * 
+ * \return -1 if iter_1 is before iter_2
+ * */
+gint gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1, 
+                        gpointer transaction_pointer_2 )
+{
+    gint transaction_number_1;
+    gint transaction_number_2;
+    const GDate *value_date_1;
+    const GDate *value_date_2;
+
+
+    transaction_number_1 = gsb_data_transaction_get_transaction_number (
+                        transaction_pointer_1 );
+    transaction_number_2 = gsb_data_transaction_get_transaction_number (
+                        transaction_pointer_2 );
+
+    value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
+    if ( ! value_date_1 )
+        value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
+
+    value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
+    if ( ! value_date_2 )
+        value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
+
+    if ( value_date_1 )
+        return ( g_date_compare ( value_date_1, value_date_2 ) );
+    else
+        return -1;
 }
 
 
