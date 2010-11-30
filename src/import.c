@@ -2083,8 +2083,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
         {
             /* the id exists with the same account_nb, so the transaction is already
              * in grisbi we will forget that transaction */
-            if ( g_date_get_year ( imported_transaction -> date ) == g_date_get_year (
-             gsb_data_transaction_get_date ( transaction_no ) ) )
+            if ( g_date_compare ( imported_transaction -> date,
+             gsb_data_transaction_get_date ( transaction_no ) ) == 0 )
             {
                 imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
             }
