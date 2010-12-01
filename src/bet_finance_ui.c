@@ -296,6 +296,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     /* set the color of selected row */
     gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE );
@@ -440,7 +441,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
     gchar *title;
 
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_FINANCE_NBRE_COLUMNS,
@@ -1155,6 +1156,10 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     g_object_set_data ( G_OBJECT ( page ), "tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, TRUE );
     gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
@@ -1183,7 +1188,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
 
     devel_debug ( NULL);
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
     /* Create the tree store */
     tree_model = gtk_tree_store_new ( BET_AMORTIZATION_NBRE_COLUMNS,
@@ -1590,6 +1595,10 @@ GtkWidget *bet_finance_create_account_page ( void )
                         GINT_TO_POINTER ( SPP_ORIGIN_FINANCE ) );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE );

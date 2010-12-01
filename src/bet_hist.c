@@ -96,6 +96,7 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_selection;
 extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 /*END_EXTERN*/
@@ -209,6 +210,10 @@ GtkWidget *bet_historical_create_page ( void )
     /* création de la liste des données */
     tree_view = bet_historical_get_data_tree_view ( page );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_treeview", tree_view );
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     gtk_widget_show_all ( page );
 
@@ -476,7 +481,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
 
     /* devel_debug (NULL); */
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), TRUE);
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW (tree_view), FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "hist_tree_view", tree_view );
 
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,

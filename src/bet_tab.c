@@ -631,6 +631,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* set the color of selected row */
     gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,

@@ -193,6 +193,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 
     /* set the color of selected row */
     gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* create the columns */
     gsb_scheduler_list_create_list_columns (tree_view);
