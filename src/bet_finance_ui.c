@@ -92,6 +92,7 @@ static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventBut
 extern GtkWidget *account_page;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_fond[2];
+extern GdkColor couleur_selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -292,6 +293,9 @@ GtkWidget *bet_finance_create_simulator_page ( void )
                         GINT_TO_POINTER ( SPP_ORIGIN_SIMULATOR ) );
     g_object_set_data ( G_OBJECT ( page ), "tree_view", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE );

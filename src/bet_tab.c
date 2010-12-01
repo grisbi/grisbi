@@ -78,6 +78,7 @@ static void bet_array_adjust_hist_amount ( gint div_number,
                         gsb_real amount,
                         GtkTreeModel *model );
 static void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  data );
+static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
 static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *itera,
                         GtkTreeIter *iterb,
@@ -147,7 +148,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
-static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -155,6 +155,7 @@ extern GtkWidget *account_page;
 extern gchar* bet_duration_array[];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_selection;
 extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
@@ -593,25 +594,6 @@ GtkWidget *bet_array_create_page ( void )
     tree_view = bet_array_create_tree_view ( page );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
-    /* création du bouton print
-    handlebox = gtk_handle_box_new ( );
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
-
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-                        GTK_STOCK_PRINT,
-                        _("Print"),
-                        NULL,
-                        NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "clicked",
-                        G_CALLBACK ( print_tree_view_list ),
-                        tree_view );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( page ), handlebox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), handlebox, 0 ); */
-
     /* on y ajoute la barre d'outils */
     toolbar = bet_array_list_create_toolbar ( page, tree_view );
     gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
@@ -640,12 +622,15 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
     g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -2068,7 +2053,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
     if ( !tree_view )
 	    return FALSE;
 
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
     {

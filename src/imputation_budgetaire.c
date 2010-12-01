@@ -79,6 +79,7 @@ struct metatree_hold_position *budgetary_hold_position;
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface;
+extern GdkColor couleur_selection;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -106,6 +107,10 @@ GtkWidget *onglet_imputations ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( budgetary_line_tree, GTK_STATE_SELECTED, &couleur_selection );
+
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS,
 						     META_TREE_COLUMN_TYPES );
 

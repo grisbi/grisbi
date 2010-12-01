@@ -99,6 +99,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkWidget * navigation_tree_view;
@@ -190,6 +191,8 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gtk_container_add ( GTK_CONTAINER (scrolled_window),
 			tree_view);
 
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
 
     /* create the columns */
     gsb_scheduler_list_create_list_columns (tree_view);

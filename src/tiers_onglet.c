@@ -114,6 +114,7 @@ struct metatree_hold_position *payee_hold_position;
 struct conditional_message *overwrite_payee;
 
 /*START_EXTERN*/
+extern GdkColor couleur_selection;
 extern GSList *liste_associations_tiers;
 extern MetatreeInterface * payee_interface;
 extern GtkWidget *window;
@@ -175,6 +176,10 @@ GtkWidget *onglet_tiers ( void )
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( payee_tree, GTK_STATE_SELECTED, &couleur_selection );
+
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* on y ajoute la barre d'outils */
