@@ -70,6 +70,7 @@ static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *rende
                         gchar *path_string,
                         GtkTreeModel *model );
 static gboolean bet_historical_fyear_create_combobox_store ( void );
+static void bet_historical_fyear_hide_present_futures_fyears ( void );
 static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
@@ -132,8 +133,6 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *label;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
-    gchar *str_year;
-    gint year;
     gpointer pointeur;
 
     devel_debug (NULL);
@@ -192,11 +191,8 @@ GtkWidget *bet_historical_create_page ( void )
 
         gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
 
-        /* hide the present financial year */
-        year = g_date_get_year ( gdate_today ( ) );
-        str_year = utils_str_itoa ( year );
-        gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
-        g_free ( str_year );
+        /* hide the present and futures financial years */
+        bet_historical_fyear_hide_present_futures_fyears ( );
 
         /* set the signal */
         pointeur = GINT_TO_POINTER ( 1 );
@@ -1701,38 +1697,26 @@ void bet_historical_set_page_title ( gint account_number )
  * */
 GDate *bet_historical_get_start_date_current_fyear ( void )
 {
-    GSList *tmp_list;
     GDate *date = NULL;
+    gint fyear_number = 0;
 
-    tmp_list = gsb_data_fyear_get_fyears_list ( );
+    date = gdate_today ( );
+    fyear_number = gsb_data_fyear_get_from_date ( date );
 
-    if ( g_slist_length ( tmp_list ) == 0 )
+    if ( fyear_number <= 0 )
     {
-        date = gdate_today ( );
         g_date_set_month ( date, 1 );
         g_date_set_day ( date, 1 );
 
         return date;
     }
-
-    while ( tmp_list )
+    else
     {
-        struct_fyear *fyear;
+        g_date_free ( date );
+        date = gsb_data_fyear_get_beginning_date ( fyear_number );
 
-	    fyear = tmp_list -> data;
-
-	    if ( date == NULL )
-            date = fyear -> beginning_date;
-        else
-        {
-            if ( g_date_compare ( date, fyear -> beginning_date ) < 0 )
-                date = fyear -> beginning_date;
-        }
-
-	    tmp_list = tmp_list -> next;
+        return gsb_date_copy ( date );
     }
-
-    return gsb_date_copy ( date );
 }
 
 
@@ -1766,11 +1750,45 @@ gint bet_historical_get_type_transaction ( const GDate *date,
 
 
 /**
- *
+ * cache l'exercice courant et les exercices futurs
  *
  *
  *
  * */
+void bet_historical_fyear_hide_present_futures_fyears ( void )
+{
+    GDate *date;
+    GSList *tmp_list;
+
+    date = gdate_today ( );
+
+    tmp_list = gsb_data_fyear_get_fyears_list ( );
+    while (tmp_list)
+    {
+        struct_fyear *fyear;
+
+        fyear = tmp_list -> data;
+
+        /* check the fyear only if the dates are valid */
+        if ( fyear -> beginning_date && fyear -> end_date )
+        {
+            if ( g_date_compare ( date, fyear -> beginning_date ) >= 0
+             &&
+             g_date_compare ( date, fyear -> end_date ) <= 0 )
+            {
+                gsb_fyear_hide_iter_by_name ( bet_fyear_model, fyear -> fyear_name );
+            }
+            else if ( g_date_compare ( date, fyear -> beginning_date ) <= 0 )
+            {
+                gsb_fyear_hide_iter_by_name ( bet_fyear_model, fyear -> fyear_name );
+            }
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
