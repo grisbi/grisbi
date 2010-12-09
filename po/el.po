@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-11-29 21:38+0100\n"
+"POT-Creation-Date: 2010-12-09 22:46+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -53,7 +53,7 @@ msgid "Account balances in %s"
 msgstr "Ισορροπίες λογαριασμού %s"
 
 #: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
-#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1652
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1667
 msgid " at "
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 #. set the name
 #. Name entry
 #: ../src/accueil.c:2059 ../src/bet_future.c:2135
-#: ../src/categories_onglet.c:666 ../src/gsb_archive_config.c:98
+#: ../src/categories_onglet.c:671 ../src/gsb_archive_config.c:98
 #: ../src/gsb_archive_config.c:186 ../src/gsb_assistant_archive_export.c:150
 #: ../src/gsb_assistant_reconcile_config.c:388
 #: ../src/gsb_assistant_reconcile_config.c:1227 ../src/gsb_bank.c:732
@@ -192,7 +192,7 @@ msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 #: ../src/gsb_data_partial_balance.c:1553 ../src/gsb_fyear_config.c:191
 #: ../src/gsb_fyear_config.c:278 ../src/gsb_payment_method_config.c:239
 #: ../src/gsb_reconcile_config.c:180 ../src/gsb_transactions_list.c:1784
-#: ../src/imputation_budgetaire.c:704 ../src/tiers_onglet.c:625
+#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:630
 msgid "Name"
 msgstr "Όνομα"
 
@@ -586,12 +586,12 @@ msgid "Credit Data"
 msgstr "Πιστωτική κάρτα"
 
 #. set the choice of account
-#: ../src/bet_config.c:286 ../src/categories_onglet.c:152
+#: ../src/bet_config.c:286 ../src/categories_onglet.c:157
 #: ../src/etats_config.c:681 ../src/gsb_assistant_reconcile_config.c:399
 #: ../src/gsb_assistant_reconcile_config.c:594
 #: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
-#: ../src/gsb_scheduler_list.c:339 ../src/imputation_budgetaire.c:164
-#: ../src/navigation.c:1142 ../src/tiers_onglet.c:231
+#: ../src/gsb_scheduler_list.c:343 ../src/imputation_budgetaire.c:169
+#: ../src/navigation.c:1142 ../src/tiers_onglet.c:236
 msgid "Account"
 msgstr "Λογαριασμός"
 
@@ -659,8 +659,8 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Επιλέξτε το οικονομικό έτος"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:875 ../src/bet_hist.c:534
-#: ../src/categories_onglet.c:143 ../src/etats_affiche.c:2433
+#: ../src/bet_config.c:875 ../src/bet_hist.c:535
+#: ../src/categories_onglet.c:148 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:796
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
 #: ../src/meta_categories.c:65 ../src/traitement_variables.c:94
@@ -671,7 +671,7 @@ msgstr "Κατηγορία"
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1334
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:149
-#: ../src/imputation_budgetaire.c:155 ../src/meta_budgetary.c:62
+#: ../src/imputation_budgetaire.c:160 ../src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Δημοσιονομική γραμμή"
 
@@ -682,14 +682,14 @@ msgstr ""
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1222 ../src/bet_finance_ui.c:276
-#: ../src/bet_finance_ui.c:465 ../src/bet_finance_ui.c:1138
-#: ../src/bet_finance_ui.c:1574
+#: ../src/bet_config.c:1222 ../src/bet_finance_ui.c:277
+#: ../src/bet_finance_ui.c:470 ../src/bet_finance_ui.c:1145
+#: ../src/bet_finance_ui.c:1585
 #, fuzzy
 msgid "Duration"
 msgstr "Ταξινόμηση σε πίνακα"
 
-#: ../src/bet_config.c:1231 ../src/bet_finance_ui.c:743
+#: ../src/bet_config.c:1231 ../src/bet_finance_ui.c:748
 #, fuzzy
 msgid "year"
 msgstr "Χρόνια"
@@ -701,14 +701,14 @@ msgstr "μέθοδος πληρωμής"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1253 ../src/bet_finance_ui.c:1124
-#: ../src/bet_finance_ui.c:1560
+#: ../src/bet_config.c:1253 ../src/bet_finance_ui.c:1131
+#: ../src/bet_finance_ui.c:1571
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1263 ../src/bet_finance_ui.c:271
-#: ../src/bet_finance_ui.c:378 ../src/bet_finance_ui.c:1133
-#: ../src/bet_finance_ui.c:1569
+#: ../src/bet_config.c:1263 ../src/bet_finance_ui.c:272
+#: ../src/bet_finance_ui.c:383 ../src/bet_finance_ui.c:1140
+#: ../src/bet_finance_ui.c:1580
 msgid "%"
 msgstr ""
 
@@ -717,16 +717,16 @@ msgstr ""
 msgid "Fees per month"
 msgstr "Τρεις μήνες"
 
-#: ../src/bet_config.c:1294 ../src/bet_finance_ui.c:391
+#: ../src/bet_config.c:1294 ../src/bet_finance_ui.c:396
 #, fuzzy
 msgid "Rate Type"
 msgstr "Τύπος"
 
-#: ../src/bet_config.c:1298 ../src/bet_finance_ui.c:395
+#: ../src/bet_config.c:1298 ../src/bet_finance_ui.c:400
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1302 ../src/bet_finance_ui.c:398
+#: ../src/bet_config.c:1302 ../src/bet_finance_ui.c:403
 msgid "Proportional rate"
 msgstr ""
 
@@ -734,62 +734,62 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1679
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1694
 #, fuzzy
 msgid " year "
 msgstr "έτος %d"
 
-#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1681
+#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1696
 #, fuzzy
 msgid " years "
 msgstr "Χρόνια"
 
-#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:673
+#: ../src/bet_config.c:1413 ../src/bet_finance_ui.c:678
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:209 ../src/fenetre_principale.c:277
+#: ../src/bet_finance_ui.c:210 ../src/fenetre_principale.c:277
 #: ../src/navigation.c:298 ../src/navigation.c:1200
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Πιστωτική κάρτα"
 
 #. capital
-#: ../src/bet_finance_ui.c:220 ../src/bet_finance_ui.c:1550
+#: ../src/bet_finance_ui.c:221 ../src/bet_finance_ui.c:1561
 msgid "Loan capital"
 msgstr ""
 
 #. taux
-#: ../src/bet_finance_ui.c:256
+#: ../src/bet_finance_ui.c:257
 #, fuzzy
 msgid "Annual interest"
 msgstr "Ετήσιος προϋπολογισμός"
 
-#: ../src/bet_finance_ui.c:317
+#: ../src/bet_finance_ui.c:322
 msgid "Between 3 and 18 months"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:318
+#: ../src/bet_finance_ui.c:323
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:319
+#: ../src/bet_finance_ui.c:324
 msgid "Between 15 and 30 years"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:363 ../src/bet_finance_ui.c:560
+#: ../src/bet_finance_ui.c:368 ../src/bet_finance_ui.c:565
 #, fuzzy
 msgid "Fees"
 msgstr "Αμοιβή"
 
-#: ../src/bet_finance_ui.c:378
+#: ../src/bet_finance_ui.c:383
 msgid " of borrowed capital"
 msgstr ""
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:484
+#: ../src/bet_finance_ui.c:489
 #, fuzzy
 msgid ""
 "Number\n"
@@ -797,164 +797,164 @@ msgid ""
 msgstr "Αρχική ισορροπία"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:503
+#: ../src/bet_finance_ui.c:508
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:522
+#: ../src/bet_finance_ui.c:527
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:541
+#: ../src/bet_finance_ui.c:546
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:579 ../src/bet_finance_ui.c:1311
+#: ../src/bet_finance_ui.c:584 ../src/bet_finance_ui.c:1322
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Μηνιαία"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:598
+#: ../src/bet_finance_ui.c:603
 #, fuzzy
 msgid "Total cost"
 msgstr "Συνολικό %s"
 
-#: ../src/bet_finance_ui.c:610
+#: ../src/bet_finance_ui.c:615
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:745 ../src/gsb_scheduler_list.c:1849
+#: ../src/bet_finance_ui.c:750 ../src/gsb_scheduler_list.c:1853
 msgid "years"
 msgstr "Χρόνια"
 
-#: ../src/bet_finance_ui.c:1012 ../src/bet_finance_ui.c:1813
+#: ../src/bet_finance_ui.c:1019 ../src/bet_finance_ui.c:1828
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1020 ../src/bet_finance_ui.c:1830
+#: ../src/bet_finance_ui.c:1027 ../src/bet_finance_ui.c:1845
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1036 ../src/bet_finance_ui.c:1972
+#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1987
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1038 ../src/bet_finance_ui.c:1847
-#: ../src/bet_finance_ui.c:1974
+#: ../src/bet_finance_ui.c:1045 ../src/bet_finance_ui.c:1862
+#: ../src/bet_finance_ui.c:1989
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1053 ../src/bet_finance_ui.c:1865
-#: ../src/bet_tab.c:1542 ../src/bet_tab.c:2866
+#: ../src/bet_finance_ui.c:1060 ../src/bet_finance_ui.c:1880
+#: ../src/bet_tab.c:1528 ../src/bet_tab.c:2852
 #, fuzzy
 msgid "Print the array"
 msgstr "Εκτυπωτής"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1063 ../src/bet_finance_ui.c:1881
-#: ../src/bet_finance_ui.c:1910 ../src/bet_tab.c:1552
+#: ../src/bet_finance_ui.c:1070 ../src/bet_finance_ui.c:1896
+#: ../src/bet_finance_ui.c:1925 ../src/bet_tab.c:1538
 #, fuzzy
 msgid "Export the array"
 msgstr "Εκτυπωτής"
 
-#: ../src/bet_finance_ui.c:1103 ../src/bet_finance_ui.c:1538
-#: ../src/bet_finance_ui.c:1652
+#: ../src/bet_finance_ui.c:1110 ../src/bet_finance_ui.c:1549
+#: ../src/bet_finance_ui.c:1667
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1114
+#: ../src/bet_finance_ui.c:1121
 #, fuzzy
 msgid "Loan amount"
 msgstr "Φόρτωση λογαριασμών"
 
-#: ../src/bet_finance_ui.c:1204 ../src/bet_future.c:770 ../src/bet_tab.c:695
+#: ../src/bet_finance_ui.c:1215 ../src/bet_future.c:770 ../src/bet_tab.c:681
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:766
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1289
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
-#: ../src/gsb_scheduler_list.c:339 ../src/gsb_transactions_list.c:146
+#: ../src/gsb_scheduler_list.c:343 ../src/gsb_transactions_list.c:146
 #: ../src/import.c:3244 ../src/import_csv.c:79
 #: ../src/traitement_variables.c:83
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: ../src/bet_finance_ui.c:1216 ../src/etats_affiche.c:2398
+#: ../src/bet_finance_ui.c:1227 ../src/etats_affiche.c:2398
 #: ../src/traitement_variables.c:100
 msgid "Number"
 msgstr "Αριθμός"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1235
+#: ../src/bet_finance_ui.c:1246
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1254
+#: ../src/bet_finance_ui.c:1265
 #, fuzzy
 msgid "Interests"
 msgstr "Ενδιαφέρον"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1273
+#: ../src/bet_finance_ui.c:1284
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1292
+#: ../src/bet_finance_ui.c:1303
 #, fuzzy
 msgid "Insurance"
 msgstr "Ισραήλ"
 
-#: ../src/bet_finance_ui.c:1795 ../src/bet_finance_ui.c:1798
+#: ../src/bet_finance_ui.c:1810 ../src/bet_finance_ui.c:1813
 #, fuzzy
 msgid "Calculate"
 msgstr "Όλες οι ημερομηνίες"
 
-#: ../src/bet_finance_ui.c:1809 ../src/bet_finance_ui.c:1843
+#: ../src/bet_finance_ui.c:1824 ../src/bet_finance_ui.c:1858
 #, fuzzy
 msgid "Amortization"
 msgstr "Σειρά εκτίμησης"
 
-#: ../src/bet_finance_ui.c:1826
+#: ../src/bet_finance_ui.c:1841
 #, fuzzy
 msgid "Credits"
 msgstr "Πίστωση"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1862 ../src/bet_tab.c:2863
+#: ../src/bet_finance_ui.c:1877 ../src/bet_tab.c:2849
 #: ../src/barre_outils.c:140 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/bet_finance_ui.c:1878 ../src/bet_tab.c:2876
-#: ../src/categories_onglet.c:517 ../src/etats_onglet.c:138
-#: ../src/export.c:161 ../src/imputation_budgetaire.c:554
+#: ../src/bet_finance_ui.c:1893 ../src/bet_tab.c:2862
+#: ../src/categories_onglet.c:522 ../src/etats_onglet.c:138
+#: ../src/export.c:161 ../src/imputation_budgetaire.c:559
 msgid "Export"
 msgstr "Εξαγωγή"
 
-#: ../src/bet_finance_ui.c:1917
+#: ../src/bet_finance_ui.c:1932
 #, fuzzy
 msgid "credit.csv"
 msgstr "Πίστωση"
 
-#: ../src/bet_finance_ui.c:1934 ../src/bet_tab.c:2991
-#: ../src/imputation_budgetaire.c:391
+#: ../src/bet_finance_ui.c:1949 ../src/bet_tab.c:2977
+#: ../src/imputation_budgetaire.c:396
 msgid "Cannot save file."
 msgstr "Αδύνατη η αποθήκευση αρχείου"
 
-#: ../src/bet_finance_ui.c:2010 ../src/gsb_scheduler_list.c:1849
+#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1853
 msgid "months"
 msgstr "Μήνες"
 
@@ -979,32 +979,32 @@ msgstr "Κονδύλια του εισοδηματικού προϋπολογι�
 
 #: ../src/bet_future.c:313 ../src/bet_future.c:855
 #: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:876
-#: ../src/gsb_scheduler_list.c:1008
+#: ../src/gsb_scheduler_list.c:1012
 msgid "Once"
 msgstr "Μόλις"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1008
+#: ../src/gsb_scheduler_list.c:1012
 msgid "Weekly"
 msgstr "Εβδομαδιαίος"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1008
+#: ../src/gsb_scheduler_list.c:1012
 msgid "Monthly"
 msgstr "Μηνιαία"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1009
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Bimonthly"
 msgstr "Διμηνιαία"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1009
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Quarterly"
 msgstr "Τριμηνιαία"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1009
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Yearly"
 msgstr "Ετήσια"
 
@@ -1030,7 +1030,7 @@ msgid "Years"
 msgstr "Χρόνια"
 
 #: ../src/bet_future.c:328 ../src/gsb_form_scheduler.c:175
-#: ../src/gsb_form_scheduler.c:192 ../src/gsb_scheduler_list.c:339
+#: ../src/gsb_form_scheduler.c:192 ../src/gsb_scheduler_list.c:343
 msgid "Frequency"
 msgstr "Συχνότητα"
 
@@ -1076,7 +1076,7 @@ msgstr "Επιλέξτε τη μέθοδο πληρωμής"
 #: ../src/etats_config.c:685 ../src/etats_config.c:7022
 #: ../src/export_csv.c:781 ../src/fenetre_principale.c:272
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1310
-#: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:339
+#: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:343
 #: ../src/gsb_transactions_list.c:148 ../src/import.c:3251
 #: ../src/import_csv.c:81 ../src/meta_payee.c:77
 #: ../src/traitement_variables.c:85
@@ -1084,23 +1084,23 @@ msgid "Payee"
 msgstr "Δικαιούχος πληρωμής"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:795 ../src/bet_tab.c:729 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:795 ../src/bet_tab.c:715 ../src/categories_onglet.c:701
 #: ../src/export_csv.c:787 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
 #: ../src/gsb_payment_method_config.c:1082 ../src/gsb_transactions_list.c:150
-#: ../src/import_csv.c:90 ../src/imputation_budgetaire.c:734
+#: ../src/import_csv.c:90 ../src/imputation_budgetaire.c:739
 #: ../src/traitement_variables.c:87
 msgid "Debit"
 msgstr "Χρέωση"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:802 ../src/bet_tab.c:747 ../src/categories_onglet.c:696
+#: ../src/bet_future.c:802 ../src/bet_tab.c:733 ../src/categories_onglet.c:701
 #: ../src/export_csv.c:784 ../src/gsb_form.c:1320 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
 #: ../src/gsb_payment_method_config.c:1078 ../src/gsb_transactions_list.c:151
-#: ../src/imputation_budgetaire.c:734 ../src/traitement_variables.c:88
+#: ../src/imputation_budgetaire.c:739 ../src/traitement_variables.c:88
 msgid "Credit"
 msgstr "Πίστωση"
 
@@ -1178,35 +1178,35 @@ msgstr "Λογαριασμός μετρητών"
 #. Description entry
 #. Payment method method_ptr
 #. Description entry
-#: ../src/bet_future.c:2144 ../src/categories_onglet.c:691
+#: ../src/bet_future.c:2144 ../src/categories_onglet.c:696
 #: ../src/gsb_payment_method_config.c:297 ../src/import.c:440
-#: ../src/imputation_budgetaire.c:729
+#: ../src/imputation_budgetaire.c:734
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../src/bet_hist.c:524 ../src/tiers_onglet.c:1111
+#: ../src/bet_hist.c:525 ../src/tiers_onglet.c:1116
 msgid "Select"
 msgstr "Επιλέξτε"
 
-#: ../src/bet_hist.c:551 ../src/categories_onglet.c:161
+#: ../src/bet_hist.c:552 ../src/categories_onglet.c:166
 #: ../src/etats_config.c:5239 ../src/export_csv.c:790
-#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:340
+#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:344
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3258
-#: ../src/imputation_budgetaire.c:173 ../src/tiers_onglet.c:240
+#: ../src/imputation_budgetaire.c:178 ../src/tiers_onglet.c:245
 #: ../src/traitement_variables.c:90
 msgid "Amount"
 msgstr "Ποσό"
 
-#: ../src/bet_hist.c:567
+#: ../src/bet_hist.c:568
 msgid "Average"
 msgstr "Μέσος όρος"
 
-#: ../src/bet_hist.c:583
+#: ../src/bet_hist.c:584
 #, fuzzy
 msgid "Current fyear"
 msgstr "Τρέχον έτος"
 
-#: ../src/bet_hist.c:600
+#: ../src/bet_hist.c:601
 #, fuzzy
 msgid "Amount retained"
 msgstr "Όνομα λογαριασμού"
@@ -1216,156 +1216,156 @@ msgstr "Όνομα λογαριασμού"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:997
+#: ../src/bet_hist.c:998
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1397
+#: ../src/bet_hist.c:1398
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "Αναστρέψτε το ποσό των εισαγόμενων συναλλαγών"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1420
+#: ../src/bet_hist.c:1421
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1683
+#: ../src/bet_hist.c:1684
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Παρακαλώ επιλέξτε τις συναλλαγές που συγχωνεύονται"
 
-#: ../src/bet_tab.c:448
+#: ../src/bet_tab.c:449
 #, fuzzy, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
 
-#: ../src/bet_tab.c:465
+#: ../src/bet_tab.c:466
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:566
+#: ../src/bet_tab.c:567
 #, fuzzy
 msgid "Start date"
 msgstr "Έναρξη"
 
-#: ../src/bet_tab.c:585
+#: ../src/bet_tab.c:586
 msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:712 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:638
+#: ../src/bet_tab.c:698 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:643
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../src/bet_tab.c:765 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
-#: ../src/gsb_scheduler_list.c:340 ../src/gsb_transactions_list.c:152
+#: ../src/bet_tab.c:751 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
+#: ../src/gsb_scheduler_list.c:344 ../src/gsb_transactions_list.c:152
 #: ../src/gsb_transactions_list.c:2987 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:89
 msgid "Balance"
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:857 ../src/bet_tab.c:867 ../src/bet_tab.c:1055
-#: ../src/bet_tab.c:2480 ../src/bet_tab.c:2485
+#: ../src/bet_tab.c:843 ../src/bet_tab.c:853 ../src/bet_tab.c:1041
+#: ../src/bet_tab.c:2466 ../src/bet_tab.c:2471
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/bet_tab.c:1381
+#: ../src/bet_tab.c:1367
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1388
+#: ../src/bet_tab.c:1374
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Αρχική ισορροπία"
 
 #. Insert Row
-#: ../src/bet_tab.c:1405
+#: ../src/bet_tab.c:1391
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1422 ../src/bet_tab.c:1434 ../src/bet_tab.c:1455
-#: ../src/bet_tab.c:1512
+#: ../src/bet_tab.c:1408 ../src/bet_tab.c:1420 ../src/bet_tab.c:1441
+#: ../src/bet_tab.c:1498
 #, fuzzy
 msgid "Delete selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1445
+#: ../src/bet_tab.c:1431
 #, fuzzy
 msgid "Change selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1466
+#: ../src/bet_tab.c:1452
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1481
+#: ../src/bet_tab.c:1467
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1502
+#: ../src/bet_tab.c:1488
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
 #. redo item
-#: ../src/bet_tab.c:1528
+#: ../src/bet_tab.c:1514
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1873
+#: ../src/bet_tab.c:1859
 #, fuzzy
 msgid " (still available)"
 msgstr "Καμία περιγραφή διαθέσιμη"
 
-#: ../src/bet_tab.c:1882 ../src/bet_tab.c:1904
+#: ../src/bet_tab.c:1868 ../src/bet_tab.c:1890
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/bet_tab.c:1895
+#: ../src/bet_tab.c:1881
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2403 ../src/bet_tab.c:2453 ../src/bet_tab.c:2513
+#: ../src/bet_tab.c:2389 ../src/bet_tab.c:2439 ../src/bet_tab.c:2499
 #, fuzzy
 msgid "No data by default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/bet_tab.c:2411 ../src/bet_tab.c:2461 ../src/bet_tab.c:2519
+#: ../src/bet_tab.c:2397 ../src/bet_tab.c:2447 ../src/bet_tab.c:2505
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:157
 #: ../src/meta_categories.c:66
 msgid "No category"
 msgstr "Καμία κατηγορία"
 
-#: ../src/bet_tab.c:2419 ../src/bet_tab.c:2469 ../src/bet_tab.c:2525
+#: ../src/bet_tab.c:2405 ../src/bet_tab.c:2455 ../src/bet_tab.c:2511
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:63
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
 
-#: ../src/bet_tab.c:2879 ../src/bet_tab.c:2967
+#: ../src/bet_tab.c:2865 ../src/bet_tab.c:2953
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Εξάγετε τις δημοσιονομικές γραμμές"
 
-#: ../src/bet_tab.c:2925
+#: ../src/bet_tab.c:2911
 #, fuzzy
 msgid "Balance at "
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:2974
+#: ../src/bet_tab.c:2960
 msgid "forecast.csv"
 msgstr ""
 
 #. New transaction
-#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2027
+#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2031
 #: ../src/gsb_transactions_list.c:2185
 msgid "New transaction"
 msgstr "Νέα συναλλαγή"
@@ -1375,8 +1375,8 @@ msgid "Blank the form to create a new transaction"
 msgstr "Αδειάστε την φόρμα για να δημιουργήσετε νέα συναλλαγή"
 
 #: ../src/barre_outils.c:105 ../src/barre_outils.c:517
-#: ../src/categories_onglet.c:526 ../src/etats_onglet.c:158
-#: ../src/imputation_budgetaire.c:563 ../src/tiers_onglet.c:321
+#: ../src/categories_onglet.c:531 ../src/etats_onglet.c:158
+#: ../src/imputation_budgetaire.c:568 ../src/tiers_onglet.c:326
 msgid "Delete"
 msgstr "Διαγράψτε"
 
@@ -1405,8 +1405,8 @@ msgid "Print the transactions list"
 msgstr "Τυπώστε τον κατάλογο συναλλαγών"
 
 #: ../src/barre_outils.c:151 ../src/barre_outils.c:566
-#: ../src/categories_onglet.c:545 ../src/imputation_budgetaire.c:584
-#: ../src/tiers_onglet.c:340
+#: ../src/categories_onglet.c:550 ../src/imputation_budgetaire.c:589
+#: ../src/tiers_onglet.c:345
 msgid "View"
 msgstr "Προβολή"
 
@@ -1434,8 +1434,8 @@ msgstr "Άποψη δύο γραμμών"
 msgid "Three lines view"
 msgstr "Άποψη τριών γραμμών"
 
-#: ../src/barre_outils.c:231 ../src/categories_onglet.c:589
-#: ../src/imputation_budgetaire.c:628 ../src/tiers_onglet.c:437
+#: ../src/barre_outils.c:231 ../src/categories_onglet.c:594
+#: ../src/imputation_budgetaire.c:633 ../src/tiers_onglet.c:442
 msgid "Complete view"
 msgstr "Πλήρης άποψη"
 
@@ -1453,31 +1453,31 @@ msgstr "Γνωστά αρχεία"
 msgid "Remove the rule"
 msgstr "Διαγράψτε τον κανόνα"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1810
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
 msgid "Unique view"
 msgstr "Μοναδική άποψη"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1810
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
 msgid "Week view"
 msgstr "Άποψη εβδομάδας"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1810
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
 msgid "Month view"
 msgstr "Άποψη μήνα"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1811
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
 msgid "Two months view"
 msgstr "Άποψη  δύο μηνών"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1811
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
 msgid "Quarter view"
 msgstr "Άποψη τετάρτων"
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1812
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
 msgid "Year view"
 msgstr "Άποψη έτους"
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1812
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
 msgid "Custom view"
 msgstr "Άποψη συνήθειας"
 
@@ -1500,7 +1500,7 @@ msgstr "Επεξεργαστείτε την επιλεγμένη συναλλα�
 
 #. comments line
 #: ../src/barre_outils.c:541 ../src/gsb_account_property.c:563
-#: ../src/gsb_scheduler_list.c:340
+#: ../src/gsb_scheduler_list.c:344
 msgid "Comments"
 msgstr "Σχόλια"
 
@@ -1520,33 +1520,33 @@ msgstr "Εκτελέστε την τρέχουσα σχεδιασμένη συν
 msgid "Change display mode of scheduled transaction list"
 msgstr "Αλλαγή του τρόπου εμφάνισης των καταλόγων προγραμματισμένων συναλλαγών"
 
-#: ../src/categories_onglet.c:337
+#: ../src/categories_onglet.c:342
 msgid "Export categories"
 msgstr "Εξαγωγή κατηγοριών"
 
-#: ../src/categories_onglet.c:344
+#: ../src/categories_onglet.c:349
 msgid "Categories.cgsb"
 msgstr "Κατηγορίες.cgsb"
 
-#: ../src/categories_onglet.c:380
+#: ../src/categories_onglet.c:385
 msgid "Import categories"
 msgstr "Εισαγωγή κατηγοριών"
 
-#: ../src/categories_onglet.c:391 ../src/imputation_budgetaire.c:432
+#: ../src/categories_onglet.c:396 ../src/imputation_budgetaire.c:437
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Αρχεία κατηγορίας Grisbi (*.cgsb)"
 
-#: ../src/categories_onglet.c:397 ../src/etats_onglet.c:1229
+#: ../src/categories_onglet.c:402 ../src/etats_onglet.c:1229
 #: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:239 ../src/import.c:815
-#: ../src/imputation_budgetaire.c:437
+#: ../src/imputation_budgetaire.c:442
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: ../src/categories_onglet.c:418
+#: ../src/categories_onglet.c:423
 msgid "Merge imported categories with existing?"
 msgstr "Συγχώνευση εισαγόμενων κατηγοριών με τους υπάρχοντες?"
 
-#: ../src/categories_onglet.c:420
+#: ../src/categories_onglet.c:425
 msgid ""
 "File already contains categories.  If you decide to continue, existing "
 "categories will be merged with imported ones."
@@ -1554,7 +1554,7 @@ msgstr ""
 "Το αρχείο περιέχει ήδη τις κατηγορίες. Εάν αποφασίσετε να συνεχίσετε, οι "
 "υπάρχουσες κατηγορίες θα συγχωνευθούν με τους εισαγόμενους αυτούς"
 
-#: ../src/categories_onglet.c:421
+#: ../src/categories_onglet.c:426
 msgid ""
 "File does not contain categories.  If you decide to continue, existing "
 "categories will be merged with imported ones.  Once performed, there is no "
@@ -1567,11 +1567,11 @@ msgstr ""
 " δεν μπορεί να γίνει επαναφορά. Μπορείτε επίσης να αποφασίσετε να "
 "αντικαταστήσετε τις υπάρχουσες κατηγορίες με τις εισαγόμενες."
 
-#: ../src/categories_onglet.c:428 ../src/imputation_budgetaire.c:468
+#: ../src/categories_onglet.c:433 ../src/imputation_budgetaire.c:473
 msgid "Replace existing"
 msgstr "Αντικατάσταση υπάρχοντος"
 
-#: ../src/categories_onglet.c:482
+#: ../src/categories_onglet.c:487
 msgid ""
 "New\n"
 "category"
@@ -1579,11 +1579,11 @@ msgstr ""
 "Νέα\n"
 "κατηγορία"
 
-#: ../src/categories_onglet.c:487
+#: ../src/categories_onglet.c:492
 msgid "Create a new category"
 msgstr "Δημιουργήστε μια νέα κατηγορία"
 
-#: ../src/categories_onglet.c:493
+#: ../src/categories_onglet.c:498
 msgid ""
 "New sub\n"
 "category"
@@ -1591,67 +1591,67 @@ msgstr ""
 "Νέα\n"
 "υποκατηγορία"
 
-#: ../src/categories_onglet.c:500
+#: ../src/categories_onglet.c:505
 msgid "Create a new sub-category"
 msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 
-#: ../src/categories_onglet.c:507 ../src/etats_onglet.c:129
-#: ../src/import.c:407 ../src/import.c:3563 ../src/imputation_budgetaire.c:543
+#: ../src/categories_onglet.c:512 ../src/etats_onglet.c:129
+#: ../src/import.c:407 ../src/import.c:3563 ../src/imputation_budgetaire.c:548
 #: ../src/parametres.c:310 ../src/utils_files.c:671
 msgid "Import"
 msgstr "Εισαγωγή"
 
-#: ../src/categories_onglet.c:511
+#: ../src/categories_onglet.c:516
 msgid "Import a Grisbi category file (.cgsb)"
 msgstr "Εισάγετε ένα αρχείο κατηγορίας Grisbi (.cgsb)"
 
-#: ../src/categories_onglet.c:521
+#: ../src/categories_onglet.c:526
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Εξάγετε ένα αρχείο κατηγορίας Grisbi (.cgsb)"
 
-#: ../src/categories_onglet.c:530
+#: ../src/categories_onglet.c:535
 msgid "Delete selected category"
 msgstr "Διαγράψτε την επιλεγμένη κατηγορία"
 
-#: ../src/categories_onglet.c:535 ../src/etats_onglet.c:167
-#: ../src/fenetre_principale.c:257 ../src/imputation_budgetaire.c:573
-#: ../src/tiers_onglet.c:330
+#: ../src/categories_onglet.c:540 ../src/etats_onglet.c:167
+#: ../src/fenetre_principale.c:257 ../src/imputation_budgetaire.c:578
+#: ../src/tiers_onglet.c:335
 msgid "Properties"
 msgstr "Ιδιότητες"
 
-#: ../src/categories_onglet.c:539
+#: ../src/categories_onglet.c:544
 msgid "Edit selected category"
 msgstr "Επεξεργαστείτε την επιλεγμένη κατηγορία"
 
-#: ../src/categories_onglet.c:549 ../src/tiers_onglet.c:344
+#: ../src/categories_onglet.c:554 ../src/tiers_onglet.c:349
 msgid "Change view mode"
 msgstr "Αλλαγή τρόπου προβολής"
 
 #. Edit transaction
-#: ../src/categories_onglet.c:577
+#: ../src/categories_onglet.c:582
 msgid "Category view"
 msgstr "Προβολή κατηγορίας"
 
-#: ../src/categories_onglet.c:583
+#: ../src/categories_onglet.c:588
 msgid "Subcategory view"
 msgstr "Άποψη υποκατηγορίας"
 
-#: ../src/categories_onglet.c:634 ../src/categories_onglet.c:638
-#: ../src/imputation_budgetaire.c:671 ../src/imputation_budgetaire.c:676
-#: ../src/tiers_onglet.c:600
+#: ../src/categories_onglet.c:639 ../src/categories_onglet.c:643
+#: ../src/imputation_budgetaire.c:676 ../src/imputation_budgetaire.c:681
+#: ../src/tiers_onglet.c:605
 #, c-format
 msgid "Properties for %s"
 msgstr "Ιδιότητες για %s"
 
-#: ../src/categories_onglet.c:636
+#: ../src/categories_onglet.c:641
 msgid "No sub-category defined"
 msgstr "Υποκατηγορία που καθορίζεται καμία"
 
-#: ../src/categories_onglet.c:640 ../src/qif.c:909 ../src/qif.c:916
+#: ../src/categories_onglet.c:645 ../src/qif.c:909 ../src/qif.c:916
 msgid "No category defined"
 msgstr "Κατηγορία που καθορίζεται καμία"
 
-#: ../src/categories_onglet.c:731
+#: ../src/categories_onglet.c:736
 #, c-format
 msgid ""
 "You tried to rename current sub-category to '%s' but this sub-category "
@@ -1660,7 +1660,7 @@ msgstr ""
 "Προσπαθήσατε να μετονομάσετε την τρέχουσα υποκατηγορία '%s' αλλά αυτή η "
 "υποκατηγορία υπάρχει ήδη.  Παρακαλώ επιλέξτε ένα άλλο όνομα"
 
-#: ../src/categories_onglet.c:738
+#: ../src/categories_onglet.c:743
 #, c-format
 msgid ""
 "You tried to rename current category to '%s' but this category already "
@@ -1669,12 +1669,12 @@ msgstr ""
 "Προσπαθήσατε να μετονομάσετε την τρέχουσα κατηγορία '%s' αλλά αυτή η "
 "κατηγορία υπάρχει ήδη.  Παρακαλώ επιλέξτε ένα άλλο όνομα"
 
-#: ../src/categories_onglet.c:743
+#: ../src/categories_onglet.c:748
 msgid "Category already exists"
 msgstr "Η κατηγορία υπάρχει ήδη"
 
 #. * Find a unique name for category
-#: ../src/categories_onglet.c:849 ../src/meta_categories.c:306
+#: ../src/categories_onglet.c:854 ../src/meta_categories.c:306
 msgid "New sub-category"
 msgstr "Νέα υποκατηγορία"
 
@@ -1855,7 +1855,7 @@ msgstr ""
 "αρχεία λογιστικής σας. (Η μορφή αρχείου μπορεί να αλλάξει και να καταστήσει "
 "τα αρχεία ασύμβατα με τις προηγούμενες εκδόσεις)."
 
-#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1754
+#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1758
 msgid "Do not show this message again"
 msgstr "Μην παρουσιάστε αυτό το μήνυμα πάλι"
 
@@ -2165,13 +2165,13 @@ msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος (%d 
 msgid "Result without financial year"
 msgstr "Αποτέλεσμα χωρίς δημοσιονομικό έτος"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:960
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:964
 #: ../src/gsb_transactions_list.c:3427
 #, c-format
 msgid "Transfer to %s"
 msgstr "Μεταφορά σε %s"
 
-#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:963
+#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:967
 #: ../src/gsb_transactions_list.c:3430
 #, c-format
 msgid "Transfer from %s"
@@ -2556,7 +2556,7 @@ msgstr "Επιλέξτε τους λογαριασμούς που περιλαμ
 #: ../src/etats_config.c:2547 ../src/etats_config.c:2802
 #: ../src/etats_config.c:3084 ../src/etats_config.c:3891
 #: ../src/etats_config.c:4081 ../src/etats_config.c:7312
-#: ../src/tiers_onglet.c:1388 ../src/tiers_onglet.c:1408
+#: ../src/tiers_onglet.c:1393 ../src/tiers_onglet.c:1413
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
@@ -2564,7 +2564,7 @@ msgstr "Επιλογή όλων"
 #: ../src/etats_config.c:2562 ../src/etats_config.c:2817
 #: ../src/etats_config.c:3099 ../src/etats_config.c:3906
 #: ../src/etats_config.c:4096 ../src/etats_config.c:7327 ../src/import.c:2203
-#: ../src/tiers_onglet.c:1179 ../src/tiers_onglet.c:1390
+#: ../src/tiers_onglet.c:1184 ../src/tiers_onglet.c:1395
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
 
@@ -2674,7 +2674,7 @@ msgstr "Κονδύλια εξόδων του προϋπολογισμού"
 
 #. set the title
 #: ../src/etats_config.c:3981 ../src/navigation.c:282 ../src/navigation.c:1189
-#: ../src/tiers_onglet.c:222
+#: ../src/tiers_onglet.c:227
 msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
 
@@ -7977,7 +7977,7 @@ msgid "Transfer : Deleted account"
 msgstr "Μεταφορά: Διαγραμμένος λογαριασμός"
 
 #: ../src/gsb_form.c:760 ../src/gsb_form.c:1888 ../src/gsb_form.c:1889
-#: ../src/gsb_form_widget.c:1084
+#: ../src/gsb_form_widget.c:1105
 msgid "Transfer : "
 msgstr "Μεταφορά : "
 
@@ -7986,7 +7986,7 @@ msgid "Auto"
 msgstr "Αυτόματο"
 
 #: ../src/gsb_form.c:930 ../src/gsb_form_scheduler.c:151
-#: ../src/gsb_scheduler_list.c:1019
+#: ../src/gsb_scheduler_list.c:1023
 msgid "Manual"
 msgstr "Εγχειρίδιο"
 
@@ -8204,7 +8204,7 @@ msgstr ""
 "Η λειτουργία θα επαναταξινομήσει τον πίνακα στις σωστές τιμές αλλά πρέπει να "
 "ελέγξετε εκείνη την προειδοποίηση."
 
-#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1017
+#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1021
 msgid "Automatic"
 msgstr "Αυτόματος"
 
@@ -8564,11 +8564,11 @@ msgstr "Κατηγοριοποίηση με τη μέθοδο πληρωμής"
 msgid "Split neutral payment methods"
 msgstr "Διασπασμένες ουδέτερες μέθοδοι πληρωμής"
 
-#: ../src/gsb_scheduler_list.c:340
+#: ../src/gsb_scheduler_list.c:344
 msgid "Mode"
 msgstr "Τρόπος"
 
-#: ../src/gsb_scheduler_list.c:623
+#: ../src/gsb_scheduler_list.c:627
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -8582,7 +8582,7 @@ msgstr ""
 "\n"
 "Ο ενδιαφερόμενος αριθμός απογόνων είναι:\n"
 
-#: ../src/gsb_scheduler_list.c:840
+#: ../src/gsb_scheduler_list.c:844
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8595,27 +8595,27 @@ msgstr ""
 "αλλά δεν βρήκε την επανάληψη στον κατάλογο… \n"
 "Είναι κανονικό εάν επισυνάψετε μια νέα σχεδιασμένη συναλλαγή."
 
-#: ../src/gsb_scheduler_list.c:984
+#: ../src/gsb_scheduler_list.c:988
 #, c-format
 msgid "%d days"
 msgstr "%d ημέρες"
 
-#: ../src/gsb_scheduler_list.c:989
+#: ../src/gsb_scheduler_list.c:993
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "Εβδομάδες"
 
-#: ../src/gsb_scheduler_list.c:994
+#: ../src/gsb_scheduler_list.c:998
 #, c-format
 msgid "%d months"
 msgstr "%d μήνες"
 
-#: ../src/gsb_scheduler_list.c:999
+#: ../src/gsb_scheduler_list.c:1003
 #, c-format
 msgid "%d years"
 msgstr "%d έτη"
 
-#: ../src/gsb_scheduler_list.c:1668
+#: ../src/gsb_scheduler_list.c:1672
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
@@ -8624,7 +8624,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε το παιδί της σχεδιασμένης συναλλαγής με το "
 "συμβαλλόμενο μέρος '%s' ;"
 
-#: ../src/gsb_scheduler_list.c:1687
+#: ../src/gsb_scheduler_list.c:1691
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
@@ -8632,7 +8632,7 @@ msgstr ""
 "Θέλετε πραγματικά να διαγράψετε τη σχεδιασμένη συναλλαγή με το συμβαλλόμενο "
 "μέρος '%s' ;"
 
-#: ../src/gsb_scheduler_list.c:1732
+#: ../src/gsb_scheduler_list.c:1736
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8645,61 +8645,61 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:1743
+#: ../src/gsb_scheduler_list.c:1747
 msgid "Delete this scheduled transaction?"
 msgstr "Διαγράψτε αυτήν την σχεδιασμένη συναλλαγή;"
 
-#: ../src/gsb_scheduler_list.c:1748
+#: ../src/gsb_scheduler_list.c:1752
 msgid "All the occurences"
 msgstr "Όλα τα νομίσματα"
 
-#: ../src/gsb_scheduler_list.c:1749
+#: ../src/gsb_scheduler_list.c:1753
 msgid "Only this one"
 msgstr "Μόνο αυτό"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1821 ../src/navigation.c:1165
+#: ../src/gsb_scheduler_list.c:1825 ../src/navigation.c:1165
 msgid "Scheduled transactions"
 msgstr "Προγραμματισμένες μεταφορές"
 
-#: ../src/gsb_scheduler_list.c:1849
+#: ../src/gsb_scheduler_list.c:1853
 msgid "days"
 msgstr "Ημέρες"
 
-#: ../src/gsb_scheduler_list.c:1849
+#: ../src/gsb_scheduler_list.c:1853
 msgid "weeks"
 msgstr "Εβδομάδες"
 
-#: ../src/gsb_scheduler_list.c:1852
+#: ../src/gsb_scheduler_list.c:1856
 msgid "Show scheduled transactions"
 msgstr "Εμφάνιση προγραμματισμένων μεταφορών"
 
-#: ../src/gsb_scheduler_list.c:1865
+#: ../src/gsb_scheduler_list.c:1869
 msgid "Scheduler frequency"
 msgstr "Συχνότητα χρονοπρογραμματιστών"
 
-#: ../src/gsb_scheduler_list.c:1872
+#: ../src/gsb_scheduler_list.c:1876
 msgid "Show transactions for the next"
 msgstr "Παρουσιάστε συναλλαγές για τον επόμενο"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2013 ../src/gsb_transactions_list.c:2170
+#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2170
 msgid "Edit transaction"
 msgstr "Επεξεργασία της συναλλαγής"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2038 ../src/gsb_transactions_list.c:2193
+#: ../src/gsb_scheduler_list.c:2042 ../src/gsb_transactions_list.c:2193
 msgid "Delete transaction"
 msgstr "Διαγραφή της συναλλαγής"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2052
+#: ../src/gsb_scheduler_list.c:2056
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "Εμφάνιση σχολίων προγραμματισμένων συναλλαγών"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2066
+#: ../src/gsb_scheduler_list.c:2070
 #, fuzzy
 msgid "Execute transaction"
 msgstr "Διαγραφή της συναλλαγής"
@@ -9363,7 +9363,7 @@ msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 "αυτόματα συνδέστε την κατηγορία του δικαιούχου πληρωμής εάν είναι δυνατό"
 
-#: ../src/import.c:3615 ../src/tiers_onglet.c:1026
+#: ../src/import.c:3615 ../src/tiers_onglet.c:1031
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Εξάγετε έναν αριθμό και αποθηκεύστε τον στο πεδίο καμία συναλλαγή."
 
@@ -9399,7 +9399,7 @@ msgid ""
 msgstr ""
 
 #. Create entry liste des tiers
-#: ../src/import.c:3728 ../src/import.c:3760 ../src/tiers_onglet.c:1129
+#: ../src/import.c:3728 ../src/import.c:3760 ../src/tiers_onglet.c:1134
 msgid "Payee name"
 msgstr "Όνομα δικαιούχων πληρωμής"
 
@@ -9563,27 +9563,27 @@ msgstr ""
 msgid "Imported CSV account"
 msgstr "Εισαγόμενος απολογισμός CSV"
 
-#: ../src/imputation_budgetaire.c:366
+#: ../src/imputation_budgetaire.c:371
 msgid "Export the budgetary lines"
 msgstr "Εξάγετε τις δημοσιονομικές γραμμές"
 
-#: ../src/imputation_budgetaire.c:373
+#: ../src/imputation_budgetaire.c:378
 msgid "Budgetary-lines.igsb"
 msgstr "Δημοσιονομικές γραμμές.igsb"
 
-#: ../src/imputation_budgetaire.c:415
+#: ../src/imputation_budgetaire.c:420
 msgid "Import budgetary lines"
 msgstr "Εισάγετε δημοσιονομικές γραμμές"
 
-#: ../src/imputation_budgetaire.c:426
+#: ../src/imputation_budgetaire.c:431
 msgid "Grisbi budgetary lines files (*.igsb)"
 msgstr "Δημοσιονομικά αρχεία γραμμών Grisbi (*.igsb)"
 
-#: ../src/imputation_budgetaire.c:458
+#: ../src/imputation_budgetaire.c:463
 msgid "Merge imported budgetary lines with existing?"
 msgstr "Η συγχώνευση εισήγαγε τις δημοσιονομικές γραμμές με τις υπάρχουσες;"
 
-#: ../src/imputation_budgetaire.c:460
+#: ../src/imputation_budgetaire.c:465
 msgid ""
 "File already contains budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones."
@@ -9592,7 +9592,7 @@ msgstr ""
 "συνεχίσετε, οι υπάρχουσες δημοσιονομικές γραμμές θα συγχωνευθούν με τις "
 "εισαγόμενες."
 
-#: ../src/imputation_budgetaire.c:461
+#: ../src/imputation_budgetaire.c:466
 msgid ""
 "File does not contain budgetary lines.  If you decide to continue, existing "
 "budgetary lines will be merged with imported ones.  Once performed, there is "
@@ -9605,7 +9605,7 @@ msgstr ""
 "Μπορείτε επίσης να αποφασίσετε να αντικαταστήσετε τις υπάρχουσες "
 "δημοσιονομικές γραμμές με τις εισαγόμενες."
 
-#: ../src/imputation_budgetaire.c:519
+#: ../src/imputation_budgetaire.c:524
 msgid ""
 "New\n"
 "budgetary line"
@@ -9613,11 +9613,11 @@ msgstr ""
 "Νέα\n"
 "δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:523
+#: ../src/imputation_budgetaire.c:528
 msgid "Create a new budgetary line"
 msgstr "Δημιουργήστε μια νέα δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:529
+#: ../src/imputation_budgetaire.c:534
 msgid ""
 "New sub\n"
 "budgetary line"
@@ -9625,52 +9625,52 @@ msgstr ""
 "Νέα\n"
 "υπο- δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:536
+#: ../src/imputation_budgetaire.c:541
 msgid "Create a new sub-budgetary line"
 msgstr "Δημιουργήστε μια νέα υπο--δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:547
+#: ../src/imputation_budgetaire.c:552
 #, fuzzy
 msgid ""
 "Import a Grisbi budgetary line file (.igsb) or create from a list of "
 "categories (.cgsb)"
 msgstr "Εξάγετε ένα δημοσιονομικό αρχείο γραμμών Grisbi (.igsb)"
 
-#: ../src/imputation_budgetaire.c:558
+#: ../src/imputation_budgetaire.c:563
 #, fuzzy
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Εισάγετε ένα δημοσιονομικό αρχείο γραμμών Grisbi (.igsb)"
 
-#: ../src/imputation_budgetaire.c:568
+#: ../src/imputation_budgetaire.c:573
 msgid "Delete selected budgetary line"
 msgstr "Διαγράψτε την επιλεγμένη δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:578
+#: ../src/imputation_budgetaire.c:583
 msgid "Edit selected budgetary line"
 msgstr "Επεξεργαστείτε την επιλεγμένη δημοσιονομική γραμμή"
 
-#: ../src/imputation_budgetaire.c:588
+#: ../src/imputation_budgetaire.c:593
 msgid "Change display mode"
 msgstr "Αλλαγή τρόπου εμφάνισης"
 
 #. Edit transaction
-#: ../src/imputation_budgetaire.c:616
+#: ../src/imputation_budgetaire.c:621
 msgid "Budgetary line view"
 msgstr "Δημοσιονομική άποψη γραμμών"
 
-#: ../src/imputation_budgetaire.c:622
+#: ../src/imputation_budgetaire.c:627
 msgid "Sub-budgetary line view"
 msgstr "Υπο-δημοσιονομική άποψη γραμμών"
 
-#: ../src/imputation_budgetaire.c:674
+#: ../src/imputation_budgetaire.c:679
 msgid "No sub-budget defined"
 msgstr "Δεν καθορίζεται κανένας υπο--προϋπολογισμός"
 
-#: ../src/imputation_budgetaire.c:679
+#: ../src/imputation_budgetaire.c:684
 msgid "No budget defined"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/imputation_budgetaire.c:770
+#: ../src/imputation_budgetaire.c:775
 #, c-format
 msgid ""
 "You tried to rename current sub-budgetary line to '%s' but this sub-"
@@ -9680,7 +9680,7 @@ msgstr ""
 "αυτή η υπο--δημοσιονομική γραμμή υπάρχει ήδη. Παρακαλώ επιλέξτε ένα άλλο "
 "όνομα."
 
-#: ../src/imputation_budgetaire.c:777
+#: ../src/imputation_budgetaire.c:782
 #, c-format
 msgid ""
 "You tried to rename current budgetary line to '%s' but this budgetary line "
@@ -9689,12 +9689,12 @@ msgstr ""
 "Προσπαθήσατε να μετονομάσετε την τρέχουσα δημοσιονομική γραμμή '%s' αλλά "
 "αυτή η δημοσιονομική γραμμή υπάρχει ήδη.  Παρακαλώ επιλέξτε ένα άλλο όνομα."
 
-#: ../src/imputation_budgetaire.c:782
+#: ../src/imputation_budgetaire.c:787
 msgid "Budgetary line already exists"
 msgstr "Η δημοσιονομική γραμμή υπάρχει ήδη"
 
 #. * Find a unique name for budget
-#: ../src/imputation_budgetaire.c:885 ../src/meta_budgetary.c:245
+#: ../src/imputation_budgetaire.c:890 ../src/meta_budgetary.c:245
 msgid "New sub-budget"
 msgstr "Νέος υπο--προϋπολογισμός"
 
@@ -9943,7 +9943,7 @@ msgid "No sub-payee"
 msgstr "Κανένας υπο--δικαιούχος πληρωμής"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:323 ../src/tiers_onglet.c:313
+#: ../src/meta_payee.c:323 ../src/tiers_onglet.c:318
 msgid "New payee"
 msgstr "Νέος δικαιούχος πληρωμής"
 
@@ -10259,11 +10259,11 @@ msgstr "Χωρισμός στοιχείων"
 msgid "Thousands separator"
 msgstr "Επιλέξτε το διαχωριστή CSV"
 
-#: ../src/parametres.c:1402
+#: ../src/parametres.c:1403
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1408
+#: ../src/parametres.c:1409
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10791,39 +10791,39 @@ msgstr "ccard)"
 msgid " [Transaction imported without date]"
 msgstr " [Συναλλαγή που εισάγεται χωρίς ημερομηνία]"
 
-#: ../src/tiers_onglet.c:284
+#: ../src/tiers_onglet.c:289
 msgid "Warning you will crush the existing note."
 msgstr ""
 
-#: ../src/tiers_onglet.c:317
+#: ../src/tiers_onglet.c:322
 msgid "Create a new payee"
 msgstr "Δημιουργήστε έναν νέο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:326
+#: ../src/tiers_onglet.c:331
 msgid "Delete selected payee"
 msgstr "Διαγράψτε τον επιλεγμένο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:335
+#: ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr "Επεξεργαστείτε τον επιλεγμένο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:348
+#: ../src/tiers_onglet.c:353
 msgid "Manage payees"
 msgstr "Διαχειριστείτε τους δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:352 ../src/tiers_onglet.c:806
+#: ../src/tiers_onglet.c:357 ../src/tiers_onglet.c:811
 msgid "Manage the payees"
 msgstr "Διαχειριστείτε τους δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:356
+#: ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr "Απομακρύνετε τους αχρησιμοποίητους δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:360 ../src/tiers_onglet.c:386
+#: ../src/tiers_onglet.c:365 ../src/tiers_onglet.c:391
 msgid "Remove orphan payees"
 msgstr "Απομακρύνετε τους ορφανούς δικαιούχους πληρωμής"
 
-#: ../src/tiers_onglet.c:387
+#: ../src/tiers_onglet.c:392
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -10838,21 +10838,21 @@ msgstr ""
 "\n"
 "Είστε βέβαιοι ότι  θέλετε να το  κάνετε;"
 
-#: ../src/tiers_onglet.c:401
+#: ../src/tiers_onglet.c:406
 #, c-format
 msgid "Removed %d payees."
 msgstr "Απομακρύνετε %d δικαιούχοι πληρωμής."
 
-#: ../src/tiers_onglet.c:407
+#: ../src/tiers_onglet.c:412
 msgid "There is no payee to remove."
 msgstr ""
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:431
+#: ../src/tiers_onglet.c:436
 msgid "Payee view"
 msgstr "Άποψη δικαιούχων πληρωμής"
 
-#: ../src/tiers_onglet.c:681
+#: ../src/tiers_onglet.c:686
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -10861,11 +10861,11 @@ msgstr ""
 "Προσπαθήσατε να μετονομάσετε τον τρέχοντα δικαιούχο πληρωμής '%s' αλλά αυτός "
 "ο δικαιούχος πληρωμής υπάρχει ήδη. Παρακαλώ επιλέξτε ένα άλλο όνομα."
 
-#: ../src/tiers_onglet.c:685
+#: ../src/tiers_onglet.c:690
 msgid "Payee already exists"
 msgstr "Ο δικαιούχος πληρωμής υπάρχει ήδη"
 
-#: ../src/tiers_onglet.c:807
+#: ../src/tiers_onglet.c:812
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10880,21 +10880,21 @@ msgstr ""
 "\n"
 "Είναι καλύτερο να γίνει ένα αντίγραφο του Grisbi  αν δεν υπάρχει ήδη."
 
-#: ../src/tiers_onglet.c:929
+#: ../src/tiers_onglet.c:934
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:933
+#: ../src/tiers_onglet.c:938
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:986
+#: ../src/tiers_onglet.c:991
 msgid "Choose a payee"
 msgstr "Επιλέξτε έναν δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:988
+#: ../src/tiers_onglet.c:993
 #, fuzzy
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
@@ -10911,50 +10911,50 @@ msgstr ""
 "%string%\n"
 "string_1%string_2"
 
-#: ../src/tiers_onglet.c:1007
+#: ../src/tiers_onglet.c:1012
 msgid "Enter the new payee"
 msgstr "Εισάγετε το νέο δικαιούχο πληρωμής"
 
-#: ../src/tiers_onglet.c:1009
+#: ../src/tiers_onglet.c:1014
 msgid "Enter the name of the new payee"
 msgstr "Εισάγετε το όνομα του νέου δικαιούχου πληρωμής"
 
-#: ../src/tiers_onglet.c:1024
+#: ../src/tiers_onglet.c:1029
 msgid "Options"
 msgstr "Επιλογές"
 
-#: ../src/tiers_onglet.c:1032
+#: ../src/tiers_onglet.c:1037
 msgid "Save the payees in the notes"
 msgstr "Εκτός από τους δικαιούχους πληρωμής στις σημειώσεις"
 
-#: ../src/tiers_onglet.c:1065
+#: ../src/tiers_onglet.c:1070
 msgid "List of payees who will be modified"
 msgstr "Κατάλογος δικαιούχων πληρωμής που θα τροποποιηθούν"
 
-#: ../src/tiers_onglet.c:1119
+#: ../src/tiers_onglet.c:1124
 msgid "Payee number"
 msgstr "Αριθμός δικαιούχων πληρωμής"
 
-#: ../src/tiers_onglet.c:1145
+#: ../src/tiers_onglet.c:1150
 msgid "Total number of payees :"
 msgstr "Συνολικός αριθμός των δικαιούχων πληρωμής:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1162
+#: ../src/tiers_onglet.c:1167
 msgid "Number of selected payees :"
 msgstr "Αριθμός επιλεγμένων δικαιούχων πληρωμής:"
 
-#: ../src/tiers_onglet.c:1265
+#: ../src/tiers_onglet.c:1270
 #, fuzzy, c-format
 msgid "Payee sought : %s"
 msgstr "Ο δικαιούχος πληρωμής επιδίωξε: %s\n"
 
-#: ../src/tiers_onglet.c:1271
+#: ../src/tiers_onglet.c:1276
 #, c-format
 msgid "New payee : %s"
 msgstr "Νέος δικαιούχος πληρωμής: %s"
 
-#: ../src/tiers_onglet.c:1346
+#: ../src/tiers_onglet.c:1351
 #, fuzzy, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -10967,7 +10967,7 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Είστε βέβαιοι;</span>"
 
-#: ../src/tiers_onglet.c:1354
+#: ../src/tiers_onglet.c:1359
 #, fuzzy, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -10980,15 +10980,15 @@ msgstr ""
 "\n"
 "<span weight=\"bold\">Είστε βέβαιοι;</span>"
 
-#: ../src/tiers_onglet.c:1518
+#: ../src/tiers_onglet.c:1523
 msgid "You must choose a payee for searching."
 msgstr "Πρέπει να επιλέξετε έναν δικαιούχο πληρωμής για την έρευνα."
 
-#: ../src/tiers_onglet.c:1522
+#: ../src/tiers_onglet.c:1527
 msgid "Beware you don't use one of models for the research."
 msgstr "Προσοχή δεν χρησιμοποιείτε ένα απο τα πρότυπα για την έρευνα."
 
-#: ../src/tiers_onglet.c:1620
+#: ../src/tiers_onglet.c:1625
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11290,7 +11290,7 @@ msgstr ""
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
 
-#: ../src/utils_str.c:1052
+#: ../src/utils_str.c:985
 msgid ": "
 msgstr ""
 
