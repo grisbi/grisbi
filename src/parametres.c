@@ -1392,6 +1392,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( thou_sep ) -> child ), FALSE );
     gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( thou_sep ) -> child ), 5 );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "' '" );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "." );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "," );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "''" );
 
@@ -1421,9 +1422,11 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     mon_thousands_sep = gsb_real_get_thousands_sep ( );
     if ( mon_thousands_sep == NULL )
-        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 2 );
-    else if ( strcmp ( mon_thousands_sep, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 3 );
+    else if ( strcmp ( mon_thousands_sep, "." ) == 0 )
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 1 );
+    else if ( strcmp ( mon_thousands_sep, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 2 );
     else
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 0 );
 
@@ -1454,16 +1457,15 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
  * */
 void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data )
 {
+    GtkWidget *combo_box;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
+    combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
     if ( g_strcmp0 ( text, "," ) == 0 )
     {
-        GtkWidget *combo_box;
-
         gsb_real_set_decimal_point ( "," );
-        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
@@ -1472,7 +1474,14 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
         }
     }
     else
+    {
         gsb_real_set_decimal_point ( "." );
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        {
+            gsb_real_set_thousands_sep ( "," );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 2 );
+        }
+    }
 
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
@@ -1489,20 +1498,30 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
  * */
 void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data )
 {
+    GtkWidget *combo_box;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
+    combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
     
     if ( g_strcmp0 ( text, "' '" ) == 0 )
     {
         gsb_real_set_thousands_sep ( " " );
     }
+    else if ( g_strcmp0 ( text, "." ) == 0 )
+    {
+
+        gsb_real_set_thousands_sep ( "." );
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        {
+            gsb_real_set_decimal_point ( "," );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 1 );
+        }
+    }
     else if ( g_strcmp0 ( text, "," ) == 0 )
     {
-        GtkWidget *combo_box;
 
         gsb_real_set_thousands_sep ( "," );
-        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
             gsb_real_set_decimal_point ( "." );

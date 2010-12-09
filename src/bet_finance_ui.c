@@ -798,9 +798,11 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
         gchar *tmp_str;
 
         entry = gtk_entry_get_text ( GTK_ENTRY ( widget ) );
+
         if ( entry && strlen ( entry ) > 0 )
         {
-            number = my_strtod ( entry, NULL );
+            number = utils_str_strtod ( entry, NULL );
+
             tmp_str = gsb_real_get_string_with_currency (
                                 gsb_real_double_to_real ( number ),
                                 etat.bet_currency,
@@ -2081,7 +2083,7 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
     gboolean valide;
 
     text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
-    capital = my_strtod ( text, NULL );
+    capital = utils_str_strtod ( text, NULL );
 
     if ( strlen ( text ) == 0 || capital == 0 )
     {

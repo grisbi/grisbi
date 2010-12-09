@@ -998,21 +998,32 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
         ch = g_utf8_get_char_validated ( ptr, -1 );
 
         if ( !g_unichar_isdefined ( ch ) )
+        {
+            g_free ( mon_decimal_point );
+            if ( mon_thousands_sep )
+                g_free ( mon_thousands_sep );
+
             return FALSE;
+        }
 
         if ( !g_ascii_isdigit ( ch ) )
         {
             if ( g_unichar_isdefined ( thousands_sep ) )
             {
                 if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != thousands_sep )
+                {
+                    g_free ( mon_decimal_point );
+                    g_free ( mon_thousands_sep );
+
                     return FALSE;
+                }
 
                 if ( ch == decimal_point
                  && g_utf8_strlen ( ptr, -1) == 1
                  && g_utf8_strchr ( string, -1, thousands_sep ) )
                 {
                     gchar **tab;
-                    guint i = 0;
+                    guint i = 1;    /* le premier champs peut etre < à 3 */
                     guint nbre_champs;
 
                     tab = g_strsplit ( string, mon_thousands_sep, 0 );
@@ -1023,11 +1034,17 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
                         if ( i < nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 3 )
                         {
                             g_strfreev ( tab );
+                            g_free ( mon_decimal_point );
+                            g_free ( mon_thousands_sep );
+
                             return FALSE;
                         }
                         else if ( i == nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 4 )
                         {
                             g_strfreev ( tab );
+                            g_free ( mon_decimal_point );
+                            g_free ( mon_thousands_sep );
+
                             return FALSE;
                         }
                         i++;
@@ -1041,6 +1058,10 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
 
         ptr = g_utf8_next_char ( ptr );
     }
+
+    g_free ( mon_decimal_point );
+    if ( mon_thousands_sep )
+        g_free ( mon_thousands_sep );
 
     return TRUE;
 }

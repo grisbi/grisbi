@@ -40,7 +40,6 @@ G_MODULE_EXPORT gchar *my_strdup ( const gchar *string );
 gint my_strncasecmp ( gchar *string_1,
                         gchar *string_2,
                         gint longueur );
-double my_strtod ( const gchar *nptr, gchar **endptr );
 G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine );
 gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif );
 G_MODULE_EXPORT gchar *utils_str_colon ( const gchar *s );
@@ -50,6 +49,7 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
 gchar *utils_str_localise_decimal_point_from_string ( const gchar *string );
 gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
                         gint exponent );
+gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr );
 gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr );
 /* END_DECLARATION */
 

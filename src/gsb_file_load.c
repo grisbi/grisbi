@@ -1070,7 +1070,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
     {
-        etat.bet_capital = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
@@ -1080,7 +1080,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
     {
-        etat.bet_taux_annuel = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
@@ -1090,7 +1090,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
     {
-        etat.bet_frais = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )

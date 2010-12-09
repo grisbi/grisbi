@@ -1803,6 +1803,8 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     gchar *string;
     gint floating_point;
     gchar *tmp = NULL;
+    gchar *mon_decimal_point;
+    gunichar decimal_point;
     gint i;
 
     if (!etat.automatic_separator
@@ -1820,30 +1822,30 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     account_number = gsb_form_get_account_number ();
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
 
-    if ( strchr (string, '.')
-	 ||
-	 strchr (string, ','))
+    mon_decimal_point = gsb_real_get_decimal_point ( );
+    decimal_point = g_utf8_get_char_validated ( mon_decimal_point, -1 );
+
+    if ( g_utf8_strchr (string, -1, decimal_point ) )
     {
-	g_free (string);
-	return;
+        g_free (string);
+        g_free ( mon_decimal_point );
+        return;
     }
 
     /* if string is < the floating_point, increase it to have
      * 1 character more (to set the 0 before the .) */
     if (strlen(string) <= floating_point)
     {
-	gchar *concat_tmp;
+        gchar *concat_tmp;
 
-	tmp = g_malloc (floating_point - strlen(string) + 2);
-	for (i=0 ; i<(floating_point - strlen(string) + 1) ; i++)
-	    tmp[i] = '0';
-	tmp[floating_point - strlen(string) + 1] = 0;
-	concat_tmp = g_strconcat ( tmp,
-				   string,
-				   NULL );
-	g_free (tmp);
-	g_free (string);
-	string = concat_tmp;
+        tmp = g_malloc (floating_point - strlen(string) + 2);
+        for (i=0 ; i<(floating_point - strlen(string) + 1) ; i++)
+            tmp[i] = '0';
+        tmp[floating_point - strlen(string) + 1] = 0;
+        concat_tmp = g_strconcat ( tmp, string, NULL );
+        g_free (tmp);
+        g_free (string);
+        string = concat_tmp;
     }
 
     tmp = g_malloc ((strlen(string)+2) * sizeof (gchar));
@@ -1851,17 +1853,15 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     memcpy ( tmp, string, strlen(string) - floating_point);
 
     i = strlen(string) - floating_point;
-    tmp[i] = '.';
+    tmp[i] = decimal_point;
     i++;
-    memcpy ( tmp + i,
-	     string + i - 1,
-	     floating_point );
+    memcpy ( tmp + i, string + i - 1, floating_point );
     i = i + floating_point;
     tmp[i] = 0;
-    gtk_entry_set_text (GTK_ENTRY (entry),
-			tmp );
+    gtk_entry_set_text (GTK_ENTRY (entry), tmp );
     g_free (tmp);
     g_free (string);
+    g_free ( mon_decimal_point );
 }
 
 
