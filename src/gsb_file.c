@@ -384,7 +384,10 @@ gboolean gsb_file_open_file ( gchar *filename )
         /* the file has been opened succesfully */
         /* we make a backup if necessary */
         if ( conf.sauvegarde_demarrage )
-            gsb_file_save_backup();
+        {
+            gsb_file_save_backup ();
+            etat.modification_fichier = FALSE;
+        }
     }
     else
     {
