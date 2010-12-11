@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-09 22:46+0100\n"
+"POT-Creation-Date: 2010-12-11 17:26+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team:  <en@li.org>\n"
@@ -1856,7 +1856,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: ../src/categories_onglet.c:402 ../src/etats_onglet.c:1229
-#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:239 ../src/import.c:815
+#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:240 ../src/import.c:815
 #: ../src/imputation_budgetaire.c:442
 #, fuzzy
 msgid "All files"
@@ -3723,8 +3723,8 @@ msgstr "קובץ LaTeX"
 msgid "Exporting report ..."
 msgstr "ייצוא הדו\"ח בתור CSV ..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:478
-#: ../src/gsb_file.c:602 ../src/gsb_file.c:673
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:483
+#: ../src/gsb_file.c:607 ../src/gsb_file.c:678
 #, fuzzy
 msgid "Done"
 msgstr "ללא"
@@ -7649,42 +7649,42 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "לעיסקה #%d צריכה להיות #%d נגדית, אך זו אינה קיימת.\n"
 
 #. Create main widget.
-#: ../src/gsb_file.c:177
+#: ../src/gsb_file.c:178
 msgid "Creating main window"
 msgstr ""
 
-#: ../src/gsb_file.c:184
+#: ../src/gsb_file.c:185
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr ""
 
-#: ../src/gsb_file.c:222
+#: ../src/gsb_file.c:223
 msgid "Open an accounts file"
 msgstr "פתיחת קובץ חשבונות"
 
-#: ../src/gsb_file.c:233
+#: ../src/gsb_file.c:234
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:370
+#: ../src/gsb_file.c:375
 #, fuzzy
 msgid "Loading accounts"
 msgstr "טעינת קובץ חשבונות"
 
 #. Loading failed.
-#: ../src/gsb_file.c:387
+#: ../src/gsb_file.c:392
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "בחירת חשבונות בנק"
 
-#: ../src/gsb_file.c:391 ../src/gsb_file.c:408 ../src/gsb_file_load.c:311
+#: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:311
 #: ../src/gsb_file_load.c:325 ../src/gsb_file_load.c:426
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "שגיאה בפתיחת הקובץ '%s'."
 
-#: ../src/gsb_file.c:393
+#: ../src/gsb_file.c:398
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7694,7 +7694,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:413
+#: ../src/gsb_file.c:418
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7705,7 +7705,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:420
+#: ../src/gsb_file.c:425
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7714,17 +7714,17 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:435
+#: ../src/gsb_file.c:440
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:448
+#: ../src/gsb_file.c:453
 #, fuzzy
 msgid "Checking amounts"
 msgstr "בדיקה"
 
-#: ../src/gsb_file.c:554
+#: ../src/gsb_file.c:559
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7735,81 +7735,81 @@ msgstr ""
 "s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:555 ../src/gsb_file.c:820 ../src/parametres.c:865
+#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:865
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
-#: ../src/gsb_file.c:556
+#: ../src/gsb_file.c:561
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "לא ניתן לשמור את הקובץ \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:579
+#: ../src/gsb_file.c:584
 #, fuzzy
 msgid "Saving file"
 msgstr "שמירת קובץ"
 
-#: ../src/gsb_file.c:628
+#: ../src/gsb_file.c:633
 msgid "Saving backup"
 msgstr "שמירת גיבוי"
 
-#: ../src/gsb_file.c:817
+#: ../src/gsb_file.c:822
 #, fuzzy
 msgid "Save locked files?"
 msgstr "שמירת קובץ"
 
-#: ../src/gsb_file.c:818
+#: ../src/gsb_file.c:823
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:783
+#: ../src/gsb_file.c:824 ../src/gsb_file.c:835 ../src/main.c:783
 msgid "unnamed"
 msgstr "ללא שם"
 
-#: ../src/gsb_file.c:822 ../src/gsb_file.c:833
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838
 msgid "Close without saving"
 msgstr "סגירה ללא שמירה"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:834
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "העם לשמור את השינויים במסמך '%s' לפני הסגירה?"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:847
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:847
+#: ../src/gsb_file.c:852
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:857
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d חודשים"
 
-#: ../src/gsb_file.c:855
+#: ../src/gsb_file.c:860
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "במקרה של סגירה ללא שמירה, כל השינויים שנעשו - ייעלמו."
 
-#: ../src/gsb_file.c:891
+#: ../src/gsb_file.c:896
 msgid "Name the accounts file"
 msgstr "שם קובץ החשבונות"
 
-#: ../src/gsb_file.c:1143
+#: ../src/gsb_file.c:1148
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1163
+#: ../src/gsb_file.c:1168
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7819,12 +7819,12 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:937
+#: ../src/gsb_file_config.c:940
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "לא ניתן לשמור את הקובץ '%s': %s"
 
-#: ../src/gsb_file_config.c:978
+#: ../src/gsb_file_config.c:981
 #, fuzzy, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7833,20 +7833,20 @@ msgstr ""
 "נראה כי%s אינו קובץ רגיל.\n"
 "נא לבדוק זאת ולנסות שנית."
 
-#: ../src/gsb_file_config.c:1015
+#: ../src/gsb_file_config.c:1018
 #, fuzzy, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
 
-#: ../src/gsb_file_config.c:1427 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1430 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1446
+#: ../src/gsb_file_config.c:1449
 msgid "Delete config file from a previous version"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1466
+#: ../src/gsb_file_config.c:1469
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7854,12 +7854,12 @@ msgid ""
 "<b>Do you want to delete this file?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1530
+#: ../src/gsb_file_config.c:1533
 #, fuzzy
 msgid "Choose a file"
 msgstr "בחירת הקבצים לייבוא"
 
-#: ../src/gsb_file_config.c:1553
+#: ../src/gsb_file_config.c:1556
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"

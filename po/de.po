@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-09 22:46+0100\n"
+"POT-Creation-Date: 2010-12-11 17:26+0100\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1480,7 +1480,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi Kategorien (*.cgsb)"
 
 #: ../src/categories_onglet.c:402 ../src/etats_onglet.c:1229
-#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:239 ../src/import.c:815
+#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:240 ../src/import.c:815
 #: ../src/imputation_budgetaire.c:442
 msgid "All files"
 msgstr "Alle Dateien"
@@ -3318,8 +3318,8 @@ msgstr "LaTeX Datei"
 msgid "Exporting report ..."
 msgstr "Bericht exportieren ..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:478
-#: ../src/gsb_file.c:602 ../src/gsb_file.c:673
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:483
+#: ../src/gsb_file.c:607 ../src/gsb_file.c:678
 msgid "Done"
 msgstr "Fertig"
 
@@ -7408,40 +7408,40 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Die Buchung %d hat einen ungültigen Empfänger %d.\n"
 
 #. Create main widget.
-#: ../src/gsb_file.c:177
+#: ../src/gsb_file.c:178
 msgid "Creating main window"
 msgstr "Hauptfenster erstellen"
 
-#: ../src/gsb_file.c:184
+#: ../src/gsb_file.c:185
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr "Das Modell für die Liste konnte nicht erstellt werden"
 
-#: ../src/gsb_file.c:222
+#: ../src/gsb_file.c:223
 msgid "Open an accounts file"
 msgstr "Datei auswählen - Grisbi"
 
-#: ../src/gsb_file.c:233
+#: ../src/gsb_file.c:234
 msgid "Grisbi files (*.gsb)"
 msgstr "Grisbi-Datei (*.gsb)"
 
-#: ../src/gsb_file.c:370
+#: ../src/gsb_file.c:375
 msgid "Loading accounts"
 msgstr "Konten laden"
 
 #. Loading failed.
-#: ../src/gsb_file.c:387
+#: ../src/gsb_file.c:392
 msgid "Failed to load accounts"
 msgstr "Fehler beim Laden der Konten"
 
-#: ../src/gsb_file.c:391 ../src/gsb_file.c:408 ../src/gsb_file_load.c:311
+#: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:311
 #: ../src/gsb_file_load.c:325 ../src/gsb_file_load.c:426
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
-#: ../src/gsb_file.c:393
+#: ../src/gsb_file.c:398
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7457,7 +7457,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: ../src/gsb_file.c:413
+#: ../src/gsb_file.c:418
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7474,7 +7474,7 @@ msgstr ""
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
-#: ../src/gsb_file.c:420
+#: ../src/gsb_file.c:425
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7487,16 +7487,16 @@ msgstr ""
 "Ursache für den Fehler zu finden."
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:435
+#: ../src/gsb_file.c:440
 msgid "Checking schedulers"
 msgstr "Geplante Buchungen prüfen"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:448
+#: ../src/gsb_file.c:453
 msgid "Checking amounts"
 msgstr "Beträge prüfen"
 
-#: ../src/gsb_file.c:554
+#: ../src/gsb_file.c:559
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7507,30 +7507,30 @@ msgstr ""
 "Option \"%s\" in den Einstellungen."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:555 ../src/gsb_file.c:820 ../src/parametres.c:865
+#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:865
 msgid "Force saving of locked files"
 msgstr "Das Speichern von gesperrten Dateien erzwingen"
 
-#: ../src/gsb_file.c:556
+#: ../src/gsb_file.c:561
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Datei \"%s\" kann nicht gespeichert werden"
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:579
+#: ../src/gsb_file.c:584
 msgid "Saving file"
 msgstr "Datei speichern"
 
-#: ../src/gsb_file.c:628
+#: ../src/gsb_file.c:633
 msgid "Saving backup"
 msgstr "Sicherung speichern"
 
-#: ../src/gsb_file.c:817
+#: ../src/gsb_file.c:822
 msgid "Save locked files?"
 msgstr "Gesperrte Datei speichern?"
 
-#: ../src/gsb_file.c:818
+#: ../src/gsb_file.c:823
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -7540,50 +7540,50 @@ msgstr ""
 "speichern wollen, müssen Sie den Vorgang abbrechen und die Datei unter einem "
 "anderen Namen speichern oder die Option \"%s\" in den Einstellungen setzen."
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:783
+#: ../src/gsb_file.c:824 ../src/gsb_file.c:835 ../src/main.c:783
 msgid "unnamed"
 msgstr "Unbenannt"
 
-#: ../src/gsb_file.c:822 ../src/gsb_file.c:833
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838
 msgid "Close without saving"
 msgstr "Beenden ohne Speichern"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:834
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Die Änderungen in Datei '%s' vor dem Schließen speichern?"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:847
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d Minuten und %d Sekunden"
 
-#: ../src/gsb_file.c:847
+#: ../src/gsb_file.c:852
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 Minute und %d Sekunden"
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:857
 #, c-format
 msgid "%d seconds"
 msgstr "%d Sekunden"
 
-#: ../src/gsb_file.c:855
+#: ../src/gsb_file.c:860
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
 "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
-#: ../src/gsb_file.c:891
+#: ../src/gsb_file.c:896
 msgid "Name the accounts file"
 msgstr "Datei speichern - Grisbi"
 
-#: ../src/gsb_file.c:1143
+#: ../src/gsb_file.c:1148
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Die Kopie einer älteren Grisbi-Datei löschen"
 
-#: ../src/gsb_file.c:1163
+#: ../src/gsb_file.c:1168
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7598,12 +7598,12 @@ msgstr ""
 "<b>>Soll diese Datei gelöscht werden:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:937
+#: ../src/gsb_file_config.c:940
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: ../src/gsb_file_config.c:978
+#: ../src/gsb_file_config.c:981
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7612,20 +7612,20 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: ../src/gsb_file_config.c:1015
+#: ../src/gsb_file_config.c:1018
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_config.c:1427 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1430 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1446
+#: ../src/gsb_file_config.c:1449
 msgid "Delete config file from a previous version"
 msgstr "Die Konfigurationsdatei einer älteren Grisbi-Version löschen"
 
-#: ../src/gsb_file_config.c:1466
+#: ../src/gsb_file_config.c:1469
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7637,11 +7637,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: ../src/gsb_file_config.c:1530
+#: ../src/gsb_file_config.c:1533
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: ../src/gsb_file_config.c:1553
+#: ../src/gsb_file_config.c:1556
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"

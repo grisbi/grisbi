@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-09 22:46+0100\n"
+"POT-Creation-Date: 2010-12-11 17:26+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1485,7 +1485,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Soubory kategorií Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:402 ../src/etats_onglet.c:1229
-#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:239 ../src/import.c:815
+#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:240 ../src/import.c:815
 #: ../src/imputation_budgetaire.c:442
 msgid "All files"
 msgstr "Všechny soubory"
@@ -3311,8 +3311,8 @@ msgstr "Soubor LaTeX"
 msgid "Exporting report ..."
 msgstr "Exportování sestavy..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:478
-#: ../src/gsb_file.c:602 ../src/gsb_file.c:673
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:483
+#: ../src/gsb_file.c:607 ../src/gsb_file.c:678
 msgid "Done"
 msgstr "Hotovo"
 
@@ -7346,40 +7346,40 @@ msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Transakce %d má neplatného plátce/příjemce %d.\n"
 
 #. Create main widget.
-#: ../src/gsb_file.c:177
+#: ../src/gsb_file.c:178
 msgid "Creating main window"
 msgstr "Vytváření hlavního okna"
 
-#: ../src/gsb_file.c:184
+#: ../src/gsb_file.c:185
 msgid ""
 "The model of the list couldn't be created... Bad things will happen very "
 "soon..."
 msgstr "Model seznamu nemohl být vytvořen... Brzy dojde k problémům..."
 
-#: ../src/gsb_file.c:222
+#: ../src/gsb_file.c:223
 msgid "Open an accounts file"
 msgstr "Otevřít soubor účtů"
 
-#: ../src/gsb_file.c:233
+#: ../src/gsb_file.c:234
 msgid "Grisbi files (*.gsb)"
 msgstr "Soubory Grisbi (*.gsb)"
 
-#: ../src/gsb_file.c:370
+#: ../src/gsb_file.c:375
 msgid "Loading accounts"
 msgstr "Nahrávání účtů"
 
 #. Loading failed.
-#: ../src/gsb_file.c:387
+#: ../src/gsb_file.c:392
 msgid "Failed to load accounts"
 msgstr "Nepodařilo se nahrát účty"
 
-#: ../src/gsb_file.c:391 ../src/gsb_file.c:408 ../src/gsb_file_load.c:311
+#: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:311
 #: ../src/gsb_file_load.c:325 ../src/gsb_file_load.c:426
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Chyba při nahrávání souboru '%s'"
 
-#: ../src/gsb_file.c:393
+#: ../src/gsb_file.c:398
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7394,7 +7394,7 @@ msgstr ""
 "Pokud netušíte, co se stalo s vaším aktuálním souborem, prosím kontaktujte "
 "vývojový tým Grisbi na devel@listes.grisbi.org"
 
-#: ../src/gsb_file.c:413
+#: ../src/gsb_file.c:418
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7411,7 +7411,7 @@ msgstr ""
 "Prosím kontaktujte vývojový tým Grisbi na devel@listes.grisbi.org abychom "
 "zjistili, co se stalo s vaším aktuálním souborem."
 
-#: ../src/gsb_file.c:420
+#: ../src/gsb_file.c:425
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7424,16 +7424,16 @@ msgstr ""
 "zjistili, co se stalo s vaším aktuálním souborem."
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:435
+#: ../src/gsb_file.c:440
 msgid "Checking schedulers"
 msgstr "Kontroluji plánovače"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:448
+#: ../src/gsb_file.c:453
 msgid "Checking amounts"
 msgstr "Kontrola zůstatků"
 
-#: ../src/gsb_file.c:554
+#: ../src/gsb_file.c:559
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7443,30 +7443,30 @@ msgstr ""
 "pod jiným názvem, nebo povolte volbu \"%s\" v Možnostech."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:555 ../src/gsb_file.c:820 ../src/parametres.c:865
+#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:865
 msgid "Force saving of locked files"
 msgstr "Vynutit uložení uzamčených souborů"
 
-#: ../src/gsb_file.c:556
+#: ../src/gsb_file.c:561
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Nelze uložit soubor \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:579
+#: ../src/gsb_file.c:584
 msgid "Saving file"
 msgstr "Ukládání souboru"
 
-#: ../src/gsb_file.c:628
+#: ../src/gsb_file.c:633
 msgid "Saving backup"
 msgstr "Ukládám záložní kopii"
 
-#: ../src/gsb_file.c:817
+#: ../src/gsb_file.c:822
 msgid "Save locked files?"
 msgstr "Uložit zamčené soubory?"
 
-#: ../src/gsb_file.c:818
+#: ../src/gsb_file.c:823
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -7476,35 +7476,35 @@ msgstr ""
 "zrušit tuto akci a uložit jej pod jiným jménem, nebo v Možnostech aktivovat "
 "volbu \"%s\"."
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:783
+#: ../src/gsb_file.c:824 ../src/gsb_file.c:835 ../src/main.c:783
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
-#: ../src/gsb_file.c:822 ../src/gsb_file.c:833
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838
 msgid "Close without saving"
 msgstr "Zavřít bez uložení"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:834
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Uložit před uzavřením změny v souboru '%s'?"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:847
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d minut a %d sekund"
 
-#: ../src/gsb_file.c:847
+#: ../src/gsb_file.c:852
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 minuta a %d sekund"
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:857
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekund"
 
-#: ../src/gsb_file.c:855
+#: ../src/gsb_file.c:860
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
@@ -7512,15 +7512,15 @@ msgstr ""
 "Jestliže zvolíte zavřít bez uložení, všechny změny za posledních %s budou "
 "ztraceny."
 
-#: ../src/gsb_file.c:891
+#: ../src/gsb_file.c:896
 msgid "Name the accounts file"
 msgstr "Pojmenujte soubor účtů"
 
-#: ../src/gsb_file.c:1143
+#: ../src/gsb_file.c:1148
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Odstranit kopii souboru z předchozí verze Grisbi."
 
-#: ../src/gsb_file.c:1163
+#: ../src/gsb_file.c:1168
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7535,12 +7535,12 @@ msgstr ""
 "<b>Skutečně chcete odstranit soubor:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:937
+#: ../src/gsb_file_config.c:940
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:978
+#: ../src/gsb_file_config.c:981
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7549,20 +7549,20 @@ msgstr ""
 "%s vypadá, že není správný konfigurační soubor,\n"
 "prosím zkontrolujte jej."
 
-#: ../src/gsb_file_config.c:1015
+#: ../src/gsb_file_config.c:1018
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Nelze otevřít konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:1427 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1430 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1446
+#: ../src/gsb_file_config.c:1449
 msgid "Delete config file from a previous version"
 msgstr "Odstranit konfigurační soubor z předchozí veze"
 
-#: ../src/gsb_file_config.c:1466
+#: ../src/gsb_file_config.c:1469
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7574,11 +7574,11 @@ msgstr ""
 "\n"
 "<b>Skutečně chcete soubor odstranit?</b>"
 
-#: ../src/gsb_file_config.c:1530
+#: ../src/gsb_file_config.c:1533
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
-#: ../src/gsb_file_config.c:1553
+#: ../src/gsb_file_config.c:1556
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
