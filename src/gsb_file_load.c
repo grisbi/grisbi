@@ -8074,8 +8074,9 @@ gboolean gsb_file_load_update_previous_version ( void )
     gint version_number;
     gint account_number;
     GList *dlist_tmp;
+    gchar** strarray;
 
-    gchar** strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
+    strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
     tmpstr = g_strjoinv ( "", strarray );
     version_number = utils_str_atoi ( tmpstr );
     g_strfreev ( strarray );
@@ -8841,9 +8842,8 @@ gboolean gsb_file_load_update_previous_version ( void )
         gsb_data_account_reorder (sort_accounts);
 
     case 60:
-
-
-
+        if ( conf.sauvegarde_demarrage )
+            etat.modification_fichier = TRUE;
         break;
 
     default :

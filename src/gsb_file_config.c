@@ -82,9 +82,12 @@ gsize nb_derniers_fichiers_ouverts = 0;
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
+#if IS_DEVELOPMENT_VERSION == 1
 /* flag de chargement du fichier modèle */
-
 static gboolean used_model = FALSE;
+#endif
+
+
 /**
  * load the config file
  * it uses the glib config utils after 0.6.0
