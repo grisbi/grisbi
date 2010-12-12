@@ -59,16 +59,21 @@ gboolean met_en_prelight ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    GSList *list = ( GSList* ) pointeur;
-
-    while (list )
+    if ( pointeur == NULL )
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
+    else
     {
-        GtkWidget *widget;
+        GSList *list = ( GSList* ) pointeur;
 
-        widget = list -> data;
-        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_PRELIGHT );
+        while (list )
+        {
+            GtkWidget *widget;
 
-        list = list -> next;
+            widget = list -> data;
+            gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_PRELIGHT );
+
+            list = list -> next;
+        }
     }
     return FALSE;
 }
@@ -83,18 +88,24 @@ gboolean met_en_normal ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    GSList *list = ( GSList* ) pointeur;
-
-    while (list )
+    if ( pointeur == NULL )
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
+    else
     {
-        GtkWidget *widget;
+        GSList *list = ( GSList* ) pointeur;
 
-        widget = list -> data;
+        while (list )
+        {
+            GtkWidget *widget;
 
-        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_NORMAL );
+            widget = list -> data;
 
-        list = list -> next;
+            gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_NORMAL );
+
+            list = list -> next;
+        }
     }
+
     return FALSE;
 }
 
