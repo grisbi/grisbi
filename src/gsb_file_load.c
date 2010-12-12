@@ -8859,20 +8859,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* general stuff for all versions */
     
-    /* if no logo, set it */
-    if ( gsb_select_icon_get_logo_pixbuf ( ) == NULL )
-    {
-        GdkPixbuf *pixbuf;
-        gchar *chemin_logo;
-
-        chemin_logo = my_strdup ( LOGO_PATH );
-        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-        /* modify the icon of grisbi (set in the panel of gnome or other) */
-        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
-            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
-        g_free ( chemin_logo );
-    }
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );
 
