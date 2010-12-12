@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-11 17:26+0100\n"
+"POT-Creation-Date: 2010-12-12 21:27+0100\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -54,7 +54,7 @@ msgid "Account balances in %s"
 msgstr "Kontotransaktioner"
 
 #: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
-#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1667
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1665
 msgid " at "
 msgstr ""
 
@@ -207,7 +207,7 @@ msgstr "Kontonavn"
 msgid "Currency"
 msgstr "Valuta"
 
-#: ../src/affichage.c:140 ../src/parametres.c:374
+#: ../src/affichage.c:140 ../src/parametres.c:377
 msgid "Fonts & logo"
 msgstr "Skrifttyper & logoer"
 
@@ -249,7 +249,7 @@ msgstr ""
 msgid "Back to default"
 msgstr ""
 
-#: ../src/affichage.c:369 ../src/parametres.c:392
+#: ../src/affichage.c:369 ../src/parametres.c:395
 msgid "Addresses & titles"
 msgstr "Adresser og overskrifter"
 
@@ -295,7 +295,7 @@ msgstr "Sekundær adresse"
 msgid "Select a new logo"
 msgstr "Væl nyt logo"
 
-#: ../src/affichage.c:705 ../src/parametres.c:410
+#: ../src/affichage.c:705 ../src/parametres.c:413
 msgid "Toolbars"
 msgstr ""
 
@@ -533,7 +533,7 @@ msgstr "Måneder"
 msgid "Year"
 msgstr ""
 
-#: ../src/bet_config.c:112 ../src/parametres.c:569
+#: ../src/bet_config.c:112 ../src/parametres.c:572
 #, fuzzy
 msgid "General Options"
 msgstr "Generelt"
@@ -562,7 +562,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:213 ../src/parametres.c:578
+#: ../src/bet_config.c:213 ../src/parametres.c:581
 #, fuzzy
 msgid "Accounts data"
 msgstr "Kontooplysninger"
@@ -657,7 +657,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Vælg regnskabsår"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:875 ../src/bet_hist.c:535
+#: ../src/bet_config.c:875 ../src/bet_hist.c:538
 #: ../src/categories_onglet.c:148 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:796
 #: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:84
@@ -667,7 +667,7 @@ msgstr "Kategori"
 
 #: ../src/bet_config.c:888 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
-#: ../src/etats_config.c:677 ../src/gsb_form.c:1334
+#: ../src/etats_config.c:677 ../src/gsb_form.c:1336
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:149
 #: ../src/imputation_budgetaire.c:160 ../src/meta_budgetary.c:62
 msgid "Budgetary line"
@@ -731,12 +731,12 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1694
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:1692
 #, fuzzy
 msgid " year "
 msgstr "År"
 
-#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1696
+#: ../src/bet_config.c:1363 ../src/bet_finance_ui.c:1694
 #, fuzzy
 msgid " years "
 msgstr "År"
@@ -835,39 +835,39 @@ msgstr ""
 msgid "years"
 msgstr "År"
 
-#: ../src/bet_finance_ui.c:1019 ../src/bet_finance_ui.c:1828
+#: ../src/bet_finance_ui.c:1019 ../src/bet_finance_ui.c:1826
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1027 ../src/bet_finance_ui.c:1845
+#: ../src/bet_finance_ui.c:1027 ../src/bet_finance_ui.c:1843
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1987
+#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1985
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1045 ../src/bet_finance_ui.c:1862
-#: ../src/bet_finance_ui.c:1989
+#: ../src/bet_finance_ui.c:1045 ../src/bet_finance_ui.c:1860
+#: ../src/bet_finance_ui.c:1987
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1060 ../src/bet_finance_ui.c:1880
+#: ../src/bet_finance_ui.c:1060 ../src/bet_finance_ui.c:1878
 #: ../src/bet_tab.c:1528 ../src/bet_tab.c:2852
 #, fuzzy
 msgid "Print the array"
 msgstr "Printer"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1070 ../src/bet_finance_ui.c:1896
-#: ../src/bet_finance_ui.c:1925 ../src/bet_tab.c:1538
+#: ../src/bet_finance_ui.c:1070 ../src/bet_finance_ui.c:1894
+#: ../src/bet_finance_ui.c:1923 ../src/bet_tab.c:1538
 #, fuzzy
 msgid "Export the array"
 msgstr "Printer"
 
 #: ../src/bet_finance_ui.c:1110 ../src/bet_finance_ui.c:1549
-#: ../src/bet_finance_ui.c:1667
+#: ../src/bet_finance_ui.c:1665
 msgid "Amortization Table"
 msgstr ""
 
@@ -879,7 +879,7 @@ msgstr "Bankkonto"
 
 #: ../src/bet_finance_ui.c:1215 ../src/bet_future.c:770 ../src/bet_tab.c:681
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:766
-#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1289
+#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1291
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:343 ../src/gsb_transactions_list.c:146
 #: ../src/import.c:3244 ../src/import_csv.c:79
@@ -914,45 +914,45 @@ msgstr ""
 msgid "Insurance"
 msgstr "Annulér"
 
-#: ../src/bet_finance_ui.c:1810 ../src/bet_finance_ui.c:1813
+#: ../src/bet_finance_ui.c:1808 ../src/bet_finance_ui.c:1811
 #, fuzzy
 msgid "Calculate"
 msgstr "Valørdato"
 
-#: ../src/bet_finance_ui.c:1824 ../src/bet_finance_ui.c:1858
+#: ../src/bet_finance_ui.c:1822 ../src/bet_finance_ui.c:1856
 #, fuzzy
 msgid "Amortization"
 msgstr "Eksportér kategorier"
 
-#: ../src/bet_finance_ui.c:1841
+#: ../src/bet_finance_ui.c:1839
 #, fuzzy
 msgid "Credits"
 msgstr "Kredit"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1877 ../src/bet_tab.c:2849
+#: ../src/bet_finance_ui.c:1875 ../src/bet_tab.c:2849
 #: ../src/barre_outils.c:140 ../src/etats_onglet.c:148
 #: ../src/print_config.c:80
 msgid "Print"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1893 ../src/bet_tab.c:2862
+#: ../src/bet_finance_ui.c:1891 ../src/bet_tab.c:2862
 #: ../src/categories_onglet.c:522 ../src/etats_onglet.c:138
 #: ../src/export.c:161 ../src/imputation_budgetaire.c:559
 msgid "Export"
 msgstr "Eksportér"
 
-#: ../src/bet_finance_ui.c:1932
+#: ../src/bet_finance_ui.c:1930
 #, fuzzy
 msgid "credit.csv"
 msgstr "Kredit"
 
-#: ../src/bet_finance_ui.c:1949 ../src/bet_tab.c:2977
+#: ../src/bet_finance_ui.c:1947 ../src/bet_tab.c:2977
 #: ../src/imputation_budgetaire.c:396
 msgid "Cannot save file."
 msgstr ""
 
-#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1853
+#: ../src/bet_finance_ui.c:2023 ../src/gsb_scheduler_list.c:1853
 #, fuzzy
 msgid "months"
 msgstr "Måneder"
@@ -1076,7 +1076,7 @@ msgstr "Væl betaligsmåde"
 #: ../src/etats_config.c:517 ../src/etats_config.c:520
 #: ../src/etats_config.c:685 ../src/etats_config.c:7022
 #: ../src/export_csv.c:781 ../src/fenetre_principale.c:272
-#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1310
+#: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1312
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:343
 #: ../src/gsb_transactions_list.c:148 ../src/import.c:3251
 #: ../src/import_csv.c:81 ../src/meta_payee.c:77
@@ -1087,7 +1087,7 @@ msgstr "Papir"
 
 #. Debit method_ptr
 #: ../src/bet_future.c:795 ../src/bet_tab.c:715 ../src/categories_onglet.c:701
-#: ../src/export_csv.c:787 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
+#: ../src/export_csv.c:787 ../src/gsb_form.c:1317 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
 #: ../src/gsb_payment_method_config.c:1082 ../src/gsb_transactions_list.c:150
@@ -1098,7 +1098,7 @@ msgstr "Debit"
 
 #. Credit method_ptr
 #: ../src/bet_future.c:802 ../src/bet_tab.c:733 ../src/categories_onglet.c:701
-#: ../src/export_csv.c:784 ../src/gsb_form.c:1320 ../src/gsb_form_widget.c:420
+#: ../src/export_csv.c:784 ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
 #: ../src/gsb_payment_method_config.c:1078 ../src/gsb_transactions_list.c:151
@@ -1107,13 +1107,13 @@ msgid "Credit"
 msgstr "Kredit"
 
 #: ../src/bet_future.c:809 ../src/bet_future.c:1997 ../src/bet_future.c:2483
-#: ../src/gsb_form.c:1326 ../src/gsb_form_widget.c:436
+#: ../src/gsb_form.c:1328 ../src/gsb_form_widget.c:436
 msgid "Categories : Sub-categories"
 msgstr "Kategorier: Underkategorier"
 
 #. Notes
 #: ../src/bet_future.c:823 ../src/etats_affiche.c:2447 ../src/export_csv.c:802
-#: ../src/gsb_bank.c:915 ../src/gsb_form.c:1339 ../src/gsb_form_widget.c:448
+#: ../src/gsb_bank.c:915 ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:448
 #: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:82
 #: ../src/traitement_variables.c:97
 msgid "Notes"
@@ -1127,7 +1127,7 @@ msgstr "Noter"
 #: ../src/etats_affiche.c:1844 ../src/export_csv.c:607 ../src/export_csv.c:719
 #: ../src/export_csv.c:731 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
-#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2298 ../src/import.c:2690
+#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2300 ../src/import.c:2690
 #: ../src/import.c:2708 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "Overførsel"
@@ -1185,12 +1185,12 @@ msgstr "Kontanter"
 msgid "Type"
 msgstr ""
 
-#: ../src/bet_hist.c:525 ../src/tiers_onglet.c:1116
+#: ../src/bet_hist.c:528 ../src/tiers_onglet.c:1116
 #, fuzzy
 msgid "Select"
 msgstr "Dato"
 
-#: ../src/bet_hist.c:552 ../src/categories_onglet.c:166
+#: ../src/bet_hist.c:555 ../src/categories_onglet.c:166
 #: ../src/etats_config.c:5239 ../src/export_csv.c:790
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:344
 #: ../src/gsb_transactions_list.c:153 ../src/import.c:3258
@@ -1199,16 +1199,16 @@ msgstr "Dato"
 msgid "Amount"
 msgstr "Beløb"
 
-#: ../src/bet_hist.c:568
+#: ../src/bet_hist.c:571
 msgid "Average"
 msgstr ""
 
-#: ../src/bet_hist.c:584
+#: ../src/bet_hist.c:587
 #, fuzzy
 msgid "Current fyear"
 msgstr "Valuta"
 
-#: ../src/bet_hist.c:601
+#: ../src/bet_hist.c:604
 #, fuzzy
 msgid "Amount retained"
 msgstr "Kontonavn"
@@ -1218,22 +1218,22 @@ msgstr "Kontonavn"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:998
+#: ../src/bet_hist.c:1001
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1398
+#: ../src/bet_hist.c:1401
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "Opret en planlagt transaktion"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1421
+#: ../src/bet_hist.c:1424
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1684
+#: ../src/bet_hist.c:1687
 #, fuzzy, c-format
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Lukkede planlagte transaktioner"
@@ -1605,7 +1605,7 @@ msgstr "Giv den nye underkategori et navn"
 
 #: ../src/categories_onglet.c:512 ../src/etats_onglet.c:129
 #: ../src/import.c:407 ../src/import.c:3563 ../src/imputation_budgetaire.c:548
-#: ../src/parametres.c:310 ../src/utils_files.c:671
+#: ../src/parametres.c:313 ../src/utils_files.c:671
 msgid "Import"
 msgstr "Importér"
 
@@ -2182,8 +2182,8 @@ msgid "General total"
 msgstr ""
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:577
-#: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:728
-#: ../src/gsb_form.c:2801 ../src/gsb_form.c:3204
+#: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:730
+#: ../src/gsb_form.c:2863 ../src/gsb_form.c:3266
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3405
 msgid "Split of transaction"
 msgstr ""
@@ -2210,8 +2210,8 @@ msgstr ""
 msgid "Outgoings"
 msgstr ""
 
-#: ../src/etats_affiche.c:2412 ../src/export_csv.c:769 ../src/gsb_form.c:1294
-#: ../src/gsb_form.c:2132 ../src/gsb_form.c:2162 ../src/gsb_form_widget.c:424
+#: ../src/etats_affiche.c:2412 ../src/export_csv.c:769 ../src/gsb_form.c:1296
+#: ../src/gsb_form.c:2134 ../src/gsb_form.c:2164 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:147 ../src/import_csv.c:80
 #: ../src/traitement_variables.c:84
 msgid "Value date"
@@ -2227,7 +2227,7 @@ msgstr "Regnskabsår"
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2454 ../src/etats_config.c:562
 #: ../src/etats_config.c:565 ../src/etats_config.c:7221
-#: ../src/gsb_payment_method_config.c:117 ../src/parametres.c:546
+#: ../src/gsb_payment_method_config.c:117 ../src/parametres.c:549
 msgid "Payment methods"
 msgstr ""
 
@@ -2235,13 +2235,13 @@ msgstr ""
 msgid "Cheque"
 msgstr "Check"
 
-#: ../src/etats_affiche.c:2468 ../src/export_csv.c:811 ../src/gsb_form.c:1386
+#: ../src/etats_affiche.c:2468 ../src/export_csv.c:811 ../src/gsb_form.c:1388
 #: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:159
 #: ../src/traitement_variables.c:96
 msgid "Voucher"
 msgstr ""
 
-#: ../src/etats_affiche.c:2475 ../src/export_csv.c:817 ../src/gsb_form.c:1381
+#: ../src/etats_affiche.c:2475 ../src/export_csv.c:817 ../src/gsb_form.c:1383
 #: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:161
 #: ../src/traitement_variables.c:98
 msgid "Bank references"
@@ -2399,14 +2399,14 @@ msgid "Generalities"
 msgstr ""
 
 #: ../src/etats_config.c:633 ../src/etats_config.c:636 ../src/export_csv.c:757
-#: ../src/fenetre_principale.c:239 ../src/parametres.c:420
+#: ../src/fenetre_principale.c:239 ../src/parametres.c:423
 msgid "Transactions"
 msgstr ""
 
 #. echange line label
 #: ../src/etats_config.c:642 ../src/etats_config.c:645
 #: ../src/gsb_currency.c:551 ../src/gsb_currency_config.c:295
-#: ../src/parametres.c:510
+#: ../src/parametres.c:513
 msgid "Currencies"
 msgstr "Valutaer"
 
@@ -3011,7 +3011,7 @@ msgstr "Kontotransaktioner"
 msgid "Make transactions clickable"
 msgstr ""
 
-#: ../src/etats_config.c:6828 ../src/parametres.c:1196
+#: ../src/etats_config.c:6828 ../src/parametres.c:1199
 #, fuzzy
 msgid "Totals currencies"
 msgstr "Kendte valutaer"
@@ -3346,8 +3346,8 @@ msgstr "LaTeX-fil"
 msgid "Exporting report ..."
 msgstr "Eksportér QIF-fil"
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:483
-#: ../src/gsb_file.c:607 ../src/gsb_file.c:678
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:486
+#: ../src/gsb_file.c:610 ../src/gsb_file.c:681
 #, fuzzy
 msgid "Done"
 msgstr "Ingen"
@@ -3503,7 +3503,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: ../src/export_csv.c:721 ../src/gsb_form.c:1899
+#: ../src/export_csv.c:721 ../src/gsb_form.c:1901
 msgid "Deleted account"
 msgstr "Slet konto"
 
@@ -3536,7 +3536,7 @@ msgstr "Budgetlinje"
 msgid "Reconciliation number"
 msgstr "Transaktionsnummer"
 
-#: ../src/fenetre_principale.c:225 ../src/parametres.c:347
+#: ../src/fenetre_principale.c:225 ../src/parametres.c:350
 msgid "Main page"
 msgstr "Hovedside"
 
@@ -3554,7 +3554,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:267 ../src/navigation.c:266
-#: ../src/parametres.c:338 ../src/parametres.c:1115
+#: ../src/parametres.c:341 ../src/parametres.c:1118
 msgid "Scheduler"
 msgstr ""
 
@@ -4295,7 +4295,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. create the page
-#: ../src/gsb_archive_config.c:111 ../src/parametres.c:301
+#: ../src/gsb_archive_config.c:111 ../src/parametres.c:304
 msgid "Archives"
 msgstr ""
 
@@ -4548,7 +4548,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: ../src/gsb_assistant_archive.c:314 ../src/gsb_data_payee.c:541
-#: ../src/gsb_form.c:2914 ../src/gsb_form.c:2915 ../src/navigation.c:1236
+#: ../src/gsb_form.c:2976 ../src/gsb_form.c:2977 ../src/navigation.c:1236
 msgid "Report"
 msgstr "Rapport"
 
@@ -4768,7 +4768,7 @@ msgstr ""
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:323 ../src/gsb_assistant_first.c:249
-#: ../src/parametres.c:870
+#: ../src/parametres.c:873
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -4859,12 +4859,12 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:209 ../src/parametres.c:1038
+#: ../src/gsb_assistant_first.c:209 ../src/parametres.c:1041
 #, fuzzy
 msgid "Web"
 msgstr "Website"
 
-#: ../src/gsb_assistant_first.c:216 ../src/parametres.c:1045
+#: ../src/gsb_assistant_first.c:216 ../src/parametres.c:1048
 #, fuzzy
 msgid "Web browser command"
 msgstr "Webbrowser"
@@ -4874,45 +4874,45 @@ msgstr "Webbrowser"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:234 ../src/parametres.c:853
+#: ../src/gsb_assistant_first.c:234 ../src/parametres.c:856
 msgid "Account files handling"
 msgstr ""
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:856
+#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:859
 msgid "Automatically load last file on startup"
 msgstr ""
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:243 ../src/parametres.c:860
+#: ../src/gsb_assistant_first.c:243 ../src/parametres.c:863
 msgid "Automatically save on exit"
 msgstr ""
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:255 ../src/parametres.c:910
+#: ../src/gsb_assistant_first.c:255 ../src/parametres.c:913
 msgid "Make a backup copy before saving files"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:265 ../src/parametres.c:918
+#: ../src/gsb_assistant_first.c:265 ../src/parametres.c:921
 msgid "Make a backup copy every "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:276 ../src/parametres.c:928
+#: ../src/gsb_assistant_first.c:276 ../src/parametres.c:931
 #, fuzzy
 msgid " minutes"
 msgstr "Noter"
 
-#: ../src/gsb_assistant_first.c:285 ../src/parametres.c:935
+#: ../src/gsb_assistant_first.c:285 ../src/parametres.c:938
 #, fuzzy
 msgid "Backup directory"
 msgstr "Backup-fil"
 
-#: ../src/gsb_assistant_first.c:290 ../src/parametres.c:942
+#: ../src/gsb_assistant_first.c:290 ../src/parametres.c:945
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:329 ../src/gsb_reconcile_config.c:103
-#: ../src/parametres.c:447
+#: ../src/parametres.c:450
 msgid "Reconciliation"
 msgstr ""
 
@@ -5152,7 +5152,7 @@ msgstr "Ny bank"
 msgid "Contact name"
 msgstr "Kontaktpersonens navn"
 
-#: ../src/gsb_bank.c:519 ../src/parametres.c:528
+#: ../src/gsb_bank.c:519 ../src/parametres.c:531
 msgid "Banks"
 msgstr "Banker"
 
@@ -6953,14 +6953,14 @@ msgstr ""
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2250 ../src/import.c:2678
+#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2252 ../src/import.c:2678
 #: ../src/import.c:2684
 msgid "Credit card"
 msgstr "Kreditkort"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2287 ../src/import.c:2696
+#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2289 ../src/import.c:2696
 #: ../src/import.c:2714
 msgid "Direct debit"
 msgstr ""
@@ -7224,18 +7224,18 @@ msgid "Loading accounts"
 msgstr "Bankkonto"
 
 #. Loading failed.
-#: ../src/gsb_file.c:392
+#: ../src/gsb_file.c:395
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Slet konto"
 
-#: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:311
+#: ../src/gsb_file.c:399 ../src/gsb_file.c:416 ../src/gsb_file_load.c:311
 #: ../src/gsb_file_load.c:325 ../src/gsb_file_load.c:426
 #, c-format
 msgid "Error loading file '%s'"
 msgstr ""
 
-#: ../src/gsb_file.c:398
+#: ../src/gsb_file.c:401
 #, c-format
 msgid ""
 "Grisbi was unable to load file. You should find the last backups in '%s', "
@@ -7245,7 +7245,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:418
+#: ../src/gsb_file.c:421
 #, c-format
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
@@ -7256,7 +7256,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 
-#: ../src/gsb_file.c:425
+#: ../src/gsb_file.c:428
 msgid ""
 "Grisbi was unable to load file and the backups seem not to be activated... "
 "This is a bad thing.\n"
@@ -7265,16 +7265,16 @@ msgid ""
 msgstr ""
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:440
+#: ../src/gsb_file.c:443
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:453
+#: ../src/gsb_file.c:456
 msgid "Checking amounts"
 msgstr ""
 
-#: ../src/gsb_file.c:559
+#: ../src/gsb_file.c:562
 #, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked.  Please save it "
@@ -7282,80 +7282,80 @@ msgid ""
 msgstr ""
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:865
+#: ../src/gsb_file.c:563 ../src/gsb_file.c:828 ../src/parametres.c:868
 msgid "Force saving of locked files"
 msgstr ""
 
-#: ../src/gsb_file.c:561
+#: ../src/gsb_file.c:564
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr ""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:584
+#: ../src/gsb_file.c:587
 #, fuzzy
 msgid "Saving file"
 msgstr "Gem fil"
 
-#: ../src/gsb_file.c:633
+#: ../src/gsb_file.c:636
 msgid "Saving backup"
 msgstr ""
 
-#: ../src/gsb_file.c:822
+#: ../src/gsb_file.c:825
 msgid "Save locked files?"
 msgstr "Gem låste filer?"
 
-#: ../src/gsb_file.c:823
+#: ../src/gsb_file.c:826
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:824 ../src/gsb_file.c:835 ../src/main.c:783
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838 ../src/main.c:783
 msgid "unnamed"
 msgstr "unavngivet"
 
-#: ../src/gsb_file.c:827 ../src/gsb_file.c:838
+#: ../src/gsb_file.c:830 ../src/gsb_file.c:841
 msgid "Close without saving"
 msgstr ""
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:837
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr ""
 
-#: ../src/gsb_file.c:847
+#: ../src/gsb_file.c:850
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:852
+#: ../src/gsb_file.c:855
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:857
+#: ../src/gsb_file.c:860
 #, c-format
 msgid "%d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:860
+#: ../src/gsb_file.c:863
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr ""
 
-#: ../src/gsb_file.c:896
+#: ../src/gsb_file.c:899
 msgid "Name the accounts file"
 msgstr ""
 
-#: ../src/gsb_file.c:1148
+#: ../src/gsb_file.c:1151
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1168
+#: ../src/gsb_file.c:1171
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7560,137 +7560,147 @@ msgstr ""
 msgid "Cannot erase lock file :'%s': %s"
 msgstr ""
 
-#: ../src/gsb_form.c:228
+#: ../src/gsb_form.c:229
 #, fuzzy
 msgid "Transaction/Scheduled _form"
 msgstr "Overførselsformular"
 
 #. create the check button to recover the children of splits
-#: ../src/gsb_form.c:321
+#: ../src/gsb_form.c:322
 msgid "Recover the children"
 msgstr ""
 
-#: ../src/gsb_form.c:741
+#: ../src/gsb_form.c:743
 msgid "Transfer : Deleted account"
 msgstr "Slet konto"
 
-#: ../src/gsb_form.c:760 ../src/gsb_form.c:1888 ../src/gsb_form.c:1889
+#: ../src/gsb_form.c:762 ../src/gsb_form.c:1890 ../src/gsb_form.c:1891
 #: ../src/gsb_form_widget.c:1105
 msgid "Transfer : "
 msgstr "Overførsel"
 
-#: ../src/gsb_form.c:927
+#: ../src/gsb_form.c:929
 msgid "Auto"
 msgstr ""
 
-#: ../src/gsb_form.c:930 ../src/gsb_form_scheduler.c:151
+#: ../src/gsb_form.c:932 ../src/gsb_form_scheduler.c:151
 #: ../src/gsb_scheduler_list.c:1023
 msgid "Manual"
 msgstr "Manuel"
 
-#: ../src/gsb_form.c:1360 ../src/gsb_form_widget.c:456
+#: ../src/gsb_form.c:1362 ../src/gsb_form_widget.c:456
 msgid "Cheque/Transfer number"
 msgstr "Check/Øverførselsnr."
 
-#: ../src/gsb_form.c:2259 ../src/plugins/ofx/ofx.c:473
+#: ../src/gsb_form.c:2261 ../src/plugins/ofx/ofx.c:473
 msgid "Direct deposit"
 msgstr ""
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2268 ../src/import.c:2483 ../src/import.c:2530
+#: ../src/gsb_form.c:2270 ../src/import.c:2483 ../src/import.c:2530
 #: ../src/import.c:2653 ../src/plugins/ofx/ofx.c:429
 #, fuzzy
 msgid "Check"
 msgstr "Fil"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2277 ../src/import.c:2702
+#: ../src/gsb_form.c:2279 ../src/import.c:2702
 msgid "Cash withdrawal"
 msgstr ""
 
-#: ../src/gsb_form.c:2406
+#: ../src/gsb_form.c:2408
 msgid "No payee selected for this report."
 msgstr ""
 
-#: ../src/gsb_form.c:2718
+#: ../src/gsb_form.c:2724
 msgid "You must enter a date."
 msgstr ""
 
-#: ../src/gsb_form.c:2725
+#: ../src/gsb_form.c:2731
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "Forkert dato"
 
-#: ../src/gsb_form.c:2748
+#: ../src/gsb_form.c:2760 ../src/gsb_form.c:2808
+#, c-format
+msgid "Beware the date must be between %s and %s"
+msgstr ""
+
+#: ../src/gsb_form.c:2763 ../src/gsb_form.c:2811
+#, fuzzy
+msgid "Invalid date"
+msgstr "Forkert dato"
+
+#: ../src/gsb_form.c:2783
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "Forkert dato"
 
-#: ../src/gsb_form.c:2783
+#: ../src/gsb_form.c:2845
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "Fly transaktioner til kategori"
 
-#: ../src/gsb_form.c:2803
+#: ../src/gsb_form.c:2865
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2837
+#: ../src/gsb_form.c:2899
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2844
+#: ../src/gsb_form.c:2906
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr ""
 
-#: ../src/gsb_form.c:2852
+#: ../src/gsb_form.c:2914
 msgid "Can't issue a transfer its own account."
 msgstr ""
 
-#: ../src/gsb_form.c:2857
+#: ../src/gsb_form.c:2919
 msgid "Can't issue a transfer on a closed account."
 msgstr ""
 
-#: ../src/gsb_form.c:2883
+#: ../src/gsb_form.c:2945
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
 
-#: ../src/gsb_form.c:2901
+#: ../src/gsb_form.c:2963
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
 
-#: ../src/gsb_form.c:2922
+#: ../src/gsb_form.c:2984
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
-#: ../src/gsb_form.c:2927
+#: ../src/gsb_form.c:2989
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 
-#: ../src/gsb_form.c:2938
+#: ../src/gsb_form.c:3000
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:2945
+#: ../src/gsb_form.c:3007
 msgid "Invalid multiple payee."
 msgstr ""
 
-#: ../src/gsb_form.c:3227
+#: ../src/gsb_form.c:3289
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "Vis transaktioner"
 
-#: ../src/gsb_form.c:3228
+#: ../src/gsb_form.c:3290
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7700,11 +7710,11 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3531
+#: ../src/gsb_form.c:3593
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:113 ../src/parametres.c:466
+#: ../src/gsb_form_config.c:113 ../src/parametres.c:469
 msgid "Transaction form"
 msgstr "Overførselsformular"
 
@@ -7827,7 +7837,7 @@ msgstr "Transaktionsnummer"
 msgid "Automatic/Manual"
 msgstr "Automatisk/Manuelt"
 
-#: ../src/gsb_fyear_config.c:99 ../src/parametres.c:537
+#: ../src/gsb_fyear_config.c:99 ../src/parametres.c:540
 msgid "Financial years"
 msgstr ""
 
@@ -8095,7 +8105,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr "Vis afstemte transaktioner"
 
-#: ../src/gsb_reconcile_sort_config.c:86 ../src/parametres.c:456
+#: ../src/gsb_reconcile_sort_config.c:86 ../src/parametres.c:459
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "Vis afstemte transaktioner"
@@ -8855,7 +8865,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "Yderligere info"
 
-#: ../src/import.c:3657 ../src/parametres.c:319
+#: ../src/import.c:3657 ../src/parametres.c:322
 #, fuzzy
 msgid "Import associations"
 msgstr "Eksportér kategorier"
@@ -9546,223 +9556,223 @@ msgid "closed"
 msgstr "Luk"
 
 #. Create dialog
-#: ../src/parametres.c:252
+#: ../src/parametres.c:255
 msgid "Grisbi preferences"
 msgstr ""
 
-#: ../src/parametres.c:282
+#: ../src/parametres.c:285
 #, fuzzy
 msgid "Main"
 msgstr "Symbol"
 
-#: ../src/parametres.c:291 ../src/parametres.c:849
+#: ../src/parametres.c:294 ../src/parametres.c:852
 msgid "Files"
 msgstr "Filer"
 
-#: ../src/parametres.c:329 ../src/parametres.c:1036
+#: ../src/parametres.c:332 ../src/parametres.c:1039
 msgid "Programs"
 msgstr "Programmer"
 
-#: ../src/parametres.c:356 ../src/parametres.c:1259
+#: ../src/parametres.c:359 ../src/parametres.c:1262
 #, fuzzy
 msgid "Localization"
 msgstr "Eksportér kategorier"
 
-#: ../src/parametres.c:366
+#: ../src/parametres.c:369
 msgid "Display"
 msgstr ""
 
-#: ../src/parametres.c:383 ../src/parametres.c:640
+#: ../src/parametres.c:386 ../src/parametres.c:643
 msgid "Messages & warnings"
 msgstr "Beskeder og advarsler"
 
-#: ../src/parametres.c:401 ../src/parametres.c:1193
+#: ../src/parametres.c:404 ../src/parametres.c:1196
 msgid "Payees, categories and budgetaries"
 msgstr ""
 
-#: ../src/parametres.c:428
+#: ../src/parametres.c:431
 msgid "List behavior"
 msgstr ""
 
-#: ../src/parametres.c:438 ../src/parametres.c:727
+#: ../src/parametres.c:441 ../src/parametres.c:730
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Beskeder og advarsler"
 
-#: ../src/parametres.c:474
+#: ../src/parametres.c:477
 #, fuzzy
 msgid "Content"
 msgstr "Kontaktperson"
 
-#: ../src/parametres.c:483
+#: ../src/parametres.c:486
 msgid "Behavior"
 msgstr ""
 
-#: ../src/parametres.c:492
+#: ../src/parametres.c:495
 msgid "Completion"
 msgstr ""
 
-#: ../src/parametres.c:502
+#: ../src/parametres.c:505
 msgid "Resources"
 msgstr "Ressourcer"
 
-#: ../src/parametres.c:519
+#: ../src/parametres.c:522
 #, fuzzy
 msgid "Currencies links"
 msgstr "Valutaer"
 
-#: ../src/parametres.c:561
+#: ../src/parametres.c:564
 #, fuzzy
 msgid "Balance estimate"
 msgstr "Balance"
 
 #. Tip of the day
-#: ../src/parametres.c:643
+#: ../src/parametres.c:646
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: ../src/parametres.c:646
+#: ../src/parametres.c:649
 msgid "Display tip of the day"
 msgstr ""
 
-#: ../src/parametres.c:653
+#: ../src/parametres.c:656
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "Advarsler"
 
-#: ../src/parametres.c:674 ../src/parametres.c:755
+#: ../src/parametres.c:677 ../src/parametres.c:758
 msgid "Message"
 msgstr ""
 
-#: ../src/parametres.c:731
+#: ../src/parametres.c:734
 #, fuzzy
 msgid "Display following messages"
 msgstr "Advarsler"
 
 #. Compression level of files
-#: ../src/parametres.c:875
+#: ../src/parametres.c:878
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: ../src/parametres.c:883
+#: ../src/parametres.c:886
 msgid "Memorise last opened files"
 msgstr ""
 
 #. Backups
-#: ../src/parametres.c:892
+#: ../src/parametres.c:895
 msgid "Backups"
 msgstr "Backup"
 
 #. Single backup file
-#: ../src/parametres.c:895
+#: ../src/parametres.c:898
 msgid "Make a single backup file"
 msgstr ""
 
 #. Compression level of backups
-#: ../src/parametres.c:900
+#: ../src/parametres.c:903
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: ../src/parametres.c:905
+#: ../src/parametres.c:908
 msgid "Make a backup copy after opening files"
 msgstr ""
 
-#: ../src/parametres.c:959
+#: ../src/parametres.c:962
 #, fuzzy
 msgid "Config file"
 msgstr "Gem fil"
 
-#: ../src/parametres.c:964
+#: ../src/parametres.c:967
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1054
+#: ../src/parametres.c:1057
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: ../src/parametres.c:1065
+#: ../src/parametres.c:1068
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: ../src/parametres.c:1072
+#: ../src/parametres.c:1075
 msgid "LaTeX command"
 msgstr ""
 
-#: ../src/parametres.c:1080
+#: ../src/parametres.c:1083
 msgid "dvips command"
 msgstr ""
 
-#: ../src/parametres.c:1120
+#: ../src/parametres.c:1123
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr ""
 
-#: ../src/parametres.c:1121
+#: ../src/parametres.c:1124
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 
-#: ../src/parametres.c:1122
+#: ../src/parametres.c:1125
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Opret en planlagt transaktion"
 
-#: ../src/parametres.c:1130
+#: ../src/parametres.c:1133
 msgid "Number of days before the warning or the execution"
 msgstr ""
 
 #. Take into account the planned operations in the calculation of balances
-#: ../src/parametres.c:1139
+#: ../src/parametres.c:1142
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Balancer"
 
-#: ../src/parametres.c:1145
+#: ../src/parametres.c:1148
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: ../src/parametres.c:1202
+#: ../src/parametres.c:1205
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "4 linjer per transaktion"
 
-#: ../src/parametres.c:1203
+#: ../src/parametres.c:1206
 #, fuzzy
 msgid "by number"
 msgstr "Check/Øverførselsnr."
 
-#: ../src/parametres.c:1204
+#: ../src/parametres.c:1207
 #, fuzzy
 msgid "by date"
 msgstr "Forkert dato"
 
-#: ../src/parametres.c:1301
+#: ../src/parametres.c:1304
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Vælg konto"
 
-#: ../src/parametres.c:1307
+#: ../src/parametres.c:1310
 #, fuzzy
 msgid "Date format"
 msgstr "Eksportér"
 
-#: ../src/parametres.c:1373
+#: ../src/parametres.c:1376
 msgid "Decimal point"
 msgstr ""
 
-#: ../src/parametres.c:1386
+#: ../src/parametres.c:1389
 msgid "Thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1403
+#: ../src/parametres.c:1406
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1409
+#: ../src/parametres.c:1412
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10718,7 +10728,7 @@ msgstr ""
 msgid "No font defined"
 msgstr "Ingen kategori  (%d)"
 
-#: ../src/utils_str.c:985
+#: ../src/utils_str.c:995
 msgid ": "
 msgstr ""
 
