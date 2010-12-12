@@ -298,7 +298,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Credits simulator"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_GENERAL_FINANCIAL_PAGE,
+		       NAVIGATION_PAGE, GSB_SIMULATOR_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
@@ -1193,7 +1193,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		payee_fill_tree ();
 	    break;
 
-	case GSB_GENERAL_FINANCIAL_PAGE:
+	case GSB_SIMULATOR_PAGE:
 	    notice_debug ("Credits simulator page selected");
 
 	    /* set the title */

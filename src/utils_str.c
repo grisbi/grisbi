@@ -928,21 +928,31 @@ gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr )
  * */
 gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
 {
-    gchar *mon_thousands_sep;
+    gchar *p, *q;
     gdouble number;
 
     if ( str_number == NULL )
         return 0.0;
 
-    mon_thousands_sep = gsb_real_get_thousands_sep ( );
-
-    /* on supprime le séparateur des milliers */
-    if ( mon_thousands_sep && g_strrstr ( str_number, mon_thousands_sep ) )
-        str_number = my_strdelimit ( str_number, mon_thousands_sep, "" );
+    /* on supprime les espaces si necessaires */
+    if ( g_strrstr ( str_number, " " ) )
+        str_number = my_strdelimit ( str_number, " ", "" );
 
     /* on met le . comme séparateur décimal */
-    if ( g_strrstr ( str_number, "," ) )
-        str_number = my_strdelimit ( str_number, ",", "." );
+    if ( ( p = g_strrstr ( str_number, "," ) ) )
+    {
+        if ( ( q = g_strrstr ( str_number, "." ) ) == NULL )
+            str_number = my_strdelimit ( str_number, ",", "." );
+        else if ( p - q > 0 )
+        {
+            str_number = my_strdelimit ( str_number, ".", "" );
+            str_number = my_strdelimit ( str_number, ",", "." );
+        }
+        else
+        {
+            str_number = my_strdelimit ( str_number, ",", "" );
+        }
+    }
 
     number = g_ascii_strtod ( str_number, endptr);
 

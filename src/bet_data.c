@@ -836,7 +836,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount,
+                        gsb_real_safe_real_to_string ( shd -> amount,
                         gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
                         0, 0, "0.00" );
 
@@ -860,10 +860,10 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         shd -> account_nb,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount, floating_point ),
+                        gsb_real_safe_real_to_string ( shd -> amount, floating_point ),
                         sub_shd -> div_number,
                         sub_shd -> div_edited,
-                        gsb_real_save_real_to_string ( sub_shd -> amount, floating_point ) );
+                        gsb_real_safe_real_to_string ( sub_shd -> amount, floating_point ) );
 
                 g_ptr_array_add ( tab, tmp_str );
             }
@@ -879,7 +879,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         gchar *limit_date;
 
         /* set the real */
-        amount = gsb_real_save_real_to_string ( scheduled -> amount,
+        amount = gsb_real_safe_real_to_string ( scheduled -> amount,
                         gsb_data_account_get_currency_floating_point ( scheduled -> account_number ) );
 
         /* set the dates */

@@ -34,6 +34,8 @@
 #include "affichage.h"
 #include "affichage_liste.h"
 #include "bet_config.h"
+#include "bet_data.h"
+#include "bet_finance_ui.h"
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
@@ -70,7 +72,6 @@
 static GtkWidget * create_preferences_tree ( );
 static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
-static void gsb_config_update_affichage ( gint type_maj );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
@@ -80,6 +81,7 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
                         GdkEventButton *event,
                         gpointer user_data);
 static void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data );
+static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_localisation ( void );
@@ -108,6 +110,7 @@ static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
+extern GtkWidget *account_page;
 extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
@@ -1347,7 +1350,7 @@ gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return FALSE;
 
-    gsb_config_update_affichage ( 0 );
+    gsb_localisation_update_affichage ( 0 );
 
     return FALSE;
 }
@@ -1486,7 +1489,7 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
 
-    gsb_config_update_affichage ( 1 );
+    gsb_localisation_update_affichage ( 1 );
 }
 
 
@@ -1534,7 +1537,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
 
-    gsb_config_update_affichage ( 1 );
+    gsb_localisation_update_affichage ( 1 );
 }
 
 
@@ -1544,7 +1547,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
  *\param type_maj 0 = ELEMENT_DATE 1 =  ELEMENT_CREDIT && ELEMENT_DEBIT
  *
  * */
-void gsb_config_update_affichage ( gint type_maj )
+void gsb_localisation_update_affichage ( gint type_maj )
 {
     gint current_page;
 
@@ -1574,6 +1577,36 @@ void gsb_config_update_affichage ( gint type_maj )
         gsb_transactions_list_update_tree_view ( gsb_gui_navigation_get_current_account ( ), FALSE );
     }
 
+    /* update home page */
+    if ( current_page == GSB_ACCOUNT_PAGE )
+    {
+        gint account_number;
+        gint account_current_page;
+        kind_account kind;
+
+        account_number = gsb_gui_navigation_get_current_account ( );
+        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+
+        kind = gsb_data_account_get_kind ( account_number );
+        switch ( kind )
+        {
+            case GSB_TYPE_BANK:
+            case GSB_TYPE_CASH:
+                if ( account_current_page == 1 || account_current_page == 2 )
+                {
+                    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+                    bet_data_update_bet_module ( account_number, -1 );
+                }
+                break;
+            case GSB_TYPE_LIABILITIES:
+                if ( account_current_page == 3 )
+                    bet_finance_ui_update_amortization_tab ( account_number );
+                break;
+            case GSB_TYPE_ASSET:
+                break;
+        }
+    }
+
     /* update payees, categories and budgetary lines */
     if ( current_page == GSB_PAYEES_PAGE )
         payee_fill_tree ( );
@@ -1581,6 +1614,11 @@ void gsb_config_update_affichage ( gint type_maj )
         remplit_arbre_categ ( );
     else if ( current_page == GSB_BUDGETARY_LINES_PAGE )
         remplit_arbre_imputation ( );
+
+    /* update simulator page */
+    if ( current_page == GSB_SIMULATOR_PAGE )
+        bet_finance_switch_simulator_page ( );
+
 }
 
 

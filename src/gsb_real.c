@@ -358,7 +358,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
  *
  * \return the number in the string transformed to gsb_real
  */
-gsb_real gsb_real_import_from_string ( const gchar *string )
+gsb_real gsb_real_safe_real_from_string ( const gchar *string )
 {
     unsigned nb_digits = 0;
     gint64 mantissa = 0;
@@ -861,7 +861,13 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
 }
 
 
-gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
+/**
+ * retourne une chaine représentative d'un nombre avec le point comme séparateur décimal
+ * et pas de separateur de milliers
+ *
+ * The returned string should be freed with g_free() when no longer needed.
+ * */
+gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];

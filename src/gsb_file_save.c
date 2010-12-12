@@ -1084,13 +1084,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	/* set the reals */
     floating_point = gsb_data_account_get_currency_floating_point ( account_number );
-	init_balance = gsb_real_save_real_to_string (
+	init_balance = gsb_real_safe_real_to_string (
                         gsb_data_account_get_init_balance ( account_number, -1 ),
                         floating_point );
-	mini_wanted = gsb_real_save_real_to_string (
+	mini_wanted = gsb_real_safe_real_to_string (
                         gsb_data_account_get_mini_balance_wanted ( account_number ),
                         floating_point );
-	mini_auto = gsb_real_save_real_to_string (
+	mini_auto = gsb_real_safe_real_to_string (
                         gsb_data_account_get_mini_balance_authorized ( account_number ),
                         floating_point );
 
@@ -1355,12 +1355,12 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
      * enregistrés dans le fichier à valider */
     floating_point = gsb_data_transaction_get_currency_floating_point ( transaction_number );
-	amount = gsb_real_save_real_to_string (
+	amount = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_amount ( transaction_number ),
                         floating_point );
-	exchange_rate = gsb_real_save_real_to_string (
+	exchange_rate = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_rate ( transaction_number ), -1 );
-	exchange_fees = gsb_real_save_real_to_string (
+	exchange_fees = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_fees ( transaction_number ),
                         floating_point );
 	
@@ -1452,7 +1452,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 
 	/* set the real */
     floating_point = gsb_data_transaction_get_currency_floating_point ( scheduled_number );
-	amount = gsb_real_save_real_to_string (
+	amount = gsb_real_safe_real_to_string (
                         gsb_data_scheduled_get_amount ( scheduled_number ),
                         floating_point );
 
@@ -1786,7 +1786,7 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
     link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
 
     /* set the number */
-    change_rate = gsb_real_save_real_to_string (
+    change_rate = gsb_real_safe_real_to_string (
                         gsb_data_currency_link_get_change_rate ( link_number ), -1 );
 
     /* set the date of modification */
@@ -2027,10 +2027,10 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	/* set the balances strings */
     floating_point = gsb_data_account_get_currency_floating_point ( gsb_data_reconcile_get_account (
                         reconcile_number ) );
-	init_balance = gsb_real_save_real_to_string (
+	init_balance = gsb_real_safe_real_to_string (
                         gsb_data_reconcile_get_init_balance ( reconcile_number ),
                         floating_point );
-	final_balance = gsb_real_save_real_to_string (
+	final_balance = gsb_real_safe_real_to_string (
                         gsb_data_reconcile_get_final_balance ( reconcile_number ),
                         floating_point );
 
@@ -2697,11 +2697,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    /* set the numbers */
         floating_point = gsb_data_currency_get_floating_point (
                         gsb_data_report_get_currency_general ( report_number ) );
-	    first_amount = gsb_real_save_real_to_string (
+	    first_amount = gsb_real_safe_real_to_string (
                         gsb_data_report_amount_comparison_get_first_amount (
                         amount_comparison_number ),
                         floating_point );
-	    second_amount = gsb_real_save_real_to_string (
+	    second_amount = gsb_real_safe_real_to_string (
                         gsb_data_report_amount_comparison_get_second_amount (
                         amount_comparison_number ),
                         floating_point );

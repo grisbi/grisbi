@@ -1641,7 +1641,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Initial_balance" ))
     {
         gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1650,7 +1650,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_wanted_balance" ))
     {
         gsb_data_account_set_mini_balance_wanted ( account_number, 
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1659,7 +1659,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_authorised_balance" ))
     {
         gsb_data_account_set_mini_balance_authorized ( account_number, 
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2212,7 +2212,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     {
         /* get the entire real, even if the floating point of the currency is less deep */
         gsb_data_transaction_set_amount ( transaction_number,
-                          gsb_real_import_from_string (attribute_values[i]));
+                          gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2232,7 +2232,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exr" ))
     {
         gsb_data_transaction_set_exchange_rate ( transaction_number,
-                             gsb_real_import_from_string (attribute_values[i]));
+                             gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2242,7 +2242,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exf" ))
     {
         gsb_data_transaction_set_exchange_fees ( transaction_number,
-                             gsb_real_import_from_string (attribute_values[i]));
+                             gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2493,7 +2493,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
                "Am" ))
     {
         gsb_data_scheduled_set_amount ( scheduled_number,
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3212,7 +3212,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
                                    "Ex" ))
     {
         gsb_data_currency_link_set_change_rate ( link_number,
-                                 gsb_real_import_from_string (attribute_values[i]));
+                                 gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3661,7 +3661,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Ibal" ))
     {
         gsb_data_reconcile_set_init_balance ( reconcile_number,
-                              gsb_real_import_from_string (attribute_values[i]));
+                              gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3670,7 +3670,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Fbal" ))
     {
         gsb_data_reconcile_set_final_balance ( reconcile_number,
-                               gsb_real_import_from_string (attribute_values[i]));
+                               gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3972,7 +3972,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Damount" ) )
     {
-        shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -4000,7 +4000,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "SDamount" ) )
     {
-        sub_shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        sub_shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -4073,7 +4073,7 @@ void gsb_file_load_bet_future_data ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Am" ) )
     {
-        scheduled -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        scheduled -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -5321,7 +5321,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_1" ))
     {
         gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                     gsb_real_import_from_string (attribute_values[i]));
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -5330,7 +5330,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_2" ))
     {
         gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                     gsb_real_import_from_string (attribute_values[i]));
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }

@@ -1621,7 +1621,6 @@ GtkWidget *bet_finance_create_account_page ( void )
  * */
 void bet_finance_ui_update_amortization_tab ( gint account_number )
 {
-    GtkWidget *page;
     GtkWidget *label;
     GtkWidget *tree_view;
     GtkTreeModel *store;
@@ -1639,15 +1638,14 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     struct_amortissement *s_amortissement;
     gboolean amortization_initial_date;
 
-    /* devel_debug ( NULL ); */
+    devel_debug ( NULL );
     if ( gsb_gui_navigation_get_current_account ( ) != account_number )
         return;
 
     s_amortissement = g_malloc0 ( sizeof ( struct_amortissement ) );
     s_amortissement -> origin = SPP_ORIGIN_FINANCE;
 
-    /* récupère la page du tableau d'amortissement et le tableau */
-    page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( finance_notebook ), 1 );
+    /* récupère le tableau d'amortissement */
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_tree_view" );
     amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
                         G_OBJECT ( tree_view ), "amortization_initial_date" ) );
