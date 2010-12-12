@@ -4,7 +4,7 @@
 ::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/
 ::    Specify the BUNDLE file
 ::    Don't include the extension
-SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
+SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.22.0-20101016_win32
 
 :: The rest of the script should do the rest
 
@@ -46,7 +46,7 @@ MOVE plugins-dev\%ICONV_FILE_BASENAME% plugins-dev\iconv
 PAUSE
 
 :: Download and install openssl, copy the required files in the right place
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-0_9_8o
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0c
 cd %DOWNLOADS_DIR%
 wget -nc -c http://www.slproweb.com/download/%OPENSSL_FILE_BASENAME%.exe
 IF NOT EXIST "C:\OpenSSL\readme.txt" (
