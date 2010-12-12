@@ -45,6 +45,7 @@
 #include "gsb_data_mix.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
+#include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
@@ -472,68 +473,69 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
 
     while (tmp_list)
     {
-	struct_element *element;
+        struct_element *element;
 
-	element = tmp_list -> data;
+        element = tmp_list -> data;
 
-	if (mother_number
-	    &&
-	    transaction_number < 0)
-	{
-	    /* we are on a split white line, we fill only few fields
-	     * with the element_number of the mother */
-	    switch (element -> element_number)
-	    {
-		case TRANSACTION_FORM_DATE:
-		case TRANSACTION_FORM_VALUE_DATE:
-		case TRANSACTION_FORM_PARTY:
-		case TRANSACTION_FORM_TYPE:
-		case TRANSACTION_FORM_CHEQUE:
-		case TRANSACTION_FORM_DEVISE:
-		case TRANSACTION_FORM_BANK:
-		    gsb_form_fill_element ( element -> element_number,
-					    account_number,
-					    mother_number,
-					    is_transaction );
-		    break;
-	    }
-	}
-	else
-	    /* normal transaction */
-	    gsb_form_fill_element ( element -> element_number,
-				    account_number,
-				    transaction_number,
-				    is_transaction );
+        if (mother_number
+            &&
+            transaction_number < 0)
+        {
+            /* we are on a split white line, we fill only few fields
+             * with the element_number of the mother */
+            switch (element -> element_number)
+            {
+            case TRANSACTION_FORM_DATE:
+            case TRANSACTION_FORM_VALUE_DATE:
+            case TRANSACTION_FORM_PARTY:
+            case TRANSACTION_FORM_TYPE:
+            case TRANSACTION_FORM_CHEQUE:
+            case TRANSACTION_FORM_DEVISE:
+            case TRANSACTION_FORM_BANK:
+                gsb_form_fill_element ( element -> element_number,
+                            account_number,
+                            mother_number,
+                            is_transaction );
+                break;
+            }
+        }
+        else
+            /* normal transaction */
+            gsb_form_fill_element ( element -> element_number,
+                        account_number,
+                        transaction_number,
+                        is_transaction );
 
-	tmp_list = tmp_list -> next;
+        tmp_list = tmp_list -> next;
     }
 
     /* for a transaction, need to check if marked R, and do some stuff with that */
     if (is_transaction)
     {
-	gint contra_transaction_number;
+        gint contra_transaction_number;
 
-	/* get the contra transaction */
-	contra_transaction_number = gsb_data_transaction_get_contra_transaction_number (transaction_number);
+        /* get the contra transaction */
+        contra_transaction_number = gsb_data_transaction_get_contra_transaction_number ( transaction_number );
 
-	/* if the transaction is marked R, cannot change the amounts */
-	/* if the contra transaction is marked R, cannot change category and amounts */
-	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
-	     ||
-	     ( contra_transaction_number > 0
-	       &&
-	       gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE ))
-	{
-	    gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT),
-				       FALSE );
-	    gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT),
-				       FALSE );
+        /* if the transaction is marked R and splitted, cannot change the amounts */
+        if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
+         && mother_number == 0 )
+        {
+            gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT), FALSE );
+            gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT), FALSE );
+        }
 
-	    /* if it's a transfer, we cannot change too the category */
-	    if (contra_transaction_number)
-		gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY),
-					   FALSE );
-	}	
+        /* if the contra transaction is marked R, cannot change category and amounts */
+        if ( contra_transaction_number > 0
+         &&
+         gsb_data_transaction_get_marked_transaction (contra_transaction_number) == OPERATION_RAPPROCHEE )
+        {
+            gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_DEBIT), FALSE );
+            gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT), FALSE );
+
+            /* if it's a transfer, we cannot change too the category */
+            gtk_widget_set_sensitive ( gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY), FALSE );
+        }
     }
 
     /* we take focus only if asked */
@@ -2701,63 +2703,123 @@ gboolean gsb_form_finish_edition ( void )
 gboolean gsb_form_validate_form_transaction ( gint transaction_number,
                         gboolean is_transaction )
 {
-    gint account_number;
     GtkWidget *widget;
+    gchar* tmpstr;
     gint mother_number;
+    gint account_number;
 
-    devel_debug_int (transaction_number);
+    devel_debug_int ( transaction_number );
 
-    account_number = gsb_form_get_account_number ();
+    account_number = gsb_form_get_account_number ( );
+
+    /* check if it's a daughter split */
+    mother_number = gsb_data_mix_get_mother_transaction_number ( transaction_number, is_transaction );
 
     /* begin to work with dates */
-    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_DATE);
+    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
 
     /* check the date exists */
-    if (gsb_form_widget_check_empty (widget))
+    if ( gsb_form_widget_check_empty ( widget ) )
     {
-	dialogue_error ( _("You must enter a date.") );
-	return (FALSE);
+        dialogue_error ( _("You must enter a date.") );
+        return (FALSE);
     }
 
     /* check the date ok */
-    if ( !gsb_date_check_entry (widget))
+    if ( !gsb_date_check_entry ( widget ) )
     {
-        gchar* tmpstr = g_strdup_printf ( _("Invalid date %s"),
+        tmpstr = g_strdup_printf ( _("Invalid date %s"),
 					   gtk_entry_get_text (GTK_ENTRY (widget)));
-	dialogue_error ( tmpstr );
-	g_free(tmpstr);
-	gtk_editable_select_region ( GTK_EDITABLE (widget), 0, -1);
-	gtk_widget_grab_focus (widget);
-	return (FALSE);
+        dialogue_error ( tmpstr );
+        g_free( tmpstr );
+        gtk_editable_select_region ( GTK_EDITABLE (widget), 0, -1 );
+        gtk_widget_grab_focus ( widget );
+
+        return (FALSE);
     }
     else
     {
         if ( save_form_date )
             g_date_free ( save_form_date );
         save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( widget ) );
+
+        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+         && mother_number == 0 )
+        {
+            const GDate *init_date;
+            const GDate *final_date;
+            gint reconcile_number;
+
+            reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
+            init_date = gsb_data_reconcile_get_init_date ( reconcile_number );
+            final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+            if ( g_date_compare ( save_form_date, init_date ) < 0
+             ||
+             g_date_compare ( save_form_date, final_date ) > 0 )
+            {
+                tmpstr = g_strdup_printf ( _("Beware the date must be between %s and %s"),
+                                    gsb_format_gdate ( init_date ),
+                                    gsb_format_gdate ( final_date ) );
+                dialogue_hint ( tmpstr, _("Invalid date") );
+
+                g_free( tmpstr );
+
+                gsb_calendar_entry_set_color ( widget, FALSE );
+                gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
+                gtk_widget_grab_focus ( widget );
+
+                return FALSE;
+            }
+        }
     }
 
     /* work with value date */
-    widget = gsb_form_widget_get_widget (TRANSACTION_FORM_VALUE_DATE);
-    if ( widget
-	 &&
-	 !gsb_form_widget_check_empty (widget)
-	 &&
-	 !gsb_date_check_entry (widget))
-    {
-        gchar* tmpstr = g_strdup_printf ( _("Invalid value date %s"),
-					   gtk_entry_get_text (GTK_ENTRY (widget)));
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	gtk_editable_select_region ( GTK_EDITABLE (widget),
-				  0,
-				  -1);
-	gtk_widget_grab_focus (widget);
-	return (FALSE);
-    }
+    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_VALUE_DATE );
 
-    /* check if it's a daughter split */
-    mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
+    if ( widget && ! gsb_form_widget_check_empty ( widget ) )
+    {
+        if ( !gsb_date_check_entry ( widget ) )
+        {
+            tmpstr = g_strdup_printf ( _("Invalid value date %s"),
+                           gtk_entry_get_text (GTK_ENTRY (widget)));
+            dialogue_error ( tmpstr );
+            g_free ( tmpstr );
+            gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
+            gtk_widget_grab_focus ( widget );
+
+            return (FALSE);
+        }
+        else if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+         && mother_number == 0 )
+        {
+            GDate *value_date;
+            const GDate *init_date;
+            const GDate *final_date;
+            gint reconcile_number;
+
+            value_date = gsb_calendar_entry_get_date ( widget );
+            reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
+            init_date = gsb_data_reconcile_get_init_date ( reconcile_number );
+            final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+            if ( g_date_compare ( value_date, init_date ) < 0
+             ||
+             g_date_compare ( value_date, final_date ) > 0 )
+            {
+                tmpstr = g_strdup_printf ( _("Beware the date must be between %s and %s"),
+                                    gsb_format_gdate ( init_date ),
+                                    gsb_format_gdate ( final_date ) );
+                dialogue_hint ( tmpstr, _("Invalid date") );
+
+                g_free( tmpstr );
+
+                gsb_calendar_entry_set_color ( widget, FALSE );
+                gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
+                gtk_widget_grab_focus ( widget );
+
+                return FALSE;
+            }
+        }
+    }
 
     /* check if debit or credit is > 0 */
     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
