@@ -953,6 +953,20 @@ gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
             str_number = my_strdelimit ( str_number, ",", "" );
         }
     }
+    else
+    {
+        gchar *mon_thousands_sep;
+
+        mon_thousands_sep = gsb_real_get_thousands_sep ( );
+        if ( mon_thousands_sep
+         &&
+         g_strstr_len ( str_number, -1, mon_thousands_sep ) )
+        {
+            str_number = my_strdelimit ( str_number, mon_thousands_sep, "" );
+        }
+        if ( mon_thousands_sep )
+            g_free ( mon_thousands_sep );
+    }
 
     number = g_ascii_strtod ( str_number, endptr);
 
