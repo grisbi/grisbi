@@ -680,6 +680,8 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
         g_free ( tmp_str );
         return;
     }
+    else if ( s_echeance -> capital == G_MININT64 )
+        return;
 
     /* rate */
     s_echeance -> taux = bet_finance_get_number_from_string ( widget, "taux" );
@@ -2167,6 +2169,18 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
     }
 
     return FALSE;
+}
+
+
+GtkWidget *bet_finance_get_capital_entry ( void )
+{
+    GtkWidget *page;
+    GtkWidget *entry;
+
+    page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( finance_notebook ), 0 );
+    entry = g_object_get_data ( G_OBJECT ( page ), "capital" );
+
+    return entry;
 }
 
 

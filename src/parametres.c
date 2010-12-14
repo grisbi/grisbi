@@ -1461,6 +1461,8 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data )
 {
     GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
@@ -1486,6 +1488,16 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
         }
     }
 
+    /* reset capital */
+    entry = bet_finance_get_capital_entry ( );
+    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+                    etat.bet_capital ),
+                    etat.bet_currency,
+                    FALSE );
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
+    g_free ( str_capital );
+
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
 
@@ -1502,6 +1514,8 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
 void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data )
 {
     GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
@@ -1533,6 +1547,16 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     }
     else
         gsb_real_set_thousands_sep ( NULL );
+
+    /* reset capital */
+    entry = bet_finance_get_capital_entry ( );
+    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+                    etat.bet_capital ),
+                    etat.bet_currency,
+                    FALSE );
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
+    g_free ( str_capital );
 
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;

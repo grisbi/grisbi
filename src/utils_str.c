@@ -928,47 +928,15 @@ gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr )
  * */
 gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
 {
-    gchar *p, *q;
     gdouble number;
+    gsb_real real;
 
     if ( str_number == NULL )
         return 0.0;
 
-    /* on supprime les espaces si necessaires */
-    if ( g_strrstr ( str_number, " " ) )
-        str_number = my_strdelimit ( str_number, " ", "" );
+    real = gsb_real_get_from_string ( str_number );
 
-    /* on met le . comme séparateur décimal */
-    if ( ( p = g_strrstr ( str_number, "," ) ) )
-    {
-        if ( ( q = g_strrstr ( str_number, "." ) ) == NULL )
-            str_number = my_strdelimit ( str_number, ",", "." );
-        else if ( p - q > 0 )
-        {
-            str_number = my_strdelimit ( str_number, ".", "" );
-            str_number = my_strdelimit ( str_number, ",", "." );
-        }
-        else
-        {
-            str_number = my_strdelimit ( str_number, ",", "" );
-        }
-    }
-    else
-    {
-        gchar *mon_thousands_sep;
-
-        mon_thousands_sep = gsb_real_get_thousands_sep ( );
-        if ( mon_thousands_sep
-         &&
-         g_strstr_len ( str_number, -1, mon_thousands_sep ) )
-        {
-            str_number = my_strdelimit ( str_number, mon_thousands_sep, "" );
-        }
-        if ( mon_thousands_sep )
-            g_free ( mon_thousands_sep );
-    }
-
-    number = g_ascii_strtod ( str_number, endptr);
+    number = gsb_real_real_to_double ( real );
 
     return number;
 }
