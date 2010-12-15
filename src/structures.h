@@ -210,7 +210,7 @@ struct struct_payee_asso
 
 enum alignement
 {
-    LEFT, CENTER, RIGHT,
+    ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT,
 };
 
 

@@ -195,6 +195,7 @@ extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -962,6 +963,23 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
         for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
         transaction_col_width[j] = utils_str_atoi ( pointeur_char[j]);
+
+        g_strfreev ( pointeur_char );
+    }
+
+    else if ( !strcmp ( attribute_names[i],
+                        "Transaction_column_align" ))
+    {
+        gchar **pointeur_char;
+        gint j;
+
+        /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+        pointeur_char = g_strsplit ( attribute_values[i],
+                        "-",
+                        0 );
+
+        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+        transaction_col_align[j] = utils_str_atoi ( pointeur_char[j]);
 
         g_strfreev ( pointeur_char );
     }

@@ -76,6 +76,8 @@ static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
+static gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
+                        gint *no_column );
 static gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view_column,
                         gint *column_ptr );
 static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
@@ -120,6 +122,9 @@ GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_N_VISIBLES_COLUMN
 
 /* the initial width of each column */
 gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+
+/* the initial alignment of each column */
+gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 
 /* adr de la barre d'outils */
 GtkWidget *barre_outils;
@@ -177,7 +182,6 @@ extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GtkWidget *window;
 /*END_EXTERN*/
-
 
 /** All delete messages */
 struct conditional_message delete_msg[] =
@@ -352,10 +356,6 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void )
 void gsb_transactions_list_create_tree_view_columns ( void )
 {
     gint i;
-    gfloat alignment[] = {
-	COLUMN_CENTER, COLUMN_CENTER, COLUMN_LEFT,
-	COLUMN_CENTER, COLUMN_RIGHT, COLUMN_RIGHT, COLUMN_RIGHT
-    };
     gint column_balance;
 
     /* get the position of the amount column to set it in red */
@@ -368,7 +368,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 
 	cell_renderer = gtk_cell_renderer_text_new ();
 	g_object_set ( G_OBJECT ( cell_renderer ),
-		                "xalign", alignment[i],
+		                "xalign", ( gfloat )transaction_col_align[i]/2,
 		                NULL );
 	transactions_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
                         _(titres_colonnes_liste_operations[i]),
@@ -377,6 +377,9 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 					    "cell-background-gdk", CUSTOM_MODEL_BACKGROUND,
 					    "font", CUSTOM_MODEL_FONT,
 					    NULL );
+
+    g_object_set_data ( G_OBJECT ( transactions_tree_view_columns[i] ),
+                        "cell_renderer", cell_renderer );
 
 	if ( i == column_balance )
 	    gtk_tree_view_column_add_attribute ( transactions_tree_view_columns[i],
@@ -405,7 +408,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
 	}
 
 	gtk_tree_view_column_set_alignment ( transactions_tree_view_columns[i],
-					     alignment[i] );
+					     ( gfloat )transaction_col_align[i]/2 );
 
     gtk_tree_view_column_set_sizing ( transactions_tree_view_columns[i],
 					    GTK_TREE_VIEW_COLUMN_FIXED );
@@ -2959,7 +2962,6 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
     gint column_number;
 
     column_number = GPOINTER_TO_INT (no_column);
-    devel_debug_int (column_number);
 
     switch ( ev -> button )
     {
@@ -2989,10 +2991,10 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 if ( menu == NULL )
                 {
                     menu = gtk_menu_new ();
-                    /*  sort by line */
+                    /* sort by line */
                     menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
                     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-                    gtk_widget_show_all ( menu_item );
+                    gtk_widget_show ( menu_item );
 
                     menu_item = gtk_separator_menu_item_new ();
                     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
@@ -3019,11 +3021,69 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
                 gtk_widget_show ( menu_item );
             }
-
 	    }
 
         if ( menu )
         {
+            gfloat alignement;
+
+            menu_item = gtk_separator_menu_item_new ();
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            gtk_widget_show ( menu_item );
+
+            /* alignement */
+            alignement = gtk_tree_view_column_get_alignment (
+                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( transactions_tree_view ),
+                        column_number ) );
+            menu_item = gtk_menu_item_new_with_label ( _("alignment :") );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            gtk_widget_show ( menu_item );
+
+            menu_item = gtk_separator_menu_item_new ();
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            gtk_widget_show ( menu_item );
+
+            menu_item = gtk_radio_menu_item_new_with_label ( NULL, _("LEFT") );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            if ( alignement == COLUMN_LEFT )
+                gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
+            g_object_set_data ( G_OBJECT ( menu_item ),
+                        "alignement",
+                        GINT_TO_POINTER ( ALIGN_LEFT ) );
+            g_signal_connect ( G_OBJECT(menu_item),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_change_alignement ),
+                        no_column );
+            gtk_widget_show ( menu_item );
+
+            menu_item = gtk_radio_menu_item_new_with_label_from_widget ( GTK_RADIO_MENU_ITEM (
+                        menu_item ),_("CENTER") );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            if ( alignement == COLUMN_CENTER )
+                gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
+            g_object_set_data ( G_OBJECT ( menu_item ),
+                        "alignement",
+                        GINT_TO_POINTER ( ALIGN_CENTER ) );
+            g_signal_connect ( G_OBJECT(menu_item),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_change_alignement ),
+                        no_column );
+            gtk_widget_show ( menu_item );
+
+            menu_item = gtk_radio_menu_item_new_with_label_from_widget ( GTK_RADIO_MENU_ITEM (
+                        menu_item ),_("RIGHT") );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            if ( alignement == COLUMN_RIGHT )
+                gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
+            g_object_set_data ( G_OBJECT ( menu_item ),
+                        "alignement",
+                        GINT_TO_POINTER ( ALIGN_RIGHT ) );
+            g_signal_connect ( G_OBJECT(menu_item),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_change_alignement ),
+                        no_column );
+            gtk_widget_show ( menu_item );
+
             gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time () );
             gtk_widget_show ( menu );
         }
@@ -3073,7 +3133,6 @@ gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
     gsb_transactions_list_change_sort_column (NULL, no_column);
     return FALSE;
 }
-
 
 
 /**
@@ -3678,6 +3737,57 @@ void gsb_transactions_list_display_contra_transaction ( gint *element_ptr )
 
         transaction_list_select ( transaction_number );
     }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
+                        gint *no_column )
+{
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell_renderer;
+    gint column_number;
+    gint alignement;
+    gfloat xalign = 0.0;
+
+    if ( !gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( menu_item ) ) )
+        return FALSE;
+
+    column_number = GPOINTER_TO_INT ( no_column );
+    column = gtk_tree_view_get_column ( GTK_TREE_VIEW (
+                        transactions_tree_view ),
+                        column_number );
+    alignement = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( menu_item ), "alignement" ) );
+    cell_renderer = g_object_get_data ( G_OBJECT ( column ), "cell_renderer" );
+
+    switch ( alignement )
+    {
+        case ALIGN_LEFT:
+            xalign = 0.0;
+            break;
+        case ALIGN_CENTER:
+            xalign = 0.5;
+            break;
+        case ALIGN_RIGHT:
+            xalign = 1.0;
+            break;
+    }
+
+    transaction_col_align[column_number] = alignement;
+    gtk_tree_view_column_set_alignment  ( column, xalign );
+    g_object_set ( G_OBJECT ( cell_renderer ),
+		                "xalign", xalign,
+		                NULL );
+    
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
 }
 
 

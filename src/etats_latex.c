@@ -142,15 +142,15 @@ void latex_attach_label ( gchar * text, gdouble properties, int x, int x2, int y
 
     switch ( align )
     {
-	case LEFT:
+	case ALIGN_LEFT:
 	    fprintf ( file_out, "\\raggedright\n" );
 	    break;
 
-	case RIGHT:
+	case ALIGN_RIGHT:
 	    fprintf ( file_out, "\\raggedleft\n" );
 	    break;
 
-	case CENTER:
+	case ALIGN_CENTER:
 	    break;
     }
 

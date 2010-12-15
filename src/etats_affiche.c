@@ -117,7 +117,7 @@ gint etat_affiche_affiche_titre ( gint ligne )
     titre = etats_titre (gsb_gui_navigation_get_current_report ()) ;
 
     etat_affiche_attach_label ( titre, TEXT_BOLD | TEXT_HUGE, 0, nb_colonnes,
-				ligne, ligne + 1, LEFT, 0 );
+				ligne, ligne + 1, ALIGN_LEFT, 0 );
 
     return 1;
 }
@@ -164,7 +164,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 	     ||
 	     gsb_data_report_get_show_report_transactions (current_report_number) )
 	{
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -199,16 +199,16 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 		    text = g_strdup(COLON(_("Category total")));
 	    }
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
             g_free ( text );
 
 	    text = gsb_real_get_string_with_currency (montant_categ_etat, devise_categ_etat, TRUE );
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
-					ligne, ligne + 1, RIGHT, 0 );
+					ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes -1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 
 	    ligne++;
 	}
@@ -234,7 +234,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 							   devise_categ_etat, TRUE );
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes,
-					ligne, ligne + 1, RIGHT, 0 );
+					ligne, ligne + 1, ALIGN_RIGHT, 0 );
             g_free ( text );
 
 	    ligne++;
@@ -284,7 +284,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	     ||
 	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -321,15 +321,15 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		else
 		    text = g_strdup(COLON(_("Sub-categories total")));
 	    }
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
 
 	    text = gsb_real_get_string_with_currency (montant_sous_categ_etat, devise_categ_etat, TRUE);
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 	}
 	else
@@ -352,7 +352,7 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		text = gsb_real_get_string_with_currency ( montant_sous_categ_etat,
 							   devise_categ_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 	}
@@ -399,7 +399,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	     ||
 	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -434,15 +434,15 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 		    text = g_strdup(COLON(_("Budgetary lines total")));
 	    }
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
 
 	    text = gsb_real_get_string_with_currency ( montant_ib_etat, devise_ib_etat, TRUE );
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 	}
 	else
@@ -463,7 +463,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    else
 		text = gsb_real_get_string_with_currency ( montant_ib_etat, devise_ib_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 	}
@@ -510,7 +510,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -548,15 +548,15 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		    text = g_strdup(COLON(_("Sub-budgetary lines total")));
 	    }
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
 
 	    text = gsb_real_get_string_with_currency (montant_sous_ib_etat, devise_ib_etat, TRUE );
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 	}
 	else
@@ -581,7 +581,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    else
 		text = gsb_real_get_string_with_currency ( montant_sous_ib_etat, devise_ib_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 	}
@@ -624,7 +624,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	     ||
 	     gsb_data_report_get_show_report_transactions (current_report_number))
 	{
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -659,15 +659,15 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		    text = g_strdup(COLON(_("Account total")));
 	    }
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
 
 	    text = gsb_real_get_string_with_currency (montant_compte_etat, devise_compte_en_cours_etat, TRUE );
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 	}
 	else
@@ -690,7 +690,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    else
 		text = gsb_real_get_string_with_currency ( montant_compte_etat, devise_compte_en_cours_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );  
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );  
 	    g_free ( text );
 	    ligne++;
 	}
@@ -732,7 +732,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	{
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 
 	    etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
@@ -767,15 +767,15 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		    text = g_strdup(COLON(_("Payee total")));
 	    }
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
 
 	    text = gsb_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat, TRUE );
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 
-	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	    ligne++;
 	}
 	else
@@ -797,7 +797,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    else
 		text = gsb_real_get_string_with_currency (montant_tiers_etat, devise_tiers_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 	}
@@ -1062,21 +1062,21 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	/*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
 
-	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	ligne++;
 
 	etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
 	ligne++;
 
-	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	g_free ( text );
 
 	text = gsb_real_get_string_with_currency (montant_periode_etat, devise_generale_etat, TRUE );
-	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	g_free ( text );
 	ligne++;
 
-	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	ligne++;
 
 	montant_periode_etat = null_real;
@@ -1216,21 +1216,21 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 
 	/*       si on arrive ici, c'est qu'il y a un chgt de période ou que c'est forcé */
 
-	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	ligne++;
 
 	etat_affiche_attach_hsep ( 1, nb_colonnes, ligne, ligne + 1 );
 	ligne++;
 
-	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	g_free ( text );
 
 	text = gsb_real_get_string_with_currency (montant_exo_etat, devise_generale_etat, TRUE );
-	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+	etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	g_free ( text );
 	ligne++;
 
-	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	ligne++;
 
 	montant_exo_etat = null_real;
@@ -1285,11 +1285,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 	    }
 	    else
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1303,11 +1303,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 	    }
 	    else
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1322,11 +1322,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	    if ( gsb_data_report_get_report_can_click (current_report_number))
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 	    }
 	    else
 	    {
-		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1343,11 +1343,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1365,11 +1365,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1410,11 +1410,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		g_free (text);
 	    }
@@ -1434,11 +1434,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1457,18 +1457,18 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
 	    }
 	    else
 	    {
-		etat_affiche_attach_label ( NULL, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		etat_affiche_attach_label ( NULL, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    }
 
 	    etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
@@ -1482,11 +1482,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		g_free (text);
 	    }
@@ -1538,11 +1538,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1561,11 +1561,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1585,11 +1585,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		if (text)
 		    g_free (text);
@@ -1607,11 +1607,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    {
 		if ( gsb_data_report_get_report_can_click (current_report_number))
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, transaction_number );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, transaction_number );
 		}
 		else
 		{
-		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, LEFT, 0 );
+		    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 		}
 		g_free (text);
 	    }
@@ -1628,11 +1628,11 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 
 	if ( gsb_data_report_get_report_can_click (current_report_number))
 	{
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, transaction_number );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_RIGHT, transaction_number );
 	}
 	else
 	{
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, RIGHT, 0 );
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, colonne, colonne + 1, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	}
 	if (text)
 	    g_free (text);
@@ -1659,7 +1659,7 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
@@ -1694,18 +1694,18 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 	    text = g_strdup(COLON(_("Total income")));
     }
 
-    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
     g_free ( text );
 
     text = gsb_real_get_string_with_currency (total_partie, devise_generale_etat, TRUE );
-    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
     g_free ( text );
     ligne++;
 
     etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, CENTER, 0 );
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     nom_categ_en_cours = NULL;
@@ -1730,7 +1730,7 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
     current_report_number = gsb_gui_navigation_get_current_report ();
 
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, 0 );
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
@@ -1748,18 +1748,18 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
     else
 	text = g_strdup(COLON(_("General total")));
 
-    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, LEFT, 0 );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
     g_free ( text );
 
     text = gsb_real_get_string_with_currency (total_general, devise_generale_etat, TRUE );
-    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, RIGHT, 0 );
+    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
     g_free ( text );
     ligne++;
 
     etat_affiche_attach_hsep ( 0, nb_colonnes, ligne, ligne + 1 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, CENTER, 0 );
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 1, nb_colonnes, ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     return ( ligne );
@@ -1865,7 +1865,7 @@ gint etat_affiche_affiche_categ_etat ( gint transaction_number,
 	    }
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
 	}
@@ -1950,7 +1950,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 	    }
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free (pointeur_char);
 	    ligne++;
 	}
@@ -2031,7 +2031,7 @@ gint etat_affiche_affiche_ib_etat ( gint transaction_number,
 					      NULL );
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
 	}
@@ -2119,7 +2119,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gint transaction_number,
 	    }
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
 	}
@@ -2189,7 +2189,7 @@ gint etat_affiche_affiche_compte_etat ( gint transaction_number,
 	    nom_compte_en_cours = gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number));
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
 	}
@@ -2267,7 +2267,7 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 					      NULL );
 
 	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
-					ligne, ligne + 1, LEFT, 0 );
+					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
 	}
@@ -2289,15 +2289,15 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     return ( ligne );
@@ -2309,15 +2309,15 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
-				ligne, ligne + 1, CENTER, 0 );
+				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
     return ( ligne );
@@ -2395,91 +2395,91 @@ gint etat_affiche_affiche_titres_colonnes ( gint ligne )
 
     if ( gsb_data_report_get_show_report_transaction_number (current_report_number))
     {
-	etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Number"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_date (current_report_number))
     {
-	etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_value_date (current_report_number))
     {
-	etat_affiche_attach_label ( _("Value date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Value date"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_financial_year (current_report_number))
     {
-	etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Financial year"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_payee (current_report_number))
     {
-	etat_affiche_attach_label ( _("Payee"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Payee"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_category (current_report_number))
     {
-	etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Category"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_budget (current_report_number))
     {
-	etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Budgetary line"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_note (current_report_number))
     {
-	etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Notes"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_method_of_payment (current_report_number))
     {
-	etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Payment methods"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_method_of_payment_content (current_report_number))
     {
-	etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Cheque"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_voucher (current_report_number))
     {
-	etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Voucher"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_bank_references (current_report_number))
     {
-	etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Bank references"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }
 
     if ( gsb_data_report_get_show_report_marked (current_report_number))
     {
-	etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, CENTER, 0 );
+	etat_affiche_attach_label ( _("Statement"), TEXT_BOLD, colonne, colonne + 1, ligne, ligne + 1, ALIGN_CENTER, 0 );
 	etat_affiche_attach_vsep ( colonne + 1, colonne + 2, ligne, ligne + 1 );
 	colonne = colonne + 2;
     }

@@ -168,6 +168,7 @@ extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -571,6 +572,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *transactions_view;
     gchar *scheduler_column_width_write;
     gchar *transaction_column_width_write;
+    gchar *transaction_column_align_write;
     gchar *new_string;
     gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
@@ -628,6 +630,23 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	}
 	else
 	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
+
+    /* prepare transaction_column_align_write */
+    transaction_column_align_write = NULL;
+
+    for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+	if ( transaction_column_align_write )
+	{
+	    transaction_column_align_write = g_strconcat (
+                        first_string_to_free = transaction_column_align_write,
+                        "-",
+                        second_string_to_free = utils_str_itoa ( transaction_col_align[i] ),
+                        NULL );
+	    g_free ( first_string_to_free );
+	    g_free ( second_string_to_free );
+	}
+	else
+	    transaction_column_align_write  = utils_str_itoa ( transaction_col_align[i] );
 
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
@@ -705,6 +724,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tThree_lines_showed=\"%d\"\n"
 					   "\t\tRemind_form_per_account=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
+					   "\t\tTransaction_column_align=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
 					   "\t\tCombofix_mixed_sort=\"%d\"\n"
 					   "\t\tCombofix_max_item=\"%d\"\n"
@@ -754,6 +774,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	display_three_lines,
     0,
 	my_safe_null_str(transaction_column_width_write),
+	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),
 	etat.combofix_mixed_sort,
 	etat.combofix_max_item,

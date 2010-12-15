@@ -183,6 +183,7 @@ extern gint scheduler_current_tree_view_width;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -238,6 +239,7 @@ void init_variables ( void )
     gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 12, 12 };
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
+    gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
     
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
@@ -362,11 +364,13 @@ void init_variables ( void )
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
 
-    /* defaut value for width of columns */
+    /* defaut value for width and align of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-    transaction_col_width[i] = transaction_col_width_init[i];
-     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-    scheduler_col_width[i] = scheduler_col_width_init[i];
+        transaction_col_width[i] = transaction_col_width_init[i];
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+        transaction_col_align[i] = transaction_col_align_init[i];
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
+        scheduler_col_width[i] = scheduler_col_width_init[i];
     
     navigation_tree_view = NULL;
 

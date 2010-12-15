@@ -139,15 +139,15 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 
     switch ( align )
     {
-	case LEFT:
+	case ALIGN_LEFT:
 	    fprintf ( html_out, " align=\"left\"" );
 	    break;
 
-	case RIGHT:
+	case ALIGN_RIGHT:
 	    fprintf ( html_out, " align=\"right\"" );
 	    break;
 
-	case CENTER:
+	case ALIGN_CENTER:
 	    fprintf ( html_out, " align=\"center\"" );
 	    break;
     }
