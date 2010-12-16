@@ -247,7 +247,7 @@ devel_debug (NULL);
 	    if ( gsb_file_close() )
 	    {
 		gtk_widget_hide ( selection_fichier );
-		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
+		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) );
         gsb_file_update_last_path ( file_selection_get_last_directory (
                         GTK_FILE_CHOOSER ( selection_fichier),
                         TRUE ) );

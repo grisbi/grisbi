@@ -748,8 +748,9 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     GSList * tmp;
     struct import_format * format;
     GSList *filenames = NULL;
-	gchar* old_str;
-	gchar* tmpstr;
+    gchar* old_str;
+    gchar* tmpstr;
+    gchar* tmpchar;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( parent ),
@@ -794,16 +795,24 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
                         format -> extension );
     gtk_file_filter_set_name ( format_filter, tmpstr );
     g_free ( tmpstr );
-    tmpstr = g_strconcat ( "*.", format -> extension, NULL );
-    gtk_file_filter_add_pattern ( format_filter,
-                        tmpstr );
-    g_free ( tmpstr );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
-
-    /* Global filter */
-    tmpstr = g_strconcat ( "*.", format -> extension, NULL );
+    /* Make it case insensitive */
+    tmpstr = g_strdup ( "*." );
+    tmpchar = format -> extension;
+    while(*tmpchar != '\0' )
+    {
+    old_str=tmpstr;
+    tmpstr = g_strdup_printf ( _("%s[%c%c]"),
+                        tmpstr,
+                        (int)g_ascii_toupper(*tmpchar),
+                        (int)*tmpchar );
+    tmpchar++;
+    g_free ( old_str );
+    }
+    gtk_file_filter_add_pattern ( format_filter, tmpstr );
+    /* Add this pattern to the global filter as well*/
     gtk_file_filter_add_pattern ( default_filter, tmpstr );
     g_free ( tmpstr );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
 
     tmp = tmp -> next;
     }
