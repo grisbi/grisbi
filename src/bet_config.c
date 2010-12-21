@@ -998,6 +998,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
             bet_config_initialise_finance_widget ( account_number, account_page );
             break;
         case GSB_TYPE_ASSET:
+            gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
             break;
     }
 
@@ -1146,6 +1147,8 @@ void bet_config_use_budget_toggle ( GtkToggleButton *button, GtkWidget *combo )
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
         gtk_widget_hide_all ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
+        gtk_widget_hide_all ( widget );
+        widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
         gtk_widget_hide_all ( widget );
     }
 

@@ -85,6 +85,10 @@ static void bet_historical_populate_div_model ( gpointer key,
 static void bet_historical_row_collapse_all ( GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreeModel *model );
+static void bet_historical_row_collapsed_event ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        GtkTreeModel *model );
 static void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreePath *path,
@@ -623,6 +627,11 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         "edited",
                         G_CALLBACK (bet_historical_div_cell_edited),
                         tree_view );
+
+    g_signal_connect ( G_OBJECT ( tree_view ),
+                        "row-collapsed",
+                        G_CALLBACK ( bet_historical_row_collapsed_event ),
+                        tree_model );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
                         "row-expanded",
@@ -1285,6 +1294,21 @@ gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *
     }
 
     return amount;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_row_collapsed_event ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        GtkTreeModel *model )
+{
+    bet_historical_set_background_color ( GTK_WIDGET ( tree_view ) );
 }
 
 
