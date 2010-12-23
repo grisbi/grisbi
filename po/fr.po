@@ -10641,7 +10641,7 @@ msgstr "Supprimer les tiers inutilisés"
 
 #: ../src/tiers_onglet.c:365 ../src/tiers_onglet.c:391
 msgid "Remove orphan payees"
-msgstr "Supprimer les tiers sans opérations"
+msgstr "Supprimer les tiers sans opération"
 
 #: ../src/tiers_onglet.c:392
 msgid ""
