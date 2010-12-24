@@ -841,7 +841,7 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
         GtkWidget *combofix;
 
         budget -> budget_name = my_strdup (name);
-        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
+        combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
         if ( combofix )
             gsb_budget_update_combofix ( TRUE );
     }
