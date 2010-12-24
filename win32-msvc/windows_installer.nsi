@@ -19,8 +19,8 @@
 
 !define PRODUCT "Grisbi" ;Name of the project
 !define MAJOR "0"        ;Major version number
-!define MINOR "6"        ;Minor version number
-!define PATCH "1"        ;Patch version number
+!define MINOR "7"        ;Minor version number
+!define PATCH "97"        ;Patch version number
 !define STAGE "testing pre release"     ;Developement stage id (RC, beta, alpha)
 !define SMALL_STAGE "test_pre_rel" ;Small dev stage id without spaces
 !define EXE_PATH "target\Win32\Release" ;Path to the exe file you want to pack

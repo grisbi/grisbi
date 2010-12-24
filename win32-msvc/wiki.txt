@@ -1,8 +1,8 @@
-====== Compiler Grisbi pour Windows avec Visual C++ 2008 Express Edition ======
+====== Compiler Grisbi pour Windows avec Visual C++ 2010 Express Edition ======
 
 ==== Pré Requis ====
 
-* Visual C++ 2008 Express Edition (http://msdn.microsoft.com/fr-fr/express/default.aspx)
+* Visual C++ 2010 Express Edition (http://msdn.microsoft.com/fr-fr/express/default.aspx)
 * UnxUtils (http://unxutils.sourceforge.net/)
 * cmake (http://www.cmake.org/)
 

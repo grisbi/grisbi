@@ -75,8 +75,14 @@ wget -nc -c https://sourceforge.net/projects/grisbi/files/dependancies/0.6/libof
 cd %TARGET_DIR%
 unzip -uo %DOWNLOADS_DIR%\libofx_Win32.zip -d plugins-dev
 
+:: Download and unzip gettext to get msgfmt.exe
 cd %DOWNLOADS_DIR%
-wget -nc -c http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
+wget -nc -c http://sourceforge.net/projects/gnuwin32/files/gettext/0.14.4/gettext-0.14.4-bin.zip/download
+cd %TARGET_DIR%
+unzip -uo %DOWNLOADS_DIR%\gettext-0.14.4-bin.zip -d gettext
+
+cd %DOWNLOADS_DIR%
+wget -nc -c http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.22/%GTK_DEV_FILE_BASENAME%.zip
 :: Checking if already unzipped
 :: If the readme file exists for this version, update the unzip
 cd %TARGET_DIR%

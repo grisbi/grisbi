@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+//#include "afxres.h"
+#include "windows.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -46,7 +47,6 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -62,8 +62,8 @@ IDI_ICON1               ICON                    "..\\win32\\grisbi.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,6,0,0
- PRODUCTVERSION 0,6,0,0
+ FILEVERSION 0,7,9,7
+ PRODUCTVERSION 0,7,9,7
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -80,12 +80,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "The Grisbi Team"
             VALUE "FileDescription", "Grisbi"
-            VALUE "FileVersion", "0, 6, 0, 0"
+            VALUE "FileVersion", "0, 7, 9, 7"
             VALUE "InternalName", "grisbi"
             VALUE "LegalCopyright", "Copyleft (C) 2003-2010"
             VALUE "OriginalFilename", "grisbi.rc"
             VALUE "ProductName", "Grisbi"
-            VALUE "ProductVersion", "0, 6, 0, 0"
+            VALUE "ProductVersion", "0, 7, 9, 7"
         END
     END
     BLOCK "VarFileInfo"
