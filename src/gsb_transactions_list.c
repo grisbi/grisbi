@@ -3035,7 +3035,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
             alignement = gtk_tree_view_column_get_alignment (
                         gtk_tree_view_get_column ( GTK_TREE_VIEW ( transactions_tree_view ),
                         column_number ) );
-            menu_item = gtk_menu_item_new_with_label ( _("alignment :") );
+            menu_item = gtk_menu_item_new_with_label ( _("alignment:") );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             gtk_widget_show ( menu_item );
 
