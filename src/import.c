@@ -77,7 +77,6 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_account.h"
 #include "gtk_combofix.h"
-#include "include.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_scheduler.h"
 #include "erreur.h"
@@ -135,6 +134,8 @@ static GDate *gsb_import_get_first_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
 static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
                         gint transaction_number);
+static GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *imported_account );
+static void gsb_import_progress_bar_pulse ( GtkWidget *progress, gint nbre_transaction );
 static gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test );
 static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
@@ -219,6 +220,8 @@ gchar *charmap_imported;
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *liste_associations_tiers = NULL;
 
+/* nombre de transaction à importer qui affiche une barre de progression */
+#define NBRE_TRANSACTION_FOR_PROGRESS_BAR 250
 
 enum import_filesel_columns {
     IMPORT_FILESEL_SELECTED = 0,
@@ -801,7 +804,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     while(*tmpchar != '\0' )
     {
     old_str=tmpstr;
-    tmpstr = g_strdup_printf ( _("%s[%c%c]"),
+    tmpstr = g_strdup_printf ( "%s[%c%c]",
                         tmpstr,
                         (int)g_ascii_toupper(*tmpchar),
                         (int)*tmpchar );
@@ -1902,16 +1905,29 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 void gsb_import_create_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number )
 {
+    GtkWidget *progress = NULL;
     GSList *list_tmp;
+    gint nbre_transaction;
 
     mother_transaction_number = 0;
 
     list_tmp = imported_account -> operations_importees;
+    nbre_transaction = g_slist_length ( list_tmp );
+
+    if ( nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR )
+        progress = gsb_import_progress_bar_affiche ( imported_account );
 
     while ( list_tmp )
     {
         struct struct_ope_importation *imported_transaction;
         gint transaction_number;
+
+        if ( nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR )
+        {
+            gsb_import_progress_bar_pulse ( progress, nbre_transaction );
+            while ( gtk_events_pending () ) gtk_main_iteration ( );
+            nbre_transaction --;
+        }
 
         imported_transaction = list_tmp -> data;
 
@@ -1939,7 +1955,10 @@ void gsb_import_create_imported_transactions ( struct struct_compte_importation 
         list_tmp = list_tmp -> next;
     }
 
-    /** some payee should have been added, so update the combofix */
+    if ( progress )
+        gtk_widget_destroy ( progress );
+
+    /* some payee should have been added, so update the combofix */
     gsb_payee_update_combofix ();
 }
 
@@ -4825,6 +4844,62 @@ gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test )
 
     return TRUE;
 }
+
+GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *imported_account )
+{
+    GtkWidget *assistant;
+    GtkWidget *progress;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *align;
+    GtkWidget *bar;
+
+    progress = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+    gtk_window_set_decorated ( GTK_WINDOW ( progress ), FALSE );
+
+    assistant = g_object_get_data ( G_OBJECT ( window ), "assistant" );
+    gtk_window_set_modal ( GTK_WINDOW ( assistant ), FALSE );
+    gtk_window_set_transient_for ( GTK_WINDOW ( progress ), GTK_WINDOW ( assistant ) );
+    gtk_window_set_modal ( GTK_WINDOW ( progress ), TRUE );
+    gtk_window_set_position ( GTK_WINDOW ( progress ), GTK_WIN_POS_CENTER_ALWAYS );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER ( progress ), hbox );
+
+    image = gtk_image_new_from_icon_name ( GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0 );
+
+    align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
+    bar = gtk_progress_bar_new ( );
+    gtk_progress_bar_set_pulse_step ( GTK_PROGRESS_BAR ( bar ), 0.1 );
+    g_object_set_data ( G_OBJECT ( progress ), "bar", bar );
+    gtk_container_add ( GTK_CONTAINER ( align ), bar );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), align, FALSE, FALSE, 6 );
+
+    gtk_widget_show_all ( progress );
+
+    return progress;
+}
+
+
+void gsb_import_progress_bar_pulse ( GtkWidget *progress, gint nbre_transaction )
+{
+    GtkWidget *bar;
+    gchar *tmp_text;
+    gchar *text;
+
+    bar = g_object_get_data ( G_OBJECT ( progress ), "bar" );
+    gtk_progress_bar_pulse ( GTK_PROGRESS_BAR ( bar ) );
+
+    tmp_text = utils_str_itoa ( nbre_transaction );
+    text = g_strdup_printf ( " reste %s transactions à traiter ", tmp_text );
+    gtk_progress_bar_set_text ( GTK_PROGRESS_BAR ( bar ), text );
+
+    g_free ( tmp_text );
+    g_free ( text );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
