@@ -1122,6 +1122,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_HOME_PAGE:
 	    notice_debug ("Home page selected");
 
+        gsb_gui_sensitive_menu_item ( "ViewMenu", "ShowClosed", NULL, TRUE );
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
 	    gsb_form_set_expander_visible ( FALSE, FALSE );
