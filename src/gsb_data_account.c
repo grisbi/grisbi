@@ -1066,8 +1066,13 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
     if ( balances_with_scheduled )
         res = 0;
     else
-        res = g_date_compare ( date_jour,
-                        gsb_data_transaction_get_date ( transaction_number ) );
+    {
+        const GDate *date;
+
+        date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
+        res = g_date_compare ( date_jour, date );
+    }
+
 	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
 	     &&
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
