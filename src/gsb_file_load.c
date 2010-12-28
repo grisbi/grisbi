@@ -3928,6 +3928,13 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Bet_deb_cash_account_option" ) )
+    {
+        etat.bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }

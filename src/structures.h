@@ -120,6 +120,7 @@ struct gsb_etat_t
 
     /* variables for the module estimate balance */
     gint bet_deb_period;
+    gint bet_deb_cash_account_option;       /* ajoute l'onglet prévision aux comptes de caisse */
 
     /* variables pour le simulateur de crédits */
     gdouble bet_capital;

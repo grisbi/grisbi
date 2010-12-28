@@ -1481,35 +1481,37 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_widget_show ( menu_item );
 
     /* Insert an account balance */
-    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
-    image = gtk_image_new_from_file ( tmp_str );
-    g_free ( tmp_str );
-    menu_item = gtk_image_menu_item_new_with_label ( 
+    if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
+    {
+        tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
+        image = gtk_image_new_from_file ( tmp_str );
+        g_free ( tmp_str );
+        menu_item = gtk_image_menu_item_new_with_label (
                         _("Insert the balance of a cash account") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
-    g_signal_connect ( G_OBJECT ( menu_item ),
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+        g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
                         tree_selection );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    if ( origine == SPP_ORIGIN_ACCOUNT )
-    {
-        menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+        if ( origine == SPP_ORIGIN_ACCOUNT )
+        {
+            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 						GTK_ICON_SIZE_MENU ) );
-        g_signal_connect ( G_OBJECT ( menu_item ),
+            g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
                         tree_selection );
-        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        }
+
+        /* Separator */
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+        gtk_widget_show ( menu_item );
     }
-
-    /* Separator */
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
-    gtk_widget_show ( menu_item );
-
     /* redo item */
     menu_item = gtk_image_menu_item_new_with_label ( _("Reset data") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),

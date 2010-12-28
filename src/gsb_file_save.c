@@ -2875,7 +2875,8 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" />\n", etat.bet_deb_period );
+    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Bet_deb_cash_account_option=\"%d\"/>\n",
+                        etat.bet_deb_period, etat.bet_deb_cash_account_option );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,

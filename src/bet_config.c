@@ -56,6 +56,8 @@
 /*START_STATIC*/
 static gboolean bet_config_change_account ( GtkWidget *combo );
 static gint bet_config_get_account_from_combo ( void );
+static gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton,
+                        gpointer null );
 static GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container );
 static GtkWidget *bet_config_account_get_finance_data ( gchar *title );
 static GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent );
@@ -119,6 +121,19 @@ GtkWidget *bet_config_general_create_general_page ( void )
 
     /* add a separator */
     gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_hseparator_new (), FALSE, FALSE, 5 );
+
+    /* option pour les comptes de caisse */
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Option for cash accounts") );
+
+    widget = gsb_automem_checkbutton_new ( _("Add the forecast tab for cash accounts"),
+                        &etat.bet_deb_cash_account_option,
+                        G_CALLBACK ( bet_config_general_cash_account_option_clicked ),
+                        NULL);
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), widget, FALSE, FALSE, 0 );
+
+    if ( etat.bet_deb_cash_account_option == 1 )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
 
     gtk_widget_show_all ( vbox );
 
@@ -193,6 +208,35 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     gtk_widget_show_all ( vbox );
 
     return vbox;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton,
+                        gpointer null )
+{
+    GtkWidget *combo;
+    
+    combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+    if ( combo )
+    {
+        gint account_number;
+
+        account_number = gsb_account_get_combo_account_number ( combo );
+        bet_config_sensitive_account_parameters ( account_number, TRUE );
+    }
+
+    bet_data_select_bet_pages ( gsb_gui_navigation_get_current_account ( ) );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
 }
 
 
@@ -981,6 +1025,9 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     }
 
     kind = gsb_data_account_get_kind ( account_number );
+    if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+        kind = GSB_TYPE_BANK;
+
     notebook = g_object_get_data ( G_OBJECT ( account_page ), "config_notebook" );
     switch ( kind )
     {
@@ -1074,6 +1121,9 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
         kind_account kind;
 
         kind = gsb_data_account_get_kind ( account_number );
+        if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+            kind = GSB_TYPE_BANK;
+
         switch ( kind )
         {
         case GSB_TYPE_BANK:
@@ -1194,6 +1244,8 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     GtkWidget *widget;
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
+    GtkWidget *align;
+    GtkWidget *image;
     GtkWidget *button;
 
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -1308,13 +1360,20 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
 
+    /* Apply */
+    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
+    gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 5);
+
+    image = gtk_image_new_from_stock ( GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON );
     button = gtk_button_new_with_label ( _("Apply") );
+    gtk_button_set_image ( GTK_BUTTON ( button ), image );
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_config_finance_apply_clicked ),
                         parent );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5);
+
+    gtk_container_add ( GTK_CONTAINER ( align ), button );
     return vbox;
 }
 /**

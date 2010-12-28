@@ -112,6 +112,8 @@ void bet_data_select_bet_pages ( gint account_number )
     bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
     if ( bet_use_budget <= 0 )
         kind = GSB_TYPE_ASSET;
+    else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+        kind = GSB_TYPE_BANK;
 
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
 
