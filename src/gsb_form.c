@@ -2681,6 +2681,18 @@ gboolean gsb_form_finish_edition ( void )
         return FALSE;
     }
 
+    if ( execute_scheduled )
+    {
+        GtkTreeSelection *selection;
+        GtkTreePath *path;
+
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( gsb_scheduler_list_get_tree_view ( ) ) );
+        path = gtk_tree_path_new_from_string ( "0" );
+        gtk_tree_selection_select_path ( selection, path );
+
+        gtk_tree_path_free ( path );
+    }
+
     /* give the focus to the date widget */
     if ( is_transaction )
         gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
