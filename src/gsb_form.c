@@ -2755,7 +2755,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             g_date_free ( save_form_date );
         save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( widget ) );
 
-        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+        if ( is_transaction
+         && gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
          && mother_number == 0 )
         {
             const GDate *init_date;
