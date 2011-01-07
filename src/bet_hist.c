@@ -730,8 +730,8 @@ void bet_historical_populate_data ( gint account_number )
             continue;
 
         /* ignore splitted transactions */
-        if ( gsb_data_transaction_get_mother_transaction_number (
-         transaction_number ) != 0 )
+        if ( gsb_data_transaction_get_split_of_transaction (
+         transaction_number ) == TRUE )
             continue;
 
         /* on détermine le type de transaction pour l'affichage */
