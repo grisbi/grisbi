@@ -71,7 +71,6 @@
 /*START_STATIC*/
 static GtkWidget * create_preferences_tree ( );
 static GtkWidget *gsb_config_scheduler_page ( void );
-static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
@@ -347,20 +346,20 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
-                        0, _("Main page"),
-                        1, MAIN_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
                         0, _("Localization"),
                         1, LOCALISATION_PAGE,
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Main page"),
+                        1, MAIN_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -1109,7 +1108,7 @@ GtkWidget *onglet_programmes (void)
  * */
 static GtkWidget *gsb_config_scheduler_page ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *vbox_pref;
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *entry;
@@ -1138,46 +1137,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
-    /* Take into account the planned operations in the calculation of balances */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Calculation of balances") );
-
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    button = gsb_automem_checkbutton_new (
-                        _("Take into account the scheduled operations "
-                          "in the calculation of balances"),
-                        &balances_with_scheduled,
-                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
-                        NULL );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-
     return vbox_pref;
-}
-
-
-gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
-{
-    GSList *list_tmp;
-
-    devel_debug ( NULL );
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-        gint account_number;
-
-        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-        gsb_data_account_set_balances_are_dirty ( account_number );
-
-        /* MAJ HOME_PAGE */
-        gsb_gui_navigation_update_home_page ( );
-
-        list_tmp = list_tmp -> next;
-    }
-    return FALSE;
 }
 
 

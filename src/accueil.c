@@ -68,6 +68,7 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
                         GSList *liste,
                         gint currency_number,
                         gint type_compte );
+static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
                         gint account_number,
                         gint i );
@@ -1963,6 +1964,22 @@ GtkWidget *onglet_accueil (void)
                         G_CALLBACK (gsb_gui_navigation_update_home_page), NULL ),
                         FALSE, FALSE, 0 );
     }
+
+    /* Take into account the planned operations in the calculation of balances */
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Calculation of balances") );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Take into account the scheduled operations "
+                          "in the calculation of balances"),
+                        &balances_with_scheduled,
+                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
+                        NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
     /* Data partial balance settings */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, 
                         _("Balances partials of the list of accounts") );
@@ -2145,6 +2162,30 @@ void gsb_main_page_update_homepage_title ( const gchar *title )
     gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmp_str );
 
     g_free ( tmp_str );
+}
+
+
+gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
+{
+    GSList *list_tmp;
+
+    devel_debug ( NULL );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        gsb_data_account_set_balances_are_dirty ( account_number );
+
+        /* MAJ HOME_PAGE */
+        gsb_gui_navigation_update_home_page ( );
+
+        list_tmp = list_tmp -> next;
+    }
+    return FALSE;
 }
 
 
