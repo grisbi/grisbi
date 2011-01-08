@@ -276,7 +276,7 @@ gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
                         gint element_number )
 {
     gchar* tmpstr;
-devel_debug_int (element_number);
+
     switch (element_number)
     {
 	case ELEMENT_DATE:  /* = 1 */
