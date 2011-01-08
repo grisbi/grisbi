@@ -504,22 +504,24 @@ GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
  *
  * \return A newly created paddingbox
  */
-/*GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
+GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
 						const gchar *title,
 					    const gchar *choice1, const gchar *choice2, const gchar *choice3,
-					    gboolean *value,
+					    gint *value,
 					    GCallback hook,
-					    gpointer data )
+					    gpointer data,
+                        gint orientation )
 {
     GtkWidget *paddingbox;
 
-    paddingbox = new_paddingbox_with_title (parent, FALSE, COLON(title));
-    gtk_box_pack_start (GTK_BOX(paddingbox),
+    paddingbox = new_paddingbox_with_title ( parent, FALSE, COLON ( title ) );
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			gsb_automem_radiobutton3_new ( choice1, choice2, choice3,
-						       value, hook, data ), 
+						       value, hook, data, orientation ),
 			FALSE, FALSE, 0 );
     return paddingbox;
-}*/
+}
 
 
 
@@ -542,29 +544,33 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
 					    const gchar *choice3,
 					    gint *value,
 					    GCallback callback,
-					    gpointer data )
+					    gpointer data,
+                        gint orientation )
 {
-    GtkWidget *hbox;
+    GtkWidget *box;
     GtkWidget *button1;
     GtkWidget *button2;
     GtkWidget *button3 = NULL;
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    if ( orientation == GTK_ORIENTATION_HORIZONTAL )
+        box = gtk_hbox_new ( FALSE, 6 );
+    else
+        box = gtk_vbox_new ( FALSE, 6 );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button1, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( box ), button1, FALSE, FALSE, 0 );
 
     button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (
-                        GTK_RADIO_BUTTON ( button1 ) ), 
+                        GTK_RADIO_BUTTON ( button1 ) ),
 						choice2 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button2, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( box ), button2, FALSE, FALSE, 0 );
 
     if ( choice3 && strlen ( choice3 ) )
     {
         button3 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (
-                        GTK_RADIO_BUTTON ( button1 ) ), 
+                        GTK_RADIO_BUTTON ( button1 ) ),
 						choice3 );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), button3, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( box ), button3, FALSE, FALSE, 0 );
     }
 
     if (value)
@@ -602,7 +608,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
             g_signal_connect ( G_OBJECT ( button3 ), "button-release-event", G_CALLBACK ( callback ), data );
     }
  
-    return hbox;
+    return box;
 }
 
 

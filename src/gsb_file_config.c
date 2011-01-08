@@ -397,14 +397,15 @@ devel_debug (NULL);
                         "Display",
                         "Show transaction gives balance",
                         NULL );
-    conf.transactions_list_sort_by_date = g_key_file_get_integer ( config,
+
+    conf.transactions_list_primary_sorting = g_key_file_get_integer ( config,
                         "Display",
-                        "Transactions list sort by date",
+                        "Transactions_list_primary_sorting",
                         NULL );
 
-    conf.transactions_list_sort_by_value_date = g_key_file_get_integer ( config,
+    conf.transactions_list_secondary_sorting = g_key_file_get_integer ( config,
                         "Display",
-                        "Transactions list sort by value date",
+                        "Transactions_list_secondary_sorting",
                         NULL );
 
     etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
@@ -801,13 +802,13 @@ gboolean gsb_file_config_save_config ( void )
 
     g_key_file_set_integer ( config,
                         "Display",
-                        "Transactions list sort by date",
-                        conf.transactions_list_sort_by_date );
+                        "Transactions_list_primary_sorting",
+                        conf.transactions_list_primary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
-                        "Transactions list sort by value date",
-                        conf.transactions_list_sort_by_value_date );
+                        "Transactions_list_secondary_sorting",
+                        conf.transactions_list_secondary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1371,8 +1372,8 @@ void gsb_file_config_clean_config ( void )
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
     conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
-    conf.transactions_list_sort_by_date = 0;        /* Options for sorting by date */  
-    conf.transactions_list_sort_by_value_date = 1;  /* Options for sorting by value date */  
+    conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
+    conf.transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
     etat.show_closed_accounts = FALSE;
 
     if ( conf.font_string )

@@ -51,8 +51,9 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
-static gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
-                        gpointer null );
+static gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
 static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
                         GtkWidget *button );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
@@ -167,11 +168,9 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
     }
 
-
     /* pack vboxes in hbox */
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_buttons, FALSE, FALSE, 0 );
-
 
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
@@ -188,26 +187,31 @@ GtkWidget *onglet_affichage_operations ( void )
                         &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
                         FALSE, FALSE, 0 );
-    /* Sorting the transactions by date */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Options for sorting by date"),
-                        _("Sort by date and transaction number"),
-                        _("Sort by date and transaction amount"),
-                        &conf.transactions_list_sort_by_date,
-                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
-                        NULL );
 
-    /* Sorting the transactions by value date */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Options for sorting by value date"),
+    /* Primary sorting option for the transactions */
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+                        _("Primary sorting option"),
                         _("Sort by value date (if fail, try with the date)"),
                         _("Sort by value date and then by date"),
-                        &conf.transactions_list_sort_by_value_date,
-                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
-                        NULL );
+                        NULL,
+                        &conf.transactions_list_primary_sorting,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
+                        &conf.transactions_list_primary_sorting,
+                        GTK_ORIENTATION_VERTICAL );
+
+    /* Secondary sorting option for the transactions */
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+                        _("Secondary sorting option"),
+                        _("Sort by transaction number"),
+                        _("Sort by type of amount (credit debit)"),
+                        _("Sort by payee name (if fail, by transaction number)"),
+                        &conf.transactions_list_secondary_sorting,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
+                        &conf.transactions_list_secondary_sorting,
+                        GTK_ORIENTATION_VERTICAL );
 
     /* Account distinction */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
                         _("Account differentiation"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
@@ -230,13 +234,24 @@ GtkWidget *onglet_affichage_operations ( void )
  *
  *
  * */
-gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
-                        gpointer null )
+gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
 {
     gint page_number;
     gint account_nb;
 
     page_number = gsb_gui_navigation_get_current_page ( );
+
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
 
     switch ( page_number )
     {

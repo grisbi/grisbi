@@ -583,7 +583,8 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
 					    _("Budgetary lines"),
 					    &select,
                         G_CALLBACK ( bet_config_select_label_changed ),
-                        GINT_TO_POINTER ( origine ) );
+                        GINT_TO_POINTER ( origine ),
+                        GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
 
@@ -601,7 +602,8 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
 					    _("Budgetary lines"),
 					    &select,
                         G_CALLBACK ( bet_config_select_label_changed ),
-                        GINT_TO_POINTER ( origine ) );
+                        GINT_TO_POINTER ( origine ),
+                        GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
     /* set labels for futur data */
@@ -618,7 +620,8 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
 					    _("Budgetary lines"),
 					    &select,
                         G_CALLBACK ( bet_config_select_label_changed ),
-                        GINT_TO_POINTER ( origine ) );
+                        GINT_TO_POINTER ( origine ),
+                        GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
     text = make_blue ( _("Order by default if the data are not zero: notes, payee, "

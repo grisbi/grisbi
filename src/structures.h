@@ -188,8 +188,8 @@ struct gsb_conf_t
     /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
-    gboolean transactions_list_sort_by_date;        /* Options for sorting by date */
-    gboolean transactions_list_sort_by_value_date;  /* Options for sorting by value date */
+    gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
+    gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
 
     /* archive stuff */
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */

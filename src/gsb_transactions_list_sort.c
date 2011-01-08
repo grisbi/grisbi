@@ -93,6 +93,10 @@ static gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1
                         gint transaction_number_2 );
 static gint gsb_transactions_list_sort_by_voucher ( gint transaction_number_1,
                         gint transaction_number_2 );
+static gint gsb_transactions_list_sort_initial_by_primary_key_and_secondary_key ( gint transaction_number_1,
+                        gint transaction_number_2 );
+static gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transaction_number_1,
+                        gint transaction_number_2 );
 /*END_STATIC*/
 
 
@@ -272,7 +276,7 @@ gint gsb_transactions_list_sort_by_no_sort (  gint transaction_number_1,
                         gint element_number )
 {
     gchar* tmpstr;
-
+devel_debug_int (element_number);
     switch (element_number)
     {
 	case ELEMENT_DATE:  /* = 1 */
@@ -438,13 +442,52 @@ gint gsb_transactions_list_sort_by_transaction_date_and_amount ( gint transactio
 
 
 /**
+ * compared by date and by party
+ *
+ * \param none but the local variables transaction_number_1 and transaction_number_2 MUST be set
+ *
+ * \return -1 if amount_2 is above amount_number_1
+ * */
+gint gsb_transactions_list_sort_by_transaction_date_and_party ( gint transaction_number_1,
+                        gint transaction_number_2 )
+{
+    gint return_value;
+    gsb_real amount_1;
+    gsb_real amount_2;
+
+    if ( !gsb_data_transaction_get_date (transaction_number_1) )
+    {
+        return 1;
+    }
+    if ( !gsb_data_transaction_get_date (transaction_number_2) )
+    {
+        return -1;
+    }
+
+    return_value = g_date_compare ( gsb_data_transaction_get_date (transaction_number_1),
+                        gsb_data_transaction_get_date (transaction_number_2));
+
+    if ( return_value == 0 )
+    {
+        /* no difference in the dates, sort by amount of transaction */
+        amount_1 = gsb_data_transaction_get_amount ( transaction_number_1 );
+        amount_2 = gsb_data_transaction_get_amount ( transaction_number_2 );
+        return_value = gsb_transactions_list_sort_by_party ( transaction_number_1,
+                        transaction_number_2 );
+    }
+
+    return return_value;
+}
+
+
+/**
  * used to compare 2 iters and sort the by no of transaction
  * always put the white line below
- * 
+ *
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
@@ -457,7 +500,7 @@ gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
 
 /**
  * used to compare 2 iters and sort the by date first, and no
- * or amount transaction after 
+ * or amount transaction after
  * always put the white line below
  * \param model the GtkTreeModel
  * \param iter_1
@@ -467,11 +510,7 @@ gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
 gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
-    if ( conf.transactions_list_sort_by_date == 0 )
-        return gsb_transactions_list_sort_by_transaction_date_and_no (
-                        transaction_number_1, transaction_number_2 );
-    else
-        return gsb_transactions_list_sort_by_transaction_date_and_amount (
+    return gsb_transactions_list_sort_initial_by_secondary_key (
                         transaction_number_1, transaction_number_2 );
 }
 
@@ -496,11 +535,11 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
     /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
-    if ( ! value_date_1 && !conf.transactions_list_sort_by_value_date )
+    if ( ! value_date_1 && !conf.transactions_list_primary_sorting )
         value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
 
     value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
-    if ( ! value_date_2 && !conf.transactions_list_sort_by_value_date )
+    if ( ! value_date_2 && !conf.transactions_list_primary_sorting )
         value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
 
     if ( value_date_1 )
@@ -699,13 +738,13 @@ gint gsb_transactions_list_sort_by_amount ( gint transaction_number_1,
     gint return_value;
 
     /* for the amounts, we have to check also the currency */
-    return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1),
-				  gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1));
+    return_value = gsb_real_cmp ( gsb_data_transaction_get_adjusted_amount ( transaction_number_2, -1),
+				  gsb_data_transaction_get_adjusted_amount ( transaction_number_1, -1));
 
     if ( return_value )
 	return return_value;
     else
-	return gsb_transactions_list_sort_by_transaction_date_and_no(transaction_number_1, transaction_number_2);
+	return gsb_transactions_list_sort_by_transaction_date_and_no (transaction_number_1, transaction_number_2);
 }
 
 
@@ -1059,7 +1098,7 @@ gint gsb_transactions_list_sort_by_chq ( gint transaction_number_1,
 
 
 /**
- * called by a click on the column, used to sort the list
+ * Called to sort transactions by key primary and secondary key
  *
  * \param model
  * \param iter_1
@@ -1110,23 +1149,102 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
         /* get the transaction numbers */
         gint transaction_number_1;
         gint transaction_number_2;
-        gint element_number;
 
         transaction_number_1 = gsb_data_transaction_get_transaction_number (record_1 -> transaction_pointer);
         transaction_number_2 = gsb_data_transaction_get_transaction_number (record_2 -> transaction_pointer);
 
-        element_number = gsb_data_account_get_element_sort ( account_number,
-							     custom_list -> sort_col);
-
-        if ( element_number == ELEMENT_DATE || element_number == ELEMENT_VALUE_DATE )
-            return_value = gsb_transactions_list_sort_by_no_sort ( transaction_number_1,
-							       transaction_number_2,
-							       element_number );
-        else
-            return_value = gsb_transactions_list_sort_by_value_date ( transaction_number_1, transaction_number_2 );
+        return_value = gsb_transactions_list_sort_initial_by_primary_key_and_secondary_key (
+                        transaction_number_1, transaction_number_2 );
     }
 
     return return_value;
+}
+
+
+/**
+ * used to compare 2 iters and sort the by primary key
+ *
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_initial_by_primary_key_and_secondary_key ( gint transaction_number_1,
+                        gint transaction_number_2 )
+{
+    gint return_value;
+    const GDate *value_date_1;
+    const GDate *value_date_2;
+
+    /* need to work a little more here because value date is not obligatory filled,
+     * if we compare 2 transactions and 1 has no value date, set the value date before */
+    value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
+    if ( !value_date_1 && conf.transactions_list_primary_sorting == 0 )
+        value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
+
+    value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
+    if ( !value_date_2 && conf.transactions_list_primary_sorting == 0 )
+        value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
+
+    if ( value_date_1 )
+    {
+        if (value_date_2)
+            return_value = g_date_compare ( value_date_1, value_date_2);
+        else
+            return_value = -1;
+    }
+    else
+    {
+        if ( value_date_2 )
+            return_value = 1;
+        else
+            return_value = 0;
+    }
+
+    if ( return_value )
+        return return_value;
+    else
+        return gsb_transactions_list_sort_initial_by_secondary_key (
+                        transaction_number_1, transaction_number_2 );
+}
+
+
+/**
+ * used to compare 2 iters and sort the by secondary key:
+ * no or amount or payee_name
+ * always put the white line below
+ * \param model the GtkTreeModel
+ * \param iter_1
+ * \param iter_2
+ * \return -1 if iter_1 is above iter_2
+ * */
+gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transaction_number_1,
+                        gint transaction_number_2 )
+{
+    if ( conf.transactions_list_primary_sorting == 0 )
+    {
+        if ( conf.transactions_list_secondary_sorting == 1 )
+            return gsb_transactions_list_sort_by_amount (
+                        transaction_number_1, transaction_number_2 );
+        else if ( conf.transactions_list_secondary_sorting == 2 )
+            return gsb_transactions_list_sort_by_party (
+                        transaction_number_1, transaction_number_2 );
+        else
+            return transaction_number_1 - transaction_number_2;
+    }
+    else
+    {
+            if ( conf.transactions_list_secondary_sorting == 1 )
+            return gsb_transactions_list_sort_by_transaction_date_and_amount (
+                        transaction_number_1, transaction_number_2 );
+        else if ( conf.transactions_list_secondary_sorting == 2 )
+            return gsb_transactions_list_sort_by_transaction_date_and_party (
+                        transaction_number_1, transaction_number_2 );
+        else
+            return gsb_transactions_list_sort_by_transaction_date_and_no (
+                        transaction_number_1, transaction_number_2 );
+    }
 }
 
 
