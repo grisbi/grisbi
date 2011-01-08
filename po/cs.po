@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-01 10:20+0100\n"
+"POT-Creation-Date: 2011-01-08 20:02+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -368,132 +368,138 @@ msgstr "Pozadí oddělovačů v proznóze"
 msgid "Background of bet transfer"
 msgstr "Pozadí dat v proznóze"
 
-#: ../src/affichage_liste.c:99
+#: ../src/affichage_liste.c:100
 msgid "In one line visible, show the lines"
 msgstr "Pokud je vidět jeden řádek, zobrazit řádek"
 
-#: ../src/affichage_liste.c:100
+#: ../src/affichage_liste.c:101
 msgid "In two lines visibles, show the lines"
 msgstr "Pokud jsou vidět dva řádky, zobrazit řádky"
 
-#: ../src/affichage_liste.c:101
+#: ../src/affichage_liste.c:102
 msgid "In three lines visibles, show the lines"
 msgstr "Pokud jsou vidět tři řádky, zobrazit řádky"
 
-#: ../src/affichage_liste.c:114
+#: ../src/affichage_liste.c:115
 msgid "Transaction list behavior"
 msgstr "Chování seznamu transakcí"
 
 #. heading and boxes for layout
-#: ../src/affichage_liste.c:118
+#: ../src/affichage_liste.c:119
 msgid "Display modes"
 msgstr "Mód zobrazení"
 
-#: ../src/affichage_liste.c:180
+#: ../src/affichage_liste.c:179
 msgid "Use simple click to select transactions"
 msgstr "Vybírat transakce jednoduchým kliknutím"
 
-#: ../src/affichage_liste.c:187
+#: ../src/affichage_liste.c:186
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Zvýraznit transakce, které dávají dnešní součet"
 
 #: ../src/affichage_liste.c:193
-msgid "Options for sorting by date"
-msgstr "Volby řazení dle data"
+msgid "Primary sorting option"
+msgstr ""
 
 #: ../src/affichage_liste.c:194
-msgid "Sort by date and transaction number"
-msgstr "Řadit podle data a čísla transakce"
-
-#: ../src/affichage_liste.c:195
-msgid "Sort by date and transaction amount"
-msgstr "Řadit podle data a částky transakce"
-
-#: ../src/affichage_liste.c:202
-msgid "Options for sorting by value date"
-msgstr "Možnosti řazení dle data pohybu"
-
-#: ../src/affichage_liste.c:203
 msgid "Sort by value date (if fail, try with the date)"
 msgstr "Řadit dle data pohybu (při neúspěchu zkusit datum transakce)"
 
-#: ../src/affichage_liste.c:204
+#: ../src/affichage_liste.c:195
 msgid "Sort by value date and then by date"
 msgstr "Řadit dle data pohybu a potom dle data transakce"
 
-#: ../src/affichage_liste.c:211
+#: ../src/affichage_liste.c:204
+msgid "Secondary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:205
+#, fuzzy
+msgid "Sort by transaction number"
+msgstr "Řadit podle data a čísla transakce"
+
+#: ../src/affichage_liste.c:206
+msgid "Sort by type of amount (credit debit)"
+msgstr ""
+
+#: ../src/affichage_liste.c:207
+#, fuzzy
+msgid "Sort by payee name (if fail, by transaction number)"
+msgstr "Řadit podle data a čísla transakce"
+
+#: ../src/affichage_liste.c:215
 msgid "Account differentiation"
 msgstr "Rozdílné nastavení účtů"
 
-#: ../src/affichage_liste.c:215
+#: ../src/affichage_liste.c:219
 msgid "Remember display settings for each account separately"
 msgstr "Pamatovat si nastavení pro každý účet zvlášť"
 
-#: ../src/affichage_liste.c:449
+#: ../src/affichage_liste.c:464
 msgid "Form behavior"
 msgstr "Chování formuláře"
 
-#: ../src/affichage_liste.c:454
+#: ../src/affichage_liste.c:469
 msgid "Pressing RETURN in transaction form"
 msgstr "Stisknutí ENTERu na formuláři transakce"
 
-#: ../src/affichage_liste.c:455
+#: ../src/affichage_liste.c:470
 msgid "selects next field"
 msgstr "přesune na následující pole"
 
-#: ../src/affichage_liste.c:456
+#: ../src/affichage_liste.c:471
 msgid "terminates transaction"
 msgstr "ukončí transakakci"
 
-#: ../src/affichage_liste.c:461
+#: ../src/affichage_liste.c:476
 msgid "Automatic financial year is set"
 msgstr "Automatický fiskální rok je nastaven"
 
-#: ../src/affichage_liste.c:462
+#: ../src/affichage_liste.c:477
 msgid "according to transaction date"
 msgstr "podle data transakce"
 
-#: ../src/affichage_liste.c:463
+#: ../src/affichage_liste.c:478
 msgid "according to transaction value date"
 msgstr "podle data pohybu transakce"
 
-#: ../src/affichage_liste.c:469
+#: ../src/affichage_liste.c:484
 msgid "Automatic amount separator"
 msgstr "Automatický oddělovač částky"
 
-#: ../src/affichage_liste.c:472
+#: ../src/affichage_liste.c:487
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "Automagicky přidat oddělovač do polí částek, pokud není zadán"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:512
 msgid "Form completion"
 msgstr "Doplňování ve formuláři"
 
-#: ../src/affichage_liste.c:500
+#: ../src/affichage_liste.c:515
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Omezit výběr plátců/příjemců na ty, kteří příslušejí danému účtu"
 
-#: ../src/affichage_liste.c:507
+#: ../src/affichage_liste.c:522
 msgid "Automatic filling transactions from payee"
 msgstr "Automaticky vyplnit transakci podle plátce/příjemce"
 
-#: ../src/affichage_liste.c:516
+#: ../src/affichage_liste.c:531
 msgid "Mix credit/debit categories"
 msgstr "Sloučit kategorie kreditu / debetu"
 
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:537
 msgid "Case sensitive completion"
 msgstr "Doplňovat s rozlišením velikosti písmen"
 
-#: ../src/affichage_liste.c:534
+#: ../src/affichage_liste.c:549
 msgid "Don't allow new payee creation"
 msgstr "Nepovolit vytvoření nového plátce/příjemce"
 
-#: ../src/affichage_liste.c:540
+#: ../src/affichage_liste.c:555
 msgid "Don't allow new category/budget creation"
 msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:564
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximum položek v rozbalovacích seznamech (0 bez limitu)"
 
@@ -585,14 +591,14 @@ msgstr "Odhad trvání"
 msgid "Labels for transactions"
 msgstr "Popisky transakcí"
 
-#: ../src/bet_config.c:581 ../src/bet_config.c:599 ../src/bet_config.c:616
+#: ../src/bet_config.c:581 ../src/bet_config.c:600 ../src/bet_config.c:618
 msgid "By default"
 msgstr "Výchozí"
 
 #. mise en place de la paddingbox des catégories
 #. set the title
-#: ../src/bet_config.c:582 ../src/bet_config.c:600 ../src/bet_config.c:617
-#: ../src/bet_config.c:680 ../src/bet_hist.c:163 ../src/etats_config.c:526
+#: ../src/bet_config.c:582 ../src/bet_config.c:601 ../src/bet_config.c:619
+#: ../src/bet_config.c:683 ../src/bet_hist.c:163 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1212
@@ -601,8 +607,8 @@ msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: ../src/bet_config.c:583 ../src/bet_config.c:601 ../src/bet_config.c:618
-#: ../src/bet_config.c:689 ../src/bet_hist.c:172 ../src/etats_config.c:535
+#: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
+#: ../src/bet_config.c:692 ../src/bet_hist.c:172 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:805
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -611,15 +617,15 @@ msgstr "Kategorie"
 msgid "Budgetary lines"
 msgstr "Rozpočty"
 
-#: ../src/bet_config.c:594
+#: ../src/bet_config.c:595
 msgid "Labels for scheduled transactions"
 msgstr "Popisky plánovaných transakcí"
 
-#: ../src/bet_config.c:611
+#: ../src/bet_config.c:613
 msgid "Labels for futur data"
 msgstr "Popisek budoucích dat"
 
-#: ../src/bet_config.c:624
+#: ../src/bet_config.c:627
 msgid ""
 "Order by default if the data are not zero: notes, payee, category and "
 "budgetary line."
@@ -627,12 +633,12 @@ msgstr ""
 "Výchozí řazení, pokud jsou neprázdná data: poznámky, plátce/příjemce, "
 "kategorie a rozpočet."
 
-#: ../src/bet_config.c:704 ../src/bet_hist.c:192
+#: ../src/bet_config.c:707 ../src/bet_hist.c:192
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:919 ../src/bet_hist.c:542
+#: ../src/bet_config.c:922 ../src/bet_hist.c:542
 #: ../src/categories_onglet.c:148 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:796
 #: ../src/gsb_transactions_list.c:162 ../src/import_csv.c:84
@@ -640,7 +646,7 @@ msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 msgid "Category"
 msgstr "Kategorie"
 
-#: ../src/bet_config.c:932 ../src/bet_future.c:816 ../src/bet_future.c:2024
+#: ../src/bet_config.c:935 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1336
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:154
@@ -648,75 +654,75 @@ msgstr "Kategorie"
 msgid "Budgetary line"
 msgstr "Rozpočet"
 
-#: ../src/bet_config.c:1257
+#: ../src/bet_config.c:1260
 msgid "Loan Capital"
 msgstr ""
 
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:277
+#: ../src/bet_config.c:1280 ../src/bet_finance_ui.c:277
 #: ../src/bet_finance_ui.c:470 ../src/bet_finance_ui.c:1147
 #: ../src/bet_finance_ui.c:1587
 #, fuzzy
 msgid "Duration"
 msgstr "Tabulátor"
 
-#: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:750
+#: ../src/bet_config.c:1289 ../src/bet_finance_ui.c:750
 #, fuzzy
 msgid "year"
 msgstr "roky"
 
-#: ../src/bet_config.c:1295
+#: ../src/bet_config.c:1298
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "metoda platby"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1133
+#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:1133
 #: ../src/bet_finance_ui.c:1573
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:272
+#: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:272
 #: ../src/bet_finance_ui.c:383 ../src/bet_finance_ui.c:1142
 #: ../src/bet_finance_ui.c:1582
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1326
+#: ../src/bet_config.c:1329
 msgid "Fees per month"
 msgstr ""
 
-#: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:396
+#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:396
 #, fuzzy
 msgid "Rate Type"
 msgstr "Typ"
 
-#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:400
+#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:400
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:403
+#: ../src/bet_config.c:1360 ../src/bet_finance_ui.c:403
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1368
+#: ../src/bet_config.c:1371
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1423 ../src/bet_finance_ui.c:1694
+#: ../src/bet_config.c:1426 ../src/bet_finance_ui.c:1694
 #, fuzzy
 msgid " year "
 msgstr "rok %d"
 
-#: ../src/bet_config.c:1425 ../src/bet_finance_ui.c:1696
+#: ../src/bet_config.c:1428 ../src/bet_finance_ui.c:1696
 #, fuzzy
 msgid " years "
 msgstr "roky"
 
-#: ../src/bet_config.c:1475 ../src/bet_finance_ui.c:678
+#: ../src/bet_config.c:1478 ../src/bet_finance_ui.c:678
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -7546,12 +7552,12 @@ msgstr ""
 "<b>Skutečně chcete odstranit soubor:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:941
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:982
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7560,20 +7566,20 @@ msgstr ""
 "%s vypadá, že není správný konfigurační soubor,\n"
 "prosím zkontrolujte jej."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1019
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Nelze otevřít konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:1430 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1431 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1449
+#: ../src/gsb_file_config.c:1450
 msgid "Delete config file from a previous version"
 msgstr "Odstranit konfigurační soubor z předchozí veze"
 
-#: ../src/gsb_file_config.c:1469
+#: ../src/gsb_file_config.c:1470
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7585,11 +7591,11 @@ msgstr ""
 "\n"
 "<b>Skutečně chcete soubor odstranit?</b>"
 
-#: ../src/gsb_file_config.c:1533
+#: ../src/gsb_file_config.c:1534
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
-#: ../src/gsb_file_config.c:1556
+#: ../src/gsb_file_config.c:1557
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8746,7 +8752,7 @@ msgstr ""
 "\n"
 "Zobrazte transakce R pod volbou Pohled na liště."
 
-#: ../src/gsb_transactions_list_sort.c:352
+#: ../src/gsb_transactions_list_sort.c:356
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr "požadováno řazení pdle čísla %d které neexistuje... návrat podle data"
@@ -11054,6 +11060,15 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí pro každého\n"
+
+#~ msgid "Options for sorting by date"
+#~ msgstr "Volby řazení dle data"
+
+#~ msgid "Sort by date and transaction amount"
+#~ msgstr "Řadit podle data a částky transakce"
+
+#~ msgid "Options for sorting by value date"
+#~ msgstr "Možnosti řazení dle data pohybu"
 
 #, fuzzy
 #~ msgid "Initial period"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-01 10:20+0100\n"
+"POT-Creation-Date: 2011-01-08 20:02+0100\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -370,133 +370,139 @@ msgstr "Hintergrund geschätzte Teilung"
 msgid "Background of bet transfer"
 msgstr "Hintergrund geschätzte Prognose"
 
-#: ../src/affichage_liste.c:99
+#: ../src/affichage_liste.c:100
 msgid "In one line visible, show the lines"
 msgstr "Einzeilig - Zeile"
 
-#: ../src/affichage_liste.c:100
+#: ../src/affichage_liste.c:101
 msgid "In two lines visibles, show the lines"
 msgstr "Zweizeilig - Zeilen"
 
-#: ../src/affichage_liste.c:101
+#: ../src/affichage_liste.c:102
 msgid "In three lines visibles, show the lines"
 msgstr "Dreizeilig - Zeilen"
 
-#: ../src/affichage_liste.c:114
+#: ../src/affichage_liste.c:115
 msgid "Transaction list behavior"
 msgstr "Buchungsübersicht Einstellungen"
 
 #. heading and boxes for layout
-#: ../src/affichage_liste.c:118
+#: ../src/affichage_liste.c:119
 msgid "Display modes"
 msgstr "Anzeigeoptionen"
 
-#: ../src/affichage_liste.c:180
+#: ../src/affichage_liste.c:179
 msgid "Use simple click to select transactions"
 msgstr "Buchungen mit Einfachklick bearbeiten"
 
-#: ../src/affichage_liste.c:187
+#: ../src/affichage_liste.c:186
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Aktuellen Saldo hervorheben"
 
 #: ../src/affichage_liste.c:193
-msgid "Options for sorting by date"
-msgstr "Einstellungen für Sortierung nach Datum"
+msgid "Primary sorting option"
+msgstr ""
 
 #: ../src/affichage_liste.c:194
-msgid "Sort by date and transaction number"
-msgstr "Sortierung nach Datum und Buchungsnummer"
-
-#: ../src/affichage_liste.c:195
-msgid "Sort by date and transaction amount"
-msgstr "Sortierung nach Datum und Betrag"
-
-#: ../src/affichage_liste.c:202
-msgid "Options for sorting by value date"
-msgstr "Buchungen Sortierung"
-
-#: ../src/affichage_liste.c:203
 msgid "Sort by value date (if fail, try with the date)"
 msgstr "nach Buchungsdatum - im Fehlerfall nach Datum"
 
-#: ../src/affichage_liste.c:204
+#: ../src/affichage_liste.c:195
 msgid "Sort by value date and then by date"
 msgstr "zuerst nach Buchungsdatum - danach nach Datum"
 
-#: ../src/affichage_liste.c:211
+#: ../src/affichage_liste.c:204
+msgid "Secondary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:205
+#, fuzzy
+msgid "Sort by transaction number"
+msgstr "Sortierung nach Datum und Buchungsnummer"
+
+#: ../src/affichage_liste.c:206
+msgid "Sort by type of amount (credit debit)"
+msgstr ""
+
+#: ../src/affichage_liste.c:207
+#, fuzzy
+msgid "Sort by payee name (if fail, by transaction number)"
+msgstr "Sortierung nach Datum und Buchungsnummer"
+
+#: ../src/affichage_liste.c:215
 msgid "Account differentiation"
 msgstr "Kontospezifische Einstellungen"
 
-#: ../src/affichage_liste.c:215
+#: ../src/affichage_liste.c:219
 msgid "Remember display settings for each account separately"
 msgstr "Die Anzeigeoptionen für jedes Konto gesondert speichern"
 
-#: ../src/affichage_liste.c:449
+#: ../src/affichage_liste.c:464
 msgid "Form behavior"
 msgstr "Buchungsformular"
 
-#: ../src/affichage_liste.c:454
+#: ../src/affichage_liste.c:469
 msgid "Pressing RETURN in transaction form"
 msgstr "Eingabetaste im Buchungsformular"
 
-#: ../src/affichage_liste.c:455
+#: ../src/affichage_liste.c:470
 msgid "selects next field"
 msgstr "selektiert das nächste Feld"
 
-#: ../src/affichage_liste.c:456
+#: ../src/affichage_liste.c:471
 msgid "terminates transaction"
 msgstr "schließt Buchung ab"
 
-#: ../src/affichage_liste.c:461
+#: ../src/affichage_liste.c:476
 msgid "Automatic financial year is set"
 msgstr "Geschäftsjahr Zuordnung"
 
-#: ../src/affichage_liste.c:462
+#: ../src/affichage_liste.c:477
 msgid "according to transaction date"
 msgstr "entsprechend Datum der Buchung"
 
-#: ../src/affichage_liste.c:463
+#: ../src/affichage_liste.c:478
 msgid "according to transaction value date"
 msgstr "entsprechend Datum der Durchführung"
 
-#: ../src/affichage_liste.c:469
+#: ../src/affichage_liste.c:484
 msgid "Automatic amount separator"
 msgstr "Darstellung von Beträgen"
 
-#: ../src/affichage_liste.c:472
+#: ../src/affichage_liste.c:487
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "Trennzeichen an Tausender-Stelle"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:512
 msgid "Form completion"
 msgstr "Eingabe Vervollständigung"
 
-#: ../src/affichage_liste.c:500
+#: ../src/affichage_liste.c:515
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
-#: ../src/affichage_liste.c:507
+#: ../src/affichage_liste.c:522
 msgid "Automatic filling transactions from payee"
 msgstr "Geplante Buchung automatisch ausgeführt"
 
-#: ../src/affichage_liste.c:516
+#: ../src/affichage_liste.c:531
 msgid "Mix credit/debit categories"
 msgstr "Eingabe und Ausgabenkategorien berücksichtigen"
 
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:537
 msgid "Case sensitive completion"
 msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
-#: ../src/affichage_liste.c:534
+#: ../src/affichage_liste.c:549
 msgid "Don't allow new payee creation"
 msgstr "Neue Empfänger dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:540
+#: ../src/affichage_liste.c:555
 msgid "Don't allow new category/budget creation"
 msgstr "Neue Kategorien dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:564
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 
@@ -589,14 +595,14 @@ msgstr "Daten Zusammenstellung"
 msgid "Labels for transactions"
 msgstr "Bezeichnungen für Buchungen"
 
-#: ../src/bet_config.c:581 ../src/bet_config.c:599 ../src/bet_config.c:616
+#: ../src/bet_config.c:581 ../src/bet_config.c:600 ../src/bet_config.c:618
 msgid "By default"
 msgstr "Voreinstellung"
 
 #. mise en place de la paddingbox des catégories
 #. set the title
-#: ../src/bet_config.c:582 ../src/bet_config.c:600 ../src/bet_config.c:617
-#: ../src/bet_config.c:680 ../src/bet_hist.c:163 ../src/etats_config.c:526
+#: ../src/bet_config.c:582 ../src/bet_config.c:601 ../src/bet_config.c:619
+#: ../src/bet_config.c:683 ../src/bet_hist.c:163 ../src/etats_config.c:526
 #: ../src/etats_config.c:529 ../src/etats_config.c:2991
 #: ../src/etats_config.c:7057 ../src/fenetre_principale.c:282
 #: ../src/navigation.c:314 ../src/navigation.c:1212
@@ -605,8 +611,8 @@ msgstr "Kategorien"
 
 #. mise en place de la paddingbox des ib
 #. set the title
-#: ../src/bet_config.c:583 ../src/bet_config.c:601 ../src/bet_config.c:618
-#: ../src/bet_config.c:689 ../src/bet_hist.c:172 ../src/etats_config.c:535
+#: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
+#: ../src/bet_config.c:692 ../src/bet_hist.c:172 ../src/etats_config.c:535
 #: ../src/etats_config.c:538 ../src/etats_config.c:3797
 #: ../src/etats_config.c:7134 ../src/export_csv.c:805
 #: ../src/fenetre_principale.c:287 ../src/import_csv.c:86
@@ -615,15 +621,15 @@ msgstr "Kategorien"
 msgid "Budgetary lines"
 msgstr "Budgeteinträge"
 
-#: ../src/bet_config.c:594
+#: ../src/bet_config.c:595
 msgid "Labels for scheduled transactions"
 msgstr "Bezeichnungen für geplante Buchungen"
 
-#: ../src/bet_config.c:611
+#: ../src/bet_config.c:613
 msgid "Labels for futur data"
 msgstr "Bezeichnungen für zukünftige Daten"
 
-#: ../src/bet_config.c:624
+#: ../src/bet_config.c:627
 msgid ""
 "Order by default if the data are not zero: notes, payee, category and "
 "budgetary line."
@@ -631,12 +637,12 @@ msgstr ""
 "Standardsortierung wenn Daten vorhanden sind: Notizen, Empfänger, Kategorie "
 "und Budgeteintrag."
 
-#: ../src/bet_config.c:704 ../src/bet_hist.c:192
+#: ../src/bet_config.c:707 ../src/bet_hist.c:192
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Geschäftsjahr oder Zeitraum von 12 Monaten"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:919 ../src/bet_hist.c:542
+#: ../src/bet_config.c:922 ../src/bet_hist.c:542
 #: ../src/categories_onglet.c:148 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:796
 #: ../src/gsb_transactions_list.c:162 ../src/import_csv.c:84
@@ -644,7 +650,7 @@ msgstr "Geschäftsjahr oder Zeitraum von 12 Monaten"
 msgid "Category"
 msgstr "Kategorie"
 
-#: ../src/bet_config.c:932 ../src/bet_future.c:816 ../src/bet_future.c:2024
+#: ../src/bet_config.c:935 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1336
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:154
@@ -652,75 +658,75 @@ msgstr "Kategorie"
 msgid "Budgetary line"
 msgstr "Budgeteintrag"
 
-#: ../src/bet_config.c:1257
+#: ../src/bet_config.c:1260
 msgid "Loan Capital"
 msgstr ""
 
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:277
+#: ../src/bet_config.c:1280 ../src/bet_finance_ui.c:277
 #: ../src/bet_finance_ui.c:470 ../src/bet_finance_ui.c:1147
 #: ../src/bet_finance_ui.c:1587
 #, fuzzy
 msgid "Duration"
 msgstr "Tabulator"
 
-#: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:750
+#: ../src/bet_config.c:1289 ../src/bet_finance_ui.c:750
 #, fuzzy
 msgid "year"
 msgstr "Jahre"
 
-#: ../src/bet_config.c:1295
+#: ../src/bet_config.c:1298
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "Zahlungsweise"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1133
+#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:1133
 #: ../src/bet_finance_ui.c:1573
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:272
+#: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:272
 #: ../src/bet_finance_ui.c:383 ../src/bet_finance_ui.c:1142
 #: ../src/bet_finance_ui.c:1582
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1326
+#: ../src/bet_config.c:1329
 msgid "Fees per month"
 msgstr ""
 
-#: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:396
+#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:396
 #, fuzzy
 msgid "Rate Type"
 msgstr "Art"
 
-#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:400
+#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:400
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:403
+#: ../src/bet_config.c:1360 ../src/bet_finance_ui.c:403
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1368
+#: ../src/bet_config.c:1371
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1423 ../src/bet_finance_ui.c:1694
+#: ../src/bet_config.c:1426 ../src/bet_finance_ui.c:1694
 #, fuzzy
 msgid " year "
 msgstr "Jahr %d"
 
-#: ../src/bet_config.c:1425 ../src/bet_finance_ui.c:1696
+#: ../src/bet_config.c:1428 ../src/bet_finance_ui.c:1696
 #, fuzzy
 msgid " years "
 msgstr "Jahre"
 
-#: ../src/bet_config.c:1475 ../src/bet_finance_ui.c:678
+#: ../src/bet_config.c:1478 ../src/bet_finance_ui.c:678
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -7609,12 +7615,12 @@ msgstr ""
 "<b>>Soll diese Datei gelöscht werden:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:941
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:982
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7623,20 +7629,20 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1019
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_config.c:1430 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1431 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1449
+#: ../src/gsb_file_config.c:1450
 msgid "Delete config file from a previous version"
 msgstr "Die Konfigurationsdatei einer älteren Grisbi-Version löschen"
 
-#: ../src/gsb_file_config.c:1469
+#: ../src/gsb_file_config.c:1470
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7648,11 +7654,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: ../src/gsb_file_config.c:1533
+#: ../src/gsb_file_config.c:1534
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: ../src/gsb_file_config.c:1556
+#: ../src/gsb_file_config.c:1557
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8841,7 +8847,7 @@ msgstr ""
 "Buchungsliste nicht angezeigt werden, wenn die Option \"Abgestimmte Buchungen"
 "\" anzeigen nicht gesetzt ist."
 
-#: ../src/gsb_transactions_list_sort.c:352
+#: ../src/gsb_transactions_list_sort.c:356
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
@@ -11285,6 +11291,15 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#~ msgid "Options for sorting by date"
+#~ msgstr "Einstellungen für Sortierung nach Datum"
+
+#~ msgid "Sort by date and transaction amount"
+#~ msgstr "Sortierung nach Datum und Betrag"
+
+#~ msgid "Options for sorting by value date"
+#~ msgstr "Buchungen Sortierung"
 
 #, fuzzy
 #~ msgid "Initial period"
