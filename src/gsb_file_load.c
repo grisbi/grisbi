@@ -871,6 +871,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
     }
 
+    else if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
+    {
+        etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+    }
+
     else if ( !strcmp ( attribute_names[i],
                         "Use_logo" ))
     {

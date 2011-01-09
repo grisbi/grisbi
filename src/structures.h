@@ -44,6 +44,9 @@ struct gsb_etat_t
 {
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
+
+    /* Rapprochement */
+    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
     gint equilibrage;
 
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */

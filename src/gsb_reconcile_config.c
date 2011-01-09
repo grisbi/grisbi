@@ -30,25 +30,27 @@
 
 /*START_INCLUDE*/
 #include "gsb_reconcile_config.h"
+#include "dialog.h"
 #include "gsb_assistant_reconcile_config.h"
 #include "gsb_autofunc.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
-#include "utils_dates.h"
-#include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
+#include "navigation.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "dialog.h"
-#include "structures.h"
-#include "gsb_transactions_list.h"
-#include "include.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 				       GtkWidget *tree_view );
+static gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gpointer data );
 static gboolean gsb_reconcile_config_find_alone_transactions ( void );
 static gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection, 
 				       GtkWidget *table );
@@ -102,6 +104,17 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Reconciliation"),
 					       "reconciliationlg.png" );
+
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+                        _("Select the end date of reconciliation"),
+                        _("Start Date + one month"),
+                        _("Today's date"),
+                        NULL,
+                        &etat.reconcile_end_date,
+                        G_CALLBACK ( gsb_reconcile_config_end_date_changed ),
+                        NULL,
+                        GTK_ORIENTATION_HORIZONTAL );
+
     paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
 					     _("List of reconciliations") );
 
@@ -561,3 +574,24 @@ gboolean gsb_reconcile_config_find_alone_transactions ( void )
     return FALSE;
 }
 
+
+/**
+ *
+ *
+ * */
+gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gpointer data )
+{
+    etat.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
