@@ -26,10 +26,12 @@
 /*START_INCLUDE*/
 #include "gsb_transactions_list.h"
 #include "accueil.h"
-#include "bet_data.h"
-#include "utils_operations.h"
-#include "dialog.h"
 #include "affichage_liste.h"
+#include "barre_outils.h"
+#include "bet_data.h"
+#include "custom_list.h"
+#include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_account.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -37,6 +39,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
@@ -45,27 +48,22 @@
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
-#include "utils_dates.h"
-#include "navigation.h"
-#include "barre_outils.h"
-#include "menu.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "main.h"
+#include "menu.h"
+#include "mouse.h"
+#include "navigation.h"
+#include "structures.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "transaction_model.h"
-#include "structures.h"
-#include "custom_list.h"
-#include "fenetre_principale.h"
-#include "include.h"
-#include "gsb_data_transaction.h"
-#include "mouse.h"
-#include "dialog.h"
+#include "utils_dates.h"
+#include "utils_operations.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -2295,13 +2293,16 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
     for ( i = 0 ; cell_views[i] != NULL ; i++ )
     {
-	item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
+        item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
 
-	g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
-	g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
-	g_signal_connect ( G_OBJECT(item), "activate",
-			   G_CALLBACK(gsb_gui_change_cell_content), GINT_TO_POINTER (i+1));
-	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+        g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
+        g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
+        g_signal_connect ( G_OBJECT(item),
+                        "activate",
+                        G_CALLBACK ( gsb_gui_change_cell_content ),
+                        GINT_TO_POINTER ( i+1 ) );
+
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
     /* set a menu to clear the cell except for the first line */
     if ( y > 0 )
@@ -2313,7 +2314,8 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
         g_signal_connect ( G_OBJECT ( item ),
                         "activate",
 			            G_CALLBACK ( gsb_gui_change_cell_content ),
-                        GINT_TO_POINTER ( i+1 ) );
+                        GINT_TO_POINTER ( 0 ) );
+
         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
     }
     return menu;
@@ -2337,17 +2339,20 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
 {
     gint col, line;
-    gint last_col, last_line;
+    gint last_col = -1, last_line = -1;
     gint element;
     gint sort_column;
     gint current_account;
 
     element = GPOINTER_TO_INT ( element_ptr );
-
     devel_debug_int ( element );
 
-    last_col = find_element_col ( element );
-    last_line = find_element_line ( element );
+    if ( element )
+    {
+        last_col = find_element_col ( element );
+        last_line = find_element_line ( element );
+    }
+
     current_account = gsb_gui_navigation_get_current_account ( );
     sort_column = gsb_data_account_get_sort_column ( current_account );
 
@@ -2355,23 +2360,25 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
     line = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( item ), "y" ) );
 
     /* if no change, change nothing */
-    if ( last_col == col
-	&&
-	last_line == line )
-	return FALSE;
+    if ( last_col == col && last_line == line )
+        return FALSE;
 
     /* save the new position */
     tab_affichage_ope[line][col] = element;
 
     if (last_col != -1 && last_line != -1)
     {
-	/* the element was already showed, we need to erase the last cell first */
-	tab_affichage_ope[last_line][last_col] = 0;
-	transaction_list_update_cell (last_col, last_line);
+        /* the element was already showed, we need to erase the last cell first */
+        tab_affichage_ope[last_line][last_col] = 0;
+        transaction_list_update_cell (last_col, last_line);
     }
 
     /* now we can update the element */
-    transaction_list_update_element ( element );
+    if ( element )
+        transaction_list_update_element ( element );
+    else
+        transaction_list_update_cell (col, line);
+
     recuperation_noms_colonnes_et_tips ( );
     update_titres_tree_view ( );
 
@@ -2381,7 +2388,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
     {
         gsb_data_account_set_sort_column ( current_account, col );
         transaction_list_sort_set_column ( col, 
-				        gsb_data_account_get_sort_type ( current_account ) );
+                        gsb_data_account_get_sort_type ( current_account ) );
     }
 
     if ( etat.modification_fichier == 0 )
