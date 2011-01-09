@@ -384,7 +384,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 
 	/* no sorting by columns for now */
 	gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					     FALSE );
+					     TRUE );
 
 	/* automatic and resizeable sizing */
 	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),

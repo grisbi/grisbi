@@ -248,7 +248,7 @@ gboolean transaction_list_sort_get_initial_sort ( void )
     element_number = gsb_data_account_get_element_sort ( account_number,
                         gsb_data_account_get_sort_column ( account_number ) );
 
-    if ( element_number == ELEMENT_DATE || element_number == ELEMENT_VALUE_DATE )
+    if ( element_number == ELEMENT_VALUE_DATE )
         return TRUE;
     else
         return FALSE;
