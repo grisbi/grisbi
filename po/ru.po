@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-08 20:02+0100\n"
+"POT-Creation-Date: 2011-01-09 18:25+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -153,7 +153,17 @@ msgstr ""
 msgid "Configuration of the main page"
 msgstr "Настройка главной страницы"
 
+#. Take into account the planned operations in the calculation of balances
 #: ../src/accueil.c:1968
+msgid "Calculation of balances"
+msgstr "Расчёт балансов"
+
+#: ../src/accueil.c:1974
+msgid ""
+"Take into account the scheduled operations in the calculation of balances"
+msgstr ""
+
+#: ../src/accueil.c:1984
 msgid "Balances partials of the list of accounts"
 msgstr ""
 
@@ -166,7 +176,7 @@ msgstr ""
 #. Financial year name
 #. set the name
 #. Name entry
-#: ../src/accueil.c:2059 ../src/bet_future.c:2135
+#: ../src/accueil.c:2075 ../src/bet_future.c:2135
 #: ../src/categories_onglet.c:671 ../src/gsb_archive_config.c:98
 #: ../src/gsb_archive_config.c:186 ../src/gsb_assistant_archive_export.c:150
 #: ../src/gsb_assistant_reconcile_config.c:388
@@ -174,30 +184,30 @@ msgstr ""
 #: ../src/gsb_bank.c:855 ../src/gsb_currency_config.c:354
 #: ../src/gsb_data_partial_balance.c:1553 ../src/gsb_fyear_config.c:191
 #: ../src/gsb_fyear_config.c:278 ../src/gsb_payment_method_config.c:239
-#: ../src/gsb_reconcile_config.c:180 ../src/gsb_transactions_list.c:1787
+#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1785
 #: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:630
 msgid "Name"
 msgstr "Имя"
 
 #. List of the accounts
-#: ../src/accueil.c:2068 ../src/gsb_data_partial_balance.c:1564
+#: ../src/accueil.c:2084 ../src/gsb_data_partial_balance.c:1564
 msgid "Accounts list"
 msgstr "Список счетов"
 
-#: ../src/accueil.c:2084
+#: ../src/accueil.c:2100
 #, fuzzy
 msgid "Colorize"
 msgstr "Цвета"
 
-#: ../src/accueil.c:2092
+#: ../src/accueil.c:2108
 msgid "Account kind"
 msgstr "Тип счёта"
 
-#: ../src/accueil.c:2101 ../src/gsb_form_widget.c:460 ../src/import_csv.c:78
+#: ../src/accueil.c:2117 ../src/gsb_form_widget.c:460 ../src/import_csv.c:78
 msgid "Currency"
 msgstr "Валюта"
 
-#: ../src/affichage.c:140 ../src/parametres.c:377
+#: ../src/affichage.c:140 ../src/parametres.c:375
 msgid "Fonts & logo"
 msgstr "Шрифты и логотип"
 
@@ -237,7 +247,7 @@ msgstr ""
 msgid "Back to default"
 msgstr "Сбросить до исходных"
 
-#: ../src/affichage.c:369 ../src/parametres.c:395
+#: ../src/affichage.c:369 ../src/parametres.c:393
 msgid "Addresses & titles"
 msgstr "Адреса и названия"
 
@@ -281,7 +291,7 @@ msgstr "Второй адрес"
 msgid "Select a new logo"
 msgstr "Выберите новый логотип"
 
-#: ../src/affichage.c:705 ../src/parametres.c:413
+#: ../src/affichage.c:705 ../src/parametres.c:411
 msgid "Toolbars"
 msgstr "Панель инструментов"
 
@@ -509,7 +519,7 @@ msgstr "Месяц"
 msgid "Year"
 msgstr "Год"
 
-#: ../src/bet_config.c:114 ../src/parametres.c:572
+#: ../src/bet_config.c:114 ../src/parametres.c:570
 #, fuzzy
 msgid "General Options"
 msgstr "Основные параметры"
@@ -547,7 +557,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:257 ../src/parametres.c:581
+#: ../src/bet_config.c:257 ../src/parametres.c:579
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
@@ -574,7 +584,7 @@ msgstr "Кредитная карта"
 #: ../src/bet_config.c:330 ../src/categories_onglet.c:157
 #: ../src/etats_config.c:681 ../src/gsb_assistant_reconcile_config.c:399
 #: ../src/gsb_assistant_reconcile_config.c:594
-#: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:96
+#: ../src/gsb_payment_method_config.c:159 ../src/gsb_reconcile_config.c:98
 #: ../src/gsb_scheduler_list.c:343 ../src/imputation_budgetaire.c:169
 #: ../src/navigation.c:1143 ../src/tiers_onglet.c:236
 msgid "Account"
@@ -646,7 +656,7 @@ msgstr "Выбранный финансовый год используется 
 #: ../src/bet_config.c:922 ../src/bet_hist.c:542
 #: ../src/categories_onglet.c:148 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:673 ../src/export_csv.c:796
-#: ../src/gsb_transactions_list.c:162 ../src/import_csv.c:84
+#: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:84
 #: ../src/meta_categories.c:65 ../src/traitement_variables.c:94
 msgid "Category"
 msgstr "Категория"
@@ -654,7 +664,7 @@ msgstr "Категория"
 #: ../src/bet_config.c:935 ../src/bet_future.c:816 ../src/bet_future.c:2024
 #: ../src/bet_future.c:2501 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:677 ../src/gsb_form.c:1336
-#: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:154
+#: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:152
 #: ../src/imputation_budgetaire.c:160 ../src/meta_budgetary.c:62
 msgid "Budgetary line"
 msgstr "Бюджетная линия"
@@ -866,8 +876,8 @@ msgstr "Банковский счёт"
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:766
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1291
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
-#: ../src/gsb_scheduler_list.c:343 ../src/gsb_transactions_list.c:151
-#: ../src/import.c:3272 ../src/import_csv.c:79
+#: ../src/gsb_scheduler_list.c:343 ../src/gsb_transactions_list.c:149
+#: ../src/import.c:3271 ../src/import_csv.c:79
 #: ../src/traitement_variables.c:83
 msgid "Date"
 msgstr "Дата"
@@ -1029,8 +1039,8 @@ msgstr ""
 #: ../src/gsb_assistant_archive_export.c:150
 #: ../src/gsb_assistant_reconcile_config.c:422
 #: ../src/gsb_assistant_reconcile_config.c:1227
-#: ../src/gsb_reconcile_config.c:96 ../src/gsb_reconcile_config.c:208
-#: ../src/gsb_transactions_list.c:1787
+#: ../src/gsb_reconcile_config.c:98 ../src/gsb_reconcile_config.c:221
+#: ../src/gsb_transactions_list.c:1785
 msgid "Final date"
 msgstr "Дата конца"
 
@@ -1060,7 +1070,7 @@ msgstr "Выберите способ платежа"
 #: ../src/export_csv.c:781 ../src/fenetre_principale.c:272
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_form.c:1312
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:343
-#: ../src/gsb_transactions_list.c:153 ../src/import.c:3279
+#: ../src/gsb_transactions_list.c:151 ../src/import.c:3278
 #: ../src/import_csv.c:81 ../src/meta_payee.c:77
 #: ../src/traitement_variables.c:85
 msgid "Payee"
@@ -1071,7 +1081,7 @@ msgstr "Получатель"
 #: ../src/export_csv.c:787 ../src/gsb_form.c:1317 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:316
 #: ../src/gsb_payment_method_config.c:387
-#: ../src/gsb_payment_method_config.c:1082 ../src/gsb_transactions_list.c:155
+#: ../src/gsb_payment_method_config.c:1082 ../src/gsb_transactions_list.c:153
 #: ../src/import_csv.c:90 ../src/imputation_budgetaire.c:739
 #: ../src/traitement_variables.c:87
 msgid "Debit"
@@ -1082,7 +1092,7 @@ msgstr "Расход"
 #: ../src/export_csv.c:784 ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:323
 #: ../src/gsb_payment_method_config.c:400
-#: ../src/gsb_payment_method_config.c:1078 ../src/gsb_transactions_list.c:156
+#: ../src/gsb_payment_method_config.c:1078 ../src/gsb_transactions_list.c:154
 #: ../src/imputation_budgetaire.c:739 ../src/traitement_variables.c:88
 msgid "Credit"
 msgstr "Приход"
@@ -1095,7 +1105,7 @@ msgstr ""
 #. Notes
 #: ../src/bet_future.c:823 ../src/etats_affiche.c:2447 ../src/export_csv.c:802
 #: ../src/gsb_bank.c:915 ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:448
-#: ../src/gsb_transactions_list.c:165 ../src/import_csv.c:82
+#: ../src/gsb_transactions_list.c:163 ../src/import_csv.c:82
 #: ../src/traitement_variables.c:97
 msgid "Notes"
 msgstr "Заметки"
@@ -1108,8 +1118,8 @@ msgstr "Заметки"
 #: ../src/etats_affiche.c:1844 ../src/export_csv.c:607 ../src/export_csv.c:719
 #: ../src/export_csv.c:731 ../src/gsb_data_category.c:1056
 #: ../src/gsb_data_payment.c:633 ../src/gsb_data_payment.c:714
-#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2300 ../src/import.c:2718
-#: ../src/import.c:2736 ../src/plugins/ofx/ofx.c:461
+#: ../src/gsb_data_payment.c:753 ../src/gsb_form.c:2300 ../src/import.c:2717
+#: ../src/import.c:2735 ../src/plugins/ofx/ofx.c:461
 msgid "Transfer"
 msgstr "Передача"
 
@@ -1162,7 +1172,7 @@ msgstr "Наличный счёт"
 #. Payment method method_ptr
 #. Description entry
 #: ../src/bet_future.c:2144 ../src/categories_onglet.c:696
-#: ../src/gsb_payment_method_config.c:297 ../src/import.c:443
+#: ../src/gsb_payment_method_config.c:297 ../src/import.c:442
 #: ../src/imputation_budgetaire.c:734
 msgid "Type"
 msgstr "Тип"
@@ -1174,7 +1184,7 @@ msgstr "Выбрать"
 #: ../src/bet_hist.c:559 ../src/categories_onglet.c:166
 #: ../src/etats_config.c:5239 ../src/export_csv.c:790
 #: ../src/gsb_assistant_reconcile_config.c:594 ../src/gsb_scheduler_list.c:344
-#: ../src/gsb_transactions_list.c:158 ../src/import.c:3286
+#: ../src/gsb_transactions_list.c:156 ../src/import.c:3285
 #: ../src/imputation_budgetaire.c:178 ../src/tiers_onglet.c:245
 #: ../src/traitement_variables.c:90
 msgid "Amount"
@@ -1244,8 +1254,8 @@ msgid "Description"
 msgstr "Описание"
 
 #: ../src/bet_tab.c:751 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
-#: ../src/gsb_scheduler_list.c:344 ../src/gsb_transactions_list.c:157
-#: ../src/gsb_transactions_list.c:2989 ../src/import_csv.c:88
+#: ../src/gsb_scheduler_list.c:344 ../src/gsb_transactions_list.c:155
+#: ../src/gsb_transactions_list.c:2996 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:89
 msgid "Balance"
 msgstr "Баланс"
@@ -1347,7 +1357,7 @@ msgstr ""
 
 #. New transaction
 #: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2031
-#: ../src/gsb_transactions_list.c:2188
+#: ../src/gsb_transactions_list.c:2186
 msgid "New transaction"
 msgstr "Создать"
 
@@ -1518,7 +1528,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr "Файлы категорий Grisbi (*.cgsb)"
 
 #: ../src/categories_onglet.c:402 ../src/etats_onglet.c:1229
-#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:240 ../src/import.c:827
+#: ../src/file_obfuscate_qif.c:105 ../src/gsb_file.c:240 ../src/import.c:826
 #: ../src/imputation_budgetaire.c:442
 msgid "All files"
 msgstr "Все файлы"
@@ -1570,8 +1580,8 @@ msgid "Create a new sub-category"
 msgstr "Создать новую подкатегорию"
 
 #: ../src/categories_onglet.c:512 ../src/etats_onglet.c:129
-#: ../src/import.c:410 ../src/import.c:3591 ../src/imputation_budgetaire.c:548
-#: ../src/parametres.c:313 ../src/utils_files.c:671
+#: ../src/import.c:409 ../src/import.c:3590 ../src/imputation_budgetaire.c:548
+#: ../src/parametres.c:311 ../src/utils_files.c:671
 msgid "Import"
 msgstr "Импортировать"
 
@@ -2080,13 +2090,13 @@ msgid "Result without financial year"
 msgstr ""
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:964
-#: ../src/gsb_transactions_list.c:3486
+#: ../src/gsb_transactions_list.c:3493
 #, c-format
 msgid "Transfer to %s"
 msgstr "Передать %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:967
-#: ../src/gsb_transactions_list.c:3489
+#: ../src/gsb_transactions_list.c:3496
 #, c-format
 msgid "Transfer from %s"
 msgstr "Передать от %s"
@@ -2136,7 +2146,7 @@ msgstr "Итого в целом"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:577
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:730
 #: ../src/gsb_form.c:2876 ../src/gsb_form.c:3279
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3464
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3471
 msgid "Split of transaction"
 msgstr ""
 
@@ -2163,14 +2173,14 @@ msgstr "Исходящие"
 
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:769 ../src/gsb_form.c:1296
 #: ../src/gsb_form.c:2134 ../src/gsb_form.c:2164 ../src/gsb_form_widget.c:424
-#: ../src/gsb_transactions_list.c:152 ../src/import_csv.c:80
+#: ../src/gsb_transactions_list.c:150 ../src/import_csv.c:80
 #: ../src/traitement_variables.c:84
 msgid "Value date"
 msgstr ""
 
 #: ../src/etats_affiche.c:2419 ../src/export_csv.c:775
 #: ../src/gsb_archive_config.c:98 ../src/gsb_assistant_archive_export.c:150
-#: ../src/gsb_form_widget.c:428 ../src/gsb_transactions_list.c:161
+#: ../src/gsb_form_widget.c:428 ../src/gsb_transactions_list.c:159
 #: ../src/traitement_variables.c:93
 msgid "Financial year"
 msgstr "Финансовый год"
@@ -2178,7 +2188,7 @@ msgstr "Финансовый год"
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2454 ../src/etats_config.c:562
 #: ../src/etats_config.c:565 ../src/etats_config.c:7221
-#: ../src/gsb_payment_method_config.c:117 ../src/parametres.c:549
+#: ../src/gsb_payment_method_config.c:117 ../src/parametres.c:547
 msgid "Payment methods"
 msgstr "Способы платежа"
 
@@ -2187,13 +2197,13 @@ msgid "Cheque"
 msgstr "Чек"
 
 #: ../src/etats_affiche.c:2468 ../src/export_csv.c:811 ../src/gsb_form.c:1388
-#: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:164
+#: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:162
 #: ../src/traitement_variables.c:96
 msgid "Voucher"
 msgstr "Поручитель"
 
 #: ../src/etats_affiche.c:2475 ../src/export_csv.c:817 ../src/gsb_form.c:1383
-#: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:166
+#: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:164
 #: ../src/traitement_variables.c:98
 msgid "Bank references"
 msgstr ""
@@ -2345,14 +2355,14 @@ msgid "Generalities"
 msgstr "Обобщения"
 
 #: ../src/etats_config.c:633 ../src/etats_config.c:636 ../src/export_csv.c:757
-#: ../src/fenetre_principale.c:239 ../src/parametres.c:423
+#: ../src/fenetre_principale.c:239 ../src/parametres.c:421
 msgid "Transactions"
 msgstr "Проводки"
 
 #. echange line label
 #: ../src/etats_config.c:642 ../src/etats_config.c:645
 #: ../src/gsb_currency.c:551 ../src/gsb_currency_config.c:295
-#: ../src/parametres.c:513
+#: ../src/parametres.c:511
 msgid "Currencies"
 msgstr "Валюты"
 
@@ -2436,7 +2446,7 @@ msgstr "Выбранный финансовый год"
 #: ../src/gsb_assistant_archive_export.c:150
 #: ../src/gsb_assistant_reconcile_config.c:411
 #: ../src/gsb_assistant_reconcile_config.c:1227
-#: ../src/gsb_reconcile_config.c:194
+#: ../src/gsb_reconcile_config.c:207
 msgid "Initial date"
 msgstr "Дата начала"
 
@@ -2464,7 +2474,7 @@ msgstr "Выделить все"
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_config.c:2562 ../src/etats_config.c:2817
 #: ../src/etats_config.c:3099 ../src/etats_config.c:3906
-#: ../src/etats_config.c:4096 ../src/etats_config.c:7327 ../src/import.c:2231
+#: ../src/etats_config.c:4096 ../src/etats_config.c:7327 ../src/import.c:2230
 #: ../src/tiers_onglet.c:1184 ../src/tiers_onglet.c:1395
 msgid "Unselect all"
 msgstr "Снять выделение"
@@ -2933,7 +2943,7 @@ msgstr ""
 msgid "Make transactions clickable"
 msgstr ""
 
-#: ../src/etats_config.c:6828 ../src/parametres.c:1199
+#: ../src/etats_config.c:6828 ../src/parametres.c:1158
 msgid "Totals currencies"
 msgstr "Валюты для итоговых сумм"
 
@@ -3379,7 +3389,7 @@ msgstr ""
 
 #: ../src/export.c:170 ../src/export_csv.c:760
 #: ../src/gsb_account_property.c:236 ../src/gsb_data_partial_balance.c:1497
-#: ../src/import.c:1247 ../src/import.c:1272
+#: ../src/import.c:1246 ../src/import.c:1271
 msgid "Account name"
 msgstr "Название счёта"
 
@@ -3418,7 +3428,7 @@ msgstr "Формат CSV"
 #. set the initial balance
 #: ../src/export_csv.c:285 ../src/gsb_account_property.c:519
 #: ../src/gsb_assistant_reconcile_config.c:433 ../src/gsb_reconcile.c:212
-#: ../src/gsb_reconcile_config.c:232
+#: ../src/gsb_reconcile_config.c:245
 msgid "Initial balance"
 msgstr "Исходный баланс"
 
@@ -3445,7 +3455,7 @@ msgstr ""
 msgid "Cheques"
 msgstr "Чеки"
 
-#: ../src/export_csv.c:778 ../src/gsb_transactions_list.c:163
+#: ../src/export_csv.c:778 ../src/gsb_transactions_list.c:161
 #: ../src/import_csv.c:92 ../src/traitement_variables.c:95
 msgid "C/R"
 msgstr ""
@@ -3462,7 +3472,7 @@ msgstr "Суббюджетные линии"
 msgid "Reconciliation number"
 msgstr "Номер выверки счетов"
 
-#: ../src/fenetre_principale.c:225 ../src/parametres.c:350
+#: ../src/fenetre_principale.c:225 ../src/parametres.c:357
 msgid "Main page"
 msgstr "Резюме"
 
@@ -3480,7 +3490,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:267 ../src/navigation.c:266
-#: ../src/parametres.c:341 ../src/parametres.c:1118
+#: ../src/parametres.c:339 ../src/parametres.c:1116
 msgid "Scheduler"
 msgstr "Расписание"
 
@@ -4094,11 +4104,11 @@ msgstr ""
 msgid "Account details"
 msgstr "Подробнее о счёте"
 
-#: ../src/gsb_account_property.c:257 ../src/import.c:1200
+#: ../src/gsb_account_property.c:257 ../src/import.c:1199
 msgid "Account type"
 msgstr "Тип счёта"
 
-#: ../src/gsb_account_property.c:275 ../src/import.c:1302
+#: ../src/gsb_account_property.c:275 ../src/import.c:1301
 msgid "Account currency"
 msgstr "Валюта счёта"
 
@@ -4202,7 +4212,7 @@ msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
 #. create the page
-#: ../src/gsb_archive_config.c:111 ../src/parametres.c:304
+#: ../src/gsb_archive_config.c:111 ../src/parametres.c:302
 msgid "Archives"
 msgstr "Архивы"
 
@@ -4275,7 +4285,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "Удаляется архив и его проводки"
 
 #. New account
-#: ../src/gsb_assistant_account.c:97 ../src/import.c:1192
+#: ../src/gsb_assistant_account.c:97 ../src/import.c:1191
 msgid "Create a new account"
 msgstr "Создание нового счёта"
 
@@ -4479,7 +4489,7 @@ msgstr "Отчёт"
 msgid "Please choose a name for archive"
 msgstr "Укажите название архива"
 
-#: ../src/gsb_assistant_archive.c:426 ../src/import.c:935
+#: ../src/gsb_assistant_archive.c:426 ../src/import.c:934
 msgid "Congratulations !"
 msgstr "Поздравляем!"
 
@@ -4715,7 +4725,7 @@ msgstr "Название и имя файла"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:323 ../src/gsb_assistant_first.c:249
-#: ../src/parametres.c:873
+#: ../src/parametres.c:871
 msgid "Encrypt Grisbi file"
 msgstr "Шифровать файл Grisbi"
 
@@ -4815,11 +4825,11 @@ msgid "General configuration of Grisbi"
 msgstr "Общая настройка Grisbi"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:209 ../src/parametres.c:1041
+#: ../src/gsb_assistant_first.c:209 ../src/parametres.c:1039
 msgid "Web"
 msgstr "Интернет"
 
-#: ../src/gsb_assistant_first.c:216 ../src/parametres.c:1048
+#: ../src/gsb_assistant_first.c:216 ../src/parametres.c:1046
 msgid "Web browser command"
 msgstr "Команда вызова браузера"
 
@@ -4829,43 +4839,43 @@ msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
-#: ../src/gsb_assistant_first.c:234 ../src/parametres.c:856
+#: ../src/gsb_assistant_first.c:234 ../src/parametres.c:854
 msgid "Account files handling"
 msgstr "Обращение с файлами счетов"
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:859
+#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:857
 msgid "Automatically load last file on startup"
 msgstr "Автоматически загружать последний файл при запуске"
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:243 ../src/parametres.c:863
+#: ../src/gsb_assistant_first.c:243 ../src/parametres.c:861
 msgid "Automatically save on exit"
 msgstr "Автоматически сохранять открытый файл при выходе"
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:255 ../src/parametres.c:913
+#: ../src/gsb_assistant_first.c:255 ../src/parametres.c:911
 msgid "Make a backup copy before saving files"
 msgstr "Создавать резервную копию перед сохранением файлов"
 
-#: ../src/gsb_assistant_first.c:265 ../src/parametres.c:921
+#: ../src/gsb_assistant_first.c:265 ../src/parametres.c:919
 msgid "Make a backup copy every "
 msgstr "Создавать резервную копию каждые"
 
-#: ../src/gsb_assistant_first.c:276 ../src/parametres.c:931
+#: ../src/gsb_assistant_first.c:276 ../src/parametres.c:929
 msgid " minutes"
 msgstr " минут"
 
-#: ../src/gsb_assistant_first.c:285 ../src/parametres.c:938
+#: ../src/gsb_assistant_first.c:285 ../src/parametres.c:936
 msgid "Backup directory"
 msgstr "Каталог для резервных копий"
 
-#: ../src/gsb_assistant_first.c:290 ../src/parametres.c:945
+#: ../src/gsb_assistant_first.c:290 ../src/parametres.c:943
 msgid "Select/Create backup directory"
 msgstr "Выбрать или создать каталог резервных копий"
 
-#: ../src/gsb_assistant_first.c:329 ../src/gsb_reconcile_config.c:103
-#: ../src/parametres.c:450
+#: ../src/gsb_assistant_first.c:329 ../src/gsb_reconcile_config.c:105
+#: ../src/parametres.c:448
 msgid "Reconciliation"
 msgstr "Выверка счетов"
 
@@ -4985,7 +4995,7 @@ msgstr ""
 
 #. set the final balance
 #: ../src/gsb_assistant_reconcile_config.c:444 ../src/gsb_reconcile.c:220
-#: ../src/gsb_reconcile_config.c:97 ../src/gsb_reconcile_config.c:246
+#: ../src/gsb_reconcile_config.c:99 ../src/gsb_reconcile_config.c:259
 msgid "Final balance"
 msgstr "Окончательный баланс"
 
@@ -5073,7 +5083,7 @@ msgstr ""
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1181
-#: ../src/gsb_transactions_list.c:1738
+#: ../src/gsb_transactions_list.c:1736
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "Выберите новую анимацию"
@@ -5099,7 +5109,7 @@ msgstr "Добавить новый банк"
 msgid "Contact name"
 msgstr "Контактное лицо"
 
-#: ../src/gsb_bank.c:519 ../src/parametres.c:531
+#: ../src/gsb_bank.c:519 ../src/parametres.c:529
 msgid "Banks"
 msgstr "Банки"
 
@@ -6715,12 +6725,12 @@ msgstr ""
 msgid "Invalid"
 msgstr "Некорректный"
 
-#: ../src/gsb_data_account.c:242
+#: ../src/gsb_data_account.c:241
 #, c-format
 msgid "No name %d"
 msgstr ""
 
-#: ../src/gsb_data_account.c:559
+#: ../src/gsb_data_account.c:558
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
@@ -6728,7 +6738,7 @@ msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used !
 #. I add the devel_debug to print it. Is it OK to do that ?
-#: ../src/gsb_data_account.c:1226
+#: ../src/gsb_data_account.c:1225
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6737,7 +6747,7 @@ msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used.
 #. I add the devel_debug function to print it. Is it OK ?
-#: ../src/gsb_data_account.c:1269
+#: ../src/gsb_data_account.c:1268
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -6856,22 +6866,22 @@ msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr ""
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:719 ../src/import.c:2700
+#: ../src/gsb_data_payment.c:719 ../src/import.c:2699
 #: ../src/plugins/ofx/ofx.c:449
 msgid "Deposit"
 msgstr "Депозит"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2252 ../src/import.c:2706
-#: ../src/import.c:2712
+#: ../src/gsb_data_payment.c:728 ../src/gsb_form.c:2252 ../src/import.c:2705
+#: ../src/import.c:2711
 msgid "Credit card"
 msgstr "Кредитная карта"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2289 ../src/import.c:2724
-#: ../src/import.c:2742
+#: ../src/gsb_data_payment.c:737 ../src/gsb_form.c:2289 ../src/import.c:2723
+#: ../src/import.c:2741
 msgid "Direct debit"
 msgstr "Прямой дебит"
 
@@ -7194,7 +7204,7 @@ msgid ""
 msgstr ""
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:563 ../src/gsb_file.c:828 ../src/parametres.c:868
+#: ../src/gsb_file.c:563 ../src/gsb_file.c:828 ../src/parametres.c:866
 msgid "Force saving of locked files"
 msgstr "Принудительно сохранять заблокированные файлы"
 
@@ -7277,32 +7287,32 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:941
+#: ../src/gsb_file_config.c:940
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file_config.c:982
+#: ../src/gsb_file_config.c:981
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
 
-#: ../src/gsb_file_config.c:1019
+#: ../src/gsb_file_config.c:1018
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1431 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1429 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1450
+#: ../src/gsb_file_config.c:1448
 msgid "Delete config file from a previous version"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1470
+#: ../src/gsb_file_config.c:1468
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7310,11 +7320,11 @@ msgid ""
 "<b>Do you want to delete this file?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1534
+#: ../src/gsb_file_config.c:1532
 msgid "Choose a file"
 msgstr "Выберите файл"
 
-#: ../src/gsb_file_config.c:1557
+#: ../src/gsb_file_config.c:1555
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7353,7 +7363,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5479
+#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5485
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
@@ -7366,14 +7376,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8876
+#: ../src/gsb_file_load.c:8882
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8901
+#: ../src/gsb_file_load.c:8907
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7381,7 +7391,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8905
+#: ../src/gsb_file_load.c:8911
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7505,14 +7515,14 @@ msgid "Direct deposit"
 msgstr "Прямой депозит"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2270 ../src/import.c:2511 ../src/import.c:2558
-#: ../src/import.c:2681 ../src/plugins/ofx/ofx.c:429
+#: ../src/gsb_form.c:2270 ../src/import.c:2510 ../src/import.c:2557
+#: ../src/import.c:2680 ../src/plugins/ofx/ofx.c:429
 #, fuzzy
 msgid "Check"
 msgstr "Чили"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2279 ../src/import.c:2730
+#: ../src/gsb_form.c:2279 ../src/import.c:2729
 msgid "Cash withdrawal"
 msgstr ""
 
@@ -7622,7 +7632,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:113 ../src/parametres.c:469
+#: ../src/gsb_form_config.c:113 ../src/parametres.c:467
 msgid "Transaction form"
 msgstr "Формуляр транзакции"
 
@@ -7731,12 +7741,12 @@ msgstr ""
 msgid "Free"
 msgstr "Гонорар"
 
-#: ../src/gsb_form_widget.c:452 ../src/gsb_transactions_list.c:159
+#: ../src/gsb_form_widget.c:452 ../src/gsb_transactions_list.c:157
 #: ../src/traitement_variables.c:91
 msgid "Method of payment"
 msgstr "Способ оплаты"
 
-#: ../src/gsb_form_widget.c:480 ../src/gsb_transactions_list.c:167
+#: ../src/gsb_form_widget.c:480 ../src/gsb_transactions_list.c:165
 #: ../src/traitement_variables.c:99
 msgid "Transaction number"
 msgstr "Номер транзакции"
@@ -7745,7 +7755,7 @@ msgstr "Номер транзакции"
 msgid "Automatic/Manual"
 msgstr "Автоматически/Вручную"
 
-#: ../src/gsb_fyear_config.c:99 ../src/parametres.c:540
+#: ../src/gsb_fyear_config.c:99 ../src/parametres.c:538
 msgid "Financial years"
 msgstr "Финансовые года"
 
@@ -7897,7 +7907,7 @@ msgstr ""
 msgid "with plugins"
 msgstr "с расширениями"
 
-#: ../src/gsb_reconcile.c:130 ../src/gsb_transactions_list.c:160
+#: ../src/gsb_reconcile.c:130 ../src/gsb_transactions_list.c:158
 msgid "Reconciliation reference"
 msgstr ""
 
@@ -7921,23 +7931,23 @@ msgid "Sort by method of payment"
 msgstr "Сортировать по способу оплаты"
 
 #. set the title
-#: ../src/gsb_reconcile.c:441
+#: ../src/gsb_reconcile.c:440
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>Выверка счёта «%s»</b> "
 
-#: ../src/gsb_reconcile.c:514
+#: ../src/gsb_reconcile.c:513
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:515 ../src/gsb_reconcile.c:524
-#: ../src/gsb_reconcile.c:536 ../src/gsb_reconcile.c:544
+#: ../src/gsb_reconcile.c:514 ../src/gsb_reconcile.c:523
+#: ../src/gsb_reconcile.c:535 ../src/gsb_reconcile.c:543
 msgid "Reconciliation can't be completed."
 msgstr "Выверка не может быть завершена"
 
-#: ../src/gsb_reconcile.c:523
+#: ../src/gsb_reconcile.c:522
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -7945,50 +7955,64 @@ msgid ""
 "it will be automatically incremented."
 msgstr ""
 
-#: ../src/gsb_reconcile.c:533
+#: ../src/gsb_reconcile.c:532
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:543
+#: ../src/gsb_reconcile.c:542
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:556
+#: ../src/gsb_reconcile.c:555
 #, c-format
 msgid "Last statement: %s"
 msgstr ""
 
-#: ../src/gsb_reconcile_config.c:96 ../src/gsb_transactions_list.c:1787
+#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1785
 msgid "Init date"
 msgstr "Дата начала"
 
-#: ../src/gsb_reconcile_config.c:97
+#: ../src/gsb_reconcile_config.c:99
 msgid "Init balance"
 msgstr "Исходный баланс"
 
-#: ../src/gsb_reconcile_config.c:106
+#: ../src/gsb_reconcile_config.c:109
+#, fuzzy
+msgid "Select the end date of reconciliation"
+msgstr "Выберите новую анимацию"
+
+#: ../src/gsb_reconcile_config.c:110
+msgid "Start Date + one month"
+msgstr ""
+
+#: ../src/gsb_reconcile_config.c:111
+#, fuzzy
+msgid "Today's date"
+msgstr "Дата"
+
+#: ../src/gsb_reconcile_config.c:119
 msgid "List of reconciliations"
 msgstr "Список выверок"
 
-#: ../src/gsb_reconcile_config.c:173
+#: ../src/gsb_reconcile_config.c:186
 msgid "Selected reconcile"
 msgstr "Выбранная выверка"
 
 #. set the delete button
-#: ../src/gsb_reconcile_config.c:222
+#: ../src/gsb_reconcile_config.c:235
 msgid "Delete the reconcile"
 msgstr "Удалить выверку"
 
-#: ../src/gsb_reconcile_config.c:264
+#: ../src/gsb_reconcile_config.c:277
 msgid "Find all marked transactions not associated with a reconcile number"
 msgstr "Найти все отмеченные выверки, не связанные с номером выверки"
 
 #. we are on a reconcile,
 #. * we ask if the user want to continue and warn him
-#: ../src/gsb_reconcile_config.c:517
+#: ../src/gsb_reconcile_config.c:530
 #, c-format
 msgid ""
 "Caution, you are about to delete a reconciliation.\n"
@@ -7998,12 +8022,12 @@ msgid ""
 "Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/gsb_reconcile_config.c:519
+#: ../src/gsb_reconcile_config.c:532
 #, fuzzy
 msgid "Delete reconciliation"
 msgstr "Создать новую выверку"
 
-#: ../src/gsb_reconcile_sort_config.c:86 ../src/parametres.c:459
+#: ../src/gsb_reconcile_sort_config.c:86 ../src/parametres.c:457
 msgid "Sort for reconciliation"
 msgstr "Сортировка для выверки"
 
@@ -8126,12 +8150,12 @@ msgid "Show transactions for the next"
 msgstr "Показывать транзакции на следующие"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2173
+#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2171
 msgid "Edit transaction"
 msgstr "_Изменить транзакцию"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2042 ../src/gsb_transactions_list.c:2196
+#: ../src/gsb_scheduler_list.c:2042 ../src/gsb_transactions_list.c:2194
 msgid "Delete transaction"
 msgstr "Удалить транзакцию"
 
@@ -8159,31 +8183,31 @@ msgstr ""
 msgid "Select icon directory"
 msgstr "Выберите новую анимацию"
 
-#: ../src/gsb_transactions_list.c:168
+#: ../src/gsb_transactions_list.c:166
 msgid "Cheque number"
 msgstr "Номер чека"
 
-#: ../src/gsb_transactions_list.c:189
+#: ../src/gsb_transactions_list.c:187
 msgid "Delete a child transaction."
 msgstr "Удаление проводки-потомка"
 
-#: ../src/gsb_transactions_list.c:193
+#: ../src/gsb_transactions_list.c:191
 msgid "Delete a transaction."
 msgstr "Удаление проводки"
 
-#: ../src/gsb_transactions_list.c:197
+#: ../src/gsb_transactions_list.c:195
 msgid "Delete a child of scheduled transaction."
 msgstr "Удаление потомка запланированной проводки"
 
-#: ../src/gsb_transactions_list.c:201
+#: ../src/gsb_transactions_list.c:199
 msgid "Delete a scheduled transaction."
 msgstr "Удаление запланированной проводки"
 
-#: ../src/gsb_transactions_list.c:205
+#: ../src/gsb_transactions_list.c:203
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Удаление одной или более попавшихся запланированных проводок"
 
-#: ../src/gsb_transactions_list.c:574 ../src/gsb_transactions_list.c:3601
+#: ../src/gsb_transactions_list.c:572 ../src/gsb_transactions_list.c:3608
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8191,45 +8215,45 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:818
+#: ../src/gsb_transactions_list.c:816
 msgid "P"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:822
+#: ../src/gsb_transactions_list.c:820
 msgid "T"
 msgstr ""
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:826 ../src/gsb_transactions_list.c:1657
+#: ../src/gsb_transactions_list.c:824 ../src/gsb_transactions_list.c:1655
 msgid "R"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1200
+#: ../src/gsb_transactions_list.c:1198
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1210
+#: ../src/gsb_transactions_list.c:1208
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1214
+#: ../src/gsb_transactions_list.c:1212
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1587
+#: ../src/gsb_transactions_list.c:1585
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1599
+#: ../src/gsb_transactions_list.c:1597
 #, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8243,7 +8267,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1669
+#: ../src/gsb_transactions_list.c:1667
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8251,25 +8275,25 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1670
+#: ../src/gsb_transactions_list.c:1668
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "согласно дате транзакции"
 
-#: ../src/gsb_transactions_list.c:1750
+#: ../src/gsb_transactions_list.c:1748
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: ../src/gsb_transactions_list.c:1872
+#: ../src/gsb_transactions_list.c:1870
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1916
+#: ../src/gsb_transactions_list.c:1914
 msgid "Impossible to delete an archived transaction."
 msgstr "Невозможно удалить заархивированную поводку"
 
-#: ../src/gsb_transactions_list.c:1925
+#: ../src/gsb_transactions_list.c:1923
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8277,85 +8301,85 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1940
+#: ../src/gsb_transactions_list.c:1938
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1952
+#: ../src/gsb_transactions_list.c:1950
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2157
+#: ../src/gsb_transactions_list.c:2155
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "Показывать проводки"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2210
+#: ../src/gsb_transactions_list.c:2208
 msgid "Use selected transaction as a template"
 msgstr "Использовать эту транзакцию как _шаблон"
 
 #. Clone transaction
-#: ../src/gsb_transactions_list.c:2220
+#: ../src/gsb_transactions_list.c:2218
 msgid "Clone transaction"
 msgstr "_Склонировать транзакцию"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2233
+#: ../src/gsb_transactions_list.c:2231
 msgid "Convert transaction to scheduled transaction"
 msgstr "Преобразовать транзакцию в _запланированную"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2242
+#: ../src/gsb_transactions_list.c:2240
 msgid "Move transaction to another account"
 msgstr "_Перенести транзакцию на другой счёт"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2265
+#: ../src/gsb_transactions_list.c:2263
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2309
+#: ../src/gsb_transactions_list.c:2310
 msgid "Clear cell"
 msgstr "Очистить ячейку"
 
-#: ../src/gsb_transactions_list.c:2689
+#: ../src/gsb_transactions_list.c:2696
 msgid "Cannot move a transfer on his contra-account"
 msgstr ""
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:2995
+#: ../src/gsb_transactions_list.c:3002
 msgid "Sort list by :"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3038
+#: ../src/gsb_transactions_list.c:3045
 msgid "alignment:"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3046
+#: ../src/gsb_transactions_list.c:3053
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3060
+#: ../src/gsb_transactions_list.c:3067
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3074
+#: ../src/gsb_transactions_list.c:3081
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3473
+#: ../src/gsb_transactions_list.c:3480
 msgid "Transfer to a deleted account"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3475
+#: ../src/gsb_transactions_list.c:3482
 msgid "Transfer from a deleted account"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3630
+#: ../src/gsb_transactions_list.c:3637
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -8438,20 +8462,20 @@ msgstr ""
 msgid "at"
 msgstr "Дата"
 
-#: ../src/import.c:205
+#: ../src/import.c:204
 msgid "Comma Separated Values"
 msgstr ""
 
-#: ../src/import.c:206
+#: ../src/import.c:205
 msgid "Quicken Interchange Format"
 msgstr ""
 
-#: ../src/import.c:270
+#: ../src/import.c:269
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr ""
 
-#: ../src/import.c:315
+#: ../src/import.c:314
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8468,91 +8492,91 @@ msgstr ""
 "поддерживаются следующие форматы:\n"
 "\n"
 
-#: ../src/import.c:323
+#: ../src/import.c:322
 msgid "Importing transactions into Grisbi"
 msgstr "Импорт транзакций в Grisbi"
 
-#: ../src/import.c:381
+#: ../src/import.c:380
 msgid "Choose file to import"
 msgstr "Выберите импортируемые файлы"
 
-#: ../src/import.c:383
+#: ../src/import.c:382
 msgid "Add file to import..."
 msgstr "Добавить импортируемые файлы"
 
-#: ../src/import.c:450
+#: ../src/import.c:449
 msgid "File name"
 msgstr "Имя файла"
 
-#: ../src/import.c:512 ../src/import.c:666 ../src/import.c:4358
+#: ../src/import.c:511 ../src/import.c:665 ../src/import.c:4357
 #: ../src/import_csv.c:1081 ../src/import_csv.c:1105
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Не удалось прочитать файл: %s\n"
 
-#: ../src/import.c:614 ../src/import.c:722 ../src/import.c:4254
-#: ../src/import.c:4277
+#: ../src/import.c:613 ../src/import.c:721 ../src/import.c:4253
+#: ../src/import.c:4276
 msgid "Unknown"
 msgstr ""
 
-#: ../src/import.c:758
+#: ../src/import.c:757
 msgid "Choose files to import."
 msgstr "Выберите импортируемые файлы"
 
-#: ../src/import.c:784
+#: ../src/import.c:783
 #, c-format
 msgid "Known files (%s)"
 msgstr "Известные файлы (%s)"
 
-#: ../src/import.c:796
+#: ../src/import.c:795
 #, c-format
 msgid "%s files (*.%s)"
 msgstr "Файлы %s (*.%s)"
 
-#: ../src/import.c:834 ../src/utils_files.c:678
+#: ../src/import.c:833 ../src/utils_files.c:678
 msgid "Encoding"
 msgstr "Кодировка"
 
-#: ../src/import.c:940
+#: ../src/import.c:939
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: ../src/import.c:955
+#: ../src/import.c:954
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "Удалённая учётная запись"
 
-#: ../src/import.c:981
+#: ../src/import.c:980
 msgid "Error !"
 msgstr "Ошибка!"
 
-#: ../src/import.c:986
+#: ../src/import.c:985
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: ../src/import.c:1000
+#: ../src/import.c:999
 msgid "The following files are in error:"
 msgstr ""
 
-#: ../src/import.c:1052
+#: ../src/import.c:1051
 msgid "Import terminated"
 msgstr "Импорт завершён"
 
-#: ../src/import.c:1056
+#: ../src/import.c:1055
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
 msgstr ""
 
-#: ../src/import.c:1176
+#: ../src/import.c:1175
 msgid "file"
 msgstr "файл"
 
-#: ../src/import.c:1182
+#: ../src/import.c:1181
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8564,24 +8588,24 @@ msgstr ""
 "\n"
 "Что вы хотите сделать с содержимым <span foreground=\"blue\">«%s»</span> ?\n"
 
-#: ../src/import.c:1240
+#: ../src/import.c:1239
 msgid "Add transactions to an account"
 msgstr "Добавить проводки к счёту"
 
-#: ../src/import.c:1266
+#: ../src/import.c:1265
 msgid "Mark transactions of an account"
 msgstr "Пометить проводки счёта"
 
 #. invert amount of transactions
-#: ../src/import.c:1333
+#: ../src/import.c:1332
 msgid "Invert the amount of the imported transactions"
 msgstr "Инвертировать число импортированных проводок"
 
-#: ../src/import.c:1341
+#: ../src/import.c:1340
 msgid "Create a rule for this import. Name of the rule : "
 msgstr "Создать правило для этого импорта. Название правила:"
 
-#: ../src/import.c:1374
+#: ../src/import.c:1373
 #, c-format
 msgid ""
 "The account currency imported %s is %s.\n"
@@ -8590,40 +8614,40 @@ msgid ""
 "Do you create it ?"
 msgstr ""
 
-#: ../src/import.c:1381
+#: ../src/import.c:1380
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr ""
 
-#: ../src/import.c:1397
+#: ../src/import.c:1396
 msgid ""
 "Use this currency for totals for the payees categories\n"
 "and budgetary lines"
 msgstr ""
 
-#: ../src/import.c:1498
+#: ../src/import.c:1497
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: ../src/import.c:1556
+#: ../src/import.c:1555
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: ../src/import.c:1560
+#: ../src/import.c:1559
 msgid "No name for the import rule"
 msgstr "Нет названия у правила импорта"
 
-#: ../src/import.c:1561
+#: ../src/import.c:1560
 msgid "Name of the rule :"
 msgstr "Название правила:"
 
-#: ../src/import.c:1587
+#: ../src/import.c:1586
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8631,134 +8655,134 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 
-#: ../src/import.c:1597
+#: ../src/import.c:1596
 msgid "Please wait"
 msgstr "Подождите, пожалуйста"
 
-#: ../src/import.c:1622
+#: ../src/import.c:1621
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: ../src/import.c:1876
+#: ../src/import.c:1875
 msgid "Imported account"
 msgstr ""
 
-#: ../src/import.c:2223
+#: ../src/import.c:2222
 msgid "Confirmation of transactions to be merged"
 msgstr "Подтверждение объединения проводок"
 
-#: ../src/import.c:2226
+#: ../src/import.c:2225
 msgid "Confirmation of importation of transactions"
 msgstr ""
 
-#: ../src/import.c:2245
+#: ../src/import.c:2244
 msgid "Please select the transactions to be merged"
 msgstr "Выберите объединяемые проводки"
 
-#: ../src/import.c:2251
+#: ../src/import.c:2250
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
 msgstr ""
 
-#: ../src/import.c:2320
+#: ../src/import.c:2319
 #, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr "Объединяемые проводки: %s ; %s ; %s"
 
-#: ../src/import.c:2325
+#: ../src/import.c:2324
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr "Импортируемые проводки: %s ; %s ; %s"
 
-#: ../src/import.c:2351
+#: ../src/import.c:2350
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Найдена проводка: %s ; %s ; %s ; %s"
 
-#: ../src/import.c:2365
+#: ../src/import.c:2364
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Найдена проводка: %s ; %s ; %s"
 
-#: ../src/import.c:2819
+#: ../src/import.c:2818
 #, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
 
-#: ../src/import.c:3186
+#: ../src/import.c:3185
 msgid "Orphaned transactions"
 msgstr ""
 
-#: ../src/import.c:3199
+#: ../src/import.c:3198
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 
-#: ../src/import.c:3265
+#: ../src/import.c:3264
 msgid "Mark"
 msgstr ""
 
-#: ../src/import.c:3319
+#: ../src/import.c:3318
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
-#: ../src/import.c:3320
+#: ../src/import.c:3319
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 
-#: ../src/import.c:3569
+#: ../src/import.c:3568
 #, c-format
 msgid "%s #%d"
 msgstr "%s #%d"
 
-#: ../src/import.c:3596
+#: ../src/import.c:3595
 msgid "Import settings"
 msgstr "Параметры импорта"
 
-#: ../src/import.c:3603
+#: ../src/import.c:3602
 msgid "Threshold while matching transaction date during import (in days)"
 msgstr "Порог совпадения дат транзакций при импорте (в днях)"
 
-#: ../src/import.c:3622
+#: ../src/import.c:3621
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Объединять импортированные проводки с найденными"
 
-#: ../src/import.c:3632
+#: ../src/import.c:3631
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "По возможности автоматически привязывать категорию получателя"
 
-#: ../src/import.c:3643 ../src/tiers_onglet.c:1031
+#: ../src/import.c:3642 ../src/tiers_onglet.c:1031
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: ../src/import.c:3651
+#: ../src/import.c:3650
 msgid "Set the financial year"
 msgstr "Устанавливать финансовый год"
 
-#: ../src/import.c:3652
+#: ../src/import.c:3651
 msgid "According to the date"
 msgstr "По дате"
 
-#: ../src/import.c:3653
+#: ../src/import.c:3652
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/import.c:3678
+#: ../src/import.c:3677
 msgid "Manage import associations"
 msgstr "Управлением связыванием при импорте"
 
-#: ../src/import.c:3685 ../src/parametres.c:322
+#: ../src/import.c:3684 ../src/parametres.c:320
 msgid "Import associations"
 msgstr "Связывание при импорте"
 
-#: ../src/import.c:3687
+#: ../src/import.c:3686
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
@@ -8769,82 +8793,82 @@ msgstr ""
 "получателем, представляющим домовладельца."
 
 #. Create entry liste des tiers
-#: ../src/import.c:3756 ../src/import.c:3788 ../src/tiers_onglet.c:1134
+#: ../src/import.c:3755 ../src/import.c:3787 ../src/tiers_onglet.c:1134
 msgid "Payee name"
 msgstr "Название получателя"
 
 #. Create entry search string
-#: ../src/import.c:3770 ../src/import.c:3811
+#: ../src/import.c:3769 ../src/import.c:3810
 msgid "Search string"
 msgstr "Строка поиска"
 
-#: ../src/import.c:3779
+#: ../src/import.c:3778
 msgid "Details of associations"
 msgstr "Подробности о связывании"
 
-#: ../src/import.c:4105
+#: ../src/import.c:4104
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 "Вы не можете выбрать этого получателя, поскольку для него уже установлена "
 "связь"
 
-#: ../src/import.c:4342
+#: ../src/import.c:4341
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4401
+#: ../src/import.c:4400
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4492
+#: ../src/import.c:4491
 msgid "Import a file with a rule"
 msgstr "Импортировать файл с правилом"
 
 #. text for paddingbox
-#: ../src/import.c:4503
+#: ../src/import.c:4502
 #, c-format
 msgid "Properties of the rule : %s\n"
 msgstr "Свойства правила: %s\n"
 
-#: ../src/import.c:4522
+#: ../src/import.c:4521
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "_Перенести транзакцию на другой счёт"
 
-#: ../src/import.c:4525
+#: ../src/import.c:4524
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "_Перенести транзакцию на другой счёт"
 
 #. textstring 2
-#: ../src/import.c:4530
+#: ../src/import.c:4529
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Импортируемая валюта — %s.\n"
 
-#: ../src/import.c:4537
+#: ../src/import.c:4536
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr ""
 
 #. label filename
-#: ../src/import.c:4548
+#: ../src/import.c:4547
 msgid "Name of the file to import "
 msgstr "Имя импортируемого файла"
 
-#: ../src/import.c:4649
+#: ../src/import.c:4648
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
 
-#: ../src/import.c:4677
+#: ../src/import.c:4676
 #, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Не удалось разархивировать файл «%s»: %s"
@@ -9401,133 +9425,133 @@ msgid "closed"
 msgstr "_Закрыть"
 
 #. Create dialog
-#: ../src/parametres.c:255
+#: ../src/parametres.c:253
 msgid "Grisbi preferences"
 msgstr "Параметры Grisbi"
 
-#: ../src/parametres.c:285
+#: ../src/parametres.c:283
 msgid "Main"
 msgstr "Основные"
 
-#: ../src/parametres.c:294 ../src/parametres.c:852
+#: ../src/parametres.c:292 ../src/parametres.c:850
 msgid "Files"
 msgstr "Файлы"
 
-#: ../src/parametres.c:332 ../src/parametres.c:1039
+#: ../src/parametres.c:330 ../src/parametres.c:1037
 msgid "Programs"
 msgstr "Программы"
 
-#: ../src/parametres.c:359 ../src/parametres.c:1262
+#: ../src/parametres.c:348 ../src/parametres.c:1221
 #, fuzzy
 msgid "Localization"
 msgstr "Выверка счетов"
 
-#: ../src/parametres.c:369
+#: ../src/parametres.c:367
 msgid "Display"
 msgstr "Вид"
 
-#: ../src/parametres.c:386 ../src/parametres.c:643
+#: ../src/parametres.c:384 ../src/parametres.c:641
 msgid "Messages & warnings"
 msgstr "Сообщения и предупреждения"
 
-#: ../src/parametres.c:404 ../src/parametres.c:1196
+#: ../src/parametres.c:402 ../src/parametres.c:1155
 msgid "Payees, categories and budgetaries"
 msgstr "Получатели, категории и бюджеты"
 
-#: ../src/parametres.c:431
+#: ../src/parametres.c:429
 msgid "List behavior"
 msgstr "Поведение списка"
 
-#: ../src/parametres.c:441 ../src/parametres.c:730
+#: ../src/parametres.c:439 ../src/parametres.c:728
 msgid "Messages before deleting"
 msgstr "Сообщения перед удалением"
 
-#: ../src/parametres.c:477
+#: ../src/parametres.c:475
 msgid "Content"
 msgstr "Содержимое"
 
-#: ../src/parametres.c:486
+#: ../src/parametres.c:484
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ../src/parametres.c:495
+#: ../src/parametres.c:493
 msgid "Completion"
 msgstr "Заполнение"
 
-#: ../src/parametres.c:505
+#: ../src/parametres.c:503
 msgid "Resources"
 msgstr "Ресурсы"
 
-#: ../src/parametres.c:522
+#: ../src/parametres.c:520
 msgid "Currencies links"
 msgstr "Курсы обмена валют"
 
-#: ../src/parametres.c:564
+#: ../src/parametres.c:562
 msgid "Balance estimate"
 msgstr "Оценка баланса"
 
 #. Tip of the day
-#: ../src/parametres.c:646
+#: ../src/parametres.c:644
 msgid "Tip of the day"
 msgstr "Совет дня"
 
 #. Display or not tips
-#: ../src/parametres.c:649
+#: ../src/parametres.c:647
 msgid "Display tip of the day"
 msgstr "Показывать совет дня"
 
-#: ../src/parametres.c:656
+#: ../src/parametres.c:654
 msgid "Display following warnings messages"
 msgstr "Показывать следующие предупредительные сообщения"
 
-#: ../src/parametres.c:677 ../src/parametres.c:758
+#: ../src/parametres.c:675 ../src/parametres.c:756
 msgid "Message"
 msgstr "Сообщение"
 
-#: ../src/parametres.c:734
+#: ../src/parametres.c:732
 msgid "Display following messages"
 msgstr "Показывать следующие сообщения"
 
 #. Compression level of files
-#: ../src/parametres.c:878
+#: ../src/parametres.c:876
 msgid "Compress Grisbi file"
 msgstr "Сжимать файл Grisbi"
 
-#: ../src/parametres.c:886
+#: ../src/parametres.c:884
 msgid "Memorise last opened files"
 msgstr "Как много последних файлов помнить"
 
 #. Backups
-#: ../src/parametres.c:895
+#: ../src/parametres.c:893
 msgid "Backups"
 msgstr "Резервные копии"
 
 #. Single backup file
-#: ../src/parametres.c:898
+#: ../src/parametres.c:896
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "Создавать резервную копию каждые"
 
 #. Compression level of backups
-#: ../src/parametres.c:903
+#: ../src/parametres.c:901
 msgid "Compress Grisbi backup"
 msgstr "Сжимать резервную копию Grisbi"
 
 #. Backup at each opening?
-#: ../src/parametres.c:908
+#: ../src/parametres.c:906
 msgid "Make a backup copy after opening files"
 msgstr "Создавать резервную копию после открытия файлов"
 
-#: ../src/parametres.c:962
+#: ../src/parametres.c:960
 #, fuzzy
 msgid "Config file"
 msgstr "Файл CSV"
 
-#: ../src/parametres.c:967
+#: ../src/parametres.c:965
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1057
+#: ../src/parametres.c:1055
 #, fuzzy, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
@@ -9535,83 +9559,73 @@ msgid ""
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
-#: ../src/parametres.c:1068
+#: ../src/parametres.c:1066
 msgid "LaTeX support (old print system)"
 msgstr "Поддержка LaTeX (прежняя система печати)"
 
-#: ../src/parametres.c:1075
+#: ../src/parametres.c:1073
 msgid "LaTeX command"
 msgstr "Команда LaTeX"
 
-#: ../src/parametres.c:1083
+#: ../src/parametres.c:1081
 msgid "dvips command"
 msgstr "Команда dvips"
 
-#: ../src/parametres.c:1123
+#: ../src/parametres.c:1121
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Предупреждения о расписании при запуске Grisbi"
 
-#: ../src/parametres.c:1124
+#: ../src/parametres.c:1122
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Предупреждать о/Исполнять запланированные проводки с надвигающимся сроком "
 "истечения"
 
-#: ../src/parametres.c:1125
+#: ../src/parametres.c:1123
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
 
-#: ../src/parametres.c:1133
+#: ../src/parametres.c:1131
 msgid "Number of days before the warning or the execution"
 msgstr "Количество дней перед предупреждением или выполнением"
 
-#. Take into account the planned operations in the calculation of balances
-#: ../src/parametres.c:1142
-msgid "Calculation of balances"
-msgstr "Расчёт балансов"
-
-#: ../src/parametres.c:1148
-msgid ""
-"Take into account the scheduled operations in the calculation of balances"
-msgstr ""
-
-#: ../src/parametres.c:1205
+#: ../src/parametres.c:1164
 msgid "Sort option for transactions"
 msgstr "Критерий сортировки проводок"
 
-#: ../src/parametres.c:1206
+#: ../src/parametres.c:1165
 msgid "by number"
 msgstr "Номер"
 
-#: ../src/parametres.c:1207
+#: ../src/parametres.c:1166
 msgid "by date"
 msgstr "Дата"
 
-#: ../src/parametres.c:1304
+#: ../src/parametres.c:1263
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: ../src/parametres.c:1310
+#: ../src/parametres.c:1269
 #, fuzzy
 msgid "Date format"
 msgstr "Формат файла"
 
-#: ../src/parametres.c:1376
+#: ../src/parametres.c:1335
 #, fuzzy
 msgid "Decimal point"
 msgstr "Разделение данных"
 
-#: ../src/parametres.c:1389
+#: ../src/parametres.c:1348
 #, fuzzy
 msgid "Thousands separator"
 msgstr "Выберите разделитель CSV"
 
-#: ../src/parametres.c:1406
+#: ../src/parametres.c:1365
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1412
+#: ../src/parametres.c:1371
 msgid "Decimal and thousands separator"
 msgstr ""
 
