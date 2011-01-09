@@ -565,7 +565,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         GTK_TREE_VIEW_COLUMN ( column ) );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
@@ -581,7 +581,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         GTK_TREE_VIEW_COLUMN ( column ) );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
@@ -597,7 +597,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         GTK_TREE_VIEW_COLUMN ( column ) );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
@@ -615,7 +615,7 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         GTK_TREE_VIEW_COLUMN ( column ) );
     g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
     gtk_tree_view_column_set_alignment ( column, 1 );
-    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
+    gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
 
