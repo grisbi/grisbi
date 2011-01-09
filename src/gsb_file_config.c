@@ -1361,7 +1361,6 @@ void gsb_file_config_clean_config ( void )
     conf.balances_with_scheduled = TRUE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
     etat.automatic_completion_payee = 1;        /* by default automatic completion */
     etat.limit_completion_to_current_account = 0;        /* By default, do full search */
 

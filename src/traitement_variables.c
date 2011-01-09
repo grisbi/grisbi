@@ -390,7 +390,9 @@ void init_variables ( void )
     text_color[1] = default_text_color[1];
     calendar_entry_color = default_calendar_entry_color;
 
+    /* divers */
     etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
+    etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
     /* remove the timeout if necessary */
     if (id_timeout)
