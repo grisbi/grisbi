@@ -110,7 +110,6 @@ static gint width_spin_button = 50;
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];

@@ -87,7 +87,6 @@ static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern GdkColor couleur_bleue;
 extern GdkColor couleur_jaune;
 extern GdkColor couleur_nom_compte_normal;
@@ -470,7 +469,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances. */
         tmpstr = g_strdup_printf ( _("Account balances in %s"),
                         gsb_data_currency_get_name ( currency_number ) );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -548,7 +547,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances   */
 		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number) );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -625,7 +624,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances    */
         tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number));
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -694,7 +693,7 @@ void update_liste_comptes_accueil ( gboolean force )
             tmpstr = g_strdup ( _("Additional balance") );
         else
             tmpstr = g_strdup ( _("Additional balances") );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -1974,7 +1973,7 @@ GtkWidget *onglet_accueil (void)
     button = gsb_automem_checkbutton_new (
                         _("Take into account the scheduled operations "
                           "in the calculation of balances"),
-                        &balances_with_scheduled,
+                        &conf.balances_with_scheduled,
                         G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
                         NULL );
 

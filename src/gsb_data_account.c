@@ -148,7 +148,6 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern gsb_real error_real;
 extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -1063,7 +1062,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
     /* on regarde si on tient compte ou pas des échéances pour les soldes */
-    if ( balances_with_scheduled )
+    if ( conf.balances_with_scheduled )
         res = 0;
     else
     {

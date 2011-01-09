@@ -67,10 +67,6 @@ gint nb_days_before_scheduled;
 /** warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 gboolean execute_scheduled_of_month;
 
-/** Take into account the planned operations in the calculation of the balances (TRUE default) */
-gboolean balances_with_scheduled;
-
-
 /**
  * set the next date in the scheduled transaction
  * if it's above the limit date, that transaction is deleted

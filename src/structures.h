@@ -185,6 +185,9 @@ struct gsb_conf_t
     gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
 #endif
 
+    /* variables pour le calcul des soldes */
+    gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
+
     /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
