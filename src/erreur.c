@@ -31,14 +31,15 @@
 #include "dialog.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_file_config.h"
 #include "gsb_plugins.h"
+#include "gsb_real.h"
 #include "gsb_status.h"
+#include "structures.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "utils_files.h"
 #include "utils_str.h"
-#include "include.h"
-#include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE
@@ -446,25 +447,80 @@ gboolean gsb_debug_start_log (void)
     }
 
 
-    tmpstr = g_strdup_printf (_("The debug-mode is starting. Grisbi will write a log into %s. Please send that file with the obfuscated file into the bug report."),
-				debug_filename );
+    tmpstr = g_strdup_printf (_("The debug-mode is starting. Grisbi will write a log into %s. "
+                        "Please send that file with the obfuscated file into the bug report."),
+                        debug_filename );
+
     dialogue (tmpstr);
     g_free (tmpstr);
 
 
-    debug_file = g_fopen ( debug_filename,
-			   "w" );
+    debug_file = g_fopen ( debug_filename, "w" );
+
     if (debug_file)
     {
-	GtkWidget * widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
-	etat.debug_mode = TRUE;
+        GtkWidget *widget;
+        struct lconv *conv;
+        
+        widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
+        etat.debug_mode = TRUE;
 
-	/* unsensitive the menu, we cannot reverse the debug mode */
-	if ( widget && GTK_IS_WIDGET(widget) )
-	    gtk_widget_set_sensitive ( widget, FALSE );
+        /* unsensitive the menu, we cannot reverse the debug mode */
+        if ( widget && GTK_IS_WIDGET ( widget ) )
+            gtk_widget_set_sensitive ( widget, FALSE );
+
+        /* write locales */
+        conv = localeconv();
+        tmpstr = g_strdup_printf ( "Variables d'environnement :\n\n"
+                        "LANG = %s\n\n"
+                        "Currency\n"
+                        "\tcurrency_symbol = %s\n"
+                        "\tmon_thousands_sep = \"%s\"\n"
+                        "\tmon_decimal_point = %s\n"
+                        "\tpositive_sign = \"%s\"\n"
+                        "\tnegative_sign = \"%s\"\n"
+                        "\tfrac_digits = \"%d\"\n\n",
+                        g_getenv ( "LANG"),
+                        conv->currency_symbol,
+                        g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
+                        g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
+                        g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
+                        g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
+                        conv->frac_digits );
+
+        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
+	    fflush (debug_file);
+
+        g_free ( tmpstr );
+
+        tmpstr = g_strdup_printf ("Paths\n"
+                        "\tC_GRISBIRC = %s\n"
+                        "\tC_PATH_CONFIG = %s\n"
+                        "\tC_PATH_CONFIG_ACCELS = %s\n"
+                        "\tC_PATH_DATA_FILES = %s\n"
+                        "\tGRISBI_LOCALEDIR = %s\n"
+                        "\tGRISBI_PLUGINS_DIR = %s\n"
+                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
+                        C_GRISBIRC,
+                        C_PATH_CONFIG,
+                        C_PATH_CONFIG_ACCELS,
+                        C_PATH_DATA_FILES,
+#ifdef GTKOSXAPPLICATION
+                        grisbi_osx_get_locale_dir ( ),
+#else
+                        LOCALEDIR,
+#endif
+                        GRISBI_PLUGINS_DIR,
+                        GRISBI_PIXMAPS_DIR );
+
+        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
+	    fflush (debug_file);
+
+        g_free ( tmpstr );
     }
     else
-	dialogue_error (_("Grisbi failed to create the log file..."));
+        dialogue_error (_("Grisbi failed to create the log file...") );
+
     return FALSE;
 }
 
