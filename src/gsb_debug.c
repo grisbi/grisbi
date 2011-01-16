@@ -68,12 +68,10 @@ struct gsb_debug_test debug_tests [8] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconcile totals"),
       N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
-      N_("Grisbi found accounts where reconciliation totals are inconsistent "
-	 "with the sum of reconcilied transactions.  Generally, the cause is "
-	 "too many transfers to other accounts are reconciled.  You have to "
-	 "manually unreconcile some transferts in inconsistent accounts."
-	 "It happens sometimes too for old accounts wich pass to Euro"
-	 "In that case the inconsistent is only some cents and it's normal."), 
+      N_("Grisbi found accounts where reconciliation totals are inconsistent with the "
+        "sum of reconcilied transactions and initial balance.\n\n"
+        "The cause may be the elimination or modification of reconciliations or changes "
+        "in the balance of reconciliations in the preferences."),
       gsb_debug_reconcile_test, NULL },
 
     { N_("Duplicate sub-categories check"),
