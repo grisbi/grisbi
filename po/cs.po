@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 18:25+0100\n"
+"POT-Creation-Date: 2011-01-16 23:17+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -190,7 +190,7 @@ msgstr "Souhrnné zůstatky v seznamu účtů"
 #: ../src/gsb_bank.c:855 ../src/gsb_currency_config.c:354
 #: ../src/gsb_data_partial_balance.c:1553 ../src/gsb_fyear_config.c:191
 #: ../src/gsb_fyear_config.c:278 ../src/gsb_payment_method_config.c:239
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1796
 #: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:630
 msgid "Name"
 msgstr "Název"
@@ -820,7 +820,7 @@ msgstr "Celkem %s"
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:752 ../src/gsb_scheduler_list.c:1853
+#: ../src/bet_finance_ui.c:752 ../src/gsb_scheduler_list.c:1854
 msgid "years"
 msgstr "roky"
 
@@ -941,7 +941,7 @@ msgstr "Kredit"
 msgid "Cannot save file."
 msgstr "Nelze uložit soubor."
 
-#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1853
+#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1854
 msgid "months"
 msgstr "měsíce"
 
@@ -966,32 +966,32 @@ msgstr "Přidat rozpočet"
 
 #: ../src/bet_future.c:313 ../src/bet_future.c:855
 #: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:876
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Once"
 msgstr "Jednou"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Weekly"
 msgstr "Týdně"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Monthly"
 msgstr "Měsíčně"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 msgid "Bimonthly"
 msgstr "Každé dva měsíce"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 msgid "Quarterly"
 msgstr "Čtvrtletně"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 msgid "Yearly"
 msgstr "Ročně"
 
@@ -1034,7 +1034,7 @@ msgstr "Poslední datum"
 #: ../src/gsb_assistant_reconcile_config.c:422
 #: ../src/gsb_assistant_reconcile_config.c:1227
 #: ../src/gsb_reconcile_config.c:98 ../src/gsb_reconcile_config.c:221
-#: ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_transactions_list.c:1796
 msgid "Final date"
 msgstr "Koncové datum"
 
@@ -1245,7 +1245,7 @@ msgstr "Popis"
 
 #: ../src/bet_tab.c:751 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:344 ../src/gsb_transactions_list.c:155
-#: ../src/gsb_transactions_list.c:2996 ../src/import_csv.c:88
+#: ../src/gsb_transactions_list.c:3007 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:89
 msgid "Balance"
 msgstr "Zůstatek"
@@ -1343,8 +1343,8 @@ msgid "forecast.csv"
 msgstr "Prognóza"
 
 #. New transaction
-#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2031
-#: ../src/gsb_transactions_list.c:2186
+#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2032
+#: ../src/gsb_transactions_list.c:2197
 msgid "New transaction"
 msgstr "Nová transakce"
 
@@ -1429,31 +1429,31 @@ msgstr "Známé archivy"
 msgid "Remove the rule"
 msgstr "Odstranit pravidlo"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 msgid "Unique view"
 msgstr "Každá transakce jednou"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 msgid "Week view"
 msgstr "Následující týden"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 msgid "Month view"
 msgstr "Následující měsíc"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1816
 msgid "Two months view"
 msgstr "Následující dva měsíce"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1816
 msgid "Quarter view"
 msgstr "Následující čtvrtletí"
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1817
 msgid "Year view"
 msgstr "Následující rok"
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1817
 msgid "Custom view"
 msgstr "Volitelné období"
 
@@ -1803,7 +1803,7 @@ msgstr ""
 "účetních souborech. (Formát souboru se může měnit a způsobit tak "
 "nekompatibilitu s předchozími verzemi)."
 
-#: ../src/dialog.c:112 ../src/main.c:476
+#: ../src/dialog.c:112 ../src/main.c:489
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Máte spušteno Grisbi s verzí GTK %s"
@@ -1820,7 +1820,7 @@ msgstr ""
 "účetních souborech. (Formát souboru se může měnit a způsobit tak "
 "nekompatibilitu s předchozími verzemi)."
 
-#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1758
+#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1759
 msgid "Do not show this message again"
 msgstr "Příště tuto zprávu nezobrazovat"
 
@@ -1848,75 +1848,75 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr "Nelze alokovat paměť"
 
-#: ../src/erreur.c:91
+#: ../src/erreur.c:92
 msgid "File is corrupted."
 msgstr "Soubor je poškozený."
 
-#: ../src/erreur.c:98
+#: ../src/erreur.c:99
 msgid "Error occured saving file."
 msgstr "Chyba při ukládání do souboru."
 
-#: ../src/erreur.c:119
+#: ../src/erreur.c:120
 msgid "Save file"
 msgstr "Uložit soubor"
 
-#: ../src/erreur.c:129
+#: ../src/erreur.c:130
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi vytvořil zálohu v '%s'."
 
-#: ../src/erreur.c:138
+#: ../src/erreur.c:139
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 "Prosím nahlaste tento problém na <tt>http://www.grisbi.org/bugtracking/</tt>."
 
-#: ../src/erreur.c:144
+#: ../src/erreur.c:145
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 "Prosím zkopírujte a vložte následující informace do vašeho hlášení chyby."
 
-#: ../src/erreur.c:151
+#: ../src/erreur.c:152
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Grisbi bylo zastaveno z důvodu chyby stránkování"
 
-#: ../src/erreur.c:156
+#: ../src/erreur.c:157
 msgid "Backtrace"
 msgstr "Sledování"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:208 ../src/erreur.c:220
+#: ../src/erreur.c:209 ../src/erreur.c:221
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr "GRISBI %s Debug"
 
-#: ../src/erreur.c:209
+#: ../src/erreur.c:210
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr "Ladění povoleno, úroveň je '%s'"
 
-#: ../src/erreur.c:223
+#: ../src/erreur.c:224
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 "Chybná úroveň ladění, prosím zkontrolujte proměnnou prostředí DEBUG_GRISBI"
 
-#: ../src/erreur.c:283
+#: ../src/erreur.c:284
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s : %s - %s:%d:%s - %s\n"
 
-#: ../src/erreur.c:287
+#: ../src/erreur.c:288
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:325
+#: ../src/erreur.c:326
 #, fuzzy, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr "%s : %s - %s:%d:%s - %d\n"
 
-#: ../src/erreur.c:449
+#: ../src/erreur.c:450
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -1925,7 +1925,7 @@ msgstr ""
 "Startuje ladicí mód. Grisbi bude zaznamenávat akce do souboru %s. Prosím "
 "připojte tento soubor spolu se znepřehledněným souborem účtů k hlášení chyby."
 
-#: ../src/erreur.c:467
+#: ../src/erreur.c:522
 msgid "Grisbi failed to create the log file..."
 msgstr "Nepodařilo se vytvořit logovací soubor..."
 
@@ -2127,14 +2127,14 @@ msgstr "Celkem bez fiskálního roku (transakcí: %d)"
 msgid "Result without financial year"
 msgstr "Celkem bez fiskálního roku"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:964
-#: ../src/gsb_transactions_list.c:3493
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:965
+#: ../src/gsb_transactions_list.c:3504
 #, c-format
 msgid "Transfer to %s"
 msgstr "Převod na %s"
 
-#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:967
-#: ../src/gsb_transactions_list.c:3496
+#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:968
+#: ../src/gsb_transactions_list.c:3507
 #, c-format
 msgid "Transfer from %s"
 msgstr "Převod z %s"
@@ -2184,7 +2184,7 @@ msgstr "Celkový součet"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:577
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:730
 #: ../src/gsb_form.c:2876 ../src/gsb_form.c:3279
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3471
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3482
 msgid "Split of transaction"
 msgstr "Rozdělení transakce"
 
@@ -3338,7 +3338,7 @@ msgstr "Soubor LaTeX"
 msgid "Exporting report ..."
 msgstr "Exportování sestavy..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:486
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:244 ../src/gsb_file.c:486
 #: ../src/gsb_file.c:610 ../src/gsb_file.c:681
 msgid "Done"
 msgstr "Hotovo"
@@ -5285,7 +5285,7 @@ msgstr "Všechny vybrané transakce musí náležet ke stejnému účtu!"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1181
-#: ../src/gsb_transactions_list.c:1736
+#: ../src/gsb_transactions_list.c:1747
 msgid "Selection of a reconciliation"
 msgstr "Výběr odsouhlasení"
 
@@ -7038,7 +7038,7 @@ msgstr "Upravit souhrnný zůstatek"
 msgid "Partial balance details"
 msgstr "Detaily souhrnného zůstatku"
 
-#: ../src/gsb_data_partial_balance.c:1544 ../src/gsb_debug.c:298
+#: ../src/gsb_data_partial_balance.c:1544 ../src/gsb_debug.c:296
 msgid "Details"
 msgstr "Detaily"
 
@@ -7108,13 +7108,13 @@ msgstr ""
 "součtem z transakcí."
 
 #: ../src/gsb_debug.c:71
+#, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
-"sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.  You have to manually unreconcile some "
-"transferts in inconsistent accounts.It happens sometimes too for old "
-"accounts wich pass to EuroIn that case the inconsistent is only some cents "
-"and it's normal."
+"sum of reconcilied transactions and initial balance.\n"
+"\n"
+"The cause may be the elimination or modification of reconciliations or "
+"changes in the balance of reconciliations in the preferences."
 msgstr ""
 "Grisbi našlo účty, na kterých se celkové odsouhlasené částky nerovnají "
 "součtu částek odsouhlasených transakcí. Zpravidla bývá příčinou odsouhlasení "
@@ -7123,15 +7123,15 @@ msgstr ""
 "jejichž měna se mění na Euro. V tom případě se jedná o zaokrouhlovací rozdíl "
 "několika centů a je to v pořádku."
 
-#: ../src/gsb_debug.c:79
+#: ../src/gsb_debug.c:77
 msgid "Duplicate sub-categories check"
 msgstr "Kontrola zdvojených podkategorií"
 
-#: ../src/gsb_debug.c:80 ../src/gsb_debug.c:93 ../src/gsb_debug.c:106
+#: ../src/gsb_debug.c:78 ../src/gsb_debug.c:91 ../src/gsb_debug.c:104
 msgid "free"
 msgstr "prázdné"
 
-#: ../src/gsb_debug.c:81
+#: ../src/gsb_debug.c:79
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
 "same numeric identifier in some cases, resulting in transactions having two "
@@ -7149,11 +7149,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nové podkategorie."
 
-#: ../src/gsb_debug.c:92
+#: ../src/gsb_debug.c:90
 msgid "Duplicate sub-budgetary lines check"
 msgstr "Kontrola zdvojených podrozpočtů"
 
-#: ../src/gsb_debug.c:94
+#: ../src/gsb_debug.c:92
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
 "the same numeric id in some cases, resulting in transactions having two sub-"
@@ -7171,11 +7171,11 @@ msgstr ""
 "Žádné transakce nebudou ztraceny, ale v některých případech bude potřeba "
 "ručně přiřadit transakce do nového podrozpočtu."
 
-#: ../src/gsb_debug.c:105
+#: ../src/gsb_debug.c:103
 msgid "Orphan countra-transactions check"
 msgstr "Kontrola osiřelých protitransakcí"
 
-#: ../src/gsb_debug.c:107
+#: ../src/gsb_debug.c:105
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -7189,18 +7189,18 @@ msgstr ""
 "K nápravě budete muset ručně upravit svůj .gsb soubor (pomocí textového "
 "editoru) a opravit transakce pomocí jejich číselných ID."
 
-#: ../src/gsb_debug.c:113
+#: ../src/gsb_debug.c:111
 msgid "Incorrect category/sub-category number"
 msgstr "Nesprávné číslo kategorie/podkategorie"
 
-#: ../src/gsb_debug.c:114
+#: ../src/gsb_debug.c:112
 msgid ""
 "This test will look for transactions wich have non existant categories/sub-"
 "categories."
 msgstr ""
 "Tento test vyhledá transakce s neexistujícími kategoriemi/podkategoriemi."
 
-#: ../src/gsb_debug.c:115
+#: ../src/gsb_debug.c:113
 msgid ""
 "Grisbi found some transactions with non existants categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
@@ -7210,17 +7210,17 @@ msgstr ""
 "Pokud se rozhodnete pokračovat, Grisbi odstraní chybné kategorie a zmíněné "
 "transakce budou bez kategorie."
 
-#: ../src/gsb_debug.c:120
+#: ../src/gsb_debug.c:118
 msgid "Incorrect budget/sub-budget number"
 msgstr "Nesprávné číslo rozpočtu/podrozpočtu"
 
-#: ../src/gsb_debug.c:121
+#: ../src/gsb_debug.c:119
 msgid ""
 "This test will look for transactions wich have non existant budgets/sub-"
 "budgets."
 msgstr "Tento test vyhledá transakce s neexistujícími rozpočty/podrozpočty."
 
-#: ../src/gsb_debug.c:122
+#: ../src/gsb_debug.c:120
 msgid ""
 "Grisbi found some transactions with non existants budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
@@ -7230,15 +7230,15 @@ msgstr ""
 "se rozhodnete pokračovat, Grisbi odstraní chybné rozpočty a zmíněné "
 "transakce budou bez rozpočtu."
 
-#: ../src/gsb_debug.c:127
+#: ../src/gsb_debug.c:125
 msgid "Incorrect payee number"
 msgstr "Nesprávné číslo plátce/příjemce"
 
-#: ../src/gsb_debug.c:128
+#: ../src/gsb_debug.c:126
 msgid "This test will look for transactions wich have non existant payees."
 msgstr "Tento test vyhledá transakce s neexistujícími plátci/příjemci."
 
-#: ../src/gsb_debug.c:129
+#: ../src/gsb_debug.c:127
 msgid ""
 "Grisbi found some transactions with non existants payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
@@ -7247,15 +7247,15 @@ msgstr ""
 "rozhodnete pokračovat, Grisbi odstraní chybné plátce/příjemce a zmíněné "
 "transakce budou bez plátce/příjemce."
 
-#: ../src/gsb_debug.c:151
+#: ../src/gsb_debug.c:149
 msgid "Checking file for possible corruption..."
 msgstr "Kontroluji soubor na případné poškození..."
 
-#: ../src/gsb_debug.c:153
+#: ../src/gsb_debug.c:151
 msgid "Grisbi accounts debug"
 msgstr "Kontrola účtů Grisbi"
 
-#: ../src/gsb_debug.c:154
+#: ../src/gsb_debug.c:152
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
@@ -7264,7 +7264,7 @@ msgstr ""
 "Tento pomocník vám pomůže odhalit ve vašem souboru účtů nekonzistence, které "
 "mohly být způsobeny špatným ovládáním nebo chybami v programu."
 
-#: ../src/gsb_debug.c:226
+#: ../src/gsb_debug.c:224
 msgid ""
 "Inconsistencies found\n"
 "\n"
@@ -7272,7 +7272,7 @@ msgstr ""
 "Byly nalezeny nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:229
+#: ../src/gsb_debug.c:227
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
@@ -7280,7 +7280,7 @@ msgstr ""
 "Následující kontrolní testy nalezly nekonzistence v tomto souboru účtů:\n"
 "\n"
 
-#: ../src/gsb_debug.c:251
+#: ../src/gsb_debug.c:249
 msgid ""
 "No inconsistency found\n"
 "\n"
@@ -7288,36 +7288,36 @@ msgstr ""
 "Nebyla nalezena nekonzistence\n"
 "\n"
 
-#: ../src/gsb_debug.c:254
+#: ../src/gsb_debug.c:252
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr "Gratulujeme, váš soubor účtů je vpořádku!\n"
 
-#: ../src/gsb_debug.c:312
+#: ../src/gsb_debug.c:310
 msgid "Try to fix this inconsistency."
 msgstr "Pokusit se opravit tuto nekonzistenci."
 
-#: ../src/gsb_debug.c:340
+#: ../src/gsb_debug.c:338
 msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr "Grisbi úspěšně opravilo tento soubor účtů. Nyní můžete změny uložit."
 
-#: ../src/gsb_debug.c:342
+#: ../src/gsb_debug.c:340
 msgid "Fix completed"
 msgstr "Oprava dokončena"
 
-#: ../src/gsb_debug.c:346
+#: ../src/gsb_debug.c:344
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
 "Grisbi se nepodařilo opravit tento soubor účtů. Nebyly provedeny žádné změny."
 
-#: ../src/gsb_debug.c:348
+#: ../src/gsb_debug.c:346
 msgid "Unable to fix account"
 msgstr "Účet nelze opravit"
 
-#: ../src/gsb_debug.c:444
+#: ../src/gsb_debug.c:442
 #, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
@@ -7328,12 +7328,12 @@ msgstr ""
 "  Poslední odsouhlasená částka: %s\n"
 "  Vypočtená částka odsouhlasení: %s\n"
 
-#: ../src/gsb_debug.c:525
+#: ../src/gsb_debug.c:523
 #, c-format
 msgid "Transaction #%d is linked to non existent transaction #%d.\n"
 msgstr "Transakce #%d je spojena s neexistující transakcí #%d.\n"
 
-#: ../src/gsb_debug.c:548
+#: ../src/gsb_debug.c:546
 #, c-format
 msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
@@ -7343,31 +7343,31 @@ msgstr ""
 "d.\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:610
+#: ../src/gsb_debug.c:608
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
 msgstr "Transakce %d má kategorii %d ale neplatnou podkategorii %d.\n"
 
 #. category not found
-#: ../src/gsb_debug.c:624
+#: ../src/gsb_debug.c:622
 #, c-format
 msgid "Transaction %d has invalid category %d.\n"
 msgstr "Transakce %d má neplatnou kategorii %d.\n"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:714
+#: ../src/gsb_debug.c:712
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr "Transakce %d má rozpočet %d ale neplatný podrozpočet %d.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:726
 #, c-format
 msgid "Transaction %d has invalid budget %d.\n"
 msgstr "Transakce %d má neplatný rozpočet %d.\n"
 
 #. payee not found
-#: ../src/gsb_debug.c:813
+#: ../src/gsb_debug.c:811
 #, c-format
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Transakce %d má neplatného plátce/příjemce %d.\n"
@@ -7503,7 +7503,7 @@ msgstr ""
 "zrušit tuto akci a uložit jej pod jiným jménem, nebo v Možnostech aktivovat "
 "volbu \"%s\"."
 
-#: ../src/gsb_file.c:827 ../src/gsb_file.c:838 ../src/main.c:783
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838 ../src/main.c:796
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
@@ -7654,7 +7654,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Plugin pro šifrování nebyl nalezen."
 
-#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5485
+#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5484
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Toto není soubor Grisbi... Nahrávání bylo přerušeno."
 
@@ -7670,7 +7670,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8882
+#: ../src/gsb_file_load.c:8881
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7679,7 +7679,7 @@ msgstr ""
 "Pro otevření tohoto souboru potřebujete verzi Grisbi %s.\n"
 "Vy používáte verzi %s."
 
-#: ../src/gsb_file_load.c:8907
+#: ../src/gsb_file_load.c:8906
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7692,7 +7692,7 @@ msgstr ""
 "důležitých informací mějte na paměti, že se jedná o již archivované "
 "transakce."
 
-#: ../src/gsb_file_load.c:8911
+#: ../src/gsb_file_load.c:8910
 msgid "Grisbi archive opened"
 msgstr "Archiv Grisbi otevřen"
 
@@ -7810,7 +7810,7 @@ msgid "Auto"
 msgstr "Automaticky"
 
 #: ../src/gsb_form.c:932 ../src/gsb_form_scheduler.c:151
-#: ../src/gsb_scheduler_list.c:1023
+#: ../src/gsb_scheduler_list.c:1024
 msgid "Manual"
 msgstr "Ručně"
 
@@ -8027,7 +8027,7 @@ msgstr ""
 "Funkce změní velikost tabulky na správné hodnoty, ale je potřeb ověřit toto "
 "varování."
 
-#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1021
+#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1022
 msgid "Automatic"
 msgstr "Automaticky"
 
@@ -8316,7 +8316,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Poslední výpis: %s"
 
-#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1796
 msgid "Init date"
 msgstr "Počáteční datum"
 
@@ -8400,7 +8400,7 @@ msgstr "Rozdělit neutrální metody platby"
 msgid "Mode"
 msgstr "Mód"
 
-#: ../src/gsb_scheduler_list.c:627
+#: ../src/gsb_scheduler_list.c:628
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -8414,7 +8414,7 @@ msgstr ""
 "\n"
 "Čísla uvedených detailních transakcí jsou: \n"
 
-#: ../src/gsb_scheduler_list.c:844
+#: ../src/gsb_scheduler_list.c:845
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8427,40 +8427,40 @@ msgstr ""
 "ale iter nebyl nalezen v seznamu...\n"
 "Při připojování nové plánované transakce je to běžné, jindy ovšem ne..."
 
-#: ../src/gsb_scheduler_list.c:988
+#: ../src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d days"
 msgstr "%d dní"
 
-#: ../src/gsb_scheduler_list.c:993
+#: ../src/gsb_scheduler_list.c:994
 #, c-format
 msgid "%d weeks"
 msgstr "%d týdnů"
 
-#: ../src/gsb_scheduler_list.c:998
+#: ../src/gsb_scheduler_list.c:999
 #, c-format
 msgid "%d months"
 msgstr "%d měsíců"
 
-#: ../src/gsb_scheduler_list.c:1003
+#: ../src/gsb_scheduler_list.c:1004
 #, c-format
 msgid "%d years"
 msgstr "%d roků"
 
-#: ../src/gsb_scheduler_list.c:1672
+#: ../src/gsb_scheduler_list.c:1673
 #, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "Chcete skutečně odstranit detail plánované transakce se stranou '%s'?"
 
-#: ../src/gsb_scheduler_list.c:1691
+#: ../src/gsb_scheduler_list.c:1692
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Chcete skutečně odstranit plánovanou transakci se stranou '%s'?"
 
-#: ../src/gsb_scheduler_list.c:1736
+#: ../src/gsb_scheduler_list.c:1737
 #, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8472,60 +8472,60 @@ msgstr ""
 "\n"
 "%s : %s [%s %s]"
 
-#: ../src/gsb_scheduler_list.c:1747
+#: ../src/gsb_scheduler_list.c:1748
 msgid "Delete this scheduled transaction?"
 msgstr "Odstranit tuto plánovanou transakci?"
 
-#: ../src/gsb_scheduler_list.c:1752
+#: ../src/gsb_scheduler_list.c:1753
 msgid "All the occurences"
 msgstr "Všechny výskyty"
 
-#: ../src/gsb_scheduler_list.c:1753
+#: ../src/gsb_scheduler_list.c:1754
 msgid "Only this one"
 msgstr "Pouze tento"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1825 ../src/navigation.c:1166
+#: ../src/gsb_scheduler_list.c:1826 ../src/navigation.c:1166
 msgid "Scheduled transactions"
 msgstr "Plánované transakce"
 
-#: ../src/gsb_scheduler_list.c:1853
+#: ../src/gsb_scheduler_list.c:1854
 msgid "days"
 msgstr "dny"
 
-#: ../src/gsb_scheduler_list.c:1853
+#: ../src/gsb_scheduler_list.c:1854
 msgid "weeks"
 msgstr "týdny"
 
-#: ../src/gsb_scheduler_list.c:1856
+#: ../src/gsb_scheduler_list.c:1857
 msgid "Show scheduled transactions"
 msgstr "Zobrazit plánované transakce"
 
-#: ../src/gsb_scheduler_list.c:1869
+#: ../src/gsb_scheduler_list.c:1870
 msgid "Scheduler frequency"
 msgstr "Frekvence plánovače"
 
-#: ../src/gsb_scheduler_list.c:1876
+#: ../src/gsb_scheduler_list.c:1877
 msgid "Show transactions for the next"
 msgstr "Zobrazit transakce na další"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2171
+#: ../src/gsb_scheduler_list.c:2018 ../src/gsb_transactions_list.c:2182
 msgid "Edit transaction"
 msgstr "Upravit transakci"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2042 ../src/gsb_transactions_list.c:2194
+#: ../src/gsb_scheduler_list.c:2043 ../src/gsb_transactions_list.c:2205
 msgid "Delete transaction"
 msgstr "Odstranit transakci"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2056
+#: ../src/gsb_scheduler_list.c:2057
 msgid "Displays/Cache comments"
 msgstr "Zobrazit/skrýt komentáře"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2070
+#: ../src/gsb_scheduler_list.c:2071
 msgid "Execute transaction"
 msgstr "Provést transakci"
 
@@ -8566,7 +8566,7 @@ msgstr "Odstranit plánovanou transakci."
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Odstranit jeden nebo všechny výskyty plánované transakce."
 
-#: ../src/gsb_transactions_list.c:572 ../src/gsb_transactions_list.c:3608
+#: ../src/gsb_transactions_list.c:572 ../src/gsb_transactions_list.c:3619
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8587,7 +8587,7 @@ msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:824 ../src/gsb_transactions_list.c:1655
+#: ../src/gsb_transactions_list.c:824 ../src/gsb_transactions_list.c:1666
 msgid "R"
 msgstr "R"
 
@@ -8615,7 +8615,7 @@ msgstr ""
 "Kliknul(a) jste na archiv, ale zdá se, že má číslo 0, což se nemělo stát.\n"
 "Prosím zkuste akci zopakovat a kontaktujte vývojový tým Grisbi."
 
-#: ../src/gsb_transactions_list.c:1585
+#: ../src/gsb_transactions_list.c:1596
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -8623,7 +8623,7 @@ msgstr ""
 "V průběhu odsouhlasení nemůžete přepínat mezi R a ne R na transakcích.\n"
 "Prosím nejdříve dokončete nebo zruště odsouhlasení."
 
-#: ../src/gsb_transactions_list.c:1597
+#: ../src/gsb_transactions_list.c:1608
 #, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8644,7 +8644,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1667
+#: ../src/gsb_transactions_list.c:1678
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8656,23 +8656,23 @@ msgstr ""
 "nezobrazovat v seznamu transakce označené jako R; pokud potřebujete něco "
 "ověřit, nechte si je zobrazit."
 
-#: ../src/gsb_transactions_list.c:1668
+#: ../src/gsb_transactions_list.c:1679
 msgid "Marking a transaction as R"
 msgstr "Označit transakci jako R"
 
-#: ../src/gsb_transactions_list.c:1748
+#: ../src/gsb_transactions_list.c:1759
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "Vyberte odsouhlasení ke kterému budou připojeny vybrané tranaskce"
 
-#: ../src/gsb_transactions_list.c:1870
+#: ../src/gsb_transactions_list.c:1881
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi nemohlo dokončit výběr, operace byla zrušena..."
 
-#: ../src/gsb_transactions_list.c:1914
+#: ../src/gsb_transactions_list.c:1925
 msgid "Impossible to delete an archived transaction."
 msgstr "Archivovanou transakci nelze odstranit."
 
-#: ../src/gsb_transactions_list.c:1923
+#: ../src/gsb_transactions_list.c:1934
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8684,85 +8684,85 @@ msgstr ""
 "odsouhlasené. Pokud je to soutečně nezbytné, můžete odstranit odsouhlasení "
 "pomocí Ctrl R."
 
-#: ../src/gsb_transactions_list.c:1938
+#: ../src/gsb_transactions_list.c:1949
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Skutečně chcete odstranit detail transakce s třetí stranou '%s' ?"
 
-#: ../src/gsb_transactions_list.c:1950
+#: ../src/gsb_transactions_list.c:1961
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Opravdu chcete odstranit transakci s třetí stranou '%s' ?"
 
-#: ../src/gsb_transactions_list.c:2155
+#: ../src/gsb_transactions_list.c:2166
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "Zobrazit transakce"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2208
+#: ../src/gsb_transactions_list.c:2219
 msgid "Use selected transaction as a template"
 msgstr "Použít vybranou transakci jako šablonu"
 
 #. Clone transaction
-#: ../src/gsb_transactions_list.c:2218
+#: ../src/gsb_transactions_list.c:2229
 msgid "Clone transaction"
 msgstr "Duplikovat transakci"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2231
+#: ../src/gsb_transactions_list.c:2242
 msgid "Convert transaction to scheduled transaction"
 msgstr "Změnit transakci na plánovanou transakci"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2240
+#: ../src/gsb_transactions_list.c:2251
 msgid "Move transaction to another account"
 msgstr "Přesunout transakci na jiný účet"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2263
+#: ../src/gsb_transactions_list.c:2274
 msgid "Change cell content"
 msgstr "Změnit obsah buňky"
 
-#: ../src/gsb_transactions_list.c:2310
+#: ../src/gsb_transactions_list.c:2321
 msgid "Clear cell"
 msgstr "Vymazat buňku"
 
-#: ../src/gsb_transactions_list.c:2696
+#: ../src/gsb_transactions_list.c:2707
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Transakci nelze přesunout na protiúčet"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3002
+#: ../src/gsb_transactions_list.c:3013
 msgid "Sort list by :"
 msgstr "Řadit seznam podle:"
 
-#: ../src/gsb_transactions_list.c:3045
+#: ../src/gsb_transactions_list.c:3056
 msgid "alignment:"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3053
+#: ../src/gsb_transactions_list.c:3064
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3067
+#: ../src/gsb_transactions_list.c:3078
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3081
+#: ../src/gsb_transactions_list.c:3092
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3480
+#: ../src/gsb_transactions_list.c:3491
 msgid "Transfer to a deleted account"
 msgstr "Převod na zrušený účet"
 
-#: ../src/gsb_transactions_list.c:3482
+#: ../src/gsb_transactions_list.c:3493
 msgid "Transfer from a deleted account"
 msgstr "Převod ze zrušeného účtu"
 
-#: ../src/gsb_transactions_list.c:3637
+#: ../src/gsb_transactions_list.c:3648
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9509,7 +9509,7 @@ msgstr "Rozpočet již existuje"
 msgid "New sub-budget"
 msgstr "Nový podrozpočet"
 
-#: ../src/main.c:479
+#: ../src/main.c:492
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9519,7 +9519,7 @@ msgstr ""
 "\n"
 "Měl(a) byste GTK upgradovat."
 
-#: ../src/main.c:600
+#: ../src/main.c:613
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
@@ -9527,7 +9527,7 @@ msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:736 ../src/main.c:776 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:749 ../src/main.c:789 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

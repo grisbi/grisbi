@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 18:25+0100\n"
+"POT-Creation-Date: 2011-01-16 23:17+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -195,7 +195,7 @@ msgstr "移动交易到另一个账户"
 #: ../src/gsb_bank.c:855 ../src/gsb_currency_config.c:354
 #: ../src/gsb_data_partial_balance.c:1553 ../src/gsb_fyear_config.c:191
 #: ../src/gsb_fyear_config.c:278 ../src/gsb_payment_method_config.c:239
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1796
 #: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:630
 msgid "Name"
 msgstr "名称"
@@ -869,7 +869,7 @@ msgstr "总计 %s"
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:752 ../src/gsb_scheduler_list.c:1853
+#: ../src/bet_finance_ui.c:752 ../src/gsb_scheduler_list.c:1854
 #, fuzzy
 msgid "years"
 msgstr "年"
@@ -991,7 +991,7 @@ msgstr "贷方"
 msgid "Cannot save file."
 msgstr "不能保存文件"
 
-#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1853
+#: ../src/bet_finance_ui.c:2025 ../src/gsb_scheduler_list.c:1854
 #, fuzzy
 msgid "months"
 msgstr "月"
@@ -1017,33 +1017,33 @@ msgstr "增加预算行"
 
 #: ../src/bet_future.c:313 ../src/bet_future.c:855
 #: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:876
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Once"
 msgstr "单次"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Weekly"
 msgstr "每周"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1012
+#: ../src/gsb_scheduler_list.c:1013
 msgid "Monthly"
 msgstr "每月"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 #, fuzzy
 msgid "Bimonthly"
 msgstr "每月"
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 msgid "Quarterly"
 msgstr ""
 
 #: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1013
+#: ../src/gsb_scheduler_list.c:1014
 msgid "Yearly"
 msgstr "每年"
 
@@ -1087,7 +1087,7 @@ msgstr "限制日期"
 #: ../src/gsb_assistant_reconcile_config.c:422
 #: ../src/gsb_assistant_reconcile_config.c:1227
 #: ../src/gsb_reconcile_config.c:98 ../src/gsb_reconcile_config.c:221
-#: ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_transactions_list.c:1796
 msgid "Final date"
 msgstr "结束日期"
 
@@ -1305,7 +1305,7 @@ msgstr "描述"
 
 #: ../src/bet_tab.c:751 ../src/export_csv.c:793 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:344 ../src/gsb_transactions_list.c:155
-#: ../src/gsb_transactions_list.c:2996 ../src/import_csv.c:88
+#: ../src/gsb_transactions_list.c:3007 ../src/import_csv.c:88
 #: ../src/traitement_variables.c:89
 msgid "Balance"
 msgstr "余额"
@@ -1408,8 +1408,8 @@ msgid "forecast.csv"
 msgstr ""
 
 #. New transaction
-#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2031
-#: ../src/gsb_transactions_list.c:2186
+#: ../src/barre_outils.c:93 ../src/gsb_scheduler_list.c:2032
+#: ../src/gsb_transactions_list.c:2197
 msgid "New transaction"
 msgstr "新交易"
 
@@ -1507,34 +1507,34 @@ msgstr "已知货币"
 msgid "Remove the rule"
 msgstr "删除报表"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 msgid "Unique view"
 msgstr ""
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 #, fuzzy
 msgid "Week view"
 msgstr "周"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1814
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1815
 #, fuzzy
 msgid "Month view"
 msgstr "月"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1816
 msgid "Two months view"
 msgstr ""
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1815
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1816
 msgid "Quarter view"
 msgstr ""
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1817
 #, fuzzy
 msgid "Year view"
 msgstr "年"
 
-#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1816
+#: ../src/barre_outils.c:462 ../src/gsb_scheduler_list.c:1817
 #, fuzzy
 msgid "Custom view"
 msgstr "自定义"
@@ -1880,7 +1880,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:112 ../src/main.c:476
+#: ../src/dialog.c:112 ../src/main.c:489
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -1893,7 +1893,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1758
+#: ../src/dialog.c:329 ../src/dialog.c:528 ../src/gsb_scheduler_list.c:1759
 msgid "Do not show this message again"
 msgstr "不再显示本消息"
 
@@ -1918,81 +1918,81 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr "系统内存不足，请尽快关闭"
 
-#: ../src/erreur.c:91
+#: ../src/erreur.c:92
 msgid "File is corrupted."
 msgstr "文件已损坏"
 
-#: ../src/erreur.c:98
+#: ../src/erreur.c:99
 msgid "Error occured saving file."
 msgstr "保存文件时发生错误。"
 
-#: ../src/erreur.c:119
+#: ../src/erreur.c:120
 msgid "Save file"
 msgstr "保存文件"
 
-#: ../src/erreur.c:129
+#: ../src/erreur.c:130
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi在 '%s'生成了一个备份文件。"
 
-#: ../src/erreur.c:138
+#: ../src/erreur.c:139
 #, fuzzy
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr "请到 http://www.grisbi.org/bugtracking/报告错误"
 
-#: ../src/erreur.c:144
+#: ../src/erreur.c:145
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: ../src/erreur.c:151
+#: ../src/erreur.c:152
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Grisbi由于严重错误而退出。"
 
-#: ../src/erreur.c:156
+#: ../src/erreur.c:157
 #, fuzzy
 msgid "Backtrace"
 msgstr "余额"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:208 ../src/erreur.c:220
+#: ../src/erreur.c:209 ../src/erreur.c:221
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: ../src/erreur.c:209
+#: ../src/erreur.c:210
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:223
+#: ../src/erreur.c:224
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
-#: ../src/erreur.c:283
+#: ../src/erreur.c:284
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: ../src/erreur.c:287
+#: ../src/erreur.c:288
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:325
+#: ../src/erreur.c:326
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr ""
 
-#: ../src/erreur.c:449
+#: ../src/erreur.c:450
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
 
-#: ../src/erreur.c:467
+#: ../src/erreur.c:522
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -2195,14 +2195,14 @@ msgstr "没有财年的结果 (%d 交易)"
 msgid "Result without financial year"
 msgstr "没有财年的结果"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:964
-#: ../src/gsb_transactions_list.c:3493
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:965
+#: ../src/gsb_transactions_list.c:3504
 #, c-format
 msgid "Transfer to %s"
 msgstr "转帐到 %s"
 
-#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:967
-#: ../src/gsb_transactions_list.c:3496
+#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:968
+#: ../src/gsb_transactions_list.c:3507
 #, c-format
 msgid "Transfer from %s"
 msgstr "从 %s 转帐"
@@ -2252,7 +2252,7 @@ msgstr "一般总计"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:577
 #: ../src/gsb_data_category.c:1054 ../src/gsb_form.c:730
 #: ../src/gsb_form.c:2876 ../src/gsb_form.c:3279
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3471
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3482
 #, fuzzy
 msgid "Split of transaction"
 msgstr "更改交易"
@@ -3459,7 +3459,7 @@ msgstr "LaTeX 文件"
 msgid "Exporting report ..."
 msgstr "导出报表为CSV..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:486
+#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:244 ../src/gsb_file.c:486
 #: ../src/gsb_file.c:610 ../src/gsb_file.c:681
 #, fuzzy
 msgid "Done"
@@ -5270,7 +5270,7 @@ msgstr "根据文字选择交易"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1181
-#: ../src/gsb_transactions_list.c:1736
+#: ../src/gsb_transactions_list.c:1747
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "手工对账（取消对账）确认"
@@ -7053,7 +7053,7 @@ msgstr "初始余额"
 msgid "Partial balance details"
 msgstr "初始余额"
 
-#: ../src/gsb_data_partial_balance.c:1544 ../src/gsb_debug.c:298
+#: ../src/gsb_data_partial_balance.c:1544 ../src/gsb_debug.c:296
 msgid "Details"
 msgstr "明细"
 
@@ -7128,11 +7128,10 @@ msgstr ""
 #, fuzzy
 msgid ""
 "Grisbi found accounts where reconciliation totals are inconsistent with the "
-"sum of reconcilied transactions.  Generally, the cause is too many transfers "
-"to other accounts are reconciled.  You have to manually unreconcile some "
-"transferts in inconsistent accounts.It happens sometimes too for old "
-"accounts wich pass to EuroIn that case the inconsistent is only some cents "
-"and it's normal."
+"sum of reconcilied transactions and initial balance.\n"
+"\n"
+"The cause may be the elimination or modification of reconciliations or "
+"changes in the balance of reconciliations in the preferences."
 msgstr ""
 "Grisbi 发现调整总额的账户与调整后的交易总量 矛盾。通常这是由于过多的转帐交易"
 "被调整了。 您必须自己取消对一些矛盾账户转帐交易的调整。\n"
@@ -7140,17 +7139,17 @@ msgstr ""
 "下列账户存在矛盾：\n"
 "\n"
 
-#: ../src/gsb_debug.c:79
+#: ../src/gsb_debug.c:77
 #, fuzzy
 msgid "Duplicate sub-categories check"
 msgstr "显示子类别"
 
-#: ../src/gsb_debug.c:80 ../src/gsb_debug.c:93 ../src/gsb_debug.c:106
+#: ../src/gsb_debug.c:78 ../src/gsb_debug.c:91 ../src/gsb_debug.c:104
 #, fuzzy
 msgid "free"
 msgstr "Greece"
 
-#: ../src/gsb_debug.c:81
+#: ../src/gsb_debug.c:79
 #, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-categories may share the "
@@ -7162,12 +7161,12 @@ msgid ""
 "move transactions to this new sub-category."
 msgstr "交易信息不会丢失，但是有可能您需要手工转移 交易到新的子类别"
 
-#: ../src/gsb_debug.c:92
+#: ../src/gsb_debug.c:90
 #, fuzzy
 msgid "Duplicate sub-budgetary lines check"
 msgstr "子预算行"
 
-#: ../src/gsb_debug.c:94
+#: ../src/gsb_debug.c:92
 #, fuzzy
 msgid ""
 "Due to a bug in previous versions of Grisbi, sub-budgetary lines may share "
@@ -7184,12 +7183,12 @@ msgstr ""
 "\n"
 "交易信息不会丢失，但是某些时候您需要手工转移交易到新的子预算行。"
 
-#: ../src/gsb_debug.c:105
+#: ../src/gsb_debug.c:103
 #, fuzzy
 msgid "Orphan countra-transactions check"
 msgstr "孤儿交易"
 
-#: ../src/gsb_debug.c:107
+#: ../src/gsb_debug.c:105
 msgid ""
 "In some rare cases, transfers are incorrectly linked to contra-"
 "transactions.  This might be because of bugs or because of imports that "
@@ -7198,121 +7197,121 @@ msgid ""
 "editor) and fix transactions using their numeric ID."
 msgstr ""
 
-#: ../src/gsb_debug.c:113
+#: ../src/gsb_debug.c:111
 msgid "Incorrect category/sub-category number"
 msgstr ""
 
-#: ../src/gsb_debug.c:114
+#: ../src/gsb_debug.c:112
 msgid ""
 "This test will look for transactions wich have non existant categories/sub-"
 "categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:115
+#: ../src/gsb_debug.c:113
 msgid ""
 "Grisbi found some transactions with non existants categories/sub-categories "
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
 
-#: ../src/gsb_debug.c:120
+#: ../src/gsb_debug.c:118
 msgid "Incorrect budget/sub-budget number"
 msgstr ""
 
-#: ../src/gsb_debug.c:121
+#: ../src/gsb_debug.c:119
 msgid ""
 "This test will look for transactions wich have non existant budgets/sub-"
 "budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:122
+#: ../src/gsb_debug.c:120
 msgid ""
 "Grisbi found some transactions with non existants budgets/sub-budgets If you "
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
 
-#: ../src/gsb_debug.c:127
+#: ../src/gsb_debug.c:125
 msgid "Incorrect payee number"
 msgstr ""
 
-#: ../src/gsb_debug.c:128
+#: ../src/gsb_debug.c:126
 msgid "This test will look for transactions wich have non existant payees."
 msgstr ""
 
-#: ../src/gsb_debug.c:129
+#: ../src/gsb_debug.c:127
 msgid ""
 "Grisbi found some transactions with non existants payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
 
-#: ../src/gsb_debug.c:151
+#: ../src/gsb_debug.c:149
 msgid "Checking file for possible corruption..."
 msgstr ""
 
-#: ../src/gsb_debug.c:153
+#: ../src/gsb_debug.c:151
 #, fuzzy
 msgid "Grisbi accounts debug"
 msgstr "Grisbi设置"
 
-#: ../src/gsb_debug.c:154
+#: ../src/gsb_debug.c:152
 msgid ""
 "This assistant will help you to search your account file for "
 "inconsistencies, which can be caused either by bugs or by erroneous "
 "manipulation."
 msgstr ""
 
-#: ../src/gsb_debug.c:226
+#: ../src/gsb_debug.c:224
 #, fuzzy
 msgid ""
 "Inconsistencies found\n"
 "\n"
 msgstr "没有发现矛盾"
 
-#: ../src/gsb_debug.c:229
+#: ../src/gsb_debug.c:227
 msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:251
+#: ../src/gsb_debug.c:249
 #, fuzzy
 msgid ""
 "No inconsistency found\n"
 "\n"
 msgstr "没有发现矛盾"
 
-#: ../src/gsb_debug.c:254
+#: ../src/gsb_debug.c:252
 msgid "Congratulations, your account file is in good shape!\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:312
+#: ../src/gsb_debug.c:310
 #, fuzzy
 msgid "Try to fix this inconsistency."
 msgstr "一个账户存在矛盾。"
 
-#: ../src/gsb_debug.c:340
+#: ../src/gsb_debug.c:338
 msgid ""
 "Grisbi successfully repaired this account file.  You may now save your "
 "modifications."
 msgstr ""
 
-#: ../src/gsb_debug.c:342
+#: ../src/gsb_debug.c:340
 msgid "Fix completed"
 msgstr ""
 
-#: ../src/gsb_debug.c:346
+#: ../src/gsb_debug.c:344
 msgid ""
 "Grisbi was unable to repair this account file.  No modification has been "
 "done."
 msgstr ""
 
-#: ../src/gsb_debug.c:348
+#: ../src/gsb_debug.c:346
 #, fuzzy
 msgid "Unable to fix account"
 msgstr "账户类型"
 
-#: ../src/gsb_debug.c:444
+#: ../src/gsb_debug.c:442
 #, fuzzy, c-format
 msgid ""
 "<span weight=\"bold\">%s</span>\n"
@@ -7323,12 +7322,12 @@ msgstr ""
 "  上次调整总额 : %4.2f%s\n"
 "  计算调整总额 : %4.2f%s\n"
 
-#: ../src/gsb_debug.c:525
+#: ../src/gsb_debug.c:523
 #, c-format
 msgid "Transaction #%d is linked to non existent transaction #%d.\n"
 msgstr ""
 
-#: ../src/gsb_debug.c:548
+#: ../src/gsb_debug.c:546
 #, fuzzy, c-format
 msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
@@ -7336,31 +7335,31 @@ msgid ""
 msgstr "交易 #%d 有反 #%d， 但交易 #%d 有反 #%d 而不是 #%d。\n"
 
 #. sub-category not found
-#: ../src/gsb_debug.c:610
+#: ../src/gsb_debug.c:608
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
 msgstr ""
 
 #. category not found
-#: ../src/gsb_debug.c:624
+#: ../src/gsb_debug.c:622
 #, fuzzy, c-format
 msgid "Transaction %d has invalid category %d.\n"
 msgstr "移动交易到类别"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:714
+#: ../src/gsb_debug.c:712
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
 
 #. budget not found
-#: ../src/gsb_debug.c:728
+#: ../src/gsb_debug.c:726
 #, c-format
 msgid "Transaction %d has invalid budget %d.\n"
 msgstr ""
 
 #. payee not found
-#: ../src/gsb_debug.c:813
+#: ../src/gsb_debug.c:811
 #, fuzzy, c-format
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "交易清单预览"
@@ -7483,7 +7482,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:827 ../src/gsb_file.c:838 ../src/main.c:783
+#: ../src/gsb_file.c:827 ../src/gsb_file.c:838 ../src/main.c:796
 msgid "unnamed"
 msgstr "未命名"
 
@@ -7618,7 +7617,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
 
-#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5485
+#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5484
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
@@ -7632,14 +7631,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8882
+#: ../src/gsb_file_load.c:8881
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: ../src/gsb_file_load.c:8907
+#: ../src/gsb_file_load.c:8906
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7647,7 +7646,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8911
+#: ../src/gsb_file_load.c:8910
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7764,7 +7763,7 @@ msgid "Auto"
 msgstr "自动"
 
 #: ../src/gsb_form.c:932 ../src/gsb_form_scheduler.c:151
-#: ../src/gsb_scheduler_list.c:1023
+#: ../src/gsb_scheduler_list.c:1024
 msgid "Manual"
 msgstr "手动"
 
@@ -7983,7 +7982,7 @@ msgid ""
 "that warning."
 msgstr ""
 
-#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1021
+#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1022
 msgid "Automatic"
 msgstr "自动"
 
@@ -8272,7 +8271,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "最后声明"
 
-#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1785
+#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1796
 #, fuzzy
 msgid "Init date"
 msgstr "初始日期"
@@ -8359,7 +8358,7 @@ msgstr "分开中性支付方式"
 msgid "Mode"
 msgstr "模式"
 
-#: ../src/gsb_scheduler_list.c:627
+#: ../src/gsb_scheduler_list.c:628
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -8368,7 +8367,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:844
+#: ../src/gsb_scheduler_list.c:845
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8377,40 +8376,40 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:988
+#: ../src/gsb_scheduler_list.c:989
 #, c-format
 msgid "%d days"
 msgstr "%d 日"
 
-#: ../src/gsb_scheduler_list.c:993
+#: ../src/gsb_scheduler_list.c:994
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "周"
 
-#: ../src/gsb_scheduler_list.c:998
+#: ../src/gsb_scheduler_list.c:999
 #, c-format
 msgid "%d months"
 msgstr "%d 月"
 
-#: ../src/gsb_scheduler_list.c:1003
+#: ../src/gsb_scheduler_list.c:1004
 #, c-format
 msgid "%d years"
 msgstr "%d 年"
 
-#: ../src/gsb_scheduler_list.c:1672
+#: ../src/gsb_scheduler_list.c:1673
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_scheduler_list.c:1691
+#: ../src/gsb_scheduler_list.c:1692
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_scheduler_list.c:1736
+#: ../src/gsb_scheduler_list.c:1737
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8419,68 +8418,68 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "您想单删除本次事件还是整个定期交易？"
 
-#: ../src/gsb_scheduler_list.c:1747
+#: ../src/gsb_scheduler_list.c:1748
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_scheduler_list.c:1752
+#: ../src/gsb_scheduler_list.c:1753
 msgid "All the occurences"
 msgstr "所有的事件"
 
-#: ../src/gsb_scheduler_list.c:1753
+#: ../src/gsb_scheduler_list.c:1754
 msgid "Only this one"
 msgstr "只有这个"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1825 ../src/navigation.c:1166
+#: ../src/gsb_scheduler_list.c:1826 ../src/navigation.c:1166
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
 
-#: ../src/gsb_scheduler_list.c:1853
+#: ../src/gsb_scheduler_list.c:1854
 #, fuzzy
 msgid "days"
 msgstr "天"
 
-#: ../src/gsb_scheduler_list.c:1853
+#: ../src/gsb_scheduler_list.c:1854
 #, fuzzy
 msgid "weeks"
 msgstr "周"
 
-#: ../src/gsb_scheduler_list.c:1856
+#: ../src/gsb_scheduler_list.c:1857
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "已结清预定交易"
 
-#: ../src/gsb_scheduler_list.c:1869
+#: ../src/gsb_scheduler_list.c:1870
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "计划调度器警告"
 
-#: ../src/gsb_scheduler_list.c:1876
+#: ../src/gsb_scheduler_list.c:1877
 #, fuzzy
 msgid "Show transactions for the next"
 msgstr "根据文字选择交易"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2017 ../src/gsb_transactions_list.c:2171
+#: ../src/gsb_scheduler_list.c:2018 ../src/gsb_transactions_list.c:2182
 msgid "Edit transaction"
 msgstr "更改交易"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2042 ../src/gsb_transactions_list.c:2194
+#: ../src/gsb_scheduler_list.c:2043 ../src/gsb_transactions_list.c:2205
 msgid "Delete transaction"
 msgstr "删除交易"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2056
+#: ../src/gsb_scheduler_list.c:2057
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "显示/隐藏注释"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2070
+#: ../src/gsb_scheduler_list.c:2071
 #, fuzzy
 msgid "Execute transaction"
 msgstr "删除交易"
@@ -8530,7 +8529,7 @@ msgstr "删除一条定期交易"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "删除一条定期交易"
 
-#: ../src/gsb_transactions_list.c:572 ../src/gsb_transactions_list.c:3608
+#: ../src/gsb_transactions_list.c:572 ../src/gsb_transactions_list.c:3619
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8547,7 +8546,7 @@ msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:824 ../src/gsb_transactions_list.c:1655
+#: ../src/gsb_transactions_list.c:824 ../src/gsb_transactions_list.c:1666
 msgid "R"
 msgstr "R"
 
@@ -8570,13 +8569,13 @@ msgid ""
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1585
+#: ../src/gsb_transactions_list.c:1596
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1597
+#: ../src/gsb_transactions_list.c:1608
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8593,7 +8592,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1667
+#: ../src/gsb_transactions_list.c:1678
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8601,26 +8600,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1668
+#: ../src/gsb_transactions_list.c:1679
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "标记交易"
 
-#: ../src/gsb_transactions_list.c:1748
+#: ../src/gsb_transactions_list.c:1759
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction"
 msgstr "既没有调整也没有检查的交易"
 
-#: ../src/gsb_transactions_list.c:1870
+#: ../src/gsb_transactions_list.c:1881
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1914
+#: ../src/gsb_transactions_list.c:1925
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "不能删除一笔对账交易。"
 
-#: ../src/gsb_transactions_list.c:1923
+#: ../src/gsb_transactions_list.c:1934
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8628,87 +8627,87 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1938
+#: ../src/gsb_transactions_list.c:1949
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1950
+#: ../src/gsb_transactions_list.c:1961
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2155
+#: ../src/gsb_transactions_list.c:2166
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "显示交易"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2208
+#: ../src/gsb_transactions_list.c:2219
 msgid "Use selected transaction as a template"
 msgstr "使用选中交易做模板"
 
 #. Clone transaction
-#: ../src/gsb_transactions_list.c:2218
+#: ../src/gsb_transactions_list.c:2229
 msgid "Clone transaction"
 msgstr "复制交易"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2231
+#: ../src/gsb_transactions_list.c:2242
 msgid "Convert transaction to scheduled transaction"
 msgstr "转换交易为计划交易"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2240
+#: ../src/gsb_transactions_list.c:2251
 msgid "Move transaction to another account"
 msgstr "移动交易到另一个账户"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2263
+#: ../src/gsb_transactions_list.c:2274
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2310
+#: ../src/gsb_transactions_list.c:2321
 #, fuzzy
 msgid "Clear cell"
 msgstr "取消"
 
-#: ../src/gsb_transactions_list.c:2696
+#: ../src/gsb_transactions_list.c:2707
 msgid "Cannot move a transfer on his contra-account"
 msgstr "不能移动交易到它的反账户"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3002
+#: ../src/gsb_transactions_list.c:3013
 #, fuzzy
 msgid "Sort list by :"
 msgstr "按日期排序"
 
-#: ../src/gsb_transactions_list.c:3045
+#: ../src/gsb_transactions_list.c:3056
 msgid "alignment:"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3053
+#: ../src/gsb_transactions_list.c:3064
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3067
+#: ../src/gsb_transactions_list.c:3078
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3081
+#: ../src/gsb_transactions_list.c:3092
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3480
+#: ../src/gsb_transactions_list.c:3491
 msgid "Transfer to a deleted account"
 msgstr "转帐到一个删除的账户"
 
-#: ../src/gsb_transactions_list.c:3482
+#: ../src/gsb_transactions_list.c:3493
 msgid "Transfer from a deleted account"
 msgstr "来自已删除的账户转帐"
 
-#: ../src/gsb_transactions_list.c:3637
+#: ../src/gsb_transactions_list.c:3648
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9450,14 +9449,14 @@ msgstr "预算行 '%s' 已存在。"
 msgid "New sub-budget"
 msgstr "新子预算行"
 
-#: ../src/main.c:479
+#: ../src/main.c:492
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:600
+#: ../src/main.c:613
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
@@ -9465,7 +9464,7 @@ msgstr "信号错误：SIGSEGV不能捕捉\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:736 ../src/main.c:776 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:749 ../src/main.c:789 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
