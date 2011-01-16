@@ -714,7 +714,11 @@ void initialise_number_separators ( void )
 
     conv = localeconv();
 
-    gsb_real_set_decimal_point ( g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ) );
+    if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
+        gsb_real_set_decimal_point ( g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ) );
+    else
+        gsb_real_set_decimal_point ( "." );
+
     gsb_real_set_thousands_sep ( g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ) );
 }
 
