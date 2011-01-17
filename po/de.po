@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 23:17+0100\n"
+"POT-Creation-Date: 2011-01-17 21:52+0100\n"
 "PO-Revision-Date: 2010-05-16 14:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -487,32 +487,37 @@ msgstr "Trennzeichen an Tausender-Stelle"
 msgid "Form completion"
 msgstr "Eingabe Vervollständigung"
 
-#: ../src/affichage_liste.c:515
+#: ../src/affichage_liste.c:516
+msgid "Automatic filling transactions from payee"
+msgstr "Geplante Buchung automatisch ausgeführt"
+
+#: ../src/affichage_liste.c:523
+#, fuzzy
+msgid "Automatically recover the children of the associated transaction"
+msgstr "Die letzte Datei automatisch öffnen"
+
+#: ../src/affichage_liste.c:532
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
-#: ../src/affichage_liste.c:522
-msgid "Automatic filling transactions from payee"
-msgstr "Geplante Buchung automatisch ausgeführt"
-
-#: ../src/affichage_liste.c:531
+#: ../src/affichage_liste.c:540
 msgid "Mix credit/debit categories"
 msgstr "Eingabe und Ausgabenkategorien berücksichtigen"
 
-#: ../src/affichage_liste.c:537
+#: ../src/affichage_liste.c:546
 msgid "Case sensitive completion"
 msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:552
 msgid "Don't allow new payee creation"
 msgstr "Neue Empfänger dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:555
+#: ../src/affichage_liste.c:558
 msgid "Don't allow new category/budget creation"
 msgstr "Neue Kategorien dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:564
+#: ../src/affichage_liste.c:567
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]"
 
@@ -7625,12 +7630,12 @@ msgstr ""
 "<b>>Soll diese Datei gelöscht werden:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:950
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:991
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7639,20 +7644,20 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1028
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_config.c:1429 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1439 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1448
+#: ../src/gsb_file_config.c:1458
 msgid "Delete config file from a previous version"
 msgstr "Die Konfigurationsdatei einer älteren Grisbi-Version löschen"
 
-#: ../src/gsb_file_config.c:1468
+#: ../src/gsb_file_config.c:1478
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7664,11 +7669,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: ../src/gsb_file_config.c:1532
+#: ../src/gsb_file_config.c:1542
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: ../src/gsb_file_config.c:1555
+#: ../src/gsb_file_config.c:1565
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8118,7 +8123,7 @@ msgstr "Konto auswählen"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatische/manuell geplante Buchung"
 
-#: ../src/gsb_form_transaction.c:370
+#: ../src/gsb_form_transaction.c:371
 msgid "Report : "
 msgstr "Bericht : "
 

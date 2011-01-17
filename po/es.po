@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 23:17+0100\n"
+"POT-Creation-Date: 2011-01-17 21:52+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -489,31 +489,36 @@ msgstr ""
 msgid "Form completion"
 msgstr "Autocompletado de formulario"
 
-#: ../src/affichage_liste.c:515
-msgid "Limit the filling with payees belonging to the current account"
-msgstr "Limitar el autocompletado con terceros de la cuenta actual"
-
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:516
 msgid "Automatic filling transactions from payee"
 msgstr "Completado automático de las transacciones a partir del tercero"
 
-#: ../src/affichage_liste.c:531
+#: ../src/affichage_liste.c:523
+#, fuzzy
+msgid "Automatically recover the children of the associated transaction"
+msgstr "Cargar automáticamente el último archivo abierto al inicio"
+
+#: ../src/affichage_liste.c:532
+msgid "Limit the filling with payees belonging to the current account"
+msgstr "Limitar el autocompletado con terceros de la cuenta actual"
+
+#: ../src/affichage_liste.c:540
 msgid "Mix credit/debit categories"
 msgstr "Mezclar categorías de crédito/débito"
 
-#: ../src/affichage_liste.c:537
+#: ../src/affichage_liste.c:546
 msgid "Case sensitive completion"
 msgstr "Autocompletado sensible a las mayúsculas"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:552
 msgid "Don't allow new payee creation"
 msgstr "No permitir la creación de nuevos terceros"
 
-#: ../src/affichage_liste.c:555
+#: ../src/affichage_liste.c:558
 msgid "Don't allow new category/budget creation"
 msgstr "No permitir la creación de nuevas categorías/presupuestos"
 
-#: ../src/affichage_liste.c:564
+#: ../src/affichage_liste.c:567
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr ""
 "Máximo número de elementos mostrados en las listas desplegables (0 para "
@@ -7640,12 +7645,12 @@ msgstr ""
 "<b>¿ Quiere borrar este fichero:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:950
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "No se puede guardar el fichero de configuración '%s': %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:991
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7654,20 +7659,20 @@ msgstr ""
 "%s No parece que sea un fichero convencional de configuración,\n"
 "por favor compruébelo."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1028
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "No se puede abrir el fichero de configuración '%s': %s"
 
-#: ../src/gsb_file_config.c:1429 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1439 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1448
+#: ../src/gsb_file_config.c:1458
 msgid "Delete config file from a previous version"
 msgstr "Borrar el fichero de configuración de una versión anterior"
 
-#: ../src/gsb_file_config.c:1468
+#: ../src/gsb_file_config.c:1478
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7679,11 +7684,11 @@ msgstr ""
 "\n"
 "<b>¿ Quiere borrar este fichero ?</b>"
 
-#: ../src/gsb_file_config.c:1532
+#: ../src/gsb_file_config.c:1542
 msgid "Choose a file"
 msgstr "Elija un fichero"
 
-#: ../src/gsb_file_config.c:1555
+#: ../src/gsb_file_config.c:1565
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8124,7 +8129,7 @@ msgstr "Elegir la cuenta"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Transacción programada automática/manual"
 
-#: ../src/gsb_form_transaction.c:370
+#: ../src/gsb_form_transaction.c:371
 msgid "Report : "
 msgstr "Informe : "
 

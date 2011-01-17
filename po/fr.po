@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 23:17+0100\n"
+"POT-Creation-Date: 2011-01-17 21:52+0100\n"
 "PO-Revision-Date: 2010-05-02 23:26+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -490,31 +490,35 @@ msgstr ""
 msgid "Form completion"
 msgstr "Aide à la saisie du formulaire"
 
-#: ../src/affichage_liste.c:515
-msgid "Limit the filling with payees belonging to the current account"
-msgstr "Limiter le remplissage avec des tiers appartenant au compte courant"
-
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:516
 msgid "Automatic filling transactions from payee"
 msgstr "Remplissage automatique des opérations à partir du tiers"
 
-#: ../src/affichage_liste.c:531
+#: ../src/affichage_liste.c:523
+msgid "Automatically recover the children of the associated transaction"
+msgstr "Récupérer automatiquement les sous-opérations de l'opération associée"
+
+#: ../src/affichage_liste.c:532
+msgid "Limit the filling with payees belonging to the current account"
+msgstr "Limiter le remplissage avec des tiers appartenant au compte courant"
+
+#: ../src/affichage_liste.c:540
 msgid "Mix credit/debit categories"
 msgstr "Mélanger les catégories de débit/crédit"
 
-#: ../src/affichage_liste.c:537
+#: ../src/affichage_liste.c:546
 msgid "Case sensitive completion"
 msgstr "Remplissage sensible à la casse "
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:552
 msgid "Don't allow new payee creation"
 msgstr "Ne pas permettre la création de nouveaux tiers"
 
-#: ../src/affichage_liste.c:555
+#: ../src/affichage_liste.c:558
 msgid "Don't allow new category/budget creation"
 msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
 
-#: ../src/affichage_liste.c:564
+#: ../src/affichage_liste.c:567
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Nombre maximum de lignes dans les menus déroulants (0 pas de limite)"
 
@@ -7603,12 +7607,12 @@ msgstr ""
 "<b>Voulez-vous supprimer ce fichier :\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:950
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Impossible d'enregistrer le fichier de configuration « %s » : %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:991
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7617,20 +7621,20 @@ msgstr ""
 "%s ne semble pas être un fichier de configuration,\n"
 "veuillez vérifier et réessayer."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1028
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier de configuration « %s » : %s"
 
-#: ../src/gsb_file_config.c:1429 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1439 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1448
+#: ../src/gsb_file_config.c:1458
 msgid "Delete config file from a previous version"
 msgstr "Supprimer la copie du fichier de la version précédente de grisbi"
 
-#: ../src/gsb_file_config.c:1468
+#: ../src/gsb_file_config.c:1478
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7642,11 +7646,11 @@ msgstr ""
 "\n"
 "<b>Voulez-vous le supprimer ?</b>"
 
-#: ../src/gsb_file_config.c:1532
+#: ../src/gsb_file_config.c:1542
 msgid "Choose a file"
 msgstr "Choisir un fichier"
 
-#: ../src/gsb_file_config.c:1555
+#: ../src/gsb_file_config.c:1565
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8096,7 +8100,7 @@ msgstr "Choix du compte affecté"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Opération planifiée automatique / manuelle"
 
-#: ../src/gsb_form_transaction.c:370
+#: ../src/gsb_form_transaction.c:371
 msgid "Report : "
 msgstr "État : "
 
@@ -11236,15 +11240,3 @@ msgstr " : "
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Options for sorting by date"
-#~ msgstr "Options pour le tri par date"
-
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "Tri par date et par montant de l'opération"
-
-#~ msgid "Options for sorting by value date"
-#~ msgstr "Options pour le tri par date de valeur"
-
-#~ msgid "%s[%c%c]"
-#~ msgstr "%s[%c%c]"

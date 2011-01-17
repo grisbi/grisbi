@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 23:17+0100\n"
+"POT-Creation-Date: 2011-01-17 21:52+0100\n"
 "PO-Revision-Date: 2010-04-27 00:47+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -485,31 +485,36 @@ msgstr "Automagicky přidat oddělovač do polí částek, pokud není zadán"
 msgid "Form completion"
 msgstr "Doplňování ve formuláři"
 
-#: ../src/affichage_liste.c:515
-msgid "Limit the filling with payees belonging to the current account"
-msgstr "Omezit výběr plátců/příjemců na ty, kteří příslušejí danému účtu"
-
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:516
 msgid "Automatic filling transactions from payee"
 msgstr "Automaticky vyplnit transakci podle plátce/příjemce"
 
-#: ../src/affichage_liste.c:531
+#: ../src/affichage_liste.c:523
+#, fuzzy
+msgid "Automatically recover the children of the associated transaction"
+msgstr "Při startu automaticky načíst poslední soubor"
+
+#: ../src/affichage_liste.c:532
+msgid "Limit the filling with payees belonging to the current account"
+msgstr "Omezit výběr plátců/příjemců na ty, kteří příslušejí danému účtu"
+
+#: ../src/affichage_liste.c:540
 msgid "Mix credit/debit categories"
 msgstr "Sloučit kategorie kreditu / debetu"
 
-#: ../src/affichage_liste.c:537
+#: ../src/affichage_liste.c:546
 msgid "Case sensitive completion"
 msgstr "Doplňovat s rozlišením velikosti písmen"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:552
 msgid "Don't allow new payee creation"
 msgstr "Nepovolit vytvoření nového plátce/příjemce"
 
-#: ../src/affichage_liste.c:555
+#: ../src/affichage_liste.c:558
 msgid "Don't allow new category/budget creation"
 msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 
-#: ../src/affichage_liste.c:564
+#: ../src/affichage_liste.c:567
 msgid "Maximum items showed in drop down lists (0 for no limit)"
 msgstr "Maximum položek v rozbalovacích seznamech (0 bez limitu)"
 
@@ -7562,12 +7567,12 @@ msgstr ""
 "<b>Skutečně chcete odstranit soubor:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:940
+#: ../src/gsb_file_config.c:950
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nelze uložit konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:981
+#: ../src/gsb_file_config.c:991
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7576,20 +7581,20 @@ msgstr ""
 "%s vypadá, že není správný konfigurační soubor,\n"
 "prosím zkontrolujte jej."
 
-#: ../src/gsb_file_config.c:1018
+#: ../src/gsb_file_config.c:1028
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Nelze otevřít konfigurační soubor '%s': %s"
 
-#: ../src/gsb_file_config.c:1429 ../src/print_config.c:51
+#: ../src/gsb_file_config.c:1439 ../src/print_config.c:51
 msgid "A4"
 msgstr "A4"
 
-#: ../src/gsb_file_config.c:1448
+#: ../src/gsb_file_config.c:1458
 msgid "Delete config file from a previous version"
 msgstr "Odstranit konfigurační soubor z předchozí veze"
 
-#: ../src/gsb_file_config.c:1468
+#: ../src/gsb_file_config.c:1478
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7601,11 +7606,11 @@ msgstr ""
 "\n"
 "<b>Skutečně chcete soubor odstranit?</b>"
 
-#: ../src/gsb_file_config.c:1532
+#: ../src/gsb_file_config.c:1542
 msgid "Choose a file"
 msgstr "Vyberte soubor"
 
-#: ../src/gsb_file_config.c:1555
+#: ../src/gsb_file_config.c:1565
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -8039,7 +8044,7 @@ msgstr "Zvolte účet"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatická / ruční plánovaná transakce"
 
-#: ../src/gsb_form_transaction.c:370
+#: ../src/gsb_form_transaction.c:371
 msgid "Report : "
 msgstr "Sestava: "
 
