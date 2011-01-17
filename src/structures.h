@@ -57,9 +57,7 @@ struct gsb_etat_t
 
     /* formulaire */
     gint formulaire_toujours_affiche;
-    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 2 according to value date */
-    gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
-    gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
+    gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
@@ -145,7 +143,6 @@ extern struct gsb_etat_t etat;
  */
 struct gsb_conf_t
 {
-
     /* geometry */
     gint root_x;                                    /* main_window x position */
     gint root_y;                                    /* main_window y position */
@@ -182,6 +179,11 @@ struct gsb_conf_t
     gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
     gint make_bakup_single_file;                    /* TRUE if a single backup file */
     gint compress_backup;                           /* TRUE if we want to compress the backup */
+
+    /* formulaire */
+    gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
+    gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
+    gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */

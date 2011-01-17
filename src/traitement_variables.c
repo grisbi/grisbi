@@ -324,6 +324,7 @@ void init_variables ( void )
     if ( etat.name_logo && strlen ( etat.name_logo ) )
         g_free ( etat.name_logo );
     etat.name_logo = NULL;
+    etat.utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
 
 

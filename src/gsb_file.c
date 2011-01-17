@@ -219,7 +219,7 @@ gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
-devel_debug (NULL);
+
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -799,7 +799,7 @@ static gint gsb_file_dialog_save ( void )
     gchar* message;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
-devel_debug (NULL);
+
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )

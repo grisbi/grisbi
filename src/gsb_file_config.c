@@ -422,13 +422,18 @@ devel_debug (NULL);
                         "Automatic completion payee",
                         &err );
     if ( err == NULL )
-        etat.automatic_completion_payee = int_ret;
+        conf.automatic_completion_payee = int_ret;
     else
         err = NULL;
 
-    etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
+    conf.limit_completion_to_current_account = g_key_file_get_integer ( config,
                         "Display",
                         "Limit payee completion",
+                        NULL );
+
+    conf.automatic_recover_splits = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic_recover_splits",
                         NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
@@ -817,12 +822,17 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Automatic completion payee",
-                        etat.automatic_completion_payee );
+                        conf.automatic_completion_payee );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Limit payee completion",
-                        etat.limit_completion_to_current_account );
+                        conf.limit_completion_to_current_account );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic_recover_splits",
+                        conf.automatic_recover_splits );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1350,7 +1360,6 @@ void gsb_file_config_clean_config ( void )
     conf.prefs_width = 600;
 
     conf.force_enregistrement = 1;
-    etat.utilise_logo = 1;
 
     conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
     conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
@@ -1361,8 +1370,9 @@ void gsb_file_config_clean_config ( void )
     conf.balances_with_scheduled = TRUE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    etat.automatic_completion_payee = 1;        /* by default automatic completion */
-    etat.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_completion_payee = 1;        /* by default automatic completion */
+    conf.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_recover_splits = 1;
 
     conf.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */

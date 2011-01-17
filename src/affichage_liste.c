@@ -54,8 +54,8 @@ static void gsb_transactions_list_display_show_gives_balance ( void );
 static gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
-static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
-                        GtkWidget *button );
+static gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
+                        GtkWidget *container );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 
@@ -511,21 +511,30 @@ GtkWidget *onglet_form_completion ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
-    button = gsb_automem_checkbutton_new (
-                        _("Limit the filling with payees belonging to the current account"),
-                        &etat.limit_completion_to_current_account,
-                        NULL, NULL);
-    gtk_widget_set_sensitive ( button, etat.automatic_completion_payee );
-
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
                         _("Automatic filling transactions from payee"),
-                        &etat.automatic_completion_payee,
-                        G_CALLBACK ( gsb_transactions_list_display_update_auto_completion ),
-                        button ),
+                        &conf.automatic_completion_payee,
+                        G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
+                        vbox_pref ),
                         FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),button, FALSE, FALSE, 0 );
+    button = gsb_automem_checkbutton_new (
+                        _("Automatically recover the children of the associated transaction"),
+                        &conf.automatic_recover_splits,
+                        NULL,
+                        NULL );
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_1", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Limit the filling with payees belonging to the current account"),
+                        &conf.limit_completion_to_current_account,
+                        NULL, NULL);
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
@@ -538,12 +547,6 @@ GtkWidget *onglet_form_completion ( void )
                         &etat.combofix_case_sensitive,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
-
-/*    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-                        gsb_automem_checkbutton_new (_("Enter keeps current completion"),
-                        &etat.combofix_enter_select_completion,
-                        G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
-                        FALSE, FALSE, 0 ); */
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
@@ -610,8 +613,6 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-					  etat.combofix_enter_select_completion );*/
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
@@ -623,8 +624,6 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-                        etat.combofix_enter_select_completion ); */
 	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
 				      etat.combofix_mixed_sort );
     }
@@ -688,13 +687,25 @@ void gsb_transactions_list_display_show_gives_balance ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
-                        GtkWidget *button )
+gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
+                        GtkWidget *container )
 {
+    GtkWidget *button;
+
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) ) )
+    {
+        button = g_object_get_data ( G_OBJECT ( container ), "button_1" );
         gtk_widget_set_sensitive ( button, TRUE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
+        gtk_widget_set_sensitive ( button, TRUE );
+    }
     else
+    {
+        button = g_object_get_data ( G_OBJECT ( container ), "button_1" );
         gtk_widget_set_sensitive ( button, FALSE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
+        gtk_widget_set_sensitive ( button, FALSE );
+    }
  
     return FALSE;
 }

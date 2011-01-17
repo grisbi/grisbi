@@ -126,7 +126,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         return TRUE;
 
     /* find the last transaction with that payee */
-    if ( etat.automatic_completion_payee )
+    if ( conf.automatic_completion_payee )
     transaction_number = gsb_form_transactions_look_for_last_party ( payee_number,
                         0,
                         account_number );
@@ -169,8 +169,9 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         &&
         gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_split), TRUE);
-        gtk_widget_show (form_button_recover_split);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
+                        conf.automatic_recover_splits );
+            gtk_widget_show ( form_button_recover_split );
         }
     }
     else if ( element -> element_number == TRANSACTION_FORM_TYPE )
@@ -276,7 +277,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 
     /* if we don't want to complete with a transaction in another account,
      * go away here */
-    if ( etat.limit_completion_to_current_account )
+    if ( conf.limit_completion_to_current_account )
 	return 0;
 
     return last_transaction_with_party_not_in_account;
