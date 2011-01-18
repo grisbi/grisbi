@@ -127,19 +127,6 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
-#ifndef GTKOSXAPPLICATION
-    bindtextdomain ( PACKAGE, LOCALEDIR );
-    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
-    textdomain ( PACKAGE );
-
-    /* Setup locale/gettext */
-    setlocale (LC_ALL, "");
-#endif /* !GTKOSXAPPLICATION */
-
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
-
 #ifdef _WIN32
     main_win_32 (  argc, argv );
 #else
@@ -170,6 +157,17 @@ void main_linux ( int argc, char **argv )
     gboolean first_use = FALSE;
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
+
+    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup locale/gettext */
+    setlocale (LC_ALL, "");
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
     gtk_init ( &argc, &argv );
 
@@ -229,6 +227,10 @@ void main_mac_osx ( int argc, char **argv )
     GtkOSXApplication *theApp;
 
     devel_debug ("main_mac_osx");
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
     gtk_init ( &argc, &argv );
 
@@ -340,6 +342,13 @@ void main_win_32 (  int argc, char **argv )
 
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
+
+    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup locale/gettext */
+    setlocale( LC_ALL, NULL );
 
     gtk_init ( &argc, &argv );
 
