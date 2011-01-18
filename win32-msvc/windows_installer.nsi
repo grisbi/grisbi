@@ -198,6 +198,7 @@ Section $(GTK)
   File /r "${GTK_DEV_PATH}\share\locale\fr"
   File /r "${GTK_DEV_PATH}\share\locale\he"
   File /r "${GTK_DEV_PATH}\share\locale\it"
+  File /r "${GTK_DEV_PATH}\share\locale\lv"
   File /r "${GTK_DEV_PATH}\share\locale\nl"
   File /r "${GTK_DEV_PATH}\share\locale\pl"
   File /r "${GTK_DEV_PATH}\share\locale\pt_BR"

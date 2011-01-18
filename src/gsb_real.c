@@ -46,30 +46,6 @@ glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
 
 #ifdef _MSC_VER
-typedef struct _lldiv_t
-{
-	long long 	quot;
-	long long 	rem;
-} lldiv_t;
-
-lldiv_t lldiv(long long numerator, long long denominator)
-{
-	/* TODO find a standard/efficient impl for this */
-	lldiv_t result;
-	result.quot = numerator / denominator;
-	result.rem = numerator % denominator;
-	return result;
-}
-
-long long llabs ( long long number )
-{
-    if ( number < 0 )
-        number = number * -1;
-    return number;
-}
-
-
-#define lrint(x) (floor(x + 0.5))
 #define rint(x) (floor(x + 0.5))
 #endif /*_MSC_VER */
 
@@ -1026,7 +1002,10 @@ void gsb_real_set_decimal_point ( const gchar *decimal_point )
     if ( gsb_decimal_point && strlen ( gsb_decimal_point ) )
         g_free ( gsb_decimal_point );
 
-    gsb_decimal_point = g_strdup ( decimal_point );
+    if ( decimal_point == NULL )
+        gsb_decimal_point = NULL;
+    else
+		gsb_decimal_point = g_strdup ( decimal_point );
 }
 
 
