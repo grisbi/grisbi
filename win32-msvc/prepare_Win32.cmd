@@ -71,7 +71,7 @@ xcopy /YICD C:\OpenSSL\*.dll plugins-dev\openssl\bin
 
 :: Download and unzip libofx dev and bin files
 cd %DOWNLOADS_DIR%
-wget -nc -c https://sourceforge.net/projects/grisbi/files/dependancies/0.6/libofx_Win32.zip/download
+wget --no-check-certificate -nc -c https://sourceforge.net/projects/grisbi/files/dependancies/0.6/libofx_Win32.zip/download
 cd %TARGET_DIR%
 unzip -uo %DOWNLOADS_DIR%\libofx_Win32.zip -d plugins-dev
 

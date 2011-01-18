@@ -12,8 +12,8 @@ PROJECT (Grisbi C)
 # $(TargetDir)     The directory of the primary output file for the build (defined as drive + path); includes the trailing backslash '\'.
 # see http://msdn.microsoft.com/en-us/library/c02as0cs%28v=VS.100%29.aspx for more macros
 
-SET(RUNTIME_OUTPUT_DIRECTORY target/$(Platform))
-SET(LIBRARY_OUTPUT_DIRECTORY target/$(Platform)/$(Configuration)/plugins)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY target\\$(Platform))
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY target\\$(Platform)\\$(Configuration)\\plugins)
 SET(package_name grisbi)
 
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
@@ -434,7 +434,7 @@ ADD_LIBRARY ( ofx
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
-	COMMAND XCOPY /D /Y $(TargetDir)ofx.dll target\\$(Platform)\\$(Configuration)\\plugins
+#	COMMAND XCOPY /D /Y $(Configuration)\\ofx.dll target\\$(Platform)\\$(Configuration)\\plugins\\
 	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libofx\\bin\\* target\\$(Platform)\\$(Configuration)
 	COMMAND IF NOT EXIST target\\$(Platform)\\$(Configuration)\\dtd MKDIR target\\$(Platform)\\$(Configuration)\\dtd
 	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libofx\\bin\\dtd\\o*.d* target\\$(Platform)\\$(Configuration)\\dtd
@@ -448,9 +448,9 @@ ADD_LIBRARY ( gnucash
 
 ADD_CUSTOM_COMMAND ( TARGET gnucash
 	POST_BUILD
-	COMMAND XCOPY /D /Y $(TargetDir)gnucash.dll target\\$(Platform)\\$(Configuration)\\plugins
-	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libxml2\\bin\\libxml2.dll target\\$(Platform)\\$(Configuration)
-	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\iconv\\bin\\iconv.dll target\\$(Platform)\\$(Configuration)
+	COMMAND XCOPY /D /Y $(Configuration)\\gnucash.dll target\\$(Platform)\\$(Configuration)\\plugins\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libxml2\\bin\\libxml2.dll target\\$(Platform)\\$(Configuration)\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\iconv\\bin\\iconv.dll target\\$(Platform)\\$(Configuration)\\
 )
 
 ADD_LIBRARY ( openssl
@@ -461,7 +461,7 @@ ADD_LIBRARY ( openssl
 
 ADD_CUSTOM_COMMAND ( TARGET openssl
 	POST_BUILD
-	COMMAND XCOPY /D /Y $(TargetDir)openssl.dll target\\$(Platform)\\$(Configuration)\\plugins
+#	COMMAND XCOPY /D /Y $(Configuration)\\openssl.dll target\\$(Platform)\\$(Configuration)\\plugins\\
 	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\openssl\\bin\\libeay32.dll target\\$(Platform)\\$(Configuration)
 )
 
