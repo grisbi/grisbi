@@ -70,9 +70,9 @@ void traitement_sigsegv ( gint signal_nb )
     gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
+    gchar *tmpstr;
     GtkWidget * dialog;
 #ifdef HAVE_BACKTRACE
-    gchar *tmpstr;
     GtkWidget * expander;
 #endif
 
