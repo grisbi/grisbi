@@ -525,8 +525,6 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
     gchar *date_str;
     gint number_1;
     gint number_2;
-    gint virtual_op_1 = 0;
-    gint virtual_op_2 = 0;
     gint return_value = 0;
 
     /* first, we sort by date (col 0) */
@@ -534,7 +532,6 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
                         iter_1,
                         COL_NB_DATE, &date_str,
                         SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
-                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_1,
                         -1 );
     date_1 = gsb_parse_date_string ( date_str );
     g_free ( date_str );
@@ -543,7 +540,6 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
                         iter_2,
                         COL_NB_DATE, &date_str,
                         SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
-                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_2,
                         -1 );
     date_2 = gsb_parse_date_string ( date_str );
     g_free ( date_str );
