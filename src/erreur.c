@@ -493,6 +493,16 @@ gboolean gsb_debug_start_log (void)
 
         g_free ( tmpstr );
 
+        tmpstr = g_strdup_printf ( "gint64\n"
+                        "\tG_GINT64_MODIFIER = \"%s\"\n" 
+                        "\t%"G_GINT64_MODIFIER"d\n\n",
+                        G_GINT64_MODIFIER, G_MAXINT64 );
+
+        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
+	    fflush (debug_file);
+
+        g_free ( tmpstr );
+
         tmpstr = g_strdup_printf ("Paths\n"
                         "\tC_GRISBIRC = %s\n"
                         "\tC_PATH_CONFIG = %s\n"
