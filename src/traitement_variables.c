@@ -454,9 +454,9 @@ void initialisation_couleurs_listes ( void )
     default_text_color[1].blue = TEXT_COLOR_2_BLUE;
 
     /* selection color */
-    default_couleur_selection.red= SELECTION_COLOR_RED;
-    default_couleur_selection.green= SELECTION_COLOR_GREEN ;
-    default_couleur_selection.blue= SELECTION_COLOR_BLUE;
+    default_couleur_selection.red = SELECTION_COLOR_RED;
+    default_couleur_selection.green = SELECTION_COLOR_GREEN;
+    default_couleur_selection.blue = SELECTION_COLOR_BLUE;
 
     /* color of the non selectable transactions on scheduler */
     default_couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
