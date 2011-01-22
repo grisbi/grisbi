@@ -48,6 +48,9 @@ struct gsb_etat_t
     /* Rapprochement */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
     gint equilibrage;
+    gint reconcile_account_number;  /* Save the last reconciliation try: account */
+    gchar *reconcile_final_balance; /* final balance amount */
+    GDate *reconcile_new_date;      /* new date */
 
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
