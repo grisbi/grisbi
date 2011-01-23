@@ -135,9 +135,8 @@ struct gsb_etat_t
     gint bet_type_taux;
 };
 
-/* declared in parametres.c */
-extern struct gsb_etat_t etat;
 
+struct gsb_etat_t etat;
 
 /** structure conf
  * variables containing just 0 or 1
@@ -208,8 +207,24 @@ struct gsb_conf_t
 
 };
 
-/* declared in gsb_file_config.c */
-extern struct gsb_conf_t conf;
+
+struct gsb_conf_t conf;
+
+/** structure run
+ * variables containing just 0 or 1
+ * générées pendant l'exécution du programme
+ *
+ */
+
+struct gsb_run_t
+{
+    /* largeur des colonnes */
+    gchar *transaction_column_width;
+    gchar *scheduler_column_width;
+
+};
+
+struct gsb_run_t run;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)

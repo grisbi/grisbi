@@ -1165,6 +1165,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* set the title */
 	    title = g_strdup(_("Scheduled transactions"));
 
+        
 	    /* what to be done if switch to that page */
 	    /* update the list (can do that because short list, so very fast) */
 	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
@@ -1173,14 +1174,16 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 
 	    /* set the form */
-	    gsb_form_set_expander_visible (TRUE,
-					   FALSE );
+	    gsb_form_set_expander_visible (TRUE, FALSE );
 	    gsb_form_scheduler_clean ();
 	    gsb_form_show ( FALSE );
 
 	    /* show the calendar */
 	    gsb_calendar_update ();
 	    gtk_widget_show_all ( scheduler_calendar );
+
+        /* show menu InitwidthCol */
+        gsb_gui_sensitive_menu_item ( "ViewMenu", "InitwidthCol", NULL, TRUE );
 	    break;
 
 	case GSB_PAYEES_PAGE:

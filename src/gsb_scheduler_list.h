@@ -76,6 +76,7 @@ gboolean gsb_scheduler_list_redraw ( void );
 gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number );
 gboolean gsb_scheduler_list_select ( gint scheduled_number );
 gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view );
+gboolean gsb_scheduler_list_set_largeur_col ( void );
 gboolean gsb_scheduler_list_show_notes ( void );
 gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number );
 /* END_DECLARATION */

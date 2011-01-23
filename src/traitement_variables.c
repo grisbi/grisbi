@@ -34,6 +34,7 @@
 #include "bet_data_finance.h"
 #include "bet_future.h"
 #include "custom_list.h"
+#include "fenetre_principale.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -380,6 +381,17 @@ void init_variables ( void )
         transaction_col_align[i] = transaction_col_align_init[i];
     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
         scheduler_col_width[i] = scheduler_col_width_init[i];
+
+    if ( run.transaction_column_width && strlen ( run.transaction_column_width ) )
+    {
+        g_free ( run.transaction_column_width );
+        run.transaction_column_width = NULL;
+    }
+    if ( run.scheduler_column_width && strlen ( run.scheduler_column_width ) )
+    {
+        g_free ( run.scheduler_column_width );
+        run.scheduler_column_width = NULL;
+    }
     
     navigation_tree_view = NULL;
 
@@ -619,6 +631,7 @@ void menus_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
     menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
     menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    menu_name ( "ViewMenu",     "InitwidthCol",        NULL ),
     NULL,
     };
     gchar ** tmp = items;
@@ -650,9 +663,10 @@ void menus_view_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
     menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
     menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    menu_name ( "ViewMenu",     "InitwidthCol",         NULL ),
     NULL,
     };
-    gchar ** tmp = items;
+    gchar **tmp = items;
 
     devel_debug_int (sensitif);
 
@@ -664,10 +678,39 @@ void menus_view_sensitifs ( gboolean sensitif )
 }
 
 
-/*****************************************************************************************************/
+/**
+ * initialise la largeur des colonnes du tableau d'affichage des opérations.
+ * ou des opérations planifiées.
+ *
+ * */
+void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description )
+{
+    gchar **pointeur_char;
+    gint j;
 
 
-/*****************************************************************************************************/
+    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+    pointeur_char = g_strsplit ( description, "-", 0 );
+
+    if ( type_operation == GSB_ACCOUNT_PAGE )
+    {
+        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+            transaction_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+    }
+    else if ( type_operation == GSB_SCHEDULER_PAGE )
+    {
+        for ( j = 0 ; j < SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
+            scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+    }
+
+        g_strfreev ( pointeur_char );
+}
+
+
+/**
+ * initialise le contenu du tableau d'affichage des opérations.
+ *
+ * */
 void initialise_tab_affichage_ope ( void )
 {
     gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {

@@ -3671,20 +3671,21 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 {
     gint i;
 
-    if (allocation -> width == current_tree_view_width)
+    if ( allocation -> width == current_tree_view_width )
     {
-	/* size of the tree view didn't change, but we received an allocated signal
-	 * it happens several times, and especially when we change the columns,
-	 * so we update the colums */
+        /* size of the tree view didn't change, but we received an allocated signal
+         * it happens several times, and especially when we change the columns,
+         * so we update the colums */
 
-	/* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
-	if (gtk_tree_view_column_get_width (transactions_tree_view_columns[0]) == 1)
-	    return FALSE;
+        /* sometimes, when the list is not visible, he will set all the columns to 1%... we block that here */
+        if ( gtk_tree_view_column_get_width ( transactions_tree_view_columns[0]) == 1 )
+            return FALSE;
 
-	for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
-	    transaction_col_width[i] = (gtk_tree_view_column_get_width (transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
+        for ( i = 0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+            transaction_col_width[i] = ( gtk_tree_view_column_get_width (
+                        transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
 
-	return FALSE;
+        return FALSE;
     }
 
     /* the size of the tree view changed, we keep the ration between the columns,
@@ -3694,12 +3695,11 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
 
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS - 1 ; i++ )
     {
-	gint width;
+        gint width;
 
-	width = (transaction_col_width[i] * (allocation -> width))/ 100;
-    if ( width > 0 )
-	gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i],
-                        width );
+        width = ( transaction_col_width[i] * ( allocation -> width ) )/ 100;
+        if ( width > 0 )
+            gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i], width );
     }
     return FALSE;
 }
@@ -3804,6 +3804,28 @@ gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
     
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gboolean gsb_transactions_list_set_largeur_col ( void )
+{
+    gint i;
+    gint width;
+
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+    {
+        width = ( transaction_col_width[i] * ( current_tree_view_width ) ) / 100;
+        if ( width > 0 )
+            gtk_tree_view_column_set_fixed_width ( transactions_tree_view_columns[i], width );
+    }
 
     return FALSE;
 }

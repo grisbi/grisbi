@@ -97,9 +97,6 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 
-/* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
-
 GtkWidget *fenetre_preferences = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;

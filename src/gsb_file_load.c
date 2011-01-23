@@ -22,19 +22,23 @@
 /* ************************************************************************** */
 
 
-#include "include.h"
 #include <glib/gstdio.h>
 #if GLIB_CHECK_VERSION (2,18,0)
 #include <gio/gio.h>
 #endif /* GLIB_CHECK_VERSION (2,18,0) */
 
+#include "include.h"
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "bet_data.h"
+#include "custom_list.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
+#include "gsb_calendar.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_bank.h"
@@ -50,36 +54,28 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_reconcile.h"
-#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
-#include "import.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
-#include "utils_files.h"
-#include "custom_list.h"
-#include "gsb_data_account.h"
-#include "gsb_data_form.h"
-#include "utils_str.h"
 #include "gsb_data_transaction.h"
 #include "gsb_scheduler_list.h"
-#include "structures.h"
-#include "include.h"
-#include "gsb_calendar.h"
-#include "erreur.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
-#include "gsb_currency_config.h"
-#include "gsb_data_report.h"
+#include "import.h"
+#include "structures.h"
+#include "traitement_variables.h"
 #include "utils.h"
+#include "utils_dates.h"
+#include "utils_files.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -955,55 +951,36 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         display_three_lines = utils_str_atoi ( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Transaction_column_width" ))
+    else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
+    {
+        /* initialise la réinitialisation des colonnes */
+        run.transaction_column_width = my_strdup ( attribute_values[i] );
+
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
+                        run.transaction_column_width );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
     {
         gchar **pointeur_char;
         gint j;
 
         /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
+        pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
 
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-        transaction_col_width[j] = utils_str_atoi ( pointeur_char[j]);
+        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+            transaction_col_align[j] = utils_str_atoi ( pointeur_char[j] );
 
         g_strfreev ( pointeur_char );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Transaction_column_align" ))
+    else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
     {
-        gchar **pointeur_char;
-        gint j;
+        /* initialise la réinitialisation des colonnes */
+        run.scheduler_column_width = my_strdup ( attribute_values[i] );
 
-        /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-        transaction_col_align[j] = utils_str_atoi ( pointeur_char[j]);
-
-        g_strfreev ( pointeur_char );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Scheduler_column_width" ))
-    {
-        gchar **pointeur_char;
-        gint j;
-
-        /* the scheduler columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j=0 ; j<SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
-        scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j]);
-
-        g_strfreev ( pointeur_char );
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
+                        run.scheduler_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i],

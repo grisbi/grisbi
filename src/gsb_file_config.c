@@ -34,15 +34,12 @@
 #include "gsb_file_config.h"
 #include "dialog.h"
 #include "gsb_file.h"
-#include "utils_str.h"
 #include "main.h"
-#include "utils_files.h"
 #include "print_config.h"
 #include "structures.h"
-#include "utils_str.h"
 #include "utils_buttons.h"
-#include "print_config.h"
-#include "include.h"
+#include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -68,9 +65,6 @@ extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 extern GtkWidget *window;
 /*END_EXTERN*/
-
-/* global variable, see structures.h */
-struct gsb_conf_t conf;
 
 gint mini_paned_width = 0;
 
