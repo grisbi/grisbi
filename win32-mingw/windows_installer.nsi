@@ -20,7 +20,7 @@
 !define PRODUCT "Grisbi" ;Name of the project
 !define MAJOR "0"        ;Major version number
 !define MINOR "7"        ;Minor version number
-!define PATCH "98"        ;Patch version number
+!define PATCH "99"        ;Patch version number
 !define STAGE "mingw testing pre release"     ;Developement stage id (RC, beta, alpha)
 !define SMALL_STAGE "mingw_test_pre_rel" ;Small dev stage id without spaces
 !define EXE_PATH "target\Win32" ;Path to the exe file you want to pack
@@ -132,6 +132,7 @@ Section $(ProgFiles)
 
   SetOutPath "$INSTDIR"
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\help"
+  File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\lib"
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\pixmaps"
   File "${EXE_PATH}\grisbi.exe"
   File "${EXE_PATH}\*.dll"
