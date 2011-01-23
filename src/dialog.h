@@ -15,7 +15,7 @@ struct conditional_message
 
 
 /* START_DECLARATION */
-void dialog_message ( gchar *label, ... );
+G_MODULE_EXPORT void dialog_message ( gchar *label, ... );
 void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
 G_MODULE_EXPORT void dialogue_error ( gchar *text );

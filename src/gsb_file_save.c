@@ -464,7 +464,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     {
         /* it's not a new file but gtk overwrite the permissions
          * so need to re-set the good permissions saved before */
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(_MINGW)
         if (_chmod (filename, buf.st_mode) == -1)
         {
             /* we couldn't set the chmod, set the default permission */
