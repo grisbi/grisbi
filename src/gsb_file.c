@@ -26,7 +26,7 @@
 #include <time.h>
 
 #ifdef _WIN32
-#	ifdef _MSC_VER
+#	if defined(_MSC_VER) || defined(_MINGW)
 #		include <realpath.h>
 #	else
 #		include <stdlibx.h> // For realpath()
