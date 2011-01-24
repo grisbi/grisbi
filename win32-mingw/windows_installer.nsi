@@ -132,12 +132,16 @@ Section $(ProgFiles)
 
   SetOutPath "$INSTDIR"
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\help"
-  File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\lib"
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\pixmaps"
   File "${EXE_PATH}\grisbi.exe"
   File "${EXE_PATH}\*.dll"
   File ..\win32\grisbi.ico
   File ..\win32\grisbi.ico
+
+  SetOutPath "$INSTDIR\lib"
+  File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\lib\*.*"
+  SetOutPath "$INSTDIR\share"
+  File /r ..\share\*.*
   
   ;Store installation folder
   WriteRegStr HKLM "Software\${FULLNAME}" "" $INSTDIR
