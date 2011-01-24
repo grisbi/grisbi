@@ -28,7 +28,6 @@
 #include "tip.h"
 #include "dialog.h"
 #include "gsb_automem.h"
-#include "include.h"
 #include "structures.h"
 #define END_INCLUDE
 

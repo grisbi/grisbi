@@ -108,6 +108,8 @@ extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
+/* variables initialisées lors de l'exécution de grisbi */
+struct gsb_run_t run;
 
 /**
  * Main function
