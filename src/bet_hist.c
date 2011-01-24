@@ -722,7 +722,7 @@ void bet_historical_populate_data ( gint account_number )
 
         date = gsb_data_transaction_get_date ( transaction_number );
         /* ignore transaction which are before date_min */
-        if ( g_date_compare ( date, date_min ) <= 0 )
+        if ( g_date_compare ( date, date_min ) < 0 )
             continue;
 
         /* ignore transaction which is after date_jour */
