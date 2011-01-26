@@ -299,7 +299,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS = .
+SUBDIRS =
 
 if HAVE_CUNIT
 SUBDIRS += tests
