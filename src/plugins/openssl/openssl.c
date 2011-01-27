@@ -313,8 +313,10 @@ return_bad_password:
 #endif
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
+#endif
 
 
 
