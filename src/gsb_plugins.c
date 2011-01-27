@@ -28,9 +28,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern const gchar plugin_name[];
-extern const gchar plugin_name[];
-extern const gchar plugin_name[];
 /*END_EXTERN*/
 
 /*START_STATIC*/
