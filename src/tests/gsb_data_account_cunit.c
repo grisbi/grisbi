@@ -32,12 +32,12 @@
 
 /* START_INCLUDE */
 #include "gsb_data_account_cunit.h"
-#include "./utils_dates.h"
-#include "./gsb_data_account.h"
-#include "./gsb_data_currency.h"
-#include "./gsb_data_transaction.h"
-#include "./gsb_data_account.h"
-#include "./gsb_real.h"
+#include "utils_dates.h"
+#include "gsb_data_account.h"
+#include "gsb_data_currency.h"
+#include "gsb_data_transaction.h"
+#include "gsb_data_account.h"
+#include "gsb_real.h"
 /* END_INCLUDE */
 
 /* START_STATIC */

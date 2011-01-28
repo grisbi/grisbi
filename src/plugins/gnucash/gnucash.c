@@ -25,13 +25,13 @@
 
 /*START_INCLUDE*/
 #include "gnucash.h"
-#include "./dialog.h"
-#include "./gsb_data_transaction.h"
-#include "./gsb_real.h"
-#include "./import.h"
-#include "./utils_str.h"
-#include "./utils_files.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "gsb_data_transaction.h"
+#include "gsb_real.h"
+#include "import.h"
+#include "utils_str.h"
+#include "utils_files.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -75,8 +75,10 @@ static struct import_format gnucash_format = {
 GSList * gnucash_accounts = NULL;
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
+#endif
 
 
 

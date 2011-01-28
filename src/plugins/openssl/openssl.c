@@ -27,10 +27,10 @@
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "./dialog.h"
-#include "./main.h"
-#include "./structures.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "main.h"
+#include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
@@ -313,8 +313,10 @@ return_bad_password:
 #endif
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
+#endif
 
 
 
