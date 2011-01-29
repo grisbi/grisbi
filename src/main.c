@@ -308,8 +308,6 @@ void main_mac_osx ( int argc, char **argv )
 
     gtk_main ();
 
-    gsb_plugins_release ( );
-
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 
@@ -380,8 +378,6 @@ void main_win_32 (  int argc, char **argv )
         display_tip ( FALSE );
 
     gtk_main ();
-
-    gsb_plugins_release ( );
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
