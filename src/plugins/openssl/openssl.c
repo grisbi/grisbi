@@ -330,10 +330,13 @@ G_MODULE_EXPORT extern void openssl_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
+G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-    return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
+    /* The final size is cast from a gulong to a gpointer. This is 'ok' because
+     * a gpointer is always the same size. It is quite ugly though, and a proper
+     * fix should be found for this. */
+    return (gpointer) gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
 }
 
 

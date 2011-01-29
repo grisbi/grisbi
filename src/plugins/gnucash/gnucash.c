@@ -92,10 +92,9 @@ G_MODULE_EXPORT extern void gnucash_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
-					  gboolean crypt, gulong length )
+G_MODULE_EXPORT extern gpointer gnucash_plugin_run ( void )
 {
-    return FALSE;
+    return NULL;
 }
 
 

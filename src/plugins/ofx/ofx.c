@@ -69,7 +69,7 @@ G_MODULE_EXPORT extern void ofx_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
+G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
 				    struct imported_file * imported )
 {
     return recuperation_donnees_ofx ( assistant, imported );
