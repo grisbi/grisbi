@@ -52,7 +52,6 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin -> name = "gnucash";
     plugin -> plugin_register = &gnucash_plugin_register;
     plugin -> plugin_run =      &gnucash_plugin_run;
-    plugin -> plugin_release =  &gnucash_plugin_release;
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
 
@@ -60,7 +59,6 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin -> name = "ofx";
     plugin -> plugin_register = &ofx_plugin_register;
     plugin -> plugin_run =      &ofx_plugin_run;
-    plugin -> plugin_release =  &ofx_plugin_release;
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
 
@@ -68,7 +66,6 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin -> name = "openssl";
     plugin -> plugin_register = &openssl_plugin_register;
     plugin -> plugin_run =      &openssl_plugin_run;
-    plugin -> plugin_release =  &openssl_plugin_release;
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
 }
@@ -135,27 +132,6 @@ gchar * gsb_plugin_get_list ()
     	list = g_strdup("no plugin");
 
     return list;
-}
-
-
-
-/**
- *
- *
- *
- */
-void gsb_plugins_release ( )
-{
-    GSList * tmp = plugins;
-
-    while ( tmp )
-    {
-	gsb_plugin * plugin = (gsb_plugin *) tmp -> data;
-
-	plugin -> plugin_release ();
-
-	tmp = tmp -> next;
-    }        
 }
 
 

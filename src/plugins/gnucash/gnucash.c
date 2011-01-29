@@ -100,13 +100,6 @@ G_MODULE_EXPORT extern gint gnucash_plugin_run ( gchar * file_name, gchar **file
 
 
 
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean gnucash_plugin_release ( )
-{
-    return TRUE;
-}
-
-
 /*****************************************************************/
 
 /* Structures */

@@ -77,14 +77,6 @@ G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 
 
 
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean ofx_plugin_release ( )
-{
-	return TRUE;
-}
-
-
-
 /* on doit mettre le compte en cours d'importation en global pour que
  * la libofx puisse le traiter de plus un fichier ofx peut intégrer
  * plusieurs comptes, donc on crée une liste... */

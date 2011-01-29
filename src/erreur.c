@@ -170,8 +170,6 @@ void traitement_sigsegv ( gint signal_nb )
 
     gsb_file_util_modify_lock ( FALSE );
 
-    gsb_plugins_release ( );
-
     exit(1);
 }
 

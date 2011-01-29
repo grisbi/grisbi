@@ -203,8 +203,6 @@ void main_linux ( int argc, char **argv )
 
     gtk_main ();
 
-    gsb_plugins_release ( );
-
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 }

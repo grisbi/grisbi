@@ -338,14 +338,6 @@ G_MODULE_EXPORT extern gint openssl_plugin_run ( gchar * file_name, gchar **file
 
 
 
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean openssl_plugin_release ( )
-{
-    return TRUE;
-}
-
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
