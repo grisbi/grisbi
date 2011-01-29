@@ -8,7 +8,7 @@
 
 typedef struct gsb_plugin {
     gchar * name;
-    gboolean (* plugin_register) ( void );
+    void (* plugin_register) ( void );
     gpointer (* plugin_run) ( void );
     GModule * handle;
 }  gsb_plugin;

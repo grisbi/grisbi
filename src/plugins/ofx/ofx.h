@@ -6,7 +6,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-G_MODULE_EXPORT extern void ofx_plugin_register ();
+G_MODULE_EXPORT extern void ofx_plugin_register ( void );
 G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant,
 				    struct imported_file * imported );
 /* END_DECLARATION */

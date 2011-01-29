@@ -60,7 +60,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void ofx_plugin_register ()
+G_MODULE_EXPORT extern void ofx_plugin_register ( void )
 {
     devel_debug ("Initializating ofx plugin");
     register_import_format ( &ofx_format );
