@@ -125,7 +125,7 @@ AC_ARG_WITH(openssl,
 	[build_openssl=$withval],
 	[build_openssl=auto])
 
-PKG_CHECK_MODULES(OPENSSL, [libssl], have_openssl=yes, have_openssl=no)
+PKG_CHECK_MODULES(OPENSSL, [libcrypto >= 0.9.7], have_openssl=yes, have_openssl=no)
 if test "$build_openssl" = yes -a "$have_openssl" = no; then
 	AC_MSG_ERROR([OpenSSL support was requested but libssl could not be found.])
 fi

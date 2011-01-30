@@ -19,6 +19,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/* This define is required to disable openssl's SSLeay support which redefines
+ * _(), which obvisouly breaks glib's gettext macros. */
+#define OPENSSL_DISABLE_OLD_DES_SUPPORT
 #ifndef NOSSL
 #  include <openssl/des.h>
 #endif
@@ -72,8 +75,8 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 {
 #ifndef NOSSL
     gchar * key, * message = "";
-    des_cblock openssl_key;
-    des_key_schedule sched;
+    DES_cblock openssl_key;
+    DES_key_schedule sched;
 
     if ( crypt )
     {
@@ -93,8 +96,8 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
         if ( !key )
             return 0;
 
-        des_string_to_key ( key, &openssl_key );
-        des_set_key_unchecked ( &openssl_key, sched );
+        DES_string_to_key ( key, &openssl_key );
+        DES_set_key_unchecked ( &openssl_key, &sched );
         DES_set_odd_parity ( &openssl_key );
 
         /* we create a copy of the file in memory which will begin by
@@ -103,10 +106,10 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
         encrypted_file = g_malloc0 ( ( length + 23 ) * sizeof ( gchar ) );
         encrypted_file = strncpy ( encrypted_file, "Grisbi encrypted file ", 22 );
 
-        des_cbc_encrypt ( (guchar *) (* file_content),
+        DES_cbc_encrypt ( (guchar *) (* file_content),
                         (guchar *) (encrypted_file + 22),
                         (long) length,
-                        sched,
+                        &sched,
                         (DES_cblock *) key,
                         TRUE );
 
@@ -144,8 +147,8 @@ return_bad_password:
         if ( !key )
             return 0;
 
-        des_string_to_key ( key, &openssl_key );
-        des_set_key_unchecked( &openssl_key, sched );
+        DES_string_to_key ( key, &openssl_key );
+        DES_set_key_unchecked( &openssl_key, &sched );
         DES_set_odd_parity ( &openssl_key );
 
         /* we create a copy of the file in memory which will begin
@@ -153,10 +156,10 @@ return_bad_password:
 
         decrypted_file = g_malloc0 ( length * sizeof ( gchar ));
 
-        des_cbc_encrypt ( (guchar *) (* file_content + 22),
+        DES_cbc_encrypt ( (guchar *) (* file_content + 22),
                   (guchar *) decrypted_file,
                   (long) length,
-                  sched,
+                  &sched,
                   (DES_cblock *) key,
                   FALSE );
 
