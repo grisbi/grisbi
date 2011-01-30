@@ -69,7 +69,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget * create_preferences_tree ( );
+static GtkWidget *create_preferences_tree ( );
+static gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
 static GtkWidget *gsb_config_scheduler_page ( void );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
@@ -1165,7 +1168,17 @@ GtkWidget *onglet_metatree ( void )
                         _("by number"),
                         _("by date"),
                         &etat.metatree_sort_transactions,
-                        G_CALLBACK (gsb_config_metatree_sort_transactions), NULL );
+                        G_CALLBACK ( gsb_config_metatree_sort_transactions ), NULL );
+
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+						_("Choice of the action for double click of the mouse"),
+                        _("Expand the line"),
+                        _("Edit the line"),
+                        _("Manage the line"),
+					    &conf.metatree_action_2button_press,
+					    G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
+					    &conf.metatree_action_2button_press,
+                        GTK_ORIENTATION_VERTICAL );
 
     return vbox_pref;
 }
@@ -1602,6 +1615,28 @@ void gsb_localisation_update_affichage ( gint type_maj )
     if ( current_page == GSB_SIMULATOR_PAGE )
         bet_finance_switch_simulator_page ( );
 
+}
+
+
+/**
+ *
+ *
+ * */
+gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
+{
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
+
+    return FALSE;
 }
 
 

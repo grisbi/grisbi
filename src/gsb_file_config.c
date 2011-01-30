@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2011 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -269,6 +269,10 @@ devel_debug (NULL);
                         "Pluriel_final",
                         NULL );
                         
+    conf.metatree_action_2button_press = g_key_file_get_integer ( config,
+                        "General",
+                        "Metatree_action_2button_press",
+                        NULL );
 
     /* get backup part */
     conf.make_backup = g_key_file_get_integer ( config,
@@ -686,6 +690,11 @@ gboolean gsb_file_config_save_config ( void )
                         "General",
                         "Pluriel_final",
                         conf.pluriel_final );
+
+    g_key_file_set_integer ( config,
+                        "General",
+                        "Metatree_action_2button_press",
+                        conf.metatree_action_2button_press );
 
      /* save backup part */
     g_key_file_set_integer ( config,
@@ -1423,6 +1432,8 @@ void gsb_file_config_clean_config ( void )
 
     /* mise en conformité avec les recommandations FreeDesktop. */
     conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
+
+    conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
 
     /* Print */
     etat.print_config.printer = 0;

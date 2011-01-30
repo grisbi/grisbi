@@ -13,7 +13,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION 0
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -201,6 +201,9 @@ struct gsb_conf_t
     gint show_transaction_gives_balance;            /* TRUE si on visualise l'opération qui donne le solde du jour */
     gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
     gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
+
+    /* variables for the list of transactions */
+    gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 1 manage division if possible */
 
     /* archive stuff */
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */

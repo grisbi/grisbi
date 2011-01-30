@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009-2011 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -24,25 +25,24 @@
 
 /*START_INCLUDE*/
 #include "categories_onglet.h"
-#include "metatree.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_category.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_file_others.h"
+#include "gsb_transactions_list.h"
 #include "main.h"
+#include "metatree.h"
+#include "mouse.h"
+#include "structures.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
+#include "transaction_list.h"
 #include "utils.h"
 #include "utils_buttons.h"
-#include "transaction_list.h"
-#include "gsb_transactions_list.h"
-#include "metatree.h"
-#include "structures.h"
-#include "include.h"
+#include "utils_file_selection.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -50,6 +50,11 @@
 static void appui_sur_ajout_category ( GtkTreeModel * model, GtkButton *button );
 static gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * path,
 			       GtkSelectionData * selection_data );
+static gboolean category_list_button_press ( GtkWidget *tree_view,
+                        GdkEventButton *ev,
+                        gpointer null );
+static void category_list_popup_context_menu ( void );
+static void category_list_toggle_edit_category ( GtkCheckMenuItem *menu_item, gpointer data );
 static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );
@@ -176,10 +181,20 @@ GtkWidget *onglet_categories ( void )
     gtk_widget_show ( arbre_categ );
 
     /* Connect to signals */
-    g_signal_connect ( G_OBJECT(arbre_categ), "row-expanded",
-		       G_CALLBACK(division_column_expanded), NULL );
-    g_signal_connect( G_OBJECT(arbre_categ), "row-activated",
-		      G_CALLBACK(division_activated), NULL);
+    g_signal_connect ( G_OBJECT ( arbre_categ ),
+                        "row-expanded",
+                        G_CALLBACK ( division_column_expanded ),
+                        NULL );
+
+    g_signal_connect( G_OBJECT ( arbre_categ ),
+                        "row-activated",
+                        G_CALLBACK ( division_activated ),
+                        NULL);
+
+    g_signal_connect ( G_OBJECT ( arbre_categ ),
+                        "button-press-event",
+                        G_CALLBACK ( category_list_button_press ),
+                        NULL );
 
     dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE (categ_tree_model);
     if ( dst_iface )
@@ -198,9 +213,10 @@ GtkWidget *onglet_categories ( void )
 	src_iface -> drag_data_get = &categ_drag_data_get;
     }
 
-    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(arbre_categ)),
-		       "changed", G_CALLBACK(metatree_selection_changed),
-		       categ_tree_model );
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) ),
+                        "changed",
+                        G_CALLBACK ( metatree_selection_changed ),
+                        categ_tree_model );
 
     /* création de la structure de sauvegarde de la position */
     category_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
@@ -899,6 +915,131 @@ gboolean category_hold_position_set_expand ( gboolean expand )
 
     return TRUE;
 }
+
+
+/**
+ * called when we press a button on the list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean category_list_button_press ( GtkWidget *tree_view,
+                        GdkEventButton *ev,
+                        gpointer null )
+{
+    if ( ev -> button == RIGHT_BUTTON )
+    {
+        category_list_popup_context_menu ( );
+
+        return TRUE;
+    }
+    else if ( ev -> type == GDK_2BUTTON_PRESS )
+    {
+        GtkTreeSelection *selection;
+        GtkTreeModel *model;
+        GtkTreeIter iter;
+
+        if ( conf.metatree_action_2button_press == 0 )
+            return FALSE;
+
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+        if ( selection && gtk_tree_selection_get_selected (selection, &model, &iter ) )
+        {
+            GtkTreePath *path;
+
+            path = gtk_tree_model_get_path  ( model, &iter);
+            gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+
+            gtk_tree_path_free ( path );
+        }
+        if ( conf.metatree_action_2button_press == 1 )
+            edit_category ( GTK_TREE_VIEW ( tree_view ) );
+
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
+
+
+/**
+ * Pop up a menu with several actions to apply to current selection.
+ *
+ * \param
+ *
+ */
+void category_list_popup_context_menu ( void )
+{
+    GtkWidget *menu;
+    GtkWidget *menu_item;
+    gchar *title;
+    enum meta_tree_row_type type_division;
+
+    type_division = metatree_get_row_type_from_tree_view ( arbre_categ );
+
+    if ( type_division == META_TREE_TRANSACTION
+     ||
+     type_division == META_TREE_INVALID )
+        return;
+
+    menu = gtk_menu_new ();
+
+    if ( type_division == META_TREE_DIV || type_division == META_TREE_SUB_DIV )
+    {
+
+        /* Edit transaction */
+        if ( type_division == META_TREE_DIV )
+            title = g_strdup ( _("Edit selected category") );
+        else
+            title = g_strdup ( _("Edit selected subcategory") );
+
+        menu_item = gtk_image_menu_item_new_with_label ( title );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                            gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+                            GTK_ICON_SIZE_MENU ) );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                            "activate",
+                            G_CALLBACK ( edit_category ),
+                            arbre_categ );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        g_free ( title );
+    }
+
+    if ( type_division == META_TREE_SUB_DIV || type_division == META_TREE_TRANS_S_S_DIV )
+    {
+        /* Manage sub_divisions */
+        if ( type_division == META_TREE_SUB_DIV )
+        {
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+            title = g_strdup ( _("Manage subdivisions") );
+        }
+        else
+            title = g_strdup ( _("Transfer all transactions in another subdivision") );
+
+        menu_item = gtk_image_menu_item_new_with_label ( title );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                        GTK_ICON_SIZE_MENU ) );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( metatree_manage_sub_divisions ),
+                        arbre_categ );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        g_free ( title );
+    }
+
+    /* Finish all. */
+    gtk_widget_show_all ( menu );
+
+    gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
+}
+
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
