@@ -25,6 +25,11 @@
 #include "gsb_plugins.h"
 #include "dialog.h"
 #include "include.h"
+#ifdef ENABLE_STATIC
+#include "plugins/gnucash/gnucash.h"
+#include "plugins/ofx/ofx.h"
+#include "plugins/openssl/openssl.h"
+#endif /* ENABLE_STATIC */
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -43,6 +48,30 @@ static GSList * plugins = NULL;
  */
 void gsb_plugins_scan_dir ( const char *dirname )
 {
+#ifdef ENABLE_STATIC
+    gsb_plugin *plugin = NULL;
+
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "gnucash";
+    plugin -> plugin_register = &gnucash_plugin_register;
+    plugin -> plugin_run =      &gnucash_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "ofx";
+    plugin -> plugin_register = &ofx_plugin_register;
+    plugin -> plugin_run =      &ofx_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "openssl";
+    plugin -> plugin_register = &openssl_plugin_register;
+    plugin -> plugin_run =      &openssl_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+#else /* ENABLE_STATIC */
     GDir * plugin_dir;
     const gchar * filename;
     gchar * plugin_name;
@@ -125,6 +154,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
     }
 
     g_dir_close ( plugin_dir );
+#endif /* ENABLE_STATIC */
 }
 
 

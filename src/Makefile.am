@@ -104,6 +104,7 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear_config.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
+	gsb_plugins.c		\
 	gsb_real.c		\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
@@ -302,12 +303,6 @@ libgrisbi_la_SOURCES = \
 	utils_font.h		\
 	utils_operations.h	\
 	utils_str.h
-
-if ENABLE_STATIC
-libgrisbi_la_SOURCES += gsb_plugins_static.c
-else
-libgrisbi_la_SOURCES += gsb_plugins.c
-endif
 
 grisbi_SOURCES = 		\
 	main.c				\
