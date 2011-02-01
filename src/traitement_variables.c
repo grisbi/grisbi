@@ -760,6 +760,7 @@ void initialise_format_date ( void )
 void initialise_number_separators ( void )
 {
     struct lconv *conv;
+    gchar *dec_point = NULL, *thousand_sep = NULL;
 
     gsb_real_set_decimal_point ( NULL );
     gsb_real_set_thousands_sep ( NULL );
@@ -767,11 +768,17 @@ void initialise_number_separators ( void )
     conv = localeconv();
 
     if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
-        gsb_real_set_decimal_point ( g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ) );
+    {
+        dec_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+        gsb_real_set_decimal_point ( dec_point );
+        g_free ( dec_point );
+    }
     else
         gsb_real_set_decimal_point ( "." );
 
-    gsb_real_set_thousands_sep ( g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ) );
+    thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    gsb_real_set_thousands_sep ( thousand_sep );
+    g_free ( thousand_sep );
 }
 
 
