@@ -101,7 +101,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
-    gchar *result = NULL;
+    gchar *result = NULL, *temp = NULL;
 	const gchar *cs_start;
     const gchar *cs_start_space;
     const gchar *sign;
@@ -122,11 +122,11 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
     nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
 
-    result = g_strndup ( buffer, nbre_char );
+    temp = g_strndup ( buffer, nbre_char );
 
     if ( units.quot >= 1000 )
     {
-        result = gsb_real_add_thousands_sep ( result, gsb_thousands_sep );
+        temp = gsb_real_add_thousands_sep ( temp, gsb_thousands_sep );
     }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
@@ -138,11 +138,13 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                             cs_start,
                             cs_start_space,
                             sign,
-                            result,
+                            temp,
                             mon_decimal_point,
                             units.rem,
                             cs_end_space,
                             cs_end );
+
+    g_free ( temp );
 
     return result;
 }
