@@ -63,6 +63,8 @@ static MetatreeInterface _category_interface = {
     1,
     category_tree_currency,
     N_("Category"),
+    N_("category"),
+    N_("sub-category"),
     N_("No category"),
     N_("No sub-category"),
     category_get_without_div_pointer,

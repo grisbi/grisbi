@@ -29,9 +29,7 @@
 
 /*START_INCLUDE*/
 #include "imputation_budgetaire.h"
-#include "metatree.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -40,18 +38,17 @@
 #include "gsb_file.h"
 #include "gsb_file_others.h"
 #include "gsb_form_widget.h"
-#include "gtk_combofix.h"
-#include "main.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "utils_buttons.h"
-#include "transaction_list.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
+#include "main.h"
 #include "metatree.h"
+#include "mouse.h"
+#include "transaction_list.h"
 #include "structures.h"
-#include "gsb_data_form.h"
-#include "include.h"
+#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_file_selection.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -62,6 +59,7 @@ static gboolean budgetary_line_drag_data_get ( GtkTreeDragSource * drag_source, 
 static gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
+static void budgetary_line_list_popup_context_menu ( void );
 static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
@@ -928,6 +926,16 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
 
 
 /**
+ * renvoie le chemin de la dernière IB sélectionnée.
+ *
+ * \return une copie de budgetary_hold_position -> path
+ */
+GtkTreePath *budgetary_hold_position_get_path ( void )
+{
+    return gtk_tree_path_copy ( budgetary_hold_position -> path );
+}
+
+/**
  * sauvegarde le chemin de la dernière imputation sélectionnée.
  *
  * \param path
@@ -963,32 +971,139 @@ gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null )
 {
-    if ( ev -> type == GDK_2BUTTON_PRESS )
+    if ( ev -> button == RIGHT_BUTTON )
+    {
+        budgetary_line_list_popup_context_menu ( );
+
+        return TRUE;
+    }
+    else if ( ev -> type == GDK_2BUTTON_PRESS )
     {
         GtkTreeSelection *selection;
         GtkTreeModel *model;
         GtkTreeIter iter;
+        GtkTreePath *path = NULL;
+        enum meta_tree_row_type type_division;
 
-        if ( conf.metatree_action_2button_press == 0 )
+        type_division = metatree_get_row_type_from_tree_view ( tree_view );
+        if ( type_division == META_TREE_TRANSACTION )
             return FALSE;
 
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
         if ( selection && gtk_tree_selection_get_selected (selection, &model, &iter ) )
-        {
-            GtkTreePath *path;
-
             path = gtk_tree_model_get_path  ( model, &iter);
-            gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+
+        if ( conf.metatree_action_2button_press == 0 || type_division == META_TREE_DIV )
+        {
+            if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
+                gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+            else
+                gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
 
             gtk_tree_path_free ( path );
+            return FALSE;
         }
-        if ( conf.metatree_action_2button_press == 1 )
+        else if ( conf.metatree_action_2button_press == 1 )
+        {
             edit_budgetary_line ( GTK_TREE_VIEW ( tree_view ) );
 
-        return TRUE;
+            gtk_tree_path_free ( path );
+            return TRUE;
+        }
+        else
+        {
+            if ( type_division == META_TREE_SUB_DIV || type_division == META_TREE_TRANS_S_S_DIV )
+            {
+                    path = gtk_tree_model_get_path  ( model, &iter);
+                    gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+
+                    gtk_tree_path_free ( path );
+
+                metatree_manage_sub_divisions ( tree_view );
+                return TRUE;
+            }
+            else
+                return FALSE;
+        }
     }
-    else
-        return FALSE;
+
+    return FALSE;
+}
+
+
+/**
+ * Pop up a menu with several actions to apply to current selection.
+ *
+ * \param
+ *
+ */
+void budgetary_line_list_popup_context_menu ( void )
+{
+    GtkWidget *menu;
+    GtkWidget *menu_item;
+    gchar *title;
+    enum meta_tree_row_type type_division;
+
+    type_division = metatree_get_row_type_from_tree_view ( budgetary_line_tree );
+
+    if ( type_division == META_TREE_TRANSACTION
+     ||
+     type_division == META_TREE_INVALID )
+        return;
+
+    menu = gtk_menu_new ();
+
+    if ( type_division == META_TREE_DIV || type_division == META_TREE_SUB_DIV )
+    {
+
+        /* Edit transaction */
+        if ( type_division == META_TREE_DIV )
+            title = g_strdup ( _("Edit selected budgetary line") );
+        else
+            title = g_strdup ( _("Edit selected sub-budgetary line") );
+
+        menu_item = gtk_image_menu_item_new_with_label ( title );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                            gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+                            GTK_ICON_SIZE_MENU ) );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                            "activate",
+                            G_CALLBACK ( edit_budgetary_line ),
+                            budgetary_line_tree );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        g_free ( title );
+    }
+
+    if ( type_division == META_TREE_SUB_DIV || type_division == META_TREE_TRANS_S_S_DIV )
+    {
+        /* Manage sub_divisions */
+        if ( type_division == META_TREE_SUB_DIV )
+        {
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+            title = g_strdup ( _("Manage sub-budgetary line") );
+        }
+        else
+            title = g_strdup ( _("Transfer all transactions in another sub-budgetary line") );
+
+        menu_item = gtk_image_menu_item_new_with_label ( title );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                        GTK_ICON_SIZE_MENU ) );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( metatree_manage_sub_divisions ),
+                        budgetary_line_tree );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        g_free ( title );
+    }
+
+    /* Finish all. */
+    gtk_widget_show_all ( menu );
+
+    gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
 }
 
 

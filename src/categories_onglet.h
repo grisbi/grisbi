@@ -7,6 +7,7 @@
 
 
 /* START_DECLARATION */
+GtkTreePath *category_hold_position_get_path ( void );
 gboolean category_hold_position_set_expand ( gboolean expand );
 gboolean category_hold_position_set_path ( GtkTreePath *path );
 GtkWidget *onglet_categories ( void );

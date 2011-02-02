@@ -987,7 +987,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
         {
             new_string = g_strdup ( entry_string );
             gtk_combofix_dialog ( _("You cannot create new payee or category "
-                            "and subcategory without changing the options "
+                            "and sub-category without changing the options "
                             "in preferences"),
                             _("Warning you cannot create payee or category") );
         }

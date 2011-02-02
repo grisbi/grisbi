@@ -75,6 +75,8 @@ static MetatreeInterface _payee_interface = {
     0,
     payee_tree_currency,
     N_("Payee"),
+    N_("payee"),
+    N_("sub-payee"),
     N_("No payee"),
     N_("No sub-payee"),
     payee_get_without_div_pointer,

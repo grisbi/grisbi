@@ -233,7 +233,6 @@ void remplit_arbre_categ ( void )
 {
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
-    GtkTreeSelection *selection;
 
     devel_debug (NULL);
 
@@ -302,6 +301,8 @@ void remplit_arbre_categ ( void )
 
     if ( category_hold_position -> path )
     {
+        GtkTreeSelection *selection;
+
         if ( category_hold_position -> expand )
         {
             GtkTreePath *ancestor;
@@ -318,7 +319,6 @@ void remplit_arbre_categ ( void )
                         NULL, TRUE, 0.5, 0.5 );
     }
 }
-
 
 
 /**
@@ -894,6 +894,16 @@ void selectionne_sub_category ( GtkTreeModel * model )
 
 
 /**
+ * renvoie le chemin de la dernière categorie sélectionnée.
+ *
+ * \return une copie de category_hold_position -> path
+ */
+GtkTreePath *category_hold_position_get_path ( void )
+{
+    return gtk_tree_path_copy ( category_hold_position -> path );
+}
+
+/**
  * sauvegarde le chemin de la dernière categorie sélectionnée.
  *
  * \param path
@@ -904,6 +914,8 @@ gboolean category_hold_position_set_path ( GtkTreePath *path )
 
     return TRUE;
 }
+
+
 /**
  * sauvegarde l'attribut expand.
  *
@@ -940,27 +952,52 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
         GtkTreeSelection *selection;
         GtkTreeModel *model;
         GtkTreeIter iter;
+        GtkTreePath *path = NULL;
+        enum meta_tree_row_type type_division;
 
-        if ( conf.metatree_action_2button_press == 0 )
+        type_division = metatree_get_row_type_from_tree_view ( tree_view );
+        if ( type_division == META_TREE_TRANSACTION )
             return FALSE;
 
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
         if ( selection && gtk_tree_selection_get_selected (selection, &model, &iter ) )
-        {
-            GtkTreePath *path;
-
             path = gtk_tree_model_get_path  ( model, &iter);
-            gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+
+        if ( conf.metatree_action_2button_press == 0 || type_division == META_TREE_DIV )
+        {
+            if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
+                gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+            else
+                gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
 
             gtk_tree_path_free ( path );
+            return FALSE;
         }
-        if ( conf.metatree_action_2button_press == 1 )
+        else if ( conf.metatree_action_2button_press == 1 )
+        {
             edit_category ( GTK_TREE_VIEW ( tree_view ) );
 
-        return TRUE;
+            gtk_tree_path_free ( path );
+            return TRUE;
+        }
+        else
+        {
+            if ( type_division == META_TREE_SUB_DIV || type_division == META_TREE_TRANS_S_S_DIV )
+            {
+                    path = gtk_tree_model_get_path  ( model, &iter);
+                    gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+
+                    gtk_tree_path_free ( path );
+
+                metatree_manage_sub_divisions ( tree_view );
+                return TRUE;
+            }
+            else
+                return FALSE;
+        }
     }
-    else
-        return FALSE;
+
+    return FALSE;
 }
 
 
@@ -993,7 +1030,7 @@ void category_list_popup_context_menu ( void )
         if ( type_division == META_TREE_DIV )
             title = g_strdup ( _("Edit selected category") );
         else
-            title = g_strdup ( _("Edit selected subcategory") );
+            title = g_strdup ( _("Edit selected sub-category") );
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
@@ -1015,10 +1052,10 @@ void category_list_popup_context_menu ( void )
         {
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
-            title = g_strdup ( _("Manage subdivisions") );
+            title = g_strdup ( _("Manage sub-categories") );
         }
         else
-            title = g_strdup ( _("Transfer all transactions in another subdivision") );
+            title = g_strdup ( _("Transfer all transactions in another sub-category") );
 
         menu_item = gtk_image_menu_item_new_with_label ( title );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
@@ -1038,7 +1075,6 @@ void category_list_popup_context_menu ( void )
 
     gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
 }
-
 
 
 /* Local Variables: */
