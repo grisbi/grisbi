@@ -56,7 +56,11 @@ static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content
 /*END_STATIC*/
 #endif
 
-gchar *crypt_key;
+static gchar *saved_crypt_key;
+
+#define MARKER "Grisbi encrypted file "
+#define MARKER_SIZE (sizeof(MARKER) - 1)
+
 
 /**
  * Crypt or decrypt string given in the param
@@ -77,6 +81,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
     gchar * key, * message = "";
     DES_cblock openssl_key;
     DES_key_schedule sched;
+    gulong output_length;
 
     if ( crypt )
     {
@@ -86,8 +91,8 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-        if ( crypt_key )
-            key = crypt_key;
+        if ( saved_crypt_key )
+            key = saved_crypt_key;
         else
             key = gsb_file_util_ask_for_crypt_key ( file_name, message, TRUE);
 
@@ -96,32 +101,35 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
         if ( !key )
             return 0;
 
+        /* Encrypted files begin with a special marker */
+        output_length = MARKER_SIZE;
+        g_printf("TOTO: %d\n", MARKER_SIZE);
+
+        /* DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
+         * length of the output allocation accordingly. */
+        output_length += length + 8 - length % 8;
+
+        encrypted_file = g_malloc0 ( output_length );
+
+        /* Copy the special marker at the beginning of the output file */
+        strncpy ( encrypted_file, MARKER , MARKER_SIZE );
+
+        /* Then encrypt the data and put it in the right place in the output
+         * buffer. */
         DES_string_to_key ( key, &openssl_key );
         DES_set_key_unchecked ( &openssl_key, &sched );
         DES_set_odd_parity ( &openssl_key );
 
-        /* we create a copy of the file in memory which will begin by
-         * "Grisbi encrypted file " */
-
-        encrypted_file = g_malloc0 ( ( length + 23 ) * sizeof ( gchar ) );
-        encrypted_file = strncpy ( encrypted_file, "Grisbi encrypted file ", 22 );
-
         DES_cbc_encrypt ( (guchar *) (* file_content),
-                        (guchar *) (encrypted_file + 22),
+                        (guchar *) (encrypted_file + MARKER_SIZE),
                         (long) length,
                         &sched,
                         &openssl_key,
                         TRUE );
 
-        if ( length % 8 != 0 )
-        {
-            length += ( 8 - length % 8 );
-        }
-
         *file_content = encrypted_file;
 
-        /* the actual length is the initial + 22 (size of Grisbi encrypted file */
-        return length + 22;
+        return output_length;
     }
     else
     {
@@ -131,14 +139,14 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
         /* we set the length on the rigt size */
 
-        length = length - 22;
+        length = length - MARKER_SIZE;
 
 return_bad_password:
 
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-        if ( crypt_key )
-            key = crypt_key;
+        if ( saved_crypt_key )
+            key = saved_crypt_key;
         else
             key = gsb_file_util_ask_for_crypt_key ( file_name, message, FALSE );
 
@@ -147,16 +155,13 @@ return_bad_password:
         if ( !key )
             return 0;
 
+        decrypted_file = g_malloc0 ( length );
+
         DES_string_to_key ( key, &openssl_key );
         DES_set_key_unchecked( &openssl_key, &sched );
         DES_set_odd_parity ( &openssl_key );
 
-        /* we create a copy of the file in memory which will begin
-         * with "Grisbi encrypted file " */
-
-        decrypted_file = g_malloc0 ( length * sizeof ( gchar ));
-
-        DES_cbc_encrypt ( (guchar *) (* file_content + 22),
+        DES_cbc_encrypt ( (guchar *) (* file_content + MARKER_SIZE),
                   (guchar *) decrypted_file,
                   (long) length,
                   &sched,
@@ -179,8 +184,8 @@ return_bad_password:
 	    g_free ( decrypted_file );
 
 	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
-	    g_free ( crypt_key );
-	    crypt_key = NULL;
+	    g_free ( saved_crypt_key );
+	    saved_crypt_key = NULL;
 	    goto return_bad_password;
 	}
 
@@ -304,9 +309,9 @@ return_bad_password:
 #endif /* __APPLE__ */
 
         if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
-            crypt_key = key;
+            saved_crypt_key = key;
         else
-            crypt_key = NULL;
+            saved_crypt_key = NULL;
         break;
 
     case GTK_RESPONSE_CANCEL:
@@ -331,7 +336,7 @@ G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
 G_MODULE_EXPORT extern void openssl_plugin_register ( void )
 {
     devel_debug ("Initializating openssl plugin");
-    crypt_key = NULL;
+    saved_crypt_key = NULL;
 }
 
 
