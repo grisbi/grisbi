@@ -110,7 +110,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
                         (guchar *) (encrypted_file + 22),
                         (long) length,
                         &sched,
-                        (DES_cblock *) key,
+                        &openssl_key,
                         TRUE );
 
         if ( length % 8 != 0 )
@@ -160,7 +160,7 @@ return_bad_password:
                   (guchar *) decrypted_file,
                   (long) length,
                   &sched,
-                  (DES_cblock *) key,
+                  &openssl_key,
                   FALSE );
 
         /* before freeing file_content and go back, we check that the password was correct
