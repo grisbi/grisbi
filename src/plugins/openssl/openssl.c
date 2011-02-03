@@ -22,7 +22,7 @@
 /* This define is required to disable openssl's SSLeay support which redefines
  * _(), which obvisouly breaks glib's gettext macros. */
 #define OPENSSL_DISABLE_OLD_DES_SUPPORT
-#ifndef NOSSL
+#ifdef HAVE_SSL
 #  include <openssl/des.h>
 #endif
 
@@ -47,7 +47,7 @@
 SYMBOL_IMPORT GtkWidget *window;
 /*END_EXTERN*/
 
-#ifndef NOSSL
+#ifdef HAVE_SSL
 /*START_STATIC*/
 static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
@@ -73,7 +73,7 @@ gchar *crypt_key;
 gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-#ifndef NOSSL
+#ifdef HAVE_SSL
     gchar * key, * message = "";
     DES_cblock openssl_key;
     DES_key_schedule sched;
@@ -208,7 +208,7 @@ return_bad_password:
  *
  * \return a string which is the crypt key or NULL if it was
  * cancelled. */
-#ifndef NOSSL
+#ifdef HAVE_SSL
 gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
                         gboolean encrypt )
 {

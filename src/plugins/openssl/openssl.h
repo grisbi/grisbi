@@ -1,14 +1,8 @@
 #ifndef GSB_CRYPT_H
 #define GSB_CRYPT_H
 
-#include <libintl.h>
-#include <locale.h>
-
-#include <gtk/gtk.h>
-
-
 /* START_INCLUDE_H */
-#include "include.h"
+#include <glib.h>
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

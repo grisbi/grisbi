@@ -134,8 +134,8 @@ if test "$build_openssl" != no; then
 else
 	build_openssl=no
 fi
-if test "$build_openssl" = no; then
-	AC_DEFINE(NOSSL, 1, [Define if OpenSSL support is disabled])
+if test "$build_openssl" = yes; then
+	AC_DEFINE(HAVE_SSL, 1, [Define if OpenSSL support is enabled])
 fi
 AM_CONDITIONAL(HAVE_SSL, [test "$build_openssl" = yes])
 
