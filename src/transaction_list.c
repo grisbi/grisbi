@@ -50,13 +50,8 @@
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "transaction_model.h"
-#include "custom_list.h"
-#include "gsb_transactions_list.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

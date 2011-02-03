@@ -39,10 +39,6 @@
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "import.h"
-#include "gsb_data_account.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
-#include "import.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

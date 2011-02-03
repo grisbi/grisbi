@@ -44,10 +44,7 @@
 #include "utils_font.h"
 #include "structures.h"
 #include "custom_list.h"
-#include "utils_str.h"
 #include "utils_buttons.h"
-#include "gsb_select_icon.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

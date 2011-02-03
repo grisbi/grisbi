@@ -46,9 +46,6 @@
 #include "imputation_budgetaire.h"
 #include "transaction_list.h"
 #include "gsb_transactions_list.h"
-#include "fenetre_principale.h"
-#include "gsb_form_scheduler.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

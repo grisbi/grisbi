@@ -32,7 +32,6 @@
 #include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -32,7 +32,6 @@
 #include "gsb_data_currency_link.h"
 #include "utils_dates.h"
 #include "dialog.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 

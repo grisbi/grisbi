@@ -66,14 +66,9 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "custom_list.h"
-#include "gsb_data_form.h"
-#include "utils_str.h"
 #include "gsb_scheduler_list.h"
-#include "include.h"
 #include "gsb_calendar.h"
 #include "erreur.h"
-#include "gsb_plugins.h"
-#include "gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

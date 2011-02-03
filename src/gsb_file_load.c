@@ -22,12 +22,13 @@
 /* ************************************************************************** */
 
 
+#include "include.h"
+
 #include <glib/gstdio.h>
 #if GLIB_CHECK_VERSION (2,18,0)
 #include <gio/gio.h>
 #endif /* GLIB_CHECK_VERSION (2,18,0) */
 
-#include "include.h"
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
@@ -64,10 +65,7 @@
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
-#include "gsb_data_transaction.h"
 #include "gsb_scheduler_list.h"
-#include "gsb_plugins.h"
-#include "gsb_real.h"
 #include "import.h"
 #include "structures.h"
 #include "traitement_variables.h"

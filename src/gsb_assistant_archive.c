@@ -50,7 +50,6 @@
 #include "etats_calculs.h"
 #include "utils.h"
 #include "structures.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -19,14 +19,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "include.h"
+
 /* This define is required to disable openssl's SSLeay support which redefines
  * _(), which obvisouly breaks glib's gettext macros. */
 #define OPENSSL_DISABLE_OLD_DES_SUPPORT
 #ifdef HAVE_SSL
 #  include <openssl/des.h>
 #endif
-
-#include "include.h"
 
 /*START_INCLUDE*/
 #include "openssl.h"

@@ -29,8 +29,6 @@
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "tiers_onglet.h"
-#include "metatree.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 

@@ -40,8 +40,6 @@
 #include "navigation.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
-#include "gsb_data_form.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

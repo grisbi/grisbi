@@ -5,7 +5,6 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-#include "structures.h"
 
 /** Device independant drawing functions for reports */
 struct struct_etat_affichage

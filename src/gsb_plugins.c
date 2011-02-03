@@ -24,7 +24,6 @@
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "dialog.h"
-#include "include.h"
 #ifdef ENABLE_STATIC
 #include "plugins/gnucash/gnucash.h"
 #include "plugins/ofx/ofx.h"

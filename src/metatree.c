@@ -39,8 +39,6 @@
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "gsb_transactions_list.h"
-#include "gtk_combofix.h"
 #include "imputation_budgetaire.h"
 #include "navigation.h"
 #include "structures.h"

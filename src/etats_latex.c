@@ -29,9 +29,7 @@
 #include "print_config.h"
 #include "utils_files.h"
 #include "structures.h"
-#include "print_config.h"
 #include "etats_config.h"
-#include "include.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/
 

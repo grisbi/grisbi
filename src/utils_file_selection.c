@@ -44,7 +44,6 @@ extern "C" {
 #include "dialog.h"
 #include "gsb_file_util.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

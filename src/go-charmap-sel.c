@@ -29,8 +29,6 @@
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
 #include "utils_str.h"
-#include "go-optionmenu.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 struct cb_find_entry {
@@ -69,8 +67,6 @@ static void set_menu_to_default (GOCharmapSel *cs, gint item);
 /*END_EXTERN*/
 
 
-#include "go-charmap-sel.h"
-#include "go-optionmenu.h"
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>

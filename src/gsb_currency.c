@@ -43,10 +43,8 @@
 #include "structures.h"
 #include "utils_files.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "gsb_currency_config.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

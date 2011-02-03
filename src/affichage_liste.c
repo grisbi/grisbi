@@ -39,9 +39,7 @@
 #include "structures.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
-#include "gtk_combofix.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

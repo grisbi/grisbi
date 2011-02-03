@@ -46,12 +46,7 @@
 #include "utils.h"
 #include "structures.h"
 #include "fenetre_principale.h"
-#include "gsb_data_account.h"
-#include "gsb_select_icon.h"
-#include "gsb_form_scheduler.h"
-#include "include.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

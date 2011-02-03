@@ -44,10 +44,7 @@
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "custom_list.h"
-#include "gsb_transactions_list.h"
-#include "include.h"
 #include "structures.h"
-#include "gsb_real.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

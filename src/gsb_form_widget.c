@@ -44,12 +44,8 @@
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "gsb_form.h"
 #include "gsb_data_payment.h"
-#include "gtk_combofix.h"
-#include "include.h"
 #include "structures.h"
-#include "gsb_data_form.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

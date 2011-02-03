@@ -43,8 +43,6 @@
 #include "gsb_select_icon.h"
 #include "utils.h"
 #include "structures.h"
-#include "gsb_data_account.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

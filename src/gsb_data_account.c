@@ -39,7 +39,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "include.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"

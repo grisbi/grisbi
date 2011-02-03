@@ -33,7 +33,6 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
-#include "dialog.h"
 #include "metatree.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
@@ -53,12 +52,7 @@
 #include "utils_buttons.h"
 #include "transaction_list.h"
 #include "gsb_transactions_list.h"
-#include "gtk_combofix.h"
-#include "metatree.h"
 #include "structures.h"
-#include "gsb_data_form.h"
-#include "include.h"
-#include "dialog.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

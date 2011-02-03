@@ -21,10 +21,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <gdk/gdkkeysyms.h>
-#include <ctype.h>
 #include "include.h"
 
+#include <gdk/gdkkeysyms.h>
+#include <ctype.h>
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"

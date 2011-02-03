@@ -41,7 +41,6 @@
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "meta_payee.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

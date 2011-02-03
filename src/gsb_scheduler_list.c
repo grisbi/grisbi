@@ -54,8 +54,6 @@
 #include "structures.h"
 #include "gsb_transactions_list.h"
 #include "mouse.h"
-#include "include.h"
-#include "gsb_calendar.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

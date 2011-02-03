@@ -72,13 +72,6 @@
 #include "transaction_list.h"
 #include "utils_files.h"
 #include "structures.h"
-#include "gsb_transactions_list.h"
-#include "go-charmap-sel.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_account.h"
-#include "gtk_combofix.h"
-#include "gsb_data_transaction.h"
-#include "gsb_form_scheduler.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

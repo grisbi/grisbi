@@ -3,7 +3,10 @@
 #define _INCLUDE_H (1)
 
 
-#include "config.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>

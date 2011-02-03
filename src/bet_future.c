@@ -54,11 +54,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "gsb_data_payment.h"
-#include "gsb_data_account.h"
-#include "gtk_combofix.h"
-#include "gsb_form_scheduler.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

@@ -38,11 +38,7 @@
 #include "gsb_form_widget.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
-#include "gsb_data_category.h"
 #include "utils_files.h"
-#include "gtk_combofix.h"
-#include "gsb_data_form.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 

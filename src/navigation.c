@@ -53,8 +53,6 @@
 #include "imputation_budgetaire.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
-#include "utils_str.h"
-#include "fenetre_principale.h"
 #include "erreur.h"
 #include "structures.h"
 #include "utils.h"

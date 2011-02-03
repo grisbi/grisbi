@@ -44,14 +44,8 @@
 #include "gsb_status.h"
 #include "utils_str.h"
 #include "print_config.h"
-#include "gsb_data_account.h"
-#include "navigation.h"
-#include "gsb_data_transaction.h"
 #include "structures.h"
 #include "erreur.h"
-#include "gsb_real.h"
-#include "print_config.h"
-#include "etats_affiche.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

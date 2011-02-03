@@ -36,10 +36,7 @@
 #include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "include.h"
-#include "gsb_data_transaction.h"
 #include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -4,7 +4,6 @@
 #include "etats_affiche.h"
 /* END_INCLUDE_H */
 
-#include "etats_affiche.h"
 
 
 /* START_DECLARATION */

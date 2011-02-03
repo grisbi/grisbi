@@ -19,8 +19,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libofx/libofx.h>
 #include "include.h"
+
+#include <libofx/libofx.h>
 
 /*START_INCLUDE*/
 #include "ofx.h"

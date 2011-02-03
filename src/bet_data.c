@@ -42,7 +42,6 @@
 #include "traitement_variables.h"
 #include "gsb_file_save.h"
 #include "utils_str.h"
-#include "gsb_data_account.h"
 #include "gsb_scheduler_list.h"
 #include "erreur.h"
 #include "structures.h"

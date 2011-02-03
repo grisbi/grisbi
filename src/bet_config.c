@@ -42,7 +42,6 @@
 #include "gsb_data_currency.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
-#include "include.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"

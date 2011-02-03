@@ -31,7 +31,6 @@
 #include "gsb_file.h"
 #include "utils_str.h"
 #include "utils_files.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

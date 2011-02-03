@@ -49,10 +49,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "fenetre_principale.h"
-#include "include.h"
 #include "erreur.h"
-#include "gsb_real.h"
-#include "gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

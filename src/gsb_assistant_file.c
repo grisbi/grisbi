@@ -46,8 +46,6 @@
 #include "utils.h"
 #include "affichage.h"
 #include "structures.h"
-#include "gsb_currency_config.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

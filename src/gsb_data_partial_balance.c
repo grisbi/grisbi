@@ -40,10 +40,7 @@
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"
-#include "gsb_data_account.h"
-#include "include.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /** \struct

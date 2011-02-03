@@ -43,7 +43,6 @@
 #include "print_transactions_list.h"
 #include "utils_buttons.h"
 #include "structures.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

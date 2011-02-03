@@ -47,7 +47,6 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "utils_files.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

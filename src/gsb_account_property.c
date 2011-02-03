@@ -63,10 +63,6 @@
 #include "transaction_list.h"
 #include "structures.h"
 #include "gsb_transactions_list.h"
-#include "accueil.h"
-#include "gsb_data_transaction.h"
-#include "gsb_form_scheduler.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

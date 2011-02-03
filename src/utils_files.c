@@ -34,9 +34,6 @@
 #include "gsb_file.h"
 #include "utils_str.h"
 #include "gsb_file_config.h"
-#include "utils_file_selection.h"
-#include "go-charmap-sel.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

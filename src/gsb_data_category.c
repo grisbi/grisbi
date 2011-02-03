@@ -39,7 +39,6 @@
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "include.h"
 #include "erreur.h"
 #include "structures.h"
 /*END_INCLUDE*/

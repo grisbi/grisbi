@@ -41,7 +41,6 @@
 #include "transaction_list_select.h"
 #include "structures.h"
 #include "fenetre_principale.h"
-#include "gsb_data_transaction.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/

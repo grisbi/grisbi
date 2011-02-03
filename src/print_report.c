@@ -33,7 +33,6 @@
 #include "gsb_data_print_config.h"
 #include "utils.h"
 #include "print_dialog_config.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
