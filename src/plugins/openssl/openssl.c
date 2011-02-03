@@ -179,6 +179,7 @@ return_bad_password:
 	    g_free ( decrypted_file );
 
 	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
+	    g_free ( crypt_key );
 	    crypt_key = NULL;
 	    goto return_bad_password;
 	}
@@ -287,7 +288,10 @@ return_bad_password:
         key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
         if (!strlen ( key ) )
+        {
+            g_free ( key );
             key = NULL;
+        }
 #ifdef __APPLE__
         else if ( g_utf8_strlen ( key, -1 ) < 7 )
         {
