@@ -2732,7 +2732,6 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         else if ( strcmp ( new_icon, gsb_data_account_get_account_standard_pixbuf_filename (
          gsb_data_account_get_kind ( current_account ) ) ) == 0 )
         {
-            printf ("new_icon est une icone standard\n");
             gsb_data_account_set_name_icon ( current_account, NULL );
             gsb_data_account_set_account_icon_pixbuf ( current_account, NULL );
             gsb_select_icon_remove_account_pixbuf ( current_account );

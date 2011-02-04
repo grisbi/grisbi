@@ -735,7 +735,7 @@ gboolean bet_data_populate_div ( gint transaction_number,
         sub_div = ptr_sub_div ( transaction_number, is_transaction );
     else
         return FALSE;
-    
+
     if ( (sh = g_hash_table_lookup ( list_div, utils_str_itoa ( div ) ) ) )
         bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
     else

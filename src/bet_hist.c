@@ -798,6 +798,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gint div_number;
     gint account_nb;
     gint currency_number;
+    gint nbre_sub_div = 0;
     gboolean sub_div_visible = FALSE;
     gboolean edited = TRUE;
     gsb_real period = { 12, 0 };
@@ -844,7 +845,7 @@ void bet_historical_populate_div_model ( gpointer key,
      &&
      ( bet_data_get_div_edited ( account_nb, div_number, 0 )
       ||
-      g_hash_table_size ( sh -> list_sub_div ) <= 1 ) )
+      g_hash_table_size ( sh -> list_sub_div ) < 1 ) )
     {
         retained = bet_data_hist_get_div_amount ( account_nb, div_number, 0 );
         if ( str_amount )
@@ -866,7 +867,7 @@ void bet_historical_populate_div_model ( gpointer key,
     g_free ( str_amount );
     g_free ( str_current_fyear );
 
-    if ( g_hash_table_size ( sh -> list_sub_div ) <= 1 )
+    if ( ( nbre_sub_div = g_hash_table_size ( sh -> list_sub_div ) ) < 1 )
         return;
 
     g_hash_table_iter_init ( &iter, sh -> list_sub_div );
@@ -876,6 +877,9 @@ void bet_historical_populate_div_model ( gpointer key,
         SBR *sub_sbr = sub_sh -> sbr;
         GtkTreeIter fils;
         gchar **tab_str = NULL;
+
+        if ( nbre_sub_div == 1 && sub_sh -> div == 0 )
+            return;
 
         div_name = bet_data_get_div_name ( div_number, sub_sh -> div, NULL );
         /* printf ("division = %d sub_div = %d div_name = %s\n",
