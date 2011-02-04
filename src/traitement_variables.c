@@ -247,6 +247,9 @@ void init_variables ( void )
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
 
+    /* init the new crypted file */
+    run.new_crypted_file = FALSE;
+
     /* init the format date */
     initialise_format_date ( );
 

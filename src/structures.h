@@ -222,6 +222,9 @@ extern struct gsb_conf_t conf;
 
 struct gsb_run_t
 {
+    /* initialisation variables */
+    gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
+
     /* largeur des colonnes */
     gchar *transaction_column_width;
     gchar *scheduler_column_width;

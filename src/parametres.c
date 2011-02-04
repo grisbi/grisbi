@@ -993,7 +993,8 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
-    dialog_message ( "encryption-is-irreversible" );
+        dialog_message ( "encryption-is-irreversible" );
+        run.new_crypted_file = TRUE;
     }
 
     return FALSE;

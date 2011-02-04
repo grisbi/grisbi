@@ -46,6 +46,7 @@
 #include "utils.h"
 #include "affichage.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -322,6 +323,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
+
+    if ( etat.crypt_file )
+        run.new_crypted_file = TRUE;
 
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );

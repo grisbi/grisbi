@@ -53,6 +53,7 @@ static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * addit
                         gboolean encrypt );
 static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length );
+static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
 /*END_STATIC*/
 #endif
 
@@ -83,6 +84,13 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
     DES_key_schedule sched;
     gulong output_length;
 
+    if ( run.new_crypted_file )
+    {
+        if ( saved_crypt_key )
+            g_free ( saved_crypt_key );
+	    saved_crypt_key = NULL;
+    }
+
     if ( crypt )
     {
         /* we want to encrypt the file */
@@ -103,7 +111,7 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
         /* Encrypted files begin with a special marker */
         output_length = MARKER_SIZE;
-        g_printf("TOTO: %d\n", MARKER_SIZE);
+/*         g_printf("TOTO: %ld\n", MARKER_SIZE);  */
 
         /* DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
          * length of the output allocation accordingly. */
@@ -276,6 +284,16 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
 
+    if ( run.new_crypted_file )
+    {
+        button = gtk_check_button_new_with_label ( _("View password") );
+        gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
+        g_signal_connect ( G_OBJECT ( button ),
+			            "toggled",
+			            G_CALLBACK ( gsb_file_util_show_hide_passwd ),
+			            entry );
+    }
+
     button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
@@ -312,6 +330,9 @@ return_bad_password:
             saved_crypt_key = key;
         else
             saved_crypt_key = NULL;
+
+        run.new_crypted_file = FALSE;
+
         break;
 
     case GTK_RESPONSE_CANCEL:
@@ -351,6 +372,19 @@ G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **
     return (gpointer) gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
 }
 
+
+void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )
+{
+    gint visibility;
+
+    visibility = gtk_entry_get_visibility ( GTK_ENTRY ( entry ) );
+    if ( visibility )
+        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("View password") );
+    else
+        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("Hide password") );
+
+    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), !visibility );
+}
 
 
 /* Local Variables: */
