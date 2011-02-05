@@ -941,6 +941,7 @@ void bet_config_origin_data_clicked ( GtkWidget *togglebutton, GdkEventButton *e
     column = g_object_get_data ( G_OBJECT ( account_page ),
                         "historical_column_source" );
     gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
+    g_free ( title );
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );

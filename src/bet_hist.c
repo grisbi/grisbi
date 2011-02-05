@@ -1594,12 +1594,14 @@ gboolean bet_historical_initializes_account_settings ( gint account_number )
     {
         button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_1" );
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
-
+        bet_data_set_div_ptr ( 0 );
+        title = g_strdup ( _("Category") );
     }
 
     column = g_object_get_data ( G_OBJECT ( account_page ),
                         "historical_column_source" );
     gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
+    g_free ( title );
 
     /* set fyear */
     combo = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
