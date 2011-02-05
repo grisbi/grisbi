@@ -21,10 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ./configure --with-balance-estimate */
-
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_data.h"
@@ -257,7 +254,7 @@ gboolean bet_data_init_variables ( void )
  *
  *
  * */
-gboolean bet_data_hist_add_div ( gint account_nb,
+gboolean bet_data_hist_add_div ( gint account_number,
                         gint div_number,
                         gint sub_div_nb )
 {
@@ -265,10 +262,10 @@ gboolean bet_data_hist_add_div ( gint account_nb,
     gchar *sub_key;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
+    if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
                         utils_str_itoa ( div_number ), NULL );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
@@ -307,7 +304,8 @@ gboolean bet_data_hist_add_div ( gint account_nb,
             dialogue_error_memory ( );
             return 0;
         }
-        shd -> account_nb = account_nb;
+        shd -> account_nb = account_number;
+        shd -> origin = gsb_data_account_get_bet_hist_data ( account_number );
         shd -> div_number = div_number;
         if ( sub_div_nb > 0 )
         {
@@ -377,16 +375,16 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
  *
  *
  * */
-gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_remove_div_hist ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
     
-    if ( account_nb == 0 )
+    if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
                         utils_str_itoa ( div_number ), NULL );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
@@ -412,19 +410,23 @@ gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_d
  *
  *
  * */
-gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
     gchar *sub_key;
+    gint origin;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
+    if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
                         utils_str_itoa ( div_number ), NULL );
 
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    origin = gsb_data_account_get_bet_hist_data ( account_number );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) )
+     && shd -> origin == origin )
     {
         if ( sub_div_nb == 0 )
         {
@@ -530,19 +532,23 @@ gchar *bet_data_get_div_name ( gint div_num,
  *
  *
  * */
-gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_get_div_edited ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
+    gint origin;
     struct_hist_div *shd;
     gboolean edited;
 
-    if ( account_nb == 0 )
+    if ( account_number == 0 )
         key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
     else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
+        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
                         utils_str_itoa ( div_number ), NULL );
 
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    origin = gsb_data_account_get_bet_hist_data ( account_number );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) )
+     && shd -> origin == origin )
     {
         if ( sub_div_nb == 0 )
             edited = shd -> div_edited;
@@ -831,10 +837,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Ori=\"%d\"Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
+                        shd -> origin,
                         shd -> div_number,
                         shd -> div_edited,
                         gsb_real_safe_real_to_string ( shd -> amount,
@@ -855,10 +862,11 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
                 floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
                 tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
+                        shd -> origin,
                         shd -> div_number,
                         shd -> div_edited,
                         gsb_real_safe_real_to_string ( shd -> amount, floating_point ),

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -24,7 +24,6 @@
 /* ./configure --with-balance-estimate */
 
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_future.h"

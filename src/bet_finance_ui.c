@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C) 2010 Pierre Biava (grisbi@pierre.biava.name)             */
+/*     Copyright (C) 2010-2011 Pierre Biava (grisbi@pierre.biava.name)        */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -20,7 +20,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_finance_ui.h"

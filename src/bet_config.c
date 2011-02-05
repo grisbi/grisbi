@@ -21,10 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ./configure --with-balance-estimate */
-
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_config.h"

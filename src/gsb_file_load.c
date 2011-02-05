@@ -3961,6 +3961,13 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Ori" ) )
+    {
+        shd -> origin = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "Div" ) )
     {
         shd -> div_number = utils_str_atoi ( attribute_values[i] );

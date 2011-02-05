@@ -20,7 +20,6 @@
 /* ************************************************************************** */
 
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_data_finance.h"

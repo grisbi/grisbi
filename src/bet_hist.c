@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -21,10 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ./configure --with-balance-estimate */
-
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_hist.h"
@@ -861,7 +858,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         -1);
         g_free ( str_retained );
     }
-
+/* printf ("division = %d div_name = %s\n", div_number, div_name);  */
     g_free ( div_name );
     g_free ( str_average );
     g_free ( str_amount );
@@ -882,15 +879,13 @@ void bet_historical_populate_div_model ( gpointer key,
             return;
 
         div_name = bet_data_get_div_name ( div_number, sub_sh -> div, NULL );
-        /* printf ("division = %d sub_div = %d div_name = %s\n",
-                        div_number, sub_sh -> div, div_name); */
+/*         printf ("division = %d sub_div = %d div_name = %s\n", div_number, sub_sh -> div, div_name);  */
         if ( div_name && g_utf8_strrchr ( div_name, -1, ':' ) )
         {
 	        tab_str = g_strsplit ( div_name, ":", 2 );
             if ( g_strv_length ( tab_str ) > 1 )
             {
-                if ( div_name )
-                    g_free ( div_name );
+                g_free ( div_name );
                 div_name = g_strdup ( g_strstrip ( tab_str[1] ) );
             }
             if ( tab_str )
@@ -924,6 +919,8 @@ void bet_historical_populate_div_model ( gpointer key,
 
         if ( bet_data_search_div_hist ( account_nb, div_number, sub_sh -> div ) )
         {
+            GtkTreePath *path;
+
             if ( bet_data_get_div_edited ( account_nb, div_number, sub_sh -> div ) )
             {
                 /* printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div ); */
@@ -953,9 +950,11 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
                         -1);
             sub_div_visible = TRUE;
-            gtk_tree_view_expand_to_path ( tree_view, gtk_tree_model_get_path ( model, &fils ) );
+            path = gtk_tree_model_get_path ( model, &fils );
+            gtk_tree_view_expand_to_path ( tree_view, path );
 
             g_free ( str_retained );
+            gtk_tree_path_free ( path );
         }
         g_free ( div_name );
         g_free ( str_balance );
@@ -985,9 +984,13 @@ void bet_historical_populate_div_model ( gpointer key,
 
         if ( edited )
         {
-            gtk_tree_view_collapse_row ( tree_view, gtk_tree_model_get_path ( model, &parent ) );
+            GtkTreePath *path;
+
+            path = gtk_tree_model_get_path ( model, &parent );
+            gtk_tree_view_collapse_row ( tree_view, path );
             gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &parent );
 
+            gtk_tree_path_free ( path );
         }
     }
 }
@@ -1570,12 +1573,36 @@ void bet_historical_add_average_amount ( GtkWidget *menu_item,
  * */
 gboolean bet_historical_initializes_account_settings ( gint account_number )
 {
+    GtkWidget *button = NULL;
     GtkWidget *combo = NULL;
+    GtkTreeViewColumn *column;
+    gchar *title;
     gint fyear_number;
+    gint origin;
     gpointer pointeur;
 
-    combo = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
+    /* set data origin */
+    origin = gsb_data_account_get_bet_hist_data ( account_number );
+    if ( origin )
+    {
+        button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_2" );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
+        bet_data_set_div_ptr ( 1 );
+        title = g_strdup ( _("Budgetary line") );
+    }
+    else
+    {
+        button = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_button_1" );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
 
+    }
+
+    column = g_object_get_data ( G_OBJECT ( account_page ),
+                        "historical_column_source" );
+    gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
+
+    /* set fyear */
+    combo = g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo" );
     fyear_number = gsb_data_account_get_bet_hist_fyear ( account_number );
 
     pointeur = g_object_get_data ( G_OBJECT ( combo ), "pointer" );

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -21,18 +21,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * prefix bet : Balance Estimate Tab
- *
- * TODO : change the color of each line in the graph :
- * red if balance is less than 0.
- * orange if balance is less than the minimum desired balance.
- * TODO : add a select button to display the selected line in the array
- * in the scheduler tab or in the account tab.
- */
-
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_tab.h"
