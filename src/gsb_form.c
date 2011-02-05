@@ -2801,22 +2801,16 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     {
         if ( is_transaction
          && gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
-         && mother_number == 0
-         && g_date_valid ( gsb_data_transaction_get_value_date ( transaction_number ) ) == FALSE)
+         && mother_number == 0 )
         {
-            const GDate *init_date;
             const GDate *final_date;
             gint reconcile_number;
 
             reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
-            init_date = gsb_data_reconcile_get_init_date ( reconcile_number );
             final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
-            if ( g_date_compare ( save_form_date, init_date ) < 0
-             ||
-             g_date_compare ( save_form_date, final_date ) > 0 )
+            if ( g_date_compare ( save_form_date, final_date ) > 0 )
             {
-                tmpstr = g_strdup_printf ( _("Beware the date must be between %s and %s"),
-                                    gsb_format_gdate ( init_date ),
+                tmpstr = g_strdup_printf ( _("The date must be less than or equal at %s"),
                                     gsb_format_gdate ( final_date ) );
                 dialogue_hint ( tmpstr, _("Invalid date") );
 
