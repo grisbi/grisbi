@@ -2709,6 +2709,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
                         gboolean is_transaction )
 {
     GtkWidget *widget;
+    GtkWidget *date_widget;
     gchar* tmpstr;
     gint mother_number;
     gint account_number;
@@ -2721,24 +2722,24 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     mother_number = gsb_data_mix_get_mother_transaction_number ( transaction_number, is_transaction );
 
     /* begin to work with dates */
-    widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
+    date_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
 
     /* check the date exists */
-    if ( gsb_form_widget_check_empty ( widget ) )
+    if ( gsb_form_widget_check_empty ( date_widget ) )
     {
         dialogue_error ( _("You must enter a date.") );
         return (FALSE);
     }
 
     /* check the date ok */
-    if ( !gsb_date_check_entry ( widget ) )
+    if ( !gsb_date_check_entry ( date_widget ) )
     {
         tmpstr = g_strdup_printf ( _("Invalid date %s"),
-					   gtk_entry_get_text (GTK_ENTRY (widget)));
+					   gtk_entry_get_text ( GTK_ENTRY ( date_widget ) ) );
         dialogue_error ( tmpstr );
         g_free( tmpstr );
-        gtk_editable_select_region ( GTK_EDITABLE (widget), 0, -1 );
-        gtk_widget_grab_focus ( widget );
+        gtk_editable_select_region ( GTK_EDITABLE ( date_widget ), 0, -1 );
+        gtk_widget_grab_focus ( date_widget );
 
         return (FALSE);
     }
@@ -2746,37 +2747,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     {
         if ( save_form_date )
             g_date_free ( save_form_date );
-        save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( widget ) );
-
-        if ( is_transaction
-         && gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
-         && mother_number == 0 )
-        {
-            const GDate *init_date;
-            const GDate *final_date;
-            gint reconcile_number;
-
-            reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
-            init_date = gsb_data_reconcile_get_init_date ( reconcile_number );
-            final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
-            if ( g_date_compare ( save_form_date, init_date ) < 0
-             ||
-             g_date_compare ( save_form_date, final_date ) > 0 )
-            {
-                tmpstr = g_strdup_printf ( _("Beware the date must be between %s and %s"),
-                                    gsb_format_gdate ( init_date ),
-                                    gsb_format_gdate ( final_date ) );
-                dialogue_hint ( tmpstr, _("Invalid date") );
-
-                g_free( tmpstr );
-
-                gsb_calendar_entry_set_color ( widget, FALSE );
-                gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
-                gtk_widget_grab_focus ( widget );
-
-                return FALSE;
-            }
-        }
+        save_form_date = gsb_date_copy ( gsb_calendar_entry_get_date ( date_widget ) );
     }
 
     /* work with value date */
@@ -2821,6 +2792,39 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
                 gsb_calendar_entry_set_color ( widget, FALSE );
                 gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
                 gtk_widget_grab_focus ( widget );
+
+                return FALSE;
+            }
+        }
+    }
+    else    /* contrôle de la date de l'opération rapprochée si pas de date de valeur */
+    {
+        if ( is_transaction
+         && gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+         && mother_number == 0
+         && g_date_valid ( gsb_data_transaction_get_value_date ( transaction_number ) ) == FALSE)
+        {
+            const GDate *init_date;
+            const GDate *final_date;
+            gint reconcile_number;
+
+            reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
+            init_date = gsb_data_reconcile_get_init_date ( reconcile_number );
+            final_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+            if ( g_date_compare ( save_form_date, init_date ) < 0
+             ||
+             g_date_compare ( save_form_date, final_date ) > 0 )
+            {
+                tmpstr = g_strdup_printf ( _("Beware the date must be between %s and %s"),
+                                    gsb_format_gdate ( init_date ),
+                                    gsb_format_gdate ( final_date ) );
+                dialogue_hint ( tmpstr, _("Invalid date") );
+
+                g_free( tmpstr );
+
+                gsb_calendar_entry_set_color ( date_widget, FALSE );
+                gtk_editable_select_region ( GTK_EDITABLE ( date_widget ), 0, -1 );
+                gtk_widget_grab_focus ( date_widget );
 
                 return FALSE;
             }
