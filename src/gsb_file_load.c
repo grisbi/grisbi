@@ -341,7 +341,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         gsb_plugin *plugin;
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
-        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
+        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
+             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
         {
             plugin = gsb_plugin_find ( "openssl" );
             if ( plugin )

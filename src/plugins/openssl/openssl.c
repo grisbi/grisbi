@@ -59,8 +59,150 @@ static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkW
 
 static gchar *saved_crypt_key;
 
-#define MARKER "Grisbi encrypted file "
-#define MARKER_SIZE (sizeof(MARKER) - 1)
+#define V1_MARKER "Grisbi encrypted file "
+#define V1_MARKER_SIZE (sizeof(V1_MARKER) - 1)
+#define V2_MARKER "Grisbi encryption v2: "
+#define V2_MARKER_SIZE (sizeof(V2_MARKER) - 1)
+
+#define ALIGN_TO_8_BYTES(l) ((l + 7) & (~7))
+
+
+
+#ifdef HAVE_SSL
+/**
+ *
+ */
+static gulong
+encrypt_v2(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong to_encrypt_length, output_length;
+    gchar *to_encrypt_content, *output_content;
+
+    /* Create a temporary buffer that will hold data to be encrypted. */
+    to_encrypt_length = V2_MARKER_SIZE + length;
+    to_encrypt_content = g_malloc ( to_encrypt_length );
+    g_memmove ( to_encrypt_content, V2_MARKER, V2_MARKER_SIZE );
+    g_memmove ( to_encrypt_content + V2_MARKER_SIZE, *file_content, length );
+
+    /* Allocate the output file and copy the special marker at its beginning.
+     * DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
+     * length of the allocation accordingly. */
+    output_length = V2_MARKER_SIZE + ALIGN_TO_8_BYTES ( to_encrypt_length );
+    output_content = g_malloc ( output_length );
+    g_memmove ( output_content, V2_MARKER , V2_MARKER_SIZE );
+
+    /* Encrypt the data and put it in the right place in the output buffer. */
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked ( &key, &sched );
+    DES_set_odd_parity ( &key );
+
+    DES_cbc_encrypt ( (guchar *) to_encrypt_content,
+                    (guchar *) (output_content + V2_MARKER_SIZE),
+                    to_encrypt_length,
+                    &sched,
+                    &key,
+                    DES_ENCRYPT );
+
+    g_free ( to_encrypt_content );
+
+    *file_content = output_content;
+    return output_length;
+}
+
+
+/**
+ *
+ */
+static gulong
+decrypt_v2(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong decrypted_len, output_len;
+    gchar *decrypted_buf, *output_buf;
+
+    /* Create a temporary buffer that will hold the decrypted data without the
+     * first marker. */
+    decrypted_len = length - V2_MARKER_SIZE;
+    decrypted_buf = g_malloc ( decrypted_len );
+
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked( &key, &sched );
+    DES_set_odd_parity ( &key );
+
+    DES_cbc_encrypt ( (guchar *) (* file_content + V2_MARKER_SIZE),
+              (guchar *) decrypted_buf,
+              (long) decrypted_len,
+              &sched,
+              &key,
+              DES_DECRYPT );
+
+    /* If the password was correct, the second marker should appear in the first
+     * few bytes of the decrypted content. */
+    if ( strncmp ( decrypted_buf, V2_MARKER, V2_MARKER_SIZE ) )
+    {
+        g_free ( decrypted_buf );
+        return 0;
+    }
+
+    /* Copy the decrypted data to a final buffer, leaving out the second
+     * marker. */
+    output_len = decrypted_len - V2_MARKER_SIZE;
+    output_buf = g_memdup ( decrypted_buf + V2_MARKER_SIZE, output_len );
+
+    g_free ( decrypted_buf );
+
+    *file_content = output_buf;
+    return output_len;
+}
+
+
+/**
+ *
+ */
+static gulong
+decrypt_v1(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong decrypted_len;
+    gchar *decrypted_buf;
+
+    /* Create a temporary buffer that will hold the decrypted data without the
+     * marker. */
+    decrypted_len = length - V1_MARKER_SIZE;
+    decrypted_buf = g_malloc ( decrypted_len );
+
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked( &key, &sched );
+    DES_set_odd_parity ( &key );
+    /* Set the DES key the WRONG AND BROKEN way. DO NOT REUSE THIS CODE EVER! */
+    memset ( &key, 0, sizeof ( DES_cblock ) );
+    g_memmove ( &key, password, MIN(sizeof(DES_cblock), strlen(password)) );
+
+    DES_cbc_encrypt ( (guchar *) (* file_content + V1_MARKER_SIZE),
+        (guchar *) decrypted_buf,
+        (long) decrypted_len,
+        &sched,
+        &key,
+        DES_DECRYPT );
+
+    /* If the password was correct, the first few bytes of the decrypted
+     * content should contain the following strings. */
+    if ( strncmp ( decrypted_buf, "<?xml version=\"1.0\"?>", 18 )
+         &&
+         strncmp ( decrypted_buf, "Grisbi compressed file ", 23 ) )
+    {
+        g_free ( decrypted_buf );
+        return 0;
+    }
+
+    *file_content = decrypted_buf;
+    return decrypted_len;
+}
+#endif /* HAVE_SSL */
 
 
 /**
@@ -80,9 +222,6 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 {
 #ifdef HAVE_SSL
     gchar * key, * message = "";
-    DES_cblock openssl_key;
-    DES_key_schedule sched;
-    gulong output_length;
 
     if ( run.new_crypted_file )
     {
@@ -93,10 +232,6 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 
     if ( crypt )
     {
-        /* we want to encrypt the file */
-
-        gchar *encrypted_file;
-
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
         if ( saved_crypt_key )
@@ -109,45 +244,11 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
         if ( !key )
             return 0;
 
-        /* Encrypted files begin with a special marker */
-        output_length = MARKER_SIZE;
-/*         g_printf("TOTO: %ld\n", MARKER_SIZE);  */
-
-        /* DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
-         * length of the output allocation accordingly. */
-        output_length += length + 8 - length % 8;
-
-        encrypted_file = g_malloc0 ( output_length );
-
-        /* Copy the special marker at the beginning of the output file */
-        strncpy ( encrypted_file, MARKER , MARKER_SIZE );
-
-        /* Then encrypt the data and put it in the right place in the output
-         * buffer. */
-        DES_string_to_key ( key, &openssl_key );
-        DES_set_key_unchecked ( &openssl_key, &sched );
-        DES_set_odd_parity ( &openssl_key );
-
-        DES_cbc_encrypt ( (guchar *) (* file_content),
-                        (guchar *) (encrypted_file + MARKER_SIZE),
-                        (long) length,
-                        &sched,
-                        &openssl_key,
-                        TRUE );
-
-        *file_content = encrypted_file;
-
-        return output_length;
+        return encrypt_v2 ( key, file_content, length );
     }
     else
     {
-        /* we want to decrypt the file */
-
-        gchar *decrypted_file;
-
-        /* we set the length on the rigt size */
-
-        length = length - MARKER_SIZE;
+        gulong returned_length;
 
 return_bad_password:
 
@@ -163,42 +264,22 @@ return_bad_password:
         if ( !key )
             return 0;
 
-        decrypted_file = g_malloc0 ( length );
+        returned_length = decrypt_v2 ( key, file_content, length );
 
-        DES_string_to_key ( key, &openssl_key );
-        DES_set_key_unchecked( &openssl_key, &sched );
-        DES_set_odd_parity ( &openssl_key );
+        if ( returned_length == 0 )
+            returned_length = decrypt_v1 ( key, file_content, length );
 
-        DES_cbc_encrypt ( (guchar *) (* file_content + MARKER_SIZE),
-                  (guchar *) decrypted_file,
-                  (long) length,
-                  &sched,
-                  &openssl_key,
-                  FALSE );
-
-        /* before freeing file_content and go back, we check that the password was correct
-         * if not, we free the decrypted_file and ask again for the password */
-
-        if ( strncmp ( decrypted_file,
-                   "<?xml version=\"1.0\"?>",
-                   18 )
-             &&
-             strncmp ( decrypted_file,
-                   "Grisbi compressed file ",
-                   23 ))
+        if ( returned_length == 0 )
         {
             /* it seems that it was not the correct password */
 
-	    g_free ( decrypted_file );
+            message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
+            g_free ( saved_crypt_key );
+            saved_crypt_key = NULL;
+            goto return_bad_password;
+        }
 
-	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
-	    g_free ( saved_crypt_key );
-	    saved_crypt_key = NULL;
-	    goto return_bad_password;
-	}
-
-	*file_content = decrypted_file;
-	return length;
+        return returned_length;
     }
 
 #else
