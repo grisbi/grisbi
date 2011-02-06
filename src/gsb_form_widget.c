@@ -1199,10 +1199,10 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
     if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ), text ) == 0 )
         return TRUE;
 
-    /* if nothing in the entry, keep the normal style */
+    /* if nothing in the entry, set the widget empty */
     if ( !strlen ( text ) )
     {
-        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gsb_form_widget_set_empty ( entry, TRUE );
         return TRUE;
     }
 
