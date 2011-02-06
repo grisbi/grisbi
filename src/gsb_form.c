@@ -2766,7 +2766,8 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
             return (FALSE);
         }
-        else if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+        else if ( is_transaction
+         && gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
          && mother_number == 0 )
         {
             GDate *value_date;
