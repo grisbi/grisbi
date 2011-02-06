@@ -2078,7 +2078,7 @@ void transaction_list_set_color_jour ( gint account_number )
     element_sort = gsb_data_account_get_element_sort ( account_number,
 							     custom_list -> sort_col);
 
-    for (i= custom_list -> num_visibles_rows -1; i >= 0  ; i--)
+    for ( i = custom_list -> num_visibles_rows -1; i >= 0  ; i-- )
     {
         CustomRecord *record;
 
@@ -2105,7 +2105,8 @@ void transaction_list_set_color_jour ( gint account_number )
                     {
                         record -> row_bg = &couleur_jour;
                         i--;
-                        record = custom_list -> visibles_rows[i];
+                        if ( i >= 0 )
+                            record = custom_list -> visibles_rows[i];
                     }
                     /* on se positionne sur la première ligne */
                     record = custom_list -> visibles_rows[0];
