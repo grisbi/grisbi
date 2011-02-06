@@ -966,8 +966,6 @@ void bet_historical_populate_div_model ( gpointer key,
     if ( sub_div_visible && bet_historical_get_full_div ( model, &parent ) )
     {
         amount = bet_historical_get_children_amount ( model, &parent );
-        if ( str_amount )
-            g_free ( str_amount );
         str_amount = gsb_real_safe_real_to_string ( amount,
                     gsb_data_currency_get_floating_point ( currency_number ) );
         str_retained = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
