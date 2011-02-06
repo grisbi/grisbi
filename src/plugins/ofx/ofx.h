@@ -20,6 +20,8 @@ G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
  *  on windows they should be prefixed by OFX_
  */
 
+#ifndef _MINGW
+
 #ifndef OFX_INFO
 #define OFX_INFO    INFO
 #endif
@@ -42,6 +44,8 @@ G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
 #ifndef OFX_REPLACE
 #define OFX_REPLACE REPLACE
 #endif
+
+#endif /* _MIN_GW */
 
 /* #endif _WIN32 */
 

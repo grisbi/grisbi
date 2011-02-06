@@ -20,7 +20,7 @@
 !define PRODUCT "Grisbi" ;Name of the project
 !define MAJOR "0"        ;Major version number
 !define MINOR "7"        ;Minor version number
-!define PATCH "99"        ;Patch version number
+!define PATCH "99-5"        ;Patch version number
 !define STAGE "mingw testing pre release"     ;Developement stage id (RC, beta, alpha)
 !define SMALL_STAGE "mingw_test_pre_rel" ;Small dev stage id without spaces
 !define EXE_PATH "target\Win32" ;Path to the exe file you want to pack
@@ -196,8 +196,8 @@ Section $(OFXplug)
 
   SectionIn 1 2
 
-  SetOutPath "$INSTDIR\plugins"
-  File "${EXE_PATH}\plugins\libofxplg.dll"
+;  SetOutPath "$INSTDIR\plugins"
+;  File "${EXE_PATH}\plugins\libofxplg.dll"
   
   SetOutPath "$INSTDIR"
   File /r "${PLUGINS_DEV_PATH}\libofx\bin\dtd"
@@ -210,8 +210,8 @@ Section $(GnuCashPlugin)
 
   SectionIn 1 2
 
-  SetOutPath "$INSTDIR\plugins"
-  File "${EXE_PATH}\plugins\libgnucash.dll"
+;  SetOutPath "$INSTDIR\plugins"
+;  File "${EXE_PATH}\plugins\libgnucash.dll"
   
   SetOutPath "$INSTDIR"
   File "${PLUGINS_DEV_PATH}\libxml2\bin\libxml2.dll"
@@ -223,12 +223,14 @@ Section $(OpenSSLplug)
 
   SectionIn 1 2
 
-  SetOutPath "$INSTDIR\plugins"
-  File "${EXE_PATH}\plugins\libopenssl.dll"
+;  SetOutPath "$INSTDIR\plugins"
+;  File "${EXE_PATH}\plugins\libopenssl.dll"
   
   SetOutPath "$INSTDIR"
   File "${PLUGINS_DEV_PATH}\openssl\bin\libeay32.dll"
-
+  File "${PLUGINS_DEV_PATH}\openssl\bin\libssl32.dll"
+  File "${PLUGINS_DEV_PATH}\openssl\bin\ssleay32.dll"
+  
 SectionEnd
 SectionGroupEnd
 

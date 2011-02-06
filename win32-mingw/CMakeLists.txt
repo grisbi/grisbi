@@ -13,8 +13,9 @@ endif(WIN32)
 if (MINGW)
 	set (TargetDir .)
 	ADD_DEFINITIONS(-D_MINGW)
+	ADD_DEFINITIONS(-DHAVE_CONFIG_H)
 	set(STATIC_SCRIPT_BINDINGS TRUE)
-	SET(BUILD_SHARED_LIBS ON)
+#	SET(BUILD_SHARED_LIBS ON)
     set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -mms-bitfields")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mms-bitfields")
 endif (MINGW)
@@ -41,6 +42,7 @@ INCLUDE_DIRECTORIES(
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/include/glib-2.0
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/include/gtk-2.0
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/include/pango-1.0
+	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/include/gdk-pixbuf-2.0
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/include
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/lib/glib-2.0/include
 	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/lib/gtk-2.0/include
@@ -123,15 +125,8 @@ ADD_DEFINITIONS(-DOFX_0_7=1)
 #Define to 1 to have grisbi plugins management system activated
 ADD_DEFINITIONS(-DHAVE_PLUGINS=1)
 
-LINK_DIRECTORIES(
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/lib
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libofx/lib
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libxml2/lib
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/iconv/lib
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/openssl/lib
-	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/openssl/lib/VC
-	${TargetDir}
-)
+#Define to 1 to enable static plugins
+ADD_DEFINITIONS(-DENABLE_STATIC=1)
 
 file(GLOB grisbi_source 
     ${PROJECT_SOURCE_DIR}/../src/*.c 
@@ -156,16 +151,17 @@ TARGET_LINK_LIBRARIES( grisbi
 	pango-1.0
 	pangocairo-1.0
 	zdll
+	ofx
+	gnucash
+	openssl
 )
 
-set_target_properties ( grisbi
-	PROPERTIES ENABLE_EXPORTS 1
-)
+# set_target_properties ( grisbi
+	# PROPERTIES ENABLE_EXPORTS 1
+# )
 
-
-
-ADD_LIBRARY ( ofxplg
-	MODULE
+ADD_LIBRARY ( ofx
+	STATIC
 	../src/plugins/ofx/ofx.c
 	../src/plugins/ofx/ofx.h
 )
@@ -178,20 +174,20 @@ ADD_CUSTOM_COMMAND ( TARGET ofxplg
 )
 
 ADD_LIBRARY ( gnucash
-	MODULE
+	STATIC
 	../src/plugins/gnucash/gnucash.c
 	../src/plugins/gnucash/gnucash.h
 )
 
-ADD_CUSTOM_COMMAND ( TARGET gnucash
-	POST_BUILD
+# ADD_CUSTOM_COMMAND ( TARGET gnucash
+	# POST_BUILD
 	#COMMAND ${CMAKE_COMMAND} -E copy  ${PROJECT_SOURCE_DIR}/${TargetDir}/gnucash.dll target\\${PlateformName}\\${OutDir}\\plugins
-	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libxml2/bin/libxml2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/iconv/bin/iconv.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-)
+	# COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libxml2/bin/libxml2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+	# COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/iconv/bin/iconv.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+# )
 
 ADD_LIBRARY ( openssl
-	MODULE
+	STATIC
 	../src/plugins/openssl/openssl.c
 	../src/plugins/openssl/openssl.h
 )
@@ -202,30 +198,29 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 	COMMAND ${CMAKE_COMMAND} -E copy  ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/openssl/bin/libeay32.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
 )
 
-
-ADD_DEPENDENCIES (ofxplg grisbi)
+# ADD_DEPENDENCIES (ofx grisbi)
 #SET_TARGET_PROPERTIES(ofx PROPERTIES LINK_FLAGS "-no-undefined --enable-runtime-pseudo-reloc")
-TARGET_LINK_LIBRARIES (ofxplg
+TARGET_LINK_LIBRARIES (ofx
 	glib-2.0
 	intl
 	libofx 
-    grisbi
+#    grisbi
 )
 
-ADD_DEPENDENCIES (gnucash grisbi)
+# ADD_DEPENDENCIES (gnucash grisbi)
 TARGET_LINK_LIBRARIES (gnucash
 	glib-2.0
 	intl
-	grisbi
+#	grisbi
 	libxml2
 	iconv
 )
-ADD_DEPENDENCIES (openssl grisbi)
-SET_TARGET_PROPERTIES(openssl PROPERTIES LINK_FLAGS -enable-auto-import)
+# ADD_DEPENDENCIES (openssl grisbi)
+# SET_TARGET_PROPERTIES(openssl PROPERTIES LINK_FLAGS -enable-auto-import)
 TARGET_LINK_LIBRARIES (openssl
 	glib-2.0
 	intl
-	grisbi
+#	grisbi
 	gobject-2.0
 	gtk-win32-2.0
 	libeay32

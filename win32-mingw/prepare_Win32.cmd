@@ -5,10 +5,10 @@
 ::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/
 ::    Specify the BUNDLE file
 ::    Don't include the extension
-SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
-SET LIBXML_FILE_BASENAME=libxml2-2.7.6.win32
+SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.22.1-20101227_win32
+SET LIBXML_FILE_BASENAME=libxml2-2.7.7.win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-0_9_8q
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0c
 
 :: The rest of the script should do the rest
 ::on met chcp 1252 qpour les wget car ils affiche en francais
@@ -81,13 +81,13 @@ echo openssl ok
 
 :: Download and unzip libofx dev and bin files
 cd "%DOWNLOADS_DIR%"
-chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.6/libofx_Win32.zip/download
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.7/libofx_Win32.zip/download
 cd "%TARGET_DIR%"
 unzip -uo "%DOWNLOADS_DIR%\libofx_Win32.zip" -d plugins-dev
 echo ofx ok
 
 cd "%DOWNLOADS_DIR%"
-chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.22/%GTK_DEV_FILE_BASENAME%.zip
 :: Checking if already unzipped
 :: If the readme file exists for this version, update the unzip
 cd "%TARGET_DIR%"
@@ -118,4 +118,4 @@ SET GTK_DEV_FILE_BASENAME=
 cd "%CURRENT_DIR%"
 ::call generate.cmd
 
-PAUSE
+::PAUSE
