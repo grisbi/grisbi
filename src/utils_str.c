@@ -678,21 +678,27 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str )
 {
     gchar *ptr_debut;
-    gint long_old;
-    gchar *chaine;
+    gint long_old, str_len;
+    gchar *chaine, *ret, *tail;
 
     ptr_debut = g_strstr_len ( str, -1, old_str);
     if ( ptr_debut == NULL )
         return g_strdup ( str );
 
-    long_old = g_utf8_strlen ( old_str, -1 );
-    chaine = g_strndup ( str, (ptr_debut - str) );
-    if ( ptr_debut + long_old + 1 )
-        chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old + 1 ), NULL );
-    else
-        chaine = g_strconcat ( chaine, new_str, NULL );
+    str_len = strlen ( str );
+    long_old = strlen ( old_str );
 
-    return g_strdup ( chaine );
+    chaine = g_strndup ( str, (ptr_debut - str) );
+
+    tail = ptr_debut + long_old;
+    if ( tail >= str + str_len )
+        ret = g_strconcat ( chaine, new_str, NULL );
+    else
+        ret = g_strconcat ( chaine, new_str, tail, NULL );
+
+    g_free ( chaine );
+
+    return ret;
 }
 
 
