@@ -148,9 +148,9 @@ decrypt_v2(gchar *password, gchar **file_content, gulong length)
     }
 
     /* Copy the decrypted data to a final buffer, leaving out the second
-     * marker. */
+     * marker. g_strndup() is used to add a trailing null byte. */
     output_len = decrypted_len - V2_MARKER_SIZE;
-    output_buf = g_memdup ( decrypted_buf + V2_MARKER_SIZE, output_len );
+    output_buf = g_strndup ( decrypted_buf + V2_MARKER_SIZE, output_len );
 
     g_free ( decrypted_buf );
 
@@ -171,9 +171,10 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
     gchar *decrypted_buf;
 
     /* Create a temporary buffer that will hold the decrypted data without the
-     * marker. */
+     * marker. A trailing null byte is also added. */
     decrypted_len = length - V1_MARKER_SIZE;
-    decrypted_buf = g_malloc ( decrypted_len );
+    decrypted_buf = g_malloc ( decrypted_len + 1 );
+    decrypted_buf[decrypted_len] = 0;
 
     DES_string_to_key ( password, &key );
     DES_set_key_unchecked( &key, &sched );
