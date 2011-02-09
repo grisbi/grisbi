@@ -2624,8 +2624,13 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    list_tmp = g_slist_sort (list_tmp, 
+    if ( etat.metatree_sort_transactions == 1 )
+        list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date );
+    else
+        list_tmp = g_slist_sort (list_tmp,
+                        (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
     return list_tmp;
 }
 

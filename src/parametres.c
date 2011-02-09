@@ -1164,12 +1164,15 @@ GtkWidget *onglet_metatree ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), total_currencies, FALSE, FALSE, 0 );
 
     /* tri des opérations */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
                         _("Sort option for transactions"),
                         _("by number"),
-                        _("by date"),
+                        _("by increasing date"),
+                        _("by date descending"),
                         &etat.metatree_sort_transactions,
-                        G_CALLBACK ( gsb_config_metatree_sort_transactions ), NULL );
+                        G_CALLBACK ( gsb_config_metatree_sort_transactions_changed ),
+                        &etat.metatree_sort_transactions,
+                        GTK_ORIENTATION_VERTICAL );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
 						_("Choice of the action for double click of the mouse"),
@@ -1191,10 +1194,20 @@ GtkWidget *onglet_metatree ( void )
  *
  *
  * */
-gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
-                        gpointer null )
+gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
 {
+    GtkTreeSelection *selection;
     gint page_number;
+
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+    }
 
     page_number = gsb_gui_navigation_get_current_page ( );
 
@@ -1216,6 +1229,9 @@ gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
 	    notice_debug ("B0rk page selected");
 	    break;
     }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }

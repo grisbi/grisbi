@@ -13,7 +13,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION 0
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -119,7 +119,7 @@ struct gsb_etat_t
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
 
     /* variables pour les metatree */
-    gint metatree_sort_transactions;        /* TRUE = sort transactions by date */
+    gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
 
     /* variables for the module estimate balance */
