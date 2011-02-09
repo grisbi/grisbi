@@ -1103,7 +1103,7 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
 
 
 /**
- * 
+ *
  *
 **/
 gsb_real gsb_currency_get_current_exchange ( void )
@@ -1113,12 +1113,38 @@ gsb_real gsb_currency_get_current_exchange ( void )
 
 
 /**
- * 
+ *
+ *
+**/
+gboolean gsb_currency_set_current_exchange ( gsb_real exchange )
+{
+    current_exchange.mantissa = exchange.mantissa;
+    current_exchange.exponent = exchange.exponent;
+
+    return FALSE;
+}
+
+
+/**
+ *
  *
 **/
 gsb_real gsb_currency_get_current_exchange_fees ( void )
 {
     return current_exchange_fees;
+}
+
+
+/**
+ *
+ *
+**/
+gboolean gsb_currency_set_current_exchange_fees ( gsb_real fees )
+{
+    current_exchange_fees.mantissa = fees.mantissa;
+    current_exchange_fees.exponent = fees.exponent;
+
+    return FALSE;
 }
 
 

@@ -855,10 +855,12 @@ void gsb_form_fill_element ( gint element_number,
 	    number = gsb_data_mix_get_currency_number (transaction_number, is_transaction);
 
 	    gsb_currency_set_combobox_history ( widget, number);
-        gsb_currency_init_exchanges ( );
+        if ( transaction_number < 1 )
+            gsb_currency_init_exchanges ( );
+
 	    if (is_transaction)
         {
-            if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == 3 )
+            if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE )
             {
                 gtk_widget_set_sensitive ( widget, FALSE );
                 gtk_widget_hide ( gsb_form_widget_get_widget (
