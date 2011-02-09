@@ -113,6 +113,8 @@ static gint width_spin_button = 50;
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
+extern GtkWidget *arbre_categ;
+extern GtkWidget *budgetary_line_tree;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
@@ -120,6 +122,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
+extern GtkWidget *payee_tree;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -1199,6 +1202,9 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         gint *pointeur )
 {
     GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path = NULL;
     gint page_number;
 
     if ( pointeur )
@@ -1214,15 +1220,33 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
     switch ( page_number )
     {
 	case GSB_PAYEES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
 		payee_fill_tree ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_CATEGORIES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
         remplit_arbre_categ ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
 		remplit_arbre_imputation ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	default:
