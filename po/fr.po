@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-05 22:30+0100\n"
+"POT-Creation-Date: 2011-02-09 20:22+0100\n"
 "PO-Revision-Date: 2011-02-01 21:33+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -655,7 +655,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Choix de l'exercice ou 12 mois glissants"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:918 ../src/bet_hist.c:539
+#: ../src/bet_config.c:918 ../src/bet_hist.c:539 ../src/bet_hist.c:1596
 #: ../src/categories_onglet.c:153 ../src/etats_affiche.c:2431
 #: ../src/etats_config.c:670 ../src/export_csv.c:795
 #: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:82
@@ -664,76 +664,76 @@ msgid "Category"
 msgstr "Catégorie"
 
 #: ../src/bet_config.c:931 ../src/bet_future.c:811 ../src/bet_future.c:2019
-#: ../src/bet_future.c:2496 ../src/bet_hist.c:1591 ../src/etats_affiche.c:2438
+#: ../src/bet_future.c:2496 ../src/bet_hist.c:1589 ../src/etats_affiche.c:2438
 #: ../src/etats_config.c:674 ../src/gsb_form.c:1329
 #: ../src/gsb_form_widget.c:440 ../src/gsb_transactions_list.c:152
 #: ../src/imputation_budgetaire.c:162 ../src/meta_budgetary.c:60
 msgid "Budgetary line"
 msgstr "Imputation budgétaire"
 
-#: ../src/bet_config.c:1256
+#: ../src/bet_config.c:1257
 msgid "Loan Capital"
 msgstr "Capital emprunté"
 
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1276 ../src/bet_finance_ui.c:276
+#: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:276
 #: ../src/bet_finance_ui.c:469 ../src/bet_finance_ui.c:1146
 #: ../src/bet_finance_ui.c:1586
 msgid "Duration"
 msgstr "Durée"
 
-#: ../src/bet_config.c:1285 ../src/bet_finance_ui.c:749
+#: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:749
 msgid "year"
 msgstr "année"
 
-#: ../src/bet_config.c:1294
+#: ../src/bet_config.c:1295
 msgid "Date of first Repayment"
 msgstr "Date de la première échéance"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1307 ../src/bet_finance_ui.c:1132
+#: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1132
 #: ../src/bet_finance_ui.c:1572
 msgid "Annuel rate interest"
 msgstr "Taux d'intérêt annuel"
 
-#: ../src/bet_config.c:1317 ../src/bet_finance_ui.c:271
+#: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:271
 #: ../src/bet_finance_ui.c:382 ../src/bet_finance_ui.c:1141
 #: ../src/bet_finance_ui.c:1581
 msgid "%"
 msgstr "%"
 
-#: ../src/bet_config.c:1325
+#: ../src/bet_config.c:1326
 msgid "Fees per month"
 msgstr "Frais par échéance"
 
-#: ../src/bet_config.c:1348 ../src/bet_finance_ui.c:395
+#: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:395
 msgid "Rate Type"
 msgstr "Type de taux"
 
-#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:399
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:399
 msgid "CAGR"
 msgstr "Taux actuariel"
 
-#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:402
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:402
 msgid "Proportional rate"
 msgstr "Taux proportionnel"
 
-#: ../src/bet_config.c:1367
+#: ../src/bet_config.c:1368
 msgid "Apply"
 msgstr "Appliquer"
 
-#: ../src/bet_config.c:1422 ../src/bet_finance_ui.c:1693
+#: ../src/bet_config.c:1423 ../src/bet_finance_ui.c:1693
 msgid " year "
 msgstr " an "
 
-#: ../src/bet_config.c:1424 ../src/bet_finance_ui.c:1695
+#: ../src/bet_config.c:1425 ../src/bet_finance_ui.c:1695
 msgid " years "
 msgstr " ans "
 
-#: ../src/bet_config.c:1474 ../src/bet_finance_ui.c:677
+#: ../src/bet_config.c:1475 ../src/bet_finance_ui.c:677
 msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
@@ -1190,17 +1190,17 @@ msgstr "Montant retenu"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1017
+#: ../src/bet_hist.c:1015
 msgid "12 months rolling"
 msgstr "12 mois glissants"
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1432
+#: ../src/bet_hist.c:1430
 msgid "Assign the amount of the last operation"
 msgstr "Assigner le montant de la dernière opération"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1455
+#: ../src/bet_hist.c:1453
 msgid "Copy the average amount"
 msgstr "Copier la valeur moyenne"
 
@@ -2186,7 +2186,7 @@ msgstr "Total général"
 
 #: ../src/etats_affiche.c:1851 ../src/export_csv.c:576
 #: ../src/gsb_data_category.c:1053 ../src/gsb_form.c:723
-#: ../src/gsb_form.c:2867 ../src/gsb_form.c:3270
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:3271
 #: ../src/gsb_form_scheduler.c:312 ../src/gsb_transactions_list.c:3482
 msgid "Split of transaction"
 msgstr "Opération ventilée"
@@ -4637,7 +4637,7 @@ msgstr ""
 "Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
 
 #: ../src/gsb_assistant_archive.c:313 ../src/gsb_data_payee.c:540
-#: ../src/gsb_form.c:2980 ../src/gsb_form.c:2981 ../src/navigation.c:1238
+#: ../src/gsb_form.c:2981 ../src/gsb_form.c:2982 ../src/navigation.c:1238
 msgid "Report"
 msgstr "État"
 
@@ -6591,7 +6591,7 @@ msgstr "Trinité-et-Tobago"
 msgid "United States Dollar"
 msgstr "Dollar des Etats-Unis"
 
-#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1400
+#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1401
 msgid "United States"
 msgstr "Etats-Unis"
 
@@ -6827,7 +6827,7 @@ msgid "ISO code"
 msgstr "Code ISO"
 
 #. Create floating point entry
-#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1010
+#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1011
 msgid "Floating point"
 msgstr "Virgule flottante"
 
@@ -6836,7 +6836,7 @@ msgid "Country name"
 msgstr "Pays"
 
 #. Currency name
-#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:976
+#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:977
 msgid "Currency name"
 msgstr "Nom de la devise"
 
@@ -6879,45 +6879,45 @@ msgstr "Devise pour l'arbre des imputations budgétaires"
 msgid "Add transactions archived in the totals"
 msgstr "Ajouter les opérations archivées aux totaux"
 
-#: ../src/gsb_currency_config.c:940
+#: ../src/gsb_currency_config.c:941
 msgid "Add a currency"
 msgstr "Ajout d'une devise"
 
-#: ../src/gsb_currency_config.c:949
+#: ../src/gsb_currency_config.c:950
 msgid "Select base currency for your account"
 msgstr "Sélection de la devise de base du compte"
 
-#: ../src/gsb_currency_config.c:958
+#: ../src/gsb_currency_config.c:959
 msgid "World currencies"
 msgstr "Devises"
 
-#: ../src/gsb_currency_config.c:967
+#: ../src/gsb_currency_config.c:968
 msgid "Currency details"
 msgstr "Détails de la devise"
 
 #. Currency ISO code
-#: ../src/gsb_currency_config.c:988
+#: ../src/gsb_currency_config.c:989
 msgid "Currency international code"
 msgstr "Code ISO de la devise"
 
 #. Currency usual sign
-#: ../src/gsb_currency_config.c:999
+#: ../src/gsb_currency_config.c:1000
 msgid "Currency sign"
 msgstr "Symbole de la devise"
 
-#: ../src/gsb_currency_config.c:1076
+#: ../src/gsb_currency_config.c:1077
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
 "Le nom, le code ISO, ou le symbole de la devise doivent être renseignés."
 
-#: ../src/gsb_currency_config.c:1078 ../src/gsb_data_partial_balance.c:318
+#: ../src/gsb_currency_config.c:1079 ../src/gsb_data_partial_balance.c:318
 #: ../src/gsb_data_partial_balance.c:428
 msgid "All fields are not filled in"
 msgstr "Tous les champs ne sont pas remplis !"
 
-#: ../src/gsb_currency_config.c:1206
+#: ../src/gsb_currency_config.c:1207
 msgid "Include obsolete currencies"
 msgstr "Afficher les devises obsolètes"
 
@@ -7459,7 +7459,7 @@ msgid "Failed to load accounts"
 msgstr "Échec du chargement des comptes"
 
 #: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:421
+#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:422
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
@@ -7675,7 +7675,7 @@ msgstr ""
 "\n"
 "puis appuyez le bouton Valider"
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:418
+#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:419
 #: ../src/gsb_file_others.c:424 ../src/gsb_file_others.c:561
 #: ../src/gsb_file_others.c:748 ../src/gsb_file_others.c:808
 #, c-format
@@ -7696,7 +7696,7 @@ msgstr ""
 "%s ne semble pas être un fichier normal,\n"
 "veuillez vérifier et réessayer."
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:391
+#: ../src/gsb_file_load.c:360 ../src/gsb_file_save.c:391
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7709,15 +7709,15 @@ msgstr ""
 "Vérifiez qu'il soit bien installé (i.e. vérifiez que le paquet 'grisbi-ssl' "
 "est installé) et essayez à nouveau."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:365 ../src/gsb_file_save.c:396
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5466
+#: ../src/gsb_file_load.c:463 ../src/gsb_file_load.c:5467
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
-#: ../src/gsb_file_load.c:699
+#: ../src/gsb_file_load.c:700
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7729,7 +7729,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8863
+#: ../src/gsb_file_load.c:8864
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7738,7 +7738,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
 "Vous utilisez la version %s."
 
-#: ../src/gsb_file_load.c:8888
+#: ../src/gsb_file_load.c:8889
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7751,7 +7751,7 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: ../src/gsb_file_load.c:8892
+#: ../src/gsb_file_load.c:8893
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
@@ -7920,25 +7920,25 @@ msgstr "Date invalide %s"
 msgid "Invalid value date %s"
 msgstr "La date est invalide %s"
 
-#: ../src/gsb_form.c:2785
+#: ../src/gsb_form.c:2786
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr "Attention la date doit être comprise entre le %s et le %s"
 
-#: ../src/gsb_form.c:2788 ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2789 ../src/gsb_form.c:2816
 msgid "Invalid date"
 msgstr "Date invalide"
 
-#: ../src/gsb_form.c:2813
+#: ../src/gsb_form.c:2814
 #, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "La date doit être inférieure ou égale au %s"
 
-#: ../src/gsb_form.c:2849
+#: ../src/gsb_form.c:2850
 msgid "You must enter an amount."
 msgstr "Un montant est obligatoire."
 
-#: ../src/gsb_form.c:2869
+#: ../src/gsb_form.c:2870
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -7946,28 +7946,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
 "opération fille"
 
-#: ../src/gsb_form.c:2903
+#: ../src/gsb_form.c:2904
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération programmée."
 
-#: ../src/gsb_form.c:2910
+#: ../src/gsb_form.c:2911
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
-#: ../src/gsb_form.c:2918
+#: ../src/gsb_form.c:2919
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte"
 
-#: ../src/gsb_form.c:2923
+#: ../src/gsb_form.c:2924
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: ../src/gsb_form.c:2949
+#: ../src/gsb_form.c:2950
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7977,7 +7977,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:2967
+#: ../src/gsb_form.c:2968
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7985,30 +7985,30 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:2988
+#: ../src/gsb_form.c:2989
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: ../src/gsb_form.c:2993
+#: ../src/gsb_form.c:2994
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: ../src/gsb_form.c:3004
+#: ../src/gsb_form.c:3005
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: ../src/gsb_form.c:3011
+#: ../src/gsb_form.c:3012
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
-#: ../src/gsb_form.c:3293
+#: ../src/gsb_form.c:3294
 msgid "Modifying a transaction"
 msgstr "Modifier une opération"
 
-#: ../src/gsb_form.c:3294
+#: ../src/gsb_form.c:3295
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8023,7 +8023,7 @@ msgstr ""
 "Etes vous certain ?"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3597
+#: ../src/gsb_form.c:3598
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
@@ -10051,7 +10051,7 @@ msgstr "Fichiers"
 msgid "Programs"
 msgstr "Programmes"
 
-#: ../src/parametres.c:351 ../src/parametres.c:1235
+#: ../src/parametres.c:351 ../src/parametres.c:1251
 msgid "Localization"
 msgstr "Paramètres régionaux"
 
@@ -10204,46 +10204,50 @@ msgid "by number"
 msgstr "Par numéro"
 
 #: ../src/parametres.c:1170
-msgid "by date"
-msgstr "Par date"
+msgid "by increasing date"
+msgstr "Par dates croissantes"
 
-#: ../src/parametres.c:1175
+#: ../src/parametres.c:1171
+msgid "by date descending"
+msgstr "Par dates décroissantes"
+
+#: ../src/parametres.c:1178
 msgid "Choice of the action for double click of the mouse"
 msgstr "Action associée au double clic de la souris"
 
-#: ../src/parametres.c:1176
+#: ../src/parametres.c:1179
 msgid "Expand the line"
 msgstr "Développer la ligne"
 
-#: ../src/parametres.c:1177
+#: ../src/parametres.c:1180
 msgid "Edit the line"
 msgstr "Editer la ligne"
 
-#: ../src/parametres.c:1178
+#: ../src/parametres.c:1181
 msgid "Manage the line"
 msgstr "Gérer la ligne"
 
-#: ../src/parametres.c:1277
+#: ../src/parametres.c:1293
 msgid "Choose the date format"
 msgstr "Choisir le format de la date"
 
-#: ../src/parametres.c:1283
+#: ../src/parametres.c:1299
 msgid "Date format"
 msgstr "Format de la date"
 
-#: ../src/parametres.c:1349
+#: ../src/parametres.c:1365
 msgid "Decimal point"
 msgstr "Séparateur décimal"
 
-#: ../src/parametres.c:1362
+#: ../src/parametres.c:1378
 msgid "Thousands separator"
 msgstr "Séparateur de milliers"
 
-#: ../src/parametres.c:1379
+#: ../src/parametres.c:1395
 msgid "Choose the decimal and thousands separator"
 msgstr "Choisir le séparateur décimal et le séparateur de milliers"
 
-#: ../src/parametres.c:1385
+#: ../src/parametres.c:1401
 msgid "Decimal and thousands separator"
 msgstr "Séparateur décimal et séparateur de milliers"
 
@@ -10431,7 +10435,8 @@ msgstr "Prélèvement"
 msgid "Repeating payment/standing order"
 msgstr "Paiement répété"
 
-#: ../src/plugins/openssl/openssl.c:194
+#. it seems that it was not the correct password
+#: ../src/plugins/openssl/openssl.c:277
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -10440,7 +10445,7 @@ msgstr ""
 "\n"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: ../src/plugins/openssl/openssl.c:206
+#: ../src/plugins/openssl/openssl.c:288
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -10448,24 +10453,24 @@ msgstr ""
 "Cette version compilée de Grisbi ne gère pas le cryptage.\n"
 "Veuillez recompiler Grisbi avec le cryptage OpenSSL activé."
 
-#: ../src/plugins/openssl/openssl.c:208
+#: ../src/plugins/openssl/openssl.c:290
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Impossible d'ouvrir le fichier crypté '%s'"
 
-#: ../src/plugins/openssl/openssl.c:233
+#: ../src/plugins/openssl/openssl.c:315
 msgid "Grisbi password"
 msgstr "Mot de passe Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 msgid "Crypt file"
 msgstr "Crypter le fichier"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 msgid "Decrypt file"
 msgstr "Décrypter le fichier"
 
-#: ../src/plugins/openssl/openssl.c:265
+#: ../src/plugins/openssl/openssl.c:347
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -10474,7 +10479,7 @@ msgstr ""
 "%sEntrer le mot de passe pour crypter le fichier\n"
 "« <tt>%s</tt> »"
 
-#: ../src/plugins/openssl/openssl.c:271
+#: ../src/plugins/openssl/openssl.c:353
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -10483,27 +10488,27 @@ msgstr ""
 "%sEntrer le mot de passe pour décrypter le fichier\n"
 "« <tt>%s</tt> »"
 
-#: ../src/plugins/openssl/openssl.c:279
+#: ../src/plugins/openssl/openssl.c:361
 msgid "Password"
 msgstr "Mot de passe"
 
-#: ../src/plugins/openssl/openssl.c:289 ../src/plugins/openssl/openssl.c:382
+#: ../src/plugins/openssl/openssl.c:371 ../src/plugins/openssl/openssl.c:464
 msgid "View password"
 msgstr "Afficher le mot de passe"
 
-#: ../src/plugins/openssl/openssl.c:297
+#: ../src/plugins/openssl/openssl.c:379
 msgid "Don't ask password again for this session."
 msgstr "Ne pas redemander le mot de passe pour cette session."
 
-#: ../src/plugins/openssl/openssl.c:321
+#: ../src/plugins/openssl/openssl.c:403
 msgid "The password must contain at least 7 characters"
 msgstr "Le mot de passe doit contenir au moins 7 caractères"
 
-#: ../src/plugins/openssl/openssl.c:322
+#: ../src/plugins/openssl/openssl.c:404
 msgid "Password too short"
 msgstr "Mot de passe trop court"
 
-#: ../src/plugins/openssl/openssl.c:384
+#: ../src/plugins/openssl/openssl.c:466
 msgid "Hide password"
 msgstr "Cacher le mot de passe"
 
@@ -11364,16 +11369,10 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 msgid "No font defined"
 msgstr "Aucune police définie"
 
-#: ../src/utils_str.c:977
+#: ../src/utils_str.c:983
 msgid ": "
 msgstr " : "
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Choose a %s"
-#~ msgstr "Choisir une %s"
-
-#~ msgid "Transfer the transactions"
-#~ msgstr "Transférer les opérations"

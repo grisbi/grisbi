@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-05 22:30+0100\n"
+"POT-Creation-Date: 2011-02-09 20:22+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -690,7 +690,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Επιλέξτε το οικονομικό έτος"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:918 ../src/bet_hist.c:539
+#: ../src/bet_config.c:918 ../src/bet_hist.c:539 ../src/bet_hist.c:1596
 #: ../src/categories_onglet.c:153 ../src/etats_affiche.c:2431
 #: ../src/etats_config.c:670 ../src/export_csv.c:795
 #: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:82
@@ -699,83 +699,83 @@ msgid "Category"
 msgstr "Κατηγορία"
 
 #: ../src/bet_config.c:931 ../src/bet_future.c:811 ../src/bet_future.c:2019
-#: ../src/bet_future.c:2496 ../src/bet_hist.c:1591 ../src/etats_affiche.c:2438
+#: ../src/bet_future.c:2496 ../src/bet_hist.c:1589 ../src/etats_affiche.c:2438
 #: ../src/etats_config.c:674 ../src/gsb_form.c:1329
 #: ../src/gsb_form_widget.c:440 ../src/gsb_transactions_list.c:152
 #: ../src/imputation_budgetaire.c:162 ../src/meta_budgetary.c:60
 msgid "Budgetary line"
 msgstr "Δημοσιονομική γραμμή"
 
-#: ../src/bet_config.c:1256
+#: ../src/bet_config.c:1257
 msgid "Loan Capital"
 msgstr ""
 
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1276 ../src/bet_finance_ui.c:276
+#: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:276
 #: ../src/bet_finance_ui.c:469 ../src/bet_finance_ui.c:1146
 #: ../src/bet_finance_ui.c:1586
 #, fuzzy
 msgid "Duration"
 msgstr "Ταξινόμηση σε πίνακα"
 
-#: ../src/bet_config.c:1285 ../src/bet_finance_ui.c:749
+#: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:749
 #, fuzzy
 msgid "year"
 msgstr "Χρόνια"
 
-#: ../src/bet_config.c:1294
+#: ../src/bet_config.c:1295
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "μέθοδος πληρωμής"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1307 ../src/bet_finance_ui.c:1132
+#: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1132
 #: ../src/bet_finance_ui.c:1572
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1317 ../src/bet_finance_ui.c:271
+#: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:271
 #: ../src/bet_finance_ui.c:382 ../src/bet_finance_ui.c:1141
 #: ../src/bet_finance_ui.c:1581
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1325
+#: ../src/bet_config.c:1326
 #, fuzzy
 msgid "Fees per month"
 msgstr "Τρεις μήνες"
 
-#: ../src/bet_config.c:1348 ../src/bet_finance_ui.c:395
+#: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:395
 #, fuzzy
 msgid "Rate Type"
 msgstr "Τύπος"
 
-#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:399
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:399
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:402
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:402
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1367
+#: ../src/bet_config.c:1368
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1422 ../src/bet_finance_ui.c:1693
+#: ../src/bet_config.c:1423 ../src/bet_finance_ui.c:1693
 #, fuzzy
 msgid " year "
 msgstr "έτος %d"
 
-#: ../src/bet_config.c:1424 ../src/bet_finance_ui.c:1695
+#: ../src/bet_config.c:1425 ../src/bet_finance_ui.c:1695
 #, fuzzy
 msgid " years "
 msgstr "Χρόνια"
 
-#: ../src/bet_config.c:1474 ../src/bet_finance_ui.c:677
+#: ../src/bet_config.c:1475 ../src/bet_finance_ui.c:677
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -1247,18 +1247,18 @@ msgstr "Όνομα λογαριασμού"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1017
+#: ../src/bet_hist.c:1015
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1432
+#: ../src/bet_hist.c:1430
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "Αναστρέψτε το ποσό των εισαγόμενων συναλλαγών"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1455
+#: ../src/bet_hist.c:1453
 msgid "Copy the average amount"
 msgstr ""
 
@@ -2267,7 +2267,7 @@ msgstr "Γενικό σύνολο"
 
 #: ../src/etats_affiche.c:1851 ../src/export_csv.c:576
 #: ../src/gsb_data_category.c:1053 ../src/gsb_form.c:723
-#: ../src/gsb_form.c:2867 ../src/gsb_form.c:3270
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:3271
 #: ../src/gsb_form_scheduler.c:312 ../src/gsb_transactions_list.c:3482
 msgid "Split of transaction"
 msgstr "Διάσπαση της συναλλαγής"
@@ -4732,7 +4732,7 @@ msgstr ""
 "Το Grisbi θα αρχειοθετήσει τις συναλλαγές που επιλέγονται από μια έκθεση."
 
 #: ../src/gsb_assistant_archive.c:313 ../src/gsb_data_payee.c:540
-#: ../src/gsb_form.c:2980 ../src/gsb_form.c:2981 ../src/navigation.c:1238
+#: ../src/gsb_form.c:2981 ../src/gsb_form.c:2982 ../src/navigation.c:1238
 msgid "Report"
 msgstr "Αναφορά"
 
@@ -6722,7 +6722,7 @@ msgstr "Τρινιντάντ και Τομπάγκο"
 msgid "United States Dollar"
 msgstr "Δολάριο Ηνωμένων Πολιτειών"
 
-#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1400
+#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1401
 msgid "United States"
 msgstr "Ηνωμένες Πολιτείες"
 
@@ -6958,7 +6958,7 @@ msgid "ISO code"
 msgstr "Κωδικός ISO"
 
 #. Create floating point entry
-#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1010
+#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1011
 msgid "Floating point"
 msgstr "Κινητή υποδιαστολή"
 
@@ -6967,7 +6967,7 @@ msgid "Country name"
 msgstr "Όνομα χώρας"
 
 #. Currency name
-#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:976
+#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:977
 msgid "Currency name"
 msgstr "Όνομα νομίσματος"
 
@@ -7011,33 +7011,33 @@ msgstr "Νόμισμα για το δημοσιονομικό δέντρο γρ�
 msgid "Add transactions archived in the totals"
 msgstr "Προσθέστε τις συναλλαγές σε έναν λογαριασμό."
 
-#: ../src/gsb_currency_config.c:940
+#: ../src/gsb_currency_config.c:941
 msgid "Add a currency"
 msgstr "Προσθέστε ένα νόμισμα"
 
-#: ../src/gsb_currency_config.c:949
+#: ../src/gsb_currency_config.c:950
 msgid "Select base currency for your account"
 msgstr "Επιλέξτε το νόμισμα βάσεων για τον λογαριασμό σας"
 
-#: ../src/gsb_currency_config.c:958
+#: ../src/gsb_currency_config.c:959
 msgid "World currencies"
 msgstr "Παγκόσμια νομίσματα"
 
-#: ../src/gsb_currency_config.c:967
+#: ../src/gsb_currency_config.c:968
 msgid "Currency details"
 msgstr "Λεπτομέρειες νομίσματος"
 
 #. Currency ISO code
-#: ../src/gsb_currency_config.c:988
+#: ../src/gsb_currency_config.c:989
 msgid "Currency international code"
 msgstr "Διεθνής κώδικας νομισμάτων"
 
 #. Currency usual sign
-#: ../src/gsb_currency_config.c:999
+#: ../src/gsb_currency_config.c:1000
 msgid "Currency sign"
 msgstr "Σημάδι νομίσματος"
 
-#: ../src/gsb_currency_config.c:1076
+#: ../src/gsb_currency_config.c:1077
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
@@ -7045,12 +7045,12 @@ msgstr ""
 "Το όνομα νομίσματος και είτε ο διεθνής κώδικας νομίσματος είτε παρωνύμιο "
 "νομίσματος πρέπει να τεθεί."
 
-#: ../src/gsb_currency_config.c:1078 ../src/gsb_data_partial_balance.c:318
+#: ../src/gsb_currency_config.c:1079 ../src/gsb_data_partial_balance.c:318
 #: ../src/gsb_data_partial_balance.c:428
 msgid "All fields are not filled in"
 msgstr "Δεν έχουν συμπληρωθεί όλοι οι τομείς"
 
-#: ../src/gsb_currency_config.c:1206
+#: ../src/gsb_currency_config.c:1207
 msgid "Include obsolete currencies"
 msgstr "Περιλάβετε τα ξεπερασμένα νομίσματα"
 
@@ -7620,7 +7620,7 @@ msgid "Failed to load accounts"
 msgstr "Αδυναμία φόρτωσης λογαριασμών"
 
 #: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:421
+#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:422
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Λάθος φόρτωσης αρχείου '%s'"
@@ -7836,7 +7836,7 @@ msgstr ""
 "\n"
 "και πιέστε το πλήκτρο 'OK'"
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:418
+#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:419
 #: ../src/gsb_file_others.c:424 ../src/gsb_file_others.c:561
 #: ../src/gsb_file_others.c:748 ../src/gsb_file_others.c:808
 #, c-format
@@ -7857,7 +7857,7 @@ msgstr ""
 "%s δεν φαίνεται να είναι ένα κανονικό αρχείο,\n"
 "παρακαλώ ελέγξτε το και προσπαθήστε πάλι."
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:391
+#: ../src/gsb_file_load.c:360 ../src/gsb_file_save.c:391
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7870,15 +7870,15 @@ msgstr ""
 "Παρακαλώ σιγουρευτείτε εάν είναι εγκατεστημένο (δηλ. ελέγξτε ότι το πακέτο "
 "'grisbi-ssl' εγκαταστάθηκε) και προσπαθήστε πάλι."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:365 ../src/gsb_file_save.c:396
 msgid "Encryption plugin not found."
 msgstr "Το plugin της κρυπτογράφησης δεν βρέθηκε."
 
-#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5466
+#: ../src/gsb_file_load.c:463 ../src/gsb_file_load.c:5467
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
-#: ../src/gsb_file_load.c:699
+#: ../src/gsb_file_load.c:700
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7890,7 +7890,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8863
+#: ../src/gsb_file_load.c:8864
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7899,7 +7899,7 @@ msgstr ""
 "Η έκδοση Grisbi %s απαιτείται για να ανοίξει αυτό το αρχείο.\n"
 "Eσείς χρησιμοποιείται την έκδοση %s."
 
-#: ../src/gsb_file_load.c:8888
+#: ../src/gsb_file_load.c:8889
 #, fuzzy
 msgid ""
 "You have opened an archive.\n"
@@ -7912,7 +7912,7 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: ../src/gsb_file_load.c:8892
+#: ../src/gsb_file_load.c:8893
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
@@ -8075,27 +8075,27 @@ msgstr "Άκυρη ημερομηνία %s"
 msgid "Invalid value date %s"
 msgstr "Άκυρη τοκοφόρος ημερομηνία %s"
 
-#: ../src/gsb_form.c:2785
+#: ../src/gsb_form.c:2786
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2788 ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2789 ../src/gsb_form.c:2816
 #, fuzzy
 msgid "Invalid date"
 msgstr "Άκυρη ημερομηνία %s"
 
-#: ../src/gsb_form.c:2813
+#: ../src/gsb_form.c:2814
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "λιγότερο από ή ίσο"
 
-#: ../src/gsb_form.c:2849
+#: ../src/gsb_form.c:2850
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "Πρέπει να εισαγάγετε μια ημερομηνία."
 
-#: ../src/gsb_form.c:2869
+#: ../src/gsb_form.c:2870
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -8103,14 +8103,14 @@ msgstr ""
 "Δεν μπορείτε να θέσετε τη διάσπαση της συναλλαγής στην κατηγορία για μια "
 "απόγονο μιας διάσπασης της συναλλαγής."
 
-#: ../src/gsb_form.c:2903
+#: ../src/gsb_form.c:2904
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Αδύνατη η σύνδεση μιας μεταφοράς σε έναν διαγραμμένο λογαριασμό σε μια "
 "σχεδιασμένη συναλλαγή."
 
-#: ../src/gsb_form.c:2910
+#: ../src/gsb_form.c:2911
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
@@ -8118,15 +8118,15 @@ msgstr ""
 "Δεν υπάρχει κανένας σχετικός λογαριασμός για αυτήν την μεταφορά ή ο σχετικός "
 "λογαριασμός είναι άκυρος."
 
-#: ../src/gsb_form.c:2918
+#: ../src/gsb_form.c:2919
 msgid "Can't issue a transfer its own account."
 msgstr "Αδύνατη η εκροή της μεταφοράς στον λογαριασμό"
 
-#: ../src/gsb_form.c:2923
+#: ../src/gsb_form.c:2924
 msgid "Can't issue a transfer on a closed account."
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
-#: ../src/gsb_form.c:2949
+#: ../src/gsb_form.c:2950
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -8136,7 +8136,7 @@ msgstr ""
 "αλλά δεν περιέχει οποιοδήποτε αριθμό.\n"
 "Θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2967
+#: ../src/gsb_form.c:2968
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -8144,31 +8144,31 @@ msgstr ""
 "Προειδοποίηση: αυτός ο αριθμός επιταγών χρησιμοποιείται ήδη.\n"
 "θα συνεχίσετε παρόλα αυτά;"
 
-#: ../src/gsb_form.c:2988
+#: ../src/gsb_form.c:2989
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής πρέπει να είναι νέα."
 
-#: ../src/gsb_form.c:2993
+#: ../src/gsb_form.c:2994
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Μια συναλλαγή με έναν πολλαπλάσιο δικαιούχο πληρωμής δεν μπορεί να είναι "
 "διασπασμένος απόγονος."
 
-#: ../src/gsb_form.c:3004
+#: ../src/gsb_form.c:3005
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 "Η λέξη \"έκθεση \" είναι διατηρημένη. Παρακαλώ χρησιμοποιήστε μια άλλη."
 
-#: ../src/gsb_form.c:3011
+#: ../src/gsb_form.c:3012
 msgid "Invalid multiple payee."
 msgstr "Άκυρος πολλαπλάσιος δικαιούχος πληρωμής."
 
-#: ../src/gsb_form.c:3293
+#: ../src/gsb_form.c:3294
 msgid "Modifying a transaction"
 msgstr "Τροποποίηση μιας συναλλαγής"
 
-#: ../src/gsb_form.c:3294
+#: ../src/gsb_form.c:3295
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8183,7 +8183,7 @@ msgstr ""
 "Είστε βέβαιοι;"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3597
+#: ../src/gsb_form.c:3598
 msgid "Configure the form"
 msgstr "Διαμορφώστε τη μορφή"
 
@@ -10240,7 +10240,7 @@ msgstr "Αρχεία"
 msgid "Programs"
 msgstr "Προγράμματα"
 
-#: ../src/parametres.c:351 ../src/parametres.c:1235
+#: ../src/parametres.c:351 ../src/parametres.c:1251
 #, fuzzy
 msgid "Localization"
 msgstr "Συμφωνία"
@@ -10403,54 +10403,57 @@ msgid "by number"
 msgstr "Αριθμός δικαιούχων πληρωμής"
 
 #: ../src/parametres.c:1170
-#, fuzzy
-msgid "by date"
-msgstr "ημερομηνία"
+msgid "by increasing date"
+msgstr ""
 
-#: ../src/parametres.c:1175
+#: ../src/parametres.c:1171
+msgid "by date descending"
+msgstr ""
+
+#: ../src/parametres.c:1178
 msgid "Choice of the action for double click of the mouse"
 msgstr ""
 
-#: ../src/parametres.c:1176
+#: ../src/parametres.c:1179
 #, fuzzy
 msgid "Expand the line"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/parametres.c:1177
+#: ../src/parametres.c:1180
 #, fuzzy
 msgid "Edit the line"
 msgstr "Αρχική ισορροπία"
 
-#: ../src/parametres.c:1178
+#: ../src/parametres.c:1181
 #, fuzzy
 msgid "Manage the line"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/parametres.c:1277
+#: ../src/parametres.c:1293
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Επιλέξτε τον λογαριασμό"
 
-#: ../src/parametres.c:1283
+#: ../src/parametres.c:1299
 #, fuzzy
 msgid "Date format"
 msgstr "Τύπος αρχείου"
 
-#: ../src/parametres.c:1349
+#: ../src/parametres.c:1365
 #, fuzzy
 msgid "Decimal point"
 msgstr "Χωρισμός στοιχείων"
 
-#: ../src/parametres.c:1362
+#: ../src/parametres.c:1378
 #, fuzzy
 msgid "Thousands separator"
 msgstr "Επιλέξτε το διαχωριστή CSV"
 
-#: ../src/parametres.c:1379
+#: ../src/parametres.c:1395
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1385
+#: ../src/parametres.c:1401
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10647,7 +10650,8 @@ msgstr "Αρχική χρέωση εμπόρου"
 msgid "Repeating payment/standing order"
 msgstr "Επανάληψη της πληρωμής/της μόνιμης διαταγής"
 
-#: ../src/plugins/openssl/openssl.c:194
+#. it seems that it was not the correct password
+#: ../src/plugins/openssl/openssl.c:277
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
@@ -10657,7 +10661,7 @@ msgstr ""
 "\n"
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: ../src/plugins/openssl/openssl.c:206
+#: ../src/plugins/openssl/openssl.c:288
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
@@ -10665,24 +10669,24 @@ msgstr ""
 "Αυτή η έκδοση του Grisbi δεν υποστηρίζει κρυπτογράφηση.\n"
 "Παρακαλώ ξαναμεταγλωττίστε το Grisbi με κρυπτογράφηση OpenSSL ενεργοποιημένη."
 
-#: ../src/plugins/openssl/openssl.c:208
+#: ../src/plugins/openssl/openssl.c:290
 #, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Αδύνατο το άνοιγμα του κρυπτογραφημένου αρχείου '%s'"
 
-#: ../src/plugins/openssl/openssl.c:233
+#: ../src/plugins/openssl/openssl.c:315
 msgid "Grisbi password"
 msgstr "Κωδικός πρόσβασης του Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 msgid "Crypt file"
 msgstr "Κρυπτογραφημένο αρχείο"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 msgid "Decrypt file"
 msgstr "Αποκρυπτογραφημένο αρχείο"
 
-#: ../src/plugins/openssl/openssl.c:265
+#: ../src/plugins/openssl/openssl.c:347
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
@@ -10692,7 +10696,7 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: ../src/plugins/openssl/openssl.c:271
+#: ../src/plugins/openssl/openssl.c:353
 #, fuzzy, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
@@ -10702,29 +10706,29 @@ msgstr ""
 "αρχείο\n"
 "'<span foreground=\"blue\">%s</span>'"
 
-#: ../src/plugins/openssl/openssl.c:279
+#: ../src/plugins/openssl/openssl.c:361
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: ../src/plugins/openssl/openssl.c:289 ../src/plugins/openssl/openssl.c:382
+#: ../src/plugins/openssl/openssl.c:371 ../src/plugins/openssl/openssl.c:464
 #, fuzzy
 msgid "View password"
 msgstr "Κωδικός πρόσβασης του Grisbi"
 
-#: ../src/plugins/openssl/openssl.c:297
+#: ../src/plugins/openssl/openssl.c:379
 msgid "Don't ask password again for this session."
 msgstr "Να μην ξαναζητηθεί κωδικός πρόσβασης για αυτήν τη συνεδρία."
 
-#: ../src/plugins/openssl/openssl.c:321
+#: ../src/plugins/openssl/openssl.c:403
 msgid "The password must contain at least 7 characters"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:322
+#: ../src/plugins/openssl/openssl.c:404
 #, fuzzy
 msgid "Password too short"
 msgstr "Κωδικός πρόσβασης"
 
-#: ../src/plugins/openssl/openssl.c:384
+#: ../src/plugins/openssl/openssl.c:466
 #, fuzzy
 msgid "Hide password"
 msgstr "Κωδικός πρόσβασης του Grisbi"
@@ -11487,7 +11491,7 @@ msgstr ""
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
 
-#: ../src/utils_str.c:977
+#: ../src/utils_str.c:983
 msgid ": "
 msgstr ""
 
@@ -11495,6 +11499,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
+
+#, fuzzy
+#~ msgid "by date"
+#~ msgstr "ημερομηνία"
 
 #, fuzzy
 #~ msgid "Choose a %s"

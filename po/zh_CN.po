@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-05 22:30+0100\n"
+"POT-Creation-Date: 2011-02-09 20:22+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -698,7 +698,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "选择财年"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:918 ../src/bet_hist.c:539
+#: ../src/bet_config.c:918 ../src/bet_hist.c:539 ../src/bet_hist.c:1596
 #: ../src/categories_onglet.c:153 ../src/etats_affiche.c:2431
 #: ../src/etats_config.c:670 ../src/export_csv.c:795
 #: ../src/gsb_transactions_list.c:160 ../src/import_csv.c:82
@@ -707,14 +707,14 @@ msgid "Category"
 msgstr "种类"
 
 #: ../src/bet_config.c:931 ../src/bet_future.c:811 ../src/bet_future.c:2019
-#: ../src/bet_future.c:2496 ../src/bet_hist.c:1591 ../src/etats_affiche.c:2438
+#: ../src/bet_future.c:2496 ../src/bet_hist.c:1589 ../src/etats_affiche.c:2438
 #: ../src/etats_config.c:674 ../src/gsb_form.c:1329
 #: ../src/gsb_form_widget.c:440 ../src/gsb_transactions_list.c:152
 #: ../src/imputation_budgetaire.c:162 ../src/meta_budgetary.c:60
 msgid "Budgetary line"
 msgstr "预算行"
 
-#: ../src/bet_config.c:1256
+#: ../src/bet_config.c:1257
 #, fuzzy
 msgid "Loan Capital"
 msgstr "贷款/抵押 : 资产"
@@ -722,69 +722,69 @@ msgstr "贷款/抵押 : 资产"
 #. Duration
 #. create columns
 #. Duration
-#: ../src/bet_config.c:1276 ../src/bet_finance_ui.c:276
+#: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:276
 #: ../src/bet_finance_ui.c:469 ../src/bet_finance_ui.c:1146
 #: ../src/bet_finance_ui.c:1586
 #, fuzzy
 msgid "Duration"
 msgstr "翻译"
 
-#: ../src/bet_config.c:1285 ../src/bet_finance_ui.c:749
+#: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:749
 #, fuzzy
 msgid "year"
 msgstr "年"
 
-#: ../src/bet_config.c:1294
+#: ../src/bet_config.c:1295
 #, fuzzy
 msgid "Date of first Repayment"
 msgstr "支付方式"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1307 ../src/bet_finance_ui.c:1132
+#: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1132
 #: ../src/bet_finance_ui.c:1572
 msgid "Annuel rate interest"
 msgstr ""
 
-#: ../src/bet_config.c:1317 ../src/bet_finance_ui.c:271
+#: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:271
 #: ../src/bet_finance_ui.c:382 ../src/bet_finance_ui.c:1141
 #: ../src/bet_finance_ui.c:1581
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1325
+#: ../src/bet_config.c:1326
 #, fuzzy
 msgid "Fees per month"
 msgstr "%d 月"
 
-#: ../src/bet_config.c:1348 ../src/bet_finance_ui.c:395
+#: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:395
 #, fuzzy
 msgid "Rate Type"
 msgstr "类型"
 
-#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:399
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:399
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:402
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:402
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1367
+#: ../src/bet_config.c:1368
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1422 ../src/bet_finance_ui.c:1693
+#: ../src/bet_config.c:1423 ../src/bet_finance_ui.c:1693
 #, fuzzy
 msgid " year "
 msgstr "年 %d"
 
-#: ../src/bet_config.c:1424 ../src/bet_finance_ui.c:1695
+#: ../src/bet_config.c:1425 ../src/bet_finance_ui.c:1695
 #, fuzzy
 msgid " years "
 msgstr "年"
 
-#: ../src/bet_config.c:1474 ../src/bet_finance_ui.c:677
+#: ../src/bet_config.c:1475 ../src/bet_finance_ui.c:677
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -1264,18 +1264,18 @@ msgstr "每预算行总额"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1017
+#: ../src/bet_hist.c:1015
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1432
+#: ../src/bet_hist.c:1430
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "导入交易包含的日期"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1455
+#: ../src/bet_hist.c:1453
 msgid "Copy the average amount"
 msgstr ""
 
@@ -2271,7 +2271,7 @@ msgstr "一般总计"
 
 #: ../src/etats_affiche.c:1851 ../src/export_csv.c:576
 #: ../src/gsb_data_category.c:1053 ../src/gsb_form.c:723
-#: ../src/gsb_form.c:2867 ../src/gsb_form.c:3270
+#: ../src/gsb_form.c:2868 ../src/gsb_form.c:3271
 #: ../src/gsb_form_scheduler.c:312 ../src/gsb_transactions_list.c:3482
 #, fuzzy
 msgid "Split of transaction"
@@ -4707,7 +4707,7 @@ msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
 #: ../src/gsb_assistant_archive.c:313 ../src/gsb_data_payee.c:540
-#: ../src/gsb_form.c:2980 ../src/gsb_form.c:2981 ../src/navigation.c:1238
+#: ../src/gsb_form.c:2981 ../src/gsb_form.c:2982 ../src/navigation.c:1238
 msgid "Report"
 msgstr "报表"
 
@@ -6568,7 +6568,7 @@ msgstr "Trinidad and Tobago"
 msgid "United States Dollar"
 msgstr "United States Dollar"
 
-#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1400
+#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:1401
 msgid "United States"
 msgstr "United States"
 
@@ -6807,7 +6807,7 @@ msgid "ISO code"
 msgstr "ISO编号"
 
 #. Create floating point entry
-#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1010
+#: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1011
 msgid "Floating point"
 msgstr ""
 
@@ -6816,7 +6816,7 @@ msgid "Country name"
 msgstr "国家"
 
 #. Currency name
-#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:976
+#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:977
 msgid "Currency name"
 msgstr "货币名称"
 
@@ -6861,48 +6861,48 @@ msgstr "预算行树的货币"
 msgid "Add transactions archived in the totals"
 msgstr "移动交易到另一个账户"
 
-#: ../src/gsb_currency_config.c:940
+#: ../src/gsb_currency_config.c:941
 msgid "Add a currency"
 msgstr "新增货币"
 
-#: ../src/gsb_currency_config.c:949
+#: ../src/gsb_currency_config.c:950
 #, fuzzy
 msgid "Select base currency for your account"
 msgstr "选择银行账户"
 
-#: ../src/gsb_currency_config.c:958
+#: ../src/gsb_currency_config.c:959
 #, fuzzy
 msgid "World currencies"
 msgstr "所有货币"
 
-#: ../src/gsb_currency_config.c:967
+#: ../src/gsb_currency_config.c:968
 msgid "Currency details"
 msgstr "货币明细"
 
 #. Currency ISO code
-#: ../src/gsb_currency_config.c:988
+#: ../src/gsb_currency_config.c:989
 #, fuzzy
 msgid "Currency international code"
 msgstr "当前财年"
 
 #. Currency usual sign
-#: ../src/gsb_currency_config.c:999
+#: ../src/gsb_currency_config.c:1000
 msgid "Currency sign"
 msgstr "货币符号"
 
-#: ../src/gsb_currency_config.c:1076
+#: ../src/gsb_currency_config.c:1077
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
 msgstr ""
 
-#: ../src/gsb_currency_config.c:1078 ../src/gsb_data_partial_balance.c:318
+#: ../src/gsb_currency_config.c:1079 ../src/gsb_data_partial_balance.c:318
 #: ../src/gsb_data_partial_balance.c:428
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "所有的栏位都没有填！"
 
-#: ../src/gsb_currency_config.c:1206
+#: ../src/gsb_currency_config.c:1207
 msgid "Include obsolete currencies"
 msgstr "包含过期的货币"
 
@@ -7417,7 +7417,7 @@ msgid "Failed to load accounts"
 msgstr "选择银行账户"
 
 #: ../src/gsb_file.c:396 ../src/gsb_file.c:413 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:421
+#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:422
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "打开文件 '%s'.发生错误"
@@ -7604,7 +7604,7 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:418
+#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:419
 #: ../src/gsb_file_others.c:424 ../src/gsb_file_others.c:561
 #: ../src/gsb_file_others.c:748 ../src/gsb_file_others.c:808
 #, c-format
@@ -7626,7 +7626,7 @@ msgstr ""
 "%s 似乎不时一个有效文件，\n"
 "请重新检查。"
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:391
+#: ../src/gsb_file_load.c:360 ../src/gsb_file_save.c:391
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7634,17 +7634,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:396
+#: ../src/gsb_file_load.c:365 ../src/gsb_file_save.c:396
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
 
-#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5466
+#: ../src/gsb_file_load.c:463 ../src/gsb_file_load.c:5467
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
 
-#: ../src/gsb_file_load.c:699
+#: ../src/gsb_file_load.c:700
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7653,14 +7653,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8863
+#: ../src/gsb_file_load.c:8864
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: ../src/gsb_file_load.c:8888
+#: ../src/gsb_file_load.c:8889
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7668,7 +7668,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8892
+#: ../src/gsb_file_load.c:8893
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7827,54 +7827,54 @@ msgstr "非法日期"
 msgid "Invalid value date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2785
+#: ../src/gsb_form.c:2786
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2788 ../src/gsb_form.c:2815
+#: ../src/gsb_form.c:2789 ../src/gsb_form.c:2816
 #, fuzzy
 msgid "Invalid date"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2813
+#: ../src/gsb_form.c:2814
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "小于或等于"
 
-#: ../src/gsb_form.c:2849
+#: ../src/gsb_form.c:2850
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2869
+#: ../src/gsb_form.c:2870
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2903
+#: ../src/gsb_form.c:2904
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "转换交易为计划交易"
 
-#: ../src/gsb_form.c:2910
+#: ../src/gsb_form.c:2911
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "本转帐关联的账户不合法"
 
-#: ../src/gsb_form.c:2918
+#: ../src/gsb_form.c:2919
 msgid "Can't issue a transfer its own account."
 msgstr "不能转帐到本账户。"
 
-#: ../src/gsb_form.c:2923
+#: ../src/gsb_form.c:2924
 msgid "Can't issue a transfer on a closed account."
 msgstr "不能在结算账户上产生交易。"
 
-#: ../src/gsb_form.c:2949
+#: ../src/gsb_form.c:2950
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7884,7 +7884,7 @@ msgstr ""
 "但是没有任何编号。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2967
+#: ../src/gsb_form.c:2968
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7892,31 +7892,31 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:2988
+#: ../src/gsb_form.c:2989
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:2993
+#: ../src/gsb_form.c:2994
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:3004
+#: ../src/gsb_form.c:3005
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:3011
+#: ../src/gsb_form.c:3012
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "无效的多第三方。"
 
-#: ../src/gsb_form.c:3293
+#: ../src/gsb_form.c:3294
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "更改交易"
 
-#: ../src/gsb_form.c:3294
+#: ../src/gsb_form.c:3295
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7926,7 +7926,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3597
+#: ../src/gsb_form.c:3598
 msgid "Configure the form"
 msgstr ""
 
@@ -9963,7 +9963,7 @@ msgstr "文件"
 msgid "Programs"
 msgstr "程序"
 
-#: ../src/parametres.c:351 ../src/parametres.c:1235
+#: ../src/parametres.c:351 ../src/parametres.c:1251
 #, fuzzy
 msgid "Localization"
 msgstr "调整"
@@ -10131,52 +10131,56 @@ msgid "by number"
 msgstr "支票编号"
 
 #: ../src/parametres.c:1170
-msgid "by date"
-msgstr "按日期"
+msgid "by increasing date"
+msgstr ""
 
-#: ../src/parametres.c:1175
+#: ../src/parametres.c:1171
+msgid "by date descending"
+msgstr ""
+
+#: ../src/parametres.c:1178
 msgid "Choice of the action for double click of the mouse"
 msgstr ""
 
-#: ../src/parametres.c:1176
+#: ../src/parametres.c:1179
 #, fuzzy
 msgid "Expand the line"
 msgstr "数据选择"
 
-#: ../src/parametres.c:1177
+#: ../src/parametres.c:1180
 #, fuzzy
 msgid "Edit the line"
 msgstr "初始余额"
 
-#: ../src/parametres.c:1178
+#: ../src/parametres.c:1181
 #, fuzzy
 msgid "Manage the line"
 msgstr "数据选择"
 
-#: ../src/parametres.c:1277
+#: ../src/parametres.c:1293
 #, fuzzy
 msgid "Choose the date format"
 msgstr "选择账户"
 
-#: ../src/parametres.c:1283
+#: ../src/parametres.c:1299
 #, fuzzy
 msgid "Date format"
 msgstr "导出报表"
 
-#: ../src/parametres.c:1349
+#: ../src/parametres.c:1365
 #, fuzzy
 msgid "Decimal point"
 msgstr "数据选择"
 
-#: ../src/parametres.c:1362
+#: ../src/parametres.c:1378
 msgid "Thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1379
+#: ../src/parametres.c:1395
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1385
+#: ../src/parametres.c:1401
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10354,76 +10358,77 @@ msgstr "商户初始借入"
 msgid "Repeating payment/standing order"
 msgstr "重复支付/中止订单"
 
-#: ../src/plugins/openssl/openssl.c:194
+#. it seems that it was not the correct password
+#: ../src/plugins/openssl/openssl.c:277
 msgid ""
 "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n"
 "\n"
 msgstr ""
 
 #. FIXME: import symbols to be sure we can call this kind of stuff.
-#: ../src/plugins/openssl/openssl.c:206
+#: ../src/plugins/openssl/openssl.c:288
 #, fuzzy
 msgid ""
 "This build of Grisbi does not support encryption.\n"
 "Please recompile Grisbi with OpenSSL encryption enabled."
 msgstr "您使用的Grisbi版本不能支持OFX文件类型，请重新获取支持OFX的版本"
 
-#: ../src/plugins/openssl/openssl.c:208
+#: ../src/plugins/openssl/openssl.c:290
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "不能打开文件 '%s': %s"
 
-#: ../src/plugins/openssl/openssl.c:233
+#: ../src/plugins/openssl/openssl.c:315
 #, fuzzy
 msgid "Grisbi password"
 msgstr "Grisbi标志"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 #, fuzzy
 msgid "Crypt file"
 msgstr "Postscript 文件"
 
-#: ../src/plugins/openssl/openssl.c:237
+#: ../src/plugins/openssl/openssl.c:319
 #, fuzzy
 msgid "Decrypt file"
 msgstr "Postscript 文件"
 
-#: ../src/plugins/openssl/openssl.c:265
+#: ../src/plugins/openssl/openssl.c:347
 #, c-format
 msgid ""
 "%sPlease enter password to encrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:271
+#: ../src/plugins/openssl/openssl.c:353
 #, c-format
 msgid ""
 "%sPlease enter password to decrypt file\n"
 "<span foreground=\"blue\">%s</span>"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:279
+#: ../src/plugins/openssl/openssl.c:361
 msgid "Password"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:289 ../src/plugins/openssl/openssl.c:382
+#: ../src/plugins/openssl/openssl.c:371 ../src/plugins/openssl/openssl.c:464
 #, fuzzy
 msgid "View password"
 msgstr "Grisbi标志"
 
-#: ../src/plugins/openssl/openssl.c:297
+#: ../src/plugins/openssl/openssl.c:379
 msgid "Don't ask password again for this session."
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:321
+#: ../src/plugins/openssl/openssl.c:403
 msgid "The password must contain at least 7 characters"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:322
+#: ../src/plugins/openssl/openssl.c:404
 msgid "Password too short"
 msgstr ""
 
-#: ../src/plugins/openssl/openssl.c:384
+#: ../src/plugins/openssl/openssl.c:466
 #, fuzzy
 msgid "Hide password"
 msgstr "Grisbi标志"
@@ -11169,13 +11174,16 @@ msgstr ""
 msgid "No font defined"
 msgstr "没有定义汇率"
 
-#: ../src/utils_str.c:977
+#: ../src/utils_str.c:983
 msgid ": "
 msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#~ msgid "by date"
+#~ msgstr "按日期"
 
 #, fuzzy
 #~ msgid "Choose a %s"
