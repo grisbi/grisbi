@@ -583,7 +583,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     }
 
     /* amount line */
-    label = gtk_label_new ( COLON(_("Amounts")) );
+    label = gtk_label_new ( _("Amounts:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -656,7 +656,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     row++;
 
     /* exchange fees line label */
-    label = gtk_label_new ( COLON(_("Exchange fees")) );
+    label = gtk_label_new ( _("Exchange fees:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );

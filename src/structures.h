@@ -22,7 +22,6 @@
 #define VERSION_GTK_MINOR 16
 #define VERSION_GTK_MICRO 0
 
-#define COLON(s) (utils_str_colon ( s ))
 #define SPACIFY(s) (g_strconcat ( " ", s, " ", NULL ))
 #define PRESPACIFY(s) (g_strconcat ( " ", s, NULL ))
 #define POSTSPACIFY(s) (g_strconcat ( s, " ", NULL ))

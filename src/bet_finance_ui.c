@@ -217,7 +217,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */
-    label = gtk_label_new ( COLON( _("Loan capital") ) );
+    label = gtk_label_new ( _("Loan capital:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -253,7 +253,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
                         page );
 
     /* taux */
-    label = gtk_label_new ( COLON( _("Annual interest") ) );
+    label = gtk_label_new ( _("Annual interest:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -273,7 +273,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Duration */
-    label = gtk_label_new ( COLON( _("Duration") ) );
+    label = gtk_label_new ( _("Duration:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -364,7 +364,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
-    label = gtk_label_new ( COLON( _("Fees") ) );
+    label = gtk_label_new ( _("Fees:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -392,7 +392,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
-    label = gtk_label_new ( COLON( _("Rate Type") ) );
+    label = gtk_label_new ( _("Rate Type:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1119,7 +1119,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */
-    label = gtk_label_new ( COLON( _("Loan amount") ) );
+    label = gtk_label_new ( _("Loan amount:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1129,7 +1129,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* taux */
-    label = gtk_label_new ( COLON( _("Annuel rate interest") ) );
+    label = gtk_label_new ( _("Annuel rate interest:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1143,7 +1143,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Duration */
-    label = gtk_label_new ( COLON( _("Duration") ) );
+    label = gtk_label_new ( _("Duration:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1559,7 +1559,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* capital */
-    label = gtk_label_new ( COLON( _("Loan capital") ) );
+    label = gtk_label_new ( _("Loan capital:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1569,7 +1569,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Annuel rate interest */
-    label = gtk_label_new ( COLON( _("Annuel rate interest") ) );
+    label = gtk_label_new ( _("Annuel rate interest:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
@@ -1583,7 +1583,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Duration */
-    label = gtk_label_new ( COLON( _("Duration") ) );
+    label = gtk_label_new ( _("Duration:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );

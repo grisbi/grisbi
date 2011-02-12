@@ -823,7 +823,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     /* Add encoding preview */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER ( dialog ), hbox );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Encoding:") ),
                         FALSE, FALSE, 0 );
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
     if (enc && strlen (enc))
@@ -929,9 +929,9 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
     gtk_text_buffer_insert (buffer, &iter,
-                        COLON ( _("You successfully imported files into Grisbi.  The "
+                                _("You successfully imported files into Grisbi.  The "
                                   "following pages will help you set up imported data for "
-                                  "the following files") ),
+                                  "the following files"),
                         -1 );
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -1189,7 +1189,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox1 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account type") ) );
+    label = gtk_label_new ( _("Account type:") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1236,7 +1236,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account name") ) );
+    label = gtk_label_new ( _("Account name:") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1261,7 +1261,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox3 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account name") ) );
+    label = gtk_label_new ( _("Account name:") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1291,7 +1291,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    label = gtk_label_new ( COLON ( _("Account currency") ) );
+    label = gtk_label_new ( _("Account currency:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
@@ -3777,7 +3777,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Create entry liste des tiers */
-    label = gtk_label_new (COLON(_("Payee name")));
+    label = gtk_label_new (_("Payee name:"));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -3800,7 +3800,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         vbox_main );
 
     /* Create entry search string */
-    label = gtk_label_new (COLON(_("Search string")));
+    label = gtk_label_new (_("Search string:"));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
@@ -4537,7 +4537,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     g_free ( tmpstr );
 
     /* label filename */
-    label = gtk_label_new (COLON(_("Name of the file to import ")));
+    label = gtk_label_new (_("Name of the file to import :"));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );

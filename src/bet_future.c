@@ -1945,7 +1945,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 5 );
 
-    label = gtk_label_new ( COLON( _("Effective date") ) );
+    label = gtk_label_new ( _("Effective date:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     date_entry = gsb_calendar_entry_new ( FALSE );

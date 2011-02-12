@@ -1116,7 +1116,7 @@ void exporter_etat ( void )
 			 gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( COLON(_("File format")) ),
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( _("File format:") ),
 			 FALSE, FALSE, 0 );
 
     combo = gtk_combo_box_new_text();

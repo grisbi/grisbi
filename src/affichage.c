@@ -415,7 +415,7 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
-    label = gtk_label_new ( COLON(_("Accounts file title")) );
+    label = gtk_label_new ( _("Accounts file title:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
@@ -431,7 +431,7 @@ GtkWidget *onglet_display_addresses ( void )
 					     _("Addresses") );
 
     /* Common address */
-    label = gtk_label_new ( COLON(_("Common address")) );
+    label = gtk_label_new ( _("Common address:") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
@@ -450,7 +450,7 @@ GtkWidget *onglet_display_addresses ( void )
 
     /* Secondary address */
     /** \note This is not implemented yet */
-    label = gtk_label_new ( COLON(_("Secondary address")) );
+    label = gtk_label_new ( _("Secondary address:") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,

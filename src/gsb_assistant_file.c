@@ -279,7 +279,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0);
 
 	/* label account name */
-	label = gtk_label_new (COLON(_("Accounts file title")));
+	label = gtk_label_new (_("Accounts file title:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -301,7 +301,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* filename */
-	label = gtk_label_new (COLON(_("Filename")));
+	label = gtk_label_new (_("Filename:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,

@@ -1547,7 +1547,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Partial balance name */
-    label = gtk_label_new ( COLON ( _("Name") ) );
+    label = gtk_label_new ( _("Name:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -1558,7 +1558,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
                         GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
     /* List of the accounts */
-    label = gtk_label_new ( COLON ( _("Accounts list") ) );
+    label = gtk_label_new ( _("Accounts list:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
@@ -1573,7 +1573,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
                         GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* create the position */
-    label = gtk_label_new ( COLON ( _("Position in the list of accounts") ) );
+    label = gtk_label_new ( _("Position in the list of accounts:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 4, 5,
@@ -1621,7 +1621,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, TRUE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON ( _("Select the currency of the partial balance") ) );
+    label = gtk_label_new ( _("Select the currency of the partial balance:") );
     gtk_misc_set_alignment ( GTK_MISC  ( label ), 0, 1 );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );

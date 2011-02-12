@@ -2293,7 +2293,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Initial date")) );
+    label = gtk_label_new ( _("Initial date:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -2323,7 +2323,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Final date")) );
+    label = gtk_label_new ( _("Final date:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -2483,7 +2483,7 @@ GtkWidget *onglet_etat_comptes ( void )
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_comptes_etat );
 
-    label = gtk_label_new ( COLON(_("Select the accounts included in the report")) );
+    label = gtk_label_new ( _("Select the accounts included in the report:") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -3034,7 +3034,7 @@ GtkWidget *onglet_etat_categories ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( COLON(_("Select categories to include")) );
+    label = gtk_label_new ( _("Select categories to include:") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -3841,7 +3841,7 @@ GtkWidget *onglet_etat_ib ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( COLON(_("Select the budgetary lines to include in the report")) );
+    label = gtk_label_new ( _("Select the budgetary lines to include in the report:") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -4024,7 +4024,7 @@ GtkWidget *onglet_etat_tiers ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( COLON(_("Select payees to include in this report")) );
+    label = gtk_label_new ( _("Select payees to include in this report:") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -6340,7 +6340,7 @@ GtkWidget *page_data_separation ( void )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
 
-    label = gtk_label_new (COLON(_("Separation by time period")));
+    label = gtk_label_new (_("Separation by time period:"));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
@@ -6376,7 +6376,7 @@ GtkWidget *page_data_separation ( void )
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
 
     /* add beginning day of the week */
-    label = gtk_label_new (COLON(_("Beginning of week")));
+    label = gtk_label_new (_("Beginning of week:"));
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
@@ -6532,7 +6532,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Report name")) );
+    label = gtk_label_new ( _("Report name:") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -6835,7 +6835,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("General totals currency")) );
+    label = gtk_label_new ( _("General totals currency:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6864,7 +6864,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( hbox );
 
 
-    label = gtk_label_new ( COLON(_("Payees currency")) );
+    label = gtk_label_new ( _("Payees currency:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6893,7 +6893,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Categories currency")) );
+    label = gtk_label_new ( _("Categories currency:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6923,7 +6923,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Budgetary lines currency")) );
+    label = gtk_label_new ( _("Budgetary lines currency:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6952,7 +6952,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( COLON(_("Amount comparison currency")));
+    label = gtk_label_new ( _("Amount comparison currency:"));
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -7247,7 +7247,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_mode_paiement_etat );
 
-    label = gtk_label_new ( COLON(_("Select methods of payment to include")) );
+    label = gtk_label_new ( _("Select methods of payment to include:") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 

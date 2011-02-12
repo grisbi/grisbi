@@ -233,7 +233,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     gtk_box_pack_start ( GTK_BOX ( details_paddingbox ), table,
 			 TRUE, TRUE, 6 );
 
-    label = gtk_label_new ( COLON(_("Name")) );
+    label = gtk_label_new ( _("Name:") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -262,7 +262,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 
 
     /* Automatic numbering */
-    label = gtk_label_new ( COLON(_("Automatic numbering")) );
+    label = gtk_label_new ( _("Automatic numbering:") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -291,7 +291,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 		       0, 0 );
 
     /* Payment method method_ptr */
-    label = gtk_label_new ( COLON(_("Type")) );
+    label = gtk_label_new ( _("Type:") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -1308,7 +1308,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Associate transactions with")));
+    label = gtk_label_new ( _("Associate transactions with:"));
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 

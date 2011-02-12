@@ -229,7 +229,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Account name")) );
+    label = gtk_label_new ( _("Account name:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -250,7 +250,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Account type")) );
+    label = gtk_label_new ( _("Account type:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -268,7 +268,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Account currency")) );
+    label = gtk_label_new ( _("Account currency:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -303,7 +303,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Holder name")) );
+    label = gtk_label_new ( _("Holder name:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -335,7 +335,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* now the checkbutton for different address */
     button_holder_address = gsb_autofunc_checkbutton_new (
-                        COLON(_("Holder's own address")), FALSE,
+                        _("Holder's own address:"), FALSE,
                         G_CALLBACK (gsb_editable_erase_text_view),
                         detail_adresse_titulaire,
                         NULL,
@@ -369,7 +369,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Financial institution")) );
+    label = gtk_label_new ( _("Financial institution:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -397,7 +397,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("BIC code")) );
+    label = gtk_label_new ( _("BIC code:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -411,7 +411,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("IBAN number")) );
+    label = gtk_label_new ( _("IBAN number:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -440,7 +440,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Bank sort code")) );
+    label = gtk_label_new ( _("Bank sort code:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -454,7 +454,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Bank branch code")) );
+    label = gtk_label_new ( _("Bank branch code:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -475,7 +475,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Account number / Key")) );
+    label = gtk_label_new ( _("Account number / Key:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
@@ -512,7 +512,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Initial balance")) );
+    label = gtk_label_new ( _("Initial balance:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
@@ -528,7 +528,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Minimum authorised balance")) );
+    label = gtk_label_new ( _("Minimum authorised balance:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
@@ -545,7 +545,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Minimum desired balance")) );
+    label = gtk_label_new ( _("Minimum desired balance:") );
     gtk_misc_set_alignment ( GTK_MISC(label), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );

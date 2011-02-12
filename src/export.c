@@ -361,7 +361,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 
     /* Layout */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON ( _("Export format") ) ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format:") ),
 			 FALSE, FALSE, 0 );
 
     /* Combo box */

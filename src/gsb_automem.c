@@ -512,7 +512,7 @@ GtkWidget *gsb_automem_radiobutton3_new_with_title ( GtkWidget *parent,
 {
     GtkWidget *paddingbox;
 
-    paddingbox = new_paddingbox_with_title ( parent, FALSE, COLON ( title ) );
+    paddingbox = new_paddingbox_with_title ( parent, FALSE, title );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			gsb_automem_radiobutton3_new ( choice1, choice2, choice3,
