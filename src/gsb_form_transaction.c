@@ -31,6 +31,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
+#include "etats_calculs.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency_link.h"
@@ -46,9 +47,9 @@
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "etats_calculs.h"
-#include "erreur.h"
 #include "structures.h"
+#include "utils_dates.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -430,6 +431,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
                         gint new_transaction,
                         gint account_transfer )
 {
+    GDate *contra_value_date = NULL;
     const gchar *contra_transaction_content = NULL;
     gint contra_transaction_number;
     gint contra_mother_number = 0;
@@ -452,6 +454,8 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
                             transaction_number);
         if (contra_transaction_number > 0)
         {
+            const GDate *value_date;
+
             /* the transaction is a transfer */
 
             /* if the contra transaction was a child of split, copying/deleting it
@@ -466,6 +470,12 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
             /* Copying/deleting remove the content information, so we get it here */
             contra_transaction_content = gsb_data_transaction_get_method_of_payment_content (
                             contra_transaction_number );
+
+            /* Copying/deleting remove the value date, so we get it here */
+            value_date = gsb_data_transaction_get_value_date ( contra_transaction_number );
+            if ( value_date )
+                contra_value_date = gsb_date_copy ( value_date );
+
 
             /* check if we change the account target */
             if ( gsb_data_transaction_get_contra_transaction_account (
@@ -507,6 +517,14 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     /* If this is not a new transaction it restores the marked statement */
     gsb_data_transaction_set_marked_transaction ( contra_transaction_number,
                         contra_marked_transaction );
+
+    /* If this is not a new transaction it restores the value date */
+    if ( contra_value_date )
+    {
+		gsb_data_transaction_set_value_date ( contra_transaction_number, contra_value_date );
+
+		g_date_free ( contra_value_date );
+	}
 
     /* we have to change the amount by the opposite */
     gsb_data_transaction_set_amount (contra_transaction_number,
