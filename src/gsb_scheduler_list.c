@@ -89,6 +89,10 @@ static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
                         gpointer null );
 static gboolean gsb_scheduler_list_sort_column_clicked ( GtkTreeViewColumn *tree_view_column,
                         gint *column_ptr );
+static gint gsb_scheduler_list_sort_function_by_account ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr );
 static gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
@@ -113,7 +117,6 @@ extern GtkWidget *scheduler_button_execute;
 extern GdkColor split_background;
 extern GtkWidget *window;
 /*END_EXTERN*/
-
 
 
 /** set the tree view and models as static, we can access to them
@@ -395,6 +398,18 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
                                             NULL );
+                gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
+                                            i,
+                                            (GtkTreeIterCompareFunc) gsb_scheduler_list_sort_function_by_account,
+                                            NULL,
+                                            NULL );
+                gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), TRUE );
+
+                /* use the click to sort the list */
+                g_signal_connect ( G_OBJECT ( scheduler_list_column[i] ),
+                                            "clicked",
+                                            G_CALLBACK ( gsb_scheduler_list_sort_column_clicked ),
+                                            GINT_TO_POINTER ( i ) );
                 break;
             case 2:
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
@@ -1207,14 +1222,12 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
     {
         gint virtual_transaction;
         GtkTreeIter iter;
-        gchar *amount;
 
         gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ), &iter, path );
 
         gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
                         &iter,
                         SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
-                        COL_NB_AMOUNT, &amount,
                         -1 );
 
         if ( virtual_transaction )
@@ -1238,6 +1251,7 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
 
         gtk_tree_path_next ( sorted_path );
     }
+
     return FALSE;
 }
 
@@ -2191,6 +2205,12 @@ gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ **/
 gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
@@ -2204,7 +2224,7 @@ gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
     gint virtual_op_2 = 0;
     gint return_value = 0;
 
-    /* first, we sort by payee (col 0) */    
+    /* first, we sort by payee (col 0) */
     gtk_tree_model_get ( model,
                         iter_1,
                         COL_NB_PARTY, &str_1,
@@ -2247,15 +2267,25 @@ gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
         if ( str_2 )
             return_value = g_utf8_collate ( str_1, str_2 );
         else
+        {
+            g_free ( str_1 );
             return -1;
+        }
     }
     else if ( str_2 )
     {
+        g_free ( str_2 );
         if ( sort_type == GTK_SORT_ASCENDING )
             return 1;
         else
             return -1;
     }
+
+    if ( return_value == 0 )
+        return_value = number_1 - number_2;
+
+    g_free ( str_1 );
+    g_free ( str_2 );
 
     return return_value;
 }
@@ -2324,6 +2354,92 @@ gboolean gsb_scheduler_list_set_largeur_col ( void )
     }
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gint gsb_scheduler_list_sort_function_by_account ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr )
+{
+    gchar *str_1;
+    gchar *str_2;
+    gint number_1;
+    gint number_2;
+    gint virtual_op_1 = 0;
+    gint virtual_op_2 = 0;
+    gint return_value = 0;
+
+    /* first, we sort by account (col 0) */
+    gtk_tree_model_get ( model,
+                        iter_1,
+                        COL_NB_ACCOUNT, &str_1,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_1,
+                        -1 );
+
+    gtk_tree_model_get ( model,
+                        iter_2,
+                        COL_NB_ACCOUNT, &str_2,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_2,
+                        -1 );
+
+    if ( number_1 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+    else if ( number_2 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return -1;
+        else
+            return 1;
+    }
+
+    if ( sort_type == GTK_SORT_ASCENDING )
+        return_value = virtual_op_1 - virtual_op_2;
+    else
+        return_value = virtual_op_2 - virtual_op_1;
+
+    if ( return_value )
+        return return_value;
+
+    if ( str_1 )
+    {
+        if ( str_2 )
+            return_value = g_utf8_collate ( str_1, str_2 );
+        else
+        {
+            g_free ( str_1 );
+            return -1;
+        }
+    }
+    else if ( str_2 )
+    {
+        g_free ( str_2 );
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+
+    if ( return_value == 0 )
+        return_value = number_1 - number_2;
+
+    g_free ( str_1 );
+    g_free ( str_2 );
+
+    return return_value;
 }
 
 
