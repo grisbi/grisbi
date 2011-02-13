@@ -435,7 +435,7 @@ msgstr "Tri par numéro d'opération"
 
 #: ../src/affichage_liste.c:204
 msgid "Sort by type of amount (credit debit)"
-msgstr "Tri par montant (credit debit)"
+msgstr "Tri par montant (crédit débit)"
 
 #: ../src/affichage_liste.c:205
 msgid "Sort by payee name (if fail, by transaction number)"
