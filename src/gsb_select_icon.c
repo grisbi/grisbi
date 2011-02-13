@@ -620,6 +620,8 @@ GdkPixbuf *gsb_select_icon_create_pixbuf_from_chaine_base64 ( gchar *str_base64 
     gdk_pixdata_deserialize ( &pixdata, longueur, data, NULL );
     pixbuf = gdk_pixbuf_from_pixdata ( &pixdata, TRUE, NULL );
 
+    g_free ( data );
+
     return pixbuf;
 }
 
