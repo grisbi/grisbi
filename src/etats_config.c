@@ -4490,7 +4490,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 FALSE,
 			 0 );
 
-    label = gtk_label_new ( POSTSPACIFY(_("Transactions whose")));
+    label = gtk_label_new ( _("Transactions whose "));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -4638,7 +4638,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     gtk_widget_show (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
 
 
-    label = gtk_label_new ( POSTSPACIFY(_("is")));
+    label = gtk_label_new ( _("is "));
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 label,
 			 FALSE,
@@ -5525,7 +5525,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
 							widget );
 
-    label = gtk_label_new ( POSTSPACIFY(_("Transactions with an amount of")));
+    label = gtk_label_new ( _("Transactions with an amount of "));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,

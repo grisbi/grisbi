@@ -180,7 +180,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 		    text = g_strdup_printf ( fmtstr, nom_categ_en_cours, nb_ope_categ_etat );
 		}
 		else
-		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_categ_en_cours, NULL );
+		    text = g_strconcat ( _("Total "), nom_categ_en_cours, NULL );
 	    }
 	    else
 	    {
@@ -415,7 +415,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	   	    text = g_strdup_printf ( fmtstr, nom_ib_en_cours, nb_ope_ib_etat );
 		}
 		else
-		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_ib_en_cours, NULL );
+		    text = g_strconcat ( _("Total "), nom_ib_en_cours, NULL );
 	    }
 	    else
 	    {
@@ -640,7 +640,7 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		    text = g_strdup_printf ( fmtstr, nom_compte_en_cours, nb_ope_compte_etat );
 		}
 		else
-		    text = g_strconcat ( POSTSPACIFY(_("Total")), nom_compte_en_cours, NULL );
+		    text = g_strconcat ( _("Total "), nom_compte_en_cours, NULL );
 	    }
 	    else
 	    {

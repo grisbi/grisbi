@@ -23,7 +23,6 @@
 #define VERSION_GTK_MICRO 0
 
 #define SPACIFY(s) (g_strconcat ( " ", s, " ", NULL ))
-#define POSTSPACIFY(s) (g_strconcat ( s, " ", NULL ))
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
