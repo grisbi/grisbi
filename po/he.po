@@ -1,4 +1,4 @@
-# translation of he.po to 
+# translation of he.po to
 # translation of he.po to
 # Hebrew translation for grisbi by Dotan Mazor
 # Copyright (C) 2006
@@ -283,10 +283,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-09 20:22+0100\n"
+"POT-Creation-Date: 2011-02-13 13:45+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
-"Language-Team:  <en@li.org>\n"
+"Language-Team: <en@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -364,24 +365,21 @@ msgstr "מאזן מתואם"
 msgid "Current balance"
 msgstr "מאזן נוכחי"
 
-#: ../src/accueil.c:995 ../src/bet_future.c:2107
-#, fuzzy
-msgid "Partial balance"
-msgstr "יתרת פתיחה"
+#: ../src/accueil.c:995
+msgid "Partial balance:"
+msgstr "יתרת פתיחה:"
 
 #: ../src/accueil.c:997
-#, fuzzy
-msgid "Partial balances"
-msgstr "יתרת פתיחה"
+msgid "Partial balances:"
+msgstr "יתרת פתיחה:"
 
 #: ../src/accueil.c:1076
-#, fuzzy
-msgid "Global balance"
-msgstr "מאזנים כלליים"
+msgid "Global balance:"
+msgstr "מאזנים כלליים:"
 
 #: ../src/accueil.c:1080
-msgid "Global balances"
-msgstr "מאזנים כלליים"
+msgid "Global balances:"
+msgstr "מאזנים כלליים:"
 
 #: ../src/accueil.c:1136
 #, c-format
@@ -456,29 +454,16 @@ msgid "Balances partials of the list of accounts"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Name entry
-#. set the name
-#. Bank name item
-#. Name
-#. Create currency name entry
-#. Partial balance name
-#. Financial year name
-#. set the name
-#. Name entry
 #: ../src/accueil.c:2070 ../src/bet_future.c:2130
 #: ../src/categories_onglet.c:687 ../src/gsb_archive_config.c:96
-#: ../src/gsb_archive_config.c:184 ../src/gsb_assistant_archive_export.c:149
-#: ../src/gsb_assistant_reconcile_config.c:386
-#: ../src/gsb_assistant_reconcile_config.c:1225 ../src/gsb_bank.c:731
-#: ../src/gsb_bank.c:854 ../src/gsb_currency_config.c:353
-#: ../src/gsb_data_partial_balance.c:1550 ../src/gsb_fyear_config.c:190
-#: ../src/gsb_fyear_config.c:277 ../src/gsb_payment_method_config.c:236
-#: ../src/gsb_reconcile_config.c:193 ../src/gsb_transactions_list.c:1796
-#: ../src/imputation_budgetaire.c:721 ../src/tiers_onglet.c:637
+#: ../src/gsb_assistant_archive_export.c:149
+#: ../src/gsb_assistant_reconcile_config.c:1225 ../src/gsb_fyear_config.c:277
+#: ../src/gsb_transactions_list.c:1796 ../src/imputation_budgetaire.c:721
+#: ../src/tiers_onglet.c:637
 msgid "Name"
 msgstr "שם"
 
-#. List of the accounts
-#: ../src/accueil.c:2079 ../src/gsb_data_partial_balance.c:1561
+#: ../src/accueil.c:2079
 #, fuzzy
 msgid "Accounts list"
 msgstr "חשבונות"
@@ -497,7 +482,7 @@ msgstr "שם חשבון"
 msgid "Currency"
 msgstr "מטבע"
 
-#: ../src/affichage.c:137 ../src/parametres.c:378
+#: ../src/affichage.c:137 ../src/parametres.c:381
 msgid "Fonts & logo"
 msgstr "גופנים ולוגו"
 
@@ -542,7 +527,7 @@ msgstr "בדיקה"
 msgid "Back to default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
-#: ../src/affichage.c:366 ../src/parametres.c:396
+#: ../src/affichage.c:366 ../src/parametres.c:399
 msgid "Addresses & titles"
 msgstr "כתובות וכותרות"
 
@@ -552,9 +537,7 @@ msgstr "כתובות וכותרות"
 msgid "Titles"
 msgstr "כותרות"
 
-#. label account name
-#: ../src/affichage.c:380 ../src/affichage.c:418
-#: ../src/gsb_assistant_file.c:282
+#: ../src/affichage.c:380
 msgid "Accounts file title"
 msgstr "כותרת קובץ החשבונות"
 
@@ -563,11 +546,15 @@ msgstr "כותרת קובץ החשבונות"
 msgid "Account owner name"
 msgstr "שם חשבון"
 
-#. filename
-#: ../src/affichage.c:404 ../src/gsb_assistant_file.c:304
+#: ../src/affichage.c:404
 #, fuzzy
 msgid "Filename"
 msgstr "שם המיקום"
+
+#. label account name
+#: ../src/affichage.c:418 ../src/gsb_assistant_file.c:282
+msgid "Accounts file title:"
+msgstr "כותרת קובץ החשבונות:"
 
 #: ../src/affichage.c:431
 msgid "Addresses"
@@ -575,20 +562,20 @@ msgstr "כתובות"
 
 #. Common address
 #: ../src/affichage.c:434
-msgid "Common address"
-msgstr "כתובת רגילה"
+msgid "Common address:"
+msgstr "כתובת רגילה:"
 
 #. Secondary address
 #. * \note This is not implemented yet
 #: ../src/affichage.c:453
-msgid "Secondary address"
-msgstr "כתובת משנית"
+msgid "Secondary address:"
+msgstr "כתובת משנית:"
 
 #: ../src/affichage.c:568
 msgid "Select a new logo"
 msgstr "בחירת לוגו חדש"
 
-#: ../src/affichage.c:702 ../src/parametres.c:414
+#: ../src/affichage.c:702 ../src/parametres.c:417
 msgid "Toolbars"
 msgstr ""
 
@@ -684,15 +671,15 @@ msgid "Background of bet transfer"
 msgstr ""
 
 #: ../src/affichage_liste.c:98
-msgid "In one line visible, show the lines"
+msgid "In one line visible, show the lines:"
 msgstr ""
 
 #: ../src/affichage_liste.c:99
-msgid "In two lines visibles, show the lines"
+msgid "In two lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/affichage_liste.c:100
-msgid "In three lines visibles, show the lines"
+msgid "In three lines visibles, show the lines:"
 msgstr ""
 
 #: ../src/affichage_liste.c:113
@@ -715,7 +702,7 @@ msgid "Highlights the transaction that gives the balance today"
 msgstr ""
 
 #: ../src/affichage_liste.c:191
-msgid "Primary sorting option"
+msgid "Primary sorting option:"
 msgstr ""
 
 #: ../src/affichage_liste.c:192
@@ -727,7 +714,7 @@ msgid "Sort by value date and then by date"
 msgstr ""
 
 #: ../src/affichage_liste.c:202
-msgid "Secondary sorting option"
+msgid "Secondary sorting option:"
 msgstr ""
 
 #: ../src/affichage_liste.c:203
@@ -828,7 +815,7 @@ msgid "Don't allow new category/budget creation"
 msgstr ""
 
 #: ../src/affichage_liste.c:565
-msgid "Maximum items showed in drop down lists (0 for no limit)"
+msgid "Maximum items showed in drop down lists (0 for no limit):"
 msgstr ""
 
 #: ../src/bet_config.c:89 ../src/etats_config.c:6368
@@ -840,7 +827,7 @@ msgstr "חודשים"
 msgid "Year"
 msgstr "שנה"
 
-#: ../src/bet_config.c:110 ../src/parametres.c:573
+#: ../src/bet_config.c:110 ../src/parametres.c:576
 #, fuzzy
 msgid "General Options"
 msgstr "כללי"
@@ -880,7 +867,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:253 ../src/parametres.c:582
+#: ../src/bet_config.c:253 ../src/parametres.c:585
 #, fuzzy
 msgid "Accounts data"
 msgstr "פרטי חשבון"
@@ -904,14 +891,9 @@ msgid "Credit Data"
 msgstr "כרטיס אשראי"
 
 #. set the choice of account
-#: ../src/bet_config.c:326 ../src/categories_onglet.c:162
-#: ../src/etats_config.c:678 ../src/gsb_assistant_reconcile_config.c:397
-#: ../src/gsb_assistant_reconcile_config.c:592
-#: ../src/gsb_payment_method_config.c:156 ../src/gsb_reconcile_config.c:98
-#: ../src/gsb_scheduler_list.c:350 ../src/imputation_budgetaire.c:171
-#: ../src/navigation.c:1141 ../src/tiers_onglet.c:233
-msgid "Account"
-msgstr "חשבון"
+#: ../src/bet_config.c:326 ../src/gsb_assistant_reconcile_config.c:397
+msgid "Account:"
+msgstr "חשבון:"
 
 #: ../src/bet_config.c:340
 #, fuzzy
@@ -987,26 +969,21 @@ msgstr "קטגוריה"
 
 #: ../src/bet_config.c:931 ../src/bet_future.c:811 ../src/bet_future.c:2019
 #: ../src/bet_future.c:2496 ../src/bet_hist.c:1589 ../src/etats_affiche.c:2438
-#: ../src/etats_config.c:674 ../src/gsb_form.c:1329
+#: ../src/etats_config.c:674 ../src/gsb_form.c:1331
 #: ../src/gsb_form_widget.c:440 ../src/gsb_transactions_list.c:152
 #: ../src/imputation_budgetaire.c:162 ../src/meta_budgetary.c:60
 msgid "Budgetary line"
 msgstr "קו תקציבי"
 
 #: ../src/bet_config.c:1257
-#, fuzzy
-msgid "Loan Capital"
-msgstr "הלוואה/משכנתה : הון"
+msgid "Loan Capital:"
+msgstr "הלוואה/משכנתה : הון:"
 
 #. Duration
-#. create columns
-#. Duration
 #: ../src/bet_config.c:1277 ../src/bet_finance_ui.c:276
-#: ../src/bet_finance_ui.c:469 ../src/bet_finance_ui.c:1146
-#: ../src/bet_finance_ui.c:1586
-#, fuzzy
-msgid "Duration"
-msgstr "תרגום"
+#: ../src/bet_finance_ui.c:1146 ../src/bet_finance_ui.c:1586
+msgid "Duration:"
+msgstr "תרגום:"
 
 #: ../src/bet_config.c:1286 ../src/bet_finance_ui.c:749
 #, fuzzy
@@ -1014,16 +991,15 @@ msgid "year"
 msgstr "שנים"
 
 #: ../src/bet_config.c:1295
-#, fuzzy
-msgid "Date of first Repayment"
-msgstr "דרך התשלום"
+msgid "Date of first Repayment:"
+msgstr "דרך התשלום:"
 
 #. taux
 #. Annuel rate interest
 #: ../src/bet_config.c:1308 ../src/bet_finance_ui.c:1132
 #: ../src/bet_finance_ui.c:1572
-msgid "Annuel rate interest"
-msgstr ""
+msgid "Annuel rate interest:"
+msgstr "תקציב שנתי:"
 
 #: ../src/bet_config.c:1318 ../src/bet_finance_ui.c:271
 #: ../src/bet_finance_ui.c:382 ../src/bet_finance_ui.c:1141
@@ -1032,14 +1008,12 @@ msgid "%"
 msgstr ""
 
 #: ../src/bet_config.c:1326
-#, fuzzy
-msgid "Fees per month"
-msgstr "%d חודשים"
+msgid "Fees per month:"
+msgstr "%d חודשים:"
 
 #: ../src/bet_config.c:1349 ../src/bet_finance_ui.c:395
-#, fuzzy
-msgid "Rate Type"
-msgstr "סוג"
+msgid "Rate Type:"
+msgstr "סוג:"
 
 #: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:399
 msgid "CAGR"
@@ -1076,15 +1050,13 @@ msgstr "כרטיס אשראי"
 
 #. capital
 #: ../src/bet_finance_ui.c:220 ../src/bet_finance_ui.c:1562
-#, fuzzy
-msgid "Loan capital"
-msgstr "הלוואה/משכנתה : הון"
+msgid "Loan capital:"
+msgstr "הלוואה/משכנתה : הון:"
 
 #. taux
 #: ../src/bet_finance_ui.c:256
-#, fuzzy
-msgid "Annual interest"
-msgstr "תקציב שנתי"
+msgid "Annual interest:"
+msgstr "תקציב שנתי:"
 
 #: ../src/bet_finance_ui.c:321
 msgid "Between 3 and 18 months"
@@ -1098,15 +1070,20 @@ msgstr ""
 msgid "Between 15 and 30 years"
 msgstr ""
 
-#. Fees
-#: ../src/bet_finance_ui.c:367 ../src/bet_finance_ui.c:564
-#, fuzzy
-msgid "Fees"
-msgstr "תשלום"
+#: ../src/bet_finance_ui.c:367
+msgid "Fees:"
+msgstr "תשלום:"
 
 #: ../src/bet_finance_ui.c:382
 msgid " of borrowed capital"
 msgstr ""
+
+#. create columns
+#. Duration
+#: ../src/bet_finance_ui.c:469
+#, fuzzy
+msgid "Duration"
+msgstr "תרגום"
 
 #. Number of periods
 #: ../src/bet_finance_ui.c:488
@@ -1137,6 +1114,12 @@ msgid ""
 "without fees"
 msgstr ""
 
+#. Fees
+#: ../src/bet_finance_ui.c:564
+#, fuzzy
+msgid "Fees"
+msgstr "תשלום"
+
 #. Monthly paid
 #: ../src/bet_finance_ui.c:583 ../src/bet_finance_ui.c:1323
 #, fuzzy
@@ -1153,7 +1136,7 @@ msgstr "סך הכל %s"
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:751 ../src/gsb_scheduler_list.c:1946
+#: ../src/bet_finance_ui.c:751 ../src/gsb_scheduler_list.c:1960
 #, fuzzy
 msgid "years"
 msgstr "שנים"
@@ -1196,15 +1179,14 @@ msgstr ""
 
 #. capital
 #: ../src/bet_finance_ui.c:1122
-#, fuzzy
-msgid "Loan amount"
-msgstr "טעינת קובץ חשבונות"
+msgid "Loan amount:"
+msgstr "טעינת קובץ חשבונות:"
 
 #: ../src/bet_finance_ui.c:1216 ../src/bet_future.c:765 ../src/bet_tab.c:669
 #: ../src/etats_affiche.c:2403 ../src/export_csv.c:765
-#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_form.c:1284
+#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_form.c:1286
 #: ../src/gsb_form_widget.c:408 ../src/gsb_reconcile.c:154
-#: ../src/gsb_scheduler_list.c:350 ../src/gsb_transactions_list.c:149
+#: ../src/gsb_scheduler_list.c:353 ../src/gsb_transactions_list.c:149
 #: ../src/import.c:3264 ../src/import_csv.c:77
 #: ../src/traitement_variables.c:84
 msgid "Date"
@@ -1275,7 +1257,7 @@ msgstr "זכות"
 msgid "Cannot save file."
 msgstr "לא ניתן לשמור את הקובץ."
 
-#: ../src/bet_finance_ui.c:2024 ../src/gsb_scheduler_list.c:1946
+#: ../src/bet_finance_ui.c:2024 ../src/gsb_scheduler_list.c:1960
 #, fuzzy
 msgid "months"
 msgstr "חודשים"
@@ -1301,33 +1283,33 @@ msgstr "הוספת קו תקציב"
 
 #: ../src/bet_future.c:308 ../src/bet_future.c:850
 #: ../src/gsb_form_scheduler.c:148 ../src/gsb_form_scheduler.c:872
-#: ../src/gsb_scheduler_list.c:1110
+#: ../src/gsb_scheduler_list.c:1125
 msgid "Once"
 msgstr "פעם אחת"
 
 #: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:148
-#: ../src/gsb_scheduler_list.c:1110
+#: ../src/gsb_scheduler_list.c:1125
 msgid "Weekly"
 msgstr "שבועית"
 
 #: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:148
-#: ../src/gsb_scheduler_list.c:1110
+#: ../src/gsb_scheduler_list.c:1125
 msgid "Monthly"
 msgstr "חודשית"
 
 #: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:148
-#: ../src/gsb_scheduler_list.c:1111
+#: ../src/gsb_scheduler_list.c:1126
 #, fuzzy
 msgid "Bimonthly"
 msgstr "חודשית"
 
 #: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:149
-#: ../src/gsb_scheduler_list.c:1111
+#: ../src/gsb_scheduler_list.c:1126
 msgid "Quarterly"
 msgstr ""
 
 #: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:149
-#: ../src/gsb_scheduler_list.c:1111
+#: ../src/gsb_scheduler_list.c:1126
 msgid "Yearly"
 msgstr "שנתית"
 
@@ -1354,7 +1336,7 @@ msgid "Years"
 msgstr "שנים"
 
 #: ../src/bet_future.c:323 ../src/gsb_form_scheduler.c:171
-#: ../src/gsb_form_scheduler.c:188 ../src/gsb_scheduler_list.c:350
+#: ../src/gsb_form_scheduler.c:188 ../src/gsb_scheduler_list.c:353
 msgid "Frequency"
 msgstr "תדירות"
 
@@ -1364,14 +1346,10 @@ msgstr "תדירות"
 msgid "Limit date"
 msgstr "הגבלת תאריך"
 
-#. set the final date
-#: ../src/bet_future.c:344 ../src/etats_config.c:2326
-#: ../src/gsb_archive_config.c:96 ../src/gsb_assistant_archive.c:241
+#: ../src/bet_future.c:344 ../src/gsb_archive_config.c:96
 #: ../src/gsb_assistant_archive_export.c:149
-#: ../src/gsb_assistant_reconcile_config.c:420
 #: ../src/gsb_assistant_reconcile_config.c:1225
-#: ../src/gsb_reconcile_config.c:98 ../src/gsb_reconcile_config.c:221
-#: ../src/gsb_transactions_list.c:1796
+#: ../src/gsb_reconcile_config.c:98 ../src/gsb_transactions_list.c:1796
 msgid "Final date"
 msgstr "תאריך סיום"
 
@@ -1400,8 +1378,8 @@ msgstr "בחירת דרך התשלום"
 #: ../src/etats_config.c:514 ../src/etats_config.c:517
 #: ../src/etats_config.c:682 ../src/etats_config.c:7019
 #: ../src/export_csv.c:780 ../src/fenetre_principale.c:271
-#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_form.c:1305
-#: ../src/gsb_form_widget.c:428 ../src/gsb_scheduler_list.c:350
+#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_form.c:1307
+#: ../src/gsb_form_widget.c:428 ../src/gsb_scheduler_list.c:353
 #: ../src/gsb_transactions_list.c:151 ../src/import.c:3271
 #: ../src/import_csv.c:79 ../src/meta_payee.c:75
 #: ../src/traitement_variables.c:86
@@ -1411,7 +1389,7 @@ msgstr "משלם/מקבל"
 
 #. Debit method_ptr
 #: ../src/bet_future.c:790 ../src/bet_tab.c:703 ../src/categories_onglet.c:717
-#: ../src/export_csv.c:786 ../src/gsb_form.c:1310 ../src/gsb_form_widget.c:412
+#: ../src/export_csv.c:786 ../src/gsb_form.c:1312 ../src/gsb_form_widget.c:412
 #: ../src/gsb_payment_method_config.c:313
 #: ../src/gsb_payment_method_config.c:384
 #: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:153
@@ -1422,7 +1400,7 @@ msgstr "חיוב"
 
 #. Credit method_ptr
 #: ../src/bet_future.c:797 ../src/bet_tab.c:721 ../src/categories_onglet.c:717
-#: ../src/export_csv.c:783 ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:416
+#: ../src/export_csv.c:783 ../src/gsb_form.c:1317 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:320
 #: ../src/gsb_payment_method_config.c:397
 #: ../src/gsb_payment_method_config.c:1075 ../src/gsb_transactions_list.c:154
@@ -1431,13 +1409,13 @@ msgid "Credit"
 msgstr "זכות"
 
 #: ../src/bet_future.c:804 ../src/bet_future.c:1992 ../src/bet_future.c:2478
-#: ../src/gsb_form.c:1321 ../src/gsb_form_widget.c:432
+#: ../src/gsb_form.c:1323 ../src/gsb_form_widget.c:432
 msgid "Categories : Sub-categories"
 msgstr "קטגוריות : תתי-קטגוריות"
 
 #. Notes
 #: ../src/bet_future.c:818 ../src/etats_affiche.c:2445 ../src/export_csv.c:801
-#: ../src/gsb_bank.c:914 ../src/gsb_form.c:1334 ../src/gsb_form_widget.c:444
+#: ../src/gsb_bank.c:914 ../src/gsb_form.c:1336 ../src/gsb_form_widget.c:444
 #: ../src/gsb_transactions_list.c:163 ../src/import_csv.c:80
 #: ../src/traitement_variables.c:98
 msgid "Notes"
@@ -1451,7 +1429,7 @@ msgstr "הערות"
 #: ../src/etats_affiche.c:1842 ../src/export_csv.c:606 ../src/export_csv.c:718
 #: ../src/export_csv.c:730 ../src/gsb_data_category.c:1055
 #: ../src/gsb_data_payment.c:631 ../src/gsb_data_payment.c:712
-#: ../src/gsb_data_payment.c:751 ../src/gsb_form.c:2293 ../src/import.c:2710
+#: ../src/gsb_data_payment.c:751 ../src/gsb_form.c:2295 ../src/import.c:2710
 #: ../src/import.c:2728 ../src/plugins/ofx/ofx.c:456
 msgid "Transfer"
 msgstr "העברה"
@@ -1482,9 +1460,8 @@ msgid "Effective date and data for the replacement of a planned operation"
 msgstr ""
 
 #: ../src/bet_future.c:1948
-#, fuzzy
-msgid "Effective date"
-msgstr "הפעלה"
+msgid "Effective date:"
+msgstr "הפעלה:"
 
 #: ../src/bet_future.c:1955
 #, fuzzy
@@ -1501,11 +1478,13 @@ msgstr "סך הכל בקטגוריה (%d עיסקה)"
 msgid "Cash account"
 msgstr "חשבון מזומן"
 
+#: ../src/bet_future.c:2107
+#, fuzzy
+msgid "Partial balance"
+msgstr "יתרת פתיחה"
+
 #. Description entry
-#. Payment method method_ptr
-#. Description entry
-#: ../src/bet_future.c:2139 ../src/categories_onglet.c:712
-#: ../src/gsb_payment_method_config.c:294 ../src/import.c:435
+#: ../src/bet_future.c:2139 ../src/categories_onglet.c:712 ../src/import.c:435
 #: ../src/imputation_budgetaire.c:746
 msgid "Type"
 msgstr "סוג"
@@ -1517,7 +1496,7 @@ msgstr "לסמן הכל"
 
 #: ../src/bet_hist.c:556 ../src/categories_onglet.c:171
 #: ../src/etats_config.c:5236 ../src/export_csv.c:789
-#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_scheduler_list.c:351
+#: ../src/gsb_assistant_reconcile_config.c:592 ../src/gsb_scheduler_list.c:354
 #: ../src/gsb_transactions_list.c:156 ../src/import.c:3278
 #: ../src/imputation_budgetaire.c:180 ../src/tiers_onglet.c:242
 #: ../src/traitement_variables.c:91
@@ -1574,9 +1553,8 @@ msgstr ""
 
 #. set the start date and the automatic change of month
 #: ../src/bet_tab.c:555
-#, fuzzy
-msgid "Start date"
-msgstr "התחלה"
+msgid "Start date:"
+msgstr "התחלה:"
 
 #: ../src/bet_tab.c:574
 msgid "Check the box to automatically change start date"
@@ -1588,7 +1566,7 @@ msgid "Description"
 msgstr "תיאור"
 
 #: ../src/bet_tab.c:739 ../src/export_csv.c:792 ../src/gsb_reconcile.c:157
-#: ../src/gsb_scheduler_list.c:351 ../src/gsb_transactions_list.c:155
+#: ../src/gsb_scheduler_list.c:354 ../src/gsb_transactions_list.c:155
 #: ../src/gsb_transactions_list.c:3007 ../src/import_csv.c:86
 #: ../src/traitement_variables.c:90
 msgid "Balance"
@@ -1692,7 +1670,7 @@ msgid "forecast.csv"
 msgstr ""
 
 #. New transaction
-#: ../src/barre_outils.c:92 ../src/gsb_scheduler_list.c:2124
+#: ../src/barre_outils.c:92 ../src/gsb_scheduler_list.c:2138
 #: ../src/gsb_transactions_list.c:2197
 msgid "New transaction"
 msgstr "עיסקה חדשה"
@@ -1791,34 +1769,34 @@ msgstr "מטבעות ידועים"
 msgid "Remove the rule"
 msgstr "שם קובץ החשבונות"
 
-#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1907
+#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1921
 msgid "Unique view"
 msgstr ""
 
-#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1907
+#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1921
 #, fuzzy
 msgid "Week view"
 msgstr "שבוע"
 
-#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1907
+#: ../src/barre_outils.c:459 ../src/gsb_scheduler_list.c:1921
 #, fuzzy
 msgid "Month view"
 msgstr "חודשים"
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1908
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1922
 msgid "Two months view"
 msgstr ""
 
-#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1908
+#: ../src/barre_outils.c:460 ../src/gsb_scheduler_list.c:1922
 msgid "Quarter view"
 msgstr ""
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1909
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1923
 #, fuzzy
 msgid "Year view"
 msgstr "שנה"
 
-#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1909
+#: ../src/barre_outils.c:461 ../src/gsb_scheduler_list.c:1923
 #, fuzzy
 msgid "Custom view"
 msgstr "מותאמת אישית"
@@ -1845,7 +1823,7 @@ msgstr "מחיקת עיסקה"
 
 #. comments line
 #: ../src/barre_outils.c:540 ../src/gsb_account_property.c:559
-#: ../src/gsb_scheduler_list.c:351
+#: ../src/gsb_scheduler_list.c:354
 msgid "Comments"
 msgstr "הערות"
 
@@ -1867,6 +1845,14 @@ msgstr "נא להכניס העברה מתוזמנת מראש"
 #, fuzzy
 msgid "Change display mode of scheduled transaction list"
 msgstr "הצגת עיסקאות מתוכננות"
+
+#: ../src/categories_onglet.c:162 ../src/etats_config.c:678
+#: ../src/gsb_assistant_reconcile_config.c:592
+#: ../src/gsb_payment_method_config.c:156 ../src/gsb_reconcile_config.c:98
+#: ../src/gsb_scheduler_list.c:353 ../src/imputation_budgetaire.c:171
+#: ../src/navigation.c:1141 ../src/tiers_onglet.c:233
+msgid "Account"
+msgstr "חשבון"
 
 #: ../src/categories_onglet.c:358
 msgid "Export categories"
@@ -1943,7 +1929,7 @@ msgstr "נא להזין שם עבור תת-הקטגוריה החדשה"
 
 #: ../src/categories_onglet.c:528 ../src/etats_onglet.c:127
 #: ../src/import.c:402 ../src/import.c:3583 ../src/imputation_budgetaire.c:560
-#: ../src/parametres.c:314 ../src/utils_files.c:668
+#: ../src/parametres.c:317 ../src/utils_files.c:668
 msgid "Import"
 msgstr "ייבוא"
 
@@ -2196,7 +2182,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:328 ../src/dialog.c:527 ../src/gsb_scheduler_list.c:1851
+#: ../src/dialog.c:328 ../src/dialog.c:527 ../src/gsb_scheduler_list.c:1865
 msgid "Do not show this message again"
 msgstr "נא לא להציג הודעה זו שוב"
 
@@ -2318,17 +2304,17 @@ msgstr "סך הכל"
 
 #: ../src/etats_affiche.c:191
 #, c-format
-msgid "Category total (%d transaction)"
-msgstr "סך הכל בקטגוריה (%d עיסקה)"
+msgid "Category total (%d transaction):"
+msgstr "סך הכל בקטגוריה (%d עיסקה):"
 
 #: ../src/etats_affiche.c:193
 #, c-format
-msgid "Category total (%d transactions)"
-msgstr "סך הכל בקטגוריה (%d עיסקאות)"
+msgid "Category total (%d transactions):"
+msgstr "סך הכל בקטגוריה (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:197
-msgid "Category total"
-msgstr "סך הכל בקטגוריה"
+msgid "Category total:"
+msgstr "סך הכל בקטגוריה:"
 
 #: ../src/etats_affiche.c:221 ../src/etats_affiche.c:341
 #: ../src/etats_affiche.c:454 ../src/etats_affiche.c:570
@@ -2347,13 +2333,13 @@ msgstr "סך הכל %s (%d עיסקאות)"
 
 #: ../src/etats_affiche.c:299 ../src/etats_affiche.c:525
 #, c-format
-msgid "Total %s: %s (%d transaction)"
-msgstr "סך הכל %s: %s (%d עיסקה)"
+msgid "Total %s: %s (%d transaction):"
+msgstr "סך הכל %s: %s (%d עיסקה):"
 
 #: ../src/etats_affiche.c:301 ../src/etats_affiche.c:527
 #, c-format
-msgid "Total %s: %s (%d transactions)"
-msgstr "סך הכל %s: %s (%d עיסקאות)"
+msgid "Total %s: %s (%d transactions):"
+msgstr "סך הכל %s: %s (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:306 ../src/etats_affiche.c:532
 #, c-format
@@ -2362,17 +2348,17 @@ msgstr "סך הכל %s: %s"
 
 #: ../src/etats_affiche.c:314
 #, c-format
-msgid "Sub-categories total (%d transaction)"
-msgstr "סך הכל תתי-קטגוריות (%d עיסקה)"
+msgid "Sub-categories total (%d transaction):"
+msgstr "סך הכל תתי-קטגוריות (%d עיסקה):"
 
 #: ../src/etats_affiche.c:316
 #, c-format
-msgid "Sub-categories total (%d transactions)"
-msgstr "סך הכל תתי-קטגוריות (%d עיסקאות)"
+msgid "Sub-categories total (%d transactions):"
+msgstr "סך הכל תתי-קטגוריות (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:320
-msgid "Sub-categories total"
-msgstr "סך הכל תתי-קטגוריות"
+msgid "Sub-categories total:"
+msgstr "סך הכל תתי-קטגוריות:"
 
 #: ../src/etats_affiche.c:426
 #, c-format
@@ -2385,36 +2371,36 @@ msgid "Budgetary lines total: (%d transactions)"
 msgstr "סך הכל קווי תקציב: (%d עיסקאות)"
 
 #: ../src/etats_affiche.c:432
-msgid "Budgetary lines total"
-msgstr "סך הכל קווי תקציב"
+msgid "Budgetary lines total:"
+msgstr "סך הכל קווי תקציב:"
 
 #: ../src/etats_affiche.c:540
 #, c-format
-msgid "Sub-budgetary lines total: (%d transaction)"
-msgstr "סך הכל תתי-קווי תקציב: (%d עיסקה)"
+msgid "Sub-budgetary lines total: (%d transaction):"
+msgstr "סך הכל תתי-קווי תקציב: (%d עיסקה):"
 
 #: ../src/etats_affiche.c:542
 #, c-format
-msgid "Sub-budgetary lines total: (%d transactions)"
-msgstr "סך הכל תתי-קווי תקציב: (%d עיסקאות)"
+msgid "Sub-budgetary lines total: (%d transactions):"
+msgstr "סך הכל תתי-קווי תקציב: (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:546
-msgid "Sub-budgetary lines total"
-msgstr "סך הכל תתי-קווי תקציב"
+msgid "Sub-budgetary lines total:"
+msgstr "סך הכל תתי-קווי תקציב:"
 
 #: ../src/etats_affiche.c:651
 #, c-format
-msgid "Account total: (%d transaction)"
-msgstr "סך הכל בחשבון: (%d עיסקה)"
+msgid "Account total: (%d transaction):"
+msgstr "סך הכל בחשבון: (%d עיסקה):"
 
 #: ../src/etats_affiche.c:653
 #, c-format
-msgid "Account total: (%d transactions)"
-msgstr "סך הכל בחשבון: (%d עיסקאות)"
+msgid "Account total: (%d transactions):"
+msgstr "סך הכל בחשבון: (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:657
-msgid "Account total"
-msgstr "סך הכל בחשבון"
+msgid "Account total:"
+msgstr "סך הכל בחשבון:"
 
 #: ../src/etats_affiche.c:751
 #, c-format
@@ -2422,89 +2408,88 @@ msgid "Total %s"
 msgstr "סך הכל %s"
 
 #: ../src/etats_affiche.c:759
-#, fuzzy, c-format
-msgid "Payee total: (%d transaction)"
-msgstr "סך הכל הכללי (%d עיסקה)"
+#, c-format
+msgid "Payee total: (%d transaction):"
+msgstr "סך הכל הכללי (%d עיסקה):"
 
 #: ../src/etats_affiche.c:761
-#, fuzzy, c-format
-msgid "Payee total: (%d transactions)"
-msgstr "סך הכל הכללי (%d עיסקאות)"
+#, c-format
+msgid "Payee total: (%d transactions):"
+msgstr "סך הכל הכללי (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:765
-#, fuzzy
-msgid "Payee total"
-msgstr "סך הכל הכללי"
+msgid "Payee total:"
+msgstr "סך הכל הכללי:"
 
 #: ../src/etats_affiche.c:924 ../src/etats_affiche.c:1023
 #: ../src/etats_affiche.c:1186
 #, c-format
-msgid "Result of %s (%d transaction)"
-msgstr "תוצאה של %s (%d עיסקה)"
+msgid "Result of %s (%d transaction):"
+msgstr "תוצאה של %s (%d עיסקה):"
 
 #: ../src/etats_affiche.c:926 ../src/etats_affiche.c:1025
 #: ../src/etats_affiche.c:1188
 #, c-format
-msgid "Result of %s (%d transactions)"
-msgstr "תוצאה של %s (%d עיסקאות)"
+msgid "Result of %s (%d transactions):"
+msgstr "תוצאה של %s (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:930 ../src/etats_affiche.c:1029
 #: ../src/etats_affiche.c:1194
 #, c-format
-msgid "Result of %s"
-msgstr "תוצאה של %s"
+msgid "Result of %s:"
+msgstr "תוצאה של %s:"
 
 #: ../src/etats_affiche.c:986
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s (%d transaction):"
-msgstr "תוצאה עבור %s (%d עיסקה)"
+msgstr "תוצאה עבור %s (%d עיסקה):"
 
 #: ../src/etats_affiche.c:988
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s (%d transactions):"
-msgstr "תוצאה עבור %s (%d עיסקאות)"
+msgstr "תוצאה עבור %s (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:999
-#, fuzzy, c-format
+#, c-format
 msgid "Result from %s to %s:"
-msgstr "תוצאה עבור %s"
+msgstr "תוצאה עבור %s:"
 
 #: ../src/etats_affiche.c:1051
 #, c-format
-msgid "Result for %s (%d transaction)"
-msgstr "תוצאה עבור %s (%d עיסקה)"
+msgid "Result for %s (%d transaction):"
+msgstr "תוצאה עבור %s (%d עיסקה):"
 
 #: ../src/etats_affiche.c:1053
 #, c-format
-msgid "Result for %s (%d transactions)"
-msgstr "תוצאה עבור %s (%d עיסקאות)"
+msgid "Result for %s (%d transactions):"
+msgstr "תוצאה עבור %s (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:1057
 #, c-format
-msgid "Result for %s"
-msgstr "תוצאה עבור %s"
+msgid "Result for %s:"
+msgstr "תוצאה עבור %s:"
 
 #: ../src/etats_affiche.c:1204
 #, c-format
-msgid "Result without financial year (%d transaction)"
-msgstr "תוצאה ללא שנת כספים (%d העברה)"
+msgid "Result without financial year (%d transaction):"
+msgstr "תוצאה ללא שנת כספים (%d העברה):"
 
 #: ../src/etats_affiche.c:1206
 #, c-format
-msgid "Result without financial year (%d transactions)"
-msgstr "תוצאה ללא שנת כספים (%d העברות)"
+msgid "Result without financial year (%d transactions):"
+msgstr "תוצאה ללא שנת כספים (%d העברות):"
 
 #: ../src/etats_affiche.c:1210
-msgid "Result without financial year"
-msgstr "תוצאה ללא שנת כספים"
+msgid "Result without financial year:"
+msgstr "תוצאה ללא שנת כספים:"
 
-#: ../src/etats_affiche.c:1397 ../src/gsb_scheduler_list.c:1060
+#: ../src/etats_affiche.c:1397 ../src/gsb_scheduler_list.c:1075
 #: ../src/gsb_transactions_list.c:3504
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1064
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1079
 #: ../src/gsb_transactions_list.c:3507
 #, c-format
 msgid "Transfer from %s"
@@ -2512,49 +2497,49 @@ msgstr "העברה מאת %s"
 
 #: ../src/etats_affiche.c:1672
 #, c-format
-msgid "Total expenses (%d transaction)"
-msgstr "סך ההוצאות (%d עיסקה)"
+msgid "Total expenses (%d transaction):"
+msgstr "סך ההוצאות (%d עיסקה):"
 
 #: ../src/etats_affiche.c:1674
 #, c-format
-msgid "Total expenses (%d transactions)"
-msgstr "סך ההוצאות (%d עיסקאות)"
+msgid "Total expenses (%d transactions):"
+msgstr "סך ההוצאות (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:1678
-msgid "Total expenses"
-msgstr "סך ההוצאות"
+msgid "Total expenses:"
+msgstr "סך ההוצאות:"
 
 #: ../src/etats_affiche.c:1686
 #, c-format
-msgid "Total income (%d transaction)"
-msgstr "סך ההכנסות (%d עיסקה)"
+msgid "Total income (%d transaction):"
+msgstr "סך ההכנסות (%d עיסקה):"
 
 #: ../src/etats_affiche.c:1688
 #, c-format
-msgid "Total income (%d transactions)"
-msgstr "סך ההכנסות (%d עיסקאות)"
+msgid "Total income (%d transactions):"
+msgstr "סך ההכנסות (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:1692
-msgid "Total income"
-msgstr "סך ההכנסות"
+msgid "Total income:"
+msgstr "סך ההכנסות:"
 
 #: ../src/etats_affiche.c:1741
 #, c-format
-msgid "General total (%d transaction)"
-msgstr "סך הכל הכללי (%d עיסקה)"
+msgid "General total (%d transaction):"
+msgstr "סך הכל הכללי (%d עיסקה):"
 
 #: ../src/etats_affiche.c:1743
 #, c-format
-msgid "General total (%d transactions)"
-msgstr "סך הכל הכללי (%d עיסקאות)"
+msgid "General total (%d transactions):"
+msgstr "סך הכל הכללי (%d עיסקאות):"
 
 #: ../src/etats_affiche.c:1747
-msgid "General total"
-msgstr "סך הכל הכללי"
+msgid "General total:"
+msgstr "סך הכל הכללי:"
 
 #: ../src/etats_affiche.c:1851 ../src/export_csv.c:576
 #: ../src/gsb_data_category.c:1053 ../src/gsb_form.c:723
-#: ../src/gsb_form.c:2868 ../src/gsb_form.c:3271
+#: ../src/gsb_form.c:2870 ../src/gsb_form.c:3273
 #: ../src/gsb_form_scheduler.c:312 ../src/gsb_transactions_list.c:3482
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
@@ -2581,8 +2566,8 @@ msgstr "הכנסות"
 msgid "Outgoings"
 msgstr "הוצאות"
 
-#: ../src/etats_affiche.c:2410 ../src/export_csv.c:768 ../src/gsb_form.c:1289
-#: ../src/gsb_form.c:2127 ../src/gsb_form.c:2157 ../src/gsb_form_widget.c:420
+#: ../src/etats_affiche.c:2410 ../src/export_csv.c:768 ../src/gsb_form.c:1291
+#: ../src/gsb_form.c:2129 ../src/gsb_form.c:2159 ../src/gsb_form_widget.c:420
 #: ../src/gsb_transactions_list.c:150 ../src/import_csv.c:78
 #: ../src/traitement_variables.c:85
 msgid "Value date"
@@ -2598,7 +2583,7 @@ msgstr "שנת הכספים"
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2452 ../src/etats_config.c:559
 #: ../src/etats_config.c:562 ../src/etats_config.c:7218
-#: ../src/gsb_payment_method_config.c:114 ../src/parametres.c:550
+#: ../src/gsb_payment_method_config.c:114 ../src/parametres.c:553
 msgid "Payment methods"
 msgstr "דרכי תשלום"
 
@@ -2606,13 +2591,13 @@ msgstr "דרכי תשלום"
 msgid "Cheque"
 msgstr "המחאה"
 
-#: ../src/etats_affiche.c:2466 ../src/export_csv.c:810 ../src/gsb_form.c:1381
+#: ../src/etats_affiche.c:2466 ../src/export_csv.c:810 ../src/gsb_form.c:1383
 #: ../src/gsb_form_widget.c:464 ../src/gsb_transactions_list.c:162
 #: ../src/traitement_variables.c:97
 msgid "Voucher"
 msgstr "שובר"
 
-#: ../src/etats_affiche.c:2473 ../src/export_csv.c:816 ../src/gsb_form.c:1376
+#: ../src/etats_affiche.c:2473 ../src/export_csv.c:816 ../src/gsb_form.c:1378
 #: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:164
 #: ../src/traitement_variables.c:99
 msgid "Bank references"
@@ -2727,9 +2712,7 @@ msgstr "חשבונות"
 msgid "Texts"
 msgstr "טקסטים"
 
-#. amount line
 #: ../src/etats_config.c:550 ../src/etats_config.c:553
-#: ../src/gsb_currency.c:586
 msgid "Amounts"
 msgstr "סכומים"
 
@@ -2769,14 +2752,14 @@ msgid "Generalities"
 msgstr "כללי"
 
 #: ../src/etats_config.c:630 ../src/etats_config.c:633 ../src/export_csv.c:756
-#: ../src/fenetre_principale.c:238 ../src/parametres.c:424
+#: ../src/fenetre_principale.c:238 ../src/parametres.c:427
 msgid "Transactions"
 msgstr "עיסקאות"
 
 #. echange line label
 #: ../src/etats_config.c:639 ../src/etats_config.c:642
 #: ../src/gsb_currency.c:549 ../src/gsb_currency_config.c:294
-#: ../src/parametres.c:514
+#: ../src/parametres.c:517
 msgid "Currencies"
 msgstr "מטבעות"
 
@@ -2868,14 +2851,18 @@ msgid "Detail financial years"
 msgstr "פירוט שנות הכספים"
 
 #. set the initial date
-#: ../src/etats_config.c:2296 ../src/gsb_archive_config.c:96
-#: ../src/gsb_assistant_archive.c:229
-#: ../src/gsb_assistant_archive_export.c:149
+#: ../src/etats_config.c:2296 ../src/gsb_assistant_archive.c:229
 #: ../src/gsb_assistant_reconcile_config.c:409
-#: ../src/gsb_assistant_reconcile_config.c:1225
 #: ../src/gsb_reconcile_config.c:207
-msgid "Initial date"
-msgstr "תאריך התחלה"
+msgid "Initial date:"
+msgstr "תאריך התחלה:"
+
+#. set the final date
+#: ../src/etats_config.c:2326 ../src/gsb_assistant_archive.c:241
+#: ../src/gsb_assistant_reconcile_config.c:420
+#: ../src/gsb_reconcile_config.c:221
+msgid "Final date:"
+msgstr "תאריך סיום:"
 
 #: ../src/etats_config.c:2453
 #, fuzzy
@@ -2889,8 +2876,8 @@ msgid "Select transactions only for given accounts"
 msgstr "בחירת העיסקאות רק עבור החשבונות הנבחרים"
 
 #: ../src/etats_config.c:2486
-msgid "Select the accounts included in the report"
-msgstr "בחירת החשבונות הכלולים בדו\"ח"
+msgid "Select the accounts included in the report:"
+msgstr "בחירת החשבונות הכלולים בדו\"ח:"
 
 #: ../src/etats_config.c:2544 ../src/etats_config.c:2799
 #: ../src/etats_config.c:3081 ../src/etats_config.c:3888
@@ -2949,8 +2936,8 @@ msgid "Detail categories"
 msgstr "פירוט קטגוריות"
 
 #: ../src/etats_config.c:3037
-msgid "Select categories to include"
-msgstr "בחירת הקטגוריות אשר יש לכלול"
+msgid "Select categories to include:"
+msgstr "בחירת הקטגוריות אשר יש לכלול:"
 
 #: ../src/etats_config.c:3111
 msgid "Income categories"
@@ -3003,8 +2990,8 @@ msgid "Detail budgetary lines"
 msgstr "פירוט קווי תקציב"
 
 #: ../src/etats_config.c:3844
-msgid "Select the budgetary lines to include in the report"
-msgstr "בחירת קווי התקציב שיש לבחור בדו\"ח"
+msgid "Select the budgetary lines to include in the report:"
+msgstr "בחירת קווי התקציב שיש לבחור בדו\"ח:"
 
 #: ../src/etats_config.c:3918
 msgid "Income budget lines"
@@ -3027,9 +3014,8 @@ msgid "Detail payees"
 msgstr "פירוט קטגוריות"
 
 #: ../src/etats_config.c:4027
-#, fuzzy
-msgid "Select payees to include in this report"
-msgstr "בחירת הצדדים השלישיים שיש לכלול בדו\"ח זה"
+msgid "Select payees to include in this report:"
+msgstr "בחירת הצדדים השלישיים שיש לכלול בדו\"ח זה:"
 
 #: ../src/etats_config.c:4160
 #, fuzzy
@@ -3296,9 +3282,8 @@ msgid "Separation by period"
 msgstr "פיצול לפי תקופה"
 
 #: ../src/etats_config.c:6343
-#, fuzzy
-msgid "Separation by time period"
-msgstr "פיצול לפי תקופה"
+msgid "Separation by time period:"
+msgstr "פיצול לפי תקופה:"
 
 #: ../src/etats_config.c:6360
 #, fuzzy
@@ -3311,13 +3296,12 @@ msgstr "שבוע"
 
 #. add beginning day of the week
 #: ../src/etats_config.c:6379
-msgid "Beginning of week"
-msgstr ""
+msgid "Beginning of week:"
+msgstr "יתרת פתיחה:"
 
-#: ../src/etats_config.c:6535 ../src/gsb_archive_config.c:96
-#: ../src/gsb_assistant_archive_export.c:149
-msgid "Report name"
-msgstr "שם דו\"ח"
+#: ../src/etats_config.c:6535
+msgid "Report name:"
+msgstr "שם דו\"ח:"
 
 #: ../src/etats_config.c:6564
 #, fuzzy
@@ -3408,30 +3392,29 @@ msgstr "כל העיסקאות"
 msgid "Make transactions clickable"
 msgstr "לאפשר לחיצה על עיסקאות"
 
-#: ../src/etats_config.c:6825 ../src/parametres.c:1162
+#: ../src/etats_config.c:6825 ../src/parametres.c:1165
 msgid "Totals currencies"
 msgstr "סך כל המטבעות"
 
 #: ../src/etats_config.c:6838
-msgid "General totals currency"
-msgstr "מטבע של סך הכל הכללי"
+msgid "General totals currency:"
+msgstr "מטבע של סך הכל הכללי:"
 
 #: ../src/etats_config.c:6867
-#, fuzzy
-msgid "Payees currency"
-msgstr "מטבע של קטגוריות"
+msgid "Payees currency:"
+msgstr "מטבע של קטגוריות:"
 
 #: ../src/etats_config.c:6896
-msgid "Categories currency"
-msgstr "מטבע של קטגוריות"
+msgid "Categories currency:"
+msgstr "מטבע של קטגוריות:"
 
 #: ../src/etats_config.c:6926
-msgid "Budgetary lines currency"
-msgstr "מטבע של קווי תקציב"
+msgid "Budgetary lines currency:"
+msgstr "מטבע של קווי תקציב:"
 
 #: ../src/etats_config.c:6955
-msgid "Amount comparison currency"
-msgstr "מטבע השוואת סכום"
+msgid "Amount comparison currency:"
+msgstr "מטבע השוואת סכום:"
 
 #. on permet d'afficher le name du compte
 #: ../src/etats_config.c:6992
@@ -3509,8 +3492,8 @@ msgid "Select the transactions by method of payment"
 msgstr "בחירת העיסקאות על פי דרך התשלום"
 
 #: ../src/etats_config.c:7250
-msgid "Select methods of payment to include"
-msgstr "בחירת דרכי התשלום שיש לכלול"
+msgid "Select methods of payment to include:"
+msgstr "בחירת דרכי התשלום שיש לכלול:"
 
 #: ../src/etats_csv.c:164
 #, fuzzy, c-format
@@ -3741,8 +3724,8 @@ msgid "Export report"
 msgstr "ייצוא דו\"ח"
 
 #: ../src/etats_onglet.c:1119
-msgid "File format"
-msgstr ""
+msgid "File format:"
+msgstr "מידע:"
 
 #: ../src/etats_onglet.c:1124
 msgid "Grisbi report file (egsb file)"
@@ -3869,8 +3852,7 @@ msgid "Select accounts to export"
 msgstr "בחירת החשבונות לייצוא"
 
 #: ../src/export.c:169 ../src/export_csv.c:759
-#: ../src/gsb_account_property.c:232 ../src/gsb_data_partial_balance.c:1494
-#: ../src/import.c:1239 ../src/import.c:1264
+#: ../src/gsb_data_partial_balance.c:1494
 msgid "Account name"
 msgstr "שם חשבון"
 
@@ -3897,9 +3879,8 @@ msgid ""
 msgstr ""
 
 #: ../src/export.c:364 ../src/gsb_assistant_archive_export.c:296
-#, fuzzy
-msgid "Export format"
-msgstr "ייצוא דו\"ח"
+msgid "Export format:"
+msgstr "ייצוא דו\"ח:"
 
 #: ../src/export.c:369 ../src/gsb_assistant_archive_export.c:302
 #, fuzzy
@@ -3911,9 +3892,7 @@ msgid "CSV format"
 msgstr ""
 
 #. set the initial balance
-#: ../src/export_csv.c:284 ../src/gsb_account_property.c:515
-#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:208
-#: ../src/gsb_reconcile_config.c:245
+#: ../src/export_csv.c:284
 msgid "Initial balance"
 msgstr "יתרת פתיחה"
 
@@ -3930,7 +3909,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: ../src/export_csv.c:720 ../src/gsb_form.c:1894
+#: ../src/export_csv.c:720 ../src/gsb_form.c:1896
 msgid "Deleted account"
 msgstr "מחיקת חשבון"
 
@@ -3959,7 +3938,7 @@ msgstr "תתי-קוי תקציב"
 msgid "Reconciliation number"
 msgstr "מספר תיאום"
 
-#: ../src/fenetre_principale.c:224 ../src/parametres.c:360
+#: ../src/fenetre_principale.c:224 ../src/parametres.c:363
 msgid "Main page"
 msgstr "עמוד ראשי"
 
@@ -3977,7 +3956,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:266 ../src/navigation.c:264
-#: ../src/parametres.c:342 ../src/parametres.c:1120
+#: ../src/parametres.c:345 ../src/parametres.c:1123
 msgid "Scheduler"
 msgstr "תיזמון עיסקאות"
 
@@ -4626,13 +4605,17 @@ msgstr ""
 msgid "Account details"
 msgstr "פרטי חשבון"
 
+#: ../src/gsb_account_property.c:232 ../src/import.c:1239 ../src/import.c:1264
+msgid "Account name:"
+msgstr "שם חשבון:"
+
 #: ../src/gsb_account_property.c:253 ../src/import.c:1192
-msgid "Account type"
-msgstr "סוג חשבון"
+msgid "Account type:"
+msgstr "סוג חשבון:"
 
 #: ../src/gsb_account_property.c:271 ../src/import.c:1294
-msgid "Account currency"
-msgstr "מטבע החשבון"
+msgid "Account currency:"
+msgstr "מטבע החשבון:"
 
 #. create closed account line
 #: ../src/gsb_account_property.c:285
@@ -4645,13 +4628,12 @@ msgid "Account holder"
 msgstr "מיקום לחשבון"
 
 #: ../src/gsb_account_property.c:306
-msgid "Holder name"
-msgstr "שם המיקום"
+msgid "Holder name:"
+msgstr "שם המיקום:"
 
 #: ../src/gsb_account_property.c:338
-#, fuzzy
-msgid "Holder's own address"
-msgstr "למחזיק ישנה כתובת משל עצמו"
+msgid "Holder's own address:"
+msgstr "למחזיק ישנה כתובת משל עצמו:"
 
 #. création de la ligne de l'établissement financier
 #: ../src/gsb_account_property.c:368 ../src/gsb_bank.c:510
@@ -4659,45 +4641,49 @@ msgid "Bank"
 msgstr "בנק"
 
 #: ../src/gsb_account_property.c:372
-msgid "Financial institution"
-msgstr "מוסד פיננסי"
+msgid "Financial institution:"
+msgstr "מוסד פיננסי:"
 
 #. Bank BIC code item
 #: ../src/gsb_account_property.c:400 ../src/gsb_bank.c:761
-#, fuzzy
-msgid "BIC code"
-msgstr "קוד ISO"
+msgid "BIC code:"
+msgstr "קוד ISO:"
 
 #: ../src/gsb_account_property.c:414
-#, fuzzy
-msgid "IBAN number"
-msgstr "מספר"
+msgid "IBAN number:"
+msgstr "מספר:"
 
 #: ../src/gsb_account_property.c:443
-msgid "Bank sort code"
-msgstr "קוד המיון של הבנק"
+msgid "Bank sort code:"
+msgstr "קוד המיון של הבנק:"
 
 #: ../src/gsb_account_property.c:457
-msgid "Bank branch code"
-msgstr "מספר הסניף של הבנק"
+msgid "Bank branch code:"
+msgstr "מספר הסניף של הבנק:"
 
 #: ../src/gsb_account_property.c:478
-msgid "Account number / Key"
-msgstr "מספר / מפתח חשבון"
+msgid "Account number / Key:"
+msgstr "מספר / מפתח חשבון:"
 
 #. création de la ligne du solde initial
 #: ../src/gsb_account_property.c:510
 msgid "Balances"
 msgstr "יתרות"
 
+#. set the initial balance
+#: ../src/gsb_account_property.c:515
+#: ../src/gsb_assistant_reconcile_config.c:431 ../src/gsb_reconcile.c:208
+#: ../src/gsb_reconcile_config.c:245
+msgid "Initial balance:"
+msgstr "יתרת פתיחה:"
+
 #: ../src/gsb_account_property.c:531
-msgid "Minimum authorised balance"
-msgstr "יתרה מינימלית מותרת"
+msgid "Minimum authorised balance:"
+msgstr "יתרה מינימלית מותרת:"
 
 #: ../src/gsb_account_property.c:548
-#, fuzzy
-msgid "Minimum desired balance"
-msgstr "יתרה מינימלית רצויה"
+msgid "Minimum desired balance:"
+msgstr "יתרה מינימלית רצויה:"
 
 #: ../src/gsb_account_property.c:687 ../src/gsb_assistant_account.c:424
 #: ../src/gsb_data_partial_balance.c:223
@@ -4738,8 +4724,17 @@ msgstr "להעביר את העיסקאות אל"
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr ""
 
+#: ../src/gsb_archive_config.c:96 ../src/gsb_assistant_archive_export.c:149
+#: ../src/gsb_assistant_reconcile_config.c:1225
+msgid "Initial date"
+msgstr "תאריך התחלה"
+
+#: ../src/gsb_archive_config.c:96 ../src/gsb_assistant_archive_export.c:149
+msgid "Report name"
+msgstr "שם דו\"ח"
+
 #. create the page
-#: ../src/gsb_archive_config.c:109 ../src/parametres.c:305
+#: ../src/gsb_archive_config.c:109 ../src/parametres.c:308
 #, fuzzy
 msgid "Archives"
 msgstr "הפעלה"
@@ -4753,6 +4748,21 @@ msgstr "מטבעות ידועים"
 #, fuzzy
 msgid "Archive modification"
 msgstr "שינוי"
+
+#. set the name
+#. Bank name item
+#. Name
+#. Create currency name entry
+#. Partial balance name
+#. Financial year name
+#. set the name
+#: ../src/gsb_archive_config.c:184 ../src/gsb_assistant_reconcile_config.c:386
+#: ../src/gsb_bank.c:731 ../src/gsb_bank.c:854
+#: ../src/gsb_currency_config.c:353 ../src/gsb_data_partial_balance.c:1550
+#: ../src/gsb_fyear_config.c:190 ../src/gsb_payment_method_config.c:236
+#: ../src/gsb_reconcile_config.c:193
+msgid "Name:"
+msgstr "שם:"
 
 #. button to delete an archive and free the transactions
 #: ../src/gsb_archive_config.c:201
@@ -4875,9 +4885,10 @@ msgstr ""
 
 #. choose the currency
 #: ../src/gsb_assistant_account.c:236
-#, fuzzy
-msgid "Currency for the account."
-msgstr "מטבע %s לא נמצא.\n"
+msgid "Currency for the account.:"
+msgstr ""
+"מטבע %s לא נמצא.\n"
+":"
 
 #. propose to add a currency
 #: ../src/gsb_assistant_account.c:262
@@ -4887,15 +4898,13 @@ msgstr "שינוי"
 
 #. choose the bank
 #: ../src/gsb_assistant_account.c:274
-#, fuzzy
-msgid "Bank for the account."
-msgstr "חשבון בנק"
+msgid "Bank for the account.:"
+msgstr "חשבון בנק:"
 
 #. set the initial amount
 #: ../src/gsb_assistant_account.c:299
-#, fuzzy
-msgid "Opening balance"
-msgstr "יתרת פתיחה"
+msgid "Opening balance:"
+msgstr "יתרת פתיחה:"
 
 #. set up the menu
 #: ../src/gsb_assistant_account.c:367
@@ -4990,9 +4999,8 @@ msgid "Grisbi will archive all transactions belonging to a financial year."
 msgstr "קישור עיסקאות ללא שנות כספים"
 
 #: ../src/gsb_assistant_archive.c:277
-#, fuzzy
 msgid "Financial year :"
-msgstr "שנת הכספים"
+msgstr "שנת הכספים:"
 
 #: ../src/gsb_assistant_archive.c:293
 #, fuzzy
@@ -5003,15 +5011,14 @@ msgstr "הדפסת דו\"ח"
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
 
-#: ../src/gsb_assistant_archive.c:313 ../src/gsb_data_payee.c:540
-#: ../src/gsb_form.c:2981 ../src/gsb_form.c:2982 ../src/navigation.c:1238
-msgid "Report"
-msgstr "דו\"ח"
+#: ../src/gsb_assistant_archive.c:313
+msgid "Report:"
+msgstr "דו\"ח:"
 
 #. set up the menu
 #: ../src/gsb_assistant_archive.c:360
-msgid "Please choose a name for archive"
-msgstr ""
+msgid "Please choose a name for archive:"
+msgstr "נא להזין שם צד שלישי.:"
 
 #: ../src/gsb_assistant_archive.c:425 ../src/import.c:927
 msgid "Congratulations !"
@@ -5225,10 +5232,15 @@ msgstr "כללי"
 msgid "Titles and filenames"
 msgstr ""
 
+#. filename
+#: ../src/gsb_assistant_file.c:304
+msgid "Filename:"
+msgstr "שם המיקום:"
+
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:322 ../src/gsb_assistant_first.c:248
-#: ../src/parametres.c:874
+#: ../src/parametres.c:877
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -5320,61 +5332,59 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:208 ../src/parametres.c:1043
+#: ../src/gsb_assistant_first.c:208 ../src/parametres.c:1046
 #, fuzzy
 msgid "Web"
 msgstr "אתר אינטרנט"
 
-#: ../src/gsb_assistant_first.c:215 ../src/parametres.c:1050
-#, fuzzy
-msgid "Web browser command"
-msgstr "דפדפן"
+#: ../src/gsb_assistant_first.c:215 ../src/parametres.c:1053
+msgid "Web browser command:"
+msgstr "דפדפן:"
 
 #: ../src/gsb_assistant_first.c:223
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:233 ../src/parametres.c:857
+#: ../src/gsb_assistant_first.c:233 ../src/parametres.c:860
 msgid "Account files handling"
 msgstr "טיפול בקבצי חשבונות"
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:236 ../src/parametres.c:860
+#: ../src/gsb_assistant_first.c:236 ../src/parametres.c:863
 msgid "Automatically load last file on startup"
 msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:864
+#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:867
 msgid "Automatically save on exit"
 msgstr "שמירת הקובץ אוטומטית עם היציאה"
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:257 ../src/parametres.c:914
+#: ../src/gsb_assistant_first.c:257 ../src/parametres.c:917
 msgid "Make a backup copy before saving files"
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: ../src/gsb_assistant_first.c:267 ../src/parametres.c:922
+#: ../src/gsb_assistant_first.c:267 ../src/parametres.c:925
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: ../src/gsb_assistant_first.c:278 ../src/parametres.c:932
+#: ../src/gsb_assistant_first.c:278 ../src/parametres.c:935
 #, fuzzy
 msgid " minutes"
 msgstr "הערה"
 
-#: ../src/gsb_assistant_first.c:287 ../src/parametres.c:939
-#, fuzzy
-msgid "Backup directory"
-msgstr "קובץ גיבוי"
+#: ../src/gsb_assistant_first.c:287 ../src/parametres.c:942
+msgid "Backup directory:"
+msgstr "קובץ גיבוי:"
 
-#: ../src/gsb_assistant_first.c:292 ../src/parametres.c:946
+#: ../src/gsb_assistant_first.c:292 ../src/parametres.c:949
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:331 ../src/gsb_reconcile_config.c:105
-#: ../src/parametres.c:451
+#: ../src/parametres.c:454
 msgid "Reconciliation"
 msgstr "התאמה"
 
@@ -5452,9 +5462,8 @@ msgstr ""
 
 #. set up the menu
 #: ../src/gsb_assistant_reconcile_config.c:278
-#, fuzzy
 msgid "Choose the next operation to do :"
-msgstr "בחירת דרך התשלום"
+msgstr "בחירת דרך התשלום:"
 
 #: ../src/gsb_assistant_reconcile_config.c:287
 msgid "Manually create a new reconciliation"
@@ -5498,9 +5507,9 @@ msgstr ""
 
 #. set the final balance
 #: ../src/gsb_assistant_reconcile_config.c:442 ../src/gsb_reconcile.c:216
-#: ../src/gsb_reconcile_config.c:99 ../src/gsb_reconcile_config.c:259
-msgid "Final balance"
-msgstr "מאזן סופי"
+#: ../src/gsb_reconcile_config.c:259
+msgid "Final balance:"
+msgstr "מאזן סופי:"
 
 #: ../src/gsb_assistant_reconcile_config.c:459
 #, fuzzy
@@ -5523,9 +5532,8 @@ msgstr ""
 
 #. now we can show the list of orphans transactions
 #: ../src/gsb_assistant_reconcile_config.c:614
-#, fuzzy
 msgid "Select the transaction(s) you want to associate with a reconciliation :"
-msgstr "נא לסמן עיסקאות אשר יש להוסיף לרשימה, וללחוץ על לחצן ההוספה"
+msgstr "נא לסמן עיסקאות אשר יש להוסיף לרשימה, וללחוץ על לחצן ההוספה:"
 
 #: ../src/gsb_assistant_reconcile_config.c:676
 #, fuzzy
@@ -5597,9 +5605,8 @@ msgid "Selection of a reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
 
 #: ../src/gsb_assistant_reconcile_config.c:1191
-#, fuzzy
-msgid "Select the reconciliation to associate to the selected transactions"
-msgstr "העיסקאות שלא תואמו וגם לא נבדקו"
+msgid "Select the reconciliation to associate to the selected transactions:"
+msgstr "העיסקאות שלא תואמו וגם לא נבדקו:"
 
 #: ../src/gsb_assistant_reconcile_config.c:1298
 #, fuzzy
@@ -5619,7 +5626,7 @@ msgstr "בנק חדש"
 msgid "Contact name"
 msgstr "שם הקשר"
 
-#: ../src/gsb_bank.c:518 ../src/parametres.c:532
+#: ../src/gsb_bank.c:518 ../src/parametres.c:535
 msgid "Banks"
 msgstr "בנקים"
 
@@ -5633,29 +5640,29 @@ msgstr "פרטי בנק"
 
 #. Bank Sort code item
 #: ../src/gsb_bank.c:746
-msgid "Sort code"
-msgstr "קוד מיון"
+msgid "Sort code:"
+msgstr "קוד מיון:"
 
 #. Bank address
 #: ../src/gsb_bank.c:778
-msgid "Address"
-msgstr "כתובת"
+msgid "Address:"
+msgstr "כתובת:"
 
 #. Phone number
 #: ../src/gsb_bank.c:801 ../src/gsb_bank.c:869
-msgid "Phone"
-msgstr "טלפון"
+msgid "Phone:"
+msgstr "טלפון:"
 
 #. E-mail
 #. E-Mail
 #: ../src/gsb_bank.c:816 ../src/gsb_bank.c:899
-msgid "E-Mail"
-msgstr "דוא\"ל"
+msgid "E-Mail:"
+msgstr "דוא\"ל:"
 
 #. Website
 #: ../src/gsb_bank.c:831
-msgid "Website"
-msgstr "אתר אינטרנט"
+msgid "Website:"
+msgstr "אתר אינטרנט:"
 
 #. Contact
 #: ../src/gsb_bank.c:846
@@ -5664,8 +5671,8 @@ msgstr "קשר"
 
 #. Fax
 #: ../src/gsb_bank.c:884
-msgid "Fax"
-msgstr "פקס"
+msgid "Fax:"
+msgstr ""
 
 #: ../src/gsb_bank.c:994
 msgid "Edit bank"
@@ -5730,10 +5737,15 @@ msgstr "להשתמש בגופן מותאם אישית לצורך העיסקאו�
 msgid "Exchange rate"
 msgstr "שער החליפין"
 
+#. amount line
+#: ../src/gsb_currency.c:586
+msgid "Amounts:"
+msgstr "סכומים:"
+
 #. exchange fees line label
 #: ../src/gsb_currency.c:659
-msgid "Exchange fees"
-msgstr "עמלות המרה"
+msgid "Exchange fees:"
+msgstr "עמלות המרה:"
 
 #: ../src/gsb_currency.c:681
 #, fuzzy
@@ -7096,32 +7108,35 @@ msgid "Currency properties"
 msgstr "מאפייני המטבע"
 
 #. Create Sign entry
-#: ../src/gsb_currency_config.c:366 ../src/gsb_currency_config.c:498
-msgid "Sign"
-msgstr "סמל המטבע"
+#: ../src/gsb_currency_config.c:366
+msgid "Sign:"
+msgstr "סמל המטבע:"
 
 #. Create ISO code entry
 #: ../src/gsb_currency_config.c:379
-msgid "ISO code"
-msgstr "קוד ISO"
+msgid "ISO code:"
+msgstr "קוד ISO:"
 
 #. Create floating point entry
 #: ../src/gsb_currency_config.c:392 ../src/gsb_currency_config.c:1011
-msgid "Floating point"
+msgid "Floating point:"
 msgstr ""
 
 #: ../src/gsb_currency_config.c:452
 msgid "Country name"
 msgstr "שם המדינה"
 
-#. Currency name
-#: ../src/gsb_currency_config.c:475 ../src/gsb_currency_config.c:977
+#: ../src/gsb_currency_config.c:475
 msgid "Currency name"
 msgstr "שם המטבע"
 
 #: ../src/gsb_currency_config.c:486
 msgid "ISO Code"
 msgstr "קוד ISO"
+
+#: ../src/gsb_currency_config.c:498
+msgid "Sign"
+msgstr "סמל המטבע"
 
 #: ../src/gsb_currency_config.c:615
 #, fuzzy, c-format
@@ -7143,17 +7158,16 @@ msgstr ""
 "לא ניתן למחוק אותו."
 
 #: ../src/gsb_currency_config.c:818
-#, fuzzy
-msgid "Currency for payees tree"
-msgstr "מטבע עבור עץ הקטגוריות"
+msgid "Currency for payees tree:"
+msgstr "מטבע עבור עץ הקטגוריות:"
 
 #: ../src/gsb_currency_config.c:828
-msgid "Currency for categories tree"
-msgstr "מטבע עבור עץ הקטגוריות"
+msgid "Currency for categories tree:"
+msgstr "מטבע עבור עץ הקטגוריות:"
 
 #: ../src/gsb_currency_config.c:838
-msgid "Currency for budgetary lines tree"
-msgstr "מטבע עבור עץ קווי התקציב"
+msgid "Currency for budgetary lines tree:"
+msgstr "מטבע עבור עץ קווי התקציב:"
 
 #: ../src/gsb_currency_config.c:849
 #, fuzzy
@@ -7178,16 +7192,20 @@ msgstr "סך כל המטבעות"
 msgid "Currency details"
 msgstr "פרטי מטבע"
 
+#. Currency name
+#: ../src/gsb_currency_config.c:977
+msgid "Currency name:"
+msgstr "שם המטבע:"
+
 #. Currency ISO code
 #: ../src/gsb_currency_config.c:989
-#, fuzzy
-msgid "Currency international code"
-msgstr "שנת הכספים הנוכחית"
+msgid "Currency international code:"
+msgstr "שנת הכספים הנוכחית:"
 
 #. Currency usual sign
 #: ../src/gsb_currency_config.c:1000
-msgid "Currency sign"
-msgstr "סמל המטבע"
+msgid "Currency sign:"
+msgstr "סמל המטבע:"
 
 #: ../src/gsb_currency_config.c:1077
 msgid ""
@@ -7378,11 +7396,15 @@ msgstr "יתרת פתיחה"
 msgid "Details"
 msgstr "פרטים"
 
+#. List of the accounts
+#: ../src/gsb_data_partial_balance.c:1561
+msgid "Accounts list:"
+msgstr "חשבונות:"
+
 #. create the position
 #: ../src/gsb_data_partial_balance.c:1576
-#, fuzzy
-msgid "Position in the list of accounts"
-msgstr "העברת העיסקה לחשבון אחר"
+msgid "Position in the list of accounts:"
+msgstr "העברת העיסקה לחשבון אחר:"
 
 #. create the colorized button
 #: ../src/gsb_data_partial_balance.c:1589
@@ -7395,14 +7417,18 @@ msgid "Enter the currency of the balance part"
 msgstr "נא להזין שם עבור תת-קו התקציב החדש"
 
 #: ../src/gsb_data_partial_balance.c:1624
-#, fuzzy
-msgid "Select the currency of the partial balance"
-msgstr "בחירת חשבונות בנק"
+msgid "Select the currency of the partial balance:"
+msgstr "בחירת חשבונות בנק:"
 
 #: ../src/gsb_data_payee.c:418
 #, fuzzy
 msgid "No payee defined"
 msgstr "לא הוגדרו צדדים שלישיים"
+
+#: ../src/gsb_data_payee.c:540 ../src/gsb_form.c:2983 ../src/gsb_form.c:2984
+#: ../src/navigation.c:1238
+msgid "Report"
+msgstr "דו\"ח"
 
 #: ../src/gsb_data_payee.c:736
 #, fuzzy, c-format
@@ -7417,14 +7443,14 @@ msgstr "הפקדה"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:726 ../src/gsb_form.c:2245 ../src/import.c:2698
+#: ../src/gsb_data_payment.c:726 ../src/gsb_form.c:2247 ../src/import.c:2698
 #: ../src/import.c:2704
 msgid "Credit card"
 msgstr "כרטיס אשראי"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:735 ../src/gsb_form.c:2282 ../src/import.c:2716
+#: ../src/gsb_data_payment.c:735 ../src/gsb_form.c:2284 ../src/import.c:2716
 #: ../src/import.c:2734
 msgid "Direct debit"
 msgstr "חיוב ישיר"
@@ -7663,7 +7689,7 @@ msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"לעיסקה #%d צריכה להיות #%d נגדית, אבל לעיסקה #%d יש #%d נגדית במקום  #%d.\n"
+"לעיסקה #%d צריכה להיות #%d נגדית, אבל לעיסקה #%d יש #%d נגדית במקום  #%d. "
 
 #. sub-category not found
 #: ../src/gsb_debug.c:605
@@ -7778,11 +7804,11 @@ msgid ""
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
 "גריסבי לא הצליח לשמור קובץ זה בגלל שהוא נעול. יש לשמור אותו בשם אחר, או "
-"להפעיל את האפשרות של \"%s\" בהגדרות התוכנה. לחילופין, ניתן לבחור באפשרות  \"%"
-"s\" אשר נמצאת מתחת."
+"להפעיל את האפשרות של \"%s\" בהגדרות התוכנה. לחילופין, ניתן לבחור באפשרות  "
+"\"%s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:869
+#: ../src/gsb_file.c:560 ../src/gsb_file.c:825 ../src/parametres.c:872
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
@@ -8084,107 +8110,107 @@ msgstr ""
 msgid "Transfer : Deleted account"
 msgstr "העברה: חשבון שנמחק"
 
-#: ../src/gsb_form.c:755 ../src/gsb_form.c:1883 ../src/gsb_form.c:1884
+#: ../src/gsb_form.c:755 ../src/gsb_form.c:1885 ../src/gsb_form.c:1886
 #: ../src/gsb_form_widget.c:1101
 #, fuzzy
 msgid "Transfer : "
 msgstr "העברה"
 
-#: ../src/gsb_form.c:922
+#: ../src/gsb_form.c:924
 msgid "Auto"
 msgstr "אוטומטי"
 
-#: ../src/gsb_form.c:925 ../src/gsb_form_scheduler.c:147
-#: ../src/gsb_scheduler_list.c:1121
+#: ../src/gsb_form.c:927 ../src/gsb_form_scheduler.c:147
+#: ../src/gsb_scheduler_list.c:1136
 msgid "Manual"
 msgstr "ידני"
 
-#: ../src/gsb_form.c:1355 ../src/gsb_form_widget.c:452
+#: ../src/gsb_form.c:1357 ../src/gsb_form_widget.c:452
 msgid "Cheque/Transfer number"
 msgstr "מספר המחאה/העברה"
 
-#: ../src/gsb_form.c:2254 ../src/plugins/ofx/ofx.c:468
+#: ../src/gsb_form.c:2256 ../src/plugins/ofx/ofx.c:468
 msgid "Direct deposit"
 msgstr "הפקדה ישירה"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2263 ../src/import.c:2503 ../src/import.c:2550
+#: ../src/gsb_form.c:2265 ../src/import.c:2503 ../src/import.c:2550
 #: ../src/import.c:2673 ../src/plugins/ofx/ofx.c:424
 msgid "Check"
 msgstr "המחאה"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2272 ../src/import.c:2722
+#: ../src/gsb_form.c:2274 ../src/import.c:2722
 msgid "Cash withdrawal"
 msgstr ""
 
-#: ../src/gsb_form.c:2401
+#: ../src/gsb_form.c:2403
 #, fuzzy
 msgid "No payee selected for this report."
 msgstr "לא נבחר כל צד שלישי לדו\"ח זה."
 
-#: ../src/gsb_form.c:2730
+#: ../src/gsb_form.c:2732
 msgid "You must enter a date."
 msgstr "יש להכניס תאריך."
 
-#: ../src/gsb_form.c:2737
+#: ../src/gsb_form.c:2739
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "תאריך לא תקין"
 
-#: ../src/gsb_form.c:2760
+#: ../src/gsb_form.c:2762
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "תאריך לא תקין"
 
-#: ../src/gsb_form.c:2786
+#: ../src/gsb_form.c:2788
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2789 ../src/gsb_form.c:2816
+#: ../src/gsb_form.c:2791 ../src/gsb_form.c:2818
 #, fuzzy
 msgid "Invalid date"
 msgstr "תאריך לא תקין"
 
-#: ../src/gsb_form.c:2814
+#: ../src/gsb_form.c:2816
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "קטן או שווה ל"
 
-#: ../src/gsb_form.c:2850
+#: ../src/gsb_form.c:2852
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "יש להכניס תאריך."
 
-#: ../src/gsb_form.c:2870
+#: ../src/gsb_form.c:2872
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2904
+#: ../src/gsb_form.c:2906
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
-#: ../src/gsb_form.c:2911
+#: ../src/gsb_form.c:2913
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "החשבון המקושר להעברה זו אינו תקין"
 
-#: ../src/gsb_form.c:2919
+#: ../src/gsb_form.c:2921
 msgid "Can't issue a transfer its own account."
 msgstr "לא ניתן להעביר מאותו החשבון לאותו החשבון."
 
-#: ../src/gsb_form.c:2924
+#: ../src/gsb_form.c:2926
 msgid "Can't issue a transfer on a closed account."
 msgstr "לא ניתן לבצע העברה בחשבון סגור."
 
-#: ../src/gsb_form.c:2950
+#: ../src/gsb_form.c:2952
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -8194,7 +8220,7 @@ msgstr ""
 "אך אינה מכילה אף מספר.\n"
 "האם להמשיך בכל זאת?"
 
-#: ../src/gsb_form.c:2968
+#: ../src/gsb_form.c:2970
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -8202,31 +8228,31 @@ msgstr ""
 "אזהרה: מספר המחאה זה כבר נמצא בשימוש.\n"
 "האם להמשיך בכל זאת?"
 
-#: ../src/gsb_form.c:2989
+#: ../src/gsb_form.c:2991
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "עיסקה עם צד שלישי מרובה משתתפים חייבת להיות עיסקה חדשה."
 
-#: ../src/gsb_form.c:2994
+#: ../src/gsb_form.c:2996
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "עיסקה עם צד שלישי מרובה משתתפים חייבת להיות עיסקה חדשה."
 
-#: ../src/gsb_form.c:3005
+#: ../src/gsb_form.c:3007
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:3012
+#: ../src/gsb_form.c:3014
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "צד שלישי מרובה משתמשים אינו תקין."
 
-#: ../src/gsb_form.c:3294
+#: ../src/gsb_form.c:3296
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "עריכת עיסקה"
 
-#: ../src/gsb_form.c:3295
+#: ../src/gsb_form.c:3297
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8236,11 +8262,11 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3598
+#: ../src/gsb_form.c:3600
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:111 ../src/parametres.c:470
+#: ../src/gsb_form_config.c:111 ../src/parametres.c:473
 msgid "Transaction form"
 msgstr "טופס העברה"
 
@@ -8319,7 +8345,7 @@ msgid ""
 "that warning."
 msgstr ""
 
-#: ../src/gsb_form_scheduler.c:147 ../src/gsb_scheduler_list.c:1119
+#: ../src/gsb_form_scheduler.c:147 ../src/gsb_scheduler_list.c:1134
 msgid "Automatic"
 msgstr "אוטומטי"
 
@@ -8331,7 +8357,7 @@ msgstr "בחירת החשבון"
 msgid "Automatic/manual scheduled transaction"
 msgstr "עיסקה מתוכננת באופן אוטומטי/ידני"
 
-#: ../src/gsb_form_transaction.c:366
+#: ../src/gsb_form_transaction.c:367
 #, fuzzy
 msgid "Report : "
 msgstr "דו\"ח"
@@ -8373,7 +8399,7 @@ msgstr "מספר עיסקה"
 msgid "Automatic/Manual"
 msgstr "אוטומטי"
 
-#: ../src/gsb_fyear_config.c:98 ../src/parametres.c:541
+#: ../src/gsb_fyear_config.c:98 ../src/parametres.c:544
 msgid "Financial years"
 msgstr "שנות כספים"
 
@@ -8392,13 +8418,13 @@ msgstr "פרטי שנת כספים"
 
 #. Start
 #: ../src/gsb_fyear_config.c:206
-msgid "Start"
-msgstr "התחלה"
+msgid "Start:"
+msgstr "התחלה:"
 
 #. End
 #: ../src/gsb_fyear_config.c:224
-msgid "End"
-msgstr "סוף"
+msgid "End:"
+msgstr ""
 
 #. Activate in transaction form?
 #: ../src/gsb_fyear_config.c:249
@@ -8483,13 +8509,18 @@ msgstr "בוחרת בשדה הבא"
 
 #. Automatic numbering
 #: ../src/gsb_payment_method_config.c:265
-msgid "Automatic numbering"
-msgstr "מספור אוטומטי"
+msgid "Automatic numbering:"
+msgstr "מספור אוטומטי:"
 
 #. button automatic numbering, activate it sensitive the automatic numbering entry
 #: ../src/gsb_payment_method_config.c:284
 msgid "Activate"
 msgstr "הפעלה"
+
+#. Payment method method_ptr
+#: ../src/gsb_payment_method_config.c:294
+msgid "Type:"
+msgstr "סוג:"
 
 #. Neutral method_ptr
 #: ../src/gsb_payment_method_config.c:306
@@ -8533,16 +8564,16 @@ msgid ""
 msgstr ""
 
 #: ../src/gsb_payment_method_config.c:1311
-msgid "Associate transactions with"
-msgstr "קישור העיסקאות עם"
+msgid "Associate transactions with:"
+msgstr "קישור העיסקאות עם:"
 
 #: ../src/gsb_plugins.c:206
 msgid "with plugins"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:126 ../src/gsb_transactions_list.c:158
-msgid "Reconciliation reference"
-msgstr "הפנייה להתאמה"
+#: ../src/gsb_reconcile.c:126
+msgid "Reconciliation reference:"
+msgstr "הפנייה להתאמה:"
 
 #: ../src/gsb_reconcile.c:131
 #, fuzzy
@@ -8553,12 +8584,12 @@ msgid ""
 msgstr "אם הפנייה להתאמה מסתיימת בסיפרה, היא מוגדלת באופן אוטומטי בכל התאמה."
 
 #: ../src/gsb_reconcile.c:224
-msgid "Checking"
-msgstr "בדיקה"
+msgid "Checking:"
+msgstr "בדיקה:"
 
 #: ../src/gsb_reconcile.c:235
-msgid "Variance"
-msgstr "שונות"
+msgid "Variance:"
+msgstr "שונות:"
 
 #: ../src/gsb_reconcile.c:250
 #, fuzzy
@@ -8617,10 +8648,13 @@ msgstr "תאריך התחלה"
 msgid "Init balance"
 msgstr "יתרת פתיחה"
 
+#: ../src/gsb_reconcile_config.c:99
+msgid "Final balance"
+msgstr "מאזן סופי"
+
 #: ../src/gsb_reconcile_config.c:109
-#, fuzzy
-msgid "Select the end date of reconciliation"
-msgstr "אישור הסרת תיאום ידנית"
+msgid "Select the end date of reconciliation:"
+msgstr "אישור הסרת תיאום ידנית:"
 
 #: ../src/gsb_reconcile_config.c:110
 msgid "Start Date + one month"
@@ -8669,7 +8703,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr "יצירת חשבון חדש"
 
-#: ../src/gsb_reconcile_sort_config.c:84 ../src/parametres.c:460
+#: ../src/gsb_reconcile_sort_config.c:84 ../src/parametres.c:463
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "התאמה"
@@ -8691,11 +8725,11 @@ msgstr "מחיקת דרך תשלום"
 msgid "Split neutral payment methods"
 msgstr "פיצול דרכי תשלום ניטרליות"
 
-#: ../src/gsb_scheduler_list.c:351
+#: ../src/gsb_scheduler_list.c:354
 msgid "Mode"
 msgstr "מצב"
 
-#: ../src/gsb_scheduler_list.c:722
+#: ../src/gsb_scheduler_list.c:737
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that. Please contact the Grisbi "
@@ -8704,7 +8738,7 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:939
+#: ../src/gsb_scheduler_list.c:954
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8713,40 +8747,40 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1086
+#: ../src/gsb_scheduler_list.c:1101
 #, c-format
 msgid "%d days"
 msgstr "%d ימים"
 
-#: ../src/gsb_scheduler_list.c:1091
+#: ../src/gsb_scheduler_list.c:1106
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "שבוע"
 
-#: ../src/gsb_scheduler_list.c:1096
+#: ../src/gsb_scheduler_list.c:1111
 #, c-format
 msgid "%d months"
 msgstr "%d חודשים"
 
-#: ../src/gsb_scheduler_list.c:1101
+#: ../src/gsb_scheduler_list.c:1116
 #, c-format
 msgid "%d years"
 msgstr "%d שנים"
 
-#: ../src/gsb_scheduler_list.c:1765
+#: ../src/gsb_scheduler_list.c:1779
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1784
+#: ../src/gsb_scheduler_list.c:1798
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1829
+#: ../src/gsb_scheduler_list.c:1843
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8755,68 +8789,67 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1840
+#: ../src/gsb_scheduler_list.c:1854
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_scheduler_list.c:1845
+#: ../src/gsb_scheduler_list.c:1859
 msgid "All the occurences"
 msgstr "את כל העיסקאות המתוכננות של עיסקה זו"
 
-#: ../src/gsb_scheduler_list.c:1846
+#: ../src/gsb_scheduler_list.c:1860
 msgid "Only this one"
 msgstr "רק עיסקה זו"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1918 ../src/navigation.c:1164
+#: ../src/gsb_scheduler_list.c:1932 ../src/navigation.c:1164
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "העברות סגורות שנקבעו מראש"
 
-#: ../src/gsb_scheduler_list.c:1946
+#: ../src/gsb_scheduler_list.c:1960
 #, fuzzy
 msgid "days"
 msgstr "יום"
 
-#: ../src/gsb_scheduler_list.c:1946
+#: ../src/gsb_scheduler_list.c:1960
 #, fuzzy
 msgid "weeks"
 msgstr "שבוע"
 
-#: ../src/gsb_scheduler_list.c:1949
+#: ../src/gsb_scheduler_list.c:1963
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "העברות סגורות שנקבעו מראש"
 
-#: ../src/gsb_scheduler_list.c:1962
+#: ../src/gsb_scheduler_list.c:1976
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "התראות המתזמן"
 
-#: ../src/gsb_scheduler_list.c:1969
-#, fuzzy
-msgid "Show transactions for the next"
-msgstr "בחירת עיסקאות בהתאם לטקסט"
+#: ../src/gsb_scheduler_list.c:1983
+msgid "Show transactions for the next:"
+msgstr "בחירת עיסקאות בהתאם לטקסט:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2110 ../src/gsb_transactions_list.c:2182
+#: ../src/gsb_scheduler_list.c:2124 ../src/gsb_transactions_list.c:2182
 msgid "Edit transaction"
 msgstr "עריכת עיסקה"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2135 ../src/gsb_transactions_list.c:2205
+#: ../src/gsb_scheduler_list.c:2149 ../src/gsb_transactions_list.c:2205
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2149
+#: ../src/gsb_scheduler_list.c:2163
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "הצגת/הסתרת הערות"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2163
+#: ../src/gsb_scheduler_list.c:2177
 #, fuzzy
 msgid "Execute transaction"
 msgstr "מחיקת עיסקה"
@@ -8835,6 +8868,10 @@ msgstr "עיון"
 #, fuzzy
 msgid "Select icon directory"
 msgstr "לסמן הכל"
+
+#: ../src/gsb_transactions_list.c:158
+msgid "Reconciliation reference"
+msgstr "הפנייה להתאמה"
 
 #: ../src/gsb_transactions_list.c:166
 #, fuzzy
@@ -8944,9 +8981,8 @@ msgid "Marking a transaction as R"
 msgstr "סימון העיסקאות"
 
 #: ../src/gsb_transactions_list.c:1759
-#, fuzzy
-msgid "Select the reconciliation to associate to the selected transaction"
-msgstr "העיסקאות שלא תואמו וגם לא נבדקו"
+msgid "Select the reconciliation to associate to the selected transaction:"
+msgstr "העיסקאות שלא תואמו וגם לא נבדקו:"
 
 #: ../src/gsb_transactions_list.c:1881
 msgid "Grisbi couldn't get the selection, operation canceled..."
@@ -9017,9 +9053,8 @@ msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
 #: ../src/gsb_transactions_list.c:3013
-#, fuzzy
 msgid "Sort list by :"
-msgstr "מיון על פי תאריך"
+msgstr "מיון על פי תאריך:"
 
 #: ../src/gsb_transactions_list.c:3056
 msgid "alignment:"
@@ -9204,9 +9239,9 @@ msgstr ""
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: ../src/import.c:826 ../src/utils_files.c:675
-msgid "Encoding"
-msgstr ""
+#: ../src/import.c:826
+msgid "Encoding:"
+msgstr "מיון:"
 
 #: ../src/import.c:932
 msgid ""
@@ -9318,9 +9353,8 @@ msgid "No name for the import rule"
 msgstr "שם קובץ החשבונות"
 
 #: ../src/import.c:1553
-#, fuzzy
 msgid "Name of the rule :"
-msgstr "שם קובץ החשבונות"
+msgstr "שם קובץ החשבונות:"
 
 #: ../src/import.c:1579
 msgid ""
@@ -9466,7 +9500,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "פירוט קטגוריות"
 
-#: ../src/import.c:3677 ../src/parametres.c:323
+#: ../src/import.c:3677 ../src/parametres.c:326
 #, fuzzy
 msgid "Import associations"
 msgstr "פעולה"
@@ -9478,14 +9512,12 @@ msgid ""
 "specific payee representing your landlord."
 msgstr ""
 
-#. Create entry liste des tiers
-#: ../src/import.c:3748 ../src/import.c:3780 ../src/tiers_onglet.c:1141
+#: ../src/import.c:3748 ../src/tiers_onglet.c:1141
 #, fuzzy
 msgid "Payee name"
 msgstr "סך הכל הכללי"
 
-#. Create entry search string
-#: ../src/import.c:3762 ../src/import.c:3803
+#: ../src/import.c:3762
 #, fuzzy
 msgid "Search string"
 msgstr "חיפוש"
@@ -9494,6 +9526,16 @@ msgstr "חיפוש"
 #, fuzzy
 msgid "Details of associations"
 msgstr "לא לפרט עיסקאות מתואמות"
+
+#. Create entry liste des tiers
+#: ../src/import.c:3780
+msgid "Payee name:"
+msgstr "סך הכל הכללי:"
+
+#. Create entry search string
+#: ../src/import.c:3803
+msgid "Search string:"
+msgstr "חיפוש:"
 
 #: ../src/import.c:4097
 #, c-format
@@ -9547,9 +9589,8 @@ msgstr "הוכנסו העברות שנקבעו אוטומטית מראש"
 
 #. label filename
 #: ../src/import.c:4540
-#, fuzzy
-msgid "Name of the file to import "
-msgstr "שם קובץ החשבונות"
+msgid "Name of the file to import :"
+msgstr "שם קובץ החשבונות:"
 
 #: ../src/import.c:4641
 #, fuzzy, c-format
@@ -10216,9 +10257,8 @@ msgid "Convert \"%s\" in new %s"
 msgstr "יצירת חשבון חדש"
 
 #: ../src/metatree.c:2824 ../src/metatree.c:2845
-#, fuzzy
-msgid "Select the destination"
-msgstr "בחירת אנימציה חדשה"
+msgid "Select the destination:"
+msgstr "בחירת אנימציה חדשה:"
 
 #: ../src/metatree.c:2876
 #, c-format
@@ -10257,242 +10297,240 @@ msgid "closed"
 msgstr "סגירת חלון החשבונות"
 
 #. Create dialog
-#: ../src/parametres.c:256
+#: ../src/parametres.c:259
 #, fuzzy
 msgid "Grisbi preferences"
 msgstr "העדפות"
 
-#: ../src/parametres.c:286
+#: ../src/parametres.c:289
 #, fuzzy
 msgid "Main"
 msgstr "ספרד"
 
-#: ../src/parametres.c:295 ../src/parametres.c:853
+#: ../src/parametres.c:298 ../src/parametres.c:856
 msgid "Files"
 msgstr "קבצים"
 
-#: ../src/parametres.c:333 ../src/parametres.c:1041
+#: ../src/parametres.c:336 ../src/parametres.c:1044
 msgid "Programs"
 msgstr "תוכנות"
 
-#: ../src/parametres.c:351 ../src/parametres.c:1251
+#: ../src/parametres.c:354 ../src/parametres.c:1275
 #, fuzzy
 msgid "Localization"
 msgstr "התאמה"
 
-#: ../src/parametres.c:370
+#: ../src/parametres.c:373
 msgid "Display"
 msgstr "תצוגה"
 
-#: ../src/parametres.c:387 ../src/parametres.c:644
+#: ../src/parametres.c:390 ../src/parametres.c:647
 msgid "Messages & warnings"
 msgstr "הודעות ואזהרות"
 
-#: ../src/parametres.c:405 ../src/parametres.c:1159
+#: ../src/parametres.c:408 ../src/parametres.c:1162
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "נא להזין קו תקציב!"
 
-#: ../src/parametres.c:432
+#: ../src/parametres.c:435
 msgid "List behavior"
 msgstr ""
 
-#: ../src/parametres.c:442 ../src/parametres.c:731
+#: ../src/parametres.c:445 ../src/parametres.c:734
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "הודעות ואזהרות"
 
-#: ../src/parametres.c:478
+#: ../src/parametres.c:481
 #, fuzzy
 msgid "Content"
 msgstr "קשר"
 
-#: ../src/parametres.c:487
+#: ../src/parametres.c:490
 msgid "Behavior"
 msgstr ""
 
-#: ../src/parametres.c:496
+#: ../src/parametres.c:499
 msgid "Completion"
 msgstr ""
 
-#: ../src/parametres.c:506
+#: ../src/parametres.c:509
 msgid "Resources"
 msgstr "מקורות"
 
-#: ../src/parametres.c:523
+#: ../src/parametres.c:526
 #, fuzzy
 msgid "Currencies links"
 msgstr "מטבעות"
 
-#: ../src/parametres.c:565
+#: ../src/parametres.c:568
 #, fuzzy
 msgid "Balance estimate"
 msgstr "יתרות"
 
 #. Tip of the day
-#: ../src/parametres.c:647
+#: ../src/parametres.c:650
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: ../src/parametres.c:650
+#: ../src/parametres.c:653
 msgid "Display tip of the day"
 msgstr ""
 
-#: ../src/parametres.c:657
+#: ../src/parametres.c:660
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "הודעות אזהרה"
 
-#: ../src/parametres.c:678 ../src/parametres.c:759
+#: ../src/parametres.c:681 ../src/parametres.c:762
 #, fuzzy
 msgid "Message"
 msgstr "רישום ההודעה ליומן"
 
-#: ../src/parametres.c:735
+#: ../src/parametres.c:738
 #, fuzzy
 msgid "Display following messages"
 msgstr "הודעות אזהרה"
 
 #. Compression level of files
-#: ../src/parametres.c:879
+#: ../src/parametres.c:882
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: ../src/parametres.c:887
-msgid "Memorise last opened files"
-msgstr "זכירת הקבצים האחרונים שנפתחו"
+#: ../src/parametres.c:890
+msgid "Memorise last opened files:"
+msgstr "זכירת הקבצים האחרונים שנפתחו:"
 
 #. Backups
-#: ../src/parametres.c:896
+#: ../src/parametres.c:899
 msgid "Backups"
 msgstr "גיבויים"
 
 #. Single backup file
-#: ../src/parametres.c:899
+#: ../src/parametres.c:902
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
 #. Compression level of backups
-#: ../src/parametres.c:904
+#: ../src/parametres.c:907
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: ../src/parametres.c:909
+#: ../src/parametres.c:912
 msgid "Make a backup copy after opening files"
 msgstr "יצירת עותק גיבוי לאחר פתיחת קבצים"
 
-#: ../src/parametres.c:963
+#: ../src/parametres.c:966
 #, fuzzy
 msgid "Config file"
 msgstr "שמירת קובץ"
 
-#: ../src/parametres.c:968
+#: ../src/parametres.c:971
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1059
+#: ../src/parametres.c:1062
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: ../src/parametres.c:1070
+#: ../src/parametres.c:1073
 msgid "LaTeX support (old print system)"
 msgstr ""
 
-#: ../src/parametres.c:1077
-msgid "LaTeX command"
-msgstr "פקודת LaTeX"
+#: ../src/parametres.c:1080
+msgid "LaTeX command:"
+msgstr "פקודת LaTeX:"
 
-#: ../src/parametres.c:1085
-msgid "dvips command"
-msgstr "פקודת dvips"
+#: ../src/parametres.c:1088
+msgid "dvips command:"
+msgstr "פקודת dvips:"
 
-#: ../src/parametres.c:1125
+#: ../src/parametres.c:1128
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "התראות המתזמן"
 
-#: ../src/parametres.c:1126
+#: ../src/parametres.c:1129
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: ../src/parametres.c:1127
+#: ../src/parametres.c:1130
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: ../src/parametres.c:1135
-#, fuzzy
-msgid "Number of days before the warning or the execution"
-msgstr "מספר הימים להודיע לפני עיסקה מתוזמנת"
+#: ../src/parametres.c:1138
+msgid "Number of days before the warning or the execution:"
+msgstr "מספר הימים להודיע לפני עיסקה מתוזמנת:"
 
-#: ../src/parametres.c:1168
+#: ../src/parametres.c:1171
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "פורמט עיסקאות"
 
-#: ../src/parametres.c:1169
+#: ../src/parametres.c:1172
 #, fuzzy
 msgid "by number"
 msgstr "מספר ההמחאה"
 
-#: ../src/parametres.c:1170
+#: ../src/parametres.c:1173
 msgid "by increasing date"
 msgstr ""
 
-#: ../src/parametres.c:1171
+#: ../src/parametres.c:1174
 msgid "by date descending"
 msgstr ""
 
-#: ../src/parametres.c:1178
-msgid "Choice of the action for double click of the mouse"
+#: ../src/parametres.c:1181
+msgid "Choice of the action for double click of the mouse:"
 msgstr ""
 
-#: ../src/parametres.c:1179
+#: ../src/parametres.c:1182
 #, fuzzy
 msgid "Expand the line"
 msgstr "בחירת מידע"
 
-#: ../src/parametres.c:1180
+#: ../src/parametres.c:1183
 #, fuzzy
 msgid "Edit the line"
 msgstr "יתרת פתיחה"
 
-#: ../src/parametres.c:1181
+#: ../src/parametres.c:1184
 #, fuzzy
 msgid "Manage the line"
 msgstr "בחירת מידע"
 
-#: ../src/parametres.c:1293
+#: ../src/parametres.c:1317
 #, fuzzy
 msgid "Choose the date format"
 msgstr "בחירת החשבון"
 
-#: ../src/parametres.c:1299
+#: ../src/parametres.c:1323
 #, fuzzy
 msgid "Date format"
 msgstr "ייצוא דו\"ח"
 
-#: ../src/parametres.c:1365
-#, fuzzy
-msgid "Decimal point"
-msgstr "בחירת מידע"
+#: ../src/parametres.c:1389
+msgid "Decimal point:"
+msgstr "בחירת מידע:"
 
-#: ../src/parametres.c:1378
-msgid "Thousands separator"
+#: ../src/parametres.c:1402
+msgid "Thousands separator:"
 msgstr ""
 
-#: ../src/parametres.c:1395
+#: ../src/parametres.c:1419
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1401
+#: ../src/parametres.c:1425
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10721,8 +10759,8 @@ msgid ""
 msgstr ""
 
 #: ../src/plugins/openssl/openssl.c:361
-msgid "Password"
-msgstr ""
+msgid "Password:"
+msgstr "לוגו של גריספי:"
 
 #: ../src/plugins/openssl/openssl.c:371 ../src/plugins/openssl/openssl.c:464
 #, fuzzy
@@ -11159,9 +11197,8 @@ msgstr ""
 
 #. ajoute le nombre de tiers sélectionnés
 #: ../src/tiers_onglet.c:1174
-#, fuzzy
 msgid "Number of selected payees :"
-msgstr "מחיקת צד שלישי"
+msgstr "מחיקת צד שלישי:"
 
 #: ../src/tiers_onglet.c:1277
 #, c-format
@@ -11466,6 +11503,10 @@ msgid ""
 "%s"
 msgstr ""
 
+#: ../src/utils_files.c:675
+msgid "Encoding"
+msgstr ""
+
 #: ../src/utils_files.c:682
 #, fuzzy
 msgid "Result"
@@ -11501,159 +11542,129 @@ msgstr ""
 #~ msgid "by date"
 #~ msgstr "בהתאם לתאריך"
 
-#, fuzzy
+#~ msgid "Fax"
+#~ msgstr "פקס"
+
+#~ msgid "End"
+#~ msgstr "סוף"
+
 #~ msgid "Choose a %s"
 #~ msgstr "בחירת הקבצים לייבוא"
 
-#, fuzzy
 #~ msgid "Transfer the transactions"
 #~ msgstr "להעביר את העיסקאות אל"
 
-#, fuzzy
 #~ msgid "Manage subdivisions"
 #~ msgstr "הצגת תת-חלוקות"
 
-#, fuzzy
 #~ msgid "Sort by date and transaction amount"
 #~ msgstr "בחירת העיסקאות לפי סכום"
 
-#, fuzzy
 #~ msgid "Initial period"
 #~ msgstr "תאריך התחלה"
 
-#, fuzzy
 #~ msgid "month"
 #~ msgstr "חודשים"
 
-#, fuzzy
 #~ msgid "Period"
 #~ msgstr "נייר"
 
-#, fuzzy
 #~ msgid "Print amortization table"
 #~ msgstr "הדפסה לקובץ"
 
-#, fuzzy
 #~ msgid "_Open"
 #~ msgstr "_פתיחה"
 
-#, fuzzy
 #~ msgid "Montly"
 #~ msgstr "חודשית"
 
 #~ msgid "Transfert"
 #~ msgstr "העברה"
 
-#, fuzzy
 #~ msgid "Futur data"
 #~ msgstr "התאריך"
 
-#, fuzzy
 #~ msgid "Data Per Account"
 #~ msgstr "יצירת חשבון חדש"
 
-#, fuzzy
 #~ msgid "User frequency"
 #~ msgstr "תדירות מותאמת אישית"
 
-#, fuzzy
 #~ msgid "Calculation of period"
 #~ msgstr "יתרת פתיחה"
 
 #~ msgid "Display reconciled transactions"
 #~ msgstr "הצגת עיסקאות מתואמות"
 
-#, fuzzy
 #~ msgid "Display lines archives"
 #~ msgstr "להציג את המידע על אודות"
 
-#, fuzzy
 #~ msgid "Display reconciled transactions (Alt+R)"
 #~ msgstr "הצגת עיסקאות מתואמות"
 
-#, fuzzy
 #~ msgid "Mask reconcile"
 #~ msgstr "התאמה"
 
 #~ msgid "Mask reconciled transactions"
 #~ msgstr "הסתרת עיסקאות מתואמות"
 
-#, fuzzy
 #~ msgid "Display reconcile"
 #~ msgstr "הצגת כותרות העמודות"
 
-#, fuzzy
 #~ msgid "Assign the last known amount"
 #~ msgstr "העברת העיסקה לחשבון אחר"
 
-#, fuzzy
 #~ msgid "two months"
 #~ msgstr "%d חודשים"
 
-#, fuzzy
 #~ msgid "trimester"
 #~ msgstr "מדפסת"
 
-#, fuzzy
 #~ msgid "Delete an old config file"
 #~ msgstr "מחיקת עיסקה"
 
-#, fuzzy
 #~ msgid "Deleting a reconcile"
 #~ msgstr "מחיקת קו תקציב"
 
-#, fuzzy
 #~ msgid "One month"
 #~ msgstr "לחודש"
 
-#, fuzzy
 #~ msgid "Two months"
 #~ msgstr "%d חודשים"
 
-#, fuzzy
 #~ msgid "Six months"
 #~ msgstr "חודשים"
 
-#, fuzzy
 #~ msgid "One year"
 #~ msgstr "לשנה"
 
-#, fuzzy
 #~ msgid "Two years"
 #~ msgstr "שנים"
 
-#, fuzzy
 #~ msgid "Update"
 #~ msgstr "תאריך"
 
-#, fuzzy
 #~ msgid "Solde"
 #~ msgstr "מצב"
 
-#, fuzzy
 #~ msgid "Sub-Category"
 #~ msgstr "קטגוריה"
 
-#, fuzzy
 #~ msgid "Budget"
 #~ msgstr "קו תקציב חדש"
 
-#, fuzzy
 #~ msgid "Sub-budget"
 #~ msgstr "תת-קו תקציב חדש"
 
-#, fuzzy
 #~ msgid "Delete messages"
 #~ msgstr "מחיקת צד שלישי"
 
-#, fuzzy
 #~ msgid "Category line"
 #~ msgstr "קטגוריות"
 
 #~ msgid "Please enter exchange rate for %s"
 #~ msgstr "נא להכניס את שער החליפין עבור %s"
 
-#, fuzzy
 #~ msgid ""
 #~ "The Grisbi's id account is %s, but the imported id account is %s.\n"
 #~ "\n"
@@ -11664,13 +11675,11 @@ msgstr ""
 #~ "האם ייתכן כי נבחר חשבון שגוי? אם ההליך ימשיך, אזי מספר הזיהוי של החשבון "
 #~ "ישתנה. האם אכן להמשיך עם הפעולה?"
 
-#, fuzzy
 #~ msgid ""
 #~ "<span foreground=\"red\">Cannot allocate memory : Bad things will happen "
 #~ "soon.</span>"
 #~ msgstr "לא ניתן להקציב זכרון; מעכשיו, היכונו לדברים רעים..."
 
-#, fuzzy
 #~ msgid ""
 #~ "Currency of imported account '%s' is %s.  Either this currency doesn't "
 #~ "exist so you have to create it in next window, or this currency already "
@@ -11681,39 +11690,30 @@ msgstr ""
 #~ "אותו בחלון דיאלוג, או שמטבע זה כבר קיים, אך קוד ה ISO שלו הינו שגוי.\n"
 #~ "כדי להימנע מהודעה זו, נא לקבוע את קוד ה ISO בהגדרות."
 
-#, fuzzy
 #~ msgid "Archive %s (%d transactions)"
 #~ msgstr "סך הכל %s (%d עיסקאות)"
 
-#, fuzzy
 #~ msgid "Sort option for categories"
 #~ msgstr "קטגוריות הוצאות"
 
-#, fuzzy
 #~ msgid "by type of method of payment"
 #~ msgstr "דרך התשלום"
 
-#, fuzzy
 #~ msgid "Payee, category and budgetary trees"
 #~ msgstr "נא להזין קו תקציב!"
 
-#, fuzzy
 #~ msgid "Automatic completion of the payees"
 #~ msgstr "קישור אוטומטי לשנת הכספים"
 
-#, fuzzy
 #~ msgid "Transaction list background today"
 #~ msgstr "תצוגה מוקדמת של רשימת העיסקאות"
 
-#, fuzzy
 #~ msgid "IBAN format"
 #~ msgstr "מידע"
 
-#, fuzzy
 #~ msgid "Associations for the import of payees"
 #~ msgstr "מידע בשימור לקבוצה"
 
-#, fuzzy
 #~ msgid "Association details"
 #~ msgstr "פרטי חשבון"
 
@@ -11726,18 +11726,15 @@ msgstr ""
 #~ msgid "_C"
 #~ msgstr "_C"
 
-#, fuzzy
 #~ msgid "Outbox"
 #~ msgstr "אוטומטי"
 
-#, fuzzy
 #~ msgid "AqBanking"
 #~ msgstr "אזהרה"
 
 #~ msgid "Warning"
 #~ msgstr "אזהרה"
 
-#, fuzzy
 #~ msgid ""
 #~ "An error or warning has occured. Do you still want to import the data ?"
 #~ msgstr "הייתה אזהרה או שגיאה. האם בכל זאת לייבא את הקובץ?"
@@ -11778,13 +11775,11 @@ msgstr ""
 #~ msgid "last selected financial year"
 #~ msgstr "שנת הכספים האחרונה שנבחרה"
 
-#, fuzzy
 #~ msgid ""
 #~ "Liabilities account\n"
 #~ "xxx"
 #~ msgstr "חשבון התחייבויות"
 
-#, fuzzy
 #~ msgid ""
 #~ "Assets account\n"
 #~ "xxx"
@@ -11796,14 +11791,12 @@ msgstr ""
 #~ msgid "equals"
 #~ msgstr "שווה"
 
-#, fuzzy
 #~ msgid "Autosaving"
 #~ msgstr "אוטומטי"
 
 #~ msgid "Loading backup"
 #~ msgstr "טעינת גיבוי"
 
-#, fuzzy
 #~ msgid ""
 #~ "Grisbi was unable to load file.  However, Grisbi loaded a backup file "
 #~ "instead but all changes made since this backup were possibly lost."
@@ -11811,14 +11804,12 @@ msgstr ""
 #~ "גריסבי לא הצליח לפתוח את הקובץ. במקום זאת, גריסבי העלה קובץ גיבוי.\n"
 #~ "בכל זאת, ייתכן שכל השינויים מאז הגיבוי האחרון נאבדו."
 
-#, fuzzy
 #~ msgid ""
 #~ "Grisbi was unable to load file.  Additionally, Grisbi was unable to load "
 #~ "a backup file instead."
 #~ msgstr ""
 #~ "גריסבי לא הצליח לפתוח את הקובץ. בנוסף, גריסבי לא הצליח לפתוח קובץ גיבוי."
 
-#, fuzzy
 #~ msgid "Development list (discuss, participate, criticize, ...) : "
 #~ msgstr "רשימת הפיתוח (דיונים, השתתפות, ביקורות ...): "
 
@@ -11828,11 +11819,9 @@ msgstr ""
 #~ msgid "Bug report"
 #~ msgstr "דיווח באגים"
 
-#, fuzzy
 #~ msgid "Information list (new releases announces, ...) : "
 #~ msgstr "רשימת מידע (הודעות על שחרורים חדשים ...):"
 
-#, fuzzy
 #~ msgid "Search the transaction "
 #~ msgstr "חיפוש עיסקה"
 
@@ -11845,7 +11834,6 @@ msgstr ""
 #~ msgid "Misc"
 #~ msgstr "שונות"
 
-#, fuzzy
 #~ msgid ""
 #~ "Version %s\n"
 #~ "\n"
@@ -11938,18 +11926,15 @@ msgstr ""
 #~ msgid "Studies : Lessons"
 #~ msgstr "לימודים : שיעורים"
 
-#, fuzzy
 #~ msgid "Studies : Scool fees"
 #~ msgstr "לימודים : שכר לימוד"
 
 #~ msgid "Studies : Books"
 #~ msgstr "לימודים : ספרים"
 
-#, fuzzy
 #~ msgid "Miscelanious : Gifts"
 #~ msgstr "שונות : מתנות"
 
-#, fuzzy
 #~ msgid "Financial expenses : Miscelanious"
 #~ msgstr "הוצאות פיננסיות : שונות"
 
@@ -11965,15 +11950,12 @@ msgstr ""
 #~ msgid "Financial expenses : Refunding"
 #~ msgstr "הוצאות פיננסיות : ניתן לקבל החזר"
 
-#, fuzzy
 #~ msgid "Professionnal expenses : Non refundable"
 #~ msgstr "הוצאות מקצועיות : ללא החזר"
 
-#, fuzzy
 #~ msgid "Professionnal expenses : Refundable"
 #~ msgstr "הוצאות מקצועיות : ניתן לקבל החזר"
 
-#, fuzzy
 #~ msgid "Taxes : Miscelanious"
 #~ msgstr "מיסים : שונות"
 
@@ -12124,15 +12106,12 @@ msgstr ""
 #~ msgid "Transport : Travels"
 #~ msgstr "תחבורה : טיולים"
 
-#, fuzzy
 #~ msgid "Holiday : Housing"
 #~ msgstr "חגים : אירוח"
 
-#, fuzzy
 #~ msgid "Holiday : Visits"
 #~ msgstr "חגים : ביקורים"
 
-#, fuzzy
 #~ msgid "Holiday : Travels"
 #~ msgstr "חגים : נסיעות"
 
@@ -12196,31 +12175,24 @@ msgstr ""
 #~ msgid "Misc. incomes : Second hand sales"
 #~ msgstr "הכנסות שונות : מכירות יד שנייה"
 
-#, fuzzy
 #~ msgid "Achats"
 #~ msgstr "מזומן"
 
-#, fuzzy
 #~ msgid "P.T.T."
 #~ msgstr "..."
 
-#, fuzzy
 #~ msgid "Fournitures de bureau et documentation"
 #~ msgstr "תיעוד גריסבי"
 
-#, fuzzy
 #~ msgid "Frais financiers"
 #~ msgstr "להשתמש בשנות כספים"
 
-#, fuzzy
 #~ msgid "manual"
 #~ msgstr "ידני"
 
-#, fuzzy
 #~ msgid "logo"
 #~ msgstr "קונגו"
 
-#, fuzzy
 #~ msgid "administration"
 #~ msgstr "תרגום"
 
@@ -12242,29 +12214,24 @@ msgstr ""
 #~ msgid "Revert to default font"
 #~ msgstr "חזרה אל הגופן של ברירת המחדל"
 
-#, fuzzy
 #~ msgid "Loading reconciled transactions."
 #~ msgstr "ללא עיסקאות מתואמות"
 
-#, fuzzy
 #~ msgid "This operation can take some time..."
 #~ msgstr "פעולה זו החזירה הודעה"
 
-#, fuzzy
 #~ msgid "Loading archived transactions."
 #~ msgstr "ללא עיסקאות מתואמות"
 
 #~ msgid "Common address is holder's address"
 #~ msgstr "כתובת רגילה היא כתובת המחזיק"
 
-#, fuzzy
 #~ msgid "Account name is empty"
 #~ msgstr "מספר / מפתח חשבון"
 
 #~ msgid "Account \"%s\" already exists!"
 #~ msgstr "חשבון בשם \"%s\" כבר קיים!"
 
-#, fuzzy
 #~ msgid ""
 #~ "Property of account \"%s\" has been modified.\n"
 #~ "Do you want to save changes?"
@@ -12275,11 +12242,9 @@ msgstr ""
 #~ msgid "Apply changes to account?"
 #~ msgstr "להפעיל את השינויים על החשבון?"
 
-#, fuzzy
 #~ msgid "File compression"
 #~ msgstr "רמת דחיסת הקובץ"
 
-#, fuzzy
 #~ msgid "File uncompression"
 #~ msgstr "רמת דחיסת הקובץ"
 
@@ -12443,10 +12408,10 @@ msgstr ""
 
 #~ msgid ""
 #~ "Transaction #%d has a financial year named %s and split line #%d of this "
-#~ "transaction has a financial year named %s\n"
+#~ "transaction has a financial year named %s "
 #~ msgstr ""
 #~ "לעיסקה #%d יש שנת כספים בשם %s ולשורת השבירה #%d של העברה זו יש שנת כספים "
-#~ "בשם %s\n"
+#~ "בשם %s "
 
 #~ msgid ""
 #~ "Grisbi found split lines that have financial years different from the "
@@ -12857,8 +12822,8 @@ msgstr ""
 #~ msgstr "לא ניתן לפתוח את הקובץ '%s' : זה אינו קובץ של גריסבי"
 
 #~ msgid ""
-#~ "Warning: Grisbi data format has changed. Grisbi made a backup under '%"
-#~ "s'.\n"
+#~ "Warning: Grisbi data format has changed. Grisbi made a backup under "
+#~ "'%s'.\n"
 #~ "Keep it for a while just in case."
 #~ msgstr ""
 #~ "אזהרה: דרך שמירת המידע של גריסבי השתנתה. גריסבי עשה גיבוי בשם '%s'.\n"
@@ -12906,7 +12871,6 @@ msgstr ""
 #~ "רשימת קווי תקציב זו הופקה באמצעות גריסבי גרסא %s. למרות זאת, גריסבי ינסה "
 #~ "לייבא אותה."
 
-#, fuzzy
 #~ msgid ""
 #~ "Grisbi is a free personal finance manager for everyone.\n"
 #~ "Such a program allows you to sort your financial transactions, whatever "
