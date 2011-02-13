@@ -11481,10 +11481,6 @@ msgstr "La conversión falló, pruebe otro conjunto de caracteres"
 msgid "No font defined"
 msgstr "No se definión ninguna fuente"
 
-#: ../src/utils_str.c:983
-msgid ": "
-msgstr ""
-
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
 msgid "Personnal finances manager"

@@ -10766,10 +10766,6 @@ msgstr ""
 msgid "No font defined"
 msgstr ""
 
-#: ../src/utils_str.c:983
-msgid ": "
-msgstr ""
-
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""

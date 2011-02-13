@@ -11217,10 +11217,6 @@ msgstr "Konversija neizdevās, izmēģiniet citus datus"
 msgid "No font defined"
 msgstr "Nenoteikts fonts"
 
-#: ../src/utils_str.c:983
-msgid ": "
-msgstr ""
-
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
 msgid "Personnal finances manager"

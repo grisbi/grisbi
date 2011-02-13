@@ -11455,13 +11455,12 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 msgid "No font defined"
 msgstr "Aucune police définie"
 
-#: ../src/utils_str.c:983
-msgid ": "
-msgstr " : "
-
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
+
+#~ msgid ": "
+#~ msgstr " : "
 
 #~ msgid "by date"
 #~ msgstr "Par date"

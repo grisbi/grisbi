@@ -11556,10 +11556,6 @@ msgstr ""
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
 
-#: ../src/utils_str.c:983
-msgid ": "
-msgstr ""
-
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
 msgid "Personnal finances manager"
