@@ -25,10 +25,7 @@
 #include "include.h"
 
 #include <glib/gstdio.h>
-#if GLIB_CHECK_VERSION (2,18,0)
 #include <gio/gio.h>
-#endif /* GLIB_CHECK_VERSION (2,18,0) */
-
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
@@ -9011,10 +9008,8 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
 {
     if ( g_str_has_suffix (filename, ".gsb" ) )
     {
-#if GLIB_CHECK_VERSION (2,18,0)
         GFile * file_ori;
         GFile * file_copy;
-#endif /* GLIB_CHECK_VERSION (2,18,0) */
         GError * error = NULL;
 
         copy_old_filename = g_path_get_basename ( filename );
@@ -9024,16 +9019,11 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
                         my_get_XDG_grisbi_data_dir (),
                         copy_old_filename, NULL );
 
-#if GLIB_CHECK_VERSION (2,18,0)
         file_ori = g_file_new_for_path ( filename );
         file_copy = g_file_new_for_path ( copy_old_filename );
         if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
                         NULL, NULL, NULL, &error ) )
             dialogue_error (error -> message );
-#else
-        if ( ! g_file_set_contents ( copy_old_filename, file_content,-1, &error ) )
-            dialogue_error (error -> message );
-#endif
     }
 }
 /* Local Variables: */
