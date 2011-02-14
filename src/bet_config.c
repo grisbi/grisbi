@@ -700,7 +700,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
     gtk_widget_set_name ( GTK_WIDGET ( widget ), "bet_hist_fyear_combo" );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                      SPACIFY(_("Choose the financial year or 12 months rolling") ) );
+                      _("Choose the financial year or 12 months rolling") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5);
     g_object_set_data ( G_OBJECT ( notebook ), "bet_config_hist_fyear_combo", widget );
 

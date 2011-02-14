@@ -571,7 +571,7 @@ GtkWidget *bet_array_create_page ( void )
     widget = gtk_check_button_new ( );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                        SPACIFY(_("Check the box to automatically change start date") ) );
+                        _("Check the box to automatically change start date") );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_auto_inc_month", widget );
     gtk_box_pack_start ( GTK_BOX (hbox), widget, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT ( widget ),
@@ -1525,7 +1525,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Export list */
-    menu_item = gtk_image_menu_item_new_with_label ( SPACIFY ( _("Export the array") ) );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -2839,7 +2839,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         _("Print"),
                         NULL,
                         NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Print the array") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( print_tree_view_list ),
@@ -2852,7 +2852,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
 					   _("Export"),
 					   NULL,
 					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array of forecast") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Export the array of forecast") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_array_export_tab ),

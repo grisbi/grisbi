@@ -320,7 +320,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         G_CALLBACK ( bet_form_scheduler_frequency_button_changed ),
                         dialog );
             combo = widget;
-		    tooltip_text = SPACIFY( _("Frequency") );
+		    tooltip_text = _("Frequency");
             gtk_widget_show ( widget );
 		    break;
 
@@ -341,7 +341,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus ),
                         GINT_TO_POINTER (element_number));
-            tooltip_text = SPACIFY( _("Final date") );
+            tooltip_text = _("Final date");
             gtk_widget_show ( widget );
             break;
 
@@ -358,13 +358,13 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-		    tooltip_text = SPACIFY( _("Custom frequency") );
+		    tooltip_text = _("Custom frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
-		    tooltip_text = SPACIFY( _("Custom frequency") );
+		    tooltip_text = _("Custom frequency");
             gsb_combo_box_set_index ( widget, 2 );
 		    break;
 	    }
@@ -519,7 +519,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_EXERCICE;
     widget = gsb_fyear_make_combobox (TRUE);
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Choose the financial year")));
+					  _("Choose the financial year"));
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -566,7 +566,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         account_number, 0, FALSE );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-                        SPACIFY(_("Choose the method of payment")));
+                        _("Choose the method of payment"));
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,

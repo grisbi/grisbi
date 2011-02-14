@@ -186,7 +186,7 @@ GtkWidget *bet_historical_create_page ( void )
         widget = gsb_fyear_make_combobox_new ( bet_fyear_model_filter, TRUE );
         gtk_widget_set_name ( GTK_WIDGET ( widget ), "bet_hist_fyear_combo" );
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                        SPACIFY(_("Choose the financial year or 12 months rolling") ) );
+                        _("Choose the financial year or 12 months rolling") );
 
         g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_fyear_combo", widget );
 

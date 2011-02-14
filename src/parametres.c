@@ -1134,8 +1134,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( SPACIFY (
-                        _("Number of days before the warning or the execution:")) );
+    label = gtk_label_new ( _("Number of days before the warning or the execution:") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );

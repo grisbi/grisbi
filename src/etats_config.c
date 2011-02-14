@@ -484,7 +484,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_dates (),
-			       gtk_label_new (SPACIFY(_("Dates"))) );
+			       gtk_label_new (_("Dates")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Dates"),
@@ -493,7 +493,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_virements (),
-			       gtk_label_new (SPACIFY(_("Transfers"))) );
+			       gtk_label_new (_("Transfers")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Transfers"),
@@ -502,7 +502,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_comptes (),
-			       gtk_label_new (SPACIFY(_("Accounts"))) );
+			       gtk_label_new (_("Accounts")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Accounts"),
@@ -511,7 +511,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_tiers (),
-			       gtk_label_new (SPACIFY(_("Payee"))) );
+			       gtk_label_new (_("Payee")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Payee"),
@@ -520,7 +520,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_categories (),
-			       gtk_label_new (SPACIFY(_("Categories"))) );
+			       gtk_label_new (_("Categories")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Categories"),
@@ -529,7 +529,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_ib (),
-			       gtk_label_new (SPACIFY(_("Budgetary lines"))) );
+			       gtk_label_new (_("Budgetary lines")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
@@ -538,7 +538,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_texte (),
-			       gtk_label_new (SPACIFY(_("Texts"))) );
+			       gtk_label_new (_("Texts")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Texts"),
@@ -547,7 +547,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_montant (),
-			       gtk_label_new (SPACIFY(_("Amounts"))) );
+			       gtk_label_new (_("Amounts")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Amounts"),
@@ -556,7 +556,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_mode_paiement (),
-			       gtk_label_new (SPACIFY(_("Payment methods"))) );
+			       gtk_label_new (_("Payment methods")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
@@ -565,7 +565,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_divers (),
-			       gtk_label_new (SPACIFY(_("Misc."))) );
+			       gtk_label_new (_("Misc.")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
@@ -588,7 +588,7 @@ void personnalisation_etat (void)
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       page_data_grouping(),
-			       gtk_label_new (SPACIFY(_("Data grouping"))) );
+			       gtk_label_new (_("Data grouping")) );
 
     /* Data separation */
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
@@ -598,7 +598,7 @@ void personnalisation_etat (void)
 			REPORT_TREE_BOLD_COLUMN, 400, -1);
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       page_data_separation(),
-			       gtk_label_new (SPACIFY(_("Data separation"))) );
+			       gtk_label_new (_("Data separation")) );
 
     /* remplissage de l'onglet d'affichage */
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter, NULL);
@@ -609,7 +609,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_generalites (),
-			       gtk_label_new (SPACIFY(_("Generalities"))) );
+			       gtk_label_new (_("Generalities")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Generalities"),
@@ -618,7 +618,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_divers (),
-			       gtk_label_new (SPACIFY(_("Titles"))) );
+			       gtk_label_new (_("Titles")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Titles"),
@@ -627,7 +627,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_operations (),
-			       gtk_label_new (SPACIFY(_("Transactions"))) );
+			       gtk_label_new (_("Transactions")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Transactions"),
@@ -636,7 +636,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_affichage_etat_devises (),
-			       gtk_label_new (SPACIFY(_("Currencies"))) );
+			       gtk_label_new (_("Currencies")) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Currencies"),
@@ -4654,7 +4654,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 FALSE,
 			 0 );
 
-    label = gtk_label_new ( SPACIFY(_("to")));
+    label = gtk_label_new ( _("to"));
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 label,
 			 FALSE,
@@ -4711,7 +4711,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 FALSE,
 			 0 );
 
-    label = gtk_label_new ( SPACIFY(_("to")));
+    label = gtk_label_new ( _("to"));
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
 			 label,
 			 FALSE,
@@ -5542,7 +5542,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     gsb_data_report_amount_comparison_set_button_first_comparison ( amount_comparison_number,
 								    widget );
 
-    label = gtk_label_new ( SPACIFY(_("to")));
+    label = gtk_label_new ( _("to"));
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -5603,7 +5603,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     gsb_data_report_amount_comparison_set_button_second_comparison ( amount_comparison_number,
 								     widget);
 
-    label = gtk_label_new ( SPACIFY(_("to")));
+    label = gtk_label_new ( _("to"));
     gtk_box_pack_start ( GTK_BOX ( widget_1 ),
 			 label,
 			 FALSE,

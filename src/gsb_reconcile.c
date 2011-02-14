@@ -128,10 +128,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
-				  SPACIFY(_("If reconciliation reference ends in a digit, it is "
+                                  _("If reconciliation reference ends in a digit, it is "
                             "automatically incremented at each reconciliation.\n"
                             "You can let it empty if you don't want to keep a trace of "
-                            "the reconciliation.")));
+                            "the reconciliation."));
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();

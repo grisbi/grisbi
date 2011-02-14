@@ -1892,7 +1892,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
 					   _("Export"),
 					   NULL,
 					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_finance_ui_export_tab ),
