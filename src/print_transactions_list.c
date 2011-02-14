@@ -41,8 +41,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-#if GTK_CHECK_VERSION(2,12,0)
-
 /*START_STATIC*/
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
 					 GtkPrintContext *context,
@@ -925,8 +923,6 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 
     return line_position;
 }
-
-#endif /* GTK_CHECK_VERSION(2,12,0) */
 
 
 

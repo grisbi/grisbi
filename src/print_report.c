@@ -36,8 +36,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-#if GTK_CHECK_VERSION(2,12,0)
-
 
 /*START_STATIC*/
 static GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
@@ -483,9 +481,6 @@ gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
     return FALSE;
 }
 
-
-
-#endif /* GTK_CHECK_VERSION(2,12,0) */
 
 
 
