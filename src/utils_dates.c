@@ -21,6 +21,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 #if defined(_MSC_VER) || defined (_MINGW)
 #include <winnls.h>

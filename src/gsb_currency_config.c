@@ -25,6 +25,10 @@
  * contains the part to set the configuration of the currencies
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/

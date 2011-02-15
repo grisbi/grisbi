@@ -31,6 +31,10 @@
  * the funtions using it are in gsb_list_model.c
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/

@@ -24,6 +24,10 @@
  * \file gsb_payment_method_config.c
  * all that you need for the config of the payment method is here !!!
  */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/

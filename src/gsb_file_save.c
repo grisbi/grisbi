@@ -26,6 +26,10 @@
  * save the file
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 #ifdef _MSC_VER
 #	include <io.h> // for _chmod()

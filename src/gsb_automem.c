@@ -29,6 +29,10 @@
  * (for changes on internal structure in gsb_data_x_set_x, see gsb_autofunc.c)
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 

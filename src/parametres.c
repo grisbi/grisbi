@@ -25,6 +25,10 @@
  * we find here the configuration dialog
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 

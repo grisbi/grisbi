@@ -27,6 +27,10 @@
  * Grisbi shouldn't work directly on the CustomList except by those files
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/
