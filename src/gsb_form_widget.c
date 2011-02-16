@@ -207,7 +207,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	case TRANSACTION_FORM_EXERCICE:
 	    widget = gsb_fyear_make_combobox (TRUE);
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  _("Choose the financial year"));
+					  _("Choose the financial year") );
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
@@ -262,7 +262,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         account_number, 0, FALSE );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-                        _("Choose the method of payment"));
+                        _("Choose the method of payment") );
         g_signal_connect ( G_OBJECT (widget),
                         "changed",
                         G_CALLBACK (gsb_payment_method_changed_callback),
@@ -272,7 +272,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	case TRANSACTION_FORM_DEVISE:
 	    widget = gsb_currency_make_combobox (FALSE);
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  _("Choose currency"));
+					  _("Choose currency") );
 	    gsb_currency_set_combobox_history ( widget,
 						gsb_data_account_get_currency (account_number));
         g_signal_connect ( G_OBJECT (  widget ),
@@ -286,7 +286,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    gtk_button_set_relief ( GTK_BUTTON ( widget ),
 				    GTK_RELIEF_NONE );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  _("Define the change for that transaction"));
+					  _("Define the change for that transaction") );
 	    g_signal_connect ( G_OBJECT (  widget ),
 			       "clicked",
 			       G_CALLBACK (gsb_form_transaction_change_clicked),

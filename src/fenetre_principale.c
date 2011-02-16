@@ -225,7 +225,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         creation_onglet_accueil(),
-                        gtk_label_new (_("Main page")) );
+                        gtk_label_new ( _("Main page") ) );
 
     /* append the account page : a notebook with the account configuration
      * the bet pages and transactions page */
@@ -235,20 +235,20 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         account_page,
-                        gtk_label_new (_("Accounts")) );
+                        gtk_label_new ( _("Accounts") ) );
    
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_fenetre_operations (),
-                        gtk_label_new (_("Transactions")) );
+                        gtk_label_new ( _("Transactions") ) );
 
     /* append the balance estimate pages */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_array_create_page ( ),
-                        gtk_label_new (_("Forecast")) );
+                        gtk_label_new ( _("Forecast") ) );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         bet_historical_create_page ( ),
-                        gtk_label_new (_("Historical data")) );
+                        gtk_label_new ( _("Historical data") ) );
 
     /* append the amortization page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
@@ -257,7 +257,7 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         gsb_account_property_create_page (),
-                        gtk_label_new (_("Properties")) );
+                        gtk_label_new ( _("Properties") ) );
 
     g_signal_connect ( G_OBJECT (account_page),
                         "switch_page",
@@ -267,32 +267,32 @@ gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
     /* append the scheduled transactions page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         gsb_scheduler_list_create_list (),
-                        gtk_label_new (_("Scheduler")) );
+                        gtk_label_new ( _("Scheduler") ) );
 
     /* append the payee page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         onglet_tiers (),
-                        gtk_label_new (_("Payee")) );
+                        gtk_label_new ( _("Payee") ) );
 
     /* append the financial page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         bet_finance_create_page (),
-                        gtk_label_new (_("Credits simulator")) );
+                        gtk_label_new ( _("Credits simulator") ) );
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         onglet_categories (),
-                        gtk_label_new (_("Categories")) );
+                        gtk_label_new ( _("Categories") ) );
 
     /* append the budget page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         onglet_imputations(),
-                        gtk_label_new (_("Budgetary lines")) );
+                        gtk_label_new ( _("Budgetary lines") ) );
 
     /* append the reports page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         creation_onglet_etats (),
-                        gtk_label_new (_("Reports")) );
+                        gtk_label_new ( _("Reports") ) );
 
     return FALSE;
 }

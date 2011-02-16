@@ -192,13 +192,13 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_categ_etat <= 1 )
-			fmtstr = _("Category total (%d transaction):");
+			fmtstr = _("Category total (%d transaction): ");
 		    else
-			fmtstr = _("Category total (%d transactions):");
+			fmtstr = _("Category total (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_categ_etat);
 		}
 		else
-		    text = g_strdup(_("Category total:"));
+		    text = g_strdup ( _("Category total: ") );
 	    }
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -300,9 +300,9 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_sous_categ_etat <= 1 )
-			fmtstr = _("Total %s: %s (%d transaction):");
+			fmtstr = _("Total %s: %s (%d transaction): ");
 		    else
-			fmtstr = _("Total %s: %s (%d transactions):");
+			fmtstr = _("Total %s: %s (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nom_categ_en_cours,
 						 nom_ss_categ_en_cours, nb_ope_sous_categ_etat );
 		}
@@ -315,13 +315,13 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_sous_categ_etat <= 1 )
-			fmtstr = _("Sub-categories total (%d transaction):");
+			fmtstr = _("Sub-categories total (%d transaction): ");
 		    else
-			fmtstr = _("Sub-categories total (%d transactions):");
+			fmtstr = _("Sub-categories total (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_sous_categ_etat );
 		}
 		else
-		    text = g_strdup(_("Sub-categories total:"));
+		    text = g_strdup( _("Sub-categories total: ") );
 	    }
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( text );
@@ -427,13 +427,13 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 		{
 		    gchar* fmtstr; 
 		    if ( nb_ope_ib_etat <= 1 )
-			fmtstr = _("Budgetary lines total: (%d transaction)");
+			fmtstr = _("Budgetary lines total: (%d transaction): ");
 		    else
-			fmtstr = _("Budgetary lines total: (%d transactions)");
+			fmtstr = _("Budgetary lines total: (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_ib_etat );
 		}
 		else
-		    text = g_strdup(_("Budgetary lines total:"));
+		    text = g_strdup( _("Budgetary lines total: ") );
 	    }
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -526,9 +526,9 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		{
 		    gchar* fmtstr; 
 		    if ( nb_ope_sous_ib_etat <= 1 )
-			fmtstr = _("Total %s: %s (%d transaction):");
+			fmtstr = _("Total %s: %s (%d transaction): ");
 		    else
-			fmtstr = _("Total %s: %s (%d transactions):");
+			fmtstr = _("Total %s: %s (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nom_ib_en_cours,
 						 nom_ss_ib_en_cours, nb_ope_sous_ib_etat );
 		}
@@ -541,13 +541,13 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_sous_ib_etat <= 1 )
-			fmtstr = _("Sub-budgetary lines total: (%d transaction):");
+			fmtstr = _("Sub-budgetary lines total: (%d transaction): ");
 		    else
-			fmtstr = _("Sub-budgetary lines total: (%d transactions):");
+			fmtstr = _("Sub-budgetary lines total: (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_sous_ib_etat );
 		}
 		else
-		    text = g_strdup(_("Sub-budgetary lines total:"));
+		    text = g_strdup( _("Sub-budgetary lines total: ") );
 	    }
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -652,13 +652,13 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_compte_etat <= 1 )
-			fmtstr = _("Account total: (%d transaction):");
+			fmtstr = _("Account total: (%d transaction): ");
 		    else
-			fmtstr = _("Account total: (%d transactions):");
+			fmtstr = _("Account total: (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_compte_etat );
 		}
 		else
-		    text = g_strdup(_("Account total:"));
+		    text = g_strdup( _("Account total: ") );
 	    }
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -760,13 +760,13 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 		{
 		    gchar* fmtstr;
 		    if ( nb_ope_tiers_etat <= 1 )
-			fmtstr = _("Payee total: (%d transaction):");
+			fmtstr = _("Payee total: (%d transaction): ");
 		    else
-			fmtstr = _("Payee total: (%d transactions):");
+			fmtstr = _("Payee total: (%d transactions): ");
 		    text = g_strdup_printf ( fmtstr, nb_ope_tiers_etat );
 		}
 		else
-		    text = g_strdup(_("Payee total:"));
+		    text = g_strdup( _("Payee total: ") );
 	    }
 
 	    etat_affiche_attach_label ( text, TEXT_NORMAL, 1, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -925,14 +925,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result of %s (%d transaction):");
+		    fmtstr = _("Result of %s (%d transaction): ");
 		else
-		    fmtstr = _("Result of %s (%d transactions):");
+		    fmtstr = _("Result of %s (%d transactions): ");
 		text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("Result of %s:"),
-					 buffer );
+		text = g_strdup_printf ( _("Result of %s: "), buffer );
 
 
 	    break;
@@ -987,9 +986,9 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result from %s to %s (%d transaction):");
+		    fmtstr = _("Result from %s to %s (%d transaction): ");
 		else
-		    fmtstr = _("Result from %s to %s (%d transactions):");
+		    fmtstr = _("Result from %s to %s (%d transactions): ");
 		dtstr1 = gsb_format_gdate ( date_debut_periode );
 		dtstr2 = gsb_format_gdate ( date_tmp );
 		text = g_strdup_printf ( fmtstr, dtstr1, dtstr2, nb_ope_periode_etat );
@@ -1000,7 +999,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 	        gchar* dtstr1 = gsb_format_gdate ( date_debut_periode );
 	        gchar* dtstr2 = gsb_format_gdate ( date_tmp );
-		text = g_strdup_printf ( _("Result from %s to %s:"), dtstr1, dtstr2);
+		text = g_strdup_printf ( _("Result from %s to %s: "), dtstr1, dtstr2);
 	        g_free ( dtstr1 );
 	        g_free ( dtstr2 );
 	    }
@@ -1024,14 +1023,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result of %s (%d transaction):");
+		    fmtstr = _("Result of %s (%d transaction): ");
 		else
-		    fmtstr = _("Result of %s (%d transactions):");
+		    fmtstr = _("Result of %s (%d transactions): ");
 		text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("Result of %s:"),
-					 buffer );
+		text = g_strdup_printf ( _("Result of %s: "), buffer );
 
 	    break;
 
@@ -1052,13 +1050,13 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result for %s (%d transaction):");
+		    fmtstr = _("Result for %s (%d transaction): ");
 		else
-		    fmtstr = _("Result for %s (%d transactions):");
+		    fmtstr = _("Result for %s (%d transactions): ");
 		text = g_strdup_printf ( fmtstr, buffer, nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("Result for %s:"), buffer );
+		text = g_strdup_printf ( _("Result for %s: "), buffer );
 	    break;
 	}
 
@@ -1187,15 +1185,15 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result of %s (%d transaction):");
+		    fmtstr = _("Result of %s (%d transaction): ");
 		else
-		    fmtstr = _("Result of %s (%d transactions):");
+		    fmtstr = _("Result of %s (%d transactions): ");
 		text = g_strdup_printf ( fmtstr,
 					     gsb_data_fyear_get_name ( exo_en_cours_etat ),
 					     nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( _("Result of %s:"),
+		text = g_strdup_printf ( _("Result of %s: "),
 					 gsb_data_fyear_get_name ( exo_en_cours_etat ));
 	}
 	else
@@ -1205,13 +1203,13 @@ gint etat_affiche_affiche_total_exercice ( gint transaction_number,
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_periode_etat <= 1 )
-		    fmtstr = _("Result without financial year (%d transaction):");
+		    fmtstr = _("Result without financial year (%d transaction): ");
 		else
-		    fmtstr = _("Result without financial year (%d transactions):");
+		    fmtstr = _("Result without financial year (%d transactions): ");
 		text = g_strdup_printf ( fmtstr, nb_ope_periode_etat );
 	    }
 	    else
-		text = g_strdup_printf ( "%s", _("Result without financial year:") );
+		text = g_strdup_printf ( "%s", _("Result without financial year: ") );
 	}
 
 
@@ -1673,13 +1671,13 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 	{
 	    gchar* fmtstr;
 	    if ( nb_ope_partie_etat <= 1 )
-		fmtstr = _("Total expenses (%d transaction):");
+		fmtstr = _("Total expenses (%d transaction): ");
 	    else
-		fmtstr = _("Total expenses (%d transactions):");
+		fmtstr = _("Total expenses (%d transactions): ");
 	    text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
 	}
 	else
-	    text = g_strdup(_("Total expenses:"));
+	    text = g_strdup( _("Total expenses: ") );
     }
     else
     {
@@ -1687,13 +1685,13 @@ gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 	{
 	    gchar* fmtstr;
 	    if ( nb_ope_partie_etat <= 1 )
-		fmtstr = _("Total income (%d transaction):");
+		fmtstr = _("Total income (%d transaction): ");
 	    else
-		fmtstr = _("Total income (%d transactions):");
+		fmtstr = _("Total income (%d transactions): ");
 	    text = g_strdup_printf ( fmtstr, nb_ope_partie_etat );
 	}
 	else
-	    text = g_strdup(_("Total income:"));
+	    text = g_strdup( _("Total income: ") );
     }
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
@@ -1742,13 +1740,13 @@ gint etat_affiche_affiche_total_general ( gsb_real total_general,
     {
         gchar* fmtstr;
 	if ( nb_ope_general_etat <= 1 )
-	    fmtstr = _("General total (%d transaction):");
+	    fmtstr = _("General total (%d transaction): ");
 	else
-	    fmtstr = _("General total (%d transactions):");
+	    fmtstr = _("General total (%d transactions): ");
 	text = g_strdup_printf ( fmtstr, nb_ope_general_etat );
     }
     else
-	text = g_strdup(_("General total:"));
+	text = g_strdup( _("General total: ") );
 
     etat_affiche_attach_label ( text, TEXT_NORMAL, 0, nb_colonnes - 1, ligne, ligne + 1, ALIGN_LEFT, 0 );
     g_free ( text );

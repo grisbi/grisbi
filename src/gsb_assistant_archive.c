@@ -230,7 +230,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
                         G_OBJECT (hbox));
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Initial date:") );
+    label = gtk_label_new ( _("Initial date: " ) );
     gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
@@ -242,7 +242,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
                         G_CONNECT_AFTER | G_CONNECT_SWAPPED);
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Final date:") );
+    label = gtk_label_new ( _("Final date: ") );
     gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
@@ -278,7 +278,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
                         G_OBJECT (hbox));
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Financial year :") );
+    label = gtk_label_new ( _("Financial year: ") );
     gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
@@ -314,7 +314,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
                         G_OBJECT (hbox));
     gtk_box_pack_start ( GTK_BOX (vbox), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Report:") );
+    label = gtk_label_new ( _("Report: ") );
     gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
     report_button = gsb_report_make_combobox ();
@@ -361,7 +361,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
 			 FALSE, FALSE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new ( _("Please choose a name for archive:") );
+    label = gtk_label_new ( _("Please choose a name for archive: ") );
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox),

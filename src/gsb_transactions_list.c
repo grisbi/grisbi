@@ -1760,7 +1760,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
-    label = gtk_label_new (_("Select the reconciliation to associate to the selected transaction:"));
+    label = gtk_label_new ( _("Select the reconciliation to associate to the selected transaction: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 label,
@@ -3014,7 +3014,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 {
                     menu = gtk_menu_new ();
                     /* sort by line */
-                    menu_item = gtk_menu_item_new_with_label ( _("Sort list by :") );
+                    menu_item = gtk_menu_item_new_with_label ( _("Sort list by: ") );
                     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
                     gtk_widget_show ( menu_item );
 
@@ -3057,7 +3057,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
             alignement = gtk_tree_view_column_get_alignment (
                         gtk_tree_view_get_column ( GTK_TREE_VIEW ( transactions_tree_view ),
                         column_number ) );
-            menu_item = gtk_menu_item_new_with_label ( _("alignment:") );
+            menu_item = gtk_menu_item_new_with_label ( _("alignment: ") );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             gtk_widget_show ( menu_item );
 

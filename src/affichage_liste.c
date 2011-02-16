@@ -99,9 +99,9 @@ GtkWidget *onglet_affichage_operations ( void )
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
     gchar *display_mode_lines_text [] = {
-    _("In one line visible, show the lines:"),
-    _("In two lines visibles, show the lines:"),
-    _("In three lines visibles, show the lines:"),
+    _("In one line visible, show the line: "),
+    _("In two lines visibles, show the lines: "),
+    _("In three lines visibles, show the lines: "),
     };
     gchar *line_1 [] = {
     "1", "2", "3", "4",
@@ -192,7 +192,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* Primary sorting option for the transactions */
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Primary sorting option:"),
+                        _("Primary sorting option"),
                         _("Sort by value date (if fail, try with the date)"),
                         _("Sort by value date and then by date"),
                         NULL,
@@ -203,7 +203,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     /* Secondary sorting option for the transactions */
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Secondary sorting option:"),
+                        _("Secondary sorting option"),
                         _("Sort by transaction number"),
                         _("Sort by type of amount (credit debit)"),
                         _("Sort by payee name (if fail, by transaction number)"),
@@ -566,7 +566,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (
-                        _("Maximum items showed in drop down lists (0 for no limit):") );
+                        _("Maximum items showed in drop down lists (0 for no limit): ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();

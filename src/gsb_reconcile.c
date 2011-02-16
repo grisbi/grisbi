@@ -127,15 +127,15 @@ GtkWidget *gsb_reconcile_create_box ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( _("Reconciliation reference:") );
+    label = gtk_label_new ( _("Reconciliation reference: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
-                                  _("If reconciliation reference ends in a digit, it is "
+                            _("If reconciliation reference ends in a digit, it is "
                             "automatically incremented at each reconciliation.\n"
                             "You can let it empty if you don't want to keep a trace of "
-                            "the reconciliation."));
+                            "the reconciliation.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();
@@ -209,7 +209,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( _("Initial balance:") );
+    label = gtk_label_new ( _("Initial balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1);
 
@@ -217,7 +217,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_initial_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_label, 1, 2, 0, 1);
 
-    label = gtk_label_new ( _("Final balance:") );
+    label = gtk_label_new ( _("Final balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 1, 2);
 
@@ -225,7 +225,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_final_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_label, 1, 2, 1, 2);
 
-    label = gtk_label_new ( _("Checking:") );
+    label = gtk_label_new ( _("Checking: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 2, 3);
 
@@ -236,7 +236,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_hseparator_new();
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 2, 3, 4);
 
-    label = gtk_label_new ( _("Variance:") );
+    label = gtk_label_new ( _("Variance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 4, 5);
 

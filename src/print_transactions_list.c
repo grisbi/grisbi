@@ -151,7 +151,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     entry = gsb_automem_entry_new (&title_string, NULL, NULL);
 
-    check_button = gsb_autofunc_checkbutton_new (_("Print a title : "),
+    check_button = gsb_autofunc_checkbutton_new (_("Print a title: "),
 						 gsb_data_print_config_get_draw_title (),
 						 G_CALLBACK (sens_desensitive_pointeur), entry,
 						 G_CALLBACK (gsb_data_print_config_set_draw_title), 0);
@@ -167,7 +167,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     /* add the dates interval */
     hbox = gtk_hbox_new (FALSE, 10);
 
-    check_button = gsb_autofunc_checkbutton_new (_("Select dates interval : "),
+    check_button = gsb_autofunc_checkbutton_new (_("Select dates interval: "),
 						 gsb_data_print_config_get_draw_interval_dates (),
 						 G_CALLBACK (sens_desensitive_pointeur), hbox,
 						 G_CALLBACK (gsb_data_print_config_set_draw_interval_dates), 0);

@@ -732,7 +732,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     /* Bank name item */
-    label = gtk_label_new ( _("Name:") );
+    label = gtk_label_new ( _("Name: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -747,7 +747,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Bank Sort code item */
-    label = gtk_label_new ( _("Sort code:") );
+    label = gtk_label_new ( _("Sort code: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -762,7 +762,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Bank BIC code item */
-    label = gtk_label_new ( _("BIC code:") );
+    label = gtk_label_new ( _("BIC code: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -779,7 +779,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Bank address */
-    label = gtk_label_new ( _("Address:") );
+    label = gtk_label_new ( _("Address: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -802,7 +802,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Phone number */
-    label = gtk_label_new ( _("Phone:") );
+    label = gtk_label_new ( _("Phone: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -817,7 +817,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* E-mail */
-    label = gtk_label_new ( _("E-Mail:") );
+    label = gtk_label_new ( _("E-Mail: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -832,7 +832,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Website */
-    label = gtk_label_new ( _("Website:") );
+    label = gtk_label_new ( _("Website: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -855,7 +855,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 			 TRUE, TRUE, 5 );
 
     /* Name */
-    label = gtk_label_new ( _("Name:") );
+    label = gtk_label_new ( _("Name: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -870,7 +870,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Phone number */
-    label = gtk_label_new ( _("Phone:") );
+    label = gtk_label_new ( _("Phone: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -885,7 +885,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* Fax */
-    label = gtk_label_new ( _("Fax:") );
+    label = gtk_label_new ( _("Fax: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -900,7 +900,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
 		       0, 0 );
 
     /* E-Mail */
-    label = gtk_label_new ( _("E-Mail:") );
+    label = gtk_label_new ( _("E-Mail: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),

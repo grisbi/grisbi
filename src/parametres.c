@@ -891,7 +891,7 @@ GtkWidget *onglet_fichier ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Memorise last opened files:") );
+    label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
@@ -943,7 +943,7 @@ GtkWidget *onglet_fichier ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( _("Backup directory:") );
+    label = gtk_label_new ( _("Backup directory: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     /* on passe par une fonction intermédiaire pour pallier à un bug
@@ -1054,7 +1054,7 @@ GtkWidget *onglet_programmes (void)
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( _("Web browser command:"));
+    label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
@@ -1081,7 +1081,7 @@ GtkWidget *onglet_programmes (void)
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( _("LaTeX command:"));
+    label = gtk_label_new ( _("LaTeX command: ") );
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
@@ -1089,7 +1089,7 @@ GtkWidget *onglet_programmes (void)
     entry = gsb_automem_entry_new ( &conf.latex_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    label = gtk_label_new ( _("dvips command:"));
+    label = gtk_label_new ( _("dvips command: ") );
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
@@ -1138,7 +1138,8 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Number of days before the warning or the execution:") );
+    label = gtk_label_new (
+                        _("Number of days before the warning or the execution: ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
@@ -1181,7 +1182,7 @@ GtkWidget *onglet_metatree ( void )
                         GTK_ORIENTATION_VERTICAL );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-						_("Choice of the action for double click of the mouse:"),
+						_("Choice of the action for double click of the mouse: "),
                         _("Expand the line"),
                         _("Edit the line"),
                         _("Manage the line"),
@@ -1389,7 +1390,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     dec_hbox = gtk_hbox_new ( FALSE, 0 );
-    label = gtk_label_new ( _("Decimal point:") );
+    label = gtk_label_new ( _("Decimal point: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
@@ -1402,7 +1403,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), dec_sep, FALSE, FALSE, 0 );
 
     thou_hbox = gtk_hbox_new ( FALSE, 0 );
-    label = gtk_label_new ( _("Thousands separator:") );
+    label = gtk_label_new (_("Thousands separator: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );

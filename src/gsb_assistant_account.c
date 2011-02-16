@@ -237,7 +237,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* choose the currency */
-    label = gtk_label_new (_("Currency for the account.:"));
+    label = gtk_label_new ( _("Currency for the account: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label, 
 		       0, 1, 0, 1,
@@ -275,7 +275,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       0, 0 );
 
     /* choose the bank */
-    label = gtk_label_new (_("Bank for the account.:"));
+    label = gtk_label_new ( _("Bank for the account: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label, 
 		       0, 1, 1, 2,
@@ -300,7 +300,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       0, 0 );
 
     /* set the initial amount */
-    label = gtk_label_new (_("Opening balance:"));
+    label = gtk_label_new ( _("Opening balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE ( table ), label, 
 		       0, 1, 2, 3,
@@ -383,7 +383,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
 			 hbox,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("Please enter the name of the new account : "));
+    label = gtk_label_new (_("Please enter the name of the new account: "));
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 label,
 			 FALSE, FALSE, 0 );

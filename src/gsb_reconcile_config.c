@@ -110,7 +110,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 					       "reconciliationlg.png" );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Select the end date of reconciliation:"),
+                        _("Select the end date of reconciliation: "),
                         _("Start Date + one month"),
                         _("Today's date"),
                         NULL,
@@ -194,7 +194,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), table_selection, FALSE, FALSE, 0 );
 
     /* set the name */
-	label = gtk_label_new (_("Name:"));
+	label = gtk_label_new ( _("Name: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 0, 1,
@@ -208,7 +208,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
 	/* set the initial date */
-	label = gtk_label_new (_("Initial date:"));
+	label = gtk_label_new ( _("Initial date: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 1, 2,
@@ -222,7 +222,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
     /* set the final date */
-	label = gtk_label_new (_("Final date:"));
+	label = gtk_label_new ( _("Final date: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 0, 1, 2, 3,
@@ -246,7 +246,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* set the initial balance */
-	label = gtk_label_new (_("Initial balance:"));
+	label = gtk_label_new ( _("Initial balance: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 1, 2,
@@ -260,7 +260,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* set the final balance */
-	label = gtk_label_new (_("Final balance:"));
+	label = gtk_label_new ( _("Final balance: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table_selection ), label, 2, 3, 2, 3,

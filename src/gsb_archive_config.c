@@ -185,7 +185,7 @@ GtkWidget *gsb_archive_config_create ( void )
     gtk_box_pack_start ( GTK_BOX ( modification_paddingbox ), table,
 			 FALSE, FALSE, 6 );
 
-    label = gtk_label_new ( _("Name:") );
+    label = gtk_label_new ( _("Name: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,

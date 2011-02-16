@@ -297,7 +297,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     /* Layout */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
-			 gtk_label_new ( _("Export format:") ),
+			 gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
 
     /* Combo box */
@@ -378,7 +378,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 	    /* if we come here, an archive must have been selected,
 	     * so needn't to check */
 	    tmpstr = g_markup_printf_escaped ( 
-                        _("<span size=\"x-large\">Exporting the archive : %s</span>"),
+                        _("<span size=\"x-large\">Exporting the archive: %s</span>"),
                         gsb_data_archive_get_name (archive_number));
 	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
 	    g_free ( tmpstr );

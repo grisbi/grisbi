@@ -523,7 +523,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_EXERCICE;
     widget = gsb_fyear_make_combobox (TRUE);
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  _("Choose the financial year"));
+					  _("Choose the financial year") );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -570,7 +570,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         account_number, 0, FALSE );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-                        _("Choose the method of payment"));
+                        _("Choose the method of payment") );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -1949,7 +1949,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 5 );
 
-    label = gtk_label_new ( _("Effective date:") );
+    label = gtk_label_new ( _("Effective date: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     date_entry = gsb_calendar_entry_new ( FALSE );

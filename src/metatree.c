@@ -2825,7 +2825,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         hbox = gtk_hbox_new ( FALSE, 6 );
         gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
 
-        label = gtk_label_new ( _("Select the destination:") );
+        label = gtk_label_new ( _("Select the destination: ") );
         gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
@@ -2846,7 +2846,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         hbox = gtk_hbox_new ( FALSE, 6 );
         gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
 
-        label = gtk_label_new ( _("Select the destination:") );
+        label = gtk_label_new ( _("Select the destination: ") );
         gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 

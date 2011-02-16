@@ -362,7 +362,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-                        gtk_label_new ( _("Password:") ),
+                        gtk_label_new ( _("Password: ") ),
                         FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();

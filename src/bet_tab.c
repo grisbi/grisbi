@@ -556,7 +556,7 @@ GtkWidget *bet_array_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* set the start date and the automatic change of month */
-    label = gtk_label_new ( _("Start date:") );
+    label = gtk_label_new ( _("Start date: " ) );
     gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 

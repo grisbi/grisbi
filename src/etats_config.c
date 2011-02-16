@@ -488,7 +488,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_dates (),
-			       gtk_label_new (_("Dates")) );
+			       gtk_label_new ( _("Dates") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Dates"),
@@ -497,7 +497,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_virements (),
-			       gtk_label_new (_("Transfers")) );
+			       gtk_label_new ( _("Transfers") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Transfers"),
@@ -506,7 +506,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_comptes (),
-			       gtk_label_new (_("Accounts")) );
+			       gtk_label_new ( _("Accounts") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Accounts"),
@@ -515,7 +515,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_tiers (),
-			       gtk_label_new (_("Payee")) );
+			       gtk_label_new ( _("Payee") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Payee"),
@@ -524,7 +524,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_categories (),
-			       gtk_label_new (_("Categories")) );
+			       gtk_label_new ( _("Categories") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Categories"),
@@ -533,7 +533,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_ib (),
-			       gtk_label_new (_("Budgetary lines")) );
+			       gtk_label_new ( _("Budgetary lines") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Budgetary lines"),
@@ -542,7 +542,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_texte (),
-			       gtk_label_new (_("Texts")) );
+			       gtk_label_new ( _("Texts") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Texts"),
@@ -551,7 +551,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_montant (),
-			       gtk_label_new (_("Amounts")) );
+			       gtk_label_new ( _("Amounts") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Amounts"),
@@ -560,7 +560,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_mode_paiement (),
-			       gtk_label_new (_("Payment methods")) );
+			       gtk_label_new ( _("Payment methods") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Payment methods"),
@@ -569,7 +569,7 @@ void personnalisation_etat (void)
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       onglet_etat_divers (),
-			       gtk_label_new (_("Misc.")) );
+			       gtk_label_new ( _("Misc.") ) );
     gtk_tree_store_append (GTK_TREE_STORE (report_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (report_tree_model), &iter2,
 			REPORT_TREE_TEXT_COLUMN, _("Miscellaneous"),
@@ -2297,7 +2297,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Initial date:") );
+    label = gtk_label_new ( _("Initial date: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -2327,7 +2327,7 @@ GtkWidget *onglet_etat_dates ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Final date:") );
+    label = gtk_label_new ( _("Final date: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -2487,7 +2487,7 @@ GtkWidget *onglet_etat_comptes ( void )
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_generale_comptes_etat );
 
-    label = gtk_label_new ( _("Select the accounts included in the report:") );
+    label = gtk_label_new ( _("Select the accounts included in the report: ") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -3038,7 +3038,7 @@ GtkWidget *onglet_etat_categories ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( _("Select categories to include:") );
+    label = gtk_label_new ( _("Select categories to include: ") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -3845,7 +3845,7 @@ GtkWidget *onglet_etat_ib ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( _("Select the budgetary lines to include in the report:") );
+    label = gtk_label_new ( _("Select the budgetary lines to include in the report: ") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -4028,7 +4028,7 @@ GtkWidget *onglet_etat_tiers ( void )
 			 0 );
     gtk_widget_show ( vbox );
 
-    label = gtk_label_new ( _("Select payees to include in this report:") );
+    label = gtk_label_new ( _("Select payees to include in this report: ") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 
@@ -4494,7 +4494,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 FALSE,
 			 0 );
 
-    label = gtk_label_new ( _("Transactions whose "));
+    label = gtk_label_new ( _("Transactions whose ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -4642,7 +4642,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
     gtk_widget_show (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number));
 
 
-    label = gtk_label_new ( _("is "));
+    label = gtk_label_new ( _("is ") );
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_cheque (text_comparison_number)),
 			 label,
 			 FALSE,
@@ -4715,7 +4715,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 FALSE,
 			 0 );
 
-    label = gtk_label_new ( _("to"));
+    label = gtk_label_new ( _("to") );
     gtk_box_pack_start ( GTK_BOX (gsb_data_report_text_comparison_get_hbox_second_part (text_comparison_number)),
 			 label,
 			 FALSE,
@@ -5529,7 +5529,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number,
 							widget );
 
-    label = gtk_label_new ( _("Transactions with an amount of "));
+    label = gtk_label_new ( _("Transactions with an amount of") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -6344,7 +6344,7 @@ GtkWidget *page_data_separation ( void )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 5 );
 
-    label = gtk_label_new (_("Separation by time period:"));
+    label = gtk_label_new ( _("Separation by time period: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
@@ -6380,7 +6380,7 @@ GtkWidget *page_data_separation ( void )
     gtk_option_menu_set_menu ( GTK_OPTION_MENU ( bouton_type_separe_plages_etat ), menu );
 
     /* add beginning day of the week */
-    label = gtk_label_new (_("Beginning of week:"));
+    label = gtk_label_new ( _("Beginning of week: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_table_attach ( GTK_TABLE ( table ), label,
@@ -6536,7 +6536,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Report name:") );
+    label = gtk_label_new ( _("Report name: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 label,
 			 FALSE,
@@ -6839,7 +6839,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("General totals currency:") );
+    label = gtk_label_new ( _("General totals currency: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6868,7 +6868,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
     gtk_widget_show ( hbox );
 
 
-    label = gtk_label_new ( _("Payees currency:") );
+    label = gtk_label_new ( _("Payees currency: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6897,7 +6897,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Categories currency:") );
+    label = gtk_label_new ( _("Categories currency: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6927,7 +6927,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Budgetary lines currency:") );
+    label = gtk_label_new ( _("Budgetary lines currency: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -6956,7 +6956,7 @@ GtkWidget *onglet_affichage_etat_devises ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    label = gtk_label_new ( _("Amount comparison currency:"));
+    label = gtk_label_new ( _("Amount comparison currency: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ),
 			     0,
 			     0.5 );
@@ -7251,7 +7251,7 @@ GtkWidget *onglet_etat_mode_paiement ( void )
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 vbox_mode_paiement_etat );
 
-    label = gtk_label_new ( _("Select methods of payment to include:") );
+    label = gtk_label_new ( _("Select methods of payment to include: ") );
 	gtk_misc_set_padding ( GTK_MISC ( label ), 3, 0 );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 

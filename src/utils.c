@@ -256,7 +256,7 @@ gboolean lance_navigateur_web ( const gchar *url )
  * \param fill Give all available space to padding box or not
  * \param title Title to display on top of the paddingbox
  */
-GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
+GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, const gchar *title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;

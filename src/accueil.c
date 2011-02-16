@@ -996,9 +996,9 @@ gint affiche_soldes_partiels ( GtkWidget *table,
 
                 /* On met les titres du sous ensemble solde(s) partiel(s) */
                 if ( nb_comptes == 1 )
-                    label = gtk_label_new ( _("Partial balance:"));
+                    label = gtk_label_new ( _("Partial balance: ") );
                 else
-                    label = gtk_label_new ( _("Partial balances:"));
+                    label = gtk_label_new ( _("Partial balances: ") );
                 gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
                 gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
@@ -1077,11 +1077,11 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 
 	/* Première colonne */
     if ( nb_comptes == 1 )
-        label = gtk_label_new ( _("Global balance:") );
+        label = gtk_label_new ( _("Global balance: ") );
     else if ( conf.pluriel_final )
-        label = gtk_label_new ( "Soldes finaux:" );
+        label = gtk_label_new ( ("Soldes finaux: ") );
     else
-        label = gtk_label_new ( _("Global balances:") );
+        label = gtk_label_new ( _("Global balances: ") );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );

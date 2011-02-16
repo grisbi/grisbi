@@ -1158,7 +1158,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
 
     gtk_box_pack_start ( GTK_BOX (page), table, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("Total number of payees :") );
+    label = gtk_label_new ( _("Total number of payees: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 0, 1,
@@ -1175,7 +1175,7 @@ static GtkWidget *gsb_assistant_payees_page_3 ( GtkWidget *assistant )
     g_object_set_data ( G_OBJECT (assistant), "nbre_tiers_total", label );
 
     /* ajoute le nombre de tiers sélectionnés */
-    label = gtk_label_new ( _("Number of selected payees :") );
+    label = gtk_label_new ( _("Number of selected payees: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
     gtk_table_attach ( GTK_TABLE ( table ), label,
 		      2, 3, 0, 1,
