@@ -75,6 +75,7 @@
 #include "structures.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

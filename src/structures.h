@@ -2,10 +2,8 @@
 #define _STRUCTURES_H (1)
 
 /* fichier d'en tête structures.h */
-/* contient toutes les structures du prog */
+/* contient presque toutes les structures du prog */
 
-#include "print_config.h"
-#include "utils_str.h"
 
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the
  * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
@@ -27,6 +25,43 @@
 /* definition des variables PIXMAPS_DIR PLUGINS_DIR */
 #define GRISBI_PIXMAPS_DIR (utils_get_pixmaps_dir ( ) )
 #define GRISBI_PLUGINS_DIR (utils_get_plugins_dir ( ) ) 
+
+
+/* structures pour la gestion de l'impression */
+enum filetype
+{
+  POSTSCRIPT_FILE = 0,
+  LATEX_FILE,
+  NUM_FILETYPES,
+}; 
+
+
+struct paper_config 
+{
+  gchar *name;
+  gfloat width;
+  gfloat height;
+};
+
+
+enum orientation
+{
+  LANDSCAPE = 0,
+  PORTRAIT,
+  NUM_ORIENTATION,
+}; 
+
+
+struct print_config
+{
+  gboolean printer;
+  gchar * printer_name;
+  gchar * printer_filename;
+  enum filetype filetype;
+  struct paper_config paper_config;
+  enum orientation orientation;
+};
+
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -238,12 +273,24 @@ struct struct_payee_asso
     gchar   *search_str;
 };
 
+
+/* définition du titre de grisbi */
+typedef enum GSB_TITLE_NAME
+{
+    GSB_ACCOUNTS_TITLE,
+    GSB_ACCOUNT_HOLDER,
+    GSB_ACCOUNTS_FILE,
+} GsbTitleType;
+
+
+/* définition de l'alignement */
 enum alignement
 {
     ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT,
 };
 
 
+/* définition du type d'origine pour les données du module budgétaire */
 enum bet_array_origin_data
 {
     SPP_ORIGIN_TRANSACTION,             /* Ligne issue d'une opération */
@@ -258,6 +305,8 @@ enum bet_array_origin_data
     SPP_ORIGIN_SOLDE                    /* Ligne de solde au premier du mois  */
 };
 
+
+/* définition du type de mise à jour en fonction des données du module budgétaire */
 enum bet_type_maj 
 {
     BET_MAJ_FALSE = 0,

@@ -69,6 +69,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

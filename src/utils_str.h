@@ -52,9 +52,4 @@ gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr );
 gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr );
 /* END_DECLARATION */
 
-typedef enum GSB_TITLE_NAME {
-    GSB_ACCOUNTS_TITLE,
-    GSB_ACCOUNT_HOLDER,
-    GSB_ACCOUNTS_FILE,
-} GsbTitleType;
 #endif
