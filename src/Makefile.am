@@ -322,3 +322,10 @@ mime_DATA = grisbi.keys grisbi.mime
 if HAVE_PLUGINS
 SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
 endif
+
+ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
+
+checkheaders: $(ALLHEADERS:.h=.ho)
+
+%.ho: %.h
+	$(CC) -include config.h $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) -c -o $@ -x c $<
