@@ -199,10 +199,10 @@ Section $(OFXplug)
 ;  SetOutPath "$INSTDIR\plugins"
 ;  File "${EXE_PATH}\plugins\libofxplg.dll"
 
-  SetOutPath "$INSTDIR"
-  File /r "${PLUGINS_DEV_PATH}\libofx\bin\dtd"
-  File "${PLUGINS_DEV_PATH}\libofx\bin\osp152.dll"
-  File "${PLUGINS_DEV_PATH}\libofx\bin\libofx.dll"
+  ; SetOutPath "$INSTDIR"
+  ; File /r "${PLUGINS_DEV_PATH}\libofx\bin\dtd"
+  ; File "${PLUGINS_DEV_PATH}\libofx\bin\osp152.dll"
+  ; File "${PLUGINS_DEV_PATH}\libofx\bin\libofx.dll"
 
 SectionEnd
 

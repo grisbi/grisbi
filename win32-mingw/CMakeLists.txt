@@ -115,7 +115,7 @@ ADD_DEFINITIONS(-DHAVE_SETLOCALE=1)
 ADD_DEFINITIONS(-DHAVE_STRING_H=1)
 
 # Define to 1 to have OFX support disabled
-#ADD_DEFINITIONS(-DNOOFX=1)
+ADD_DEFINITIONS(-DNOOFX=1)
 # Define to 1 if you want to have OFX support using libofx 0.7.0
 ADD_DEFINITIONS(-DOFX_0_7=1)
 
@@ -151,7 +151,7 @@ TARGET_LINK_LIBRARIES( grisbi
 	pango-1.0
 	pangocairo-1.0
 	zdll
-	ofx
+	# ofx
 	gnucash
 	openssl
 )
@@ -160,11 +160,11 @@ TARGET_LINK_LIBRARIES( grisbi
 	# PROPERTIES ENABLE_EXPORTS 1
 # )
 
-ADD_LIBRARY ( ofx
-	STATIC
-	../src/plugins/ofx/ofx.c
-	../src/plugins/ofx/ofx.h
-)
+# ADD_LIBRARY ( ofx
+	# STATIC
+	# ../src/plugins/ofx/ofx.c
+	# ../src/plugins/ofx/ofx.h
+# )
 
 ADD_CUSTOM_COMMAND ( TARGET ofxplg
 	POST_BUILD
@@ -200,12 +200,12 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 
 # ADD_DEPENDENCIES (ofx grisbi)
 #SET_TARGET_PROPERTIES(ofx PROPERTIES LINK_FLAGS "-no-undefined --enable-runtime-pseudo-reloc")
-TARGET_LINK_LIBRARIES (ofx
-	glib-2.0
-	intl
-	libofx
+# TARGET_LINK_LIBRARIES (ofx
+	# glib-2.0
+	# intl
+	# libofx
 #    grisbi
-)
+# )
 
 # ADD_DEPENDENCIES (gnucash grisbi)
 TARGET_LINK_LIBRARIES (gnucash
