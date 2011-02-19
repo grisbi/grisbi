@@ -6,21 +6,21 @@
 ;Include Modern UI
 
   !include "MUI2.nsh"
-  
+
 ;--------------------------------
 ;Include Env Vars modification function
 ;available at http://nsis.sourceforge.net/Environmental_Variables:_append,_prepend,_and_remove_entries
 
-  ;!include "EnvVarUpdate.nsh" 
-  
-  
+  ;!include "EnvVarUpdate.nsh"
+
+
 ;-----------------------
 ;Defining useful parameters
 
 !define PRODUCT "Grisbi" ;Name of the project
 !define MAJOR "0"        ;Major version number
 !define MINOR "7"        ;Minor version number
-!define PATCH "99-5"        ;Patch version number
+!define PATCH "100"        ;Patch version number
 !define STAGE "mingw testing pre release"     ;Developement stage id (RC, beta, alpha)
 !define SMALL_STAGE "mingw_test_pre_rel" ;Small dev stage id without spaces
 !define EXE_PATH "target\Win32" ;Path to the exe file you want to pack
@@ -46,12 +46,12 @@
   !define MUI_UNICON "../win32/grisbi.ico"
   !define MUI_COMPONENTSPAGE_NODESC "true"
   OutFile "${SHORTNAME}.exe"
-  
+
   SetCompressor /SOLID lzma
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES32\${FULLNAME}"
-  
+
   ;Get installation folder from registry if available
   InstallDirRegKey HKLM "Software\${FULLNAME}" ""
 
@@ -67,8 +67,8 @@
 ;Language Selection Dialog Settings
 
   ;Remember the installer language
-  !define MUI_LANGDLL_REGISTRY_ROOT "HKLM" 
-  !define MUI_LANGDLL_REGISTRY_KEY "Software\${FULLNAME}" 
+  !define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
+  !define MUI_LANGDLL_REGISTRY_KEY "Software\${FULLNAME}"
   !define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 ;--------------------------------
@@ -78,7 +78,7 @@
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  
+
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
 
@@ -95,7 +95,7 @@
 ;Languages
 
   !insertmacro MUI_LANGUAGE "English" ;first language is the default language
-  !insertmacro MUI_LANGUAGE "French" 
+  !insertmacro MUI_LANGUAGE "French"
   !insertmacro MUI_LANGUAGE "German"
   !insertmacro MUI_LANGUAGE "Spanish"
   !insertmacro MUI_LANGUAGE "TradChinese"
@@ -113,14 +113,14 @@
 
 ;--------------------------------
 ;Reserve Files
-  
+
   ;If you are using solid compression, files that are required before
   ;the actual installation should be stored first in the data block,
   ;because this will make your installer start faster.
-  
+
   !insertmacro MUI_RESERVEFILE_LANGDLL
-  
-  
+
+
   !include "installer_strings.nsh"
 
 ;--------------------------------
@@ -142,15 +142,15 @@ Section $(ProgFiles)
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\lib\*.*"
   SetOutPath "$INSTDIR\share"
   File /r ..\share\*.*
-  
+
   ;Store installation folder
   WriteRegStr HKLM "Software\${FULLNAME}" "" $INSTDIR
-  
+
   ; File extension keys
   WriteRegStr HKCR ".gsb" "" "gsb_account_file"
   WriteRegExpandStr HKCR "gsb_account_file\Shell\open\command" "" "$INSTDIR\grisbi.exe %1"
   WriteRegExpandStr HKCR "gsb_account_file\DefaultIcon" "" "$INSTDIR\grisbi.ico"
-  
+
   ;Create uninstaller
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${FULLNAME}" "DisplayName" "${FULLNAME}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${FULLNAME}" "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -163,13 +163,13 @@ SectionEnd
 Section $(GTK)
 
   SectionIn 1
-  
+
   SetOutPath "$INSTDIR"
   File /r "${GTK_DEV_PATH}\bin\*.dll" ;"${GTK_INSTALL_PATH}\${GTK_INSTALL_FILE}"
-  
+
   SetOutPath "$INSTDIR\lib\gtk-2.0\2.10.0\engines"
   File "${GTK_DEV_PATH}\lib\gtk-2.0\2.10.0\engines\libwimp.dll"
-  
+
   SetOutPath "$INSTDIR\share\locale"
   File /r "${GTK_DEV_PATH}\share\locale\cs"
   File /r "${GTK_DEV_PATH}\share\locale\da"
@@ -198,7 +198,7 @@ Section $(OFXplug)
 
 ;  SetOutPath "$INSTDIR\plugins"
 ;  File "${EXE_PATH}\plugins\libofxplg.dll"
-  
+
   SetOutPath "$INSTDIR"
   File /r "${PLUGINS_DEV_PATH}\libofx\bin\dtd"
   File "${PLUGINS_DEV_PATH}\libofx\bin\osp152.dll"
@@ -212,7 +212,7 @@ Section $(GnuCashPlugin)
 
 ;  SetOutPath "$INSTDIR\plugins"
 ;  File "${EXE_PATH}\plugins\libgnucash.dll"
-  
+
   SetOutPath "$INSTDIR"
   File "${PLUGINS_DEV_PATH}\libxml2\bin\libxml2.dll"
   File "${PLUGINS_DEV_PATH}\iconv\bin\iconv.dll"
@@ -225,12 +225,12 @@ Section $(OpenSSLplug)
 
 ;  SetOutPath "$INSTDIR\plugins"
 ;  File "${EXE_PATH}\plugins\libopenssl.dll"
-  
+
   SetOutPath "$INSTDIR"
   File "${PLUGINS_DEV_PATH}\openssl\bin\libeay32.dll"
   File "${PLUGINS_DEV_PATH}\openssl\bin\libssl32.dll"
   File "${PLUGINS_DEV_PATH}\openssl\bin\ssleay32.dll"
-  
+
 SectionEnd
 SectionGroupEnd
 
@@ -243,7 +243,7 @@ Section $(Shortcut)
   CreateShortCut "$SMPROGRAMS\Grisbi\Uninstall ${FULLNAME}.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
   CreateShortCut "$SMPROGRAMS\Grisbi\${FULLNAME}.lnk" "$INSTDIR\grisbi.exe" "" "$INSTDIR\grisbi.ico" 0
   CreateShortCut "$DESKTOP\Grisbi.lnk" "$INSTDIR\grisbi.exe" "" "$INSTDIR\grisbi.ico" 0
-  
+
 SectionEnd
 
 ;--------------------------------
@@ -265,7 +265,7 @@ FunctionEnd
   ;  !insertmacro MUI_DESCRIPTION_TEXT ${SecDummy} "A test section."
   ;!insertmacro MUI_FUNCTION_DESCRIPTION_END
 
- 
+
 ;--------------------------------
 ;Uninstaller Section
 
@@ -276,11 +276,11 @@ Section "Uninstall"
 
   DeleteRegKey /ifempty HKLM "Software\${FULLNAME}"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${FULLNAME}"
-  
+
   ; removing file extension keys
   DeleteRegKey HKCR ".gsb"
   DeleteRegKey HKCR "gsb_account_file"
-  
+
   ; Remove shortcuts, if any
   SetShellVarContext all
   Delete "$SMPROGRAMS\Grisbi\Uninstall ${FULLNAME}.lnk"
@@ -296,5 +296,5 @@ SectionEnd
 Function un.onInit
 
   !insertmacro MUI_UNGETLANGUAGE
-  
+
 FunctionEnd

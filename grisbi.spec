@@ -1,5 +1,5 @@
 %define name    grisbi
-%define version 0.7.99
+%define version 0.7.100
 %define release %mkrel 1
 
 %define _disable_ld_no_undefined 1
@@ -76,8 +76,8 @@ rm -rf $RPM_BUILD_ROOT
 %_iconsdir/hicolor/48x48/apps/%name.png
 
 %changelog
-* Sun Sep 12 2010 Pierre Biava <grisbi@pierre.biava.name> 0.8.0-1mdv2010.1
-- new version 0.8.0
+* Sat Feb 19 2011 Pierre Biava <grisbi@pierre.biava.name> 0.7.100-1mdv2010.1
+- new version 0.7.100
 
 * Sun Sep 12 2010 Pierre Biava <grisbi@pierre.biava.name> 0.7.4-1mdv2010.1
 - new version 0.7.4

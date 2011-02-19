@@ -30,7 +30,7 @@ SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName}/plugins)
 SET(PACKAGE_NAME grisbi)
 set (grisbi_MAJOR 0)
 set (grisbi_MINOR 7)
-set (grisbi_PATCH 98)
+set (grisbi_PATCH 100)
 set (grisbi_version "${grisbi_MAJOR}.${grisbi_MINOR}.${grisbi_PATCH} pour windows")
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH)
 MARK_AS_ADVANCED(grisbi_version)
@@ -128,9 +128,9 @@ ADD_DEFINITIONS(-DHAVE_PLUGINS=1)
 #Define to 1 to enable static plugins
 ADD_DEFINITIONS(-DENABLE_STATIC=1)
 
-file(GLOB grisbi_source 
-    ${PROJECT_SOURCE_DIR}/../src/*.c 
-	${PROJECT_SOURCE_DIR}/../win32/*.c 
+file(GLOB grisbi_source
+    ${PROJECT_SOURCE_DIR}/../src/*.c
+	${PROJECT_SOURCE_DIR}/../win32/*.c
 	${PROJECT_SOURCE_DIR}/../win32-msvc/src/*.c
 )
 ADD_EXECUTABLE(grisbi
@@ -203,7 +203,7 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 TARGET_LINK_LIBRARIES (ofx
 	glib-2.0
 	intl
-	libofx 
+	libofx
 #    grisbi
 )
 
