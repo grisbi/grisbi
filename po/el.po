@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-16 23:18+0100\n"
+"POT-Creation-Date: 2011-02-20 14:07+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -18,119 +18,119 @@ msgstr ""
 "X-Poedit-Language: Greek\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: ../src/accueil.c:203
+#: ../src/accueil.c:204
 msgid "Closed liabilities accounts"
 msgstr "Κλειστοί λογαριασμοί στοιχείων παθητικού"
 
-#: ../src/accueil.c:214
+#: ../src/accueil.c:215
 msgid "Run out manual scheduled transactions"
 msgstr "Μη αυτόματη εκτέλεση προγραμματισμένων μεταφορών"
 
-#: ../src/accueil.c:230
+#: ../src/accueil.c:231
 msgid "Automatic scheduled transactions entered"
 msgstr "Αυτόματες σχεδιασμένες συναλλαγές που εισάγονται"
 
-#: ../src/accueil.c:241
+#: ../src/accueil.c:242
 msgid "Closed scheduled transactions"
 msgstr "Κλειστές προγραμματισμένες συναλλαγές"
 
-#: ../src/accueil.c:252
+#: ../src/accueil.c:253
 msgid "Accounts under authorized balance"
 msgstr "Λογαριασμοί κάτω από την εξουσιοδοτημένη ισορροπία"
 
-#: ../src/accueil.c:263
+#: ../src/accueil.c:264
 msgid "Accounts under desired balance"
 msgstr "Λογαριασμοί κάτω από την επιθυμητή ισορροπία"
 
 #. Create the dialog
-#: ../src/accueil.c:310
+#: ../src/accueil.c:311
 msgid "Enter a scheduled transaction"
 msgstr "Εισάγετε μια σχεδιασμένη συναλλαγή"
 
 #. Creating the table which will store accounts with their balances.
-#: ../src/accueil.c:469
+#: ../src/accueil.c:470
 #, c-format
 msgid "Account balances in %s"
 msgstr "Ισορροπίες λογαριασμού %s"
 
-#: ../src/accueil.c:472 ../src/accueil.c:550 ../src/accueil.c:627
-#: ../src/accueil.c:696 ../src/bet_finance_ui.c:1670
+#: ../src/accueil.c:473 ../src/accueil.c:551 ../src/accueil.c:628
+#: ../src/accueil.c:697 ../src/bet_finance_ui.c:1671
 msgid " at "
 msgstr ""
 
 #. Creating the table which will store accounts with their balances
-#: ../src/accueil.c:547
+#: ../src/accueil.c:548
 #, c-format
 msgid "Liabilities accounts balances in %s"
 msgstr "Ισορροπίες λογαριασμών στοιχείων του παθητικού %s"
 
 #. Creating the table which will store accounts with their balances
-#: ../src/accueil.c:624
+#: ../src/accueil.c:625
 #, c-format
 msgid "Assets accounts balances in %s"
 msgstr "Ισορροπίες απολογισμών προτερημάτων %s"
 
-#: ../src/accueil.c:692 ../src/gsb_data_partial_balance.c:211
+#: ../src/accueil.c:693 ../src/gsb_data_partial_balance.c:211
 #, fuzzy
 msgid "Additional balance"
 msgstr "Αρχική ισορροπία"
 
-#: ../src/accueil.c:694
+#: ../src/accueil.c:695
 #, fuzzy
 msgid "Additional balances"
 msgstr "Αρχική ισορροπία"
 
-#: ../src/accueil.c:786 ../src/accueil.c:1006
+#: ../src/accueil.c:787 ../src/accueil.c:1007
 msgid "Reconciled balance"
 msgstr "Συμφωνημένη ισορροπία"
 
-#: ../src/accueil.c:790 ../src/accueil.c:1010
+#: ../src/accueil.c:791 ../src/accueil.c:1011
 msgid "Current balance"
 msgstr "Τρέχουσα ισορροπία"
 
-#: ../src/accueil.c:999
+#: ../src/accueil.c:1000
 #, fuzzy
 msgid "Partial balance: "
 msgstr "Αρχική ισορροπία:"
 
-#: ../src/accueil.c:1001
+#: ../src/accueil.c:1002
 #, fuzzy
 msgid "Partial balances: "
 msgstr "Αρχική ισορροπία:"
 
-#: ../src/accueil.c:1080
+#: ../src/accueil.c:1081
 #, fuzzy
 msgid "Global balance: "
 msgstr "Σφαιρικές ισορροπίες:"
 
-#: ../src/accueil.c:1084
+#: ../src/accueil.c:1085
 #, fuzzy
 msgid "Global balances: "
 msgstr "Σφαιρικές ισορροπίες:"
 
-#: ../src/accueil.c:1140
+#: ../src/accueil.c:1141
 #, c-format
 msgid " in %s"
 msgstr ""
 
-#: ../src/accueil.c:1310 ../src/accueil.c:1434 ../src/accueil.c:1895
+#: ../src/accueil.c:1311 ../src/accueil.c:1435 ../src/accueil.c:1896
 #, c-format
 msgid "%s credited on %s"
 msgstr "%s πιστωμένος %s"
 
-#: ../src/accueil.c:1320 ../src/accueil.c:1444 ../src/accueil.c:1904
+#: ../src/accueil.c:1321 ../src/accueil.c:1445 ../src/accueil.c:1905
 #, c-format
 msgid "%s debited on %s"
 msgstr "%s χρεωμένος %s"
 
-#: ../src/accueil.c:1669
+#: ../src/accueil.c:1670
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
 msgstr ""
 "η ισορροπία του απολογισμού %s είναι κάτω από τα επιθυμητά και "
 "εξουσιοδοτημένα ελάχιστα!"
 
-#: ../src/accueil.c:1673
+#: ../src/accueil.c:1674
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
@@ -139,13 +139,13 @@ msgstr ""
 "ελάχιστο :\n"
 "\n"
 
-#: ../src/accueil.c:1702
+#: ../src/accueil.c:1703
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
 msgstr ""
 "η ισορροπία του λογαριασμού %s είναι κάτω από το εξουσιοδοτημένο ελάχιστο!"
 
-#: ../src/accueil.c:1712
+#: ../src/accueil.c:1713
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
@@ -153,12 +153,12 @@ msgstr ""
 "Λογαριασμοί με την ισορροπία κάτω από εξουσιοδοτημένο ελάχιστο: :\n"
 "\n"
 
-#: ../src/accueil.c:1744
+#: ../src/accueil.c:1745
 #, c-format
 msgid "balance of account %s is under desired minimum!"
 msgstr "η ισορροπία του λογαριασμού %s είναι κάτω από το επιθυμητό ελάχιστο!"
 
-#: ../src/accueil.c:1754
+#: ../src/accueil.c:1755
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
@@ -166,29 +166,29 @@ msgstr ""
 "Λογαριασμοί με την ισορροπία κάτω από επιθυμητό ελάχιστο: \n"
 "\n"
 
-#: ../src/accueil.c:1946
+#: ../src/accueil.c:1947
 #, fuzzy
 msgid "Configuration of the main page"
 msgstr "Η διαμόρφωση ολοκληρώθηκε!"
 
 #. Take into account the planned operations in the calculation of balances
-#: ../src/accueil.c:1967
+#: ../src/accueil.c:1968
 #, fuzzy
 msgid "Calculation of balances"
 msgstr "Αρχική ισορροπία"
 
-#: ../src/accueil.c:1973
+#: ../src/accueil.c:1974
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
 
-#: ../src/accueil.c:1983
+#: ../src/accueil.c:1984
 #, fuzzy
 msgid "Balances partials of the list of accounts"
 msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 
 #. Name entry
-#: ../src/accueil.c:2074 ../src/bet_future.c:2134
+#: ../src/accueil.c:2075 ../src/bet_future.c:2134
 #: ../src/categories_onglet.c:691 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229 ../src/gsb_fyear_config.c:281
@@ -197,26 +197,26 @@ msgstr "Επιλέξτε συναλλαγές ενός λογαριασμού."
 msgid "Name"
 msgstr "Όνομα"
 
-#: ../src/accueil.c:2083
+#: ../src/accueil.c:2084
 #, fuzzy
 msgid "Accounts list"
 msgstr "Λογαριασμοί"
 
-#: ../src/accueil.c:2099
+#: ../src/accueil.c:2100
 #, fuzzy
 msgid "Colorize"
 msgstr "Χρώματα"
 
-#: ../src/accueil.c:2107
+#: ../src/accueil.c:2108
 #, fuzzy
 msgid "Account kind"
 msgstr "Όνομα λογαριασμού"
 
-#: ../src/accueil.c:2116 ../src/gsb_form_widget.c:460 ../src/import_csv.c:80
+#: ../src/accueil.c:2117 ../src/gsb_form_widget.c:460 ../src/import_csv.c:80
 msgid "Currency"
 msgstr "Νόμισμα"
 
-#: ../src/affichage.c:141 ../src/parametres.c:385
+#: ../src/affichage.c:141 ../src/parametres.c:386
 msgid "Fonts & logo"
 msgstr "Πηγές & λογότυπο"
 
@@ -257,7 +257,7 @@ msgstr "Επιλογή του χρώματος"
 msgid "Back to default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/affichage.c:370 ../src/parametres.c:403
+#: ../src/affichage.c:370 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "Διευθύνσεις & τίτλοι"
 
@@ -306,7 +306,7 @@ msgstr "Δευτεροβάθμια διεύθυνση:"
 msgid "Select a new logo"
 msgstr "Επιλέξτε ένα νέο λογότυπο"
 
-#: ../src/affichage.c:706 ../src/parametres.c:421
+#: ../src/affichage.c:706 ../src/parametres.c:422
 msgid "Toolbars"
 msgstr "Ράβδοι εργαλείων"
 
@@ -552,7 +552,7 @@ msgstr "Μήνας"
 msgid "Year"
 msgstr "Χρόνος"
 
-#: ../src/bet_config.c:114 ../src/parametres.c:580
+#: ../src/bet_config.c:114 ../src/parametres.c:581
 #, fuzzy
 msgid "General Options"
 msgstr "Γενικότητες"
@@ -592,7 +592,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:257 ../src/parametres.c:589
+#: ../src/bet_config.c:257 ../src/parametres.c:590
 #, fuzzy
 msgid "Accounts data"
 msgstr "Λεπτομέρειες λογαριασμού"
@@ -660,7 +660,7 @@ msgstr "Κατηγορίες"
 #: ../src/etats_config.c:7135 ../src/export_csv.c:808
 #: ../src/fenetre_principale.c:290 ../src/import_csv.c:88
 #: ../src/navigation.c:332 ../src/navigation.c:1228
-#: ../src/traitement_variables.c:91
+#: ../src/traitement_variables.c:92
 msgid "Budgetary lines"
 msgstr "Δημοσιονομικές γραμμές"
 
@@ -689,12 +689,12 @@ msgstr "Επιλέξτε το οικονομικό έτος"
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:674 ../src/export_csv.c:799
 #: ../src/gsb_transactions_list.c:164 ../src/import_csv.c:86
-#: ../src/meta_categories.c:67 ../src/traitement_variables.c:99
+#: ../src/meta_categories.c:67 ../src/traitement_variables.c:100
 msgid "Category"
 msgstr "Κατηγορία"
 
 #: ../src/bet_config.c:935 ../src/bet_future.c:815 ../src/bet_future.c:2023
-#: ../src/bet_future.c:2500 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2440
+#: ../src/bet_future.c:2503 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:678 ../src/gsb_form.c:1335
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:156
 #: ../src/imputation_budgetaire.c:166 ../src/meta_budgetary.c:64
@@ -707,13 +707,13 @@ msgid "Loan Capital: "
 msgstr "Φόρτωση λογαριασμών:"
 
 #. Duration
-#: ../src/bet_config.c:1281 ../src/bet_finance_ui.c:280
-#: ../src/bet_finance_ui.c:1150 ../src/bet_finance_ui.c:1590
+#: ../src/bet_config.c:1281 ../src/bet_finance_ui.c:281
+#: ../src/bet_finance_ui.c:1151 ../src/bet_finance_ui.c:1591
 #, fuzzy
 msgid "Duration: "
 msgstr "Ταξινόμηση σε πίνακα:"
 
-#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:753
+#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:754
 #, fuzzy
 msgid "year"
 msgstr "Χρόνια"
@@ -725,15 +725,15 @@ msgstr "μέθοδος πληρωμής:"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1312 ../src/bet_finance_ui.c:1136
-#: ../src/bet_finance_ui.c:1576
+#: ../src/bet_config.c:1312 ../src/bet_finance_ui.c:1137
+#: ../src/bet_finance_ui.c:1577
 #, fuzzy
 msgid "Annuel rate interest: "
 msgstr "Ετήσιος προϋπολογισμός:"
 
-#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:275
-#: ../src/bet_finance_ui.c:386 ../src/bet_finance_ui.c:1145
-#: ../src/bet_finance_ui.c:1585
+#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:276
+#: ../src/bet_finance_ui.c:387 ../src/bet_finance_ui.c:1146
+#: ../src/bet_finance_ui.c:1586
 msgid "%"
 msgstr ""
 
@@ -742,16 +742,16 @@ msgstr ""
 msgid "Fees per month: "
 msgstr "Τρεις μήνες:"
 
-#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:399
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:400
 #, fuzzy
 msgid "Rate Type: "
 msgstr "Τύπος:"
 
-#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:403
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:404
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:406
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:407
 msgid "Proportional rate"
 msgstr ""
 
@@ -759,69 +759,69 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1427 ../src/bet_finance_ui.c:1697
+#: ../src/bet_config.c:1427 ../src/bet_finance_ui.c:1698
 #, fuzzy
 msgid " year "
 msgstr "έτος %d"
 
-#: ../src/bet_config.c:1429 ../src/bet_finance_ui.c:1699
+#: ../src/bet_config.c:1429 ../src/bet_finance_ui.c:1700
 #, fuzzy
 msgid " years "
 msgstr "Χρόνια"
 
-#: ../src/bet_config.c:1479 ../src/bet_finance_ui.c:681
+#: ../src/bet_config.c:1479 ../src/bet_finance_ui.c:682
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #. set the title
-#: ../src/bet_finance_ui.c:213 ../src/fenetre_principale.c:280
+#: ../src/bet_finance_ui.c:214 ../src/fenetre_principale.c:280
 #: ../src/navigation.c:300 ../src/navigation.c:1206
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Πιστωτική κάρτα"
 
 #. capital
-#: ../src/bet_finance_ui.c:224 ../src/bet_finance_ui.c:1566
+#: ../src/bet_finance_ui.c:225 ../src/bet_finance_ui.c:1567
 #, fuzzy
 msgid "Loan capital: "
 msgstr "Σύνολο τοπικής προσαρμογής:"
 
 #. taux
-#: ../src/bet_finance_ui.c:260
+#: ../src/bet_finance_ui.c:261
 #, fuzzy
 msgid "Annual interest: "
 msgstr "Ετήσιος προϋπολογισμός:"
 
-#: ../src/bet_finance_ui.c:325
+#: ../src/bet_finance_ui.c:326
 msgid "Between 3 and 18 months"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:326
+#: ../src/bet_finance_ui.c:327
 msgid "Between 1 and 15 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:327
+#: ../src/bet_finance_ui.c:328
 msgid "Between 15 and 30 years"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:371
+#: ../src/bet_finance_ui.c:372
 #, fuzzy
 msgid "Fees: "
 msgstr "Αμοιβή:"
 
-#: ../src/bet_finance_ui.c:386
+#: ../src/bet_finance_ui.c:387
 msgid " of borrowed capital"
 msgstr ""
 
 #. create columns
 #. Duration
-#: ../src/bet_finance_ui.c:473
+#: ../src/bet_finance_ui.c:474
 #, fuzzy
 msgid "Duration"
 msgstr "Ταξινόμηση σε πίνακα"
 
 #. Number of periods
-#: ../src/bet_finance_ui.c:492
+#: ../src/bet_finance_ui.c:493
 #, fuzzy
 msgid ""
 "Number\n"
@@ -829,182 +829,181 @@ msgid ""
 msgstr "Αρχική ισορροπία"
 
 #. Loan capital
-#: ../src/bet_finance_ui.c:511
+#: ../src/bet_finance_ui.c:512
 msgid ""
 "Loan\n"
 "capital"
 msgstr ""
 
 #. Annuel rate interest
-#: ../src/bet_finance_ui.c:530
+#: ../src/bet_finance_ui.c:531
 msgid ""
 "Annuel\n"
 "rate interest"
 msgstr ""
 
 #. Amount without fees
-#: ../src/bet_finance_ui.c:549
+#: ../src/bet_finance_ui.c:550
 msgid ""
 "Amount\n"
 "without fees"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:568
+#: ../src/bet_finance_ui.c:569
 #, fuzzy
 msgid "Fees"
 msgstr "Αμοιβή"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:587 ../src/bet_finance_ui.c:1327
+#: ../src/bet_finance_ui.c:588 ../src/bet_finance_ui.c:1328
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Μηνιαία"
 
 #. Total cost
-#: ../src/bet_finance_ui.c:606
+#: ../src/bet_finance_ui.c:607
 #, fuzzy
 msgid "Total cost"
 msgstr "Συνολικό %s"
 
-#: ../src/bet_finance_ui.c:618
+#: ../src/bet_finance_ui.c:619
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:755 ../src/gsb_scheduler_list.c:1964
+#: ../src/bet_finance_ui.c:756 ../src/gsb_scheduler_list.c:1964
 msgid "years"
 msgstr "Χρόνια"
 
-#: ../src/bet_finance_ui.c:1024 ../src/bet_finance_ui.c:1831
+#: ../src/bet_finance_ui.c:1025 ../src/bet_finance_ui.c:1832
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1032 ../src/bet_finance_ui.c:1848
+#: ../src/bet_finance_ui.c:1033 ../src/bet_finance_ui.c:1849
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1048 ../src/bet_finance_ui.c:1990
+#: ../src/bet_finance_ui.c:1049 ../src/bet_finance_ui.c:1991
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1050 ../src/bet_finance_ui.c:1865
-#: ../src/bet_finance_ui.c:1992
+#: ../src/bet_finance_ui.c:1051 ../src/bet_finance_ui.c:1866
+#: ../src/bet_finance_ui.c:1993
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1065 ../src/bet_finance_ui.c:1883
-#: ../src/bet_tab.c:1522 ../src/bet_tab.c:2846
+#: ../src/bet_finance_ui.c:1066 ../src/bet_finance_ui.c:1884
+#: ../src/bet_tab.c:1523 ../src/bet_tab.c:2848
 #, fuzzy
 msgid "Print the array"
 msgstr "Εκτυπωτής"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1075 ../src/bet_finance_ui.c:1899
-#: ../src/bet_finance_ui.c:1928 ../src/bet_tab.c:1532
+#: ../src/bet_finance_ui.c:1076 ../src/bet_finance_ui.c:1900
+#: ../src/bet_finance_ui.c:1929 ../src/bet_tab.c:1533
 #, fuzzy
 msgid "Export the array"
 msgstr "Εκτυπωτής"
 
-#: ../src/bet_finance_ui.c:1115 ../src/bet_finance_ui.c:1554
-#: ../src/bet_finance_ui.c:1670
+#: ../src/bet_finance_ui.c:1116 ../src/bet_finance_ui.c:1555
+#: ../src/bet_finance_ui.c:1671
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1126
+#: ../src/bet_finance_ui.c:1127
 #, fuzzy
 msgid "Loan amount: "
 msgstr "Φόρτωση λογαριασμών:"
 
-#: ../src/bet_finance_ui.c:1220 ../src/bet_future.c:769 ../src/bet_tab.c:673
+#: ../src/bet_finance_ui.c:1221 ../src/bet_future.c:769 ../src/bet_tab.c:674
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:769
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1290
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:357 ../src/gsb_transactions_list.c:153
 #: ../src/import.c:3268 ../src/import_csv.c:81
-#: ../src/traitement_variables.c:88
+#: ../src/traitement_variables.c:89
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: ../src/bet_finance_ui.c:1232 ../src/etats_affiche.c:2398
-#: ../src/traitement_variables.c:105
+#: ../src/bet_finance_ui.c:1233 ../src/etats_affiche.c:2398
+#: ../src/traitement_variables.c:106
 msgid "Number"
 msgstr "Αριθμός"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1251
+#: ../src/bet_finance_ui.c:1252
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1270
+#: ../src/bet_finance_ui.c:1271
 #, fuzzy
 msgid "Interests"
 msgstr "Ενδιαφέρον"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1289
+#: ../src/bet_finance_ui.c:1290
 msgid "Capital repaid"
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:1308
+#: ../src/bet_finance_ui.c:1309
 #, fuzzy
 msgid "Insurance"
 msgstr "Ισραήλ"
 
-#: ../src/bet_finance_ui.c:1813 ../src/bet_finance_ui.c:1816
+#: ../src/bet_finance_ui.c:1814 ../src/bet_finance_ui.c:1817
 #, fuzzy
 msgid "Calculate"
 msgstr "Όλες οι ημερομηνίες"
 
-#: ../src/bet_finance_ui.c:1827 ../src/bet_finance_ui.c:1861
+#: ../src/bet_finance_ui.c:1828 ../src/bet_finance_ui.c:1862
 #, fuzzy
 msgid "Amortization"
 msgstr "Σειρά εκτίμησης"
 
-#: ../src/bet_finance_ui.c:1844
+#: ../src/bet_finance_ui.c:1845
 #, fuzzy
 msgid "Credits"
 msgstr "Πίστωση"
 
 #. Set up dialog
-#: ../src/bet_finance_ui.c:1880 ../src/bet_tab.c:2843
+#: ../src/bet_finance_ui.c:1881 ../src/bet_tab.c:2845
 #: ../src/barre_outils.c:134 ../src/etats_onglet.c:150
 #: ../src/print_config.c:83
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/bet_finance_ui.c:1896 ../src/bet_tab.c:2856
+#: ../src/bet_finance_ui.c:1897 ../src/bet_tab.c:2858
 #: ../src/categories_onglet.c:542 ../src/etats_onglet.c:140
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:575
 msgid "Export"
 msgstr "Εξαγωγή"
 
-#: ../src/bet_finance_ui.c:1935
+#: ../src/bet_finance_ui.c:1936
 #, fuzzy
 msgid "credit.csv"
 msgstr "Πίστωση"
 
-#: ../src/bet_finance_ui.c:1952 ../src/bet_tab.c:2971
+#: ../src/bet_finance_ui.c:1953 ../src/bet_tab.c:2973
 #: ../src/imputation_budgetaire.c:412
 msgid "Cannot save file."
 msgstr "Αδύνατη η αποθήκευση αρχείου"
 
-#: ../src/bet_finance_ui.c:2028 ../src/gsb_scheduler_list.c:1964
+#: ../src/bet_finance_ui.c:2029 ../src/gsb_scheduler_list.c:1964
 msgid "months"
 msgstr "Μήνες"
 
-#: ../src/bet_future.c:226 ../src/bet_future.c:1772 ../src/bet_future.c:1871
-#: ../src/bet_future.c:2418
+#: ../src/bet_future.c:226 ../src/bet_future.c:1772
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
 msgstr ""
 
 #: ../src/bet_future.c:228 ../src/bet_future.c:1774 ../src/bet_future.c:1873
-#: ../src/bet_future.c:2420 ../src/gsb_currency.c:742
+#: ../src/bet_future.c:2423 ../src/gsb_currency.c:742
 #, fuzzy
 msgid "One field is not filled in"
 msgstr "Δεν έχουν συμπληρωθεί όλοι οι τομείς"
@@ -1113,32 +1112,32 @@ msgstr "Επιλέξτε τη μέθοδο πληρωμής"
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:357
 #: ../src/gsb_transactions_list.c:155 ../src/import.c:3275
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
-#: ../src/traitement_variables.c:90
+#: ../src/traitement_variables.c:91
 msgid "Payee"
 msgstr "Δικαιούχος πληρωμής"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:794 ../src/bet_tab.c:707 ../src/categories_onglet.c:721
+#: ../src/bet_future.c:794 ../src/bet_tab.c:708 ../src/categories_onglet.c:721
 #: ../src/export_csv.c:790 ../src/gsb_form.c:1316 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:317
 #: ../src/gsb_payment_method_config.c:388
 #: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:157
 #: ../src/import_csv.c:92 ../src/imputation_budgetaire.c:755
-#: ../src/traitement_variables.c:92
+#: ../src/traitement_variables.c:93
 msgid "Debit"
 msgstr "Χρέωση"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:801 ../src/bet_tab.c:725 ../src/categories_onglet.c:721
+#: ../src/bet_future.c:801 ../src/bet_tab.c:726 ../src/categories_onglet.c:721
 #: ../src/export_csv.c:787 ../src/gsb_form.c:1321 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:324
 #: ../src/gsb_payment_method_config.c:401
 #: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:158
-#: ../src/imputation_budgetaire.c:755 ../src/traitement_variables.c:93
+#: ../src/imputation_budgetaire.c:755 ../src/traitement_variables.c:94
 msgid "Credit"
 msgstr "Πίστωση"
 
-#: ../src/bet_future.c:808 ../src/bet_future.c:1996 ../src/bet_future.c:2482
+#: ../src/bet_future.c:808 ../src/bet_future.c:1996 ../src/bet_future.c:2485
 #: ../src/gsb_form.c:1327 ../src/gsb_form_widget.c:436
 msgid "Categories : Sub-categories"
 msgstr "Κατηγορίες :Υποκατηγορίες"
@@ -1147,7 +1146,7 @@ msgstr "Κατηγορίες :Υποκατηγορίες"
 #: ../src/bet_future.c:822 ../src/etats_affiche.c:2447 ../src/export_csv.c:805
 #: ../src/gsb_bank.c:918 ../src/gsb_form.c:1340 ../src/gsb_form_widget.c:448
 #: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:84
-#: ../src/traitement_variables.c:102
+#: ../src/traitement_variables.c:103
 msgid "Notes"
 msgstr "Σημειώσεις"
 
@@ -1164,13 +1163,19 @@ msgstr "Σημειώσεις"
 msgid "Transfer"
 msgstr "Μεταφορά"
 
-#: ../src/bet_future.c:1862 ../src/bet_future.c:2409
+#: ../src/bet_future.c:1862 ../src/bet_future.c:2412
 #, fuzzy
 msgid "Error: You must select an account."
 msgstr "Επιλέξτε τους λογαριασμούς ενεργητικού"
 
-#: ../src/bet_future.c:1863 ../src/bet_future.c:2410
+#: ../src/bet_future.c:1863 ../src/bet_future.c:2413
 msgid "Missing data"
+msgstr ""
+
+#: ../src/bet_future.c:1871 ../src/bet_future.c:2421
+msgid ""
+"Error:  the category or the budgetary line is not specified or the date is "
+"invalid."
 msgstr ""
 
 #. Create the dialog
@@ -1229,7 +1234,7 @@ msgstr "Επιλέξτε"
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:358
 #: ../src/gsb_transactions_list.c:160 ../src/import.c:3282
 #: ../src/imputation_budgetaire.c:184 ../src/tiers_onglet.c:246
-#: ../src/traitement_variables.c:95
+#: ../src/traitement_variables.c:96
 msgid "Amount"
 msgstr "Ποσό"
 
@@ -1272,131 +1277,131 @@ msgstr ""
 msgid "Please select the data source for the account: \"%s\""
 msgstr "Παρακαλώ επιλέξτε τις συναλλαγές που συγχωνεύονται"
 
-#: ../src/bet_tab.c:441
+#: ../src/bet_tab.c:442
 #, fuzzy, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr "Εκτίμηση ισορροπίας του λογαριασμού  \"%s\" από %s %s"
 
-#: ../src/bet_tab.c:458
+#: ../src/bet_tab.c:459
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:559
+#: ../src/bet_tab.c:560
 #, fuzzy
 msgid "Start date: "
 msgstr "Έναρξη:"
 
-#: ../src/bet_tab.c:578
+#: ../src/bet_tab.c:579
 msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:690 ../src/etats_onglet.c:262 ../src/tiers_onglet.c:654
+#: ../src/bet_tab.c:691 ../src/etats_onglet.c:262 ../src/tiers_onglet.c:654
 msgid "Description"
 msgstr "Περιγραφή"
 
-#: ../src/bet_tab.c:743 ../src/export_csv.c:796 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:744 ../src/export_csv.c:796 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:358 ../src/gsb_transactions_list.c:159
 #: ../src/gsb_transactions_list.c:3011 ../src/import_csv.c:90
-#: ../src/traitement_variables.c:94
+#: ../src/traitement_variables.c:95
 msgid "Balance"
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:835 ../src/bet_tab.c:845 ../src/bet_tab.c:1033
-#: ../src/bet_tab.c:2460 ../src/bet_tab.c:2465
+#: ../src/bet_tab.c:836 ../src/bet_tab.c:846 ../src/bet_tab.c:1034
+#: ../src/bet_tab.c:2461 ../src/bet_tab.c:2466
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/bet_tab.c:1359
+#: ../src/bet_tab.c:1360
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1366
+#: ../src/bet_tab.c:1367
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Αρχική ισορροπία"
 
 #. Insert Row
-#: ../src/bet_tab.c:1383
+#: ../src/bet_tab.c:1384
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1400 ../src/bet_tab.c:1412 ../src/bet_tab.c:1433
-#: ../src/bet_tab.c:1492
+#: ../src/bet_tab.c:1401 ../src/bet_tab.c:1413 ../src/bet_tab.c:1434
+#: ../src/bet_tab.c:1493
 #, fuzzy
 msgid "Delete selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1423
+#: ../src/bet_tab.c:1424
 #, fuzzy
 msgid "Change selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1444
+#: ../src/bet_tab.c:1445
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1459
+#: ../src/bet_tab.c:1460
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1482
+#: ../src/bet_tab.c:1483
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
 #. redo item
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1509
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1853
+#: ../src/bet_tab.c:1854
 #, fuzzy
 msgid " (still available)"
 msgstr "Καμία περιγραφή διαθέσιμη"
 
-#: ../src/bet_tab.c:1862 ../src/bet_tab.c:1884
+#: ../src/bet_tab.c:1863 ../src/bet_tab.c:1885
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/bet_tab.c:1875
+#: ../src/bet_tab.c:1876
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2383 ../src/bet_tab.c:2433 ../src/bet_tab.c:2493
+#: ../src/bet_tab.c:2384 ../src/bet_tab.c:2434 ../src/bet_tab.c:2494
 #, fuzzy
 msgid "No data by default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/bet_tab.c:2391 ../src/bet_tab.c:2441 ../src/bet_tab.c:2499
+#: ../src/bet_tab.c:2392 ../src/bet_tab.c:2442 ../src/bet_tab.c:2500
 #: ../src/etats_affiche.c:1860 ../src/gsb_data_category.c:160
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Καμία κατηγορία"
 
-#: ../src/bet_tab.c:2399 ../src/bet_tab.c:2449 ../src/bet_tab.c:2505
+#: ../src/bet_tab.c:2400 ../src/bet_tab.c:2450 ../src/bet_tab.c:2506
 #: ../src/etats_affiche.c:2030 ../src/meta_budgetary.c:67
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
 
-#: ../src/bet_tab.c:2859 ../src/bet_tab.c:2947
+#: ../src/bet_tab.c:2861 ../src/bet_tab.c:2949
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Εξάγετε τις δημοσιονομικές γραμμές"
 
-#: ../src/bet_tab.c:2905
+#: ../src/bet_tab.c:2907
 #, fuzzy
 msgid "Balance at "
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:2954
+#: ../src/bet_tab.c:2956
 msgid "forecast.csv"
 msgstr ""
 
@@ -1641,7 +1646,7 @@ msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
 #: ../src/import.c:406 ../src/import.c:3587 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:321 ../src/utils_files.c:672
+#: ../src/parametres.c:322 ../src/utils_files.c:672
 msgid "Import"
 msgstr "Εισαγωγή"
 
@@ -2069,7 +2074,7 @@ msgstr "%s (%d συναλλαγή)"
 #: ../src/etats_affiche.c:227 ../src/etats_affiche.c:347
 #: ../src/etats_affiche.c:460 ../src/etats_affiche.c:576
 #: ../src/etats_affiche.c:685 ../src/etats_affiche.c:793
-#: ../src/transaction_list.c:334
+#: ../src/transaction_list.c:335
 #, c-format
 msgid "%s (%d transactions)"
 msgstr "%s (%d συναλλαγές)"
@@ -2320,21 +2325,21 @@ msgstr "έξοδα"
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:772 ../src/gsb_form.c:1295
 #: ../src/gsb_form.c:2133 ../src/gsb_form.c:2163 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:154 ../src/import_csv.c:82
-#: ../src/traitement_variables.c:89
+#: ../src/traitement_variables.c:90
 msgid "Value date"
 msgstr "Τοκοφόρος ημερομηνία"
 
 #: ../src/etats_affiche.c:2419 ../src/export_csv.c:778
 #: ../src/gsb_archive_config.c:100 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_form_widget.c:428 ../src/gsb_transactions_list.c:163
-#: ../src/traitement_variables.c:98
+#: ../src/traitement_variables.c:99
 msgid "Financial year"
 msgstr "Οικονομικό έτος"
 
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2454 ../src/etats_config.c:563
 #: ../src/etats_config.c:566 ../src/etats_config.c:7222
-#: ../src/gsb_payment_method_config.c:118 ../src/parametres.c:557
+#: ../src/gsb_payment_method_config.c:118 ../src/parametres.c:558
 msgid "Payment methods"
 msgstr "Μέθοδοι πληρωμής"
 
@@ -2344,13 +2349,13 @@ msgstr "Επιταγή"
 
 #: ../src/etats_affiche.c:2468 ../src/export_csv.c:814 ../src/gsb_form.c:1387
 #: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:166
-#: ../src/traitement_variables.c:101
+#: ../src/traitement_variables.c:102
 msgid "Voucher"
 msgstr "Απόδειξη"
 
 #: ../src/etats_affiche.c:2475 ../src/export_csv.c:820 ../src/gsb_form.c:1382
 #: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:168
-#: ../src/traitement_variables.c:103
+#: ../src/traitement_variables.c:104
 msgid "Bank references"
 msgstr "Αναφορές τράπεζας"
 
@@ -2499,14 +2504,14 @@ msgid "Generalities"
 msgstr "Γενικότητες"
 
 #: ../src/etats_config.c:634 ../src/etats_config.c:637 ../src/export_csv.c:760
-#: ../src/fenetre_principale.c:242 ../src/parametres.c:431
+#: ../src/fenetre_principale.c:242 ../src/parametres.c:432
 msgid "Transactions"
 msgstr "Συναλλαγές"
 
 #. echange line label
 #: ../src/etats_config.c:643 ../src/etats_config.c:646
 #: ../src/gsb_currency.c:553 ../src/gsb_currency_config.c:298
-#: ../src/parametres.c:521
+#: ../src/parametres.c:522
 msgid "Currencies"
 msgstr "Νομίσματα"
 
@@ -3124,7 +3129,7 @@ msgstr "Συναλλαγές με ένα κλικ"
 msgid "Make transactions clickable"
 msgstr "Κάνετε τις συναλλαγές με ένα κλικ"
 
-#: ../src/etats_config.c:6829 ../src/parametres.c:1169
+#: ../src/etats_config.c:6829 ../src/parametres.c:1170
 msgid "Totals currencies"
 msgstr "Σύνολα νομισμάτων"
 
@@ -3660,7 +3665,7 @@ msgid "Cheques"
 msgstr "Επιταγές"
 
 #: ../src/export_csv.c:781 ../src/gsb_transactions_list.c:165
-#: ../src/import_csv.c:94 ../src/traitement_variables.c:100
+#: ../src/import_csv.c:94 ../src/traitement_variables.c:101
 msgid "C/R"
 msgstr "C/R"
 
@@ -3676,7 +3681,7 @@ msgstr "Υπο--δημοσιονομικές γραμμές"
 msgid "Reconciliation number"
 msgstr "Αριθμός συμφωνίας"
 
-#: ../src/fenetre_principale.c:228 ../src/parametres.c:367
+#: ../src/fenetre_principale.c:228 ../src/parametres.c:368
 msgid "Main page"
 msgstr "Κύρια σελίδα"
 
@@ -3695,7 +3700,7 @@ msgid "Amortization array"
 msgstr "Σειρά εκτίμησης"
 
 #: ../src/fenetre_principale.c:270 ../src/navigation.c:268
-#: ../src/parametres.c:349 ../src/parametres.c:1127
+#: ../src/parametres.c:350 ../src/parametres.c:1128
 msgid "Scheduler"
 msgstr "Χρονοπρογραμματιστής"
 
@@ -4500,7 +4505,7 @@ msgid "Report name"
 msgstr "Όνομα εκθέσεων"
 
 #. create the page
-#: ../src/gsb_archive_config.c:113 ../src/parametres.c:312
+#: ../src/gsb_archive_config.c:113 ../src/parametres.c:313
 msgid "Archives"
 msgstr "Αρχεία"
 
@@ -5127,7 +5132,7 @@ msgstr "Όνομα αρχείου:"
 #. will we crypt the file ?
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:326 ../src/gsb_assistant_first.c:252
-#: ../src/parametres.c:881
+#: ../src/parametres.c:882
 msgid "Encrypt Grisbi file"
 msgstr "Κρυπτογραφήστε το αρχείο Grisbi"
 
@@ -5176,7 +5181,7 @@ msgstr ""
 "Εισάγετε στοιχεία απευθείας απο τις τράπεζες ή απο το λογιστικό σας "
 "λογισμικό."
 
-#: ../src/gsb_assistant_file.c:575 ../src/traitement_variables.c:329
+#: ../src/gsb_assistant_file.c:575 ../src/traitement_variables.c:330
 msgid "My accounts"
 msgstr "Οι λογαριασμοί μου"
 
@@ -5243,11 +5248,11 @@ msgid "General configuration of Grisbi"
 msgstr "Γενική διαμόρφωση Grisbi"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:212 ../src/parametres.c:1050
+#: ../src/gsb_assistant_first.c:212 ../src/parametres.c:1051
 msgid "Web"
 msgstr "Ιστός"
 
-#: ../src/gsb_assistant_first.c:219 ../src/parametres.c:1057
+#: ../src/gsb_assistant_first.c:219 ../src/parametres.c:1058
 #, fuzzy
 msgid "Web browser command: "
 msgstr "Εντολή μηχανών αναζήτησης Ιστού:"
@@ -5259,44 +5264,44 @@ msgstr ""
 "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
 "remote %s' "
 
-#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:864
+#: ../src/gsb_assistant_first.c:237 ../src/parametres.c:865
 msgid "Account files handling"
 msgstr "Χειρισμός αρχείων λογαριασμού"
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:240 ../src/parametres.c:867
+#: ../src/gsb_assistant_first.c:240 ../src/parametres.c:868
 msgid "Automatically load last file on startup"
 msgstr "Αυτόματη φόρτωση τελευταίου αρχείου στο ξεκίνημα"
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:246 ../src/parametres.c:871
+#: ../src/gsb_assistant_first.c:246 ../src/parametres.c:872
 msgid "Automatically save on exit"
 msgstr "Αυτόματη αποθήκευση κατά την έξοδο"
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:261 ../src/parametres.c:921
+#: ../src/gsb_assistant_first.c:261 ../src/parametres.c:922
 msgid "Make a backup copy before saving files"
 msgstr "Κάντε ένα εφεδρικό αντίγραφο πρίν αποθηκεύσετε τα αρχεία"
 
-#: ../src/gsb_assistant_first.c:271 ../src/parametres.c:929
+#: ../src/gsb_assistant_first.c:271 ../src/parametres.c:930
 msgid "Make a backup copy every "
 msgstr "Κάντε ένα εφεδρικό αντίγραφο κάθε"
 
-#: ../src/gsb_assistant_first.c:282 ../src/parametres.c:939
+#: ../src/gsb_assistant_first.c:282 ../src/parametres.c:940
 msgid " minutes"
 msgstr "Λεπτά"
 
-#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:946
+#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:947
 #, fuzzy
 msgid "Backup directory: "
 msgstr "Εφεδρικός κατάλογος:"
 
-#: ../src/gsb_assistant_first.c:296 ../src/parametres.c:953
+#: ../src/gsb_assistant_first.c:296 ../src/parametres.c:954
 msgid "Select/Create backup directory"
 msgstr "Επιλογή/Δημιουργία εφεδρικού καταλόγου"
 
 #: ../src/gsb_assistant_first.c:335 ../src/gsb_reconcile_config.c:109
-#: ../src/parametres.c:458
+#: ../src/parametres.c:459
 msgid "Reconciliation"
 msgstr "Συμφωνία"
 
@@ -5586,7 +5591,7 @@ msgstr "Προσθέστε νέα τράπεζα"
 msgid "Contact name"
 msgstr "Όνομα επικοινωνίας"
 
-#: ../src/gsb_bank.c:522 ../src/parametres.c:539
+#: ../src/gsb_bank.c:522 ../src/parametres.c:540
 msgid "Banks"
 msgstr "Τράπεζες"
 
@@ -7838,7 +7843,7 @@ msgstr ""
 "προτιμήσεις."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:564 ../src/gsb_file.c:817 ../src/parametres.c:876
+#: ../src/gsb_file.c:564 ../src/gsb_file.c:817 ../src/parametres.c:877
 msgid "Force saving of locked files"
 msgstr "Αναγκαστική αποθήκευση κλειδωμένων αρχείων"
 
@@ -8335,7 +8340,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr "Διαμορφώστε τη μορφή"
 
-#: ../src/gsb_form_config.c:115 ../src/parametres.c:477
+#: ../src/gsb_form_config.c:115 ../src/parametres.c:478
 msgid "Transaction form"
 msgstr "Μορφή συναλλαγής"
 
@@ -8452,12 +8457,12 @@ msgid "Free"
 msgstr "Ελεύθερο"
 
 #: ../src/gsb_form_widget.c:452 ../src/gsb_transactions_list.c:161
-#: ../src/traitement_variables.c:96
+#: ../src/traitement_variables.c:97
 msgid "Method of payment"
 msgstr "Μέθοδος πληρωμής"
 
 #: ../src/gsb_form_widget.c:480 ../src/gsb_transactions_list.c:169
-#: ../src/traitement_variables.c:104
+#: ../src/traitement_variables.c:105
 msgid "Transaction number"
 msgstr "Αριθμός συναλλαγής"
 
@@ -8465,7 +8470,7 @@ msgstr "Αριθμός συναλλαγής"
 msgid "Automatic/Manual"
 msgstr "Αυτόματος/εγχειρίδιο"
 
-#: ../src/gsb_fyear_config.c:102 ../src/parametres.c:548
+#: ../src/gsb_fyear_config.c:102 ../src/parametres.c:549
 msgid "Financial years"
 msgstr "Οικονομικά έτη"
 
@@ -8636,7 +8641,7 @@ msgstr ""
 msgid "Associate transactions with: "
 msgstr "Συνδυαζόμενες συναλλαγές με:"
 
-#: ../src/gsb_plugins.c:210
+#: ../src/gsb_plugins.c:212
 msgid "with plugins"
 msgstr "Με plugins"
 
@@ -8786,7 +8791,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr "Δημιουργήστε την νέα συμφωνία"
 
-#: ../src/gsb_reconcile_sort_config.c:88 ../src/parametres.c:467
+#: ../src/gsb_reconcile_sort_config.c:88 ../src/parametres.c:468
 msgid "Sort for reconciliation"
 msgstr "Κατηγοριοποίηση για συμφωνία"
 
@@ -9642,7 +9647,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "Αυτόματη ένωση έναρξης"
 
-#: ../src/import.c:3681 ../src/parametres.c:330
+#: ../src/import.c:3681 ../src/parametres.c:331
 #, fuzzy
 msgid "Import associations"
 msgstr "Εισαγωγή κατηγοριών"
@@ -10398,137 +10403,137 @@ msgid "closed"
 msgstr "κλειστός"
 
 #. Create dialog
-#: ../src/parametres.c:263
+#: ../src/parametres.c:264
 msgid "Grisbi preferences"
 msgstr "Προτιμήσεις Grisbi"
 
-#: ../src/parametres.c:293
+#: ../src/parametres.c:294
 msgid "Main"
 msgstr "Κύριος"
 
-#: ../src/parametres.c:302 ../src/parametres.c:860
+#: ../src/parametres.c:303 ../src/parametres.c:861
 msgid "Files"
 msgstr "Αρχεία"
 
-#: ../src/parametres.c:340 ../src/parametres.c:1048
+#: ../src/parametres.c:341 ../src/parametres.c:1049
 msgid "Programs"
 msgstr "Προγράμματα"
 
-#: ../src/parametres.c:358 ../src/parametres.c:1279
+#: ../src/parametres.c:359 ../src/parametres.c:1280
 #, fuzzy
 msgid "Localization"
 msgstr "Συμφωνία"
 
-#: ../src/parametres.c:377
+#: ../src/parametres.c:378
 msgid "Display"
 msgstr "Εμφάνιση"
 
-#: ../src/parametres.c:394 ../src/parametres.c:651
+#: ../src/parametres.c:395 ../src/parametres.c:652
 msgid "Messages & warnings"
 msgstr "Μηνύματα & προειδοποιήσεις"
 
-#: ../src/parametres.c:412 ../src/parametres.c:1166
+#: ../src/parametres.c:413 ../src/parametres.c:1167
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "Απόκρυψη ονομάτων κατηγοριών"
 
-#: ../src/parametres.c:439
+#: ../src/parametres.c:440
 msgid "List behavior"
 msgstr "Συμπεριφορά καταλόγων"
 
-#: ../src/parametres.c:449 ../src/parametres.c:738
+#: ../src/parametres.c:450 ../src/parametres.c:739
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "Μηνύματα & προειδοποιήσεις"
 
-#: ../src/parametres.c:485
+#: ../src/parametres.c:486
 msgid "Content"
 msgstr "Περιεχόμενο"
 
-#: ../src/parametres.c:494
+#: ../src/parametres.c:495
 msgid "Behavior"
 msgstr "Συμπεριφορά"
 
-#: ../src/parametres.c:503
+#: ../src/parametres.c:504
 msgid "Completion"
 msgstr "Ολοκλήρωση"
 
-#: ../src/parametres.c:513
+#: ../src/parametres.c:514
 msgid "Resources"
 msgstr "Πόροι"
 
-#: ../src/parametres.c:530
+#: ../src/parametres.c:531
 msgid "Currencies links"
 msgstr "Συνδέσεις νομισμάτων"
 
-#: ../src/parametres.c:572
+#: ../src/parametres.c:573
 msgid "Balance estimate"
 msgstr "Εκτίμηση ισορροπίας"
 
 #. Tip of the day
-#: ../src/parametres.c:654
+#: ../src/parametres.c:655
 msgid "Tip of the day"
 msgstr "Συμβουλή της ημέρας"
 
 #. Display or not tips
-#: ../src/parametres.c:657
+#: ../src/parametres.c:658
 msgid "Display tip of the day"
 msgstr "Εμφάνιση συμβουλής της ημέρας"
 
-#: ../src/parametres.c:664
+#: ../src/parametres.c:665
 msgid "Display following warnings messages"
 msgstr "Εμφάνιση των ακόλουθων μηνυμάτων προειδοποίησης"
 
-#: ../src/parametres.c:685 ../src/parametres.c:766
+#: ../src/parametres.c:686 ../src/parametres.c:767
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: ../src/parametres.c:742
+#: ../src/parametres.c:743
 #, fuzzy
 msgid "Display following messages"
 msgstr "Εμφάνιση των ακόλουθων μηνυμάτων προειδοποίησης"
 
 #. Compression level of files
-#: ../src/parametres.c:886
+#: ../src/parametres.c:887
 msgid "Compress Grisbi file"
 msgstr "Συμπίεση αρχείου Grisbi"
 
-#: ../src/parametres.c:894
+#: ../src/parametres.c:895
 #, fuzzy
 msgid "Memorise last opened files: "
 msgstr "Απομνημονεύστε τα τελευταία ανοιγμένα αρχεία:"
 
 #. Backups
-#: ../src/parametres.c:903
+#: ../src/parametres.c:904
 msgid "Backups"
 msgstr "Αντίγραφα"
 
 #. Single backup file
-#: ../src/parametres.c:906
+#: ../src/parametres.c:907
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "Κάντε ένα εφεδρικό αντίγραφο κάθε"
 
 #. Compression level of backups
-#: ../src/parametres.c:911
+#: ../src/parametres.c:912
 msgid "Compress Grisbi backup"
 msgstr "Συμπίεση αντιγράφων Grisbi"
 
 #. Backup at each opening?
-#: ../src/parametres.c:916
+#: ../src/parametres.c:917
 msgid "Make a backup copy after opening files"
 msgstr "Κάνετε ένα εφεδρικό αντίγραφο μετά το άνοιγμα των αρχείων"
 
-#: ../src/parametres.c:970
+#: ../src/parametres.c:971
 #, fuzzy
 msgid "Config file"
 msgstr "Σώζοντας το αρχείο"
 
-#: ../src/parametres.c:975
+#: ../src/parametres.c:976
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1066
+#: ../src/parametres.c:1067
 #, fuzzy, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
@@ -10537,101 +10542,101 @@ msgstr ""
 "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
 "remote %s' "
 
-#: ../src/parametres.c:1077
+#: ../src/parametres.c:1078
 msgid "LaTeX support (old print system)"
 msgstr "Υποστήριξη LaTeX  (παλαιό σύστημα εκτύπωσης)"
 
-#: ../src/parametres.c:1084
+#: ../src/parametres.c:1085
 #, fuzzy
 msgid "LaTeX command: "
 msgstr "Εντολή LaTeX :"
 
-#: ../src/parametres.c:1092
+#: ../src/parametres.c:1093
 #, fuzzy
 msgid "dvips command: "
 msgstr "Εντολή dvips :"
 
-#: ../src/parametres.c:1132
+#: ../src/parametres.c:1133
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Προειδοποιήσεις χρονοπρογραμματιστών στο άνοιγμα Grisbi"
 
-#: ../src/parametres.c:1133
+#: ../src/parametres.c:1134
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Προειδοποιείστε/εκτελέστε τις σχεδιασμένες συναλλαγές φθάνοντας στην "
 "ημερομηνία λήξης"
 
-#: ../src/parametres.c:1134
+#: ../src/parametres.c:1135
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Προειδοποιήστε/εκτελέστε τις σχεδιασμένες συναλλαγές του μήνα"
 
-#: ../src/parametres.c:1142
+#: ../src/parametres.c:1143
 #, fuzzy
 msgid "Number of days before the warning or the execution: "
 msgstr "Αριθμός ημερών πριν από την προειδοποίηση ή την εκτέλεση:"
 
-#: ../src/parametres.c:1175
+#: ../src/parametres.c:1176
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "Επιβεβαίωση της εισαγωγής των συναλλαγών"
 
-#: ../src/parametres.c:1176
+#: ../src/parametres.c:1177
 #, fuzzy
 msgid "by number"
 msgstr "Αριθμός δικαιούχων πληρωμής"
 
-#: ../src/parametres.c:1177
+#: ../src/parametres.c:1178
 msgid "by increasing date"
 msgstr ""
 
-#: ../src/parametres.c:1178
+#: ../src/parametres.c:1179
 msgid "by date descending"
 msgstr ""
 
-#: ../src/parametres.c:1185
+#: ../src/parametres.c:1186
 msgid "Choice of the action for double click of the mouse: "
 msgstr ""
 
-#: ../src/parametres.c:1186
+#: ../src/parametres.c:1187
 #, fuzzy
 msgid "Expand the line"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/parametres.c:1187
+#: ../src/parametres.c:1188
 #, fuzzy
 msgid "Edit the line"
 msgstr "Αρχική ισορροπία"
 
-#: ../src/parametres.c:1188
+#: ../src/parametres.c:1189
 #, fuzzy
 msgid "Manage the line"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/parametres.c:1321
+#: ../src/parametres.c:1322
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Επιλέξτε τον λογαριασμό"
 
-#: ../src/parametres.c:1327
+#: ../src/parametres.c:1328
 #, fuzzy
 msgid "Date format"
 msgstr "Τύπος αρχείου"
 
-#: ../src/parametres.c:1393
+#: ../src/parametres.c:1394
 #, fuzzy
 msgid "Decimal point: "
 msgstr "Χωρισμός στοιχείων:"
 
-#: ../src/parametres.c:1406
+#: ../src/parametres.c:1407
 #, fuzzy
 msgid "Thousands separator: "
 msgstr "Επιλέξτε το διαχωριστή CSV:"
 
-#: ../src/parametres.c:1423
+#: ../src/parametres.c:1424
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1429
+#: ../src/parametres.c:1430
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -11536,19 +11541,19 @@ msgstr "Ξέρατε ότι…"
 msgid "Display tips at next start"
 msgstr "Εμφάνιση συμβουλών στην επόμενη εκκίνηση"
 
-#: ../src/traitement_variables.c:97
+#: ../src/traitement_variables.c:98
 msgid "Reconciliation ref."
 msgstr "Συμφωνία παρ."
 
-#: ../src/transaction_list.c:166 ../src/transaction_list.c:1057
-#: ../src/transaction_list.c:1967
+#: ../src/transaction_list.c:167 ../src/transaction_list.c:1058
+#: ../src/transaction_list.c:1968
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "Σύνολο: %s (διαφορά: %s)"
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1598
+#: ../src/transaction_list.c:1599
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
@@ -11556,7 +11561,7 @@ msgstr ""
 "Προσπαθήστε να αλλάξετε μια ορατή γραμμή από το transaction_list_set. Δεν "
 "πρέπει να επισυναφθεί! Ελέγξτε το."
 
-#: ../src/transaction_list.c:1793
+#: ../src/transaction_list.c:1794
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
