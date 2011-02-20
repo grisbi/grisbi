@@ -150,7 +150,7 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
     gchar *pointeur;
     gsb_real total = null_real;
 	
-    string = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry)));
+    string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     if ( string && strlen ( string ) )
         pointeur = string + strlen ( string );
@@ -175,7 +175,7 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
         total = gsb_real_add ( total,
                         gsb_real_get_from_string ( pointeur ) );
     }
-    else
+    else if ( g_utf8_strchr ( string, -1, '*' ) )
     {
         total.mantissa = 1;
         total.exponent = 0;
@@ -193,6 +193,17 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
         }
         total = gsb_real_mul ( total,
                         gsb_real_get_from_string ( pointeur ) );
+    }
+    else if ( g_utf8_strchr ( string, -1, '/' ) )
+    {
+        gchar **tab;
+
+        tab = g_strsplit ( string, "/", 2 );
+
+        total = gsb_real_div ( gsb_real_get_from_string ( tab[0] ),
+                        gsb_real_get_from_string ( tab[1] ) );
+
+        g_strfreev ( tab );
     }
 
     g_free ( string );

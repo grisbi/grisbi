@@ -1010,7 +1010,8 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
         {
             if ( g_unichar_isdefined ( thousands_sep ) )
             {
-                if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != thousands_sep )
+                if ( ch != '.' && ch != ',' && ch != '+' && ch != '-'
+                 && ch != '*' && ch != '/' && ch != thousands_sep )
                 {
                     g_free ( mon_decimal_point );
                     g_free ( mon_thousands_sep );
@@ -1052,7 +1053,7 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
                     g_strfreev ( tab );
                 }
             }
-            else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' )
+            else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != '/' )
                 return FALSE;
         }
 
