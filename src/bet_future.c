@@ -1868,7 +1868,7 @@ dialog_return:
         }
         else if ( bet_transfert_take_data (  transfert, bet_transfert_dialog ) == FALSE )
         {
-            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+            tmp_str = g_strdup ( _("Error:  the category or the budgetary line is "
                                  "not specified or the date is invalid.") );
             dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
             g_free ( tmp_str );
@@ -2292,24 +2292,6 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     else
         return FALSE;
 
-    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_category_combo" );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        bet_future_get_category_data ( widget, 1, ( gpointer ) transfert );
-    else
-    {
-        transfert -> category_number = 0;
-        transfert -> sub_category_number = 0;
-    }
-   
-    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_budget_combo" );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        bet_future_get_budget_data ( widget, 1, ( gpointer ) transfert );
-    else
-    {
-        transfert -> budgetary_number = 0;
-        transfert -> sub_budgetary_number = 0;
-    }
-
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc" );
     transfert -> auto_inc_month = gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( widget ) );
@@ -2317,7 +2299,28 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data" );
     transfert -> replace_transaction = gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( widget ) );
-    
+
+    if ( transfert -> replace_transaction )
+    {
+        gboolean empty = TRUE;
+
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_category_combo" );
+        if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        {
+            bet_future_get_category_data ( widget, 1, ( gpointer ) transfert );
+            empty = FALSE;
+        }
+       
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_budget_combo" );
+        if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        {
+            bet_future_get_budget_data ( widget, 1, ( gpointer ) transfert );
+            empty = FALSE;
+        }
+
+        if ( empty )
+            return FALSE;
+    }
     return TRUE;
 }
 
@@ -2415,7 +2418,7 @@ dialog_return:
         }
         else if ( bet_transfert_take_data (  transfert, bet_transfert_dialog ) == FALSE )
         {
-            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+            tmp_str = g_strdup ( _("Error:  the category or the budgetary line is "
                                  "not specified or the date is invalid.") );
             dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
             g_free ( tmp_str );

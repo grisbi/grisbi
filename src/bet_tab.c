@@ -2641,7 +2641,8 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         -1);
 
-        bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
+        if (  transfert -> replace_transaction )
+            bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_free ( str_description );
@@ -2715,8 +2716,8 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
             if ( transfert -> category_number )
             {
                 /* on cherche une opération par sa catégorie */
-                gint tmp_category_number;
-                gint tmp_sub_category_number;
+                gint tmp_category_number = 0;
+                gint tmp_sub_category_number = 0;
 
                 tmp_category_number = gsb_data_scheduled_get_category_number ( scheduled_number );
                 if ( transfert -> sub_category_number )
