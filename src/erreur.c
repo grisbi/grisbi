@@ -39,6 +39,7 @@
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
+#include "import.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -273,107 +274,125 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				   const gchar *message, gint level, gboolean force_debug_display)
+G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        const gchar *message,
+                        gint level,
+                        gboolean force_debug_display )
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
     {
-	gchar* tmpstr;
+        gchar* tmp_str;
 
-	/* on affiche dans la console le message */
-	if (message)
-	    tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
-				     get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
-				     file, line, function, message);
-	else
-	    tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
-				     get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
-				     file, line, function);
-
-	if (etat.debug_mode)
-	{
-	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
-	    fflush (debug_file);
-	}
-
-	g_print( "%s", tmpstr );
-	g_free ( tmpstr );
-    }
-}
-
-/**
- * show a debug message in the terminal
- * only if debug mode is on
- * not called directly so need to force the extern 
- * the param to chow is a number
- *
- * \param
- * \param
- * \param
- * \param
- * \param message a number to display with the message
- * \param
- * \param
- *
- * \return
- * */
-extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				gint message, gint level, gboolean force_debug_display)
-{
-    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
-    {
-	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
-					get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
-					file, line, function, message);
-
-	if (etat.debug_mode)
-	{
-	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
-	    fflush (debug_file);
-	}
-	g_print( "%s", tmpstr );
-	g_free ( tmpstr );
-    }
-}
-
-
-/**
- * show a debug message in the terminal
- * only if debug mode is on
- * not called directly so need to force the extern 
- * the param to chow is a number
- *
- * \param
- * \param
- * \param
- * \param
- * \param message a number to display with the message
- * \param
- * \param
- *
- * \return
- * */
-extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				gsb_real message, gint level, gboolean force_debug_display)
-{
-    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode) 
-    {
-	/* on affiche dans la console le message */
-	gchar* tmpstr = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
+        /* on affiche dans la console le message */
+        if (message)
+            tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
                         get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
-                        file, line, function, message.mantissa, message.exponent);
+                        file, line, function, message);
+        else
+            tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s\n"),
+                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        file, line, function);
 
-	if (etat.debug_mode)
-	{
-	    fwrite ( tmpstr, sizeof (gchar), strlen (tmpstr), debug_file);
-	    fflush (debug_file);
-	}
-	g_print( "%s", tmpstr );
-	g_free ( tmpstr );
+        if ( etat.debug_mode )
+        {
+            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+            fflush ( debug_file );
+        }
+
+        g_free ( tmp_str );
+    }
+}
+
+/**
+ * show a debug message in the terminal
+ * only if debug mode is on
+ * not called directly so need to force the extern 
+ * the param to chow is a number
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param message a number to display with the message
+ * \param
+ * \param
+ *
+ * \return
+ * */
+extern void debug_message_int ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        gint message,
+                        gint level,
+                        gboolean force_debug_display )
+{
+    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    {
+        gchar* tmp_str;
+
+        /* on affiche dans la console le message */
+        tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %d\n"),
+                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        file, line, function, message);
+
+        if (etat.debug_mode)
+        {
+            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+            fflush ( debug_file );
+        }
+
+        g_free ( tmp_str );
+    }
+}
+
+
+/**
+ * show a debug message in the terminal
+ * only if debug mode is on
+ * not called directly so need to force the extern 
+ * the param to chow is a number
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param message a number to display with the message
+ * \param
+ * \param
+ *
+ * \return
+ * */
+extern void debug_message_real ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        gsb_real message,
+                        gint level,
+                        gboolean force_debug_display )
+{
+    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    {
+        gchar* tmp_str;
+
+        /* on affiche dans la console le message */
+        tmp_str = g_strdup_printf ("%s, %2f : %s - %s:%d:%s - %"G_GINT64_MODIFIER"d E %d\n",
+                        get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
+                        file, line, function, message.mantissa, message.exponent );
+
+        if ( etat.debug_mode )
+        {
+            fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+            fflush ( debug_file );
+        }
+
+        g_free ( tmp_str );
     }
 }
 
@@ -423,43 +442,44 @@ GtkWidget * print_backtrace ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_debug_start_log (void)
+gboolean gsb_debug_start_log ( void )
 {
-    gchar *tmpstr;
+    gchar *tmp_str;
 
-    if (nom_fichier_comptes)
+    devel_debug ( NULL );
+
+    if ( nom_fichier_comptes )
     {
-	gchar * base_filename = g_strdup ( nom_fichier_comptes );
-	gchar * complete_filename;
-	gchar *basename;
+        gchar *base_filename = g_strdup ( nom_fichier_comptes );
+        gchar *complete_filename;
+        gchar *basename;
 
-	base_filename[strlen(base_filename) - 4] = 0;
-	complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
-	basename = g_path_get_basename ( complete_filename );
+        base_filename [strlen ( base_filename ) - 4] = 0;
+        complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
+        basename = g_path_get_basename ( complete_filename );
 
-	debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", basename, NULL);
+        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", basename, NULL);
 
-	g_free ( basename);
-	g_free ( complete_filename );
-	g_free ( base_filename );
+        g_free ( basename);
+        g_free ( complete_filename );
+        g_free ( base_filename );
     }
     else
     {
-	debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", "No_name-log.txt", NULL);
+        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", "No_name-log.txt", NULL);
     }
 
 
-    tmpstr = g_strdup_printf (_("The debug-mode is starting. Grisbi will write a log into %s. "
+    tmp_str = g_strdup_printf (_("The debug-mode is starting. Grisbi will write a log into %s. "
                         "Please send that file with the obfuscated file into the bug report."),
                         debug_filename );
 
-    dialogue (tmpstr);
-    g_free (tmpstr);
-
+    dialogue ( tmp_str );
+    g_free (tmp_str);
 
     debug_file = g_fopen ( debug_filename, "w" );
 
-    if (debug_file)
+    if ( debug_file )
     {
         GtkWidget *widget;
         struct lconv *conv;
@@ -471,9 +491,21 @@ gboolean gsb_debug_start_log (void)
         if ( widget && GTK_IS_WIDGET ( widget ) )
             gtk_widget_set_sensitive ( widget, FALSE );
 
+        /* début du mode débogage */
+        tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
+                        get_debug_time ( ),
+                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        __FILE__,
+                        __LINE__,
+                        __PRETTY_FUNCTION__ );
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
+
+        g_free ( tmp_str );
+
         /* write locales */
         conv = localeconv();
-        tmpstr = g_strdup_printf ( "Variables d'environnement :\n\n"
+        tmp_str = g_strdup_printf ( "Variables d'environnement :\n\n"
                         "LANG = %s\n\n"
                         "Currency\n"
                         "\tcurrency_symbol = %s\n"
@@ -490,22 +522,22 @@ gboolean gsb_debug_start_log (void)
                         g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
                         conv->frac_digits );
 
-        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
-	    fflush (debug_file);
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
 
-        g_free ( tmpstr );
+        g_free ( tmp_str );
 
-        tmpstr = g_strdup_printf ( "gint64\n"
-                        "\tG_GINT64_MODIFIER = \"%s\"\n" 
+        tmp_str = g_strdup_printf ( "gint64\n"
+                        "\tG_GINT64_MODIFIER = \"%s\"\n"
                         "\t%"G_GINT64_MODIFIER"d\n\n",
                         G_GINT64_MODIFIER, G_MAXINT64 );
 
-        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
-	    fflush (debug_file);
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
 
-        g_free ( tmpstr );
+        g_free ( tmp_str );
 
-        tmpstr = g_strdup_printf ("Paths\n"
+        tmp_str = g_strdup_printf ("Paths\n"
                         "\tC_GRISBIRC = %s\n"
                         "\tC_PATH_CONFIG = %s\n"
                         "\tC_PATH_CONFIG_ACCELS = %s\n"
@@ -525,15 +557,67 @@ gboolean gsb_debug_start_log (void)
                         GRISBI_PLUGINS_DIR,
                         GRISBI_PIXMAPS_DIR );
 
-        fwrite ( tmpstr, sizeof (gchar), strlen ( tmpstr ), debug_file);
-	    fflush (debug_file);
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
 
-        g_free ( tmpstr );
+        g_free ( tmp_str );
+
+        tmp_str = g_strdup ( "Formats importés\n" );
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
+
+        g_free ( tmp_str );
+
+        tmp_str = gsb_import_formats_get_list_formats_to_string ( );
+
+        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+	    fflush ( debug_file );
+
+        g_free ( tmp_str );
     }
     else
         dialogue_error (_("Grisbi failed to create the log file...") );
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+extern void debug_print_log_string ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        const gchar *msg )
+{
+    gchar *tmp_str;
+    gchar *message;
+
+    if ( debug_file == NULL )
+        return;
+
+    if ( msg && strlen ( msg ) )
+        message = g_strdup ( msg );
+    else
+        message = g_strdup ( "(null)" );
+
+    tmp_str = g_strdup_printf(_("%s, %2f : %s - %s:%d:%s - %s\n"),
+                        get_debug_time ( ),
+                        (double ) clock ( )/ CLOCKS_PER_SEC,
+                        prefixe,
+                        file,
+                        line,
+                        function,
+                        message );
+
+    fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+    fflush ( debug_file );
+
+    g_free ( tmp_str );
+    g_free ( message );
 }
 
 /* Local Variables: */

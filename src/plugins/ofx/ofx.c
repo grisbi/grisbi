@@ -48,9 +48,10 @@ static GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct importe
 /*END_STATIC*/
 
 
-static struct import_format ofx_format ={
-    "OFX", 
-    "Open Financial Exchange",	
+static struct import_format ofx_format =
+{
+    "OFX",
+    "Open Financial Exchange",
     "ofx",
     (import_function) recuperation_donnees_ofx,
 };
@@ -108,7 +109,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
  *
  *
  */
-GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
+GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
     gchar *argv[2] = { "", "" };
@@ -121,6 +122,7 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = imported -> name;
+    devel_print_str ( imported -> name );
 
 #ifdef OFX_0_7
     ofx_context = libofx_get_new_context();
@@ -143,28 +145,31 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 
     if ( !compte_ofx_importation_en_cours )
     {
-	struct struct_compte_importation * account;
-	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
-	account -> filename = g_strdup ( ofx_filename );
-	account -> real_filename = g_strdup (ofx_filename);
-	account -> origine = "OFX";
-	gsb_import_register_account_error ( account );
-	return ( FALSE );
+        struct struct_compte_importation * account;
+
+        account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
+        account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
+        account -> filename = g_strdup ( ofx_filename );
+        account -> real_filename = g_strdup (ofx_filename);
+        account -> origine = "OFX";
+        gsb_import_register_account_error ( account );
+        devel_print_str ( account -> nom_de_compte );
+
+        return ( FALSE );
     }
 
     liste_tmp = liste_comptes_importes_ofx;
 
     while ( liste_tmp )
     {
-	if ( !erreur_import_ofx )
-	{
-	    gsb_import_register_account ( liste_tmp -> data );
-	}
-	else
-	{
-	    gsb_import_register_account_error ( liste_tmp -> data );
-	}
+        if ( !erreur_import_ofx )
+        {
+            gsb_import_register_account ( liste_tmp -> data );
+        }
+        else
+        {
+            gsb_import_register_account_error ( liste_tmp -> data );
+        }
 
 	liste_tmp = liste_tmp -> next;
     }
