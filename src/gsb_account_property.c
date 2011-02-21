@@ -108,6 +108,13 @@ static void gsb_account_property_iban_set_iban ( const gchar *iban );
 static void gsb_account_property_iban_switch_bank_data ( gboolean sensitive );
 /*END_STATIC*/
 
+struct iso_13616_iban
+{
+    gchar *locale;
+    gchar *iban;
+    gint nbre_char;
+};
+
 struct iso_13616_iban iso_13616_ibans [] = {
     { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
     { "AD", "ADkk BBBB SSSS CCCC CCCC CCCC", 24 },
