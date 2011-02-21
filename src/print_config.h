@@ -1,6 +1,7 @@
 #ifndef PRINT_CONFIG_H
 #define PRINT_CONFIG_H
 
+#include <glib.h>
 
 /*START_DECLARATION*/
 gboolean print_config ( );

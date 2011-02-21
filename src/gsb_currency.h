@@ -1,6 +1,7 @@
 #ifndef _DEVISES_H
 #define _DEVISES_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"

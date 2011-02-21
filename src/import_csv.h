@@ -1,6 +1,8 @@
 #ifndef _IMPORT_CSV_H
 #define _IMPORT_CSV_H (1)
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 #include "import.h"
 /* END_INCLUDE_H */

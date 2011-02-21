@@ -1,6 +1,8 @@
 #ifndef _AFFICHAGE_H
 #define _AFFICHAGE_H (1)
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

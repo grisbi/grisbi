@@ -1,6 +1,8 @@
 #ifndef _STRUCTURES_H
 #define _STRUCTURES_H (1)
 
+#include <glib.h>
+
 /* fichier d'en tête structures.h */
 /* contient presque toutes les structures du prog */
 

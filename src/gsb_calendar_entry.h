@@ -1,6 +1,8 @@
 #ifndef _GSB_CALENDAR_ENTRY_H
 #define _GSB_CALENDAR_ENTRY_H (1)
 
+#include <gtk/gtk.h>
+
 /* fichier d'en tête gsbcalendar.h */
 /* Constantes utilisées par la fonction inc_dec_date */
 #define ONE_DAY 1

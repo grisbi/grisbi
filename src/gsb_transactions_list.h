@@ -1,7 +1,7 @@
 #ifndef _OPERATIONS_LISTE_H
 #define _OPERATIONS_LISTE_H (1)
 
-
+#include <gtk/gtk.h>
 
 /* the element number for each showable in the list */
 enum

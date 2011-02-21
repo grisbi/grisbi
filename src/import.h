@@ -1,6 +1,8 @@
 #ifndef _IMPORT_H
 #define _IMPORT_H (1)
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 #include "gsb_data_transaction.h"

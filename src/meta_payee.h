@@ -1,5 +1,8 @@
 #ifndef _META_PAYEE_H
 #define _META_PAYEE_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

@@ -1,6 +1,8 @@
 #ifndef _GSB_FYEAR_H
 #define _GSB_FYEAR_H (1)
 
+#include <gtk/gtk.h>
+
 enum fyear_list_columns {
     FYEAR_COL_NAME = 0,
     FYEAR_COL_NUMBER,

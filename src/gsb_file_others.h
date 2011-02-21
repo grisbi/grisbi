@@ -1,6 +1,8 @@
 #ifndef _GSB_FILE_OTHERS_H
 #define _GSB_FILE_OTHERS_H (1)
 
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

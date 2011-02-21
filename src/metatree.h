@@ -1,6 +1,7 @@
 #ifndef METATREE_H
 #define METATREE_H
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"

@@ -1,6 +1,9 @@
 #ifndef GSB_GNUCASH_H
 #define GSB_GNUCASH_H
 
+#include <glib.h>
+#include <gmodule.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

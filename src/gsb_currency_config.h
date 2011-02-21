@@ -1,6 +1,7 @@
 #ifndef _GSB_CURRENCY_CONFIG_H
 #define _GSB_CURRENCY_CONFIG_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"

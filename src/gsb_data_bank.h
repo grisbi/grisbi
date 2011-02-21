@@ -1,6 +1,7 @@
 #ifndef _GSB_DATA_BANK_H
 #define _GSB_DATA_BANK_H (1)
 
+#include <glib.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

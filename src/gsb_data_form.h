@@ -1,6 +1,8 @@
 #ifndef _DATA_FORM_H
 #define _DATA_FORM_H (1)
 
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

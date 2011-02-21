@@ -1,6 +1,8 @@
 #ifndef GSB_FILE_DEBUG_H
 #define GSB_FILE_DEBUG_H (1)
 
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

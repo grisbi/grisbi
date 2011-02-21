@@ -1,5 +1,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

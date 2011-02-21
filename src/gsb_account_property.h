@@ -1,5 +1,8 @@
 #ifndef _COMPTES_GESTION_H
 #define _COMPTES_GESTION_H (1)
+
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

@@ -1,5 +1,8 @@
 #ifndef _CLASSEMENT_ECHEANCES_H
 #define _CLASSEMENT_ECHEANCES_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

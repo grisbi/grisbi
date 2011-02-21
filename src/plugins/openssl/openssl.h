@@ -3,6 +3,7 @@
 
 /* START_INCLUDE_H */
 #include <glib.h>
+#include <gmodule.h>
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */

@@ -1,6 +1,8 @@
 #ifndef _FENETRE_PRINCIPALE_H
 #define _FENETRE_PRINCIPALE_H (1)
 
+#include <gtk/gtk.h>
+
 typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
     GSB_HOME_PAGE,
     GSB_ACCOUNT_PAGE,

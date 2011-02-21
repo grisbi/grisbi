@@ -1,6 +1,8 @@
 #ifndef _PARAMETRES_H
 #define _PARAMETRES_H (1)
 
+#include <gtk/gtk.h>
+
 /* Preference pages */
 enum preference_page  {
     NOT_A_PAGE = -1,

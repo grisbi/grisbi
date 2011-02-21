@@ -2,8 +2,8 @@
 #define _GRISBI_OSX_H (1)
 
 #ifdef GTKOSXAPPLICATION
+
 #include <gtkosxapplication.h>
-#endif /* GTKOSXAPPLICATION */
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
@@ -19,5 +19,6 @@ gchar *grisbi_osx_get_plugins_dir ( void );
 GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *vbox );
 /* END_DECLARATION */
 
+#endif /* GTKOSXAPPLICATION */
 
 #endif

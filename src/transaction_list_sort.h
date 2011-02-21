@@ -1,6 +1,7 @@
 #ifndef _TRANSACTION_LIST_SORT_H
 #define _TRANSACTION_LIST_SORT_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

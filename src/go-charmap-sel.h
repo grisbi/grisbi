@@ -24,7 +24,7 @@
 #ifndef _GO_CHARMAP_SEL_H_
 #define _GO_CHARMAP_SEL_H_
 
-#include "include.h"
+#include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 

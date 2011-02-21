@@ -1,5 +1,8 @@
 #ifndef _ETATS_ONGLET_H
 #define _ETATS_ONGLET_H (1)
+
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

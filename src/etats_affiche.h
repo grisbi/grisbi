@@ -1,5 +1,8 @@
 #ifndef _ETATS_AFFICHE_H
 #define _ETATS_AFFICHE_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 #include "structures.h"
 #include "gsb_real.h"

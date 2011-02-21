@@ -1,6 +1,8 @@
 #ifndef _GSB_STATUS_H
 #define _GSB_STATUS_H (1)
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

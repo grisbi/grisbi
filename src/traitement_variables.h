@@ -1,6 +1,8 @@
 #ifndef _TRAITEMENT_VARIABLES_H
 #define _TRAITEMENT_VARIABLES_H (1)
 
+#include <glib.h>
+
 /* background color */
 #define BG_COLOR_1_RED      55000
 #define BG_COLOR_1_GREEN    55000

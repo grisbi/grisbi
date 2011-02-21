@@ -1,6 +1,7 @@
 #ifndef _MENU_H
 #define _MENU_H (1)
 
+#include <gtk/gtk.h>
 
 enum view_menu_action {
   HIDE_SHOW_TRANSACTION_FORM = 0,

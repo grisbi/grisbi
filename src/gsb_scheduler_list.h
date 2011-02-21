@@ -1,6 +1,8 @@
 #ifndef GSB_SCHEDULER_LIST_H
 #define GSB_SCHEDULER_LIST_H
 
+#include <gtk/gtk.h>
+
 enum
 {
     COL_NB_DATE = 0,

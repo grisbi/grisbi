@@ -1,6 +1,7 @@
 #ifndef _GSB_AUTOMEM_H
 #define _GSB_AUTOMEM_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "utils_buttons.h"

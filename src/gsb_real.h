@@ -1,6 +1,10 @@
 #ifndef _GSB_REAL_H
 #define _GSB_REAL_H (1)
 
+#include <locale.h>
+#include <glib.h>
+#include <gmodule.h>
+
 #define EXPONENT_MAX 10
 #define ERROR_REAL_STRING "###ERR###"
 

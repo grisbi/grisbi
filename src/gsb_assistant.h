@@ -1,6 +1,8 @@
 #ifndef GSB_ASSISTANT_H
 #define GSB_ASSISTANT_H
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
