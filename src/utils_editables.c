@@ -205,6 +205,8 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
 
         g_strfreev ( tab );
     }
+    else
+        total = gsb_real_get_from_string ( string );
 
     g_free ( string );
 
