@@ -28,6 +28,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/

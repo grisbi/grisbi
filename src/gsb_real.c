@@ -34,6 +34,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gstdio.h>
 #include <assert.h>
 
 /*START_INCLUDE*/

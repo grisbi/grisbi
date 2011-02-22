@@ -27,6 +27,7 @@
 
 #include "include.h"
 #include <time.h>
+#include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
 #ifdef _WIN32

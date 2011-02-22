@@ -28,6 +28,7 @@
 
 #include "include.h"
 #include <stdlib.h>
+#include <glib/gstdio.h>
 
 /*START_INCLUDE*/
 #include "utils_str.h"

@@ -27,6 +27,7 @@
 
 #include <glib/gi18n.h>
 #include <libxml/parser.h>
+#include <glib/gstdio.h>
 
 /*START_INCLUDE*/
 #include "gnucash.h"

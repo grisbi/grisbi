@@ -24,6 +24,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gprintf.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
