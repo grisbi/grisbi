@@ -24,6 +24,9 @@
 #endif
 
 #include "include.h"
+#ifndef ENABLE_STATIC
+#include <gmodule.h>
+#endif
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
