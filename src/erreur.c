@@ -303,6 +303,7 @@ G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
             fflush ( debug_file );
         }
 
+        g_print( "%s", tmp_str );
         g_free ( tmp_str );
     }
 }
@@ -347,6 +348,7 @@ extern void debug_message_int ( gchar *prefixe,
             fflush ( debug_file );
         }
 
+        g_print( "%s", tmp_str );
         g_free ( tmp_str );
     }
 }
@@ -392,6 +394,7 @@ extern void debug_message_real ( gchar *prefixe,
             fflush ( debug_file );
         }
 
+        g_print( "%s", tmp_str );
         g_free ( tmp_str );
     }
 }
