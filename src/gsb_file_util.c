@@ -23,9 +23,8 @@
 #endif
 
 #include "include.h"
-
+#include <glib/gi18n.h>
 #include <zlib.h>
-
 
 /*START_INCLUDE*/
 #include "gsb_file_util.h"

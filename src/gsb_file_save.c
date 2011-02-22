@@ -31,6 +31,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 #ifdef _MSC_VER
 #	include <io.h> // for _chmod()
 #endif /*_MSC_VER */

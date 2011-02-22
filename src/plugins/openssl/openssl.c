@@ -24,6 +24,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /* This define is required to disable openssl's SSLeay support which redefines
  * _(), which obvisouly breaks glib's gettext macros. */

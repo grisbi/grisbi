@@ -25,6 +25,8 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
+
 #include "metatree.h"
 
 /*START_INCLUDE*/

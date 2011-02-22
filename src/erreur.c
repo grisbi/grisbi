@@ -28,7 +28,7 @@
 #endif
 
 #include "include.h"
-
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "erreur.h"

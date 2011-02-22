@@ -27,6 +27,7 @@
 #ifndef ENABLE_STATIC
 #include <gmodule.h>
 #endif
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"

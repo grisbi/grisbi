@@ -21,7 +21,7 @@
 #endif
 
 #include "include.h"
-
+#include <glib/gi18n.h>
 #include <getopt.h>
 
 /*START_INCLUDE*/

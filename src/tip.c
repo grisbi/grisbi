@@ -27,6 +27,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 #define START_INCLUDE
 #include "tip.h"

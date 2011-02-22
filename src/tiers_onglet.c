@@ -33,6 +33,8 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
+
 #include "dialog.h"
 
 /*START_INCLUDE*/

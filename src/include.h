@@ -32,8 +32,6 @@
 #include <glib/gstdio.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
-#include <glib/gi18n.h>
-
 /* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
 #ifdef _WIN32
 # undef fprintf

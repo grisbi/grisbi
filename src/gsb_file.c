@@ -26,8 +26,8 @@
 #endif
 
 #include "include.h"
-
 #include <time.h>
+#include <glib/gi18n.h>
 
 #ifdef _WIN32
 #	if defined(_MSC_VER) || defined(_MINGW)

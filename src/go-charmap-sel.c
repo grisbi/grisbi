@@ -28,6 +28,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "go-charmap-sel.h"

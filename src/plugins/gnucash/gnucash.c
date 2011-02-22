@@ -25,6 +25,7 @@
 
 #include "include.h"
 
+#include <glib/gi18n.h>
 #include <libxml/parser.h>
 
 /*START_INCLUDE*/

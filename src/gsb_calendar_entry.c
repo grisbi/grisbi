@@ -32,9 +32,9 @@
 #endif
 
 #include "include.h"
-
 #include <ctype.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
