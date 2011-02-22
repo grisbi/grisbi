@@ -3,7 +3,6 @@
 #define _INCLUDE_H (1)
 
 
-#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_STRINGS_H
