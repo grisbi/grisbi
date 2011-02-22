@@ -26,8 +26,6 @@
 #include <errno.h>
 #include <math.h>
 
-#include <gtk/gtktextview.h>
-
 /* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
 #ifdef _WIN32
 # undef fprintf
