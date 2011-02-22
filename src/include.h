@@ -28,7 +28,6 @@
 
 #include <gtk/gtktextview.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtk.h>
 
 /* The following lines revert back to FPRINTF on Windows Systems(LIBINTL_FPRINTF seems BUGGY) */
 #ifdef _WIN32

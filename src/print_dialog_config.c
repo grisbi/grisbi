@@ -30,6 +30,7 @@
 #endif
 
 #include "include.h"
+#include <gtk/gtk.h>
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
