@@ -852,6 +852,10 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
             modification_fichier ( TRUE );
     }
 
+    /* supprime dans la liste des division  */
+    iface -> remove_div ( no_division ); 
+    metatree_remove_iter_and_select_next ( tree_view, model, &iter );
+
     return FALSE;
 }
 
