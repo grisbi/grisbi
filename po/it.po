@@ -7938,9 +7938,8 @@ msgstr "Trasferimento: conto eliminato"
 
 #: ../src/gsb_form.c:759 ../src/gsb_form.c:1889 ../src/gsb_form.c:1890
 #: ../src/gsb_form_widget.c:1105
-#, fuzzy
 msgid "Transfer : "
-msgstr "Tasferimento"
+msgstr "Tasferimento : "
 
 #: ../src/gsb_form.c:928
 msgid "Auto"
