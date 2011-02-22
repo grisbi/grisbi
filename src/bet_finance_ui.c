@@ -24,6 +24,7 @@
 #endif
 
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
 #include <glib/gprintf.h>
 #include <glib/gi18n.h>
 

@@ -31,6 +31,7 @@
 #endif
 
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
