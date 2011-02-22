@@ -26,6 +26,7 @@
 #endif
 
 #include "include.h"
+#include <gdk-pixbuf/gdk-pixdata.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
