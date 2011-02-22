@@ -25,8 +25,6 @@
 #endif
 
 #include "include.h"
-#include <config.h>
-
 
 /*START_INCLUDE*/
 #include "print_tree_view_list.h"
