@@ -5576,7 +5576,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
 
     /* on crée alors le bouton de lien */
 
-    widget = cree_bouton_lien ( widget );
+    widget = cree_bouton_lien ( widget_1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 widget,
 			 FALSE,
