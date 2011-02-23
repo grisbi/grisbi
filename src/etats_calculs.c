@@ -101,7 +101,6 @@ extern gint devise_ib_etat;
 extern gint devise_tiers_etat;
 extern gint exo_en_cours_etat;
 extern struct struct_etat_affichage gtktable_affichage;
-extern struct struct_etat_affichage gtktable_affichage;
 extern struct struct_etat_affichage latex_affichage;
 extern gint ligne_debut_partie;
 extern gsb_real montant_categ_etat;
