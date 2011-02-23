@@ -24,6 +24,7 @@
 #endif
 
 #include "include.h"
+#include <math.h>
 
 /*START_INCLUDE*/
 #include "bet_data_finance.h"

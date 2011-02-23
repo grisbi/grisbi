@@ -23,6 +23,7 @@
 #endif
 
 #include "include.h"
+#include <errno.h>
 #include <glib/gi18n.h>
 #include <zlib.h>
 

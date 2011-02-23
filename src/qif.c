@@ -26,6 +26,9 @@
 #endif
 
 #include "include.h"
+#include <stdlib.h>
+#include <ctype.h>
+#include <errno.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/

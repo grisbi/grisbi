@@ -27,6 +27,8 @@
 
 #include "include.h"
 #include <time.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 

@@ -26,7 +26,8 @@
 #endif
 
 #include "include.h"
-
+#include <string.h>
+#include <ctype.h>
 
 /*START_INCLUDE*/
 #include "utils_editables.h"

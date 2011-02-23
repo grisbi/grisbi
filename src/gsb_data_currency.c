@@ -31,6 +31,7 @@
 #endif
 
 #include "include.h"
+#include <string.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_currency.h"

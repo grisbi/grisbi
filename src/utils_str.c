@@ -28,6 +28,8 @@
 
 #include "include.h"
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 #include <glib/gstdio.h>
 
 /*START_INCLUDE*/

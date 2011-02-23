@@ -32,6 +32,10 @@
 
 #include "include.h"
 #include <glib/gi18n.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #ifdef _MSC_VER
 #	include <io.h> // for _chmod()
 #endif /*_MSC_VER */

@@ -42,6 +42,7 @@ extern "C" {
 #endif
 
 #include "include.h"
+#include <string.h>
 
 /*START_INCLUDE*/
 #include "utils_file_selection.h"

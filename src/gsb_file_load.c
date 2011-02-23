@@ -27,6 +27,8 @@
 #endif
 
 #include "include.h"
+#include <errno.h>
+#include <stdlib.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gio/gio.h>

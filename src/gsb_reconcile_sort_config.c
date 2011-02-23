@@ -31,6 +31,8 @@
 #endif
 
 #include "include.h"
+#include <math.h>
+#include <stdlib.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/

@@ -33,6 +33,7 @@
 #endif
 
 #include "include.h"
+#include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 

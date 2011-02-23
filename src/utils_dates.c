@@ -26,6 +26,8 @@
 #endif
 
 #include "include.h"
+#include <stdlib.h>
+#include <string.h>
 #if defined(_MSC_VER) || defined (_MINGW)
 #include <winnls.h>
 #else

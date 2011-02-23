@@ -32,6 +32,7 @@
 #endif
 
 #include "include.h"
+#include <errno.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
