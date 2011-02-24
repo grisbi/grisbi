@@ -59,7 +59,6 @@ static gboolean category_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
 static void category_list_popup_context_menu ( void );
-static void category_list_toggle_edit_category ( GtkCheckMenuItem *menu_item, gpointer data );
 static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
 static gboolean exporter_categ ( GtkButton * widget, gpointer data );

@@ -159,9 +159,6 @@ static void move_transaction_to_sub_division ( gint transaction_number,
                         GtkTreeModel * model,
                         GtkTreePath * orig_path, GtkTreePath * dest_path,
                         gint no_division, gint no_sub_division );
-static void move_transaction_to_sub_division_zero ( gint transaction_number,
-                        MetatreeInterface * iface,
-                        GtkTreeModel * model, gint no_division );
 static void move_transactions_to_division_payee (GtkTreeModel * model,
                         MetatreeInterface * iface,
                         gint orig_div, gint dest_div );
@@ -2580,45 +2577,6 @@ void fill_sub_division_zero ( GtkTreeModel * model,
     g_free (string_tmp);
     if (balance)
         g_free (balance);
-}
-
-
-/**
- * 
- *
- * \param
- *
- * \return
- * */
-void move_transaction_to_sub_division_zero ( gint transaction_number,
-                        MetatreeInterface * iface,
-                        GtkTreeModel * model, gint no_division )
-{
-    GtkTreeIter child_iter, * parent_iter;
-    GtkTreeIter * p_iter;
-
-     if ( !model )
-        return;
-
-    p_iter = get_iter_from_div ( model, no_division, 0 );
-    if ( ! p_iter )
-        return;
-
-    parent_iter = get_iter_from_sub_div_zero ( model, iface, p_iter );
-    if ( parent_iter )
-    {
-        gtk_tree_store_append ( GTK_TREE_STORE (model),
-                &child_iter, parent_iter );
-        iface -> transaction_set_div_id (
-                transaction_number, no_division );
-        iface -> transaction_set_sub_div_id (
-                transaction_number, 0 );
-        gsb_transactions_list_update_transaction (
-                transaction_number);
-        iface -> add_transaction_to_sub_div ( transaction_number,
-                no_division, 0 );
-        fill_transaction_row ( model, &child_iter, transaction_number );
-    }
 }
 
 

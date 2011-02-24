@@ -69,9 +69,6 @@ static gboolean help_manual ( void );
 static gboolean help_quick_start ( void );
 static gboolean help_translation ( void );
 static gboolean help_website ( void );
-static void menu_add_widget (GtkUIManager *p_uiManager,
-                        GtkWidget *p_widget,
-                        GtkContainer *p_box) ;
 static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_STATIC*/
 
@@ -161,15 +158,6 @@ static gchar *ui_manager_buffer =
 "    </menu>"
 "  </menubar>"
 "</ui>";
-
-
-static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
-                        GtkContainer * p_box) 
-{ 
-    gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
-    gtk_widget_show (p_widget); 
-    return; 
-}
 
 
 GtkWidget *init_menus ( GtkWidget *vbox )

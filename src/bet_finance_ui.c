@@ -63,7 +63,6 @@ static gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
                         GdkEventKey *ev,
                         GtkWidget *page );
 static GtkWidget *bet_finance_create_amortization_page ( void );
-static GtkWidget *bet_finance_create_amortization_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
 static GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gint origin );
 static GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container );
 static GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent );
