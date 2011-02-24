@@ -681,7 +681,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     extension = strrchr ( iterator -> data, '.' );
 
     /* unzip Gnucash file if necessary */
-    if ( strcmp ( extension, ".gnc" ) == 0 )
+    if ( extension && strcmp ( extension, ".gnc" ) == 0 )
         gsb_import_gunzip_file ( iterator -> data );
 
     /* get contents of file */
