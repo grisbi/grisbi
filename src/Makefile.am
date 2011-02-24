@@ -35,7 +35,6 @@ libgrisbi_la_SOURCES = \
 	etats_csv.c		\
 	etats_gtktable.c	\
 	etats_html.c		\
-	etats_latex.c		\
 	etats_onglet.c		\
 	etats_support.c		\
 	export.c		\
@@ -130,7 +129,6 @@ libgrisbi_la_SOURCES = \
 	navigation.c		\
 	parametres.c		\
 	parse_cmdline.c		\
-	print_config.c		\
 	print_dialog_config.c		\
 	print_report.c		\
 	print_transactions_list.c		\
@@ -259,7 +257,6 @@ libgrisbi_la_SOURCES = \
 	etats_config.h		\
 	etats_gtktable.h	\
 	etats.h			\
-	etats_latex.h		\
 	etats_onglet.h		\
 	etats_support.h		\
 	fenetre_principale.h	\
@@ -280,7 +277,6 @@ libgrisbi_la_SOURCES = \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\
-	print_config.h		\
 	print_dialog_config.h	\
 	print_report.h		\
 	print_transactions_list.h	\

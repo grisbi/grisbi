@@ -33,7 +33,6 @@
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_print_config.h"
-#include "print_config.h"
 #include "print_dialog_config.h"
 #include "print_transactions_list.h"
 #include "structures.h"

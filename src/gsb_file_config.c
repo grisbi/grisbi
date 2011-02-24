@@ -42,7 +42,6 @@
 #include "dialog.h"
 #include "gsb_file.h"
 #include "main.h"
-#include "print_config.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "utils_files.h"
@@ -256,16 +255,6 @@ devel_debug (NULL);
     
     conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
-    conf.latex_command = g_key_file_get_string ( config,
-                        "General",
-                        "Latex command",
-                        NULL );
-
-    conf.dvips_command = g_key_file_get_string ( config,
-                        "General",
-                        "Dvips command",
-                        NULL );
-
     conf.browser_command = g_key_file_get_string ( config,
                         "General",
                         "Web",
@@ -500,50 +489,6 @@ devel_debug (NULL);
                         "Show tip",
                         NULL );
 
-    /* get printer config */
-
-    etat.print_config.printer = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Printer",
-                        NULL );
-
-    etat.print_config.printer_name = g_key_file_get_string ( config,
-                        "Print config",
-                        "Printer name",
-                        NULL );
-
-    etat.print_config.printer_filename = g_key_file_get_string ( config,
-                        "Print config",
-                        "Printer filename",
-                        NULL );
-
-    etat.print_config.filetype = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Filetype",
-                        NULL );
-
-    etat.print_config.orientation = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Orientation",
-                        NULL );
-
-    /* get the paper config */
-
-    etat.print_config.paper_config.name = g_key_file_get_string ( config,
-                        "Paper config",
-                        "Name",
-                        NULL );
-
-    etat.print_config.paper_config.width = g_key_file_get_integer ( config,
-                        "Paper config",
-                        "Width",
-                        NULL );
-
-    etat.print_config.paper_config.height = g_key_file_get_integer ( config,
-                        "Paper config",
-                        "Height",
-                        NULL );
-
     g_free (filename);
     g_key_file_free (config);
     return TRUE;
@@ -667,18 +612,6 @@ gboolean gsb_file_config_save_config ( void )
                         "General",
                         "Font name",
                         conf.font_string );
-
-    if ( conf.latex_command )
-        g_key_file_set_string ( config,
-                        "General",
-                        "Latex command",
-                        conf.latex_command );
-
-    if ( conf.dvips_command )
-        g_key_file_set_string ( config,
-                        "General",
-                        "Dvips command",
-                        conf.dvips_command );
 
     if (conf.browser_command)
     {
@@ -898,51 +831,6 @@ gboolean gsb_file_config_save_config ( void )
                         "Show tip",
                         etat.show_tip );
 
-    /* save printer config */
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Printer",
-                        etat.print_config.printer );
-
-    if ( etat.print_config.printer_name )
-        g_key_file_set_string ( config,
-                        "Print config",
-                        "Printer name",
-                        etat.print_config.printer_name );
-
-    if ( etat.print_config.printer_filename )
-        g_key_file_set_string ( config,
-                        "Print config",
-                        "Printer filename",
-                        etat.print_config.printer_filename );
-
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Filetype",
-                        etat.print_config.filetype );
-
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Orientation",
-                        etat.print_config.orientation );
-
-    /* save the paper config */
-    if ( etat.print_config.paper_config.name )
-        g_key_file_set_string ( config,
-                        "Paper config",
-                        "Name",
-                        etat.print_config.paper_config.name );
-
-    g_key_file_set_integer ( config,
-                        "Paper config",
-                        "Width",
-                        etat.print_config.paper_config.width );
-
-    g_key_file_set_integer ( config,
-                        "Paper config",
-                        "Height",
-                        etat.print_config.paper_config.height );
-
     /* save into a file */
     file_content = g_key_file_to_data ( config, &length, NULL );
 
@@ -1157,20 +1045,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
  
     if ( !strcmp ( element_name,
-		   "Latex_command" ))
-    {
-	/* TODO dOm : fix memory leaks in this function (memory used by lvalue before setting its value */
-	conf.latex_command = my_strdup (text);
-	return;
-    }
-     if ( !strcmp ( element_name,
-		   "Dvips_command" ))
-    {
-	conf.dvips_command = my_strdup (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Largeur_colonne_comptes_operation" ))
     {
 	conf.largeur_colonne_comptes_operation = utils_str_atoi (text);
@@ -1322,39 +1196,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	    messages[i].hidden = utils_str_atoi (text);
 	}
     }
-
-    if ( !strcmp ( element_name,
-		   "printer" ))
-    {
-	etat.print_config.printer = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "printer_name" ))
-    {
-	etat.print_config.printer_name = my_strdup (text);
-	return;
-    }
-      if ( !strcmp ( element_name,
-		   "printer_filename" ))
-    {
-	etat.print_config.printer_filename = my_strdup (text);
-	return;
-    }
-      if ( !strcmp ( element_name,
-		   "filetype" ))
-    {
-	etat.print_config.filetype = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "orientation" ))
-    {
-	etat.print_config.orientation = utils_str_atoi (text);
-	return;
-    }
 }
 
 
@@ -1432,29 +1273,10 @@ void gsb_file_config_clean_config ( void )
     etat.last_tip = -1;
     etat.show_tip = FALSE;
 
-    /* Commands */
-    /* TODO dOm : use a copy of string so that we can free it */
-    conf.latex_command = "latex";
-    conf.dvips_command = "dvips";
-
     /* mise en conformité avec les recommandations FreeDesktop. */
     conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
 
     conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
-
-    /* Print */
-    etat.print_config.printer = 0;
-#ifndef _WIN32
-     etat.print_config.printer_name = "lpr";
-#else
-    etat.print_config.printer_name = "gsprint";
-#endif
-    etat.print_config.printer_filename = g_strdup ("");
-    etat.print_config.filetype = POSTSCRIPT_FILE;
-    etat.print_config.paper_config.name = _("A4");
-    etat.print_config.paper_config.width = 21;
-    etat.print_config.paper_config.height = 29.7;
-    etat.print_config.orientation = LANDSCAPE;
 
     memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 }

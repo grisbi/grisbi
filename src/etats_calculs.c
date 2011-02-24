@@ -47,7 +47,6 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "utils_str.h"
-#include "print_config.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -101,7 +100,6 @@ extern gint devise_ib_etat;
 extern gint devise_tiers_etat;
 extern gint exo_en_cours_etat;
 extern struct struct_etat_affichage gtktable_affichage;
-extern struct struct_etat_affichage latex_affichage;
 extern gint ligne_debut_partie;
 extern gsb_real montant_categ_etat;
 extern gsb_real montant_compte_etat;
@@ -2639,31 +2637,6 @@ void denote_struct_sous_jaccentes ( gint origine )
     g_slist_free ( pointeur_glist );
 }
 /*****************************************************************************************************/
-
-
-
-/*****************************************************************************************************/
-/* Fonction d'impression de l'état */
-/*****************************************************************************************************/
-/*void impression_etat ( gint report_number )
-{
-
-    if ( ! print_config() )
-       return;
-
-    affichage_etat ( report_number, &latex_affichage, NULL );
-}*/
-
-
-/*void impression_etat_courant ( )
-{
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != NAVIGATION_REPORT )
-       gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
-                               NAVIGATION_REPORT );
-
-    impression_etat (gsb_gui_navigation_get_current_report ());
-}*/
-
 
 
 

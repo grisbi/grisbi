@@ -48,7 +48,6 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
-#include "print_config.h"
 #include "print_report.h"
 #include "utils_files.h"
 #include "structures.h"
@@ -85,14 +84,13 @@ static GtkWidget *reports_toolbar = NULL;
 /*START_EXTERN*/
 extern struct struct_etat_affichage csv_affichage;
 extern struct struct_etat_affichage html_affichage;
-extern struct struct_etat_affichage latex_affichage;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Different formats supported.  */
 enum report_export_formats {
-    REPORT_EGSB, REPORT_HTML, REPORT_CSV, REPORT_PS, REPORT_TEX,
+    REPORT_EGSB, REPORT_HTML, REPORT_CSV,
     REPORT_MAX_FORMATS,
 };
 
@@ -1068,14 +1066,6 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
 		extension = "csv";
 		break;
 
-	    case REPORT_PS:		/* Postscript */
-		extension = "ps";
-		break;
-
-	    case REPORT_TEX:		/* Latex */
-		extension = "tex";
-		break;
-
 	    default :
 		extension = NULL;
 		break;
@@ -1098,7 +1088,6 @@ void exporter_etat ( void )
     GtkWidget *fenetre_nom, *hbox, * combo;
     gint resultat, current_report_number;
     gchar * nom_etat;
-    struct print_config * print_config_backup;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -1128,8 +1117,6 @@ void exporter_etat ( void )
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Grisbi report file (egsb file)" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("HTML file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Postscript file" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Latex file" ) );
 
     /* Set initial format. */
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
@@ -1162,26 +1149,6 @@ void exporter_etat ( void )
 
 	    case REPORT_CSV:		/* CSV */
 		export_etat_courant_vers_csv ( nom_etat );
-		break;
-
-	    case REPORT_PS:		/* Postscript */
-		print_config_backup = print_config_dup ( );
-		etat.print_config.printer = FALSE;
-		etat.print_config.filetype = POSTSCRIPT_FILE;
-		etat.print_config.printer_filename = nom_etat;
-		affichage_etat ( gsb_gui_navigation_get_current_report (),
-				 &latex_affichage, nom_etat );
-		print_config_set ( print_config_backup );
-		break;
-
-	    case REPORT_TEX:		/* Latex */
-		print_config_backup = print_config_dup ( );
-		etat.print_config.printer = FALSE;
-		etat.print_config.filetype = LATEX_FILE;
-		etat.print_config.printer_filename = nom_etat;
-		affichage_etat ( gsb_gui_navigation_get_current_report (),
-				 &latex_affichage, nom_etat );
-		print_config_set ( print_config_backup );
 		break;
 
 	    default :

@@ -1050,7 +1050,7 @@ GtkWidget *onglet_programmes (void)
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
 
-    table = gtk_table_new ( 0, 2, FALSE );
+    table = gtk_table_new ( 0, 1, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
@@ -1072,31 +1072,6 @@ GtkWidget *onglet_programmes (void)
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
-
-
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-                        _("LaTeX support (old print system)") );
-
-    table = gtk_table_new ( 0, 2, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
-
-    label = gtk_label_new ( _("LaTeX command: ") );
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &conf.latex_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-
-    label = gtk_label_new ( _("dvips command: ") );
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &conf.dvips_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
 
     gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );

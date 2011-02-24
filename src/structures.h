@@ -29,42 +29,6 @@
 #define GRISBI_PLUGINS_DIR (utils_get_plugins_dir ( ) ) 
 
 
-/* structures pour la gestion de l'impression */
-enum filetype
-{
-  POSTSCRIPT_FILE = 0,
-  LATEX_FILE,
-  NUM_FILETYPES,
-}; 
-
-
-struct paper_config 
-{
-  gchar *name;
-  gfloat width;
-  gfloat height;
-};
-
-
-enum orientation
-{
-  LANDSCAPE = 0,
-  PORTRAIT,
-  NUM_ORIENTATION,
-}; 
-
-
-struct print_config
-{
-  gboolean printer;
-  gchar * printer_name;
-  gchar * printer_filename;
-  enum filetype filetype;
-  struct paper_config paper_config;
-  enum orientation orientation;
-};
-
-
 /** structure etat
  * variables contenant juste 0 ou 1
  * FIXME : scinder cette structure en 3 parties :
@@ -132,9 +96,6 @@ struct gsb_etat_t
     gint combofix_force_payee;              /* TRUE if no new item can be appended in the payee combofix */
     gint combofix_force_category;           /* TRUE if no new item can be appended in the category and budget combofix */
     
-    /* Print stuff */
-    struct print_config print_config;
-    
     /* width panned */
     gint largeur_colonne_echeancier;
     gint largeur_colonne_comptes_comptes;
@@ -194,8 +155,6 @@ struct gsb_conf_t
     gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
     gchar *font_string;                             /* contain the description of the font, or NULL */
     gchar *browser_command;
-    gchar *latex_command;
-    gchar *dvips_command;
     gint pluriel_final;                             /* 0 = finals 1 = finaux */
 
     gint display_grisbi_title;                      /* selection du titre principal de grisbi */
