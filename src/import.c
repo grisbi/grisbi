@@ -534,6 +534,7 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
         if ( ! g_file_get_contents ( nom_fichier, &tmp_str, NULL, &error ) )
         {
             g_print ( _("Unable to read file: %s\n"), error -> message);
+            g_error_free ( error );
             return FALSE;
         }
 
@@ -688,6 +689,7 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     if ( ! g_file_get_contents ( iterator -> data, &tmp_str, NULL, &error ) )
     {
         g_print ( _("Unable to read file: %s\n"), error -> message);
+        g_error_free ( error );
         return FALSE;
     }
 
@@ -4386,6 +4388,7 @@ gboolean gsb_import_by_rule ( gint rule )
             if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
             {
                 g_print ( _("Unable to read file: %s\n"), error -> message);
+                g_error_free ( error );
                 i++;
                 continue;
             }
@@ -4677,6 +4680,7 @@ gboolean gsb_import_set_tmp_file ( gchar *filename,
     {
         g_free (contenu_fichier);
         g_print ( _("Unable to create tmp file: %s\n"), error -> message);
+        g_error_free ( error );
         return FALSE;
     }
 
@@ -4710,7 +4714,6 @@ gboolean gsb_import_gunzip_file ( gchar *filename )
             dialogue_error ( tmpstr );
             g_free ( file_content);
             g_error_free (error);
-
             return FALSE;
         }
         else

@@ -555,6 +555,7 @@ void lance_mailer ( const gchar *uri )
         tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
                     "The error was: %s."),
                     uri, error -> message );
+        g_error_free ( error );
         dialogue_error_hint ( tmp_str, _("Cannot execute mailer") );
         g_free(tmp_str);
     }

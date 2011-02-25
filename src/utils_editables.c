@@ -155,7 +155,10 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
     if ( string && strlen ( string ) )
         pointeur = string + strlen ( string );
     else
+    {
+        g_free ( string );
         return total;
+    }
 
     if ( g_utf8_strchr ( string, -1, '-' ) || g_utf8_strchr ( string, -1, '+' ) )
     {

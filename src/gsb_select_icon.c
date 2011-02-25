@@ -369,7 +369,10 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
         g_dir_close ( dir );
     }
     else
+    {
         dialogue_error ( error -> message );
+        g_error_free ( error );
+    }
 
     if ( tree_path == NULL )
         tree_path = gtk_tree_path_new_from_string ( "0" );
@@ -657,7 +660,10 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
                         (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
 
     if ( ! pixbuf )
+    {
         devel_debug ( error -> message );
+        g_error_free ( error );
+    }
 
     if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
 	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
@@ -890,6 +896,7 @@ gboolean gsb_select_icon_new_account_icon_from_file ( gint account_number,
                         filename, NULL );
         devel_debug ( tmp_str );
         dialogue_error ( tmp_str );
+        g_error_free ( error );
         g_free ( tmp_str );
         g_free ( icon );
 
@@ -909,13 +916,12 @@ GdkPixbuf *gsb_select_icon_change_account_pixbuf ( gint account_number,
 {
     GSList *list_tmp;
     GdkPixbuf *pixbuf;
-    GError *error = NULL;
 
     if ( icon_buffer
 	 &&
 	 icon_buffer -> account_number == account_number )
     {
-        pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, &error );
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, NULL );
         if ( pixbuf )
         {
             g_object_unref ( icon_buffer -> pixbuf );
@@ -937,7 +943,7 @@ GdkPixbuf *gsb_select_icon_change_account_pixbuf ( gint account_number,
 
         if ( icon -> account_number == account_number )
         {
-            pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, &error );
+            pixbuf = gdk_pixbuf_new_from_file_at_size ( filename , 32, 32, NULL );
             if ( pixbuf )
             {
                 g_object_unref ( icon -> pixbuf );

@@ -79,6 +79,7 @@ gchar *gsb_date_today ( void )
         date = gdate_today ( );
         date_string = gsb_format_gdate ( date );
         gsb_date_set_last_date ( date_string );
+        g_free ( date_string );
         g_date_free ( date );
     }
     return (last_date);
@@ -678,8 +679,10 @@ gchar *gsb_date_get_compiled_time ( void )
 
     date = g_date_new_dmy ( atoi ( tab[1] ), mois, atoi ( tab[2] ) );
     g_strfreev (tab);
+    str = gsb_format_gdate ( date );
+    g_date_free ( date );
 
-    return gsb_format_gdate ( date );
+    return str;
 }
 
 
