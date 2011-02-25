@@ -498,6 +498,7 @@ void gsb_assistant_account_change_account_icon ( GtkWidget *button, gpointer dat
     {
         devel_debug ( error -> message );
         dialogue_error ( error -> message );
+        g_error_free ( error );
     }
     else
     {

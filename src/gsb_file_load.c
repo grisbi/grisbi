@@ -9027,7 +9027,10 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
         file_copy = g_file_new_for_path ( copy_old_filename );
         if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
                         NULL, NULL, NULL, &error ) )
+        {
             dialogue_error (error -> message );
+            g_error_free ( error );
+        }
     }
 }
 /* Local Variables: */

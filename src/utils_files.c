@@ -534,7 +534,6 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
     gint long_str = 0;
     gsize size = 0;
     gsize bytes_written = 0;
-    GError * error = NULL;
     gint i = 0;
     gchar *ptr;
 
@@ -565,7 +564,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
                 do
                 {
                      tmp_str = g_convert ( string, long_str, "UTF-8", charset_array[i],
-                                &size, &bytes_written, &error );
+                                &size, &bytes_written, NULL );
                     if ( tmp_str )
                     {
                         result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );

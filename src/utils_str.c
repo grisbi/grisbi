@@ -892,12 +892,16 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar *str_number;
+    gchar *decimal;
     gchar *format;
     gint nbre_char;
 
-    format = g_strconcat ( "%.", utils_str_itoa ( nbre_decimal ), "f", NULL );
-
+    decimal = utils_str_itoa ( nbre_decimal );
+    format = g_strconcat ( "%.", decimal, "f", NULL );
     nbre_char = g_sprintf ( buffer, format, number );
+    g_free ( decimal );
+    g_free ( format );
+
     if ( nbre_char > G_ASCII_DTOSTR_BUF_SIZE )
         return NULL;
 
@@ -1004,7 +1008,10 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
     new_str_number = utils_str_itoa ( number );
 
     if ( prefix && strlen ( prefix ) > 0 )
+    {
         new_str_number = g_strconcat ( prefix, new_str_number, NULL );
+        g_free ( prefix );
+    }
 
     return new_str_number;
 }

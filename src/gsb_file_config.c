@@ -1540,7 +1540,10 @@ gchar *gsb_config_get_old_conf_name ( void )
         }
     }
     else
+    {
         dialogue_error ( error -> message );
+        g_error_free ( error );
+    }
 
     if ( g_slist_length ( liste ) == 0 )
         return NULL;
