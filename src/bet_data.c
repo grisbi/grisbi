@@ -55,6 +55,7 @@ static GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
                         const GDate *date_max );
 static struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled );
 static void bet_data_future_set_max_number ( gint number );
+static gchar *bet_data_get_key ( gint account_number, gint div_number );
 static gboolean bet_data_update_div ( SH *sh,
                         gint transaction_number,
                         gint sub_div,
@@ -264,19 +265,9 @@ gboolean bet_data_hist_add_div ( gint account_number,
 {
     gchar *key;
     gchar *sub_key;
-    gchar *div_number_str, *account_number_str; // only to avoid memory leaks
     struct_hist_div *shd;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_number == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_number_str = utils_str_itoa ( account_number );
-        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
-        g_free ( account_number_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -348,19 +339,9 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
 {
     gchar *key;
     gchar *sub_key;
-    gchar *div_number_str, *account_nb_str; // only to avoid memory leaks
     struct_hist_div *tmp_shd;
 
-    div_number_str = utils_str_itoa ( shd -> div_number );
-    if ( shd -> account_nb == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( shd -> account_nb );
-        key = g_strconcat ( account_nb_str, ":", div_number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( shd -> account_nb, shd -> div_number );
 
     if ( ( tmp_shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -395,19 +376,9 @@ gboolean bet_data_remove_div_hist ( gint account_number, gint div_number, gint s
 {
     gchar *key;
     char *sub_key;
-    gchar *div_number_str, *account_number_str; // only to avoid memory leaks
     struct_hist_div *shd;
     
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_number == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_number_str = utils_str_itoa ( account_number );
-        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
-        g_free ( account_number_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -436,20 +407,10 @@ gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint s
 {
     gchar *key;
     gchar *sub_key;
-    gchar *div_number_str, *account_number_str; // only to avoid memory leaks
     gint origin;
     struct_hist_div *shd;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_number == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_number_str = utils_str_itoa ( account_number );
-        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
-        g_free ( account_number_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_number, div_number );
 
     origin = gsb_data_account_get_bet_hist_data ( account_number );
 
@@ -563,21 +524,11 @@ gchar *bet_data_get_div_name ( gint div_num,
 gboolean bet_data_get_div_edited ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
-    gchar *div_number_str, *account_number_str; // only to avoid memory leaks
     gint origin;
     struct_hist_div *shd;
     gboolean edited;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_number == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_number_str = utils_str_itoa ( account_number );
-        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
-        g_free ( account_number_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_number, div_number );
 
     origin = gsb_data_account_get_bet_hist_data ( account_number );
 
@@ -619,19 +570,9 @@ gboolean bet_data_set_div_edited ( gint account_nb,
                         gboolean edited )
 {
     gchar *key;
-    gchar *div_number_str, *account_nb_str; // only to avoid memory leaks
     struct_hist_div *shd;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( account_nb );
-        key = g_strconcat ( account_nb_str, ":", div_number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -664,20 +605,10 @@ gboolean bet_data_set_div_edited ( gint account_nb,
 gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb )
 {
     gchar *key;
-    gchar *div_number_str, *account_nb_str; // only to avoid memory leaks
     struct_hist_div *shd;
     gsb_real amount;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( account_nb );
-        key = g_strconcat ( account_nb_str, ":", div_number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -716,19 +647,9 @@ gboolean bet_data_set_div_amount ( gint account_nb,
                         gsb_real amount )
 {
     gchar *key;
-    gchar *div_number_str, *account_nb_str; // only to avoid memory leaks
     struct_hist_div *shd;
 
-    div_number_str = utils_str_itoa ( div_number );
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", div_number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( account_nb );
-        key = g_strconcat ( account_nb_str, ":", div_number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( div_number_str );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -1215,22 +1136,12 @@ void struct_free_bet_future ( struct_futur_data *scheduled )
 gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
 {
     gchar *key;
-    gchar *future_number_str, *account_nb_str; // only to avoid memory leaks
     
     future_number ++;
 
     if ( scheduled -> frequency == 0 )
     {
-        future_number_str = utils_str_itoa ( future_number );
-        if ( scheduled -> account_number == 0 )
-            key = g_strconcat ("0:", future_number_str, NULL );
-        else
-        {
-            account_nb_str = utils_str_itoa ( scheduled -> account_number );
-            key = g_strconcat ( account_nb_str, ":", future_number_str, NULL );
-            g_free ( account_nb_str );
-        }
-        g_free ( future_number_str );
+        key = bet_data_get_key ( scheduled -> account_number, future_number );
 
         scheduled -> number = future_number;
         g_hash_table_insert ( bet_future_list, key, scheduled );
@@ -1250,16 +1161,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
         date = gsb_date_copy ( scheduled -> date );
         while ( date != NULL && g_date_valid ( date ) )
         {
-            future_number_str = utils_str_itoa ( future_number );
-            if ( scheduled -> account_number == 0 )
-                key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
-            else
-            {
-                account_nb_str = utils_str_itoa ( scheduled -> account_number );
-                key = g_strconcat ( account_nb_str, ":", future_number_str, NULL );
-                g_free ( account_nb_str );
-            }
-            g_free ( future_number_str );
+            key = bet_data_get_key ( scheduled -> account_number, future_number );
 
             if ( mother_row == future_number )
                 new_sch = scheduled;
@@ -1295,18 +1197,8 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
 gboolean bet_data_future_set_lines_from_file ( struct_futur_data *scheduled )
 {
     gchar *key;
-    gchar *number_str, *account_nb_str; // only to avoid memory leaks
 
-    number_str = utils_str_itoa ( scheduled -> number );
-    if ( scheduled -> account_number == 0 )
-        key = g_strconcat ("0:", number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( scheduled -> account_number );
-        key = g_strconcat ( account_nb_str, ":", number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( number_str );
+    key = bet_data_get_key ( scheduled -> account_number, scheduled -> number );
 
     bet_data_future_set_max_number ( scheduled -> number );
 
@@ -1622,18 +1514,8 @@ GDate *bet_data_array_get_date_max ( gint account_number )
 gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 {
     gchar *key;
-    gchar *number_str, *account_nb_str; // only to avoid memory leaks
 
-    number_str = utils_str_itoa ( scheduled -> number );
-    if ( scheduled -> account_number == 0 )
-        key = g_strconcat ("0:", number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( scheduled -> account_number );
-        key = g_strconcat ( account_nb_str, ":", number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( number_str );
+    key = bet_data_get_key ( scheduled -> account_number, scheduled -> number );
 
     g_hash_table_replace ( bet_future_list, key, scheduled );
 
@@ -1653,19 +1535,9 @@ gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number )
 {
     gchar *key;
-    gchar *number_str, *account_nb_str; // only to avoid memory leaks
     struct_futur_data *scheduled;
 
-    number_str = utils_str_itoa ( number );
-    if ( scheduled -> account_number == 0 )
-        key = g_strconcat ("0:", number_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( account_number );
-        key = g_strconcat ( account_nb_str, ":", number_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( number_str );
+    key = bet_data_get_key ( account_number, number );
 
     if ( ( scheduled = g_hash_table_lookup ( bet_future_list, key ) ) )
         return scheduled;
@@ -1728,20 +1600,10 @@ GHashTable *bet_data_transfert_get_list ( void )
 gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert )
 {
     gchar *key;
-    gchar *transfert_nb_str, *account_nb_str; // only to avoid memory leaks
     
     transfert_number ++;
 
-    transfert_nb_str = utils_str_itoa ( transfert_number );
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", transfert_nb_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( transfert -> account_number );
-        key = g_strconcat ( account_nb_str, ":", transfert_nb_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( transfert_nb_str );
+    key = bet_data_get_key ( transfert -> account_number, transfert_number );
 
     transfert -> number = transfert_number;
     g_hash_table_insert ( bet_transfert_list, key, transfert );
@@ -1798,18 +1660,8 @@ gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
 gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfert )
 {
     gchar *key;
-    gchar *transfert_nb_str, *account_nb_str; // only to avoid memory leaks
 
-    transfert_nb_str = utils_str_itoa ( transfert -> number );
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", transfert_nb_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( transfert -> account_number );
-        key = g_strconcat ( account_nb_str, ":", transfert_nb_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( transfert_nb_str );
+    key = bet_data_get_key ( transfert -> account_number, transfert -> number );
 
     if ( transfert -> number >  transfert_number )
         transfert_number = transfert -> number;
@@ -1829,18 +1681,8 @@ gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfer
 gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 {
     gchar *key;
-    gchar *transfert_nb_str, *account_nb_str; // only to avoid memory leaks
 
-    transfert_nb_str = utils_str_itoa ( transfert -> number );
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", transfert_nb_str, NULL );
-    else
-    {
-        account_nb_str = utils_str_itoa ( transfert -> account_number );
-        key = g_strconcat ( account_nb_str, ":", transfert_nb_str, NULL );
-        g_free ( account_nb_str );
-    }
-    g_free ( transfert_nb_str );
+    key = bet_data_get_key ( transfert -> account_number, transfert -> number );
 
     g_hash_table_replace ( bet_transfert_list, key, transfert );
 
@@ -1959,6 +1801,35 @@ gboolean bet_data_remove_all_bet_data ( gint account_number )
     }
    
     return TRUE;
+}
+
+
+/**
+ * retourne la clef de recherche de la division passée en paramètre.
+ *
+ *
+ *
+ * */
+gchar *bet_data_get_key ( gint account_number, gint div_number )
+{
+    gchar *key;
+    gchar *div_number_str, *account_number_str; /* only to avoid memory leaks */
+
+    div_number_str = utils_str_itoa ( div_number );
+
+    if ( account_number == 0 )
+        key = g_strconcat ("0:", div_number_str, NULL );
+    else
+    {
+        account_number_str = utils_str_itoa ( account_number );
+        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
+
+        g_free ( account_number_str );
+    }
+
+    g_free ( div_number_str );
+
+    return key;
 }
 
 
