@@ -105,6 +105,7 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /*START_EXTERN*/
 extern GdkColor calendar_entry_color;
+extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *navigation_tree_view;
 extern gsb_real null_real;
 extern GtkWidget *window;
@@ -2660,7 +2661,12 @@ gboolean gsb_form_finish_edition ( void )
     if ( is_transaction )
     {
         affiche_dialogue_soldes_minimaux ();
-        update_transaction_in_trees (transaction_number);
+        update_transaction_in_trees ( transaction_number );
+        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_POINTEE )
+        {
+            gsb_navigation_update_statement_label ( account_number );
+            mise_a_jour_liste_comptes_accueil = 1;
+        }
     }
 
     /* as we modify or create a transaction, we invalidate the current report */
