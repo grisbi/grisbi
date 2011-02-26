@@ -42,6 +42,7 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
+#include "main.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -487,8 +488,8 @@ gboolean gsb_debug_start_log ( void )
     if ( debug_file )
     {
         GtkWidget *widget;
-        struct lconv *conv;
-        
+        gchar *tmp_str_2;
+
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
         etat.debug_mode = TRUE;
 
@@ -509,23 +510,7 @@ gboolean gsb_debug_start_log ( void )
         g_free ( tmp_str );
 
         /* write locales */
-        conv = localeconv();
-        tmp_str = g_strdup_printf ( "Variables d'environnement :\n\n"
-                        "LANG = %s\n\n"
-                        "Currency\n"
-                        "\tcurrency_symbol = %s\n"
-                        "\tmon_thousands_sep = \"%s\"\n"
-                        "\tmon_decimal_point = %s\n"
-                        "\tpositive_sign = \"%s\"\n"
-                        "\tnegative_sign = \"%s\"\n"
-                        "\tfrac_digits = \"%d\"\n\n",
-                        g_getenv ( "LANG"),
-                        conv->currency_symbol,
-                        g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
-                        g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
-                        g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
-                        g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
-                        conv->frac_digits );
+        tmp_str = gsb_main_get_print_locale_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -542,25 +527,7 @@ gboolean gsb_debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = g_strdup_printf ("Paths\n"
-                        "\tC_GRISBIRC = %s\n"
-                        "\tC_PATH_CONFIG = %s\n"
-                        "\tC_PATH_CONFIG_ACCELS = %s\n"
-                        "\tC_PATH_DATA_FILES = %s\n"
-                        "\tGRISBI_LOCALEDIR = %s\n"
-                        "\tGRISBI_PLUGINS_DIR = %s\n"
-                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
-                        C_GRISBIRC,
-                        C_PATH_CONFIG,
-                        C_PATH_CONFIG_ACCELS,
-                        C_PATH_DATA_FILES,
-#ifdef GTKOSXAPPLICATION
-                        grisbi_osx_get_locale_dir ( ),
-#else
-                        LOCALEDIR,
-#endif
-                        GRISBI_PLUGINS_DIR,
-                        GRISBI_PIXMAPS_DIR );
+        tmp_str = gsb_main_get_print_dir_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
 	    fflush ( debug_file );
@@ -574,11 +541,13 @@ gboolean gsb_debug_start_log ( void )
         g_free ( tmp_str );
 
         tmp_str = gsb_import_formats_get_list_formats_to_string ( );
+        tmp_str_2 = g_strconcat ( tmp_str, "\n", NULL );
 
-        fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
+        fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );
 	    fflush ( debug_file );
 
         g_free ( tmp_str );
+        g_free ( tmp_str_2 );
     }
     else
         dialogue_error (_("Grisbi failed to create the log file...") );
