@@ -48,7 +48,6 @@
 #include "gsb_fyear.h"
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
-#include "traitement_variables.h"
 #include "gsb_data_payment.h"
 #include "structures.h"
 #include "erreur.h"
@@ -78,6 +77,12 @@ static gint old_credit_payment_number = 0;
 static gint old_debit_payment_number = 0;
 static gchar *old_credit_payment_content = NULL;
 static gchar *old_debit_payment_content = NULL;
+
+/* empty entry in form color */
+#define EMPTY_ENTRY_COLOR_RED   50000
+#define EMPTY_ENTRY_COLOR_GREEN 50000
+#define EMPTY_ENTRY_COLOR_BLUE  50000
+
 
 /**
  * return the list wich contains the widgets of the form
