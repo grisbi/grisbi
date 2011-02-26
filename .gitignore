@@ -24,3 +24,5 @@ TODO*
 doxygen/
 *.o
 *.ho
+*~
+*.md5
