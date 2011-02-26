@@ -23,3 +23,6 @@ gisbi.anjuta
 TODO*
 doxygen/
 *.o
+*.ho
+*~
+*.md5
