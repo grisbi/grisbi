@@ -18,9 +18,6 @@
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"
-#define VERSION_GTK_MAJOR 2
-#define VERSION_GTK_MINOR 16
-#define VERSION_GTK_MICRO 0
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 

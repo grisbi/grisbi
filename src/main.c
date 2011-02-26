@@ -452,20 +452,6 @@ gboolean gsb_grisbi_init_app ( void )
     if ( ! gsb_file_config_load_config () )
         first_use = TRUE;
 
-    /* test version of GTK */
-    if ( gtk_check_version ( VERSION_GTK_MAJOR, VERSION_GTK_MINOR, VERSION_GTK_MICRO ) )
-    {
-        string = g_strdup_printf (  _("You are running Grisbi with GTK version %s"),
-                        get_gtk_run_version ( ) );
-        dialogue_conditional_hint ( string,
-                        _("The version of GTK you are using do not benefit from its "
-                        "latest features.\n"
-                        "\n"
-                        "You should upgrade GTK."),
-                        "gtk_obsolete" );
-        g_free ( string );
-    }
-
     return first_use;
 }
 
