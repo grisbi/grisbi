@@ -174,7 +174,7 @@ AC_ARG_WITH(ofx,
 	[build_ofx=$withval]
 	[build_ofx=auto])
 
-PKG_CHECK_MODULES(LIBOFX, [libofx], have_ofx=yes, have_ofx=no)
+PKG_CHECK_MODULES(LIBOFX, [libofx >= 0.7], have_ofx=yes, have_ofx=no)
 if test "$build_ofx" = yes -a "$with_ofx" = no; then
 	AC_MSG_ERROR([Ofx support was requested bug libofx could not be found.])
 fi
@@ -184,7 +184,6 @@ else
 	build_ofx=no
 fi
 if test "$build_ofx" = yes; then
-	PKG_CHECK_EXISTS([libofx >= 0.7], [AC_DEFINE([OFX_0_7], 1, [Build with libofx 0.7 or newer])])
 	AC_DEFINE(HAVE_OFX, 1, [Build with ofx support])
 fi
 AM_CONDITIONAL(HAVE_OFX, [test "$build_ofx" = yes])

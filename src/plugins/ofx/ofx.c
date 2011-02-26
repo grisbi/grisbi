@@ -93,14 +93,12 @@ gint  message_erreur_operation;
 gchar * ofx_filename;
 
 
-#ifdef OFX_0_7
 LibofxContextPtr ofx_context;
 int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);
 /* void ofx_proc_security_cb ( LibofxContextPtr, LibofxProcSecurityCallback, void * ); */
 int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
 int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);
 int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
-#endif /* OFX_0_7 */
 
 
 /**
@@ -124,20 +122,14 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
     argv[1] = imported -> name;
     devel_print_str ( imported -> name );
 
-#ifdef OFX_0_7
     ofx_context = libofx_get_new_context();
     ofx_set_status_cb ( ofx_context, ofx_proc_status_cb, NULL );
     /*     ofx_set_security_cb ( ofx_context, sofx_proc_security_cb, NULL ); */
     ofx_set_account_cb ( ofx_context, ofx_proc_account_cb, NULL );
     ofx_set_transaction_cb ( ofx_context, ofx_proc_transaction_cb, NULL );
     ofx_set_statement_cb ( ofx_context, ofx_proc_statement_cb, NULL );
-#endif /* OFX_0_7 */
  
-#ifdef OFX_0_7
     libofx_proc_file ( ofx_context, ofx_filename, AUTODETECT );
-#else /* OFX_0_7 */
-    ofx_proc_file ( 2, argv );	/* FIXME: handle < 0.7 */
-#endif /* OFX_0_7 */
 
     /*     le dernier compte n'a pas été ajouté à la liste */
     liste_comptes_importes_ofx = g_slist_append ( liste_comptes_importes_ofx,
@@ -181,11 +173,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
 
 
 
-#ifdef OFX_0_7
 int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
-#else /* OFX_0_7 */
-int ofx_proc_status_cb(struct OfxStatusData data)
-#endif /* OFX_0_7 */
 {
 /*         printf ( "ofx_proc_status_cb:\n" ); */
 /*         printf ( "ofx_element_name_valid %d\n", data . ofx_element_name_valid); */
@@ -247,11 +235,7 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 
 /* *******************************************************************************/
 
-#ifdef OFX_0_7
 int ofx_proc_account_cb(struct OfxAccountData data, void * account_data)
-#else /* OFX_0_7 */
-int ofx_proc_account_cb(struct OfxAccountData data)
-#endif /* OFX_0_7 */
 {
 /*         printf ( "ofx_proc_account_cb\n" ); */
 /*         printf ( "account_id_valid %d\n", data.account_id_valid ); */
@@ -296,11 +280,7 @@ int ofx_proc_account_cb(struct OfxAccountData data)
 
 
 /* *******************************************************************************/
-#ifdef OFX_0_7
 int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data)
-#else /* OFX_0_7 */
-int ofx_proc_transaction_cb(struct OfxTransactionData data)
-#endif /* OFX_0_7 */
 {
     struct struct_ope_importation *ope_import;
     GDate *date;
@@ -493,11 +473,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data)
 
 
 /* *******************************************************************************/
-#ifdef OFX_0_7
 int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data)
-#else /* OFX_0_7 */
-int ofx_proc_statement_cb(struct OfxStatementData data)
-#endif /* OFX_0_7 */
 {
     GDate *date;
 
