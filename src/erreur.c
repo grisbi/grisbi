@@ -44,7 +44,6 @@
 #include "import.h"
 #include "main.h"
 #include "structures.h"
-#include "traitement_variables.h"
 #include "utils.h"
 #include "utils_files.h"
 #include "utils_str.h"
