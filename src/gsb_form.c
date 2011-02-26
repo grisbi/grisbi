@@ -1727,33 +1727,40 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
 	case TRANSACTION_FORM_CATEGORY :
 	    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY (entry))))
 	    {
-		/* if it's a transfer, set the content of the contra combo */
-		if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ))
-		{
-		    /* if it's a transfer, set the contra_method of payment menu */
-		    gint contra_account_number;
+            /* if it's a transfer, set the content of the contra combo */
+            if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_CONTRA ) )
+            {
+                /* if it's a transfer, set the contra_method of payment menu */
+                gint contra_account_number;
 
-		    if ( (contra_account_number = gsb_form_check_for_transfer ( gtk_entry_get_text ( GTK_ENTRY (entry)))) >= 0
-			 &&
-			 contra_account_number != account_number )
-		    {
-			if ( gsb_form_widget_check_empty (gsb_form_widget_get_widget (TRANSACTION_FORM_CREDIT)))
-			    /* there is something in debit */
-			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
-								   GSB_PAYMENT_CREDIT,
-								   contra_account_number, 0, TRUE );
-			else
-			    /* there is something in credit */
-			    gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA),
-								   GSB_PAYMENT_DEBIT,
-								   contra_account_number, 0, TRUE );
-		    }
-		    else
-			gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA));
-		}
+                contra_account_number = gsb_form_check_for_transfer ( gtk_entry_get_text (
+                                    GTK_ENTRY ( entry ) ) );
+                if ( contra_account_number >= 0 && contra_account_number != account_number )
+                {
+                    if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT ) ) )
+                        /* there is something in debit */
+                        gsb_payment_method_create_combo_list (
+                                    gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA ),
+                                    GSB_PAYMENT_CREDIT,
+                                    contra_account_number, 0, TRUE );
+                    else
+                        /* there is something in credit */
+                        gsb_payment_method_create_combo_list (
+                                    gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA ),
+                                    GSB_PAYMENT_DEBIT,
+                                    contra_account_number, 0, TRUE );
+                }
+                else
+                    gtk_widget_hide ( gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA));
+            }
+            if ( strcmp ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), _("Split of transaction") )
+             && gtk_widget_get_visible ( form_button_recover_split ) )
+            {
+                gtk_widget_hide ( form_button_recover_split );
+            }
 	    }
 	    else
-		string = gsb_form_widget_get_name (TRANSACTION_FORM_CATEGORY);
+            string = gsb_form_widget_get_name (TRANSACTION_FORM_CATEGORY);
 	    break;
 
 	case TRANSACTION_FORM_CHEQUE :
