@@ -36,6 +36,34 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+/* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
+ * This is a work around to this issues :
+ *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
+ *  on windows they should be prefixed by OFX_
+ * libofx.h therefore needs to be patched on windows.
+ */
+
+#ifndef OFX_INFO
+#define OFX_INFO    INFO
+#endif
+
+#ifndef OFX_WARN
+#define OFX_WARN    WARN
+#endif
+
+#ifndef OFX_ERROR
+#define OFX_ERROR   ERROR
+#endif
+
+#ifndef OFX_DELETE
+#define OFX_DELETE  DELETE
+#endif
+
+#ifndef OFX_REPLACE
+#define OFX_REPLACE REPLACE
+#endif
+
+
 /*START_EXTERN*/
 /*END_EXTERN*/
 
