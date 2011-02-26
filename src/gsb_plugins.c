@@ -65,14 +65,14 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
 
-#ifndef NOOFX
+#ifdef HAVE_OFX
     plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
     plugin -> name = "ofx";
     plugin -> plugin_register = &ofx_plugin_register;
     plugin -> plugin_run =      &ofx_plugin_run;
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
-#endif /* NOODX */
+#endif /* HAVE_OFX */
 
     plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
     plugin -> name = "openssl";
