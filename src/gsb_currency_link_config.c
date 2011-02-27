@@ -26,7 +26,13 @@
  * contains the part to set the configuration of the currency_links
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_currency_link_config.h"
@@ -39,9 +45,7 @@
 #include "gsb_real.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "include.h"
 #include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

@@ -1,6 +1,7 @@
 #ifndef _GSB_REPORT_H
 #define _GSB_REPORT_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

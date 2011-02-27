@@ -29,6 +29,10 @@
  * (for changes only on variables, see gsb_automem.c)
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 
@@ -47,7 +51,6 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

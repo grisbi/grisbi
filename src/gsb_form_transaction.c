@@ -27,10 +27,16 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
+#include "etats_calculs.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency_link.h"
@@ -46,14 +52,9 @@
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "etats_calculs.h"
-#include "gsb_data_payment.h"
-#include "gtk_combofix.h"
-#include "gsb_data_form.h"
-#include "include.h"
-#include "erreur.h"
 #include "structures.h"
-#include "gsb_form_widget.h"
+#include "utils_dates.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -126,7 +127,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         return TRUE;
 
     /* find the last transaction with that payee */
-    if ( etat.automatic_completion_payee )
+    if ( conf.automatic_completion_payee )
     transaction_number = gsb_form_transactions_look_for_last_party ( payee_number,
                         0,
                         account_number );
@@ -169,8 +170,9 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         &&
         gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (form_button_recover_split), TRUE);
-        gtk_widget_show (form_button_recover_split);
+            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
+                        conf.automatic_recover_splits );
+            gtk_widget_show ( form_button_recover_split );
         }
     }
     else if ( element -> element_number == TRANSACTION_FORM_TYPE )
@@ -276,7 +278,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 
     /* if we don't want to complete with a transaction in another account,
      * go away here */
-    if ( etat.limit_completion_to_current_account )
+    if ( conf.limit_completion_to_current_account )
 	return 0;
 
     return last_transaction_with_party_not_in_account;
@@ -434,6 +436,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
                         gint new_transaction,
                         gint account_transfer )
 {
+    GDate *contra_value_date = NULL;
     const gchar *contra_transaction_content = NULL;
     gint contra_transaction_number;
     gint contra_mother_number = 0;
@@ -456,6 +459,8 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
                             transaction_number);
         if (contra_transaction_number > 0)
         {
+            const GDate *value_date;
+
             /* the transaction is a transfer */
 
             /* if the contra transaction was a child of split, copying/deleting it
@@ -470,6 +475,12 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
             /* Copying/deleting remove the content information, so we get it here */
             contra_transaction_content = gsb_data_transaction_get_method_of_payment_content (
                             contra_transaction_number );
+
+            /* Copying/deleting remove the value date, so we get it here */
+            value_date = gsb_data_transaction_get_value_date ( contra_transaction_number );
+            if ( value_date )
+                contra_value_date = gsb_date_copy ( value_date );
+
 
             /* check if we change the account target */
             if ( gsb_data_transaction_get_contra_transaction_account (
@@ -511,6 +522,14 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     /* If this is not a new transaction it restores the marked statement */
     gsb_data_transaction_set_marked_transaction ( contra_transaction_number,
                         contra_marked_transaction );
+
+    /* If this is not a new transaction it restores the value date */
+    if ( contra_value_date )
+    {
+		gsb_data_transaction_set_value_date ( contra_transaction_number, contra_value_date );
+
+		g_date_free ( contra_value_date );
+	}
 
     /* we have to change the amount by the opposite */
     gsb_data_transaction_set_amount (contra_transaction_number,
@@ -619,12 +638,17 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
     gint account_number;
     gint currency_number;
     gint account_currency_number;
+    gint transaction_number;
     gint link_number;
 
     account_number = gsb_form_get_account_number ( );
     gtk_widget_grab_focus ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) );
 
     account_currency_number = gsb_data_account_get_currency ( account_number );
+
+    transaction_number = GPOINTER_TO_INT ( g_object_get_data (
+                        G_OBJECT ( gsb_form_get_form_widget ( ) ),
+                        "transaction_number_in_form" ) );
 
     currency_number = gsb_currency_get_currency_from_combobox ( widget );
     if ( account_currency_number == currency_number )
@@ -636,13 +660,7 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
                         currency_number );
     if ( link_number == 0 )
     {
-        gint transaction_number;
-
-        transaction_number = GPOINTER_TO_INT (g_object_get_data (
-                        G_OBJECT ( gsb_form_get_form_widget ( ) ),
-                        "transaction_number_in_form" ));
-
-        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == 3 )
+        if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE )
         {
             gtk_widget_set_sensitive ( widget, FALSE );
             gtk_widget_hide ( gsb_form_widget_get_widget (
@@ -664,6 +682,11 @@ void gsb_form_transaction_currency_changed ( GtkWidget *widget, gpointer null )
                         gsb_data_transaction_get_exchange_fees ( transaction_number ),
                         TRUE );
         }
+    }
+    else if ( transaction_number > 0 )
+    {
+        gsb_currency_set_current_exchange ( gsb_data_transaction_get_exchange_rate ( transaction_number ) );
+        gsb_currency_set_current_exchange_fees ( gsb_data_transaction_get_exchange_fees ( transaction_number ) );
     }
 }
 /* Local Variables: */

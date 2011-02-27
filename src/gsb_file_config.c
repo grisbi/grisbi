@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2011 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -28,21 +28,24 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <errno.h>
+#include <glib/gstdio.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
 #include "dialog.h"
 #include "gsb_file.h"
-#include "utils_str.h"
 #include "main.h"
-#include "utils_files.h"
-#include "print_config.h"
 #include "structures.h"
-#include "utils_str.h"
 #include "utils_buttons.h"
-#include "print_config.h"
-#include "include.h"
+#include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -60,7 +63,6 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename );
 
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern GtkWidget *main_hpaned;
@@ -82,9 +84,12 @@ gsize nb_derniers_fichiers_ouverts = 0;
 gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
+#if IS_DEVELOPMENT_VERSION == 1
 /* flag de chargement du fichier modèle */
-
 static gboolean used_model = FALSE;
+#endif
+
+
 /**
  * load the config file
  * it uses the glib config utils after 0.6.0
@@ -250,16 +255,6 @@ devel_debug (NULL);
     
     conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
-    conf.latex_command = g_key_file_get_string ( config,
-                        "General",
-                        "Latex command",
-                        NULL );
-
-    conf.dvips_command = g_key_file_get_string ( config,
-                        "General",
-                        "Dvips command",
-                        NULL );
-
     conf.browser_command = g_key_file_get_string ( config,
                         "General",
                         "Web",
@@ -270,6 +265,10 @@ devel_debug (NULL);
                         "Pluriel_final",
                         NULL );
                         
+    conf.metatree_action_2button_press = g_key_file_get_integer ( config,
+                        "General",
+                        "Metatree_action_2button_press",
+                        NULL );
 
     /* get backup part */
     conf.make_backup = g_key_file_get_integer ( config,
@@ -375,7 +374,7 @@ devel_debug (NULL);
                         "Balances with scheduled",
                         &err );
     if ( err == NULL )
-        balances_with_scheduled = int_ret;
+        conf.balances_with_scheduled = int_ret;
     else
         err = NULL;
 
@@ -394,14 +393,15 @@ devel_debug (NULL);
                         "Display",
                         "Show transaction gives balance",
                         NULL );
-    conf.transactions_list_sort_by_date = g_key_file_get_integer ( config,
+
+    conf.transactions_list_primary_sorting = g_key_file_get_integer ( config,
                         "Display",
-                        "Transactions list sort by date",
+                        "Transactions_list_primary_sorting",
                         NULL );
 
-    conf.transactions_list_sort_by_value_date = g_key_file_get_integer ( config,
+    conf.transactions_list_secondary_sorting = g_key_file_get_integer ( config,
                         "Display",
-                        "Transactions list sort by value date",
+                        "Transactions_list_secondary_sorting",
                         NULL );
 
     etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
@@ -419,13 +419,18 @@ devel_debug (NULL);
                         "Automatic completion payee",
                         &err );
     if ( err == NULL )
-        etat.automatic_completion_payee = int_ret;
+        conf.automatic_completion_payee = int_ret;
     else
         err = NULL;
 
-    etat.limit_completion_to_current_account = g_key_file_get_integer ( config,
+    conf.limit_completion_to_current_account = g_key_file_get_integer ( config,
                         "Display",
                         "Limit payee completion",
+                        NULL );
+
+    conf.automatic_recover_splits = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic_recover_splits",
                         NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
@@ -482,50 +487,6 @@ devel_debug (NULL);
     etat.show_tip = g_key_file_get_integer ( config,
                         "Messages",
                         "Show tip",
-                        NULL );
-
-    /* get printer config */
-
-    etat.print_config.printer = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Printer",
-                        NULL );
-
-    etat.print_config.printer_name = g_key_file_get_string ( config,
-                        "Print config",
-                        "Printer name",
-                        NULL );
-
-    etat.print_config.printer_filename = g_key_file_get_string ( config,
-                        "Print config",
-                        "Printer filename",
-                        NULL );
-
-    etat.print_config.filetype = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Filetype",
-                        NULL );
-
-    etat.print_config.orientation = g_key_file_get_integer ( config,
-                        "Print config",
-                        "Orientation",
-                        NULL );
-
-    /* get the paper config */
-
-    etat.print_config.paper_config.name = g_key_file_get_string ( config,
-                        "Paper config",
-                        "Name",
-                        NULL );
-
-    etat.print_config.paper_config.width = g_key_file_get_integer ( config,
-                        "Paper config",
-                        "Width",
-                        NULL );
-
-    etat.print_config.paper_config.height = g_key_file_get_integer ( config,
-                        "Paper config",
-                        "Height",
                         NULL );
 
     g_free (filename);
@@ -652,18 +613,6 @@ gboolean gsb_file_config_save_config ( void )
                         "Font name",
                         conf.font_string );
 
-    if ( conf.latex_command )
-        g_key_file_set_string ( config,
-                        "General",
-                        "Latex command",
-                        conf.latex_command );
-
-    if ( conf.dvips_command )
-        g_key_file_set_string ( config,
-                        "General",
-                        "Dvips command",
-                        conf.dvips_command );
-
     if (conf.browser_command)
     {
         gchar *string;
@@ -681,6 +630,11 @@ gboolean gsb_file_config_save_config ( void )
                         "General",
                         "Pluriel_final",
                         conf.pluriel_final );
+
+    g_key_file_set_integer ( config,
+                        "General",
+                        "Metatree_action_2button_press",
+                        conf.metatree_action_2button_press );
 
      /* save backup part */
     g_key_file_set_integer ( config,
@@ -778,7 +732,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Balances with scheduled",
-                        balances_with_scheduled );
+                        conf.balances_with_scheduled );
 
     /* save shown section */
     g_key_file_set_integer ( config,
@@ -798,13 +752,13 @@ gboolean gsb_file_config_save_config ( void )
 
     g_key_file_set_integer ( config,
                         "Display",
-                        "Transactions list sort by date",
-                        conf.transactions_list_sort_by_date );
+                        "Transactions_list_primary_sorting",
+                        conf.transactions_list_primary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
-                        "Transactions list sort by value date",
-                        conf.transactions_list_sort_by_value_date );
+                        "Transactions_list_secondary_sorting",
+                        conf.transactions_list_secondary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -814,12 +768,17 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Automatic completion payee",
-                        etat.automatic_completion_payee );
+                        conf.automatic_completion_payee );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Limit payee completion",
-                        etat.limit_completion_to_current_account );
+                        conf.limit_completion_to_current_account );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic_recover_splits",
+                        conf.automatic_recover_splits );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -871,51 +830,6 @@ gboolean gsb_file_config_save_config ( void )
                         "Messages",
                         "Show tip",
                         etat.show_tip );
-
-    /* save printer config */
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Printer",
-                        etat.print_config.printer );
-
-    if ( etat.print_config.printer_name )
-        g_key_file_set_string ( config,
-                        "Print config",
-                        "Printer name",
-                        etat.print_config.printer_name );
-
-    if ( etat.print_config.printer_filename )
-        g_key_file_set_string ( config,
-                        "Print config",
-                        "Printer filename",
-                        etat.print_config.printer_filename );
-
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Filetype",
-                        etat.print_config.filetype );
-
-    g_key_file_set_integer ( config,
-                        "Print config",
-                        "Orientation",
-                        etat.print_config.orientation );
-
-    /* save the paper config */
-    if ( etat.print_config.paper_config.name )
-        g_key_file_set_string ( config,
-                        "Paper config",
-                        "Name",
-                        etat.print_config.paper_config.name );
-
-    g_key_file_set_integer ( config,
-                        "Paper config",
-                        "Width",
-                        etat.print_config.paper_config.width );
-
-    g_key_file_set_integer ( config,
-                        "Paper config",
-                        "Height",
-                        etat.print_config.paper_config.height );
 
     /* save into a file */
     file_content = g_key_file_to_data ( config, &length, NULL );
@@ -1131,20 +1045,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
  
     if ( !strcmp ( element_name,
-		   "Latex_command" ))
-    {
-	/* TODO dOm : fix memory leaks in this function (memory used by lvalue before setting its value */
-	conf.latex_command = my_strdup (text);
-	return;
-    }
-     if ( !strcmp ( element_name,
-		   "Dvips_command" ))
-    {
-	conf.dvips_command = my_strdup (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Largeur_colonne_comptes_operation" ))
     {
 	conf.largeur_colonne_comptes_operation = utils_str_atoi (text);
@@ -1296,39 +1196,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	    messages[i].hidden = utils_str_atoi (text);
 	}
     }
-
-    if ( !strcmp ( element_name,
-		   "printer" ))
-    {
-	etat.print_config.printer = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "printer_name" ))
-    {
-	etat.print_config.printer_name = my_strdup (text);
-	return;
-    }
-      if ( !strcmp ( element_name,
-		   "printer_filename" ))
-    {
-	etat.print_config.printer_filename = my_strdup (text);
-	return;
-    }
-      if ( !strcmp ( element_name,
-		   "filetype" ))
-    {
-	etat.print_config.filetype = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "orientation" ))
-    {
-	etat.print_config.orientation = utils_str_atoi (text);
-	return;
-    }
 }
 
 
@@ -1347,7 +1214,6 @@ void gsb_file_config_clean_config ( void )
     conf.prefs_width = 600;
 
     conf.force_enregistrement = 1;
-    etat.utilise_logo = 1;
 
     conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
     conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
@@ -1355,12 +1221,12 @@ void gsb_file_config_clean_config ( void )
     conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
-    balances_with_scheduled = TRUE;
+    conf.balances_with_scheduled = TRUE;
     etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    etat.get_fyear_by_value_date = 0;        /* By default use transaction-date */
-    etat.automatic_completion_payee = 1;        /* by default automatic completion */
-    etat.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_completion_payee = 1;        /* by default automatic completion */
+    conf.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_recover_splits = 1;
 
     conf.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
@@ -1368,8 +1234,8 @@ void gsb_file_config_clean_config ( void )
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
     conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
-    conf.transactions_list_sort_by_date = 0;        /* Options for sorting by date */  
-    conf.transactions_list_sort_by_value_date = 1;  /* Options for sorting by value date */  
+    conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
+    conf.transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
     etat.show_closed_accounts = FALSE;
 
     if ( conf.font_string )
@@ -1407,27 +1273,10 @@ void gsb_file_config_clean_config ( void )
     etat.last_tip = -1;
     etat.show_tip = FALSE;
 
-    /* Commands */
-    /* TODO dOm : use a copy of string so that we can free it */
-    conf.latex_command = "latex";
-    conf.dvips_command = "dvips";
-
     /* mise en conformité avec les recommandations FreeDesktop. */
     conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
 
-    /* Print */
-    etat.print_config.printer = 0;
-#ifndef _WIN32
-     etat.print_config.printer_name = "lpr";
-#else
-    etat.print_config.printer_name = "gsprint";
-#endif
-    etat.print_config.printer_filename = g_strdup ("");
-    etat.print_config.filetype = POSTSCRIPT_FILE;
-    etat.print_config.paper_config.name = _("A4");
-    etat.print_config.paper_config.width = 21;
-    etat.print_config.paper_config.height = 29.7;
-    etat.print_config.orientation = LANDSCAPE;
+    conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
 
     memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 }
@@ -1516,7 +1365,10 @@ gchar *gsb_config_get_old_conf_name ( void )
         }
     }
     else
+    {
         dialogue_error ( error -> message );
+        g_error_free ( error );
+    }
 
     if ( g_slist_length ( liste ) == 0 )
         return NULL;

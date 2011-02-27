@@ -20,7 +20,13 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
+
 #include "metatree.h"
 
 /*START_INCLUDE*/
@@ -30,8 +36,6 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
-#include "metatree.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
@@ -60,6 +64,8 @@ static MetatreeInterface _budgetary_interface = {
     2,
     budgetary_line_tree_currency,
     N_("Budgetary line"),
+    N_("budgetary line"),
+    N_("sub-budgetary line"),
     N_("No budgetary line"),
     N_("No sub-budgetary line"),
     budgetary_line_get_without_div_pointer,

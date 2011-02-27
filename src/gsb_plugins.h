@@ -1,24 +1,28 @@
 #ifndef GSB_PLUGINS_H
 #define GSB_PLUGINS_H
 
+#include <glib.h>
+#ifndef ENABLE_STATIC
+#include <gmodule.h>
+#endif
+
 /* START_INCLUDE_H */
-#include "structures.h"
 /* END_INCLUDE_H */
 
 
 typedef struct gsb_plugin {
     gchar * name;
-    gboolean (* plugin_register) ( void );
-    gboolean (* plugin_release) ( void );
-    gpointer (* plugin_run) ( void );
+    void (* plugin_register) ( void );
+    gpointer (* plugin_run) ( );
+#ifndef ENABLE_STATIC
     GModule * handle;
+#endif
 }  gsb_plugin;
 
 
 /* START_DECLARATION */
 gsb_plugin * gsb_plugin_find ( gchar * plugin_name );
 gchar * gsb_plugin_get_list ();
-void gsb_plugins_release ( );
 void gsb_plugins_scan_dir ( const char *dirname );
 /* END_DECLARATION */
 

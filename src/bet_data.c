@@ -21,10 +21,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* ./configure --with-balance-estimate */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "include.h"
-#include <config.h>
 
 /*START_INCLUDE*/
 #include "bet_data.h"
@@ -42,7 +43,6 @@
 #include "traitement_variables.h"
 #include "gsb_file_save.h"
 #include "utils_str.h"
-#include "gsb_data_account.h"
 #include "gsb_scheduler_list.h"
 #include "erreur.h"
 #include "structures.h"
@@ -55,6 +55,7 @@ static GDate *bet_data_futur_get_next_date ( struct_futur_data *scheduled,
                         const GDate *date_max );
 static struct_futur_data *bet_data_future_copy_struct ( struct_futur_data *scheduled );
 static void bet_data_future_set_max_number ( gint number );
+static gchar *bet_data_get_key ( gint account_number, gint div_number );
 static gboolean bet_data_update_div ( SH *sh,
                         gint transaction_number,
                         gint sub_div,
@@ -112,6 +113,8 @@ void bet_data_select_bet_pages ( gint account_number )
     bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
     if ( bet_use_budget <= 0 )
         kind = GSB_TYPE_ASSET;
+    else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+        kind = GSB_TYPE_BANK;
 
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
 
@@ -256,7 +259,7 @@ gboolean bet_data_init_variables ( void )
  *
  *
  * */
-gboolean bet_data_hist_add_div ( gint account_nb,
+gboolean bet_data_hist_add_div ( gint account_number,
                         gint div_number,
                         gint sub_div_nb )
 {
@@ -264,11 +267,7 @@ gboolean bet_data_hist_add_div ( gint account_nb,
     gchar *sub_key;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -306,7 +305,8 @@ gboolean bet_data_hist_add_div ( gint account_nb,
             dialogue_error_memory ( );
             return 0;
         }
-        shd -> account_nb = account_nb;
+        shd -> account_nb = account_number;
+        shd -> origin = gsb_data_account_get_bet_hist_data ( account_number );
         shd -> div_number = div_number;
         if ( sub_div_nb > 0 )
         {
@@ -341,11 +341,7 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
     gchar *sub_key;
     struct_hist_div *tmp_shd;
 
-    if ( shd -> account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( shd -> div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( shd -> account_nb ), ":",
-                        utils_str_itoa ( shd -> div_number ), NULL );
+    key = bet_data_get_key ( shd -> account_nb, shd -> div_number );
 
     if ( ( tmp_shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -376,17 +372,13 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
  *
  *
  * */
-gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_remove_div_hist ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
     
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -411,19 +403,19 @@ gboolean bet_data_remove_div_hist ( gint account_nb, gint div_number, gint sub_d
  *
  *
  * */
-gboolean bet_data_search_div_hist ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
     gchar *sub_key;
+    gint origin;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_number, div_number );
 
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    origin = gsb_data_account_get_bet_hist_data ( account_number );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) )
+     && shd -> origin == origin )
     {
         if ( sub_div_nb == 0 )
         {
@@ -529,19 +521,19 @@ gchar *bet_data_get_div_name ( gint div_num,
  *
  *
  * */
-gboolean bet_data_get_div_edited ( gint account_nb, gint div_number, gint sub_div_nb )
+gboolean bet_data_get_div_edited ( gint account_number, gint div_number, gint sub_div_nb )
 {
     gchar *key;
+    gint origin;
     struct_hist_div *shd;
     gboolean edited;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_number, div_number );
 
-    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
+    origin = gsb_data_account_get_bet_hist_data ( account_number );
+
+    if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) )
+     && shd -> origin == origin )
     {
         if ( sub_div_nb == 0 )
             edited = shd -> div_edited;
@@ -580,11 +572,7 @@ gboolean bet_data_set_div_edited ( gint account_nb,
     gchar *key;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -620,11 +608,7 @@ gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint s
     struct_hist_div *shd;
     gsb_real amount;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -665,11 +649,7 @@ gboolean bet_data_set_div_amount ( gint account_nb,
     gchar *key;
     struct_hist_div *shd;
 
-    if ( account_nb == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( div_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_nb ), ":",
-                        utils_str_itoa ( div_number ), NULL );
+    key = bet_data_get_key ( account_nb, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
@@ -734,7 +714,7 @@ gboolean bet_data_populate_div ( gint transaction_number,
         sub_div = ptr_sub_div ( transaction_number, is_transaction );
     else
         return FALSE;
-    
+
     if ( (sh = g_hash_table_lookup ( list_div, utils_str_itoa ( div ) ) ) )
         bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
     else
@@ -830,13 +810,14 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Ori=\"%d\"Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
+                        shd -> origin,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount,
+                        gsb_real_safe_real_to_string ( shd -> amount,
                         gsb_data_account_get_currency_floating_point ( shd -> account_nb ) ),
                         0, 0, "0.00" );
 
@@ -854,16 +835,17 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
                 floating_point = gsb_data_account_get_currency_floating_point ( shd -> account_nb );
                 tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,
+                        shd -> origin,
                         shd -> div_number,
                         shd -> div_edited,
-                        gsb_real_save_real_to_string ( shd -> amount, floating_point ),
+                        gsb_real_safe_real_to_string ( shd -> amount, floating_point ),
                         sub_shd -> div_number,
                         sub_shd -> div_edited,
-                        gsb_real_save_real_to_string ( sub_shd -> amount, floating_point ) );
+                        gsb_real_safe_real_to_string ( sub_shd -> amount, floating_point ) );
 
                 g_ptr_array_add ( tab, tmp_str );
             }
@@ -879,7 +861,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         gchar *limit_date;
 
         /* set the real */
-        amount = gsb_real_save_real_to_string ( scheduled -> amount,
+        amount = gsb_real_safe_real_to_string ( scheduled -> amount,
                         gsb_data_account_get_currency_floating_point ( scheduled -> account_number ) );
 
         /* set the dates */
@@ -1159,11 +1141,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
 
     if ( scheduled -> frequency == 0 )
     {
-        if ( scheduled -> account_number == 0 )
-            key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
-        else
-            key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
-                        utils_str_itoa ( future_number ), NULL );
+        key = bet_data_get_key ( scheduled -> account_number, future_number );
 
         scheduled -> number = future_number;
         g_hash_table_insert ( bet_future_list, key, scheduled );
@@ -1183,11 +1161,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
         date = gsb_date_copy ( scheduled -> date );
         while ( date != NULL && g_date_valid ( date ) )
         {
-            if ( scheduled -> account_number == 0 )
-                key = g_strconcat ("0:", utils_str_itoa ( future_number ), NULL );
-            else
-                key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
-                        utils_str_itoa ( future_number ), NULL );
+            key = bet_data_get_key ( scheduled -> account_number, future_number );
 
             if ( mother_row == future_number )
                 new_sch = scheduled;
@@ -1224,15 +1198,11 @@ gboolean bet_data_future_set_lines_from_file ( struct_futur_data *scheduled )
 {
     gchar *key;
 
-        if ( scheduled -> account_number == 0 )
-            key = g_strconcat ("0:", utils_str_itoa ( scheduled -> number ), NULL );
-        else
-            key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
-                        utils_str_itoa ( scheduled -> number ), NULL );
+    key = bet_data_get_key ( scheduled -> account_number, scheduled -> number );
 
-        bet_data_future_set_max_number ( scheduled -> number );
+    bet_data_future_set_max_number ( scheduled -> number );
 
-        g_hash_table_insert ( bet_future_list, key, scheduled );
+    g_hash_table_insert ( bet_future_list, key, scheduled );
 
     return TRUE;
 }
@@ -1545,11 +1515,7 @@ gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 {
     gchar *key;
 
-    if ( scheduled -> account_number == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( scheduled -> number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( scheduled -> account_number ), ":",
-                        utils_str_itoa ( scheduled -> number ), NULL );
+    key = bet_data_get_key ( scheduled -> account_number, scheduled -> number );
 
     g_hash_table_replace ( bet_future_list, key, scheduled );
 
@@ -1571,11 +1537,7 @@ struct_futur_data *bet_data_future_get_struct ( gint account_number, gint number
     gchar *key;
     struct_futur_data *scheduled;
 
-    if ( account_number == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( account_number ), ":",
-                        utils_str_itoa ( number ), NULL );
+    key = bet_data_get_key ( account_number, number );
 
     if ( ( scheduled = g_hash_table_lookup ( bet_future_list, key ) ) )
         return scheduled;
@@ -1641,11 +1603,7 @@ gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert )
     
     transfert_number ++;
 
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( transfert_number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
-                        utils_str_itoa ( transfert_number ), NULL );
+    key = bet_data_get_key ( transfert -> account_number, transfert_number );
 
     transfert -> number = transfert_number;
     g_hash_table_insert ( bet_transfert_list, key, transfert );
@@ -1703,11 +1661,7 @@ gboolean bet_data_transfert_set_line_from_file ( struct_transfert_data *transfer
 {
     gchar *key;
 
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( transfert -> number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
-                        utils_str_itoa ( transfert -> number ), NULL );
+    key = bet_data_get_key ( transfert -> account_number, transfert -> number );
 
     if ( transfert -> number >  transfert_number )
         transfert_number = transfert -> number;
@@ -1728,11 +1682,7 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 {
     gchar *key;
 
-    if ( transfert -> account_number == 0 )
-        key = g_strconcat ("0:", utils_str_itoa ( transfert -> number ), NULL );
-    else
-        key = g_strconcat ( utils_str_itoa ( transfert -> account_number ), ":",
-                        utils_str_itoa ( transfert -> number ), NULL );
+    key = bet_data_get_key ( transfert -> account_number, transfert -> number );
 
     g_hash_table_replace ( bet_transfert_list, key, transfert );
 
@@ -1851,6 +1801,35 @@ gboolean bet_data_remove_all_bet_data ( gint account_number )
     }
    
     return TRUE;
+}
+
+
+/**
+ * retourne la clef de recherche de la division passée en paramètre.
+ *
+ *
+ *
+ * */
+gchar *bet_data_get_key ( gint account_number, gint div_number )
+{
+    gchar *key;
+    gchar *div_number_str, *account_number_str; /* only to avoid memory leaks */
+
+    div_number_str = utils_str_itoa ( div_number );
+
+    if ( account_number == 0 )
+        key = g_strconcat ("0:", div_number_str, NULL );
+    else
+    {
+        account_number_str = utils_str_itoa ( account_number );
+        key = g_strconcat ( account_number_str, ":", div_number_str, NULL );
+
+        g_free ( account_number_str );
+    }
+
+    g_free ( div_number_str );
+
+    return key;
 }
 
 

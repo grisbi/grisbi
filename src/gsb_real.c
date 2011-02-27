@@ -29,7 +29,15 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <glib/gstdio.h>
 #include <assert.h>
 
 /*START_INCLUDE*/
@@ -46,30 +54,6 @@ glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
 
 #ifdef _MSC_VER
-typedef struct _lldiv_t
-{
-	long long 	quot;
-	long long 	rem;
-} lldiv_t;
-
-lldiv_t lldiv(long long numerator, long long denominator)
-{
-	/* TODO find a standard/efficient impl for this */
-	lldiv_t result;
-	result.quot = numerator / denominator;
-	result.rem = numerator % denominator;
-	return result;
-}
-
-long long llabs ( long long number )
-{
-    if ( number < 0 )
-        number = number * -1;
-    return number;
-}
-
-
-#define lrint(x) (floor(x + 0.5))
 #define rint(x) (floor(x + 0.5))
 #endif /*_MSC_VER */
 
@@ -125,7 +109,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
-    gchar *result = NULL;
+    gchar *result = NULL, *temp = NULL;
 	const gchar *cs_start;
     const gchar *cs_start_space;
     const gchar *sign;
@@ -146,11 +130,11 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
     nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
 
-    result = g_strndup ( buffer, nbre_char );
+    temp = g_strndup ( buffer, nbre_char );
 
     if ( units.quot >= 1000 )
     {
-        result = gsb_real_add_thousands_sep ( result, gsb_thousands_sep );
+        temp = gsb_real_add_thousands_sep ( temp, gsb_thousands_sep );
     }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
@@ -162,11 +146,13 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                             cs_start,
                             cs_start_space,
                             sign,
-                            result,
+                            temp,
                             mon_decimal_point,
                             units.rem,
                             cs_end_space,
                             cs_end );
+
+    g_free ( temp );
 
     return result;
 }
@@ -358,7 +344,7 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
  *
  * \return the number in the string transformed to gsb_real
  */
-gsb_real gsb_real_import_from_string ( const gchar *string )
+gsb_real gsb_real_safe_real_from_string ( const gchar *string )
 {
     unsigned nb_digits = 0;
     gint64 mantissa = 0;
@@ -861,7 +847,13 @@ gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent )
 }
 
 
-gchar *gsb_real_save_real_to_string ( gsb_real number, gint default_exponent )
+/**
+ * retourne une chaine représentative d'un nombre avec le point comme séparateur décimal
+ * et pas de separateur de milliers
+ *
+ * The returned string should be freed with g_free() when no longer needed.
+ * */
+gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
@@ -1020,7 +1012,10 @@ void gsb_real_set_decimal_point ( const gchar *decimal_point )
     if ( gsb_decimal_point && strlen ( gsb_decimal_point ) )
         g_free ( gsb_decimal_point );
 
-    gsb_decimal_point = g_strdup ( decimal_point );
+    if ( decimal_point == NULL )
+        gsb_decimal_point = NULL;
+    else
+		gsb_decimal_point = g_strdup ( decimal_point );
 }
 
 

@@ -23,14 +23,17 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
 #include "utils_str.h"
-#include "go-optionmenu.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 struct cb_find_entry {
@@ -69,8 +72,6 @@ static void set_menu_to_default (GOCharmapSel *cs, gint item);
 /*END_EXTERN*/
 
 
-#include "go-charmap-sel.h"
-#include "go-optionmenu.h"
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>

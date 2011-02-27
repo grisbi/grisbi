@@ -27,7 +27,14 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <string.h>
+#include <ctype.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_reconcile.h"
@@ -51,10 +58,6 @@
 #include "transaction_list.h"
 #include "transaction_list_sort.h"
 #include "structures.h"
-#include "gsb_transactions_list.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -127,15 +130,15 @@ GtkWidget *gsb_reconcile_create_box ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( COLON(_("Reconciliation reference")) );
+    label = gtk_label_new ( _("Reconciliation reference: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     reconcile_number_entry = gtk_entry_new ();
     gtk_widget_set_tooltip_text ( GTK_WIDGET (reconcile_number_entry),
-				  SPACIFY(_("If reconciliation reference ends in a digit, it is "
+                            _("If reconciliation reference ends in a digit, it is "
                             "automatically incremented at each reconciliation.\n"
                             "You can let it empty if you don't want to keep a trace of "
-                            "the reconciliation.")));
+                            "the reconciliation.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
     separator = gtk_hseparator_new();
@@ -209,7 +212,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( COLON(_("Initial balance")) );
+    label = gtk_label_new ( _("Initial balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 0, 1);
 
@@ -217,7 +220,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_initial_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_initial_balance_label, 1, 2, 0, 1);
 
-    label = gtk_label_new ( COLON(_("Final balance")) );
+    label = gtk_label_new ( _("Final balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 1, 2);
 
@@ -225,7 +228,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_final_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_label, 1, 2, 1, 2);
 
-    label = gtk_label_new ( COLON(_("Checking")) );
+    label = gtk_label_new ( _("Checking: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 2, 3);
 
@@ -236,7 +239,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_hseparator_new();
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 2, 3, 4);
 
-    label = gtk_label_new ( COLON(_("Variance")) );
+    label = gtk_label_new ( _("Variance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, 4, 5);
 
@@ -383,51 +386,68 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
         gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), tmpstr );
     }
 
-    /* increase the last date of 1 month */
-    date = gsb_date_copy (gsb_data_reconcile_get_final_date (reconcile_number));
-    if (date)
+    /* reset records in etat if user has changed of account */
+    if (etat.reconcile_account_number != account_number)
     {
-	GDate *today;
-	gchar *string ;
+        if (etat.reconcile_final_balance) g_free (etat.reconcile_final_balance);
+        if (etat.reconcile_new_date) g_date_free (etat.reconcile_new_date);
+        etat.reconcile_final_balance = NULL;
+        etat.reconcile_new_date = NULL;
+        etat.reconcile_account_number = -1;
+    }
 
-	string = gsb_format_gdate ( date );
-	gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ),
-			     string);
-    gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ),
-				   FALSE );
-	g_free (string);
-	g_date_add_months ( date, 1 );
-
-	/* if the new date is after today, set today */
-	today = gdate_today();
-	if ( g_date_compare ( date, today) > 0 )
-	{
-	    g_date_free (date);
-	    date = gdate_today();
-	}
-	else
-	    g_date_free (today);
-
-	/* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
-	tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
-	g_free ( tmpstr );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
-				   FALSE );
+    /* set last input date/amount if available */
+    if (etat.reconcile_new_date)
+    {
+        date = etat.reconcile_new_date;
     }
     else
     {
-	gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), _("None") );
+        /* increase the last date of 1 month */
+        date = gsb_date_copy (gsb_data_reconcile_get_final_date (reconcile_number));
+        if (date)
+        {
+            GDate *today;
+            gchar *string ;
 
-	date = gdate_today();
+            string = gsb_format_gdate ( date );
+            gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ),
+                    string);
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_last_date_label ),
+                    FALSE );
+            g_free (string);
+            g_date_add_months ( date, 1 );
 
-	/* it's the first reconciliation, set the initial balance and make sensitive the old balance to change
-	 * it if necessary */
-	tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
-	g_free ( tmpstr );
-	gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
-				   TRUE );
+            /* if etat.reconcile_end_date or the new date is after today, set today */
+            today = gdate_today();
+            if ( etat.reconcile_end_date || g_date_compare ( date, today) > 0 )
+            {
+                g_date_free (date);
+                date = gdate_today();
+            }
+            else
+                g_date_free (today);
+
+            /* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
+            tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+            gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
+            g_free ( tmpstr );
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
+                    FALSE );
+        }
+        else
+        {
+            gtk_label_set_text ( GTK_LABEL ( reconcile_last_date_label ), _("None") );
+
+            date = gdate_today();
+
+            /* it's the first reconciliation, set the initial balance and make sensitive the old balance to change
+             * it if necessary */
+            tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
+            gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
+            g_free ( tmpstr );
+            gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), TRUE );
+        }
     }
 
     string = gsb_format_gdate (date);
@@ -435,7 +455,12 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 			 string );
     g_free (string);
     g_date_free (date);
-    gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), "" );
+
+    /* set last input amount if available and if the account is the good one */
+    gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), 
+            (etat.reconcile_final_balance) ? etat.reconcile_final_balance : "");
+    if (etat.reconcile_final_balance)
+        g_free(etat.reconcile_final_balance);
 
     /* set the title */
     tmpstr = g_markup_printf_escaped ( _(" <b>%s reconciliation</b> "),
@@ -610,6 +635,13 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     /* go back to the normal transactions list */
     gsb_reconcile_cancel (NULL, NULL);
 
+    /* reset records in etat: to do after gsb_reconcile_cancel */
+    if (etat.reconcile_final_balance) g_free (etat.reconcile_final_balance);
+    if (etat.reconcile_new_date) g_date_free (etat.reconcile_new_date);
+    etat.reconcile_final_balance = NULL;
+    etat.reconcile_new_date = NULL;
+    etat.reconcile_account_number = -1;
+
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 
@@ -672,6 +704,11 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 				        gpointer null )
 {
     etat.equilibrage = 0;
+
+    /* save the final balance/new date for the next time the user will try to reconcile */
+    etat.reconcile_account_number = gsb_gui_navigation_get_current_account ();
+    etat.reconcile_final_balance = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ) ) );
+    etat.reconcile_new_date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry ) ) );
 
     /* set the normal color to the date entry */
     gsb_calendar_entry_set_color ( reconcile_new_date_entry, TRUE);

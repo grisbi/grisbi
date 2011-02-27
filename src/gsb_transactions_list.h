@@ -1,7 +1,7 @@
 #ifndef _OPERATIONS_LISTE_H
 #define _OPERATIONS_LISTE_H (1)
 
-
+#include <gtk/gtk.h>
 
 /* the element number for each showable in the list */
 enum
@@ -63,6 +63,7 @@ GtkWidget *gsb_transactions_list_make_gui_list ( void );
 gboolean gsb_transactions_list_restore_archive ( gint archive_number,
                         gboolean show_warning );
 void gsb_transactions_list_selection_changed ( gint new_selected_transaction );
+gboolean gsb_transactions_list_set_largeur_col ( void );
 gboolean gsb_transactions_list_set_row_align ( gfloat row_align );
 void gsb_transactions_list_set_visible_rows_number ( gint rows_number );
 void gsb_transactions_list_show_archives_lines ( gboolean show_l );

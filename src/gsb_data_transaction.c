@@ -26,8 +26,12 @@
  */
 
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_transaction.h"
@@ -45,7 +49,6 @@
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -2625,8 +2628,13 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    list_tmp = g_slist_sort (list_tmp, 
+    if ( etat.metatree_sort_transactions == 1 )
+        list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date );
+    else
+        list_tmp = g_slist_sort (list_tmp,
+                        (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
     return list_tmp;
 }
 

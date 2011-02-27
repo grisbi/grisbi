@@ -25,7 +25,13 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <math.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "print_report.h"
@@ -33,11 +39,8 @@
 #include "gsb_data_print_config.h"
 #include "utils.h"
 #include "print_dialog_config.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
-
-#if GTK_CHECK_VERSION(2,12,0)
 
 
 /*START_STATIC*/
@@ -484,9 +487,6 @@ gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
     return FALSE;
 }
 
-
-
-#endif /* GTK_CHECK_VERSION(2,12,0) */
 
 
 

@@ -21,8 +21,12 @@
 /*                                                                            */
 /* ************************************************************************** */
  
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "affichage_liste.h"
@@ -39,9 +43,7 @@
 #include "structures.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
-#include "gtk_combofix.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -51,10 +53,11 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
-static gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
-                        gpointer null );
-static gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
-                        GtkWidget *button );
+static gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
+static gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
+                        GtkWidget *container );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 
@@ -96,9 +99,9 @@ GtkWidget *onglet_affichage_operations ( void )
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
     gchar *display_mode_lines_text [] = {
-    _("In one line visible, show the lines"),
-    _("In two lines visibles, show the lines"),
-    _("In three lines visibles, show the lines"),
+    _("In one line visible, show the line: "),
+    _("In two lines visibles, show the lines: "),
+    _("In three lines visibles, show the lines: "),
     };
     gchar *line_1 [] = {
     "1", "2", "3", "4",
@@ -131,7 +134,7 @@ GtkWidget *onglet_affichage_operations ( void )
     gint position = 0;
 
     /* set the line title */
-    label = gtk_label_new ( COLON(display_mode_lines_text[i]));
+    label = gtk_label_new ( display_mode_lines_text[i] );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_RIGHT );
     gtk_box_pack_start ( GTK_BOX (vbox_label), label, FALSE, FALSE, 0);
@@ -167,11 +170,9 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
     }
 
-
     /* pack vboxes in hbox */
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox_buttons, FALSE, FALSE, 0 );
-
 
     /* do we show the content of the selected transaction in the form for
      * each selection ? */
@@ -188,26 +189,31 @@ GtkWidget *onglet_affichage_operations ( void )
                         &conf.show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
                         FALSE, FALSE, 0 );
-    /* Sorting the transactions by date */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Options for sorting by date"),
-                        _("Sort by date and transaction number"),
-                        _("Sort by date and transaction amount"),
-                        &conf.transactions_list_sort_by_date,
-                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
-                        NULL );
 
-    /* Sorting the transactions by value date */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
-                        _("Options for sorting by value date"),
+    /* Primary sorting option for the transactions */
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+                        _("Primary sorting option"),
                         _("Sort by value date (if fail, try with the date)"),
                         _("Sort by value date and then by date"),
-                        &conf.transactions_list_sort_by_value_date,
-                        G_CALLBACK ( gsb_transactions_list_display_sort_by_value_date ),
-                        NULL );
+                        NULL,
+                        &conf.transactions_list_primary_sorting,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
+                        &conf.transactions_list_primary_sorting,
+                        GTK_ORIENTATION_VERTICAL );
+
+    /* Secondary sorting option for the transactions */
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+                        _("Secondary sorting option"),
+                        _("Sort by transaction number"),
+                        _("Sort by type of amount (credit debit)"),
+                        _("Sort by payee name (if fail, by transaction number)"),
+                        &conf.transactions_list_secondary_sorting,
+                        G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
+                        &conf.transactions_list_secondary_sorting,
+                        GTK_ORIENTATION_VERTICAL );
 
     /* Account distinction */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
                         _("Account differentiation"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
@@ -230,13 +236,24 @@ GtkWidget *onglet_affichage_operations ( void )
  *
  *
  * */
-gboolean gsb_transactions_list_display_sort_by_value_date ( GtkWidget *checkbutton,
-                        gpointer null )
+gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
 {
     gint page_number;
     gint account_nb;
 
     page_number = gsb_gui_navigation_get_current_page ( );
+
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
 
     switch ( page_number )
     {
@@ -496,21 +513,30 @@ GtkWidget *onglet_form_completion ( void )
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
-    button = gsb_automem_checkbutton_new (
-                        _("Limit the filling with payees belonging to the current account"),
-                        &etat.limit_completion_to_current_account,
-                        NULL, NULL);
-    gtk_widget_set_sensitive ( button, etat.automatic_completion_payee );
-
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
                         _("Automatic filling transactions from payee"),
-                        &etat.automatic_completion_payee,
-                        G_CALLBACK ( gsb_transactions_list_display_update_auto_completion ),
-                        button ),
+                        &conf.automatic_completion_payee,
+                        G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
+                        vbox_pref ),
                         FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),button, FALSE, FALSE, 0 );
+    button = gsb_automem_checkbutton_new (
+                        _("Automatically recover the children of the associated transaction"),
+                        &conf.automatic_recover_splits,
+                        NULL,
+                        NULL );
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_1", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Limit the filling with payees belonging to the current account"),
+                        &conf.limit_completion_to_current_account,
+                        NULL, NULL);
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
@@ -523,12 +549,6 @@ GtkWidget *onglet_form_completion ( void )
                         &etat.combofix_case_sensitive,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
-
-/*    gtk_box_pack_start ( GTK_BOX (vbox_pref),
-                        gsb_automem_checkbutton_new (_("Enter keeps current completion"),
-                        &etat.combofix_enter_select_completion,
-                        G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
-                        FALSE, FALSE, 0 ); */
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
@@ -546,7 +566,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (
-                        COLON (_("Maximum items showed in drop down lists (0 for no limit)") ) );
+                        _("Maximum items showed in drop down lists (0 for no limit): ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
@@ -595,8 +615,6 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-					  etat.combofix_enter_select_completion );*/
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
@@ -608,8 +626,6 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 				     etat.combofix_max_item );
 	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
 					  etat.combofix_case_sensitive );
-/*  gtk_combofix_set_enter_function ( GTK_COMBOFIX (combofix),
-                        etat.combofix_enter_select_completion ); */
 	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
 				      etat.combofix_mixed_sort );
     }
@@ -673,13 +689,25 @@ void gsb_transactions_list_display_show_gives_balance ( void )
  *
  * \return FALSE
  * */
-gboolean gsb_transactions_list_display_update_auto_completion ( GtkWidget *checkbutton,
-                        GtkWidget *button )
+gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
+                        GtkWidget *container )
 {
+    GtkWidget *button;
+
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) ) )
+    {
+        button = g_object_get_data ( G_OBJECT ( container ), "button_1" );
         gtk_widget_set_sensitive ( button, TRUE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
+        gtk_widget_set_sensitive ( button, TRUE );
+    }
     else
+    {
+        button = g_object_get_data ( G_OBJECT ( container ), "button_1" );
         gtk_widget_set_sensitive ( button, FALSE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
+        gtk_widget_set_sensitive ( button, FALSE );
+    }
  
     return FALSE;
 }

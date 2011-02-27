@@ -21,7 +21,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "import_csv.h"
@@ -33,8 +38,6 @@
 #include "import.h"
 #include "utils.h"
 #include "structures.h"
-#include "include.h"
-#include "import.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -1079,6 +1082,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     if ( ! g_file_get_contents ( filename, &tmp_str, &size, &error ) )
     {
         g_print ( _("Unable to read file: %s\n"), error -> message);
+        g_error_free ( error );
         return FALSE;
     }
 
@@ -1089,6 +1093,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
 
     if ( contents == NULL )
     {
+        g_error_free ( error );
         error = NULL;
         size = 0;
         bytes_written = 0;
@@ -1103,6 +1108,7 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
         if ( bytes_written == 0 )
         {
             g_print ( _("Unable to read file: %s\n"), error -> message);
+            g_error_free ( error );
             return FALSE;
         }
     }

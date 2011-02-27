@@ -22,8 +22,12 @@
 /* ************************************************************************** */
 
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "help.h"
@@ -32,7 +36,6 @@
 #include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -153,14 +156,6 @@ NULL};
                         "This product includes software developed by the OpenSSL Project "
                         "for use in the OpenSSL Toolkit.\n(http://www.openssl.org/)";
 
-#if ! GTK_CHECK_VERSION(2,10,0)
-    /* Warn about obsolete dependencies */
-    gchar * warn_print = _("\n\nThis version of Grisbi does not support print feature.\n"
-                        "Version of GTK+ it was built with is obsolete.");
-#else
-    gchar * warn_print = NULL;
-#endif
-
     /* Plugins list */
     gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         gsb_plugin_get_list(),
@@ -173,8 +168,6 @@ NULL};
                         _("at"),
                         " ",
                         __TIME__,
-                        "\n",
-                        warn_print,
                         NULL );
 
     GtkWidget * about;

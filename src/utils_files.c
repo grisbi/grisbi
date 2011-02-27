@@ -23,8 +23,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "utils_files.h"
@@ -34,9 +38,6 @@
 #include "gsb_file.h"
 #include "utils_str.h"
 #include "gsb_file_config.h"
-#include "utils_file_selection.h"
-#include "go-charmap-sel.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -533,7 +534,6 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
     gint long_str = 0;
     gsize size = 0;
     gsize bytes_written = 0;
-    GError * error = NULL;
     gint i = 0;
     gchar *ptr;
 
@@ -564,7 +564,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
                 do
                 {
                      tmp_str = g_convert ( string, long_str, "UTF-8", charset_array[i],
-                                &size, &bytes_written, &error );
+                                &size, &bytes_written, NULL );
                     if ( tmp_str )
                     {
                         result = g_malloc0 ( sizeof ( struct struc_check_encoding ) );

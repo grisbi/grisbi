@@ -1,6 +1,7 @@
 #ifndef _DEVISES_H
 #define _DEVISES_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"
@@ -23,6 +24,8 @@ void gsb_currency_init_variables ( void );
 GtkWidget *gsb_currency_make_combobox ( gboolean set_name );
 gboolean gsb_currency_set_combobox_history ( GtkWidget *combo_box,
                         gint currency_number );
+gboolean gsb_currency_set_current_exchange ( gsb_real exchange );
+gboolean gsb_currency_set_current_exchange_fees ( gsb_real fees );
 gboolean gsb_currency_update_combobox_currency_list ( void );
 /* END_DECLARATION */
 #endif

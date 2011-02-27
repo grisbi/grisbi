@@ -21,8 +21,12 @@
 /* ************************************************************************** */
 
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "export.h"
@@ -34,7 +38,6 @@
 #include "utils.h"
 #include "qif.h"
 #include "structures.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 
@@ -362,7 +365,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 
     /* Layout */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON ( _("Export format") ) ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
 
     /* Combo box */

@@ -26,7 +26,13 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <errno.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_others.h"
@@ -43,7 +49,6 @@
 #include "imputation_budgetaire.h"
 #include "utils_files.h"
 #include "structures.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

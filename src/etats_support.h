@@ -1,5 +1,8 @@
 #ifndef _ETATS_SUPPORT_H
 #define _ETATS_SUPPORT_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

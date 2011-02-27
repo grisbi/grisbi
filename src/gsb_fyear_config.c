@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_fyear_config.h"
@@ -43,7 +48,6 @@
 #include "transaction_list.h"
 #include "structures.h"
 #include "gsb_transactions_list.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 
@@ -188,7 +192,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 0 );
 
     /* Financial year name */
-    label = gtk_label_new ( COLON(_("Name")) );
+    label = gtk_label_new ( _("Name: ") );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
@@ -204,7 +208,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       0, 0 );
 
     /* Start */
-    label = gtk_label_new ( COLON(_("Start")) );
+    label = gtk_label_new ( _("Start: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -222,7 +226,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 		       0, 0 );
 
     /* End */
-    label = gtk_label_new ( COLON(_("End")) );
+    label = gtk_label_new ( _("End: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),

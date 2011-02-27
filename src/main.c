@@ -26,10 +26,13 @@
 
 
 #ifdef HAVE_CONFIG_H
-# include <config.h>
+#include <config.h>
 #endif
 
 #include "include.h"
+#include <stdlib.h>
+#include <glib/gi18n.h>
+#include <glib/gprintf.h>
 
 /*START_INCLUDE*/
 #include "main.h"
@@ -91,6 +94,7 @@ static gboolean gsb_grisbi_init_app ( void );
 static void gsb_grisbi_load_file_if_necessary ( cmdline_options *opt );
 static gboolean gsb_grisbi_print_environment_var ( void );
 static void gsb_grisbi_trappe_signal_sigsegv ( void );
+static void gsb_main_free_global_definitions ( void );
 static void main_mac_osx ( int argc, char **argv );
 static void main_linux ( int argc, char **argv );
 static void main_win_32 (  int argc, char **argv );
@@ -108,6 +112,8 @@ extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
+/* variables initialisées lors de l'exécution de grisbi */
+struct gsb_run_t run;
 
 /**
  * Main function
@@ -125,19 +131,6 @@ int main ( int argc, char **argv )
 
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
-#endif
-
-#ifndef GTKOSXAPPLICATION
-    bindtextdomain ( PACKAGE, LOCALEDIR );
-    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
-    textdomain ( PACKAGE );
-
-    /* Setup locale/gettext */
-    setlocale (LC_ALL, "");
-#endif /* !GTKOSXAPPLICATION */
-
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
 #endif
 
 #ifdef _WIN32
@@ -171,6 +164,23 @@ void main_linux ( int argc, char **argv )
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
 
+    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup locale/gettext */
+    setlocale (LC_ALL, "");
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
+
+    /* init treads */
+    if( !g_thread_supported() )
+        g_thread_init ( NULL );
+    else
+        devel_print_str ("g_thread NOT supported");
+
     gtk_init ( &argc, &argv );
 
     /* on commence par détourner le signal SIGSEGV */
@@ -203,8 +213,6 @@ void main_linux ( int argc, char **argv )
 
     gtk_main ();
 
-    gsb_plugins_release ( );
-
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 }
@@ -229,6 +237,10 @@ void main_mac_osx ( int argc, char **argv )
     GtkOSXApplication *theApp;
 
     devel_debug ("main_mac_osx");
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
     gtk_init ( &argc, &argv );
 
@@ -306,8 +318,6 @@ void main_mac_osx ( int argc, char **argv )
 
     gtk_main ();
 
-    gsb_plugins_release ( );
-
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 
@@ -341,6 +351,13 @@ void main_win_32 (  int argc, char **argv )
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
+    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup locale/gettext */
+    setlocale( LC_ALL, NULL );
+
     gtk_init ( &argc, &argv );
 
     win32_parse_gtkrc ( "gtkrc" );
@@ -372,8 +389,6 @@ void main_win_32 (  int argc, char **argv )
 
     gtk_main ();
 
-    gsb_plugins_release ( );
-
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 
@@ -390,51 +405,24 @@ void main_win_32 (  int argc, char **argv )
  * */
 gboolean gsb_grisbi_print_environment_var ( void )
 {
-    struct lconv *conv;
+    gchar *tmp_str;
 
-    /* test local pour les nombres */
-    conv = localeconv();
-    
-    printf ("Variables d'environnement :\n\n" );
-    printf ("LANG = %s\n\n"
-            "Currency\n"
-            "\tcurrency_symbol = %s\n"
-            "\tmon_thousands_sep = \"%s\"\n"
-            "\tmon_decimal_point = %s\n"
-            "\tpositive_sign = \"%s\"\n"
-            "\tnegative_sign = \"%s\"\n"
-            "\tfrac_digits = \"%d\"\n\n",
-            g_getenv ( "LANG"),
-            conv->currency_symbol,
-            g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL ),
-            g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL ),
-            conv->frac_digits );
+    g_printf ("Variables d'environnement :\n\n" );
 
-    printf ("gint64\n" );
-    printf ("\tG_GINT64_MODIFIER = \"%s\"\n", G_GINT64_MODIFIER );
-    printf ("\t%"G_GINT64_MODIFIER"d\n\n", G_MAXINT64 );
+    tmp_str = gsb_main_get_print_locale_var ( );
+    g_printf ("%s", tmp_str);
 
-    printf ("Paths\n"
-            "\tC_GRISBIRC = %s\n"
-            "\tC_PATH_CONFIG = %s\n"
-            "\tC_PATH_CONFIG_ACCELS = %s\n"
-            "\tC_PATH_DATA_FILES = %s\n"
-            "\tGRISBI_LOCALEDIR = %s\n"
-            "\tGRISBI_PLUGINS_DIR = %s\n"
-            "\tGRISBI_PIXMAPS_DIR = %s\n\n",
-            C_GRISBIRC,
-            C_PATH_CONFIG,
-            C_PATH_CONFIG_ACCELS,
-            C_PATH_DATA_FILES,
-#ifdef GTKOSXAPPLICATION
-            grisbi_osx_get_locale_dir ( ),
-#else
-            LOCALEDIR,
-#endif
-            GRISBI_PLUGINS_DIR,
-            GRISBI_PIXMAPS_DIR );
+    g_free ( tmp_str );
+
+    g_printf ( "gint64\n\tG_GINT64_MODIFIER = \"%s\"\n"
+                        "\t%"G_GINT64_MODIFIER"d\n\n",
+                        G_GINT64_MODIFIER,
+                        G_MAXINT64 );
+
+    tmp_str = gsb_main_get_print_dir_var ( );
+    g_printf ("%s", tmp_str);
+
+    g_free ( tmp_str );
 
     return FALSE;
 }
@@ -689,6 +677,9 @@ gboolean gsb_grisbi_close ( void )
     if (etat.debug_mode && debug_file)
         fclose (debug_file);
 
+    /* clean the initial vars */
+    gsb_main_free_global_definitions ( );
+
     return FALSE;
 }
 
@@ -792,6 +783,110 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
         g_free ( titre_grisbi );
 
     return return_value;
+}
+
+
+/**
+ *
+ *  \return must be freed
+ *
+ */
+gchar *gsb_main_get_print_locale_var ( void )
+{
+    struct lconv *conv;
+    gchar *locale_str = NULL;
+    gchar *mon_thousands_sep;
+    gchar *mon_decimal_point;
+    gchar *positive_sign;
+    gchar *negative_sign;
+
+    /* test local pour les nombres */
+    conv = localeconv();
+
+    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+    positive_sign = g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL );
+    negative_sign = g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL );
+
+    locale_str = g_strdup_printf ( "LANG = %s\n\n"
+                        "Currency\n"
+                        "\tcurrency_symbol = %s\n"
+                        "\tmon_thousands_sep = \"%s\"\n"
+                        "\tmon_decimal_point = %s\n"
+                        "\tpositive_sign = \"%s\"\n"
+                        "\tnegative_sign = \"%s\"\n"
+                        "\tfrac_digits = \"%d\"\n\n",
+                        g_getenv ( "LANG"),
+                        conv->currency_symbol,
+                        mon_thousands_sep,
+                        mon_decimal_point,
+                        positive_sign,
+                        negative_sign,
+                        conv->frac_digits );
+
+    g_free ( mon_thousands_sep );
+    g_free ( mon_decimal_point );
+    g_free ( positive_sign );
+    g_free ( negative_sign );
+
+    return locale_str;
+}
+
+
+/**
+ *
+ *  \return must be freed
+ *
+ */
+gchar *gsb_main_get_print_dir_var ( void )
+{
+    gchar *path_str = NULL;
+    gchar *tmp_str = NULL;
+
+#ifdef GTKOSXAPPLICATION
+    tmp_str = grisbi_osx_get_locale_dir ( );
+#else
+    tmp_str = g_strdup ( LOCALEDIR );
+#endif
+
+    path_str = g_strdup_printf ( "Paths\n"
+                        "\tXDG_DATA_HOME = %s\n"
+                        "\tXDG_CONFIG_HOME = %s\n\n"
+                        "\tC_GRISBIRC = %s\n"
+                        "\tC_PATH_CONFIG = %s\n"
+                        "\tC_PATH_CONFIG_ACCELS = %s\n"
+                        "\tC_PATH_DATA_FILES = %s\n\n"
+                        "\tGRISBI_LOCALEDIR = %s\n"
+                        "\tGRISBI_PLUGINS_DIR = %s\n"
+                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
+                        g_get_user_data_dir ( ),
+                        g_get_user_config_dir ( ),
+                        C_GRISBIRC,
+                        C_PATH_CONFIG,
+                        C_PATH_CONFIG_ACCELS,
+                        C_PATH_DATA_FILES,
+                        tmp_str,
+                        GRISBI_PLUGINS_DIR,
+                        GRISBI_PIXMAPS_DIR );
+
+    g_free ( tmp_str );
+
+    return path_str;
+}
+
+
+/**
+ * libère la mémoire des définitions globales
+ *
+ *
+ */
+void gsb_main_free_global_definitions ( void )
+{
+    g_free ( C_GRISBIRC );
+    g_free ( C_OLD_GRISBIRC );
+    g_free ( C_PATH_CONFIG );
+    g_free ( C_PATH_CONFIG_ACCELS );
+    g_free ( C_PATH_DATA_FILES );
 }
 
 

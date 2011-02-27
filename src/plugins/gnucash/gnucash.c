@@ -19,23 +19,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
+#include <glib/gi18n.h>
 #include <libxml/parser.h>
+#include <glib/gstdio.h>
 
 /*START_INCLUDE*/
 #include "gnucash.h"
-#include "./dialog.h"
-#include "./gsb_data_transaction.h"
-#include "./gsb_real.h"
-#include "./import.h"
-#include "./utils_str.h"
-#include "./utils_files.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "gsb_data_transaction.h"
+#include "gsb_real.h"
+#include "import.h"
+#include "utils_str.h"
+#include "utils_files.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /*START_STATIC*/
@@ -75,13 +80,15 @@ static struct import_format gnucash_format = {
 GSList * gnucash_accounts = NULL;
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
+#endif
 
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void gnucash_plugin_register ()
+G_MODULE_EXPORT extern void gnucash_plugin_register ( void )
 {
     devel_debug ("Initializating gnucash plugin");
 
@@ -91,19 +98,11 @@ G_MODULE_EXPORT extern void gnucash_plugin_register ()
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gint gnucash_plugin_run ( gchar * file_name, gchar **file_content,
-					  gboolean crypt, gulong length )
+G_MODULE_EXPORT extern gpointer gnucash_plugin_run ( void )
 {
-    return FALSE;
+    return NULL;
 }
 
-
-
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean gnucash_plugin_release ( )
-{
-    return TRUE;
-}
 
 
 /*****************************************************************/

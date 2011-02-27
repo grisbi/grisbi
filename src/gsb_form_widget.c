@@ -27,7 +27,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
@@ -44,12 +49,8 @@
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
-#include "gsb_form.h"
 #include "gsb_data_payment.h"
-#include "gtk_combofix.h"
-#include "include.h"
 #include "structures.h"
-#include "gsb_data_form.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -207,7 +208,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	case TRANSACTION_FORM_EXERCICE:
 	    widget = gsb_fyear_make_combobox (TRUE);
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Choose the financial year")));
+					  _("Choose the financial year") );
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
@@ -262,7 +263,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         account_number, 0, FALSE );
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-                        SPACIFY(_("Choose the method of payment")));
+                        _("Choose the method of payment") );
         g_signal_connect ( G_OBJECT (widget),
                         "changed",
                         G_CALLBACK (gsb_payment_method_changed_callback),
@@ -272,7 +273,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	case TRANSACTION_FORM_DEVISE:
 	    widget = gsb_currency_make_combobox (FALSE);
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Choose currency")));
+					  _("Choose currency") );
 	    gsb_currency_set_combobox_history ( widget,
 						gsb_data_account_get_currency (account_number));
         g_signal_connect ( G_OBJECT (  widget ),
@@ -286,7 +287,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    gtk_button_set_relief ( GTK_BUTTON ( widget ),
 				    GTK_RELIEF_NONE );
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Define the change for that transaction")));
+					  _("Define the change for that transaction") );
 	    g_signal_connect ( G_OBJECT (  widget ),
 			       "clicked",
 			       G_CALLBACK (gsb_form_transaction_change_clicked),
@@ -297,7 +298,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    /* no menu at beginning, appened when choose the contra-account */
 	    widget = gtk_combo_box_new ();
 	    gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Contra-transaction method of payment")));
+					  _("Contra-transaction method of payment"));
 	    break;
 
 	case TRANSACTION_FORM_OP_NB:
@@ -998,21 +999,33 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
         ch = g_utf8_get_char_validated ( ptr, -1 );
 
         if ( !g_unichar_isdefined ( ch ) )
+        {
+            g_free ( mon_decimal_point );
+            if ( mon_thousands_sep )
+                g_free ( mon_thousands_sep );
+
             return FALSE;
+        }
 
         if ( !g_ascii_isdigit ( ch ) )
         {
             if ( g_unichar_isdefined ( thousands_sep ) )
             {
-                if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != thousands_sep )
+                if ( ch != '.' && ch != ',' && ch != '+' && ch != '-'
+                 && ch != '*' && ch != '/' && ch != thousands_sep )
+                {
+                    g_free ( mon_decimal_point );
+                    g_free ( mon_thousands_sep );
+
                     return FALSE;
+                }
 
                 if ( ch == decimal_point
                  && g_utf8_strlen ( ptr, -1) == 1
                  && g_utf8_strchr ( string, -1, thousands_sep ) )
                 {
                     gchar **tab;
-                    guint i = 0;
+                    guint i = 1;    /* le premier champs peut etre < à 3 */
                     guint nbre_champs;
 
                     tab = g_strsplit ( string, mon_thousands_sep, 0 );
@@ -1023,11 +1036,17 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
                         if ( i < nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 3 )
                         {
                             g_strfreev ( tab );
+                            g_free ( mon_decimal_point );
+                            g_free ( mon_thousands_sep );
+
                             return FALSE;
                         }
                         else if ( i == nbre_champs - 1 && g_utf8_strlen ( tab[i], -1 ) != 4 )
                         {
                             g_strfreev ( tab );
+                            g_free ( mon_decimal_point );
+                            g_free ( mon_thousands_sep );
+
                             return FALSE;
                         }
                         i++;
@@ -1035,12 +1054,16 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
                     g_strfreev ( tab );
                 }
             }
-            else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' )
+            else if ( ch != '.' && ch != ',' && ch != '+' && ch != '-' && ch != '*' && ch != '/' )
                 return FALSE;
         }
 
         ptr = g_utf8_next_char ( ptr );
     }
+
+    g_free ( mon_decimal_point );
+    if ( mon_thousands_sep )
+        g_free ( mon_thousands_sep );
 
     return TRUE;
 }
@@ -1182,10 +1205,10 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
     if ( g_strcmp0 ( gsb_form_widget_get_name ( element_number ), text ) == 0 )
         return TRUE;
 
-    /* if nothing in the entry, keep the normal style */
+    /* if nothing in the entry, set the widget empty */
     if ( !strlen ( text ) )
     {
-        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        gsb_form_widget_set_empty ( entry, TRUE );
         return TRUE;
     }
 

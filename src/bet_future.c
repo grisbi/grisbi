@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -23,8 +23,13 @@
 
 /* ./configure --with-balance-estimate */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include "include.h"
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "bet_future.h"
@@ -54,11 +59,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "gsb_data_payment.h"
-#include "gsb_data_account.h"
-#include "gtk_combofix.h"
-#include "gsb_form_scheduler.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -325,7 +326,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         G_CALLBACK ( bet_form_scheduler_frequency_button_changed ),
                         dialog );
             combo = widget;
-		    tooltip_text = SPACIFY( _("Frequency") );
+		    tooltip_text = _("Frequency");
             gtk_widget_show ( widget );
 		    break;
 
@@ -346,7 +347,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus ),
                         GINT_TO_POINTER (element_number));
-            tooltip_text = SPACIFY( _("Final date") );
+            tooltip_text = _("Final date");
             gtk_widget_show ( widget );
             break;
 
@@ -363,13 +364,13 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-		    tooltip_text = SPACIFY( _("Custom frequency") );
+		    tooltip_text = _("Custom frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
-		    tooltip_text = SPACIFY( _("Custom frequency") );
+		    tooltip_text = _("Custom frequency");
             gsb_combo_box_set_index ( widget, 2 );
 		    break;
 	    }
@@ -524,7 +525,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element_number = TRANSACTION_FORM_EXERCICE;
     widget = gsb_fyear_make_combobox (TRUE);
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-					  SPACIFY(_("Choose the financial year")));
+					  _("Choose the financial year") );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -571,7 +572,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         account_number, 0, FALSE );
     gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (widget),
-                        SPACIFY(_("Choose the method of payment")));
+                        _("Choose the method of payment") );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -1869,7 +1870,7 @@ dialog_return:
         }
         else if ( bet_transfert_take_data (  transfert, bet_transfert_dialog ) == FALSE )
         {
-            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+            tmp_str = g_strdup ( _("Error:  the category or the budgetary line is "
                                  "not specified or the date is invalid.") );
             dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
             g_free ( tmp_str );
@@ -1950,7 +1951,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 5 );
 
-    label = gtk_label_new ( COLON( _("Effective date") ) );
+    label = gtk_label_new ( _("Effective date: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     date_entry = gsb_calendar_entry_new ( FALSE );
@@ -2293,24 +2294,6 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     else
         return FALSE;
 
-    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_category_combo" );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        bet_future_get_category_data ( widget, 1, ( gpointer ) transfert );
-    else
-    {
-        transfert -> category_number = 0;
-        transfert -> sub_category_number = 0;
-    }
-   
-    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_budget_combo" );
-    if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        bet_future_get_budget_data ( widget, 1, ( gpointer ) transfert );
-    else
-    {
-        transfert -> budgetary_number = 0;
-        transfert -> sub_budgetary_number = 0;
-    }
-
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc" );
     transfert -> auto_inc_month = gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( widget ) );
@@ -2318,7 +2301,28 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data" );
     transfert -> replace_transaction = gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( widget ) );
-    
+
+    if ( transfert -> replace_transaction )
+    {
+        gboolean empty = TRUE;
+
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_category_combo" );
+        if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        {
+            bet_future_get_category_data ( widget, 1, ( gpointer ) transfert );
+            empty = FALSE;
+        }
+       
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_budget_combo" );
+        if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        {
+            bet_future_get_budget_data ( widget, 1, ( gpointer ) transfert );
+            empty = FALSE;
+        }
+
+        if ( empty )
+            return FALSE;
+    }
     return TRUE;
 }
 
@@ -2416,7 +2420,7 @@ dialog_return:
         }
         else if ( bet_transfert_take_data (  transfert, bet_transfert_dialog ) == FALSE )
         {
-            tmp_str = g_strdup ( _("Error: the frequency defined by the user or the amount is "
+            tmp_str = g_strdup ( _("Error:  the category or the budgetary line is "
                                  "not specified or the date is invalid.") );
             dialogue_warning_hint ( tmp_str, _("One field is not filled in") );
             g_free ( tmp_str );

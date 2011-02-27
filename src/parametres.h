@@ -1,6 +1,8 @@
 #ifndef _PARAMETRES_H
 #define _PARAMETRES_H (1)
 
+#include <gtk/gtk.h>
+
 /* Preference pages */
 enum preference_page  {
     NOT_A_PAGE = -1,
@@ -10,8 +12,8 @@ enum preference_page  {
     IMPORT_ASSOCIATION_PAGE,
     SOFTWARE_PAGE,
     SCHEDULER_PAGE,
-    MAIN_PAGE,
     LOCALISATION_PAGE,
+    MAIN_PAGE,
     FONTS_AND_LOGO_PAGE,
     MESSAGES_AND_WARNINGS_PAGE,
     ADDRESSES_AND_TITLES_PAGE,
@@ -42,8 +44,9 @@ enum preference_page  {
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
                         GtkWidget *dialog );
 GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens );
-gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
-                        gpointer null );
+gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
 GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,

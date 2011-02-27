@@ -26,7 +26,14 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <math.h>
+#include <stdlib.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_reconcile_sort_config.h"
@@ -35,8 +42,6 @@
 #include "traitement_variables.h"
 #include "utils_str.h"
 #include "utils.h"
-#include "gsb_data_payment.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

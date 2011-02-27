@@ -1,5 +1,8 @@
 #ifndef _BARRE_OUTILS_H
 #define _BARRE_OUTILS_H (1)
+
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

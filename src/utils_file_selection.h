@@ -36,6 +36,7 @@
 #ifndef _H_UTILS_FILE_SELECTION_
 #define _H_UTILS_FILE_SELECTION_ (1)
 
+#include <gtk/gtk.h>
 
 /*! File selection dialog behaviour properties */
 #define FILE_SELECTION_DEFAULT          0x0000  /**< No particular behaviour (open file dialog)*/

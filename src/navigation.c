@@ -21,7 +21,13 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "navigation.h"
@@ -53,8 +59,6 @@
 #include "imputation_budgetaire.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
-#include "utils_str.h"
-#include "fenetre_principale.h"
 #include "erreur.h"
 #include "structures.h"
 #include "utils.h"
@@ -298,7 +302,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_TEXT, _("Credits simulator"), 
 		       NAVIGATION_PIX_VISIBLE, TRUE, 
 		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_GENERAL_FINANCIAL_PAGE,
+		       NAVIGATION_PAGE, GSB_SIMULATOR_PAGE,
 		       NAVIGATION_ACCOUNT, -1,
 		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
@@ -1122,6 +1126,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_HOME_PAGE:
 	    notice_debug ("Home page selected");
 
+        gsb_gui_sensitive_menu_item ( "ViewMenu", "ShowClosed", NULL, TRUE );
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
 	    gsb_form_set_expander_visible ( FALSE, FALSE );
@@ -1164,6 +1169,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* set the title */
 	    title = g_strdup(_("Scheduled transactions"));
 
+        
 	    /* what to be done if switch to that page */
 	    /* update the list (can do that because short list, so very fast) */
 	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
@@ -1172,14 +1178,16 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_scheduler_list_select (gsb_scheduler_list_get_last_scheduled_number ());
 
 	    /* set the form */
-	    gsb_form_set_expander_visible (TRUE,
-					   FALSE );
+	    gsb_form_set_expander_visible (TRUE, FALSE );
 	    gsb_form_scheduler_clean ();
 	    gsb_form_show ( FALSE );
 
 	    /* show the calendar */
 	    gsb_calendar_update ();
 	    gtk_widget_show_all ( scheduler_calendar );
+
+        /* show menu InitwidthCol */
+        gsb_gui_sensitive_menu_item ( "ViewMenu", "InitwidthCol", NULL, TRUE );
 	    break;
 
 	case GSB_PAYEES_PAGE:
@@ -1193,7 +1201,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		payee_fill_tree ();
 	    break;
 
-	case GSB_GENERAL_FINANCIAL_PAGE:
+	case GSB_SIMULATOR_PAGE:
 	    notice_debug ("Credits simulator page selected");
 
 	    /* set the title */

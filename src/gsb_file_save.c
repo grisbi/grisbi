@@ -26,7 +26,16 @@
  * save the file
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #ifdef _MSC_VER
 #	include <io.h> // for _chmod()
 #endif /*_MSC_VER */
@@ -66,14 +75,9 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "custom_list.h"
-#include "gsb_data_form.h"
-#include "utils_str.h"
 #include "gsb_scheduler_list.h"
-#include "include.h"
 #include "gsb_calendar.h"
 #include "erreur.h"
-#include "gsb_plugins.h"
-#include "gsb_data_report.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -168,6 +172,7 @@ extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -463,7 +468,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     {
         /* it's not a new file but gtk overwrite the permissions
          * so need to re-set the good permissions saved before */
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(_MINGW)
         if (_chmod (filename, buf.st_mode) == -1)
         {
             /* we couldn't set the chmod, set the default permission */
@@ -571,6 +576,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *transactions_view;
     gchar *scheduler_column_width_write;
     gchar *transaction_column_width_write;
+    gchar *transaction_column_align_write;
     gchar *new_string;
     gchar *skipped_lines_string;
     gchar *bet_array_column_width_write;
@@ -628,6 +634,23 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	}
 	else
 	    scheduler_column_width_write  = utils_str_itoa ( scheduler_col_width[i] );
+
+    /* prepare transaction_column_align_write */
+    transaction_column_align_write = NULL;
+
+    for ( i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+	if ( transaction_column_align_write )
+	{
+	    transaction_column_align_write = g_strconcat (
+                        first_string_to_free = transaction_column_align_write,
+                        "-",
+                        second_string_to_free = utils_str_itoa ( transaction_col_align[i] ),
+                        NULL );
+	    g_free ( first_string_to_free );
+	    g_free ( second_string_to_free );
+	}
+	else
+	    transaction_column_align_write  = utils_str_itoa ( transaction_col_align[i] );
 
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
@@ -695,6 +718,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_fusion_transactions=\"%d\"\n"
                        "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
+					   "\t\tReconcile_end_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
                        "\t\tIs_pixmaps_dir=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
@@ -705,6 +729,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tThree_lines_showed=\"%d\"\n"
 					   "\t\tRemind_form_per_account=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
+					   "\t\tTransaction_column_align=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
 					   "\t\tCombofix_mixed_sort=\"%d\"\n"
 					   "\t\tCombofix_max_item=\"%d\"\n"
@@ -744,6 +769,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.get_fusion_import_transactions,
 	etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
+    etat.reconcile_end_date,
 	etat.utilise_logo,
     etat.is_pixmaps_dir,
     my_safe_null_str( etat.name_logo ),
@@ -754,6 +780,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	display_three_lines,
     0,
 	my_safe_null_str(transaction_column_width_write),
+	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),
 	etat.combofix_mixed_sort,
 	etat.combofix_max_item,
@@ -1084,13 +1111,13 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
 	/* set the reals */
     floating_point = gsb_data_account_get_currency_floating_point ( account_number );
-	init_balance = gsb_real_save_real_to_string (
+	init_balance = gsb_real_safe_real_to_string (
                         gsb_data_account_get_init_balance ( account_number, -1 ),
                         floating_point );
-	mini_wanted = gsb_real_save_real_to_string (
+	mini_wanted = gsb_real_safe_real_to_string (
                         gsb_data_account_get_mini_balance_wanted ( account_number ),
                         floating_point );
-	mini_auto = gsb_real_save_real_to_string (
+	mini_auto = gsb_real_safe_real_to_string (
                         gsb_data_account_get_mini_balance_authorized ( account_number ),
                         floating_point );
 
@@ -1355,12 +1382,12 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	/* set the reals. On met en forme le résultat pour avoir une cohérence dans les montants
      * enregistrés dans le fichier à valider */
     floating_point = gsb_data_transaction_get_currency_floating_point ( transaction_number );
-	amount = gsb_real_save_real_to_string (
+	amount = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_amount ( transaction_number ),
                         floating_point );
-	exchange_rate = gsb_real_save_real_to_string (
+	exchange_rate = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_rate ( transaction_number ), -1 );
-	exchange_fees = gsb_real_save_real_to_string (
+	exchange_fees = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_fees ( transaction_number ),
                         floating_point );
 	
@@ -1452,7 +1479,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
 
 	/* set the real */
     floating_point = gsb_data_transaction_get_currency_floating_point ( scheduled_number );
-	amount = gsb_real_save_real_to_string (
+	amount = gsb_real_safe_real_to_string (
                         gsb_data_scheduled_get_amount ( scheduled_number ),
                         floating_point );
 
@@ -1786,7 +1813,7 @@ gulong gsb_file_save_currency_link_part ( gulong iterator,
     link_number = gsb_data_currency_link_get_no_currency_link (list_tmp -> data);
 
     /* set the number */
-    change_rate = gsb_real_save_real_to_string (
+    change_rate = gsb_real_safe_real_to_string (
                         gsb_data_currency_link_get_change_rate ( link_number ), -1 );
 
     /* set the date of modification */
@@ -2027,10 +2054,10 @@ gulong gsb_file_save_reconcile_part ( gulong iterator,
 	/* set the balances strings */
     floating_point = gsb_data_account_get_currency_floating_point ( gsb_data_reconcile_get_account (
                         reconcile_number ) );
-	init_balance = gsb_real_save_real_to_string (
+	init_balance = gsb_real_safe_real_to_string (
                         gsb_data_reconcile_get_init_balance ( reconcile_number ),
                         floating_point );
-	final_balance = gsb_real_save_real_to_string (
+	final_balance = gsb_real_safe_real_to_string (
                         gsb_data_reconcile_get_final_balance ( reconcile_number ),
                         floating_point );
 
@@ -2697,11 +2724,11 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    /* set the numbers */
         floating_point = gsb_data_currency_get_floating_point (
                         gsb_data_report_get_currency_general ( report_number ) );
-	    first_amount = gsb_real_save_real_to_string (
+	    first_amount = gsb_real_safe_real_to_string (
                         gsb_data_report_amount_comparison_get_first_amount (
                         amount_comparison_number ),
                         floating_point );
-	    second_amount = gsb_real_save_real_to_string (
+	    second_amount = gsb_real_safe_real_to_string (
                         gsb_data_report_amount_comparison_get_second_amount (
                         amount_comparison_number ),
                         floating_point );
@@ -2854,7 +2881,8 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gint i;
 
     /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" />\n", etat.bet_deb_period );
+    new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Bet_deb_cash_account_option=\"%d\"/>\n",
+                        etat.bet_deb_period, etat.bet_deb_cash_account_option );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,

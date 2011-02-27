@@ -25,8 +25,12 @@
  * we find here the configuration dialog
  */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "parametres.h"
@@ -34,6 +38,8 @@
 #include "affichage.h"
 #include "affichage_liste.h"
 #include "bet_config.h"
+#include "bet_data.h"
+#include "bet_finance_ui.h"
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
@@ -63,14 +69,16 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget * create_preferences_tree ( );
+static GtkWidget *create_preferences_tree ( );
+static gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
 static GtkWidget *gsb_config_scheduler_page ( void );
-static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
-static void gsb_config_update_affichage ( gint type_maj );
 static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
@@ -80,6 +88,7 @@ static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebut
                         GdkEventButton *event,
                         gpointer user_data);
 static void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data );
+static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
 static GtkWidget *onglet_localisation ( void );
@@ -108,7 +117,9 @@ static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
+extern GtkWidget *account_page;
+extern GtkWidget *arbre_categ;
+extern GtkWidget *budgetary_line_tree;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
@@ -116,6 +127,7 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
+extern GtkWidget *payee_tree;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -344,20 +356,20 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
-                        0, _("Main page"),
-                        1, MAIN_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
-
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
                         0, _("Localization"),
                         1, LOCALISATION_PAGE,
                         2, 400,
                         -1);
     gtk_notebook_append_page (preference_frame, onglet_localisation (), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Main page"),
+                        1, MAIN_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame, onglet_accueil (), NULL);
 
     /* Display subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -880,7 +892,7 @@ GtkWidget *onglet_fichier ( void )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Memorise last opened files")) );
+    label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
@@ -932,7 +944,7 @@ GtkWidget *onglet_fichier ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
-    label = gtk_label_new ( COLON(_("Backup directory")) );
+    label = gtk_label_new ( _("Backup directory: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
 
     /* on passe par une fonction intermédiaire pour pallier à un bug
@@ -989,7 +1001,8 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
-    dialog_message ( "encryption-is-irreversible" );
+        dialog_message ( "encryption-is-irreversible" );
+        run.new_crypted_file = TRUE;
     }
 
     return FALSE;
@@ -1037,12 +1050,12 @@ GtkWidget *onglet_programmes (void)
 
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Web"));
 
-    table = gtk_table_new ( 0, 2, FALSE );
+    table = gtk_table_new ( 0, 1, FALSE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( COLON(_("Web browser command")));
+    label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
@@ -1059,31 +1072,6 @@ GtkWidget *onglet_programmes (void)
     gtk_table_attach ( GTK_TABLE(table), label, 1, 2, 1, 2,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
     g_free ( text );
-
-
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-                        _("LaTeX support (old print system)") );
-
-    table = gtk_table_new ( 0, 2, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
-
-    label = gtk_label_new ( COLON(_("LaTeX command")));
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &conf.latex_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-
-    label = gtk_label_new ( COLON(_("dvips command")));
-    gtk_size_group_add_widget ( size_group, label );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-                        GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &conf.dvips_command, NULL, NULL );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
 
     gtk_size_group_set_mode ( size_group, GTK_SIZE_GROUP_HORIZONTAL );
@@ -1106,7 +1094,7 @@ GtkWidget *onglet_programmes (void)
  * */
 static GtkWidget *gsb_config_scheduler_page ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox;
+    GtkWidget *vbox_pref;
     GtkWidget *hbox;
     GtkWidget *label;
     GtkWidget *entry;
@@ -1126,8 +1114,8 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     hbox = gtk_hbox_new ( FALSE, 0);
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( SPACIFY ( COLON (
-                        _("Number of days before the warning or the execution"))) );
+    label = gtk_label_new (
+                        _("Number of days before the warning or the execution: ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
@@ -1135,46 +1123,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
 
-    /* Take into account the planned operations in the calculation of balances */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Calculation of balances") );
-
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    button = gsb_automem_checkbutton_new (
-                        _("Take into account the scheduled operations "
-                          "in the calculation of balances"),
-                        &balances_with_scheduled,
-                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
-                        NULL );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-
     return vbox_pref;
-}
-
-
-gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
-{
-    GSList *list_tmp;
-
-    devel_debug ( NULL );
-
-    list_tmp = gsb_data_account_get_list_accounts ();
-
-    while ( list_tmp )
-    {
-        gint account_number;
-
-        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-        gsb_data_account_set_balances_are_dirty ( account_number );
-
-        /* MAJ HOME_PAGE */
-        gsb_gui_navigation_update_home_page ( );
-
-        list_tmp = list_tmp -> next;
-    }
-    return FALSE;
 }
 
 
@@ -1198,12 +1147,25 @@ GtkWidget *onglet_metatree ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), total_currencies, FALSE, FALSE, 0 );
 
     /* tri des opérations */
-    gsb_automem_radiobutton_new_with_title ( vbox_pref,
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
                         _("Sort option for transactions"),
                         _("by number"),
-                        _("by date"),
+                        _("by increasing date"),
+                        _("by date descending"),
                         &etat.metatree_sort_transactions,
-                        G_CALLBACK (gsb_config_metatree_sort_transactions), NULL );
+                        G_CALLBACK ( gsb_config_metatree_sort_transactions_changed ),
+                        &etat.metatree_sort_transactions,
+                        GTK_ORIENTATION_VERTICAL );
+
+    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
+						_("Choice of the action for double click of the mouse: "),
+                        _("Expand the line"),
+                        _("Edit the line"),
+                        _("Manage the line"),
+					    &conf.metatree_action_2button_press,
+					    G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
+					    &conf.metatree_action_2button_press,
+                        GTK_ORIENTATION_VERTICAL );
 
     return vbox_pref;
 }
@@ -1215,31 +1177,65 @@ GtkWidget *onglet_metatree ( void )
  *
  *
  * */
-gboolean gsb_config_metatree_sort_transactions ( GtkWidget *checkbutton,
-                        gpointer null )
+gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
 {
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path = NULL;
     gint page_number;
+
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+    }
 
     page_number = gsb_gui_navigation_get_current_page ( );
 
     switch ( page_number )
     {
 	case GSB_PAYEES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
 		payee_fill_tree ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_CATEGORIES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
         remplit_arbre_categ ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+            path = gtk_tree_model_get_path ( model, &iter );
 		remplit_arbre_imputation ();
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
+        gtk_tree_path_free ( path );
 	    break;
 
 	default:
 	    notice_debug ("B0rk page selected");
 	    break;
     }
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return FALSE;
 }
@@ -1347,7 +1343,7 @@ gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return FALSE;
 
-    gsb_config_update_affichage ( 0 );
+    gsb_localisation_update_affichage ( 0 );
 
     return FALSE;
 }
@@ -1370,7 +1366,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     dec_hbox = gtk_hbox_new ( FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Decimal point") ) );
+    label = gtk_label_new ( _("Decimal point: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
@@ -1383,7 +1379,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), dec_sep, FALSE, FALSE, 0 );
 
     thou_hbox = gtk_hbox_new ( FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Thousands separator") ) );
+    label = gtk_label_new (_("Thousands separator: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
@@ -1392,6 +1388,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( thou_sep ) -> child ), FALSE );
     gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( thou_sep ) -> child ), 5 );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "' '" );
+    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "." );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "," );
     gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "''" );
 
@@ -1421,9 +1418,11 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     mon_thousands_sep = gsb_real_get_thousands_sep ( );
     if ( mon_thousands_sep == NULL )
-        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 2 );
-    else if ( strcmp ( mon_thousands_sep, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 3 );
+    else if ( strcmp ( mon_thousands_sep, "." ) == 0 )
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 1 );
+    else if ( strcmp ( mon_thousands_sep, "," ) == 0 )
+        gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 2 );
     else
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 0 );
 
@@ -1454,16 +1453,17 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
  * */
 void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data )
 {
+    GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
+    combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
     if ( g_strcmp0 ( text, "," ) == 0 )
     {
-        GtkWidget *combo_box;
-
         gsb_real_set_decimal_point ( "," );
-        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
@@ -1472,12 +1472,29 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
         }
     }
     else
+    {
         gsb_real_set_decimal_point ( "." );
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        {
+            gsb_real_set_thousands_sep ( "," );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 2 );
+        }
+    }
+
+    /* reset capital */
+    entry = bet_finance_get_capital_entry ( );
+    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+                    etat.bet_capital ),
+                    etat.bet_currency,
+                    FALSE );
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
+    g_free ( str_capital );
 
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
 
-    gsb_config_update_affichage ( 1 );
+    gsb_localisation_update_affichage ( 1 );
 }
 
 
@@ -1489,20 +1506,32 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
  * */
 void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data )
 {
+    GtkWidget *combo_box;
+    GtkWidget *entry;
+    gchar *str_capital;
     const gchar *text;
 
     text = gtk_combo_box_get_active_text ( widget );
+    combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
     
     if ( g_strcmp0 ( text, "' '" ) == 0 )
     {
         gsb_real_set_thousands_sep ( " " );
     }
+    else if ( g_strcmp0 ( text, "." ) == 0 )
+    {
+
+        gsb_real_set_thousands_sep ( "." );
+        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        {
+            gsb_real_set_decimal_point ( "," );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 1 );
+        }
+    }
     else if ( g_strcmp0 ( text, "," ) == 0 )
     {
-        GtkWidget *combo_box;
 
         gsb_real_set_thousands_sep ( "," );
-        combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
             gsb_real_set_decimal_point ( "." );
@@ -1512,10 +1541,20 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     else
         gsb_real_set_thousands_sep ( NULL );
 
+    /* reset capital */
+    entry = bet_finance_get_capital_entry ( );
+    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+                    etat.bet_capital ),
+                    etat.bet_currency,
+                    FALSE );
+
+    gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
+    g_free ( str_capital );
+
     if ( GPOINTER_TO_INT ( user_data ) == GTK_ORIENTATION_HORIZONTAL )
         return;
 
-    gsb_config_update_affichage ( 1 );
+    gsb_localisation_update_affichage ( 1 );
 }
 
 
@@ -1525,7 +1564,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
  *\param type_maj 0 = ELEMENT_DATE 1 =  ELEMENT_CREDIT && ELEMENT_DEBIT
  *
  * */
-void gsb_config_update_affichage ( gint type_maj )
+void gsb_localisation_update_affichage ( gint type_maj )
 {
     gint current_page;
 
@@ -1555,6 +1594,36 @@ void gsb_config_update_affichage ( gint type_maj )
         gsb_transactions_list_update_tree_view ( gsb_gui_navigation_get_current_account ( ), FALSE );
     }
 
+    /* update home page */
+    if ( current_page == GSB_ACCOUNT_PAGE )
+    {
+        gint account_number;
+        gint account_current_page;
+        kind_account kind;
+
+        account_number = gsb_gui_navigation_get_current_account ( );
+        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+
+        kind = gsb_data_account_get_kind ( account_number );
+        switch ( kind )
+        {
+            case GSB_TYPE_BANK:
+            case GSB_TYPE_CASH:
+                if ( account_current_page == 1 || account_current_page == 2 )
+                {
+                    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+                    bet_data_update_bet_module ( account_number, -1 );
+                }
+                break;
+            case GSB_TYPE_LIABILITIES:
+                if ( account_current_page == 3 )
+                    bet_finance_ui_update_amortization_tab ( account_number );
+                break;
+            case GSB_TYPE_ASSET:
+                break;
+        }
+    }
+
     /* update payees, categories and budgetary lines */
     if ( current_page == GSB_PAYEES_PAGE )
         payee_fill_tree ( );
@@ -1562,6 +1631,33 @@ void gsb_config_update_affichage ( gint type_maj )
         remplit_arbre_categ ( );
     else if ( current_page == GSB_BUDGETARY_LINES_PAGE )
         remplit_arbre_imputation ( );
+
+    /* update simulator page */
+    if ( current_page == GSB_SIMULATOR_PAGE )
+        bet_finance_switch_simulator_page ( );
+
+}
+
+
+/**
+ *
+ *
+ * */
+gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
+{
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
+
+    return FALSE;
 }
 
 

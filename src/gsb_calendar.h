@@ -1,6 +1,7 @@
 #ifndef _ECHEANCIER_INFOS_H
 #define _ECHEANCIER_INFOS_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_scheduler_list.h"

@@ -1,10 +1,20 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+if(POLICY CMP0015)
+   # policies not known to CMake 2.6 ...
+   cmake_policy(SET CMP0015 NEW)
+endif(POLICY CMP0015)
 
 PROJECT (Grisbi C)
 
-SET(EXECUTABLE_OUTPUT_PATH target/$(PlatformName))
-SET(LIBRARY_OUTPUT_PATH target/$(PlatformName)/$(OutDir)/plugins)
-SET(PACKAGE_NAME grisbi)
+# MS Visual Studio 10 Macros
+# $(Platform)      The name of current project platform (for example, "Win32").
+# $(Configuration) The name of the current project configuration (for example, "Debug").
+# $(TargetDir)     The directory of the primary output file for the build (defined as drive + path); includes the trailing backslash '\'.
+# see http://msdn.microsoft.com/en-us/library/c02as0cs%28v=VS.100%29.aspx for more macros
+
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY target\\$(Platform))
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY target\\$(Platform)\\$(Configuration)\\plugins)
+SET(package_name grisbi)
 
 ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
 ADD_DEFINITIONS(-D__PRETTY_FUNCTION__="")
@@ -58,18 +68,19 @@ ADD_DEFINITIONS(-DOFX_0_7=1)
 #ADD_DEFINITIONS(-DNOSSL=1)
 
 INCLUDE_DIRECTORIES(
-	target/$(PlatformName)/gtk-dev/include/atk-1.0
-	target/$(PlatformName)/gtk-dev/include/cairo
-	target/$(PlatformName)/gtk-dev/include/glib-2.0
-	target/$(PlatformName)/gtk-dev/include/gtk-2.0
-	target/$(PlatformName)/gtk-dev/include/pango-1.0
-	target/$(PlatformName)/gtk-dev/include
-	target/$(PlatformName)/gtk-dev/lib/glib-2.0/include
-	target/$(PlatformName)/gtk-dev/lib/gtk-2.0/include
-	target/$(PlatformName)/plugins-dev/libofx/include
-	target/$(PlatformName)/plugins-dev/libxml2/include
-	target/$(PlatformName)/plugins-dev/iconv/include
-	target/$(PlatformName)/plugins-dev/openssl/include
+	target/$(Platform)/gtk-dev/include/atk-1.0
+	target/$(Platform)/gtk-dev/include/cairo
+	target/$(Platform)/gtk-dev/include/glib-2.0
+	target/$(Platform)/gtk-dev/include/gdk-pixbuf-2.0
+	target/$(Platform)/gtk-dev/include/gtk-2.0
+	target/$(Platform)/gtk-dev/include/pango-1.0
+	target/$(Platform)/gtk-dev/include
+	target/$(Platform)/gtk-dev/lib/glib-2.0/include
+	target/$(Platform)/gtk-dev/lib/gtk-2.0/include
+	target/$(Platform)/plugins-dev/libofx/include
+	target/$(Platform)/plugins-dev/libxml2/include
+	target/$(Platform)/plugins-dev/iconv/include
+	target/$(Platform)/plugins-dev/openssl/include
 	../win32-msvc/src
 	../win32-msvc
 	../win32
@@ -80,12 +91,12 @@ INCLUDE_DIRECTORIES(
 )
 
 LINK_DIRECTORIES(
-	target/$(PlatformName)/gtk-dev/lib
-	target/$(PlatformName)/plugins-dev/libofx/lib
-	target/$(PlatformName)/plugins-dev/libxml2/lib
-	target/$(PlatformName)/plugins-dev/iconv/lib
-	target/$(PlatformName)/plugins-dev/openssl/lib
-	target/$(PlatformName)/plugins-dev/openssl/lib/VC
+	target/$(Platform)/gtk-dev/lib
+	target/$(Platform)/plugins-dev/libofx/lib
+	target/$(Platform)/plugins-dev/libxml2/lib
+	target/$(Platform)/plugins-dev/iconv/lib
+	target/$(Platform)/plugins-dev/openssl/lib
+	target/$(Platform)/plugins-dev/openssl/lib/VC
 	$(TargetDir)
 )
 
@@ -423,10 +434,10 @@ ADD_LIBRARY ( ofx
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
-	COMMAND XCOPY /D /Y $(TargetDir)ofx.dll target\\$(PlatformName)\\$(OutDir)\\plugins
-	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libofx\\bin\\* target\\$(PlatformName)\\$(OutDir)
-	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(OutDir)\\dtd MKDIR target\\$(PlatformName)\\$(OutDir)\\dtd
-	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libofx\\bin\\dtd\\o*.d* target\\$(PlatformName)\\$(OutDir)\\dtd
+#	COMMAND XCOPY /D /Y $(Configuration)\\ofx.dll target\\$(Platform)\\$(Configuration)\\plugins\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libofx\\bin\\* target\\$(Platform)\\$(Configuration)
+	COMMAND IF NOT EXIST target\\$(Platform)\\$(Configuration)\\dtd MKDIR target\\$(Platform)\\$(Configuration)\\dtd
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libofx\\bin\\dtd\\o*.d* target\\$(Platform)\\$(Configuration)\\dtd
 )
 
 ADD_LIBRARY ( gnucash
@@ -437,9 +448,9 @@ ADD_LIBRARY ( gnucash
 
 ADD_CUSTOM_COMMAND ( TARGET gnucash
 	POST_BUILD
-	COMMAND XCOPY /D /Y $(TargetDir)gnucash.dll target\\$(PlatformName)\\$(OutDir)\\plugins
-	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\libxml2\\bin\\libxml2.dll target\\$(PlatformName)\\$(OutDir)
-	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\iconv\\bin\\iconv.dll target\\$(PlatformName)\\$(OutDir)
+	COMMAND XCOPY /D /Y $(Configuration)\\gnucash.dll target\\$(Platform)\\$(Configuration)\\plugins\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\libxml2\\bin\\libxml2.dll target\\$(Platform)\\$(Configuration)\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\iconv\\bin\\iconv.dll target\\$(Platform)\\$(Configuration)\\
 )
 
 ADD_LIBRARY ( openssl
@@ -450,8 +461,8 @@ ADD_LIBRARY ( openssl
 
 ADD_CUSTOM_COMMAND ( TARGET openssl
 	POST_BUILD
-	COMMAND xcopy /D /Y $(TargetDir)openssl.dll target\\$(PlatformName)\\$(ConfigurationName)\\plugins
-	COMMAND XCOPY /D /Y target\\$(PlatformName)\\plugins-dev\\openssl\\bin\\libeay32.dll target\\$(PlatformName)\\$(OutDir)
+#	COMMAND XCOPY /D /Y $(Configuration)\\openssl.dll target\\$(Platform)\\$(Configuration)\\plugins\\
+	COMMAND XCOPY /D /Y target\\$(Platform)\\plugins-dev\\openssl\\bin\\libeay32.dll target\\$(Platform)\\$(Configuration)
 )
 
 
@@ -485,7 +496,7 @@ ADD_CUSTOM_TARGET (prepare_env)
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName) mkdir target\\$(PlatformName)\\$(ConfigurationName)
+	COMMAND IF NOT EXIST target\\$(Platform)\\$(Configuration) mkdir target\\$(Platform)\\$(Configuration)
 )
 
 
@@ -509,25 +520,25 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\$(PlatformName)\\$(ConfigurationName)\\pixmaps\\
+	COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\$(Platform)\\$(Configuration)\\pixmaps\\
 	# COMMAND xcopy /S /Y /D ..\\pixmaps\\*.png target\\Release\\pixmaps\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\help target\\$(PlatformName)\\$(ConfigurationName)\\help\\
+	COMMAND xcopy /S /Y /D ..\\help target\\$(Platform)\\$(Configuration)\\help\\
 	# COMMAND xcopy /S /Y /D ..\\help target\\Release\\help\\
 )
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND xcopy /S /Y /D ..\\share\\categories target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\categories\\
+	COMMAND xcopy /S /Y /D ..\\share\\categories target\\$(Platform)\\$(Configuration)\\help\\tips\\categories\\
 	# COMMAND xcopy /S /Y /D ..\\share\\categories target\\Release\\help\\tips\\categories\\
 )
 
 #ADD_CUSTOM_COMMAND(TARGET prepare_env
 #	POST_BUILD
-#	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(PlatformName)\\$(ConfigurationName)\\help\\tips\\tips#.txt
+#	COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\$(Platform)\\$(Configuration)\\help\\tips\\tips#.txt
 	# COMMAND tools\\dos2unix.cmd ..\\help\\tips\\tips.txt target\\Release\\help\\tips\\tips.txt
 #)
 
@@ -559,7 +570,7 @@ set(
   # ../help/tips/fr.po
 # )
 
-set (msgfmt msgfmt.exe)
+set (msgfmt target\\Win32\\gettext\\bin\\msgfmt.exe)
 
 ADD_CUSTOM_TARGET(prepare_mo
 	COMMAND IF NOT EXIST target\\lib mkdir target\\lib
@@ -573,7 +584,7 @@ foreach (current_po ${po_files})
     NAME_WE
   )
 
-  set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}.mo)
+  set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${package_name}.mo)
 
   add_custom_command(TARGET prepare_mo
     POST_BUILD
@@ -596,7 +607,7 @@ foreach (current_po ${po_files})
     # NAME_WE
   # )
 
-  # set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${PACKAGE_NAME}-tips.mo)
+  # set(mo_file target\\lib\\locale\\${lang}\\LC_MESSAGES\\${package_name}-tips.mo)
 
   # add_custom_command(TARGET prepare_mo
     # POST_BUILD
@@ -614,8 +625,8 @@ foreach (current_po ${po_files})
 
  add_custom_command(TARGET prepare_mo
 	POST_BUILD
-	COMMAND IF NOT EXIST target\\$(PlatformName)\\$(ConfigurationName)\\lib mkdir target\\$(PlatformName)\\$(ConfigurationName)\\lib
-	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\$(PlatformName)\\$(ConfigurationName)\\lib\\locale
+	COMMAND IF NOT EXIST target\\$(Platform)\\$(Configuration)\\lib mkdir target\\$(Platform)\\$(Configuration)\\lib
+	COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\$(Platform)\\$(Configuration)\\lib\\locale
 	# COMMAND IF NOT EXIST target\\Release\\lib mkdir target\\Release\\lib
 	# COMMAND xcopy /S /Y /I /D target\\lib\\locale target\\Release\\lib\\locale
 )

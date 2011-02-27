@@ -25,8 +25,12 @@
  * Handle all UI actions for the reports.
  */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "etats_onglet.h"
@@ -44,13 +48,10 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "etats_config.h"
-#include "print_config.h"
 #include "print_report.h"
 #include "utils_files.h"
 #include "structures.h"
 #include "fenetre_principale.h"
-#include "print_config.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -83,14 +84,13 @@ static GtkWidget *reports_toolbar = NULL;
 /*START_EXTERN*/
 extern struct struct_etat_affichage csv_affichage;
 extern struct struct_etat_affichage html_affichage;
-extern struct struct_etat_affichage latex_affichage;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Different formats supported.  */
 enum report_export_formats {
-    REPORT_EGSB, REPORT_HTML, REPORT_CSV, REPORT_PS, REPORT_TEX,
+    REPORT_EGSB, REPORT_HTML, REPORT_CSV,
     REPORT_MAX_FORMATS,
 };
 
@@ -121,7 +121,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 					       G_CALLBACK ( ajout_etat ),
 					       NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  SPACIFY(_("Create a new report")));
+				  _("Create a new report") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -130,7 +130,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 					   G_CALLBACK (importer_etat),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  SPACIFY(_("Import a Grisbi report file (.egsb)")));
+				  _("Import a Grisbi report file (.egsb)") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
 
     bouton_exporter_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -139,7 +139,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 G_CALLBACK (exporter_etat),
 							 NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_exporter_etat),
-				  SPACIFY(_("Export selected report to egsb, HTML, Tex, CSV, PostScript")));
+				  _("Export selected report to egsb, HTML, Tex, CSV, PostScript") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
 
     /* print button */
@@ -149,7 +149,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  G_CALLBACK (print_report),
 							  NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_imprimer_etat),
-				  SPACIFY(_("Print selected report")));
+                   _("Print selected report") );
 
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
 
@@ -159,7 +159,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							 G_CALLBACK ( efface_etat ),
 							 NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_effacer_etat),
-				   SPACIFY(_("Delete selected report")));
+				   _("Delete selected report") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
 
     bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -168,7 +168,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							      G_CALLBACK (personnalisation_etat),
 							      NULL ),
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
-				  SPACIFY(_("Edit selected report")));
+				  _("Edit selected report") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
 
     bouton_dupliquer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -177,7 +177,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 							  G_CALLBACK (dupliquer_etat),
 							  NULL ),
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_dupliquer_etat),
-				  SPACIFY(_("Clone selected report")));
+				  _("Clone selected report") );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
 
     gtk_widget_show_all ( hbox );
@@ -1066,14 +1066,6 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
 		extension = "csv";
 		break;
 
-	    case REPORT_PS:		/* Postscript */
-		extension = "ps";
-		break;
-
-	    case REPORT_TEX:		/* Latex */
-		extension = "tex";
-		break;
-
 	    default :
 		extension = NULL;
 		break;
@@ -1096,7 +1088,6 @@ void exporter_etat ( void )
     GtkWidget *fenetre_nom, *hbox, * combo;
     gint resultat, current_report_number;
     gchar * nom_etat;
-    struct print_config * print_config_backup;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -1118,7 +1109,7 @@ void exporter_etat ( void )
 			 gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( COLON(_("File format")) ),
+    gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( _("File format: ") ),
 			 FALSE, FALSE, 0 );
 
     combo = gtk_combo_box_new_text();
@@ -1126,8 +1117,6 @@ void exporter_etat ( void )
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Grisbi report file (egsb file)" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("HTML file" ) );
     gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Postscript file" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Latex file" ) );
 
     /* Set initial format. */
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );
@@ -1160,26 +1149,6 @@ void exporter_etat ( void )
 
 	    case REPORT_CSV:		/* CSV */
 		export_etat_courant_vers_csv ( nom_etat );
-		break;
-
-	    case REPORT_PS:		/* Postscript */
-		print_config_backup = print_config_dup ( );
-		etat.print_config.printer = FALSE;
-		etat.print_config.filetype = POSTSCRIPT_FILE;
-		etat.print_config.printer_filename = nom_etat;
-		affichage_etat ( gsb_gui_navigation_get_current_report (),
-				 &latex_affichage, nom_etat );
-		print_config_set ( print_config_backup );
-		break;
-
-	    case REPORT_TEX:		/* Latex */
-		print_config_backup = print_config_dup ( );
-		etat.print_config.printer = FALSE;
-		etat.print_config.filetype = LATEX_FILE;
-		etat.print_config.printer_filename = nom_etat;
-		affichage_etat ( gsb_gui_navigation_get_current_report (),
-				 &latex_affichage, nom_etat );
-		print_config_set ( print_config_backup );
 		break;
 
 	    default :

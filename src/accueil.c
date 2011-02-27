@@ -20,12 +20,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "accueil.h"
 #include "classement_echeances.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -33,25 +39,20 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
-#include "utils.h"
+#include "navigation.h"
 #include "structures.h"
-#include "fenetre_principale.h"
-#include "gsb_data_account.h"
-#include "gsb_select_icon.h"
-#include "gsb_form_scheduler.h"
-#include "include.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -68,6 +69,7 @@ static gint affiche_soldes_partiels ( GtkWidget *table,
                         GSList *liste,
                         gint currency_number,
                         gint type_compte );
+static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void );
 static void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
                         gint account_number,
                         gint i );
@@ -86,7 +88,6 @@ static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern GdkColor couleur_bleue;
 extern GdkColor couleur_jaune;
 extern GdkColor couleur_nom_compte_normal;
@@ -469,7 +470,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances. */
         tmpstr = g_strdup_printf ( _("Account balances in %s"),
                         gsb_data_currency_get_name ( currency_number ) );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -547,7 +548,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances   */
 		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number) );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -624,7 +625,7 @@ void update_liste_comptes_accueil ( gboolean force )
         /* Creating the table which will store accounts with their balances    */
         tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
                          gsb_data_currency_get_name (currency_number));
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -693,7 +694,7 @@ void update_liste_comptes_accueil ( gboolean force )
             tmpstr = g_strdup ( _("Additional balance") );
         else
             tmpstr = g_strdup ( _("Additional balances") );
-        if ( balances_with_scheduled == FALSE )
+        if ( conf.balances_with_scheduled == FALSE )
             tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -997,9 +998,9 @@ gint affiche_soldes_partiels ( GtkWidget *table,
 
                 /* On met les titres du sous ensemble solde(s) partiel(s) */
                 if ( nb_comptes == 1 )
-                    label = gtk_label_new ( COLON(_("Partial balance")));
+                    label = gtk_label_new ( _("Partial balance: ") );
                 else
-                    label = gtk_label_new ( COLON(_("Partial balances")));
+                    label = gtk_label_new ( _("Partial balances: ") );
                 gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
                 gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
                 gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
@@ -1078,11 +1079,11 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 
 	/* Première colonne */
     if ( nb_comptes == 1 )
-        label = gtk_label_new ( COLON ( _("Global balance") ) );
+        label = gtk_label_new ( _("Global balance: ") );
     else if ( conf.pluriel_final )
-        label = gtk_label_new ( COLON ("Soldes finaux") );
+        label = gtk_label_new ( ("Soldes finaux: ") );
     else
-        label = gtk_label_new ( COLON ( _("Global balances") ) );
+        label = gtk_label_new ( _("Global balances: ") );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
 	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
@@ -1963,6 +1964,22 @@ GtkWidget *onglet_accueil (void)
                         G_CALLBACK (gsb_gui_navigation_update_home_page), NULL ),
                         FALSE, FALSE, 0 );
     }
+
+    /* Take into account the planned operations in the calculation of balances */
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Calculation of balances") );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Take into account the scheduled operations "
+                          "in the calculation of balances"),
+                        &conf.balances_with_scheduled,
+                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
+                        NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
     /* Data partial balance settings */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, 
                         _("Balances partials of the list of accounts") );
@@ -2145,6 +2162,30 @@ void gsb_main_page_update_homepage_title ( const gchar *title )
     gtk_label_set_markup ( GTK_LABEL ( label_titre_fichier ), tmp_str );
 
     g_free ( tmp_str );
+}
+
+
+gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
+{
+    GSList *list_tmp;
+
+    devel_debug ( NULL );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        gsb_data_account_set_balances_are_dirty ( account_number );
+
+        /* MAJ HOME_PAGE */
+        gsb_gui_navigation_update_home_page ( );
+
+        list_tmp = list_tmp -> next;
+    }
+    return FALSE;
 }
 
 

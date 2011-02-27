@@ -19,18 +19,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#ifndef ENABLE_STATIC
+#include <gmodule.h>
+#endif
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "dialog.h"
-#include "include.h"
+#ifdef ENABLE_STATIC
+#include "plugins/gnucash/gnucash.h"
+#include "plugins/ofx/ofx.h"
+#include "plugins/openssl/openssl.h"
+#endif /* ENABLE_STATIC */
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern const gchar plugin_name[];
-extern const gchar plugin_name[];
-extern const gchar plugin_name[];
 /*END_EXTERN*/
 
 /*START_STATIC*/
@@ -46,6 +55,32 @@ static GSList * plugins = NULL;
  */
 void gsb_plugins_scan_dir ( const char *dirname )
 {
+#ifdef ENABLE_STATIC
+    gsb_plugin *plugin = NULL;
+
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "gnucash";
+    plugin -> plugin_register = &gnucash_plugin_register;
+    plugin -> plugin_run =      &gnucash_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+
+#ifndef NOOFX
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "ofx";
+    plugin -> plugin_register = &ofx_plugin_register;
+    plugin -> plugin_run =      &ofx_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+#endif /* NOODX */
+
+    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
+    plugin -> name = "openssl";
+    plugin -> plugin_register = &openssl_plugin_register;
+    plugin -> plugin_run =      &openssl_plugin_run;
+    plugin -> plugin_register ();
+    plugins = g_slist_append ( plugins, plugin );
+#else /* ENABLE_STATIC */
     GDir * plugin_dir;
     const gchar * filename;
     gchar * plugin_name;
@@ -124,23 +159,11 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	}
 	g_free ( tmp );
 
-	tmp = g_strconcat ( plugin_name, "_plugin_release", NULL );
-	if ( ! g_module_symbol ( plugin -> handle, tmp,
-				 (gpointer) &( plugin -> plugin_release ) ) )
-	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no release symbol", 
-					       filename );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( plugin );
-	    continue;
-	}
-	g_free ( tmp );
-
 	plugins = g_slist_append ( plugins, plugin );
     }
 
     g_dir_close ( plugin_dir );
+#endif /* ENABLE_STATIC */
 }
 
 
@@ -205,27 +228,6 @@ gchar * gsb_plugin_get_list ()
     	list = g_strdup("no plugin");
 
     return list;
-}
-
-
-
-/**
- *
- *
- *
- */
-void gsb_plugins_release ( )
-{
-    GSList * tmp = plugins;
-
-    while ( tmp )
-    {
-	gsb_plugin * plugin = (gsb_plugin *) tmp -> data;
-
-	plugin -> plugin_release ();
-
-	tmp = tmp -> next;
-    }        
 }
 
 

@@ -20,7 +20,13 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
+
 #include "metatree.h"
 
 /*START_INCLUDE*/
@@ -29,8 +35,6 @@
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
 #include "tiers_onglet.h"
-#include "metatree.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
@@ -75,6 +79,8 @@ static MetatreeInterface _payee_interface = {
     0,
     payee_tree_currency,
     N_("Payee"),
+    N_("payee"),
+    N_("sub-payee"),
     N_("No payee"),
     N_("No sub-payee"),
     payee_get_without_div_pointer,

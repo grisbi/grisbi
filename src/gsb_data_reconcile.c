@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <string.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_reconcile.h"
@@ -34,7 +39,6 @@
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "utils_str.h"
-#include "gsb_data_transaction.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 

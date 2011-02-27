@@ -4,7 +4,7 @@
 ::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/
 ::    Specify the BUNDLE file
 ::    Don't include the extension
-SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
+SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.22.0-20101016_win32
 
 :: The rest of the script should do the rest
 
@@ -46,7 +46,7 @@ MOVE plugins-dev\%ICONV_FILE_BASENAME% plugins-dev\iconv
 PAUSE
 
 :: Download and install openssl, copy the required files in the right place
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-0_9_8o
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0c
 cd %DOWNLOADS_DIR%
 wget -nc -c http://www.slproweb.com/download/%OPENSSL_FILE_BASENAME%.exe
 IF NOT EXIST "C:\OpenSSL\readme.txt" (
@@ -71,12 +71,18 @@ xcopy /YICD C:\OpenSSL\*.dll plugins-dev\openssl\bin
 
 :: Download and unzip libofx dev and bin files
 cd %DOWNLOADS_DIR%
-wget -nc -c https://sourceforge.net/projects/grisbi/files/dependancies/0.6/libofx_Win32.zip/download
+wget --no-check-certificate -nc -c https://sourceforge.net/projects/grisbi/files/dependancies/0.6/libofx_Win32.zip/download
 cd %TARGET_DIR%
 unzip -uo %DOWNLOADS_DIR%\libofx_Win32.zip -d plugins-dev
 
+:: Download and unzip gettext to get msgfmt.exe
 cd %DOWNLOADS_DIR%
-wget -nc -c http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
+wget -nc -c http://sourceforge.net/projects/gnuwin32/files/gettext/0.14.4/gettext-0.14.4-bin.zip/download
+cd %TARGET_DIR%
+unzip -uo %DOWNLOADS_DIR%\gettext-0.14.4-bin.zip -d gettext
+
+cd %DOWNLOADS_DIR%
+wget -nc -c http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.22/%GTK_DEV_FILE_BASENAME%.zip
 :: Checking if already unzipped
 :: If the readme file exists for this version, update the unzip
 cd %TARGET_DIR%

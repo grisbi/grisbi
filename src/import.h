@@ -1,6 +1,8 @@
 #ifndef _IMPORT_H
 #define _IMPORT_H (1)
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 #include "gsb_data_transaction.h"
@@ -96,7 +98,8 @@ struct struct_ope_importation
 #define IMPORT_TRANSACTION_ASK_FOR_TRANSACTION 1
 #define IMPORT_TRANSACTION_LEAVE_TRANSACTION 2
 
-struct imported_file {
+struct imported_file
+{
     gchar * name;
     const gchar * coding_system;
     const gchar * type;
@@ -105,7 +108,8 @@ struct imported_file {
 
 typedef gboolean ( * import_function ) ( GtkWidget * assistant, struct imported_file * );
 
-struct import_format {
+struct import_format
+{
     gchar * name;
     gchar * complete_name;
     gchar * extension;
@@ -115,18 +119,19 @@ struct import_format {
 /* START_DECLARATION */
 gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
                                         struct struct_payee_asso *assoc_2);
-GtkWidget * gsb_import_associations_gere_tiers ( void );
+GtkWidget *gsb_import_associations_gere_tiers ( void );
 void gsb_import_associations_init_variables ( void );
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );
+gchar *gsb_import_formats_get_list_formats_to_string ( void );
 G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation * account );
 G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation * account );
 GSList *import_selected_files ( GtkWidget * assistant );
 void importer_fichier ( void );
-GtkWidget *onglet_importation (void);
-G_MODULE_EXPORT void register_import_format ( struct import_format * format );
-void register_import_formats ();
+GtkWidget *onglet_importation ( void );
+G_MODULE_EXPORT void register_import_format ( struct import_format *format );
+void register_import_formats ( void );
 G_MODULE_EXPORT gchar * unique_imported_name ( gchar * account_name );
 /* END_DECLARATION */
 

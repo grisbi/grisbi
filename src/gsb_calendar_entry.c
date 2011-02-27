@@ -27,15 +27,19 @@
  *
  * */
 
-#include <ctype.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <ctype.h>
 #include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
 #include "utils_dates.h"
 #include "gsb_form_widget.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

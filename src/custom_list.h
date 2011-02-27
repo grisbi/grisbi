@@ -1,6 +1,8 @@
 #ifndef _CUSTOM_LIST_H
 #define _CUSTOM_LIST_H (1)
 
+#include <gtk/gtk.h>
+
 #define CUSTOM_TYPE_LIST            (custom_list_get_type ())
 #define CUSTOM_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CUSTOM_TYPE_LIST, CustomList))
 #define CUSTOM_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass),  CUSTOM_TYPE_LIST, CustomListClass))

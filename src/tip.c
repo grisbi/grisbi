@@ -22,13 +22,17 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 #define START_INCLUDE
 #include "tip.h"
 #include "dialog.h"
 #include "gsb_automem.h"
-#include "include.h"
 #include "structures.h"
 #define END_INCLUDE
 

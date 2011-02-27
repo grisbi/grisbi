@@ -1,6 +1,8 @@
 #ifndef _ACCUEIL_H
 #define _ACCUEIL_H (1)
 
+#include <gtk/gtk.h>
+
 /* Constantes pour la fonction gtk_misc_set_alignment() (GTK1) */
 #define MISC_TOP 0
 #define MISC_VERT_CENTER 0.5

@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
@@ -46,8 +51,7 @@
 #include "utils.h"
 #include "affichage.h"
 #include "structures.h"
-#include "gsb_currency_config.h"
-#include "include.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -280,7 +284,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0);
 
 	/* label account name */
-	label = gtk_label_new (COLON(_("Accounts file title")));
+	label = gtk_label_new ( _("Accounts file title: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -302,7 +306,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* filename */
-	label = gtk_label_new (COLON(_("Filename")));
+	label = gtk_label_new ( _("Filename: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
@@ -324,6 +328,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
+
+    if ( etat.crypt_file )
+        run.new_crypted_file = TRUE;
 
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );

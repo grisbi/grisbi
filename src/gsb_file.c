@@ -21,12 +21,19 @@
 /* ************************************************************************** */
 
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
 #include <time.h>
+#include <limits.h>
+#include <stdlib.h>
+#include <glib/gstdio.h>
+#include <glib/gi18n.h>
 
 #ifdef _WIN32
-#	ifdef _MSC_VER
+#	if defined(_MSC_VER) || defined(_MINGW)
 #		include <realpath.h>
 #	else
 #		include <stdlibx.h> // For realpath()
@@ -45,6 +52,7 @@
 #include "gsb_assistant_file.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
+#include "gsb_file_config.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
@@ -60,9 +68,6 @@
 #include "affichage_liste.h"
 #include "transaction_list.h"
 #include "utils_files.h"
-#include "utils_str.h"
-#include "fenetre_principale.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -218,7 +223,7 @@ gboolean gsb_file_open_menu ( void )
 {
     GtkWidget *selection_fichier;
     GtkFileFilter * filter;
-devel_debug (NULL);
+
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -246,7 +251,7 @@ devel_debug (NULL);
 	    if ( gsb_file_close() )
 	    {
 		gtk_widget_hide ( selection_fichier );
-		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) ) ;
+		nom_fichier_comptes = file_selection_get_filename ( GTK_FILE_CHOOSER ( selection_fichier ) );
         gsb_file_update_last_path ( file_selection_get_last_directory (
                         GTK_FILE_CHOOSER ( selection_fichier),
                         TRUE ) );
@@ -316,8 +321,12 @@ const gchar *gsb_file_get_backup_path ( void )
  * */
 void gsb_file_set_backup_path ( const gchar *path )
 {
-    backup_path = my_strdup (path);
-    if ( ! g_file_test ( path, G_FILE_TEST_EXISTS ) )
+    if ( path == NULL || strlen ( path ) == 0 )
+        backup_path = my_strdup ( C_PATH_DATA_FILES );
+    else
+        backup_path = my_strdup ( path );
+
+    if ( !g_file_test ( path, G_FILE_TEST_EXISTS ) )
     {
         utils_files_create_XDG_dir ( );
     }
@@ -379,7 +388,10 @@ gboolean gsb_file_open_file ( gchar *filename )
         /* the file has been opened succesfully */
         /* we make a backup if necessary */
         if ( conf.sauvegarde_demarrage )
-            gsb_file_save_backup();
+        {
+            gsb_file_save_backup ();
+            etat.modification_fichier = FALSE;
+        }
     }
     else
     {
@@ -700,15 +712,9 @@ gboolean gsb_file_automatic_backup_start ( GtkWidget *checkbutton,
     if (conf.make_backup_every_minutes
 	&&
 	conf.make_backup_nb_minutes )
-#if GLIB_CHECK_VERSION(2,14,0)
 	id_timeout = g_timeout_add_seconds ( conf.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
-#else
-	id_timeout = g_timeout_add ( conf.make_backup_nb_minutes * 60000,
-				     (GSourceFunc) (gsb_file_automatic_backup),
-				     NULL );
-#endif
     return FALSE;
 }
 
@@ -734,15 +740,9 @@ gboolean gsb_file_automatic_backup_change_time ( GtkWidget *spinbutton,
 
     /* set a new timeout only if there is an interval */
     if (conf.make_backup_nb_minutes)
-#if GLIB_CHECK_VERSION(2,14,0)
 	id_timeout = g_timeout_add_seconds ( conf.make_backup_nb_minutes * 60,
 					     (GSourceFunc) (gsb_file_automatic_backup),
 					     NULL );
-#else
-	id_timeout = g_timeout_add ( conf.make_backup_nb_minutes * 60000,
-				     (GSourceFunc) (gsb_file_automatic_backup),
-				     NULL );
-#endif
 
     return FALSE;
 }
@@ -791,7 +791,7 @@ static gint gsb_file_dialog_save ( void )
     gchar* message;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
-devel_debug (NULL);
+
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
     if ( !etat.modification_fichier )

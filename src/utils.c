@@ -22,17 +22,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <stdlib.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "utils.h"
 #include "dialog.h"
 #include "gsb_data_account.h"
-#include "utils_str.h"
 #include "gsb_file_config.h"
-#include "include.h"
 #include "structures.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -59,16 +63,21 @@ gboolean met_en_prelight ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    GSList *list = ( GSList* ) pointeur;
-
-    while (list )
+    if ( pointeur == NULL )
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_PRELIGHT );
+    else
     {
-        GtkWidget *widget;
+        GSList *list = ( GSList* ) pointeur;
 
-        widget = list -> data;
-        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_PRELIGHT );
+        while (list )
+        {
+            GtkWidget *widget;
 
-        list = list -> next;
+            widget = list -> data;
+            gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_PRELIGHT );
+
+            list = list -> next;
+        }
     }
     return FALSE;
 }
@@ -83,18 +92,24 @@ gboolean met_en_normal ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur )
 {
-    GSList *list = ( GSList* ) pointeur;
-
-    while (list )
+    if ( pointeur == NULL )
+        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN (event_box)->child ), GTK_STATE_NORMAL );
+    else
     {
-        GtkWidget *widget;
+        GSList *list = ( GSList* ) pointeur;
 
-        widget = list -> data;
+        while (list )
+        {
+            GtkWidget *widget;
 
-        gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_NORMAL );
+            widget = list -> data;
 
-        list = list -> next;
+            gtk_widget_set_state ( GTK_WIDGET ( GTK_BIN ( widget )->child ), GTK_STATE_NORMAL );
+
+            list = list -> next;
+        }
     }
+
     return FALSE;
 }
 
@@ -242,7 +257,7 @@ gboolean lance_navigateur_web ( const gchar *url )
  * \param fill Give all available space to padding box or not
  * \param title Title to display on top of the paddingbox
  */
-GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, gchar * title)
+GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, const gchar *title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;
@@ -541,6 +556,7 @@ void lance_mailer ( const gchar *uri )
         tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
                     "The error was: %s."),
                     uri, error -> message );
+        g_error_free ( error );
         dialogue_error_hint ( tmp_str, _("Cannot execute mailer") );
         g_free(tmp_str);
     }

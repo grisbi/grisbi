@@ -26,7 +26,12 @@
  * works with global variables of grisbi (initialisation...)
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "traitement_variables.h"
@@ -34,6 +39,7 @@
 #include "bet_data_finance.h"
 #include "bet_future.h"
 #include "custom_list.h"
+#include "fenetre_principale.h"
 #include "gsb_calendar.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -70,6 +76,7 @@
 #include "structures.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -183,6 +190,7 @@ extern gint scheduler_current_tree_view_width;
 extern GtkWidget *solde_label;
 extern GtkWidget *solde_label_pointe;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -238,11 +246,15 @@ void init_variables ( void )
     gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 12, 12 };
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
+    gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
     
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
+
+    /* init the new crypted file */
+    run.new_crypted_file = FALSE;
 
     /* init the format date */
     initialise_format_date ( );
@@ -322,8 +334,17 @@ void init_variables ( void )
     if ( etat.name_logo && strlen ( etat.name_logo ) )
         g_free ( etat.name_logo );
     etat.name_logo = NULL;
+    etat.utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
 
+    /* reconcile (etat) */
+    etat.reconcile_account_number = -1;
+    if ( etat.reconcile_final_balance )
+        g_free ( etat.reconcile_final_balance );
+    etat.reconcile_final_balance = NULL;
+    if ( etat.reconcile_new_date )
+        g_date_free ( etat.reconcile_new_date );
+    etat.reconcile_new_date = NULL;
 
     adresse_commune = NULL;
     adresse_secondaire = NULL;
@@ -362,11 +383,24 @@ void init_variables ( void )
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
 
-    /* defaut value for width of columns */
+    /* defaut value for width and align of columns */
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-    transaction_col_width[i] = transaction_col_width_init[i];
-     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-    scheduler_col_width[i] = scheduler_col_width_init[i];
+        transaction_col_width[i] = transaction_col_width_init[i];
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
+        transaction_col_align[i] = transaction_col_align_init[i];
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
+        scheduler_col_width[i] = scheduler_col_width_init[i];
+
+    if ( run.transaction_column_width && strlen ( run.transaction_column_width ) )
+    {
+        g_free ( run.transaction_column_width );
+        run.transaction_column_width = NULL;
+    }
+    if ( run.scheduler_column_width && strlen ( run.scheduler_column_width ) )
+    {
+        g_free ( run.scheduler_column_width );
+        run.scheduler_column_width = NULL;
+    }
     
     navigation_tree_view = NULL;
 
@@ -386,7 +420,9 @@ void init_variables ( void )
     text_color[1] = default_text_color[1];
     calendar_entry_color = default_calendar_entry_color;
 
+    /* divers */
     etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
+    etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
 
     /* remove the timeout if necessary */
     if (id_timeout)
@@ -447,9 +483,9 @@ void initialisation_couleurs_listes ( void )
     default_text_color[1].blue = TEXT_COLOR_2_BLUE;
 
     /* selection color */
-    default_couleur_selection.red= SELECTION_COLOR_RED;
-    default_couleur_selection.green= SELECTION_COLOR_GREEN ;
-    default_couleur_selection.blue= SELECTION_COLOR_BLUE;
+    default_couleur_selection.red = SELECTION_COLOR_RED;
+    default_couleur_selection.green = SELECTION_COLOR_GREEN;
+    default_couleur_selection.blue = SELECTION_COLOR_BLUE;
 
     /* color of the non selectable transactions on scheduler */
     default_couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
@@ -604,6 +640,7 @@ void menus_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
     menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
     menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    menu_name ( "ViewMenu",     "InitwidthCol",        NULL ),
     NULL,
     };
     gchar ** tmp = items;
@@ -635,9 +672,10 @@ void menus_view_sensitifs ( gboolean sensitif )
     menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
     menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
     menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
+    menu_name ( "ViewMenu",     "InitwidthCol",         NULL ),
     NULL,
     };
-    gchar ** tmp = items;
+    gchar **tmp = items;
 
     devel_debug_int (sensitif);
 
@@ -649,10 +687,39 @@ void menus_view_sensitifs ( gboolean sensitif )
 }
 
 
-/*****************************************************************************************************/
+/**
+ * initialise la largeur des colonnes du tableau d'affichage des opérations.
+ * ou des opérations planifiées.
+ *
+ * */
+void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description )
+{
+    gchar **pointeur_char;
+    gint j;
 
 
-/*****************************************************************************************************/
+    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+    pointeur_char = g_strsplit ( description, "-", 0 );
+
+    if ( type_operation == GSB_ACCOUNT_PAGE )
+    {
+        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+            transaction_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+    }
+    else if ( type_operation == GSB_SCHEDULER_PAGE )
+    {
+        for ( j = 0 ; j < SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
+            scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+    }
+
+        g_strfreev ( pointeur_char );
+}
+
+
+/**
+ * initialise le contenu du tableau d'affichage des opérations.
+ *
+ * */
 void initialise_tab_affichage_ope ( void )
 {
     gint tab[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS] = {
@@ -702,14 +769,25 @@ void initialise_format_date ( void )
 void initialise_number_separators ( void )
 {
     struct lconv *conv;
+    gchar *dec_point = NULL, *thousand_sep = NULL;
 
     gsb_real_set_decimal_point ( NULL );
     gsb_real_set_thousands_sep ( NULL );
 
     conv = localeconv();
 
-    gsb_real_set_decimal_point ( g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL ) );
-    gsb_real_set_thousands_sep ( g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL ) );
+    if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
+    {
+        dec_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
+        gsb_real_set_decimal_point ( dec_point );
+        g_free ( dec_point );
+    }
+    else
+        gsb_real_set_decimal_point ( "." );
+
+    thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
+    gsb_real_set_thousands_sep ( thousand_sep );
+    g_free ( thousand_sep );
 }
 
 

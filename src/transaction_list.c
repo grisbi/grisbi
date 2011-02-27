@@ -30,33 +30,34 @@
  * Grisbi shouldn't work directly on the CustomList except by those files
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "transaction_list.h"
+#include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
-#include "affichage_liste.h"
-#include "gsb_transactions_list.h"
-#include "utils_dates.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
+#include "gsb_real.h"
+#include "gsb_transactions_list.h"
 #include "gsb_transactions_list_sort.h"
 #include "navigation.h"
-#include "gsb_real.h"
+#include "structures.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "transaction_model.h"
-#include "custom_list.h"
-#include "gsb_transactions_list.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
-#include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -325,7 +326,7 @@ void transaction_list_append_archive (gint archive_store_number)
     archive_number = gsb_data_archive_store_get_archive_number (archive_store_number);
 
     if ( find_element_col ( ELEMENT_DATE ) == 0 )
-        element_date = find_element_col ( ELEMENT_CATEGORY );
+        element_date = find_element_col_for_archive ( );
 
     newrecord -> visible_col[element_date] = gsb_format_gdate (
                         gsb_data_archive_get_beginning_date ( archive_number ) );
@@ -2083,7 +2084,7 @@ void transaction_list_set_color_jour ( gint account_number )
     element_sort = gsb_data_account_get_element_sort ( account_number,
 							     custom_list -> sort_col);
 
-    for (i= custom_list -> num_visibles_rows -1; i >= 0  ; i--)
+    for ( i = custom_list -> num_visibles_rows -1; i >= 0  ; i-- )
     {
         CustomRecord *record;
 
@@ -2110,7 +2111,8 @@ void transaction_list_set_color_jour ( gint account_number )
                     {
                         record -> row_bg = &couleur_jour;
                         i--;
-                        record = custom_list -> visibles_rows[i];
+                        if ( i >= 0 )
+                            record = custom_list -> visibles_rows[i];
                     }
                     /* on se positionne sur la première ligne */
                     record = custom_list -> visibles_rows[0];

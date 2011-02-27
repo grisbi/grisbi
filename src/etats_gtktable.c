@@ -26,6 +26,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 
@@ -41,7 +45,6 @@
 #include "transaction_list_select.h"
 #include "structures.h"
 #include "fenetre_principale.h"
-#include "gsb_data_transaction.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/
@@ -107,13 +110,13 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 
     switch (align) 
     {
-	case LEFT:
+	case ALIGN_LEFT:
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
 	    break;
-	case CENTER:
+	case ALIGN_CENTER:
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.5, 0.0 );
 	    break;
-	case RIGHT:
+	case ALIGN_RIGHT:
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), 1.0, 0.0 );
 	    break;
     }

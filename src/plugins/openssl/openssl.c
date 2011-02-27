@@ -19,18 +19,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NOSSL
-#  include <openssl/des.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
+
+/* This define is required to disable openssl's SSLeay support which redefines
+ * _(), which obvisouly breaks glib's gettext macros. */
+#define OPENSSL_DISABLE_OLD_DES_SUPPORT
+#ifdef HAVE_SSL
+#  include <openssl/des.h>
+#endif
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "./dialog.h"
-#include "./main.h"
-#include "./structures.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "main.h"
+#include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
@@ -44,16 +52,164 @@
 SYMBOL_IMPORT GtkWidget *window;
 /*END_EXTERN*/
 
-#ifndef NOSSL
+#ifdef HAVE_SSL
 /*START_STATIC*/
 static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
 static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length );
+static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
 /*END_STATIC*/
 #endif
 
-gchar *crypt_key;
+static gchar *saved_crypt_key;
+
+#define V1_MARKER "Grisbi encrypted file "
+#define V1_MARKER_SIZE (sizeof(V1_MARKER) - 1)
+#define V2_MARKER "Grisbi encryption v2: "
+#define V2_MARKER_SIZE (sizeof(V2_MARKER) - 1)
+
+#define ALIGN_TO_8_BYTES(l) ((l + 7) & (~7))
+
+
+
+#ifdef HAVE_SSL
+/**
+ *
+ */
+static gulong
+encrypt_v2(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong to_encrypt_length, output_length;
+    gchar *to_encrypt_content, *output_content;
+
+    /* Create a temporary buffer that will hold data to be encrypted. */
+    to_encrypt_length = V2_MARKER_SIZE + length;
+    to_encrypt_content = g_malloc ( to_encrypt_length );
+    g_memmove ( to_encrypt_content, V2_MARKER, V2_MARKER_SIZE );
+    g_memmove ( to_encrypt_content + V2_MARKER_SIZE, *file_content, length );
+
+    /* Allocate the output file and copy the special marker at its beginning.
+     * DES_cbc_encrypt output is always a multiple of 8 bytes. Adjust the
+     * length of the allocation accordingly. */
+    output_length = V2_MARKER_SIZE + ALIGN_TO_8_BYTES ( to_encrypt_length );
+    output_content = g_malloc ( output_length );
+    g_memmove ( output_content, V2_MARKER , V2_MARKER_SIZE );
+
+    /* Encrypt the data and put it in the right place in the output buffer. */
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked ( &key, &sched );
+    DES_set_odd_parity ( &key );
+
+    DES_cbc_encrypt ( (guchar *) to_encrypt_content,
+                    (guchar *) (output_content + V2_MARKER_SIZE),
+                    to_encrypt_length,
+                    &sched,
+                    &key,
+                    DES_ENCRYPT );
+
+    g_free ( to_encrypt_content );
+
+    *file_content = output_content;
+    return output_length;
+}
+
+
+/**
+ *
+ */
+static gulong
+decrypt_v2(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong decrypted_len, output_len;
+    gchar *decrypted_buf, *output_buf;
+
+    /* Create a temporary buffer that will hold the decrypted data without the
+     * first marker. */
+    decrypted_len = length - V2_MARKER_SIZE;
+    decrypted_buf = g_malloc ( decrypted_len );
+
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked( &key, &sched );
+    DES_set_odd_parity ( &key );
+
+    DES_cbc_encrypt ( (guchar *) (* file_content + V2_MARKER_SIZE),
+              (guchar *) decrypted_buf,
+              (long) decrypted_len,
+              &sched,
+              &key,
+              DES_DECRYPT );
+
+    /* If the password was correct, the second marker should appear in the first
+     * few bytes of the decrypted content. */
+    if ( strncmp ( decrypted_buf, V2_MARKER, V2_MARKER_SIZE ) )
+    {
+        g_free ( decrypted_buf );
+        return 0;
+    }
+
+    /* Copy the decrypted data to a final buffer, leaving out the second
+     * marker. g_strndup() is used to add a trailing null byte. */
+    output_len = decrypted_len - V2_MARKER_SIZE;
+    output_buf = g_strndup ( decrypted_buf + V2_MARKER_SIZE, output_len );
+
+    g_free ( decrypted_buf );
+
+    *file_content = output_buf;
+    return output_len;
+}
+
+
+/**
+ *
+ */
+static gulong
+decrypt_v1(gchar *password, gchar **file_content, gulong length)
+{
+    DES_cblock key;
+    DES_key_schedule sched;
+    gulong decrypted_len;
+    gchar *decrypted_buf;
+
+    /* Create a temporary buffer that will hold the decrypted data without the
+     * marker. A trailing null byte is also added. */
+    decrypted_len = length - V1_MARKER_SIZE;
+    decrypted_buf = g_malloc ( decrypted_len + 1 );
+    decrypted_buf[decrypted_len] = 0;
+
+    DES_string_to_key ( password, &key );
+    DES_set_key_unchecked( &key, &sched );
+    DES_set_odd_parity ( &key );
+    /* Set the DES key the WRONG AND BROKEN way. DO NOT REUSE THIS CODE EVER! */
+    memset ( &key, 0, sizeof ( DES_cblock ) );
+    g_memmove ( &key, password, MIN(sizeof(DES_cblock), strlen(password)) );
+
+    DES_cbc_encrypt ( (guchar *) (* file_content + V1_MARKER_SIZE),
+        (guchar *) decrypted_buf,
+        (long) decrypted_len,
+        &sched,
+        &key,
+        DES_DECRYPT );
+
+    /* If the password was correct, the first few bytes of the decrypted
+     * content should contain the following strings. */
+    if ( strncmp ( decrypted_buf, "<?xml version=\"1.0\"?>", 18 )
+         &&
+         strncmp ( decrypted_buf, "Grisbi compressed file ", 23 ) )
+    {
+        g_free ( decrypted_buf );
+        return 0;
+    }
+
+    *file_content = decrypted_buf;
+    return decrypted_len;
+}
+#endif /* HAVE_SSL */
+
 
 /**
  * Crypt or decrypt string given in the param
@@ -70,21 +226,22 @@ gchar *crypt_key;
 gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-#ifndef NOSSL
+#ifdef HAVE_SSL
     gchar * key, * message = "";
-    des_cblock openssl_key;
-    des_key_schedule sched;
+
+    if ( run.new_crypted_file )
+    {
+        if ( saved_crypt_key )
+            g_free ( saved_crypt_key );
+	    saved_crypt_key = NULL;
+    }
 
     if ( crypt )
     {
-        /* we want to encrypt the file */
-
-        gchar *encrypted_file;
-
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-        if ( crypt_key )
-            key = crypt_key;
+        if ( saved_crypt_key )
+            key = saved_crypt_key;
         else
             key = gsb_file_util_ask_for_crypt_key ( file_name, message, TRUE);
 
@@ -93,49 +250,18 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
         if ( !key )
             return 0;
 
-        des_string_to_key ( key, &openssl_key );
-        des_set_key_unchecked ( &openssl_key, sched );
-        DES_set_odd_parity ( &openssl_key );
-
-        /* we create a copy of the file in memory which will begin by
-         * "Grisbi encrypted file " */
-
-        encrypted_file = g_malloc0 ( ( length + 23 ) * sizeof ( gchar ) );
-        encrypted_file = strncpy ( encrypted_file, "Grisbi encrypted file ", 22 );
-
-        des_cbc_encrypt ( (guchar *) (* file_content),
-                        (guchar *) (encrypted_file + 22),
-                        (long) length,
-                        sched,
-                        (DES_cblock *) key,
-                        TRUE );
-
-        if ( length % 8 != 0 )
-        {
-            length += ( 8 - length % 8 );
-        }
-
-        *file_content = encrypted_file;
-
-        /* the actual length is the initial + 22 (size of Grisbi encrypted file */
-        return length + 22;
+        return encrypt_v2 ( key, file_content, length );
     }
     else
     {
-        /* we want to decrypt the file */
-
-        gchar *decrypted_file;
-
-        /* we set the length on the rigt size */
-
-        length = length - 22;
+        gulong returned_length;
 
 return_bad_password:
 
         /* now, if we know here a key to crypt, we use it, else, we ask for it */
 
-        if ( crypt_key )
-            key = crypt_key;
+        if ( saved_crypt_key )
+            key = saved_crypt_key;
         else
             key = gsb_file_util_ask_for_crypt_key ( file_name, message, FALSE );
 
@@ -144,44 +270,22 @@ return_bad_password:
         if ( !key )
             return 0;
 
-        des_string_to_key ( key, &openssl_key );
-        des_set_key_unchecked( &openssl_key, sched );
-        DES_set_odd_parity ( &openssl_key );
+        returned_length = decrypt_v2 ( key, file_content, length );
 
-        /* we create a copy of the file in memory which will begin
-         * with "Grisbi encrypted file " */
+        if ( returned_length == 0 )
+            returned_length = decrypt_v1 ( key, file_content, length );
 
-        decrypted_file = g_malloc0 ( length * sizeof ( gchar ));
-
-        des_cbc_encrypt ( (guchar *) (* file_content + 22),
-                  (guchar *) decrypted_file,
-                  (long) length,
-                  sched,
-                  (DES_cblock *) key,
-                  FALSE );
-
-        /* before freeing file_content and go back, we check that the password was correct
-         * if not, we free the decrypted_file and ask again for the password */
-
-        if ( strncmp ( decrypted_file,
-                   "<?xml version=\"1.0\"?>",
-                   18 )
-             &&
-             strncmp ( decrypted_file,
-                   "Grisbi compressed file ",
-                   23 ))
+        if ( returned_length == 0 )
         {
             /* it seems that it was not the correct password */
 
-	    g_free ( decrypted_file );
+            message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
+            g_free ( saved_crypt_key );
+            saved_crypt_key = NULL;
+            goto return_bad_password;
+        }
 
-	    message = _( "<span weight=\"bold\" foreground=\"red\">Password is incorrect!</span>\n\n");
-	    crypt_key = NULL;
-	    goto return_bad_password;
-	}
-
-	*file_content = decrypted_file;
-	return length;
+        return returned_length;
     }
 
 #else
@@ -205,7 +309,7 @@ return_bad_password:
  *
  * \return a string which is the crypt key or NULL if it was
  * cancelled. */
-#ifndef NOSSL
+#ifdef HAVE_SSL
 gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
                         gboolean encrypt )
 {
@@ -259,13 +363,23 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
-                        gtk_label_new ( COLON(_("Password")) ),
+                        gtk_label_new ( _("Password: ") ),
                         FALSE, FALSE, 0 );
 
     entry = gtk_entry_new ();
     gtk_entry_set_activates_default ( GTK_ENTRY ( entry ), TRUE );
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
+
+    if ( run.new_crypted_file )
+    {
+        button = gtk_check_button_new_with_label ( _("View password") );
+        gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
+        g_signal_connect ( G_OBJECT ( button ),
+			            "toggled",
+			            G_CALLBACK ( gsb_file_util_show_hide_passwd ),
+			            entry );
+    }
 
     button = gtk_check_button_new_with_label ( _("Don't ask password again for this session."));
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), TRUE );
@@ -284,7 +398,10 @@ return_bad_password:
         key = g_strdup (gtk_entry_get_text ( GTK_ENTRY ( entry )));
 
         if (!strlen ( key ) )
+        {
+            g_free ( key );
             key = NULL;
+        }
 #ifdef __APPLE__
         else if ( g_utf8_strlen ( key, -1 ) < 7 )
         {
@@ -297,9 +414,12 @@ return_bad_password:
 #endif /* __APPLE__ */
 
         if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button )))
-            crypt_key = key;
+            saved_crypt_key = key;
         else
-            crypt_key = NULL;
+            saved_crypt_key = NULL;
+
+        run.new_crypted_file = FALSE;
+
         break;
 
     case GTK_RESPONSE_CANCEL:
@@ -313,35 +433,45 @@ return_bad_password:
 #endif
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
+#endif
 
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void openssl_plugin_register ()
+G_MODULE_EXPORT extern void openssl_plugin_register ( void )
 {
     devel_debug ("Initializating openssl plugin");
-    crypt_key = NULL;
+    saved_crypt_key = NULL;
 }
 
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gint openssl_plugin_run ( gchar * file_name, gchar **file_content,
+G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-    return gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
+    /* The final size is cast from a gulong to a gpointer. This is 'ok' because
+     * a gpointer is always the same size. It is quite ugly though, and a proper
+     * fix should be found for this. */
+    return (gpointer) gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
 }
 
 
-
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean openssl_plugin_release ( )
+void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )
 {
-    return TRUE;
-}
+    gint visibility;
 
+    visibility = gtk_entry_get_visibility ( GTK_ENTRY ( entry ) );
+    if ( visibility )
+        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("View password") );
+    else
+        gtk_button_set_label ( GTK_BUTTON ( togglebutton ), _("Hide password") );
+
+    gtk_entry_set_visibility ( GTK_ENTRY ( entry ), !visibility );
+}
 
 
 /* Local Variables: */

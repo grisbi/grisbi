@@ -37,14 +37,18 @@
 extern "C" {
 #endif /* __cplusplus */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <string.h>
 
 /*START_INCLUDE*/
 #include "utils_file_selection.h"
 #include "dialog.h"
 #include "gsb_file_util.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -52,98 +56,6 @@ extern "C" {
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-
-#ifdef _WIN32_USE_FILE_DIALOG
-#include "win32_file_selection.h"
-#endif
-
-#define FILE_SELECTION_PROPERTY(prop,value) ((prop & value) == value) 
-    
-
-
-/** Validate the selected filename from a GtkFileChooser
- *
- * If the user select or enter an existing filename, this function asks her to confirm she wants to
- * overwrite the file.
- * 
- * \param selection_fichier GtkFileChooser widget
- * \return
- *      - TRUE if the filename is ok (file does not exists or user confirm to overwrite it)
- *      - FALSE in all other cases (filename empty, ...)
- *      
- */      
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gboolean _file_selection_overwrite_file_check( GtkWidget *selection_fichier)
-{ !* {{{ *!
-    gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-
-    return (gsb_file_util_test_overwrite (filename));
-
-} !* }}} file_selection_check_filename *!
-*/
-
-/** Handler called by the "Save" GTKFileSelection dialog on button_ok "clicked" signal.
- * 
- * Send:
- * - GTK_RESPONSE_OK   if the selected filename does not exists or if the user confirm the overwrite
- * - GTK_RESPONSE_NONE in all others cases.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void file_selection_overwrite_file_check_signal(GtkWidget *selection_fichier)
-{ !* {{{ *!
-    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
-			(_file_selection_overwrite_file_check(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
-} !* }}} file_selection_overwrite_file_check_signal *!
-*/
-
-/** Validate the selected filename from a GtkFileChooser.  Check if file exists.
- *
- * \param selection_fichier GtkFileChooser widget
- * \return
- *      - TRUE if the filename is ok (file exists and is valid)
- *      - FALSE in all other cases (filename empty, ...)
- */      
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-static gboolean _file_selection_check_filename ( GtkWidget *selection_fichier)
-{ !* {{{ *!
-    gboolean result = TRUE;
-    gchar* filename = my_strdup ( gtk_file_selection_get_filename ( GTK_FILE_SELECTION ( selection_fichier)) );
-
-    if ((!filename)||(!strlen(filename)))
-    {
-        result = FALSE;
-    }
-    else
-    {
-	if ( !g_file_test (filename,
-			   G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR ))
-	{
-	    dialogue_error_hint ( g_strdup_printf ( _("Either file \"%s\" does not exist or it is not a regular file."),
-						    filename),
-				  g_strdup_printf ( _("Error opening file '%s'." ), filename ) );
-	    result = FALSE;
-	}
-    }
-
-    return result;
-} !* }}} file_selection_check_filename *!
-*/
-
-/** Handler called by the "Open" GTKFileSelection dialog on button_ok "clicked" signal.
- * 
- * Send:
- * - GTK_RESPONSE_OK   if the selected filename exists
- * - GTK_RESPONSE_NONE in all others cases.
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void file_selection_check_filename_signal(GtkWidget *selection_fichier)
-{ !* {{{ *!
-    gtk_dialog_response(GTK_DIALOG(GTK_FILE_SELECTION(selection_fichier)),
-			(_file_selection_check_filename(selection_fichier) == TRUE) ? GTK_RESPONSE_OK : GTK_RESPONSE_NONE);
-} !* }}} file_selection_check_filename_signal *!
-*/
-
 
 
 /* file_selection_new a enhanced version of gtk_file_selection_new.
@@ -177,40 +89,6 @@ GtkWidget* file_selection_new ( const gchar *title, const gint properties )
 
 
 
-/** file_selection_get_entry.
- * 
- * Get the text (converted in UTF-8 string) of the filename entry field of a GtkFileChooser dialog
- *
- * \param filesel GtkFileChooser widget
- *
- * \return the entry string converted in UFT-8 charset.
- *  The returned string has been allocated in this function are need to be release
- *  where no more used (no need to add any my_strdup string to use it)
- *  
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-gchar* file_selection_get_entry(GtkFileChooser* filesel)
-{ !* {{{ *!
-    return g_filename_to_utf8 ( gtk_file_chooser_get_filename ( filesel ),-1,NULL,NULL,NULL);
-} !* }}} file_selection_get_entry *!
-*/
-
-
-
-/** file_selection_set_filename
- *
- * Set the filename property of the GtkFileChooser after having converted in the locale char set
- *
- * \param filesel GtkFileChooser widget handle
- * \param utf8filename the string to set coded with the UTF8 charset
- */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-void file_selection_set_filename(GtkFileChooser* filesel,const gchar* utf8filename)
-{ !* {{{ *!
-    gtk_file_chooser_set_filename ( filesel, 
-				    g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL) );
-} !* }}} file_selection_set_filename *!
-*/
 
 /** file_selection_get_filename
  *
@@ -226,27 +104,6 @@ gchar* file_selection_get_filename(GtkFileChooser* filesel)
     return gtk_file_chooser_get_filename ( filesel );
 } /* }}} file_selection_get_filename */
 
-/**
- * file_selection_get_selections.
- * 
- * @param filesel GtkFileChooser widget descriptor
- *
- * Provided the exactly the same service as gtk_file_selection_get_selections, except that the
- * results string of the list are already coded using UTF-8 charset.
- *
- * @return table of selected filenames (with path) using UTF8 charset
- *
- *   The returned table is not the one returned by the gtk function but a newly allocated
- *   It should be unallocated by the caller. Use g_strfreev() to free it.
- *   
- * */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
-GSList * file_selection_get_selections(GtkFileChooser* filesel)
-{ !* {{{ *!
-    return gtk_file_chooser_get_filenames  ( filesel );
-} !* }}} file_selection_get_selections *!
-
-*/
 
 
 

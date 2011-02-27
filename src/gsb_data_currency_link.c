@@ -26,13 +26,17 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_currency_link.h"
 #include "utils_dates.h"
 #include "dialog.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 

@@ -21,10 +21,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <gdk/gdkkeysyms.h>
-#include <ctype.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
+#include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
+#include <ctype.h>
 
 /*START_INCLUDE*/
 #include "gtk_combofix.h"
@@ -987,7 +992,7 @@ static gboolean gtk_combofix_entry_changed ( GtkComboFix *combofix, gboolean ins
         {
             new_string = g_strdup ( entry_string );
             gtk_combofix_dialog ( _("You cannot create new payee or category "
-                            "and subcategory without changing the options "
+                            "and sub-category without changing the options "
                             "in preferences"),
                             _("Warning you cannot create payee or category") );
         }

@@ -24,16 +24,36 @@
 #define important_debug(x) debug_message_string("Important",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_IMPORTANT,FALSE)
 #define alert_debug(x) debug_message_string("Alert",__FILE__,__LINE__,__PRETTY_FUNCTION__,x,DEBUG_LEVEL_ALERT,FALSE)
 #define DEBUG_WHERE_AM_I g_strdup_printf("%s line %05d",__FILE__,__LINE__)
-
+#define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
-extern void debug_message_int ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				gint message, gint level, gboolean force_debug_display);
-extern void debug_message_real ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				gsb_real message, gint level, gboolean force_debug_display);
-G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe, gchar * file, gint line, const char * function, 
-				   const gchar *message, gint level, gboolean force_debug_display);
-gboolean gsb_debug_start_log (void);
+extern void debug_message_int ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        gint message,
+                        gint level,
+                        gboolean force_debug_display );
+extern void debug_message_real ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        gsb_real message,
+                        gint level,
+                        gboolean force_debug_display);
+G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        const gchar *message,
+                        gint level,
+                        gboolean force_debug_display );
+extern void debug_print_log_string ( gchar *prefixe,
+                        gchar *file,
+                        gint line,
+                        const char *function,
+                        const gchar *msg );
+gboolean gsb_debug_start_log ( void );
 void initialize_debugging ( void );
 void traitement_sigsegv ( gint signal_nb );
 /* END_DECLARATION */

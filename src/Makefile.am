@@ -1,14 +1,23 @@
 # Process this file with automake to produce Makefile.in
 
 AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(IGE_MAC_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
-bin_PROGRAMS = grisbi
 
+bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
 
 grisbi_LDADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS) libgrisbi.la
 
+libgrisbi_la_LIBADD =
+if ENABLE_STATIC
+libgrisbi_la_LIBADD += \
+	plugins/gnucash/gnucash.la \
+	plugins/ofx/ofx.la \
+	plugins/openssl/openssl.la
+else
 libgrisbi_la_LDFLAGS = -export_dynamic
-libgrisbi_la_LIBADD = $(GRISBI_LIBS) $(IGE_MAC_LIBS)
+endif
+libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(IGE_MAC_LIBS)
+
 libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
@@ -26,7 +35,6 @@ libgrisbi_la_SOURCES = \
 	etats_csv.c		\
 	etats_gtktable.c	\
 	etats_html.c		\
-	etats_latex.c		\
 	etats_onglet.c		\
 	etats_support.c		\
 	export.c		\
@@ -121,7 +129,6 @@ libgrisbi_la_SOURCES = \
 	navigation.c		\
 	parametres.c		\
 	parse_cmdline.c		\
-	print_config.c		\
 	print_dialog_config.c		\
 	print_report.c		\
 	print_transactions_list.c		\
@@ -250,7 +257,6 @@ libgrisbi_la_SOURCES = \
 	etats_config.h		\
 	etats_gtktable.h	\
 	etats.h			\
-	etats_latex.h		\
 	etats_onglet.h		\
 	etats_support.h		\
 	fenetre_principale.h	\
@@ -271,7 +277,6 @@ libgrisbi_la_SOURCES = \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\
-	print_config.h		\
 	print_dialog_config.h	\
 	print_report.h		\
 	print_transactions_list.h	\
@@ -299,7 +304,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS = .
+SUBDIRS =
 
 if HAVE_CUNIT
 SUBDIRS += tests
@@ -313,3 +318,10 @@ mime_DATA = grisbi.keys grisbi.mime
 if HAVE_PLUGINS
 SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
 endif
+
+ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
+
+checkheaders: $(ALLHEADERS:.h=.ho)
+
+%.ho: %.h
+	$(CC) -include config.h $(AM_CPPFLAGS) $(CPPFLAGS) $(CFLAGS) -c -o $@ -x c $<

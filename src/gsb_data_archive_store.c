@@ -32,6 +32,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -42,7 +46,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "transaction_list.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 

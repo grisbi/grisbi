@@ -22,8 +22,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <glib/gstdio.h>
 
 /*START_INCLUDE*/
 #include "utils_str.h"
@@ -240,101 +247,6 @@ G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
     {
         return ( 0 );
     }
-}
-
-
-/**
- * Fonction my_strtod (string to decimal)
- * Convertie une chaine de caractères en un nombre
- * Paramètres d'entrée :
- *   - nptr : pointeur sur la chaine de caractères à convertir
- *   - endptr : renvoie le reste de la chaine après le dernier caractère utilisé dans la conversion
- * Valeur de retour :
- *   - resultat : le résultat de la conversion
- * Variables locales :
- *   - entier : la partie entière du résultat
- *   - mantisse : la partie décimale du résultat
- *   - invert : le signe du résultat (0 -> positif, 1 -> négatif)
- *   - p, m : pointeurs locaux sur la chaine de caractères à convertir
- * */
-double my_strtod ( const gchar *nptr, gchar **endptr )
-{
-    double entier= 0, mantisse = 0, resultat = 0;
-    gint invert = 0;
-    const gchar *p;
-
-    if ( !nptr )
-        return 0;
-
-    for ( p = nptr; p < nptr + strlen ( nptr ); p++ )
-    {
-        if ( g_ascii_isspace ( *p ) || *p == '+' )
-            continue;
-
-        if ( *p == '-' )
-        {
-            invert = 1;
-            continue;
-        }
-
-        /* on traite ici la partie décimale */
-        if ( *p == ',' || *p == '.' )
-        {
-            const gchar *m;
-
-            for ( m = p + 1; m <= nptr + strlen ( nptr ) &&
-             ( g_ascii_isdigit ( *m ) || g_ascii_isspace ( *m ) ); m++ )
-                /* Nothing, just loop pour atteindre la fin de la chaine ou le dernier
-                 * caractère utilisable */
-                ;
-
-            if ( strlen ( m ) > 0 )
-            {
-                gchar *tmp_str = NULL;
-                gchar *tmp_str_2 = NULL;
-                const gchar *ptr;
-
-                for ( ptr = m; ptr < m + strlen ( m ); ptr++ )
-                {
-                    tmp_str = g_strndup ( ptr, 1 );
-                    if ( tmp_str_2 == NULL )
-                        tmp_str_2 = g_strconcat ( tmp_str, "|", NULL );
-                    else
-                        tmp_str_2 = g_strconcat ( tmp_str_2, tmp_str, "|", NULL );
-                    g_free ( tmp_str );
-                }
-                endptr = g_strsplit ( tmp_str_2, "|", strlen ( m ) );
-                g_free ( tmp_str_2 );
-            }
-
-            for ( --m; m > p; m-- )
-            {
-                if ( isdigit ( *m ) )
-                {
-                    mantisse /= 10;
-                    mantisse += ( *m - '0' );
-                }
-            }
-            mantisse /= 10;
-        }
-
-        /* on traite ici la partie entière */
-        if ( isdigit ( *p ) )
-        {
-            entier = entier * 10;
-            entier += ( *p - '0' );
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    resultat = entier + mantisse;
-    if ( invert )
-        resultat = - resultat;
-
-    return resultat;
 }
 
 
@@ -773,21 +685,27 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str )
 {
     gchar *ptr_debut;
-    gint long_old;
-    gchar *chaine;
+    gint long_old, str_len;
+    gchar *chaine, *ret, *tail;
 
     ptr_debut = g_strstr_len ( str, -1, old_str);
     if ( ptr_debut == NULL )
         return g_strdup ( str );
 
-    long_old = g_utf8_strlen ( old_str, -1 );
-    chaine = g_strndup ( str, (ptr_debut - str) );
-    if ( ptr_debut + long_old + 1 )
-        chaine = g_strconcat ( chaine, new_str, ( ptr_debut + long_old + 1 ), NULL );
-    else
-        chaine = g_strconcat ( chaine, new_str, NULL );
+    str_len = strlen ( str );
+    long_old = strlen ( old_str );
 
-    return g_strdup ( chaine );
+    chaine = g_strndup ( str, (ptr_debut - str) );
+
+    tail = ptr_debut + long_old;
+    if ( tail >= str + str_len )
+        ret = g_strconcat ( chaine, new_str, NULL );
+    else
+        ret = g_strconcat ( chaine, new_str, tail, NULL );
+
+    g_free ( chaine );
+
+    return ret;
 }
 
 
@@ -977,12 +895,16 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar *str_number;
+    gchar *decimal;
     gchar *format;
     gint nbre_char;
 
-    format = g_strconcat ( "%.", utils_str_itoa ( nbre_decimal ), "f", NULL );
-
+    decimal = utils_str_itoa ( nbre_decimal );
+    format = g_strconcat ( "%.", decimal, "f", NULL );
     nbre_char = g_sprintf ( buffer, format, number );
+    g_free ( decimal );
+    g_free ( format );
+
     if ( nbre_char > G_ASCII_DTOSTR_BUF_SIZE )
         return NULL;
 
@@ -996,7 +918,27 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
 
 
 /**
+ * fonction de conversion de char à double pour chaine avec un . comme séparateur décimal
+ * et pas de séparateur de milliers
  *
+ *
+ * */
+gdouble utils_str_safe_strtod ( const gchar *str_number, gchar **endptr )
+{
+    gdouble number;
+
+    if ( str_number == NULL )
+        return 0.0;
+
+    number = g_ascii_strtod ( str_number, endptr);
+
+    return number;
+}
+
+
+/**
+ * fonction de conversion de char à double pour chaine en tenant compte du séparateur décimal
+ * et du séparateur de milliers configurés dans les préférences.
  *
  *
  *
@@ -1004,14 +946,14 @@ gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical 
 gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
 {
     gdouble number;
+    gsb_real real;
 
     if ( str_number == NULL )
         return 0.0;
 
-    if ( g_strrstr ( str_number, "," ) )
-        str_number = my_strdelimit ( str_number, ",", "." );
+    real = gsb_real_get_from_string ( str_number );
 
-    number = g_ascii_strtod ( str_number, endptr);
+    number = gsb_real_real_to_double ( real );
 
     return number;
 }
@@ -1045,22 +987,6 @@ gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif )
  *
  *
  * */
-gchar *utils_str_colon ( const gchar *s )
-{
-    gchar *tmp_str;
-
-    tmp_str = g_strconcat ( s, _(": "), NULL );
-
-    return tmp_str;
-}
-
-
-/**
- * adapte l'utilisation de : en fonction de la langue de l'utilisateur
- *
- *
- *
- * */
 gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint increment )
 {
     gchar *new_str_number;
@@ -1085,7 +1011,10 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
     new_str_number = utils_str_itoa ( number );
 
     if ( prefix && strlen ( prefix ) > 0 )
+    {
         new_str_number = g_strconcat ( prefix, new_str_number, NULL );
+        g_free ( prefix );
+    }
 
     return new_str_number;
 }

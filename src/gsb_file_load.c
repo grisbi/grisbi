@@ -22,19 +22,27 @@
 /* ************************************************************************** */
 
 
-#include "include.h"
-#include <glib/gstdio.h>
-#if GLIB_CHECK_VERSION (2,18,0)
-#include <gio/gio.h>
-#endif /* GLIB_CHECK_VERSION (2,18,0) */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <errno.h>
+#include <stdlib.h>
+#include <glib/gi18n.h>
+#include <glib/gstdio.h>
+#include <gio/gio.h>
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "bet_data.h"
+#include "custom_list.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
+#include "gsb_calendar.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_bank.h"
@@ -50,36 +58,25 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_reconcile.h"
-#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
-#include "import.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
-#include "utils_files.h"
-#include "custom_list.h"
-#include "gsb_data_account.h"
-#include "gsb_data_form.h"
-#include "utils_str.h"
-#include "gsb_data_transaction.h"
 #include "gsb_scheduler_list.h"
+#include "import.h"
 #include "structures.h"
-#include "include.h"
-#include "gsb_calendar.h"
-#include "erreur.h"
-#include "gsb_plugins.h"
-#include "gsb_real.h"
-#include "gsb_currency_config.h"
-#include "gsb_data_report.h"
+#include "traitement_variables.h"
 #include "utils.h"
+#include "utils_dates.h"
+#include "utils_files.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -195,6 +192,7 @@ extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
+extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -346,7 +344,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         gsb_plugin *plugin;
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
-        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) )
+        if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
+             !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
         {
             plugin = gsb_plugin_find ( "openssl" );
             if ( plugin )
@@ -870,6 +869,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
     }
 
+    else if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
+    {
+        etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+    }
+
     else if ( !strcmp ( attribute_names[i],
                         "Use_logo" ))
     {
@@ -949,38 +953,36 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         display_three_lines = utils_str_atoi ( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Transaction_column_width" ))
+    else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
+    {
+        /* initialise la réinitialisation des colonnes */
+        run.transaction_column_width = my_strdup ( attribute_values[i] );
+
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
+                        run.transaction_column_width );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
     {
         gchar **pointeur_char;
         gint j;
 
         /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
+        pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
 
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-        transaction_col_width[j] = utils_str_atoi ( pointeur_char[j]);
+        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+            transaction_col_align[j] = utils_str_atoi ( pointeur_char[j] );
 
         g_strfreev ( pointeur_char );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Scheduler_column_width" ))
+    else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
     {
-        gchar **pointeur_char;
-        gint j;
+        /* initialise la réinitialisation des colonnes */
+        run.scheduler_column_width = my_strdup ( attribute_values[i] );
 
-        /* the scheduler columns are xx-xx-xx-xx and we want to set in scheduler_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j=0 ; j<SCHEDULER_COL_VISIBLE_COLUMNS ; j++ )
-        scheduler_col_width[j] = utils_str_atoi ( pointeur_char[j]);
-
-        g_strfreev ( pointeur_char );
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
+                        run.scheduler_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i],
@@ -1070,7 +1072,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
     {
-        etat.bet_capital = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
@@ -1080,7 +1082,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
     {
-        etat.bet_taux_annuel = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
@@ -1090,7 +1092,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
     {
-        etat.bet_frais = utils_str_strtod ( attribute_values[i], NULL );
+        etat.bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
     }
 
     else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )
@@ -1641,7 +1643,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Initial_balance" ))
     {
         gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1650,7 +1652,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_wanted_balance" ))
     {
         gsb_data_account_set_mini_balance_wanted ( account_number, 
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -1659,7 +1661,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                         "Minimum_authorised_balance" ))
     {
         gsb_data_account_set_mini_balance_authorized ( account_number, 
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2212,7 +2214,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     {
         /* get the entire real, even if the floating point of the currency is less deep */
         gsb_data_transaction_set_amount ( transaction_number,
-                          gsb_real_import_from_string (attribute_values[i]));
+                          gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2232,7 +2234,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exr" ))
     {
         gsb_data_transaction_set_exchange_rate ( transaction_number,
-                             gsb_real_import_from_string (attribute_values[i]));
+                             gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2242,7 +2244,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
                "Exf" ))
     {
         gsb_data_transaction_set_exchange_fees ( transaction_number,
-                             gsb_real_import_from_string (attribute_values[i]));
+                             gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -2493,7 +2495,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
                "Am" ))
     {
         gsb_data_scheduled_set_amount ( scheduled_number,
-                        gsb_real_import_from_string (attribute_values[i]));
+                        gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3212,7 +3214,7 @@ void gsb_file_load_currency_link ( const gchar **attribute_names,
                                    "Ex" ))
     {
         gsb_data_currency_link_set_change_rate ( link_number,
-                                 gsb_real_import_from_string (attribute_values[i]));
+                                 gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3661,7 +3663,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Ibal" ))
     {
         gsb_data_reconcile_set_init_balance ( reconcile_number,
-                              gsb_real_import_from_string (attribute_values[i]));
+                              gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3670,7 +3672,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
                "Fbal" ))
     {
         gsb_data_reconcile_set_final_balance ( reconcile_number,
-                               gsb_real_import_from_string (attribute_values[i]));
+                               gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -3910,6 +3912,13 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Bet_deb_cash_account_option" ) )
+    {
+        etat.bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }
@@ -3956,6 +3965,13 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Ori" ) )
+    {
+        shd -> origin = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "Div" ) )
     {
         shd -> div_number = utils_str_atoi ( attribute_values[i] );
@@ -3972,7 +3988,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Damount" ) )
     {
-        shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -4000,7 +4016,7 @@ void gsb_file_load_bet_historical ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "SDamount" ) )
     {
-        sub_shd -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        sub_shd -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -4073,7 +4089,7 @@ void gsb_file_load_bet_future_data ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Am" ) )
     {
-        scheduled -> amount = gsb_real_import_from_string ( attribute_values[i] );
+        scheduled -> amount = gsb_real_safe_real_from_string ( attribute_values[i] );
         i++;
         continue;
     }
@@ -5321,7 +5337,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_1" ))
     {
         gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                     gsb_real_import_from_string (attribute_values[i]));
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -5330,7 +5346,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
                "Amount_2" ))
     {
         gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                     gsb_real_import_from_string (attribute_values[i]));
+                                     gsb_real_safe_real_from_string (attribute_values[i]));
         i++;
         continue;
     }
@@ -8074,8 +8090,9 @@ gboolean gsb_file_load_update_previous_version ( void )
     gint version_number;
     gint account_number;
     GList *dlist_tmp;
+    gchar** strarray;
 
-    gchar** strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
+    strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
     tmpstr = g_strjoinv ( "", strarray );
     version_number = utils_str_atoi ( tmpstr );
     g_strfreev ( strarray );
@@ -8841,9 +8858,8 @@ gboolean gsb_file_load_update_previous_version ( void )
         gsb_data_account_reorder (sort_accounts);
 
     case 60:
-
-
-
+        if ( conf.sauvegarde_demarrage )
+            etat.modification_fichier = TRUE;
         break;
 
     default :
@@ -8859,20 +8875,6 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     /* general stuff for all versions */
     
-    /* if no logo, set it */
-    if ( gsb_select_icon_get_logo_pixbuf ( ) == NULL )
-    {
-        GdkPixbuf *pixbuf;
-        gchar *chemin_logo;
-
-        chemin_logo = my_strdup ( LOGO_PATH );
-        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-        gsb_select_icon_set_logo_pixbuf ( pixbuf );
-        /* modify the icon of grisbi (set in the panel of gnome or other) */
-        if (g_file_test ( chemin_logo, G_FILE_TEST_EXISTS ) && etat.utilise_logo)
-            gtk_window_set_default_icon_from_file ( chemin_logo, NULL );
-        g_free ( chemin_logo );
-    }
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );
 
@@ -9012,10 +9014,8 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
 {
     if ( g_str_has_suffix (filename, ".gsb" ) )
     {
-#if GLIB_CHECK_VERSION (2,18,0)
         GFile * file_ori;
         GFile * file_copy;
-#endif /* GLIB_CHECK_VERSION (2,18,0) */
         GError * error = NULL;
 
         copy_old_filename = g_path_get_basename ( filename );
@@ -9025,16 +9025,14 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
                         my_get_XDG_grisbi_data_dir (),
                         copy_old_filename, NULL );
 
-#if GLIB_CHECK_VERSION (2,18,0)
         file_ori = g_file_new_for_path ( filename );
         file_copy = g_file_new_for_path ( copy_old_filename );
         if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
                         NULL, NULL, NULL, &error ) )
+        {
             dialogue_error (error -> message );
-#else
-        if ( ! g_file_set_contents ( copy_old_filename, file_content,-1, &error ) )
-            dialogue_error (error -> message );
-#endif
+            g_error_free ( error );
+        }
     }
 }
 /* Local Variables: */

@@ -28,11 +28,15 @@
  * cunit tests for utils_dates
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /* START_INCLUDE */
 #include "utils_dates_cunit.h"
-#include "./utils_dates.h"
+#include "utils_dates.h"
 /* END_INCLUDE */
 
 /* START_STATIC */

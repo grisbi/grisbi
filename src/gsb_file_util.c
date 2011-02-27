@@ -18,10 +18,14 @@
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
-
+#include <errno.h>
+#include <glib/gi18n.h>
 #include <zlib.h>
-
 
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
@@ -31,7 +35,6 @@
 #include "gsb_file.h"
 #include "utils_str.h"
 #include "utils_files.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -282,8 +285,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
     gchar *lock_filename;
 
     devel_debug_int ( create_lock );
-    /* if the file was already opened and we don't force the saving, we do nothing */
-    if ( ( etat.fichier_deja_ouvert && !conf.force_enregistrement )
+    /* if the file was already opened we do nothing */
+    if ( ( etat.fichier_deja_ouvert )
 	 ||
 	 !nom_fichier_comptes
 	 ||
@@ -296,7 +299,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         return FALSE;
 
     /* Create the name of the lock file */
-    lock_filename = g_strconcat ( gsb_file_get_backup_path ( ),
+    lock_filename = g_strconcat ( g_get_tmp_dir ( ),
                         G_DIR_SEPARATOR_S,
 #ifndef _WIN32
                         ".",
@@ -314,8 +317,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         /* check if the file lock exists */
         if ( g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
         {
-            if ( ! conf.force_enregistrement )
-                dialog_message ( "account-already-opened", nom_fichier_comptes );
+            dialog_message ( "account-already-opened", nom_fichier_comptes );
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
@@ -342,12 +344,10 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         fclose ( fichier );
         return TRUE;
     }
-    else
+    else if ( etat.fichier_deja_ouvert == 0 )
     {
         /* delete the lock file */
         gint result;
-
-        etat.fichier_deja_ouvert = 0;
 
         /* check if it exits, if not, just go away */
         if ( !g_file_test ( lock_filename, G_FILE_TEST_EXISTS ) )
@@ -367,6 +367,12 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 
             return FALSE;
         }
+        return TRUE;
+    }
+    else
+    {
+        /* si le fichier est déjà ouvert on ne fait rien */
+        etat.fichier_deja_ouvert = 0;
         return TRUE;
     }
 }

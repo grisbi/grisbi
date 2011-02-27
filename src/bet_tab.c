@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -21,18 +21,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
- * prefix bet : Balance Estimate Tab
- *
- * TODO : change the color of each line in the graph :
- * red if balance is less than 0.
- * orange if balance is less than the minimum desired balance.
- * TODO : add a select button to display the selected line in the array
- * in the scheduler tab or in the account tab.
- */
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #include "include.h"
-#include <config.h>
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "bet_tab.h"
@@ -58,7 +53,6 @@
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "include.h"
 #include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
@@ -68,6 +62,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_file_selection.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -78,6 +73,7 @@ static void bet_array_adjust_hist_amount ( gint div_number,
                         gsb_real amount,
                         GtkTreeModel *model );
 static void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  data );
+static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
 static gint bet_array_date_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *itera,
                         GtkTreeIter *iterb,
@@ -147,7 +143,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
                         GtkTreePath *path,
                         GtkTreeIter *iter,
                         gpointer data );
-static GtkWidget *bet_array_create_tree_view ( GtkWidget *container );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -155,6 +150,7 @@ extern GtkWidget *account_page;
 extern gchar* bet_duration_array[];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
+extern GdkColor couleur_selection;
 extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
@@ -176,8 +172,8 @@ gint bet_array_col_width[BET_ARRAY_COLUMNS];
 gint bet_array_current_tree_view_width = 0;
 
 
- enum bet_estimation_tree_columns
- {
+enum bet_estimation_tree_columns
+{
     SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
     SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
     SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
@@ -282,8 +278,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
                 result = -1;
             else
             {
-                amount_a = gsb_real_import_from_string ( str_amount_a );
-                amount_b = gsb_real_import_from_string ( str_amount_b );
+                amount_a = gsb_real_safe_real_from_string ( str_amount_a );
+                amount_b = gsb_real_safe_real_from_string ( str_amount_b );
                 result = - ( gsb_real_cmp ( amount_a, amount_b ) );
             }
 
@@ -349,7 +345,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
     gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &tmp_str, -1 );
 
-    amount = gsb_real_get_from_string ( tmp_str );
+    amount = gsb_real_safe_real_from_string ( tmp_str );
 
     tmp_range -> current_balance = gsb_real_add ( tmp_range -> current_balance, amount );
     str_balance = gsb_real_get_string_with_currency ( tmp_range -> current_balance, 
@@ -431,7 +427,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 
     currency_number = gsb_data_account_get_currency ( account_number );
 
-    str_amount = gsb_real_save_real_to_string ( current_balance, 
+    str_amount = gsb_real_safe_real_to_string ( current_balance, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
     str_current_balance = gsb_real_get_string_with_currency ( current_balance, currency_number, TRUE );
 
@@ -563,7 +559,7 @@ GtkWidget *bet_array_create_page ( void )
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
 
     /* set the start date and the automatic change of month */
-    label = gtk_label_new ( COLON ( _("Start date" ) ) );
+    label = gtk_label_new ( _("Start date: " ) );
     gtk_misc_set_padding ( GTK_MISC (label), 5, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
@@ -582,7 +578,7 @@ GtkWidget *bet_array_create_page ( void )
     widget = gtk_check_button_new ( );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
-                        SPACIFY(_("Check the box to automatically change start date") ) );
+                        _("Check the box to automatically change start date") );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_auto_inc_month", widget );
     gtk_box_pack_start ( GTK_BOX (hbox), widget, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT ( widget ),
@@ -592,25 +588,6 @@ GtkWidget *bet_array_create_page ( void )
 
     tree_view = bet_array_create_tree_view ( page );
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
-
-    /* création du bouton print
-    handlebox = gtk_handle_box_new ( );
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
-
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-                        GTK_STOCK_PRINT,
-                        _("Print"),
-                        NULL,
-                        NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "clicked",
-                        G_CALLBACK ( print_tree_view_list ),
-                        tree_view );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( page ), handlebox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), handlebox, 0 ); */
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_array_list_create_toolbar ( page, tree_view );
@@ -640,12 +617,16 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
-    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
     g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
+
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* create the model */
     tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
@@ -886,7 +867,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
             continue;
 
         currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
-        str_amount = gsb_real_save_real_to_string ( amount, 
+        str_amount = gsb_real_safe_real_to_string ( amount, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
@@ -1037,7 +1018,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_value_set_boxed ( &date_value, date );
 
         currency_number = gsb_data_transaction_get_currency_number ( transaction_number);
-        str_amount = gsb_real_save_real_to_string ( amount, 
+        str_amount = gsb_real_safe_real_to_string ( amount, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
 
         if (amount.mantissa < 0)
@@ -1137,7 +1118,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         str_description = bet_data_get_div_name ( div_number, sub_div_nb, NULL );
     }
 
-    amount = gsb_real_get_from_string ( str_amount );
+    amount = gsb_real_safe_real_from_string ( str_amount );
 
     if ( amount.mantissa < 0 )
         str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
@@ -1273,7 +1254,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
             amount = scheduled -> amount;
 
         currency_number = gsb_data_account_get_currency ( account_number );
-        str_amount = gsb_real_save_real_to_string ( amount, 
+        str_amount = gsb_real_safe_real_to_string ( amount, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
 
         if ( amount.mantissa < 0 )
@@ -1495,35 +1476,37 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_widget_show ( menu_item );
 
     /* Insert an account balance */
-    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
-    image = gtk_image_new_from_file ( tmp_str );
-    g_free ( tmp_str );
-    menu_item = gtk_image_menu_item_new_with_label ( 
+    if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
+    {
+        tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
+        image = gtk_image_new_from_file ( tmp_str );
+        g_free ( tmp_str );
+        menu_item = gtk_image_menu_item_new_with_label (
                         _("Insert the balance of a cash account") );
-    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
-    g_signal_connect ( G_OBJECT ( menu_item ),
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+        g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_insert_account_balance_menu ),
                         tree_selection );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-    if ( origine == SPP_ORIGIN_ACCOUNT )
-    {
-        menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+        if ( origine == SPP_ORIGIN_ACCOUNT )
+        {
+            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
 						GTK_ICON_SIZE_MENU ) );
-        g_signal_connect ( G_OBJECT ( menu_item ),
+            g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
                         tree_selection );
-        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        }
+
+        /* Separator */
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+        gtk_widget_show ( menu_item );
     }
-
-    /* Separator */
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
-    gtk_widget_show ( menu_item );
-
     /* redo item */
     menu_item = gtk_image_menu_item_new_with_label ( _("Reset data") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
@@ -1549,7 +1532,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Export list */
-    menu_item = gtk_image_menu_item_new_with_label ( SPACIFY ( _("Export the array") ) );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Export the array") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_SAVE, GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
@@ -1850,7 +1833,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                 date_today = gdate_today ( );
                 if ( g_date_get_month ( date ) - g_date_get_month ( date_today ) == 0 )
                 {
-                    number = gsb_real_import_from_string ( str_amount );
+                    number = gsb_real_safe_real_from_string ( str_amount );
                     if ( number.mantissa != 0 )
                     {
                         sign = bet_data_get_div_type ( div_number );
@@ -1864,7 +1847,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa < 0 )
                             {
-                                str_amount = gsb_real_save_real_to_string ( number, 
+                                str_amount = gsb_real_safe_real_to_string ( number, 
                                             gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_debit = gsb_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
@@ -1886,7 +1869,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa > 0 )
                             {
-                                str_amount = gsb_real_save_real_to_string ( number, 
+                                str_amount = gsb_real_safe_real_to_string ( number, 
                                             gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_credit = gsb_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
@@ -1950,7 +1933,7 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
 
         gtk_tree_model_get ( model, &iter,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_current_balance, -1 ); 
-        current_balance = gsb_real_get_from_string ( str_current_balance );
+        current_balance = gsb_real_safe_real_from_string ( str_current_balance );
 
         tmp_range = struct_initialise_bet_range ( );
         tmp_range -> first_pass = TRUE;
@@ -2068,7 +2051,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
     if ( !tree_view )
 	    return FALSE;
 
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
     {
@@ -2631,7 +2614,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
             amount = gsb_data_partial_balance_get_current_amount (
                         transfert -> replace_account );
 
-        str_amount = gsb_real_save_real_to_string ( amount,
+        str_amount = gsb_real_safe_real_to_string ( amount,
                         gsb_data_account_get_currency_floating_point ( account_number ) );
 
         if ( amount.mantissa < 0 )
@@ -2660,7 +2643,8 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         -1);
 
-        bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
+        if (  transfert -> replace_transaction )
+            bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_free ( str_description );
@@ -2734,8 +2718,8 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
             if ( transfert -> category_number )
             {
                 /* on cherche une opération par sa catégorie */
-                gint tmp_category_number;
-                gint tmp_sub_category_number;
+                gint tmp_category_number = 0;
+                gint tmp_sub_category_number = 0;
 
                 tmp_category_number = gsb_data_scheduled_get_category_number ( scheduled_number );
                 if ( transfert -> sub_category_number )
@@ -2863,7 +2847,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         _("Print"),
                         NULL,
                         NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Print the array") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( print_tree_view_list ),
@@ -2876,7 +2860,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
 					   _("Export"),
 					   NULL,
 					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), SPACIFY ( _("Export the array of forecast") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Export the array of forecast") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_array_export_tab ),
@@ -2907,7 +2891,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     g_date_add_months ( date, 1 );
     g_date_set_day ( date, 1 );
 
-    str_amount = gsb_real_save_real_to_string ( null_real, 
+    str_amount = gsb_real_safe_real_to_string ( null_real, 
                         gsb_data_currency_get_floating_point (
                         bet_data_get_selected_currency ( ) ) );
 

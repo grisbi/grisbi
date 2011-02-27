@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_form_scheduler.h"
@@ -45,13 +50,9 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "utils_str.h"
-#include "gtk_combofix.h"
-#include "gsb_form.h"
 #include "structures.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "erreur.h"
-#include "gsb_form_widget.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -161,18 +162,18 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 		    widget = gsb_account_create_combo_list ((GtkSignalFunc) 
                         gsb_form_scheduler_change_account, NULL, FALSE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
-		    tooltip_text = SPACIFY(_("Choose the account"));
+		    tooltip_text = _("Choose the account");
 		    break;
 
 		case SCHEDULED_FORM_AUTO:
 		    widget = gsb_combo_box_new_with_index ( text_auto, NULL, NULL );
-		    tooltip_text = SPACIFY(_("Automatic/manual scheduled transaction"));
+		    tooltip_text = _("Automatic/manual scheduled transaction");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
                         G_CALLBACK (gsb_form_scheduler_frequency_button_changed), NULL );
-		    tooltip_text = SPACIFY(_("Frequency"));
+		    tooltip_text = _("Frequency");
 		    break;
 
         case SCHEDULED_FORM_LIMIT_DATE:
@@ -189,7 +190,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-            tooltip_text = SPACIFY(_("Frequency"));
+            tooltip_text = _("Frequency");
             break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
@@ -202,13 +203,13 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-		    tooltip_text = SPACIFY(_("Own frequency"));
+		    tooltip_text = _("Own frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
-		    tooltip_text = SPACIFY(_("Custom frequency"));
+		    tooltip_text = _("Custom frequency");
 		    break;
 	    }
 

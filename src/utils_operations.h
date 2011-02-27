@@ -1,5 +1,8 @@
 #ifndef _UTILS_OPERATIONS_H
 #define _UTILS_OPERATIONS_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

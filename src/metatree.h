@@ -1,6 +1,7 @@
 #ifndef METATREE_H
 #define METATREE_H
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"
@@ -14,6 +15,8 @@ typedef struct metatree_interface {
     gint (* tree_currency) ();
     /* Read operations */
     const gchar * meta_name;
+    const gchar * meta_name_minus;
+    const gchar *meta_sub_name;
     const gchar * no_div_label;
     const gchar * no_sub_div_label;
     gint (* get_without_div_pointer) ();
@@ -88,6 +91,7 @@ enum meta_tree_columns {
 
 enum meta_tree_row_type {
     META_TREE_DIV,
+    META_TREE_TRANS_S_S_DIV,
     META_TREE_SUB_DIV,
     META_TREE_TRANSACTION,
     META_TREE_INVALID,
@@ -116,6 +120,9 @@ void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
                         gint division,
                         gint sub_division );
 GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div );
+gint metatree_get_nbre_transactions_sans_sub_div ( GtkWidget *tree_view );
+enum meta_tree_row_type metatree_get_row_type_from_tree_view ( GtkWidget *tree_view );
+void metatree_manage_sub_divisions ( GtkWidget *tree_view );
 void metatree_new_division ( GtkTreeModel * model );
 void metatree_register_widget_as_linked ( GtkTreeModel * model,
                         GtkWidget * widget,

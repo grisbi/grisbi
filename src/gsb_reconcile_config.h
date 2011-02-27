@@ -1,6 +1,7 @@
 #ifndef _GSB_RECONCILE_CONFIG_H
 #define _GSB_RECONCILE_CONFIG_H (1)
 
+#include <gtk/gtk.h>
 
 enum reconciliation_columns {
     RECONCILIATION_NAME_COLUMN = 0,

@@ -26,6 +26,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -35,8 +39,6 @@
 #include "gsb_data_payment.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
-#include "gsb_data_payment.h"
-#include "gsb_form.h"
 #include "gsb_data_form.h"
 #include "erreur.h"
 /*END_INCLUDE*/

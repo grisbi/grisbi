@@ -26,6 +26,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -42,7 +46,6 @@
 #include "gsb_transactions_list.h"
 #include "main.h"
 #include "traitement_variables.h"
-#include "gsb_scheduler_list.h"
 #include "erreur.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -66,10 +69,6 @@ gint nb_days_before_scheduled;
 
 /** warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
 gboolean execute_scheduled_of_month;
-
-/** Take into account the planned operations in the calculation of the balances (TRUE default) */
-gboolean balances_with_scheduled;
-
 
 /**
  * set the next date in the scheduled transaction

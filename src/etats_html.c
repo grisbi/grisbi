@@ -18,7 +18,12 @@
 /*     along with this program; if not, write to the Free Software */
 /*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "etats_html.h"
@@ -29,7 +34,6 @@
 #include "utils_files.h"
 #include "structures.h"
 #include "etats_config.h"
-#include "include.h"
 #include "etats_affiche.h"
 /*END_INCLUDE*/
 
@@ -139,15 +143,15 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 
     switch ( align )
     {
-	case LEFT:
+	case ALIGN_LEFT:
 	    fprintf ( html_out, " align=\"left\"" );
 	    break;
 
-	case RIGHT:
+	case ALIGN_RIGHT:
 	    fprintf ( html_out, " align=\"right\"" );
 	    break;
 
-	case CENTER:
+	case ALIGN_CENTER:
 	    fprintf ( html_out, " align=\"center\"" );
 	    break;
     }

@@ -20,16 +20,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
+#include "include.h"
+#include <math.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "print_tree_view_list.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_print_config.h"
-#include "print_config.h"
 #include "print_dialog_config.h"
 #include "print_transactions_list.h"
 #include "structures.h"
@@ -975,7 +978,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
 
     entry = gsb_automem_entry_new ( &title_string, NULL, NULL);
 
-    check_button = gsb_autofunc_checkbutton_new ( _("Print a title : "),
+    check_button = gsb_autofunc_checkbutton_new ( _("Print a title: "),
                         gsb_data_print_config_get_draw_title ( ),
                         G_CALLBACK ( sens_desensitive_pointeur ), entry,
                         G_CALLBACK ( gsb_data_print_config_set_draw_title ),

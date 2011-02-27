@@ -27,7 +27,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_currency.h"
@@ -43,10 +48,8 @@
 #include "structures.h"
 #include "utils_files.h"
 #include "gsb_data_form.h"
-#include "include.h"
 #include "gsb_currency_config.h"
 #include "erreur.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -585,7 +588,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     }
 
     /* amount line */
-    label = gtk_label_new ( COLON(_("Amounts")) );
+    label = gtk_label_new ( _("Amounts: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -658,7 +661,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     row++;
 
     /* exchange fees line label */
-    label = gtk_label_new ( COLON(_("Exchange fees")) );
+    label = gtk_label_new ( _("Exchange fees: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, row, row+1,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -1105,7 +1108,7 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
 
 
 /**
- * 
+ *
  *
 **/
 gsb_real gsb_currency_get_current_exchange ( void )
@@ -1115,12 +1118,38 @@ gsb_real gsb_currency_get_current_exchange ( void )
 
 
 /**
- * 
+ *
+ *
+**/
+gboolean gsb_currency_set_current_exchange ( gsb_real exchange )
+{
+    current_exchange.mantissa = exchange.mantissa;
+    current_exchange.exponent = exchange.exponent;
+
+    return FALSE;
+}
+
+
+/**
+ *
  *
 **/
 gsb_real gsb_currency_get_current_exchange_fees ( void )
 {
     return current_exchange_fees;
+}
+
+
+/**
+ *
+ *
+**/
+gboolean gsb_currency_set_current_exchange_fees ( gsb_real fees )
+{
+    current_exchange_fees.mantissa = fees.mantissa;
+    current_exchange_fees.exponent = fees.exponent;
+
+    return FALSE;
 }
 
 

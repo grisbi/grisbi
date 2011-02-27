@@ -1,6 +1,8 @@
 #ifndef UTILS_BUTTONS_H
 #define UTILS_BUTTONS_H
 
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 

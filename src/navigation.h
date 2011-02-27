@@ -1,6 +1,7 @@
 #ifndef NAVIGATION_H
 #define NAVIGATION_H
 
+#include <gtk/gtk.h>
 
 /** Holds data for the navigation tree.  */
 enum navigation_cols { 

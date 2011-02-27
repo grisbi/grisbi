@@ -26,15 +26,17 @@
  */
 
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_payment.h"
 #include "gsb_data_account.h"
 #include "utils_str.h"
-#include "gsb_data_account.h"
-#include "include.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

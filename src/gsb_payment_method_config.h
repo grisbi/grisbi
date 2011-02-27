@@ -1,6 +1,8 @@
 #ifndef _GSB_PAYMENT_METHOD_CONFIG_H
 #define _GSB_PAYMENT_METHOD_CONFIG_H (1)
 
+#include <gtk/gtk.h>
+
 /** Columns for payment methods tree */
 enum payment_methods_columns {
     PAYMENT_METHODS_NAME_COLUMN = 0,

@@ -1,6 +1,7 @@
 #ifndef _GSB_DATA_IMPORT_RULE_H
 #define _GSB_DATA_IMPORT_RULE_H (1)
 
+#include <glib.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

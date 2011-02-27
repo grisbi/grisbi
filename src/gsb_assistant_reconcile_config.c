@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_assistant_reconcile_config.h"
@@ -45,8 +50,6 @@
 #include "utils.h"
 #include "structures.h"
 #include "gsb_transactions_list.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -277,7 +280,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 			 FALSE, FALSE, 0 );
 
     /* set up the menu */
-    label = gtk_label_new (_("Choose the next operation to do :"));
+    label = gtk_label_new (_("Choose the next operation to do: "));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
@@ -385,7 +388,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 	gtk_box_pack_start ( GTK_BOX (paddingbox), table, FALSE, FALSE, 0 );
 
 	/* set the name */
-	label = gtk_label_new (COLON(_("Name")));
+	label = gtk_label_new ( _("Name: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -396,7 +399,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
 	/* set the choice of account */
-	label = gtk_label_new (COLON(_("Account")));
+	label = gtk_label_new ( _("Account: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 0, 1,
@@ -408,7 +411,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* set the initial date */
-	label = gtk_label_new (COLON(_("Initial date")));
+	label = gtk_label_new ( _("Initial date: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
@@ -419,7 +422,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
 	/* set the final date */
-	label = gtk_label_new (COLON(_("Final date")));
+	label = gtk_label_new ( _("Final date: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 2, 3,
@@ -430,7 +433,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 10, 0 );
 
 	/* set the initial balance */
-	label = gtk_label_new (COLON(_("Initial balance")));
+	label = gtk_label_new ( _("Initial balance: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 1, 2,
@@ -441,7 +444,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* set the final balance */
-	label = gtk_label_new (COLON(_("Final balance")));
+	label = gtk_label_new ( _("Final balance: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 2, 3, 2, 3,
@@ -613,7 +616,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 			 FALSE, FALSE, 0 );
 
     /* now we can show the list of orphans transactions */
-    label = gtk_label_new (_("Select the transaction(s) you want to associate with a reconciliation :"));
+    label = gtk_label_new (_("Select the transaction(s) you want to associate with a reconciliation: "));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 label,
@@ -1190,7 +1193,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_container_set_border_width ( GTK_CONTAINER ( dialog ), 12 );
 
-    label = gtk_label_new (COLON(_("Select the reconciliation to associate to the selected transactions")));
+    label = gtk_label_new ( _("Select the reconciliation to associate to the selected transactions: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
 			 label,

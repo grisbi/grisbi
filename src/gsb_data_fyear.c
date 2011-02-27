@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_fyear.h"
@@ -34,7 +39,6 @@
 #include "gsb_fyear.h"
 #include "dialog.h"
 #include "utils_str.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 

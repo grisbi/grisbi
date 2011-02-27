@@ -25,7 +25,13 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <stdlib.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "file_obfuscate.h"
@@ -45,7 +51,6 @@
 #include "gsb_status.h"
 #include "utils_files.h"
 #include "utils.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 

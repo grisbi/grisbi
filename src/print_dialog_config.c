@@ -25,7 +25,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <gtk/gtk.h>
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
@@ -38,8 +43,6 @@
 /*START_EXTERN*/
 extern GtkWidget *window;
 /*END_EXTERN*/
-
-#if GTK_CHECK_VERSION(2,12,0)
 
 static GtkPrintSettings *settings = NULL;
 
@@ -91,5 +94,3 @@ void print_dialog_config ( GCallback begin_callback,
     }
 
 }
-
-#endif /* GTK_CHECK_VERSION(2,12,0) */

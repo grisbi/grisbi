@@ -1,6 +1,7 @@
 #ifndef _GSB_RECONCILE_SORT_CONFIG_H
 #define _GSB_RECONCILE_SORT_CONFIG_H (1)
 
+#include <gtk/gtk.h>
 
 enum reconciliation_sort_columns {
     RECONCILIATION_SORT_NAME_COLUMN = 0,

@@ -21,8 +21,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <stdlib.h>
+#include <ctype.h>
+#include <errno.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "qif.h"
@@ -38,10 +45,6 @@
 #include "gsb_file_util.h"
 #include "gsb_real.h"
 #include "utils_str.h"
-#include "import.h"
-#include "gsb_data_account.h"
-#include "gsb_data_transaction.h"
-#include "include.h"
 #include "import.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1030,21 +1033,22 @@ gchar *gsb_qif_get_account_name ( FILE *qif_file, const gchar *coding_system )
 gint gsb_qif_get_account_type ( gchar *header )
 {
     gint account_type = -1;
-    gchar *tmp_str;
+    gchar *ptr;
 
-    tmp_str = g_strdup ( header + 6 );
+    ptr = g_utf8_strchr ( header, -1, ':' );
+    ptr++;
 
-    if ( g_ascii_strncasecmp ( tmp_str, "bank", 4 ) == 0 || my_strcasecmp ( tmp_str, _("bank") ) == 0 )
+    if ( g_ascii_strncasecmp ( ptr, "bank", 4 ) == 0 || my_strcasecmp ( ptr, _("bank") ) == 0 )
         account_type = 0;
-    else if ( g_ascii_strncasecmp ( tmp_str, "invst", 5 ) == 0  || my_strcasecmp ( tmp_str, _("invst)") ) == 0 )
+    else if ( g_ascii_strncasecmp ( ptr, "invst", 5 ) == 0  || my_strcasecmp ( ptr, _("invst)") ) == 0 )
         account_type = 6;
-    else if ( g_ascii_strncasecmp ( tmp_str, "cash", 4 ) == 0  || my_strcasecmp ( tmp_str, _("cash)") ) == 0 )
+    else if ( g_ascii_strncasecmp ( ptr, "cash", 4 ) == 0  || my_strcasecmp ( ptr, _("cash)") ) == 0 )
         account_type = 7;
-    else if ( g_ascii_strncasecmp ( tmp_str, "oth a", 5 ) == 0  || my_strcasecmp ( tmp_str, _("oth a)") ) == 0 )
+    else if ( g_ascii_strncasecmp ( ptr, "oth a", 5 ) == 0  || my_strcasecmp ( ptr, _("oth a)") ) == 0 )
         account_type = 2;
-    else if ( g_ascii_strncasecmp ( tmp_str, "oth l", 5 ) == 0  || my_strcasecmp ( tmp_str, _("oth l)") ) == 0 )
+    else if ( g_ascii_strncasecmp ( ptr, "oth l", 5 ) == 0  || my_strcasecmp ( ptr, _("oth l)") ) == 0 )
         account_type = 3;
-    else if ( g_ascii_strncasecmp ( tmp_str, "ccard", 5 ) == 0  || my_strcasecmp ( tmp_str, _("ccard)") ) == 0 )
+    else if ( g_ascii_strncasecmp ( ptr, "ccard", 5 ) == 0  || my_strcasecmp ( ptr, _("ccard)") ) == 0 )
         account_type = 5;
     else
         account_type = -1;

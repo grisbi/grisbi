@@ -22,7 +22,13 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gstdio.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -72,14 +78,6 @@
 #include "transaction_list.h"
 #include "utils_files.h"
 #include "structures.h"
-#include "gsb_transactions_list.h"
-#include "go-charmap-sel.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_account.h"
-#include "gtk_combofix.h"
-#include "include.h"
-#include "gsb_data_transaction.h"
-#include "gsb_form_scheduler.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -135,6 +133,8 @@ static GDate *gsb_import_get_first_date ( GSList *import_list );
 static gboolean gsb_import_gunzip_file ( gchar *filename );
 static void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transaction,
                         gint transaction_number);
+static GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *imported_account );
+static void gsb_import_progress_bar_pulse ( GtkWidget *progress, gint nbre_transaction );
 static gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test );
 static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox );
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
@@ -159,7 +159,6 @@ static void traitement_operations_importees ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_soldes_minimaux;
@@ -170,7 +169,8 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* recopie des types de transaction de la libofx en attendant une version propre */
-typedef enum {
+typedef enum
+{
     OFX_CREDIT,     /**< Generic credit */
     OFX_DEBIT,      /**< Generic debit */
     OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
@@ -192,7 +192,7 @@ typedef enum {
 
 
 /** Suppported import formats.  Plugins may register themselves. */
-static GSList * import_formats = NULL;
+static GSList *import_formats = NULL;
 
 /* set to TRUE if we import some marked R transactions
  * grisbi cannot associate them to a reconcile number, so if TRUE,
@@ -200,7 +200,8 @@ static GSList * import_formats = NULL;
 static gboolean marked_r_transactions_imported;
 
 /** Known built-in import formats.  Others are plugins.  */
-struct import_format builtin_formats[] = {
+struct import_format builtin_formats[] =
+{
 { "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
 { "QIF", N_("Quicken Interchange Format"), "qif", (import_function) recuperation_donnees_qif },
 { NULL,  NULL,              NULL,       NULL },
@@ -219,8 +220,11 @@ gchar *charmap_imported;
 /* gestion des associations entre un tiers et sa chaine de recherche */
 GSList *liste_associations_tiers = NULL;
 
+/* nombre de transaction à importer qui affiche une barre de progression */
+#define NBRE_TRANSACTION_FOR_PROGRESS_BAR 250
 
-enum import_filesel_columns {
+enum import_filesel_columns
+{
     IMPORT_FILESEL_SELECTED = 0,
     IMPORT_FILESEL_TYPENAME,
     IMPORT_FILESEL_FILENAME,
@@ -231,7 +235,8 @@ enum import_filesel_columns {
 };
 
 /** Page numbering for the import wizard. */
-enum import_pages {
+enum import_pages
+{
     IMPORT_STARTUP_PAGE,
     IMPORT_FILESEL_PAGE,
     IMPORT_CSV_PAGE,
@@ -244,12 +249,13 @@ enum import_pages {
 /**
  * Register built-in import formats as known.
  */
-void register_import_formats ()
+void register_import_formats ( void )
 {
     gint i;
+
     for ( i = 0; builtin_formats [ i ] . name != NULL ; i ++ )
     {
-    register_import_format ( &builtin_formats [ i ] );
+        register_import_format ( &builtin_formats [ i ] );
     }
 }
 
@@ -262,11 +268,13 @@ void register_import_formats ()
  *                      this import format.
  *
  */
-G_MODULE_EXPORT void register_import_format ( struct import_format * format )
+G_MODULE_EXPORT void register_import_format ( struct import_format *format )
 {
-    gchar* tmpstr = g_strdup_printf ( _("Adding '%s' as an import format"), format -> name );
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
+    gchar *tmp_str;
+
+    tmp_str = g_strdup_printf ( _("Adding '%s' as an import format"), format -> name );
+    devel_debug ( tmp_str );
+    g_free ( tmp_str );
     import_formats = g_slist_append ( import_formats, format );
 }
 
@@ -279,50 +287,37 @@ G_MODULE_EXPORT void register_import_format ( struct import_format * format )
  */
 void importer_fichier ( void )
 {
-    GSList * tmp = import_formats;
-    gchar * formats = g_strdup("");
-    GtkWidget * assistant;
-	gchar* tmpstr;
+    GtkWidget *assistant;
+	gchar* tmp_str;
+    gchar *format_str;
 
     /* if nothing opened, we need to create a new file to set up all the variables */
     if (!gsb_data_currency_get_currency_list ())
     {
-    init_variables ();
-    gsb_assistant_file_run (FALSE, TRUE);
-    return;
+        init_variables ();
+        gsb_assistant_file_run (FALSE, TRUE);
+        return;
     }
 
     liste_comptes_importes = NULL;
     liste_comptes_importes_error = NULL;
     virements_a_chercher = 0;
 
-    while ( tmp )
-    {
-    struct import_format * format = (struct import_format *) tmp -> data;
-    gchar* old_str = formats;
-    formats = g_strconcat ( formats,
-                        "	• ",
-                        _(format -> complete_name),
-                        " (", format -> name, ")\n",
-                        NULL );
-    g_free ( old_str );
-    tmp = tmp -> next;
-    }
-
-    tmpstr = g_strconcat ( _("This assistant will help you import one or several "
+    format_str = gsb_import_formats_get_list_formats_to_string ( );
+    tmp_str = g_strconcat ( _("This assistant will help you import one or several "
                     "files into Grisbi."
                     "\n\n"
                     "Grisbi will try to do its best to guess which format are imported, "
                     "but you may have to manually set them in the list of next page.  "
                     "So far, the following formats are supported:"
                     "\n\n"),
-                    formats, NULL );
+                    format_str, NULL );
     assistant = gsb_assistant_new ( _("Importing transactions into Grisbi"),
-                        tmpstr,
+                        tmp_str,
                         "impexp.png",
                         NULL );
-    g_free (formats);
-    g_free (tmpstr);
+    g_free ( format_str );
+    g_free ( tmp_str );
 
     gsb_assistant_add_page ( assistant,
                         import_create_file_selection_page ( assistant ),
@@ -345,17 +340,53 @@ void importer_fichier ( void )
 
     if ( gsb_assistant_run ( assistant ) == GTK_RESPONSE_APPLY )
     {
-    gsb_status_wait ( TRUE );
-    traitement_operations_importees ();
-    gtk_widget_destroy ( assistant );
-    gsb_status_stop_wait ( TRUE );
+        gsb_status_wait ( TRUE );
+        traitement_operations_importees ();
+        gtk_widget_destroy ( assistant );
+        gsb_status_stop_wait ( TRUE );
     }
     else
     {
-    gtk_widget_destroy ( assistant );
+        gtk_widget_destroy ( assistant );
     }
 }
 
+
+/**
+ *
+ *
+ *
+ */
+gchar *gsb_import_formats_get_list_formats_to_string ( void )
+{
+    GSList *tmp_list = import_formats;
+    gchar *format_str = NULL;
+
+    while ( tmp_list )
+    {
+        gchar* tmp_str;
+        struct import_format *format;
+
+
+        format = (struct import_format *) tmp_list -> data;
+        tmp_str = g_strdup_printf ("	• %s (%s)\n", _(format -> complete_name), format -> name );
+        
+        if ( format_str == NULL )
+            format_str = tmp_str;
+        else
+        {
+            gchar* old_str = format_str;
+
+            format_str = g_strconcat ( format_str, tmp_str,  NULL );
+            g_free ( tmp_str );
+            g_free ( old_str );
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    return format_str;
+}
 
 
 /**
@@ -419,14 +450,13 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
     tmp = import_formats;
     while ( tmp )
     {
-    GtkTreeIter iter;
-    struct import_format * format = (struct import_format *) tmp -> data;
+        GtkTreeIter iter;
+        struct import_format *format = (struct import_format *) tmp -> data;
 
-    gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
-    gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0,
-                        format -> name, -1);
+        gtk_list_store_append (GTK_LIST_STORE (list_acc), &iter);
+        gtk_list_store_set (GTK_LIST_STORE (list_acc), &iter, 0, format -> name, -1);
 
-    tmp = tmp -> next;
+        tmp = tmp -> next;
     }
 
     g_object_set ( renderer,
@@ -455,7 +485,6 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
 
     return vbox;
 }
-
 
 
 /**
@@ -507,6 +536,7 @@ gboolean import_switch_type ( GtkCellRendererText *cell, const gchar *path,
         if ( ! g_file_get_contents ( nom_fichier, &tmp_str, NULL, &error ) )
         {
             g_print ( _("Unable to read file: %s\n"), error -> message);
+            g_error_free ( error );
             return FALSE;
         }
 
@@ -654,13 +684,14 @@ gboolean import_select_file ( GtkWidget * button, GtkWidget * assistant )
     extension = strrchr ( iterator -> data, '.' );
 
     /* unzip Gnucash file if necessary */
-    if ( strcmp ( extension, ".gnc" ) == 0 )
+    if ( extension && strcmp ( extension, ".gnc" ) == 0 )
         gsb_import_gunzip_file ( iterator -> data );
 
     /* get contents of file */
     if ( ! g_file_get_contents ( iterator -> data, &tmp_str, NULL, &error ) )
     {
         g_print ( _("Unable to read file: %s\n"), error -> message);
+        g_error_free ( error );
         return FALSE;
     }
 
@@ -748,8 +779,9 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     GSList * tmp;
     struct import_format * format;
     GSList *filenames = NULL;
-	gchar* old_str;
-	gchar* tmpstr;
+    gchar* old_str;
+    gchar* tmpstr;
+    gchar* tmpchar;
 
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( parent ),
@@ -794,16 +826,24 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
                         format -> extension );
     gtk_file_filter_set_name ( format_filter, tmpstr );
     g_free ( tmpstr );
-    tmpstr = g_strconcat ( "*.", format -> extension, NULL );
-    gtk_file_filter_add_pattern ( format_filter,
-                        tmpstr );
-    g_free ( tmpstr );
-    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
-
-    /* Global filter */
-    tmpstr = g_strconcat ( "*.", format -> extension, NULL );
+    /* Make it case insensitive */
+    tmpstr = g_strdup ( "*." );
+    tmpchar = format -> extension;
+    while(*tmpchar != '\0' )
+    {
+    old_str=tmpstr;
+    tmpstr = g_strdup_printf ( "%s[%c%c]",
+                        tmpstr,
+                        (int)g_ascii_toupper(*tmpchar),
+                        (int)*tmpchar );
+    tmpchar++;
+    g_free ( old_str );
+    }
+    gtk_file_filter_add_pattern ( format_filter, tmpstr );
+    /* Add this pattern to the global filter as well*/
     gtk_file_filter_add_pattern ( default_filter, tmpstr );
     g_free ( tmpstr );
+    gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( dialog ), format_filter );
 
     tmp = tmp -> next;
     }
@@ -819,7 +859,7 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     /* Add encoding preview */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER ( dialog ), hbox );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( COLON(_("Encoding")) ),
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Encoding: ") ),
                         FALSE, FALSE, 0 );
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);
     if (enc && strlen (enc))
@@ -882,7 +922,8 @@ GtkWidget *import_create_resume_page ( GtkWidget * assistant )
  */
 gboolean import_enter_resume_page ( GtkWidget * assistant )
 {
-    GSList * files = import_selected_files ( assistant ), * list;
+    GSList *files;
+    GSList *list;
     GtkTextBuffer * buffer;
     GtkTextIter iter;
     gchar * error_message = "";
@@ -891,26 +932,30 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     liste_comptes_importes_error = NULL;
     liste_comptes_importes = NULL;
 
+    /* fichiers sélectionnés dans legestionnaire de fichiers */
+    files = import_selected_files ( assistant );
     while ( files )
     {
-    struct imported_file * imported = files -> data;
-    GSList * tmp = import_formats;
+        struct imported_file *imported = files -> data;
+        GSList * tmp = import_formats;
 
-    while ( tmp )
-    {
-        struct import_format * format = (struct import_format *) tmp -> data;
-
-        if ( !strcmp ( imported -> type, format -> name ) )
+        while ( tmp )
         {
-        format -> import ( assistant, imported );
-        tmp = tmp -> next;
-        continue;
+            struct import_format *format = (struct import_format *) tmp -> data;
+            
+            if ( !strcmp ( imported -> type, format -> name ) )
+            {
+                devel_print_str ( imported -> type );
+
+                format -> import ( assistant, imported );
+                tmp = tmp -> next;
+                continue;
+            }
+
+            tmp = tmp -> next;
         }
 
-        tmp = tmp -> next;
-    }
-
-    files = files -> next;
+        files = files -> next;
     }
 
     buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
@@ -919,93 +964,94 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
 
     if ( liste_comptes_importes )
     {
-    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        _("Congratulations !"), -1,
-                        "x-large", NULL);
-    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+                            _("Congratulations !"), -1,
+                            "x-large", NULL);
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-    gtk_text_buffer_insert (buffer, &iter,
-                        COLON ( _("You successfully imported files into Grisbi.  The "
-                                  "following pages will help you set up imported data for "
-                                  "the following files") ),
-                        -1 );
-    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+        gtk_text_buffer_insert (buffer, &iter,
+                            _("You successfully imported files into Grisbi.  The "
+                            "following pages will help you set up imported data for "
+                            "the following files"),
+                            -1 );
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-    list = liste_comptes_importes;
-    while ( list )
-    {
-        struct struct_compte_importation * compte;
-        compte = list -> data;
-
-        /* Fix account name if needed. */
-        if ( ! compte -> nom_de_compte )
+        list = liste_comptes_importes;
+        while ( list )
         {
-        compte -> nom_de_compte = _("Unnamed Imported account");
+            struct struct_compte_importation * compte;
+            compte = list -> data;
+
+            /* Fix account name if needed. */
+            if ( ! compte -> nom_de_compte )
+            {
+                compte -> nom_de_compte = _("Unnamed Imported account");
+            }
+            devel_print_str ( compte -> nom_de_compte );
+
+            tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+                            " (",
+                            compte -> origine,
+                            ")\n\n",
+                            NULL );
+            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+                            tmpstr ,
+                            -1, "indented", NULL );
+            g_free ( tmpstr );
+
+            list = list -> next;
         }
 
-        tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
-                        " (",
-                        compte -> origine,
-                        ")\n\n",
-                        NULL );
-        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        tmpstr ,
-                        -1, "indented", NULL );
-        g_free ( tmpstr );
-
-        list = list -> next;
-    }
-
-    while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), 
+        while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant),
                         "notebook" ) ) > IMPORT_FIRST_ACCOUNT_PAGE )
-    {
-        gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), -1 );
-    }
-    affichage_recapitulatif_importation ( assistant );
+        {
+            gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), -1 );
+        }
+        affichage_recapitulatif_importation ( assistant );
     }
     else
     {
-    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
                         _("Error !"), -1,
                         "x-large", NULL);
-    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-    gtk_text_buffer_insert (buffer, &iter,
+        gtk_text_buffer_insert (buffer, &iter,
                         _("No file has been imported, please double check that they are "
                           "valid files.  Please make sure that they are not compressed and "
                           "that their format is valid."),
                         -1 );
-    if ( strlen ( error_message ) )
-    {
+        if ( strlen ( error_message ) )
+        {
+            gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+            gtk_text_buffer_insert (buffer, &iter, error_message, -1 );
+        }
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
-        gtk_text_buffer_insert (buffer, &iter, error_message, -1 );
-    }
-    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
     }
 
     if ( liste_comptes_importes_error )
     {
-    gtk_text_buffer_insert (buffer, &iter, _("The following files are in error:"), -1 );
-    gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
+        gtk_text_buffer_insert (buffer, &iter, _("The following files are in error: "), -1 );
+        gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-    list = liste_comptes_importes_error;
-    while ( list )
-    {
-        struct struct_compte_importation * compte;
-        compte = list -> data;
+        list = liste_comptes_importes_error;
+        while ( list )
+        {
+            struct struct_compte_importation * compte;
+            compte = list -> data;
 
-        tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
+            tmpstr = g_strconcat ( "• ", compte -> nom_de_compte,
                         " (",
                         compte -> origine,
                         ")\n\n",
                         NULL );
-        gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
+            gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
                         tmpstr,
                         -1, "indented", NULL );
-        g_free ( tmpstr );
+            g_free ( tmpstr );
 
-        list = list -> next;
-    }
+            list = list -> next;
+        }
     }
 
     return FALSE;
@@ -1016,7 +1062,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget *import_create_final_page ( GtkWidget * assistant )
+GtkWidget *import_create_final_page ( GtkWidget *assistant )
 {
     GtkWidget * view;
     GtkTextBuffer * buffer;
@@ -1055,10 +1101,10 @@ GtkWidget *import_create_final_page ( GtkWidget * assistant )
  *
  *
  */
-GSList *import_selected_files ( GtkWidget * assistant )
+GSList *import_selected_files ( GtkWidget *assistant )
 {
-    GSList * list = NULL;
-    GtkTreeModel * model;
+    GSList *list = NULL;
+    GtkTreeModel *model;
     GtkTreeIter iter;
 
     model = g_object_get_data ( G_OBJECT ( assistant ), "model" );
@@ -1068,21 +1114,21 @@ GSList *import_selected_files ( GtkWidget * assistant )
 
     do
     {
-    struct imported_file * imported;
-    gboolean selected;
+        struct imported_file *imported;
+        gboolean selected;
 
-    imported = g_malloc0 ( sizeof ( struct imported_file ) );
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+        imported = g_malloc0 ( sizeof ( struct imported_file ) );
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
                         IMPORT_FILESEL_SELECTED, &selected,
                         IMPORT_FILESEL_REALNAME, &(imported -> name),
                         IMPORT_FILESEL_TYPE, &(imported -> type),
                         IMPORT_FILESEL_CODING, &(imported -> coding_system),
                         -1 );
 
-    if ( selected )
-    {
-        list = g_slist_append ( list, imported );
-    }
+        if ( selected )
+        {
+            list = g_slist_append ( list, imported );
+        }
     }
     while ( gtk_tree_model_iter_next ( model, &iter ) );
 
@@ -1185,7 +1231,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox1 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox1, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account type") ) );
+    label = gtk_label_new ( _("Account type: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1232,7 +1278,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox2, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account name") ) );
+    label = gtk_label_new ( _("Account name: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1257,7 +1303,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     compte -> hbox3 = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox3, FALSE, FALSE, 0 );
-    label = gtk_label_new ( COLON ( _("Account name") ) );
+    label = gtk_label_new ( _("Account name: ") );
     alignement = gtk_alignment_new ( 0.5, 0.5, 1, 1 );
     gtk_container_set_border_width ( GTK_CONTAINER ( alignement ), 2 );
     gtk_alignment_set_padding ( GTK_ALIGNMENT ( alignement ), 0, 0, 2 * spacing + size, 0 );
@@ -1287,7 +1333,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
 
     /* Currency */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    label = gtk_label_new ( COLON ( _("Account currency") ) );
+    label = gtk_label_new ( _("Account currency: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
@@ -1523,7 +1569,7 @@ void traitement_operations_importees ( void )
     }
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if ( balances_with_scheduled == FALSE )
+    if ( conf.balances_with_scheduled == FALSE )
         gsb_data_account_set_balances_are_dirty ( account_number );
     /* MAJ des données du module bet */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
@@ -1546,7 +1592,7 @@ void traitement_operations_importees ( void )
                                      "name or let it empty to cancel the rule creation."),
                                     gsb_data_account_get_name (account_number));
         name = dialogue_hint_with_entry (tmpstr, _("No name for the import rule"),
-                                                 _("Name of the rule :"));
+                                                 _("Name of the rule: "));
         g_free (tmpstr);
         }
 
@@ -1893,16 +1939,29 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 void gsb_import_create_imported_transactions ( struct struct_compte_importation *imported_account,
                         gint account_number )
 {
+    GtkWidget *progress = NULL;
     GSList *list_tmp;
+    gint nbre_transaction;
 
     mother_transaction_number = 0;
 
     list_tmp = imported_account -> operations_importees;
+    nbre_transaction = g_slist_length ( list_tmp );
+
+    if ( nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR )
+        progress = gsb_import_progress_bar_affiche ( imported_account );
 
     while ( list_tmp )
     {
         struct struct_ope_importation *imported_transaction;
         gint transaction_number;
+
+        if ( nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR )
+        {
+            gsb_import_progress_bar_pulse ( progress, nbre_transaction );
+            while ( gtk_events_pending () ) gtk_main_iteration ( );
+            nbre_transaction --;
+        }
 
         imported_transaction = list_tmp -> data;
 
@@ -1930,7 +1989,10 @@ void gsb_import_create_imported_transactions ( struct struct_compte_importation 
         list_tmp = list_tmp -> next;
     }
 
-    /** some payee should have been added, so update the combofix */
+    if ( progress )
+        gtk_widget_destroy ( progress );
+
+    /* some payee should have been added, so update the combofix */
     gsb_payee_update_combofix ();
 }
 
@@ -2083,8 +2145,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
         {
             /* the id exists with the same account_nb, so the transaction is already
              * in grisbi we will forget that transaction */
-            if ( g_date_get_year ( imported_transaction -> date ) == g_date_get_year (
-             gsb_data_transaction_get_date ( transaction_no ) ) )
+            if ( g_date_compare ( imported_transaction -> date,
+             gsb_data_transaction_get_date ( transaction_no ) ) == 0 )
             {
                 imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
             }
@@ -3571,8 +3633,8 @@ GtkWidget *onglet_importation (void)
     hbox = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( 
-                        _("Threshold while matching transaction date during import (in days)"));
+    label = gtk_label_new (
+                        _("Threshold while matching transaction date during import (in days): "));
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     button = gtk_spin_button_new_with_range ( 0.0,
@@ -3757,7 +3819,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, TRUE, TRUE, 0 );
 
     /* Create entry liste des tiers */
-    label = gtk_label_new (COLON(_("Payee name")));
+    label = gtk_label_new ( _("Payee name: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -3780,7 +3842,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         vbox_main );
 
     /* Create entry search string */
-    label = gtk_label_new (COLON(_("Search string")));
+    label = gtk_label_new ( _("Search string: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
@@ -4328,6 +4390,7 @@ gboolean gsb_import_by_rule ( gint rule )
             if ( ! g_file_get_contents ( filename, &pointeur_char, NULL, &error ) )
             {
                 g_print ( _("Unable to read file: %s\n"), error -> message);
+                g_error_free ( error );
                 i++;
                 continue;
             }
@@ -4427,7 +4490,7 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_accueil (FALSE);
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if ( balances_with_scheduled == FALSE )
+    if ( conf.balances_with_scheduled == FALSE )
         gsb_data_account_set_balances_are_dirty ( account_number );
 
     /* force the update module budget */
@@ -4472,7 +4535,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* text for paddingbox */
-    tmpstr = g_strdup_printf (_("Properties of the rule : %s\n"),
+    tmpstr = g_strdup_printf (_("Properties of the rule: %s\n"),
                   gsb_data_import_rule_get_name (rule));
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
@@ -4517,7 +4580,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     g_free ( tmpstr );
 
     /* label filename */
-    label = gtk_label_new (COLON(_("Name of the file to import ")));
+    label = gtk_label_new ( _("Name of the file to import: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
                GTK_SHRINK | GTK_FILL, 0, 0, 0 );
@@ -4619,6 +4682,7 @@ gboolean gsb_import_set_tmp_file ( gchar *filename,
     {
         g_free (contenu_fichier);
         g_print ( _("Unable to create tmp file: %s\n"), error -> message);
+        g_error_free ( error );
         return FALSE;
     }
 
@@ -4652,7 +4716,6 @@ gboolean gsb_import_gunzip_file ( gchar *filename )
             dialogue_error ( tmpstr );
             g_free ( file_content);
             g_error_free (error);
-
             return FALSE;
         }
         else
@@ -4816,6 +4879,62 @@ gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test )
 
     return TRUE;
 }
+
+GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *imported_account )
+{
+    GtkWidget *assistant;
+    GtkWidget *progress;
+    GtkWidget *hbox;
+    GtkWidget *image;
+    GtkWidget *align;
+    GtkWidget *bar;
+
+    progress = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+    gtk_window_set_decorated ( GTK_WINDOW ( progress ), FALSE );
+
+    assistant = g_object_get_data ( G_OBJECT ( window ), "assistant" );
+    gtk_window_set_modal ( GTK_WINDOW ( assistant ), FALSE );
+    gtk_window_set_transient_for ( GTK_WINDOW ( progress ), GTK_WINDOW ( assistant ) );
+    gtk_window_set_modal ( GTK_WINDOW ( progress ), TRUE );
+    gtk_window_set_position ( GTK_WINDOW ( progress ), GTK_WIN_POS_CENTER_ALWAYS );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_container_add ( GTK_CONTAINER ( progress ), hbox );
+
+    image = gtk_image_new_from_icon_name ( GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0 );
+
+    align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
+    bar = gtk_progress_bar_new ( );
+    gtk_progress_bar_set_pulse_step ( GTK_PROGRESS_BAR ( bar ), 0.1 );
+    g_object_set_data ( G_OBJECT ( progress ), "bar", bar );
+    gtk_container_add ( GTK_CONTAINER ( align ), bar );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), align, FALSE, FALSE, 6 );
+
+    gtk_widget_show_all ( progress );
+
+    return progress;
+}
+
+
+void gsb_import_progress_bar_pulse ( GtkWidget *progress, gint nbre_transaction )
+{
+    GtkWidget *bar;
+    gchar *tmp_text;
+    gchar *text;
+
+    bar = g_object_get_data ( G_OBJECT ( progress ), "bar" );
+    gtk_progress_bar_pulse ( GTK_PROGRESS_BAR ( bar ) );
+
+    tmp_text = utils_str_itoa ( nbre_transaction );
+    text = g_strdup_printf ( " reste %s transactions à traiter ", tmp_text );
+    gtk_progress_bar_set_text ( GTK_PROGRESS_BAR ( bar ), text );
+
+    g_free ( tmp_text );
+    g_free ( text );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -20,7 +20,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_account.h"
@@ -46,9 +51,6 @@
 #include "imputation_budgetaire.h"
 #include "transaction_list.h"
 #include "gsb_transactions_list.h"
-#include "fenetre_principale.h"
-#include "gsb_form_scheduler.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

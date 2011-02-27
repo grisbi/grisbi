@@ -23,36 +23,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "menu.h"
-#include "help.h"
 #include "barre_outils.h"
-#include "navigation.h"
+#include "custom_list.h"
 #include "export.h"
+#include "fenetre_principale.h"
 #include "file_obfuscate_qif.h"
 #include "file_obfuscate.h"
-#include "tip.h"
 #include "gsb_account.h"
 #include "gsb_assistant_account.h"
-#include "gsb_assistant_archive_export.h"
 #include "gsb_assistant_archive.h"
+#include "gsb_assistant_archive_export.h"
 #include "gsb_data_account.h"
 #include "gsb_debug.h"
-#include "erreur.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
+#include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
-#include "parametres.h"
+#include "help.h"
 #include "import.h"
-#include "utils.h"
-#include "traitement_variables.h"
-#include "include.h"
-#include "erreur.h"
+#include "main.h"
+#include "navigation.h"
+#include "parametres.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "tip.h"
+#include "utils.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -64,8 +69,7 @@ static gboolean help_manual ( void );
 static gboolean help_quick_start ( void );
 static gboolean help_translation ( void );
 static gboolean help_website ( void );
-static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
-                        GtkContainer * p_box) ;
+static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 /*END_STATIC*/
 
 
@@ -138,6 +142,8 @@ static gchar *ui_manager_buffer =
 "      <menuitem name='ShowTwoLines' action='ShowTwoLinesAction'/>"
 "      <menuitem name='ShowThreeLines' action='ShowThreeLinesAction'/>"
 "      <menuitem name='ShowFourLines' action='ShowFourLinesAction'/>"
+"      <separator/>"
+"      <menuitem name='InitwidthCol' action='InitwidthColAction'/>"
 "    </menu>"
 "    <menu name='Help' action='HelpMenuAction' >"
 "      <menuitem name='Manual' action='ManualAction'/>"
@@ -152,15 +158,6 @@ static gchar *ui_manager_buffer =
 "    </menu>"
 "  </menubar>"
 "</ui>";
-
-
-static void menu_add_widget (GtkUIManager * p_uiManager, GtkWidget * p_widget, 
-                        GtkContainer * p_box) 
-{ 
-    gtk_box_pack_start (GTK_BOX (p_box), p_widget, FALSE, FALSE, 0);
-    gtk_widget_show (p_widget); 
-    return; 
-}
 
 
 GtkWidget *init_menus ( GtkWidget *vbox )
@@ -238,6 +235,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
         /* View menu */
         {"ViewMenuAction", NULL, _("_View"), NULL, NULL, NULL },
+        {"InitwidthColAction", NULL, _("Reset the column width"), NULL, NULL,
+         G_CALLBACK ( gsb_menu_reinit_largeur_col_menu ) },
 
         /* Help menu */
         {"HelpMenuAction", NULL, _("_Help"), NULL, NULL, NULL },
@@ -541,7 +540,7 @@ gboolean help_bugreport ( void )
  *
  * \return A newly-created string representing the menu path.
  */
-gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
+gchar *menu_name ( gchar *menu, gchar *submenu, gchar *subsubmenu )
 {
   if ( subsubmenu )
     return g_strconcat ( "/menubar/", menu, "/", submenu, "/", subsubmenu, NULL );
@@ -564,7 +563,7 @@ gchar * menu_name ( gchar * menu, gchar * submenu, gchar * subsubmenu )
  *
  * \return TRUE on success.
  */
-gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean state )
+gboolean gsb_gui_sensitive_menu_item_from_string ( gchar *item_name, gboolean state )
 {
     GtkWidget * widget;
 
@@ -590,8 +589,10 @@ gboolean gsb_gui_sensitive_menu_item_from_string ( gchar * item_name, gboolean s
  *
  * \return TRUE on success.
  */
-gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_name,
-                        gchar * subsubmenu_name, gboolean state )
+gboolean gsb_gui_sensitive_menu_item ( gchar *root_menu_name,
+                        gchar *submenu_name,
+                        gchar *subsubmenu_name,
+                        gboolean state )
 {
     gchar* tmpstr;
     gboolean result;
@@ -609,7 +610,8 @@ gboolean gsb_gui_sensitive_menu_item ( gchar * root_menu_name, gchar * submenu_n
  * Callback called when an item of the "View/Show ... lines" menu is
  * triggered.
  */
-void gsb_gui_toggle_line_view_mode ( GtkRadioAction * action, GtkRadioAction *current, 
+void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
+                        GtkRadioAction *current,
                         gpointer user_data )
 {
     /* FIXME benj: ugly but I cannot find a way to block this ... */
@@ -879,11 +881,42 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
  *
  *
  *
- * 
+ *
  **/
 GtkUIManager *gsb_menu_get_ui_manager ( void )
 {
     return ui_manager;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gboolean gsb_menu_reinit_largeur_col_menu ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+    {
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
+                        run.transaction_column_width );
+
+        gsb_transactions_list_set_largeur_col ( );
+    }
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+    {
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
+                        run.scheduler_column_width );
+
+        gsb_scheduler_list_set_largeur_col ( );
+    }
+
+    return FALSE;
 }
 
 

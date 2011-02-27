@@ -3,6 +3,8 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
+#include <glib.h>
+
 #define GSB_PAYMENT_NEUTRAL 0
 #define GSB_PAYMENT_DEBIT 1
 #define GSB_PAYMENT_CREDIT 2

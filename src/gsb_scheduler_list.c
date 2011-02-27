@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -29,7 +29,13 @@
 
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
@@ -54,8 +60,6 @@
 #include "structures.h"
 #include "gsb_transactions_list.h"
 #include "mouse.h"
-#include "include.h"
-#include "gsb_calendar.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -89,6 +93,16 @@ static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
 static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
                         GtkAllocation *allocation,
                         gpointer null );
+static gboolean gsb_scheduler_list_sort_column_clicked ( GtkTreeViewColumn *tree_view_column,
+                        gint *column_ptr );
+static gint gsb_scheduler_list_sort_function_by_account ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr );
+static gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr );
 static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 static void popup_scheduled_context_menu ( void );
 /*END_STATIC*/
@@ -99,6 +113,7 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_grise;
+extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GtkWidget * navigation_tree_view;
@@ -108,7 +123,6 @@ extern GtkWidget *scheduler_button_execute;
 extern GdkColor split_background;
 extern GtkWidget *window;
 /*END_EXTERN*/
-
 
 
 /** set the tree view and models as static, we can access to them
@@ -130,6 +144,8 @@ GSList *scheduled_transactions_taken;
 gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 
 gint scheduler_current_tree_view_width = 0;
+
+static GtkSortType sort_type;
 
 /**
  *
@@ -179,35 +195,35 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 scrolled_window,
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
     /* we create and set the tree_view in the page */
     tree_view = gsb_scheduler_list_create_tree_view ();
     gsb_scheduler_list_set_tree_view (tree_view);
-    gtk_container_add ( GTK_CONTAINER (scrolled_window),
-			tree_view);
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
 
-
-    /* create the columns */
-    gsb_scheduler_list_create_list_columns (tree_view);
-
-    /* begin by hiding the notes (set to 1 because !1 in the function */
-
-    etat.affichage_commentaire_echeancier = 1;
-    gsb_scheduler_list_show_notes ();
+    /* set the color of selected row */
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
 
     /* create the store and set it in the tree_view */
     tree_model = gsb_scheduler_list_create_model ();
     gtk_tree_view_set_model ( GTK_TREE_VIEW (tree_view), tree_model);
     g_object_unref (G_OBJECT(tree_model));
 
-    g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection( GTK_TREE_VIEW (tree_view))),
-		       "changed",
-		       G_CALLBACK (gsb_scheduler_list_selection_changed),
-		       NULL );
+    /* create the columns */
+    gsb_scheduler_list_create_list_columns (tree_view);
+
+    /* begin by hiding the notes (set to 1 because !1 in the function */
+    etat.affichage_commentaire_echeancier = 1;
+    gsb_scheduler_list_show_notes ();
+
+    g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
+                        "changed",
+                        G_CALLBACK ( gsb_scheduler_list_selection_changed ),
+                        NULL );
+
     return vbox;
 }
 
@@ -299,28 +315,32 @@ GtkWidget *gsb_scheduler_list_create_tree_view (void)
 {
     GtkWidget * tree_view;
 
-    tree_view = gtk_tree_view_new ();
+    tree_view = gtk_tree_view_new ( );
+    gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
 
     /* can select only one line */
-    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ))),
-				  GTK_SELECTION_SINGLE );
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW( tree_view ) ) ),
+                        GTK_SELECTION_SINGLE );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
-		       "size_allocate",
-		       G_CALLBACK (gsb_scheduler_list_size_allocate),
-		       NULL );
+                        "size_allocate",
+                        G_CALLBACK (gsb_scheduler_list_size_allocate),
+                        NULL );
     g_signal_connect ( G_OBJECT ( tree_view ),
-		       "button-press-event",
-		       G_CALLBACK ( gsb_scheduler_list_button_press ),
-		       NULL );
+                        "button-press-event",
+                        G_CALLBACK ( gsb_scheduler_list_button_press ),
+                        NULL );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
-		       "key-press-event",
-		       G_CALLBACK ( gsb_scheduler_list_key_press ),
-		       NULL );
+                        "key-press-event",
+                        G_CALLBACK ( gsb_scheduler_list_key_press ),
+                        NULL );
+
     gtk_widget_show ( tree_view );
 
     last_scheduled_number = -1;
+
     return tree_view;
 }
 
@@ -348,45 +368,119 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
 
     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
     {
-	GtkCellRenderer *cell_renderer;
+        GtkCellRenderer *cell_renderer;
 
-	cell_renderer = gtk_cell_renderer_text_new ();
+        cell_renderer = gtk_cell_renderer_text_new ();
 
-	g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )),
-		       "xalign",
-		       col_justs[i], NULL );
-
-    if ( i == 6 )
-        scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
-									      cell_renderer,
-									      "text", i,
-									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
-                                          "foreground", SCHEDULER_COL_NB_AMOUNT_COLOR,
-									      "font-desc", SCHEDULER_COL_NB_FONT,
-									      NULL );
-
-    else
-        scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+        g_object_set ( G_OBJECT (GTK_CELL_RENDERER ( cell_renderer )),
+                        "xalign",
+                        col_justs[i], NULL );
+        switch ( i )
+        {
+            case 0:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
 									      cell_renderer,
 									      "text", i,
 									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
 									      "font-desc", SCHEDULER_COL_NB_FONT,
 									      NULL );
-	gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					     col_justs[i] );
+                gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
+                                            i,
+                                            (GtkTreeIterCompareFunc) gsb_scheduler_list_default_sort_function,
+                                            NULL,
+                                            NULL );
+                gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), TRUE );
 
-	gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-				      GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
+                /* use the click to sort the list */
+                g_signal_connect ( G_OBJECT ( scheduler_list_column[i] ),
+                                            "clicked",
+                                            G_CALLBACK ( gsb_scheduler_list_sort_column_clicked ),
+                                            GINT_TO_POINTER ( i ) );
+                break;
+            case 1:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
+                                            i,
+                                            (GtkTreeIterCompareFunc) gsb_scheduler_list_sort_function_by_account,
+                                            NULL,
+                                            NULL );
+                gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), TRUE );
 
-	/* no sorting by columns for now */
-	gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					     FALSE );
+                /* use the click to sort the list */
+                g_signal_connect ( G_OBJECT ( scheduler_list_column[i] ),
+                                            "clicked",
+                                            G_CALLBACK ( gsb_scheduler_list_sort_column_clicked ),
+                                            GINT_TO_POINTER ( i ) );
+                break;
+            case 2:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
+                                            i,
+                                            (GtkTreeIterCompareFunc) gsb_scheduler_list_sort_function_by_payee,
+                                            NULL,
+                                            NULL );
+                gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), TRUE );
 
-	/* automatic and resizeable sizing */
-	gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					  GTK_TREE_VIEW_COLUMN_FIXED );
-	gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
-					     TRUE );
+                /* use the click to sort the list */
+                g_signal_connect ( G_OBJECT ( scheduler_list_column[i] ),
+                                            "clicked",
+                                            G_CALLBACK ( gsb_scheduler_list_sort_column_clicked ),
+                                            GINT_TO_POINTER ( i ) );
+                break;
+            case 3:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                break;
+            case 4:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                break;
+            case 5:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                break;
+            case 6:
+                scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
+                                            cell_renderer,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "foreground", SCHEDULER_COL_NB_AMOUNT_COLOR,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            NULL );
+                break;
+        }
+
+        gtk_tree_view_column_set_alignment ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), col_justs[i] );
+
+        gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                          GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ));
+
+        /* automatic and resizeable sizing */
+        gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ),
+                          GTK_TREE_VIEW_COLUMN_FIXED );
+        gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[i] ), TRUE );
     }
 }
 
@@ -418,15 +512,19 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
 				 G_TYPE_STRING,
 				 G_TYPE_INT,
 				 PANGO_TYPE_FONT_DESCRIPTION,
-				 G_TYPE_BOOLEAN );
+				 G_TYPE_INT );
 
     gsb_scheduler_list_set_model (GTK_TREE_MODEL (store));
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
     gsb_scheduler_list_set_sorted_model (GTK_TREE_MODEL_SORT (sortable));
+    gtk_tree_sortable_set_sort_column_id (  GTK_TREE_SORTABLE (
+                        tree_model_sort_scheduler_list ),
+                        0, GTK_SORT_ASCENDING );
     gtk_tree_sortable_set_default_sort_func ( GTK_TREE_SORTABLE (sortable),
 					      (GtkTreeIterCompareFunc) gsb_scheduler_list_default_sort_function,
 					      NULL,
 					      NULL );
+
     return sortable;
 }
 
@@ -449,49 +547,71 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
     gint return_value = 0;
 
     /* first, we sort by date (col 0) */
-
     gtk_tree_model_get ( model,
-			 iter_1,
-			 COL_NB_DATE, &date_str,
-			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
-			 -1 );
+                        iter_1,
+                        COL_NB_DATE, &date_str,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
+                        -1 );
     date_1 = gsb_parse_date_string ( date_str );
+    g_free ( date_str );
 
     gtk_tree_model_get ( model,
-			 iter_2,
-			 COL_NB_DATE, &date_str,
-			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
-			 -1 );
+                        iter_2,
+                        COL_NB_DATE, &date_str,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
+                        -1 );
     date_2 = gsb_parse_date_string ( date_str );
+    g_free ( date_str );
 
-    if ( date_1 && date_2 )
-	return_value = g_date_compare ( date_1,
-					date_2 );
-
-    /* if we are here it's because we are in a child of split */
-
-    if ( number_1 < 0 )
+    if ( number_1 == -1 )
     {
         if ( date_1) g_free ( date_1);
         if ( date_2) g_free ( date_2);
-	return 1;
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+    else if ( number_2 == -1 )
+    {
+        if ( date_1) g_free ( date_1);
+        if ( date_2) g_free ( date_2);
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return -1;
+        else
+            return 1;
+    }
+
+    if ( date_1 &&  date_2 )
+        return_value = g_date_compare ( date_1, date_2 );
+
+    if ( return_value )
+        return return_value;
+
+    /* if we are here it's because we are in a child of split */
+    if ( number_1 < 0 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
     }
     if ( number_2 < 0 )
     {
-        if ( date_1) g_free ( date_1);
-        if ( date_2) g_free ( date_2);
-	return -1;
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return -1;
+        else
+            return 1;
     }
 
     if (! return_value )
-	return_value = number_1 - number_2;
+        return_value = number_1 - number_2;
 
     if ( date_1) g_free ( date_1);
     if ( date_2) g_free ( date_2);
 
     return return_value;
 }
-
 
 
 /**
@@ -565,32 +685,32 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     devel_debug (NULL);
 
     /* get the last date we want to see the transactions */
-    end_date = gsb_scheduler_list_get_end_date_scheduled_showed ();
+    end_date = gsb_scheduler_list_get_end_date_scheduled_showed ( );
 
-    gtk_tree_store_clear (GTK_TREE_STORE (tree_model_scheduler_list));
+    gtk_tree_store_clear ( GTK_TREE_STORE ( tree_model_scheduler_list ) );
 
     /* fill the list */
-    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+    tmp_list = gsb_data_scheduled_get_scheduled_list ( );
 
     while ( tmp_list )
     {
         gint scheduled_number;
 
-        scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+        scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
 
-        if ( !end_date || 
-         g_date_compare ( gsb_data_scheduled_get_date (scheduled_number), end_date) <= 0 )
+        if ( !end_date
+         || 
+         g_date_compare ( gsb_data_scheduled_get_date ( scheduled_number ), end_date) <= 0 )
         {
-            if ( !gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-                                   end_date ) )
+            if ( !gsb_scheduler_list_append_new_scheduled ( scheduled_number, end_date ) )
                 /* the scheduled transaction was not added, add to orphan scheduledlist */
-                orphan_scheduled = g_slist_append (orphan_scheduled, tmp_list -> data);
+                orphan_scheduled = g_slist_append ( orphan_scheduled, tmp_list -> data );
         }
         tmp_list = tmp_list -> next;
     }
 
     /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
-    if (orphan_scheduled)
+    if ( orphan_scheduled )
     {
         gchar *string = NULL;
 
@@ -633,13 +753,11 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     }
 
     /* create and append the white line */
-    gtk_tree_store_append ( GTK_TREE_STORE (tree_model_scheduler_list),
-			    &iter,
-			    NULL );
-    gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list),
-			 &iter,
-			 SCHEDULER_COL_NB_TRANSACTION_NUMBER, gsb_data_scheduled_new_white_line (0),
-			 -1 );
+    gtk_tree_store_append ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, NULL );
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
+                        &iter,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, gsb_data_scheduled_new_white_line ( 0 ),
+                        -1 );
 
     return FALSE;
 }
@@ -713,79 +831,81 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     gint mother_scheduled_number;
 
     /* devel_debug_int (scheduled_number); */
-
-    if (!tree_model_scheduler_list)
-	return FALSE;
+    if ( !tree_model_scheduler_list )
+        return FALSE;
 
     /* get the mother iter if needed */
-    mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
-    if (mother_scheduled_number)
+    mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number );
+    if ( mother_scheduled_number )
     {
-	mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number (mother_scheduled_number);
-	if (!mother_iter)
-	    /* it's a child but didn't find the mother, it can happen in old files previous to 0.6
-	     * where the children wer saved before the mother, return FALSE here will add that
-	     * child to a list to append it again later */
-	    return FALSE;
+        mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number ( mother_scheduled_number );
+        if ( !mother_iter )
+            /* it's a child but didn't find the mother, it can happen in old files previous to 0.6
+             * where the children wer saved before the mother, return FALSE here will add that
+             * child to a list to append it again later */
+            return FALSE;
     }
 
-    pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
+    pGDateCurrent = gsb_date_copy ( gsb_data_scheduled_get_date ( scheduled_number ) );
 
     /* fill the text line */
     gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
 
     do
     {
-	GtkTreeIter iter;
+        GtkTreeIter iter;
 
-	gtk_tree_store_append ( GTK_TREE_STORE (tree_model_scheduler_list),
-				&iter,
-				mother_iter );
+        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, mother_iter );
 
-	gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (tree_model_scheduler_list),
-						  &iter,
-						  line );
+        gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE ( tree_model_scheduler_list ), &iter, line );
 
+        /* set the number of scheduled transaction to 0 if it's not the first one
+         * (when more than one showed ) */
+        gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
+                        &iter,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, scheduled_number,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, virtual_transaction,
+                        -1 );
 
-	/* set the number of scheduled transaction to 0 if it's not the first one
-	 * (when more than one showed ) */
-	gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list), &iter,
-			     SCHEDULER_COL_NB_TRANSACTION_NUMBER, scheduled_number,
-			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, virtual_transaction,
-			     -1 );
+        /* if it's a split, we append a white line now */
+        if (gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ) && !virtual_transaction )
+        {
+            gint white_line_number;
 
-	/* if it's a split, we append a white line now */
-	if (gsb_data_scheduled_get_split_of_scheduled (scheduled_number) && !virtual_transaction)
-	{
-	    gint white_line_number = gsb_data_scheduled_get_white_line (scheduled_number);
+            white_line_number = gsb_data_scheduled_get_white_line ( scheduled_number );
+            if ( white_line_number == -1 )
+            {
+                white_line_number = gsb_data_scheduled_new_white_line ( scheduled_number );
+                gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
+            }
+        }
 
-	    if (white_line_number == -1)
-		white_line_number = gsb_data_scheduled_new_white_line (scheduled_number);
-	    gsb_scheduler_list_append_new_scheduled ( white_line_number,
-						      end_date );
-	}
+        /* if it's a split, we show only one time and color the background */
+        if ( mother_iter )
+        {
+            gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
+                        &iter,
+                        SCHEDULER_COL_NB_BACKGROUND, &split_background,
+                        -1 );
+        }
+        else
+        {
+            pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
 
-	/* if it's a split, we show only one time and color the background */
-	if ( mother_iter )
-	    gtk_tree_store_set ( GTK_TREE_STORE (tree_model_scheduler_list),
-				 &iter,
-				 SCHEDULER_COL_NB_BACKGROUND, &split_background,
-				 -1 );
-	else
-	{
-	    pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
+            line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
 
-	    line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
-	    /* now, it's not real transactions */
-	    virtual_transaction = TRUE;
-	}
+            /* now, it's not real transactions */
+            virtual_transaction ++;
+        }
     }
     while ( pGDateCurrent &&
 	    end_date &&
 	    g_date_compare ( end_date, pGDateCurrent ) > 0 &&
 	    !mother_iter );
+
     if ( mother_iter )
-	gtk_tree_iter_free (mother_iter);
+        gtk_tree_iter_free ( mother_iter );
+
     return TRUE;
 }
 
@@ -944,28 +1064,31 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
 	line[COL_NB_ACCOUNT] = NULL;
 	line[COL_NB_MODE] = NULL;
 
-	if ( gsb_data_scheduled_get_category_number (scheduled_number))
-	    line[COL_NB_PARTY] = gsb_data_category_get_name ( gsb_data_scheduled_get_category_number (scheduled_number),
-							      gsb_data_scheduled_get_sub_category_number (scheduled_number),
-							      NULL );
+	if ( gsb_data_scheduled_get_category_number ( scheduled_number ) )
+	    line[COL_NB_PARTY] = gsb_data_category_get_name (
+                        gsb_data_scheduled_get_category_number ( scheduled_number ),
+                        gsb_data_scheduled_get_sub_category_number ( scheduled_number ),
+                        NULL );
 	else
 	{
 	    /* there is no category, it can be a transfer */
-	    if (gsb_data_scheduled_get_account_number_transfer (scheduled_number) >= 0
-		&&
-		scheduled_number > 0)
+	    if ( gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) >= 0
+		 &&
+		 scheduled_number > 0 )
 	    {
-		/* it's a transfer */
-		if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
-		    line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
-							   gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
-		else
-		    line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer from %s"),
-							   gsb_data_account_get_name (gsb_data_scheduled_get_account_number_transfer (scheduled_number)));
+            /* it's a transfer */
+            if (gsb_data_scheduled_get_amount (scheduled_number).mantissa < 0)
+                line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer to %s"),
+                        gsb_data_account_get_name (
+                        gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
+            else
+                line[COL_NB_PARTY] = g_strdup_printf ( _("Transfer from %s"),
+                        gsb_data_account_get_name (
+                        gsb_data_scheduled_get_account_number_transfer ( scheduled_number ) ) );
 	    }
 	    else
-		/* it's not a transfer, so no category */
-		line[COL_NB_PARTY] = NULL;
+            /* it's not a transfer, so no category */
+            line[COL_NB_PARTY] = NULL;
 	}
     }
     else
@@ -1020,17 +1143,18 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
     }
 
     /* that can be filled for mother and children of split */
-    line[COL_NB_NOTES] = gsb_data_scheduled_get_notes (scheduled_number);
+    line[COL_NB_NOTES] = gsb_data_scheduled_get_notes ( scheduled_number );
 
     /* if it's a white line don't fill the amount
      * (in fact fill nothing, but normally all before was set to NULL,
      * there is only the amount, we want NULL and not 0) */
-    if (scheduled_number < 0)
-	line[COL_NB_AMOUNT] = NULL;
+    if ( scheduled_number < 0 )
+        line[COL_NB_AMOUNT] = NULL;
     else
-	line[COL_NB_AMOUNT] = gsb_real_get_string_with_currency (gsb_data_scheduled_get_amount (scheduled_number),
-								 gsb_data_scheduled_get_currency_number (scheduled_number),
-								 TRUE );
+        line[COL_NB_AMOUNT] = gsb_real_get_string_with_currency (
+                        gsb_data_scheduled_get_amount ( scheduled_number ),
+                        gsb_data_scheduled_get_currency_number ( scheduled_number ),
+                        TRUE );
 
     return FALSE;
 }
@@ -1054,7 +1178,7 @@ gboolean gsb_scheduler_list_fill_transaction_row ( GtkTreeStore *store,
     gchar *color_str = NULL;
     gint i;
 
-    if ( g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
+    if ( line[COL_NB_AMOUNT] && g_utf8_strchr ( line[COL_NB_AMOUNT], -1, '-' ) )
         color_str = "red";
     else
     {
@@ -1090,10 +1214,8 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
     GtkTreePath *sorted_path;
     GtkTreePath *path;
 
-    devel_debug (NULL);
-
     if (!tree_view)
-	return FALSE;
+        return FALSE;
 
     sort_model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
     store = GTK_TREE_STORE (gtk_tree_model_sort_get_model (GTK_TREE_MODEL_SORT (sort_model)));
@@ -1104,42 +1226,38 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
     while ((path = gtk_tree_model_sort_convert_path_to_child_path ( GTK_TREE_MODEL_SORT (sort_model),
 								    sorted_path )))
     {
-	gint virtual_transaction;
-	GtkTreeIter iter;
-	gchar *amount;
+        gint virtual_transaction;
+        GtkTreeIter iter;
 
+        gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ), &iter, path );
 
-	gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ),
-				  &iter,
-				  path );
+        gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
+                        &iter,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
+                        -1 );
 
-	gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
-			     &iter,
-			     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_transaction,
-			     COL_NB_AMOUNT, &amount,
-			     -1 );
+        if ( virtual_transaction )
+            gtk_tree_store_set ( store,
+                        &iter,
+                        SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
+                        -1 );
+        else
+        {
+            gtk_tree_store_set ( store,
+                        &iter,
+                        SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[current_color],
+                        -1 );
+            current_color = !current_color;
+        }
 
-	if ( virtual_transaction )
-	    gtk_tree_store_set ( store,
-				 &iter,
-				 SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
-				 -1 );
-	else
-	{
-	    gtk_tree_store_set ( store,
-				 &iter,
-				 SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[current_color],
-				 -1 );
-	    current_color = !current_color;
-	}
+        gtk_tree_path_free (path);
 
-	gtk_tree_path_free (path);
+        /* needn't to go in a child because the color is always the same, so
+         * gtk_tree_path_next is enough */
 
-	/* needn't to go in a child because the color is always the same, so
-	 * gtk_tree_path_next is enough */
-
-	gtk_tree_path_next ( sorted_path );
+        gtk_tree_path_next ( sorted_path );
     }
+
     return FALSE;
 }
 
@@ -1188,13 +1306,14 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
     iter = gsb_scheduler_list_get_iter_from_scheduled_number (scheduled_number);
 
     if (!iter)
-	return FALSE;
+        return FALSE;
 
     gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (tree_model_sort_scheduler_list),
 						     &iter_sort,
 						     iter );
     gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view_scheduler_list))),
 				     &iter_sort );
+
     gtk_tree_iter_free (iter);
 
     return FALSE;
@@ -1464,13 +1583,11 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 
     /* sensitive/unsensitive the button edit */
 
-    gtk_widget_set_sensitive ( scheduler_button_edit,
-                        (tmp_number > 0));
+    gtk_widget_set_sensitive ( scheduler_button_edit, ( tmp_number > 0 ) );
 
     /* sensitive/unsensitive the button delete */
 
-    gtk_widget_set_sensitive ( scheduler_button_delete,
-                        (tmp_number > 0));
+    gtk_widget_set_sensitive ( scheduler_button_delete, ( tmp_number > 0 ) );
 
     return FALSE;
 }
@@ -1869,7 +1986,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     hbox2 = gtk_hbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox2, FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( COLON(_("Show transactions for the next")));
+    label = gtk_label_new ( _("Show transactions for the next: "));
     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
     entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre,
 					  NULL, NULL );
@@ -2091,6 +2208,244 @@ gboolean gsb_scheduler_list_edit_transaction_by_pointer ( gint *scheduled_number
     devel_debug_int (GPOINTER_TO_INT ( scheduled_number ) );
     gsb_scheduler_list_edit_transaction ( GPOINTER_TO_INT (scheduled_number));
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr )
+{
+    gchar *str_1;
+    gchar *str_2;
+    gint number_1;
+    gint number_2;
+    gint virtual_op_1 = 0;
+    gint virtual_op_2 = 0;
+    gint return_value = 0;
+
+    /* first, we sort by payee (col 0) */
+    gtk_tree_model_get ( model,
+                        iter_1,
+                        COL_NB_PARTY, &str_1,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_1,
+                        -1 );
+
+    gtk_tree_model_get ( model,
+                        iter_2,
+                        COL_NB_PARTY, &str_2,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_2,
+                        -1 );
+
+    if ( number_1 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+    else if ( number_2 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return -1;
+        else
+            return 1;
+    }
+
+    if ( sort_type == GTK_SORT_ASCENDING )
+        return_value = virtual_op_1 - virtual_op_2;
+    else
+        return_value = virtual_op_2 - virtual_op_1;
+
+    if ( return_value )
+        return return_value;
+
+    if ( str_1 )
+    {
+        if ( str_2 )
+            return_value = g_utf8_collate ( str_1, str_2 );
+        else
+        {
+            g_free ( str_1 );
+            return -1;
+        }
+    }
+    else if ( str_2 )
+    {
+        g_free ( str_2 );
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+
+    if ( return_value == 0 )
+        return_value = number_1 - number_2;
+
+    g_free ( str_1 );
+    g_free ( str_2 );
+
+    return return_value;
+}
+
+
+gboolean gsb_scheduler_list_sort_column_clicked ( GtkTreeViewColumn *tree_view_column,
+                        gint *column_ptr )
+{
+    gint current_column;
+    gint new_column;
+
+    gtk_tree_sortable_get_sort_column_id ( GTK_TREE_SORTABLE (
+                        tree_model_sort_scheduler_list ),
+                        &current_column, &sort_type );
+
+    new_column = GPOINTER_TO_INT (column_ptr);
+
+    /* if the new column is the same as the old one, we change
+     * the sort type */
+    if ( new_column == current_column )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            sort_type = GTK_SORT_DESCENDING;
+        else
+            sort_type = GTK_SORT_ASCENDING;
+    }
+    else
+	/* we sort by another column, so sort type by default is descending */
+	sort_type = GTK_SORT_ASCENDING;
+
+    gtk_tree_view_column_set_sort_indicator ( scheduler_list_column[current_column], FALSE );
+    gtk_tree_view_column_set_sort_indicator ( scheduler_list_column[new_column], TRUE );
+
+    gtk_tree_view_column_set_sort_order ( scheduler_list_column[new_column], sort_type );
+    gtk_tree_sortable_set_sort_column_id (  GTK_TREE_SORTABLE (
+                        tree_model_sort_scheduler_list ),
+                        new_column, sort_type );
+
+    gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view ( ) );
+
+    if ( last_scheduled_number > 0 )
+        gsb_scheduler_list_select ( last_scheduled_number );
+    else
+        gsb_scheduler_list_select ( -1 );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gboolean gsb_scheduler_list_set_largeur_col ( void )
+{
+    gint i;
+    gint width;
+
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
+    {
+        width = ( scheduler_col_width[i] * ( scheduler_current_tree_view_width ) ) / 100;
+        if ( width > 0 )
+            gtk_tree_view_column_set_fixed_width ( scheduler_list_column[i], width );
+    }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gint gsb_scheduler_list_sort_function_by_account ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gint *column_ptr )
+{
+    gchar *str_1;
+    gchar *str_2;
+    gint number_1;
+    gint number_2;
+    gint virtual_op_1 = 0;
+    gint virtual_op_2 = 0;
+    gint return_value = 0;
+
+    /* first, we sort by account (col 0) */
+    gtk_tree_model_get ( model,
+                        iter_1,
+                        COL_NB_ACCOUNT, &str_1,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_1,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_1,
+                        -1 );
+
+    gtk_tree_model_get ( model,
+                        iter_2,
+                        COL_NB_ACCOUNT, &str_2,
+                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &number_2,
+                        SCHEDULER_COL_NB_VIRTUAL_TRANSACTION, &virtual_op_2,
+                        -1 );
+
+    if ( number_1 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+    else if ( number_2 == -1 )
+    {
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return -1;
+        else
+            return 1;
+    }
+
+    if ( sort_type == GTK_SORT_ASCENDING )
+        return_value = virtual_op_1 - virtual_op_2;
+    else
+        return_value = virtual_op_2 - virtual_op_1;
+
+    if ( return_value )
+        return return_value;
+
+    if ( str_1 )
+    {
+        if ( str_2 )
+            return_value = g_utf8_collate ( str_1, str_2 );
+        else
+        {
+            g_free ( str_1 );
+            return -1;
+        }
+    }
+    else if ( str_2 )
+    {
+        g_free ( str_2 );
+        if ( sort_type == GTK_SORT_ASCENDING )
+            return 1;
+        else
+            return -1;
+    }
+
+    if ( return_value == 0 )
+        return_value = number_1 - number_2;
+
+    g_free ( str_1 );
+    g_free ( str_2 );
+
+    return return_value;
 }
 
 

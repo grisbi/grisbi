@@ -27,10 +27,10 @@
 /*
  * @see the realpath() function from <stdlib.h>
  */
-char *realpath(const char *path, char resolved_path[])
-{
-	return 0x0; //TODO
-}
+//char *realpath(const char *path, char resolved_path[])
+//{
+//	return 0x0; //TODO
+//}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

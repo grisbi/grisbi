@@ -26,7 +26,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_assistant_first.h"
@@ -40,7 +45,6 @@
 #include "utils_files.h"
 #include "utils.h"
 #include "structures.h"
-#include "include.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -213,7 +217,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
     gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
 
-    label = gtk_label_new ( COLON(_("Web browser command")));
+    label = gtk_label_new ( _("Web browser command: ") );
     gtk_size_group_add_widget ( size_group, label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
@@ -251,6 +255,9 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
+    if ( etat.crypt_file )
+        run.new_crypted_file = TRUE;
+
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
 					  &conf.make_backup, NULL, NULL);
@@ -273,7 +280,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX (hbox), button,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_(" minutes"));
+    label = gtk_label_new ( _(" minutes") );
     gtk_box_pack_start ( GTK_BOX (hbox), label,
 			 FALSE, FALSE, 0 );
 
@@ -282,7 +289,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
-    label = gtk_label_new ( COLON(_("Backup directory")) );
+    label = gtk_label_new ( _("Backup directory: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 

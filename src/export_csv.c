@@ -27,7 +27,13 @@
  * \todo make the CSV parameter configurable 
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <errno.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "export_csv.h"
@@ -47,7 +53,6 @@
 #include "main.h"
 #include "utils_str.h"
 #include "utils_files.h"
-#include "gsb_data_transaction.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

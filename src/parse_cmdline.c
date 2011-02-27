@@ -16,8 +16,12 @@
 /*                                                                               */
 /* *******************************************************************************/
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
+#include "include.h"
+#include <glib/gi18n.h>
 #include <getopt.h>
 
 /*START_INCLUDE*/
@@ -25,7 +29,6 @@
 #include "gsb_plugins.h"
 #include "main.h"
 #include "utils_str.h"
-#include "include.h"
 #include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/

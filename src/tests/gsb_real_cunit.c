@@ -28,12 +28,15 @@
  * cunit tests for gsb_real
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
-#include "./gsb_real.h"
-#include "./gsb_real.h"
+#include "gsb_real.h"
 /* END_INCLUDE */
 
 /* START_STATIC */

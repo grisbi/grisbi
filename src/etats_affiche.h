@@ -1,11 +1,13 @@
 #ifndef _ETATS_AFFICHE_H
 #define _ETATS_AFFICHE_H (1)
+
+#include <glib.h>
+
 /* START_INCLUDE_H */
 #include "structures.h"
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-#include "structures.h"
 
 /** Device independant drawing functions for reports */
 struct struct_etat_affichage

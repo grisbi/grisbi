@@ -27,7 +27,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
@@ -41,7 +46,6 @@
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "meta_payee.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

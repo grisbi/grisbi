@@ -1,8 +1,8 @@
 #ifndef _H_UTILS_FILES
 #define _H_UTILS_FILES 1
 
-#include "config.h"
 #include <sys/stat.h>
+#include <gtk/gtk.h>
 
 enum get_filename_returned_value {
     UTILS_FILES_FILENAME,

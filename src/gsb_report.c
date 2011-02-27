@@ -25,6 +25,10 @@
  * contains tools to work with the reports
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 

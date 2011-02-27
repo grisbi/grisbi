@@ -19,7 +19,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_debug.h"
@@ -36,10 +41,7 @@
 #include "gsb_status.h"
 #include "traitement_variables.h"
 #include "utils_str.h"
-#include "include.h"
-#include "gsb_data_transaction.h"
 #include "structures.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -68,12 +70,10 @@ struct gsb_debug_test debug_tests [8] = {
     /* Check for reconciliation inconcistency.  */
     { N_("Incorrect reconcile totals"),
       N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
-      N_("Grisbi found accounts where reconciliation totals are inconsistent "
-	 "with the sum of reconcilied transactions.  Generally, the cause is "
-	 "too many transfers to other accounts are reconciled.  You have to "
-	 "manually unreconcile some transferts in inconsistent accounts."
-	 "It happens sometimes too for old accounts wich pass to Euro"
-	 "In that case the inconsistent is only some cents and it's normal."), 
+      N_("Grisbi found accounts where reconciliation totals are inconsistent with the "
+        "sum of reconcilied transactions and initial balance.\n\n"
+        "The cause may be the elimination or modification of reconciliations or changes "
+        "in the balance of reconciliations in the preferences."),
       gsb_debug_reconcile_test, NULL },
 
     { N_("Duplicate sub-categories check"),

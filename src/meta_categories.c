@@ -20,7 +20,13 @@
 /* ************************************************************************** */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
+
 #include "metatree.h"
 
 /*START_INCLUDE*/
@@ -31,8 +37,6 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_str.h"
-#include "metatree.h"
-#include "include.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
@@ -63,6 +67,8 @@ static MetatreeInterface _category_interface = {
     1,
     category_tree_currency,
     N_("Category"),
+    N_("category"),
+    N_("sub-category"),
     N_("No category"),
     N_("No sub-category"),
     category_get_without_div_pointer,

@@ -27,7 +27,12 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_data_account.h"
@@ -39,7 +44,6 @@
 #include "gsb_data_transaction.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "include.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -148,7 +152,6 @@ static gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gboolean balances_with_scheduled;
 extern gsb_real error_real;
 extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -1063,11 +1066,16 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 
 	transaction_number = gsb_data_transaction_get_transaction_number (tmp_list->data);
     /* on regarde si on tient compte ou pas des échéances pour les soldes */
-    if ( balances_with_scheduled )
+    if ( conf.balances_with_scheduled )
         res = 0;
     else
-        res = g_date_compare ( date_jour,
-                        gsb_data_transaction_get_date ( transaction_number ) );
+    {
+        const GDate *date;
+
+        date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
+        res = g_date_compare ( date_jour, date );
+    }
+
 	if ( gsb_data_transaction_get_account_number (transaction_number) == account_number
 	     &&
 	     !gsb_data_transaction_get_mother_transaction_number (transaction_number)
@@ -2729,7 +2737,6 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         else if ( strcmp ( new_icon, gsb_data_account_get_account_standard_pixbuf_filename (
          gsb_data_account_get_kind ( current_account ) ) ) == 0 )
         {
-            printf ("new_icon est une icone standard\n");
             gsb_data_account_set_name_icon ( current_account, NULL );
             gsb_data_account_set_account_icon_pixbuf ( current_account, NULL );
             gsb_select_icon_remove_account_pixbuf ( current_account );

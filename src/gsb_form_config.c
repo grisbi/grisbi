@@ -25,7 +25,12 @@
  * configuration page for the form
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
@@ -40,8 +45,6 @@
 #include "navigation.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
-#include "gsb_data_form.h"
-#include "include.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

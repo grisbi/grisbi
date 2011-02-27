@@ -1,6 +1,7 @@
 #ifndef _PRINT_DIALOG_CONFIG_H
 #define _PRINT_DIALOG_CONFIG_H (1)
 
+#include <glib-object.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

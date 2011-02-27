@@ -26,6 +26,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
 
 /*START_INCLUDE*/
@@ -39,7 +43,6 @@
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
 #include "custom_list.h"
-#include "gsb_data_payment.h"
 #include "structures.h"
 /*END_INCLUDE*/
 

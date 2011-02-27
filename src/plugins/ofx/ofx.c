@@ -19,15 +19,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libofx/libofx.h>
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+
+#include <libofx/libofx.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "ofx.h"
-#include "./dialog.h"
-#include "./gsb_real.h"
-#include "./utils_str.h"
-#include "./erreur.h"
+#include "dialog.h"
+#include "gsb_real.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -35,7 +41,6 @@
 
 /*START_STATIC*/
 static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);;
-static int ofx_proc_security_cb(struct OfxSecurityData data);
 static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
 static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
 static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
@@ -43,22 +48,25 @@ static GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct importe
 /*END_STATIC*/
 
 
-static struct import_format ofx_format ={
-    "OFX", 
-    "Open Financial Exchange",	
+static struct import_format ofx_format =
+{
+    "OFX",
+    "Open Financial Exchange",
     "ofx",
     (import_function) recuperation_donnees_ofx,
 };
 
 
 
+#ifndef ENABLE_STATIC
 /** Module name. */
 G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
+#endif
 
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void ofx_plugin_register ()
+G_MODULE_EXPORT extern void ofx_plugin_register ( void )
 {
     devel_debug ("Initializating ofx plugin");
     register_import_format ( &ofx_format );
@@ -67,18 +75,10 @@ G_MODULE_EXPORT extern void ofx_plugin_register ()
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern GSList * ofx_plugin_run ( GtkWidget * assistant, 
+G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
 				    struct imported_file * imported )
 {
     return recuperation_donnees_ofx ( assistant, imported );
-}
-
-
-
-/** Release plugin  */
-G_MODULE_EXPORT extern gboolean ofx_plugin_release ( )
-{
-	return TRUE;
 }
 
 
@@ -109,7 +109,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
  *
  *
  */
-GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
+GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
     gchar *argv[2] = { "", "" };
@@ -122,6 +122,7 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 
     /* 	la lib ofx ne tient pas compte du 1er argument */
     argv[1] = imported -> name;
+    devel_print_str ( imported -> name );
 
 #ifdef OFX_0_7
     ofx_context = libofx_get_new_context();
@@ -144,28 +145,31 @@ GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file 
 
     if ( !compte_ofx_importation_en_cours )
     {
-	struct struct_compte_importation * account;
-	account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
-	account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
-	account -> filename = g_strdup ( ofx_filename );
-	account -> real_filename = g_strdup (ofx_filename);
-	account -> origine = "OFX";
-	gsb_import_register_account_error ( account );
-	return ( FALSE );
+        struct struct_compte_importation * account;
+
+        account = g_malloc0 ( sizeof ( struct struct_compte_importation ));
+        account -> nom_de_compte = unique_imported_name ( _("Invalid OFX file") );
+        account -> filename = g_strdup ( ofx_filename );
+        account -> real_filename = g_strdup (ofx_filename);
+        account -> origine = "OFX";
+        gsb_import_register_account_error ( account );
+        devel_print_str ( account -> nom_de_compte );
+
+        return ( FALSE );
     }
 
     liste_tmp = liste_comptes_importes_ofx;
 
     while ( liste_tmp )
     {
-	if ( !erreur_import_ofx )
-	{
-	    gsb_import_register_account ( liste_tmp -> data );
-	}
-	else
-	{
-	    gsb_import_register_account_error ( liste_tmp -> data );
-	}
+        if ( !erreur_import_ofx )
+        {
+            gsb_import_register_account ( liste_tmp -> data );
+        }
+        else
+        {
+            gsb_import_register_account_error ( liste_tmp -> data );
+        }
 
 	liste_tmp = liste_tmp -> next;
     }
@@ -237,17 +241,6 @@ int ofx_proc_status_cb(struct OfxStatusData data)
 /* *******************************************************************************/
 
 
-
-
-
-
-/* *******************************************************************************/
-int ofx_proc_security_cb(struct OfxSecurityData data)
-{
-    dialog_message ( "ofx-security-not-implemented" );
-    return 0;
-}
-/* *******************************************************************************/
 
 
 

@@ -1,6 +1,8 @@
 #ifndef _GSB_DATA_FYEAR_H
 #define _GSB_DATA_FYEAR_H (1)
 
+#include <glib.h>
+
 /**
  * \struct 
  * Describe a fyear 

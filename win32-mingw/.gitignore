@@ -1,0 +1,13 @@
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles
+*.dir
+target
+*.cache
+*.ncb
+*.sln
+*.suo
+*.user
+*.vcproj
+downloads
+config.h

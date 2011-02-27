@@ -1,5 +1,8 @@
 #ifndef _UTILS_EDITABLES_H
 #define _UTILS_EDITABLES_H (1)
+
+#include <gtk/gtk.h>
+
 /* START_INCLUDE_H */
 #include "gsb_real.h"
 /* END_INCLUDE_H */

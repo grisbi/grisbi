@@ -1,6 +1,7 @@
 #ifndef _OPERATIONS_FORMULAIRE_H
 #define _OPERATIONS_FORMULAIRE_H (1)
 
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

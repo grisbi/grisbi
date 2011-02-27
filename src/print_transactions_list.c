@@ -24,7 +24,13 @@
  * print the transactions list
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "include.h"
+#include <math.h>
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "print_transactions_list.h"
@@ -37,12 +43,9 @@
 #include "print_dialog_config.h"
 #include "transaction_model.h"
 #include "custom_list.h"
-#include "include.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
-
-#if GTK_CHECK_VERSION(2,12,0)
 
 /*START_STATIC*/
 static gboolean print_transactions_list_begin ( GtkPrintOperation *operation,
@@ -150,7 +153,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     entry = gsb_automem_entry_new (&title_string, NULL, NULL);
 
-    check_button = gsb_autofunc_checkbutton_new (_("Print a title : "),
+    check_button = gsb_autofunc_checkbutton_new (_("Print a title: "),
 						 gsb_data_print_config_get_draw_title (),
 						 G_CALLBACK (sens_desensitive_pointeur), entry,
 						 G_CALLBACK (gsb_data_print_config_set_draw_title), 0);
@@ -166,7 +169,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     /* add the dates interval */
     hbox = gtk_hbox_new (FALSE, 10);
 
-    check_button = gsb_autofunc_checkbutton_new (_("Select dates interval : "),
+    check_button = gsb_autofunc_checkbutton_new (_("Select dates interval: "),
 						 gsb_data_print_config_get_draw_interval_dates (),
 						 G_CALLBACK (sens_desensitive_pointeur), hbox,
 						 G_CALLBACK (gsb_data_print_config_set_draw_interval_dates), 0);
@@ -926,8 +929,6 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 
     return line_position;
 }
-
-#endif /* GTK_CHECK_VERSION(2,12,0) */
 
 
 

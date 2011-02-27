@@ -19,8 +19,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include.h"
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include "include.h"
+#include <math.h>
 
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
@@ -178,8 +182,8 @@ gdouble bet_data_finance_troncate_number ( gdouble number, gint nbre_decimal )
     gchar *str_number;
     gdouble result;
 
-    str_number = utils_str_dtostr ( number, nbre_decimal, FALSE );
-    result =  my_strtod ( str_number, NULL );
+    str_number = utils_str_dtostr ( number, nbre_decimal, TRUE );
+    result =  utils_str_safe_strtod ( str_number, NULL );
 
     g_free ( str_number );
 

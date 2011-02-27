@@ -1,6 +1,8 @@
 #ifndef _GSB_FORM_WIDGET_H
 #define _GSB_FORM_WIDGET_H (1)
 
+#include <gtk/gtk.h>
+
 /**
  * \struct
  * Associate an element number to its widget,
