@@ -88,6 +88,7 @@ libgrisbi_la_SOURCES = \
 	gsb_data_scheduled.c	\
 	gsb_data_transaction.c	\
 	gsb_debug.c		\
+	gsb_etats_config.c	\
 	gsb_file.c		\
 	gsb_file_config.c	\
 	gsb_file_load.c		\
@@ -224,6 +225,7 @@ libgrisbi_la_SOURCES = \
 	gsb_data_scheduled.h	\
 	gsb_data_transaction.h	\
 	gsb_debug.h		\
+	gsb_etats_config.h             \
 	gsb_file.h		\
 	gsb_file_config.h	\
 	gsb_file_load.h		\

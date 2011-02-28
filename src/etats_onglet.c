@@ -35,23 +35,24 @@
 /*START_INCLUDE*/
 #include "etats_onglet.h"
 #include "etats_calculs.h"
+#include "etats_config.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
+#include "fenetre_principale.h"
 #include "gsb_automem.h"
-#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
+#include "gsb_etats_config.h"
 #include "gsb_file.h"
 #include "gsb_file_others.h"
-#include "navigation.h"
 #include "gsb_report.h"
 #include "gsb_status.h"
+#include "navigation.h"
+#include "print_report.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "etats_config.h"
-#include "print_report.h"
 #include "utils_files.h"
-#include "structures.h"
-#include "fenetre_principale.h"
+#include "utils_file_selection.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -165,7 +166,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
 							      GTK_STOCK_PROPERTIES,
 							      _("Properties"),
-							      G_CALLBACK (personnalisation_etat),
+							      G_CALLBACK ( gsb_etats_config_personnalisation_etat ),
 							      NULL ),
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
 				  _("Edit selected report") );
@@ -840,7 +841,7 @@ gboolean ajout_etat ( void )
     gsb_gui_navigation_add_report ( report_number );
     gsb_gui_update_gui_to_report ( report_number );
 
-    personnalisation_etat ();
+    gsb_etats_config_personnalisation_etat ();
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
 

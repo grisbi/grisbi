@@ -5,6 +5,9 @@
 #
 # Requires: automake, autoconf, dpkg-dev
 
+srcdir=`dirname $0`
+test -z "$srcdir" && srcdir=.
+
 #
 # Check if autoconf and automake are installed
 #

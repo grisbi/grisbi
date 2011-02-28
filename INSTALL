@@ -1,9 +1,9 @@
-How to install Grisbi : 
+How to install Grisbi :
 =======================
 
 Requirements:
 
- - GTK 2.2, 2.10 is needed to be able to print
+ - GTK 2.2, 2.16 is needed to be able to print
  - libofx (optional)
 
 Installation steps:

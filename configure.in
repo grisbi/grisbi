@@ -19,6 +19,13 @@ AC_DEFINE(GRISBI_MICRO_VERSION, grisbi_micro_version, [grisbi micro version])
 AC_SUBST(GRISBI_MICRO_VERSION, grisbi_micro_version)
 
 dnl ================================================================
+dnl Set PACKAGE SOURCE DIR in config.h.
+dnl ================================================================
+
+packagesrcdir=`cd $srcdir && pwd`
+AC_DEFINE_UNQUOTED(PACKAGE_SOURCE_DIR, "${packagesrcdir}", [Source directory])
+
+dnl ================================================================
 dnl Standard checks.
 dnl ================================================================
 

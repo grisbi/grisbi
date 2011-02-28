@@ -75,6 +75,7 @@ src/gsb_data_report_text_comparison.c
 src/gsb_data_scheduled.c
 src/gsb_data_transaction.c
 src/gsb_debug.c
+src/gsb_etats_config.c
 src/gsb_file.c
 src/gsb_file_config.c
 src/gsb_file_load.c
