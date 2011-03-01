@@ -2117,7 +2117,6 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
     GSList *list_tmp;
     gint demande_confirmation = FALSE;
     GSList *list_tmp_transactions;
-	gchar* tmpstr;
 
     list_tmp = imported_account -> operations_importees;
 
@@ -2161,7 +2160,6 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             /* found the cheque, forget that transaction */
             imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
         }
-        g_free ( tmpstr );
 
         /* no id, no cheque, try to find the transaction */
         if ( imported_transaction -> action != IMPORT_TRANSACTION_LEAVE_TRANSACTION )
