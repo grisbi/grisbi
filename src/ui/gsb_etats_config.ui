@@ -21,10 +21,35 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
-              <placeholder/>
+              <object class="GtkScrolledWindow" id="sw">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkTreeView" id="report_tree_view">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">report_tree_model</property>
+                    <property name="headers_clickable">False</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="resize">False</property>
+                <property name="shrink">True</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkEntry" id="entry1">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="resize">True</property>
+                <property name="shrink">True</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -77,5 +102,17 @@
       <action-widget response="2">button_Annuler</action-widget>
       <action-widget response="0">button_OK</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkTreeStore" id="report_tree_model">
+    <columns>
+      <!-- column-name REPORT_TREE_TEXT_COLUMN -->
+      <column type="gchar"/>
+      <!-- column-name REPORT_TREE_PAGE_COLUMN -->
+      <column type="gint"/>
+      <!-- column-name REPORT_TREE_BOLD_COLUMN -->
+      <column type="gint"/>
+      <!-- column-name REPORT_TREE_ITALIC_COLUMN -->
+      <column type="gint"/>
+    </columns>
   </object>
 </interface>

@@ -175,12 +175,6 @@ void main_linux ( int argc, char **argv )
     gsb_grisbi_print_environment_var ( );
 #endif
 
-    /* init treads */
-    if( !g_thread_supported() )
-        g_thread_init ( NULL );
-    else
-        devel_print_str ("g_thread NOT supported");
-
     gtk_init ( &argc, &argv );
 
     /* on commence par détourner le signal SIGSEGV */

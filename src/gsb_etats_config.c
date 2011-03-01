@@ -78,7 +78,6 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
-static GtkTreeStore *report_tree_model = NULL;
 static GtkWidget *report_tree_view;
 
 
@@ -92,10 +91,15 @@ void gsb_etats_config_personnalisation_etat ( void )
 {
     GtkBuilder *etat_config_builder = NULL;
     GtkWidget *dialog;
-    GtkWidget *paned;
+/*     GtkWidget *paned;  */
+    GtkTreeStore *report_tree_model = NULL;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
     gchar *filename;
+    gchar *toplevel[] = {"report_tree_model", "report_tree_view", "treeviewcolumn1", NULL};
     gint current_report_number;
 /*     gint page = 0;  */
+    gint result;
     GError *error = NULL;
 
     /* Creation d'un nouveau GtkBuilder */
@@ -106,11 +110,22 @@ void gsb_etats_config_personnalisation_etat ( void )
 
     /* Chargement du XML dans etat_config_builder */
     filename = gsb_etats_config_get_full_path ( "gsb_etats_config.ui" );
-    printf ("filename = %s\n", filename);
 
-    gtk_builder_add_from_file ( etat_config_builder, filename, &error );
-    if ( error != NULL )
+    result = gtk_builder_add_from_file ( etat_config_builder, filename, &error );
+    if ( result == 0 )
     {
+        g_error ("%s", error->message);
+        g_free ( filename );
+        g_error_free ( error );
+
+        return;
+    }
+
+    /* Chargement des objets dans etat_config_builder */
+    result = gtk_builder_add_objects_from_file ( etat_config_builder, filename, toplevel, &error );
+    if ( result == 0 )
+    {
+        g_error ("%s", error->message);
         g_free ( filename );
         g_error_free ( error );
 
@@ -129,18 +144,24 @@ void gsb_etats_config_personnalisation_etat ( void )
 
     g_free ( filename );
 
-    /* Recuparation d'un pointeur sur le gtk_paned. */
-    paned = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "dialog_hpaned" ) );
+    /* Recuparation d'un pointeur sur le gtk_tree_view. */
+    report_tree_model = GTK_TREE_STORE ( gtk_builder_get_object ( etat_config_builder, "report_tree_model" ) );
 
-    if ( paned == NULL )
-    {
-        printf ("erreur paned is NULL\n");
-        return;
-    }
+    /* Recuparation d'un pointeur sur le gtk_tree_view. */
+    report_tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "report_tree_view" ) );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW ( report_tree_view ), GTK_TREE_MODEL ( report_tree_model ) );
+    g_object_unref ( G_OBJECT ( report_tree_model ) );
 
-
-    /* Recuparation du tree_view. */
-    report_tree_view = gsb_etats_config_get_report_tree_view ( paned );
+    /* make column */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( "Categories",
+                        cell,
+                        "text", REPORT_TREE_TEXT_COLUMN,
+                        "weight", REPORT_TREE_BOLD_COLUMN,
+                        "style", REPORT_TREE_ITALIC_COLUMN,
+                        NULL );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( report_tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
 
 
 
@@ -172,7 +193,7 @@ gchar *gsb_etats_config_get_full_path ( const gchar *name )
     gchar *filename;
 
 #ifdef GRISBI_RUN_IN_SOURCE_TREE
-    filename = g_build_filename ( PACKAGE_SOURCE_DIR, "ui", name, NULL );
+    filename = g_build_filename ( PACKAGE_SOURCE_DIR, "src/ui", name, NULL );
 /*     if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) == FALSE )
  * 	{
  * 		g_free (filename);
@@ -205,63 +226,14 @@ gchar *gsb_etats_config_get_full_path ( const gchar *name )
  * */
 GtkWidget *gsb_etats_config_get_report_tree_view ( GtkWidget *paned )
 {
-    GtkWidget *sw;
-    GtkWidget *tree_view;
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *cell;
-    GtkTreeSelection *selection ;
-
-    /* Create model */
-    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS,
-                        G_TYPE_STRING,
-                        G_TYPE_INT,
-                        G_TYPE_INT,
-                        G_TYPE_INT );
-
-    /* Create container + TreeView */
-    sw = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( sw ), GTK_SHADOW_IN );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
-                        GTK_POLICY_NEVER,
-                        GTK_POLICY_AUTOMATIC );
-
-    tree_view = gtk_tree_view_new_with_model  ( GTK_TREE_MODEL ( report_tree_model ) );
-    g_object_unref ( G_OBJECT ( report_tree_model ) );
-
-    /* Make column */
-    cell = gtk_cell_renderer_text_new ( );
-    column = gtk_tree_view_column_new_with_attributes ( "Categories",
-                        cell,
-                        "text", REPORT_TREE_TEXT_COLUMN,
-                        "weight", REPORT_TREE_BOLD_COLUMN,
-                        "style", REPORT_TREE_ITALIC_COLUMN,
-                        NULL );
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
-
-    /* Handle select */
-    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-/*     g_signal_connect ( selection,
- *                         "changed",
- *                         G_CALLBACK ( report_tree_view_selection_changed ),
- *                         report_tree_model);
+/*     GtkWidget *sw;  */
+    GtkWidget *tree_view = NULL;
+/*     GtkTreeViewColumn *column;
+ *     GtkCellRenderer *cell;
+ *     GtkTreeSelection *selection ;
  */
 
-    /* Choose which entries will be selectable */
-/*     gtk_tree_selection_set_select_function ( selection, report_tree_selectable_func, NULL, NULL );  */
-
-    /* Put the tree in the scroll */
-    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
-
-    /* expand all rows after the treeview widget has been realized */
-    g_signal_connect ( tree_view,
-                        "realize",
-                        G_CALLBACK ( gtk_tree_view_expand_all ),
-                        NULL );
-
-    gtk_paned_add1 ( GTK_PANED ( paned ), sw ) ;
-
+    /* Create container + TreeView */
     return tree_view;
 }
 
