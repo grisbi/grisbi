@@ -33,6 +33,7 @@
 #endif
 
 #include "include.h"
+#include <stdlib.h>
 
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
