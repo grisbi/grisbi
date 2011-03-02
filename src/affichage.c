@@ -105,7 +105,6 @@ extern GdkColor default_split_background;
 extern GdkColor default_text_color[2];
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
-extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
 extern GdkColor split_background;
 extern GdkColor text_color[2];

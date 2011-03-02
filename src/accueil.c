@@ -107,7 +107,7 @@ extern GtkWidget *window;
 
 GtkWidget *logo_accueil = NULL;
 GtkWidget *hbox_title = NULL;
-GtkWidget *label_titre_fichier = NULL;
+static GtkWidget *label_titre_fichier = NULL;
 static GtkWidget *frame_etat_comptes_accueil = NULL;
 static GtkWidget *frame_etat_fin_compte_passif = NULL;
 static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
@@ -116,6 +116,8 @@ static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
 static GtkStyle *style_label;
+static GtkSizeGroup * size_group_accueil;
+static gchar *chaine_espace = "                         ";
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -129,9 +131,6 @@ gint mise_a_jour_liste_echeances_manuelles_accueil;
 gint mise_a_jour_liste_echeances_auto_accueil;
 gint mise_a_jour_soldes_minimaux;
 gint mise_a_jour_fin_comptes_passifs;
-
-GtkSizeGroup * size_group_accueil;
-gchar *chaine_espace = "                         ";
 
 /**
  * Create the home page of Grisbi
