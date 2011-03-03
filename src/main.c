@@ -52,6 +52,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
@@ -133,6 +134,7 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
+    gsb_dirs_init ( );
 #ifdef _WIN32
     main_win_32 (  argc, argv );
 #else
@@ -142,6 +144,7 @@ int main ( int argc, char **argv )
         main_linux ( argc, argv );
     #endif /* GTKOSXAPPLICATION || linux */
 #endif /* _WIN32 */
+    gsb_dirs_shutdown ( );
 
 #if GSB_GMEMPROFILE
     g_mem_profile();
