@@ -511,38 +511,6 @@ gchar *get_gtk_run_version ( void )
  *
  *
  * */
-gchar *utils_get_pixmaps_dir ( void )
-{
-#ifdef GTKOSXAPPLICATION
-    return grisbi_osx_get_pixmaps_dir ( );
-#else
-    return PIXMAPS_DIR;
-#endif
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gchar *utils_get_plugins_dir ( void )
-{
-#ifdef GTKOSXAPPLICATION
-    return grisbi_osx_get_plugins_dir ( );
-#else
-    return PLUGINS_DIR;
-#endif
-}
-
-
-/**
- *
- *
- *
- *
- * */
 void lance_mailer ( const gchar *uri )
 {
     gchar *chaine;

@@ -21,11 +21,6 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
-/* definition des variables PIXMAPS_DIR PLUGINS_DIR */
-#define GRISBI_PIXMAPS_DIR (utils_get_pixmaps_dir ( ) )
-#define GRISBI_PLUGINS_DIR (utils_get_plugins_dir ( ) ) 
-
-
 /** structure etat
  * variables contenant juste 0 ou 1
  * FIXME : scinder cette structure en 3 parties :
