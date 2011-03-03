@@ -621,6 +621,11 @@ void personnalisation_etat (void)
                         -1 );
 
     /* Data grouping */
+    gtk_tree_store_append (GTK_TREE_STORE ( report_tree_model ), &iter2, &iter );
+    gtk_tree_store_set (GTK_TREE_STORE ( report_tree_model ), &iter2,
+			REPORT_TREE_TEXT_COLUMN, _("Data grouping"),
+			REPORT_TREE_PAGE_COLUMN, page++,
+			REPORT_TREE_BOLD_COLUMN, 400, -1);
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_config_etat ),
 			       page_data_grouping(),
 			       gtk_label_new (_("Data grouping")) );
@@ -2181,7 +2186,6 @@ GtkWidget *onglet_etat_dates ( void )
 
 
     /* on met la connection pour rendre sensitif cette frame */
-
     g_signal_connect ( G_OBJECT (radio_button_utilise_exo ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),

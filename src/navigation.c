@@ -358,7 +358,7 @@ GtkWidget * create_navigation_pane ( void )
     create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
 
     /* Finish tree. */
-    /* gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) ); */
+    gtk_tree_view_expand_all ( GTK_TREE_VIEW ( navigation_tree_view ) );
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     /* Create calendar (hidden for now). */

@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -37,37 +37,68 @@
 #include "gsb_etats_config.h"
 #include "etats_config.h"
 #include "fenetre_principale.h"
-#include "navigation.h"
-
-/*
-#include "etats_calculs.h"
-#include "tiers_onglet.h"
-#include "utils.h"
-#include "dialog.h"
 #include "gsb_calendar_entry.h"
-#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payee.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_report_amout_comparison.h"
-#include "gsb_data_report.h"
-#include "gsb_data_report_text_comparison.h"
-#include "utils_dates.h"
-#include "gsb_real.h"
-#include "traitement_variables.h"
+#include "navigation.h"
+#include "utils.h"
 #include "utils_str.h"
-#include "structures.h"
-*/
+
 #include "erreur.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
+static void gsb_etats_config_dates_interval_sensitive ( gboolean show );
+static void gsb_etats_config_add_line_ ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page );
+static GtkWidget *gsb_etats_config_affichage_etat_devises ( void );
+static GtkWidget *gsb_etats_config_affichage_etat_generalites ( void );
+static GtkWidget *gsb_etats_config_affichage_etat_operations ( void );
+static GtkWidget *gsb_etats_config_affichage_etat_titres ( void );
+static gint gsb_etats_config_categ_budget_sort_function ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gchar *sw_name );
 static gchar *gsb_etats_config_get_full_path ( const gchar *name );
-static GtkWidget *gsb_etats_config_get_report_tree_view ( GtkWidget *paned );
+static GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name );
+static GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name );
+static GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void );
+static GtkWidget *gsb_etats_config_onglet_get_liste_exercices ( void );
+static GtkWidget *gsb_etats_config_onglet_get_liste_tiers ( gchar *sw_name );
+static GtkWidget *gsb_etats_config_get_report_tree_view ( void );
+static gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ );
+static GtkWidget *gsb_etats_config_onglet_etat_categories ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_comptes ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_dates ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_divers ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_ib ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_montant ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_texte ( void );
+static void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo, gchar **tab );
+static GtkWidget *gsb_etats_config_onglet_etat_tiers ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_virements ( void );
+static GtkWidget *gsb_etats_config_page_data_grouping ( void );
+static GtkWidget *gsb_etats_config_page_data_separation ( void );
+static void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model, GtkWidget *notebook );
+static gboolean gsb_etats_config_report_tree_selectable_func (GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data);
+static gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkTreeModel *model );
+static gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *selection, GtkWidget *widget );
+static void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebutton, GtkWidget *tree_view );
+
 /*END_STATIC*/
 
 
@@ -78,7 +109,111 @@ extern GtkWidget *window;
 /*END_EXTERN*/
 
 
-static GtkWidget *report_tree_view;
+/* liste des plages de date possibles */
+static gchar *etats_config_liste_plages_dates[] =
+{
+    N_("All"),
+    N_("Custom"),
+    N_("Total to now"),
+    N_("Current month"),
+    N_("Current year"),
+    N_("Current month to now"),
+    N_("Current year to now"),
+    N_("Previous month"),
+    N_("Previous year"),
+    N_("Last 30 days"),
+    N_("Last 3 months"),
+    N_("Last 6 months"),
+    N_("Last 12 months"),
+    NULL };
+
+
+static GtkBuilder *etat_config_builder = NULL;
+
+/* the def of the columns in the categ and budget list
+ * to filter by categ and budget */
+enum
+{
+    GSB_ETAT_CATEG_BUDGET_LIST_NAME = 0,
+    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE,
+    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE,
+    GSB_ETAT_CATEG_BUDGET_LIST_NUMBER,
+    GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER,
+
+    GSB_ETAT_CATEG_BUDGET_LIST_NB,
+};
+
+
+/*
+static gchar *etats_config_jours_semaine[] =
+{
+    N_("Monday"),
+    N_("Tuesday"),
+    N_("Wednesday"),
+    N_("Thursday"),
+    N_("Friday"),
+    N_("Saturday"),
+    N_("Sunday"),
+    NULL };
+*/
+
+
+static gchar *champs_type_recherche_texte[] =
+{
+    N_("payee"),
+    N_("payee information"),
+    N_("category"),
+    N_("sub-category"),
+    N_("budgetary line"),
+    N_("sub-budgetary line"),
+    N_("note"),
+    N_("bank reference"),
+    N_("voucher"),
+    N_("cheque number"),
+    N_("reconciliation reference"),
+    NULL
+};
+
+
+static gchar *champs_comparateur_montant[] =
+{
+    N_("equal"),
+    N_("less than"),
+    N_("less than or equal"),
+    N_("greater than"),
+    N_("greater than or equal"),
+    N_("different from"),
+    N_("null"),
+    N_("not null"),
+    N_("positive"),
+    N_("negative"),
+    NULL
+};
+
+
+
+
+/**
+ * affiche la fenetre de personnalisation
+ *
+ *
+ *
+ * */
+GtkWidget *gsb_etats_config_get_variable_by_name ( const gchar *gtk_builder_var,
+                        const gchar *optional_var )
+{
+    GtkWidget *var_1;
+    GtkWidget *var_2 = NULL;
+
+    var_1 = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, gtk_builder_var ) );
+
+    if ( optional_var == NULL )
+        return var_1;
+
+    var_2 = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( var_1 ), optional_var ) );
+
+    return var_2;
+}
 
 
 /**
@@ -89,16 +224,11 @@ static GtkWidget *report_tree_view;
  * */
 void gsb_etats_config_personnalisation_etat ( void )
 {
-    GtkBuilder *etat_config_builder = NULL;
     GtkWidget *dialog;
-/*     GtkWidget *paned;  */
-    GtkTreeStore *report_tree_model = NULL;
-    GtkTreeViewColumn *column;
-    GtkCellRenderer *cell;
+    GtkWidget *tree_view;
+/*     GtkTreePath *path;  */
     gchar *filename;
-    gchar *toplevel[] = {"report_tree_model", "report_tree_view", "treeviewcolumn1", NULL};
     gint current_report_number;
-/*     gint page = 0;  */
     gint result;
     GError *error = NULL;
 
@@ -121,17 +251,6 @@ void gsb_etats_config_personnalisation_etat ( void )
         return;
     }
 
-    /* Chargement des objets dans etat_config_builder */
-    result = gtk_builder_add_objects_from_file ( etat_config_builder, filename, toplevel, &error );
-    if ( result == 0 )
-    {
-        g_error ("%s", error->message);
-        g_free ( filename );
-        g_error_free ( error );
-
-        return;
-    }
-
     if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
         return;
 
@@ -145,27 +264,17 @@ void gsb_etats_config_personnalisation_etat ( void )
     g_free ( filename );
 
     /* Recuparation d'un pointeur sur le gtk_tree_view. */
-    report_tree_model = GTK_TREE_STORE ( gtk_builder_get_object ( etat_config_builder, "report_tree_model" ) );
+    tree_view = gsb_etats_config_get_report_tree_view ( );
 
-    /* Recuparation d'un pointeur sur le gtk_tree_view. */
-    report_tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "report_tree_view" ) );
-    gtk_tree_view_set_model ( GTK_TREE_VIEW ( report_tree_view ), GTK_TREE_MODEL ( report_tree_model ) );
-    g_object_unref ( G_OBJECT ( report_tree_model ) );
+    gtk_widget_grab_focus ( tree_view );
 
-    /* make column */
-    cell = gtk_cell_renderer_text_new ( );
-    column = gtk_tree_view_column_new_with_attributes ( "Categories",
-                        cell,
-                        "text", REPORT_TREE_TEXT_COLUMN,
-                        "weight", REPORT_TREE_BOLD_COLUMN,
-                        "style", REPORT_TREE_ITALIC_COLUMN,
-                        NULL );
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( report_tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
+/*     path = gtk_tree_path_new_from_string ( "0:5" );
+ *     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
+ *     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
+ *     gtk_tree_path_free ( path );
+ */
 
-
-
-
+/*    gtk_builder_connect_signals ( etat_config_builder, NULL ); */
 
     gtk_widget_show_all ( dialog );
 
@@ -192,7 +301,7 @@ gchar *gsb_etats_config_get_full_path ( const gchar *name )
 {
     gchar *filename;
 
-#ifdef GRISBI_RUN_IN_SOURCE_TREE
+/* #ifdef GRISBI_RUN_IN_SOURCE_TREE  */
     filename = g_build_filename ( PACKAGE_SOURCE_DIR, "src/ui", name, NULL );
 /*     if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) == FALSE )
  * 	{
@@ -213,7 +322,7 @@ gchar *gsb_etats_config_get_full_path ( const gchar *name )
 /* #else
  * 	filename = g_build_filename (DATADIR, "grisbi", name, NULL);
  */
-#endif
+/*#endif */
     return filename;
 }
 
@@ -224,17 +333,1481 @@ gchar *gsb_etats_config_get_full_path ( const gchar *name )
  *
  *
  * */
-GtkWidget *gsb_etats_config_get_report_tree_view ( GtkWidget *paned )
+GtkWidget *gsb_etats_config_get_report_tree_view ( void )
 {
-/*     GtkWidget *sw;  */
+    GtkWidget *sw;
     GtkWidget *tree_view = NULL;
-/*     GtkTreeViewColumn *column;
- *     GtkCellRenderer *cell;
- *     GtkTreeSelection *selection ;
- */
+    GtkWidget *notebook;
+    GtkTreeStore *report_tree_model = NULL;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeSelection *selection ;
+
+    /* Création du model */
+    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_INT,
+                        G_TYPE_INT );
 
     /* Create container + TreeView */
+    tree_view = gtk_tree_view_new_with_model  ( GTK_TREE_MODEL ( report_tree_model ) );
+    g_object_unref ( G_OBJECT ( report_tree_model ) );
+
+    /* make column */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( "Categories",
+                        cell,
+                        "text", REPORT_TREE_TEXT_COLUMN,
+                        "weight", REPORT_TREE_BOLD_COLUMN,
+                        "style", REPORT_TREE_ITALIC_COLUMN,
+                        NULL );
+
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+
+    /* Handle select */
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    g_signal_connect ( selection,
+                        "changed",
+                        G_CALLBACK ( gsb_etats_config_report_tree_view_selection_changed ),
+                        report_tree_model);
+
+    /* Choose which entries will be selectable */
+    gtk_tree_selection_set_select_function ( selection,
+                        gsb_etats_config_report_tree_selectable_func, NULL, NULL );
+
+    /* expand all rows after the treeview widget has been realized */
+    g_signal_connect ( tree_view,
+                        "realize",
+                        G_CALLBACK ( gtk_tree_view_expand_all ),
+                        NULL );
+
+    /* initialisation du notebook pour les pages de la configuration */
+    notebook = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "notebook_config_etat" ) );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook ), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
+    gtk_container_set_border_width ( GTK_CONTAINER ( notebook ), 0 );
+
+    /* remplissage du paned gauche */
+    gsb_etats_config_populate_tree_model ( report_tree_model, notebook );
+
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "sw_dialog" ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+
     return tree_view;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkTreeModel *model )
+{
+    GtkTreeIter iter;
+    gint selected;
+
+    if (! gtk_tree_selection_get_selected ( selection, NULL, &iter ) )
+        return(FALSE);
+
+    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK (
+                        gsb_etats_config_get_variable_by_name ( "notebook_config_etat", NULL ) ),
+                        selected );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_etats_config_report_tree_selectable_func (GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data)
+{
+    GtkTreeIter iter;
+    gint selectable;
+
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
+
+    return ( selectable != -1 );
+}
+
+
+/**
+ * remplit le model pour la configuration des états
+ *
+ *
+ *
+ * */
+void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model, GtkWidget *notebook )
+{
+    GtkWidget *widget;
+    GtkTreeIter iter;
+    gint page = 0;
+
+    /* append group page */
+    gsb_etats_config_add_line_ ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
+
+    /* append page Dates */
+    widget = gsb_etats_config_onglet_etat_dates ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Dates"), page );
+    page++;
+
+    /* append page Transferts */
+    widget = gsb_etats_config_onglet_etat_virements ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Transfers"), page );
+    page++;
+
+    /* append page Accounts */
+    widget = gsb_etats_config_onglet_etat_comptes ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Accounts"), page );
+    page++;
+
+    /* append page Payee */
+    widget = gsb_etats_config_onglet_etat_tiers ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Payee"), page );
+    page++;
+
+    /* append page Categories */
+    widget = gsb_etats_config_onglet_etat_categories ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Categories"), page );
+    page++;
+
+    /* append page Budgetary lines */
+    widget = gsb_etats_config_onglet_etat_ib ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
+    page++;
+
+    /* append page Texts */
+    widget = gsb_etats_config_onglet_etat_texte ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Texts"), page );
+    page++;
+
+    /* append page Amounts */
+    widget = gsb_etats_config_onglet_etat_montant ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Amounts"), page );
+    page++;
+
+    /* append page Payment methods */
+    widget = gsb_etats_config_onglet_etat_mode_paiement ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
+    page++;
+
+    /* append page Misc. */
+    widget = gsb_etats_config_onglet_etat_divers ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
+    page++;
+
+    /* remplissage de l'onglet d'organisation */
+    gsb_etats_config_add_line_ ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
+
+    /* Data grouping */
+    widget = gsb_etats_config_page_data_grouping ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
+    page++;
+
+    /* Data separation */
+    widget = gsb_etats_config_page_data_separation ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Data separation"), page );
+    page++;
+
+    /* remplissage de l'onglet d'affichage */
+    gsb_etats_config_add_line_ ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
+
+    /* append page Generalities */
+    widget = gsb_etats_config_affichage_etat_generalites ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Generalities"), page );
+    page++;
+
+    /* append page Titles */
+    widget = gsb_etats_config_affichage_etat_titres ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Titles"), page );
+    page++;
+
+    /* append page Transactions */
+    widget = gsb_etats_config_affichage_etat_operations ( );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Transactions"), page );
+    page++;
+
+    /* append page Currencies */
+    widget = gsb_etats_config_affichage_etat_devises ( );
+   gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Currencies"), page );
+}
+
+
+/**
+ * ajoute une ligne 
+ *
+ *
+ *
+ * */
+void gsb_etats_config_add_line_ ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page )
+{
+    GtkTreeIter iter2;
+
+    if ( page == -1 )
+    {
+        /* append page groupe */
+        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
+                        REPORT_TREE_TEXT_COLUMN, title,
+                        REPORT_TREE_PAGE_COLUMN, -1,
+                        REPORT_TREE_BOLD_COLUMN, 800,
+                        -1 );
+    }
+    else
+    {
+        /* append page onglet*/ 
+        gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+                        child,
+                        gtk_label_new ( title ) );
+
+        gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
+                        REPORT_TREE_TEXT_COLUMN, title,
+                        REPORT_TREE_PAGE_COLUMN, page,
+                        REPORT_TREE_BOLD_COLUMN, 400,
+                        -1);
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+    GtkWidget *hbox;
+    GtkWidget *entree_date_init_etat;
+    GtkWidget *entree_date_finale_etat;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_dates" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* on traite la partie gauche de l'onglet dates */
+    sw = gsb_etats_config_onglet_get_liste_dates ( );
+    gtk_container_set_border_width ( GTK_CONTAINER (
+                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_date", NULL ) ),
+                        10 );
+
+    hbox =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_date_init" ) );
+    entree_date_init_etat = gsb_calendar_entry_new ( FALSE );
+    gtk_widget_set_size_request ( entree_date_init_etat, 100, -1 );
+    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_init_etat", entree_date_init_etat );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), entree_date_init_etat, FALSE, FALSE, 0 );
+
+    hbox =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_date_finale" ) );
+    entree_date_finale_etat = gsb_calendar_entry_new ( FALSE );
+    gtk_widget_set_size_request ( entree_date_finale_etat, 100, -1 );
+    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_finale_etat", entree_date_finale_etat );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), entree_date_finale_etat, FALSE, FALSE, 0 );
+
+    gsb_etats_config_dates_interval_sensitive ( FALSE );
+
+    /* on traite la partie droite de l'onglet dates */
+    sw = gsb_etats_config_onglet_get_liste_exercices ( );
+    gtk_container_set_border_width ( GTK_CONTAINER (
+                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ) ),
+                        10 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ), FALSE );
+
+    /* on met la connection pour rendre sensitif la frame vbox_utilisation_date */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "radio_button_utilise_dates", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_date", NULL ) );
+
+    /* on met la connection pour rendre sensitif la frame vbox_utilisation_exo */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "radio_button_utilise_exo", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ) );
+
+    /* on connecte les signaux nécessaires pour gérer la sélection de l'exercice */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_detaille_exo_etat", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ) );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void )
+{
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkListStore *list_store;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    GtkTreeSelection *selection;
+    gchar **plages_dates;
+    gint i;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    /* on remplit la liste des dates */
+    plages_dates = etats_config_liste_plages_dates;
+
+    i = 0;
+
+    while ( plages_dates[i] )
+    {
+        GtkTreeIter iter;
+        gchar *plage = gettext ( plages_dates[i] );
+
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store, &iter, 0, plage, 1, i, -1 );
+    
+        i++;
+    }
+
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    g_object_unref ( G_OBJECT ( list_store ) );
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ( );
+
+    column = gtk_tree_view_column_new_with_attributes ( NULL,
+                        cell,
+                        "text", 0,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* get the container */
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "sw_dates" ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view_dates", tree_view );
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    g_signal_connect ( G_OBJECT ( selection ),
+		                "changed",
+                        G_CALLBACK ( gsb_etats_config_selection_dates_changed ),
+		                sw );
+
+    return sw;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_get_liste_exercices ( void )
+{
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkListStore *list_store;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    GSList *list_tmp;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    /* on remplit la liste des exercices */
+    list_tmp = gsb_data_fyear_get_fyears_list ();
+
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint fyear_number;
+
+        fyear_number = gsb_data_fyear_get_no_fyear ( list_tmp -> data );
+
+        name = my_strdup ( gsb_data_fyear_get_name ( fyear_number ) );
+
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store, &iter, 0, name, 1, fyear_number, -1 );
+
+        if ( name )
+            g_free ( name );
+    
+        list_tmp = list_tmp -> next;
+    }
+
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    gtk_tree_selection_set_mode (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
+                        GTK_SELECTION_MULTIPLE );
+    g_object_unref ( G_OBJECT ( list_store ) );
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ( );
+
+    column = gtk_tree_view_column_new_with_attributes ( NULL,
+                        cell,
+                        "text", 0,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* get the container */
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "sw_exer" ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view_exer", tree_view );
+
+    gtk_widget_show_all ( sw );
+
+    return sw;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *selection, GtkWidget *widget )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint selected;
+
+    if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        return FALSE;
+
+    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+    gsb_etats_config_dates_interval_sensitive ( selected );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_dates_interval_sensitive ( gboolean show )
+{
+    if ( show > 1 )
+        show = 0;
+
+        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "bouton_en_date_valeur", NULL ), show );
+        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_date_init", "entree_date_init_etat" ), show );
+        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_date_finale", "entree_date_finale_etat" ), show );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_virements ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_virements" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Transfers"), "transfer.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_liste_comptes_virements", NULL ), FALSE );
+
+    /* on crée la liste des comptes */
+    sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_virements" );
+
+    /* on connecte les signaux nécessaires pour gérer l'affichage de la liste des comptes */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_inclusion_virements_perso", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "hbox_liste_comptes_virements", NULL ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name )
+{
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkListStore *list_store;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    GSList *list_tmp;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    /* on remplit la liste des exercices */
+    list_tmp = gsb_data_account_get_list_accounts ( );
+
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+        name = my_strdup ( gsb_data_account_get_name ( account_number ) );
+
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store, &iter, 0, name, 1, account_number, -1 );
+
+        if ( name )
+            g_free ( name );
+    
+        list_tmp = list_tmp -> next;
+    }
+
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    gtk_tree_selection_set_mode (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
+                        GTK_SELECTION_MULTIPLE );
+    g_object_unref ( G_OBJECT ( list_store ) );
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ( );
+
+    column = gtk_tree_view_column_new_with_attributes ( NULL,
+                        cell,
+                        "text", 0,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* get the container */
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view_comptes", tree_view );
+
+    return sw;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_comptes ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_comptes" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Account selection"), "ac_bank.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "vbox_generale_comptes_etat", NULL ), FALSE );
+
+    /* on crée la liste des comptes */
+    sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_comptes" );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_detaille_comptes_etat", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "vbox_generale_comptes_etat", NULL ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_tiers ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_tiers" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Payees"), "payees.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_detaille_tiers_etat", NULL ), FALSE );
+
+    /* on crée la liste des tiers */
+    sw = gsb_etats_config_onglet_get_liste_tiers ( "sw_tiers" );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_detaille_tiers_etat", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "hbox_detaille_tiers_etat", NULL ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_get_liste_tiers ( gchar *sw_name )
+{
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkListStore *list_store;
+    GtkCellRenderer *cell;
+    GtkTreeViewColumn *column;
+    GSList *list_tmp;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
+                        0, GTK_SORT_ASCENDING );
+
+    /* on remplit la liste des exercices */
+    list_tmp = gsb_data_payee_get_payees_list ( );
+
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint payee_number;
+
+        payee_number = gsb_data_payee_get_no_payee ( list_tmp -> data );
+
+        name = my_strdup ( gsb_data_payee_get_name ( payee_number, FALSE ) );
+
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store, &iter, 0, name, 1, payee_number, -1 );
+
+        if ( name )
+            g_free ( name );
+    
+        list_tmp = list_tmp -> next;
+    }
+
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    gtk_tree_selection_set_mode (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
+                        GTK_SELECTION_MULTIPLE );
+    g_object_unref ( G_OBJECT ( list_store ) );
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ( );
+
+    column = gtk_tree_view_column_new_with_attributes ( NULL,
+                        cell,
+                        "text", 0,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* get the container */
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view_tiers", tree_view );
+
+    return sw;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+    GtkWidget *button;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_categories" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Categories"), "categories.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_detaille_categ_etat", NULL ), FALSE );
+
+    /* on crée la liste des catégories */
+    sw = gsb_etats_config_get_liste_categ_budget ( "sw_categ" );
+
+    /* on remplit la liste des catégories */
+    gsb_etats_config_fill_liste_categ_budget ( TRUE );
+
+    /* on met la connection pour rendre sensitif la hbox_detaille_categ_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "button_detail_categ_etat", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "hbox_detaille_categ_etat", NULL ) );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_categ_etat", NULL );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_expand_categ", NULL ) );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_collapse",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_collapse_categ", NULL ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
+                        gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view_categ" ) );
+
+    return vbox_onglet;
+}
+
+
+/**
+ * create the category/budget list for reports
+ * it's a tree with categories/budget and sub-categories/budgets,
+ * and a check-button to select them
+ *
+ * \param
+ *
+ * \return a GtkWidget : the GtkTreeView
+ * */
+GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
+{
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkTreeStore *store;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell_renderer;
+    GtkCellRenderer *radio_renderer;
+    gchar *tmp_name;
+
+    store = gtk_tree_store_new ( GSB_ETAT_CATEG_BUDGET_LIST_NB,
+                        G_TYPE_STRING,          /* GSB_ETAT_CATEG_BUDGET_LIST_NAME */
+                        G_TYPE_BOOLEAN,         /* GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE */
+                        G_TYPE_BOOLEAN,         /* GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE */
+                        G_TYPE_INT,             /* GSB_ETAT_CATEG_BUDGET_LIST_NUMBER */
+                        G_TYPE_INT );           /* GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER */
+
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( store ),
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME, GTK_SORT_ASCENDING );
+
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( store ),
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME,
+                        (GtkTreeIterCompareFunc) gsb_etats_config_categ_budget_sort_function,
+                        sw_name,
+                        NULL );
+
+    /* create the tree view */
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
+    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    g_object_unref ( G_OBJECT ( store ) );
+
+    /* create the column */
+    column = gtk_tree_view_column_new ();
+
+    /* create the toggle button part */
+    radio_renderer = gtk_cell_renderer_toggle_new ();
+    g_object_set ( G_OBJECT (radio_renderer), "xalign", 0.0, NULL );
+
+    gtk_tree_view_column_pack_start ( column,
+                        radio_renderer,
+                        FALSE );
+    gtk_tree_view_column_set_attributes ( column,
+                        radio_renderer,
+                        "active", 1,
+                        "activatable", 2,
+                        NULL);
+/*     g_signal_connect ( G_OBJECT ( radio_renderer ),
+ *                         "toggled",
+ *                         G_CALLBACK ( report_config_categ_budget_toggled ),
+ *                         store );
+ */
+
+    /* create the text part */
+    cell_renderer = gtk_cell_renderer_text_new ( );
+    g_object_set ( G_OBJECT ( cell_renderer ),
+                        "xalign", 0.0,
+                        NULL );
+    gtk_tree_view_column_pack_start ( column,
+                        cell_renderer,
+                        TRUE );
+    gtk_tree_view_column_set_attributes (column,
+                        cell_renderer,
+                        "text", 0,
+                        NULL );
+
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
+
+    /* get the container */
+    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
+    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+
+    tmp_name = g_strconcat ( "tree_view", sw_name + 2, NULL);
+    g_object_set_data ( G_OBJECT ( sw ), tmp_name, tree_view );
+
+    g_free ( tmp_name );
+
+    return sw;
+}
+
+
+/**
+ * fill the categories selection list for report
+ *
+ * \param is_categ	TRUE for category, FALSE for budget
+ *
+ * \return FALSE
+ * */
+gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter parent_iter;
+    GtkTreeIter child_iter;
+    GSList *list_tmp;
+    gchar *name;
+    gchar *without_name;
+    gchar *without_sub_name;
+
+    if ( is_categ )
+    {
+        list_tmp = gsb_data_category_get_categories_list ( );
+
+        tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view_categ" );
+        model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+        gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
+
+        without_name = _("No category");
+        without_sub_name = _("No subcategory");
+    }
+    else
+    {
+        list_tmp = gsb_data_budget_get_budgets_list ( );
+        tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view_budget" );
+        model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+        gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
+
+        without_name = _("No budgetary line");
+        without_sub_name = _("No sub-budgetary line");
+    }
+
+    while ( list_tmp )
+    {
+        gint div_number;
+        GSList *tmp_list_sub_div;
+
+        /* get the category to append */
+        if ( is_categ )
+        {
+            div_number = gsb_data_category_get_no_category ( list_tmp -> data );
+            name = gsb_data_category_get_name (div_number, 0, NULL );
+            tmp_list_sub_div = gsb_data_category_get_sub_category_list ( div_number );
+        }
+        else
+        {
+            div_number = gsb_data_budget_get_no_budget ( list_tmp -> data );
+            name = gsb_data_budget_get_name ( div_number, 0, NULL );
+            tmp_list_sub_div = gsb_data_budget_get_sub_budget_list ( div_number );
+        }
+
+        /* append to the model */
+            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent_iter, NULL );
+            gtk_tree_store_set (GTK_TREE_STORE ( model ),
+                                &parent_iter,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, div_number,
+                                GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
+                                GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+                                -1 );
+
+        g_free (name);
+
+        /* append the sub categories */
+        while (tmp_list_sub_div)
+        {
+            gint sub_div_number;
+
+            if ( is_categ )
+            {
+                sub_div_number = gsb_data_category_get_no_sub_category ( tmp_list_sub_div -> data );
+                name = gsb_data_category_get_sub_category_name ( div_number, sub_div_number, NULL );
+            }
+            else
+            {
+                sub_div_number = gsb_data_budget_get_no_sub_budget ( tmp_list_sub_div -> data );
+                name = gsb_data_budget_get_sub_budget_name ( div_number, sub_div_number, NULL );
+            }
+
+            /* append to the model */
+            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                &child_iter,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NAME, name,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, -1,
+                                GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, sub_div_number,
+                                GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+                                -1 );
+
+            g_free (name);
+
+            tmp_list_sub_div = tmp_list_sub_div -> next;
+        }
+
+        /* append without sub-div */
+            gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                &child_iter,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NAME, without_sub_name,
+                                GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, -1,
+                                GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, 0,
+                                GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+                                -1 );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /* append without div and sub-div*/
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent_iter, NULL );
+    gtk_tree_store_set (GTK_TREE_STORE ( model ),
+                        &parent_iter,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME, without_name,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, 0,
+                        GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, -1,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+                        -1 );
+
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child_iter, &parent_iter );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &child_iter,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME, without_sub_name,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, -1,
+                        GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, 0,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE, TRUE,
+                        -1 );
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebutton, GtkWidget *tree_view )
+{
+    GtkWidget *hbox_expand;
+    GtkWidget *hbox_collapse;
+
+    hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
+    hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
+
+    if ( gtk_toggle_button_get_active ( togglebutton ) )
+    {
+        gtk_widget_hide ( hbox_expand );
+        gtk_widget_show ( hbox_collapse );
+        gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+    else
+    {
+        gtk_widget_show ( hbox_expand );
+        gtk_widget_hide ( hbox_collapse );
+        gtk_tree_view_collapse_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+    GtkWidget *button;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_ib" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Budgetary lines"), "budgetary_lines.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "hbox_detaille_budget_etat", NULL ), FALSE );
+
+    /* on crée la liste des IB */
+    sw = gsb_etats_config_get_liste_categ_budget ( "sw_budget" );
+
+    /* on remplit la liste des IB */
+    gsb_etats_config_fill_liste_categ_budget ( FALSE );
+
+    /* on met la connection pour rendre sensitif la hbox_detaille_budget_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_detaille_budget_etat", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "hbox_detaille_budget_etat", NULL ) );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_budget_etat", NULL );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_expand_budget", NULL ) );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_collapse",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_collapse_budget", NULL ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
+                        gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view_budget" ) );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_texte" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Transaction content"), "text.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "vbox_generale_texte_etat", NULL ), FALSE );
+
+    /* on attache la vbox pour les lignes de recherche à sw_texte */
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (
+                        gsb_etats_config_get_variable_by_name ( "sw_texte", NULL ) ),
+					    gsb_etats_config_get_variable_by_name ( "liste_texte_etat", NULL ) );
+
+    /* on remplit le combobox de choix du type de texte dans lequel chercher */
+/*     gsb_etats_config_onglet_etat_combo_set_model (
+ *                         gsb_etats_config_get_variable_by_name ( "combobox_texte_etat", NULL ),
+ *                         champs_type_recherche_texte );
+ */
+
+
+    /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_utilise_texte", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "vbox_generale_texte_etat", NULL ) );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo, gchar **tab )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkCellRenderer *renderer;
+    gint i = 0;
+
+    model = GTK_TREE_MODEL ( gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT ) );
+
+    while ( tab[i] )
+    {
+        gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ),
+                            &iter,
+                            0,  gettext ( tab[i] ),
+                            1, i,
+                            -1 );
+        i++;
+    }
+
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
+
+    renderer = gtk_cell_renderer_text_new ();
+    gtk_cell_layout_pack_start ( GTK_CELL_LAYOUT ( combo ), renderer, TRUE );
+    gtk_cell_layout_set_attributes ( GTK_CELL_LAYOUT ( combo ),
+                        renderer,
+                        "text", 0,
+                        NULL);
+
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_montant" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Amount"), "amount.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+                        "vbox_generale_montant_etat", NULL ), FALSE );
+
+    /* on attache la vbox pour les lignes de recherche à sw_montant */
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (
+                        gsb_etats_config_get_variable_by_name ( "sw_montant", NULL ) ),
+					    gsb_etats_config_get_variable_by_name ( "liste_montant_etat", NULL ) );
+
+    /* on remplit le combobox de choix du type de texte dans lequel chercher */
+/*     gsb_etats_config_onglet_etat_combo_set_model (
+ *                         gsb_etats_config_get_variable_by_name ( "combobox_comparateur_1", NULL ),
+ *                         champs_comparateur_montant );
+ */
+
+
+    /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
+    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+                        "bouton_utilise_montant", NULL ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gsb_etats_config_get_variable_by_name ( "vbox_generale_montant_etat", NULL ) );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void )
+{
+/*     GtkWidget *sw;
+ *     GtkWidget *vbox;
+ */
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+/*     GtkWidget *hbox;
+ *     GtkWidget *entree_date_init_etat;
+ *     GtkWidget *entree_date_finale_etat;
+ */
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_mode_paiement" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_onglet_etat_divers ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_divers" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_page_data_grouping ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_grouping" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Data grouping"), "organization.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_page_data_separation ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_separation" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Data separation"), "organization.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_affichage_etat_generalites ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_generalites" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_affichage_etat_titres ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_divers" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_affichage_etat_operations ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_operations" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_etats_config_affichage_etat_devises ( void )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_devises" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    return vbox_onglet;
+}
+
+
+gint gsb_etats_config_categ_budget_sort_function ( GtkTreeModel *model,
+                        GtkTreeIter *iter_1,
+                        GtkTreeIter *iter_2,
+                        gchar *sw_name )
+{
+    gchar *name_1;
+    gchar *name_2;
+    gchar *without_name;
+    gchar *without_sub_name;
+    gint number_1;
+    gint number_2;
+    gint sub_number_1;
+    gint sub_number_2;
+    gint return_value = 0;
+
+    if ( strcmp ( sw_name, "sw_categ" ) == 0 )
+    {
+        without_name = _("No category");
+        without_sub_name = _("No subcategory");
+    }
+    else
+    {
+        without_name = _("No budgetary line");
+        without_sub_name = _("No sub-budgetary line");
+    }
+
+    /* first, we sort by date (col 0) */
+    gtk_tree_model_get ( model,
+                        iter_1,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME, &name_1,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, &number_1,
+                        GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_number_1,
+                        -1 );
+
+    gtk_tree_model_get ( model,
+                        iter_2,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NAME, &name_2,
+                        GSB_ETAT_CATEG_BUDGET_LIST_NUMBER, &number_2,
+                        GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER, &sub_number_2,
+                        -1 );
+
+
+    if ( number_1 != -1 && number_2 != -1 && number_1 - number_2 )
+    {
+        if ( number_1 == 0 )
+            return_value = -1;
+        else if ( number_2 == 0 )
+            return_value = 1;
+        else
+            return_value =  strcmp ( g_utf8_collate_key ( name_1, -1 ),
+                        g_utf8_collate_key ( name_2, -1 ) );
+
+        if ( name_1) g_free ( name_1);
+        if ( name_2) g_free ( name_2);
+    }
+
+    if ( return_value )
+        return return_value;
+
+    if ( sub_number_1 == 0 )
+            return_value = -1;
+    else if ( sub_number_2 == 0 )
+            return_value = 1;
+    else
+        return_value =  strcmp ( g_utf8_collate_key ( name_1, -1 ),
+                        g_utf8_collate_key ( name_2, -1 ) );
+
+    if ( name_1) g_free ( name_1);
+    if ( name_2) g_free ( name_2);
+
+    return return_value;
 }
 
 
