@@ -175,7 +175,7 @@ enum
 /* fichier etats_config.c */
 /***********************************/
 
-gchar *liste_plages_dates[] = {
+static gchar *liste_plages_dates[] = {
     N_("All"),
     N_("Custom"),
     N_("Total to now"),
@@ -191,7 +191,7 @@ gchar *liste_plages_dates[] = {
     N_("Last 12 months"),
     NULL };
 
-gchar *jours_semaine[] = {
+static gchar *jours_semaine[] = {
     N_("Monday"),
     N_("Tuesday"),
     N_("Wednesday"),
