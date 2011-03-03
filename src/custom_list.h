@@ -168,7 +168,7 @@ struct _CustomListClass
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-extern GType custom_list_get_type (void);
+GType custom_list_get_type (void);
 CustomList *custom_list_new (void);
 void custom_list_set_value (GtkTreeModel *tree_model,
 			    GtkTreeIter  *iter,

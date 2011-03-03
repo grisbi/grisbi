@@ -151,7 +151,7 @@ CustomList *custom_list_new (void)
  *
  * \return	Gtype
  * */
-extern GType custom_list_get_type (void)
+GType custom_list_get_type (void)
 {
     static GType custom_list_type = 0;
 
