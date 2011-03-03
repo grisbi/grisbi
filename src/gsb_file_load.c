@@ -77,6 +77,7 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -895,9 +896,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             gchar *chemin_logo = NULL;
 
             if ( etat.name_logo )
-                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, etat.name_logo, NULL );
+                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
             else
-                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
             if ( chemin_logo )
                 pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
             if ( chemin_logo && strlen ( chemin_logo ) > 0 )

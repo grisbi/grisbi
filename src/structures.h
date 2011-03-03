@@ -62,7 +62,7 @@ struct gsb_etat_t
 
     /* Fonts & logo */
     gint utilise_logo;
-    gboolean is_pixmaps_dir;        /* TRUE if path_icon == GRISBI_PIXMAPS_DIR */
+    gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
     
     gint display_toolbar;           /** Display mode of toolbar. */

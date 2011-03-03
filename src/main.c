@@ -167,7 +167,7 @@ void main_linux ( int argc, char **argv )
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
 
-    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -228,7 +228,6 @@ void main_mac_osx ( int argc, char **argv )
     GtkWidget *menubar;
     GdkPixbuf *pixbuf;
     cmdline_options  opt;
-    gchar *locale_dir;
     gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
@@ -244,8 +243,7 @@ void main_mac_osx ( int argc, char **argv )
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
-    locale_dir = grisbi_osx_get_locale_dir ( );
-    bindtextdomain ( PACKAGE, locale_dir );
+    bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -304,7 +302,7 @@ void main_mac_osx ( int argc, char **argv )
     if ( quartz_application_get_bundle_id ( ) == NULL )
     {
         pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), NULL );
+                        (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), NULL );
         if ( pixbuf )
             gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
     }
@@ -348,7 +346,7 @@ void main_win_32 (  int argc, char **argv )
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
-    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -437,11 +435,11 @@ gboolean gsb_grisbi_init_app ( void )
     gchar *string;
 
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( GRISBI_PLUGINS_DIR );
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
@@ -824,13 +822,6 @@ gchar *gsb_main_get_print_locale_var ( void )
 gchar *gsb_main_get_print_dir_var ( void )
 {
     gchar *path_str = NULL;
-    gchar *tmp_str = NULL;
-
-#ifdef GTKOSXAPPLICATION
-    tmp_str = grisbi_osx_get_locale_dir ( );
-#else
-    tmp_str = g_strdup ( LOCALEDIR );
-#endif
 
     path_str = g_strdup_printf ( "Paths\n"
                         "\tXDG_DATA_HOME = %s\n"
@@ -839,20 +830,18 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tC_PATH_CONFIG = %s\n"
                         "\tC_PATH_CONFIG_ACCELS = %s\n"
                         "\tC_PATH_DATA_FILES = %s\n\n"
-                        "\tGRISBI_LOCALEDIR = %s\n"
-                        "\tGRISBI_PLUGINS_DIR = %s\n"
-                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
+                        "\tgsb_dirs_get_locale_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
                         C_GRISBIRC,
                         C_PATH_CONFIG,
                         C_PATH_CONFIG_ACCELS,
                         C_PATH_DATA_FILES,
-                        tmp_str,
-                        GRISBI_PLUGINS_DIR,
-                        GRISBI_PIXMAPS_DIR );
-
-    g_free ( tmp_str );
+                        gsb_dirs_get_locale_dir ( ),
+                        gsb_dirs_get_plugins_dir ( ),
+                        gsb_dirs_get_pixmaps_dir ( ) );
 
     return path_str;
 }

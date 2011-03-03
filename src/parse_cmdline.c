@@ -31,6 +31,7 @@
 #include "utils_str.h"
 #include "structures.h"
 #include "utils.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -171,7 +172,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
 void show_version(void)
 {
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( GRISBI_PLUGINS_DIR );
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
 #endif
 
     g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());

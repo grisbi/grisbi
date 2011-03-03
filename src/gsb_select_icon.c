@@ -36,6 +36,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -256,9 +257,9 @@ GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
         devel_debug ( "combo n'existe pas" );
         store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
         gtk_list_store_append (store, &iter);
-        if ( g_strcmp0 ( GRISBI_PIXMAPS_DIR, path_icon ) != 0 )
+        if ( g_strcmp0 ( gsb_dirs_get_pixmaps_dir ( ), path_icon ) != 0 )
         {
-            gtk_list_store_set (store, &iter, 0, GRISBI_PIXMAPS_DIR, -1);
+            gtk_list_store_set (store, &iter, 0, gsb_dirs_get_pixmaps_dir ( ), -1);
             gtk_list_store_prepend (store, &iter);
         }
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
@@ -659,7 +660,7 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
     GError *error = NULL;
 
     pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
+                        (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), &error );
 
     if ( ! pixbuf )
     {
