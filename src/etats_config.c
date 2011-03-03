@@ -348,7 +348,6 @@ const gchar *nom_ib_en_cours;
 const gchar *nom_ss_ib_en_cours;
 const gchar *nom_compte_en_cours;
 const gchar *nom_tiers_en_cours;
-gint titres_affiches;
 
 static GtkWidget *bouton_detaille_mode_paiement_etat = NULL;
 static GtkWidget *vbox_mode_paiement_etat = NULL;
