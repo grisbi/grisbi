@@ -313,7 +313,6 @@ gint ancienne_categ_etat;
 gint ancienne_categ_speciale_etat;
 gint ancienne_sous_categ_etat;
 gint ancien_compte_etat;
-gint ancien_tiers_etat;
 gsb_real montant_categ_etat;
 gsb_real montant_sous_categ_etat;
 gsb_real montant_ib_etat;
