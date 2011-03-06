@@ -1820,10 +1820,11 @@ static gint gtk_combofix_get_rows_number_by_page ( GtkComboFix *combofix )
 {
     gint return_value;
     GtkAdjustment *adjustment;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if (!combofix)
-	return 0;
+        return 0;
+    priv = combofix -> priv;
 
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( priv -> tree_view ) );
     return_value = priv -> visible_items * adjustment -> page_size / adjustment -> upper;
