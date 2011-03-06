@@ -519,7 +519,7 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
 
     if ( size > 10 )
     {
-        gchar *tmpstr;
+        gchar *tmpstr, *tmpstr2;
         gchar *end;
         gchar *ptr = NULL;
         gint i = 1, n = 0;
@@ -539,15 +539,16 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
             if ( i < n )
                 ptr = g_utf8_offset_to_pointer ( name_icon, ( i + 1 ) * 10 );
             if ( ptr )
-                tmpstr = g_strconcat ( tmpstr, "\n", 
+                tmpstr2 = g_strconcat ( tmpstr, "\n",
                                        g_strndup (end, ptr - end ), NULL);
             else
-                tmpstr = g_strconcat ( tmpstr, "\n", end, NULL);
+                tmpstr2 = g_strconcat ( tmpstr, "\n", end, NULL);
             ptr = NULL;
             i++;
         } while ( i <= n );
         
-        return tmpstr;
+        g_free ( tmpstr );
+        return tmpstr2;
     }
     else
         return g_strdup ( name_icon );
