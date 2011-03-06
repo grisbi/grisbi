@@ -858,6 +858,7 @@ gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
     gchar format[40];
     gchar *result = NULL;
+    gchar *partie_entiere;
     const gchar *sign;
     const gchar *mon_decimal_point;
     gint nbre_char;
@@ -881,7 +882,7 @@ gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
 
     nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
 
-    result = g_strndup ( buffer, nbre_char );
+    partie_entiere = g_strndup ( buffer, nbre_char );
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
                                             "%s%s%s%0",
@@ -890,9 +891,10 @@ gchar *gsb_real_safe_real_to_string ( gsb_real number, gint default_exponent )
 
     result = g_strdup_printf ( format, 
                             sign,
-                            result,
+                            partie_entiere,
                             mon_decimal_point,
                             units.rem );
+    g_free( partie_entiere );
 
 /*     printf ("number.mantissa = %lld number.exponent = %d résultat = %s\n",
  *                         number.mantissa, number.exponent, result );
