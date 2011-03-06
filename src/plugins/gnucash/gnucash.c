@@ -655,9 +655,9 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 	  fputs ( buffer, tempfile );
 	  for ( iter = ns ; *iter != NULL ; iter++ )
 	    {
-	      fputs ( g_strdup_printf ( "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n", 
-					*iter, *iter, *iter ),
-		      tempfile );
+          gchar *header = g_strdup_printf ( "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n", *iter, *iter, *iter );
+	      fputs ( header, tempfile );
+          g_free ( header );
 	    }
 	  fputs ( ">\n", tempfile );
 	}
