@@ -340,7 +340,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* load the file */
     if (gsb_file_util_get_contents (filename, &file_content, &length))
     {
-        GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        GMarkupParser *markup_parser;
         GMarkupParseContext *context;
         gsb_plugin *plugin;
 
@@ -374,6 +374,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         /* we begin to check if we are in a version under 0.6 or 0.6 and above,
          * because the xml structure changes after 0.6 */
 
+        markup_parser = g_malloc0 (sizeof (GMarkupParser));
         if ( gsb_file_load_check_new_structure (file_content))
         {
             /* fill the GMarkupParser for a new xml structure */
