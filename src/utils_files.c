@@ -397,14 +397,12 @@ GtkWidget * my_file_chooser ()
  *
  * \return file descriptor returned by fopen
  */
-G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
+G_MODULE_EXPORT FILE* utf8_fopen (const gchar *utf8filename, gchar *mode )
 {
 #ifdef _MSC_VER
-	if(!strncmp(mode, "w+x", 3))
-		mode = "w+";
-    return fopen(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+    return fopen ( g_locale_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ), mode );
 #else
-	return fopen(g_filename_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+	return fopen ( g_filename_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ), mode );
 #endif
 }
 
@@ -418,12 +416,12 @@ G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
  *
  * \return remove returned value
  */
-gint utf8_remove(const gchar* utf8filename)
+gint utf8_remove ( const gchar *utf8filename )
 {
 #ifdef _MSC_VER
-    return remove(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL));
+    return remove ( g_locale_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ) );
 #else
-    return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+    return remove ( g_filename_from_utf8 ( utf8filename,-1,NULL,NULL,NULL ) );
 #endif
 }
 
@@ -433,9 +431,9 @@ gint utf8_remove(const gchar* utf8filename)
  *
  * \param filename Filename to sanitize.
  */
-gchar * safe_file_name ( gchar* filename )
+gchar *safe_file_name ( gchar *filename )
 {
-    return g_strdelimit ( my_strdup(filename), G_DIR_SEPARATOR_S, '_' );
+    return g_strdelimit ( my_strdup ( filename ), G_DIR_SEPARATOR_S, '_' );
 }
 
 
@@ -446,7 +444,7 @@ gchar * safe_file_name ( gchar* filename )
  *
  * \return chooser
  */
-GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre )
+GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
 {
     GtkWidget *chooser;
     GtkWidget *bouton_cancel, *bouton_OK;
@@ -502,7 +500,7 @@ void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
  *
  * \return TRUE if ok
  */
-gboolean utils_files_create_XDG_dir (void)
+gboolean utils_files_create_XDG_dir ( void )
 {
 #ifdef _MSC_VER
     int mode = 0;

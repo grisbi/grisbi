@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-20 14:07+0100\n"
+"POT-Creation-Date: 2011-03-06 09:56+0100\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -637,7 +637,7 @@ msgstr ""
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
 #: ../src/bet_config.c:692 ../src/bet_hist.c:173 ../src/etats_config.c:536
 #: ../src/etats_config.c:539 ../src/etats_config.c:3798
-#: ../src/etats_config.c:7135 ../src/export_csv.c:808
+#: ../src/etats_config.c:7135 ../src/export_csv.c:812
 #: ../src/fenetre_principale.c:290 ../src/import_csv.c:88
 #: ../src/navigation.c:332 ../src/navigation.c:1228
 #: ../src/traitement_variables.c:92
@@ -666,7 +666,7 @@ msgstr ""
 #. name of the div sous-div column
 #: ../src/bet_config.c:922 ../src/bet_hist.c:543 ../src/bet_hist.c:1600
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2433
-#: ../src/etats_config.c:674 ../src/export_csv.c:799
+#: ../src/etats_config.c:674 ../src/export_csv.c:803
 #: ../src/gsb_transactions_list.c:164 ../src/import_csv.c:86
 #: ../src/meta_categories.c:67 ../src/traitement_variables.c:100
 msgid "Category"
@@ -674,7 +674,7 @@ msgstr "بخش"
 
 #: ../src/bet_config.c:935 ../src/bet_future.c:815 ../src/bet_future.c:2023
 #: ../src/bet_future.c:2503 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2440
-#: ../src/etats_config.c:678 ../src/gsb_form.c:1335
+#: ../src/etats_config.c:678 ../src/gsb_form.c:1336
 #: ../src/gsb_form_widget.c:444 ../src/gsb_transactions_list.c:156
 #: ../src/imputation_budgetaire.c:166 ../src/meta_budgetary.c:64
 msgid "Budgetary line"
@@ -894,11 +894,11 @@ msgid "Loan amount: "
 msgstr "حساب بانک:"
 
 #: ../src/bet_finance_ui.c:1221 ../src/bet_future.c:769 ../src/bet_tab.c:674
-#: ../src/etats_affiche.c:2405 ../src/export_csv.c:769
-#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1290
+#: ../src/etats_affiche.c:2405 ../src/export_csv.c:773
+#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1291
 #: ../src/gsb_form_widget.c:412 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:357 ../src/gsb_transactions_list.c:153
-#: ../src/import.c:3268 ../src/import_csv.c:81
+#: ../src/import.c:3302 ../src/import_csv.c:81
 #: ../src/traitement_variables.c:89
 msgid "Date"
 msgstr "تاریخ"
@@ -1083,10 +1083,10 @@ msgstr ""
 #: ../src/bet_future.c:787 ../src/etats_affiche.c:2426
 #: ../src/etats_config.c:518 ../src/etats_config.c:521
 #: ../src/etats_config.c:686 ../src/etats_config.c:7023
-#: ../src/export_csv.c:784 ../src/fenetre_principale.c:275
-#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1311
+#: ../src/export_csv.c:788 ../src/fenetre_principale.c:275
+#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1312
 #: ../src/gsb_form_widget.c:432 ../src/gsb_scheduler_list.c:357
-#: ../src/gsb_transactions_list.c:155 ../src/import.c:3275
+#: ../src/gsb_transactions_list.c:155 ../src/import.c:3309
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
 #: ../src/traitement_variables.c:91
 msgid "Payee"
@@ -1094,7 +1094,7 @@ msgstr ""
 
 #. Debit method_ptr
 #: ../src/bet_future.c:794 ../src/bet_tab.c:708 ../src/categories_onglet.c:721
-#: ../src/export_csv.c:790 ../src/gsb_form.c:1316 ../src/gsb_form_widget.c:416
+#: ../src/export_csv.c:794 ../src/gsb_form.c:1317 ../src/gsb_form_widget.c:416
 #: ../src/gsb_payment_method_config.c:317
 #: ../src/gsb_payment_method_config.c:388
 #: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:157
@@ -1105,7 +1105,7 @@ msgstr ""
 
 #. Credit method_ptr
 #: ../src/bet_future.c:801 ../src/bet_tab.c:726 ../src/categories_onglet.c:721
-#: ../src/export_csv.c:787 ../src/gsb_form.c:1321 ../src/gsb_form_widget.c:420
+#: ../src/export_csv.c:791 ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:324
 #: ../src/gsb_payment_method_config.c:401
 #: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:158
@@ -1114,13 +1114,13 @@ msgid "Credit"
 msgstr ""
 
 #: ../src/bet_future.c:808 ../src/bet_future.c:1996 ../src/bet_future.c:2485
-#: ../src/gsb_form.c:1327 ../src/gsb_form_widget.c:436
+#: ../src/gsb_form.c:1328 ../src/gsb_form_widget.c:436
 msgid "Categories : Sub-categories"
 msgstr ""
 
 #. Notes
-#: ../src/bet_future.c:822 ../src/etats_affiche.c:2447 ../src/export_csv.c:805
-#: ../src/gsb_bank.c:918 ../src/gsb_form.c:1340 ../src/gsb_form_widget.c:448
+#: ../src/bet_future.c:822 ../src/etats_affiche.c:2447 ../src/export_csv.c:809
+#: ../src/gsb_bank.c:918 ../src/gsb_form.c:1341 ../src/gsb_form_widget.c:448
 #: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:84
 #: ../src/traitement_variables.c:103
 msgid "Notes"
@@ -1131,11 +1131,11 @@ msgstr ""
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1421 ../src/bet_future.c:1668
-#: ../src/etats_affiche.c:1844 ../src/export_csv.c:610 ../src/export_csv.c:722
-#: ../src/export_csv.c:734 ../src/gsb_data_category.c:1059
+#: ../src/etats_affiche.c:1844 ../src/export_csv.c:614 ../src/export_csv.c:726
+#: ../src/export_csv.c:738 ../src/gsb_data_category.c:1059
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:716
-#: ../src/gsb_data_payment.c:755 ../src/gsb_form.c:2299 ../src/import.c:2714
-#: ../src/import.c:2732 ../src/plugins/ofx/ofx.c:460
+#: ../src/gsb_data_payment.c:755 ../src/gsb_form.c:2307 ../src/import.c:2748
+#: ../src/import.c:2766 ../src/plugins/ofx/ofx.c:465
 msgid "Transfer"
 msgstr ""
 
@@ -1193,7 +1193,7 @@ msgid "Partial balance"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_future.c:2143 ../src/categories_onglet.c:716 ../src/import.c:439
+#: ../src/bet_future.c:2143 ../src/categories_onglet.c:716 ../src/import.c:468
 #: ../src/imputation_budgetaire.c:750
 msgid "Type"
 msgstr ""
@@ -1204,9 +1204,9 @@ msgid "Select"
 msgstr "حذف"
 
 #: ../src/bet_hist.c:560 ../src/categories_onglet.c:175
-#: ../src/etats_config.c:5240 ../src/export_csv.c:793
+#: ../src/etats_config.c:5240 ../src/export_csv.c:797
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:358
-#: ../src/gsb_transactions_list.c:160 ../src/import.c:3282
+#: ../src/gsb_transactions_list.c:160 ../src/import.c:3316
 #: ../src/imputation_budgetaire.c:184 ../src/tiers_onglet.c:246
 #: ../src/traitement_variables.c:96
 msgid "Amount"
@@ -1274,7 +1274,7 @@ msgstr ""
 msgid "Description"
 msgstr "توضیحات"
 
-#: ../src/bet_tab.c:744 ../src/export_csv.c:796 ../src/gsb_reconcile.c:161
+#: ../src/bet_tab.c:744 ../src/export_csv.c:800 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:358 ../src/gsb_transactions_list.c:159
 #: ../src/gsb_transactions_list.c:3011 ../src/import_csv.c:90
 #: ../src/traitement_variables.c:95
@@ -1559,7 +1559,7 @@ msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
 #: ../src/categories_onglet.c:422 ../src/etats_onglet.c:1231
-#: ../src/file_obfuscate_qif.c:108 ../src/gsb_file.c:241 ../src/import.c:823
+#: ../src/file_obfuscate_qif.c:108 ../src/gsb_file.c:241 ../src/import.c:853
 #: ../src/imputation_budgetaire.c:458
 #, fuzzy
 msgid "All files"
@@ -1608,8 +1608,8 @@ msgid "Create a new sub-category"
 msgstr ""
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
-#: ../src/import.c:406 ../src/import.c:3587 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:322 ../src/utils_files.c:672
+#: ../src/import.c:436 ../src/import.c:3621 ../src/imputation_budgetaire.c:564
+#: ../src/parametres.c:322 ../src/utils_files.c:644
 msgid "Import"
 msgstr ""
 
@@ -1822,7 +1822,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:115 ../src/main.c:481
+#: ../src/dialog.c:115 ../src/main.c:455
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -1859,79 +1859,87 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr ""
 
-#: ../src/erreur.c:96
+#: ../src/erreur.c:98
 msgid "File is corrupted."
 msgstr ""
 
-#: ../src/erreur.c:103
+#: ../src/erreur.c:105
 msgid "Error occured saving file."
 msgstr ""
 
-#: ../src/erreur.c:124
+#: ../src/erreur.c:126
 msgid "Save file"
 msgstr ""
 
-#: ../src/erreur.c:134
+#: ../src/erreur.c:136
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr ""
 
-#: ../src/erreur.c:143
+#: ../src/erreur.c:145
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 
-#: ../src/erreur.c:149
+#: ../src/erreur.c:151
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: ../src/erreur.c:156
+#: ../src/erreur.c:158
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr ""
 
-#: ../src/erreur.c:161
+#: ../src/erreur.c:163
 msgid "Backtrace"
 msgstr ""
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:211 ../src/erreur.c:223
+#: ../src/erreur.c:213 ../src/erreur.c:225
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: ../src/erreur.c:212
+#: ../src/erreur.c:214
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:226
+#: ../src/erreur.c:228
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
-#: ../src/erreur.c:286
+#: ../src/erreur.c:293 ../src/erreur.c:579
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: ../src/erreur.c:290
+#: ../src/erreur.c:297
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:328
+#: ../src/erreur.c:342
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr ""
 
-#: ../src/erreur.c:452
+#: ../src/erreur.c:477
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
 "that file with the obfuscated file into the bug report."
 msgstr ""
 
-#: ../src/erreur.c:534
+#. début du mode débogage
+#: ../src/erreur.c:499
+#, c-format
+msgid ""
+"%s, %2f : Debug - %s:%d:%s\n"
+"\n"
+msgstr ""
+
+#: ../src/erreur.c:551
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -2198,9 +2206,9 @@ msgstr "تراکنش:"
 msgid "General total: "
 msgstr "عمومی:"
 
-#: ../src/etats_affiche.c:1853 ../src/export_csv.c:580
-#: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:727
-#: ../src/gsb_form.c:2874 ../src/gsb_form.c:3277
+#: ../src/etats_affiche.c:1853 ../src/export_csv.c:584
+#: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:728
+#: ../src/gsb_form.c:1754 ../src/gsb_form.c:2887 ../src/gsb_form.c:3290
 #: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3486
 msgid "Split of transaction"
 msgstr ""
@@ -2226,14 +2234,14 @@ msgstr "درآمد ها"
 msgid "Outgoings"
 msgstr ""
 
-#: ../src/etats_affiche.c:2412 ../src/export_csv.c:772 ../src/gsb_form.c:1295
-#: ../src/gsb_form.c:2133 ../src/gsb_form.c:2163 ../src/gsb_form_widget.c:424
+#: ../src/etats_affiche.c:2412 ../src/export_csv.c:776 ../src/gsb_form.c:1296
+#: ../src/gsb_form.c:2141 ../src/gsb_form.c:2171 ../src/gsb_form_widget.c:424
 #: ../src/gsb_transactions_list.c:154 ../src/import_csv.c:82
 #: ../src/traitement_variables.c:90
 msgid "Value date"
 msgstr ""
 
-#: ../src/etats_affiche.c:2419 ../src/export_csv.c:778
+#: ../src/etats_affiche.c:2419 ../src/export_csv.c:782
 #: ../src/gsb_archive_config.c:100 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_form_widget.c:428 ../src/gsb_transactions_list.c:163
 #: ../src/traitement_variables.c:99
@@ -2251,13 +2259,13 @@ msgstr ""
 msgid "Cheque"
 msgstr ""
 
-#: ../src/etats_affiche.c:2468 ../src/export_csv.c:814 ../src/gsb_form.c:1387
+#: ../src/etats_affiche.c:2468 ../src/export_csv.c:818 ../src/gsb_form.c:1388
 #: ../src/gsb_form_widget.c:468 ../src/gsb_transactions_list.c:166
 #: ../src/traitement_variables.c:102
 msgid "Voucher"
 msgstr ""
 
-#: ../src/etats_affiche.c:2475 ../src/export_csv.c:820 ../src/gsb_form.c:1382
+#: ../src/etats_affiche.c:2475 ../src/export_csv.c:824 ../src/gsb_form.c:1383
 #: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:168
 #: ../src/traitement_variables.c:104
 msgid "Bank references"
@@ -2407,7 +2415,7 @@ msgstr ""
 msgid "Generalities"
 msgstr ""
 
-#: ../src/etats_config.c:634 ../src/etats_config.c:637 ../src/export_csv.c:760
+#: ../src/etats_config.c:634 ../src/etats_config.c:637 ../src/export_csv.c:764
 #: ../src/fenetre_principale.c:242 ../src/parametres.c:432
 msgid "Transactions"
 msgstr ""
@@ -2536,7 +2544,7 @@ msgstr ""
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_config.c:2563 ../src/etats_config.c:2818
 #: ../src/etats_config.c:3100 ../src/etats_config.c:3907
-#: ../src/etats_config.c:4097 ../src/etats_config.c:7328 ../src/import.c:2227
+#: ../src/etats_config.c:4097 ../src/etats_config.c:7328 ../src/import.c:2261
 #: ../src/tiers_onglet.c:1195 ../src/tiers_onglet.c:1406
 msgid "Unselect all"
 msgstr ""
@@ -3129,10 +3137,12 @@ msgstr ""
 msgid "Select methods of payment to include: "
 msgstr "حذف روش پرداخت:"
 
-#: ../src/etats_csv.c:168
-#, c-format
-msgid "Unable to open file '%s'"
-msgstr ""
+#: ../src/etats_csv.c:172 ../src/export_csv.c:407
+#, fuzzy, c-format
+msgid ""
+"Unable to create file \"%s\" :\n"
+"%s"
+msgstr "خطا در هنگام خواندن '%s'"
 
 #: ../src/etats_html.c:295
 msgid "Make sure file exists and is writable."
@@ -3458,7 +3468,7 @@ msgstr ""
 msgid "Select accounts to export"
 msgstr ""
 
-#: ../src/export.c:173 ../src/export_csv.c:763
+#: ../src/export.c:173 ../src/export_csv.c:767
 #: ../src/gsb_data_partial_balance.c:1498
 msgid "Account name"
 msgstr ""
@@ -3502,44 +3512,37 @@ msgstr ""
 msgid "Initial balance"
 msgstr ""
 
-#: ../src/export_csv.c:405
-#, fuzzy, c-format
-msgid ""
-"Error opening file \"%s\" :\n"
-"%s"
-msgstr "خطا در هنگام خواندن '%s'"
-
-#: ../src/export_csv.c:601
+#: ../src/export_csv.c:605
 msgid "B"
 msgstr ""
 
-#: ../src/export_csv.c:724 ../src/gsb_form.c:1900
+#: ../src/export_csv.c:728 ../src/gsb_form.c:1908
 msgid "Deleted account"
 msgstr "حساب حذف شده"
 
-#: ../src/export_csv.c:766 ../src/import_csv.c:95
+#: ../src/export_csv.c:770 ../src/import_csv.c:95
 msgid "Split"
 msgstr ""
 
-#: ../src/export_csv.c:775
+#: ../src/export_csv.c:779
 msgid "Cheques"
 msgstr ""
 
-#: ../src/export_csv.c:781 ../src/gsb_transactions_list.c:165
+#: ../src/export_csv.c:785 ../src/gsb_transactions_list.c:165
 #: ../src/import_csv.c:94 ../src/traitement_variables.c:101
 msgid "C/R"
 msgstr ""
 
-#: ../src/export_csv.c:802 ../src/import_csv.c:87
+#: ../src/export_csv.c:806 ../src/import_csv.c:87
 #, fuzzy
 msgid "Sub-categories"
 msgstr "بخش های درآمد"
 
-#: ../src/export_csv.c:811 ../src/import_csv.c:89
+#: ../src/export_csv.c:815 ../src/import_csv.c:89
 msgid "Sub-budgetary lines"
 msgstr ""
 
-#: ../src/export_csv.c:817
+#: ../src/export_csv.c:821
 msgid "Reconciliation number"
 msgstr ""
 
@@ -4182,17 +4185,17 @@ msgstr ""
 msgid "Account details"
 msgstr ""
 
-#: ../src/gsb_account_property.c:236 ../src/import.c:1243 ../src/import.c:1268
+#: ../src/gsb_account_property.c:236 ../src/import.c:1279 ../src/import.c:1304
 #, fuzzy
 msgid "Account name: "
 msgstr "نام کشور:"
 
-#: ../src/gsb_account_property.c:257 ../src/import.c:1196
+#: ../src/gsb_account_property.c:257 ../src/import.c:1232
 #, fuzzy
 msgid "Account type: "
 msgstr "نوع حساب :"
 
-#: ../src/gsb_account_property.c:275 ../src/import.c:1298
+#: ../src/gsb_account_property.c:275 ../src/import.c:1334
 #, fuzzy
 msgid "Account currency: "
 msgstr "انتخاب واحد:"
@@ -4413,7 +4416,7 @@ msgid "Deleting an archive and its transactions"
 msgstr "جستجوی تراکنش"
 
 #. New account
-#: ../src/gsb_assistant_account.c:99 ../src/import.c:1188
+#: ../src/gsb_assistant_account.c:99 ../src/import.c:1224
 msgid "Create a new account"
 msgstr ""
 
@@ -4599,7 +4602,7 @@ msgstr "گزارش"
 msgid "Please choose a name for archive: "
 msgstr ""
 
-#: ../src/gsb_assistant_archive.c:429 ../src/import.c:931
+#: ../src/gsb_assistant_archive.c:429 ../src/import.c:966
 msgid "Congratulations !"
 msgstr ""
 
@@ -7008,7 +7011,7 @@ msgstr ""
 msgid "No payee defined"
 msgstr ""
 
-#: ../src/gsb_data_payee.c:544 ../src/gsb_form.c:2987 ../src/gsb_form.c:2988
+#: ../src/gsb_data_payee.c:544 ../src/gsb_form.c:3000 ../src/gsb_form.c:3001
 #: ../src/navigation.c:1242
 msgid "Report"
 msgstr "گزارش"
@@ -7019,22 +7022,22 @@ msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr ""
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:721 ../src/import.c:2696
-#: ../src/plugins/ofx/ofx.c:448
+#: ../src/gsb_data_payment.c:721 ../src/import.c:2730
+#: ../src/plugins/ofx/ofx.c:453
 msgid "Deposit"
 msgstr ""
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:730 ../src/gsb_form.c:2251 ../src/import.c:2702
-#: ../src/import.c:2708
+#: ../src/gsb_data_payment.c:730 ../src/gsb_form.c:2259 ../src/import.c:2736
+#: ../src/import.c:2742
 msgid "Credit card"
 msgstr ""
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:739 ../src/gsb_form.c:2288 ../src/import.c:2720
-#: ../src/import.c:2738
+#: ../src/gsb_data_payment.c:739 ../src/gsb_form.c:2296 ../src/import.c:2754
+#: ../src/import.c:2772
 msgid "Direct debit"
 msgstr ""
 
@@ -7385,7 +7388,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:788
+#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:765
 msgid "unnamed"
 msgstr "بی نام"
 
@@ -7470,12 +7473,12 @@ msgid ""
 "<b>Do you want to delete this file?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1554
+#: ../src/gsb_file_config.c:1557
 #, fuzzy
 msgid "Choose a file"
 msgstr "انتخاب نوع حساب"
 
-#: ../src/gsb_file_config.c:1577
+#: ../src/gsb_file_config.c:1580
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7630,151 +7633,151 @@ msgstr ""
 msgid "Cannot erase lock file :'%s': %s"
 msgstr ""
 
-#: ../src/gsb_form.c:226
+#: ../src/gsb_form.c:227
 msgid "Transaction/Scheduled _form"
 msgstr ""
 
 #. create the check button to recover the children of splits
-#: ../src/gsb_form.c:319
+#: ../src/gsb_form.c:320
 msgid "Recover the children"
 msgstr ""
 
-#: ../src/gsb_form.c:740
+#: ../src/gsb_form.c:741
 #, fuzzy
 msgid "Transfer : Deleted account"
 msgstr "حساب حذف شده"
 
-#: ../src/gsb_form.c:759 ../src/gsb_form.c:1889 ../src/gsb_form.c:1890
-#: ../src/gsb_form_widget.c:1105
+#: ../src/gsb_form.c:760 ../src/gsb_form.c:1897 ../src/gsb_form.c:1898
+#: ../src/gsb_form_widget.c:1106
 msgid "Transfer : "
 msgstr ""
 
-#: ../src/gsb_form.c:928
+#: ../src/gsb_form.c:929
 msgid "Auto"
 msgstr "اتوماتیک"
 
-#: ../src/gsb_form.c:931 ../src/gsb_form_scheduler.c:151
+#: ../src/gsb_form.c:932 ../src/gsb_form_scheduler.c:151
 #: ../src/gsb_scheduler_list.c:1140
 msgid "Manual"
 msgstr "دستی"
 
-#: ../src/gsb_form.c:1361 ../src/gsb_form_widget.c:456
+#: ../src/gsb_form.c:1362 ../src/gsb_form_widget.c:456
 msgid "Cheque/Transfer number"
 msgstr ""
 
-#: ../src/gsb_form.c:2260 ../src/plugins/ofx/ofx.c:472
+#: ../src/gsb_form.c:2268 ../src/plugins/ofx/ofx.c:477
 msgid "Direct deposit"
 msgstr ""
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2269 ../src/import.c:2507 ../src/import.c:2554
-#: ../src/import.c:2677 ../src/plugins/ofx/ofx.c:428
+#: ../src/gsb_form.c:2277 ../src/import.c:2541 ../src/import.c:2588
+#: ../src/import.c:2711 ../src/plugins/ofx/ofx.c:433
 msgid "Check"
 msgstr "چک"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2278 ../src/import.c:2726
+#: ../src/gsb_form.c:2286 ../src/import.c:2760
 msgid "Cash withdrawal"
 msgstr ""
 
-#: ../src/gsb_form.c:2407
+#: ../src/gsb_form.c:2415
 msgid "No payee selected for this report."
 msgstr ""
 
-#: ../src/gsb_form.c:2736
+#: ../src/gsb_form.c:2749
 msgid "You must enter a date."
 msgstr "باید تاریخ را وارد کنید."
 
-#: ../src/gsb_form.c:2743
+#: ../src/gsb_form.c:2756
 #, fuzzy, c-format
 msgid "Invalid date %s"
 msgstr "نام فایل معتبر نیست \"%s\"!"
 
-#: ../src/gsb_form.c:2766
+#: ../src/gsb_form.c:2779
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "نام فایل معتبر نیست \"%s\"!"
 
-#: ../src/gsb_form.c:2792
+#: ../src/gsb_form.c:2805
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2795 ../src/gsb_form.c:2822
+#: ../src/gsb_form.c:2808 ../src/gsb_form.c:2835
 #, fuzzy
 msgid "Invalid date"
 msgstr "نام فایل معتبر نیست \"%s\"!"
 
-#: ../src/gsb_form.c:2820
+#: ../src/gsb_form.c:2833
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "کمتر یا برابر"
 
-#: ../src/gsb_form.c:2856
+#: ../src/gsb_form.c:2869
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "باید تاریخ را وارد کنید."
 
-#: ../src/gsb_form.c:2876
+#: ../src/gsb_form.c:2889
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2910
+#: ../src/gsb_form.c:2923
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2917
+#: ../src/gsb_form.c:2930
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr ""
 
-#: ../src/gsb_form.c:2925
+#: ../src/gsb_form.c:2938
 msgid "Can't issue a transfer its own account."
 msgstr ""
 
-#: ../src/gsb_form.c:2930
+#: ../src/gsb_form.c:2943
 msgid "Can't issue a transfer on a closed account."
 msgstr ""
 
-#: ../src/gsb_form.c:2956
+#: ../src/gsb_form.c:2969
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
 "Continue anyway?"
 msgstr ""
 
-#: ../src/gsb_form.c:2974
+#: ../src/gsb_form.c:2987
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
 msgstr ""
 
-#: ../src/gsb_form.c:2995
+#: ../src/gsb_form.c:3008
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 
-#: ../src/gsb_form.c:3000
+#: ../src/gsb_form.c:3013
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 
-#: ../src/gsb_form.c:3011
+#: ../src/gsb_form.c:3024
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:3018
+#: ../src/gsb_form.c:3031
 msgid "Invalid multiple payee."
 msgstr ""
 
-#: ../src/gsb_form.c:3300
+#: ../src/gsb_form.c:3313
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "حذف تراکنش"
 
-#: ../src/gsb_form.c:3301
+#: ../src/gsb_form.c:3314
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -7784,7 +7787,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3604
+#: ../src/gsb_form.c:3617
 msgid "Configure the form"
 msgstr ""
 
@@ -8353,11 +8356,11 @@ msgid "Browse icons"
 msgstr "انتخاب"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:186 ../src/utils_files.c:381
+#: ../src/gsb_select_icon.c:186
 msgid "Browse"
 msgstr "انتخاب"
 
-#: ../src/gsb_select_icon.c:395
+#: ../src/gsb_select_icon.c:398
 #, fuzzy
 msgid "Select icon directory"
 msgstr "حساب حذف شده"
@@ -8644,20 +8647,20 @@ msgstr ""
 msgid "at"
 msgstr "تاریخ"
 
-#: ../src/import.c:201
+#: ../src/import.c:203
 msgid "Comma Separated Values"
 msgstr ""
 
-#: ../src/import.c:202
+#: ../src/import.c:204
 msgid "Quicken Interchange Format"
 msgstr ""
 
-#: ../src/import.c:266
+#: ../src/import.c:273
 #, c-format
 msgid "Adding '%s' as an import format"
 msgstr ""
 
-#: ../src/import.c:311
+#: ../src/import.c:305
 msgid ""
 "This assistant will help you import one or several files into Grisbi.\n"
 "\n"
@@ -8667,93 +8670,93 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/import.c:319
+#: ../src/import.c:313
 msgid "Importing transactions into Grisbi"
 msgstr ""
 
-#: ../src/import.c:377
+#: ../src/import.c:407
 msgid "Choose file to import"
 msgstr ""
 
-#: ../src/import.c:379
+#: ../src/import.c:409
 #, fuzzy
 msgid "Add file to import..."
 msgstr "ویرایش گزارش"
 
-#: ../src/import.c:446
+#: ../src/import.c:475
 msgid "File name"
 msgstr "نام فایل"
 
-#: ../src/import.c:508 ../src/import.c:662 ../src/import.c:4354
-#: ../src/import_csv.c:1083 ../src/import_csv.c:1107
+#: ../src/import.c:536 ../src/import.c:691 ../src/import.c:4388
+#: ../src/import_csv.c:1083 ../src/import_csv.c:1109
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr ""
 
-#: ../src/import.c:610 ../src/import.c:718 ../src/import.c:4250
-#: ../src/import.c:4273
+#: ../src/import.c:639 ../src/import.c:748 ../src/import.c:4284
+#: ../src/import.c:4307
 msgid "Unknown"
 msgstr ""
 
-#: ../src/import.c:754
+#: ../src/import.c:784
 msgid "Choose files to import."
 msgstr ""
 
-#: ../src/import.c:780
+#: ../src/import.c:810
 #, c-format
 msgid "Known files (%s)"
 msgstr ""
 
-#: ../src/import.c:792
+#: ../src/import.c:822
 #, c-format
 msgid "%s files (*.%s)"
 msgstr ""
 
-#: ../src/import.c:830
+#: ../src/import.c:860
 #, fuzzy
 msgid "Encoding: "
 msgstr "هشدار:"
 
-#: ../src/import.c:936
+#: ../src/import.c:971
 msgid ""
 "You successfully imported files into Grisbi.  The following pages will help "
 "you set up imported data for the following files"
 msgstr ""
 
-#: ../src/import.c:951
+#: ../src/import.c:986
 #, fuzzy
 msgid "Unnamed Imported account"
 msgstr "حساب حذف شده"
 
-#: ../src/import.c:977
+#: ../src/import.c:1013
 msgid "Error !"
 msgstr "خطا !"
 
-#: ../src/import.c:982
+#: ../src/import.c:1018
 msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
 
-#: ../src/import.c:996
+#: ../src/import.c:1032
 msgid "The following files are in error: "
 msgstr ""
 
-#: ../src/import.c:1048
+#: ../src/import.c:1084
 msgid "Import terminated"
 msgstr ""
 
-#: ../src/import.c:1052
+#: ../src/import.c:1088
 msgid ""
 "You have successfully set up transactions import into Grisbi. Press the "
 "'Close' button to terminate import."
 msgstr ""
 
-#: ../src/import.c:1172
+#: ../src/import.c:1208
 msgid "file"
 msgstr "فایل"
 
-#: ../src/import.c:1178
+#: ../src/import.c:1214
 #, c-format
 msgid ""
 "<span size=\"x-large\">%s</span>\n"
@@ -8762,24 +8765,24 @@ msgid ""
 "span> ?\n"
 msgstr ""
 
-#: ../src/import.c:1236
+#: ../src/import.c:1272
 msgid "Add transactions to an account"
 msgstr ""
 
-#: ../src/import.c:1262
+#: ../src/import.c:1298
 msgid "Mark transactions of an account"
 msgstr ""
 
 #. invert amount of transactions
-#: ../src/import.c:1329
+#: ../src/import.c:1365
 msgid "Invert the amount of the imported transactions"
 msgstr ""
 
-#: ../src/import.c:1337
+#: ../src/import.c:1373
 msgid "Create a rule for this import. Name of the rule : "
 msgstr ""
 
-#: ../src/import.c:1370
+#: ../src/import.c:1406
 #, c-format
 msgid ""
 "The account currency imported %s is %s.\n"
@@ -8788,41 +8791,41 @@ msgid ""
 "Do you create it ?"
 msgstr ""
 
-#: ../src/import.c:1377
+#: ../src/import.c:1413
 #, c-format
 msgid "Can't associate ISO 4217 code for currency '%s'."
 msgstr ""
 
-#: ../src/import.c:1393
+#: ../src/import.c:1429
 msgid ""
 "Use this currency for totals for the payees categories\n"
 "and budgetary lines"
 msgstr ""
 
-#: ../src/import.c:1494
+#: ../src/import.c:1530
 #, c-format
 msgid ""
 "An error occured while creating the new account %s,\n"
 "We try to continue to import but bad things can happen..."
 msgstr ""
 
-#: ../src/import.c:1552
+#: ../src/import.c:1588
 #, c-format
 msgid ""
 "You want to create an import rule for the account %s but didn't give a name "
 "to that rule. Please set a name or let it empty to cancel the rule creation."
 msgstr ""
 
-#: ../src/import.c:1556
+#: ../src/import.c:1592
 msgid "No name for the import rule"
 msgstr ""
 
-#: ../src/import.c:1557
+#: ../src/import.c:1593
 #, fuzzy
 msgid "Name of the rule: "
 msgstr "حذف گزارش"
 
-#: ../src/import.c:1583
+#: ../src/import.c:1619
 msgid ""
 "No account in memory now, this is bad...\n"
 "Better to leave the import before a crash.\n"
@@ -8830,234 +8833,234 @@ msgid ""
 "Please contact the grisbi team to find the problem."
 msgstr ""
 
-#: ../src/import.c:1593
+#: ../src/import.c:1629
 msgid "Please wait"
 msgstr "لطفا صبر کنید"
 
-#: ../src/import.c:1618
+#: ../src/import.c:1654
 msgid ""
 "You have just imported reconciled transactions but they not associated with "
 "any reconcile number yet.  You may associate them with a reconcilation later "
 "via the preferences windows."
 msgstr ""
 
-#: ../src/import.c:1872
+#: ../src/import.c:1908
 msgid "Imported account"
 msgstr ""
 
-#: ../src/import.c:2219
+#: ../src/import.c:2253
 #, fuzzy
 msgid "Confirmation of transactions to be merged"
 msgstr "جستجوی تراکنش"
 
-#: ../src/import.c:2222
+#: ../src/import.c:2256
 msgid "Confirmation of importation of transactions"
 msgstr ""
 
-#: ../src/import.c:2241
+#: ../src/import.c:2275
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "جستجوی تراکنش"
 
-#: ../src/import.c:2247
+#: ../src/import.c:2281
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
 "transactions to import."
 msgstr ""
 
-#: ../src/import.c:2316
+#: ../src/import.c:2350
 #, c-format
 msgid "Transactions to be merged : %s ; %s ; %s"
 msgstr ""
 
-#: ../src/import.c:2321
+#: ../src/import.c:2355
 #, c-format
 msgid "Transactions to import : %s ; %s ; %s"
 msgstr ""
 
-#: ../src/import.c:2347
+#: ../src/import.c:2381
 #, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr ""
 
-#: ../src/import.c:2361
+#: ../src/import.c:2395
 #, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr ""
 
-#: ../src/import.c:2815
+#: ../src/import.c:2849
 #, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
 "We skip it"
 msgstr ""
 
-#: ../src/import.c:3182
+#: ../src/import.c:3216
 msgid "Orphaned transactions"
 msgstr ""
 
-#: ../src/import.c:3195
+#: ../src/import.c:3229
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 
-#: ../src/import.c:3261
+#: ../src/import.c:3295
 msgid "Mark"
 msgstr ""
 
-#: ../src/import.c:3315
+#: ../src/import.c:3349
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
-#: ../src/import.c:3316
+#: ../src/import.c:3350
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 
-#: ../src/import.c:3565
+#: ../src/import.c:3599
 #, c-format
 msgid "%s #%d"
 msgstr ""
 
-#: ../src/import.c:3592
+#: ../src/import.c:3626
 msgid "Import settings"
 msgstr ""
 
-#: ../src/import.c:3599
+#: ../src/import.c:3633
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr ""
 
-#: ../src/import.c:3618
+#: ../src/import.c:3652
 #, fuzzy
 msgid "Merge the imported transactions with the transactions found"
 msgstr "جستجوی تراکنش"
 
-#: ../src/import.c:3628
+#: ../src/import.c:3662
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/import.c:3639 ../src/tiers_onglet.c:1042
+#: ../src/import.c:3673 ../src/tiers_onglet.c:1042
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: ../src/import.c:3647
+#: ../src/import.c:3681
 msgid "Set the financial year"
 msgstr ""
 
-#: ../src/import.c:3648
+#: ../src/import.c:3682
 msgid "According to the date"
 msgstr ""
 
-#: ../src/import.c:3649
+#: ../src/import.c:3683
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/import.c:3674
+#: ../src/import.c:3708
 #, fuzzy
 msgid "Manage import associations"
 msgstr "جستجوی تراکنش"
 
-#: ../src/import.c:3681 ../src/parametres.c:331
+#: ../src/import.c:3715 ../src/parametres.c:331
 #, fuzzy
 msgid "Import associations"
 msgstr "توضیحات"
 
-#: ../src/import.c:3683
+#: ../src/import.c:3717
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
 "specific payee representing your landlord."
 msgstr ""
 
-#: ../src/import.c:3752 ../src/tiers_onglet.c:1145
+#: ../src/import.c:3786 ../src/tiers_onglet.c:1145
 #, fuzzy
 msgid "Payee name"
 msgstr "نام فایل"
 
-#: ../src/import.c:3766
+#: ../src/import.c:3800
 #, fuzzy
 msgid "Search string"
 msgstr "جستجو"
 
-#: ../src/import.c:3775
+#: ../src/import.c:3809
 #, fuzzy
 msgid "Details of associations"
 msgstr "جستجوی تراکنش"
 
 #. Create entry liste des tiers
-#: ../src/import.c:3784
+#: ../src/import.c:3818
 #, fuzzy
 msgid "Payee name: "
 msgstr "نام فایل:"
 
 #. Create entry search string
-#: ../src/import.c:3807
+#: ../src/import.c:3841
 #, fuzzy
 msgid "Search string: "
 msgstr "جستجو:"
 
-#: ../src/import.c:4101
+#: ../src/import.c:4135
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: ../src/import.c:4338
+#: ../src/import.c:4372
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4397
+#: ../src/import.c:4432
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4488
+#: ../src/import.c:4523
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4499
+#: ../src/import.c:4534
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr ""
 
-#: ../src/import.c:4518
+#: ../src/import.c:4553
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr ""
 
-#: ../src/import.c:4521
+#: ../src/import.c:4556
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 
 #. textstring 2
-#: ../src/import.c:4526
+#: ../src/import.c:4561
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr ""
 
-#: ../src/import.c:4533
+#: ../src/import.c:4568
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr ""
 
 #. label filename
-#: ../src/import.c:4544
+#: ../src/import.c:4579
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "ویرایش گزارش:"
 
-#: ../src/import.c:4645
+#: ../src/import.c:4680
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
 
-#: ../src/import.c:4673
+#: ../src/import.c:4709
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "فایل \"%s\" ذخیره نشد."
@@ -9131,17 +9134,17 @@ msgstr ""
 msgid "All mandatory fields are filed in."
 msgstr ""
 
-#: ../src/import_csv.c:1099
+#: ../src/import_csv.c:1101
 msgid "The conversion to utf8 went wrong."
 msgstr ""
 
-#: ../src/import_csv.c:1100
+#: ../src/import_csv.c:1102
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: ../src/import_csv.c:1153
+#: ../src/import_csv.c:1156
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "حساب بسته شده"
@@ -9279,14 +9282,14 @@ msgstr "بخش های درآمد"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "جستجوی تراکنش"
 
-#: ../src/main.c:484
+#: ../src/main.c:458
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:605
+#: ../src/main.c:579
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
@@ -9294,7 +9297,7 @@ msgstr ""
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:741 ../src/main.c:781 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:718 ../src/main.c:758 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr ""
 
@@ -9555,7 +9558,7 @@ msgstr ""
 msgid "Can't remove selected division."
 msgstr ""
 
-#: ../src/metatree.c:1144
+#: ../src/metatree.c:1148
 msgid ""
 "This transaction is archived.\n"
 "\n"
@@ -9563,12 +9566,12 @@ msgid ""
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:1681
+#: ../src/metatree.c:1685
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr ""
 
-#: ../src/metatree.c:1685
+#: ../src/metatree.c:1689
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9576,44 +9579,44 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: ../src/metatree.c:1698
+#: ../src/metatree.c:1702
 #, fuzzy, c-format
 msgid "Transfer transactions to payee"
 msgstr "جستجوی تراکنش"
 
-#: ../src/metatree.c:1700
+#: ../src/metatree.c:1704
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "جستجوی تراکنش"
 
-#: ../src/metatree.c:1798
+#: ../src/metatree.c:1802
 #, fuzzy, c-format
 msgid "Just remove this payee."
 msgstr "حذف روش پرداخت"
 
-#: ../src/metatree.c:1800
+#: ../src/metatree.c:1804
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: ../src/metatree.c:1802
+#: ../src/metatree.c:1806
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: ../src/metatree.c:1843
+#: ../src/metatree.c:1847
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: ../src/metatree.c:1846 ../src/metatree.c:2884
+#: ../src/metatree.c:1850 ../src/metatree.c:2888
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
 
-#: ../src/metatree.c:2758
+#: ../src/metatree.c:2762
 #, fuzzy, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -9621,46 +9624,46 @@ msgid ""
 msgstr "جستجوی تراکنش"
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:2766
+#: ../src/metatree.c:2770
 #, fuzzy, c-format
 msgid "Choose action for \"%s\"."
 msgstr "انتخاب نوع حساب"
 
-#: ../src/metatree.c:2772
+#: ../src/metatree.c:2776
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
 
-#: ../src/metatree.c:2800
+#: ../src/metatree.c:2804
 #, fuzzy, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr "جستجوی تراکنش"
 
-#: ../src/metatree.c:2803
+#: ../src/metatree.c:2807
 #, fuzzy, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr "جستجوی تراکنش"
 
-#: ../src/metatree.c:2806
+#: ../src/metatree.c:2810
 #, fuzzy, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr "جستجوی تراکنش"
 
-#: ../src/metatree.c:2828 ../src/metatree.c:2849
+#: ../src/metatree.c:2832 ../src/metatree.c:2853
 #, fuzzy
 msgid "Select the destination: "
 msgstr "جستجوی تراکنش:"
 
-#: ../src/metatree.c:2880
+#: ../src/metatree.c:2884
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
 "entered."
 msgstr ""
 
-#: ../src/metatree.c:2910
+#: ../src/metatree.c:2914
 #, c-format
 msgid "Warning you can not create %s."
 msgstr ""
@@ -10005,80 +10008,81 @@ msgstr ""
 msgid "Error opening file '%s'."
 msgstr "خطا در هنگام خواندن '%s'"
 
-#: ../src/plugins/gnucash/gnucash.c:616
+#: ../src/plugins/gnucash/gnucash.c:619
 msgid ""
 "Grisbi needs to open a temporary file in order to import Gnucash data but "
-"file can't be created.  Check that you have permission to do that."
+"file can't be created.\n"
+"Check that you have permission to do that."
 msgstr ""
 
-#: ../src/plugins/gnucash/gnucash.c:617
+#: ../src/plugins/gnucash/gnucash.c:622
 #, fuzzy, c-format
 msgid "Error opening temporary file '%s'."
 msgstr "خطا در هنگام خواندن '%s'"
 
-#: ../src/plugins/ofx/ofx.c:148
+#: ../src/plugins/ofx/ofx.c:151
 msgid "Invalid OFX file"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:209
+#: ../src/plugins/ofx/ofx.c:214
 msgid "OFX processing returned following message:\n"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:215
+#: ../src/plugins/ofx/ofx.c:220
 msgid "OFX processing ended in a warning message which is not valid."
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:221
+#: ../src/plugins/ofx/ofx.c:226
 msgid "OFX processing returned following error message:\n"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:227
+#: ../src/plugins/ofx/ofx.c:232
 msgid "OFX processing returned an error message which is not valid."
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:366
+#: ../src/plugins/ofx/ofx.c:371
 msgid "A transaction try to be saved but no account was created...\n"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:432
+#: ../src/plugins/ofx/ofx.c:437
 #, fuzzy
 msgid "Interest"
 msgstr "درآمد ها"
 
-#: ../src/plugins/ofx/ofx.c:436
+#: ../src/plugins/ofx/ofx.c:441
 msgid "Dividend"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:440
+#: ../src/plugins/ofx/ofx.c:445
 msgid "Service charge"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:444
+#: ../src/plugins/ofx/ofx.c:449
 msgid "Fee"
 msgstr "قیمت"
 
-#: ../src/plugins/ofx/ofx.c:452
+#: ../src/plugins/ofx/ofx.c:457
 msgid "Cash dispenser"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:456
+#: ../src/plugins/ofx/ofx.c:461
 #, fuzzy
 msgid "Point of sale"
 msgstr "پرینت در فایل"
 
-#: ../src/plugins/ofx/ofx.c:464
+#: ../src/plugins/ofx/ofx.c:469
 msgid "Electronic payment"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:468
+#: ../src/plugins/ofx/ofx.c:473
 msgid "Cash"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:476
+#: ../src/plugins/ofx/ofx.c:481
 msgid "Merchant initiated debit"
 msgstr ""
 
-#: ../src/plugins/ofx/ofx.c:480
+#: ../src/plugins/ofx/ofx.c:485
 msgid "Repeating payment/standing order"
 msgstr ""
 
@@ -10800,7 +10804,7 @@ msgid ""
 "The error was: %s."
 msgstr ""
 
-#: ../src/utils.c:558
+#: ../src/utils.c:559
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "امکان اجرای مرورگر وب نیست"
@@ -10824,38 +10828,38 @@ msgid ""
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:617
+#: ../src/utils_files.c:589
 #, fuzzy
 msgid "Select a charmap"
 msgstr "انتخاب واحد"
 
-#: ../src/utils_files.c:639
+#: ../src/utils_files.c:611
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:679
+#: ../src/utils_files.c:651
 msgid "Encoding"
 msgstr ""
 
-#: ../src/utils_files.c:686
+#: ../src/utils_files.c:658
 #, fuzzy
 msgid "Result"
 msgstr "ویش فرض"
 
 #. select an other encoding
-#: ../src/utils_files.c:692
+#: ../src/utils_files.c:664
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:709 ../src/utils_files.c:827
+#: ../src/utils_files.c:681 ../src/utils_files.c:799
 #, fuzzy
 msgid "Select a charset"
 msgstr "انتخاب واحد"
 
-#: ../src/utils_files.c:844
+#: ../src/utils_files.c:816
 msgid "The conversion failed try another set of characters"
 msgstr ""
 
