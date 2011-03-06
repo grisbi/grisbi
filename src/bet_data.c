@@ -263,14 +263,15 @@ gboolean bet_data_hist_add_div ( gint account_number,
                         gint div_number,
                         gint sub_div_nb )
 {
-    gchar *key;
-    gchar *sub_key;
+    gchar *key = NULL;
+    gchar *sub_key = NULL;
     struct_hist_div *shd;
 
     key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
+        g_free ( key );
         shd -> div_edited = FALSE;
         shd -> amount = null_real;
 
@@ -285,6 +286,7 @@ gboolean bet_data_hist_add_div ( gint account_number,
                 if ( !sub_shd )
                 {
                     dialogue_error_memory ( );
+                    g_free ( sub_key );
                     return FALSE;
                 }
                 sub_shd -> div_number = sub_div_nb;
@@ -294,6 +296,7 @@ gboolean bet_data_hist_add_div ( gint account_number,
             {
                 shd -> div_edited = FALSE;
                 shd -> amount = null_real;
+                g_free ( sub_key );
             }
         }
     }
@@ -303,7 +306,7 @@ gboolean bet_data_hist_add_div ( gint account_number,
         if ( !shd )
         {
             dialogue_error_memory ( );
-            return 0;
+            return FALSE;
         }
         shd -> account_nb = account_number;
         shd -> origin = gsb_data_account_get_bet_hist_data ( account_number );
@@ -316,6 +319,7 @@ gboolean bet_data_hist_add_div ( gint account_number,
             if ( !sub_shd )
             {
                 dialogue_error_memory ( );
+                struct_free_hist_div  ( shd );
                 return FALSE;
             }
             sub_key = utils_str_itoa ( sub_div_nb );
@@ -345,6 +349,7 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
 
     if ( ( tmp_shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
+        g_free ( key );
         tmp_shd -> div_edited = shd -> div_edited;
         tmp_shd -> amount = shd -> amount;
 
@@ -377,23 +382,25 @@ gboolean bet_data_remove_div_hist ( gint account_number, gint div_number, gint s
     gchar *key;
     char *sub_key;
     struct_hist_div *shd;
+    gboolean return_val = FALSE;
     
     key = bet_data_get_key ( account_number, div_number );
 
     if ( ( shd = g_hash_table_lookup ( bet_hist_div_list, key ) ) )
     {
+        return_val = TRUE;
         if ( sub_div_nb > 0 )
         {
             sub_key = utils_str_itoa ( sub_div_nb );
             g_hash_table_remove ( shd -> sub_div_list, sub_key );
+            g_free ( sub_key );
         }
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
             g_hash_table_remove ( bet_hist_div_list, key );
     }
-    else
-        return FALSE;
+    g_free ( key );
 
-    return TRUE;
+    return return_val;
 }
 
 
@@ -409,6 +416,7 @@ gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint s
     gchar *sub_key;
     gint origin;
     struct_hist_div *shd;
+    gboolean return_val = FALSE;
 
     key = bet_data_get_key ( account_number, div_number );
 
@@ -418,25 +426,18 @@ gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint s
      && shd -> origin == origin )
     {
         if ( sub_div_nb == 0 )
-        {
-            g_free ( key );
-            return TRUE;
-        }
+            return_val = TRUE;
         else if ( sub_div_nb > 0 );
         {
             sub_key = utils_str_itoa ( sub_div_nb );
-            if (  g_hash_table_lookup ( shd -> sub_div_list, sub_key ) )
-            {
-                g_free ( key );
-                g_free ( sub_key );
-                return TRUE;
-            }
+            if ( g_hash_table_lookup ( shd -> sub_div_list, sub_key ) )
+                return_val = TRUE;
             g_free ( sub_key );
         }
     }
-
     g_free ( key );
-    return FALSE;
+
+    return return_val;
 }
 
 
@@ -707,6 +708,7 @@ gboolean bet_data_populate_div ( gint transaction_number,
 {
     gint div = 0;
     gint sub_div = 0;
+    gchar *key;
     SH *sh = NULL;
 
     div = ptr_div ( transaction_number, is_transaction );
@@ -715,15 +717,19 @@ gboolean bet_data_populate_div ( gint transaction_number,
     else
         return FALSE;
 
-    if ( (sh = g_hash_table_lookup ( list_div, utils_str_itoa ( div ) ) ) )
+    key = utils_str_itoa ( div );
+    if ( (sh = g_hash_table_lookup ( list_div, key ) ) )
+    {
         bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
+        g_free ( key );
+    }
     else
     {
         sh = struct_initialise_bet_historical ( );
         sh -> div = div;
         sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
         bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
-        g_hash_table_insert ( list_div, utils_str_itoa ( div ), sh );
+        g_hash_table_insert ( list_div, key, sh );
     }
 
     return FALSE;
@@ -743,6 +749,7 @@ gboolean bet_data_update_div ( SH *sh,
 {
     SBR *sbr = ( SBR*) sh -> sbr;
     gsb_real amount;
+    gchar *key;
     SH *tmp_sh = NULL;
 
     amount = gsb_data_transaction_get_amount ( transaction_number );
@@ -764,15 +771,19 @@ gboolean bet_data_update_div ( SH *sh,
     if ( sub_div < 1 )
         return FALSE;
 
-    if ( ( tmp_sh = g_hash_table_lookup ( sh -> list_sub_div, utils_str_itoa ( sub_div ) ) ) )
+    key = utils_str_itoa ( sub_div );
+    if ( ( tmp_sh = g_hash_table_lookup ( sh -> list_sub_div, key ) ) )
+    {
         bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction );
+        g_free ( key );
+    }
     else
     {
         tmp_sh = struct_initialise_bet_historical ( );
         tmp_sh -> div = sub_div;
         tmp_sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
         bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction );
-        g_hash_table_insert ( sh -> list_sub_div, utils_str_itoa ( sub_div ), tmp_sh );
+        g_hash_table_insert ( sh -> list_sub_div, key, tmp_sh );
     }
 
     return FALSE;
