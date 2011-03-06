@@ -363,31 +363,6 @@ gint get_utf8_line_from_file ( FILE *fichier,
 
 
 /**
- * Make a GtkEntry that will contain a file name, a GtkButton that
- * will pop up a file selector, pack them in a GtkHbox and return it.
- *
- * \return A newly created GtkHbox.
- */
-GtkWidget * my_file_chooser ()
-{
-    GtkWidget * hbox, *entry, *button;
-
-    hbox = gtk_hbox_new ( FALSE, 6 );
-
-    entry = gtk_entry_new ( );
-    gtk_box_pack_start ( GTK_BOX(hbox), entry, TRUE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT(hbox), "entry", entry );
-
-    button = gtk_button_new_with_label ( _("Browse") );
-    gtk_box_pack_start ( GTK_BOX(hbox), button, FALSE, FALSE, 0 );
-
-    g_signal_connect ( G_OBJECT(button), "clicked",
-		       (GCallback) browse_file, entry );
-
-    return hbox;
-}
-
-/**
  * \brief utf8 version of fopen (see fopen for more detail about mode)
  * 
  * convert utf8 file path into the locale OS charset before calling fopen
@@ -397,14 +372,12 @@ GtkWidget * my_file_chooser ()
  *
  * \return file descriptor returned by fopen
  */
-G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
+G_MODULE_EXPORT FILE* utf8_fopen (const gchar *utf8filename, gchar *mode )
 {
 #ifdef _MSC_VER
-	if(!strncmp(mode, "w+x", 3))
-		mode = "w+";
-    return fopen(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+    return fopen ( g_locale_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ), mode );
 #else
-	return fopen(g_filename_from_utf8(utf8filename, -1, NULL, NULL, NULL),mode);
+	return fopen ( g_filename_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ), mode );
 #endif
 }
 
@@ -418,12 +391,12 @@ G_MODULE_EXPORT FILE* utf8_fopen(const gchar* utf8filename,gchar* mode)
  *
  * \return remove returned value
  */
-gint utf8_remove(const gchar* utf8filename)
+gint utf8_remove ( const gchar *utf8filename )
 {
 #ifdef _MSC_VER
-    return remove(g_locale_from_utf8(utf8filename, -1, NULL, NULL, NULL));
+    return remove ( g_locale_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ) );
 #else
-    return remove(g_filename_from_utf8(utf8filename,-1,NULL,NULL,NULL));
+    return remove ( g_filename_from_utf8 ( utf8filename,-1,NULL,NULL,NULL ) );
 #endif
 }
 
@@ -433,9 +406,9 @@ gint utf8_remove(const gchar* utf8filename)
  *
  * \param filename Filename to sanitize.
  */
-gchar * safe_file_name ( gchar* filename )
+gchar *safe_file_name ( gchar *filename )
 {
-    return g_strdelimit ( my_strdup(filename), G_DIR_SEPARATOR_S, '_' );
+    return g_strdelimit ( my_strdup ( filename ), G_DIR_SEPARATOR_S, '_' );
 }
 
 
@@ -446,7 +419,7 @@ gchar * safe_file_name ( gchar* filename )
  *
  * \return chooser
  */
-GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre )
+GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
 {
     GtkWidget *chooser;
     GtkWidget *bouton_cancel, *bouton_OK;
@@ -502,7 +475,7 @@ void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
  *
  * \return TRUE if ok
  */
-gboolean utils_files_create_XDG_dir (void)
+gboolean utils_files_create_XDG_dir ( void )
 {
 #ifdef _MSC_VER
     int mode = 0;

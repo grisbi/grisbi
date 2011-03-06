@@ -399,16 +399,20 @@ gboolean gsb_csv_export_archive ( const gchar *filename, gint archive_number )
 static FILE *gsb_csv_export_open_file ( const gchar *filename )
 {
     FILE *csv_file;
-    gchar *sMessage = NULL;
 
-    /* Ouverture du fichier, si pb, on marque l'erreur et passe au fichier suivant */
-    if ( !( csv_file = utf8_fopen ( filename, "w" ) ))
+    /* Création du fichier, si pb, on marque l'erreur et passe au fichier suivant */
+    csv_file = utf8_fopen ( filename, "w" );
+    if ( ! csv_file )
     {
-	sMessage = g_strdup_printf ( _("Error opening file \"%s\" :\n%s"),
-				     filename, g_strerror ( errno ) );
-	dialogue ( sMessage );
-	g_free ( sMessage );
-	return NULL;
+        gchar *sMessage = NULL;
+
+        sMessage = g_strdup_printf ( _("Unable to create file \"%s\" :\n%s"),
+                         filename, g_strerror ( errno ) );
+        dialogue ( sMessage );
+
+        g_free ( sMessage );
+
+        return NULL;
     }
 
     return csv_file;

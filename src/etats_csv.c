@@ -26,6 +26,7 @@
 #endif
 
 #include "include.h"
+#include <errno.h>
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
 
@@ -155,20 +156,29 @@ void csv_attach_hsep ( gint x, gint x2, gint y, gint y2)
  */
 gint csv_initialise (GSList * opes_selectionnees, gchar * filename )
 {
+
     g_return_val_if_fail ( filename, FALSE );
+
    /* initialise values */
     csv_lastcol = 0;
     csv_lastline = 1;
 
-    g_unlink ( filename );	/* We don't care if this fails, this
-				 * is just to guarantee next will
-				 * not fail if file is existing.  This
-				 * will help against file races. */
-    csv_out = utf8_fopen ( filename, "w+x" );
+    /* on efface le fichier s'il existe déjà */
+    if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
+        g_unlink ( filename );
+
+    csv_out = utf8_fopen ( filename, "w" );
     if ( ! csv_out )
     {
-	dialogue_error ( g_strdup_printf (_("Unable to open file '%s'"), filename ));
-	return FALSE;
+        gchar *sMessage = NULL;
+
+        sMessage = g_strdup_printf ( _("Unable to create file \"%s\" :\n%s"),
+                         filename, g_strerror ( errno ) );
+        dialogue ( sMessage );
+
+        g_free ( sMessage );
+
+        return FALSE;
     }
 
     return TRUE;

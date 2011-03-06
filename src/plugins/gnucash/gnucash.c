@@ -612,11 +612,22 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   }
 
   tempname = g_strdup_printf ( "gsbgnc%05d", g_random_int_range (0,99999) );
-  tempfile = utf8_fopen ( tempname, "w+x" );
+  tempfile = utf8_fopen ( tempname, "w" );
   if ( ! tempfile )
   {
-      dialogue_error_hint ( _("Grisbi needs to open a temporary file in order to import Gnucash data but file can't be created.  Check that you have permission to do that."),
-			    g_strdup_printf ( _("Error opening temporary file '%s'." ), tempname ) );
+    gchar *tmp_str;
+    gchar *tmp_str_2;
+
+    tmp_str = g_strdup ( _("Grisbi needs to open a temporary file in order to import Gnucash data "
+                        "but file can't be created.\n"
+                        "Check that you have permission to do that.") );
+    tmp_str_2 = g_strdup_printf ( _("Error opening temporary file '%s'." ), tempname );
+
+    dialogue_error_hint ( tmp_str, tmp_str_2 );
+
+    g_free ( tmp_str );
+    g_free ( tmp_str_2 );
+
       return NULL;
   }
 
