@@ -1213,11 +1213,11 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
     GtkTreePath *path;
     GtkTreeIter iter;
     gint path_ok;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
-	    return FALSE;
-
+        return FALSE;
+    priv = combofix -> priv;
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store);
     path = gtk_tree_path_new_first ( );
