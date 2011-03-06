@@ -350,8 +350,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
  */
 void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model )
 {    
-    GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
-    GMarkupParseContext * context;
+    GMarkupParser *markup_parser;    GMarkupParseContext * context;
     gchar * file_content, * description = NULL;
     GtkTreeIter iter;
 
@@ -363,6 +362,7 @@ void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model 
 	dialogue_error (_("Cannot open the category file."));
 	return;
     }
+    markup_parser = g_malloc0 (sizeof (GMarkupParser));
 
     markup_parser -> start_element = (void *) gsb_category_assistant_start_element;
 
