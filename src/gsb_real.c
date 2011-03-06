@@ -982,6 +982,7 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
         g_strfreev ( tab_str );
     }
 
+    g_free ( mon_thousands_sep );
     g_free ( str_number );
     g_free ( dest );
 
