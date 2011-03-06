@@ -1289,10 +1289,11 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     gint height;
     GdkRectangle rectangle;
     gint horizontal_separator;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
-	    return FALSE;
+        return FALSE;
+    priv = combofix -> priv;
 
     /* get the position of the combofix */
     gdk_window_get_origin ( GTK_WIDGET ( combofix->entry ) -> window, &x, &y );
