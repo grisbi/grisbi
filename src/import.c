@@ -4512,7 +4512,7 @@ gboolean gsb_import_by_rule ( gint rule )
  * */
 gchar **gsb_import_by_rule_ask_filename ( gint rule )
 {
-    gchar *tmpstr;
+    gchar *tmpstr, tmpstr2;
     GtkWidget *dialog, *paddingbox, *table;
     GtkWidget *label;
     GtkWidget *button;
@@ -4561,15 +4561,19 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
                         gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
 
     /* textstring 2 */
-    tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Currency to import is %s.\n"),
+    tmpstr2 = g_strconcat(tmpstr, g_strdup_printf (_("Currency to import is %s.\n"),
                         gsb_data_currency_get_name (
                         gsb_data_import_rule_get_currency (rule))), NULL);
+    g_free ( tmpstr );
+	tmpstr = tmpstr2;
 
     /* textstring 3 */
     if (gsb_data_import_rule_get_invert (rule))
     {
-    tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Amounts of the transactions will be "
-                                                    "inverted.\n")), NULL);
+        tmpstr2 = g_strconcat(tmpstr, g_strdup_printf (_("Amounts of the transactions will be "
+                                                        "inverted.\n")), NULL);
+        g_free ( tmpstr );
+	    tmpstr = tmpstr2;
     }
 
     label = gtk_label_new ( tmpstr );
