@@ -79,12 +79,13 @@ static gint dernier_no_rappr;     /* quand on a choisi le plus grand, contient l
 struct struct_etat_affichage * etat_affichage_output;
 
 
-
+/* Uh, what?! See etats_affiche.c as well... */
 static gint ancien_tiers_etat;
+extern gint ancien_tiers_etat;
+
 
 /*START_EXTERN*/
 extern gint ancien_compte_etat;
-extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
 extern gint ancienne_ib_etat;
