@@ -145,7 +145,7 @@ struct iso_13616_iban iso_13616_ibans [] = {
 };
 
 static GtkWidget *edit_bank_button = NULL;
-GtkWidget *detail_nom_compte = NULL;
+static GtkWidget *detail_nom_compte = NULL;
 static GtkWidget *detail_type_compte = NULL;
 static GtkWidget *detail_titulaire_compte = NULL;
 static GtkWidget *detail_adresse_titulaire = NULL;
