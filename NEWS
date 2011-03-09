@@ -1,3 +1,33 @@
+New in version 0.8.3
+ - Fixed a bug export csv files on Windows
+ - Fixes a potential crash
+ - Fixes bug 1296: The box of restoration of the sub-transactions appears again
+   if the operation is no longer a split transaction
+ - Adding the XDG directories in the printed variables and fix memory leaks
+ - Fixes bug 1293: Problem of updating of the pointing balance
+ - Fixes a crash when importing a file without extension
+ - Fixes bug 1289: Filtering problem by amount
+
+New in version 0.8.2
+ - Fixed bug: Unable to delete third, category, or budget item
+
+New in version 0.8.1
+ - Fixed bug: Unable to enter a debit or credit
+
+New in version 0.8.0
+ - Integration of the budget module in the basic version of Grisbi
+ - Integration of a simulator credits with the ability to print or export the data
+   into a spreadsheet
+ - Management of local settings (date format, decimal separator and thousands separator)
+ - Addition of the amortization schedule for liability accounts
+ - incorporation des icônes personnalisées dans le fichier de comptes
+ - Addition of custom icons in the file accounts
+ - Colorization of debits in the scheduler
+ - rewriting of gtk_combofix for payees to remove the delays found on version 0.6.0
+ - rewritten import QIF files
+ - uses of gint64 to expand the fields of numbers up to 9 223 372 036 854 775 807
+ - many bugs fixed
+
 New in version 0.6 :
  - Encryption of the file
  - New and improved print system
@@ -134,10 +164,10 @@ New in version 0.4.4 :
  - New mouse feature:
    + <Ctrl><Click> has the same effect as <Ctrl><P>
 
-New in version 0.4.3 : 
+New in version 0.4.3 :
  - Bug fixes
 
-New in version 0.4.2 : 
+New in version 0.4.2 :
  - Bug fixes
  - Translation improved
  - Multi-currencies balances in startup screen
@@ -145,7 +175,7 @@ New in version 0.4.2 :
  - New contrib tool to obfuscate grisbi files and keep privacy while
    allowing reporters to send grisbi files
 
-New in version 0.4.1 : 
+New in version 0.4.1 :
  - *Many* bug fixes
  - Grisbi is now internationalized
 
