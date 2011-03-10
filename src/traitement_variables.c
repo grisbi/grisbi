@@ -234,8 +234,6 @@ extern GtkWidget *notebook_general;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
-extern GtkWidget *solde_label;
-extern GtkWidget *solde_label_pointe;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
@@ -360,9 +358,6 @@ void init_variables ( void )
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;
-
-    solde_label = NULL;
-    solde_label_pointe = NULL;
 
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;

@@ -137,11 +137,6 @@ GtkWidget *barre_outils;
 gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
 
-/*  pointeur vers le label qui contient le solde sous la liste des opé */
-GtkWidget *solde_label = NULL;
-
-GtkWidget *solde_label_pointe = NULL;
-
 static GtkWidget *transactions_tree_view = NULL;
 
 gint current_tree_view_width = 0;
