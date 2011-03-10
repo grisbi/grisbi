@@ -2792,14 +2792,14 @@ gulong gsb_file_save_logo_part ( gulong iterator,
     gchar * str64;
 
     pixbuf = gsb_select_icon_get_logo_pixbuf ( );
-    if ( !pixbuf )
-        return 0;
+    if ( pixbuf )
+    {
+        str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
 
-    str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
-
-    new_string = g_markup_printf_escaped ( "\t<Logo\n"
+        new_string = g_markup_printf_escaped ( "\t<Logo\n"
                         "\t\tImage=\"%s\" />\n", 
                         my_safe_null_str(str64) );
+    }
 
     iterator = gsb_file_save_append_part ( iterator,
                         length_calculated,
