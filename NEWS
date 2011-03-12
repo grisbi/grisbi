@@ -1,3 +1,7 @@
+New in version 0.8.4
+ - Fixes a bug that corrupts the file of accounts when saving in certain circumstances.
+ - Minor corrections in the management of the logo of Grisbi
+
 New in version 0.8.3
  - Fixed a bug export csv files on Windows
  - Fixes a potential crash
