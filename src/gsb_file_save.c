@@ -720,8 +720,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
-                       "\t\tIs_pixmaps_dir=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
+                       "\t\tIs_pixmaps_dir=\"%d\"\n"
 					   "\t\tRemind_display_per_account=\"%d\"\n"
 					   "\t\tTransactions_view=\"%s\"\n"
 					   "\t\tOne_line_showed=\"%d\"\n"
@@ -771,8 +771,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.get_fyear_by_value_date,
     etat.reconcile_end_date,
 	etat.utilise_logo,
-    etat.is_pixmaps_dir,
     my_safe_null_str( etat.name_logo ),
+    etat.is_pixmaps_dir,
 	etat.retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
 	display_one_line,

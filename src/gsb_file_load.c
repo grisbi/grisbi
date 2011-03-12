@@ -881,11 +881,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
-    {
-        etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
-    }
-
     else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
     {
         GdkPixbuf *pixbuf = NULL;
@@ -909,6 +904,22 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         {
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        }
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
+    {
+        etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
+        if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
+        {
+            GdkPixbuf *pixbuf = NULL;
+            gchar *chemin_logo = NULL;
+
+            chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_free ( chemin_logo );
         }
     }
 

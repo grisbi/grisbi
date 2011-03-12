@@ -170,8 +170,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     if (!pixbuf)
     {
-        preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
-                        GTK_ICON_SIZE_BUTTON );
+        preview = gtk_image_new_from_pixbuf ( gsb_select_icon_get_default_logo_pixbuf ( ) );
     }
     else
     {
@@ -294,16 +293,29 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
             gtk_widget_hide ( logo_accueil );
         else
         {
+            GdkPixbuf *pixbuf = NULL;
+
             /* Update homepage logo */
-            logo_accueil =  gtk_image_new_from_pixbuf ( 
-                            gsb_select_icon_get_logo_pixbuf ( ) );
-            gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-            gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
-            gtk_widget_show ( logo_accueil );
+            pixbuf = gsb_select_icon_get_logo_pixbuf ( );
+            if ( pixbuf == NULL )
+            {
+                pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
+                etat.is_pixmaps_dir = TRUE;
+            }
+            logo_accueil =  gtk_image_new_from_pixbuf ( pixbuf );
+            if ( logo_accueil )
+            {
+                gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
+                gtk_widget_set_size_request ( hbox_title, -1, -1 );
+                gtk_widget_show ( logo_accueil );
+            }
         }
     }
     else
+    {
         gtk_widget_destroy ( logo_accueil );
+        gtk_widget_set_size_request ( hbox_title, -1, -1 );
+    }
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
