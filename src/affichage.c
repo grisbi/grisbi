@@ -314,6 +314,10 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
     {
         gtk_widget_destroy ( logo_accueil );
         gtk_widget_set_size_request ( hbox_title, -1, -1 );
+        if ( etat.name_logo && strlen ( etat.name_logo ) )
+            g_free ( etat.name_logo );
+        etat.name_logo = NULL;
+        etat.is_pixmaps_dir = 0;
     }
 
     if ( etat.modification_fichier == 0 )
