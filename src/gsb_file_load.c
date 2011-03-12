@@ -915,7 +915,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             GdkPixbuf *pixbuf = NULL;
             gchar *chemin_logo = NULL;
 
-            chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
             pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );

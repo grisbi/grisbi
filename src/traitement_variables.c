@@ -489,9 +489,17 @@ void init_variables ( void )
     bet_data_finance_data_simulator_init ( );
 }
 
+/**
+ * Free allocations of grisbi variables
+ *
+ * */
+void free_variables ( void )
+{
+    gsb_data_print_config_free ();
+}
 
 /**
- * initialize the colors used in grisbi 
+ * initialize the colors used in grisbi
  *
  * \param
  *

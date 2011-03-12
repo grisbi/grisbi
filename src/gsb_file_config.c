@@ -132,9 +132,9 @@ devel_debug (NULL);
     if (!result)
     {
         /* On recherche le fichier dans HOME */
+        g_free ( filename );
 #ifndef _WIN32
         /* On recherche les fichiers possibles seulement sous linux */
-        g_free ( filename );
         filename = gsb_config_get_old_conf_name ( );
         devel_debug (filename);
         if ( ! filename || strlen ( filename ) == 0 )
@@ -171,6 +171,7 @@ devel_debug (NULL);
     if ( conf.stable_config_file_model )
     {
         used_model = TRUE;
+        g_free ( filename );
         filename = g_strconcat ( my_get_XDG_grisbirc_dir(), "/", PACKAGE, ".conf", NULL );
         if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
             return FALSE;
@@ -613,7 +614,7 @@ gboolean gsb_file_config_save_config ( void )
                         "Font name",
                         conf.font_string );
 
-    if (conf.browser_command)
+    if ( conf.browser_command )
     {
         gchar *string;
 
@@ -1038,6 +1039,8 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
      if ( !strcmp ( element_name,
 		   "Navigateur_web" ))
     {
+        if ( conf.browser_command )
+            g_free ( conf.browser_command );
 	conf.browser_command = my_strdelimit (text,
 					      "\\e",
 					      "&" );
@@ -1274,7 +1277,9 @@ void gsb_file_config_clean_config ( void )
     etat.show_tip = FALSE;
 
     /* mise en conformité avec les recommandations FreeDesktop. */
-    conf.browser_command = g_strdup (ETAT_WWW_BROWSER);
+    if ( conf.browser_command )
+        g_free ( conf.browser_command );
+    conf.browser_command = g_strdup ( ETAT_WWW_BROWSER );
 
     conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
 

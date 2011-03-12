@@ -683,8 +683,9 @@ static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
  */
 static void main_window_destroy_event ( GObject* obj, gpointer data)
 {
-   window = NULL;
-   gtk_main_quit();
+    free_variables();
+    window = NULL;
+    gtk_main_quit();
 }
 
 

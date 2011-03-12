@@ -2797,7 +2797,7 @@ gulong gsb_file_save_logo_part ( gulong iterator,
         str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
 
         new_string = g_markup_printf_escaped ( "\t<Logo\n"
-                        "\t\tImage=\"%s\" />\n", 
+                        "\t\tImage=\"%s\" />\n",
                         my_safe_null_str(str64) );
     }
 
