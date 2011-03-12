@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 09:56+0100\n"
+"POT-Creation-Date: 2011-03-12 18:09+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -212,163 +212,163 @@ msgstr "Логотип Grisbi"
 msgid "Display a logo"
 msgstr "Показывать логотип"
 
-#: ../src/affichage.c:198
+#: ../src/affichage.c:197
 msgid "Click on preview to change logo"
 msgstr "Щёлкните по значку слева для смены логотипа"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:106 ../src/print_report.c:407
+#: ../src/affichage.c:201 ../src/print_report.c:106 ../src/print_report.c:407
 #: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Шрифты"
 
-#: ../src/affichage.c:208
+#: ../src/affichage.c:207
 #, fuzzy
 msgid "Use a custom font for the transactions: "
 msgstr "Использовать свой шрифт для проводок"
 
 #. change colors
-#: ../src/affichage.c:233
+#: ../src/affichage.c:232
 msgid "Colors"
 msgstr "Цвета"
 
-#: ../src/affichage.c:247
+#: ../src/affichage.c:246
 msgid "Choosing color"
 msgstr ""
 
-#: ../src/affichage.c:262
+#: ../src/affichage.c:261
 msgid "Back to default"
 msgstr "Сбросить до исходных"
 
-#: ../src/affichage.c:370 ../src/parametres.c:404
+#: ../src/affichage.c:382 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "Адреса и названия"
 
 #. Account file title
-#: ../src/affichage.c:374 ../src/etats_config.c:625 ../src/etats_config.c:628
+#: ../src/affichage.c:386 ../src/etats_config.c:625 ../src/etats_config.c:628
 #: ../src/etats_config.c:6989
 msgid "Titles"
 msgstr "Названия"
 
-#: ../src/affichage.c:384
+#: ../src/affichage.c:396
 msgid "Accounts file title"
 msgstr "Название файла счёта"
 
-#: ../src/affichage.c:396
+#: ../src/affichage.c:408
 msgid "Account owner name"
 msgstr "Имя владельца счёта"
 
-#: ../src/affichage.c:408
+#: ../src/affichage.c:420
 msgid "Filename"
 msgstr "Имя файла"
 
 #. label account name
-#: ../src/affichage.c:422 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:434 ../src/gsb_assistant_file.c:286
 #, fuzzy
 msgid "Accounts file title: "
 msgstr "Название файла счёта:"
 
-#: ../src/affichage.c:435
+#: ../src/affichage.c:447
 msgid "Addresses"
 msgstr "Адреса"
 
 #. Common address
-#: ../src/affichage.c:438
+#: ../src/affichage.c:450
 #, fuzzy
 msgid "Common address: "
 msgstr "Обычный адрес:"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:457
+#: ../src/affichage.c:469
 #, fuzzy
 msgid "Secondary address: "
 msgstr "Второй адрес:"
 
-#: ../src/affichage.c:572
+#: ../src/affichage.c:584
 msgid "Select a new logo"
 msgstr "Выберите новый логотип"
 
-#: ../src/affichage.c:706 ../src/parametres.c:422
+#: ../src/affichage.c:718 ../src/parametres.c:422
 msgid "Toolbars"
 msgstr "Панель инструментов"
 
-#: ../src/affichage.c:709
+#: ../src/affichage.c:721
 msgid "Display toolbar buttons as"
 msgstr "Показывать кнопки на панели инструментов в виде"
 
-#: ../src/affichage.c:711
+#: ../src/affichage.c:723
 msgid "Text"
 msgstr "Текста"
 
-#: ../src/affichage.c:720
+#: ../src/affichage.c:732
 msgid "Icons"
 msgstr "Значков"
 
-#: ../src/affichage.c:729
+#: ../src/affichage.c:741
 msgid "Both"
 msgstr "Значков и текста"
 
-#: ../src/affichage.c:751
+#: ../src/affichage.c:763
 msgid "Display headings bar"
 msgstr "Показывать панель заголовка"
 
-#: ../src/affichage.c:799
+#: ../src/affichage.c:811
 msgid "Transaction list background 1"
 msgstr "Фон списка проводок №1"
 
-#: ../src/affichage.c:800
+#: ../src/affichage.c:812
 msgid "Transaction list background 2"
 msgstr "Фон списка проводок №2"
 
-#: ../src/affichage.c:801
+#: ../src/affichage.c:813
 msgid "Color for the operation that gives the balance today"
 msgstr "Цвет операции, которая выводит текущий баланс"
 
-#: ../src/affichage.c:802
+#: ../src/affichage.c:814
 msgid "Color of transaction's text"
 msgstr "Цвет текста проводок"
 
-#: ../src/affichage.c:803
+#: ../src/affichage.c:815
 msgid "Text of unfinished split transaction"
 msgstr "Текст незавершённой разделённой проводки"
 
-#: ../src/affichage.c:804
+#: ../src/affichage.c:816
 msgid "Children of split transaction"
 msgstr "Потомки разделённой проводки"
 
-#: ../src/affichage.c:805
+#: ../src/affichage.c:817
 msgid "Selection color"
 msgstr "Цвет выделения"
 
-#: ../src/affichage.c:806
+#: ../src/affichage.c:818
 msgid "Background of non selectable scheduled transactions"
 msgstr "Фон невыбранных запланированных проводок"
 
-#: ../src/affichage.c:807
+#: ../src/affichage.c:819
 msgid "Archive color"
 msgstr "Цвет архива"
 
-#: ../src/affichage.c:808
+#: ../src/affichage.c:820
 msgid "Background of invalid date entry"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/affichage.c:809
+#: ../src/affichage.c:821
 #, fuzzy
 msgid "Background of bet division"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/affichage.c:810
+#: ../src/affichage.c:822
 #, fuzzy
 msgid "Background of bet futur"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/affichage.c:811
+#: ../src/affichage.c:823
 #, fuzzy
 msgid "Background of bet solde"
 msgstr "Фон некорректной записи о дате"
 
-#: ../src/affichage.c:812
+#: ../src/affichage.c:824
 #, fuzzy
 msgid "Background of bet transfer"
 msgstr "Фон некорректной записи о дате"
@@ -1606,7 +1606,7 @@ msgstr "Создать новую подкатегорию"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
 #: ../src/import.c:436 ../src/import.c:3621 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:322 ../src/utils_files.c:644
+#: ../src/parametres.c:322 ../src/utils_files.c:669
 msgid "Import"
 msgstr "Импортировать"
 
@@ -7543,7 +7543,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5468
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5479
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
@@ -7556,14 +7556,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8876
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8890
+#: ../src/gsb_file_load.c:8901
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7571,7 +7571,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8894
+#: ../src/gsb_file_load.c:8905
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -8378,7 +8378,7 @@ msgid "Browse icons"
 msgstr ""
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:186
+#: ../src/gsb_select_icon.c:186 ../src/utils_files.c:381
 msgid "Browse"
 msgstr ""
 
@@ -10886,38 +10886,38 @@ msgid ""
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:589
+#: ../src/utils_files.c:614
 #, fuzzy
 msgid "Select a charmap"
 msgstr "Выделить все"
 
-#: ../src/utils_files.c:611
+#: ../src/utils_files.c:636
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:651
+#: ../src/utils_files.c:676
 msgid "Encoding"
 msgstr "Кодировка"
 
-#: ../src/utils_files.c:658
+#: ../src/utils_files.c:683
 #, fuzzy
 msgid "Result"
 msgstr "По умолчанию"
 
 #. select an other encoding
-#: ../src/utils_files.c:664
+#: ../src/utils_files.c:689
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:681 ../src/utils_files.c:799
+#: ../src/utils_files.c:706 ../src/utils_files.c:824
 #, fuzzy
 msgid "Select a charset"
 msgstr "Выберите основную валюту"
 
-#: ../src/utils_files.c:816
+#: ../src/utils_files.c:841
 msgid "The conversion failed try another set of characters"
 msgstr ""
 

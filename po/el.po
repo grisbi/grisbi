@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 09:56+0100\n"
+"POT-Creation-Date: 2011-03-12 18:09+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -229,165 +229,165 @@ msgstr "Λογότυπο Grisbi"
 msgid "Display a logo"
 msgstr "Επιδείξτε ένα λογότυπο"
 
-#: ../src/affichage.c:198
+#: ../src/affichage.c:197
 msgid "Click on preview to change logo"
 msgstr "Χτυπήστε στην πρόβλεψη για να αλλάξετε το λογότυπο"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:106 ../src/print_report.c:407
+#: ../src/affichage.c:201 ../src/print_report.c:106 ../src/print_report.c:407
 #: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Πηγές"
 
-#: ../src/affichage.c:208
+#: ../src/affichage.c:207
 #, fuzzy
 msgid "Use a custom font for the transactions: "
 msgstr "Χρησιμοποιήστε μια πηγή συνήθειας για τις συναλλαγές"
 
 #. change colors
-#: ../src/affichage.c:233
+#: ../src/affichage.c:232
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: ../src/affichage.c:247
+#: ../src/affichage.c:246
 msgid "Choosing color"
 msgstr "Επιλογή του χρώματος"
 
-#: ../src/affichage.c:262
+#: ../src/affichage.c:261
 msgid "Back to default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/affichage.c:370 ../src/parametres.c:404
+#: ../src/affichage.c:382 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "Διευθύνσεις & τίτλοι"
 
 #. Account file title
-#: ../src/affichage.c:374 ../src/etats_config.c:625 ../src/etats_config.c:628
+#: ../src/affichage.c:386 ../src/etats_config.c:625 ../src/etats_config.c:628
 #: ../src/etats_config.c:6989
 msgid "Titles"
 msgstr "Τίτλοι"
 
-#: ../src/affichage.c:384
+#: ../src/affichage.c:396
 msgid "Accounts file title"
 msgstr "Τίτλος αρχείων λογαριασμών"
 
-#: ../src/affichage.c:396
+#: ../src/affichage.c:408
 msgid "Account owner name"
 msgstr "Όνομα ιδιοκτήτη λογαριασμού"
 
-#: ../src/affichage.c:408
+#: ../src/affichage.c:420
 msgid "Filename"
 msgstr "Όνομα αρχείου"
 
 #. label account name
-#: ../src/affichage.c:422 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:434 ../src/gsb_assistant_file.c:286
 #, fuzzy
 msgid "Accounts file title: "
 msgstr "Τίτλος αρχείων λογαριασμών:"
 
-#: ../src/affichage.c:435
+#: ../src/affichage.c:447
 msgid "Addresses"
 msgstr "Διευθύνσεις"
 
 #. Common address
-#: ../src/affichage.c:438
+#: ../src/affichage.c:450
 #, fuzzy
 msgid "Common address: "
 msgstr "Κοινή διεύθυνση:"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:457
+#: ../src/affichage.c:469
 #, fuzzy
 msgid "Secondary address: "
 msgstr "Δευτεροβάθμια διεύθυνση:"
 
-#: ../src/affichage.c:572
+#: ../src/affichage.c:584
 msgid "Select a new logo"
 msgstr "Επιλέξτε ένα νέο λογότυπο"
 
-#: ../src/affichage.c:706 ../src/parametres.c:422
+#: ../src/affichage.c:718 ../src/parametres.c:422
 msgid "Toolbars"
 msgstr "Ράβδοι εργαλείων"
 
-#: ../src/affichage.c:709
+#: ../src/affichage.c:721
 msgid "Display toolbar buttons as"
 msgstr "Εμφάνιση των εργαλείων ράβδου ως"
 
-#: ../src/affichage.c:711
+#: ../src/affichage.c:723
 msgid "Text"
 msgstr "Κείμενο"
 
-#: ../src/affichage.c:720
+#: ../src/affichage.c:732
 msgid "Icons"
 msgstr "Εικονίδια"
 
-#: ../src/affichage.c:729
+#: ../src/affichage.c:741
 msgid "Both"
 msgstr "Και οι δύο"
 
-#: ../src/affichage.c:751
+#: ../src/affichage.c:763
 msgid "Display headings bar"
 msgstr "Εμφάνιση μπάρας τίτλων"
 
-#: ../src/affichage.c:799
+#: ../src/affichage.c:811
 msgid "Transaction list background 1"
 msgstr "Υπόβαθρο 1 καταλόγων συναλλαγής"
 
-#: ../src/affichage.c:800
+#: ../src/affichage.c:812
 msgid "Transaction list background 2"
 msgstr "Υπόβαθρο 2 καταλόγων συναλλαγής"
 
-#: ../src/affichage.c:801
+#: ../src/affichage.c:813
 msgid "Color for the operation that gives the balance today"
 msgstr ""
 
-#: ../src/affichage.c:802
+#: ../src/affichage.c:814
 msgid "Color of transaction's text"
 msgstr "Χρώμα του κειμένου της συναλλαγής"
 
-#: ../src/affichage.c:803
+#: ../src/affichage.c:815
 #, fuzzy
 msgid "Text of unfinished split transaction"
 msgstr " κείμενο ατελούς  συναλλαγής"
 
-#: ../src/affichage.c:804
+#: ../src/affichage.c:816
 #, fuzzy
 msgid "Children of split transaction"
 msgstr "Αποτελέσματα διασπασμένης συναλλαγής"
 
-#: ../src/affichage.c:805
+#: ../src/affichage.c:817
 msgid "Selection color"
 msgstr "Χρώμα επιλογής"
 
-#: ../src/affichage.c:806
+#: ../src/affichage.c:818
 msgid "Background of non selectable scheduled transactions"
 msgstr "Υπόβαθρο των μη επιλέξιμων σχεδιασμένων συναλλαγών"
 
-#: ../src/affichage.c:807
+#: ../src/affichage.c:819
 msgid "Archive color"
 msgstr "Χρώμα αρχείων"
 
-#: ../src/affichage.c:808
+#: ../src/affichage.c:820
 msgid "Background of invalid date entry"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/affichage.c:809
+#: ../src/affichage.c:821
 #, fuzzy
 msgid "Background of bet division"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/affichage.c:810
+#: ../src/affichage.c:822
 #, fuzzy
 msgid "Background of bet futur"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/affichage.c:811
+#: ../src/affichage.c:823
 #, fuzzy
 msgid "Background of bet solde"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
 
-#: ../src/affichage.c:812
+#: ../src/affichage.c:824
 #, fuzzy
 msgid "Background of bet transfer"
 msgstr "Υπόβαθρο της άκυρης εισόδου ημερομηνίας"
@@ -1646,7 +1646,7 @@ msgstr "Δημιουργήστε μια νέα υποκατηγορία"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
 #: ../src/import.c:436 ../src/import.c:3621 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:322 ../src/utils_files.c:644
+#: ../src/parametres.c:322 ../src/utils_files.c:669
 msgid "Import"
 msgstr "Εισαγωγή"
 
@@ -8028,7 +8028,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Το plugin της κρυπτογράφησης δεν βρέθηκε."
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5468
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5479
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
@@ -8044,7 +8044,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8876
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -8053,7 +8053,7 @@ msgstr ""
 "Η έκδοση Grisbi %s απαιτείται για να ανοίξει αυτό το αρχείο.\n"
 "Eσείς χρησιμοποιείται την έκδοση %s."
 
-#: ../src/gsb_file_load.c:8890
+#: ../src/gsb_file_load.c:8901
 #, fuzzy
 msgid ""
 "You have opened an archive.\n"
@@ -8066,7 +8066,7 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: ../src/gsb_file_load.c:8894
+#: ../src/gsb_file_load.c:8905
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
@@ -8958,7 +8958,7 @@ msgid "Browse icons"
 msgstr "Ψάξτε τα εικονίδια"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:186
+#: ../src/gsb_select_icon.c:186 ../src/utils_files.c:381
 msgid "Browse"
 msgstr "Αναζήτηση"
 
@@ -11647,38 +11647,38 @@ msgid ""
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:589
+#: ../src/utils_files.c:614
 #, fuzzy
 msgid "Select a charmap"
 msgstr "Επιλέξτε το βασικό νόμισμα"
 
-#: ../src/utils_files.c:611
+#: ../src/utils_files.c:636
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:651
+#: ../src/utils_files.c:676
 msgid "Encoding"
 msgstr "Κωδικοποίηση"
 
-#: ../src/utils_files.c:658
+#: ../src/utils_files.c:683
 #, fuzzy
 msgid "Result"
 msgstr "Αποτέλεσμα %s"
 
 #. select an other encoding
-#: ../src/utils_files.c:664
+#: ../src/utils_files.c:689
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:681 ../src/utils_files.c:799
+#: ../src/utils_files.c:706 ../src/utils_files.c:824
 #, fuzzy
 msgid "Select a charset"
 msgstr "Επιλέξτε το βασικό νόμισμα"
 
-#: ../src/utils_files.c:816
+#: ../src/utils_files.c:841
 msgid "The conversion failed try another set of characters"
 msgstr ""
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 09:56+0100\n"
+"POT-Creation-Date: 2011-03-12 18:09+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -212,156 +212,156 @@ msgstr "Logo Grisbi"
 msgid "Display a logo"
 msgstr "Zobrazit logo"
 
-#: ../src/affichage.c:198
+#: ../src/affichage.c:197
 msgid "Click on preview to change logo"
 msgstr "Kliknutím na náhled změníte logo"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:106 ../src/print_report.c:407
+#: ../src/affichage.c:201 ../src/print_report.c:106 ../src/print_report.c:407
 #: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Písma"
 
-#: ../src/affichage.c:208
+#: ../src/affichage.c:207
 msgid "Use a custom font for the transactions: "
 msgstr "Použít vlastní písmo pro transakce: "
 
 #. change colors
-#: ../src/affichage.c:233
+#: ../src/affichage.c:232
 msgid "Colors"
 msgstr "Barvy"
 
-#: ../src/affichage.c:247
+#: ../src/affichage.c:246
 msgid "Choosing color"
 msgstr "Výběr barvy"
 
-#: ../src/affichage.c:262
+#: ../src/affichage.c:261
 msgid "Back to default"
 msgstr "Zpět k výchozím"
 
-#: ../src/affichage.c:370 ../src/parametres.c:404
+#: ../src/affichage.c:382 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "Adresy a názvy"
 
 #. Account file title
-#: ../src/affichage.c:374 ../src/etats_config.c:625 ../src/etats_config.c:628
+#: ../src/affichage.c:386 ../src/etats_config.c:625 ../src/etats_config.c:628
 #: ../src/etats_config.c:6989
 msgid "Titles"
 msgstr "Názvy"
 
-#: ../src/affichage.c:384
+#: ../src/affichage.c:396
 msgid "Accounts file title"
 msgstr "Název souboru účtů"
 
-#: ../src/affichage.c:396
+#: ../src/affichage.c:408
 msgid "Account owner name"
 msgstr "Jméno majitele účtu"
 
-#: ../src/affichage.c:408
+#: ../src/affichage.c:420
 msgid "Filename"
 msgstr "Název souboru"
 
 #. label account name
-#: ../src/affichage.c:422 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:434 ../src/gsb_assistant_file.c:286
 msgid "Accounts file title: "
 msgstr "Název souboru účtů: "
 
-#: ../src/affichage.c:435
+#: ../src/affichage.c:447
 msgid "Addresses"
 msgstr "Adresy"
 
 #. Common address
-#: ../src/affichage.c:438
+#: ../src/affichage.c:450
 msgid "Common address: "
 msgstr "Běžná adresa: "
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:457
+#: ../src/affichage.c:469
 msgid "Secondary address: "
 msgstr "Druhá adresa: "
 
-#: ../src/affichage.c:572
+#: ../src/affichage.c:584
 msgid "Select a new logo"
 msgstr "Vyberte nové logo"
 
-#: ../src/affichage.c:706 ../src/parametres.c:422
+#: ../src/affichage.c:718 ../src/parametres.c:422
 msgid "Toolbars"
 msgstr "Panely nástrojů"
 
-#: ../src/affichage.c:709
+#: ../src/affichage.c:721
 msgid "Display toolbar buttons as"
 msgstr "Zobrazit tlačítka panelu nástrojů jako"
 
-#: ../src/affichage.c:711
+#: ../src/affichage.c:723
 msgid "Text"
 msgstr "Text"
 
-#: ../src/affichage.c:720
+#: ../src/affichage.c:732
 msgid "Icons"
 msgstr "Ikony"
 
-#: ../src/affichage.c:729
+#: ../src/affichage.c:741
 msgid "Both"
 msgstr "Obojí"
 
-#: ../src/affichage.c:751
+#: ../src/affichage.c:763
 msgid "Display headings bar"
 msgstr "Zobrazit panel záhlaví"
 
-#: ../src/affichage.c:799
+#: ../src/affichage.c:811
 msgid "Transaction list background 1"
 msgstr "Pozadí seznamu transakcí 1"
 
-#: ../src/affichage.c:800
+#: ../src/affichage.c:812
 msgid "Transaction list background 2"
 msgstr "Pozadí seznamu transakcí 2"
 
-#: ../src/affichage.c:801
+#: ../src/affichage.c:813
 msgid "Color for the operation that gives the balance today"
 msgstr "Barva pro transakce, které dávají dnešní součet"
 
-#: ../src/affichage.c:802
+#: ../src/affichage.c:814
 msgid "Color of transaction's text"
 msgstr "Barva textu transakce"
 
-#: ../src/affichage.c:803
+#: ../src/affichage.c:815
 msgid "Text of unfinished split transaction"
 msgstr "Text nedokončené rozdělené transakce"
 
-#: ../src/affichage.c:804
+#: ../src/affichage.c:816
 msgid "Children of split transaction"
 msgstr "Detaily rozdělené transakce"
 
-#: ../src/affichage.c:805
+#: ../src/affichage.c:817
 msgid "Selection color"
 msgstr "Barva výběru"
 
-#: ../src/affichage.c:806
+#: ../src/affichage.c:818
 msgid "Background of non selectable scheduled transactions"
 msgstr "Pozadí plánovaných transakcí, které nejdou označit"
 
-#: ../src/affichage.c:807
+#: ../src/affichage.c:819
 msgid "Archive color"
 msgstr "Barva archivu"
 
-#: ../src/affichage.c:808
+#: ../src/affichage.c:820
 msgid "Background of invalid date entry"
 msgstr "Pozadí chybně zadaného data"
 
-#: ../src/affichage.c:809
+#: ../src/affichage.c:821
 msgid "Background of bet division"
 msgstr "Pozadí oddělovačů v proznóze"
 
-#: ../src/affichage.c:810
+#: ../src/affichage.c:822
 msgid "Background of bet futur"
 msgstr "Pozadí dat v proznóze"
 
-#: ../src/affichage.c:811
+#: ../src/affichage.c:823
 msgid "Background of bet solde"
 msgstr "Pozadí zůstatku"
 
-#: ../src/affichage.c:812
+#: ../src/affichage.c:824
 msgid "Background of bet transfer"
 msgstr "Pozadí transakce převodu"
 
@@ -1547,7 +1547,7 @@ msgstr "Vytvořit novou podkategorii"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
 #: ../src/import.c:436 ../src/import.c:3621 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:322 ../src/utils_files.c:644
+#: ../src/parametres.c:322 ../src/utils_files.c:669
 msgid "Import"
 msgstr "Import"
 
@@ -7696,7 +7696,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Plugin pro šifrování nebyl nalezen."
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5468
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5479
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Toto není soubor Grisbi... Nahrávání bylo přerušeno."
 
@@ -7712,7 +7712,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8876
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7721,7 +7721,7 @@ msgstr ""
 "Pro otevření tohoto souboru potřebujete verzi Grisbi %s.\n"
 "Vy používáte verzi %s."
 
-#: ../src/gsb_file_load.c:8890
+#: ../src/gsb_file_load.c:8901
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7734,7 +7734,7 @@ msgstr ""
 "důležitých informací mějte na paměti, že se jedná o již archivované "
 "transakce."
 
-#: ../src/gsb_file_load.c:8894
+#: ../src/gsb_file_load.c:8905
 msgid "Grisbi archive opened"
 msgstr "Archiv Grisbi otevřen"
 
@@ -8587,7 +8587,7 @@ msgid "Browse icons"
 msgstr "Procházet ikony"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:186
+#: ../src/gsb_select_icon.c:186 ../src/utils_files.c:381
 msgid "Browse"
 msgstr "Procházet"
 
@@ -11269,11 +11269,11 @@ msgstr ""
 "Pokud výsledek není správný, zkuste v okně pro výběr souborů zvolit správnou "
 "znakovou sadu."
 
-#: ../src/utils_files.c:589
+#: ../src/utils_files.c:614
 msgid "Select a charmap"
 msgstr "Zvolte mapu znaků"
 
-#: ../src/utils_files.c:611
+#: ../src/utils_files.c:636
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
@@ -11282,24 +11282,24 @@ msgstr ""
 "Jste zde, protože váš soubor nemůže být přímo naimportován do Grisbi.\n"
 "%s"
 
-#: ../src/utils_files.c:651
+#: ../src/utils_files.c:676
 msgid "Encoding"
 msgstr "Kódování"
 
-#: ../src/utils_files.c:658
+#: ../src/utils_files.c:683
 msgid "Result"
 msgstr "Výsledek"
 
 #. select an other encoding
-#: ../src/utils_files.c:664
+#: ../src/utils_files.c:689
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr "Pokud nejsou žádné návrhy správné, můžete vybrat jinou znakovou sadu"
 
-#: ../src/utils_files.c:681 ../src/utils_files.c:799
+#: ../src/utils_files.c:706 ../src/utils_files.c:824
 msgid "Select a charset"
 msgstr "Zvolte znakovou sadu"
 
-#: ../src/utils_files.c:816
+#: ../src/utils_files.c:841
 msgid "The conversion failed try another set of characters"
 msgstr "Konverze se nezdařila, zkuste jinou znakovou sadu"
 

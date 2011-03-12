@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 09:56+0100\n"
+"POT-Creation-Date: 2011-03-12 18:09+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -255,182 +255,182 @@ msgstr "Logoul lui Grisbi"
 msgid "Display a logo"
 msgstr "Mode de afişare"
 
-#: ../src/affichage.c:198
+#: ../src/affichage.c:197
 #, fuzzy
 msgid "Click on preview to change logo"
 msgstr ""
 "Clicaţi pe previzualizare pentru modificarea logoului din <Pagina de primire>"
 
 #. Change fonts
-#: ../src/affichage.c:202 ../src/print_report.c:106 ../src/print_report.c:407
+#: ../src/affichage.c:201 ../src/print_report.c:106 ../src/print_report.c:407
 #: ../src/print_transactions_list.c:261 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Poliţe"
 
-#: ../src/affichage.c:208
+#: ../src/affichage.c:207
 #, fuzzy
 msgid "Use a custom font for the transactions: "
 msgstr "Alegerea unei, poliţe pentru tranzacţiuni"
 
 #. change colors
-#: ../src/affichage.c:233
+#: ../src/affichage.c:232
 #, fuzzy
 msgid "Colors"
 msgstr "Comores"
 
-#: ../src/affichage.c:247
+#: ../src/affichage.c:246
 #, fuzzy
 msgid "Choosing color"
 msgstr "Pontare"
 
-#: ../src/affichage.c:262
+#: ../src/affichage.c:261
 #, fuzzy
 msgid "Back to default"
 msgstr "Restabilirea reglajelor de origine"
 
-#: ../src/affichage.c:370 ../src/parametres.c:404
+#: ../src/affichage.c:382 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "Adrese şi titluri"
 
 #. Account file title
-#: ../src/affichage.c:374 ../src/etats_config.c:625 ../src/etats_config.c:628
+#: ../src/affichage.c:386 ../src/etats_config.c:625 ../src/etats_config.c:628
 #: ../src/etats_config.c:6989
 msgid "Titles"
 msgstr "Titluri"
 
-#: ../src/affichage.c:384
+#: ../src/affichage.c:396
 msgid "Accounts file title"
 msgstr "Fişier cont titru"
 
-#: ../src/affichage.c:396
+#: ../src/affichage.c:408
 #, fuzzy
 msgid "Account owner name"
 msgstr "Numele contului"
 
-#: ../src/affichage.c:408
+#: ../src/affichage.c:420
 #, fuzzy
 msgid "Filename"
 msgstr "Numele titularului"
 
 #. label account name
-#: ../src/affichage.c:422 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:434 ../src/gsb_assistant_file.c:286
 #, fuzzy
 msgid "Accounts file title: "
 msgstr "Fişier cont titru:"
 
-#: ../src/affichage.c:435
+#: ../src/affichage.c:447
 msgid "Addresses"
 msgstr "Adrese"
 
 #. Common address
-#: ../src/affichage.c:438
+#: ../src/affichage.c:450
 #, fuzzy
 msgid "Common address: "
 msgstr "Adrese comune:"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:457
+#: ../src/affichage.c:469
 #, fuzzy
 msgid "Secondary address: "
 msgstr "Adrese secundare:"
 
-#: ../src/affichage.c:572
+#: ../src/affichage.c:584
 msgid "Select a new logo"
 msgstr "Selectarea uni nou logo"
 
-#: ../src/affichage.c:706 ../src/parametres.c:422
+#: ../src/affichage.c:718 ../src/parametres.c:422
 msgid "Toolbars"
 msgstr ""
 
-#: ../src/affichage.c:709
+#: ../src/affichage.c:721
 #, fuzzy
 msgid "Display toolbar buttons as"
 msgstr "Afişarea tranzacţiilor"
 
-#: ../src/affichage.c:711
+#: ../src/affichage.c:723
 #, fuzzy
 msgid "Text"
 msgstr "Texturi"
 
-#: ../src/affichage.c:720
+#: ../src/affichage.c:732
 #, fuzzy
 msgid "Icons"
 msgstr "Revenituri"
 
-#: ../src/affichage.c:729
+#: ../src/affichage.c:741
 #, fuzzy
 msgid "Both"
 msgstr "data"
 
-#: ../src/affichage.c:751
+#: ../src/affichage.c:763
 #, fuzzy
 msgid "Display headings bar"
 msgstr "Afişaţi informaţiile despre"
 
-#: ../src/affichage.c:799
+#: ../src/affichage.c:811
 #, fuzzy
 msgid "Transaction list background 1"
 msgstr "Previzualizarea listei de tranzacţiuni"
 
-#: ../src/affichage.c:800
+#: ../src/affichage.c:812
 #, fuzzy
 msgid "Transaction list background 2"
 msgstr "Previzualizarea listei de tranzacţiuni"
 
-#: ../src/affichage.c:801
+#: ../src/affichage.c:813
 msgid "Color for the operation that gives the balance today"
 msgstr ""
 
-#: ../src/affichage.c:802
+#: ../src/affichage.c:814
 #, fuzzy
 msgid "Color of transaction's text"
 msgstr "Tranzacţie ventilată"
 
-#: ../src/affichage.c:803
+#: ../src/affichage.c:815
 #, fuzzy
 msgid "Text of unfinished split transaction"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/affichage.c:804
+#: ../src/affichage.c:816
 #, fuzzy
 msgid "Children of split transaction"
 msgstr "Şterge o operaţie planificată"
 
-#: ../src/affichage.c:805
+#: ../src/affichage.c:817
 #, fuzzy
 msgid "Selection color"
 msgstr "Selecţionaţi totul"
 
-#: ../src/affichage.c:806
+#: ../src/affichage.c:818
 #, fuzzy
 msgid "Background of non selectable scheduled transactions"
 msgstr ""
 "Scadenţa operaţiei\n"
 "planificată selecţionată"
 
-#: ../src/affichage.c:807
+#: ../src/affichage.c:819
 #, fuzzy
 msgid "Archive color"
 msgstr "A activa"
 
-#: ../src/affichage.c:808
+#: ../src/affichage.c:820
 msgid "Background of invalid date entry"
 msgstr ""
 
-#: ../src/affichage.c:809
+#: ../src/affichage.c:821
 msgid "Background of bet division"
 msgstr ""
 
-#: ../src/affichage.c:810
+#: ../src/affichage.c:822
 msgid "Background of bet futur"
 msgstr ""
 
-#: ../src/affichage.c:811
+#: ../src/affichage.c:823
 msgid "Background of bet solde"
 msgstr ""
 
-#: ../src/affichage.c:812
+#: ../src/affichage.c:824
 msgid "Background of bet transfer"
 msgstr ""
 
@@ -1714,7 +1714,7 @@ msgstr "Intraţi numele noii sub-categorii."
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:131
 #: ../src/import.c:436 ../src/import.c:3621 ../src/imputation_budgetaire.c:564
-#: ../src/parametres.c:322 ../src/utils_files.c:644
+#: ../src/parametres.c:322 ../src/utils_files.c:669
 msgid "Import"
 msgstr "Importare"
 
@@ -7863,7 +7863,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Cont %s ne găsit.\n"
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5468
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5479
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Acest fişier nu este o stare Grisbi"
@@ -7877,14 +7877,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8876
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Vă trebuie versiunea %s de Grisbi pentru a deschide acest fişier"
 
-#: ../src/gsb_file_load.c:8890
+#: ../src/gsb_file_load.c:8901
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7892,7 +7892,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8894
+#: ../src/gsb_file_load.c:8905
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -8772,7 +8772,7 @@ msgid "Browse icons"
 msgstr "A parcurge"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:186
+#: ../src/gsb_select_icon.c:186 ../src/utils_files.c:381
 msgid "Browse"
 msgstr "A parcurge"
 
@@ -11423,38 +11423,38 @@ msgid ""
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:589
+#: ../src/utils_files.c:614
 #, fuzzy
 msgid "Select a charmap"
 msgstr "Selecţionaţi conturile bancare"
 
-#: ../src/utils_files.c:611
+#: ../src/utils_files.c:636
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:651
+#: ../src/utils_files.c:676
 msgid "Encoding"
 msgstr ""
 
-#: ../src/utils_files.c:658
+#: ../src/utils_files.c:683
 #, fuzzy
 msgid "Result"
 msgstr "Rezultat de %s"
 
 #. select an other encoding
-#: ../src/utils_files.c:664
+#: ../src/utils_files.c:689
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:681 ../src/utils_files.c:799
+#: ../src/utils_files.c:706 ../src/utils_files.c:824
 #, fuzzy
 msgid "Select a charset"
 msgstr "Selecţionaţi conturile bancare"
 
-#: ../src/utils_files.c:816
+#: ../src/utils_files.c:841
 msgid "The conversion failed try another set of characters"
 msgstr ""
 
