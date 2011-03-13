@@ -467,10 +467,13 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
         /* Creating the table which will store accounts with their balances. */
-        tmpstr = g_strdup_printf ( _("Account balances in %s"),
-                        gsb_data_currency_get_name ( currency_number ) );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf ( _("Account balances in %s at %s"),
+                        gsb_data_currency_get_name ( currency_number ),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf ( _("Account balances in %s"),
+                        gsb_data_currency_get_name ( currency_number ) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -545,10 +548,13 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances   */
-		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
-                         gsb_data_currency_get_name (currency_number) );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s at %s"),
+                        gsb_data_currency_get_name (currency_number),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
+                         gsb_data_currency_get_name (currency_number) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -622,10 +628,13 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances    */
-        tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
-                         gsb_data_currency_get_name (currency_number));
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf (_("Assets accounts balances in %s at %s"),
+                        gsb_data_currency_get_name (currency_number),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
+                         gsb_data_currency_get_name (currency_number));
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -689,12 +698,19 @@ void update_liste_comptes_accueil ( gboolean force )
     /* Affichage des soldes mixtes */
     if ( soldes_mixtes > 0 )
     {
+        gchar *tmp_str_2;
+
         if ( soldes_mixtes == 1 )
-            tmpstr = g_strdup ( _("Additional balance") );
+            tmp_str_2 = g_strdup ( _("Additional balance") );
         else
-            tmpstr = g_strdup ( _("Additional balances") );
+            tmp_str_2 = g_strdup ( _("Additional balances") );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+        {
+            tmpstr = g_strconcat ( tmp_str_2, _(" at "), gsb_date_today (), NULL );
+            g_free ( tmp_str_2 );
+        }
+        else
+            tmpstr = tmp_str_2;
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
