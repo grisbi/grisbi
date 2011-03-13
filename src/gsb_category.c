@@ -349,8 +349,8 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
  * \param model		A GtkTreeModel to fill with information found.
  */
 void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model )
-{    
-    GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+{
+    GMarkupParser *markup_parser;
     GMarkupParseContext * context;
     gchar * file_content, * description = NULL;
     GtkTreeIter iter;
@@ -364,6 +364,7 @@ void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model 
 	return;
     }
 
+    markup_parser = g_malloc0 ( sizeof ( GMarkupParser ) );
     markup_parser -> start_element = (void *) gsb_category_assistant_start_element;
 
     context = g_markup_parse_context_new ( markup_parser,
