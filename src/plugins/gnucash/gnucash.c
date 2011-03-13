@@ -638,34 +638,38 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
    * handle it gracefully.
    */
   while ( fgets ( buffer, 1024, filein ) )
-    {
-      gchar * tag;
-      tag = g_strrstr ( buffer, "<gnc-v2>" );
+  {
+    gchar * tag;
+    tag = g_strrstr ( buffer, "<gnc-v2>" );
       
-      if ( tag )
+    if ( tag )
 	{
-	  gchar * ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
-			     "ts", "slots", "slot", "price", "sx", "fs", NULL };
-	  gchar ** iter;
+        gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
+                        "ts", "slots", "slot", "price", "sx", "fs", NULL };
+        gchar **iter;
 
-	  tag += 7;
-	  *tag = 0;
-	  tag++;
+        tag += 7;
+        *tag = 0;
+        tag++;
 
-	  fputs ( buffer, tempfile );
-	  for ( iter = ns ; *iter != NULL ; iter++ )
-	    {
-          gchar *header = g_strdup_printf ( "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n", *iter, *iter, *iter );
-	      fputs ( header, tempfile );
-          g_free ( header );
+	    fputs ( buffer, tempfile );
+	    for ( iter = ns ; *iter != NULL ; iter++ )
+        {
+            gchar *header;
+
+            header = g_strdup_printf (
+                        "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n",
+                        *iter, *iter, *iter );
+            fputs ( header, tempfile );
+            g_free ( header );
 	    }
-	  fputs ( ">\n", tempfile );
+        fputs ( ">\n", tempfile );
 	}
-      else
+    else
 	{
 	  fputs ( buffer, tempfile );
 	}
-    }
+  }
   fclose ( filein );
   fclose ( tempfile );
 
