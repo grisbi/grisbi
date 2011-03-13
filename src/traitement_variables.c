@@ -86,7 +86,7 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-gchar *labels_titres_colonnes_liste_ope[] = {
+static gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
