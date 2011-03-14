@@ -312,7 +312,9 @@ if HAVE_CUNIT
 SUBDIRS += tests
 endif
 
-EXTRA_DIST = grisbi.keys grisbi.mime
+EXTRA_DIST = grisbi.keys grisbi.mime \
+    ui \
+	$(ui_DATA)
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
@@ -322,6 +324,12 @@ SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
 endif
 
 ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
+
+ui_DATA = \
+	ui/gsb_etats_config.ui
+
+uidir = \
+	$(pkgdatadir)
 
 checkheaders: $(ALLHEADERS:.h=.ho)
 
