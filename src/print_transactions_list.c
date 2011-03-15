@@ -79,8 +79,8 @@ static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * o
 /*START_EXTERN*/
 extern GdkColor archive_background_color;
 extern GdkColor couleur_fond[2];
-extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 

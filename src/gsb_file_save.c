@@ -172,8 +172,8 @@ extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
-extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 

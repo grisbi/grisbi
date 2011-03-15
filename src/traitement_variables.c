@@ -235,8 +235,8 @@ extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 

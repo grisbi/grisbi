@@ -54,9 +54,6 @@ typedef struct _CustomRecord     CustomRecord;
 typedef struct _CustomList       CustomList;
 typedef struct _CustomListClass  CustomListClass;
 
-/* number of visibles columns */
-#define CUSTOM_MODEL_N_VISIBLES_COLUMN 7
-
 /* CustomRecord: this structure represents a row */
 struct _CustomRecord
 {
