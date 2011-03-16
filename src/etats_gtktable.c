@@ -60,7 +60,6 @@ static gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename 
 /*END_STATIC*/
 
 GtkWidget *table_etat = NULL;
-struct struct_etat_affichage gtktable_affichage;
 
 struct struct_etat_affichage gtktable_affichage = {
     gtktable_initialise,
