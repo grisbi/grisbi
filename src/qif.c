@@ -65,8 +65,8 @@ extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
 
-gchar *last_header = NULL;
-gboolean mismatch_dates = TRUE;
+static gchar *last_header = NULL;
+static gboolean mismatch_dates = TRUE;
 
 enum
 {
