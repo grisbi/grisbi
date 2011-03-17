@@ -49,6 +49,7 @@
 #include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"

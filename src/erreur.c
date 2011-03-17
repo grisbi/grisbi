@@ -35,16 +35,15 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "dialog.h"
+#include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_file_config.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
 #include "main.h"
 #include "utils.h"
-#include "utils_files.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 

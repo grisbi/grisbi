@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
 #include "dialog.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "main.h"
 #include "structures.h"

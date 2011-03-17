@@ -46,10 +46,10 @@
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "gsb_status.h"
-#include "utils_files.h"
 #include "utils.h"
 /*END_INCLUDE*/
 

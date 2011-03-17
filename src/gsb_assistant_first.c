@@ -39,6 +39,7 @@
 #include "gsb_assistant_file.h"
 #include "gsb_automem.h"
 #include "parametres.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "traitement_variables.h"
 #include "dialog.h"

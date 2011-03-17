@@ -80,3 +80,72 @@ const gchar *gsb_dirs_get_plugins_dir ( void )
 {
     return plugins_dir;
 }
+
+
+/**
+ * return the absolute path of where the configuration file should be located
+ * on Un*x based system return $HOME
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_grisbirc_dir(void)
+{
+#ifndef _WIN32
+    return (gchar *) g_get_home_dir ();
+#else
+    return win32_get_grisbirc_folder_path();
+#endif
+}
+
+
+/**
+ * return the absolute path of where the configuration file should be located
+ * On UNIX platforms this is determined using the mechanisms described 
+ * in the  XDG Base Directory Specification
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_XDG_grisbirc_dir(void)
+{
+#ifndef _WIN32
+    return (gchar *) C_PATH_CONFIG;
+#else
+    return win32_get_grisbirc_folder_path();
+#endif
+}
+
+
+/**
+ * return the absolute path of where the data files should be located
+ * On UNIX platforms this is determined using the mechanisms described 
+ * in the  XDG Base Directory Specification
+ * on Windows based systems return APPDATA\Grisbi
+ * 
+ * \return the absolute path of the home directory
+ */
+gchar* my_get_XDG_grisbi_data_dir ( void )
+{
+#ifndef _WIN32
+    return (gchar *) C_PATH_DATA_FILES;
+#else
+    return g_get_home_dir ();
+#endif
+}
+
+/**
+ * return the absolute path of the default accounts files location
+ * on Un*x based system return $HOME
+ * on Windows based systems return "My Documents"
+ * 
+ * \return the absolute path of the configuration file directory
+ */
+gchar* my_get_gsb_file_default_dir ( void )
+{
+#ifndef _WIN32
+    return (gchar *) g_get_home_dir();
+#else
+    return win32_get_my_documents_folder_path();
+#endif
+}

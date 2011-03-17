@@ -52,7 +52,7 @@
 #include "gsb_assistant_file.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
-#include "gsb_file_config.h"
+#include "gsb_dirs.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
