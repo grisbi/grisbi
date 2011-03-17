@@ -50,7 +50,6 @@
 #include "utils_str.h"
 #include "utils.h"
 #include "affichage.h"
-#include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
