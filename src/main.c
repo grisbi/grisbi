@@ -211,7 +211,7 @@ void main_linux ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 }
 
 
@@ -314,7 +314,7 @@ void main_mac_osx ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 
     g_object_unref ( theApp );
 
@@ -385,7 +385,7 @@ void main_win_32 (  int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 
 #endif /* WIN_32 */
 }
@@ -518,7 +518,7 @@ GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS ( ) );
 
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ( );
@@ -836,10 +836,10 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
-                        C_GRISBIRC,
-                        C_PATH_CONFIG,
-                        C_PATH_CONFIG_ACCELS,
-                        C_PATH_DATA_FILES,
+                        C_GRISBIRC ( ),
+                        C_PATH_CONFIG ( ),
+                        C_PATH_CONFIG_ACCELS ( ),
+                        C_PATH_DATA_FILES ( ),
                         gsb_dirs_get_locale_dir ( ),
                         gsb_dirs_get_plugins_dir ( ),
                         gsb_dirs_get_pixmaps_dir ( ) );
@@ -855,11 +855,6 @@ gchar *gsb_main_get_print_dir_var ( void )
  */
 void gsb_main_free_global_definitions ( void )
 {
-    g_free ( C_GRISBIRC );
-    g_free ( C_OLD_GRISBIRC );
-    g_free ( C_PATH_CONFIG );
-    g_free ( C_PATH_CONFIG_ACCELS );
-    g_free ( C_PATH_DATA_FILES );
 }
 
 

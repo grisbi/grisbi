@@ -414,8 +414,8 @@ gboolean utils_files_create_XDG_dir ( void )
 #else
     int mode = S_IRUSR | S_IWUSR | S_IXUSR;
 #endif /*_MSC_VER */
-    if ( g_mkdir_with_parents ( C_PATH_CONFIG, mode ) == 0 &&
-         g_mkdir_with_parents ( C_PATH_DATA_FILES, mode ) == 0 )
+    if ( g_mkdir_with_parents ( C_PATH_CONFIG ( ), mode ) == 0 &&
+         g_mkdir_with_parents ( C_PATH_DATA_FILES ( ), mode ) == 0 )
         return TRUE;
     else
         return FALSE;
