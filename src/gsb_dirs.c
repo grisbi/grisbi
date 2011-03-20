@@ -70,12 +70,12 @@ void gsb_dirs_init ( void )
 #ifndef _WIN32
 
 #if IS_DEVELOPMENT_VERSION == 1
-    _C_GRISBIRC = g_strconcat ( "/", PACKAGE, "dev.conf", NULL);
+    _C_GRISBIRC = g_strconcat ( PACKAGE, "dev.conf", NULL);
 #else
-    _C_GRISBIRC = g_strconcat ( "/", PACKAGE, ".conf", NULL);
+    _C_GRISBIRC = g_strconcat ( PACKAGE, ".conf", NULL);
 #endif
 
-    _C_OLD_GRISBIRC = g_strconcat ( "/.", PACKAGE, "rc", NULL);
+    _C_OLD_GRISBIRC = g_strconcat ( ".", PACKAGE, "rc", NULL);
 
 #ifdef OS_OSX
     _C_PATH_CONFIG = g_strconcat (g_get_home_dir ( ), G_DIR_SEPARATOR_S,
@@ -92,8 +92,8 @@ void gsb_dirs_init ( void )
 #else /* _WIN32 */
 
 /* Some old Windows version have difficulties with dat starting file names */
-    _C_GRISBIRC = g_strconcat ( "\\", PACKAGE, "rc", NULL);
-    _C_OLD_GRISBIRC = g_strconcat ( "\\.", PACKAGE, "rc", NULL);
+    _C_GRISBIRC = g_strconcat ( PACKAGE, "rc", NULL);
+    _C_OLD_GRISBIRC = g_strconcat ( ".", PACKAGE, "rc", NULL);
     _C_PATH_CONFIG = win32_get_grisbirc_folder_path( );
     _C_PATH_DATA_FILES = g_get_home_dir ( );
 
