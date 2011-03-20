@@ -325,8 +325,8 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
         gint currency_number;
 
         currency_number = gsb_data_currency_get_no_currency (list_tmp -> data);
-        string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), C_DIRECTORY_SEPARATOR,
-                    "flags", C_DIRECTORY_SEPARATOR,
+        string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
+                    "flags", G_DIR_SEPARATOR_S,
                     gsb_data_currency_get_code_iso4217 (currency_number),
                     ".png", NULL );
         pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
@@ -1055,8 +1055,8 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
     combobox_store = gtk_list_store_new ( 3, G_TYPE_INT, GDK_TYPE_PIXBUF,
 						G_TYPE_STRING);
 
-    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), C_DIRECTORY_SEPARATOR,
-                        "flags", C_DIRECTORY_SEPARATOR,
+    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
+                        "flags", G_DIR_SEPARATOR_S,
                         gsb_data_currency_get_code_iso4217 (
                         transaction_currency_number ),
                         ".png", NULL );
@@ -1070,8 +1070,8 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
                     2, gsb_data_currency_get_name ( transaction_currency_number ),
                     -1 );
 
-    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), C_DIRECTORY_SEPARATOR,
-                        "flags", C_DIRECTORY_SEPARATOR,
+    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
+                        "flags", G_DIR_SEPARATOR_S,
                         gsb_data_currency_get_code_iso4217 (
                         account_currency_number ),
                         ".png", NULL );

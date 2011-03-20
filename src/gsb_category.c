@@ -306,20 +306,20 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
     GDir * dir;
     GSList * list = NULL;
 
-    dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+    dirname = g_strconcat ( DATA_PATH, G_DIR_SEPARATOR_S, "categories", G_DIR_SEPARATOR_S, basename, NULL );
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '.' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+	dirname = g_strconcat ( DATA_PATH, G_DIR_SEPARATOR_S, "categories", G_DIR_SEPARATOR_S, basename, NULL );
     }
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '_' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+	dirname = g_strconcat ( DATA_PATH, G_DIR_SEPARATOR_S, "categories", G_DIR_SEPARATOR_S, basename, NULL );
     }
 
     dir = g_dir_open ( dirname, 0, NULL );

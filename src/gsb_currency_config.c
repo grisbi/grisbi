@@ -564,8 +564,8 @@ void gsb_currency_append_currency_to_list ( GtkListStore *model,
     GtkTreeIter iter;
     gchar *string;
 
-    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), C_DIRECTORY_SEPARATOR,
-			  "flags", C_DIRECTORY_SEPARATOR,
+    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
+			  "flags", G_DIR_SEPARATOR_S,
 			  gsb_data_currency_get_code_iso4217 (currency_number),
 			  ".png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( string,
