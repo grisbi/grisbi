@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -1782,7 +1782,7 @@ msgstr "Rezultat pentru %s"
 msgid "No sub-category defined"
 msgstr "Nici o sub categorie (%d)"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 #, fuzzy
 msgid "No category defined"
 msgstr "Nici o categorie (%d)"
@@ -10739,17 +10739,17 @@ msgstr "Titluri"
 msgid "Fonts & layout"
 msgstr "Poliţă & logo"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "Starea fişierului nu este bună"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Cont importat"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10760,12 +10760,12 @@ msgstr ""
 "Grisbi a găsit un cont de investire care nu este încă implimentat. Cu toate "
 "aceastea Grisbi va tenta de al importa ca un cont în bancă"
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Sold iniţial"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10773,7 +10773,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10781,23 +10781,23 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "Gestiunea OFX nu poate fi activată !"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "în sus de stare"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10805,40 +10805,40 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Eroare la deschiderea fişierului '%s'."
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "Bancă"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 #, fuzzy
 msgid "invst)"
 msgstr "Legături"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 #, fuzzy
 msgid "cash)"
 msgstr "În lichid"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 #, fuzzy
 msgid "oth a)"
 msgstr "data"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 #, fuzzy
 msgid "oth l)"
 msgstr "Lunar"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 msgid "ccard)"
 msgstr ""
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr "[Operaţiune importată fără dată]"
 

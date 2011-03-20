@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -1705,7 +1705,7 @@ msgstr "Ιδιότητες για %s"
 msgid "No sub-category defined"
 msgstr "Υποκατηγορία που καθορίζεται καμία"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 msgid "No category defined"
 msgstr "Κατηγορία που καθορίζεται καμία"
 
@@ -10936,15 +10936,15 @@ msgstr "Πηγή τίτλου"
 msgid "Fonts & layout"
 msgstr "Πηγές & σχεδιάγραμμα"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 msgid "Invalid QIF file"
 msgstr "Άκυρο αρχείο QIF"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 msgid "Imported QIF account"
 msgstr "Εισαγόμενος λογαριασμός QIF"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10956,11 +10956,11 @@ msgstr ""
 "ακόμα.  Εντούτοις, το Grisbi θα προσπαθήσει να το εισαγάγει ως τραπεζικό "
 "λογαριασμό"
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 msgid "Opening Balance"
 msgstr "Ισορροπία ανοίγματος"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10972,7 +10972,7 @@ msgstr ""
 "να βρείτε λύση στο πρόβλημα.\n"
 "Για τώρα, όλες οι ημερομηνίες θα εισαχθούν ως 01.01.1970"
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10983,21 +10983,21 @@ msgstr ""
 "Αυτό δεν πρέπει να συμβεί. Παρακαλώ ελάτε σε επαφή με την ομάδα Grisbi για "
 "να προσπαθήσετε να προσθέσετε το παράξενο σχήμα σας στο Grisbi."
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 msgid "The order cannot be determined,\n"
 msgstr "Η διαταγή δεν μπορεί να καθοριστεί,\n"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 msgid "Date wrong for the order "
 msgstr "Ημερομηνία λανθασμένη για τη διαταγή"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -11008,36 +11008,36 @@ msgstr ""
 "αλλά ένα αρχείο QIF υποστηρίζει μόνο αρχείο ανά λογαριασμό,\n"
 "έτσι το Grisbi δημιούργησε %d τα αρχεία, ένα ανά λογαριασμό:\n"
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Λάθος κατά το άνοιγμα του αρχείου '%s'"
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "τράπεζα"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 msgid "invst)"
 msgstr "invst)"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 msgid "cash)"
 msgstr "μετρητό)"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 msgid "oth a)"
 msgstr "oth a)"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 msgid "oth l)"
 msgstr "oth l)"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 msgid "ccard)"
 msgstr "ccard)"
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr " [Συναλλαγή που εισάγεται χωρίς ημερομηνία]"
 

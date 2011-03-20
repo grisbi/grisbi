@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2011-02-20 23:28+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1612,7 +1612,7 @@ msgstr "Eigenschaften von %s"
 msgid "No sub-category defined"
 msgstr "Keine Unterkategorie definiert"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 msgid "No category defined"
 msgstr "Keine Kategorie definiert"
 
@@ -10619,15 +10619,15 @@ msgstr "Schrift Titel"
 msgid "Fonts & layout"
 msgstr "Schriften & Layout"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 msgid "Invalid QIF file"
 msgstr "Ungültige Qif-Datei"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 msgid "Imported QIF account"
 msgstr "Importiertes Qif-Konto"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10640,11 +10640,11 @@ msgstr ""
 "Diese Funktionalität ist derzeit nicht implementiert. Grisbi wird versuchen, "
 "dieses Konto als Bankkonto zu importieren."
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 msgid "Opening Balance"
 msgstr "Saldo Anfang"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10657,7 +10657,7 @@ msgstr ""
 "Ursache für den Fehler zu finden.\n"
 "Die Buchungen werden mit dem Standarddatum 01.01.1970 importiert"
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10669,15 +10669,15 @@ msgstr ""
 "vorkommen. Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) "
 "um die Ursache für den Fehler zu finden."
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 msgid "The order cannot be determined,\n"
 msgstr "Die Sortierung kann nicht festgelegt werden,\n"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 msgid "Date wrong for the order "
 msgstr "Falsches Datum für die Sortierung"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
@@ -10685,7 +10685,7 @@ msgstr ""
 "Achtung: Das Datumsformat besteht aus 3 zweistelligen Zahlen. Es kann unter "
 "Umständen zu einer fehlerhaften Darstellung vom Datum kommen."
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10696,36 +10696,36 @@ msgstr ""
 "Das Qif-Format unterstützt nur eine Datei pro Konto,\n"
 "deshalb hat Grisbi %d Dateien erstellt - jeweils eine pro Konto:\n"
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "Bank"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 msgid "invst)"
 msgstr "Investment"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 msgid "cash)"
 msgstr "Bareinnahmen"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 msgid "oth a)"
 msgstr "andere Einnahmen"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 msgid "oth l)"
 msgstr "andere Ausgaben"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 msgid "ccard)"
 msgstr "Kreditkarte"
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr " [Importierte Buchungen ohne Datum]"
 

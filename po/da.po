@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -1717,7 +1717,7 @@ msgstr ""
 msgid "No sub-category defined"
 msgstr "Ingen underkategori (%d)"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 #, fuzzy
 msgid "No category defined"
 msgstr "Ingen kategori  (%d)"
@@ -10388,17 +10388,17 @@ msgstr "Overskrifter"
 msgid "Fonts & layout"
 msgstr "Skrifttyper & logoer"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "QIF-fil"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Fjern en konto"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10407,12 +10407,12 @@ msgid ""
 "a bank account."
 msgstr ""
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Betalingsbalance"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10420,7 +10420,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10428,21 +10428,21 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 msgid "The order cannot be determined,\n"
 msgstr ""
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 msgid "Date wrong for the order "
 msgstr ""
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10450,38 +10450,38 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, c-format
 msgid "Error opening file '%s'"
 msgstr ""
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 #, fuzzy
 msgid "bank"
 msgstr "Bank"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 msgid "invst)"
 msgstr ""
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 msgid "cash)"
 msgstr ""
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 msgid "oth a)"
 msgstr ""
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 #, fuzzy
 msgid "oth l)"
 msgstr "Hver måned"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 msgid "ccard)"
 msgstr ""
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr ""
 
@@ -10950,369 +10950,3 @@ msgstr "Ingen kategori  (%d)"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Cannot open file '%s': %s."
-#~ msgstr "Kan ikke importerer fil."
-
-#~ msgid "Postscript file"
-#~ msgstr "Postscript-fil"
-
-#, fuzzy
-#~ msgid "Latex file"
-#~ msgstr "LaTeX-fil"
-
-#~ msgid "A4"
-#~ msgstr "A4"
-
-#~ msgid "General"
-#~ msgstr "Generelt"
-
-#~ msgid "Paper"
-#~ msgstr "Papir"
-
-#, fuzzy
-#~ msgid "File %s already exists."
-#~ msgstr "Valutaen findes allerede."
-
-#~ msgid "Printer"
-#~ msgstr "Printer"
-
-#~ msgid "File"
-#~ msgstr "Fil"
-
-#~ msgid "LaTeX file"
-#~ msgstr "LaTeX-fil"
-
-#~ msgid "Size"
-#~ msgstr "Størrelse"
-
-#~ msgid "Initial date:"
-#~ msgstr "Forkert dato:"
-
-#, fuzzy
-#~ msgid "Final date:"
-#~ msgstr "Fil :"
-
-#~ msgid "Report:"
-#~ msgstr "Rapport:"
-
-#, fuzzy
-#~ msgid "by date"
-#~ msgstr "Forkert dato"
-
-#~ msgid "Account type"
-#~ msgstr "Kontotype"
-
-#~ msgid "Account currency"
-#~ msgstr "Valuta"
-
-#~ msgid "Choose a %s"
-#~ msgstr "Vælg regnskabsår"
-
-#~ msgid "Transfer the transactions"
-#~ msgstr "Fly transaktioner til kategori"
-
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "Skrifttype i liste over transaktioner"
-
-#~ msgid "Initial period"
-#~ msgstr "Forkert dato"
-
-#~ msgid "month"
-#~ msgstr "Måneder"
-
-#~ msgid "Period"
-#~ msgstr "Papir"
-
-#~ msgid "_Open"
-#~ msgstr "Åbn"
-
-#~ msgid "Montly"
-#~ msgstr "Hver måned"
-
-#~ msgid "Transfert"
-#~ msgstr "Overførsel"
-
-#~ msgid "Futur data"
-#~ msgstr "Kontooplysninger"
-
-#~ msgid "Data Per Account"
-#~ msgstr "Beløb per konto"
-
-#~ msgid "Calculation of period"
-#~ msgstr "Balancer"
-
-#~ msgid "Display reconciled transactions"
-#~ msgstr "Skjul afstemte transaktioner"
-
-#~ msgid "Display lines archives"
-#~ msgstr "Vis gitter"
-
-#~ msgid "Display reconciled transactions (Alt+R)"
-#~ msgstr "Skjul afstemte transaktioner"
-
-#~ msgid "Mask reconcile"
-#~ msgstr "Vis afstemte transaktioner"
-
-#~ msgid "Mask reconciled transactions"
-#~ msgstr "Skjul afstemte transaktioner"
-
-#~ msgid "Display reconcile"
-#~ msgstr "Vis/Skjul kommentarer"
-
-#~ msgid "Assign the last known amount"
-#~ msgstr "Fly transaktioner til kategori"
-
-#~ msgid "two months"
-#~ msgstr "Måneder"
-
-#~ msgid "trimester"
-#~ msgstr "Printer"
-
-#~ msgid "Delete an old config file"
-#~ msgstr "Slet konto"
-
-#~ msgid "One month"
-#~ msgstr "Måneder"
-
-#~ msgid "Two months"
-#~ msgstr "Måneder"
-
-#~ msgid "Six months"
-#~ msgstr "Måneder"
-
-#~ msgid "One year"
-#~ msgstr "År"
-
-#~ msgid "Two years"
-#~ msgstr "År"
-
-#~ msgid "Each account has his own form"
-#~ msgstr "Hver konto har sin formular"
-
-#~ msgid "Update"
-#~ msgstr "efter dato"
-
-#~ msgid "Solde"
-#~ msgstr "ISO-kode"
-
-#~ msgid "Sub-Category"
-#~ msgstr "Kategori"
-
-#~ msgid "Budget"
-#~ msgstr "Budgetlinje"
-
-#~ msgid "Sub-budget"
-#~ msgstr "Ny underkategori"
-
-#~ msgid "Category line"
-#~ msgstr "Kategorier"
-
-#~ msgid "Archive %s (%d transactions)"
-#~ msgstr "%4.2f %s (%d transaktioner)"
-
-#~ msgid "Sort option for categories"
-#~ msgstr "Eksportér kategorier"
-
-#~ msgid "by type of method of payment"
-#~ msgstr "Væl betaligsmåde"
-
-#~ msgid "Payee, category and budgetary trees"
-#~ msgstr "Budgetlinje"
-
-#~ msgid "Transaction list background today"
-#~ msgstr "Skrifttype i liste over transaktioner"
-
-#~ msgid "IBAN format"
-#~ msgstr "Information"
-
-#~ msgid "Associations for the import of payees"
-#~ msgstr "Valgte betalingsmåde"
-
-#~ msgid "Association details"
-#~ msgstr "Kontooplysninger"
-
-#~ msgid "AqBanking"
-#~ msgstr "Bank"
-
-#~ msgid "Warning"
-#~ msgstr "Sortering"
-
-#~ msgid "One line mode"
-#~ msgstr "1 linje"
-
-#~ msgid "Two lines mode"
-#~ msgstr "2 linjer"
-
-#~ msgid "Three lines mode"
-#~ msgstr "3 linjer"
-
-#~ msgid "first line"
-#~ msgstr "1. linje"
-
-#~ msgid "second line"
-#~ msgstr "2. linje"
-
-#~ msgid "third line"
-#~ msgstr "3. linje"
-
-#~ msgid "fourth line"
-#~ msgstr "4. linje"
-
-#~ msgid "Displayed fields"
-#~ msgstr "Synlige felter"
-
-#~ msgid "'Accept' and 'Cancel' buttons"
-#~ msgstr "\"Acceptér\" og \"Annullér\" knapperne"
-
-#~ msgid ""
-#~ "Liabilities account\n"
-#~ "xxx"
-#~ msgstr "Passiver"
-
-#~ msgid ""
-#~ "Assets account\n"
-#~ "xxx"
-#~ msgstr "Aktiver"
-
-#~ msgid "Web browser"
-#~ msgstr "Webbrowser"
-
-#~ msgid "Autosaving"
-#~ msgstr "Autogem"
-
-#~ msgid "subscribe"
-#~ msgstr "abonnér"
-
-#~ msgid "Show _grid"
-#~ msgstr "Vis gitter"
-
-#~ msgid "Misc"
-#~ msgstr "Andet"
-
-#~ msgid "Financial expenses : Charges"
-#~ msgstr "Regnskabsår"
-
-#~ msgid "Frais financiers"
-#~ msgstr "Regnskabsår"
-
-#~ msgid "manual"
-#~ msgstr "Manuel"
-
-#~ msgid "Revert to default font"
-#~ msgstr "Tilbage til den oprindelige skrifttype"
-
-#~ msgid "Loading archived transactions."
-#~ msgstr "Skjul afstemte transaktioner"
-
-#~ msgid "Account name is empty"
-#~ msgstr "Kontonummer/Nøgle"
-
-#~ msgid "Apply changes to account?"
-#~ msgstr "Skal ændringerne gemmes?"
-
-#~ msgid "Choose account type"
-#~ msgstr "Vælg kontotype"
-
-#~ msgid "Initial current_balance"
-#~ msgstr "Betalingsbalance"
-
-#~ msgid "ISO 4217 currencies"
-#~ msgstr "ISO 4217 valutaer"
-
-#~ msgid "Currency '%s' already exists."
-#~ msgstr "Valutaen findes allerede."
-
-#~ msgid "backup.gsb"
-#~ msgstr "backup.gsb"
-
-#~ msgid "No user"
-#~ msgstr "Ingen bruger"
-
-#~ msgid "User"
-#~ msgstr "Bruger"
-
-#~ msgid "Form"
-#~ msgstr "Formular"
-
-#~ msgid "Col1"
-#~ msgstr "Kol1"
-
-#~ msgid "Col2"
-#~ msgstr "Kol2"
-
-#~ msgid "Col3"
-#~ msgstr "Kol3"
-
-#~ msgid "Col4"
-#~ msgstr "Kol4"
-
-#~ msgid "Col5"
-#~ msgstr "Kol5"
-
-#~ msgid "Col6"
-#~ msgstr "Kol6"
-
-#~ msgid "Col7"
-#~ msgstr "Kol7"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "Vis/Skjul formular"
-
-#~ msgid "One line per transaction"
-#~ msgstr "1 linje per transaktion"
-
-#~ msgid "Two lines per transaction"
-#~ msgstr "2 linjer per transaktion"
-
-#~ msgid "Three lines per transaction"
-#~ msgstr "3 linjer per transaktion"
-
-#~ msgid "Amount per category"
-#~ msgstr "Beløb per kategori"
-
-#~ msgid "Amount per subcategory"
-#~ msgstr "Beløb per underkategori"
-
-#~ msgid "Add a subcategory"
-#~ msgstr "Tilføj underkategori"
-
-#~ msgid "Remove a category"
-#~ msgstr "Fjern en kategori"
-
-#~ msgid "Just remove this category."
-#~ msgstr "Fjern denne kategori"
-
-#~ msgid "File exists. Do you want to overwrite it?"
-#~ msgstr "Filen findes allerede. Vil du overskrive den?"
-
-#~ msgid "Do you want"
-#~ msgstr "Ønsker De"
-
-#~ msgid "Account has no name!"
-#~ msgstr "Kontoen har ingen navn!"
-
-#~ msgid "Confirm currency change"
-#~ msgstr "Bekræft ændring af valuta"
-
-#~ msgid "Show"
-#~ msgstr "Vis"
-
-#~ msgid "%sCategory %s not found.\n"
-#~ msgstr "%sKategori %s blev ikke fundet.\n"
-
-#~ msgid "Category %s not found.\n"
-#~ msgstr "Kategori %s blev ikke fundet.\n"
-
-#~ msgid "%sBudget line %s not found.\n"
-#~ msgstr "%sBudget linje %s blev ikke fundet.\n"
-
-#~ msgid "OFX file"
-#~ msgstr "OFX-fil"
-
-#~ msgid "Import QIF\\/OFX\\/CSV\\/Gnucash file ..."
-#~ msgstr "Importér QIF\\/OFX\\/CSV\\/Gnucash fil..."
-
-#~ msgid "Wait please..."
-#~ msgstr "Vent et øjeblik..."

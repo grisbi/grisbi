@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1745,7 +1745,7 @@ msgstr "%s 的结果"
 msgid "No sub-category defined"
 msgstr "子类 (%d) 不存在"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 #, fuzzy
 msgid "No category defined"
 msgstr "类别 (%d) 不存在"
@@ -10624,17 +10624,17 @@ msgstr "名称抬头"
 msgid "Fonts & layout"
 msgstr "字体和标志"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "非法报表文件"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "已导入的账户"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10645,12 +10645,12 @@ msgstr ""
 "Grisbi 发现了一个投资账户，但相关的功能还没有实现。因此， Grisbi 将按银行账户"
 "导入。"
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 #, fuzzy
 msgid "Opening Balance"
 msgstr "最终余额"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10658,7 +10658,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10666,23 +10666,23 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "OFX支持不能开启！"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr "在报表最前"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10690,41 +10690,41 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "打开文件 '%s'.发生错误"
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "银行"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 #, fuzzy
 msgid "invst)"
 msgstr "链接"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 #, fuzzy
 msgid "cash)"
 msgstr "现金"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 #, fuzzy
 msgid "oth a)"
 msgstr "总计"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 #, fuzzy
 msgid "oth l)"
 msgstr "每月"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 #, fuzzy
 msgid "ccard)"
 msgstr "信用卡"
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr " [导入的交易没有日期]"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -1751,7 +1751,7 @@ msgstr "Resultado para %s"
 msgid "No sub-category defined"
 msgstr "Nenhuma sub-categoria(%d)"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 #, fuzzy
 msgid "No category defined"
 msgstr "Nenhuma categoria(%d)"
@@ -10712,17 +10712,17 @@ msgstr "Títulos"
 msgid "Fonts & layout"
 msgstr "Fontes & Logotipo"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 #, fuzzy
 msgid "Invalid QIF file"
 msgstr "Arquivo de relatório inválido"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 #, fuzzy
 msgid "Imported QIF account"
 msgstr "Importar conta"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10733,12 +10733,12 @@ msgstr ""
 "Grisbi encontrou uma conta de investimento, que não foi implementada ainda. "
 "Grisbi tentará importar ela como uma conta do tipo 'banco'."
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 #, fuzzy
 msgid "Opening Balance"
 msgstr "Saldo inicial"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10746,7 +10746,7 @@ msgid ""
 "For now, all the dates will be imported as 01.01.1970"
 msgstr ""
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10754,23 +10754,23 @@ msgid ""
 "strange format into Grisbi"
 msgstr ""
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 #, fuzzy
 msgid "The order cannot be determined,\n"
 msgstr "Suporte para OFX não pode ser ativado!"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 #, fuzzy
 msgid "Date wrong for the order "
 msgstr " no topo do relatório"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10778,41 +10778,41 @@ msgid ""
 "so Grisbi created %d files, one per account :\n"
 msgstr ""
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, fuzzy, c-format
 msgid "Error opening file '%s'"
 msgstr "Erro abrindo arquivo '%s'."
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "Banco"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 #, fuzzy
 msgid "invst)"
 msgstr "invest"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 #, fuzzy
 msgid "cash)"
 msgstr "Dinheiro"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 #, fuzzy
 msgid "oth a)"
 msgstr "outros"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 #, fuzzy
 msgid "oth l)"
 msgstr "oth I"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 #, fuzzy
 msgid "ccard)"
 msgstr "cartão de crédito"
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr " [Lançamento importado sem nenhuma data]"
 

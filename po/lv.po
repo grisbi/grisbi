@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-13 10:19+0100\n"
+"POT-Creation-Date: 2011-03-20 18:47+0100\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1656,7 +1656,7 @@ msgstr "Ipašības %s"
 msgid "No sub-category defined"
 msgstr "Nav definēta apakškategorija"
 
-#: ../src/categories_onglet.c:665 ../src/qif.c:912 ../src/qif.c:919
+#: ../src/categories_onglet.c:665 ../src/qif.c:931 ../src/qif.c:938
 msgid "No category defined"
 msgstr "Nav definēta kategorija"
 
@@ -10608,15 +10608,15 @@ msgstr "Fonta nosaukums"
 msgid "Fonts & layout"
 msgstr "Fonts un izkārtojums"
 
-#: ../src/qif.c:123
+#: ../src/qif.c:124
 msgid "Invalid QIF file"
 msgstr "Nederīgs QIF fails"
 
-#: ../src/qif.c:191
+#: ../src/qif.c:210
 msgid "Imported QIF account"
 msgstr "importēt QIF kontus"
 
-#: ../src/qif.c:202
+#: ../src/qif.c:221
 #, fuzzy, c-format
 msgid ""
 "Grisbi found an investment account:\n"
@@ -10627,11 +10627,11 @@ msgstr ""
 "Grisbi atrada ieguldījuma kontu (%s), kas vēl nav īstenots. Tomēr grisbi "
 "mēģinās to importēt kā bankas kontu."
 
-#: ../src/qif.c:261
+#: ../src/qif.c:280
 msgid "Opening Balance"
 msgstr "Sākuma bilance"
 
-#: ../src/qif.c:289
+#: ../src/qif.c:308
 msgid ""
 "Grisbi couldn't determine the format of the date into the qif file.\n"
 "Please contact the Grisbi team (devel@listes.grisbi.org) to find the "
@@ -10642,7 +10642,7 @@ msgstr ""
 "Lūdzu sazinieties ar Grisbi komandu.\n"
 "Tagad visi datumi tiek importēti kā 01.01.1970."
 
-#: ../src/qif.c:360
+#: ../src/qif.c:379
 #, c-format
 msgid ""
 "The date %s seems contains more than 2 separators.\n"
@@ -10652,21 +10652,21 @@ msgstr ""
 "Datumam %s ir vairāk nekā 2 atdalītāji.\n"
 "Tas nav iespējams. lūdzu sazinieties ar Grisbi komandu."
 
-#: ../src/qif.c:434
+#: ../src/qif.c:453
 msgid "The order cannot be determined,\n"
 msgstr "Pasūtījums nevar notikt.\n"
 
-#: ../src/qif.c:439
+#: ../src/qif.c:458
 msgid "Date wrong for the order "
 msgstr "Nepareizs pasūtījuma datums"
 
-#: ../src/qif.c:523
+#: ../src/qif.c:542
 msgid ""
 "Warning the date has three fields of two numbers. In these circumstances the "
 "date might be wrong."
 msgstr ""
 
-#: ../src/qif.c:670
+#: ../src/qif.c:689
 #, c-format
 msgid ""
 "There were many accounts to export in the archive,\n"
@@ -10677,36 +10677,36 @@ msgstr ""
 "Bet QIF formāts atbalsta tikai vienu failu ar kontiem.\n"
 "Tāpēc Grisbi izveidos %d failus ar kontiem :\n"
 
-#: ../src/qif.c:733
+#: ../src/qif.c:752
 #, c-format
 msgid "Error opening file '%s'"
 msgstr "Kļūda atverot failu '%s'"
 
-#: ../src/qif.c:1041
+#: ../src/qif.c:1060
 msgid "bank"
 msgstr "banka"
 
-#: ../src/qif.c:1043
+#: ../src/qif.c:1062
 msgid "invst)"
 msgstr "ieguldījumi"
 
-#: ../src/qif.c:1045
+#: ../src/qif.c:1064
 msgid "cash)"
 msgstr "nauda"
 
-#: ../src/qif.c:1047
+#: ../src/qif.c:1066
 msgid "oth a)"
 msgstr "oth a)"
 
-#: ../src/qif.c:1049
+#: ../src/qif.c:1068
 msgid "oth l)"
 msgstr "oth l)"
 
-#: ../src/qif.c:1051
+#: ../src/qif.c:1070
 msgid "ccard)"
 msgstr "karte"
 
-#: ../src/qif.c:1227 ../src/qif.c:1230
+#: ../src/qif.c:1246 ../src/qif.c:1249
 msgid " [Transaction imported without date]"
 msgstr "[Importēt darījumu bez datuma]"
 
