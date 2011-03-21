@@ -112,8 +112,7 @@ gboolean gsb_file_config_load_config ( void )
 devel_debug (NULL);
     gsb_file_config_clean_config ();
 
-    filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
-                             C_GRISBIRC ( ), NULL );
+    filename = g_build_filename ( my_get_XDG_grisbirc_dir(), C_GRISBIRC ( ), NULL );
 #if IS_DEVELOPMENT_VERSION == 1
     if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
     {
@@ -143,8 +142,7 @@ devel_debug (NULL);
         if ( ! filename || strlen ( filename ) == 0 )
             return FALSE;
 #else
-        filename = g_strconcat ( my_get_grisbirc_dir(), G_DIR_SEPARATOR_S,
-                                 C_OLD_GRISBIRC ( ), NULL );
+        filename = g_build_filename ( my_get_grisbirc_dir(), C_OLD_GRISBIRC ( ), NULL );
 #endif
         
         config = g_key_file_new ();
@@ -521,8 +519,7 @@ gboolean gsb_file_config_save_config ( void )
     
     devel_debug (NULL);
 
-    filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
-                             C_GRISBIRC ( ), NULL );
+    filename = g_build_filename ( my_get_XDG_grisbirc_dir(), C_GRISBIRC ( ), NULL );
     config = g_key_file_new ();
 
 #if IS_DEVELOPMENT_VERSION == 1
