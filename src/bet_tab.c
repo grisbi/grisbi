@@ -166,11 +166,11 @@ extern GtkWidget *window;
 /* gestion de la largeur des colonnes du tableau */
 
 /* tableau des colonnes */
-GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
+static GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
 /* the initial width of each column */
 gint bet_array_col_width[BET_ARRAY_COLUMNS];
 /* the initial width of the tree_view */
-gint bet_array_current_tree_view_width = 0;
+static gint bet_array_current_tree_view_width = 0;
 
 
 enum bet_estimation_tree_columns
