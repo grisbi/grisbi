@@ -174,7 +174,8 @@ devel_debug (NULL);
     {
         used_model = TRUE;
         g_free ( filename );
-        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), "/", PACKAGE, ".conf", NULL );
+        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
+                                 PACKAGE, ".conf", NULL );
         if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
             return FALSE;
 
