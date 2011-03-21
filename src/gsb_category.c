@@ -330,7 +330,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
 	gchar * filename;
 	while ( ( filename = (gchar *) g_dir_read_name ( dir ) ) )
 	{
-	    filename = g_strconcat ( dirname, "/", filename, NULL );
+	    filename = g_build_filename ( dirname, filename, NULL );
 	    if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) &&
 		 g_str_has_suffix ( filename, ".cgsb" ) )
 	    {
