@@ -123,7 +123,7 @@ static GtkWidget *form_expander = NULL;
  * for scheduled transactions
  * for transactions
  * the buttons valid/cancel */
-GtkWidget *form_scheduled_part;
+static GtkWidget *form_scheduled_part;
 GtkWidget *form_transaction_part;
 
 /* block the size allocate signal to avoid to move several times
@@ -142,7 +142,7 @@ GtkWidget *form_button_valid;
 GtkWidget *form_button_cancel;
 
 /* Buttons for the form */
-GtkWidget *form_button_part;
+static GtkWidget *form_button_part;
 
 /** THE form */
 static GtkWidget *transaction_form;
