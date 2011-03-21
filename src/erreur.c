@@ -461,7 +461,7 @@ gboolean gsb_debug_start_log ( void )
         complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
         basename = g_path_get_basename ( complete_filename );
 
-        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", basename, NULL);
+        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), basename, NULL);
 
         g_free ( basename);
         g_free ( complete_filename );
@@ -469,7 +469,7 @@ gboolean gsb_debug_start_log ( void )
     }
     else
     {
-        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", "No_name-log.txt", NULL);
+        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), "No_name-log.txt", NULL);
     }
 
 
