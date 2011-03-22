@@ -66,7 +66,6 @@ static gint debugging_grisbi;
 
 /* path and name of the file containing the log when debug mode is active
  * this values should not be freed when begin a new file to continue the log */
-gchar *debug_filename = NULL;
 FILE *debug_file = NULL;
 
 /*************************************************************************************************************/
@@ -448,6 +447,7 @@ GtkWidget * print_backtrace ( void )
 gboolean gsb_debug_start_log ( void )
 {
     gchar *tmp_str;
+    gchar *debug_filename;
 
     devel_debug ( NULL );
 
@@ -481,6 +481,8 @@ gboolean gsb_debug_start_log ( void )
     g_free (tmp_str);
 
     debug_file = g_fopen ( debug_filename, "w" );
+
+    g_free ( debug_filename );
 
     if ( debug_file )
     {
