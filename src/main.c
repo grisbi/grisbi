@@ -847,6 +847,7 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tC_PATH_CONFIG = %s\n"
                         "\tC_PATH_CONFIG_ACCELS = %s\n"
                         "\tC_PATH_DATA_FILES = %s\n\n"
+                        "\tDATA_PATH = %s\n\n"
                         "\tGRISBI_LOCALEDIR = %s\n"
                         "\tGRISBI_PLUGINS_DIR = %s\n"
                         "\tGRISBI_PIXMAPS_DIR = %s\n\n",
@@ -856,6 +857,7 @@ gchar *gsb_main_get_print_dir_var ( void )
                         C_PATH_CONFIG,
                         C_PATH_CONFIG_ACCELS,
                         C_PATH_DATA_FILES,
+                        DATA_PATH,
                         tmp_str,
                         GRISBI_PLUGINS_DIR,
                         GRISBI_PIXMAPS_DIR );
