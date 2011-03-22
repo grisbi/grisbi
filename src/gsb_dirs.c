@@ -50,7 +50,9 @@ void gsb_dirs_init ( void )
 #ifdef GTKOSXAPPLICATION
     if ( gtk_osxapplication_get_bundle_id ( ) )
     {
-        gchar *res_path = gtk_osxapplication_get_resource_path ();
+        gchar *res_path;
+
+        res_path = gtk_osxapplication_get_resource_path ();
         locale_dir = g_strconcat (res_path, "/share/locale", NULL );
         pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );
         plugins_dir = g_strconcat (res_path, "/lib/grisbi", NULL );
@@ -95,7 +97,7 @@ void gsb_dirs_init ( void )
     _C_GRISBIRC = g_strconcat ( PACKAGE, "rc", NULL);
     _C_OLD_GRISBIRC = g_strconcat ( ".", PACKAGE, "rc", NULL);
     _C_PATH_CONFIG = win32_get_grisbirc_folder_path( );
-    _C_PATH_DATA_FILES = g_get_home_dir ( );
+    _C_PATH_DATA_FILES = g_strdup ( g_get_home_dir ( ) );
 
 #endif /* _WIN32 */
 
