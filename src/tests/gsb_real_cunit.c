@@ -38,6 +38,7 @@
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
 #include "gsb_real.h"
+#include "utils_str.h"
 /* END_INCLUDE */
 
 /* START_STATIC */
