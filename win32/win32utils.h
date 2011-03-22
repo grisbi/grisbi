@@ -69,7 +69,7 @@ extern void    win32_parse_gtkrc                  (const gchar* basename);
 #define HELP_PATH   win32_app_subdir_folder_path("help")     /* help */
 #define LOCALEDIR   win32_app_subdir_folder_path("lib/locale")   /* locale */
 #define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png")
-#define DATA_PATH   win32_app_subdir_folder_path("help/tips")
+#define DATA_PATH   win32_app_subdir_folder_path("share")
 #define PLUGINS_DIR win32_app_subdir_folder_path("plugins")
 
 // -------------------------------------------------------------------------

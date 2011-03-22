@@ -29,8 +29,8 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName})
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName}/plugins)
 SET(PACKAGE_NAME grisbi)
 set (grisbi_MAJOR 0)
-set (grisbi_MINOR 7)
-set (grisbi_PATCH 100)
+set (grisbi_MINOR 8)
+set (grisbi_PATCH 4)
 set (grisbi_version "${grisbi_MAJOR}.${grisbi_MINOR}.${grisbi_PATCH} pour windows")
 MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH)
 MARK_AS_ADVANCED(grisbi_version)
@@ -115,15 +115,14 @@ ADD_DEFINITIONS(-DHAVE_SETLOCALE=1)
 ADD_DEFINITIONS(-DHAVE_STRING_H=1)
 
 # Define to 1 to have OFX support disabled
-ADD_DEFINITIONS(-DNOOFX=1)
+#ADD_DEFINITIONS(-DNOOFX=1)
 # Define to 1 if you want to have OFX support using libofx 0.7.0
 ADD_DEFINITIONS(-DOFX_0_7=1)
+#ADD_DEFINITIONS(-DHAVE_OFX=1)
 
 # Define to 1 when you do not want to use SSL as crypt algorithm (NOT RECOMMANDED)
 #ADD_DEFINITIONS(-DNOSSL=1)
-
-#Define to 1 to have grisbi plugins management system activated
-ADD_DEFINITIONS(-DHAVE_PLUGINS=1)
+ADD_DEFINITIONS(-DHAVE_SSL=1)
 
 #Define to 1 to enable static plugins
 ADD_DEFINITIONS(-DENABLE_STATIC=1)
@@ -151,7 +150,7 @@ TARGET_LINK_LIBRARIES( grisbi
 	pango-1.0
 	pangocairo-1.0
 	zdll
-	# ofx
+	ofx
 	gnucash
 	openssl
 )
@@ -160,13 +159,13 @@ TARGET_LINK_LIBRARIES( grisbi
 	# PROPERTIES ENABLE_EXPORTS 1
 # )
 
-# ADD_LIBRARY ( ofx
-	# STATIC
-	# ../src/plugins/ofx/ofx.c
-	# ../src/plugins/ofx/ofx.h
-# )
+ADD_LIBRARY ( ofx
+	STATIC
+	../src/plugins/ofx/ofx.c
+	../src/plugins/ofx/ofx.h
+)
 
-ADD_CUSTOM_COMMAND ( TARGET ofxplg
+ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
 	#COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/${TargetDir}/ofx.dll ${PROJECT_BINARY_DIR}//target/${PlateformName}/plugins
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libofx/bin ${PROJECT_BINARY_DIR}/target/${PlateformName}
@@ -179,12 +178,12 @@ ADD_LIBRARY ( gnucash
 	../src/plugins/gnucash/gnucash.h
 )
 
-# ADD_CUSTOM_COMMAND ( TARGET gnucash
-	# POST_BUILD
+ADD_CUSTOM_COMMAND ( TARGET gnucash
+	POST_BUILD
 	#COMMAND ${CMAKE_COMMAND} -E copy  ${PROJECT_SOURCE_DIR}/${TargetDir}/gnucash.dll target\\${PlateformName}\\${OutDir}\\plugins
-	# COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libxml2/bin/libxml2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	# COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/iconv/bin/iconv.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-# )
+	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/libxml2/bin/libxml2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+	COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/iconv/bin/iconv.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+)
 
 ADD_LIBRARY ( openssl
 	STATIC
@@ -200,12 +199,12 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 
 # ADD_DEPENDENCIES (ofx grisbi)
 #SET_TARGET_PROPERTIES(ofx PROPERTIES LINK_FLAGS "-no-undefined --enable-runtime-pseudo-reloc")
-# TARGET_LINK_LIBRARIES (ofx
-	# glib-2.0
-	# intl
-	# libofx
+TARGET_LINK_LIBRARIES (ofx
+	glib-2.0
+	intl
+	libofx
 #    grisbi
-# )
+)
 
 # ADD_DEPENDENCIES (gnucash grisbi)
 TARGET_LINK_LIBRARIES (gnucash
