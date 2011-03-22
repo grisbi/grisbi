@@ -832,21 +832,19 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tC_PATH_CONFIG_ACCELS = %s\n"
                         "\tC_PATH_DATA_FILES = %s\n\n"
                         "\tDATA_PATH = %s\n\n"
-                        "\tGRISBI_LOCALEDIR = %s\n"
-                        "\tGRISBI_PLUGINS_DIR = %s\n"
-                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
+                        "\tgsb_dirs_get_locale_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
-                        C_GRISBIRC,
-                        C_PATH_CONFIG,
-                        C_PATH_CONFIG_ACCELS,
-                        C_PATH_DATA_FILES,
+                        C_GRISBIRC ( ),
+                        C_PATH_CONFIG ( ),
+                        C_PATH_CONFIG_ACCELS ( ),
+                        C_PATH_DATA_FILES ( ),
                         DATA_PATH,
-                        tmp_str,
-                        GRISBI_PLUGINS_DIR,
-                        GRISBI_PIXMAPS_DIR );
-
-    g_free ( tmp_str );
+                        gsb_dirs_get_locale_dir ( ),
+                        gsb_dirs_get_plugins_dir ( ),
+                        gsb_dirs_get_pixmaps_dir ( ) );
 
     return path_str;
 }
