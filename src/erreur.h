@@ -27,28 +27,28 @@
 #define devel_print_str(x) debug_print_log_string("Debug",__FILE__,__LINE__,__PRETTY_FUNCTION__,x)
 
 /* START_DECLARATION */
-extern void debug_message_int ( gchar *prefixe,
+void debug_message_int ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
                         gint message,
                         gint level,
                         gboolean force_debug_display );
-extern void debug_message_real ( gchar *prefixe,
+void debug_message_real ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
                         gsb_real message,
                         gint level,
                         gboolean force_debug_display);
-G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
+G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
                         const gchar *message,
                         gint level,
                         gboolean force_debug_display );
-extern void debug_print_log_string ( gchar *prefixe,
+void debug_print_log_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,

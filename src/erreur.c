@@ -274,7 +274,7 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
+G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -324,7 +324,7 @@ G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
  *
  * \return
  * */
-extern void debug_message_int ( gchar *prefixe,
+void debug_message_int ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -370,7 +370,7 @@ extern void debug_message_int ( gchar *prefixe,
  *
  * \return
  * */
-extern void debug_message_real ( gchar *prefixe,
+void debug_message_real ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -558,7 +558,7 @@ gboolean gsb_debug_start_log ( void )
  *
  *
  */
-extern void debug_print_log_string ( gchar *prefixe,
+void debug_print_log_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
