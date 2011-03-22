@@ -66,7 +66,7 @@ static gint debugging_grisbi;
 
 /* path and name of the file containing the log when debug mode is active
  * this values should not be freed when begin a new file to continue the log */
-FILE *debug_file = NULL;
+static FILE *debug_file = NULL;
 
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
@@ -552,6 +552,16 @@ gboolean gsb_debug_start_log ( void )
         dialogue_error (_("Grisbi failed to create the log file...") );
 
     return FALSE;
+}
+
+
+/**
+ *
+ * */
+void gsb_debug_finish_log ( void )
+{
+    if ( debug_file )
+        fclose (debug_file);
 }
 
 

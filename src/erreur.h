@@ -54,6 +54,7 @@ void debug_print_log_string ( gchar *prefixe,
                         const char *function,
                         const gchar *msg );
 gboolean gsb_debug_start_log ( void );
+void gsb_debug_finish_log ( void );
 void initialize_debugging ( void );
 void traitement_sigsegv ( gint signal_nb );
 /* END_DECLARATION */

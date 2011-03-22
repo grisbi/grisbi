@@ -108,7 +108,6 @@ static void main_window_set_size_and_position ( void );
 G_MODULE_EXPORT GtkWidget *window = NULL;
 
 /*START_EXTERN*/
-extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
@@ -655,8 +654,8 @@ gboolean gsb_grisbi_close ( void )
         gtk_widget_destroy ( window );
 
     /* clean finish of the debug file */
-    if (etat.debug_mode && debug_file)
-        fclose (debug_file);
+    if ( etat.debug_mode )
+        gsb_debug_finish_log ( );
 
     /* clean the initial vars */
     gsb_main_free_global_definitions ( );
