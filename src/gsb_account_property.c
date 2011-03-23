@@ -115,7 +115,7 @@ struct iso_13616_iban
     gint nbre_char;
 };
 
-struct iso_13616_iban iso_13616_ibans [] = {
+static struct iso_13616_iban iso_13616_ibans [] = {
     { "XX", "XXkk XXXX XXXX XXXX XXXX XXXX XXXX XXXX XX", 34 },
     { "AD", "ADkk BBBB SSSS CCCC CCCC CCCC", 24 },
     { "AT", "ATkk BBBB BCCC CCCC CCCC", 20 },
