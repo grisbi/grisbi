@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-20 18:47+0100\n"
+"POT-Creation-Date: 2011-03-25 19:48+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -210,7 +210,7 @@ msgstr "Тип счёта"
 msgid "Currency"
 msgstr "Валюта"
 
-#: ../src/affichage.c:142 ../src/parametres.c:386
+#: ../src/affichage.c:142 ../src/parametres.c:387
 msgid "Fonts & logo"
 msgstr "Шрифты и логотип"
 
@@ -251,7 +251,7 @@ msgstr ""
 msgid "Back to default"
 msgstr "Сбросить до исходных"
 
-#: ../src/affichage.c:387 ../src/parametres.c:404
+#: ../src/affichage.c:387 ../src/parametres.c:405
 msgid "Addresses & titles"
 msgstr "Адреса и названия"
 
@@ -274,7 +274,7 @@ msgid "Filename"
 msgstr "Имя файла"
 
 #. label account name
-#: ../src/affichage.c:439 ../src/gsb_assistant_file.c:287
+#: ../src/affichage.c:439 ../src/gsb_assistant_file.c:286
 #, fuzzy
 msgid "Accounts file title: "
 msgstr "Название файла счёта:"
@@ -300,7 +300,7 @@ msgstr "Второй адрес:"
 msgid "Select a new logo"
 msgstr "Выберите новый логотип"
 
-#: ../src/affichage.c:723 ../src/parametres.c:422
+#: ../src/affichage.c:723 ../src/parametres.c:423
 msgid "Toolbars"
 msgstr "Панель инструментов"
 
@@ -537,7 +537,7 @@ msgstr "Месяц"
 msgid "Year"
 msgstr "Год"
 
-#: ../src/bet_config.c:115 ../src/parametres.c:581
+#: ../src/bet_config.c:115 ../src/parametres.c:582
 #, fuzzy
 msgid "General Options"
 msgstr "Основные параметры"
@@ -575,7 +575,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:258 ../src/parametres.c:590
+#: ../src/bet_config.c:258 ../src/parametres.c:591
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
@@ -1615,7 +1615,7 @@ msgstr "Создать новую подкатегорию"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:129
 #: ../src/import.c:439 ../src/import.c:3624 ../src/imputation_budgetaire.c:563
-#: ../src/parametres.c:322 ../src/utils_files.c:644
+#: ../src/parametres.c:323 ../src/utils_files.c:576
 msgid "Import"
 msgstr "Импортировать"
 
@@ -1850,73 +1850,73 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr ""
 
-#: ../src/erreur.c:99
+#: ../src/erreur.c:97
 msgid "File is corrupted."
 msgstr ""
 
-#: ../src/erreur.c:106
+#: ../src/erreur.c:104
 msgid "Error occured saving file."
 msgstr ""
 
-#: ../src/erreur.c:127
+#: ../src/erreur.c:125
 msgid "Save file"
 msgstr ""
 
-#: ../src/erreur.c:137
+#: ../src/erreur.c:135
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr ""
 
-#: ../src/erreur.c:146
+#: ../src/erreur.c:144
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 
-#: ../src/erreur.c:152
+#: ../src/erreur.c:150
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: ../src/erreur.c:159
+#: ../src/erreur.c:157
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr ""
 
-#: ../src/erreur.c:164
+#: ../src/erreur.c:162
 #, fuzzy
 msgid "Backtrace"
 msgstr "Баланс"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:214 ../src/erreur.c:226
+#: ../src/erreur.c:212 ../src/erreur.c:224
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: ../src/erreur.c:215
+#: ../src/erreur.c:213
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:229
+#: ../src/erreur.c:227
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
-#: ../src/erreur.c:294 ../src/erreur.c:580
+#: ../src/erreur.c:292 ../src/erreur.c:578
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: ../src/erreur.c:298
+#: ../src/erreur.c:296
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:343
+#: ../src/erreur.c:341
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr ""
 
-#: ../src/erreur.c:478
+#: ../src/erreur.c:476
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -1924,14 +1924,14 @@ msgid ""
 msgstr ""
 
 #. début du mode débogage
-#: ../src/erreur.c:500
+#: ../src/erreur.c:498
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr ""
 
-#: ../src/erreur.c:552
+#: ../src/erreur.c:550
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -2243,7 +2243,7 @@ msgstr "Финансовый год"
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2457 ../src/etats_config.c:569
 #: ../src/etats_config.c:572 ../src/etats_config.c:7228
-#: ../src/gsb_payment_method_config.c:119 ../src/parametres.c:558
+#: ../src/gsb_payment_method_config.c:119 ../src/parametres.c:559
 msgid "Payment methods"
 msgstr "Способы платежа"
 
@@ -2408,14 +2408,14 @@ msgid "Generalities"
 msgstr "Обобщения"
 
 #: ../src/etats_config.c:640 ../src/etats_config.c:643 ../src/export_csv.c:766
-#: ../src/fenetre_principale.c:243 ../src/parametres.c:432
+#: ../src/fenetre_principale.c:243 ../src/parametres.c:433
 msgid "Transactions"
 msgstr "Проводки"
 
 #. echange line label
 #: ../src/etats_config.c:649 ../src/etats_config.c:652
 #: ../src/gsb_currency.c:555 ../src/gsb_currency_config.c:300
-#: ../src/parametres.c:522
+#: ../src/parametres.c:523
 msgid "Currencies"
 msgstr "Валюты"
 
@@ -3012,7 +3012,7 @@ msgstr ""
 msgid "Make transactions clickable"
 msgstr ""
 
-#: ../src/etats_config.c:6835 ../src/parametres.c:1143
+#: ../src/etats_config.c:6835 ../src/parametres.c:1144
 msgid "Totals currencies"
 msgstr "Валюты для итоговых сумм"
 
@@ -3510,7 +3510,7 @@ msgstr "Суббюджетные линии"
 msgid "Reconciliation number"
 msgstr "Номер выверки счетов"
 
-#: ../src/fenetre_principale.c:229 ../src/parametres.c:368
+#: ../src/fenetre_principale.c:229 ../src/parametres.c:369
 msgid "Main page"
 msgstr "Резюме"
 
@@ -3528,7 +3528,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:271 ../src/navigation.c:271
-#: ../src/parametres.c:350 ../src/parametres.c:1101
+#: ../src/parametres.c:351 ../src/parametres.c:1102
 msgid "Scheduler"
 msgstr "Расписание"
 
@@ -4284,7 +4284,7 @@ msgid "Report name"
 msgstr "Название отчёта"
 
 #. create the page
-#: ../src/gsb_archive_config.c:115 ../src/parametres.c:313
+#: ../src/gsb_archive_config.c:115 ../src/parametres.c:314
 msgid "Archives"
 msgstr "Архивы"
 
@@ -4736,11 +4736,12 @@ msgid "%s (%d of %d)"
 msgstr "%s (шаг %d из %d)"
 
 #. create the assistant
-#: ../src/gsb_assistant_file.c:120 ../src/gsb_assistant_first.c:86
+#: ../src/gsb_assistant_file.c:119 ../src/gsb_assistant_first.c:87
+#: ../src/gsb_assistant_first.c:142
 msgid "Welcome to Grisbi!"
 msgstr "Добро пожаловать в Grisbi!"
 
-#: ../src/gsb_assistant_file.c:121
+#: ../src/gsb_assistant_file.c:120
 msgid ""
 "General configuration of Grisbi is done.\n"
 "\n"
@@ -4761,11 +4762,11 @@ msgstr ""
 "импортировать\n"
 "существующие данные."
 
-#: ../src/gsb_assistant_file.c:131
+#: ../src/gsb_assistant_file.c:130
 msgid "New file Assistant to import"
 msgstr "Ассистент по созданию файла для дальнейшего импорта данных"
 
-#: ../src/gsb_assistant_file.c:132
+#: ../src/gsb_assistant_file.c:131
 msgid ""
 "Before importing files, you need to create a new file and fill some default "
 "values as created a new currency.\n"
@@ -4786,11 +4787,11 @@ msgstr ""
 "импортировать существующие данные, например, из онлайновой службы банка или "
 "другого финансового приложения."
 
-#: ../src/gsb_assistant_file.c:143
+#: ../src/gsb_assistant_file.c:142
 msgid "New file Assistant"
 msgstr "Ассистент по созданию нового файла"
 
-#: ../src/gsb_assistant_file.c:144
+#: ../src/gsb_assistant_file.c:143
 msgid ""
 "This assistant will help you to create a new account file.\n"
 "\n"
@@ -4807,47 +4808,47 @@ msgstr ""
 "сможете\n"
 "создать новый счёт с нуля или импортировать уже имеющиеся данные."
 
-#: ../src/gsb_assistant_file.c:271
+#: ../src/gsb_assistant_file.c:270
 msgid "General configuration"
 msgstr "Общие параметры"
 
 #. Account file title
-#: ../src/gsb_assistant_file.c:283
+#: ../src/gsb_assistant_file.c:282
 msgid "Titles and filenames"
 msgstr "Название и имя файла"
 
 #. filename
-#: ../src/gsb_assistant_file.c:309
+#: ../src/gsb_assistant_file.c:308
 #, fuzzy
 msgid "Filename: "
 msgstr "Имя файла:"
 
 #. will we crypt the file ?
 #. crypt the grisbi file
-#: ../src/gsb_assistant_file.c:327 ../src/gsb_assistant_first.c:253
-#: ../src/parametres.c:880
+#: ../src/gsb_assistant_file.c:326 ../src/gsb_assistant_first.c:254
+#: ../src/parametres.c:881
 msgid "Encrypt Grisbi file"
 msgstr "Шифровать файл Grisbi"
 
 #. Address
-#: ../src/gsb_assistant_file.c:342
+#: ../src/gsb_assistant_file.c:341
 msgid "Your address"
 msgstr "Ваш адрес"
 
-#: ../src/gsb_assistant_file.c:378
+#: ../src/gsb_assistant_file.c:377
 msgid "Select base currency"
 msgstr "Выберите основную валюту"
 
-#: ../src/gsb_assistant_file.c:417
+#: ../src/gsb_assistant_file.c:416
 msgid "Select the list of categories you will use"
 msgstr "Выберите список используемых категорий"
 
-#: ../src/gsb_assistant_file.c:480
+#: ../src/gsb_assistant_file.c:479
 msgid "Configuration finished !"
 msgstr "Настройка завершена!"
 
 #. set up the menu
-#: ../src/gsb_assistant_file.c:487
+#: ../src/gsb_assistant_file.c:486
 msgid ""
 "Default values are now configured for your account file. Next assistant will "
 "help you creating a new account.\n"
@@ -4864,25 +4865,25 @@ msgstr ""
 "\n"
 "Выберите способ заполнения файла счёта и нажмите кнопку «Закрыть»."
 
-#: ../src/gsb_assistant_file.c:498
+#: ../src/gsb_assistant_file.c:497
 msgid "Create a new account from scratch"
 msgstr "Создать новый счёт с нуля"
 
-#: ../src/gsb_assistant_file.c:504
+#: ../src/gsb_assistant_file.c:503
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 "Импортировать данные из онлайновой службы банка или другого финансового "
 "приложения"
 
-#: ../src/gsb_assistant_file.c:576 ../src/traitement_variables.c:373
+#: ../src/gsb_assistant_file.c:575 ../src/traitement_variables.c:373
 msgid "My accounts"
 msgstr "Мои счета"
 
-#: ../src/gsb_assistant_file.c:603
+#: ../src/gsb_assistant_file.c:602
 msgid "Create filename"
 msgstr "Укажите имя создаваемого файла"
 
-#: ../src/gsb_assistant_first.c:87
+#: ../src/gsb_assistant_first.c:88
 msgid ""
 "This is the first time you use Grisbi, this assistant will guide you through "
 "the configuration process. You can change any option later in the "
@@ -4896,16 +4897,11 @@ msgstr ""
 "\n"
 "Спасибо за использование Grisbi и успехов!"
 
-#. create the assistant
-#: ../src/gsb_assistant_first.c:141
-msgid "Welcome to Grisbi 0.6!"
-msgstr "Добро пожаловать в Grisbi 0.6!"
-
-#: ../src/gsb_assistant_first.c:142
+#: ../src/gsb_assistant_first.c:143
 msgid ""
-"You are using Grisbi 0.6 for the first time.  While most of the interface "
-"has not changed, you will notice a lot of improvements. Do not hesitate to "
-"read some tips of the day to learn more on the new features.\n"
+"You are using Grisbi for the first time.  While most of the interface has "
+"not changed, you will notice a lot of improvements. Do not hesitate to read "
+"some tips of the day to learn more on the new features.\n"
 "\n"
 "Of the most notable enhancements to Grisbi, we redesigned the backup "
 "function. Grisbi will now automatically put backup files in a directory that "
@@ -4920,72 +4916,72 @@ msgid ""
 "You can find out other improvements on http://www.grisbi.org/."
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:206
+#: ../src/gsb_assistant_first.c:207
 msgid "General configuration of Grisbi"
 msgstr "Общая настройка Grisbi"
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:213 ../src/parametres.c:1049
+#: ../src/gsb_assistant_first.c:214 ../src/parametres.c:1050
 msgid "Web"
 msgstr "Интернет"
 
-#: ../src/gsb_assistant_first.c:220 ../src/parametres.c:1056
+#: ../src/gsb_assistant_first.c:221 ../src/parametres.c:1057
 #, fuzzy
 msgid "Web browser command: "
 msgstr "Команда вызова браузера:"
 
-#: ../src/gsb_assistant_first.c:228
+#: ../src/gsb_assistant_first.c:229
 #, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
-#: ../src/gsb_assistant_first.c:238 ../src/parametres.c:863
+#: ../src/gsb_assistant_first.c:239 ../src/parametres.c:864
 msgid "Account files handling"
 msgstr "Обращение с файлами счетов"
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:241 ../src/parametres.c:866
+#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:867
 msgid "Automatically load last file on startup"
 msgstr "Автоматически загружать последний файл при запуске"
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:247 ../src/parametres.c:870
+#: ../src/gsb_assistant_first.c:248 ../src/parametres.c:871
 msgid "Automatically save on exit"
 msgstr "Автоматически сохранять открытый файл при выходе"
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:262 ../src/parametres.c:920
+#: ../src/gsb_assistant_first.c:263 ../src/parametres.c:921
 msgid "Make a backup copy before saving files"
 msgstr "Создавать резервную копию перед сохранением файлов"
 
-#: ../src/gsb_assistant_first.c:272 ../src/parametres.c:928
+#: ../src/gsb_assistant_first.c:273 ../src/parametres.c:929
 msgid "Make a backup copy every "
 msgstr "Создавать резервную копию каждые"
 
-#: ../src/gsb_assistant_first.c:283 ../src/parametres.c:938
+#: ../src/gsb_assistant_first.c:284 ../src/parametres.c:939
 msgid " minutes"
 msgstr " минут"
 
-#: ../src/gsb_assistant_first.c:292 ../src/parametres.c:945
+#: ../src/gsb_assistant_first.c:293 ../src/parametres.c:946
 #, fuzzy
 msgid "Backup directory: "
 msgstr "Каталог для резервных копий:"
 
-#: ../src/gsb_assistant_first.c:297 ../src/parametres.c:952
+#: ../src/gsb_assistant_first.c:298 ../src/parametres.c:953
 msgid "Select/Create backup directory"
 msgstr "Выбрать или создать каталог резервных копий"
 
-#: ../src/gsb_assistant_first.c:336 ../src/gsb_reconcile_config.c:110
-#: ../src/parametres.c:459
+#: ../src/gsb_assistant_first.c:337 ../src/gsb_reconcile_config.c:110
+#: ../src/parametres.c:460
 msgid "Reconciliation"
 msgstr "Выверка счетов"
 
-#: ../src/gsb_assistant_first.c:340
+#: ../src/gsb_assistant_first.c:341
 msgid "Error getting reconciliations"
 msgstr "Ошибка при получении выверки"
 
-#: ../src/gsb_assistant_first.c:348
+#: ../src/gsb_assistant_first.c:349
 msgid ""
 "When importing the file from the previous version, Grisbi has found "
 "inconsistencies\n"
@@ -5214,7 +5210,7 @@ msgstr "Добавить новый банк"
 msgid "Contact name"
 msgstr "Контактное лицо"
 
-#: ../src/gsb_bank.c:523 ../src/parametres.c:540
+#: ../src/gsb_bank.c:523 ../src/parametres.c:541
 msgid "Banks"
 msgstr "Банки"
 
@@ -5301,11 +5297,11 @@ msgstr "Список категорий"
 msgid "Display foreign category sets"
 msgstr ""
 
-#: ../src/gsb_category.c:363
+#: ../src/gsb_category.c:367
 msgid "Cannot open the category file."
 msgstr "Не удалось открыть файл категории."
 
-#: ../src/gsb_category.c:381
+#: ../src/gsb_category.c:385
 msgid "Unnamed category list"
 msgstr "Безымянный список категорий"
 
@@ -7296,8 +7292,8 @@ msgstr "Банковский счёт"
 msgid "Failed to load accounts"
 msgstr "Удалённая учётная запись"
 
-#: ../src/gsb_file.c:403 ../src/gsb_file.c:420 ../src/gsb_file_load.c:310
-#: ../src/gsb_file_load.c:324 ../src/gsb_file_load.c:427
+#: ../src/gsb_file.c:403 ../src/gsb_file.c:420 ../src/gsb_file_load.c:309
+#: ../src/gsb_file_load.c:323 ../src/gsb_file_load.c:426
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Ошибка при загрузке файла «%s»"
@@ -7349,7 +7345,7 @@ msgid ""
 msgstr ""
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:567 ../src/gsb_file.c:820 ../src/parametres.c:875
+#: ../src/gsb_file.c:567 ../src/gsb_file.c:820 ../src/parametres.c:876
 msgid "Force saving of locked files"
 msgstr "Принудительно сохранять заблокированные файлы"
 
@@ -7432,28 +7428,28 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:852
+#: ../src/gsb_file_config.c:855
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file_config.c:893
+#: ../src/gsb_file_config.c:896
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
 "please check it."
 msgstr ""
 
-#: ../src/gsb_file_config.c:930
+#: ../src/gsb_file_config.c:933
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1300
+#: ../src/gsb_file_config.c:1303
 msgid "Delete config file from a previous version"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1320
+#: ../src/gsb_file_config.c:1323
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7461,11 +7457,11 @@ msgid ""
 "<b>Do you want to delete this file?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:1387
+#: ../src/gsb_file_config.c:1390
 msgid "Choose a file"
 msgstr "Выберите файл"
 
-#: ../src/gsb_file_config.c:1410
+#: ../src/gsb_file_config.c:1413
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7473,18 +7469,18 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: ../src/gsb_file_load.c:307 ../src/gsb_file_load.c:424
+#: ../src/gsb_file_load.c:306 ../src/gsb_file_load.c:423
 #: ../src/gsb_file_others.c:430 ../src/gsb_file_others.c:568
 #: ../src/gsb_file_others.c:755 ../src/gsb_file_others.c:816
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Не удалось открыть файл «%s»: %s"
 
-#: ../src/gsb_file_load.c:309
+#: ../src/gsb_file_load.c:308
 msgid "File does not exist"
 msgstr "Файл не существует"
 
-#: ../src/gsb_file_load.c:322 ../src/gsb_file_others.c:443
+#: ../src/gsb_file_load.c:321 ../src/gsb_file_others.c:443
 #: ../src/gsb_file_others.c:767
 #, c-format
 msgid ""
@@ -7492,7 +7488,7 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:400
+#: ../src/gsb_file_load.c:363 ../src/gsb_file_save.c:400
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7500,15 +7496,15 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:405
+#: ../src/gsb_file_load.c:368 ../src/gsb_file_save.c:405
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: ../src/gsb_file_load.c:468 ../src/gsb_file_load.c:5483
+#: ../src/gsb_file_load.c:467 ../src/gsb_file_load.c:5482
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
-#: ../src/gsb_file_load.c:705
+#: ../src/gsb_file_load.c:704
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7517,14 +7513,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8880
+#: ../src/gsb_file_load.c:8879
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8905
+#: ../src/gsb_file_load.c:8904
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7532,7 +7528,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8909
+#: ../src/gsb_file_load.c:8908
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7778,7 +7774,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:116 ../src/parametres.c:478
+#: ../src/gsb_form_config.c:116 ../src/parametres.c:479
 msgid "Transaction form"
 msgstr "Формуляр транзакции"
 
@@ -7901,7 +7897,7 @@ msgstr "Номер транзакции"
 msgid "Automatic/Manual"
 msgstr "Автоматически/Вручную"
 
-#: ../src/gsb_fyear_config.c:103 ../src/parametres.c:549
+#: ../src/gsb_fyear_config.c:103 ../src/parametres.c:550
 msgid "Financial years"
 msgstr "Финансовые года"
 
@@ -8190,7 +8186,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr "Создать новую выверку"
 
-#: ../src/gsb_reconcile_sort_config.c:91 ../src/parametres.c:468
+#: ../src/gsb_reconcile_sort_config.c:91 ../src/parametres.c:469
 msgid "Sort for reconciliation"
 msgstr "Сортировка для выверки"
 
@@ -8940,7 +8936,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "Управлением связыванием при импорте"
 
-#: ../src/import.c:3718 ../src/parametres.c:331
+#: ../src/import.c:3718 ../src/parametres.c:332
 msgid "Import associations"
 msgstr "Связывание при импорте"
 
@@ -9465,11 +9461,11 @@ msgstr "Известные архивы"
 msgid "Show _closed accounts"
 msgstr "Показать _закрытые счета"
 
-#: ../src/menu.c:441 ../src/menu.c:473 ../src/menu.c:493
+#: ../src/menu.c:441 ../src/menu.c:473 ../src/menu.c:492
 msgid "en"
 msgstr ""
 
-#: ../src/menu.c:828
+#: ../src/menu.c:826
 msgid "Unnamed account"
 msgstr "Безымянный счёт"
 
@@ -9674,134 +9670,134 @@ msgid "closed"
 msgstr "_Закрыть"
 
 #. Create dialog
-#: ../src/parametres.c:264
+#: ../src/parametres.c:265
 msgid "Grisbi preferences"
 msgstr "Параметры Grisbi"
 
-#: ../src/parametres.c:294
+#: ../src/parametres.c:295
 msgid "Main"
 msgstr "Основные"
 
-#: ../src/parametres.c:303 ../src/parametres.c:859
+#: ../src/parametres.c:304 ../src/parametres.c:860
 msgid "Files"
 msgstr "Файлы"
 
-#: ../src/parametres.c:341 ../src/parametres.c:1047
+#: ../src/parametres.c:342 ../src/parametres.c:1048
 msgid "Programs"
 msgstr "Программы"
 
-#: ../src/parametres.c:359 ../src/parametres.c:1253
+#: ../src/parametres.c:360 ../src/parametres.c:1254
 #, fuzzy
 msgid "Localization"
 msgstr "Выверка счетов"
 
-#: ../src/parametres.c:378
+#: ../src/parametres.c:379
 msgid "Display"
 msgstr "Вид"
 
-#: ../src/parametres.c:395 ../src/parametres.c:652
+#: ../src/parametres.c:396 ../src/parametres.c:653
 msgid "Messages & warnings"
 msgstr "Сообщения и предупреждения"
 
-#: ../src/parametres.c:413 ../src/parametres.c:1140
+#: ../src/parametres.c:414 ../src/parametres.c:1141
 msgid "Payees, categories and budgetaries"
 msgstr "Получатели, категории и бюджеты"
 
-#: ../src/parametres.c:440
+#: ../src/parametres.c:441
 msgid "List behavior"
 msgstr "Поведение списка"
 
-#: ../src/parametres.c:450 ../src/parametres.c:737
+#: ../src/parametres.c:451 ../src/parametres.c:738
 msgid "Messages before deleting"
 msgstr "Сообщения перед удалением"
 
-#: ../src/parametres.c:486
+#: ../src/parametres.c:487
 msgid "Content"
 msgstr "Содержимое"
 
-#: ../src/parametres.c:495
+#: ../src/parametres.c:496
 msgid "Behavior"
 msgstr "Поведение"
 
-#: ../src/parametres.c:504
+#: ../src/parametres.c:505
 msgid "Completion"
 msgstr "Заполнение"
 
-#: ../src/parametres.c:514
+#: ../src/parametres.c:515
 msgid "Resources"
 msgstr "Ресурсы"
 
-#: ../src/parametres.c:531
+#: ../src/parametres.c:532
 msgid "Currencies links"
 msgstr "Курсы обмена валют"
 
-#: ../src/parametres.c:573
+#: ../src/parametres.c:574
 msgid "Balance estimate"
 msgstr "Оценка баланса"
 
 #. Tip of the day
-#: ../src/parametres.c:655
+#: ../src/parametres.c:656
 msgid "Tip of the day"
 msgstr "Совет дня"
 
 #. Display or not tips
-#: ../src/parametres.c:658
+#: ../src/parametres.c:659
 msgid "Display tip of the day"
 msgstr "Показывать совет дня"
 
-#: ../src/parametres.c:665
+#: ../src/parametres.c:666
 msgid "Display following warnings messages"
 msgstr "Показывать следующие предупредительные сообщения"
 
-#: ../src/parametres.c:686 ../src/parametres.c:765
+#: ../src/parametres.c:687 ../src/parametres.c:766
 msgid "Message"
 msgstr "Сообщение"
 
-#: ../src/parametres.c:741
+#: ../src/parametres.c:742
 msgid "Display following messages"
 msgstr "Показывать следующие сообщения"
 
 #. Compression level of files
-#: ../src/parametres.c:885
+#: ../src/parametres.c:886
 msgid "Compress Grisbi file"
 msgstr "Сжимать файл Grisbi"
 
-#: ../src/parametres.c:893
+#: ../src/parametres.c:894
 #, fuzzy
 msgid "Memorise last opened files: "
 msgstr "Как много последних файлов помнить:"
 
 #. Backups
-#: ../src/parametres.c:902
+#: ../src/parametres.c:903
 msgid "Backups"
 msgstr "Резервные копии"
 
 #. Single backup file
-#: ../src/parametres.c:905
+#: ../src/parametres.c:906
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "Создавать резервную копию каждые"
 
 #. Compression level of backups
-#: ../src/parametres.c:910
+#: ../src/parametres.c:911
 msgid "Compress Grisbi backup"
 msgstr "Сжимать резервную копию Grisbi"
 
 #. Backup at each opening?
-#: ../src/parametres.c:915
+#: ../src/parametres.c:916
 msgid "Make a backup copy after opening files"
 msgstr "Создавать резервную копию после открытия файлов"
 
-#: ../src/parametres.c:969
+#: ../src/parametres.c:970
 #, fuzzy
 msgid "Config file"
 msgstr "Файл CSV"
 
-#: ../src/parametres.c:974
+#: ../src/parametres.c:975
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1065
+#: ../src/parametres.c:1066
 #, fuzzy, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
@@ -9809,85 +9805,85 @@ msgid ""
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
-#: ../src/parametres.c:1106
+#: ../src/parametres.c:1107
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Предупреждения о расписании при запуске Grisbi"
 
-#: ../src/parametres.c:1107
+#: ../src/parametres.c:1108
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 "Предупреждать о/Исполнять запланированные проводки с надвигающимся сроком "
 "истечения"
 
-#: ../src/parametres.c:1108
+#: ../src/parametres.c:1109
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "Предупреждать о/Исполнять запланированные на месяц проводки"
 
-#: ../src/parametres.c:1116
+#: ../src/parametres.c:1117
 #, fuzzy
 msgid "Number of days before the warning or the execution: "
 msgstr "Количество дней перед предупреждением или выполнением:"
 
-#: ../src/parametres.c:1149
+#: ../src/parametres.c:1150
 msgid "Sort option for transactions"
 msgstr "Критерий сортировки проводок"
 
-#: ../src/parametres.c:1150
+#: ../src/parametres.c:1151
 msgid "by number"
 msgstr "Номер"
 
-#: ../src/parametres.c:1151
+#: ../src/parametres.c:1152
 msgid "by increasing date"
 msgstr ""
 
-#: ../src/parametres.c:1152
+#: ../src/parametres.c:1153
 msgid "by date descending"
 msgstr ""
 
-#: ../src/parametres.c:1159
+#: ../src/parametres.c:1160
 msgid "Choice of the action for double click of the mouse: "
 msgstr ""
 
-#: ../src/parametres.c:1160
+#: ../src/parametres.c:1161
 #, fuzzy
 msgid "Expand the line"
 msgstr "Выбор дат"
 
-#: ../src/parametres.c:1161
+#: ../src/parametres.c:1162
 #, fuzzy
 msgid "Edit the line"
 msgstr "Дополнительный баланс"
 
-#: ../src/parametres.c:1162
+#: ../src/parametres.c:1163
 #, fuzzy
 msgid "Manage the line"
 msgstr "Выбор дат"
 
-#: ../src/parametres.c:1295
+#: ../src/parametres.c:1296
 #, fuzzy
 msgid "Choose the date format"
 msgstr "Выбрать шаблон для нового отчёта"
 
-#: ../src/parametres.c:1301
+#: ../src/parametres.c:1302
 #, fuzzy
 msgid "Date format"
 msgstr "Формат файла"
 
-#: ../src/parametres.c:1367
+#: ../src/parametres.c:1368
 #, fuzzy
 msgid "Decimal point: "
 msgstr "Разделение данных:"
 
-#: ../src/parametres.c:1380
+#: ../src/parametres.c:1381
 #, fuzzy
 msgid "Thousands separator: "
 msgstr "Выберите разделитель CSV:"
 
-#: ../src/parametres.c:1397
+#: ../src/parametres.c:1398
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1403
+#: ../src/parametres.c:1404
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -10733,57 +10729,57 @@ msgstr ""
 msgid "Cannot execute mailer"
 msgstr "Невозможно сохранить файл"
 
-#: ../src/utils_files.c:185
+#: ../src/utils_files.c:186
 msgid "Print to file"
 msgstr "Печать в файл"
 
 #. ouch, not enough memory
-#: ../src/utils_files.c:303 ../src/utils_files.c:320
+#: ../src/utils_files.c:235 ../src/utils_files.c:252
 msgid "Memory allocation error"
 msgstr ""
 
-#: ../src/utils_files.c:349
+#: ../src/utils_files.c:281
 msgid "Convert to utf8 failed."
 msgstr ""
 
-#: ../src/utils_files.c:350
+#: ../src/utils_files.c:282
 msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:589
+#: ../src/utils_files.c:521
 #, fuzzy
 msgid "Select a charmap"
 msgstr "Выделить все"
 
-#: ../src/utils_files.c:611
+#: ../src/utils_files.c:543
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:651
+#: ../src/utils_files.c:583
 msgid "Encoding"
 msgstr "Кодировка"
 
-#: ../src/utils_files.c:658
+#: ../src/utils_files.c:590
 #, fuzzy
 msgid "Result"
 msgstr "По умолчанию"
 
 #. select an other encoding
-#: ../src/utils_files.c:664
+#: ../src/utils_files.c:596
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:681 ../src/utils_files.c:799
+#: ../src/utils_files.c:613 ../src/utils_files.c:731
 #, fuzzy
 msgid "Select a charset"
 msgstr "Выберите основную валюту"
 
-#: ../src/utils_files.c:816
+#: ../src/utils_files.c:748
 msgid "The conversion failed try another set of characters"
 msgstr ""
 
@@ -10795,6 +10791,9 @@ msgstr "Шрифт не определён"
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
+
+#~ msgid "Welcome to Grisbi 0.6!"
+#~ msgstr "Добро пожаловать в Grisbi 0.6!"
 
 #~ msgid "You are running Grisbi with GTK version %s"
 #~ msgstr "Вы используете Grisbi с GTK+ версии %s"

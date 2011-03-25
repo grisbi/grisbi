@@ -139,8 +139,8 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
     GtkWidget *assistant;
 
     /* create the assistant */
-    assistant = gsb_assistant_new ( _("Welcome to Grisbi 0.6!"),
-				    _("You are using Grisbi 0.6 for the first time.  While most of the " 
+    assistant = gsb_assistant_new ( _("Welcome to Grisbi!"),
+				    _("You are using Grisbi for the first time.  While most of the " 
 				      "interface has not changed, you will notice a lot of improvements. "
 				      "Do not hesitate to read some tips of the day to learn more on the new "
 				      "features.\n\n" 
