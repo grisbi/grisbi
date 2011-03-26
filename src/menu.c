@@ -529,28 +529,6 @@ gboolean help_bugreport ( void )
 
 
 /**
- * Concatenate menu entry names to produce a valid menu path, like
- * /menubar/FileMenu/Save
- *
- * \param menu		Name of the root menu.
- * \param submenu	Name of the sub-menu.
- * \param subsubmenu	Name of the sub-sub-menu.
- *
- * \return A newly-created string representing the menu path.
- */
-gchar *menu_name ( gchar *menu, gchar *submenu, gchar *subsubmenu )
-{
-  if ( subsubmenu )
-    return g_strconcat ( "/menubar/", menu, "/", submenu, "/", subsubmenu, NULL );
-  else if ( submenu )
-    return g_strconcat ( "/menubar/", menu, "/", submenu, NULL );
-  else
-    return g_strconcat ( "/menubar/", menu, NULL );
-}
-
-
-
-/**
  * Set sensitiveness of a menu item according to a string
  * representation of its position in the menu.
  * menu.
@@ -713,48 +691,43 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     block_menu_cb = TRUE;
 
     /* update the showing of reconciled transactions */
-    tmpstr = menu_name ( "ViewMenu", "ShowReconciled", NULL );
+    tmpstr = "/menubar/ViewMenu/ShowReconciled";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
 				        gsb_data_account_get_r ( account_number ) );
-    g_free ( tmpstr );
 
-    tmpstr = menu_name ( "ViewMenu", "ShowTransactionForm", NULL );
+    tmpstr = "/menubar/ViewMenu/ShowTransactionForm";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
 				        gsb_form_is_visible ( ) );
-    g_free ( tmpstr );
 
     /* update the showing of archived transactions */
-    tmpstr = menu_name ( "ViewMenu", "ShowArchived", NULL );
+    tmpstr = "/menubar/ViewMenu/ShowArchived";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
 				        gsb_data_account_get_l ( account_number ) );
-    g_free ( tmpstr );
 
     /* update the number of line showed */
     switch ( gsb_data_account_get_nb_rows (account_number))
     {
 	default:
 	case 1 :
-	    item_name = menu_name ( "ViewMenu", "ShowOneLine", NULL );
+	    item_name = "/menubar/ViewMenu/ShowOneLine";
 	    break;
 	case 2 :
-	    item_name = menu_name ( "ViewMenu", "ShowTwoLines", NULL );
+	    item_name = "/menubar/ViewMenu/ShowTwoLines";
 	    break;
 	case 3 :
-	    item_name = menu_name ( "ViewMenu", "ShowThreeLines", NULL );
+	    item_name = "/menubar/ViewMenu/ShowThreeLines";
 	    break;
 	case 4 :
-	    item_name = menu_name ( "ViewMenu", "ShowFourLines", NULL );
+	    item_name = "/menubar/ViewMenu/ShowFourLines";
 	    break;
     }
 
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, item_name ) ),
 				        TRUE );
-    g_free ( item_name );
-
     block_menu_cb = FALSE;
 
     return FALSE;

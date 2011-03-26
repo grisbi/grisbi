@@ -32,6 +32,5 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive );
 gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );
 GtkWidget *init_menus ( GtkWidget *vbox );
-gchar *menu_name ( gchar *menu, gchar *submenu, gchar *subsubmenu );
 /* END_DECLARATION */
 #endif
