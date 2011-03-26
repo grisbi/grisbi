@@ -330,7 +330,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     menubar = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
     gtk_box_pack_start ( GTK_BOX ( vbox ),  menubar, FALSE, TRUE, 0 );
 
-    gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/NewTransaction", FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 
     return menubar;
@@ -575,33 +575,6 @@ gboolean gsb_gui_sensitive_menu_item_from_string ( gchar *item_name, gboolean st
     return FALSE;
 }
 
-
-
-/**
- * Set sensitiveness of a menu item according to its position in the
- * menu.
- *
- * \param root_menu_name	Name of the menu.
- * \param submenu_name		Name of the sub menu.
- * \param subsubmenu_name	Name of the sub sub menu.
- *
- * \return TRUE on success.
- */
-gboolean gsb_gui_sensitive_menu_item ( gchar *root_menu_name,
-                        gchar *submenu_name,
-                        gchar *subsubmenu_name,
-                        gboolean state )
-{
-    gchar* tmpstr;
-    gboolean result;
-
-    tmpstr = menu_name ( root_menu_name, submenu_name, subsubmenu_name );
-    result = gsb_gui_sensitive_menu_item_from_string ( tmpstr, state );
-
-    g_free ( tmpstr );
-
-    return result;
-}
 
 
 /** 
@@ -865,11 +838,11 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
 {
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
-    gsb_gui_sensitive_menu_item ( "EditMenu", "RemoveTransaction", NULL, sensitive );
-    gsb_gui_sensitive_menu_item ( "EditMenu", "CloneTransaction", NULL, sensitive );
-    gsb_gui_sensitive_menu_item ( "EditMenu", "EditTransaction", NULL, sensitive );
-    gsb_gui_sensitive_menu_item ( "EditMenu", "ConvertToScheduled", NULL, sensitive );
-    gsb_gui_sensitive_menu_item ( "EditMenu", "MoveToAnotherAccount", NULL, sensitive );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/RemoveTransaction", sensitive );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/CloneTransaction", sensitive );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/EditTransaction", sensitive );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
+    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
 
     return FALSE;
 }
