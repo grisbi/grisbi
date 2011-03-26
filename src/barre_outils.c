@@ -79,7 +79,6 @@ GtkWidget *menu_import_rules;
 /*START_EXTERN*/
 extern GtkWidget *barre_outils;
 extern gboolean block_menu_cb;
-extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
 
@@ -319,6 +318,7 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 /****************************************************************************************************/
 gboolean change_aspect_liste ( gint demande )
 {
+    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
     switch ( demande )
     {
 	case 0:

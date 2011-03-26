@@ -45,6 +45,7 @@
 #include "main.h"
 #include "utils.h"
 #include "utils_str.h"
+#include "menu.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE
@@ -59,7 +60,6 @@ static GtkWidget * print_backtrace ( void );
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
-extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
 static gint debugging_grisbi;
@@ -488,6 +488,7 @@ gboolean gsb_debug_start_log ( void )
     {
         GtkWidget *widget;
         gchar *tmp_str_2;
+        GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
 
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
         etat.debug_mode = TRUE;
