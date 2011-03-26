@@ -22,10 +22,10 @@
 
 /**
  * \file gsb_autofunc.c
- * this file groups some widget functions wich update value automatickly
+ * this file groups some widget functions which update value automatically
  * when the widget change
  * a change in the widget call a given function of kind gsb_data_..._set_... ( number, value )
- * use to set automatickly the content in the grisbi structures
+ * use to set automatically the content in the grisbi structures
  * (for changes only on variables, see gsb_automem.c)
  */
 

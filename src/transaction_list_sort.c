@@ -53,7 +53,7 @@ static gboolean transaction_list_sort_get_initial_sort ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 

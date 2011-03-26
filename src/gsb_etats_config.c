@@ -103,6 +103,7 @@ static void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebu
 
 
 /*START_EXTERN*/
+extern enum report_tree_columns;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
@@ -141,6 +142,16 @@ enum
     GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER,
 
     GSB_ETAT_CATEG_BUDGET_LIST_NB,
+};
+
+
+enum gsb_report_tree_columns
+{
+    GSB_REPORT_TREE_TEXT_COLUMN,
+    GSB_REPORT_TREE_PAGE_COLUMN,
+    GSB_REPORT_TREE_BOLD_COLUMN,
+    GSB_REPORT_TREE_ITALIC_COLUMN,
+    GSB_REPORT_TREE_NUM_COLUMNS,
 };
 
 
@@ -189,8 +200,6 @@ static gchar *champs_comparateur_montant[] =
     N_("negative"),
     NULL
 };
-
-
 
 
 /**
@@ -344,7 +353,7 @@ GtkWidget *gsb_etats_config_get_report_tree_view ( void )
     GtkTreeSelection *selection ;
 
     /* Création du model */
-    report_tree_model = gtk_tree_store_new ( REPORT_TREE_NUM_COLUMNS,
+    report_tree_model = gtk_tree_store_new ( GSB_REPORT_TREE_NUM_COLUMNS,
                         G_TYPE_STRING,
                         G_TYPE_INT,
                         G_TYPE_INT,
@@ -358,9 +367,9 @@ GtkWidget *gsb_etats_config_get_report_tree_view ( void )
     cell = gtk_cell_renderer_text_new ( );
     column = gtk_tree_view_column_new_with_attributes ( "Categories",
                         cell,
-                        "text", REPORT_TREE_TEXT_COLUMN,
-                        "weight", REPORT_TREE_BOLD_COLUMN,
-                        "style", REPORT_TREE_ITALIC_COLUMN,
+                        "text", GSB_REPORT_TREE_TEXT_COLUMN,
+                        "weight", GSB_REPORT_TREE_BOLD_COLUMN,
+                        "style", GSB_REPORT_TREE_ITALIC_COLUMN,
                         NULL );
 
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
@@ -566,9 +575,9 @@ void gsb_etats_config_add_line_ ( GtkTreeStore *tree_model,
         /* append page groupe */
         gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
         gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
-                        REPORT_TREE_TEXT_COLUMN, title,
-                        REPORT_TREE_PAGE_COLUMN, -1,
-                        REPORT_TREE_BOLD_COLUMN, 800,
+                        GSB_REPORT_TREE_TEXT_COLUMN, title,
+                        GSB_REPORT_TREE_PAGE_COLUMN, -1,
+                        GSB_REPORT_TREE_BOLD_COLUMN, 800,
                         -1 );
     }
     else
@@ -580,9 +589,9 @@ void gsb_etats_config_add_line_ ( GtkTreeStore *tree_model,
 
         gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
         gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
-                        REPORT_TREE_TEXT_COLUMN, title,
-                        REPORT_TREE_PAGE_COLUMN, page,
-                        REPORT_TREE_BOLD_COLUMN, 400,
+                        GSB_REPORT_TREE_TEXT_COLUMN, title,
+                        GSB_REPORT_TREE_PAGE_COLUMN, page,
+                        GSB_REPORT_TREE_BOLD_COLUMN, 400,
                         -1);
     }
 }

@@ -107,7 +107,7 @@ extern GtkWidget *window;
 
 GtkWidget *logo_accueil = NULL;
 GtkWidget *hbox_title = NULL;
-GtkWidget *label_titre_fichier = NULL;
+static GtkWidget *label_titre_fichier = NULL;
 static GtkWidget *frame_etat_comptes_accueil = NULL;
 static GtkWidget *frame_etat_fin_compte_passif = NULL;
 static GtkWidget *frame_etat_echeances_manuelles_accueil = NULL;
@@ -116,6 +116,8 @@ static GtkWidget *main_page_finished_scheduled_transactions_part = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_autorises = NULL;
 static GtkWidget *frame_etat_soldes_minimaux_voulus = NULL;
 static GtkStyle *style_label;
+static GtkSizeGroup * size_group_accueil;
+static gchar *chaine_espace = "                         ";
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
@@ -129,9 +131,6 @@ gint mise_a_jour_liste_echeances_manuelles_accueil;
 gint mise_a_jour_liste_echeances_auto_accueil;
 gint mise_a_jour_soldes_minimaux;
 gint mise_a_jour_fin_comptes_passifs;
-
-GtkSizeGroup * size_group_accueil;
-gchar *chaine_espace = "                         ";
 
 /**
  * Create the home page of Grisbi
@@ -468,10 +467,13 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
         /* Creating the table which will store accounts with their balances. */
-        tmpstr = g_strdup_printf ( _("Account balances in %s"),
-                        gsb_data_currency_get_name ( currency_number ) );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf ( _("Account balances in %s at %s"),
+                        gsb_data_currency_get_name ( currency_number ),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf ( _("Account balances in %s"),
+                        gsb_data_currency_get_name ( currency_number ) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -546,10 +548,13 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances   */
-		tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
-                         gsb_data_currency_get_name (currency_number) );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s at %s"),
+                        gsb_data_currency_get_name (currency_number),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
+                         gsb_data_currency_get_name (currency_number) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -623,10 +628,13 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances    */
-        tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
-                         gsb_data_currency_get_name (currency_number));
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+            tmpstr = g_strdup_printf (_("Assets accounts balances in %s at %s"),
+                        gsb_data_currency_get_name (currency_number),
+                        gsb_date_today ( ) );
+        else
+            tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
+                         gsb_data_currency_get_name (currency_number));
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -690,12 +698,19 @@ void update_liste_comptes_accueil ( gboolean force )
     /* Affichage des soldes mixtes */
     if ( soldes_mixtes > 0 )
     {
+        gchar *tmp_str_2;
+
         if ( soldes_mixtes == 1 )
-            tmpstr = g_strdup ( _("Additional balance") );
+            tmp_str_2 = g_strdup ( _("Additional balance") );
         else
-            tmpstr = g_strdup ( _("Additional balances") );
+            tmp_str_2 = g_strdup ( _("Additional balances") );
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strconcat ( tmpstr, _(" at "), gsb_date_today (), NULL );
+        {
+            tmpstr = g_strconcat ( tmp_str_2, _(" at "), gsb_date_today (), NULL );
+            g_free ( tmp_str_2 );
+        }
+        else
+            tmpstr = tmp_str_2;
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
         g_free ( tmpstr );
@@ -1115,6 +1130,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
 {
     GtkWidget *label;
     gchar *tmpstr;
+    gchar *tmpstr2;
     gint nbre_lignes = 0;
     gint currency_number;
 
@@ -1141,11 +1157,12 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
             currency_number = gsb_data_partial_balance_get_currency ( partial_number );
             tmpstr = g_strdup_printf (_(" in %s"), gsb_data_currency_get_name (
                         currency_number ) );
-            tmpstr = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
+            tmpstr2 = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
                             tmpstr,
                             " : ", NULL );
-            label = gtk_label_new ( tmpstr );
-            g_free ( tmpstr );
+			g_free( tmpstr );
+            label = gtk_label_new ( tmpstr2 );
+            g_free ( tmpstr2 );
             gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
             gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
             gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );

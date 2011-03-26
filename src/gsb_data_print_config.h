@@ -7,19 +7,20 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-gboolean gsb_data_print_config_get_draw_archives  (void);
-gboolean gsb_data_print_config_get_draw_background  (void);
-gboolean gsb_data_print_config_get_draw_column  (void);
-gboolean gsb_data_print_config_get_draw_columns_name  (void);
-gboolean gsb_data_print_config_get_draw_dates_are_value_dates  (void);
-gboolean gsb_data_print_config_get_draw_interval_dates  (void);
-gboolean gsb_data_print_config_get_draw_lines  (void);
-gboolean gsb_data_print_config_get_draw_title  (void);
-PangoFontDescription *gsb_data_print_config_get_font_title (void);
-PangoFontDescription *gsb_data_print_config_get_font_transactions (void);
-PangoFontDescription *gsb_data_print_config_get_report_font_title (void);
-PangoFontDescription *gsb_data_print_config_get_report_font_transactions (void);
-void gsb_data_print_config_init (void);
+gboolean gsb_data_print_config_get_draw_archives  ( void );
+gboolean gsb_data_print_config_get_draw_background  ( void );
+gboolean gsb_data_print_config_get_draw_column  ( void );
+gboolean gsb_data_print_config_get_draw_columns_name  ( void );
+gboolean gsb_data_print_config_get_draw_dates_are_value_dates  ( void );
+gboolean gsb_data_print_config_get_draw_interval_dates  ( void );
+gboolean gsb_data_print_config_get_draw_lines  ( void );
+gboolean gsb_data_print_config_get_draw_title  ( void );
+PangoFontDescription *gsb_data_print_config_get_font_title ( void );
+PangoFontDescription *gsb_data_print_config_get_font_transactions ( void );
+PangoFontDescription *gsb_data_print_config_get_report_font_title ( void );
+PangoFontDescription *gsb_data_print_config_get_report_font_transactions ( void );
+void gsb_data_print_config_free ( void );
+void gsb_data_print_config_init ( void );
 gboolean gsb_data_print_config_set_draw_archives  ( gint number,
 						    gboolean value );
 gboolean gsb_data_print_config_set_draw_background  ( gint number,

@@ -80,8 +80,8 @@ gint display_three_lines;
 
 /*START_EXTERN*/
 extern GSList *liste_labels_titres_colonnes_liste_ope;
-extern gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
 
 

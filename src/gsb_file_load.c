@@ -77,6 +77,7 @@
 #include "utils_files.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -187,13 +188,12 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real;
-extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
-extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -339,7 +339,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* load the file */
     if (gsb_file_util_get_contents (filename, &file_content, &length))
     {
-        GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        GMarkupParser *markup_parser;
         GMarkupParseContext *context;
         gsb_plugin *plugin;
 
@@ -373,6 +373,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
         /* we begin to check if we are in a version under 0.6 or 0.6 and above,
          * because the xml structure changes after 0.6 */
 
+        markup_parser = g_malloc0 (sizeof (GMarkupParser));
         if ( gsb_file_load_check_new_structure (file_content))
         {
             /* fill the GMarkupParser for a new xml structure */
@@ -880,11 +881,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
-    {
-        etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
-    }
-
     else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
     {
         GdkPixbuf *pixbuf = NULL;
@@ -895,9 +891,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             gchar *chemin_logo = NULL;
 
             if ( etat.name_logo )
-                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, etat.name_logo, NULL );
+                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
             else
-                chemin_logo = g_build_filename  ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
             if ( chemin_logo )
                 pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
             if ( chemin_logo && strlen ( chemin_logo ) > 0 )
@@ -908,6 +904,22 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         {
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
+        }
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
+    {
+        etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
+        if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
+        {
+            GdkPixbuf *pixbuf = NULL;
+            gchar *chemin_logo = NULL;
+
+            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+            gtk_window_set_default_icon ( pixbuf );
+            gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_free ( chemin_logo );
         }
     }
 

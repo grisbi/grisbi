@@ -35,18 +35,15 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "dialog.h"
+#include "gsb_dirs.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_file_config.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
 #include "main.h"
-#include "structures.h"
-#include "traitement_variables.h"
 #include "utils.h"
-#include "utils_files.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -69,8 +66,7 @@ static gint debugging_grisbi;
 
 /* path and name of the file containing the log when debug mode is active
  * this values should not be freed when begin a new file to continue the log */
-gchar *debug_filename = NULL;
-FILE *debug_file = NULL;
+static FILE *debug_file = NULL;
 
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
@@ -277,7 +273,7 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
+G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -327,7 +323,7 @@ G_MODULE_EXPORT extern void debug_message_string ( gchar *prefixe,
  *
  * \return
  * */
-extern void debug_message_int ( gchar *prefixe,
+void debug_message_int ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -373,7 +369,7 @@ extern void debug_message_int ( gchar *prefixe,
  *
  * \return
  * */
-extern void debug_message_real ( gchar *prefixe,
+void debug_message_real ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
@@ -451,6 +447,7 @@ GtkWidget * print_backtrace ( void )
 gboolean gsb_debug_start_log ( void )
 {
     gchar *tmp_str;
+    gchar *debug_filename;
 
     devel_debug ( NULL );
 
@@ -464,7 +461,7 @@ gboolean gsb_debug_start_log ( void )
         complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
         basename = g_path_get_basename ( complete_filename );
 
-        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", basename, NULL);
+        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), basename, NULL);
 
         g_free ( basename);
         g_free ( complete_filename );
@@ -472,7 +469,7 @@ gboolean gsb_debug_start_log ( void )
     }
     else
     {
-        debug_filename = g_strconcat ( my_get_gsb_file_default_dir (), "/", "No_name-log.txt", NULL);
+        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), "No_name-log.txt", NULL);
     }
 
 
@@ -484,6 +481,8 @@ gboolean gsb_debug_start_log ( void )
     g_free (tmp_str);
 
     debug_file = g_fopen ( debug_filename, "w" );
+
+    g_free ( debug_filename );
 
     if ( debug_file )
     {
@@ -558,10 +557,20 @@ gboolean gsb_debug_start_log ( void )
 
 /**
  *
+ * */
+void gsb_debug_finish_log ( void )
+{
+    if ( debug_file )
+        fclose (debug_file);
+}
+
+
+/**
+ *
  *
  *
  */
-extern void debug_print_log_string ( gchar *prefixe,
+void debug_print_log_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,

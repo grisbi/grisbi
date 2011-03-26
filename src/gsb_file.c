@@ -52,7 +52,7 @@
 #include "gsb_assistant_file.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
-#include "gsb_file_config.h"
+#include "gsb_dirs.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
@@ -322,7 +322,7 @@ const gchar *gsb_file_get_backup_path ( void )
 void gsb_file_set_backup_path ( const gchar *path )
 {
     if ( path == NULL || strlen ( path ) == 0 )
-        backup_path = my_strdup ( C_PATH_DATA_FILES );
+        backup_path = my_strdup ( C_PATH_DATA_FILES ( ) );
     else
         backup_path = my_strdup ( path );
 

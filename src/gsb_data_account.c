@@ -51,6 +51,7 @@
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -2700,7 +2701,7 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account acco
         break;
     }
 
-    filename = g_build_filename ( GRISBI_PIXMAPS_DIR, account_icon, NULL );
+    filename = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), account_icon, NULL );
 
     return filename;
 }

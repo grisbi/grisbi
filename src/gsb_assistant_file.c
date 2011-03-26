@@ -41,16 +41,15 @@
 #include "gsb_category.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "parametres.h"
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "traitement_variables.h"
-#include "utils_files.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "affichage.h"
-#include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

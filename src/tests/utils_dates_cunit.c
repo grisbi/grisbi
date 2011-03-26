@@ -33,6 +33,8 @@
 #endif
 
 #include "include.h"
+#include <stdlib.h>
+#include <locale.h>
 
 /* START_INCLUDE */
 #include "utils_dates_cunit.h"

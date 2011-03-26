@@ -169,8 +169,20 @@ enum
     REPORT_CATEG_BUDGET_LIST_NB,
 };
 
+enum report_tree_columns {
+    REPORT_TREE_TEXT_COLUMN,
+    REPORT_TREE_PAGE_COLUMN,
+    REPORT_TREE_BOLD_COLUMN,
+    REPORT_TREE_ITALIC_COLUMN,
+    REPORT_TREE_NUM_COLUMNS,
+};
 
-gchar *liste_plages_dates[] = {
+
+/***********************************/
+/* fichier etats_config.c */
+/***********************************/
+
+static gchar *liste_plages_dates[] = {
     N_("All"),
     N_("Custom"),
     N_("Total to now"),
@@ -186,7 +198,7 @@ gchar *liste_plages_dates[] = {
     N_("Last 12 months"),
     NULL };
 
-gchar *jours_semaine[] = {
+static gchar *jours_semaine[] = {
     N_("Monday"),
     N_("Tuesday"),
     N_("Wednesday"),
@@ -308,7 +320,6 @@ gint ancienne_categ_etat;
 gint ancienne_categ_speciale_etat;
 gint ancienne_sous_categ_etat;
 gint ancien_compte_etat;
-gint ancien_tiers_etat;
 gsb_real montant_categ_etat;
 gsb_real montant_sous_categ_etat;
 gsb_real montant_ib_etat;
@@ -343,7 +354,6 @@ const gchar *nom_ib_en_cours;
 const gchar *nom_ss_ib_en_cours;
 const gchar *nom_compte_en_cours;
 const gchar *nom_tiers_en_cours;
-gint titres_affiches;
 
 static GtkWidget *bouton_detaille_mode_paiement_etat = NULL;
 static GtkWidget *vbox_mode_paiement_etat = NULL;

@@ -55,6 +55,7 @@ static gchar **gsb_qif_get_date_content ( gchar *date_string );
 static gint gsb_qif_get_date_order ( GSList *transactions_list );
 static gchar *gsb_qif_get_account_name ( FILE *qif_file, const gchar *coding_system );
 static gint gsb_qif_get_account_type ( gchar *header );
+static gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system );
 static gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                         const gchar *coding_system,
                         struct struct_compte_importation *imported_account );
@@ -65,8 +66,8 @@ extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
 /*END_EXTERN*/
 
-gchar *last_header = NULL;
-gboolean mismatch_dates = TRUE;
+static gchar *last_header = NULL;
+static gboolean mismatch_dates = TRUE;
 
 enum
 {
@@ -161,6 +162,24 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 name_preced = TRUE;
                 premier_compte = FALSE;
                 returned_value = get_utf8_line_from_file ( qif_file, &tmp_str, imported -> coding_system );
+            }
+            else if ( returned_value != EOF
+             &&
+             tmp_str
+             &&
+             g_ascii_strncasecmp ( tmp_str, "!Type:Cat", 9 ) == 0 )
+            {
+
+                do
+                {
+                    returned_value = gsb_qif_recupere_categories ( qif_file,
+                                        imported -> coding_system );
+
+                    if ( returned_value == 0 )
+                        tmp_str = last_header;
+                }
+                /* continue untill the end of the file or a change of account */
+                while ( returned_value != EOF && returned_value != 0 );
             }
             else if ( returned_value != EOF
              &&
@@ -1234,6 +1253,96 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                                         imported_account -> operations_importees, imported_transaction );
         }
     } 
+
+    if ( string[0] == '!' )
+    {
+        if ( last_header && strlen ( last_header ) )
+            g_free ( last_header );
+        last_header = g_strdup ( string );
+    }
+
+    if ( returned_value != EOF  && string[0] != '!' )
+        return 1;
+    else if ( returned_value == EOF )
+        return EOF;
+    else
+        return 0;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
+{
+    gchar *string;
+    gint returned_value;
+
+    do
+    {
+        returned_value = get_utf8_line_from_file ( qif_file, &string, coding_system );
+
+        /* a category never begin with ^ and ! */
+        if ( strlen ( string )
+         &&
+         returned_value != EOF
+         &&
+         string[0] != '^'
+         &&
+         string[0] != '!' )
+        {
+            gint category_number;
+            gint type_category = 1;
+            gchar **tab_str = NULL;
+
+            tab_str = g_strsplit ( string + 1, ":", 2 );
+            g_free ( string );
+
+            do
+            {
+                returned_value = get_utf8_line_from_file ( qif_file,
+                            &string, coding_system );
+                if ( strlen ( string )
+                 &&
+                 returned_value != EOF
+                 &&
+                 string[0] != '^'
+                 &&
+                 string[0] != '!' )
+                {
+                    if ( strcmp ( string, "I" ) == 0 )
+                        type_category = 0;
+                    g_free ( string );
+                }
+            }
+            while ( string[0] != '^' && returned_value != EOF && string[0] != '!' );
+
+            /* get the category and create it if doesn't exist */
+            if (tab_str[0])
+            {
+                tab_str[0] = g_strstrip ( tab_str[0] );
+                category_number = gsb_data_category_get_number_by_name ( tab_str[0],
+                                    TRUE,
+                                    type_category );
+
+                if (tab_str[1])
+                {
+                    tab_str[1] = g_strstrip ( tab_str[1] );
+            
+                    gsb_data_category_get_sub_category_number_by_name (
+                                category_number,
+                                tab_str[1],
+                                TRUE );
+                }
+            }
+            
+            g_strfreev(tab_str);
+        }
+    }
+    while ( string[0] != '^' && returned_value != EOF && string[0] != '!' );
 
     if ( string[0] == '!' )
     {

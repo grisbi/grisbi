@@ -1213,11 +1213,11 @@ static gboolean gtk_combofix_set_all_visible_rows ( GtkComboFix *combofix )
     GtkTreePath *path;
     GtkTreeIter iter;
     gint path_ok;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
-	    return FALSE;
-
+        return FALSE;
+    priv = combofix -> priv;
     priv -> visible_items = 0;
     model = GTK_TREE_MODEL ( priv -> store);
     path = gtk_tree_path_new_first ( );
@@ -1289,10 +1289,11 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
     gint height;
     GdkRectangle rectangle;
     gint horizontal_separator;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if ( !combofix )
-	    return FALSE;
+        return FALSE;
+    priv = combofix -> priv;
 
     /* get the position of the combofix */
     gdk_window_get_origin ( GTK_WIDGET ( combofix->entry ) -> window, &x, &y );
@@ -1819,10 +1820,11 @@ static gint gtk_combofix_get_rows_number_by_page ( GtkComboFix *combofix )
 {
     gint return_value;
     GtkAdjustment *adjustment;
-    GtkComboFixPrivate *priv = combofix -> priv;
+    GtkComboFixPrivate *priv;
 
     if (!combofix)
-	return 0;
+        return 0;
+    priv = combofix -> priv;
 
     adjustment = gtk_tree_view_get_vadjustment ( GTK_TREE_VIEW ( priv -> tree_view ) );
     return_value = priv -> visible_items * adjustment -> page_size / adjustment -> upper;

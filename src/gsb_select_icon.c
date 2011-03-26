@@ -36,6 +36,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -256,9 +257,9 @@ GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
         devel_debug ( "combo n'existe pas" );
         store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
         gtk_list_store_append (store, &iter);
-        if ( g_strcmp0 ( GRISBI_PIXMAPS_DIR, path_icon ) != 0 )
+        if ( g_strcmp0 ( gsb_dirs_get_pixmaps_dir ( ), path_icon ) != 0 )
         {
-            gtk_list_store_set (store, &iter, 0, GRISBI_PIXMAPS_DIR, -1);
+            gtk_list_store_set (store, &iter, 0, gsb_dirs_get_pixmaps_dir ( ), -1);
             gtk_list_store_prepend (store, &iter);
         }
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
@@ -518,7 +519,7 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
 
     if ( size > 10 )
     {
-        gchar *tmpstr;
+        gchar *tmpstr, *tmpstr2;
         gchar *end;
         gchar *ptr = NULL;
         gint i = 1, n = 0;
@@ -538,15 +539,16 @@ gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
             if ( i < n )
                 ptr = g_utf8_offset_to_pointer ( name_icon, ( i + 1 ) * 10 );
             if ( ptr )
-                tmpstr = g_strconcat ( tmpstr, "\n", 
+                tmpstr2 = g_strconcat ( tmpstr, "\n",
                                        g_strndup (end, ptr - end ), NULL);
             else
-                tmpstr = g_strconcat ( tmpstr, "\n", end, NULL);
+                tmpstr2 = g_strconcat ( tmpstr, "\n", end, NULL);
             ptr = NULL;
             i++;
         } while ( i <= n );
         
-        return tmpstr;
+        g_free ( tmpstr );
+        return tmpstr2;
     }
     else
         return g_strdup ( name_icon );
@@ -659,7 +661,7 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
     GError *error = NULL;
 
     pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), &error );
+                        (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), &error );
 
     if ( ! pixbuf )
     {

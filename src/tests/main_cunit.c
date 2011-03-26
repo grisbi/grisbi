@@ -38,9 +38,11 @@
 /*START_INCLUDE*/
 #include <CUnit/Automated.h>
 #include <CUnit/Basic.h>
+#include <gtk/gtk.h>
 #include "gsb_data_account_cunit.h"
 #include "gsb_real_cunit.h"
 #include "utils_dates_cunit.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 
@@ -49,7 +51,7 @@
  * are properly separated and a libgrisbi_core.a library is generated.
  */
 GtkWidget *window = NULL;
-extern FILE *debug_file;
+struct gsb_run_t run;
 extern gchar *nom_fichier_comptes;
 gboolean gsb_grisbi_close( void )
 {
@@ -59,6 +61,9 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
 {
 	return FALSE;
 }
+gchar *gsb_main_get_print_locale_var(void) { return NULL; }
+gchar *gsb_main_get_print_dir_var(void) { return NULL; }
+
 /* End of unnecessary things */
 
 

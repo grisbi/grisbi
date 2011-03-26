@@ -52,6 +52,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
@@ -107,7 +108,6 @@ static void main_window_set_size_and_position ( void );
 G_MODULE_EXPORT GtkWidget *window = NULL;
 
 /*START_EXTERN*/
-extern FILE *debug_file;
 extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
@@ -133,6 +133,7 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
+    gsb_dirs_init ( );
 #ifdef _WIN32
     main_win_32 (  argc, argv );
 #else
@@ -142,6 +143,7 @@ int main ( int argc, char **argv )
         main_linux ( argc, argv );
     #endif /* GTKOSXAPPLICATION || linux */
 #endif /* _WIN32 */
+    gsb_dirs_shutdown ( );
 
 #if GSB_GMEMPROFILE
     g_mem_profile();
@@ -164,7 +166,7 @@ void main_linux ( int argc, char **argv )
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
 
-    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -208,7 +210,7 @@ void main_linux ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 }
 
 
@@ -225,7 +227,6 @@ void main_mac_osx ( int argc, char **argv )
     GtkWidget *menubar;
     GdkPixbuf *pixbuf;
     cmdline_options  opt;
-    gchar *locale_dir;
     gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
@@ -241,8 +242,7 @@ void main_mac_osx ( int argc, char **argv )
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
-    locale_dir = grisbi_osx_get_locale_dir ( );
-    bindtextdomain ( PACKAGE, locale_dir );
+    bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -301,7 +301,7 @@ void main_mac_osx ( int argc, char **argv )
     if ( quartz_application_get_bundle_id ( ) == NULL )
     {
         pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL), NULL );
+                        (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), NULL );
         if ( pixbuf )
             gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
     }
@@ -313,7 +313,7 @@ void main_mac_osx ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 
     g_object_unref ( theApp );
 
@@ -345,7 +345,7 @@ void main_win_32 (  int argc, char **argv )
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
-    bindtextdomain ( PACKAGE, LOCALEDIR );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
@@ -384,7 +384,7 @@ void main_win_32 (  int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 
 #endif /* WIN_32 */
 }
@@ -434,11 +434,11 @@ gboolean gsb_grisbi_init_app ( void )
     gchar *string;
 
 #ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( GRISBI_PLUGINS_DIR );
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
 #endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( GRISBI_PIXMAPS_DIR, "grisbi-logo.png", NULL );
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
@@ -451,20 +451,6 @@ gboolean gsb_grisbi_init_app ( void )
     /* firt use ? */
     if ( ! gsb_file_config_load_config () )
         first_use = TRUE;
-
-    /* test version of GTK */
-    if ( gtk_check_version ( VERSION_GTK_MAJOR, VERSION_GTK_MINOR, VERSION_GTK_MICRO ) )
-    {
-        string = g_strdup_printf (  _("You are running Grisbi with GTK version %s"),
-                        get_gtk_run_version ( ) );
-        dialogue_conditional_hint ( string,
-                        _("The version of GTK you are using do not benefit from its "
-                        "latest features.\n"
-                        "\n"
-                        "You should upgrade GTK."),
-                        "gtk_obsolete" );
-        g_free ( string );
-    }
 
     return first_use;
 }
@@ -531,7 +517,7 @@ GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS );
+    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS ( ) );
 
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ( );
@@ -668,8 +654,8 @@ gboolean gsb_grisbi_close ( void )
         gtk_widget_destroy ( window );
 
     /* clean finish of the debug file */
-    if (etat.debug_mode && debug_file)
-        fclose (debug_file);
+    if ( etat.debug_mode )
+        gsb_debug_finish_log ( );
 
     /* clean the initial vars */
     gsb_main_free_global_definitions ( );
@@ -696,8 +682,9 @@ static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
  */
 static void main_window_destroy_event ( GObject* obj, gpointer data)
 {
-   window = NULL;
-   gtk_main_quit();
+    free_variables();
+    window = NULL;
+    gtk_main_quit();
 }
 
 
@@ -835,13 +822,6 @@ gchar *gsb_main_get_print_locale_var ( void )
 gchar *gsb_main_get_print_dir_var ( void )
 {
     gchar *path_str = NULL;
-    gchar *tmp_str = NULL;
-
-#ifdef GTKOSXAPPLICATION
-    tmp_str = grisbi_osx_get_locale_dir ( );
-#else
-    tmp_str = g_strdup ( LOCALEDIR );
-#endif
 
     path_str = g_strdup_printf ( "Paths\n"
                         "\tXDG_DATA_HOME = %s\n"
@@ -850,20 +830,20 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tC_PATH_CONFIG = %s\n"
                         "\tC_PATH_CONFIG_ACCELS = %s\n"
                         "\tC_PATH_DATA_FILES = %s\n\n"
-                        "\tGRISBI_LOCALEDIR = %s\n"
-                        "\tGRISBI_PLUGINS_DIR = %s\n"
-                        "\tGRISBI_PIXMAPS_DIR = %s\n\n",
+                        "\tDATA_PATH = %s\n\n"
+                        "\tgsb_dirs_get_locale_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
-                        C_GRISBIRC,
-                        C_PATH_CONFIG,
-                        C_PATH_CONFIG_ACCELS,
-                        C_PATH_DATA_FILES,
-                        tmp_str,
-                        GRISBI_PLUGINS_DIR,
-                        GRISBI_PIXMAPS_DIR );
-
-    g_free ( tmp_str );
+                        C_GRISBIRC ( ),
+                        C_PATH_CONFIG ( ),
+                        C_PATH_CONFIG_ACCELS ( ),
+                        C_PATH_DATA_FILES ( ),
+                        DATA_PATH,
+                        gsb_dirs_get_locale_dir ( ),
+                        gsb_dirs_get_plugins_dir ( ),
+                        gsb_dirs_get_pixmaps_dir ( ) );
 
     return path_str;
 }
@@ -876,11 +856,6 @@ gchar *gsb_main_get_print_dir_var ( void )
  */
 void gsb_main_free_global_definitions ( void )
 {
-    g_free ( C_GRISBIRC );
-    g_free ( C_OLD_GRISBIRC );
-    g_free ( C_PATH_CONFIG );
-    g_free ( C_PATH_CONFIG_ACCELS );
-    g_free ( C_PATH_DATA_FILES );
 }
 
 

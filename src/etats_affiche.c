@@ -60,12 +60,15 @@ static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 
 
 
-
+/* WTF??? See etats_calculs.c too... */
 static gint ancien_tiers_etat;
+extern gint ancien_tiers_etat;
+
+
+static gint titres_affiches;
 
 /*START_EXTERN*/
 extern gint ancien_compte_etat;
-extern gint ancien_tiers_etat;
 extern gint ancienne_categ_etat;
 extern gint ancienne_categ_speciale_etat;
 extern gint ancienne_ib_etat;
@@ -108,7 +111,6 @@ extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
 extern gsb_real null_real;
-extern gint titres_affiches;
 /*END_EXTERN*/
 
 

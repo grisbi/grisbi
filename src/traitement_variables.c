@@ -86,7 +86,7 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-gchar *labels_titres_colonnes_liste_ope[] = {
+static gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
@@ -107,6 +107,53 @@ gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Number"),
     NULL };
 
+/* background color */
+#define BG_COLOR_1_RED      55000
+#define BG_COLOR_1_GREEN    55000
+#define BG_COLOR_1_BLUE     65535
+
+#define BG_COLOR_2_RED      65535
+#define BG_COLOR_2_GREEN    65535
+#define BG_COLOR_2_BLUE     65535
+
+/* couleur du jour */
+#define BG_COLOR_TODAY_RED      55512
+#define BG_COLOR_TODAY_GREEN    55512
+#define BG_COLOR_TODAY_BLUE     55512
+
+/* text color */
+#define TEXT_COLOR_1_RED    0
+#define TEXT_COLOR_1_GREEN  0
+#define TEXT_COLOR_1_BLUE   0
+
+#define TEXT_COLOR_2_RED    65535
+#define TEXT_COLOR_2_GREEN  0
+#define TEXT_COLOR_2_BLUE   0
+
+/* selection color */
+#define SELECTION_COLOR_RED     63000
+#define SELECTION_COLOR_GREEN   40000
+#define SELECTION_COLOR_BLUE    40000
+
+/* scheduler color */
+#define UNSENSITIVE_SCHEDULED_COLOR_RED     50000
+#define UNSENSITIVE_SCHEDULED_COLOR_GREEN   50000
+#define UNSENSITIVE_SCHEDULED_COLOR_BLUE    50000
+
+/* archive background color */
+#define COLOR_ARCHIVE_BG_RED    15000
+#define COLOR_ARCHIVE_BG_GREEN  30000
+#define COLOR_ARCHIVE_BG_BLUE   10000
+
+/* children of splitted transaction color */
+#define BREAKDOWN_BACKGROUND_COLOR_RED      61423
+#define BREAKDOWN_BACKGROUND_COLOR_GREEN    50629
+#define BREAKDOWN_BACKGROUND_COLOR_BLUE     50629
+
+/* calendar entry color (when wrong date) */
+#define CALENDAR_ENTRY_COLOR_RED    65535
+#define CALENDAR_ENTRY_COLOR_GREEN  0
+#define CALENDAR_ENTRY_COLOR_BLUE   0
 
 
 /** defaults colors in the transactions list */
@@ -187,11 +234,9 @@ extern GtkWidget *notebook_general;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
-extern GtkWidget *solde_label;
-extern GtkWidget *solde_label_pointe;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-extern gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
@@ -313,9 +358,6 @@ void init_variables ( void )
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;
-
-    solde_label = NULL;
-    solde_label_pointe = NULL;
 
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
@@ -447,9 +489,17 @@ void init_variables ( void )
     bet_data_finance_data_simulator_init ( );
 }
 
+/**
+ * Free allocations of grisbi variables
+ *
+ * */
+void free_variables ( void )
+{
+    gsb_data_print_config_free ();
+}
 
 /**
- * initialize the colors used in grisbi 
+ * initialize the colors used in grisbi
  *
  * \param
  *

@@ -64,6 +64,7 @@
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 
@@ -165,11 +166,11 @@ extern GtkWidget *window;
 /* gestion de la largeur des colonnes du tableau */
 
 /* tableau des colonnes */
-GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
+static GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
 /* the initial width of each column */
 gint bet_array_col_width[BET_ARRAY_COLUMNS];
 /* the initial width of the tree_view */
-gint bet_array_current_tree_view_width = 0;
+static gint bet_array_current_tree_view_width = 0;
 
 
 enum bet_estimation_tree_columns
@@ -1478,7 +1479,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     /* Insert an account balance */
     if ( gsb_data_account_get_kind ( gsb_gui_navigation_get_current_account ( ) ) != GSB_TYPE_CASH )
     {
-        tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_bank_16.png", NULL);
+        tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_bank_16.png", NULL);
         image = gtk_image_new_from_file ( tmp_str );
         g_free ( tmp_str );
         menu_item = gtk_image_menu_item_new_with_label (

@@ -77,7 +77,7 @@ void transaction_model_initialize ( void )
 	gint j;
 
 	record = custom_list -> rows[i];
-	for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+	for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
 	    if (record -> visible_col[j])
 		g_free (record -> visible_col[j]);
 
@@ -90,7 +90,7 @@ void transaction_model_initialize ( void )
 
 		child_record = record -> children_rows[k];
 
-		for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+		for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
 		    if (child_record -> visible_col[j])
 			g_free (child_record -> visible_col[j]);
 		g_free (child_record);

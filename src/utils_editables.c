@@ -157,7 +157,8 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
         pointeur = string + strlen ( string );
     else
     {
-        g_free ( string );
+        if ( string )
+            g_free ( string );
         return total;
     }
 

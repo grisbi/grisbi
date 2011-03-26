@@ -109,12 +109,12 @@ GtkWidget *payee_tree = NULL;
 GtkTreeStore *payee_tree_model = NULL;
 
 /* variable for the management of the cancelled edition */
-gboolean sortie_edit_payee = FALSE;
+static gboolean sortie_edit_payee = FALSE;
 
 /* structure pour la sauvegarde de la position */
-struct metatree_hold_position *payee_hold_position;
+static struct metatree_hold_position *payee_hold_position;
 
-struct conditional_message *overwrite_payee;
+static struct conditional_message *overwrite_payee;
 
 /*START_EXTERN*/
 extern GdkColor couleur_selection;

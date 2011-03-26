@@ -53,6 +53,7 @@
 #include "structures.h"
 #include "utils_files.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -563,8 +564,8 @@ void gsb_currency_append_currency_to_list ( GtkListStore *model,
     GtkTreeIter iter;
     gchar *string;
 
-    string = g_strconcat( GRISBI_PIXMAPS_DIR, C_DIRECTORY_SEPARATOR,
-			  "flags", C_DIRECTORY_SEPARATOR,
+    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
+			  "flags", G_DIR_SEPARATOR_S,
 			  gsb_data_currency_get_code_iso4217 (currency_number),
 			  ".png", NULL );
     pixbuf = gdk_pixbuf_new_from_file ( string,
@@ -1249,7 +1250,7 @@ void gsb_currency_config_fill_popup_list ( GtkTreeView * tree_view,
 	    GdkPixbuf * pixbuf;
 	    gchar *string;
 
-	    string = g_build_filename ( GRISBI_PIXMAPS_DIR,
+	    string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
 					"flags",
 					currency -> flag_filename,
 					NULL );

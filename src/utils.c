@@ -38,6 +38,7 @@
 #include "structures.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
@@ -345,7 +346,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
     /* Icon */
     if ( image_filename )
     {
-	gchar* tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR,
+	gchar* tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
 					  image_filename, NULL);
 	image = gtk_image_new_from_file (tmpstr);
 	g_free(tmpstr);
@@ -501,38 +502,6 @@ gchar *get_gtk_run_version ( void )
                         utils_str_itoa ( (guint) gtk_micro_version ),
                         NULL);
 	return version;
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gchar *utils_get_pixmaps_dir ( void )
-{
-#ifdef GTKOSXAPPLICATION
-    return grisbi_osx_get_pixmaps_dir ( );
-#else
-    return PIXMAPS_DIR;
-#endif
-}
-
-
-/**
- *
- *
- *
- *
- * */
-gchar *utils_get_plugins_dir ( void )
-{
-#ifdef GTKOSXAPPLICATION
-    return grisbi_osx_get_plugins_dir ( );
-#else
-    return PLUGINS_DIR;
-#endif
 }
 
 

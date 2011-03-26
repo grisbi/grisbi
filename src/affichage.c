@@ -51,6 +51,7 @@
 #include "custom_list.h"
 #include "utils_buttons.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -105,7 +106,6 @@ extern GdkColor default_split_background;
 extern GdkColor default_text_color[2];
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
-extern GtkWidget *label_titre_fichier;
 extern GtkWidget *logo_accueil;
 extern GdkColor split_background;
 extern GdkColor text_color[2];
@@ -170,8 +170,7 @@ GtkWidget * onglet_display_fonts ( void )
 
     if (!pixbuf)
     {
-        preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
-                        GTK_ICON_SIZE_BUTTON );
+        preview = gtk_image_new_from_pixbuf ( gsb_select_icon_get_default_logo_pixbuf ( ) );
     }
     else
     {
@@ -294,16 +293,33 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
             gtk_widget_hide ( logo_accueil );
         else
         {
+            GdkPixbuf *pixbuf = NULL;
+
             /* Update homepage logo */
-            logo_accueil =  gtk_image_new_from_pixbuf ( 
-                            gsb_select_icon_get_logo_pixbuf ( ) );
-            gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
-            gtk_widget_set_size_request ( hbox_title, -1, LOGO_HEIGHT + 20 );
-            gtk_widget_show ( logo_accueil );
+            pixbuf = gsb_select_icon_get_logo_pixbuf ( );
+            if ( pixbuf == NULL )
+            {
+                pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
+                etat.is_pixmaps_dir = TRUE;
+            }
+            logo_accueil =  gtk_image_new_from_pixbuf ( pixbuf );
+            if ( logo_accueil )
+            {
+                gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
+                gtk_widget_set_size_request ( hbox_title, -1, -1 );
+                gtk_widget_show ( logo_accueil );
+            }
         }
     }
     else
+    {
         gtk_widget_destroy ( logo_accueil );
+        gtk_widget_set_size_request ( hbox_title, -1, -1 );
+        if ( etat.name_logo && strlen ( etat.name_logo ) )
+            g_free ( etat.name_logo );
+        etat.name_logo = NULL;
+        etat.is_pixmaps_dir = 0;
+    }
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
@@ -515,7 +531,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
             }
             else
             {
-                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), GRISBI_PIXMAPS_DIR ) == 0 )
+                if ( g_strcmp0 ( g_path_get_dirname ( chemin_logo ), gsb_dirs_get_pixmaps_dir ( ) ) == 0 )
                 {
                     gchar *name_logo;
 
@@ -579,7 +595,7 @@ gboolean modification_logo_accueil ( )
 
     if ( etat.is_pixmaps_dir )
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
-                        file_selector ), GRISBI_PIXMAPS_DIR );
+                        file_selector ), gsb_dirs_get_pixmaps_dir ( ) );
     else
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
                         file_selector ), gsb_file_get_last_path () );

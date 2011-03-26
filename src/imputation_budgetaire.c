@@ -77,10 +77,10 @@ GtkTreeStore *budgetary_line_tree_model = NULL;
 gint no_devise_totaux_ib;
 
 /* variable for the management of the cancelled edition */
-gboolean sortie_edit_budgetary_line = FALSE;
+static gboolean sortie_edit_budgetary_line = FALSE;
 
 /* structure pour la sauvegarde de la position */
-struct metatree_hold_position *budgetary_hold_position;
+static struct metatree_hold_position *budgetary_hold_position;
 
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface;

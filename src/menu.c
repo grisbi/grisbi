@@ -441,7 +441,7 @@ gboolean help_manual ( void )
     gchar *lang = _("en");
     gchar *string;
 
-    string = g_strconcat ( HELP_PATH, "/", lang, "/manual.html", NULL );
+    string = g_build_filename ( HELP_PATH, lang, "manual.html", NULL );
 
     if (g_file_test ( string,
 		      G_FILE_TEST_EXISTS ))
@@ -452,7 +452,7 @@ gboolean help_manual ( void )
     else
     {
 	g_free (string);
-	string = g_strconcat ( HELP_PATH, "/", lang, "/grisbi-manuel.html", NULL );
+	string = g_build_filename ( HELP_PATH, lang, "grisbi-manuel.html", NULL );
 	lance_navigateur_web (string);
 	g_free (string);
     }
@@ -472,8 +472,7 @@ gboolean help_quick_start ( void )
 {
     gchar *lang = _("en");
 
-    gchar* tmpstr = g_strconcat ( HELP_PATH, "/", lang, "/quickstart.html", 
-					 NULL );
+    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "quickstart.html", NULL );
     lance_navigateur_web ( tmpstr );
     g_free ( tmpstr );
 
@@ -492,8 +491,7 @@ gboolean help_translation ( void )
 {
     gchar *lang = _("en");
 
-    gchar* tmpstr = g_strconcat ( HELP_PATH, "/", lang, "/translation.html", 
-					 NULL );
+    gchar* tmpstr = g_build_filename ( HELP_PATH, lang, "translation.html", NULL );
     lance_navigateur_web ( tmpstr );
     g_free ( tmpstr );
 

@@ -33,9 +33,6 @@
  * @todo : Set the file independant from "include.h" added as an easy convenient
  *  way of resolving compilation warnings .
  */
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -153,10 +150,6 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     return g_filename_to_utf8(dirstr,-1,NULL,NULL,NULL);
 
 } /* }}} file_selection_get_last_directory */
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
 
 
 /* Local Variables: */

@@ -306,20 +306,22 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
     GDir * dir;
     GSList * list = NULL;
 
-    dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+    dirname = g_build_filename ( DATA_PATH, "categories", basename, NULL );
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '.' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+	g_free ( dirname );
+	dirname = g_build_filename ( DATA_PATH, "categories", basename, NULL );
     }
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '_' );
 	if ( pos ) 
 	    *pos = '\0';
-	dirname = g_strconcat ( DATA_PATH, C_DIRECTORY_SEPARATOR, "categories", C_DIRECTORY_SEPARATOR, basename, NULL );
+	g_free ( dirname );
+	dirname = g_build_filename ( DATA_PATH, "categories", basename, NULL );
     }
 
     dir = g_dir_open ( dirname, 0, NULL );
@@ -328,7 +330,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
 	gchar * filename;
 	while ( ( filename = (gchar *) g_dir_read_name ( dir ) ) )
 	{
-	    filename = g_strconcat ( dirname, "/", filename, NULL );
+	    filename = g_build_filename ( dirname, filename, NULL );
 	    if ( g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) &&
 		 g_str_has_suffix ( filename, ".cgsb" ) )
 	    {
@@ -336,6 +338,8 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
 	    }
 	}
     }
+
+    g_free ( dirname );
 
     return g_slist_sort ( list, (GCompareFunc) strcmp );
 }
@@ -349,8 +353,8 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
  * \param model		A GtkTreeModel to fill with information found.
  */
 void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model )
-{    
-    GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+{
+    GMarkupParser *markup_parser;
     GMarkupParseContext * context;
     gchar * file_content, * description = NULL;
     GtkTreeIter iter;
@@ -364,6 +368,7 @@ void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model 
 	return;
     }
 
+    markup_parser = g_malloc0 ( sizeof ( GMarkupParser ) );
     markup_parser -> start_element = (void *) gsb_category_assistant_start_element;
 
     context = g_markup_parse_context_new ( markup_parser,

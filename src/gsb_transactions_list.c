@@ -122,25 +122,20 @@ static void update_titres_tree_view ( void );
 GtkWidget *tree_view_vbox = NULL;
 
 /* the columns of the tree_view */
-GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* the initial width of each column */
-gint transaction_col_width[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* the initial alignment of each column */
-gint transaction_col_align[CUSTOM_MODEL_N_VISIBLES_COLUMN];
+gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* adr de la barre d'outils */
 GtkWidget *barre_outils;
 
 /* contient les tips et titres des colonnes des listes d'opé */
-gchar *tips_col_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_N_VISIBLES_COLUMN];
-
-/*  pointeur vers le label qui contient le solde sous la liste des opé */
-GtkWidget *solde_label = NULL;
-
-GtkWidget *solde_label_pointe = NULL;
+gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 static GtkWidget *transactions_tree_view = NULL;
 
@@ -151,7 +146,7 @@ gint current_tree_view_width = 0;
 GSList *orphan_child_transactions = NULL;
 
 /* names of the cells */
-gchar *cell_views[] = {
+static gchar *cell_views[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
@@ -366,7 +361,7 @@ void gsb_transactions_list_create_tree_view_columns ( void )
     column_balance = find_element_col (ELEMENT_BALANCE);
 
     /* create the columns */
-    for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     {
 	GtkCellRenderer *cell_renderer;
 
@@ -434,7 +429,7 @@ void update_titres_tree_view ( void )
 {
     gint i;
 
-    for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     {
         gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN (
                         transactions_tree_view_columns[i] ),
@@ -492,7 +487,7 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     /* we create the columns of the tree view */
     gsb_transactions_list_create_tree_view_columns ();
 
-    for ( i = 0 ; i < CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     {
 	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
 				        transactions_tree_view_columns[i] );
@@ -1023,7 +1018,7 @@ gint find_element_col ( gint element_number )
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
     {
-	for ( j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++ )
+	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    if ( tab_affichage_ope[i][j] == element_number )
 		return j;
@@ -1046,7 +1041,7 @@ gint find_element_line ( gint element_number )
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
     {
-	for ( j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++ )
+	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    if ( tab_affichage_ope[i][j] == element_number )
 		return i;
@@ -3687,7 +3682,7 @@ gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
         if ( gtk_tree_view_column_get_width ( transactions_tree_view_columns[0]) == 1 )
             return FALSE;
 
-        for ( i = 0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++ )
+        for ( i = 0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
             transaction_col_width[i] = ( gtk_tree_view_column_get_width (
                         transactions_tree_view_columns[i]) * 100) / allocation -> width + 1;
 

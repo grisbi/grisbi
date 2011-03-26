@@ -612,11 +612,22 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   }
 
   tempname = g_strdup_printf ( "gsbgnc%05d", g_random_int_range (0,99999) );
-  tempfile = utf8_fopen ( tempname, "w+x" );
+  tempfile = utf8_fopen ( tempname, "w" );
   if ( ! tempfile )
   {
-      dialogue_error_hint ( _("Grisbi needs to open a temporary file in order to import Gnucash data but file can't be created.  Check that you have permission to do that."),
-			    g_strdup_printf ( _("Error opening temporary file '%s'." ), tempname ) );
+    gchar *tmp_str;
+    gchar *tmp_str_2;
+
+    tmp_str = g_strdup ( _("Grisbi needs to open a temporary file in order to import Gnucash data "
+                        "but file can't be created.\n"
+                        "Check that you have permission to do that.") );
+    tmp_str_2 = g_strdup_printf ( _("Error opening temporary file '%s'." ), tempname );
+
+    dialogue_error_hint ( tmp_str, tmp_str_2 );
+
+    g_free ( tmp_str );
+    g_free ( tmp_str_2 );
+
       return NULL;
   }
 
@@ -627,34 +638,38 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
    * handle it gracefully.
    */
   while ( fgets ( buffer, 1024, filein ) )
-    {
-      gchar * tag;
-      tag = g_strrstr ( buffer, "<gnc-v2>" );
+  {
+    gchar * tag;
+    tag = g_strrstr ( buffer, "<gnc-v2>" );
       
-      if ( tag )
+    if ( tag )
 	{
-	  gchar * ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
-			     "ts", "slots", "slot", "price", "sx", "fs", NULL };
-	  gchar ** iter;
+        gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
+                        "ts", "slots", "slot", "price", "sx", "fs", NULL };
+        gchar **iter;
 
-	  tag += 7;
-	  *tag = 0;
-	  tag++;
+        tag += 7;
+        *tag = 0;
+        tag++;
 
-	  fputs ( buffer, tempfile );
-	  for ( iter = ns ; *iter != NULL ; iter++ )
-	    {
-	      fputs ( g_strdup_printf ( "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n", 
-					*iter, *iter, *iter ),
-		      tempfile );
+	    fputs ( buffer, tempfile );
+	    for ( iter = ns ; *iter != NULL ; iter++ )
+        {
+            gchar *header;
+
+            header = g_strdup_printf (
+                        "  xmlns:%s=\"http://www.gnucash.org/lxr/gnucash/source/src/doc/xml/%s-v1.dtd#%s\"\n",
+                        *iter, *iter, *iter );
+            fputs ( header, tempfile );
+            g_free ( header );
 	    }
-	  fputs ( ">\n", tempfile );
+        fputs ( ">\n", tempfile );
 	}
-      else
+    else
 	{
 	  fputs ( buffer, tempfile );
 	}
-    }
+  }
   fclose ( filein );
   fclose ( tempfile );
 

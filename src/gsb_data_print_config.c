@@ -74,8 +74,10 @@ static PangoFontDescription *report_font_title = NULL;
  *
  * \return
  * */
-void gsb_data_print_config_init (void)
+void gsb_data_print_config_init ( void )
 {
+    PangoFontDescription *new_font;
+
     /* init transactions list config */
     draw_lines = TRUE;
     draw_column = TRUE;
@@ -87,12 +89,12 @@ void gsb_data_print_config_init (void)
     draw_interval_dates = FALSE;
     draw_dates_are_value_dates = FALSE;
 
-    if (font_transactions)
-	pango_font_description_free (font_transactions);
     if ( conf.utilise_fonte_listes && conf.font_string )
-	font_transactions = pango_font_description_from_string ( conf.font_string );
+	new_font = pango_font_description_from_string ( conf.font_string );
     else
-	font_transactions = pango_font_description_from_string  ("sans 6");
+	new_font = pango_font_description_from_string  ("sans 6");
+
+    gsb_data_print_config_set_font_transaction ( new_font );
 
     if (font_title)
 	pango_font_description_free (font_title);
@@ -108,6 +110,14 @@ void gsb_data_print_config_init (void)
     report_font_title = pango_font_description_from_string  ("sans 12");
 }
 
+/**
+ * Free variables used for data print
+ *
+ * */
+void gsb_data_print_config_free ( void )
+{
+    gsb_data_print_config_set_font_transaction ( NULL );
+}
 
 /**
  * return the draw_lines value
@@ -116,7 +126,7 @@ void gsb_data_print_config_init (void)
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_lines  (void)
+gboolean gsb_data_print_config_get_draw_lines  ( void )
 {
     return draw_lines;
 }
@@ -143,7 +153,7 @@ gboolean gsb_data_print_config_set_draw_lines  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_column  (void)
+gboolean gsb_data_print_config_get_draw_column  ( void )
 {
     return draw_column;
 }
@@ -170,7 +180,7 @@ gboolean gsb_data_print_config_set_draw_column  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_background  (void)
+gboolean gsb_data_print_config_get_draw_background  ( void )
 {
     return draw_background;
 }
@@ -197,7 +207,7 @@ gboolean gsb_data_print_config_set_draw_background  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_archives  (void)
+gboolean gsb_data_print_config_get_draw_archives  ( void )
 {
     return draw_archives;
 }
@@ -224,7 +234,7 @@ gboolean gsb_data_print_config_set_draw_archives  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_columns_name  (void)
+gboolean gsb_data_print_config_get_draw_columns_name  ( void )
 {
     return draw_columns_name;
 }
@@ -251,7 +261,7 @@ gboolean gsb_data_print_config_set_draw_columns_name  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_title  (void)
+gboolean gsb_data_print_config_get_draw_title  ( void )
 {
     return draw_title;
 }
@@ -278,7 +288,7 @@ gboolean gsb_data_print_config_set_draw_title  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_interval_dates  (void)
+gboolean gsb_data_print_config_get_draw_interval_dates  ( void )
 {
     return draw_interval_dates;
 }
@@ -305,7 +315,7 @@ gboolean gsb_data_print_config_set_draw_interval_dates  ( gint number,
  *
  * \return the value
  * */
-gboolean gsb_data_print_config_get_draw_dates_are_value_dates  (void)
+gboolean gsb_data_print_config_get_draw_dates_are_value_dates  ( void )
 {
     return draw_dates_are_value_dates;
 }
@@ -332,7 +342,7 @@ gboolean gsb_data_print_config_set_draw_dates_are_value_dates  ( gint number,
  *
  * \return the value
  * */
-PangoFontDescription *gsb_data_print_config_get_font_transactions (void)
+PangoFontDescription *gsb_data_print_config_get_font_transactions ( void )
 {
     return font_transactions;
 }
@@ -345,7 +355,7 @@ PangoFontDescription *gsb_data_print_config_get_font_transactions (void)
  * 
  * \return FALSE
  * */
-gboolean gsb_data_print_config_set_font_transaction  ( PangoFontDescription *font_desc )
+gboolean gsb_data_print_config_set_font_transaction ( PangoFontDescription *font_desc )
 {
     if (font_transactions)
 	pango_font_description_free (font_transactions);
@@ -360,7 +370,7 @@ gboolean gsb_data_print_config_set_font_transaction  ( PangoFontDescription *fon
  *
  * \return the value
  * */
-PangoFontDescription *gsb_data_print_config_get_font_title (void)
+PangoFontDescription *gsb_data_print_config_get_font_title ( void )
 {
     return font_title;
 }
@@ -388,14 +398,14 @@ gboolean gsb_data_print_config_set_font_title ( PangoFontDescription *font_desc 
  *
  * \return the value
  * */
-PangoFontDescription *gsb_data_print_config_get_report_font_transactions (void)
+PangoFontDescription *gsb_data_print_config_get_report_font_transactions ( void )
 {
     return report_font_transactions;
 }
 
 
 /**
- * set the font_transactions value for report
+ * set the report_font_transactions value for report
  *
  * \param font_desc	the PangoFontDescription to save
  * 
@@ -416,7 +426,7 @@ gboolean gsb_data_print_config_set_report_font_transaction ( PangoFontDescriptio
  *
  * \return the value
  * */
-PangoFontDescription *gsb_data_print_config_get_report_font_title (void)
+PangoFontDescription *gsb_data_print_config_get_report_font_title ( void )
 {
     return report_font_title;
 }

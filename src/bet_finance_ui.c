@@ -51,6 +51,7 @@
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1015,7 +1016,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
 
     origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin" ) );
 
-    tmp_str = g_build_filename ( GRISBI_PIXMAPS_DIR, "ac_liability_16.png", NULL);
+    tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_liability_16.png", NULL);
     image = gtk_image_new_from_file ( tmp_str );
     gtk_image_set_pixel_size ( GTK_IMAGE ( image ), GTK_ICON_SIZE_MENU );
     g_free ( tmp_str );

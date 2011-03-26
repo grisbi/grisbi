@@ -45,8 +45,6 @@
 extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
 
-gdouble bet_taux_step[] = { 0, 0.1, 0.01, 0.001, 0.0001 };
-
 /**
  * retourne l'échéance hors frais
  *
@@ -308,13 +306,15 @@ void bet_data_finance_data_simulator_init ( void )
 
 
 /**
- *
+ * FIXME: nbre_digits is never used... this needs to be checked...
  *
  *
  *
  * */
 gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits )
 {
+    const gdouble bet_taux_step[] = { 0, 0.1, 0.01, 0.001, 0.0001 };
+
     return bet_taux_step[BET_TAUX_DIGITS];
 }
 

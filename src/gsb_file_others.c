@@ -454,7 +454,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 			       NULL,
 			       NULL ))
     {
-	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+	GMarkupParser *markup_parser;
 	GMarkupParseContext *context;
 
 	/* check if it's a good file */
@@ -470,6 +470,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	 * and i'm too lazy to create an import for old files */
 	/* fill the GMarkupParser for a new xml structure */
 
+	markup_parser = g_malloc0 (sizeof (GMarkupParser));
 	markup_parser -> start_element = (void *) gsb_file_others_start_element;
 	markup_parser -> error = (void *) gsb_file_load_error;
 
@@ -773,7 +774,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
     /* load the file */
     if ( g_file_get_contents ( filename, &file_content, NULL, NULL ) )
     {
-        GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
+        GMarkupParser *markup_parser;
         GMarkupParseContext *context;
 
         /* check if it's a good file */
@@ -787,6 +788,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
          * there is very few people who will want to upgrade previous categories, budgets...
          * and i'm too lazy to create an import for old files */
         /* fill the GMarkupParser for a new xml structure */
+        markup_parser = g_malloc0 (sizeof (GMarkupParser));
         markup_parser -> start_element = (void *) gsb_file_others_start_budget_from_category;
         markup_parser -> error = (void *) gsb_file_load_error;
 

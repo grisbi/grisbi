@@ -407,7 +407,7 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
                         record -> children_rows[0] -> transaction_pointer ) );
 
     /* now we can delete the rows */
-    for (i=0 ; i<CUSTOM_MODEL_N_VISIBLES_COLUMN ; i++)
+    for (i=0 ; i<CUSTOM_MODEL_VISIBLE_COLUMNS ; i++)
 	if (record -> visible_col[i])
 	    g_free (record -> visible_col[i]);
 
@@ -547,7 +547,7 @@ gboolean transaction_list_remove_archive ( gint archive_number )
         /* we are on a good archive store, delete it */
 
         /* delete the rows */
-        for ( j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++ )
+        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
             if (record -> visible_col[j])
                 g_free (record -> visible_col[j]);
         
@@ -1090,7 +1090,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         /* the tmp record will contain the new gchars of columns */
         tmp_record = transaction_list_create_record (transaction_number, i);
 
-        for (j=0 ; j<CUSTOM_MODEL_N_VISIBLES_COLUMN ; j++)
+        for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
         {
             if (record -> visible_col[j])
                 g_free (record -> visible_col[j]);
@@ -1232,7 +1232,7 @@ gboolean transaction_list_update_element ( gint element_number )
     /* for now, this is the same position for all accounts, so no problem */
 
     /* get the position of the element */
-    column_element = find_element_col (element_number);        /*  0 to CUSTOM_MODEL_N_VISIBLES_COLUMN */
+    column_element = find_element_col (element_number);        /*  0 to CUSTOM_MODEL_VISIBLE_COLUMNS */
     line_element = find_element_line (element_number);        /*  0 to TRANSACTION_LIST_ROWS_NB */
 
     if ( column_element == -1
@@ -1902,7 +1902,7 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
     newrecord = g_malloc0 (sizeof (CustomRecord));
 
     /* fill the row with the visibles columns */
-    for ( column = 0 ; column < CUSTOM_MODEL_N_VISIBLES_COLUMN ; column++ )
+    for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
 	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
 										     tab_affichage_ope[line_in_transaction][column]);
 

@@ -79,6 +79,7 @@
 #include "utils_files.h"
 #include "structures.h"
 #include "erreur.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -200,7 +201,7 @@ static GSList *import_formats = NULL;
 static gboolean marked_r_transactions_imported;
 
 /** Known built-in import formats.  Others are plugins.  */
-struct import_format builtin_formats[] =
+static struct import_format builtin_formats[] =
 {
 { "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
 { "QIF", N_("Quicken Interchange Format"), "qif", (import_function) recuperation_donnees_qif },
@@ -409,7 +410,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
 
     chooser = gtk_button_new_with_label ( _("Add file to import..." ));
-    tmpstr = g_build_filename ( GRISBI_PIXMAPS_DIR, "import.png", NULL );
+    tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "import.png", NULL );
     gtk_button_set_image ( GTK_BUTTON(chooser),
                         gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
@@ -4511,7 +4512,7 @@ gboolean gsb_import_by_rule ( gint rule )
  * */
 gchar **gsb_import_by_rule_ask_filename ( gint rule )
 {
-    gchar *tmpstr;
+    gchar *tmpstr, *tmpstr2;
     GtkWidget *dialog, *paddingbox, *table;
     GtkWidget *label;
     GtkWidget *button;
@@ -4560,15 +4561,19 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
                         gsb_data_account_get_name (gsb_data_import_rule_get_account (rule)));
 
     /* textstring 2 */
-    tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Currency to import is %s.\n"),
+    tmpstr2 = g_strconcat(tmpstr, g_strdup_printf (_("Currency to import is %s.\n"),
                         gsb_data_currency_get_name (
                         gsb_data_import_rule_get_currency (rule))), NULL);
+    g_free ( tmpstr );
+	tmpstr = tmpstr2;
 
     /* textstring 3 */
     if (gsb_data_import_rule_get_invert (rule))
     {
-    tmpstr = g_strconcat(tmpstr, g_strdup_printf (_("Amounts of the transactions will be "
-                                                    "inverted.\n")), NULL);
+        tmpstr2 = g_strconcat(tmpstr, g_strdup_printf (_("Amounts of the transactions will be "
+                                                        "inverted.\n")), NULL);
+        g_free ( tmpstr );
+	    tmpstr = tmpstr2;
     }
 
     label = gtk_label_new ( tmpstr );
