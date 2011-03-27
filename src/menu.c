@@ -533,9 +533,8 @@ gboolean help_bugreport ( void )
  * representation of its position in the menu.
  * menu.
  *
- * \param root_menu_name	Name of the menu.
- * \param submenu_name		Name of the sub menu.
- * \param subsubmenu_name	Name of the sub sub menu.
+ * \param item_name		Path of the menu item.
+ * \param state			Whether widget should be 'sensitive' or not.
  *
  * \return TRUE on success.
  */

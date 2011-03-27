@@ -699,8 +699,8 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-    gsb_gui_sensitive_menu_item ( *tmp, sensitif );
-    tmp++;
+        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
+        tmp++;
     }
 
     /* As this function may only be called when a new account is
