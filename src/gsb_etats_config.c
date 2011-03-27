@@ -107,6 +107,7 @@ static void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebu
 
 
 /*START_EXTERN*/
+extern GdkColor couleur_selection;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
@@ -353,8 +354,11 @@ GtkWidget *gsb_etats_config_get_report_tree_view ( void )
                         G_TYPE_INT );
 
     /* Create container + TreeView */
-    tree_view = gtk_tree_view_new_with_model  ( GTK_TREE_MODEL ( report_tree_model ) );
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( report_tree_model ) );
     g_object_unref ( G_OBJECT ( report_tree_model ) );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+/*     gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, &couleur_selection );  */
 
     /* make column */
     cell = gtk_cell_renderer_text_new ( );
@@ -698,7 +702,7 @@ GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void )
 
     sw = gsb_etats_config_get_scrolled_window_with_tree_view ( "sw_dates", GTK_TREE_MODEL ( list_store ) );
 
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_dates", "tree_view_dates" );
+    tree_view = gsb_etats_config_get_variable_by_name ( "sw_dates", "tree_view" );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_selection_set_mode ( selection, GTK_SELECTION_SINGLE );
     g_signal_connect ( G_OBJECT ( selection ),
@@ -1039,7 +1043,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
-                        gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view_categ" ) );
+                        gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" ) );
 
     return vbox_onglet;
 }
@@ -1062,7 +1066,6 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell_renderer;
     GtkCellRenderer *radio_renderer;
-    gchar *tmp_name;
 
     store = gtk_tree_store_new ( GSB_ETAT_CATEG_BUDGET_LIST_NB,
                         G_TYPE_STRING,          /* GSB_ETAT_CATEG_BUDGET_LIST_NAME */
@@ -1125,10 +1128,7 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
     sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
-    tmp_name = g_strconcat ( "tree_view", sw_name + 2, NULL);
-    g_object_set_data ( G_OBJECT ( sw ), tmp_name, tree_view );
-
-    g_free ( tmp_name );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view", tree_view );
 
     gtk_widget_show_all ( sw );
 
@@ -1158,7 +1158,7 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
     {
         list_tmp = gsb_data_category_get_categories_list ( );
 
-        tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view_categ" );
+        tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" );
         model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
         gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
@@ -1169,7 +1169,7 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
     else
     {
         list_tmp = gsb_data_budget_get_budgets_list ( );
-        tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view_budget" );
+        tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" );
         model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
         gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
@@ -1349,7 +1349,7 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
-                        gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view_budget" ) );
+                        gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" ) );
 
     return vbox_onglet;
 }
@@ -1832,10 +1832,12 @@ GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
     GtkWidget *tree_view;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
-    gchar *tmp_name;
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+
     gtk_tree_selection_set_mode (
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
                         GTK_SELECTION_MULTIPLE );
@@ -1856,10 +1858,7 @@ GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
     sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
 
-    tmp_name = g_strconcat ( "tree_view", sw_name + 2, NULL);
-    g_object_set_data ( G_OBJECT ( sw ), tmp_name, tree_view );
-
-    g_free ( tmp_name );
+    g_object_set_data ( G_OBJECT ( sw ), "tree_view", tree_view );
 
     gtk_widget_show_all ( sw );
 

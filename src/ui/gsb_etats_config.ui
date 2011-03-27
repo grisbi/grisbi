@@ -19,7 +19,7 @@
             <property name="can_focus">True</property>
             <child>
               <object class="GtkVBox" id="vbox10">
-                <property name="width_request">215</property>
+                <property name="width_request">220</property>
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
@@ -139,7 +139,7 @@
             </child>
             <child>
               <object class="GtkFrame" id="frame-dates">
-                <property name="width_request">270</property>
+                <property name="width_request">285</property>
                 <property name="height_request">410</property>
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
@@ -289,8 +289,6 @@
                 <child>
                   <object class="GtkVBox" id="vbox_utilisation_exo">
                     <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="no_show_all">True</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkRadioButton" id="bouton_exo_tous">
