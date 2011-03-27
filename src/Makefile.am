@@ -308,7 +308,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS =
+SUBDIRS = ui
 
 if HAVE_CUNIT
 SUBDIRS += tests
@@ -326,12 +326,6 @@ SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
 endif
 
 ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
-
-ui_DATA = \
-	ui/gsb_etats_config.ui
-
-uidir = \
-	$(pkgdatadir)
 
 checkheaders: $(ALLHEADERS:.h=.ho)
 
