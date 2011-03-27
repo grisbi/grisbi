@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-25 19:48+0100\n"
+"POT-Creation-Date: 2011-03-27 17:46+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -272,8 +272,9 @@ msgid "Addresses & titles"
 msgstr "Adresy i nazwy"
 
 #. Account file title
-#: ../src/affichage.c:391 ../src/etats_config.c:631 ../src/etats_config.c:634
-#: ../src/etats_config.c:6995
+#: ../src/affichage.c:391 ../src/etats_config.c:675 ../src/etats_config.c:678
+#: ../src/etats_config.c:684 ../src/etats_config.c:6992
+#: ../src/gsb_etats_config.c:537 ../src/gsb_etats_config.c:1694
 msgid "Titles"
 msgstr "Nazwy"
 
@@ -561,12 +562,12 @@ msgstr ""
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 
-#: ../src/bet_config.c:94 ../src/etats_config.c:6378
+#: ../src/bet_config.c:94 ../src/etats_config.c:6375
 #, fuzzy
 msgid "Month"
 msgstr "Miesiące"
 
-#: ../src/bet_config.c:95 ../src/etats_config.c:6382
+#: ../src/bet_config.c:95 ../src/etats_config.c:6379
 msgid "Year"
 msgstr "Rok"
 
@@ -663,20 +664,23 @@ msgstr "Przywróć ustawienia domyślne"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
-#: ../src/bet_config.c:684 ../src/bet_hist.c:165 ../src/etats_config.c:533
-#: ../src/etats_config.c:536 ../src/etats_config.c:2998
-#: ../src/etats_config.c:7064 ../src/fenetre_principale.c:286
-#: ../src/navigation.c:319 ../src/navigation.c:1220
+#: ../src/bet_config.c:684 ../src/bet_hist.c:165 ../src/etats_config.c:540
+#: ../src/etats_config.c:543 ../src/etats_config.c:549
+#: ../src/etats_config.c:2995 ../src/etats_config.c:7061
+#: ../src/fenetre_principale.c:286 ../src/gsb_etats_config.c:486
+#: ../src/gsb_etats_config.c:1011 ../src/navigation.c:319
+#: ../src/navigation.c:1220
 msgid "Categories"
 msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:584 ../src/bet_config.c:603 ../src/bet_config.c:621
-#: ../src/bet_config.c:693 ../src/bet_hist.c:174 ../src/etats_config.c:542
-#: ../src/etats_config.c:545 ../src/etats_config.c:3804
-#: ../src/etats_config.c:7141 ../src/export_csv.c:814
-#: ../src/fenetre_principale.c:291 ../src/import_csv.c:89
+#: ../src/bet_config.c:693 ../src/bet_hist.c:174 ../src/etats_config.c:557
+#: ../src/etats_config.c:560 ../src/etats_config.c:3801
+#: ../src/etats_config.c:7138 ../src/export_csv.c:814
+#: ../src/fenetre_principale.c:291 ../src/gsb_etats_config.c:491
+#: ../src/gsb_etats_config.c:1321 ../src/import_csv.c:89
 #: ../src/navigation.c:335 ../src/navigation.c:1231
 #: ../src/traitement_variables.c:93
 msgid "Budgetary lines"
@@ -705,7 +709,7 @@ msgstr "Wybierz rok finansowy"
 #. name of the div sous-div column
 #: ../src/bet_config.c:923 ../src/bet_hist.c:544 ../src/bet_hist.c:1601
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2436
-#: ../src/etats_config.c:680 ../src/export_csv.c:805
+#: ../src/etats_config.c:745 ../src/export_csv.c:805
 #: ../src/gsb_transactions_list.c:161 ../src/import_csv.c:87
 #: ../src/meta_categories.c:69 ../src/traitement_variables.c:101
 msgid "Category"
@@ -713,7 +717,7 @@ msgstr "Kategoria"
 
 #: ../src/bet_config.c:936 ../src/bet_future.c:817 ../src/bet_future.c:2025
 #: ../src/bet_future.c:2505 ../src/bet_hist.c:1594 ../src/etats_affiche.c:2443
-#: ../src/etats_config.c:684 ../src/gsb_form.c:1338
+#: ../src/etats_config.c:749 ../src/gsb_form.c:1338
 #: ../src/gsb_form_widget.c:450 ../src/gsb_transactions_list.c:153
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:66
 msgid "Budgetary line"
@@ -989,12 +993,12 @@ msgid "Credits"
 msgstr "Wpływy"
 
 #: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:2848
-#: ../src/barre_outils.c:135 ../src/etats_onglet.c:148
+#: ../src/barre_outils.c:135 ../src/etats_onglet.c:149
 msgid "Print"
 msgstr "Drukuj"
 
 #: ../src/bet_finance_ui.c:1900 ../src/bet_tab.c:2861
-#: ../src/categories_onglet.c:542 ../src/etats_onglet.c:138
+#: ../src/categories_onglet.c:542 ../src/etats_onglet.c:139
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:574
 msgid "Export"
 msgstr "Eksport"
@@ -1064,8 +1068,9 @@ msgstr ""
 msgid "Yearly"
 msgstr "Rocznie"
 
-#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:188
-#: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
+#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:187
+#: ../src/gsb_etats_config.c:120 ../src/gsb_form_scheduler.c:154
+#: ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "Dowolny zakres"
 
@@ -1126,13 +1131,13 @@ msgstr "Wybierz metodę płatności"
 
 #. mise en place de la paddingbox des tiers
 #: ../src/bet_future.c:789 ../src/etats_affiche.c:2429
-#: ../src/etats_config.c:524 ../src/etats_config.c:527
-#: ../src/etats_config.c:692 ../src/etats_config.c:7029
+#: ../src/etats_config.c:530 ../src/etats_config.c:533
+#: ../src/etats_config.c:757 ../src/etats_config.c:7026
 #: ../src/export_csv.c:790 ../src/fenetre_principale.c:276
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1314
-#: ../src/gsb_form_widget.c:438 ../src/gsb_scheduler_list.c:360
-#: ../src/gsb_transactions_list.c:152 ../src/import.c:3312
-#: ../src/import_csv.c:84 ../src/meta_payee.c:81
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_etats_config.c:481
+#: ../src/gsb_form.c:1314 ../src/gsb_form_widget.c:438
+#: ../src/gsb_scheduler_list.c:360 ../src/gsb_transactions_list.c:152
+#: ../src/import.c:3312 ../src/import_csv.c:84 ../src/meta_payee.c:81
 #: ../src/traitement_variables.c:92
 #, fuzzy
 msgid "Payee"
@@ -1253,11 +1258,11 @@ msgid "Select"
 msgstr "Zaznacz wszystkie"
 
 #: ../src/bet_hist.c:561 ../src/categories_onglet.c:175
-#: ../src/etats_config.c:5246 ../src/export_csv.c:799
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:361
-#: ../src/gsb_transactions_list.c:157 ../src/import.c:3319
-#: ../src/imputation_budgetaire.c:183 ../src/tiers_onglet.c:248
-#: ../src/traitement_variables.c:97
+#: ../src/etats_config.c:5243 ../src/export_csv.c:799
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_etats_config.c:1451
+#: ../src/gsb_scheduler_list.c:361 ../src/gsb_transactions_list.c:157
+#: ../src/import.c:3319 ../src/imputation_budgetaire.c:183
+#: ../src/tiers_onglet.c:248 ../src/traitement_variables.c:97
 msgid "Amount"
 msgstr "Kwota"
 
@@ -1320,7 +1325,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:694 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:656
+#: ../src/bet_tab.c:694 ../src/etats_onglet.c:261 ../src/tiers_onglet.c:656
 msgid "Description"
 msgstr "Opis"
 
@@ -1405,12 +1410,14 @@ msgstr "Przywróć ustawienia domyślne"
 
 #: ../src/bet_tab.c:2395 ../src/bet_tab.c:2445 ../src/bet_tab.c:2503
 #: ../src/etats_affiche.c:1863 ../src/gsb_data_category.c:161
+#: ../src/gsb_etats_config.c:1166 ../src/gsb_etats_config.c:1767
 #: ../src/meta_categories.c:72
 msgid "No category"
 msgstr "Brak kategorii"
 
 #: ../src/bet_tab.c:2403 ../src/bet_tab.c:2453 ../src/bet_tab.c:2509
-#: ../src/etats_affiche.c:2033 ../src/meta_budgetary.c:69
+#: ../src/etats_affiche.c:2033 ../src/gsb_etats_config.c:1177
+#: ../src/gsb_etats_config.c:1772 ../src/meta_budgetary.c:69
 msgid "No budgetary line"
 msgstr "Pusta linia budżetowa"
 
@@ -1440,7 +1447,7 @@ msgid "Blank the form to create a new transaction"
 msgstr "Razem kategoria (%d transakcja)"
 
 #: ../src/barre_outils.c:107 ../src/barre_outils.c:503
-#: ../src/categories_onglet.c:551 ../src/etats_onglet.c:158
+#: ../src/categories_onglet.c:551 ../src/etats_onglet.c:159
 #: ../src/imputation_budgetaire.c:583 ../src/tiers_onglet.c:339
 #, fuzzy
 msgid "Delete"
@@ -1606,7 +1613,7 @@ msgstr "Podaj zaplanowaną transakcję"
 msgid "Change display mode of scheduled transaction list"
 msgstr "Wyświetl zaplanowane transakcje"
 
-#: ../src/categories_onglet.c:166 ../src/etats_config.c:688
+#: ../src/categories_onglet.c:166 ../src/etats_config.c:753
 #: ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_payment_method_config.c:161 ../src/gsb_reconcile_config.c:103
 #: ../src/gsb_scheduler_list.c:360 ../src/imputation_budgetaire.c:174
@@ -1632,7 +1639,7 @@ msgstr "Eksport kategorii"
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:422 ../src/etats_onglet.c:1198
+#: ../src/categories_onglet.c:422 ../src/etats_onglet.c:1199
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:244 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:457
 #, fuzzy
@@ -1688,7 +1695,7 @@ msgstr "Nowa podkategoria"
 msgid "Create a new sub-category"
 msgstr "Podaj nazwę nowej podkategorii"
 
-#: ../src/categories_onglet.c:532 ../src/etats_onglet.c:129
+#: ../src/categories_onglet.c:532 ../src/etats_onglet.c:130
 #: ../src/import.c:439 ../src/import.c:3624 ../src/imputation_budgetaire.c:563
 #: ../src/parametres.c:323 ../src/utils_files.c:576
 msgid "Import"
@@ -1709,7 +1716,7 @@ msgstr "Eksport kategorii"
 msgid "Delete selected category"
 msgstr "Proszę podać kategorię!"
 
-#: ../src/categories_onglet.c:560 ../src/etats_onglet.c:167
+#: ../src/categories_onglet.c:560 ../src/etats_onglet.c:168
 #: ../src/fenetre_principale.c:261 ../src/imputation_budgetaire.c:593
 #: ../src/tiers_onglet.c:348
 #, fuzzy
@@ -1954,69 +1961,69 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr "Nie można przydzielić pamięci, zaraz przydarzy się coś niedobrego"
 
-#: ../src/erreur.c:97
+#: ../src/erreur.c:96
 msgid "File is corrupted."
 msgstr "Plik jest uszkodzony."
 
-#: ../src/erreur.c:104
+#: ../src/erreur.c:103
 msgid "Error occured saving file."
 msgstr "Wystąpił błąd podczas zapisu pliku."
 
-#: ../src/erreur.c:125
+#: ../src/erreur.c:124
 msgid "Save file"
 msgstr "Zapis pliku"
 
-#: ../src/erreur.c:135
+#: ../src/erreur.c:134
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Program wykonał kopię bezpieczeństwa w '%s'."
 
-#: ../src/erreur.c:144
+#: ../src/erreur.c:143
 #, fuzzy
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr "Proszę zgłosić ten problem do http://www.grisbi.org/bugtracking/"
 
-#: ../src/erreur.c:150
+#: ../src/erreur.c:149
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: ../src/erreur.c:157
+#: ../src/erreur.c:156
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Program został zakończony z powodu błędu segmentacji."
 
-#: ../src/erreur.c:162
+#: ../src/erreur.c:161
 #, fuzzy
 msgid "Backtrace"
 msgstr "Saldo"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:212 ../src/erreur.c:224
+#: ../src/erreur.c:211 ../src/erreur.c:223
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: ../src/erreur.c:213
+#: ../src/erreur.c:212
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:227
+#: ../src/erreur.c:226
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 
-#: ../src/erreur.c:292 ../src/erreur.c:578
+#: ../src/erreur.c:291 ../src/erreur.c:590
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: ../src/erreur.c:296
+#: ../src/erreur.c:295
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:341
+#: ../src/erreur.c:340
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr ""
@@ -2029,14 +2036,14 @@ msgid ""
 msgstr ""
 
 #. début du mode débogage
-#: ../src/erreur.c:498
+#: ../src/erreur.c:500
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr ""
 
-#: ../src/erreur.c:550
+#: ../src/erreur.c:552
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -2310,15 +2317,17 @@ msgstr "Razem:"
 msgid "Split of transaction"
 msgstr "Transakcja zbiorcza"
 
-#: ../src/etats_affiche.c:1949
+#: ../src/etats_affiche.c:1949 ../src/gsb_etats_config.c:1167
+#: ../src/gsb_etats_config.c:1768
 msgid "No subcategory"
 msgstr "Brak podkategorii"
 
-#: ../src/etats_affiche.c:2118 ../src/meta_budgetary.c:70
+#: ../src/etats_affiche.c:2118 ../src/gsb_etats_config.c:1178
+#: ../src/gsb_etats_config.c:1773 ../src/meta_budgetary.c:70
 msgid "No sub-budgetary line"
 msgstr "Pusta podgrupa linii budżetowej"
 
-#: ../src/etats_affiche.c:2269 ../src/gsb_data_payee.c:124
+#: ../src/etats_affiche.c:2269 ../src/gsb_data_payee.c:123
 #: ../src/meta_payee.c:84
 #, fuzzy
 msgid "No payee"
@@ -2347,9 +2356,11 @@ msgid "Financial year"
 msgstr "Rok finansowy"
 
 #. Now we have a model, create view
-#: ../src/etats_affiche.c:2457 ../src/etats_config.c:569
-#: ../src/etats_config.c:572 ../src/etats_config.c:7228
-#: ../src/gsb_payment_method_config.c:119 ../src/parametres.c:559
+#: ../src/etats_affiche.c:2457 ../src/etats_config.c:594
+#: ../src/etats_config.c:597 ../src/etats_config.c:603
+#: ../src/etats_config.c:7225 ../src/gsb_etats_config.c:506
+#: ../src/gsb_etats_config.c:1495 ../src/gsb_payment_method_config.c:119
+#: ../src/parametres.c:559
 msgid "Payment methods"
 msgstr "Metody płatności"
 
@@ -2373,185 +2384,199 @@ msgstr "Bank"
 msgid "Statement"
 msgstr "Bilans"
 
-#: ../src/etats_config.c:187
+#: ../src/etats_config.c:186 ../src/gsb_etats_config.c:119
 msgid "All"
 msgstr "Wszystko"
 
-#: ../src/etats_config.c:189
+#: ../src/etats_config.c:188 ../src/gsb_etats_config.c:121
 msgid "Total to now"
 msgstr "Razem do dnia dzisiejszego"
 
-#: ../src/etats_config.c:190
+#: ../src/etats_config.c:189 ../src/gsb_etats_config.c:122
 msgid "Current month"
 msgstr "Aktualny miesiąc"
 
-#: ../src/etats_config.c:191
+#: ../src/etats_config.c:190 ../src/gsb_etats_config.c:123
 msgid "Current year"
 msgstr "Aktualny rok"
 
-#: ../src/etats_config.c:192
+#: ../src/etats_config.c:191 ../src/gsb_etats_config.c:124
 msgid "Current month to now"
 msgstr "Aktualny miesiąc do dzisiaj"
 
-#: ../src/etats_config.c:193
+#: ../src/etats_config.c:192 ../src/gsb_etats_config.c:125
 msgid "Current year to now"
 msgstr "Aktualny rok do dzisiaj"
 
-#: ../src/etats_config.c:194
+#: ../src/etats_config.c:193 ../src/gsb_etats_config.c:126
 msgid "Previous month"
 msgstr "Poprzedni miesiąc"
 
-#: ../src/etats_config.c:195
+#: ../src/etats_config.c:194 ../src/gsb_etats_config.c:127
 msgid "Previous year"
 msgstr "Poprzedni rok"
 
-#: ../src/etats_config.c:196
+#: ../src/etats_config.c:195 ../src/gsb_etats_config.c:128
 msgid "Last 30 days"
 msgstr "Ostatnie 30 dni"
 
-#: ../src/etats_config.c:197
+#: ../src/etats_config.c:196 ../src/gsb_etats_config.c:129
 msgid "Last 3 months"
 msgstr "Ostatnie 3 miesiące"
 
-#: ../src/etats_config.c:198
+#: ../src/etats_config.c:197 ../src/gsb_etats_config.c:130
 msgid "Last 6 months"
 msgstr "Ostanie 6 miesięcy"
 
-#: ../src/etats_config.c:199
+#: ../src/etats_config.c:198 ../src/gsb_etats_config.c:131
 msgid "Last 12 months"
 msgstr "Ostatnie 12 miesięcy"
 
-#: ../src/etats_config.c:203
+#: ../src/etats_config.c:202
 msgid "Monday"
 msgstr "Poniedziałek"
 
-#: ../src/etats_config.c:204
+#: ../src/etats_config.c:203
 msgid "Tuesday"
 msgstr "Wtorek"
 
-#: ../src/etats_config.c:205
+#: ../src/etats_config.c:204
 msgid "Wednesday"
 msgstr "Środa"
 
-#: ../src/etats_config.c:206
+#: ../src/etats_config.c:205
 msgid "Thursday"
 msgstr "Czwartek"
 
-#: ../src/etats_config.c:207
+#: ../src/etats_config.c:206
 msgid "Friday"
 msgstr "Piątek"
 
-#: ../src/etats_config.c:208
+#: ../src/etats_config.c:207
 msgid "Saturday"
 msgstr "Sobota"
 
-#: ../src/etats_config.c:209
+#: ../src/etats_config.c:208
 msgid "Sunday"
 msgstr "Niedziela"
 
-#: ../src/etats_config.c:406
+#: ../src/etats_config.c:405
 #, fuzzy
 msgid "Report properties"
 msgstr "Szczegóły waluty"
 
-#: ../src/etats_config.c:490
+#. append group page
+#: ../src/etats_config.c:485 ../src/gsb_etats_config.c:462
 msgid "Data selection"
 msgstr "Wybór danych"
 
-#: ../src/etats_config.c:497 ../src/etats_config.c:500
+#: ../src/etats_config.c:493 ../src/etats_config.c:496
+#: ../src/etats_config.c:502 ../src/gsb_etats_config.c:466
 msgid "Dates"
 msgstr "Daty"
 
-#: ../src/etats_config.c:506 ../src/etats_config.c:509
-#: ../src/etats_config.c:2713
+#: ../src/etats_config.c:510 ../src/etats_config.c:513
+#: ../src/etats_config.c:2710 ../src/gsb_etats_config.c:471
+#: ../src/gsb_etats_config.c:810
 msgid "Transfers"
 msgstr "Przelewy"
 
 #. mise en place de la paddingbox des comptes
-#: ../src/etats_config.c:515 ../src/etats_config.c:518
-#: ../src/etats_config.c:6999 ../src/fenetre_principale.c:239
-#: ../src/navigation.c:254
+#: ../src/etats_config.c:520 ../src/etats_config.c:523
+#: ../src/etats_config.c:6996 ../src/fenetre_principale.c:239
+#: ../src/gsb_etats_config.c:476 ../src/navigation.c:254
 msgid "Accounts"
 msgstr "Konta"
 
-#: ../src/etats_config.c:551 ../src/etats_config.c:554
+#: ../src/etats_config.c:567 ../src/etats_config.c:570
+#: ../src/gsb_etats_config.c:496
 msgid "Texts"
 msgstr "Opisy"
 
-#: ../src/etats_config.c:560 ../src/etats_config.c:563
+#: ../src/etats_config.c:577 ../src/etats_config.c:580
+#: ../src/etats_config.c:586 ../src/gsb_etats_config.c:501
 msgid "Amounts"
 msgstr "Kwoty"
 
-#: ../src/etats_config.c:578
+#: ../src/etats_config.c:611
 msgid "Misc."
 msgstr "Różne"
 
-#: ../src/etats_config.c:581 ../src/etats_config.c:6145
+#: ../src/etats_config.c:614 ../src/etats_config.c:620
+#: ../src/etats_config.c:6142 ../src/gsb_etats_config.c:511
+#: ../src/gsb_etats_config.c:1586
 #, fuzzy
 msgid "Miscellaneous"
 msgstr "Różne : Prezenty"
 
-#: ../src/etats_config.c:589
+#. remplissage de l'onglet d'organisation
+#: ../src/etats_config.c:628 ../src/gsb_etats_config.c:515
 #, fuzzy
 msgid "Data organization"
 msgstr "Struktura danych"
 
-#: ../src/etats_config.c:596 ../src/etats_config.c:601
-#: ../src/etats_config.c:6216
+#: ../src/etats_config.c:636 ../src/etats_config.c:641
+#: ../src/etats_config.c:6213 ../src/gsb_etats_config.c:519
+#: ../src/gsb_etats_config.c:1631
 msgid "Data grouping"
 msgstr ""
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:606 ../src/etats_config.c:611
-#: ../src/etats_config.c:6324 ../src/etats_config.c:6328
+#: ../src/etats_config.c:646 ../src/etats_config.c:650
+#: ../src/etats_config.c:6321 ../src/etats_config.c:6325
+#: ../src/gsb_etats_config.c:524 ../src/gsb_etats_config.c:1652
 #, fuzzy
 msgid "Data separation"
 msgstr "Wybór danych"
 
-#: ../src/etats_config.c:616
+#. remplissage de l'onglet d'affichage
+#: ../src/etats_config.c:658 ../src/gsb_etats_config.c:528
 msgid "Data display"
 msgstr "Wyświetlenie danych"
 
-#: ../src/etats_config.c:622 ../src/etats_config.c:625
-#: ../src/etats_config.c:6531
+#: ../src/etats_config.c:665 ../src/etats_config.c:668
+#: ../src/etats_config.c:6528 ../src/gsb_etats_config.c:532
+#: ../src/gsb_etats_config.c:1673
 msgid "Generalities"
 msgstr "Ogólne"
 
-#: ../src/etats_config.c:640 ../src/etats_config.c:643 ../src/export_csv.c:766
-#: ../src/fenetre_principale.c:243 ../src/parametres.c:433
+#: ../src/etats_config.c:692 ../src/etats_config.c:695
+#: ../src/etats_config.c:701 ../src/export_csv.c:766
+#: ../src/fenetre_principale.c:243 ../src/gsb_etats_config.c:542
+#: ../src/parametres.c:433
 msgid "Transactions"
 msgstr "Transakcje"
 
 #. echange line label
-#: ../src/etats_config.c:649 ../src/etats_config.c:652
+#: ../src/etats_config.c:709 ../src/etats_config.c:712
 #: ../src/gsb_currency.c:555 ../src/gsb_currency_config.c:300
-#: ../src/parametres.c:523
+#: ../src/gsb_etats_config.c:547 ../src/parametres.c:523
 msgid "Currencies"
 msgstr "Waluty"
 
-#: ../src/etats_config.c:1324 ../src/etats_config.c:1333
+#: ../src/etats_config.c:1361 ../src/etats_config.c:1372
 msgid ""
-"Grisbi can't parse date.  For a list of date formats that Grisbi can use, "
+"Grisbi can't parse date. For a list of date formats that Grisbi can use, "
 "refer to Grisbi manual."
 msgstr ""
 
-#: ../src/etats_config.c:1325
+#: ../src/etats_config.c:1363
 #, fuzzy, c-format
 msgid "Invalid initial date '%s'"
 msgstr "Nieprawidłowa data poczatkowa"
 
-#: ../src/etats_config.c:1334
+#: ../src/etats_config.c:1374
 #, fuzzy, c-format
 msgid "Invalid final date '%s'"
 msgstr "Nieprawidłowa data końcowa"
 
-#: ../src/etats_config.c:1510 ../src/etats_config.c:1569
-#: ../src/etats_config.c:1718 ../src/etats_config.c:1897
-#: ../src/etats_config.c:3681 ../src/etats_config.c:3685
+#: ../src/etats_config.c:1532 ../src/etats_config.c:1592
+#: ../src/etats_config.c:1736 ../src/etats_config.c:1942
+#: ../src/etats_config.c:3678 ../src/etats_config.c:3682
 msgid "Performance issue."
 msgstr ""
 
-#: ../src/etats_config.c:1511
+#: ../src/etats_config.c:1533
 #, fuzzy
 msgid ""
 "All financial years have been selected.  Grisbi will run faster without the "
@@ -2560,7 +2585,7 @@ msgstr ""
 "Wszystkie lata finansowe zostały zaznaczone. Grisbi będzie pracował szybciej "
 "jeżeli odznaczysz opcję \"Pokaż lata finansowe\""
 
-#: ../src/etats_config.c:1570
+#: ../src/etats_config.c:1593
 #, fuzzy
 msgid ""
 "All accounts have been selected.  Grisbi will run faster without the "
@@ -2569,7 +2594,7 @@ msgstr ""
 "Wszystkie konta zostały zaznaczone. Grisbi będzie pracował szybciej jeżeli "
 "odznaczysz opcję \"Pokaż konta\""
 
-#: ../src/etats_config.c:1719
+#: ../src/etats_config.c:1737
 #, fuzzy
 msgid ""
 "All payees have been selected.  Grisbi will run faster without the \"Detail "
@@ -2578,46 +2603,46 @@ msgstr ""
 "Wszystkie kategorie zostały zaznaczone. Grisbi będzie pracował szybciej "
 "jeżeli odznaczysz opcję \"Pokaż kategorie\""
 
-#: ../src/etats_config.c:1898
+#: ../src/etats_config.c:1943
 #, fuzzy
 msgid ""
-"All methods of payment have been selected.  Grisbi will run faster without "
-"the \"Detail methods of payment used\" option activated."
+"All methods of payment have been selected.  Grisbi will run faster "
+"withoutthe \"Detail methods of payment used\" option activated."
 msgstr ""
 "Wszystkie metody płatności zostały zaznaczone. Grisbi będzie pracował "
 "szybciej jeżeli odznaczysz opcję \"Pokaż metody płatności\""
 
-#: ../src/etats_config.c:2060
+#: ../src/etats_config.c:2099 ../src/gsb_etats_config.c:609
 #, fuzzy
 msgid "Date selection"
 msgstr "Wybór danych"
 
-#: ../src/etats_config.c:2085
+#: ../src/etats_config.c:2111
 msgid "Use dates ranges"
 msgstr "Wg przedziału czasowego"
 
-#: ../src/etats_config.c:2181
+#: ../src/etats_config.c:2179
 msgid "Use financial years"
 msgstr "Wg lat finansowych"
 
-#: ../src/etats_config.c:2218
+#: ../src/etats_config.c:2215
 msgid "All financial years"
 msgstr "Wszystkie lata finansowe"
 
-#: ../src/etats_config.c:2227
+#: ../src/etats_config.c:2224
 msgid "Current financial year"
 msgstr "Obecny rok finansowy"
 
-#: ../src/etats_config.c:2236
+#: ../src/etats_config.c:2233
 msgid "Former financial year"
 msgstr "Poprzedni rok finansowy"
 
-#: ../src/etats_config.c:2247
+#: ../src/etats_config.c:2244
 msgid "Detail financial years"
 msgstr "Pokaż lata finansowe"
 
 #. set the initial date
-#: ../src/etats_config.c:2306 ../src/gsb_assistant_archive.c:234
+#: ../src/etats_config.c:2303 ../src/gsb_assistant_archive.c:234
 #: ../src/gsb_assistant_reconcile_config.c:414
 #: ../src/gsb_reconcile_config.c:212
 #, fuzzy
@@ -2625,119 +2650,119 @@ msgid "Initial date: "
 msgstr "Data początkowa"
 
 #. set the final date
-#: ../src/etats_config.c:2336 ../src/gsb_assistant_archive.c:246
+#: ../src/etats_config.c:2333 ../src/gsb_assistant_archive.c:246
 #: ../src/gsb_assistant_reconcile_config.c:425
 #: ../src/gsb_reconcile_config.c:226
 #, fuzzy
 msgid "Final date: "
 msgstr "Data końcowa"
 
-#: ../src/etats_config.c:2463
+#: ../src/etats_config.c:2460 ../src/gsb_etats_config.c:890
 #, fuzzy
 msgid "Account selection"
 msgstr "Transakcje na koncie"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2469
+#: ../src/etats_config.c:2466
 msgid "Select transactions only for given accounts"
 msgstr "Wybierz transakcje tylko dla podanych kont"
 
-#: ../src/etats_config.c:2496
+#: ../src/etats_config.c:2493
 #, fuzzy
 msgid "Select the accounts included in the report: "
 msgstr "Zaznacz konta do dołączenia do raportu:"
 
-#: ../src/etats_config.c:2554 ../src/etats_config.c:2809
-#: ../src/etats_config.c:3091 ../src/etats_config.c:3898
-#: ../src/etats_config.c:4088 ../src/etats_config.c:7319
+#: ../src/etats_config.c:2551 ../src/etats_config.c:2806
+#: ../src/etats_config.c:3088 ../src/etats_config.c:3895
+#: ../src/etats_config.c:4085 ../src/etats_config.c:7316
 #: ../src/tiers_onglet.c:1406 ../src/tiers_onglet.c:1426
 msgid "Select all"
 msgstr "Zaznacz wszystkie"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_config.c:2569 ../src/etats_config.c:2824
-#: ../src/etats_config.c:3106 ../src/etats_config.c:3913
-#: ../src/etats_config.c:4103 ../src/etats_config.c:7334 ../src/import.c:2264
+#: ../src/etats_config.c:2566 ../src/etats_config.c:2821
+#: ../src/etats_config.c:3103 ../src/etats_config.c:3910
+#: ../src/etats_config.c:4100 ../src/etats_config.c:7331 ../src/import.c:2264
 #: ../src/tiers_onglet.c:1197 ../src/tiers_onglet.c:1408
 msgid "Unselect all"
 msgstr "Wyczyść wszystkie"
 
-#: ../src/etats_config.c:2584 ../src/etats_config.c:2839
+#: ../src/etats_config.c:2581 ../src/etats_config.c:2836
 msgid "Select bank accounts"
 msgstr "Zaznacz konta bankowe"
 
-#: ../src/etats_config.c:2599 ../src/etats_config.c:2854
+#: ../src/etats_config.c:2596 ../src/etats_config.c:2851
 msgid "Select cash accounts"
 msgstr "Zaznacz konta gotówkowe"
 
-#: ../src/etats_config.c:2614 ../src/etats_config.c:2869
+#: ../src/etats_config.c:2611 ../src/etats_config.c:2866
 msgid "Select liabilities accounts"
 msgstr "Zaznacz konta pasywów"
 
-#: ../src/etats_config.c:2629 ../src/etats_config.c:2884
+#: ../src/etats_config.c:2626 ../src/etats_config.c:2881
 msgid "Select assets accounts"
 msgstr "Zaznacz konta aktywów"
 
-#: ../src/etats_config.c:2719
+#: ../src/etats_config.c:2716
 msgid "Do not include transfers"
 msgstr "Nie dołączaj przelewów"
 
-#: ../src/etats_config.c:2728
+#: ../src/etats_config.c:2725
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr "Dołącz przelewy z lub do kont aktywów i pasywów"
 
-#: ../src/etats_config.c:2741
+#: ../src/etats_config.c:2738
 msgid "Include transfers from or to accounts not in this report"
 msgstr "Dołącz przelewy z lub do kont których nie ma w tym raporcie"
 
-#: ../src/etats_config.c:2754
+#: ../src/etats_config.c:2751
 msgid "Include transfers from or to these accounts"
 msgstr "Dołącz przelewy z lub do kont zaznaczonych poniżej"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2907
+#: ../src/etats_config.c:2904
 msgid "Exclude the transactions which are not transfers"
 msgstr "Nie dołączaj transakcji, które nie są przelewami"
 
-#: ../src/etats_config.c:3011
+#: ../src/etats_config.c:3008
 msgid "Detail categories"
 msgstr "Pokaż kategorie"
 
-#: ../src/etats_config.c:3047
+#: ../src/etats_config.c:3044
 #, fuzzy
 msgid "Select categories to include: "
 msgstr "Wybierz kategorie do dołączenia do raportu:"
 
-#: ../src/etats_config.c:3121
+#: ../src/etats_config.c:3118
 msgid "Income categories"
 msgstr "Kategorie przychodów"
 
-#: ../src/etats_config.c:3136
+#: ../src/etats_config.c:3133
 msgid "Outgoing categories"
 msgstr "Kategorie wydatków"
 
-#: ../src/etats_config.c:3242
+#: ../src/etats_config.c:3239
 #, fuzzy
 msgid "Empty category"
 msgstr "kategorii"
 
-#: ../src/etats_config.c:3243
+#: ../src/etats_config.c:3240
 #, fuzzy
 msgid "Empty sub-category"
 msgstr "podkategoria"
 
-#: ../src/etats_config.c:3249
+#: ../src/etats_config.c:3246
 #, fuzzy
 msgid "Empty budget"
 msgstr "Nowa linia budżetowa"
 
-#: ../src/etats_config.c:3250
+#: ../src/etats_config.c:3247
 #, fuzzy
 msgid "Empty sub-budget"
 msgstr "Nowa podgrupa linii budżetowej"
 
-#: ../src/etats_config.c:3682
+#: ../src/etats_config.c:3679
 #, fuzzy
 msgid ""
 "All categories have been selected.  Grisbi will run faster without the "
@@ -2746,7 +2771,7 @@ msgstr ""
 "Wszystkie kategorie zostały zaznaczone. Grisbi będzie pracował szybciej "
 "jeżeli odznaczysz opcję \"Pokaż kategorie\""
 
-#: ../src/etats_config.c:3686
+#: ../src/etats_config.c:3683
 #, fuzzy
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
@@ -2755,525 +2780,536 @@ msgstr ""
 "Wszystkie linie budżetowe zostały zaznaczone. Grisbi będzie pracował "
 "szybciej jeżeli odznaczysz opcję \"Pokaż linie budżetowe\""
 
-#: ../src/etats_config.c:3817
+#: ../src/etats_config.c:3814
 msgid "Detail budgetary lines"
 msgstr "Pokaż linie budżetowe"
 
-#: ../src/etats_config.c:3854
+#: ../src/etats_config.c:3851
 #, fuzzy
 msgid "Select the budgetary lines to include in the report: "
 msgstr "Wybierz linie budżetowe do załączenia do raportu:"
 
-#: ../src/etats_config.c:3928
+#: ../src/etats_config.c:3925
 msgid "Income budget lines"
 msgstr "Linie budżetowe przychodów"
 
-#: ../src/etats_config.c:3943
+#: ../src/etats_config.c:3940
 msgid "Outgoing budget lines"
 msgstr "Linie budżetowe wydatków"
 
 #. set the title
-#: ../src/etats_config.c:3988 ../src/navigation.c:287 ../src/navigation.c:1198
-#: ../src/tiers_onglet.c:230
+#: ../src/etats_config.c:3985 ../src/gsb_etats_config.c:927
+#: ../src/navigation.c:287 ../src/navigation.c:1198 ../src/tiers_onglet.c:230
 #, fuzzy
 msgid "Payees"
 msgstr "Dni"
 
-#: ../src/etats_config.c:4000
+#: ../src/etats_config.c:3997
 #, fuzzy
 msgid "Detail payees"
 msgstr "Pokaż kategorie"
 
-#: ../src/etats_config.c:4037
+#: ../src/etats_config.c:4034
 #, fuzzy
 msgid "Select payees to include in this report: "
 msgstr "Wybierz beneficjentów do załączenia do raportu:"
 
-#: ../src/etats_config.c:4170
+#: ../src/etats_config.c:4167 ../src/gsb_etats_config.c:1370
 #, fuzzy
 msgid "Transaction content"
 msgstr "Zawartość listy transakcji"
 
-#: ../src/etats_config.c:4185
+#: ../src/etats_config.c:4182
 #, fuzzy
 msgid "Select transactions according to content"
 msgstr "Wybierz transakcje pasujące do formuły"
 
-#: ../src/etats_config.c:4503
+#: ../src/etats_config.c:4500
 #, fuzzy
 msgid "Transactions whose "
 msgstr "Transakcje których"
 
-#: ../src/etats_config.c:4651
+#: ../src/etats_config.c:4648
 #, fuzzy
 msgid "is "
 msgstr "jest"
 
-#: ../src/etats_config.c:4667 ../src/etats_config.c:4724
-#: ../src/etats_config.c:5555 ../src/etats_config.c:5616
+#: ../src/etats_config.c:4664 ../src/etats_config.c:4721
+#: ../src/etats_config.c:5552 ../src/etats_config.c:5613
 msgid "to"
 msgstr "do"
 
 #. on met les bouton ajouter et supprimer
-#: ../src/etats_config.c:4746 ../src/etats_config.c:5639
+#: ../src/etats_config.c:4743 ../src/etats_config.c:5636
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../src/etats_config.c:4760 ../src/etats_config.c:5653
+#: ../src/etats_config.c:4757 ../src/etats_config.c:5650
 msgid "Remove"
 msgstr "Usuń"
 
-#: ../src/etats_config.c:4838 ../src/etats_config.c:6649
-#: ../src/etats_config.c:6729 ../src/meta_payee.c:82
+#: ../src/etats_config.c:4835 ../src/etats_config.c:6646
+#: ../src/etats_config.c:6726 ../src/gsb_etats_config.c:176
+#: ../src/meta_payee.c:82
 #, fuzzy
 msgid "payee"
 msgstr "Odbiorca/płatność"
 
-#: ../src/etats_config.c:4866
+#: ../src/etats_config.c:4863 ../src/gsb_etats_config.c:177
 #, fuzzy
 msgid "payee information"
 msgstr "Informacja budżetowa"
 
-#: ../src/etats_config.c:4894 ../src/etats_config.c:6652
-#: ../src/etats_config.c:6736 ../src/meta_categories.c:70
+#: ../src/etats_config.c:4891 ../src/etats_config.c:6649
+#: ../src/etats_config.c:6733 ../src/gsb_etats_config.c:178
+#: ../src/meta_categories.c:70
 msgid "category"
 msgstr "kategorii"
 
-#: ../src/etats_config.c:4922 ../src/etats_config.c:6655
-#: ../src/meta_categories.c:71
+#: ../src/etats_config.c:4919 ../src/etats_config.c:6652
+#: ../src/gsb_etats_config.c:179 ../src/meta_categories.c:71
 #, fuzzy
 msgid "sub-category"
 msgstr "Brak podkategorii"
 
-#: ../src/etats_config.c:4950 ../src/etats_config.c:6658
-#: ../src/etats_config.c:6743 ../src/meta_budgetary.c:67
+#: ../src/etats_config.c:4947 ../src/etats_config.c:6655
+#: ../src/etats_config.c:6740 ../src/gsb_etats_config.c:180
+#: ../src/meta_budgetary.c:67
 msgid "budgetary line"
 msgstr "liniai budżetowej"
 
-#: ../src/etats_config.c:4978 ../src/etats_config.c:6661
-#: ../src/meta_budgetary.c:68
+#: ../src/etats_config.c:4975 ../src/etats_config.c:6658
+#: ../src/gsb_etats_config.c:181 ../src/meta_budgetary.c:68
 #, fuzzy
 msgid "sub-budgetary line"
 msgstr "Pusta podgrupa linii budżetowej"
 
-#: ../src/etats_config.c:5006 ../src/etats_config.c:6750
+#: ../src/etats_config.c:5003 ../src/etats_config.c:6747
+#: ../src/gsb_etats_config.c:182
 msgid "note"
 msgstr "opisie"
 
-#: ../src/etats_config.c:5034 ../src/etats_config.c:6679
-#: ../src/etats_config.c:6778
+#: ../src/etats_config.c:5031 ../src/etats_config.c:6676
+#: ../src/etats_config.c:6775 ../src/gsb_etats_config.c:183
 msgid "bank reference"
 msgstr "nazwie banku"
 
-#: ../src/etats_config.c:5062 ../src/etats_config.c:6673
-#: ../src/etats_config.c:6771
+#: ../src/etats_config.c:5059 ../src/etats_config.c:6670
+#: ../src/etats_config.c:6768 ../src/gsb_etats_config.c:184
 msgid "voucher"
 msgstr "rachunku"
 
-#: ../src/etats_config.c:5083
+#: ../src/etats_config.c:5080 ../src/gsb_etats_config.c:185
 #, fuzzy
 msgid "cheque number"
 msgstr "numer czeku"
 
-#: ../src/etats_config.c:5103 ../src/etats_config.c:6682
-#: ../src/etats_config.c:6785
+#: ../src/etats_config.c:5100 ../src/etats_config.c:6679
+#: ../src/etats_config.c:6782 ../src/gsb_etats_config.c:186
 msgid "reconciliation reference"
 msgstr "numer potwierdzenia"
 
-#: ../src/etats_config.c:5158
+#: ../src/etats_config.c:5155
 msgid "contains"
 msgstr "zawiera"
 
-#: ../src/etats_config.c:5170
+#: ../src/etats_config.c:5167
 msgid "doesn't contain"
 msgstr "nie zawiera"
 
-#: ../src/etats_config.c:5182
+#: ../src/etats_config.c:5179
 msgid "begins with"
 msgstr "zaczyna się od"
 
-#: ../src/etats_config.c:5194
+#: ../src/etats_config.c:5191
 msgid "ends with"
 msgstr "kończy się na"
 
-#: ../src/etats_config.c:5206
+#: ../src/etats_config.c:5203
 msgid "is empty"
 msgstr "jest pusty"
 
-#: ../src/etats_config.c:5218
+#: ../src/etats_config.c:5215
 msgid "isn't empty"
 msgstr "nie jest pusty"
 
-#: ../src/etats_config.c:5261
+#: ../src/etats_config.c:5258
 msgid "Select the transactions by amount"
 msgstr "Wybierz tansakcję po wartości"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5311
+#: ../src/etats_config.c:5308
 msgid "Exclude the transactions with a null amount"
 msgstr "Nie załączaj transakcji, których wartość jest pusta"
 
-#: ../src/etats_config.c:5538
+#: ../src/etats_config.c:5535
 msgid "Transactions with an amount of"
 msgstr "Transakcje na kwotę"
 
-#: ../src/etats_config.c:5685 ../src/etats_config.c:6042
+#: ../src/etats_config.c:5682 ../src/etats_config.c:6039
 msgid "and"
 msgstr "i"
 
-#: ../src/etats_config.c:5693 ../src/etats_config.c:6054
+#: ../src/etats_config.c:5690 ../src/etats_config.c:6051
 msgid "or"
 msgstr "lub"
 
-#: ../src/etats_config.c:5701 ../src/etats_config.c:6066
+#: ../src/etats_config.c:5698 ../src/etats_config.c:6063
 msgid "except"
 msgstr "z wyjątkiem"
 
-#: ../src/etats_config.c:5731 ../src/etats_config.c:5909
+#: ../src/etats_config.c:5728 ../src/etats_config.c:5906
+#: ../src/gsb_etats_config.c:193
 msgid "equal"
 msgstr "równe"
 
-#: ../src/etats_config.c:5743 ../src/etats_config.c:5921
+#: ../src/etats_config.c:5740 ../src/etats_config.c:5918
+#: ../src/gsb_etats_config.c:194
 msgid "less than"
 msgstr "mniejszy od"
 
-#: ../src/etats_config.c:5755 ../src/etats_config.c:5933
+#: ../src/etats_config.c:5752 ../src/etats_config.c:5930
+#: ../src/gsb_etats_config.c:195
 msgid "less than or equal"
 msgstr "mniejszy lub równy"
 
-#: ../src/etats_config.c:5767 ../src/etats_config.c:5945
+#: ../src/etats_config.c:5764 ../src/etats_config.c:5942
+#: ../src/gsb_etats_config.c:196
 msgid "greater than"
 msgstr "większy od"
 
-#: ../src/etats_config.c:5779 ../src/etats_config.c:5957
+#: ../src/etats_config.c:5776 ../src/etats_config.c:5954
+#: ../src/gsb_etats_config.c:197
 msgid "greater than or equal"
 msgstr "większy lub równy"
 
-#: ../src/etats_config.c:5791 ../src/etats_config.c:5969
+#: ../src/etats_config.c:5788 ../src/etats_config.c:5966
+#: ../src/gsb_etats_config.c:198
 msgid "different from"
 msgstr "różny"
 
-#: ../src/etats_config.c:5803
+#: ../src/etats_config.c:5800 ../src/gsb_etats_config.c:199
 msgid "null"
 msgstr "pusty"
 
-#: ../src/etats_config.c:5815
+#: ../src/etats_config.c:5812 ../src/gsb_etats_config.c:200
 msgid "not null"
 msgstr "nie pusty"
 
-#: ../src/etats_config.c:5827
+#: ../src/etats_config.c:5824 ../src/gsb_etats_config.c:201
 msgid "positive"
 msgstr "dodatni"
 
-#: ../src/etats_config.c:5839
+#: ../src/etats_config.c:5836 ../src/gsb_etats_config.c:202
 msgid "negative"
 msgstr "ujemny"
 
-#: ../src/etats_config.c:5981
+#: ../src/etats_config.c:5978
 msgid "the biggest"
 msgstr "największy"
 
-#: ../src/etats_config.c:6078
+#: ../src/etats_config.c:6075
 msgid "stop"
 msgstr "stop"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6151
+#: ../src/etats_config.c:6148
 msgid "Reconciled transactions"
 msgstr "Potwierdzone transakcje"
 
-#: ../src/etats_config.c:6154
+#: ../src/etats_config.c:6151
 #, fuzzy
 msgid "Select all transactions"
 msgstr "Usuń transakcję"
 
-#: ../src/etats_config.c:6163
+#: ../src/etats_config.c:6160
 #, fuzzy
 msgid "Select unreconciled transactions"
 msgstr "Potwierdzone transakcje"
 
-#: ../src/etats_config.c:6176
+#: ../src/etats_config.c:6173
 #, fuzzy
 msgid "Select reconciled transactions"
 msgstr "Potwierdzone transakcje"
 
-#: ../src/etats_config.c:6188
+#: ../src/etats_config.c:6185 ../src/gsb_etats_config.c:1605
 #, fuzzy
 msgid "Split of transactions detail"
 msgstr "Transakcja zbiorcza"
 
-#: ../src/etats_config.c:6190
+#: ../src/etats_config.c:6187
 #, fuzzy
 msgid "Do not detail split of transactions"
 msgstr "Nie pokazuj potwierdzonych transakcji"
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:6221
+#: ../src/etats_config.c:6218
 #, fuzzy
 msgid "Group transactions"
 msgstr "Zaznacz transakcję"
 
-#: ../src/etats_config.c:6223
+#: ../src/etats_config.c:6220
 msgid "Group transactions by account"
 msgstr "Grupuj transakcje wg konta"
 
-#: ../src/etats_config.c:6226
+#: ../src/etats_config.c:6223
 #, fuzzy
 msgid "Group transactions by payee"
 msgstr "Grupuj transakcje wg kategorii"
 
-#: ../src/etats_config.c:6229
+#: ../src/etats_config.c:6226
 msgid "Group transactions by category"
 msgstr "Grupuj transakcje wg kategorii"
 
-#: ../src/etats_config.c:6232
+#: ../src/etats_config.c:6229
 msgid "Group transactions by budgetary line"
 msgstr "Grupuj transakcje wg liniii budżetowych"
 
 #. choix du type de classement
-#: ../src/etats_config.c:6237
+#: ../src/etats_config.c:6234
 msgid "Group level organisation"
 msgstr "Poziomy grupowania"
 
 #. on permet la séparation des revenus et des dépenses
-#: ../src/etats_config.c:6331
+#: ../src/etats_config.c:6328
 msgid "Split incomes and outgoings"
 msgstr "Rozdziel przychody i wydatki"
 
 #. on permet la séparation par exercice
-#: ../src/etats_config.c:6335
+#: ../src/etats_config.c:6332
 msgid "Split by financial year"
 msgstr "Rozdziel po roku finansowym"
 
-#: ../src/etats_config.c:6342
+#: ../src/etats_config.c:6339
 msgid "Split by period"
 msgstr "Rozdziel po okresie czasowym"
 
 #. on permet ensuite la séparation des résultats par période
-#: ../src/etats_config.c:6346
+#: ../src/etats_config.c:6343
 #, fuzzy
 msgid "Separation by period"
 msgstr "Rozdziel po okresie czasowym"
 
-#: ../src/etats_config.c:6353
+#: ../src/etats_config.c:6350
 #, fuzzy
 msgid "Separation by time period: "
 msgstr "Rozdziel po okresie czasowym:"
 
-#: ../src/etats_config.c:6370
+#: ../src/etats_config.c:6367
 #, fuzzy
 msgid "Day"
 msgstr "Dni"
 
-#: ../src/etats_config.c:6374
+#: ../src/etats_config.c:6371
 msgid "Week"
 msgstr "Tydzień"
 
 #. add beginning day of the week
-#: ../src/etats_config.c:6389
+#: ../src/etats_config.c:6386
 #, fuzzy
 msgid "Beginning of week: "
 msgstr "Saldo początkowe:"
 
-#: ../src/etats_config.c:6545
+#: ../src/etats_config.c:6542
 #, fuzzy
 msgid "Report name: "
 msgstr "Nazwa raportu:"
 
-#: ../src/etats_config.c:6574
+#: ../src/etats_config.c:6571
 #, fuzzy
 msgid "Display the number of transactions with the totals"
 msgstr "Pokaż numery transakcji w podsumowaniach"
 
-#: ../src/etats_config.c:6593
+#: ../src/etats_config.c:6590
 #, fuzzy
 msgid "Consider the payees of this report as a multiple payee."
 msgstr "Traktuj każdego benficjenta w tym raporcie jako osobnego benficjenta."
 
-#: ../src/etats_config.c:6616
+#: ../src/etats_config.c:6613 ../src/gsb_etats_config.c:1715
 #, fuzzy
 msgid "Transactions display"
 msgstr "Lista transakcji"
 
 #. afficher ou non les opés
-#: ../src/etats_config.c:6621
+#: ../src/etats_config.c:6618
 msgid "Display transactions"
 msgstr "Pokaż transakcje"
 
-#: ../src/etats_config.c:6635
+#: ../src/etats_config.c:6632
 msgid "Include following information"
 msgstr ""
 
-#: ../src/etats_config.c:6640 ../src/etats_config.c:6722
+#: ../src/etats_config.c:6637 ../src/etats_config.c:6719
 msgid "transaction number"
 msgstr "numerze transakcji"
 
-#: ../src/etats_config.c:6643 ../src/etats_config.c:6708
+#: ../src/etats_config.c:6640 ../src/etats_config.c:6705
 msgid "date"
 msgstr "dacie"
 
-#: ../src/etats_config.c:6646 ../src/etats_config.c:6715
+#: ../src/etats_config.c:6643 ../src/etats_config.c:6712
 #, fuzzy
 msgid "value date"
 msgstr "Data płatności"
 
-#: ../src/etats_config.c:6664
+#: ../src/etats_config.c:6661
 #, fuzzy
 msgid "notes"
 msgstr "opisie"
 
-#: ../src/etats_config.c:6667 ../src/etats_config.c:6757
+#: ../src/etats_config.c:6664 ../src/etats_config.c:6754
 msgid "method of payment"
 msgstr "metodzie płatności"
 
-#: ../src/etats_config.c:6670 ../src/etats_config.c:6764
+#: ../src/etats_config.c:6667 ../src/etats_config.c:6761
 msgid "cheque/transfer number"
 msgstr "numerze czeku/przelewu"
 
-#: ../src/etats_config.c:6676 ../src/etats_support.c:141
+#: ../src/etats_config.c:6673 ../src/etats_support.c:141
 msgid "financial year"
 msgstr "rok finansowy"
 
 #. on propose d'afficher le titre des colonnes
-#: ../src/etats_config.c:6687
+#: ../src/etats_config.c:6684
 #, fuzzy
 msgid "Columns"
 msgstr "Komentarz"
 
-#: ../src/etats_config.c:6689
+#: ../src/etats_config.c:6686
 #, fuzzy
 msgid "Display column titles"
 msgstr "Wyświetl tytuly kolumn"
 
-#: ../src/etats_config.c:6692
+#: ../src/etats_config.c:6689
 msgid "every section"
 msgstr "każdy wybór"
 
-#: ../src/etats_config.c:6696
+#: ../src/etats_config.c:6693
 msgid "at the top of the report"
 msgstr "u góry raportu"
 
 #. mise en place du type de classement des opés
-#: ../src/etats_config.c:6701
+#: ../src/etats_config.c:6698
 #, fuzzy
 msgid "Sort transactions by"
 msgstr "Sortuj transakcje po"
 
 #. on propose de rendre clickable le détails des opérations
-#: ../src/etats_config.c:6797
+#: ../src/etats_config.c:6794
 #, fuzzy
 msgid "Clickable transactions"
 msgstr "Wszystkie transakcje"
 
-#: ../src/etats_config.c:6799
+#: ../src/etats_config.c:6796
 msgid "Make transactions clickable"
 msgstr "Utwórz raport z odnośnikami"
 
-#: ../src/etats_config.c:6835 ../src/parametres.c:1144
+#: ../src/etats_config.c:6832 ../src/gsb_etats_config.c:1736
+#: ../src/parametres.c:1144
 msgid "Totals currencies"
 msgstr "Waluty"
 
-#: ../src/etats_config.c:6848
+#: ../src/etats_config.c:6845
 #, fuzzy
 msgid "General totals currency: "
 msgstr "Waluta podsumowania:"
 
-#: ../src/etats_config.c:6877
+#: ../src/etats_config.c:6874
 #, fuzzy
 msgid "Payees currency: "
 msgstr "Waluta kategorii:"
 
-#: ../src/etats_config.c:6906
+#: ../src/etats_config.c:6903
 #, fuzzy
 msgid "Categories currency: "
 msgstr "Waluta kategorii:"
 
-#: ../src/etats_config.c:6936
+#: ../src/etats_config.c:6933
 #, fuzzy
 msgid "Budgetary lines currency: "
 msgstr "Waluta linii budżetowej:"
 
-#: ../src/etats_config.c:6965
+#: ../src/etats_config.c:6962
 #, fuzzy
 msgid "Amount comparison currency: "
 msgstr "Waluta kwoty porównania:"
 
 #. on permet d'afficher le name du compte
-#: ../src/etats_config.c:7002
+#: ../src/etats_config.c:6999
 msgid "Display account name"
 msgstr "Pokaż nazwę konta"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activé uniquement si on a regroupé les opés par compte
-#: ../src/etats_config.c:7014
+#: ../src/etats_config.c:7011
 msgid "Display a sub-total for each account"
 msgstr "Pokaż sumy cząstkowe dla każdego konta"
 
 #. permet d'afficher le name du tiers, activé uniquement si on utilise les tiers
-#: ../src/etats_config.c:7032
+#: ../src/etats_config.c:7029
 #, fuzzy
 msgid "Display payee's name"
 msgstr "Pokaż nazwę beneficjenta"
 
-#: ../src/etats_config.c:7049
+#: ../src/etats_config.c:7046
 #, fuzzy
 msgid "Display a sub-total for each payee"
 msgstr "Pokaż sumy cząstkowe dla każdego beneficjenta"
 
 #. affichage possible du name de la categ
-#: ../src/etats_config.c:7067
+#: ../src/etats_config.c:7064
 msgid "Display the (sub)category's name"
 msgstr "Pokaż nazwę (pod)kategorii"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activé uniquement si on utilise les categ
-#: ../src/etats_config.c:7083
+#: ../src/etats_config.c:7080
 msgid "Display a sub-total for each category"
 msgstr "Pokaż sumy cząstkowe "
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7098
+#: ../src/etats_config.c:7095
 msgid "Display sub-categories"
 msgstr "Pokaż podkategorie"
 
-#: ../src/etats_config.c:7112
+#: ../src/etats_config.c:7109
 msgid "Display a sub-total for each sub-category"
 msgstr "Pokaż sumy cząstkowe dla każdej podkategorii"
 
-#: ../src/etats_config.c:7126
+#: ../src/etats_config.c:7123
 msgid "Display \" No sub-category\" if none"
 msgstr "Pokaż \"Brak podkategorii\" jeżeli brak podkategorii"
 
-#: ../src/etats_config.c:7143
+#: ../src/etats_config.c:7140
 msgid "Display the (sub-)budget line name"
 msgstr "Pokaż nazwy (podgrup) linii budżetowych"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activé uniquement si on utilise les ib
-#: ../src/etats_config.c:7159
+#: ../src/etats_config.c:7156
 msgid "Display a sub-total for each budgetary line"
 msgstr "Pokaż sumy cząstkowe dla każdej linii budżetowej"
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7174
+#: ../src/etats_config.c:7171
 msgid "Display sub-budget lines"
 msgstr "Pokaż podgrupę linii budżetowych"
 
-#: ../src/etats_config.c:7187
+#: ../src/etats_config.c:7184
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Pokaż sumy cząstkowe dla każdej podgrupy linii budżetowcyh"
 
-#: ../src/etats_config.c:7201
+#: ../src/etats_config.c:7198
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Pokaż \"Brak podgrup linii budżetowych\" jeżeli ich brak"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
-#: ../src/etats_config.c:7234
+#: ../src/etats_config.c:7231
 msgid "Select the transactions by method of payment"
 msgstr "Wybierz transakcje poprzez metodę płatności"
 
-#: ../src/etats_config.c:7260
+#: ../src/etats_config.c:7257
 #, fuzzy
 msgid "Select methods of payment to include: "
 msgstr "Wybierz metody płatności do załaczenia:"
@@ -3294,59 +3330,59 @@ msgstr "Upewnij się, że plik istnieje i jest zapisywalny."
 msgid "Cannot open file '%s' for writing"
 msgstr "Nie można otwrzyć pliku '%s' for writingdo zapisu"
 
-#: ../src/etats_onglet.c:119
+#: ../src/etats_onglet.c:120
 msgid "New report"
 msgstr "Nowy raport"
 
-#: ../src/etats_onglet.c:124
+#: ../src/etats_onglet.c:125
 #, fuzzy
 msgid "Create a new report"
 msgstr "Twórz nowe konto"
 
-#: ../src/etats_onglet.c:133
+#: ../src/etats_onglet.c:134
 #, fuzzy
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "Import pliku z raportem"
 
-#: ../src/etats_onglet.c:142
+#: ../src/etats_onglet.c:143
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
 msgstr ""
 
-#: ../src/etats_onglet.c:152
+#: ../src/etats_onglet.c:153
 #, fuzzy
 msgid "Print selected report"
 msgstr "Drukuj raport"
 
-#: ../src/etats_onglet.c:162
+#: ../src/etats_onglet.c:163
 #, fuzzy
 msgid "Delete selected report"
 msgstr "Usuń raport"
 
-#: ../src/etats_onglet.c:171
+#: ../src/etats_onglet.c:172
 #, fuzzy
 msgid "Edit selected report"
 msgstr "Usuń raport"
 
-#: ../src/etats_onglet.c:176
+#: ../src/etats_onglet.c:177
 #, fuzzy
 msgid "Clone"
 msgstr "Zamknij"
 
-#: ../src/etats_onglet.c:180
+#: ../src/etats_onglet.c:181
 #, fuzzy
 msgid "Clone selected report"
 msgstr "Powiel raport"
 
-#: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:296
+#: ../src/etats_onglet.c:213 ../src/fenetre_principale.c:296
 #: ../src/navigation.c:351 ../src/navigation.c:1247
 msgid "Reports"
 msgstr "Raporty"
 
-#: ../src/etats_onglet.c:248
+#: ../src/etats_onglet.c:249
 msgid "Choose template for new report"
 msgstr "Wybierz szablon dla nowego raportu"
 
-#: ../src/etats_onglet.c:249
+#: ../src/etats_onglet.c:250
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -3354,53 +3390,53 @@ msgstr ""
 "Wybrałeś tworzenie nowego raportu. Możesz skorzystać z podanych szablonów.  "
 "Raporty można dostosować do własnych potrzeb w dowolnym momencie."
 
-#: ../src/etats_onglet.c:252
+#: ../src/etats_onglet.c:253
 msgid "Report type"
 msgstr "Typ raportu"
 
 #. fill combobox
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:279 ../src/etats_onglet.c:320
+#: ../src/etats_onglet.c:280 ../src/etats_onglet.c:321
 msgid "Last month incomes and outgoings"
 msgstr "Wpłaty i wypłaty z poprzedniego miesiąca"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:280 ../src/etats_onglet.c:380
+#: ../src/etats_onglet.c:281 ../src/etats_onglet.c:381
 msgid "Current month incomes and outgoings"
 msgstr "Wpłaty i wypłaty z bieżącego miesiąca"
 
 #. Annual budget
-#: ../src/etats_onglet.c:281 ../src/etats_onglet.c:445
+#: ../src/etats_onglet.c:282 ../src/etats_onglet.c:446
 msgid "Annual budget"
 msgstr "Budżet roczny"
 
 #. Blank report
-#: ../src/etats_onglet.c:282 ../src/etats_onglet.c:511
+#: ../src/etats_onglet.c:283 ../src/etats_onglet.c:512
 msgid "Blank report"
 msgstr "Pusty raport"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:283 ../src/etats_onglet.c:585
+#: ../src/etats_onglet.c:284 ../src/etats_onglet.c:586
 msgid "Cheques deposit"
 msgstr "Opłaty czekiem"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:284 ../src/etats_onglet.c:661
+#: ../src/etats_onglet.c:285 ../src/etats_onglet.c:662
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "Miesięczne wydatki na beneficjenta"
 
 #. Search
-#: ../src/etats_onglet.c:285 ../src/etats_onglet.c:750
+#: ../src/etats_onglet.c:286 ../src/etats_onglet.c:751
 msgid "Search"
 msgstr "Raport z odnośnikami"
 
-#: ../src/etats_onglet.c:835
+#: ../src/etats_onglet.c:836
 msgid "Unknown report type, creation cancelled"
 msgstr "Nieznany typ raportu, tworzenie raportu zostało anulowane"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:869
+#: ../src/etats_onglet.c:870
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3410,7 +3446,7 @@ msgstr ""
 "wybierzesz odpowiednie konto (konta). Domyślnie wybrane są wszystkie konta."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:875
+#: ../src/etats_onglet.c:876
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3421,7 +3457,7 @@ msgstr ""
 "(konta). Domyślnie wybrane są wszystkie konta."
 
 #. Annual budget
-#: ../src/etats_onglet.c:881
+#: ../src/etats_onglet.c:882
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3430,13 +3466,13 @@ msgstr ""
 "konto (konta). Domyślnie wybrane są wszystkie konta."
 
 #. Blank report
-#: ../src/etats_onglet.c:887
+#: ../src/etats_onglet.c:888
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Ten raport jest pusty. Musisz go wypełnić samodzielnie."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:893
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3445,7 +3481,7 @@ msgstr ""
 "(konta). Domyślnie wszystkie kąta są wybrane."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:899
+#: ../src/etats_onglet.c:900
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -3456,7 +3492,7 @@ msgstr ""
 "wybrane są wszystkie konta."
 
 #. Search
-#: ../src/etats_onglet.c:905
+#: ../src/etats_onglet.c:906
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -3466,59 +3502,59 @@ msgstr ""
 "Ten raport pokazuje wszystkie informacje dla wszystkich transakcji dla "
 "wszystkich kont w obecnym roku. Domyślnie jest to raport z odnośnikami."
 
-#: ../src/etats_onglet.c:910
+#: ../src/etats_onglet.c:911
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:936
+#: ../src/etats_onglet.c:937
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Usunąć raport \"%s\"?"
 
-#: ../src/etats_onglet.c:938
+#: ../src/etats_onglet.c:939
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Ta operacja bezpowrotnie usunie raport. Po wykonaniu nie będze możliwe jego "
 "odzyskanie."
 
-#: ../src/etats_onglet.c:1097
+#: ../src/etats_onglet.c:1098
 msgid "Export report"
 msgstr "Eksportuj raport"
 
-#: ../src/etats_onglet.c:1112
+#: ../src/etats_onglet.c:1113
 #, fuzzy
 msgid "File format: "
 msgstr "Informacja:"
 
-#: ../src/etats_onglet.c:1117
+#: ../src/etats_onglet.c:1118
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:1118
+#: ../src/etats_onglet.c:1119
 msgid "HTML file"
 msgstr "Plik HTML"
 
-#: ../src/etats_onglet.c:1119
+#: ../src/etats_onglet.c:1120
 #, fuzzy
 msgid "CSV file"
 msgstr "Zapis pliku"
 
-#: ../src/etats_onglet.c:1136
+#: ../src/etats_onglet.c:1137
 #, fuzzy
 msgid "Exporting report ..."
 msgstr "Eksportuj raport jako html"
 
-#: ../src/etats_onglet.c:1160 ../src/gsb_debug.c:246 ../src/gsb_file.c:490
+#: ../src/etats_onglet.c:1161 ../src/gsb_debug.c:246 ../src/gsb_file.c:490
 #: ../src/gsb_file.c:614 ../src/gsb_file.c:685
 #, fuzzy
 msgid "Done"
 msgstr "Brak"
 
-#: ../src/etats_onglet.c:1181
+#: ../src/etats_onglet.c:1182
 msgid "Import a report"
 msgstr "Importuj raport"
 
-#: ../src/etats_onglet.c:1192
+#: ../src/etats_onglet.c:1193
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
@@ -7206,17 +7242,17 @@ msgstr "Podaj nazwę nowej podgrupy linii budżetowej"
 msgid "Select the currency of the partial balance: "
 msgstr "Zaznacz konta bankowe:"
 
-#: ../src/gsb_data_payee.c:423
+#: ../src/gsb_data_payee.c:422
 #, fuzzy
 msgid "No payee defined"
 msgstr "Brak zdefiniowanych beneficjentów"
 
-#: ../src/gsb_data_payee.c:545 ../src/gsb_form.c:3002 ../src/gsb_form.c:3003
+#: ../src/gsb_data_payee.c:544 ../src/gsb_form.c:3002 ../src/gsb_form.c:3003
 #: ../src/navigation.c:1245
 msgid "Report"
 msgstr "Raport"
 
-#: ../src/gsb_data_payee.c:741
+#: ../src/gsb_data_payee.c:740
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr "Dla transakcji #%d powinna istnieć powiązana transakcja #%d.\n"
@@ -7508,6 +7544,12 @@ msgstr "Dla transakcji #%d powinna istnieć powiązana transakcja #%d.\n"
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Dla transakcji #%d powinna istnieć powiązana transakcja #%d.\n"
 
+#. on peut sélectionner les opérations marquées
+#: ../src/gsb_etats_config.c:1592
+#, fuzzy
+msgid "Selecting Transactions"
+msgstr "Usuń transakcję"
+
 #. Create main widget.
 #: ../src/gsb_file.c:182
 msgid "Creating main window"
@@ -7627,7 +7669,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:756
+#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:755
 msgid "unnamed"
 msgstr "bez nazwy"
 
@@ -9642,7 +9684,7 @@ msgstr "Pusta podgrupa linii budżetowej"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Przenieś transakcje do"
 
-#: ../src/main.c:569
+#: ../src/main.c:568
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
@@ -9651,7 +9693,7 @@ msgstr ""
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:709 ../src/main.c:749 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:708 ../src/main.c:748 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

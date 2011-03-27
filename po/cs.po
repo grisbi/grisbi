@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-25 19:48+0100\n"
+"POT-Creation-Date: 2011-03-27 17:46+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -255,8 +255,9 @@ msgid "Addresses & titles"
 msgstr "Adresy a názvy"
 
 #. Account file title
-#: ../src/affichage.c:391 ../src/etats_config.c:631 ../src/etats_config.c:634
-#: ../src/etats_config.c:6995
+#: ../src/affichage.c:391 ../src/etats_config.c:675 ../src/etats_config.c:678
+#: ../src/etats_config.c:684 ../src/etats_config.c:6992
+#: ../src/gsb_etats_config.c:537 ../src/gsb_etats_config.c:1694
 msgid "Titles"
 msgstr "Názvy"
 
@@ -513,11 +514,11 @@ msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr "Maximum položek v rozbalovacích seznamech (0 bez limitu): "
 
-#: ../src/bet_config.c:94 ../src/etats_config.c:6378
+#: ../src/bet_config.c:94 ../src/etats_config.c:6375
 msgid "Month"
 msgstr "Měsíc"
 
-#: ../src/bet_config.c:95 ../src/etats_config.c:6382
+#: ../src/bet_config.c:95 ../src/etats_config.c:6379
 msgid "Year"
 msgstr "Rok"
 
@@ -599,20 +600,23 @@ msgstr "Výchozí"
 #. mise en place de la paddingbox des catégories
 #. set the title
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
-#: ../src/bet_config.c:684 ../src/bet_hist.c:165 ../src/etats_config.c:533
-#: ../src/etats_config.c:536 ../src/etats_config.c:2998
-#: ../src/etats_config.c:7064 ../src/fenetre_principale.c:286
-#: ../src/navigation.c:319 ../src/navigation.c:1220
+#: ../src/bet_config.c:684 ../src/bet_hist.c:165 ../src/etats_config.c:540
+#: ../src/etats_config.c:543 ../src/etats_config.c:549
+#: ../src/etats_config.c:2995 ../src/etats_config.c:7061
+#: ../src/fenetre_principale.c:286 ../src/gsb_etats_config.c:486
+#: ../src/gsb_etats_config.c:1011 ../src/navigation.c:319
+#: ../src/navigation.c:1220
 msgid "Categories"
 msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
 #. set the title
 #: ../src/bet_config.c:584 ../src/bet_config.c:603 ../src/bet_config.c:621
-#: ../src/bet_config.c:693 ../src/bet_hist.c:174 ../src/etats_config.c:542
-#: ../src/etats_config.c:545 ../src/etats_config.c:3804
-#: ../src/etats_config.c:7141 ../src/export_csv.c:814
-#: ../src/fenetre_principale.c:291 ../src/import_csv.c:89
+#: ../src/bet_config.c:693 ../src/bet_hist.c:174 ../src/etats_config.c:557
+#: ../src/etats_config.c:560 ../src/etats_config.c:3801
+#: ../src/etats_config.c:7138 ../src/export_csv.c:814
+#: ../src/fenetre_principale.c:291 ../src/gsb_etats_config.c:491
+#: ../src/gsb_etats_config.c:1321 ../src/import_csv.c:89
 #: ../src/navigation.c:335 ../src/navigation.c:1231
 #: ../src/traitement_variables.c:93
 msgid "Budgetary lines"
@@ -641,7 +645,7 @@ msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 #. name of the div sous-div column
 #: ../src/bet_config.c:923 ../src/bet_hist.c:544 ../src/bet_hist.c:1601
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2436
-#: ../src/etats_config.c:680 ../src/export_csv.c:805
+#: ../src/etats_config.c:745 ../src/export_csv.c:805
 #: ../src/gsb_transactions_list.c:161 ../src/import_csv.c:87
 #: ../src/meta_categories.c:69 ../src/traitement_variables.c:101
 msgid "Category"
@@ -649,7 +653,7 @@ msgstr "Kategorie"
 
 #: ../src/bet_config.c:936 ../src/bet_future.c:817 ../src/bet_future.c:2025
 #: ../src/bet_future.c:2505 ../src/bet_hist.c:1594 ../src/etats_affiche.c:2443
-#: ../src/etats_config.c:684 ../src/gsb_form.c:1338
+#: ../src/etats_config.c:749 ../src/gsb_form.c:1338
 #: ../src/gsb_form_widget.c:450 ../src/gsb_transactions_list.c:153
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:66
 msgid "Budgetary line"
@@ -904,12 +908,12 @@ msgid "Credits"
 msgstr "Půjčky"
 
 #: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:2848
-#: ../src/barre_outils.c:135 ../src/etats_onglet.c:148
+#: ../src/barre_outils.c:135 ../src/etats_onglet.c:149
 msgid "Print"
 msgstr "Tisk"
 
 #: ../src/bet_finance_ui.c:1900 ../src/bet_tab.c:2861
-#: ../src/categories_onglet.c:542 ../src/etats_onglet.c:138
+#: ../src/categories_onglet.c:542 ../src/etats_onglet.c:139
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:574
 msgid "Export"
 msgstr "Export"
@@ -976,8 +980,9 @@ msgstr "Čtvrtletně"
 msgid "Yearly"
 msgstr "Ročně"
 
-#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:188
-#: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
+#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:187
+#: ../src/gsb_etats_config.c:120 ../src/gsb_form_scheduler.c:154
+#: ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "Volitelně"
 
@@ -1036,13 +1041,13 @@ msgstr "Zvolte metodu platby"
 
 #. mise en place de la paddingbox des tiers
 #: ../src/bet_future.c:789 ../src/etats_affiche.c:2429
-#: ../src/etats_config.c:524 ../src/etats_config.c:527
-#: ../src/etats_config.c:692 ../src/etats_config.c:7029
+#: ../src/etats_config.c:530 ../src/etats_config.c:533
+#: ../src/etats_config.c:757 ../src/etats_config.c:7026
 #: ../src/export_csv.c:790 ../src/fenetre_principale.c:276
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_form.c:1314
-#: ../src/gsb_form_widget.c:438 ../src/gsb_scheduler_list.c:360
-#: ../src/gsb_transactions_list.c:152 ../src/import.c:3312
-#: ../src/import_csv.c:84 ../src/meta_payee.c:81
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_etats_config.c:481
+#: ../src/gsb_form.c:1314 ../src/gsb_form_widget.c:438
+#: ../src/gsb_scheduler_list.c:360 ../src/gsb_transactions_list.c:152
+#: ../src/import.c:3312 ../src/import_csv.c:84 ../src/meta_payee.c:81
 #: ../src/traitement_variables.c:92
 msgid "Payee"
 msgstr "Plátce/příjemce"
@@ -1157,11 +1162,11 @@ msgid "Select"
 msgstr "Vybrat"
 
 #: ../src/bet_hist.c:561 ../src/categories_onglet.c:175
-#: ../src/etats_config.c:5246 ../src/export_csv.c:799
-#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_scheduler_list.c:361
-#: ../src/gsb_transactions_list.c:157 ../src/import.c:3319
-#: ../src/imputation_budgetaire.c:183 ../src/tiers_onglet.c:248
-#: ../src/traitement_variables.c:97
+#: ../src/etats_config.c:5243 ../src/export_csv.c:799
+#: ../src/gsb_assistant_reconcile_config.c:597 ../src/gsb_etats_config.c:1451
+#: ../src/gsb_scheduler_list.c:361 ../src/gsb_transactions_list.c:157
+#: ../src/import.c:3319 ../src/imputation_budgetaire.c:183
+#: ../src/tiers_onglet.c:248 ../src/traitement_variables.c:97
 msgid "Amount"
 msgstr "Částka"
 
@@ -1220,7 +1225,7 @@ msgid "Check the box to automatically change start date"
 msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 
 #. Description entry
-#: ../src/bet_tab.c:694 ../src/etats_onglet.c:260 ../src/tiers_onglet.c:656
+#: ../src/bet_tab.c:694 ../src/etats_onglet.c:261 ../src/tiers_onglet.c:656
 msgid "Description"
 msgstr "Popis"
 
@@ -1298,12 +1303,14 @@ msgstr "Žádná výchozí data"
 
 #: ../src/bet_tab.c:2395 ../src/bet_tab.c:2445 ../src/bet_tab.c:2503
 #: ../src/etats_affiche.c:1863 ../src/gsb_data_category.c:161
+#: ../src/gsb_etats_config.c:1166 ../src/gsb_etats_config.c:1767
 #: ../src/meta_categories.c:72
 msgid "No category"
 msgstr "Žádná kategorie"
 
 #: ../src/bet_tab.c:2403 ../src/bet_tab.c:2453 ../src/bet_tab.c:2509
-#: ../src/etats_affiche.c:2033 ../src/meta_budgetary.c:69
+#: ../src/etats_affiche.c:2033 ../src/gsb_etats_config.c:1177
+#: ../src/gsb_etats_config.c:1772 ../src/meta_budgetary.c:69
 msgid "No budgetary line"
 msgstr "Žádný rozpočet"
 
@@ -1330,7 +1337,7 @@ msgid "Blank the form to create a new transaction"
 msgstr "Vyčistit formulář pro vytvoření nové transakce"
 
 #: ../src/barre_outils.c:107 ../src/barre_outils.c:503
-#: ../src/categories_onglet.c:551 ../src/etats_onglet.c:158
+#: ../src/categories_onglet.c:551 ../src/etats_onglet.c:159
 #: ../src/imputation_budgetaire.c:583 ../src/tiers_onglet.c:339
 msgid "Delete"
 msgstr "Odstranit"
@@ -1472,7 +1479,7 @@ msgstr "Provést aktuální plánovanou transakci"
 msgid "Change display mode of scheduled transaction list"
 msgstr "Změnit mód zobrazení seznamu plánovaných transakcí"
 
-#: ../src/categories_onglet.c:166 ../src/etats_config.c:688
+#: ../src/categories_onglet.c:166 ../src/etats_config.c:753
 #: ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_payment_method_config.c:161 ../src/gsb_reconcile_config.c:103
 #: ../src/gsb_scheduler_list.c:360 ../src/imputation_budgetaire.c:174
@@ -1496,7 +1503,7 @@ msgstr "Importovat kategorie"
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Soubory kategorií Grisbi (*.cgsb)"
 
-#: ../src/categories_onglet.c:422 ../src/etats_onglet.c:1198
+#: ../src/categories_onglet.c:422 ../src/etats_onglet.c:1199
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:244 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:457
 msgid "All files"
@@ -1554,7 +1561,7 @@ msgstr ""
 msgid "Create a new sub-category"
 msgstr "Vytvořit novou podkategorii"
 
-#: ../src/categories_onglet.c:532 ../src/etats_onglet.c:129
+#: ../src/categories_onglet.c:532 ../src/etats_onglet.c:130
 #: ../src/import.c:439 ../src/import.c:3624 ../src/imputation_budgetaire.c:563
 #: ../src/parametres.c:323 ../src/utils_files.c:576
 msgid "Import"
@@ -1572,7 +1579,7 @@ msgstr "Exportovat soubor kategorií Grisbi (.cgsb)"
 msgid "Delete selected category"
 msgstr "Odstranit vybranou kategorii"
 
-#: ../src/categories_onglet.c:560 ../src/etats_onglet.c:167
+#: ../src/categories_onglet.c:560 ../src/etats_onglet.c:168
 #: ../src/fenetre_principale.c:261 ../src/imputation_budgetaire.c:593
 #: ../src/tiers_onglet.c:348
 msgid "Properties"
@@ -1825,70 +1832,70 @@ msgstr ""
 msgid "Cannot allocate memory"
 msgstr "Nelze alokovat paměť"
 
-#: ../src/erreur.c:97
+#: ../src/erreur.c:96
 msgid "File is corrupted."
 msgstr "Soubor je poškozený."
 
-#: ../src/erreur.c:104
+#: ../src/erreur.c:103
 msgid "Error occured saving file."
 msgstr "Chyba při ukládání do souboru."
 
-#: ../src/erreur.c:125
+#: ../src/erreur.c:124
 msgid "Save file"
 msgstr "Uložit soubor"
 
-#: ../src/erreur.c:135
+#: ../src/erreur.c:134
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi vytvořil zálohu v '%s'."
 
-#: ../src/erreur.c:144
+#: ../src/erreur.c:143
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr ""
 "Prosím nahlaste tento problém na <tt>http://www.grisbi.org/bugtracking/</tt>."
 
-#: ../src/erreur.c:150
+#: ../src/erreur.c:149
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 "Prosím zkopírujte a vložte následující informace do vašeho hlášení chyby."
 
-#: ../src/erreur.c:157
+#: ../src/erreur.c:156
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Grisbi bylo zastaveno z důvodu chyby stránkování"
 
-#: ../src/erreur.c:162
+#: ../src/erreur.c:161
 msgid "Backtrace"
 msgstr "Sledování"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:212 ../src/erreur.c:224
+#: ../src/erreur.c:211 ../src/erreur.c:223
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr "GRISBI %s Debug"
 
-#: ../src/erreur.c:213
+#: ../src/erreur.c:212
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr "Ladění povoleno, úroveň je '%s'"
 
-#: ../src/erreur.c:227
+#: ../src/erreur.c:226
 msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
 msgstr ""
 "Chybná úroveň ladění, prosím zkontrolujte proměnnou prostředí DEBUG_GRISBI"
 
-#: ../src/erreur.c:292 ../src/erreur.c:578
+#: ../src/erreur.c:291 ../src/erreur.c:590
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr "%s, %2f : %s - %s:%d:%s - %s\n"
 
-#: ../src/erreur.c:296
+#: ../src/erreur.c:295
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr "%s, %2f : %s - %s:%d:%s\n"
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:341
+#: ../src/erreur.c:340
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr "%s, %2f : %s - %s:%d:%s - %d\n"
@@ -1903,14 +1910,14 @@ msgstr ""
 "připojte tento soubor spolu se znepřehledněným souborem účtů k hlášení chyby."
 
 #. début du mode débogage
-#: ../src/erreur.c:498
+#: ../src/erreur.c:500
 #, fuzzy, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr "%s, %2f : %s - %s:%d:%s\n"
 
-#: ../src/erreur.c:550
+#: ../src/erreur.c:552
 msgid "Grisbi failed to create the log file..."
 msgstr "Nepodařilo se vytvořit logovací soubor..."
 
@@ -2173,15 +2180,17 @@ msgstr "Celkový součet: "
 msgid "Split of transaction"
 msgstr "Rozdělení transakce"
 
-#: ../src/etats_affiche.c:1949
+#: ../src/etats_affiche.c:1949 ../src/gsb_etats_config.c:1167
+#: ../src/gsb_etats_config.c:1768
 msgid "No subcategory"
 msgstr "Žádná podkategorie"
 
-#: ../src/etats_affiche.c:2118 ../src/meta_budgetary.c:70
+#: ../src/etats_affiche.c:2118 ../src/gsb_etats_config.c:1178
+#: ../src/gsb_etats_config.c:1773 ../src/meta_budgetary.c:70
 msgid "No sub-budgetary line"
 msgstr "Žádný podrozpočet"
 
-#: ../src/etats_affiche.c:2269 ../src/gsb_data_payee.c:124
+#: ../src/etats_affiche.c:2269 ../src/gsb_data_payee.c:123
 #: ../src/meta_payee.c:84
 msgid "No payee"
 msgstr "Bez plátce/příjemce"
@@ -2209,9 +2218,11 @@ msgid "Financial year"
 msgstr "Fiskální rok"
 
 #. Now we have a model, create view
-#: ../src/etats_affiche.c:2457 ../src/etats_config.c:569
-#: ../src/etats_config.c:572 ../src/etats_config.c:7228
-#: ../src/gsb_payment_method_config.c:119 ../src/parametres.c:559
+#: ../src/etats_affiche.c:2457 ../src/etats_config.c:594
+#: ../src/etats_config.c:597 ../src/etats_config.c:603
+#: ../src/etats_config.c:7225 ../src/gsb_etats_config.c:506
+#: ../src/gsb_etats_config.c:1495 ../src/gsb_payment_method_config.c:119
+#: ../src/parametres.c:559
 msgid "Payment methods"
 msgstr "Metoda platby"
 
@@ -2235,183 +2246,198 @@ msgstr "Bankovní reference"
 msgid "Statement"
 msgstr "Výpis"
 
-#: ../src/etats_config.c:187
+#: ../src/etats_config.c:186 ../src/gsb_etats_config.c:119
 msgid "All"
 msgstr "Vše"
 
-#: ../src/etats_config.c:189
+#: ../src/etats_config.c:188 ../src/gsb_etats_config.c:121
 msgid "Total to now"
 msgstr "Celkem do dneška"
 
-#: ../src/etats_config.c:190
+#: ../src/etats_config.c:189 ../src/gsb_etats_config.c:122
 msgid "Current month"
 msgstr "Aktuální měsíc"
 
-#: ../src/etats_config.c:191
+#: ../src/etats_config.c:190 ../src/gsb_etats_config.c:123
 msgid "Current year"
 msgstr "Aktuální rok"
 
-#: ../src/etats_config.c:192
+#: ../src/etats_config.c:191 ../src/gsb_etats_config.c:124
 msgid "Current month to now"
 msgstr "Aktuální měsíc do dneška"
 
-#: ../src/etats_config.c:193
+#: ../src/etats_config.c:192 ../src/gsb_etats_config.c:125
 msgid "Current year to now"
 msgstr "Aktuální rok do dneška"
 
-#: ../src/etats_config.c:194
+#: ../src/etats_config.c:193 ../src/gsb_etats_config.c:126
 msgid "Previous month"
 msgstr "Předchozí měsíc"
 
-#: ../src/etats_config.c:195
+#: ../src/etats_config.c:194 ../src/gsb_etats_config.c:127
 msgid "Previous year"
 msgstr "Předchozí rok"
 
-#: ../src/etats_config.c:196
+#: ../src/etats_config.c:195 ../src/gsb_etats_config.c:128
 msgid "Last 30 days"
 msgstr "Posledních 30 dní"
 
-#: ../src/etats_config.c:197
+#: ../src/etats_config.c:196 ../src/gsb_etats_config.c:129
 msgid "Last 3 months"
 msgstr "Poslední 3 měsíce"
 
-#: ../src/etats_config.c:198
+#: ../src/etats_config.c:197 ../src/gsb_etats_config.c:130
 msgid "Last 6 months"
 msgstr "Posledních 6 měsíců"
 
-#: ../src/etats_config.c:199
+#: ../src/etats_config.c:198 ../src/gsb_etats_config.c:131
 msgid "Last 12 months"
 msgstr "Posledních 12 měsíců"
 
-#: ../src/etats_config.c:203
+#: ../src/etats_config.c:202
 msgid "Monday"
 msgstr "Pondělí"
 
-#: ../src/etats_config.c:204
+#: ../src/etats_config.c:203
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: ../src/etats_config.c:205
+#: ../src/etats_config.c:204
 msgid "Wednesday"
 msgstr "Středa"
 
-#: ../src/etats_config.c:206
+#: ../src/etats_config.c:205
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: ../src/etats_config.c:207
+#: ../src/etats_config.c:206
 msgid "Friday"
 msgstr "Pátek"
 
-#: ../src/etats_config.c:208
+#: ../src/etats_config.c:207
 msgid "Saturday"
 msgstr "Sobota"
 
-#: ../src/etats_config.c:209
+#: ../src/etats_config.c:208
 msgid "Sunday"
 msgstr "Neděle"
 
-#: ../src/etats_config.c:406
+#: ../src/etats_config.c:405
 msgid "Report properties"
 msgstr "Vlastnosti sestavy"
 
-#: ../src/etats_config.c:490
+#. append group page
+#: ../src/etats_config.c:485 ../src/gsb_etats_config.c:462
 msgid "Data selection"
 msgstr "Výběr dat"
 
-#: ../src/etats_config.c:497 ../src/etats_config.c:500
+#: ../src/etats_config.c:493 ../src/etats_config.c:496
+#: ../src/etats_config.c:502 ../src/gsb_etats_config.c:466
 msgid "Dates"
 msgstr "Datumy"
 
-#: ../src/etats_config.c:506 ../src/etats_config.c:509
-#: ../src/etats_config.c:2713
+#: ../src/etats_config.c:510 ../src/etats_config.c:513
+#: ../src/etats_config.c:2710 ../src/gsb_etats_config.c:471
+#: ../src/gsb_etats_config.c:810
 msgid "Transfers"
 msgstr "Převody"
 
 #. mise en place de la paddingbox des comptes
-#: ../src/etats_config.c:515 ../src/etats_config.c:518
-#: ../src/etats_config.c:6999 ../src/fenetre_principale.c:239
-#: ../src/navigation.c:254
+#: ../src/etats_config.c:520 ../src/etats_config.c:523
+#: ../src/etats_config.c:6996 ../src/fenetre_principale.c:239
+#: ../src/gsb_etats_config.c:476 ../src/navigation.c:254
 msgid "Accounts"
 msgstr "Účty"
 
-#: ../src/etats_config.c:551 ../src/etats_config.c:554
+#: ../src/etats_config.c:567 ../src/etats_config.c:570
+#: ../src/gsb_etats_config.c:496
 msgid "Texts"
 msgstr "Texty"
 
-#: ../src/etats_config.c:560 ../src/etats_config.c:563
+#: ../src/etats_config.c:577 ../src/etats_config.c:580
+#: ../src/etats_config.c:586 ../src/gsb_etats_config.c:501
 msgid "Amounts"
 msgstr "Částky"
 
-#: ../src/etats_config.c:578
+#: ../src/etats_config.c:611
 msgid "Misc."
 msgstr "Různé"
 
-#: ../src/etats_config.c:581 ../src/etats_config.c:6145
+#: ../src/etats_config.c:614 ../src/etats_config.c:620
+#: ../src/etats_config.c:6142 ../src/gsb_etats_config.c:511
+#: ../src/gsb_etats_config.c:1586
 msgid "Miscellaneous"
 msgstr "Různé"
 
-#: ../src/etats_config.c:589
+#. remplissage de l'onglet d'organisation
+#: ../src/etats_config.c:628 ../src/gsb_etats_config.c:515
 msgid "Data organization"
 msgstr "Uspořádání dat"
 
-#: ../src/etats_config.c:596 ../src/etats_config.c:601
-#: ../src/etats_config.c:6216
+#: ../src/etats_config.c:636 ../src/etats_config.c:641
+#: ../src/etats_config.c:6213 ../src/gsb_etats_config.c:519
+#: ../src/gsb_etats_config.c:1631
 msgid "Data grouping"
 msgstr "Seskupení dat"
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:606 ../src/etats_config.c:611
-#: ../src/etats_config.c:6324 ../src/etats_config.c:6328
+#: ../src/etats_config.c:646 ../src/etats_config.c:650
+#: ../src/etats_config.c:6321 ../src/etats_config.c:6325
+#: ../src/gsb_etats_config.c:524 ../src/gsb_etats_config.c:1652
 msgid "Data separation"
 msgstr "Oddělení dat"
 
-#: ../src/etats_config.c:616
+#. remplissage de l'onglet d'affichage
+#: ../src/etats_config.c:658 ../src/gsb_etats_config.c:528
 msgid "Data display"
 msgstr "Zobrazení dat"
 
-#: ../src/etats_config.c:622 ../src/etats_config.c:625
-#: ../src/etats_config.c:6531
+#: ../src/etats_config.c:665 ../src/etats_config.c:668
+#: ../src/etats_config.c:6528 ../src/gsb_etats_config.c:532
+#: ../src/gsb_etats_config.c:1673
 msgid "Generalities"
 msgstr "Hlavní"
 
-#: ../src/etats_config.c:640 ../src/etats_config.c:643 ../src/export_csv.c:766
-#: ../src/fenetre_principale.c:243 ../src/parametres.c:433
+#: ../src/etats_config.c:692 ../src/etats_config.c:695
+#: ../src/etats_config.c:701 ../src/export_csv.c:766
+#: ../src/fenetre_principale.c:243 ../src/gsb_etats_config.c:542
+#: ../src/parametres.c:433
 msgid "Transactions"
 msgstr "Transakce"
 
 #. echange line label
-#: ../src/etats_config.c:649 ../src/etats_config.c:652
+#: ../src/etats_config.c:709 ../src/etats_config.c:712
 #: ../src/gsb_currency.c:555 ../src/gsb_currency_config.c:300
-#: ../src/parametres.c:523
+#: ../src/gsb_etats_config.c:547 ../src/parametres.c:523
 msgid "Currencies"
 msgstr "Měny"
 
-#: ../src/etats_config.c:1324 ../src/etats_config.c:1333
+#: ../src/etats_config.c:1361 ../src/etats_config.c:1372
+#, fuzzy
 msgid ""
-"Grisbi can't parse date.  For a list of date formats that Grisbi can use, "
+"Grisbi can't parse date. For a list of date formats that Grisbi can use, "
 "refer to Grisbi manual."
 msgstr ""
 "Grisbi nemůže určit datum. Seznam použitelných formátů data naleznete v "
 "manuálu ke Grisbi."
 
-#: ../src/etats_config.c:1325
+#: ../src/etats_config.c:1363
 #, c-format
 msgid "Invalid initial date '%s'"
 msgstr "Neplatné počáteční datum '%s'"
 
-#: ../src/etats_config.c:1334
+#: ../src/etats_config.c:1374
 #, c-format
 msgid "Invalid final date '%s'"
 msgstr "Neplatné koncové datum '%s'"
 
-#: ../src/etats_config.c:1510 ../src/etats_config.c:1569
-#: ../src/etats_config.c:1718 ../src/etats_config.c:1897
-#: ../src/etats_config.c:3681 ../src/etats_config.c:3685
+#: ../src/etats_config.c:1532 ../src/etats_config.c:1592
+#: ../src/etats_config.c:1736 ../src/etats_config.c:1942
+#: ../src/etats_config.c:3678 ../src/etats_config.c:3682
 msgid "Performance issue."
 msgstr "Výkonový problém."
 
-#: ../src/etats_config.c:1511
+#: ../src/etats_config.c:1533
 msgid ""
 "All financial years have been selected.  Grisbi will run faster without the "
 "\"Detail financial years\" option activated."
@@ -2419,7 +2445,7 @@ msgstr ""
 "Jsou označeny všechny fiskální roky. Bez označení volby \"Detail fiskálních "
 "roků\" dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:1570
+#: ../src/etats_config.c:1593
 msgid ""
 "All accounts have been selected.  Grisbi will run faster without the "
 "\"Detail accounts used\" option activated."
@@ -2427,7 +2453,7 @@ msgstr ""
 "Jsou označeny všechny účty. Bez označení volby \"Detail použitých účtů\" "
 "dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:1719
+#: ../src/etats_config.c:1737
 msgid ""
 "All payees have been selected.  Grisbi will run faster without the \"Detail "
 "payees used\" option activated."
@@ -2435,155 +2461,156 @@ msgstr ""
 "Jsou označeni všichni plátci/příjemci. Bez označení volby \"Detail plátců/"
 "příjemců\" dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:1898
+#: ../src/etats_config.c:1943
+#, fuzzy
 msgid ""
-"All methods of payment have been selected.  Grisbi will run faster without "
-"the \"Detail methods of payment used\" option activated."
+"All methods of payment have been selected.  Grisbi will run faster "
+"withoutthe \"Detail methods of payment used\" option activated."
 msgstr ""
 "Jsou označeny všechny metody platby. Bez označení volby \"Vybrat transakce "
 "podle metody platby\" dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:2060
+#: ../src/etats_config.c:2099 ../src/gsb_etats_config.c:609
 msgid "Date selection"
 msgstr "Výběr data"
 
-#: ../src/etats_config.c:2085
+#: ../src/etats_config.c:2111
 msgid "Use dates ranges"
 msgstr "Použít rozsah datumů"
 
-#: ../src/etats_config.c:2181
+#: ../src/etats_config.c:2179
 msgid "Use financial years"
 msgstr "Použít fiskální roky"
 
-#: ../src/etats_config.c:2218
+#: ../src/etats_config.c:2215
 msgid "All financial years"
 msgstr "Všechny fiskální roky"
 
-#: ../src/etats_config.c:2227
+#: ../src/etats_config.c:2224
 msgid "Current financial year"
 msgstr "Aktuální fiskální rok"
 
-#: ../src/etats_config.c:2236
+#: ../src/etats_config.c:2233
 msgid "Former financial year"
 msgstr "Předchozí fiskální rok"
 
-#: ../src/etats_config.c:2247
+#: ../src/etats_config.c:2244
 msgid "Detail financial years"
 msgstr "Detail fiskálních roků"
 
 #. set the initial date
-#: ../src/etats_config.c:2306 ../src/gsb_assistant_archive.c:234
+#: ../src/etats_config.c:2303 ../src/gsb_assistant_archive.c:234
 #: ../src/gsb_assistant_reconcile_config.c:414
 #: ../src/gsb_reconcile_config.c:212
 msgid "Initial date: "
 msgstr "Počáteční datum: "
 
 #. set the final date
-#: ../src/etats_config.c:2336 ../src/gsb_assistant_archive.c:246
+#: ../src/etats_config.c:2333 ../src/gsb_assistant_archive.c:246
 #: ../src/gsb_assistant_reconcile_config.c:425
 #: ../src/gsb_reconcile_config.c:226
 msgid "Final date: "
 msgstr "Koncové datum: "
 
-#: ../src/etats_config.c:2463
+#: ../src/etats_config.c:2460 ../src/gsb_etats_config.c:890
 msgid "Account selection"
 msgstr "Výběr účtu"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2469
+#: ../src/etats_config.c:2466
 msgid "Select transactions only for given accounts"
 msgstr "Vybrat transakce pouze z určitých účtů"
 
-#: ../src/etats_config.c:2496
+#: ../src/etats_config.c:2493
 msgid "Select the accounts included in the report: "
 msgstr "Označte účty zobrazené v sestavě: "
 
-#: ../src/etats_config.c:2554 ../src/etats_config.c:2809
-#: ../src/etats_config.c:3091 ../src/etats_config.c:3898
-#: ../src/etats_config.c:4088 ../src/etats_config.c:7319
+#: ../src/etats_config.c:2551 ../src/etats_config.c:2806
+#: ../src/etats_config.c:3088 ../src/etats_config.c:3895
+#: ../src/etats_config.c:4085 ../src/etats_config.c:7316
 #: ../src/tiers_onglet.c:1406 ../src/tiers_onglet.c:1426
 msgid "Select all"
 msgstr "Označit vše"
 
 #. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_config.c:2569 ../src/etats_config.c:2824
-#: ../src/etats_config.c:3106 ../src/etats_config.c:3913
-#: ../src/etats_config.c:4103 ../src/etats_config.c:7334 ../src/import.c:2264
+#: ../src/etats_config.c:2566 ../src/etats_config.c:2821
+#: ../src/etats_config.c:3103 ../src/etats_config.c:3910
+#: ../src/etats_config.c:4100 ../src/etats_config.c:7331 ../src/import.c:2264
 #: ../src/tiers_onglet.c:1197 ../src/tiers_onglet.c:1408
 msgid "Unselect all"
 msgstr "Odznačit vše"
 
-#: ../src/etats_config.c:2584 ../src/etats_config.c:2839
+#: ../src/etats_config.c:2581 ../src/etats_config.c:2836
 msgid "Select bank accounts"
 msgstr "Označit bankovní účty"
 
-#: ../src/etats_config.c:2599 ../src/etats_config.c:2854
+#: ../src/etats_config.c:2596 ../src/etats_config.c:2851
 msgid "Select cash accounts"
 msgstr "Označit účty hotovosti"
 
-#: ../src/etats_config.c:2614 ../src/etats_config.c:2869
+#: ../src/etats_config.c:2611 ../src/etats_config.c:2866
 msgid "Select liabilities accounts"
 msgstr "Označit účty závazků"
 
-#: ../src/etats_config.c:2629 ../src/etats_config.c:2884
+#: ../src/etats_config.c:2626 ../src/etats_config.c:2881
 msgid "Select assets accounts"
 msgstr "Označit majetkové účty"
 
-#: ../src/etats_config.c:2719
+#: ../src/etats_config.c:2716
 msgid "Do not include transfers"
 msgstr "Nezahrnovat převody"
 
-#: ../src/etats_config.c:2728
+#: ../src/etats_config.c:2725
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr "Zahrnout převody z nebo na majetkové účty a účty závazků"
 
-#: ../src/etats_config.c:2741
+#: ../src/etats_config.c:2738
 msgid "Include transfers from or to accounts not in this report"
 msgstr "Zahrnout převody z nebo na účty ketré nejsou v této sestavě"
 
-#: ../src/etats_config.c:2754
+#: ../src/etats_config.c:2751
 msgid "Include transfers from or to these accounts"
 msgstr "Zahrnout převody z nebo na tyto účty"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2907
+#: ../src/etats_config.c:2904
 msgid "Exclude the transactions which are not transfers"
 msgstr "Zahrnout pouze transakce převodů"
 
-#: ../src/etats_config.c:3011
+#: ../src/etats_config.c:3008
 msgid "Detail categories"
 msgstr "Detail kategorií"
 
-#: ../src/etats_config.c:3047
+#: ../src/etats_config.c:3044
 msgid "Select categories to include: "
 msgstr "Označte kategorie které budou zahrnuty: "
 
-#: ../src/etats_config.c:3121
+#: ../src/etats_config.c:3118
 msgid "Income categories"
 msgstr "Příjmové kategorie"
 
-#: ../src/etats_config.c:3136
+#: ../src/etats_config.c:3133
 msgid "Outgoing categories"
 msgstr "Výdajové kategorie"
 
-#: ../src/etats_config.c:3242
+#: ../src/etats_config.c:3239
 msgid "Empty category"
 msgstr "Prázdná kategorie"
 
-#: ../src/etats_config.c:3243
+#: ../src/etats_config.c:3240
 msgid "Empty sub-category"
 msgstr "Prázdná podkategorie"
 
-#: ../src/etats_config.c:3249
+#: ../src/etats_config.c:3246
 msgid "Empty budget"
 msgstr "Prázdný rozpočet"
 
-#: ../src/etats_config.c:3250
+#: ../src/etats_config.c:3247
 msgid "Empty sub-budget"
 msgstr "Prázdný podrozpočet"
 
-#: ../src/etats_config.c:3682
+#: ../src/etats_config.c:3679
 msgid ""
 "All categories have been selected.  Grisbi will run faster without the "
 "\"Detail categories used\" option activated."
@@ -2591,7 +2618,7 @@ msgstr ""
 "Jsou označeny všechny kategorie. Bez označení volby \"Detail kategorií\" "
 "dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:3686
+#: ../src/etats_config.c:3683
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
 "budgets used\" option activated."
@@ -2599,484 +2626,495 @@ msgstr ""
 "Jsou označeny všechny rozpočty. Bez označení volby \"Detail rozpočtů\" "
 "dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:3817
+#: ../src/etats_config.c:3814
 msgid "Detail budgetary lines"
 msgstr "Detail rozpočtů"
 
-#: ../src/etats_config.c:3854
+#: ../src/etats_config.c:3851
 msgid "Select the budgetary lines to include in the report: "
 msgstr "Označte rozpočty které budou zahrnuty v sestavě: "
 
-#: ../src/etats_config.c:3928
+#: ../src/etats_config.c:3925
 msgid "Income budget lines"
 msgstr "Příjmové rozpočty"
 
-#: ../src/etats_config.c:3943
+#: ../src/etats_config.c:3940
 msgid "Outgoing budget lines"
 msgstr "Výdajové rozpočty"
 
 #. set the title
-#: ../src/etats_config.c:3988 ../src/navigation.c:287 ../src/navigation.c:1198
-#: ../src/tiers_onglet.c:230
+#: ../src/etats_config.c:3985 ../src/gsb_etats_config.c:927
+#: ../src/navigation.c:287 ../src/navigation.c:1198 ../src/tiers_onglet.c:230
 msgid "Payees"
 msgstr "Plátci/příjemci"
 
-#: ../src/etats_config.c:4000
+#: ../src/etats_config.c:3997
 msgid "Detail payees"
 msgstr "Detail plátců/příjemců"
 
-#: ../src/etats_config.c:4037
+#: ../src/etats_config.c:4034
 msgid "Select payees to include in this report: "
 msgstr "Vyberte plátce/příjemce kteří budou zahrnuti do sestavy: "
 
-#: ../src/etats_config.c:4170
+#: ../src/etats_config.c:4167 ../src/gsb_etats_config.c:1370
 msgid "Transaction content"
 msgstr "Obsah seznamu transakcí"
 
-#: ../src/etats_config.c:4185
+#: ../src/etats_config.c:4182
 msgid "Select transactions according to content"
 msgstr "Vyberte transakce podle obsahu"
 
-#: ../src/etats_config.c:4503
+#: ../src/etats_config.c:4500
 msgid "Transactions whose "
 msgstr "Transakce které "
 
-#: ../src/etats_config.c:4651
+#: ../src/etats_config.c:4648
 msgid "is "
 msgstr "je "
 
-#: ../src/etats_config.c:4667 ../src/etats_config.c:4724
-#: ../src/etats_config.c:5555 ../src/etats_config.c:5616
+#: ../src/etats_config.c:4664 ../src/etats_config.c:4721
+#: ../src/etats_config.c:5552 ../src/etats_config.c:5613
 msgid "to"
 msgstr "až"
 
 #. on met les bouton ajouter et supprimer
-#: ../src/etats_config.c:4746 ../src/etats_config.c:5639
+#: ../src/etats_config.c:4743 ../src/etats_config.c:5636
 msgid "Add"
 msgstr "Přidat"
 
-#: ../src/etats_config.c:4760 ../src/etats_config.c:5653
+#: ../src/etats_config.c:4757 ../src/etats_config.c:5650
 msgid "Remove"
 msgstr "Odstranit"
 
-#: ../src/etats_config.c:4838 ../src/etats_config.c:6649
-#: ../src/etats_config.c:6729 ../src/meta_payee.c:82
+#: ../src/etats_config.c:4835 ../src/etats_config.c:6646
+#: ../src/etats_config.c:6726 ../src/gsb_etats_config.c:176
+#: ../src/meta_payee.c:82
 msgid "payee"
 msgstr "plátce/příjemce"
 
-#: ../src/etats_config.c:4866
+#: ../src/etats_config.c:4863 ../src/gsb_etats_config.c:177
 msgid "payee information"
 msgstr "info plátce/příjemce"
 
-#: ../src/etats_config.c:4894 ../src/etats_config.c:6652
-#: ../src/etats_config.c:6736 ../src/meta_categories.c:70
+#: ../src/etats_config.c:4891 ../src/etats_config.c:6649
+#: ../src/etats_config.c:6733 ../src/gsb_etats_config.c:178
+#: ../src/meta_categories.c:70
 msgid "category"
 msgstr "kategorie"
 
-#: ../src/etats_config.c:4922 ../src/etats_config.c:6655
-#: ../src/meta_categories.c:71
+#: ../src/etats_config.c:4919 ../src/etats_config.c:6652
+#: ../src/gsb_etats_config.c:179 ../src/meta_categories.c:71
 msgid "sub-category"
 msgstr "podkategorie"
 
-#: ../src/etats_config.c:4950 ../src/etats_config.c:6658
-#: ../src/etats_config.c:6743 ../src/meta_budgetary.c:67
+#: ../src/etats_config.c:4947 ../src/etats_config.c:6655
+#: ../src/etats_config.c:6740 ../src/gsb_etats_config.c:180
+#: ../src/meta_budgetary.c:67
 msgid "budgetary line"
 msgstr "rozpočtu"
 
-#: ../src/etats_config.c:4978 ../src/etats_config.c:6661
-#: ../src/meta_budgetary.c:68
+#: ../src/etats_config.c:4975 ../src/etats_config.c:6658
+#: ../src/gsb_etats_config.c:181 ../src/meta_budgetary.c:68
 msgid "sub-budgetary line"
 msgstr "podrozpočet"
 
-#: ../src/etats_config.c:5006 ../src/etats_config.c:6750
+#: ../src/etats_config.c:5003 ../src/etats_config.c:6747
+#: ../src/gsb_etats_config.c:182
 msgid "note"
 msgstr "pozn."
 
-#: ../src/etats_config.c:5034 ../src/etats_config.c:6679
-#: ../src/etats_config.c:6778
+#: ../src/etats_config.c:5031 ../src/etats_config.c:6676
+#: ../src/etats_config.c:6775 ../src/gsb_etats_config.c:183
 msgid "bank reference"
 msgstr "bankovní reference"
 
-#: ../src/etats_config.c:5062 ../src/etats_config.c:6673
-#: ../src/etats_config.c:6771
+#: ../src/etats_config.c:5059 ../src/etats_config.c:6670
+#: ../src/etats_config.c:6768 ../src/gsb_etats_config.c:184
 msgid "voucher"
 msgstr "doklad"
 
-#: ../src/etats_config.c:5083
+#: ../src/etats_config.c:5080 ../src/gsb_etats_config.c:185
 msgid "cheque number"
 msgstr "číslo šeku"
 
-#: ../src/etats_config.c:5103 ../src/etats_config.c:6682
-#: ../src/etats_config.c:6785
+#: ../src/etats_config.c:5100 ../src/etats_config.c:6679
+#: ../src/etats_config.c:6782 ../src/gsb_etats_config.c:186
 msgid "reconciliation reference"
 msgstr "reference odsouhlasení"
 
-#: ../src/etats_config.c:5158
+#: ../src/etats_config.c:5155
 msgid "contains"
 msgstr "obsahuje"
 
-#: ../src/etats_config.c:5170
+#: ../src/etats_config.c:5167
 msgid "doesn't contain"
 msgstr "neobsahuje"
 
-#: ../src/etats_config.c:5182
+#: ../src/etats_config.c:5179
 msgid "begins with"
 msgstr "začíná"
 
-#: ../src/etats_config.c:5194
+#: ../src/etats_config.c:5191
 msgid "ends with"
 msgstr "končí"
 
-#: ../src/etats_config.c:5206
+#: ../src/etats_config.c:5203
 msgid "is empty"
 msgstr "je prázdný"
 
-#: ../src/etats_config.c:5218
+#: ../src/etats_config.c:5215
 msgid "isn't empty"
 msgstr "není prázdný"
 
-#: ../src/etats_config.c:5261
+#: ../src/etats_config.c:5258
 msgid "Select the transactions by amount"
 msgstr "Vybrat transakce podle částky"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5311
+#: ../src/etats_config.c:5308
 msgid "Exclude the transactions with a null amount"
 msgstr "Zahrnout pouze transakce s nenulovou částkou"
 
-#: ../src/etats_config.c:5538
+#: ../src/etats_config.c:5535
 msgid "Transactions with an amount of"
 msgstr "Transakce s částkou"
 
-#: ../src/etats_config.c:5685 ../src/etats_config.c:6042
+#: ../src/etats_config.c:5682 ../src/etats_config.c:6039
 msgid "and"
 msgstr "a"
 
-#: ../src/etats_config.c:5693 ../src/etats_config.c:6054
+#: ../src/etats_config.c:5690 ../src/etats_config.c:6051
 msgid "or"
 msgstr "nebo"
 
-#: ../src/etats_config.c:5701 ../src/etats_config.c:6066
+#: ../src/etats_config.c:5698 ../src/etats_config.c:6063
 msgid "except"
 msgstr "kromě"
 
-#: ../src/etats_config.c:5731 ../src/etats_config.c:5909
+#: ../src/etats_config.c:5728 ../src/etats_config.c:5906
+#: ../src/gsb_etats_config.c:193
 msgid "equal"
 msgstr "rovno"
 
-#: ../src/etats_config.c:5743 ../src/etats_config.c:5921
+#: ../src/etats_config.c:5740 ../src/etats_config.c:5918
+#: ../src/gsb_etats_config.c:194
 msgid "less than"
 msgstr "menší než"
 
-#: ../src/etats_config.c:5755 ../src/etats_config.c:5933
+#: ../src/etats_config.c:5752 ../src/etats_config.c:5930
+#: ../src/gsb_etats_config.c:195
 msgid "less than or equal"
 msgstr "menší nebo rovno"
 
-#: ../src/etats_config.c:5767 ../src/etats_config.c:5945
+#: ../src/etats_config.c:5764 ../src/etats_config.c:5942
+#: ../src/gsb_etats_config.c:196
 msgid "greater than"
 msgstr "větší než"
 
-#: ../src/etats_config.c:5779 ../src/etats_config.c:5957
+#: ../src/etats_config.c:5776 ../src/etats_config.c:5954
+#: ../src/gsb_etats_config.c:197
 msgid "greater than or equal"
 msgstr "větší nebo rovno"
 
-#: ../src/etats_config.c:5791 ../src/etats_config.c:5969
+#: ../src/etats_config.c:5788 ../src/etats_config.c:5966
+#: ../src/gsb_etats_config.c:198
 msgid "different from"
 msgstr "různé od"
 
-#: ../src/etats_config.c:5803
+#: ../src/etats_config.c:5800 ../src/gsb_etats_config.c:199
 msgid "null"
 msgstr "null"
 
-#: ../src/etats_config.c:5815
+#: ../src/etats_config.c:5812 ../src/gsb_etats_config.c:200
 msgid "not null"
 msgstr "not null"
 
-#: ../src/etats_config.c:5827
+#: ../src/etats_config.c:5824 ../src/gsb_etats_config.c:201
 msgid "positive"
 msgstr "kladné"
 
-#: ../src/etats_config.c:5839
+#: ../src/etats_config.c:5836 ../src/gsb_etats_config.c:202
 msgid "negative"
 msgstr "záporné"
 
-#: ../src/etats_config.c:5981
+#: ../src/etats_config.c:5978
 msgid "the biggest"
 msgstr "největší"
 
-#: ../src/etats_config.c:6078
+#: ../src/etats_config.c:6075
 msgid "stop"
 msgstr "stop"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6151
+#: ../src/etats_config.c:6148
 msgid "Reconciled transactions"
 msgstr "Odsouhlasené transakce"
 
-#: ../src/etats_config.c:6154
+#: ../src/etats_config.c:6151
 msgid "Select all transactions"
 msgstr "Vybrat všechny transakce"
 
-#: ../src/etats_config.c:6163
+#: ../src/etats_config.c:6160
 msgid "Select unreconciled transactions"
 msgstr "Vybrat neodsouhlasené transakce"
 
-#: ../src/etats_config.c:6176
+#: ../src/etats_config.c:6173
 msgid "Select reconciled transactions"
 msgstr "Vybrat odsouhlasené transakce"
 
-#: ../src/etats_config.c:6188
+#: ../src/etats_config.c:6185 ../src/gsb_etats_config.c:1605
 msgid "Split of transactions detail"
 msgstr "Rozdělení transakce na detaily"
 
-#: ../src/etats_config.c:6190
+#: ../src/etats_config.c:6187
 msgid "Do not detail split of transactions"
 msgstr "Nezobrazovat detail rozdělených transakcí"
 
 #. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:6221
+#: ../src/etats_config.c:6218
 msgid "Group transactions"
 msgstr "Seskupit transakce"
 
-#: ../src/etats_config.c:6223
+#: ../src/etats_config.c:6220
 msgid "Group transactions by account"
 msgstr "Sdružit transakce podle účtu"
 
-#: ../src/etats_config.c:6226
+#: ../src/etats_config.c:6223
 msgid "Group transactions by payee"
 msgstr "Seskupit transakce podle plátce/příjemce"
 
-#: ../src/etats_config.c:6229
+#: ../src/etats_config.c:6226
 msgid "Group transactions by category"
 msgstr "Sdružit transakce podle kategorie"
 
-#: ../src/etats_config.c:6232
+#: ../src/etats_config.c:6229
 msgid "Group transactions by budgetary line"
 msgstr "Sdružit transakce podle rozpočtu"
 
 #. choix du type de classement
-#: ../src/etats_config.c:6237
+#: ../src/etats_config.c:6234
 msgid "Group level organisation"
 msgstr "Organizace skupin"
 
 #. on permet la séparation des revenus et des dépenses
-#: ../src/etats_config.c:6331
+#: ../src/etats_config.c:6328
 msgid "Split incomes and outgoings"
 msgstr "Oddělit příjmy a výdaje"
 
 #. on permet la séparation par exercice
-#: ../src/etats_config.c:6335
+#: ../src/etats_config.c:6332
 msgid "Split by financial year"
 msgstr "Rozdělit po fiskálních rocích"
 
-#: ../src/etats_config.c:6342
+#: ../src/etats_config.c:6339
 msgid "Split by period"
 msgstr "Rozdělit po obdobích"
 
 #. on permet ensuite la séparation des résultats par période
-#: ../src/etats_config.c:6346
+#: ../src/etats_config.c:6343
 msgid "Separation by period"
 msgstr "Rozdělení po obdobích"
 
-#: ../src/etats_config.c:6353
+#: ../src/etats_config.c:6350
 msgid "Separation by time period: "
 msgstr "Rozdělení po časových obdobích: "
 
-#: ../src/etats_config.c:6370
+#: ../src/etats_config.c:6367
 msgid "Day"
 msgstr "Den"
 
-#: ../src/etats_config.c:6374
+#: ../src/etats_config.c:6371
 msgid "Week"
 msgstr "Týden"
 
 #. add beginning day of the week
-#: ../src/etats_config.c:6389
+#: ../src/etats_config.c:6386
 msgid "Beginning of week: "
 msgstr "Začátek týdne: "
 
-#: ../src/etats_config.c:6545
+#: ../src/etats_config.c:6542
 msgid "Report name: "
 msgstr "Název sestavy: "
 
-#: ../src/etats_config.c:6574
+#: ../src/etats_config.c:6571
 msgid "Display the number of transactions with the totals"
 msgstr "U součtů zobrazit počet transakcí"
 
-#: ../src/etats_config.c:6593
+#: ../src/etats_config.c:6590
 msgid "Consider the payees of this report as a multiple payee."
 msgstr "Považovat plátce/příjemce v této sestavě za více plátců/příjemců."
 
-#: ../src/etats_config.c:6616
+#: ../src/etats_config.c:6613 ../src/gsb_etats_config.c:1715
 msgid "Transactions display"
 msgstr "Přehled transakcí"
 
 #. afficher ou non les opés
-#: ../src/etats_config.c:6621
+#: ../src/etats_config.c:6618
 msgid "Display transactions"
 msgstr "Zobrazit transakce"
 
-#: ../src/etats_config.c:6635
+#: ../src/etats_config.c:6632
 msgid "Include following information"
 msgstr "Zahrnout následující informace"
 
-#: ../src/etats_config.c:6640 ../src/etats_config.c:6722
+#: ../src/etats_config.c:6637 ../src/etats_config.c:6719
 msgid "transaction number"
 msgstr "číslo transakce"
 
-#: ../src/etats_config.c:6643 ../src/etats_config.c:6708
+#: ../src/etats_config.c:6640 ../src/etats_config.c:6705
 msgid "date"
 msgstr "datum"
 
-#: ../src/etats_config.c:6646 ../src/etats_config.c:6715
+#: ../src/etats_config.c:6643 ../src/etats_config.c:6712
 msgid "value date"
 msgstr "datum pohybu"
 
-#: ../src/etats_config.c:6664
+#: ../src/etats_config.c:6661
 msgid "notes"
 msgstr "pozn."
 
-#: ../src/etats_config.c:6667 ../src/etats_config.c:6757
+#: ../src/etats_config.c:6664 ../src/etats_config.c:6754
 msgid "method of payment"
 msgstr "metoda platby"
 
-#: ../src/etats_config.c:6670 ../src/etats_config.c:6764
+#: ../src/etats_config.c:6667 ../src/etats_config.c:6761
 msgid "cheque/transfer number"
 msgstr "číslo šeku / převodu"
 
-#: ../src/etats_config.c:6676 ../src/etats_support.c:141
+#: ../src/etats_config.c:6673 ../src/etats_support.c:141
 msgid "financial year"
 msgstr "fiskální rok"
 
 #. on propose d'afficher le titre des colonnes
-#: ../src/etats_config.c:6687
+#: ../src/etats_config.c:6684
 msgid "Columns"
 msgstr "Sloupce"
 
-#: ../src/etats_config.c:6689
+#: ../src/etats_config.c:6686
 msgid "Display column titles"
 msgstr "Zobrazit záhlaví sloupců"
 
-#: ../src/etats_config.c:6692
+#: ../src/etats_config.c:6689
 msgid "every section"
 msgstr "v každé sekci"
 
-#: ../src/etats_config.c:6696
+#: ../src/etats_config.c:6693
 msgid "at the top of the report"
 msgstr "na začátku sestavy"
 
 #. mise en place du type de classement des opés
-#: ../src/etats_config.c:6701
+#: ../src/etats_config.c:6698
 msgid "Sort transactions by"
 msgstr "Řadit transakce podle"
 
 #. on propose de rendre clickable le détails des opérations
-#: ../src/etats_config.c:6797
+#: ../src/etats_config.c:6794
 msgid "Clickable transactions"
 msgstr "Klikatelné transakce"
 
-#: ../src/etats_config.c:6799
+#: ../src/etats_config.c:6796
 msgid "Make transactions clickable"
 msgstr "Transakce budou reagovat na kliknutí"
 
-#: ../src/etats_config.c:6835 ../src/parametres.c:1144
+#: ../src/etats_config.c:6832 ../src/gsb_etats_config.c:1736
+#: ../src/parametres.c:1144
 msgid "Totals currencies"
 msgstr "Měny pro součty"
 
-#: ../src/etats_config.c:6848
+#: ../src/etats_config.c:6845
 msgid "General totals currency: "
 msgstr "Měna pro celkové součty: "
 
-#: ../src/etats_config.c:6877
+#: ../src/etats_config.c:6874
 msgid "Payees currency: "
 msgstr "Měna plátce/příjemce: "
 
-#: ../src/etats_config.c:6906
+#: ../src/etats_config.c:6903
 msgid "Categories currency: "
 msgstr "Měna pro kategorie: "
 
-#: ../src/etats_config.c:6936
+#: ../src/etats_config.c:6933
 msgid "Budgetary lines currency: "
 msgstr "Měna pro rozpočty: "
 
-#: ../src/etats_config.c:6965
+#: ../src/etats_config.c:6962
 msgid "Amount comparison currency: "
 msgstr "Měna pro porovnání částky: "
 
 #. on permet d'afficher le name du compte
-#: ../src/etats_config.c:7002
+#: ../src/etats_config.c:6999
 msgid "Display account name"
 msgstr "Zobrazit název účtu"
 
 #. on permet d'afficher un ss total lors de chgt de compte
 #. activé uniquement si on a regroupé les opés par compte
-#: ../src/etats_config.c:7014
+#: ../src/etats_config.c:7011
 msgid "Display a sub-total for each account"
 msgstr "Zobrazit mezisoučet pro každý účet"
 
 #. permet d'afficher le name du tiers, activé uniquement si on utilise les tiers
-#: ../src/etats_config.c:7032
+#: ../src/etats_config.c:7029
 msgid "Display payee's name"
 msgstr "Zobrazit jméno plátce/příjemce"
 
-#: ../src/etats_config.c:7049
+#: ../src/etats_config.c:7046
 msgid "Display a sub-total for each payee"
 msgstr "Zobrazit mezisoučty pro plátce/příjemce"
 
 #. affichage possible du name de la categ
-#: ../src/etats_config.c:7067
+#: ../src/etats_config.c:7064
 msgid "Display the (sub)category's name"
 msgstr "Zobrazit název (pod)kategorie"
 
 #. permet d'afficher un sous total lors de chgt de categ
 #. activé uniquement si on utilise les categ
-#: ../src/etats_config.c:7083
+#: ../src/etats_config.c:7080
 msgid "Display a sub-total for each category"
 msgstr "Zobrazit mezisoučet pro každou kategorii"
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7098
+#: ../src/etats_config.c:7095
 msgid "Display sub-categories"
 msgstr "Zobrazit podkategorie"
 
-#: ../src/etats_config.c:7112
+#: ../src/etats_config.c:7109
 msgid "Display a sub-total for each sub-category"
 msgstr "Zobrazit mezisoučet pro každou podkategorii"
 
-#: ../src/etats_config.c:7126
+#: ../src/etats_config.c:7123
 msgid "Display \" No sub-category\" if none"
 msgstr "Zobrazit \"Žádné podkategorie\" pokud žádné nebudou"
 
-#: ../src/etats_config.c:7143
+#: ../src/etats_config.c:7140
 msgid "Display the (sub-)budget line name"
 msgstr "Zobrazit název (pod)rozpočtu"
 
 #. permet d'afficher un sous total lors de chgt d'ib
 #. activé uniquement si on utilise les ib
-#: ../src/etats_config.c:7159
+#: ../src/etats_config.c:7156
 msgid "Display a sub-total for each budgetary line"
 msgstr "Zobrazit mezisoučet pro každý rozpočet"
 
 #. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7174
+#: ../src/etats_config.c:7171
 msgid "Display sub-budget lines"
 msgstr "Zobrazit podrozpočty"
 
-#: ../src/etats_config.c:7187
+#: ../src/etats_config.c:7184
 msgid "Display a sub-total for each sub-budget line"
 msgstr "Zobrazit mezisoučet pro každý podrozpočet"
 
-#: ../src/etats_config.c:7201
+#: ../src/etats_config.c:7198
 msgid "Display \"No sub-budgetary line\" if none"
 msgstr "Zobrazit \"Žádné podrozpočty\" pokud žádné nebudou"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
-#: ../src/etats_config.c:7234
+#: ../src/etats_config.c:7231
 msgid "Select the transactions by method of payment"
 msgstr "Vybrat transakce podle metody platby"
 
-#: ../src/etats_config.c:7260
+#: ../src/etats_config.c:7257
 msgid "Select methods of payment to include: "
 msgstr "Označte metody platby které budou zahrnuty: "
 
@@ -3096,52 +3134,52 @@ msgstr "Ujistěte se, že soubor existuje a dá se do něj zapisovat."
 msgid "Cannot open file '%s' for writing"
 msgstr "Nelze otevřít soubor '%s' pro zápis"
 
-#: ../src/etats_onglet.c:119
+#: ../src/etats_onglet.c:120
 msgid "New report"
 msgstr "Nová sestava"
 
-#: ../src/etats_onglet.c:124
+#: ../src/etats_onglet.c:125
 msgid "Create a new report"
 msgstr "Vytvořit novou sestavu"
 
-#: ../src/etats_onglet.c:133
+#: ../src/etats_onglet.c:134
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "Importovat soubor sestavy (.egsb)"
 
-#: ../src/etats_onglet.c:142
+#: ../src/etats_onglet.c:143
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
 msgstr "Exportovat vybranou sestavu do egsb, HTML, Tex, CSV, PostScript"
 
-#: ../src/etats_onglet.c:152
+#: ../src/etats_onglet.c:153
 msgid "Print selected report"
 msgstr "Vytisknout zvolenou sestavu"
 
-#: ../src/etats_onglet.c:162
+#: ../src/etats_onglet.c:163
 msgid "Delete selected report"
 msgstr "Odstranit zvolenou sestavu"
 
-#: ../src/etats_onglet.c:171
+#: ../src/etats_onglet.c:172
 msgid "Edit selected report"
 msgstr "Upravit zvolenou sestavu"
 
-#: ../src/etats_onglet.c:176
+#: ../src/etats_onglet.c:177
 msgid "Clone"
 msgstr "Duplikovat"
 
-#: ../src/etats_onglet.c:180
+#: ../src/etats_onglet.c:181
 msgid "Clone selected report"
 msgstr "Duplikovat zvolenou sestavu"
 
-#: ../src/etats_onglet.c:212 ../src/fenetre_principale.c:296
+#: ../src/etats_onglet.c:213 ../src/fenetre_principale.c:296
 #: ../src/navigation.c:351 ../src/navigation.c:1247
 msgid "Reports"
 msgstr "Sestavy"
 
-#: ../src/etats_onglet.c:248
+#: ../src/etats_onglet.c:249
 msgid "Choose template for new report"
 msgstr "Vyberte šablonu nové sestavy"
 
-#: ../src/etats_onglet.c:249
+#: ../src/etats_onglet.c:250
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -3149,52 +3187,52 @@ msgstr ""
 "Vytváříte novou sestavu. Při vytváření lze zvolit některou z následujících "
 "šablon. Sestavu můžete později dále upravovat."
 
-#: ../src/etats_onglet.c:252
+#: ../src/etats_onglet.c:253
 msgid "Report type"
 msgstr "Typ sestavy"
 
 #. fill combobox
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:279 ../src/etats_onglet.c:320
+#: ../src/etats_onglet.c:280 ../src/etats_onglet.c:321
 msgid "Last month incomes and outgoings"
 msgstr "Příjmy a výdaje za minulý měsíc"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:280 ../src/etats_onglet.c:380
+#: ../src/etats_onglet.c:281 ../src/etats_onglet.c:381
 msgid "Current month incomes and outgoings"
 msgstr "Příjmy a výdaje za tento měsíc"
 
 #. Annual budget
-#: ../src/etats_onglet.c:281 ../src/etats_onglet.c:445
+#: ../src/etats_onglet.c:282 ../src/etats_onglet.c:446
 msgid "Annual budget"
 msgstr "Výroční zpráva"
 
 #. Blank report
-#: ../src/etats_onglet.c:282 ../src/etats_onglet.c:511
+#: ../src/etats_onglet.c:283 ../src/etats_onglet.c:512
 msgid "Blank report"
 msgstr "Prázdná sestava"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:283 ../src/etats_onglet.c:585
+#: ../src/etats_onglet.c:284 ../src/etats_onglet.c:586
 msgid "Cheques deposit"
 msgstr "Vklady šeků"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:284 ../src/etats_onglet.c:661
+#: ../src/etats_onglet.c:285 ../src/etats_onglet.c:662
 msgid "Monthly outgoings by payee"
 msgstr "Měsíční výdaje dle plátce/příjemce"
 
 #. Search
-#: ../src/etats_onglet.c:285 ../src/etats_onglet.c:750
+#: ../src/etats_onglet.c:286 ../src/etats_onglet.c:751
 msgid "Search"
 msgstr "Vyhledávání"
 
-#: ../src/etats_onglet.c:835
+#: ../src/etats_onglet.c:836
 msgid "Unknown report type, creation cancelled"
 msgstr "Neznámý typ sestavy, vytváření bylo zrušeno"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:869
+#: ../src/etats_onglet.c:870
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3205,7 +3243,7 @@ msgstr ""
 "všechny účty."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:875
+#: ../src/etats_onglet.c:876
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3216,7 +3254,7 @@ msgstr ""
 "všechny účty."
 
 #. Annual budget
-#: ../src/etats_onglet.c:881
+#: ../src/etats_onglet.c:882
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3225,12 +3263,12 @@ msgstr ""
 "nastavení jsou vybrány všechny účty."
 
 #. Blank report
-#: ../src/etats_onglet.c:887
+#: ../src/etats_onglet.c:888
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Tato sestava je prázdná. Je potřeba ji celou nadefinovat."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:893
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3239,7 +3277,7 @@ msgstr ""
 "nastavení jsou vybrány všechny účty."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:899
+#: ../src/etats_onglet.c:900
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
@@ -3248,7 +3286,7 @@ msgstr ""
 "potřeba pouze zvolit účty. Jako výchozí nastavení jsou vybrány všechny účty."
 
 #. Search
-#: ../src/etats_onglet.c:905
+#: ../src/etats_onglet.c:906
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, payees "
@@ -3258,53 +3296,53 @@ msgstr ""
 "aktuálním roce. Je potřeba pouze zvolit kritéria pro částky, data, plátce/"
 "příjemce, atd. Jako výchozí nastavení reagují všechny transakce na kliknutí."
 
-#: ../src/etats_onglet.c:910
+#: ../src/etats_onglet.c:911
 msgid "No description available"
 msgstr "Popis není k dispozici"
 
-#: ../src/etats_onglet.c:936
+#: ../src/etats_onglet.c:937
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Odstranit sestavu  \"%s\"?"
 
-#: ../src/etats_onglet.c:938
+#: ../src/etats_onglet.c:939
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr "Tato akce nevratně odstraní tuto sestavu. Akce nelze vzít zpět."
 
-#: ../src/etats_onglet.c:1097
+#: ../src/etats_onglet.c:1098
 msgid "Export report"
 msgstr "Exportovat sestavu"
 
-#: ../src/etats_onglet.c:1112
+#: ../src/etats_onglet.c:1113
 msgid "File format: "
 msgstr "Formát souboru: "
 
-#: ../src/etats_onglet.c:1117
+#: ../src/etats_onglet.c:1118
 msgid "Grisbi report file (egsb file)"
 msgstr "Soubor sestavy Grisbi (soubor egsb)"
 
-#: ../src/etats_onglet.c:1118
+#: ../src/etats_onglet.c:1119
 msgid "HTML file"
 msgstr "Soubot HTML"
 
-#: ../src/etats_onglet.c:1119
+#: ../src/etats_onglet.c:1120
 msgid "CSV file"
 msgstr "Soubor CSV"
 
-#: ../src/etats_onglet.c:1136
+#: ../src/etats_onglet.c:1137
 msgid "Exporting report ..."
 msgstr "Exportování sestavy..."
 
-#: ../src/etats_onglet.c:1160 ../src/gsb_debug.c:246 ../src/gsb_file.c:490
+#: ../src/etats_onglet.c:1161 ../src/gsb_debug.c:246 ../src/gsb_file.c:490
 #: ../src/gsb_file.c:614 ../src/gsb_file.c:685
 msgid "Done"
 msgstr "Hotovo"
 
-#: ../src/etats_onglet.c:1181
+#: ../src/etats_onglet.c:1182
 msgid "Import a report"
 msgstr "Importovat sestavu"
 
-#: ../src/etats_onglet.c:1192
+#: ../src/etats_onglet.c:1193
 msgid "Grisbi report files (*.egsb)"
 msgstr "Soubory sestav Grisbi (*.egsb)"
 
@@ -7055,16 +7093,16 @@ msgstr "Zadejte měnu souhrnného zůstatku"
 msgid "Select the currency of the partial balance: "
 msgstr "Vyberte měnu souhrnného zůstatku: "
 
-#: ../src/gsb_data_payee.c:423
+#: ../src/gsb_data_payee.c:422
 msgid "No payee defined"
 msgstr "Není zadán plátce/příjemce"
 
-#: ../src/gsb_data_payee.c:545 ../src/gsb_form.c:3002 ../src/gsb_form.c:3003
+#: ../src/gsb_data_payee.c:544 ../src/gsb_form.c:3002 ../src/gsb_form.c:3003
 #: ../src/navigation.c:1245
 msgid "Report"
 msgstr "Sestava"
 
-#: ../src/gsb_data_payee.c:741
+#: ../src/gsb_data_payee.c:740
 #, c-format
 msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr "Transakce %d má neexistujícího plátce/příjemce č. %d."
@@ -7370,6 +7408,12 @@ msgstr "Transakce %d má neplatný rozpočet %d.\n"
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "Transakce %d má neplatného plátce/příjemce %d.\n"
 
+#. on peut sélectionner les opérations marquées
+#: ../src/gsb_etats_config.c:1592
+#, fuzzy
+msgid "Selecting Transactions"
+msgstr "Vybrat všechny transakce"
+
 #. Create main widget.
 #: ../src/gsb_file.c:182
 msgid "Creating main window"
@@ -7501,7 +7545,7 @@ msgstr ""
 "zrušit tuto akci a uložit jej pod jiným jménem, nebo v Možnostech aktivovat "
 "volbu \"%s\"."
 
-#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:756
+#: ../src/gsb_file.c:819 ../src/gsb_file.c:830 ../src/main.c:755
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
@@ -9524,7 +9568,7 @@ msgstr "Spravovat podrozpočet"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Přesunout všechny transakce do jiného podrozpočtu"
 
-#: ../src/main.c:569
+#: ../src/main.c:568
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
@@ -9532,7 +9576,7 @@ msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:709 ../src/main.c:749 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:708 ../src/main.c:748 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
