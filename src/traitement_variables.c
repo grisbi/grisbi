@@ -265,13 +265,13 @@ void modification_fichier ( gboolean modif )
     if ( ! etat.modification_fichier )
     {
         etat.modification_fichier = time ( NULL );
-        gsb_gui_sensitive_menu_item_from_string ( "/menubar/FileMenu/Save", TRUE );
+        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
     }
     }
     else
     {
         etat.modification_fichier = 0;
-        gsb_gui_sensitive_menu_item_from_string ( "/menubar/FileMenu/Save", FALSE );
+        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
     }
 }
 
@@ -699,14 +699,14 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-    gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
+    gsb_gui_sensitive_menu_item ( *tmp, sensitif );
     tmp++;
     }
 
     /* As this function may only be called when a new account is
      * created and the like, it is unlikely that we want to sensitive
      * transaction-related menus. */
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/NewTransaction", FALSE );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 }
 
@@ -731,7 +731,7 @@ void menus_view_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
+        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
         tmp++;
     }
 }

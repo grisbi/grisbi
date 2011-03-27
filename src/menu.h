@@ -21,7 +21,7 @@ enum view_menu_action {
 /* START_DECLARATION */
 gboolean affiche_derniers_fichiers_ouverts ( void );
 void efface_derniers_fichiers_ouverts ( void );
-gboolean gsb_gui_sensitive_menu_item_from_string ( gchar *item_name, gboolean state );
+gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state );
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
                         GtkRadioAction *current,
                         gpointer user_data );

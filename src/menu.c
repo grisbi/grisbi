@@ -330,7 +330,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     menubar = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
     gtk_box_pack_start ( GTK_BOX ( vbox ),  menubar, FALSE, TRUE, 0 );
 
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/NewTransaction", FALSE );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 
     return menubar;
@@ -539,7 +539,7 @@ gboolean help_bugreport ( void )
  *
  * \return TRUE on success.
  */
-gboolean gsb_gui_sensitive_menu_item_from_string ( gchar *item_name, gboolean state )
+gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
 {
     GtkWidget * widget;
 
@@ -811,11 +811,11 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
 {
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/RemoveTransaction", sensitive );
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/CloneTransaction", sensitive );
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/EditTransaction", sensitive );
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
-    gsb_gui_sensitive_menu_item_from_string ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
 
     return FALSE;
 }
