@@ -1,8 +1,5 @@
-EXTRA_DIST = $(ui_DATA) 
+uidir = $(pkgdatadir)/ui
 
-bin_PROGRAMS = \
-	ui
+ui_DATA = gsb_etats_config.ui
 
-ui_SOURCES = \
-	gsb_etats_config.ui
-
+EXTRA_DIST = $(ui_DATA)
