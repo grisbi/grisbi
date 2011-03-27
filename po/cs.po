@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-27 17:46+0200\n"
+"POT-Creation-Date: 2011-03-27 21:38+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -2322,7 +2322,7 @@ msgstr "Sobota"
 msgid "Sunday"
 msgstr "Neděle"
 
-#: ../src/etats_config.c:405
+#: ../src/etats_config.c:405 ../src/ui/gsb_etats_config.ui.h:26
 msgid "Report properties"
 msgstr "Vlastnosti sestavy"
 
@@ -2474,41 +2474,44 @@ msgstr ""
 msgid "Date selection"
 msgstr "Výběr data"
 
-#: ../src/etats_config.c:2111
+#: ../src/etats_config.c:2111 ../src/ui/gsb_etats_config.ui.h:45
 msgid "Use dates ranges"
 msgstr "Použít rozsah datumů"
 
-#: ../src/etats_config.c:2179
+#: ../src/etats_config.c:2179 ../src/ui/gsb_etats_config.ui.h:46
 msgid "Use financial years"
 msgstr "Použít fiskální roky"
 
-#: ../src/etats_config.c:2215
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/etats_config.c:2215 ../src/ui/gsb_etats_config.ui.h:1
 msgid "All financial years"
 msgstr "Všechny fiskální roky"
 
-#: ../src/etats_config.c:2224
+#: ../src/etats_config.c:2224 ../src/ui/gsb_etats_config.ui.h:5
 msgid "Current financial year"
 msgstr "Aktuální fiskální rok"
 
-#: ../src/etats_config.c:2233
+#: ../src/etats_config.c:2233 ../src/ui/gsb_etats_config.ui.h:16
 msgid "Former financial year"
 msgstr "Předchozí fiskální rok"
 
-#: ../src/etats_config.c:2244
+#: ../src/etats_config.c:2244 ../src/ui/gsb_etats_config.ui.h:8
 msgid "Detail financial years"
 msgstr "Detail fiskálních roků"
 
 #. set the initial date
 #: ../src/etats_config.c:2303 ../src/gsb_assistant_archive.c:234
 #: ../src/gsb_assistant_reconcile_config.c:414
-#: ../src/gsb_reconcile_config.c:212
+#: ../src/gsb_reconcile_config.c:212 ../src/ui/gsb_etats_config.ui.h:21
 msgid "Initial date: "
 msgstr "Počáteční datum: "
 
 #. set the final date
 #: ../src/etats_config.c:2333 ../src/gsb_assistant_archive.c:246
 #: ../src/gsb_assistant_reconcile_config.c:425
-#: ../src/gsb_reconcile_config.c:226
+#: ../src/gsb_reconcile_config.c:226 ../src/ui/gsb_etats_config.ui.h:15
 msgid "Final date: "
 msgstr "Koncové datum: "
 
@@ -2518,11 +2521,11 @@ msgstr "Výběr účtu"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2466
+#: ../src/etats_config.c:2466 ../src/ui/gsb_etats_config.ui.h:39
 msgid "Select transactions only for given accounts"
 msgstr "Vybrat transakce pouze z určitých účtů"
 
-#: ../src/etats_config.c:2493
+#: ../src/etats_config.c:2493 ../src/ui/gsb_etats_config.ui.h:35
 msgid "Select the accounts included in the report: "
 msgstr "Označte účty zobrazené v sestavě: "
 
@@ -2530,6 +2533,7 @@ msgstr "Označte účty zobrazené v sestavě: "
 #: ../src/etats_config.c:3088 ../src/etats_config.c:3895
 #: ../src/etats_config.c:4085 ../src/etats_config.c:7316
 #: ../src/tiers_onglet.c:1406 ../src/tiers_onglet.c:1426
+#: ../src/ui/gsb_etats_config.ui.h:27
 msgid "Select all"
 msgstr "Označit vše"
 
@@ -2538,59 +2542,64 @@ msgstr "Označit vše"
 #: ../src/etats_config.c:3103 ../src/etats_config.c:3910
 #: ../src/etats_config.c:4100 ../src/etats_config.c:7331 ../src/import.c:2264
 #: ../src/tiers_onglet.c:1197 ../src/tiers_onglet.c:1408
+#: ../src/ui/gsb_etats_config.ui.h:44
 msgid "Unselect all"
 msgstr "Odznačit vše"
 
 #: ../src/etats_config.c:2581 ../src/etats_config.c:2836
+#: ../src/ui/gsb_etats_config.ui.h:29
 msgid "Select bank accounts"
 msgstr "Označit bankovní účty"
 
 #: ../src/etats_config.c:2596 ../src/etats_config.c:2851
+#: ../src/ui/gsb_etats_config.ui.h:30
 msgid "Select cash accounts"
 msgstr "Označit účty hotovosti"
 
 #: ../src/etats_config.c:2611 ../src/etats_config.c:2866
+#: ../src/ui/gsb_etats_config.ui.h:32
 msgid "Select liabilities accounts"
 msgstr "Označit účty závazků"
 
 #: ../src/etats_config.c:2626 ../src/etats_config.c:2881
+#: ../src/ui/gsb_etats_config.ui.h:28
 msgid "Select assets accounts"
 msgstr "Označit majetkové účty"
 
-#: ../src/etats_config.c:2716
+#: ../src/etats_config.c:2716 ../src/ui/gsb_etats_config.ui.h:11
 msgid "Do not include transfers"
 msgstr "Nezahrnovat převody"
 
-#: ../src/etats_config.c:2725
+#: ../src/etats_config.c:2725 ../src/ui/gsb_etats_config.ui.h:18
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr "Zahrnout převody z nebo na majetkové účty a účty závazků"
 
-#: ../src/etats_config.c:2738
+#: ../src/etats_config.c:2738 ../src/ui/gsb_etats_config.ui.h:17
 msgid "Include transfers from or to accounts not in this report"
 msgstr "Zahrnout převody z nebo na účty ketré nejsou v této sestavě"
 
-#: ../src/etats_config.c:2751
+#: ../src/etats_config.c:2751 ../src/ui/gsb_etats_config.ui.h:19
 msgid "Include transfers from or to these accounts"
 msgstr "Zahrnout převody z nebo na tyto účty"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2904
+#: ../src/etats_config.c:2904 ../src/ui/gsb_etats_config.ui.h:12
 msgid "Exclude the transactions which are not transfers"
 msgstr "Zahrnout pouze transakce převodů"
 
-#: ../src/etats_config.c:3008
+#: ../src/etats_config.c:3008 ../src/ui/gsb_etats_config.ui.h:7
 msgid "Detail categories"
 msgstr "Detail kategorií"
 
-#: ../src/etats_config.c:3044
+#: ../src/etats_config.c:3044 ../src/ui/gsb_etats_config.ui.h:31
 msgid "Select categories to include: "
 msgstr "Označte kategorie které budou zahrnuty: "
 
-#: ../src/etats_config.c:3118
+#: ../src/etats_config.c:3118 ../src/ui/gsb_etats_config.ui.h:20
 msgid "Income categories"
 msgstr "Příjmové kategorie"
 
-#: ../src/etats_config.c:3133
+#: ../src/etats_config.c:3133 ../src/ui/gsb_etats_config.ui.h:23
 msgid "Outgoing categories"
 msgstr "Výdajové kategorie"
 
@@ -2626,11 +2635,11 @@ msgstr ""
 "Jsou označeny všechny rozpočty. Bez označení volby \"Detail rozpočtů\" "
 "dostanete výsledek rychleji."
 
-#: ../src/etats_config.c:3814
+#: ../src/etats_config.c:3814 ../src/ui/gsb_etats_config.ui.h:6
 msgid "Detail budgetary lines"
 msgstr "Detail rozpočtů"
 
-#: ../src/etats_config.c:3851
+#: ../src/etats_config.c:3851 ../src/ui/gsb_etats_config.ui.h:36
 msgid "Select the budgetary lines to include in the report: "
 msgstr "Označte rozpočty které budou zahrnuty v sestavě: "
 
@@ -2648,11 +2657,11 @@ msgstr "Výdajové rozpočty"
 msgid "Payees"
 msgstr "Plátci/příjemci"
 
-#: ../src/etats_config.c:3997
+#: ../src/etats_config.c:3997 ../src/ui/gsb_etats_config.ui.h:9
 msgid "Detail payees"
 msgstr "Detail plátců/příjemců"
 
-#: ../src/etats_config.c:4034
+#: ../src/etats_config.c:4034 ../src/ui/gsb_etats_config.ui.h:34
 msgid "Select payees to include in this report: "
 msgstr "Vyberte plátce/příjemce kteří budou zahrnuti do sestavy: "
 
@@ -2660,11 +2669,11 @@ msgstr "Vyberte plátce/příjemce kteří budou zahrnuti do sestavy: "
 msgid "Transaction content"
 msgstr "Obsah seznamu transakcí"
 
-#: ../src/etats_config.c:4182
+#: ../src/etats_config.c:4182 ../src/ui/gsb_etats_config.ui.h:38
 msgid "Select transactions according to content"
 msgstr "Vyberte transakce podle obsahu"
 
-#: ../src/etats_config.c:4500
+#: ../src/etats_config.c:4500 ../src/ui/gsb_etats_config.ui.h:41
 msgid "Transactions whose "
 msgstr "Transakce které "
 
@@ -2766,16 +2775,16 @@ msgstr "je prázdný"
 msgid "isn't empty"
 msgstr "není prázdný"
 
-#: ../src/etats_config.c:5258
+#: ../src/etats_config.c:5258 ../src/ui/gsb_etats_config.ui.h:37
 msgid "Select the transactions by amount"
 msgstr "Vybrat transakce podle částky"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5308
+#: ../src/etats_config.c:5308 ../src/ui/gsb_etats_config.ui.h:13
 msgid "Exclude the transactions with a null amount"
 msgstr "Zahrnout pouze transakce s nenulovou částkou"
 
-#: ../src/etats_config.c:5535
+#: ../src/etats_config.c:5535 ../src/ui/gsb_etats_config.ui.h:42
 msgid "Transactions with an amount of"
 msgstr "Transakce s částkou"
 
@@ -2846,7 +2855,7 @@ msgid "stop"
 msgstr "stop"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6148
+#: ../src/etats_config.c:6148 ../src/ui/gsb_etats_config.ui.h:25
 msgid "Reconciled transactions"
 msgstr "Odsouhlasené transakce"
 
@@ -2866,7 +2875,7 @@ msgstr "Vybrat odsouhlasené transakce"
 msgid "Split of transactions detail"
 msgstr "Rozdělení transakce na detaily"
 
-#: ../src/etats_config.c:6187
+#: ../src/etats_config.c:6187 ../src/ui/gsb_etats_config.ui.h:10
 msgid "Do not detail split of transactions"
 msgstr "Nezobrazovat detail rozdělených transakcí"
 
@@ -3114,7 +3123,7 @@ msgstr "Zobrazit \"Žádné podrozpočty\" pokud žádné nebudou"
 msgid "Select the transactions by method of payment"
 msgstr "Vybrat transakce podle metody platby"
 
-#: ../src/etats_config.c:7257
+#: ../src/etats_config.c:7257 ../src/ui/gsb_etats_config.ui.h:33
 msgid "Select methods of payment to include: "
 msgstr "Označte metody platby které budou zahrnuty: "
 
@@ -9573,9 +9582,6 @@ msgstr "Přesunout všechny transakce do jiného podrozpočtu"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:708 ../src/main.c:748 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11206,6 +11212,45 @@ msgstr "Konverze se nezdařila, zkuste jinou znakovou sadu"
 #: ../src/utils_font.c:203
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
+
+#: ../src/ui/gsb_etats_config.ui.h:2
+#, fuzzy
+msgid "All transactions"
+msgstr "Klikatelné transakce"
+
+#: ../src/ui/gsb_etats_config.ui.h:3
+#, fuzzy
+msgid "At value date"
+msgstr "datum pohybu"
+
+#: ../src/ui/gsb_etats_config.ui.h:4
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:14
+#, fuzzy
+msgid "Expand all"
+msgstr "Zobrazit detail"
+
+#: ../src/ui/gsb_etats_config.ui.h:22
+#, fuzzy
+msgid "Marked transactions"
+msgstr "Osiřelé transakce"
+
+#: ../src/ui/gsb_etats_config.ui.h:24
+#, fuzzy
+msgid "Pointing transactions"
+msgstr "Transakce účtu"
+
+#: ../src/ui/gsb_etats_config.ui.h:40
+#, fuzzy
+msgid "Tele-transmitted transactions"
+msgstr "Vybrat odsouhlasené transakce"
+
+#: ../src/ui/gsb_etats_config.ui.h:43
+#, fuzzy
+msgid "Unreconciled transactions"
+msgstr "Odsouhlasené transakce"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

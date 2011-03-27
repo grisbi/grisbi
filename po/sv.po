@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-27 17:46+0200\n"
+"POT-Creation-Date: 2011-03-27 21:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2248,7 +2248,7 @@ msgstr ""
 msgid "Sunday"
 msgstr ""
 
-#: ../src/etats_config.c:405
+#: ../src/etats_config.c:405 ../src/ui/gsb_etats_config.ui.h:26
 msgid "Report properties"
 msgstr ""
 
@@ -2388,41 +2388,44 @@ msgstr ""
 msgid "Date selection"
 msgstr ""
 
-#: ../src/etats_config.c:2111
+#: ../src/etats_config.c:2111 ../src/ui/gsb_etats_config.ui.h:45
 msgid "Use dates ranges"
 msgstr ""
 
-#: ../src/etats_config.c:2179
+#: ../src/etats_config.c:2179 ../src/ui/gsb_etats_config.ui.h:46
 msgid "Use financial years"
 msgstr ""
 
-#: ../src/etats_config.c:2215
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/etats_config.c:2215 ../src/ui/gsb_etats_config.ui.h:1
 msgid "All financial years"
 msgstr ""
 
-#: ../src/etats_config.c:2224
+#: ../src/etats_config.c:2224 ../src/ui/gsb_etats_config.ui.h:5
 msgid "Current financial year"
 msgstr ""
 
-#: ../src/etats_config.c:2233
+#: ../src/etats_config.c:2233 ../src/ui/gsb_etats_config.ui.h:16
 msgid "Former financial year"
 msgstr ""
 
-#: ../src/etats_config.c:2244
+#: ../src/etats_config.c:2244 ../src/ui/gsb_etats_config.ui.h:8
 msgid "Detail financial years"
 msgstr ""
 
 #. set the initial date
 #: ../src/etats_config.c:2303 ../src/gsb_assistant_archive.c:234
 #: ../src/gsb_assistant_reconcile_config.c:414
-#: ../src/gsb_reconcile_config.c:212
+#: ../src/gsb_reconcile_config.c:212 ../src/ui/gsb_etats_config.ui.h:21
 msgid "Initial date: "
 msgstr ""
 
 #. set the final date
 #: ../src/etats_config.c:2333 ../src/gsb_assistant_archive.c:246
 #: ../src/gsb_assistant_reconcile_config.c:425
-#: ../src/gsb_reconcile_config.c:226
+#: ../src/gsb_reconcile_config.c:226 ../src/ui/gsb_etats_config.ui.h:15
 msgid "Final date: "
 msgstr ""
 
@@ -2432,11 +2435,11 @@ msgstr ""
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2466
+#: ../src/etats_config.c:2466 ../src/ui/gsb_etats_config.ui.h:39
 msgid "Select transactions only for given accounts"
 msgstr ""
 
-#: ../src/etats_config.c:2493
+#: ../src/etats_config.c:2493 ../src/ui/gsb_etats_config.ui.h:35
 msgid "Select the accounts included in the report: "
 msgstr ""
 
@@ -2444,6 +2447,7 @@ msgstr ""
 #: ../src/etats_config.c:3088 ../src/etats_config.c:3895
 #: ../src/etats_config.c:4085 ../src/etats_config.c:7316
 #: ../src/tiers_onglet.c:1406 ../src/tiers_onglet.c:1426
+#: ../src/ui/gsb_etats_config.ui.h:27
 msgid "Select all"
 msgstr ""
 
@@ -2452,59 +2456,64 @@ msgstr ""
 #: ../src/etats_config.c:3103 ../src/etats_config.c:3910
 #: ../src/etats_config.c:4100 ../src/etats_config.c:7331 ../src/import.c:2264
 #: ../src/tiers_onglet.c:1197 ../src/tiers_onglet.c:1408
+#: ../src/ui/gsb_etats_config.ui.h:44
 msgid "Unselect all"
 msgstr ""
 
 #: ../src/etats_config.c:2581 ../src/etats_config.c:2836
+#: ../src/ui/gsb_etats_config.ui.h:29
 msgid "Select bank accounts"
 msgstr ""
 
 #: ../src/etats_config.c:2596 ../src/etats_config.c:2851
+#: ../src/ui/gsb_etats_config.ui.h:30
 msgid "Select cash accounts"
 msgstr ""
 
 #: ../src/etats_config.c:2611 ../src/etats_config.c:2866
+#: ../src/ui/gsb_etats_config.ui.h:32
 msgid "Select liabilities accounts"
 msgstr ""
 
 #: ../src/etats_config.c:2626 ../src/etats_config.c:2881
+#: ../src/ui/gsb_etats_config.ui.h:28
 msgid "Select assets accounts"
 msgstr ""
 
-#: ../src/etats_config.c:2716
+#: ../src/etats_config.c:2716 ../src/ui/gsb_etats_config.ui.h:11
 msgid "Do not include transfers"
 msgstr ""
 
-#: ../src/etats_config.c:2725
+#: ../src/etats_config.c:2725 ../src/ui/gsb_etats_config.ui.h:18
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr ""
 
-#: ../src/etats_config.c:2738
+#: ../src/etats_config.c:2738 ../src/ui/gsb_etats_config.ui.h:17
 msgid "Include transfers from or to accounts not in this report"
 msgstr ""
 
-#: ../src/etats_config.c:2751
+#: ../src/etats_config.c:2751 ../src/ui/gsb_etats_config.ui.h:19
 msgid "Include transfers from or to these accounts"
 msgstr ""
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2904
+#: ../src/etats_config.c:2904 ../src/ui/gsb_etats_config.ui.h:12
 msgid "Exclude the transactions which are not transfers"
 msgstr ""
 
-#: ../src/etats_config.c:3008
+#: ../src/etats_config.c:3008 ../src/ui/gsb_etats_config.ui.h:7
 msgid "Detail categories"
 msgstr ""
 
-#: ../src/etats_config.c:3044
+#: ../src/etats_config.c:3044 ../src/ui/gsb_etats_config.ui.h:31
 msgid "Select categories to include: "
 msgstr ""
 
-#: ../src/etats_config.c:3118
+#: ../src/etats_config.c:3118 ../src/ui/gsb_etats_config.ui.h:20
 msgid "Income categories"
 msgstr ""
 
-#: ../src/etats_config.c:3133
+#: ../src/etats_config.c:3133 ../src/ui/gsb_etats_config.ui.h:23
 msgid "Outgoing categories"
 msgstr ""
 
@@ -2536,11 +2545,11 @@ msgid ""
 "budgets used\" option activated."
 msgstr ""
 
-#: ../src/etats_config.c:3814
+#: ../src/etats_config.c:3814 ../src/ui/gsb_etats_config.ui.h:6
 msgid "Detail budgetary lines"
 msgstr ""
 
-#: ../src/etats_config.c:3851
+#: ../src/etats_config.c:3851 ../src/ui/gsb_etats_config.ui.h:36
 msgid "Select the budgetary lines to include in the report: "
 msgstr ""
 
@@ -2558,11 +2567,11 @@ msgstr ""
 msgid "Payees"
 msgstr ""
 
-#: ../src/etats_config.c:3997
+#: ../src/etats_config.c:3997 ../src/ui/gsb_etats_config.ui.h:9
 msgid "Detail payees"
 msgstr ""
 
-#: ../src/etats_config.c:4034
+#: ../src/etats_config.c:4034 ../src/ui/gsb_etats_config.ui.h:34
 msgid "Select payees to include in this report: "
 msgstr ""
 
@@ -2570,11 +2579,11 @@ msgstr ""
 msgid "Transaction content"
 msgstr ""
 
-#: ../src/etats_config.c:4182
+#: ../src/etats_config.c:4182 ../src/ui/gsb_etats_config.ui.h:38
 msgid "Select transactions according to content"
 msgstr ""
 
-#: ../src/etats_config.c:4500
+#: ../src/etats_config.c:4500 ../src/ui/gsb_etats_config.ui.h:41
 msgid "Transactions whose "
 msgstr ""
 
@@ -2676,16 +2685,16 @@ msgstr ""
 msgid "isn't empty"
 msgstr ""
 
-#: ../src/etats_config.c:5258
+#: ../src/etats_config.c:5258 ../src/ui/gsb_etats_config.ui.h:37
 msgid "Select the transactions by amount"
 msgstr ""
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5308
+#: ../src/etats_config.c:5308 ../src/ui/gsb_etats_config.ui.h:13
 msgid "Exclude the transactions with a null amount"
 msgstr ""
 
-#: ../src/etats_config.c:5535
+#: ../src/etats_config.c:5535 ../src/ui/gsb_etats_config.ui.h:42
 msgid "Transactions with an amount of"
 msgstr ""
 
@@ -2756,7 +2765,7 @@ msgid "stop"
 msgstr ""
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6148
+#: ../src/etats_config.c:6148 ../src/ui/gsb_etats_config.ui.h:25
 msgid "Reconciled transactions"
 msgstr ""
 
@@ -2776,7 +2785,7 @@ msgstr ""
 msgid "Split of transactions detail"
 msgstr ""
 
-#: ../src/etats_config.c:6187
+#: ../src/etats_config.c:6187 ../src/ui/gsb_etats_config.ui.h:10
 msgid "Do not detail split of transactions"
 msgstr ""
 
@@ -3024,7 +3033,7 @@ msgstr ""
 msgid "Select the transactions by method of payment"
 msgstr ""
 
-#: ../src/etats_config.c:7257
+#: ../src/etats_config.c:7257 ../src/ui/gsb_etats_config.ui.h:33
 msgid "Select methods of payment to include: "
 msgstr ""
 
@@ -8955,9 +8964,6 @@ msgstr ""
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:708 ../src/main.c:748 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr ""
@@ -10402,6 +10408,38 @@ msgstr ""
 
 #: ../src/utils_font.c:203
 msgid "No font defined"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:2
+msgid "All transactions"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:3
+msgid "At value date"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:4
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:14
+msgid "Expand all"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:22
+msgid "Marked transactions"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:24
+msgid "Pointing transactions"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:40
+msgid "Tele-transmitted transactions"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:43
+msgid "Unreconciled transactions"
 msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2

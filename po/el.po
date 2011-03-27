@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-27 17:46+0200\n"
+"POT-Creation-Date: 2011-03-27 21:38+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -2450,7 +2450,7 @@ msgstr "Σάββατο"
 msgid "Sunday"
 msgstr "Κυριακή"
 
-#: ../src/etats_config.c:405
+#: ../src/etats_config.c:405 ../src/ui/gsb_etats_config.ui.h:26
 msgid "Report properties"
 msgstr "Ιδιότητες εκθέσεων"
 
@@ -2605,34 +2605,37 @@ msgstr ""
 msgid "Date selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/etats_config.c:2111
+#: ../src/etats_config.c:2111 ../src/ui/gsb_etats_config.ui.h:45
 msgid "Use dates ranges"
 msgstr "Χρήση σειρών ημερομηνιών"
 
-#: ../src/etats_config.c:2179
+#: ../src/etats_config.c:2179 ../src/ui/gsb_etats_config.ui.h:46
 msgid "Use financial years"
 msgstr "Χρήση οικονομικών ετών"
 
-#: ../src/etats_config.c:2215
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/etats_config.c:2215 ../src/ui/gsb_etats_config.ui.h:1
 msgid "All financial years"
 msgstr "Όλα τα οικονομικά έτη"
 
-#: ../src/etats_config.c:2224
+#: ../src/etats_config.c:2224 ../src/ui/gsb_etats_config.ui.h:5
 msgid "Current financial year"
 msgstr "Τρέχον οικονομικό έτος"
 
-#: ../src/etats_config.c:2233
+#: ../src/etats_config.c:2233 ../src/ui/gsb_etats_config.ui.h:16
 msgid "Former financial year"
 msgstr "Προηγούμενο οικονομικό έτος"
 
-#: ../src/etats_config.c:2244
+#: ../src/etats_config.c:2244 ../src/ui/gsb_etats_config.ui.h:8
 msgid "Detail financial years"
 msgstr "Λεπτομέρειες οικονομικών ετών"
 
 #. set the initial date
 #: ../src/etats_config.c:2303 ../src/gsb_assistant_archive.c:234
 #: ../src/gsb_assistant_reconcile_config.c:414
-#: ../src/gsb_reconcile_config.c:212
+#: ../src/gsb_reconcile_config.c:212 ../src/ui/gsb_etats_config.ui.h:21
 #, fuzzy
 msgid "Initial date: "
 msgstr "Αρχική ημερομηνία:"
@@ -2640,7 +2643,7 @@ msgstr "Αρχική ημερομηνία:"
 #. set the final date
 #: ../src/etats_config.c:2333 ../src/gsb_assistant_archive.c:246
 #: ../src/gsb_assistant_reconcile_config.c:425
-#: ../src/gsb_reconcile_config.c:226
+#: ../src/gsb_reconcile_config.c:226 ../src/ui/gsb_etats_config.ui.h:15
 #, fuzzy
 msgid "Final date: "
 msgstr "Τελική ημερομηνία:"
@@ -2651,11 +2654,11 @@ msgstr "Επιλογή λογαριασμού"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2466
+#: ../src/etats_config.c:2466 ../src/ui/gsb_etats_config.ui.h:39
 msgid "Select transactions only for given accounts"
 msgstr "Επιλέξτε τις συναλλαγές μόνο για τους δεδομένους λογαριασμούς"
 
-#: ../src/etats_config.c:2493
+#: ../src/etats_config.c:2493 ../src/ui/gsb_etats_config.ui.h:35
 #, fuzzy
 msgid "Select the accounts included in the report: "
 msgstr "Επιλέξτε τους λογαριασμούς που περιλαμβάνονται στην έκθεση:"
@@ -2664,6 +2667,7 @@ msgstr "Επιλέξτε τους λογαριασμούς που περιλαμ
 #: ../src/etats_config.c:3088 ../src/etats_config.c:3895
 #: ../src/etats_config.c:4085 ../src/etats_config.c:7316
 #: ../src/tiers_onglet.c:1406 ../src/tiers_onglet.c:1426
+#: ../src/ui/gsb_etats_config.ui.h:27
 msgid "Select all"
 msgstr "Επιλογή όλων"
 
@@ -2672,63 +2676,68 @@ msgstr "Επιλογή όλων"
 #: ../src/etats_config.c:3103 ../src/etats_config.c:3910
 #: ../src/etats_config.c:4100 ../src/etats_config.c:7331 ../src/import.c:2264
 #: ../src/tiers_onglet.c:1197 ../src/tiers_onglet.c:1408
+#: ../src/ui/gsb_etats_config.ui.h:44
 msgid "Unselect all"
 msgstr "Αποεπιλογή όλων"
 
 #: ../src/etats_config.c:2581 ../src/etats_config.c:2836
+#: ../src/ui/gsb_etats_config.ui.h:29
 msgid "Select bank accounts"
 msgstr "Επιλέξτε τους τραπεζικούς λογαριασμούς"
 
 #: ../src/etats_config.c:2596 ../src/etats_config.c:2851
+#: ../src/ui/gsb_etats_config.ui.h:30
 msgid "Select cash accounts"
 msgstr "Επιλέξτε τους λογαριασμούς μετρητών"
 
 #: ../src/etats_config.c:2611 ../src/etats_config.c:2866
+#: ../src/ui/gsb_etats_config.ui.h:32
 msgid "Select liabilities accounts"
 msgstr "Επιλέξτε τους λογαριασμούς στοιχείων του παθητικού"
 
 #: ../src/etats_config.c:2626 ../src/etats_config.c:2881
+#: ../src/ui/gsb_etats_config.ui.h:28
 msgid "Select assets accounts"
 msgstr "Επιλέξτε τους λογαριασμούς ενεργητικού"
 
-#: ../src/etats_config.c:2716
+#: ../src/etats_config.c:2716 ../src/ui/gsb_etats_config.ui.h:11
 msgid "Do not include transfers"
 msgstr "Μην περιλάβετε τις μεταφορές"
 
-#: ../src/etats_config.c:2725
+#: ../src/etats_config.c:2725 ../src/ui/gsb_etats_config.ui.h:18
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr ""
 "Περιλάβετε τις μεταφορές από ή στους λογαριασμούς ενεργητικού ή παθητικού"
 
-#: ../src/etats_config.c:2738
+#: ../src/etats_config.c:2738 ../src/ui/gsb_etats_config.ui.h:17
 msgid "Include transfers from or to accounts not in this report"
 msgstr ""
 "Περιλάβετε τις μεταφορές από ή στους λογαριασμούς αλλά όχι σε αυτήν την "
 "έκθεση"
 
-#: ../src/etats_config.c:2751
+#: ../src/etats_config.c:2751 ../src/ui/gsb_etats_config.ui.h:19
 msgid "Include transfers from or to these accounts"
 msgstr "Περιλάβετε τις μεταφορές από ή σε αυτούς τους λογαριασμούς"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2904
+#: ../src/etats_config.c:2904 ../src/ui/gsb_etats_config.ui.h:12
 msgid "Exclude the transactions which are not transfers"
 msgstr "Αποκλείστε τις συναλλαγές που δεν είναι μεταφορές"
 
-#: ../src/etats_config.c:3008
+#: ../src/etats_config.c:3008 ../src/ui/gsb_etats_config.ui.h:7
 msgid "Detail categories"
 msgstr "Λεπτομέρειες κατηγοριών"
 
-#: ../src/etats_config.c:3044
+#: ../src/etats_config.c:3044 ../src/ui/gsb_etats_config.ui.h:31
 #, fuzzy
 msgid "Select categories to include: "
 msgstr "Επιλέξτε τις κατηγορίες που θα περιλάβετε:"
 
-#: ../src/etats_config.c:3118
+#: ../src/etats_config.c:3118 ../src/ui/gsb_etats_config.ui.h:20
 msgid "Income categories"
 msgstr "Εισοδηματικές κατηγορίες"
 
-#: ../src/etats_config.c:3133
+#: ../src/etats_config.c:3133 ../src/ui/gsb_etats_config.ui.h:23
 msgid "Outgoing categories"
 msgstr "Κατηγορίες εξόδων"
 
@@ -2764,11 +2773,11 @@ msgstr ""
 "Όλοι οι προϋπολογισμοί έχουν επιλεχτεί. Το Grisbi θα τρέξει γρηγορότερα "
 "χωρίς την ενεργοποίηση της επιλογής \"λεπτομέρειες προϋπολογισμών\"."
 
-#: ../src/etats_config.c:3814
+#: ../src/etats_config.c:3814 ../src/ui/gsb_etats_config.ui.h:6
 msgid "Detail budgetary lines"
 msgstr "Λεπτομέρειες δημοσιονομικών γραμμών"
 
-#: ../src/etats_config.c:3851
+#: ../src/etats_config.c:3851 ../src/ui/gsb_etats_config.ui.h:36
 #, fuzzy
 msgid "Select the budgetary lines to include in the report: "
 msgstr "Επιλέξτε τις δημοσιονομικές γραμμές που θα περιλάβετε στην έκθεση:"
@@ -2787,11 +2796,11 @@ msgstr "Κονδύλια εξόδων του προϋπολογισμού"
 msgid "Payees"
 msgstr "Δικαιούχοι πληρωμής"
 
-#: ../src/etats_config.c:3997
+#: ../src/etats_config.c:3997 ../src/ui/gsb_etats_config.ui.h:9
 msgid "Detail payees"
 msgstr "Λεπτομέρειες δικαιούχων πληρωμής "
 
-#: ../src/etats_config.c:4034
+#: ../src/etats_config.c:4034 ../src/ui/gsb_etats_config.ui.h:34
 #, fuzzy
 msgid "Select payees to include in this report: "
 msgstr ""
@@ -2801,11 +2810,11 @@ msgstr ""
 msgid "Transaction content"
 msgstr "Περιεχόμενο συναλλαγής"
 
-#: ../src/etats_config.c:4182
+#: ../src/etats_config.c:4182 ../src/ui/gsb_etats_config.ui.h:38
 msgid "Select transactions according to content"
 msgstr "Επιλέξτε τις συναλλαγές σύμφωνα με το περιεχόμενο"
 
-#: ../src/etats_config.c:4500
+#: ../src/etats_config.c:4500 ../src/ui/gsb_etats_config.ui.h:41
 #, fuzzy
 msgid "Transactions whose "
 msgstr "Συναλλαγές των οποίων"
@@ -2909,16 +2918,16 @@ msgstr "είναι κενός"
 msgid "isn't empty"
 msgstr "δεν είναι κενός"
 
-#: ../src/etats_config.c:5258
+#: ../src/etats_config.c:5258 ../src/ui/gsb_etats_config.ui.h:37
 msgid "Select the transactions by amount"
 msgstr "Επιλέξτε τις συναλλαγές από το ποσό"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5308
+#: ../src/etats_config.c:5308 ../src/ui/gsb_etats_config.ui.h:13
 msgid "Exclude the transactions with a null amount"
 msgstr "Αποκλείστε τις συναλλαγές με ένα μηδενικό ποσό"
 
-#: ../src/etats_config.c:5535
+#: ../src/etats_config.c:5535 ../src/ui/gsb_etats_config.ui.h:42
 msgid "Transactions with an amount of"
 msgstr "Συναλλαγές με ένα ποσό"
 
@@ -2989,7 +2998,7 @@ msgid "stop"
 msgstr "σταμάτημα"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6148
+#: ../src/etats_config.c:6148 ../src/ui/gsb_etats_config.ui.h:25
 msgid "Reconciled transactions"
 msgstr "Συμφωνημένες συναλλαγές"
 
@@ -3009,7 +3018,7 @@ msgstr "Επιλέξτε τις συμφιλιωμένες συναλλαγές"
 msgid "Split of transactions detail"
 msgstr "Διάσπαση των λεπτομέρειων των συναλλαγών"
 
-#: ../src/etats_config.c:6187
+#: ../src/etats_config.c:6187 ../src/ui/gsb_etats_config.ui.h:10
 msgid "Do not detail split of transactions"
 msgstr "Μην απαριθμήστε τη διάσπαση των συναλλαγών"
 
@@ -3270,7 +3279,7 @@ msgstr "Εμφάνιση \"Καμία υπο--δημοσιονομική γρα�
 msgid "Select the transactions by method of payment"
 msgstr "Επιλέξτε τις συναλλαγές με τη μέθοδο πληρωμής"
 
-#: ../src/etats_config.c:7257
+#: ../src/etats_config.c:7257 ../src/ui/gsb_etats_config.ui.h:33
 #, fuzzy
 msgid "Select methods of payment to include: "
 msgstr "Επιλέξτε τις μεθόδους πληρωμής που θα περιλάβετε:"
@@ -9986,9 +9995,6 @@ msgstr "Συναλλαγές μεταφοράς %s"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:708 ../src/main.c:748 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11585,6 +11591,45 @@ msgstr ""
 #: ../src/utils_font.c:203
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
+
+#: ../src/ui/gsb_etats_config.ui.h:2
+#, fuzzy
+msgid "All transactions"
+msgstr "Συναλλαγές με ένα κλικ"
+
+#: ../src/ui/gsb_etats_config.ui.h:3
+#, fuzzy
+msgid "At value date"
+msgstr "τοκοφόρος ημερομηνία"
+
+#: ../src/ui/gsb_etats_config.ui.h:4
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:14
+#, fuzzy
+msgid "Expand all"
+msgstr "Επιλογή ημερομηνίας"
+
+#: ../src/ui/gsb_etats_config.ui.h:22
+#, fuzzy
+msgid "Marked transactions"
+msgstr "Ορφανές μεταφορές"
+
+#: ../src/ui/gsb_etats_config.ui.h:24
+#, fuzzy
+msgid "Pointing transactions"
+msgstr "Συναλλαγές λογαριασμού"
+
+#: ../src/ui/gsb_etats_config.ui.h:40
+#, fuzzy
+msgid "Tele-transmitted transactions"
+msgstr "Επιλέξτε τις συμφιλιωμένες συναλλαγές"
+
+#: ../src/ui/gsb_etats_config.ui.h:43
+#, fuzzy
+msgid "Unreconciled transactions"
+msgstr "Συμφωνημένες συναλλαγές"
 
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
