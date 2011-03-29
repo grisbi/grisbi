@@ -58,6 +58,7 @@
 #include "transaction_list.h"
 #include "transaction_list_sort.h"
 #include "structures.h"
+#include "menu.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -77,7 +78,6 @@ extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget * reconcile_panel;
-extern GtkUIManager * ui_manager;
 /*END_EXTERN*/
 
 
@@ -667,6 +667,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
  * */
 void gsb_reconcile_sensitive ( gboolean sensitive )
 {
+    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
     gtk_widget_set_sensitive ( navigation_tree_view, sensitive );
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */

@@ -265,13 +265,13 @@ void modification_fichier ( gboolean modif )
     if ( ! etat.modification_fichier )
     {
         etat.modification_fichier = time ( NULL );
-        gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, TRUE );
+        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
     }
     }
     else
     {
         etat.modification_fichier = 0;
-        gsb_gui_sensitive_menu_item ( "FileMenu", "Save", NULL, FALSE );
+        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
     }
 }
 
@@ -663,35 +663,35 @@ void initialisation_couleurs_listes ( void )
 void menus_sensitifs ( gboolean sensitif )
 {
     gchar * items[] = {
-    menu_name ( "FileMenu",     "Save",                 NULL ),
-    menu_name ( "FileMenu",     "SaveAs",               NULL ),
-    menu_name ( "FileMenu",     "DebugFile",            NULL ),
-    menu_name ( "FileMenu",     "Obfuscate",            NULL ),
-    menu_name ( "FileMenu",     "DebugMode",            NULL ),
-    menu_name ( "FileMenu",     "ExportFile",           NULL ),
-    menu_name ( "FileMenu",     "CreateArchive",        NULL ),
-    menu_name ( "FileMenu",     "ExportArchive",        NULL ),
-    menu_name ( "FileMenu",     "Close",                NULL ),
-    menu_name ( "EditMenu",     "NewTransaction",       NULL ),
-    menu_name ( "EditMenu",     "RemoveTransaction",    NULL ),
-    menu_name ( "EditMenu",     "CloneTransaction",     NULL ),
-    menu_name ( "EditMenu",     "EditTransaction",      NULL ),
-    menu_name ( "EditMenu",     "ConvertToScheduled",   NULL ),
-    menu_name ( "EditMenu",     "MoveToAnotherAccount", NULL ),
-    menu_name ( "EditMenu",     "Preferences",          NULL ),
-    menu_name ( "EditMenu",     "RemoveAccount",        NULL ),
-    menu_name ( "EditMenu",     "NewAccount",           NULL ),
-    menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
-    menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
-    menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
-    menu_name ( "ViewMenu",     "ShowArchived",         NULL ),
-    menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
-    menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
-    menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
-    menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
-    menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
-    menu_name ( "ViewMenu",     "InitwidthCol",        NULL ),
-    NULL,
+        "/menubar/FileMenu/Save",
+        "/menubar/FileMenu/SaveAs",
+        "/menubar/FileMenu/DebugFile",
+        "/menubar/FileMenu/Obfuscate",
+        "/menubar/FileMenu/DebugMode",
+        "/menubar/FileMenu/ExportFile",
+        "/menubar/FileMenu/CreateArchive",
+        "/menubar/FileMenu/ExportArchive",
+        "/menubar/FileMenu/Close",
+        "/menubar/EditMenu/NewTransaction",
+        "/menubar/EditMenu/RemoveTransaction",
+        "/menubar/EditMenu/CloneTransaction",
+        "/menubar/EditMenu/EditTransaction",
+        "/menubar/EditMenu/ConvertToScheduled",
+        "/menubar/EditMenu/MoveToAnotherAccount",
+        "/menubar/EditMenu/Preferences",
+        "/menubar/EditMenu/RemoveAccount",
+        "/menubar/EditMenu/NewAccount",
+        "/menubar/ViewMenu/ShowTransactionForm",
+        "/menubar/ViewMenu/ShowGrid",
+        "/menubar/ViewMenu/ShowReconciled",
+        "/menubar/ViewMenu/ShowArchived",
+        "/menubar/ViewMenu/ShowClosed",
+        "/menubar/ViewMenu/ShowOneLine",
+        "/menubar/ViewMenu/ShowTwoLines",
+        "/menubar/ViewMenu/ShowThreeLines",
+        "/menubar/ViewMenu/ShowFourLines",
+        "/menubar/ViewMenu/InitwidthCol",
+        NULL
     };
     gchar ** tmp = items;
 
@@ -699,31 +699,31 @@ void menus_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-    gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
-    tmp++;
+        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
+        tmp++;
     }
 
     /* As this function may only be called when a new account is
      * created and the like, it is unlikely that we want to sensitive
      * transaction-related menus. */
-    gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 }
 
 void menus_view_sensitifs ( gboolean sensitif )
 {
     gchar * items[] = {
-    menu_name ( "ViewMenu",     "ShowTransactionForm",  NULL ),
-    menu_name ( "ViewMenu",     "ShowGrid",             NULL ),
-    menu_name ( "ViewMenu",     "ShowReconciled",       NULL ),
-    menu_name ( "ViewMenu",     "ShowArchived",         NULL ),
-    menu_name ( "ViewMenu",     "ShowClosed",           NULL ),
-    menu_name ( "ViewMenu",     "ShowOneLine",          NULL ),
-    menu_name ( "ViewMenu",     "ShowTwoLines",         NULL ),
-    menu_name ( "ViewMenu",     "ShowThreeLines",       NULL ),
-    menu_name ( "ViewMenu",     "ShowFourLines",        NULL ),
-    menu_name ( "ViewMenu",     "InitwidthCol",         NULL ),
-    NULL,
+        "/menubar/ViewMenu/ShowTransactionForm",
+        "/menubar/ViewMenu/ShowGrid",
+        "/menubar/ViewMenu/ShowReconciled",
+        "/menubar/ViewMenu/ShowArchived",
+        "/menubar/ViewMenu/ShowClosed",
+        "/menubar/ViewMenu/ShowOneLine",
+        "/menubar/ViewMenu/ShowTwoLines",
+        "/menubar/ViewMenu/ShowThreeLines",
+        "/menubar/ViewMenu/ShowFourLines",
+        "/menubar/ViewMenu/InitwidthCol",
+        NULL
     };
     gchar **tmp = items;
 
@@ -731,7 +731,7 @@ void menus_view_sensitifs ( gboolean sensitif )
 
     while ( *tmp )
     {
-        gsb_gui_sensitive_menu_item_from_string ( *tmp, sensitif );
+        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
         tmp++;
     }
 }
