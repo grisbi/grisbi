@@ -50,6 +50,8 @@
 
 
 /*START_EXTERN*/
+extern GdkColor couleur_selection;
+extern GdkColor text_color[2];
 extern GtkWidget *window;
 /*END_EXTERN*/
 
@@ -258,7 +260,7 @@ gboolean lance_navigateur_web ( const gchar *url )
  * \param fill Give all available space to padding box or not
  * \param title Title to display on top of the paddingbox
  */
-GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, const gchar *title)
+GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gchar *title)
 {
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;
@@ -320,8 +322,8 @@ GtkWidget *new_paddingbox_with_title (GtkWidget * parent, gboolean fill, const g
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
-GtkWidget *new_vbox_with_title_and_icon ( gchar * title,
-                        gchar * image_filename)
+GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
+                        gchar *image_filename)
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
     GtkStyle * style;
@@ -457,7 +459,7 @@ void update_ecran ( void )
 /******************************************************************************/
 
 
-void register_button_as_linked ( GtkWidget * widget, GtkWidget * linked )
+void register_button_as_linked ( GtkWidget *widget, GtkWidget *linked )
 {
     GSList * links;
 
@@ -474,7 +476,7 @@ void register_button_as_linked ( GtkWidget * widget, GtkWidget * linked )
  *
  *
  */
-gboolean radio_set_active_linked_widgets ( GtkWidget * widget )
+gboolean radio_set_active_linked_widgets ( GtkWidget *widget )
 {
     GSList * links;
 
@@ -531,6 +533,17 @@ void lance_mailer ( const gchar *uri )
     }
     g_free ( chaine );
 }
+
+
+void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
+{
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+
+    gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, &text_color[0] );
+    gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, &text_color[0] );
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
