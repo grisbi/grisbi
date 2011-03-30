@@ -48,6 +48,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
@@ -64,7 +65,6 @@
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 

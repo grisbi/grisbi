@@ -114,7 +114,7 @@ GtkWidget *onglet_imputations ( void )
     budgetary_line_tree = gtk_tree_view_new();
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( budgetary_line_tree, GTK_STATE_SELECTED, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( budgetary_line_tree );
 
     budgetary_line_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS,
 						     META_TREE_COLUMN_TYPES );

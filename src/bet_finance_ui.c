@@ -38,6 +38,7 @@
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
@@ -51,7 +52,6 @@
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
