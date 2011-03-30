@@ -106,7 +106,7 @@ GtkWidget *onglet_categories ( void )
     arbre_categ = gtk_tree_view_new();
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( arbre_categ, GTK_STATE_SELECTED, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( arbre_categ );
 
     categ_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 

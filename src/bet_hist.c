@@ -44,6 +44,7 @@
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -214,8 +215,7 @@ GtkWidget *bet_historical_create_page ( void )
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_treeview", tree_view );
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     gtk_widget_show_all ( page );
 

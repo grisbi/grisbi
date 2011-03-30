@@ -38,6 +38,7 @@
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
@@ -51,7 +52,6 @@
 #include "utils_file_selection.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -302,8 +302,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE );
@@ -1168,8 +1167,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, TRUE );
@@ -1608,8 +1606,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
     toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE );

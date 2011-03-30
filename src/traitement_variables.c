@@ -188,6 +188,7 @@ GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_bleue;
 GdkColor couleur_jaune;
+GdkColor couleur_noire;
 
 /* colors for the balance estimate modul */
 GdkColor couleur_bet_division;
