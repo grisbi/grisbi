@@ -861,7 +861,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="button2_categ">
-                    <property name="label" translatable="yes">Select all</property>
+                    <property name="label" translatable="yes">Unselect all</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -908,7 +908,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToggleButton" id="togglebutton_categ_etat">
+                  <object class="GtkToggleButton" id="togglebutton_expand_categ">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>

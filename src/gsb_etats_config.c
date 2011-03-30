@@ -69,6 +69,9 @@ static gint gsb_etats_config_categ_budget_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
                         gchar *sw_name );
+static gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
+                        gchar *path_str,
+                        GtkTreeStore *store );
 static gchar *gsb_etats_config_get_full_path ( const gchar *name );
 static GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name );
@@ -101,13 +104,12 @@ static gboolean gsb_etats_config_report_tree_selectable_func (GtkTreeSelection *
 static gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 static gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *selection, GtkWidget *widget );
-static void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebutton, GtkWidget *tree_view );
+static void gsb_etats_config_togglebutton_expand_categ ( GtkToggleButton *togglebutton, GtkWidget *tree_view );
 
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_general;
 extern GtkWidget *window;
@@ -356,9 +358,9 @@ GtkWidget *gsb_etats_config_get_report_tree_view ( void )
     /* Create container + TreeView */
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( report_tree_model ) );
     g_object_unref ( G_OBJECT ( report_tree_model ) );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
-/*     gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, &couleur_selection );  */
+
+    /* set the color of selected row */
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* make column */
     cell = gtk_cell_renderer_text_new ( );
@@ -641,6 +643,7 @@ GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
                         gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ) ),
                         10 );
 
+    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ), FALSE );
     gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ), FALSE );
 
     /* on met la connection pour rendre sensitif la frame vbox_utilisation_date */
@@ -1034,7 +1037,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
                         gsb_etats_config_get_variable_by_name ( "vbox_detaille_categ_etat", NULL ) );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    button = gsb_etats_config_get_variable_by_name ( "togglebutton_categ_etat", NULL );
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_expand_categ", NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
                         gsb_etats_config_get_variable_by_name ( "hbox_toggle_expand_categ", NULL ) );
     g_object_set_data ( G_OBJECT ( button ), "hbox_collapse",
@@ -1042,7 +1045,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
 
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
-                        G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
+                        G_CALLBACK ( gsb_etats_config_togglebutton_expand_categ ),
                         gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" ) );
 
     return vbox_onglet;
@@ -1086,6 +1089,10 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
     /* create the tree view */
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
+
+    /* set the color of selected row */
+    utils_set_tree_view_selection_and_text_color ( tree_view );
+
     g_object_unref ( G_OBJECT ( store ) );
 
     /* create the column */
@@ -1093,7 +1100,7 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
 
     /* create the toggle button part */
     radio_renderer = gtk_cell_renderer_toggle_new ();
-    g_object_set ( G_OBJECT (radio_renderer), "xalign", 0.0, NULL );
+    g_object_set ( G_OBJECT ( radio_renderer ), "xalign", 0.0, NULL );
 
     gtk_tree_view_column_pack_start ( column,
                         radio_renderer,
@@ -1103,11 +1110,10 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
                         "active", 1,
                         "activatable", 2,
                         NULL);
-/*     g_signal_connect ( G_OBJECT ( radio_renderer ),
- *                         "toggled",
- *                         G_CALLBACK ( report_config_categ_budget_toggled ),
- *                         store );
- */
+    g_signal_connect ( G_OBJECT ( radio_renderer ),
+                        "toggled",
+                        G_CALLBACK ( gsb_etats_config_categ_budget_toggled ),
+                        store );
 
     /* create the text part */
     cell_renderer = gtk_cell_renderer_text_new ( );
@@ -1134,6 +1140,147 @@ GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name )
 
     return sw;
 }
+
+
+/**
+ * callback if we toggle a checkbox in the category/budget list
+ * if we toggle a div, toggle all the sub-div
+ * if we toggle a sub-div, toggle also the div
+ *
+ * \param radio_renderer
+ * \param path          the string of path
+ * \param store         the GtkTreeStore of categ/budget
+ *
+ * \return FALSE
+ * */
+gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
+                        gchar *path_str,
+                        GtkTreeStore *store )
+{
+    GtkTreePath *path;
+    GtkTreeIter iter;
+    GtkTreeIter iter_children;
+    gboolean toggle_value;
+
+    g_return_val_if_fail (path_str != NULL, FALSE);
+    g_return_val_if_fail (store != NULL && GTK_IS_TREE_STORE (store), FALSE);
+
+    /* first get the iter and the value of the checkbutton */
+    path = gtk_tree_path_new_from_string (path_str);
+    gtk_tree_model_get_iter ( GTK_TREE_MODEL ( store ), &iter, path );
+    gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
+                        &iter,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, &toggle_value,
+                        -1 );
+
+    /* ok, we invert the button */
+    toggle_value = !toggle_value;
+
+    gtk_tree_store_set ( GTK_TREE_STORE ( store ),
+                        &iter,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
+                        -1 );
+
+    /* if we are on a mother, we set the same value to all the children */
+    if (gtk_tree_model_iter_children ( GTK_TREE_MODEL ( store ), &iter_children, &iter ) )
+    {
+        /* we are on the children */
+        do
+            gtk_tree_store_set ( GTK_TREE_STORE (store),
+                        &iter_children,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
+                        -1 );
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter_children ) );
+    }
+
+    /* if we are activating a child, activate the mother */
+    if (toggle_value
+     &&
+     gtk_tree_model_iter_parent ( GTK_TREE_MODEL ( store ), &iter_children, &iter ) )
+        gtk_tree_store_set ( GTK_TREE_STORE ( store ),
+                        &iter_children,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
+                        -1 );
+
+    gtk_tree_path_free ( path );
+
+    return FALSE;
+}
+
+
+/**
+ * select or unselect all the categories
+ *
+ * \param button
+ * \param select_ptr    TRUE or FALSE to select/unselect all
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_etats_config_category_select_all ( GtkWidget *button,
+                        gboolean *select_ptr )
+{
+/*    return ( gsb_etats_config_mix_select_all ( model_categ, GPOINTER_TO_INT ( select_ptr ) ) ); */
+}
+
+
+
+/**
+ * select or unselect all the budgets
+ *
+ * \param button
+ * \param select_ptr    TRUE or FALSE to select/unselect all
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_etats_config_budget_select_all ( GtkWidget *button,
+                        gboolean *select_ptr )
+{
+/*    return ( gsb_etats_config_mix_select_all ( model_budget, GPOINTER_TO_INT ( select_ptr ) ) ); */
+}
+
+
+
+/**
+ * select or unselect all the budgets or categories
+ *
+ * \param model         the model to fill (is model_categ or model_budget
+ * \param select_ptr    TRUE or FALSE to select/unselect all
+ *
+ * \return FALSE
+ * */
+static gboolean gsb_etats_config_mix_select_all ( GtkTreeModel *model,
+                        gboolean toggle_value )
+{
+    GtkTreeIter parent_iter;
+
+    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+        return FALSE;
+
+    do
+    {
+        GtkTreeIter iter_children;
+
+        gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &parent_iter,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
+                        -1 );
+
+        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter_children, &parent_iter ) )
+        {
+            /* we are on the children */
+            do
+                gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter_children,
+                        GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE, toggle_value,
+                        -1 );
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter_children ) );
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
+
+    return FALSE;
+}
+
 
 
 /**
@@ -1281,7 +1428,7 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
  *
  *
  */
-void gsb_etats_config_togglebutton_categ_etat ( GtkToggleButton *togglebutton, GtkWidget *tree_view )
+void gsb_etats_config_togglebutton_expand_categ ( GtkToggleButton *togglebutton, GtkWidget *tree_view )
 {
     GtkWidget *hbox_expand;
     GtkWidget *hbox_collapse;
@@ -1348,7 +1495,7 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
 
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
-                        G_CALLBACK ( gsb_etats_config_togglebutton_categ_etat ),
+                        G_CALLBACK ( gsb_etats_config_togglebutton_expand_categ ),
                         gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" ) );
 
     return vbox_onglet;
@@ -1835,8 +1982,7 @@ GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     gtk_tree_selection_set_mode (
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
