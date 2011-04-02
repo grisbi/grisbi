@@ -69,7 +69,7 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
                         gint new_page );
 static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
                         gint new_page );
-static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
                         gint new_page );
 static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant );
 /*END_STATIC*/
@@ -170,7 +170,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
 			     ARCHIVE_ASSISTANT_SUCCESS,
 			     ARCHIVE_ASSISTANT_MENU,
 			     0,
-			     G_CALLBACK (gsb_assistant_archive_switch_to_succes));
+			     G_CALLBACK (gsb_assistant_archive_switch_to_success));
     return_value = gsb_assistant_run (assistant);
     gtk_widget_destroy (assistant);
 
@@ -626,7 +626,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
  *
  * \return FALSE
  * */
-static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
+static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
                         gint new_page )
 {
     /* if we come here, we are sure that :
@@ -711,11 +711,12 @@ static gboolean gsb_assistant_archive_switch_to_succes ( GtkWidget *assistant,
     gsb_transactions_list_fill_archive_store ( );
 
     /* set the message */
+    guint archived_transaction_count = g_slist_length (list_transaction_to_archive);
     string = g_strdup_printf ( _("Archive '%s' was successfully created and %d transactions "
                                  "out of %d were archived.\n\n"),
                         gsb_data_archive_get_name (archive_number),
-                        g_slist_length (list_transaction_to_archive),
-                        g_slist_length (list_transaction_to_archive) +
+                        archived_transaction_count,
+                        archived_transaction_count +
                         g_slist_length (gsb_data_transaction_get_transactions_list ()));
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (congratulations_view));
