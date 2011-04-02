@@ -1084,12 +1084,11 @@ GtkWidget *import_create_final_page ( GtkWidget *assistant )
 
     gtk_text_buffer_insert (buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        _("Import terminated"), -1,
+                        _("Import settings completed successfully"), -1,
                         "x-large", NULL);
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
     gtk_text_buffer_insert (buffer, &iter,
-                        _("You have successfully set up transactions import into Grisbi. "
-                          "Press the 'Close' button to terminate import."),
+                        _("Press the 'Close' button to finish the import."),
                         -1 );
     gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 

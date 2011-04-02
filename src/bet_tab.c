@@ -148,7 +148,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gchar* bet_duration_array[];
 extern GdkColor couleur_bet_division;
 extern GdkColor couleur_bet_future;
 extern GdkColor couleur_selection;
