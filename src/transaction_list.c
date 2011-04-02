@@ -305,7 +305,8 @@ void transaction_list_append_archive (gint archive_store_number)
 
     custom_list = transaction_model_get_model ();
 
-    g_return_if_fail ( custom_list != NULL );
+    if ( custom_list == NULL )
+        return;
 
     /* get the new number of the first row in the complete list of row */
     pos = custom_list->num_rows;
@@ -385,15 +386,16 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
 
     custom_list = transaction_model_get_model ();
 
-    g_return_val_if_fail ( custom_list != NULL, FALSE);
+    if ( custom_list == NULL )
+        return FALSE;
 
     /* get the record */
     if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
-	return FALSE;
+        return FALSE;
 
     record = iter.user_data;
     if (!record)
-	return FALSE;
+        return FALSE;
 
     /* if selected transaction, remove it */
     if (record == custom_list -> selected_row)

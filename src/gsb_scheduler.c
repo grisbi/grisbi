@@ -84,10 +84,6 @@ gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
 {
     GDate *new_date;
 
-    gchar* tmpstr = g_strdup_printf ("%d", scheduled_number);
-    devel_debug ( tmpstr );
-    g_free ( tmpstr );
-
     g_return_val_if_fail ( g_date_valid (gsb_data_scheduled_get_date (scheduled_number)), TRUE );
 
     /* increase the date of the scheduled_transaction */
