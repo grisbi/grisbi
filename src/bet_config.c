@@ -90,7 +90,7 @@ extern GtkTreeModel *bet_fyear_model_filter;
 extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
-gchar* bet_duration_array[] = {
+static gchar* bet_duration_array[] = {
     N_("Month"),
     N_("Year"),
     NULL
