@@ -114,7 +114,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -525,7 +524,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     }
 
     dialog = gtk_dialog_new_with_buttons ( _("Enter exchange rate"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_OK, GTK_RESPONSE_OK,

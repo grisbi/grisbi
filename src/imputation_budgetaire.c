@@ -85,7 +85,6 @@ static struct metatree_hold_position *budgetary_hold_position;
 /*START_EXTERN*/
 extern MetatreeInterface * budgetary_interface;
 extern GdkColor couleur_selection;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -384,7 +383,7 @@ void exporter_ib ( void )
     gchar *nom_ib;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -433,7 +432,7 @@ void importer_ib ( void )
     GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -699,7 +698,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title ,
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,

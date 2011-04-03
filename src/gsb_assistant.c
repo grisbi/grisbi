@@ -47,7 +47,6 @@ static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookP
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -77,14 +76,14 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 	gchar* tmpstr;
 
     assistant = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
 					   NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
-    g_object_set_data ( G_OBJECT ( window ), "assistant", assistant );
+    g_object_set_data ( G_OBJECT ( run.window ), "assistant", assistant );
 
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),
 					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );

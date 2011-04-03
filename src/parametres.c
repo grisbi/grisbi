@@ -129,7 +129,6 @@ extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern GtkWidget *payee_tree;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -263,7 +262,7 @@ gboolean preferences ( gint page )
 
     /* Create dialog */
     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                         NULL );
@@ -949,7 +948,7 @@ GtkWidget *onglet_fichier ( void )
     /* on passe par une fonction intermédiaire pour pallier à un bug
      * du gtk_file_chooser_button_new qui donne le répertoire home
      * lorsque l'on annule le choix du nouveau répertoire */
-    dialog = utils_files_create_file_chooser ( window,
+    dialog = utils_files_create_file_chooser ( run.window,
                         _("Select/Create backup directory") );
 
     button = gtk_file_chooser_button_new_with_dialog ( dialog );

@@ -82,7 +82,6 @@ extern GtkWidget *main_vbox;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 GtkWidget *combo_devise_totaux_tiers;
@@ -945,7 +944,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     GtkTreeModel *model;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, 1,
 					   NULL );

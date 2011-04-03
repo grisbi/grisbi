@@ -70,7 +70,6 @@ extern GtkWidget *main_hpaned;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* global variable, see structures.h */
@@ -532,8 +531,8 @@ gboolean gsb_file_config_save_config ( void )
 #endif
 
     /* get the geometry */
-    if ( GTK_WIDGET ( window) -> window ) 
-        gtk_window_get_size ( GTK_WINDOW ( window ),
+    if ( GTK_WIDGET ( run.window ) -> window ) 
+        gtk_window_get_size ( GTK_WINDOW ( run.window ),
                         &conf.main_width, &conf.main_height);
     else 
     {
@@ -1301,7 +1300,7 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename )
 	gchar *tmpstr;
 
     dialog = gtk_dialog_new_with_buttons ( _("Delete config file from a previous version"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_YES, GTK_RESPONSE_OK,
@@ -1388,7 +1387,7 @@ gchar *gsb_config_get_old_conf_name ( void )
                             NULL );
 
     dialog = gtk_dialog_new_with_buttons ( _("Choose a file"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_OK, GTK_RESPONSE_OK,

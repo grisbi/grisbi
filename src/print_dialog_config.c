@@ -34,6 +34,7 @@
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
+#include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -41,7 +42,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 static GtkPrintSettings *settings = NULL;
@@ -86,7 +86,7 @@ void print_dialog_config ( GCallback begin_callback,
 
 
     res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-				   GTK_WINDOW (window), NULL);
+				   GTK_WINDOW ( run.window ), NULL);
 
     if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
     {

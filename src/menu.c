@@ -79,7 +79,6 @@ extern GtkTreeModel * navigation_model;
 extern gsize nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -302,7 +301,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     gtk_action_group_add_actions (actions,
                         entries,
                         G_N_ELEMENTS ( entries ),
-                        (gpointer) window );
+                        (gpointer) run.window );
 
     gtk_action_group_add_radio_actions ( actions,
                         radio_entries, 
@@ -323,7 +322,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
                         NULL );
 
 #ifndef GTKOSXAPPLICATION
-    gtk_window_add_accel_group ( GTK_WINDOW ( window ),
+    gtk_window_add_accel_group ( GTK_WINDOW ( run.window ),
                         gtk_ui_manager_get_accel_group ( ui_manager ) );
 #endif /* GTKOSXAPPLICATION */
 

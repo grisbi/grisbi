@@ -85,7 +85,6 @@ static GtkWidget *reports_toolbar = NULL;
 extern struct struct_etat_affichage csv_affichage;
 extern struct struct_etat_affichage html_affichage;
 extern GtkWidget *notebook_general;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Different formats supported.  */
@@ -1095,7 +1094,7 @@ void exporter_etat ( void )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -1179,7 +1178,7 @@ void importer_etat ( void )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Import a report"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,

@@ -105,7 +105,6 @@ extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -180,7 +179,7 @@ void gsb_file_new_gui ( void )
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window"));
-    window_vbox_principale = g_object_get_data ( G_OBJECT ( window ), "window_vbox_principale" );
+    window_vbox_principale = g_object_get_data ( G_OBJECT ( run.window ), "window_vbox_principale" );
     gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(), TRUE, TRUE, 0 );
 
     /* create the model */
@@ -225,7 +224,7 @@ gboolean gsb_file_open_menu ( void )
     GtkFileFilter * filter;
 
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -805,7 +804,7 @@ static gint gsb_file_dialog_save ( void )
     /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
     /*     on prévient ici */
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW (window),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
 				      GTK_DIALOG_DESTROY_WITH_PARENT,
 				      GTK_MESSAGE_WARNING,
 				      GTK_BUTTONS_NONE,
@@ -889,7 +888,7 @@ static gchar *gsb_file_dialog_ask_name ( void )
     gint result;
 
     dialog = gtk_file_chooser_dialog_new ( _("Name the accounts file"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -1141,7 +1140,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
 
     dialog = gtk_dialog_new_with_buttons ( 
                         _("Delete file copy from a previous version of grisbi"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_YES, GTK_RESPONSE_OK,

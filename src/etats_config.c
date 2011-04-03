@@ -376,7 +376,6 @@ extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
 extern GtkWidget *notebook_general;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -404,7 +403,7 @@ void personnalisation_etat (void)
 				GSB_REPORTS_PAGE );
 
     dialog = gtk_dialog_new_with_buttons ( _("Report properties"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,

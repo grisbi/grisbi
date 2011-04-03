@@ -114,7 +114,6 @@ static GtkWidget *bank_notes;
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -997,7 +996,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 	return FALSE;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					   NULL );

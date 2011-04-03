@@ -31,10 +31,11 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "utils.h"
-#include "utils_dates.h"
 #include "gsb_plugins.h"
 #include "gsb_select_icon.h"
+#include "structures.h"
+#include "utils.h"
+#include "utils_dates.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -44,7 +45,6 @@ static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data
 
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -197,7 +197,7 @@ NULL};
     gtk_window_set_position ( GTK_WINDOW ( about ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
-    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( run.window ) );
 
     gtk_dialog_run ( GTK_DIALOG (about)) ;
 

@@ -70,7 +70,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 extern gchar *adresse_commune;
 extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum file_assistant_page
@@ -600,7 +599,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     gchar *tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

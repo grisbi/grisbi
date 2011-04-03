@@ -81,7 +81,6 @@ static gboolean gsb_form_config_update_form_config ( gint account_number );
 /*START_EXTERN*/
 extern GtkWidget *form_transaction_part;
 extern gint saved_allocation_size;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
