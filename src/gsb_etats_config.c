@@ -65,6 +65,8 @@ static GtkWidget *gsb_etats_config_affichage_etat_devises ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_generalites ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_operations ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_titres ( void );
+static gboolean gsb_etats_config_budget_select_all ( GtkWidget *button,
+                        gboolean *select_ptr );
 static gint gsb_etats_config_categ_budget_sort_function ( GtkTreeModel *model,
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
@@ -104,7 +106,11 @@ static gboolean gsb_etats_config_report_tree_selectable_func (GtkTreeSelection *
 static gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 static gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *selection, GtkWidget *widget );
-static void gsb_etats_config_togglebutton_expand_categ ( GtkToggleButton *togglebutton, GtkWidget *tree_view );
+static void gsb_etats_config_togglebutton_check_uncheck_all ( GtkTreeModel *model,
+                        gboolean toggle_value );
+static void gsb_etats_config_togglebutton_collapse_expand_lines ( GtkToggleButton *togglebutton, GtkWidget *tree_view );
+static void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
+                        GtkWidget *tree_view );
 
 /*END_STATIC*/
 
@@ -174,7 +180,7 @@ static gchar *etats_config_jours_semaine[] =
 */
 
 
-static gchar *champs_type_recherche_texte[] =
+/*static gchar *champs_type_recherche_texte[] =
 {
     N_("payee"),
     N_("payee information"),
@@ -189,9 +195,9 @@ static gchar *champs_type_recherche_texte[] =
     N_("reconciliation reference"),
     NULL
 };
+*/
 
-
-static gchar *champs_comparateur_montant[] =
+/*static gchar *champs_comparateur_montant[] =
 {
     N_("equal"),
     N_("less than"),
@@ -205,7 +211,7 @@ static gchar *champs_comparateur_montant[] =
     N_("negative"),
     NULL
 };
-
+*/
 
 /**
  * affiche la fenetre de personnalisation
@@ -1011,6 +1017,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
     GtkWidget *sw;
+    GtkWidget *tree_view;
     GtkWidget *button;
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_categories" ) );
@@ -1023,8 +1030,9 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
     gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
                         "vbox_detaille_categ_etat", NULL ), FALSE );
 
-    /* on crée la liste des catégories */
+    /* on crée la liste des catégories et on récupère le tree_view*/
     sw = gsb_etats_config_get_liste_categ_budget ( "sw_categ" );
+    tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" );
 
     /* on remplit la liste des catégories */
     gsb_etats_config_fill_liste_categ_budget ( TRUE );
@@ -1036,7 +1044,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gsb_etats_config_get_variable_by_name ( "vbox_detaille_categ_etat", NULL ) );
 
-    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    /* on met la connection pour déplier replier les catégories */
     button = gsb_etats_config_get_variable_by_name ( "togglebutton_expand_categ", NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
                         gsb_etats_config_get_variable_by_name ( "hbox_toggle_expand_categ", NULL ) );
@@ -1045,8 +1053,20 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
 
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
-                        G_CALLBACK ( gsb_etats_config_togglebutton_expand_categ ),
-                        gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" ) );
+                        G_CALLBACK ( gsb_etats_config_togglebutton_collapse_expand_lines ),
+                        tree_view );
+
+    /* on met la connection pour (dé)sélectionner toutes les catégories */
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_select_all_categ", NULL );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_select_all",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_select_all_categ", NULL ) );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_unselect_all",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_unselect_all_categ", NULL ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_etats_config_togglebutton_select_all ),
+                        tree_view );
+
 
     return vbox_onglet;
 }
@@ -1216,45 +1236,49 @@ gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *radio_re
  *
  * \return FALSE
  * */
-static gboolean gsb_etats_config_category_select_all ( GtkWidget *button,
-                        gboolean *select_ptr )
+void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
+                        GtkWidget *tree_view )
 {
-/*    return ( gsb_etats_config_mix_select_all ( model_categ, GPOINTER_TO_INT ( select_ptr ) ) ); */
+    GtkTreeModel *model;
+    GtkWidget *hbox_select_all;
+    GtkWidget *hbox_unselect_all;
+    gboolean toggle_value;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    toggle_value = gtk_toggle_button_get_active ( togglebutton );
+    hbox_select_all = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_select_all" );
+    hbox_unselect_all = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_unselect_all" );
+
+    if ( gtk_toggle_button_get_active ( togglebutton ) )
+    {
+        gtk_widget_hide ( hbox_select_all );
+        gtk_widget_show ( hbox_unselect_all );
+    }
+    else
+    {
+        gtk_widget_show ( hbox_select_all );
+        gtk_widget_hide ( hbox_unselect_all );
+    }
+
+   gsb_etats_config_togglebutton_check_uncheck_all ( model, toggle_value );
 }
 
 
-
 /**
- * select or unselect all the budgets
- *
- * \param button
- * \param select_ptr    TRUE or FALSE to select/unselect all
- *
- * \return FALSE
- * */
-static gboolean gsb_etats_config_budget_select_all ( GtkWidget *button,
-                        gboolean *select_ptr )
-{
-/*    return ( gsb_etats_config_mix_select_all ( model_budget, GPOINTER_TO_INT ( select_ptr ) ) ); */
-}
-
-
-
-/**
- * select or unselect all the budgets or categories
+ * check or uncheck all the budgets or categories
  *
  * \param model         the model to fill (is model_categ or model_budget
  * \param select_ptr    TRUE or FALSE to select/unselect all
  *
  * \return FALSE
  * */
-static gboolean gsb_etats_config_mix_select_all ( GtkTreeModel *model,
+void gsb_etats_config_togglebutton_check_uncheck_all ( GtkTreeModel *model,
                         gboolean toggle_value )
 {
     GtkTreeIter parent_iter;
 
     if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
-        return FALSE;
+        return;
 
     do
     {
@@ -1277,10 +1301,35 @@ static gboolean gsb_etats_config_mix_select_all ( GtkTreeModel *model,
         }
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
-
-    return FALSE;
 }
 
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_togglebutton_collapse_expand_lines ( GtkToggleButton *togglebutton, GtkWidget *tree_view )
+{
+    GtkWidget *hbox_expand;
+    GtkWidget *hbox_collapse;
+
+    hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
+    hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
+
+    if ( gtk_toggle_button_get_active ( togglebutton ) )
+    {
+        gtk_widget_hide ( hbox_expand );
+        gtk_widget_show ( hbox_collapse );
+        gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+    else
+    {
+        gtk_widget_show ( hbox_expand );
+        gtk_widget_hide ( hbox_collapse );
+        gtk_tree_view_collapse_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+}
 
 
 /**
@@ -1428,39 +1477,12 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
  *
  *
  */
-void gsb_etats_config_togglebutton_expand_categ ( GtkToggleButton *togglebutton, GtkWidget *tree_view )
-{
-    GtkWidget *hbox_expand;
-    GtkWidget *hbox_collapse;
-
-    hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
-    hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
-
-    if ( gtk_toggle_button_get_active ( togglebutton ) )
-    {
-        gtk_widget_hide ( hbox_expand );
-        gtk_widget_show ( hbox_collapse );
-        gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
-    }
-    else
-    {
-        gtk_widget_show ( hbox_expand );
-        gtk_widget_hide ( hbox_collapse );
-        gtk_tree_view_collapse_all ( GTK_TREE_VIEW ( tree_view ) );
-    }
-}
-
-
-/**
- *
- *
- *
- */
 GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
     GtkWidget *sw;
+    GtkWidget *tree_view;
     GtkWidget *button;
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_ib" ) );
@@ -1473,8 +1495,9 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
     gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
                         "vbox_detaille_budget_etat", NULL ), FALSE );
 
-    /* on crée la liste des IB */
+    /* on crée la liste des IB et on récupère le tree_view*/
     sw = gsb_etats_config_get_liste_categ_budget ( "sw_budget" );
+    tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" );
 
     /* on remplit la liste des IB */
     gsb_etats_config_fill_liste_categ_budget ( FALSE );
@@ -1486,8 +1509,8 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gsb_etats_config_get_variable_by_name ( "vbox_detaille_budget_etat", NULL ) );
 
-    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    button = gsb_etats_config_get_variable_by_name ( "togglebutton_budget_etat", NULL );
+    /* on met la connection pour déplier replier les IB */
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_expand_budget", NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
                         gsb_etats_config_get_variable_by_name ( "hbox_toggle_expand_budget", NULL ) );
     g_object_set_data ( G_OBJECT ( button ), "hbox_collapse",
@@ -1495,8 +1518,19 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
 
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
-                        G_CALLBACK ( gsb_etats_config_togglebutton_expand_categ ),
-                        gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" ) );
+                        G_CALLBACK ( gsb_etats_config_togglebutton_collapse_expand_lines ),
+                        tree_view );
+
+    /* on met la connection pour sélectionner toutes les IB */
+    button = gsb_etats_config_get_variable_by_name ( "togglebutton_select_all_budget", NULL );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_select_all",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_select_all_budget", NULL ) );
+    g_object_set_data ( G_OBJECT ( button ), "hbox_unselect_all",
+                        gsb_etats_config_get_variable_by_name ( "hbox_toggle_unselect_all_budget", NULL ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_etats_config_togglebutton_select_all ),
+                        tree_view );
 
     return vbox_onglet;
 }
