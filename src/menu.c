@@ -88,7 +88,7 @@ static gint merge_id = -1;
 static gint recent_files_merge_id = -1;
 static gint move_to_account_merge_id = -1;
 
-static gchar *ui_manager_buffer = 
+static const gchar *ui_manager_buffer =
 "<ui>"
 "  <menubar>"
 "    <menu name='FileMenu' action='FileMenuAction' >"
