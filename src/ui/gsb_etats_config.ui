@@ -457,13 +457,73 @@
                 <property name="orientation">vertical</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="button1_comptes">
-                    <property name="label" translatable="yes">Select all</property>
+                  <object class="GtkToggleButton" id="togglebutton_select_all_comptes">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.019999999552965164</property>
+                    <property name="xalign">0.05000000074505806</property>
+                    <property name="yalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment5">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="xscale">0</property>
+                        <property name="yscale">0</property>
+                        <child>
+                          <object class="GtkVBox" id="vbox15">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_select_all_comptes">
+                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label18">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Select all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_unselect_all_comptes">
+                                <property name="no_show_all">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label19">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Unselect all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -473,13 +533,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button2_comptes">
-                    <property name="label" translatable="yes">Unselect all</property>
+                  <object class="GtkButton" id="button_bank_comptes">
+                    <property name="label" translatable="yes">Select bank accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.029999999329447746</property>
+                    <property name="xalign">0.05000000074505806</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -489,8 +549,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button3_comptes">
-                    <property name="label" translatable="yes">Select bank accounts</property>
+                  <object class="GtkButton" id="button_cash_comptes">
+                    <property name="label" translatable="yes">Select cash accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -505,8 +565,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button4_comptes">
-                    <property name="label" translatable="yes">Select cash accounts</property>
+                  <object class="GtkButton" id="button_liabilities_comptes">
+                    <property name="label" translatable="yes">Select liabilities accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -521,23 +581,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button5_comptes">
-                    <property name="label" translatable="yes">Select liabilities accounts</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button6_comptes">
+                  <object class="GtkButton" id="button_assets_comptes">
                     <property name="label" translatable="yes">Select assets accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -549,7 +593,7 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="padding">10</property>
-                    <property name="position">5</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>
@@ -660,13 +704,73 @@
             <property name="orientation">vertical</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkButton" id="button1_virements">
-                <property name="label" translatable="yes">Select all</property>
+              <object class="GtkToggleButton" id="togglebutton_select_all_virements">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="relief">none</property>
-                <property name="xalign">0.019999999552965164</property>
+                <property name="xalign">0.05000000074505806</property>
+                <property name="yalign">0</property>
+                <property name="draw_indicator">True</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment6">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="xscale">0</property>
+                    <property name="yscale">0</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox16">
+                        <property name="visible">True</property>
+                        <property name="orientation">vertical</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox_toggle_select_all_virements">
+                            <property name="visible">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label20">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Select all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="hbox_toggle_unselect_all_virements">
+                            <property name="no_show_all">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label21">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Unselect all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -676,13 +780,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button2_virements">
-                <property name="label" translatable="yes">Unselect all</property>
+              <object class="GtkButton" id="button_bank_virements">
+                <property name="label" translatable="yes">Select bank accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="relief">none</property>
-                <property name="xalign">0.029999999329447746</property>
+                <property name="xalign">0.05000000074505806</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -692,8 +796,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button3_virements">
-                <property name="label" translatable="yes">Select bank accounts</property>
+              <object class="GtkButton" id="button_cash_virements">
+                <property name="label" translatable="yes">Select cash accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -708,8 +812,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button4_virements">
-                <property name="label" translatable="yes">Select cash accounts</property>
+              <object class="GtkButton" id="button_liabilities_virements">
+                <property name="label" translatable="yes">Select liabilities accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -724,23 +828,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button5_virements">
-                <property name="label" translatable="yes">Select liabilities accounts</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button6_virements">
+              <object class="GtkButton" id="button_assets_virements">
                 <property name="label" translatable="yes">Select assets accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -752,7 +840,7 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="padding">10</property>
-                <property name="position">5</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>
@@ -1411,35 +1499,79 @@
                 <property name="orientation">vertical</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="button1_tiers">
-                    <property name="label" translatable="yes">Select all</property>
+                  <object class="GtkToggleButton" id="togglebutton_select_all_tiers">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.019999999552965164</property>
+                    <property name="xalign">0.05000000074505806</property>
+                    <property name="yalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment7">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="xscale">0</property>
+                        <property name="yscale">0</property>
+                        <child>
+                          <object class="GtkVBox" id="vbox17">
+                            <property name="visible">True</property>
+                            <property name="orientation">vertical</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_select_all_tiers">
+                                <property name="visible">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label22">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Select all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_unselect_all_tiers">
+                                <property name="no_show_all">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label23">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Unselect all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="padding">10</property>
                     <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button2_tiers">
-                    <property name="label" translatable="yes">Unselect all</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.029999999329447746</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
