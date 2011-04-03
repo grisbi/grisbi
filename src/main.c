@@ -285,10 +285,10 @@ void main_mac_osx ( int argc, char **argv )
                         NULL );
     }
     menubar = gsb_grisbi_create_main_menu ( vbox );
-    grisbi_osx_init_menus ( window, menubar );
+    grisbi_osx_init_menus ( run.window, menubar );
     main_window_set_size_and_position ( );
 
-    gtk_widget_show ( window );
+    gtk_widget_show ( run.window );
 
 #if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
@@ -371,7 +371,7 @@ void main_win_32 (  int argc, char **argv )
     gsb_grisbi_create_main_menu ( vbox );
     main_window_set_size_and_position ( );
 
-    gtk_widget_show ( window );
+    gtk_widget_show ( run.window );
 
 #if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
