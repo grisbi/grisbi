@@ -110,7 +110,6 @@ extern GtkWidget *logo_accueil;
 extern GdkColor split_background;
 extern GdkColor text_color[2];
 extern gchar *titre_fichier;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 

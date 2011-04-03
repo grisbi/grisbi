@@ -34,6 +34,7 @@
 /*START_INCLUDE*/
 #include "gsb_status.h"
 #include "main.h"
+#include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/
 
@@ -41,7 +42,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** Status bar displayed in the bottom of Grisbi window.  */
@@ -141,15 +141,16 @@ void gsb_status_wait ( gboolean force_update )
 {
     GdkWindow * current_window;
 
-    gdk_window_set_cursor ( window -> window, 
+    gdk_window_set_cursor ( run.window -> window, 
 			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
 							 GDK_WATCH ) );
 
     current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ),
 							 NULL, NULL );
 
-    if ( current_window && GDK_IS_WINDOW ( current_window ) &&
-	 current_window != window -> window )
+    if ( current_window && GDK_IS_WINDOW ( current_window )
+     &&
+	 current_window != run.window -> window )
     {
 	GdkWindow * parent = gdk_window_get_toplevel ( current_window );
 	
@@ -181,10 +182,10 @@ void gsb_status_wait ( gboolean force_update )
  */
 void gsb_status_stop_wait ( gboolean force_update )
 {
-    if ( ! window )
+    if ( ! run.window )
 	return;
 
-    gdk_window_set_cursor ( window -> window, NULL );
+    gdk_window_set_cursor ( run.window -> window, NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
     {

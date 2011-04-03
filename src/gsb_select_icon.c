@@ -55,7 +55,6 @@ static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 static GtkWidget * dialog;
@@ -161,7 +160,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
-                            GTK_WINDOW ( window ),
+                            GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                             GTK_STOCK_CANCEL,
                             GTK_RESPONSE_REJECT,

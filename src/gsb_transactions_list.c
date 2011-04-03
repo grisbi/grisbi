@@ -179,7 +179,6 @@ extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_general;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** All delete messages */
@@ -1746,7 +1745,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gint reconcile_number;
 
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,

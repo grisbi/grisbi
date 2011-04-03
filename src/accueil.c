@@ -102,7 +102,6 @@ extern GtkWidget *form_transaction_part;
 extern gsb_real null_real;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 GtkWidget *logo_accueil = NULL;
@@ -309,7 +308,7 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,

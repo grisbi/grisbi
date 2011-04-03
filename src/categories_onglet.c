@@ -82,7 +82,6 @@ struct metatree_hold_position *category_hold_position;
 /*START_EXTERN*/
 extern MetatreeInterface * category_interface;
 extern GdkColor couleur_selection;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -360,7 +359,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     gchar *nom_categ;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -403,7 +402,7 @@ void importer_categ ( void )
     GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -665,7 +664,7 @@ gboolean edit_category ( GtkTreeView * view )
 										       _("No category defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,

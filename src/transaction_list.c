@@ -79,7 +79,6 @@ extern GSList *orphan_child_transactions;
 extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern GdkColor text_color[2];
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 

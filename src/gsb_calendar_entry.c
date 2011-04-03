@@ -38,8 +38,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_calendar_entry.h"
-#include "utils_dates.h"
 #include "gsb_form_widget.h"
+#include "structures.h"
+#include "utils_dates.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -68,7 +69,6 @@ static void gsb_calendar_entry_step_date ( GtkWidget *entry,
 
 /*START_EXTERN*/
 extern GdkColor calendar_entry_color;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 #define ENTRY_NORMAL 0
@@ -454,7 +454,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     popup = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_modal ( GTK_WINDOW ( popup ), TRUE );
     gtk_window_set_transient_for ( GTK_WINDOW ( popup ),
-                        GTK_WINDOW ( window ) );
+                        GTK_WINDOW ( run.window ) );
     gtk_window_set_decorated ( GTK_WINDOW ( popup ), FALSE );
     g_signal_connect_swapped ( G_OBJECT ( popup ),
 				"destroy",

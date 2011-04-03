@@ -95,17 +95,18 @@ static gboolean gsb_grisbi_init_app ( void );
 static void gsb_grisbi_load_file_if_necessary ( cmdline_options *opt );
 static gboolean gsb_grisbi_print_environment_var ( void );
 static void gsb_grisbi_trappe_signal_sigsegv ( void );
-static void gsb_main_free_global_definitions ( void );
 static void main_mac_osx ( int argc, char **argv );
 static void main_linux ( int argc, char **argv );
 static void main_win_32 (  int argc, char **argv );
 static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
 static void main_window_destroy_event ( GObject* obj, gpointer data);
 static void main_window_set_size_and_position ( void );
+static void gsb_main_struct_run_free ( void );
+static void gsb_main_struct_run_init ( void );
 /*END_STATIC*/
 
 /* Fenetre principale de grisbi */
-G_MODULE_EXPORT GtkWidget *window = NULL;
+/* G_MODULE_EXPORT GtkWidget *window = NULL;  */
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
@@ -133,7 +134,9 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
+    gsb_main_struct_run_init ( );
     gsb_dirs_init ( );
+
 #ifdef _WIN32
     main_win_32 (  argc, argv );
 #else
@@ -193,7 +196,7 @@ void main_linux ( int argc, char **argv )
     gsb_grisbi_create_main_menu ( vbox );
     main_window_set_size_and_position ( );
 
-    gtk_widget_show ( window );
+    gtk_widget_show ( run.window );
 
 #if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
@@ -468,25 +471,25 @@ GtkWidget *gsb_grisbi_create_top_window ( void )
     GtkWidget *statusbar;
 
     /* create the toplevel window */
-    window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
-    g_signal_connect ( G_OBJECT ( window ),
+    run.window = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
+    g_signal_connect ( G_OBJECT ( run.window ),
                         "delete_event",
                         G_CALLBACK ( main_window_delete_event ),
                         NULL);
-    g_signal_connect ( G_OBJECT ( window ),
+    g_signal_connect ( G_OBJECT ( run.window ),
                         "destroy",
                         G_CALLBACK ( main_window_destroy_event ),
                         NULL);
-    g_signal_connect ( G_OBJECT ( window ),
+    g_signal_connect ( G_OBJECT ( run.window ),
                         "window-state-event",
                         G_CALLBACK (gsb_grisbi_change_state_window),
                         NULL );
-    gtk_window_set_policy ( GTK_WINDOW ( window ), TRUE, TRUE, FALSE );
+    gtk_window_set_policy ( GTK_WINDOW ( run.window ), TRUE, TRUE, FALSE );
 
     /* create the main window : a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
-    g_object_set_data ( G_OBJECT ( window ), "window_vbox_principale", vbox );
-    gtk_container_add ( GTK_CONTAINER ( window ), vbox );
+    g_object_set_data ( G_OBJECT ( run.window ), "window_vbox_principale", vbox );
+    gtk_container_add ( GTK_CONTAINER ( run.window ), vbox );
     g_signal_connect ( G_OBJECT ( vbox ),
                         "destroy",
                         G_CALLBACK ( gtk_widget_destroyed ),
@@ -535,16 +538,16 @@ void main_window_set_size_and_position ( void )
 {
     /* set the size of the window */
     if ( conf.main_width && conf.main_height )
-        gtk_window_set_default_size ( GTK_WINDOW ( window ), conf.main_width, conf.main_height );
+        gtk_window_set_default_size ( GTK_WINDOW ( run.window ), conf.main_width, conf.main_height );
     else
-        gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
+        gtk_window_set_default_size ( GTK_WINDOW ( run.window ), 900, 600 );
 
     /* display window at position */
-    gtk_window_move ( GTK_WINDOW ( window ), conf.root_x, conf.root_y );
+    gtk_window_move ( GTK_WINDOW ( run.window ), conf.root_x, conf.root_y );
 
     /* set the full screen if necessary */
     if ( conf.full_screen )
-        gtk_window_maximize ( GTK_WINDOW ( window ) );
+        gtk_window_maximize ( GTK_WINDOW ( run.window ) );
 }
 
 
@@ -648,17 +651,17 @@ gboolean gsb_grisbi_close ( void )
 {
     devel_debug (NULL);
     /* sauvegarde la position de la fenetre principale */
-    gtk_window_get_position ( GTK_WINDOW ( window ), &conf.root_x, &conf.root_y  );
+    gtk_window_get_position ( GTK_WINDOW ( run.window ), &conf.root_x, &conf.root_y  );
 
-    if (! main_window_delete_event (window, NULL))
-        gtk_widget_destroy ( window );
+    if ( !main_window_delete_event ( run.window, NULL ) )
+        gtk_widget_destroy ( run.window );
 
     /* clean finish of the debug file */
     if ( etat.debug_mode )
         gsb_debug_finish_log ( );
 
-    /* clean the initial vars */
-    gsb_main_free_global_definitions ( );
+    /* clean the run.xxxx vars */
+    gsb_main_struct_run_free ( );
 
     return FALSE;
 }
@@ -683,7 +686,7 @@ static gboolean main_window_delete_event (GtkWidget *window, gpointer data)
 static void main_window_destroy_event ( GObject* obj, gpointer data)
 {
     free_variables();
-    window = NULL;
+    run.window = NULL;
     gtk_main_quit();
 }
 
@@ -756,7 +759,7 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
             return_value = FALSE;
         }
     }
-    gtk_window_set_title ( GTK_WINDOW ( window ), titre_grisbi );
+    gtk_window_set_title ( GTK_WINDOW ( run.window ), titre_grisbi );
 
     gsb_main_page_update_homepage_title ( titre_grisbi );
 
@@ -850,15 +853,25 @@ gchar *gsb_main_get_print_dir_var ( void )
 
 
 /**
- * libère la mémoire des définitions globales
+ * libère la mémoire de la structure run
  *
  *
  */
-void gsb_main_free_global_definitions ( void )
+void  gsb_main_struct_run_free ( void )
 {
+/*    g_free ( run.xxxx ); */
 }
 
 
+/**
+ * initialise la structure run
+ *
+ *
+ */
+void gsb_main_struct_run_init ( void )
+{
+    run.window = NULL;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

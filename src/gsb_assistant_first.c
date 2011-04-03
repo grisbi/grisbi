@@ -59,7 +59,6 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant );
 
 /*START_EXTERN*/
 extern gboolean result_reconcile;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum first_assistant_page
@@ -294,7 +293,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
-    dialog = utils_files_create_file_chooser ( window,
+    dialog = utils_files_create_file_chooser ( run.window,
                         _("Select/Create backup directory") );
     button = gtk_file_chooser_button_new_with_dialog (dialog);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),

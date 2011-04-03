@@ -66,7 +66,6 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 
 /*START_EXTERN*/
 extern gint mini_paned_width;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -160,7 +159,7 @@ GtkWidget * create_main_widget ( void )
     {
 	gint width, height;
 
-	gtk_window_get_size ( GTK_WINDOW ( window ), &width, &height );
+	gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
     if ( height < mini_paned_width )
         height = mini_paned_width;
 	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), (gint) width / 4 );

@@ -110,7 +110,6 @@ extern GdkColor calendar_entry_color;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget *navigation_tree_view;
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /** label of the last statement */
@@ -3475,7 +3474,7 @@ gboolean gsb_form_escape_form ( void )
 	    break;
 
 	case ORIGIN_VALUE_HOME:
-	    gtk_widget_grab_focus (window);
+	    gtk_widget_grab_focus ( run.window );
 	    break;
 
 	case ORIGIN_VALUE_SCHEDULED:

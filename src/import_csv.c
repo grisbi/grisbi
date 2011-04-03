@@ -43,7 +43,6 @@
 /*START_EXTERN*/
 extern GSList *liste_comptes_importes;
 extern GSList *liste_comptes_importes_error;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /*START_STATIC*/

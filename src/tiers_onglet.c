@@ -120,7 +120,6 @@ static struct conditional_message *overwrite_payee;
 extern GdkColor couleur_selection;
 extern GSList *liste_associations_tiers;
 extern MetatreeInterface * payee_interface;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 enum payees_assistant_page
@@ -618,7 +617,7 @@ gboolean edit_payee ( GtkTreeView * view )
     title = g_strdup_printf ( _("Properties for %s"), old_payee );
 
     dialog = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
                         GTK_STOCK_APPLY, GTK_RESPONSE_OK,

@@ -100,7 +100,6 @@ extern GtkWidget *account_page;
 extern GdkColor calendar_entry_color;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* notebook pour la simulation de crédits */
@@ -1927,7 +1926,7 @@ void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     gchar *filename;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the array"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,

@@ -159,7 +159,6 @@ extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* gestion de la largeur des colonnes du tableau */
@@ -2948,7 +2947,7 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
     gchar *filename;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the array of forecast"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,

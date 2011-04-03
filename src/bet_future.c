@@ -110,7 +110,6 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert, Gtk
 
 /*START_EXTERN*/
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 #define BET_SCHEDULED_WIDTH 4
@@ -258,7 +257,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -1910,7 +1909,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
-					   GTK_WINDOW ( window ),
+					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,

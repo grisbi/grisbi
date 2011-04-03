@@ -166,7 +166,6 @@ extern gint mise_a_jour_soldes_minimaux;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* recopie des types de transaction de la libofx en attendant une version propre */
@@ -1418,7 +1417,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
     g_free ( tmpstr );
     g_free ( tmpstr2 );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -2257,7 +2256,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
         tmpstr = g_strdup (
                         _("Confirmation of importation of transactions") );
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_SELECT_ALL, -12,
                         _("Unselect all"), -13,
@@ -3216,7 +3215,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list )
     GSList *list_tmp;
 
     dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_SELECT_ALL, GTK_RESPONSE_ACCEPT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -4523,7 +4522,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     return NULL;
 
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
-                        GTK_WINDOW ( window ),
+                        GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -4637,7 +4636,7 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 
     rule = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "rule"));
     enc = gsb_data_import_rule_get_charmap ( rule );
-    filenames = gsb_import_create_file_chooser ( enc, window );
+    filenames = gsb_import_create_file_chooser ( enc, run.window );
     if (!filenames)
     return FALSE;
 
@@ -4894,7 +4893,7 @@ GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *i
     progress = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_decorated ( GTK_WINDOW ( progress ), FALSE );
 
-    assistant = g_object_get_data ( G_OBJECT ( window ), "assistant" );
+    assistant = g_object_get_data ( G_OBJECT ( run.window ), "assistant" );
     gtk_window_set_modal ( GTK_WINDOW ( assistant ), FALSE );
     gtk_window_set_transient_for ( GTK_WINDOW ( progress ), GTK_WINDOW ( assistant ) );
     gtk_window_set_modal ( GTK_WINDOW ( progress ), TRUE );

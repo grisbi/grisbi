@@ -52,7 +52,6 @@
 /*START_EXTERN*/
 extern GdkColor couleur_selection;
 extern GdkColor text_color[2];
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 

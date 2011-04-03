@@ -85,7 +85,6 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 
 /*START_EXTERN*/
 extern gsb_real null_real;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 /* devise de base des soldes partiels de comptes ayant des devises différentes */
@@ -1523,14 +1522,14 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     if ( action == 1 )
         dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
-                            GTK_WINDOW ( window ),
+                            GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL,
                             GTK_STOCK_CANCEL, 0,
                             GTK_STOCK_OK, 1,
                             NULL );
     else
         dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
-                            GTK_WINDOW ( window ),
+                            GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL,
                             GTK_STOCK_CANCEL, 0,
                             GTK_STOCK_OK, 1,

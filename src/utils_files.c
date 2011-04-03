@@ -33,12 +33,13 @@
 /*START_INCLUDE*/
 #include "utils_files.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
 #include "go-charmap-sel.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "utils_str.h"
 #include "gsb_file_config.h"
+#include "structures.h"
+#include "utils_file_selection.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -58,7 +59,6 @@ static void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
 
 /*START_EXTERN*/
 extern gchar *charmap_imported;
-extern GtkWidget *window;
 /*END_EXTERN*/
 
 
@@ -187,7 +187,7 @@ void browse_file ( GtkButton *button, gpointer data )
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selector),
 					 gsb_file_get_last_path ());
     gtk_window_set_transient_for ( GTK_WINDOW ( file_selector ),
-				   GTK_WINDOW ( window ));
+				   GTK_WINDOW ( run.window ));
     gtk_window_set_modal ( GTK_WINDOW ( file_selector ), TRUE );
 
     switch ( gtk_dialog_run ( GTK_DIALOG (file_selector)))
