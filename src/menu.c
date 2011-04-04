@@ -88,7 +88,7 @@ static gint merge_id = -1;
 static gint recent_files_merge_id = -1;
 static gint move_to_account_merge_id = -1;
 
-static gchar *ui_manager_buffer = 
+static const gchar *ui_manager_buffer =
 "<ui>"
 "  <menubar>"
 "    <menu name='FileMenu' action='FileMenuAction' >"
@@ -317,9 +317,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     merge_id = gtk_ui_manager_add_ui_from_string ( ui_manager,
-                        ui_manager_buffer,
-                        strlen ( ui_manager_buffer ),
-                        NULL );
+                        ui_manager_buffer, -1, NULL );
 
 #ifndef GTKOSXAPPLICATION
     gtk_window_add_accel_group ( GTK_WINDOW ( run.window ),

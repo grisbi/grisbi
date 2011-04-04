@@ -354,31 +354,28 @@ gint gsb_data_payee_set_new_number ( gint no_payee,
  * \return the number of the payee or 0 if problem
  * */
 gint gsb_data_payee_get_number_by_name ( const gchar *name,
-					 gboolean create )
+                        gboolean create )
 {
     GSList *list_tmp;
     gint payee_number = 0;
 
     list_tmp = g_slist_find_custom ( payee_list,
-				     name,
-				     (GCompareFunc) gsb_data_payee_get_pointer_from_name_in_glist );
+                        name,
+                        (GCompareFunc) gsb_data_payee_get_pointer_from_name_in_glist );
     
     if ( list_tmp )
     {
-	struct_payee *payee;
-	
-	payee = list_tmp -> data;
-	payee_number = payee -> payee_number;
+        struct_payee *payee;
+        
+        payee = list_tmp -> data;
+        payee_number = payee -> payee_number;
     }
     else
     {
-	if (create)
-	{
-	    payee_number = gsb_data_payee_new (name);
-	    gtk_combofix_append_text ( GTK_COMBOFIX (
-                        gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY ) ), name );
-;
-	}
+        if (create)
+        {
+            payee_number = gsb_data_payee_new ( name );
+        }
     }
     return payee_number;
 }
