@@ -721,16 +721,18 @@ gint gsb_data_budget_get_sub_budget_number_by_name ( gint budget_number,
 
     if ( list_tmp )
     {
-	struct_sub_budget *sub_budget;
+        struct_sub_budget *sub_budget;
 
-	sub_budget = list_tmp -> data;
-	sub_budget_number = sub_budget -> sub_budget_number;
+        sub_budget = list_tmp -> data;
+        sub_budget_number = sub_budget -> sub_budget_number;
     }
     else
     {
-	if (create)
-	    sub_budget_number = gsb_data_budget_new_sub_budget ( budget_number,
-								 name);
+        if ( create )
+        {
+            sub_budget_number = gsb_data_budget_new_sub_budget ( budget_number, name );
+            gsb_budget_update_combofix ( FALSE );
+        }
     }
     return sub_budget_number;
 }
@@ -1528,53 +1530,51 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
      * but the 2 parts are exactly the same, exept the call to the functions */
     if (is_transaction)
     {
-	if (!string || strlen ( string ) == 0 )
-	{
-	    gsb_data_transaction_set_budgetary_number ( transaction_number, 0 );
-	    gsb_data_transaction_set_sub_budgetary_number ( transaction_number, 0 );
-	    return;
-	}
+        if (!string || strlen ( string ) == 0 )
+        {
+            gsb_data_transaction_set_budgetary_number ( transaction_number, 0 );
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, 0 );
+            return;
+        }
 
-	tab_char = g_strsplit ( string,
-				" : ",
-				2 );
+        tab_char = g_strsplit ( string, " : ", 2 );
 
-	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
-	budget_number = gsb_data_budget_get_number_by_name ( g_strstrip (tab_char[0]),
-							     TRUE,
-							     gsb_data_transaction_get_amount (transaction_number).mantissa <0 );
-	gsb_data_transaction_set_budgetary_number ( transaction_number,
-						    budget_number );
-    if ( tab_char[1] )
-        gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-							gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-													g_strstrip (tab_char[1]),
-													TRUE ));
+        /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+        budget_number = gsb_data_budget_get_number_by_name ( g_strstrip ( tab_char[0] ),
+                                TRUE,
+                                gsb_data_transaction_get_amount ( transaction_number ).mantissa < 0 );
+        gsb_data_transaction_set_budgetary_number ( transaction_number, budget_number );
+
+        if ( tab_char[1] )
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+                                gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+                                                        g_strstrip (tab_char[1]),
+                                                        TRUE ));
     }
     else
     {
-	if (!string)
-	{
-	    gsb_data_scheduled_set_budgetary_number ( transaction_number, 0 );
-	    gsb_data_scheduled_set_sub_budgetary_number ( transaction_number, 0 );
-	    return;
-	}
+        if (!string)
+        {
+            gsb_data_scheduled_set_budgetary_number ( transaction_number, 0 );
+            gsb_data_scheduled_set_sub_budgetary_number ( transaction_number, 0 );
+            return;
+        }
 
-	tab_char = g_strsplit ( string,
-				" : ",
-				2 );
+        tab_char = g_strsplit ( string,
+                    " : ",
+                    2 );
 
-	/* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
-	budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
-							     TRUE,
-							     gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
-	gsb_data_scheduled_set_budgetary_number ( transaction_number,
-						    budget_number );
-    if ( tab_char[1] )
-        gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
-						      gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
-												      tab_char[1],
-												      TRUE ));
+        /* we don't mind if tab_char exists and others, all the checks will be done in ...get_number_by_name */
+        budget_number = gsb_data_budget_get_number_by_name ( tab_char[0],
+                                     TRUE,
+                                     gsb_data_scheduled_get_amount (transaction_number).mantissa <0 );
+        gsb_data_scheduled_set_budgetary_number ( transaction_number,
+                                budget_number );
+        if ( tab_char[1] )
+            gsb_data_scheduled_set_sub_budgetary_number ( transaction_number,
+                                  gsb_data_budget_get_sub_budget_number_by_name ( budget_number,
+                                                          tab_char[1],
+                                                          TRUE ));
     }
     g_strfreev (tab_char);
 }
