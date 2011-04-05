@@ -1008,7 +1008,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button3_categ">
+                  <object class="GtkButton" id="button_income_categ">
                     <property name="label" translatable="yes">Income categories</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -1024,7 +1024,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button4_categ">
+                  <object class="GtkButton" id="button_outgoing_categ">
                     <property name="label" translatable="yes">Outgoing categories</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -1294,8 +1294,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button3_budget">
-                    <property name="label" translatable="yes">Income categories</property>
+                  <object class="GtkButton" id="button_income_budget">
+                    <property name="label" translatable="yes">Income budget lines</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -1310,8 +1310,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button4_budget">
-                    <property name="label" translatable="yes">Outgoing categories</property>
+                  <object class="GtkButton" id="button_outgoing_budget">
+                    <property name="label" translatable="yes">Outgoing budget lines</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
