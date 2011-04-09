@@ -59,6 +59,10 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+
+#define BLOCK_MENU_CB
+
+
 /*START_STATIC*/
 static gboolean gsb_gui_toggle_show_closed_accounts ( void );
 static gboolean gsb_gui_toggle_show_form ( void );
@@ -559,8 +563,10 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
                         GtkRadioAction *current,
                         gpointer user_data )
 {
+#ifdef BLOCK_MENU_CB
     /* FIXME benj: ugly but I cannot find a way to block this ... */
     if ( block_menu_cb ) return;
+#endif
 
     switch ( gtk_radio_action_get_current_value(current) )
     {
@@ -590,9 +596,11 @@ gboolean gsb_gui_toggle_show_form ( void )
 {
     devel_debug (NULL);
 
+#ifdef BLOCK_MENU_CB
     /* FIXME benj: ugly but I cannot find a way to block this ... */
     if ( block_menu_cb )
         return FALSE;
+#endif
 
     gsb_form_switch_expander ( );
 
@@ -610,8 +618,10 @@ gboolean gsb_gui_toggle_show_reconciled ( void )
 {
     gint current_account;
 
+#ifdef BLOCK_MENU_CB
     if ( block_menu_cb )
 	    return FALSE;
+#endif
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 || run.equilibrage == 1 )
@@ -635,8 +645,10 @@ gboolean gsb_gui_toggle_show_archived ( void )
 {
     gint current_account;
 
+#ifdef BLOCK_MENU_CB
     if ( block_menu_cb )
 	    return FALSE;
+#endif
 
     current_account = gsb_gui_navigation_get_current_account ( );
     if ( current_account == -1 )
@@ -684,7 +696,9 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     devel_debug_int (account_number);
 
+#ifdef BLOCK_MENU_CB
     block_menu_cb = TRUE;
+#endif
 
     /* update the showing of reconciled transactions */
     tmpstr = "/menubar/ViewMenu/ShowReconciled";
@@ -724,7 +738,9 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager, item_name ) ),
 				        TRUE );
+#ifdef BLOCK_MENU_CB
     block_menu_cb = FALSE;
+#endif
 
     return FALSE;
 }
@@ -869,9 +885,11 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
 gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
 {
     
+#ifdef BLOCK_MENU_CB
     block_menu_cb = etat;
 
     return FALSE;
+#endif
 }
 
 
