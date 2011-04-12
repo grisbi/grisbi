@@ -19,7 +19,10 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
 gboolean bet_transfert_modify_line ( gint account_number, gint number );
 gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
                         gchar *str_date );
-gchar *gsb_transfert_get_str_amount ( struct_transfert_data *transfert, gsb_real amount );
+gsb_real gsb_transfert_get_str_amount ( gsb_real amount,
+                        gint account_currency,
+                        gint replace_currency,
+                        gint floating_point );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_FUTURE_H*/
