@@ -36,7 +36,9 @@
 /*START_INCLUDE*/
 #include "gsb_data_scheduled.h"
 #include "dialog.h"
+#include "gsb_currency.h"
 #include "gsb_data_currency.h"
+#include "gsb_data_currency_link.h"
 #include "gsb_real.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -1767,6 +1769,66 @@ gint gsb_data_scheduled_get_currency_floating_point ( gint scheduled_number )
         floating_point = gsb_data_currency_get_floating_point ( scheduled -> currency_number );
         return floating_point;
     }
+}
+
+
+/**
+ * get the amount of the scheduled, modified to be ok with the currency
+ * given in param 
+ * 
+ * \param scheduled_number 		the number of the scheduled
+ * \param return_currency_number 	the currency we want to adjust the transaction's amount
+ * \param return_exponent 		the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
+ * 
+ * \return the amount of the transaction
+ * */
+gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency ( gint scheduled_number,
+                        gint return_currency_number,
+                        gint return_exponent )
+{
+    struct_scheduled *scheduled;
+    gsb_real amount = null_real;
+    gint link_number;
+
+    if (return_exponent == -1)
+        return_exponent = gsb_data_currency_get_floating_point ( return_currency_number );
+
+    scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
+
+    if ( ! (scheduled && return_currency_number ) )
+        return gsb_real_adjust_exponent  ( null_real, return_exponent );
+
+    /* if the transaction currency is the same of the account's one,
+     * we just return the transaction's amount */
+    if ( scheduled -> currency_number == return_currency_number )
+        return gsb_real_adjust_exponent  ( scheduled -> scheduled_amount,
+					   return_exponent );
+
+    /* now we can adjust the amount */
+    if ( ( link_number = gsb_data_currency_link_search ( scheduled -> currency_number,
+							return_currency_number ) ) )
+    {
+	/* there is a hard link between the transaction currency and the return currency */
+        if ( gsb_data_currency_link_get_first_currency ( link_number ) == scheduled -> currency_number )
+            amount = gsb_real_mul ( scheduled -> scheduled_amount,
+                        gsb_data_currency_link_get_change_rate ( link_number ) );
+        else
+            amount = gsb_real_div ( scheduled -> scheduled_amount,
+                        gsb_data_currency_link_get_change_rate (link_number));
+
+    }
+    else if ( return_currency_number > 0 && scheduled -> currency_number > 0 )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup ( _("Error: is missing one or more links between currencies.\n"
+                        "You need to fix it and start over.") );
+        dialogue_error ( tmp_str );
+
+        g_free ( tmp_str );
+    }
+
+    return gsb_real_adjust_exponent  ( amount, return_exponent );
 }
 
 

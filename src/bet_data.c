@@ -29,6 +29,7 @@
 
 /*START_INCLUDE*/
 #include "bet_data.h"
+#include "bet_future.h"
 #include "bet_hist.h"
 #include "bet_tab.h"
 #include "dialog.h"
@@ -37,6 +38,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_mix.h"
+#include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
 #include "navigation.h"
@@ -1841,6 +1843,59 @@ gchar *bet_data_get_key ( gint account_number, gint div_number )
     g_free ( div_number_str );
 
     return key;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
+                        gint account_number,
+                        gint line_number,
+                        gint origin )
+{
+    gchar *str_amount = NULL;
+    gint account_currency;
+    gint floating_point;
+    gsb_real new_amount;
+    
+    account_currency = gsb_data_account_get_currency ( account_number );
+    floating_point = gsb_data_account_get_currency_floating_point ( account_number );
+
+    switch ( origin )
+    {
+        case SPP_ORIGIN_TRANSACTION :
+            new_amount = gsb_data_transaction_get_adjusted_amount_for_currency ( line_number,
+                                    account_currency,
+                                    floating_point );
+        break;
+        case SPP_ORIGIN_SCHEDULED :
+            new_amount = gsb_data_scheduled_get_adjusted_amount_for_currency ( line_number,
+                                    account_currency,
+                                    floating_point );
+
+        break;
+        case SPP_ORIGIN_ACCOUNT :
+            if ( account_currency == line_number || amount.mantissa == 0 )
+            {
+                new_amount.mantissa = amount.mantissa;
+                new_amount.exponent = amount.exponent;
+            }
+            else
+                new_amount = gsb_transfert_get_str_amount ( amount,
+                                    account_currency,
+                                    line_number,
+                                    floating_point );
+
+        break;
+    }
+
+    str_amount = gsb_real_safe_real_to_string ( new_amount, floating_point );
+
+    return str_amount;
 }
 
 
