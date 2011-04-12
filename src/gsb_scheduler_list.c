@@ -64,6 +64,8 @@
 /*START_STATIC*/
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
+static gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
+                        gint *scheduled_number );
 static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
 static GtkTreeModel *gsb_scheduler_list_create_model ( void );
 static GtkWidget *gsb_scheduler_list_create_tree_view (void);
@@ -2133,6 +2135,19 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
                         GINT_TO_POINTER ( scheduled_number ) );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Clone transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_COPY,
+                        GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
+                        GINT_TO_POINTER ( scheduled_number ) );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
@@ -2192,6 +2207,63 @@ void popup_scheduled_context_menu ( void )
     gtk_widget_show_all (menu);
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
 }
+
+
+/**
+ * Clone selected transaction if any.  Update user interface as well.
+ *
+ * \param menu_item
+ * \param null
+ *
+ * \return FALSE
+ */
+gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
+                        gint *scheduled_number )
+{
+    gint new_scheduled_number;
+    gint tmp_scheduled_number;
+
+    tmp_scheduled_number = GPOINTER_TO_INT ( scheduled_number );
+    new_scheduled_number = gsb_data_scheduled_new_scheduled ( );
+
+    gsb_data_scheduled_copy_scheduled ( tmp_scheduled_number, new_scheduled_number );
+
+    if ( gsb_data_scheduled_get_split_of_scheduled ( tmp_scheduled_number ) )
+    {
+        GSList *tmp_list;
+
+        tmp_list = g_slist_copy ( gsb_data_scheduled_get_scheduled_list ( ) );
+
+        while ( tmp_list )
+        {
+            gint split_scheduled_number;
+
+            split_scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
+
+            if ( gsb_data_scheduled_get_mother_scheduled_number (
+             split_scheduled_number ) == tmp_scheduled_number )
+            {
+                gint new_number;
+
+                new_number = gsb_data_scheduled_new_scheduled ( );
+                gsb_data_scheduled_copy_scheduled ( split_scheduled_number, new_number );
+                gsb_data_scheduled_set_mother_scheduled_number ( new_number, new_scheduled_number );
+            }
+
+            tmp_list = tmp_list -> next;
+        }
+    }
+
+    gsb_scheduler_list_fill_list ( gsb_scheduler_list_get_tree_view ( ) );
+    gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view ( ) );
+    gsb_scheduler_list_select ( new_scheduled_number );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
 
 /**
  * Called to edit a specific transaction but the number of transaction

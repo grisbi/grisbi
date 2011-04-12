@@ -1832,6 +1832,49 @@ gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency ( gint scheduled_nu
 }
 
 
+/**
+ * copy the content of a scheduled transaction into the second one
+ * the 2 scheduled transactions must exist before
+ * only the scheduled_number will be modified in the target transaction
+ *
+ * \param source_scheduled_number the transaction we want to copy
+ * \param target_scheduled_number the transaction we want to fill with the content of the first one
+ *
+ * \return TRUE if ok, FALSE else
+ * */
+gboolean gsb_data_scheduled_copy_scheduled ( gint source_scheduled_number,
+                        gint target_scheduled_number )
+{
+    struct_scheduled *source_scheduled;
+    struct_scheduled *target_scheduled;
+
+    source_scheduled = gsb_data_scheduled_get_scheduled_by_no ( source_scheduled_number );
+    target_scheduled = gsb_data_scheduled_get_scheduled_by_no ( target_scheduled_number );
+
+    if ( !source_scheduled || !target_scheduled )
+        return FALSE;
+
+    memcpy ( target_scheduled, source_scheduled, sizeof ( struct_scheduled ) );
+
+    target_scheduled -> scheduled_number = target_scheduled_number;
+
+    /* make a new copy of all the pointers */
+    if ( target_scheduled -> notes)
+        target_scheduled -> notes = my_strdup ( source_scheduled -> notes );
+
+    if ( target_scheduled -> date)
+        target_scheduled -> date = gsb_date_copy ( source_scheduled -> date );
+
+    if ( target_scheduled -> limit_date)
+        target_scheduled -> limit_date = gsb_date_copy ( source_scheduled -> limit_date );
+
+    if ( target_scheduled -> method_of_payment_content)
+        target_scheduled -> method_of_payment_content = my_strdup (
+                        source_scheduled -> method_of_payment_content );
+    return TRUE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
