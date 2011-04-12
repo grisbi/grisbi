@@ -7,6 +7,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gboolean gsb_data_scheduled_copy_scheduled ( gint source_scheduled_number,
+                        gint target_scheduled_number );
 gint gsb_data_scheduled_get_account_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number );
 gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency ( gint scheduled_number,
