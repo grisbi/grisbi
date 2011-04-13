@@ -1,3 +1,12 @@
+New in version 0.8.5
+- Added cloning of scheduled operations
+- Fixed a bug of calculating balances with different currencies in the table estimates
+- fixed a bug in creation of payees and creation of a sub-budgetary line
+- Don't update the tree view when it's not here while making an archive
+- Typo in function name. Don't repeat twice the same by Mokona
+- Fixes bug 1313 : Grisbi crashes when Importing a QIF file with a list of categories
+- Adding of Data_Path variable to debug
+
 New in version 0.8.4
  - Fixes a bug that corrupts the file of accounts when saving in certain circumstances.
  - Minor corrections in the management of the logo of Grisbi
