@@ -8,7 +8,7 @@
 SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.22.1-20101227_win32
 SET LIBXML_FILE_BASENAME=libxml2-2.7.7.win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0c
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0d
 
 :: The rest of the script should do the rest
 ::on met chcp 1252 qpour les wget car ils affiche en francais

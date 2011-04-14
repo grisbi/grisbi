@@ -118,7 +118,7 @@ ADD_DEFINITIONS(-DHAVE_STRING_H=1)
 #ADD_DEFINITIONS(-DNOOFX=1)
 # Define to 1 if you want to have OFX support using libofx 0.7.0
 ADD_DEFINITIONS(-DOFX_0_7=1)
-#ADD_DEFINITIONS(-DHAVE_OFX=1)
+ADD_DEFINITIONS(-DHAVE_OFX=1)
 
 # Define to 1 when you do not want to use SSL as crypt algorithm (NOT RECOMMANDED)
 #ADD_DEFINITIONS(-DNOSSL=1)
