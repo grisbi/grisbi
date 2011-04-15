@@ -81,7 +81,7 @@ echo openssl ok
 
 :: Download and unzip libofx dev and bin files
 cd "%DOWNLOADS_DIR%"
-chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.7/libofx_Win32.zip/download
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.7/libofx_mingw.zip/download
 cd "%TARGET_DIR%"
 unzip -uo "%DOWNLOADS_DIR%\libofx_Win32.zip" -d plugins-dev
 echo ofx ok
