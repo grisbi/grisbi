@@ -199,8 +199,9 @@ Section $(OFXplug)
 ;  SetOutPath "$INSTDIR\plugins"
 ;  File "${EXE_PATH}\plugins\libofxplg.dll"
 
-  SetOutPath "$INSTDIR"
+  SetOutPath "$INSTDIR\share\libofx"
   File /r "${PLUGINS_DEV_PATH}\libofx\bin\dtd"
+  SetOutPath "$INSTDIR"
   File "${PLUGINS_DEV_PATH}\libofx\bin\libofx-4.dll"
   File "${PLUGINS_DEV_PATH}\libofx\bin\libosp-5.dll"
 
