@@ -57,9 +57,6 @@
 static gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
 						  gint *ptr_origin );
 static gboolean gsb_form_widget_can_focus ( gint element_number );
-static gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
-                        GdkEventFocus *ev,
-                        gint *ptr_origin );
 /*END_STATIC*/
 
 /*START_EXTERN*/

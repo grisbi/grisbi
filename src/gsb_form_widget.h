@@ -23,6 +23,9 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number );
 gboolean gsb_form_widget_check_empty ( GtkWidget *entry );
 GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number );
+gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
+                        GdkEventFocus *ev,
+                        gint *ptr_origin );
 gboolean gsb_form_widget_free_list ( void );
 GSList *gsb_form_widget_get_list ( void );
 gchar *gsb_form_widget_get_name ( gint element_number );
