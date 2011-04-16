@@ -39,6 +39,7 @@ gint gsb_data_scheduled_get_sub_budgetary_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_sub_category_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_user_entry ( gint scheduled_number );
 gint gsb_data_scheduled_get_user_interval ( gint scheduled_number );
+gboolean gsb_data_scheduled_get_variance ( gint mother_scheduled_number );
 gint gsb_data_scheduled_get_white_line ( gint scheduled_number);
 gboolean gsb_data_scheduled_init_variables ( void );
 gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number );

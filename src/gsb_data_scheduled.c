@@ -42,6 +42,7 @@
 #include "gsb_real.h"
 #include "utils_dates.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -1872,6 +1873,42 @@ gboolean gsb_data_scheduled_copy_scheduled ( gint source_scheduled_number,
         target_scheduled -> method_of_payment_content = my_strdup (
                         source_scheduled -> method_of_payment_content );
     return TRUE;
+}
+
+
+/**
+ * retourne TRUE si la variance de l'opération ventilée == 0
+ *
+ *
+ *
+ * */
+gboolean gsb_data_scheduled_get_variance ( gint mother_scheduled_number )
+{
+    GSList *tmp_list;
+    gsb_real total_split = null_real;
+    gsb_real variance;
+
+    tmp_list = scheduled_list;
+    while ( tmp_list )
+    {
+        struct_scheduled *tmp_scheduled;
+
+        tmp_scheduled = tmp_list -> data;
+
+        if ( tmp_scheduled -> mother_scheduled_number == mother_scheduled_number )
+        {
+            total_split = gsb_real_add ( total_split,
+                        gsb_data_scheduled_get_amount ( tmp_scheduled -> scheduled_number ) );
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    variance = gsb_real_sub ( gsb_data_scheduled_get_amount ( mother_scheduled_number ), total_split );
+
+    if ( variance.mantissa == 0 )
+        return TRUE;
+    else
+        return FALSE;
 }
 
 
