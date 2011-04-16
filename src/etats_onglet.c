@@ -53,6 +53,7 @@
 #include "utils_files.h"
 #include "structures.h"
 #include "fenetre_principale.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -996,6 +997,9 @@ void gsb_gui_update_gui_to_report ( gint report_number )
 	rafraichissement_etat ( report_number );
 	gsb_report_set_current (report_number);
     }
+    else
+        etat_affiche_finish ( );
+;
 }
 
 
