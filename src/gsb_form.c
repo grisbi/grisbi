@@ -3476,7 +3476,7 @@ gboolean gsb_form_escape_form ( void )
     {
 	case ORIGIN_VALUE_OTHER:
 	    notice_debug ("Should not come here... (gsb_form_escape_form)");
-	    gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
+	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 	    break;
 
 	case ORIGIN_VALUE_HOME:

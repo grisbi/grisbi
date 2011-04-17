@@ -669,7 +669,7 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
     GtkUIManager *ui_manager;
 
     ui_manager = gsb_menu_get_ui_manager ( );
-    gtk_widget_set_sensitive ( gsb_gui_get_navigation_tree_view ( ), sensitive );
+    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */
     gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 

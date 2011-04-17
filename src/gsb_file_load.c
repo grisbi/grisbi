@@ -70,6 +70,7 @@
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
+#include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -820,6 +821,11 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         "Budget_list_currency_number" ))
     {
         no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Navigation_list_order" ) )
+    {
+        gsb_gui_navigation_set_page_list_order ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i],

@@ -491,7 +491,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     /* set the focus to the selection tree at left */
-    gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
+    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 
     return TRUE;
 }

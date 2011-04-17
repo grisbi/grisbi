@@ -1353,7 +1353,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     case GDK_Left:
         /* if we press left, give back the focus to the tree at left */
-        gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
+        gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
         break;
 
     case GDK_Home:

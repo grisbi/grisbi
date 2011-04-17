@@ -1189,7 +1189,7 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL( gsb_gui_get_navigation_model ( ) ) )
+	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
 	{
 	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
 	}
@@ -1267,7 +1267,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
 	/* if we are on the navigation list, work with it */
-	if ( model == GTK_TREE_MODEL( gsb_gui_get_navigation_model ( ) ) )
+	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
 	{
 	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
 	}

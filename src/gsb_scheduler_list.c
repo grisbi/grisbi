@@ -41,7 +41,7 @@
 #include "gsb_scheduler_list.h"
 #include "barre_outils.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
@@ -49,19 +49,20 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
+#include "gsb_dirs.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "fenetre_principale.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "utils_str.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
 #include "mouse.h"
+#include "navigation.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1646,7 +1647,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 
 	case GDK_Left:
 	    /* if we press left, give back the focus to the tree at left */
-	    gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
+	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 	    break;
 
 	case GDK_space:

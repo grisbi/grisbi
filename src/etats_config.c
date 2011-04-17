@@ -1910,7 +1910,7 @@ void recuperation_info_perso_etat ( void )
     /* on repasse à la 1ère page du notebook */
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_etats ),
 			    0 );
-    gtk_widget_set_sensitive ( gsb_gui_get_navigation_tree_view ( ), TRUE );
+    gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), TRUE );
 
     gsb_gui_navigation_update_report ( gsb_gui_navigation_get_current_report ());
 }
