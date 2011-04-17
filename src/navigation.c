@@ -178,12 +178,11 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 							    G_TYPE_INT, G_TYPE_INT,
 							    G_TYPE_INT ));
 
-/*     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
- * 					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
- *     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( navigation_model ), 
- * 				      NAVIGATION_PAGE, navigation_sort_column,
- * 				      NULL, NULL );
- */
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
+					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( navigation_model ),
+				      NAVIGATION_PAGE, navigation_sort_column,
+				      NULL, NULL );
 
     /* Enable drag & drop */
     gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW(navigation_tree_view),

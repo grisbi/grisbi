@@ -101,7 +101,6 @@ static void main_win_32 (  int argc, char **argv );
 static gboolean main_window_delete_event (GtkWidget *window, gpointer data);
 static void main_window_destroy_event ( GObject* obj, gpointer data);
 static void main_window_set_size_and_position ( void );
-static void gsb_main_init_main_window ( void );
 /*END_STATIC*/
 
 /* Fenetre principale de grisbi */
@@ -133,7 +132,6 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
-    gsb_main_init_main_window ( );
     gsb_dirs_init ( );
 
 #ifdef _WIN32
@@ -858,17 +856,6 @@ gchar *gsb_main_get_print_dir_var ( void )
 GtkWidget *gsb_main_get_main_window ( void )
 {
     return main_window;
-}
-
-
-/**
- * initialise la fenêtre principale de Grisbi
- *
- *
- */
-void gsb_main_init_main_window ( void )
-{
-    main_window = NULL;
 }
 
 
