@@ -210,7 +210,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( gsb_file_close ) },
 	#endif
         {"QuitAction", GTK_STOCK_QUIT, _("_Quit"), NULL, NULL,
-         G_CALLBACK ( gsb_grisbi_close ) },
+         G_CALLBACK ( gsb_main_grisbi_close ) },
 
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
@@ -659,7 +659,7 @@ gboolean gsb_gui_toggle_show_closed_accounts ( void )
 {
     etat.show_closed_accounts = ! etat.show_closed_accounts;
 
-    create_account_list ( navigation_model );
+    gsb_gui_navigation_create_account_list ( navigation_model );
     gsb_gui_navigation_update_home_page ( );
 
     if ( etat.modification_fichier == 0 )

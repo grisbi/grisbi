@@ -87,7 +87,6 @@ static void bet_config_initialise_select_historical_data ( gint account_number,
 extern GtkWidget *account_page;
 extern GtkTreeModel *bet_fyear_model;
 extern GtkTreeModel *bet_fyear_model_filter;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 static gchar* bet_duration_array[] = {

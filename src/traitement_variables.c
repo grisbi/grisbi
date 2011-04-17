@@ -230,7 +230,6 @@ extern GtkWidget * navigation_tree_view;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *notebook_general;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
@@ -353,7 +352,7 @@ void init_variables ( void )
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file
      * to know if the widgets are created or not */
-    notebook_general = NULL;
+    gsb_gui_init_general_notebook ( );
 
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );

@@ -85,7 +85,6 @@ static GtkWidget *reports_toolbar = NULL;
 /*START_EXTERN*/
 extern struct struct_etat_affichage csv_affichage;
 extern struct struct_etat_affichage html_affichage;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 /** Different formats supported.  */
@@ -238,8 +237,9 @@ gboolean ajout_etat ( void )
     gint report_number, amount_comparison_number, resultat;
     GtkWidget *dialog, *frame, *combobox, *label_description;
     GtkWidget *scrolled_window;
+    GtkWidget *notebook_general;
 
-
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_REPORTS_PAGE );
 
@@ -923,15 +923,16 @@ void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_descriptio
 void efface_etat ( void )
 {
     gint current_report_number;
+    GtkWidget *notebook_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
     if ( !current_report_number )
 	return;
 
-     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
-				GSB_REPORTS_PAGE );
+    notebook_general = gsb_gui_get_general_notebook ( );
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
    if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
 						  gsb_data_report_get_report_name (current_report_number) ),
@@ -1009,8 +1010,11 @@ void gsb_gui_update_gui_to_report ( gint report_number )
  */
 void export_etat_courant_vers_html ( gchar * filename )
 {
+    GtkWidget *notebook_general;
+
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     affichage_etat ( gsb_gui_navigation_get_current_report (), &html_affichage, filename );
 }
@@ -1025,8 +1029,11 @@ void export_etat_courant_vers_html ( gchar * filename )
  */
 void export_etat_courant_vers_csv ( gchar * filename )
 {
+    GtkWidget *notebook_general;
+
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     affichage_etat ( gsb_gui_navigation_get_current_report (), &csv_affichage, filename );
 }
@@ -1091,11 +1098,13 @@ void exporter_etat ( void )
     GtkWidget *fenetre_nom, *hbox, * combo;
     gint resultat, current_report_number;
     gchar * nom_etat;
+    GtkWidget *notebook_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     fenetre_nom = gtk_file_chooser_dialog_new ( _("Export report"),
 					   GTK_WINDOW ( run.window ),
@@ -1174,10 +1183,12 @@ void exporter_etat ( void )
 void importer_etat ( void )
 {
     GtkWidget *fenetre_nom;
+    GtkWidget *notebook_general;
     gint resultat;
     gchar *nom_etat;
     GtkFileFilter * filter;
 
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
@@ -1232,11 +1243,13 @@ void importer_etat ( void )
 void dupliquer_etat ( void )
 {
     gint report_number, current_report_number;
+    GtkWidget *notebook_general;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     report_number = gsb_data_report_dup (current_report_number);
 

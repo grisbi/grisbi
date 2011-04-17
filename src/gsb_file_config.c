@@ -40,6 +40,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_config.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "main.h"
@@ -66,7 +67,6 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename );
 /*START_EXTERN*/
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
-extern GtkWidget *main_hpaned;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
@@ -74,8 +74,6 @@ extern gchar *nom_fichier_comptes;
 
 /* global variable, see structures.h */
 struct gsb_conf_t conf;
-
-gint mini_paned_width = 0;
 
 /* contient le nb de derniers fichiers ouverts */
 gsize nb_derniers_fichiers_ouverts = 0;
@@ -213,12 +211,11 @@ devel_debug (NULL);
                         "Full screen",
                         NULL );
 
-    conf.largeur_colonne_comptes_operation = g_key_file_get_integer ( config,
+    int_ret = g_key_file_get_integer ( config,
                         "Geometry",
-                        "Panel width",
+                        "Panel_width",
                         NULL );
-    if ( conf.largeur_colonne_comptes_operation < mini_paned_width )
-        conf.largeur_colonne_comptes_operation = mini_paned_width;
+    gsb_gui_set_hpaned_left_width ( int_ret );
 
     conf.prefs_width = g_key_file_get_integer ( config,
                         "Geometry",
@@ -516,6 +513,7 @@ gboolean gsb_file_config_save_config ( void )
     gsize length;
     FILE *conf_file;
     gint i;
+    gint tmp_int = 0;
     
     devel_debug (NULL);
 
@@ -571,13 +569,12 @@ gboolean gsb_file_config_save_config ( void )
                         conf.prefs_width );
 
     /* Remember size of main panel */
-    if (main_hpaned && GTK_IS_WIDGET (main_hpaned))
-        conf.largeur_colonne_comptes_operation = gtk_paned_get_position (
-                        GTK_PANED ( main_hpaned ) );
+    if ( gsb_gui_is_hpaned_general ( ) )
+        tmp_int = gsb_gui_get_hpaned_left_width ( );
     g_key_file_set_integer ( config,
                         "Geometry",
-                        "Panel width",
-                        conf.largeur_colonne_comptes_operation );
+                        "Panel_width",
+                        tmp_int );
 
     /* save general */
     g_key_file_set_integer ( config,
@@ -1050,13 +1047,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
  
     if ( !strcmp ( element_name,
-		   "Largeur_colonne_comptes_operation" ))
-    {
-	conf.largeur_colonne_comptes_operation = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Largeur_colonne_echeancier" ))
     {
 	etat.largeur_colonne_echeancier = utils_str_atoi (text);
@@ -1215,7 +1205,7 @@ void gsb_file_config_clean_config ( void )
 
     conf.main_width = 0;
     conf.main_height = 0;
-    conf.largeur_colonne_comptes_operation = mini_paned_width;
+    gsb_gui_set_hpaned_left_width ( -1 );
     conf.prefs_width = 600;
 
     conf.force_enregistrement = 1;

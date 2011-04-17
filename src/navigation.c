@@ -110,7 +110,6 @@ extern GtkWidget *account_page;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -138,7 +137,7 @@ static gint buffer_last_account = -1;
  *
  * \return The newly allocated pane.
  */
-GtkWidget * create_navigation_pane ( void )
+GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
     GtkWidget * sw, *vbox;
     GdkPixbuf * pixbuf;
@@ -259,7 +258,7 @@ GtkWidget * create_navigation_pane ( void )
 		       NAVIGATION_REPORT, -1,
 		       NAVIGATION_SENSITIVE, 1,
 		       -1);
-    create_account_list ( GTK_TREE_MODEL(navigation_model) );
+    gsb_gui_navigation_create_account_list ( GTK_TREE_MODEL( navigation_model ) );
 
     /* Scheduler */
     tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler.png", NULL );
@@ -516,7 +515,7 @@ gint gsb_gui_navigation_get_current_report ( void )
  * \param model		Tree model to insert items into.
  * \param account_iter	Parent iter.
  */
-void create_account_list ( GtkTreeModel * model )
+void gsb_gui_navigation_create_account_list ( GtkTreeModel * model )
 {
     GSList *list_tmp;
     GtkTreeIter parent, child;
@@ -1115,7 +1114,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     devel_debug (NULL);
 
     page_number = gsb_gui_navigation_get_current_page ();
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {

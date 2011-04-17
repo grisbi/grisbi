@@ -375,7 +375,6 @@ static GtkTreeIter parent_iter;
 extern GtkWidget * navigation_tree_view;
 extern GtkWidget *notebook_config_etat;
 extern GtkWidget *notebook_etats;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -387,6 +386,7 @@ extern GtkWidget *notebook_general;
 void personnalisation_etat (void)
 {
     GtkWidget * dialog, *sw, *paned;
+    GtkWidget *notebook_general;
     GtkCTreeNode *parent;
     GSList *list_tmp;
     gint current_report_number, page = 0;
@@ -398,9 +398,9 @@ void personnalisation_etat (void)
     if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;
 
-    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general),
-				GSB_REPORTS_PAGE );
+    notebook_general = gsb_gui_get_general_notebook ( );
+    if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) ) != GSB_REPORTS_PAGE )
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
     dialog = gtk_dialog_new_with_buttons ( _("Report properties"),
 					   GTK_WINDOW ( run.window ),

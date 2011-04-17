@@ -155,7 +155,6 @@ extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;

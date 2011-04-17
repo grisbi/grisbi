@@ -18,15 +18,17 @@ enum navigation_cols {
 
 
 /* START_DECLARATION */
-void create_account_list ( GtkTreeModel * model );
-GtkWidget * create_navigation_pane ( void );
 void gsb_gui_navigation_add_account ( gint account_number,
                         gboolean switch_to_account );
 void gsb_gui_navigation_add_report ( gint report_number );
+void gsb_gui_navigation_create_account_list ( GtkTreeModel *model );
+GtkWidget *gsb_gui_navigation_create_navigation_pane ( void );
 gint gsb_gui_navigation_get_current_account ( void );
 gint gsb_gui_navigation_get_current_page ( void );
 gint gsb_gui_navigation_get_current_report ( void );
 gint gsb_gui_navigation_get_last_account ( void );
+GQueue *gsb_gui_navigation_get_pages_list ( void );
+void gsb_gui_navigation_init_pages_list ( void );
 void gsb_gui_navigation_remove_account ( gint account_number );
 void gsb_gui_navigation_remove_report ( gint report_number );
 gboolean gsb_gui_navigation_select_next ();
