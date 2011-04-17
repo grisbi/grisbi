@@ -69,16 +69,11 @@ int utils_dates_cunit_clean_suite ( void )
 void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
-    char *lc_time_orig;
-    char *result = setlocale(LC_TIME, NULL);
-    if (result != NULL)
-    {
-        lc_time_orig = (char *)malloc((strlen(result) + 1) * sizeof(char));
-        strcpy(lc_time_orig, result);
 
-        /* C test */
-        result = setlocale(LC_TIME, "C");
-        if (result != NULL)
+    {
+        /* month-first tests */
+        gsb_date_set_format_date ( "%m/%d/%Y" );
+
         {
 /*             invalid day  */
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/00/2009" ) );
@@ -121,17 +116,8 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
         }
 
-        /* French test or english GB test*/
-        result = setlocale(LC_TIME, "fr_FR.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_TIME, "en_GB.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_TIME, "fr_FR@euro");
-        if (result == NULL)
-            result = setlocale(LC_TIME, "fr_FR");
-        if (result == NULL)
-            result = setlocale(LC_TIME, "en_GB");
-        if (result != NULL)
+        /* day-first tests */
+        gsb_date_set_format_date ( "%d/%m/%Y" );
         {
 /*             invalid day  */
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "00/02/2009" ) );
@@ -174,11 +160,9 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
         }
 
-        /* English US test */
-        result = setlocale(LC_TIME, "en_US.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_TIME, "en_US");
-        if (result != NULL)
+        /* month-first tests */
+        gsb_date_set_format_date ( "%m/%d/%Y" );
+
         {
 /*             invalid day  */
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/00/2009" ) );
@@ -221,9 +205,6 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
             CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
         }
 
-        /* Restore current locale and free memory */
-        setlocale(LC_TIME, lc_time_orig);
-        free(lc_time_orig) ;
     }
 }
 
