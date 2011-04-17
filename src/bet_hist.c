@@ -105,7 +105,6 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 extern GtkWidget *account_page;
 extern GdkColor couleur_fond[2];
 extern GdkColor couleur_selection;
-extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 /*END_EXTERN*/
 

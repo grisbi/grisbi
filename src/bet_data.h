@@ -106,6 +106,10 @@ gchar *bet_data_get_div_name ( gint div_num,
 gint bet_data_get_div_number ( gint transaction_number, gboolean is_transaction );
 gint bet_data_get_div_type ( gint div_number );
 gint bet_data_get_selected_currency ( void );
+gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
+                        gint account_number,
+                        gint line_number,
+                        gint origin );
 GPtrArray *bet_data_get_strings_to_save ( void );
 gint bet_data_get_sub_div_nb ( gint transaction_number, gboolean is_transaction );
 gboolean bet_data_hist_add_div ( gint account_number,

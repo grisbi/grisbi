@@ -41,7 +41,7 @@
 #include "gsb_scheduler_list.h"
 #include "barre_outils.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
@@ -49,24 +49,27 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
+#include "gsb_dirs.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "fenetre_principale.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "utils_str.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
 #include "mouse.h"
+#include "navigation.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
+static gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
+                        gint *scheduled_number );
 static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
 static GtkTreeModel *gsb_scheduler_list_create_model ( void );
 static GtkWidget *gsb_scheduler_list_create_tree_view (void);
@@ -105,6 +108,8 @@ static gint gsb_scheduler_list_sort_function_by_payee ( GtkTreeModel *model,
                         GtkTreeIter *iter_2,
                         gint *column_ptr );
 static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
+static gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
+                        gint mother_scheduled_number );
 static void popup_scheduled_context_menu ( void );
 /*END_STATIC*/
 
@@ -117,7 +122,7 @@ extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern GtkWidget * navigation_tree_view;
+extern gsb_real null_real;
 extern GtkWidget *scheduler_button_delete;
 extern GtkWidget *scheduler_button_edit;
 extern GtkWidget *scheduler_button_execute;
@@ -837,12 +842,17 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
     mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number );
     if ( mother_scheduled_number )
     {
+        gint white_line_number;
+
         mother_iter = gsb_scheduler_list_get_iter_from_scheduled_number ( mother_scheduled_number );
         if ( !mother_iter )
             /* it's a child but didn't find the mother, it can happen in old files previous to 0.6
              * where the children wer saved before the mother, return FALSE here will add that
              * child to a list to append it again later */
             return FALSE;
+
+        white_line_number = gsb_data_scheduled_get_white_line ( mother_scheduled_number );
+        gsb_scheduler_list_update_white_child ( white_line_number, mother_scheduled_number );
     }
 
     pGDateCurrent = gsb_date_copy ( gsb_data_scheduled_get_date ( scheduled_number ) );
@@ -877,6 +887,8 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
                 white_line_number = gsb_data_scheduled_new_white_line ( scheduled_number );
                 gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
             }
+
+            gsb_scheduler_list_update_white_child ( white_line_number, scheduled_number );
         }
 
         /* if it's a split, we show only one time and color the background */
@@ -983,63 +995,73 @@ gboolean gsb_scheduler_list_update_transaction_in_list ( gint scheduled_number )
 
     devel_debug_int (scheduled_number);
 
-    if ( !scheduled_number
-	 ||
-	 !gsb_scheduler_list_get_model ())
-	return FALSE;
+    if ( !scheduled_number || !gsb_scheduler_list_get_model ( ) )
+        return FALSE;
 
     /* the same transaction can be showed more than one time because of the different views,
      * not so difficult, go throw the list and for each iter corresponding to the scheduled
      * transaction, re-fill the line */
-    store = GTK_TREE_STORE (gsb_scheduler_list_get_model ());
+    store = GTK_TREE_STORE ( gsb_scheduler_list_get_model ( ) );
 
-    pGDateCurrent = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
+    pGDateCurrent = gsb_date_copy ( gsb_data_scheduled_get_date ( scheduled_number ) );
 
     /* fill the text line */
-    gsb_scheduler_list_fill_transaction_text ( scheduled_number,
-					       line );
+    gsb_scheduler_list_fill_transaction_text ( scheduled_number, line );
 
-    if (gtk_tree_model_get_iter_first ( GTK_TREE_MODEL (store), &iter))
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( store ), &iter ) )
     {
-	do
-	{
-	    gint scheduled_number_tmp;
-	    GtkTreeIter child_iter;
+        do
+        {
+            gint scheduled_number_tmp;
+            GtkTreeIter child_iter;
 
-	    gtk_tree_model_get ( GTK_TREE_MODEL (store), &iter,
-				 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number_tmp,
-				 -1 );
-	    if (scheduled_number_tmp == scheduled_number)
-	    {
-		gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
-							  &iter,
-							  line );
-		/* go to the next date if ever there is several lines of that scheduled */
-		pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
+            gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
+                                &iter,
+                                SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number_tmp,
+                                -1 );
+            if ( scheduled_number_tmp == scheduled_number )
+            {
+                gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE ( store ), &iter, line );
 
-		line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
-	    }
+                /* go to the next date if ever there is several lines of that scheduled */
+                pGDateCurrent = gsb_scheduler_get_next_date ( scheduled_number, pGDateCurrent );
 
-	    /* i still haven't found a function to go line by line, including the children,
-	     * so do another do/while into the first one */
-	    if (gtk_tree_model_iter_children (GTK_TREE_MODEL (store), &child_iter, &iter))
-	    {
-		/* we are on the child */
-		do
-		{
-		    gtk_tree_model_get ( GTK_TREE_MODEL (store), &child_iter,
-					 SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number_tmp,
-					 -1 );
-		    if (scheduled_number_tmp == scheduled_number)
-			gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
-								  &child_iter,
-								  line );
-		}
-		while ( gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &child_iter));
-	    }
-	}
-	while ( gtk_tree_model_iter_next (GTK_TREE_MODEL (store), &iter));
+                line[COL_NB_DATE] = gsb_format_gdate ( pGDateCurrent );
+            }
+
+            /* i still haven't found a function to go line by line, including the children,
+             * so do another do/while into the first one */
+            if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( store ), &child_iter, &iter ) )
+            {
+                gint white_line_number = 0;
+                gint mother_number = 0;
+                /* we are on the child */
+                do
+                {
+                    gtk_tree_model_get ( GTK_TREE_MODEL (store),
+                                        &child_iter,
+                                        SCHEDULER_COL_NB_TRANSACTION_NUMBER, &scheduled_number_tmp,
+                                        -1 );
+
+                    if ( scheduled_number_tmp < -1 )
+                    {
+                        white_line_number = scheduled_number_tmp;
+                        mother_number = gsb_data_scheduled_get_mother_scheduled_number ( white_line_number );
+                    }
+
+                    if (scheduled_number_tmp == scheduled_number)
+                        gsb_scheduler_list_fill_transaction_row ( GTK_TREE_STORE (store),
+                                        &child_iter,
+                                        line );
+                }
+                while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &child_iter ) );
+
+                gsb_scheduler_list_update_white_child ( white_line_number, mother_number );
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
     }
+
     return FALSE;
 }
 
@@ -1625,7 +1647,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 
 	case GDK_Left:
 	    /* if we press left, give back the focus to the tree at left */
-	    gtk_widget_grab_focus (navigation_tree_view);
+	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 	    break;
 
 	case GDK_space:
@@ -2134,6 +2156,19 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
                         GINT_TO_POINTER ( scheduled_number ) );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Clone transaction */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_COPY,
+                        GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
+                        GINT_TO_POINTER ( scheduled_number ) );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
@@ -2193,6 +2228,63 @@ void popup_scheduled_context_menu ( void )
     gtk_widget_show_all (menu);
     gtk_menu_popup ( GTK_MENU(menu), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time());
 }
+
+
+/**
+ * Clone selected transaction if any.  Update user interface as well.
+ *
+ * \param menu_item
+ * \param null
+ *
+ * \return FALSE
+ */
+gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
+                        gint *scheduled_number )
+{
+    gint new_scheduled_number;
+    gint tmp_scheduled_number;
+
+    tmp_scheduled_number = GPOINTER_TO_INT ( scheduled_number );
+    new_scheduled_number = gsb_data_scheduled_new_scheduled ( );
+
+    gsb_data_scheduled_copy_scheduled ( tmp_scheduled_number, new_scheduled_number );
+
+    if ( gsb_data_scheduled_get_split_of_scheduled ( tmp_scheduled_number ) )
+    {
+        GSList *tmp_list;
+
+        tmp_list = g_slist_copy ( gsb_data_scheduled_get_scheduled_list ( ) );
+
+        while ( tmp_list )
+        {
+            gint split_scheduled_number;
+
+            split_scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
+
+            if ( gsb_data_scheduled_get_mother_scheduled_number (
+             split_scheduled_number ) == tmp_scheduled_number )
+            {
+                gint new_number;
+
+                new_number = gsb_data_scheduled_new_scheduled ( );
+                gsb_data_scheduled_copy_scheduled ( split_scheduled_number, new_number );
+                gsb_data_scheduled_set_mother_scheduled_number ( new_number, new_scheduled_number );
+            }
+
+            tmp_list = tmp_list -> next;
+        }
+    }
+
+    gsb_scheduler_list_fill_list ( gsb_scheduler_list_get_tree_view ( ) );
+    gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view ( ) );
+    gsb_scheduler_list_select ( new_scheduled_number );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
+
+    return FALSE;
+}
+
 
 /**
  * Called to edit a specific transaction but the number of transaction
@@ -2446,6 +2538,69 @@ gint gsb_scheduler_list_sort_function_by_account ( GtkTreeModel *model,
 
     return return_value;
 }
+
+
+gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
+                        gint mother_scheduled_number )
+{
+    GtkTreeIter *iter = NULL;
+    GSList *tmp_list;
+    gsb_real total_split = null_real;
+    gsb_real variance;
+    gchar *tmp_str;
+
+    if ( !tree_model_scheduler_list )
+        return FALSE;
+
+    iter = gsb_scheduler_list_get_iter_from_scheduled_number ( white_line_number );
+    if ( !iter )
+        return FALSE;
+
+    tmp_list = gsb_data_scheduled_get_scheduled_list (  );
+    while ( tmp_list )
+    {
+        gint split_scheduled_number;
+
+        split_scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
+
+        if ( gsb_data_scheduled_get_mother_scheduled_number (
+         split_scheduled_number ) == mother_scheduled_number )
+        {
+            total_split = gsb_real_add ( total_split,
+                        gsb_data_scheduled_get_amount ( split_scheduled_number ) );
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    variance = gsb_real_sub ( gsb_data_scheduled_get_amount ( mother_scheduled_number ), total_split );
+
+    /* show the variance and sub-total only if different of the scheduled */
+    if ( variance.mantissa )
+    {
+        gchar *amount_string;
+        gchar *variance_string;
+        gint currency_number;
+
+        currency_number = gsb_data_scheduled_get_currency_number ( mother_scheduled_number );
+        amount_string = gsb_real_get_string_with_currency ( total_split, currency_number, TRUE);
+        variance_string = gsb_real_get_string_with_currency (variance, currency_number, TRUE);
+
+        tmp_str = g_strdup_printf ( _("Total : %s (variance : %s)"), amount_string, variance_string );
+
+        g_free ( amount_string );
+        g_free ( variance_string );
+    }
+    else
+        tmp_str = "";
+
+    gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ), iter, 2, tmp_str, -1 );
+
+    if ( tmp_str && strlen ( tmp_str ) )
+        g_free ( tmp_str );
+
+    return TRUE;
+}
+
 
 
 /* Local Variables: */

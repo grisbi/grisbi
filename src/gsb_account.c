@@ -67,7 +67,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -90,8 +89,9 @@ gboolean gsb_account_new ( kind_account account_type,
                gchar *name_icon )
 {
     gint account_number;
+    GtkWidget *notebook_general;
 
-    /*     create the new account */ 
+    /*     create the new account */
     account_number = gsb_data_account_new (account_type);
     if ( account_number == -1 )
     {
@@ -117,21 +117,22 @@ gboolean gsb_account_new ( kind_account account_type,
 								 gsb_data_currency_get_floating_point (currency_number) ) );
     gsb_data_account_set_name (account_number, name);
 
-    /* update the combofix for categ */ 
+    /* update the combofix for categ */
     gsb_category_update_combofix ( FALSE );
 
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
 				    FALSE );
 
-    /* update the main page */ 
+    /* update the main page */
     mise_a_jour_liste_comptes_accueil = 1;
 
-    /* update the accounts lists */ 
+    /* update the accounts lists */
     gsb_menu_update_accounts_in_menus (); 
 
-    /* do the next part only if the widgets are created 
+    /* do the next part only if the widgets are created
      * (can come here at the end of the new file assistant...) */
+    notebook_general = gsb_gui_get_general_notebook ( );
     if (notebook_general)
     {
         /* Add an entry in navigation pane. */
@@ -252,9 +253,11 @@ gboolean gsb_account_delete ( void )
 
     if ( gsb_gui_navigation_get_current_account () == deleted_account )
     {
-	/* update the transaction list */
+        GtkWidget *notebook_general;
 
-	page_number = gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook_general));
+	/* update the transaction list */
+    notebook_general = gsb_gui_get_general_notebook ( );
+	page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
 
 	navigation_change_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
 

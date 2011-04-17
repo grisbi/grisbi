@@ -570,6 +570,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                         gchar **file_content,
                         gint archive_number )
 {
+    GQueue *tmp_queue;
     gchar *first_string_to_free;
     gchar *second_string_to_free;
     gint i,j;
@@ -583,6 +584,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *date_format;
     gchar *mon_decimal_point;
     gchar *mon_thousands_sep;
+    gchar *navigation_order_list = NULL;
     gboolean is_archive = FALSE;
 
     /* prepare stuff to save general information */
@@ -652,16 +654,42 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	else
 	    transaction_column_align_write  = utils_str_itoa ( transaction_col_align[i] );
 
+    /* prépare l'ordre des pages dans le panneau de gauche */
+    tmp_queue = gsb_gui_navigation_get_pages_list ( );
+
+    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    {
+        struct_page *page;
+
+        page = g_queue_peek_nth ( tmp_queue, i );
+
+        if ( navigation_order_list == NULL )
+            navigation_order_list = utils_str_itoa ( page -> type_page );
+        else
+        {
+            navigation_order_list = g_strconcat (
+                        first_string_to_free =  navigation_order_list,
+                        "-",
+                        second_string_to_free = utils_str_itoa ( page -> type_page ),
+                        NULL );
+
+            g_free ( first_string_to_free );
+            g_free ( second_string_to_free );
+        }
+    }
+    
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
     {
-	gchar* tmpstr = skipped_lines_string;
-	skipped_lines_string = g_strconcat ( tmpstr ,
-					     "-", 
-					     utils_str_itoa ( etat.csv_skipped_lines[i] ),
-					     NULL );
-        g_free ( tmpstr );
+        skipped_lines_string = g_strconcat (
+                        first_string_to_free =  skipped_lines_string ,
+					    "-", 
+					    second_string_to_free = utils_str_itoa ( etat.csv_skipped_lines[i] ),
+					    NULL );
+
+        g_free ( first_string_to_free );
+	    g_free ( second_string_to_free );
     }
 
     /* prepare bet_array_column_width_write */
@@ -710,6 +738,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tParty_list_currency_number=\"%d\"\n"
 					   "\t\tCategory_list_currency_number=\"%d\"\n"
 					   "\t\tBudget_list_currency_number=\"%d\"\n"
+                       "\t\tNavigation_list_order=\"%s\"\n"
 					   "\t\tScheduler_view=\"%d\"\n"
 					   "\t\tScheduler_custom_number=\"%d\"\n"
 					   "\t\tScheduler_custom_menu=\"%d\"\n"
@@ -761,6 +790,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	no_devise_totaux_tiers,
 	no_devise_totaux_categ,
 	no_devise_totaux_ib,
+    my_safe_null_str ( navigation_order_list ),
 	affichage_echeances,
 	affichage_echeances_perso_nb_libre,
 	affichage_echeances_perso_j_m_a,
@@ -808,6 +838,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     g_free ( date_format );
     g_free ( mon_decimal_point );
     g_free ( mon_thousands_sep );
+    g_free ( navigation_order_list );
 
     /* append the new string to the file content
      * and return the new iterator */

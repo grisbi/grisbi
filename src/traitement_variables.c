@@ -73,6 +73,7 @@
 #include "import.h"
 #include "main.h"
 #include "menu.h"
+#include "navigation.h"
 #include "structures.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
@@ -106,6 +107,7 @@ static gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Transaction number"),
     N_("Number"),
     NULL };
+
 
 /* background color */
 #define BG_COLOR_1_RED      55000
@@ -226,11 +228,9 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
-extern GtkWidget *notebook_general;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
@@ -292,6 +292,7 @@ void init_variables ( void )
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
+    gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
     gint i;
     
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
@@ -306,6 +307,9 @@ void init_variables ( void )
 
     /* init the decimal point and the thousands separator. */
     initialise_number_separators ( );
+
+    /* initialise l'ordre des pages du panneau de gauche */
+    gsb_gui_navigation_init_pages_list ( default_navigation_order_list );
 
     /* if ever there is still something from the previous list,
      * erase now */
@@ -353,7 +357,7 @@ void init_variables ( void )
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file
      * to know if the widgets are created or not */
-    notebook_general = NULL;
+    gsb_gui_init_general_notebook ( );
 
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );
@@ -444,7 +448,7 @@ void init_variables ( void )
         run.scheduler_column_width = NULL;
     }
     
-    navigation_tree_view = NULL;
+    gsb_gui_navigation_init_tree_view ( );
 
     /* free the form */
     gsb_form_widget_free_list ();
@@ -496,6 +500,7 @@ void init_variables ( void )
 void free_variables ( void )
 {
     gsb_data_print_config_free ();
+    gsb_gui_navigation_free_pages_list ( );
 }
 
 /**

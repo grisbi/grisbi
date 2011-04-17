@@ -155,7 +155,6 @@ extern GdkColor couleur_bet_solde;
 extern GdkColor couleur_bet_transfert;
 extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern GtkWidget *notebook_general;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
@@ -864,9 +863,12 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         else
             continue;
 
+        str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        scheduled_number,
+                        SPP_ORIGIN_SCHEDULED );
+
         currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
-        str_amount = gsb_real_safe_real_to_string ( amount, 
-                    gsb_data_currency_get_floating_point ( currency_number ) );
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
@@ -1010,15 +1012,16 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         if ( g_date_compare ( date, date_min ) < 0 )
             continue;
 
-
         str_date = gsb_format_gdate ( date );
         g_value_init ( &date_value, G_TYPE_DATE );
         g_value_set_boxed ( &date_value, date );
 
-        currency_number = gsb_data_transaction_get_currency_number ( transaction_number);
-        str_amount = gsb_real_safe_real_to_string ( amount, 
-                    gsb_data_currency_get_floating_point ( currency_number ) );
+        str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        transaction_number,
+                        SPP_ORIGIN_TRANSACTION );
 
+        currency_number = gsb_data_transaction_get_currency_number ( transaction_number);
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
@@ -2587,6 +2590,8 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
         gchar *str_debit = NULL;
         gchar *str_credit = NULL;
         gchar *str_date;
+        gint currency_number;
+        gint replace_currency;
         gchar *str_description;
         gchar *str_amount;
         gsb_real amount;
@@ -2607,19 +2612,26 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         value );
 
         if ( transfert -> type == 0 )
+        {
             amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+            replace_currency = gsb_data_account_get_currency ( transfert -> replace_account );
+        }
         else
-            amount = gsb_data_partial_balance_get_current_amount (
-                        transfert -> replace_account );
+        {
+            amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+            replace_currency = gsb_data_partial_balance_get_currency ( transfert -> replace_account );
+        }
 
-        str_amount = gsb_real_safe_real_to_string ( amount,
-                        gsb_data_account_get_currency_floating_point ( account_number ) );
+        str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        replace_currency,
+                        SPP_ORIGIN_ACCOUNT );
 
-        if ( amount.mantissa < 0 )
-            str_debit = gsb_transfert_get_str_amount ( transfert,
-                        gsb_real_opposite ( amount ) );
+        currency_number = gsb_data_account_get_currency ( transfert -> replace_account );
+        if (amount.mantissa < 0)
+            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_transfert_get_str_amount ( transfert, amount );
+            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE);
 
         str_date = gsb_format_gdate ( transfert -> date );
 

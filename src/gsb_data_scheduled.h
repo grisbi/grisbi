@@ -7,8 +7,13 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+gboolean gsb_data_scheduled_copy_scheduled ( gint source_scheduled_number,
+                        gint target_scheduled_number );
 gint gsb_data_scheduled_get_account_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number );
+gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency ( gint scheduled_number,
+                        gint return_currency_number,
+                        gint return_exponent );
 gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number );
 gint gsb_data_scheduled_get_automatic_scheduled ( gint scheduled_number );
 gint gsb_data_scheduled_get_budgetary_number ( gint scheduled_number );
@@ -34,6 +39,7 @@ gint gsb_data_scheduled_get_sub_budgetary_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_sub_category_number ( gint scheduled_number );
 gint gsb_data_scheduled_get_user_entry ( gint scheduled_number );
 gint gsb_data_scheduled_get_user_interval ( gint scheduled_number );
+gboolean gsb_data_scheduled_get_variance ( gint mother_scheduled_number );
 gint gsb_data_scheduled_get_white_line ( gint scheduled_number);
 gboolean gsb_data_scheduled_init_variables ( void );
 gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number );

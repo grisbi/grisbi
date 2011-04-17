@@ -137,7 +137,6 @@ static GtkWidget *gsb_etats_config_togglebutton_set_button_select ( gchar *sw_na
 
 /*START_EXTERN*/
 extern GtkWidget *notebook_config_etat;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
@@ -264,6 +263,7 @@ GtkWidget *gsb_etats_config_get_variable_by_name ( const gchar *gtk_builder_var,
 void gsb_etats_config_personnalisation_etat ( void )
 {
     GtkWidget *dialog;
+    GtkWidget *notebook_general;
     GtkWidget *tree_view;
     gchar *filename;
     gint current_report_number;
@@ -294,6 +294,7 @@ void gsb_etats_config_personnalisation_etat ( void )
     if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
         return;
 
+    notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 

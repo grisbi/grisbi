@@ -94,13 +94,9 @@ gint id_timeout = 0;
 
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
-extern GtkWidget *main_hpaned;
-extern GtkWidget *main_vbox;
-extern GtkWidget * navigation_tree_view;
 extern gsize nb_derniers_fichiers_ouverts;
 extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
-extern GtkWidget *notebook_general;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
@@ -168,8 +164,9 @@ gboolean gsb_file_new_finish ( void )
  */
 void gsb_file_new_gui ( void )
 {
-    GtkWidget *window_vbox_principale;
-    GtkWidget * tree_view_widget;
+    GtkWidget *main_vbox;
+    GtkWidget *tree_view_widget;
+    GtkWidget *notebook_general;
 
     /* dégrise les menus nécessaire */
     menus_sensitifs ( TRUE );
@@ -178,9 +175,9 @@ void gsb_file_new_gui ( void )
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
-    gsb_status_message ( _("Creating main window"));
-    window_vbox_principale = g_object_get_data ( G_OBJECT ( run.window ), "window_vbox_principale" );
-    gtk_box_pack_start ( GTK_BOX ( window_vbox_principale), create_main_widget(), TRUE, TRUE, 0 );
+    gsb_status_message ( _("Creating main window") );
+    main_vbox = g_object_get_data ( G_OBJECT ( run.window ), "main_vbox" );
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), gsb_gui_create_general_widgets ( ), TRUE, TRUE, 0 );
 
     /* create the model */
     if (!transaction_list_create ())
@@ -204,6 +201,7 @@ void gsb_file_new_gui ( void )
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();
 
+    notebook_general = gsb_gui_get_general_notebook ( );
     gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
 
     gtk_widget_show ( notebook_general );
@@ -493,7 +491,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     /* set the focus to the selection tree at left */
-    gtk_widget_grab_focus (navigation_tree_view);
+    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 
     return TRUE;
 }
@@ -972,8 +970,7 @@ gboolean gsb_file_close ( void )
 		 &&
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
-
-	    gtk_widget_destroy (main_vbox);
+        gsb_gui_init_general_vbox ( );
 
 	    /* free all the variables */
  	    init_variables ();
@@ -983,8 +980,7 @@ gboolean gsb_file_close ( void )
 
 	    menus_sensitifs ( FALSE );
 
-	    main_hpaned = NULL;
-	    table_etat = NULL;
+        table_etat = NULL;
 
 	    return ( TRUE );
 

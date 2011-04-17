@@ -175,8 +175,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
-extern GtkWidget *notebook_general;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -1355,7 +1353,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     case GDK_Left:
         /* if we press left, give back the focus to the tree at left */
-        gtk_widget_grab_focus ( navigation_tree_view );
+        gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
         break;
 
     case GDK_Home:
@@ -2432,7 +2430,7 @@ gboolean new_transaction ()
 	if ( gsb_gui_navigation_get_current_account ( ) == -1 )
 		return FALSE;
 
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
     gsb_form_escape_form();
     gsb_form_show (TRUE);
     transaction_list_select ( -1 );
@@ -2452,7 +2450,7 @@ void remove_transaction ()
 
     gsb_transactions_list_delete_transaction (gsb_data_account_get_current_transaction_number (gsb_gui_navigation_get_current_account ()),
 					      TRUE );
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
 }
 
 
@@ -2480,7 +2478,7 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
     update_transaction_in_trees (new_transaction_number);
 
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
 
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
@@ -2628,7 +2626,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
     {
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
 
 	update_transaction_in_trees (gsb_data_account_get_current_transaction_number (source_account));
 
@@ -2662,7 +2660,7 @@ void move_selected_operation_to_account_nb ( gint *account )
     if ( gsb_transactions_list_move_transaction_to_account ( gsb_data_account_get_current_transaction_number (source_account),
 							     target_account ))
     {
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), 1 );
+	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
 
 	update_transaction_in_trees ( gsb_data_account_get_current_transaction_number (
                         source_account ) ) ;

@@ -108,7 +108,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*START_EXTERN*/
 extern GdkColor calendar_entry_color;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *navigation_tree_view;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -540,19 +539,24 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     /* we take focus only if asked */
     if (grab_focus)
     {
-	/* the form is full, if it's not a split, we give the focus to the date
-	 * else, we give the focus to the first free form element */
-	if (mother_number)
-	    focus_to = gsb_form_widget_next_element ( account_number,
+        GtkWidget *widget;
+
+        /* the form is full, if it's not a split, we give the focus to the date
+         * else, we give the focus to the first free form element */
+        if (mother_number)
+            focus_to = gsb_form_widget_next_element ( account_number,
 						      TRANSACTION_FORM_DATE,
 						      GSB_RIGHT );
-	else
-	    focus_to = TRANSACTION_FORM_DATE;
+        else
+            focus_to = TRANSACTION_FORM_DATE;
 
-	gtk_editable_select_region ( GTK_EDITABLE ( gsb_form_widget_get_widget (focus_to)),
-				  0,
-				  -1);
-	gtk_widget_grab_focus ( gsb_form_widget_get_widget (focus_to));
+        widget = gsb_form_widget_get_widget ( focus_to );
+        gtk_editable_select_region ( GTK_EDITABLE ( widget ), 0, -1 );
+        if ( !is_transaction && gtk_widget_is_focus ( widget ) )
+            gsb_form_widget_entry_get_focus ( widget, NULL, GINT_TO_POINTER ( focus_to ) );
+        else
+            gtk_widget_grab_focus ( widget );
+
     }
 
     return FALSE;
@@ -2644,25 +2648,27 @@ gboolean gsb_form_finish_edition ( void )
 	/* we need to use edit_transaction to make a new child split if necessary */
 	if ( is_transaction)
 	    gsb_transactions_list_edit_transaction (
-                        gsb_data_account_get_current_transaction_number (account_number) );
+                        gsb_data_account_get_current_transaction_number ( account_number ) );
 	else
-	    gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
+	    gsb_scheduler_list_edit_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ) );
     }
     else
         gsb_form_hide ();
 
     /* on sort de la saisie des opérations filles si variance == 0 */
-    if ( is_transaction
-     &&
-     ( mother_number = gsb_data_transaction_get_mother_transaction_number ( transaction_number ) )
-     &&
-     transaction_list_get_variance ( gsb_data_account_get_current_transaction_number (
-                        account_number ) ) )
-        transaction_list_select ( mother_number );
+    if ( ( mother_number = gsb_data_mix_get_mother_transaction_number ( transaction_number, is_transaction ) ) )
+    {
+        if ( is_transaction
+         &&
+         transaction_list_get_variance ( gsb_data_account_get_current_transaction_number ( account_number ) ) )
+            transaction_list_select ( mother_number );
+        else if ( !is_transaction && !execute_scheduled && gsb_data_scheduled_get_variance ( mother_number ) )
+            gsb_scheduler_list_select ( mother_number );
+    }
 
     /* if it was a modification of transaction, we need to update the sort and colors
      * (done automatically for new transaction) */
-    if ( !new_transaction && !execute_scheduled )
+    if ( is_transaction && !new_transaction )
         gsb_transactions_list_update_tree_view (account_number, TRUE);
 
     /* show the warnings */
@@ -3470,7 +3476,7 @@ gboolean gsb_form_escape_form ( void )
     {
 	case ORIGIN_VALUE_OTHER:
 	    notice_debug ("Should not come here... (gsb_form_escape_form)");
-	    gtk_widget_grab_focus (navigation_tree_view);
+	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 	    break;
 
 	case ORIGIN_VALUE_HOME:

@@ -31,45 +31,47 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
+#include "accueil.h"
 #include "bet_data.h"
+#include "bet_finance_ui.h"
+#include "categories_onglet.h"
+#include "etats_onglet.h"
+#include "fenetre_principale.h"
 #include "gsb_account_property.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_import_rule.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
-#include "utils_dates.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "fenetre_principale.h"
-#include "bet_finance_ui.h"
-#include "menu.h"
-#include "etats_onglet.h"
-#include "accueil.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
+#include "main.h"
+#include "menu.h"
+#include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
-#include "erreur.h"
-#include "structures.h"
 #include "utils.h"
-#include "gsb_dirs.h"
+#include "utils_dates.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
+
 
 /*START_STATIC*/
 static void create_report_list ( GtkTreeModel * model, GtkTreeIter * reports_iter );
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
+static void gsb_gui_navigation_clear_pages_list ( void );
 static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel * tree_model, 
                         GtkTreePath *path, 
                         GtkTreeIter *iter, 
@@ -80,9 +82,13 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel * tree_
                         gpointer data );
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
+static void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
+                        gint type_page );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection * selection, 
-					    GtkTreeIter * iter, gint page, 
-					    gint account_number, gpointer report );
+					    GtkTreeIter *iter,
+                        gint page, 
+					    gint account_number,
+                        gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel * model, 
                         GtkTreeIter * account_iter,
                         gint account_number );
@@ -110,26 +116,28 @@ extern GtkWidget *account_page;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *notebook_general;
 /*END_EXTERN*/
 
 
 /** Navigation tree view. */
-GtkWidget * navigation_tree_view = NULL;
+static GtkWidget *navigation_tree_view = NULL;
 
 /** Model of the navigation tree. */
-GtkTreeModel * navigation_model = NULL;
+static GtkTreeModel *navigation_model = NULL;
 
 /** Widget that hold the scheduler calendar. */
-static GtkWidget * scheduler_calendar = NULL;
+static GtkWidget *scheduler_calendar = NULL;
 
 /** Widget that hold all reconciliation widgets. */
-GtkWidget * reconcile_panel;
+GtkWidget *reconcile_panel;
 
 /* contains the number of the last account
  * when switching between 2 accounts
  * at the end of the switch, contains the current account number */
 static gint buffer_last_account = -1;
+
+/** contains a g_slist of struct_navigation_page */
+static GQueue *pages_list = NULL;
 
 
 /**
@@ -138,16 +146,15 @@ static gint buffer_last_account = -1;
  *
  * \return The newly allocated pane.
  */
-GtkWidget * create_navigation_pane ( void )
+GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
     GtkWidget * sw, *vbox;
-    GdkPixbuf * pixbuf;
-    GtkTreeIter iter, account_iter, reports_iter;
+    GQueue *tmp_queue;
     GtkCellRenderer * renderer;
     GtkTreeDragDestIface * navigation_dst_iface;
     GtkTreeDragSourceIface * navigation_src_iface;
     GtkTreeViewColumn * column;
-	gchar* tmpstr;
+	gint i;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
@@ -171,9 +178,9 @@ GtkWidget * create_navigation_pane ( void )
 							    G_TYPE_INT, G_TYPE_INT,
 							    G_TYPE_INT ));
 
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(navigation_model),
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
 					   NAVIGATION_PAGE, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(navigation_model), 
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( navigation_model ), 
 				      NAVIGATION_PAGE, navigation_sort_column,
 				      NULL, NULL );
 
@@ -244,119 +251,17 @@ GtkWidget * create_navigation_pane ( void )
 
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
 				  GTK_TREE_VIEW_COLUMN ( column ) );
-    /* Account list */
-    tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_home.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &account_iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &account_iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Accounts"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_HOME_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1);
-    create_account_list ( GTK_TREE_MODEL(navigation_model) );
 
-    /* Scheduler */
-    tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Scheduler"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_SCHEDULER_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
+    /* crée les pages dans le panneau de gauche */
+    tmp_queue = gsb_gui_navigation_get_pages_list ( );
 
-    /* Payees */
-    tmpstr =  g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "payees.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Payees"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_PAYEES_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
+    for ( i = 0 ; i < tmp_queue -> length ; i++ )
+    {
+        struct_page *page;
 
-    /* Credits simulator */
-    tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "ac_liability.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Credits simulator"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_SIMULATOR_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-
-    /* Categories */
-    tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "categories.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Categories"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_CATEGORIES_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-
-    /* Budgetary lines */
-    tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "budgetary_lines.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Budgetary lines"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_BUDGETARY_LINES_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-
-    /* Reports */
-    tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "reports.png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
-    g_free ( tmpstr );
-    gtk_tree_store_append(GTK_TREE_STORE(navigation_model), &reports_iter, NULL);
-    gtk_tree_store_set(GTK_TREE_STORE(navigation_model), &reports_iter, 
-		       NAVIGATION_PIX, pixbuf,
-		       NAVIGATION_TEXT, _("Reports"), 
-		       NAVIGATION_PIX_VISIBLE, TRUE, 
-		       NAVIGATION_FONT, 800,
-		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
-		       NAVIGATION_ACCOUNT, -1,
-		       NAVIGATION_REPORT, -1,
-		       NAVIGATION_SENSITIVE, 1,
-		       -1 );
-    create_report_list ( GTK_TREE_MODEL(navigation_model), &reports_iter );
+        page = g_queue_peek_nth ( tmp_queue, i );
+        gsb_gui_navigation_set_navigation_pages ( navigation_model, page -> type_page );
+    }
 
     /* Finish tree. */
     gtk_tree_view_expand_all ( GTK_TREE_VIEW ( navigation_tree_view ) );
@@ -516,7 +421,7 @@ gint gsb_gui_navigation_get_current_report ( void )
  * \param model		Tree model to insert items into.
  * \param account_iter	Parent iter.
  */
-void create_account_list ( GtkTreeModel * model )
+void gsb_gui_navigation_create_account_list ( GtkTreeModel * model )
 {
     GSList *list_tmp;
     GtkTreeIter parent, child;
@@ -1115,7 +1020,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     devel_debug (NULL);
 
     page_number = gsb_gui_navigation_get_current_page ();
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
@@ -1684,6 +1589,196 @@ void gsb_gui_navigation_update_home_page ( void )
         mise_a_jour_accueil ( TRUE );
     else
         mise_a_jour_liste_comptes_accueil = TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_gui_navigation_get_tree_view ( void )
+{
+    return navigation_tree_view;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_init_tree_view ( void )
+{
+    navigation_tree_view = NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkTreeModel *gsb_gui_navigation_get_model ( void )
+{
+    if ( navigation_model )
+        return navigation_model;
+    else
+        return NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list )
+{
+    gchar **pointeur_char;
+    gint i;
+
+    if ( pages_list )
+        gsb_gui_navigation_clear_pages_list ( );
+
+    pointeur_char = g_strsplit ( order_list, "-", 0 );
+
+    for ( i = 0 ; i < g_strv_length ( pointeur_char ) ; i++ )
+    {
+        struct_page *page;
+
+        page = g_malloc0 ( sizeof ( struct_page ) );
+        page -> ordre = i;
+        page -> type_page = utils_str_atoi ( pointeur_char[i] );
+
+        g_queue_push_tail ( pages_list, page );
+    }
+
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_init_pages_list ( const gchar *order_list )
+{
+    GQueue *new_queue;
+
+    new_queue = g_queue_new ( );   
+    pages_list = new_queue;
+    gsb_gui_navigation_set_page_list_order ( order_list );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_clear_pages_list ( void )
+{
+    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
+    g_queue_clear ( pages_list );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_free_pages_list ( void )
+{
+    g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
+    g_queue_free ( pages_list );
+}
+
+
+/**
+ * return a pointer on the first element of g_queue of navigation pages
+ * 
+ * \param none
+ * \return a GList
+ * */
+GQueue *gsb_gui_navigation_get_pages_list ( void )
+{
+    return pages_list;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model, gint type_page )
+{
+    GdkPixbuf *pixbuf;
+    GtkTreeIter iter;
+    gchar *title;
+	gchar* tmpstr;
+
+    switch ( type_page )
+    {
+        case GSB_HOME_PAGE :
+            tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "ac_home.png", NULL );
+            title = g_strdup ( _("Accounts") );
+        break;
+        case GSB_SCHEDULER_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "scheduler.png", NULL );
+            title = g_strdup ( _("Scheduler") );
+        break;
+        case GSB_PAYEES_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "payees.png", NULL );
+            title = g_strdup ( _("Payees") );
+        break;
+        case GSB_SIMULATOR_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "ac_liability.png", NULL );
+            title = g_strdup ( _("Credits simulator") );
+        break;
+        case GSB_CATEGORIES_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "categories.png", NULL );
+            title = g_strdup ( _("Categories") );
+        break;
+        case GSB_BUDGETARY_LINES_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "budgetary_lines.png", NULL );
+            title = g_strdup ( _("Budgetary lines") );
+        break;
+        case GSB_REPORTS_PAGE :
+            tmpstr = g_build_filename( gsb_dirs_get_pixmaps_dir ( ), "reports.png", NULL );
+            title = g_strdup ( _("Reports") );
+        break;
+    }
+
+    pixbuf = gdk_pixbuf_new_from_file ( tmpstr , NULL );
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+    gtk_tree_store_set( GTK_TREE_STORE ( navigation_model ), &iter,
+                        NAVIGATION_PIX, pixbuf,
+                        NAVIGATION_TEXT, title,
+                        NAVIGATION_PIX_VISIBLE, TRUE,
+                        NAVIGATION_FONT, 800,
+                        NAVIGATION_PAGE, type_page,
+                        NAVIGATION_ACCOUNT, -1,
+                        NAVIGATION_REPORT, -1,
+                        NAVIGATION_SENSITIVE, 1,
+                        -1);
+
+    g_free ( tmpstr );
+    g_free ( title );
+
+    switch ( type_page )
+    {
+        case GSB_HOME_PAGE :    /* Account list */
+            gsb_gui_navigation_create_account_list ( GTK_TREE_MODEL( model ) );
+        break;
+        case GSB_REPORTS_PAGE :
+            create_report_list ( GTK_TREE_MODEL( model), &iter );
+        break; 
+    }
+
 }
 
 

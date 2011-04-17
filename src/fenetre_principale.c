@@ -52,8 +52,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *create_main_notebook (void );
-static gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook );
+static GtkWidget *gsb_gui_create_general_notebook (void );
+static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
                         const gchar *text,
                         gboolean escape_text );
@@ -65,14 +65,14 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint mini_paned_width;
 /*END_EXTERN*/
 
 
-/* adr du notebook de base */
-GtkWidget *notebook_general = NULL;
-GtkWidget *main_hpaned = NULL;
-GtkWidget *main_vbox = NULL;
+/* données des widgets généraux */
+static GtkWidget *vbox_general = NULL;
+static GtkWidget *hpaned_general = NULL;
+static GtkWidget *notebook_general = NULL;
+static gint hpaned_left_width;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page = NULL;
@@ -91,14 +91,14 @@ static GtkWidget * headings_suffix = NULL;
  *
  * \return A newly-allocated vbox holding all elements.
  */
-GtkWidget * create_main_widget ( void )
+GtkWidget *gsb_gui_create_general_widgets ( void )
 {
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
-    main_vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox_general = gtk_vbox_new ( FALSE, 0 );
 
     headings_eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( headings_eb );
@@ -137,38 +137,39 @@ GtkWidget * create_main_widget ( void )
     gtk_widget_modify_bg ( headings_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
 
-    gtk_box_pack_start ( GTK_BOX(main_vbox), headings_eb, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX( vbox_general ), headings_eb, FALSE, FALSE, 0 );
     gsb_gui_update_show_headings ();
 
     /* Then create and fill the main hpaned. */
-    main_hpaned = gtk_hpaned_new ();
-    g_signal_connect ( G_OBJECT ( main_hpaned ),
+    hpaned_general = gtk_hpaned_new ();
+    g_signal_connect ( G_OBJECT ( hpaned_general ),
 		       "size_allocate",
 		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
 		       NULL );
-    gtk_box_pack_start ( GTK_BOX(main_vbox), main_hpaned, TRUE, TRUE, 0 );
-    gtk_paned_add1 ( GTK_PANED( main_hpaned ), create_navigation_pane ( ) );
-    gtk_paned_add2 ( GTK_PANED( main_hpaned ), create_main_notebook ( ) );
-    gtk_container_set_border_width ( GTK_CONTAINER ( main_hpaned ), 6 );
-    if ( conf.largeur_colonne_comptes_operation )
+    gtk_box_pack_start ( GTK_BOX ( vbox_general ), hpaned_general, TRUE, TRUE, 0 );
+    gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
+    gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
+    if ( hpaned_left_width == -1 )
     {
-	gtk_paned_set_position ( GTK_PANED ( main_hpaned ),
-                        conf.largeur_colonne_comptes_operation );
+        gint width, height;
+
+        gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
+        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
     }
     else
     {
-	gint width, height;
-
-	gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
-    if ( height < mini_paned_width )
-        height = mini_paned_width;
-	gtk_paned_set_position ( GTK_PANED ( main_hpaned ), (gint) width / 4 );
+        if ( hpaned_left_width )
+            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), hpaned_left_width );
+        else
+            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), 1 );
     }
-    gtk_widget_show ( main_hpaned );
 
-    gtk_widget_show ( main_vbox );
+    gtk_widget_show ( hpaned_general );
 
-    return main_vbox;
+    gtk_widget_show ( vbox_general );
+
+    return vbox_general;
 }
 
 
@@ -181,7 +182,7 @@ GtkWidget * create_main_widget ( void )
  *
  * \return the notebook
  */
-GtkWidget *create_main_notebook (void )
+GtkWidget *gsb_gui_create_general_notebook (void )
 {
     GtkWidget * vbox, * form;
 
@@ -205,11 +206,21 @@ GtkWidget *create_main_notebook (void )
     gtk_widget_hide ( form );
 
     /* fill the notebook */
-    gsb_gui_fill_main_notebook ( notebook_general );
+    gsb_gui_fill_general_notebook ( notebook_general );
 
     gtk_widget_show ( vbox );
 
     return vbox;
+}
+
+
+/**
+ *
+ *
+ */
+GtkWidget *gsb_gui_get_general_notebook (void )
+{
+    return notebook_general;
 }
 
 
@@ -220,7 +231,7 @@ GtkWidget *create_main_notebook (void )
  *
  * \return FALSE
  * */
-gboolean gsb_gui_fill_main_notebook ( GtkWidget *notebook )
+gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 {
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
@@ -467,20 +478,83 @@ gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
 }
 
 
+/**
+ *
+ *
+ *
+ */
 gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
                         GtkAllocation *allocation,
                         gpointer null )
 {
-    gint paned_width;
-
-    paned_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
+    hpaned_left_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
     
-    if ( paned_width  < mini_paned_width )
-        gtk_paned_set_position ( GTK_PANED ( hpaned ), mini_paned_width );
-
     return FALSE;
 }
 
+
+/**
+ * initialise notebook_general, hpaned_general et vbox_general
+ *
+ *
+ */
+void gsb_gui_init_general_vbox ( void )
+{
+    if ( vbox_general )
+    {
+        gtk_widget_destroy ( vbox_general );
+        vbox_general = NULL;
+    }
+}
+
+
+/**
+ * initialise notebook_general, hpaned_general et vbox_general
+ *
+ *
+ */
+void gsb_gui_init_general_notebook ( void )
+{
+        notebook_general = NULL;
+}
+
+
+/**
+ * test l'existence de hpaned_general
+ *
+ *
+ */
+gboolean gsb_gui_is_hpaned_general ( void )
+{
+    if ( hpaned_general && GTK_IS_WIDGET ( hpaned_general ) )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/**
+ * renvoie la largeur de la partie gauche du hpaned
+ *
+ *
+ */
+gint gsb_gui_get_hpaned_left_width ( void )
+{
+    return hpaned_left_width;
+}
+
+
+/**
+ * fixe la largeur de la partie gauche du hpaned
+ *
+ *
+ */
+gboolean gsb_gui_set_hpaned_left_width ( gint width )
+{
+    hpaned_left_width = width;
+
+    return TRUE;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
