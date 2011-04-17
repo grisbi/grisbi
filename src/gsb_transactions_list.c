@@ -175,7 +175,6 @@ extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -1354,7 +1353,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     case GDK_Left:
         /* if we press left, give back the focus to the tree at left */
-        gtk_widget_grab_focus ( navigation_tree_view );
+        gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
         break;
 
     case GDK_Home:

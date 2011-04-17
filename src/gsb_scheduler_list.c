@@ -121,7 +121,6 @@ extern GdkColor couleur_grise;
 extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern GtkWidget * navigation_tree_view;
 extern gsb_real null_real;
 extern GtkWidget *scheduler_button_delete;
 extern GtkWidget *scheduler_button_edit;
@@ -1647,7 +1646,7 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 
 	case GDK_Left:
 	    /* if we press left, give back the focus to the tree at left */
-	    gtk_widget_grab_focus (navigation_tree_view);
+	    gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
 	    break;
 
 	case GDK_space:

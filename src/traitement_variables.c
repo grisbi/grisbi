@@ -73,6 +73,7 @@
 #include "import.h"
 #include "main.h"
 #include "menu.h"
+#include "navigation.h"
 #include "structures.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
@@ -226,7 +227,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gint mise_a_jour_soldes_minimaux;
-extern GtkWidget * navigation_tree_view;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -443,7 +443,7 @@ void init_variables ( void )
         run.scheduler_column_width = NULL;
     }
     
-    navigation_tree_view = NULL;
+    gsb_gui_navigation_init_tree_view ( );
 
     /* free the form */
     gsb_form_widget_free_list ();

@@ -108,7 +108,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*START_EXTERN*/
 extern GdkColor calendar_entry_color;
 extern gint mise_a_jour_liste_comptes_accueil;
-extern GtkWidget *navigation_tree_view;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -3477,7 +3476,7 @@ gboolean gsb_form_escape_form ( void )
     {
 	case ORIGIN_VALUE_OTHER:
 	    notice_debug ("Should not come here... (gsb_form_escape_form)");
-	    gtk_widget_grab_focus (navigation_tree_view);
+	    gtk_widget_grab_focus ( gsb_gui_get_navigation_tree_view ( ) );
 	    break;
 
 	case ORIGIN_VALUE_HOME:

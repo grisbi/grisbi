@@ -31,38 +31,38 @@
 
 /*START_INCLUDE*/
 #include "navigation.h"
+#include "accueil.h"
 #include "bet_data.h"
+#include "bet_finance_ui.h"
+#include "categories_onglet.h"
+#include "etats_onglet.h"
+#include "fenetre_principale.h"
 #include "gsb_account_property.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_import_rule.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
-#include "utils_dates.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "fenetre_principale.h"
-#include "bet_finance_ui.h"
-#include "menu.h"
-#include "etats_onglet.h"
-#include "accueil.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
 #include "imputation_budgetaire.h"
+#include "main.h"
+#include "menu.h"
+#include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
 #include "transaction_list_select.h"
 #include "transaction_list_sort.h"
-#include "erreur.h"
-#include "structures.h"
 #include "utils.h"
-#include "gsb_dirs.h"
+#include "utils_dates.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -114,16 +114,16 @@ extern gint mise_a_jour_liste_comptes_accueil;
 
 
 /** Navigation tree view. */
-GtkWidget * navigation_tree_view = NULL;
+static GtkWidget *navigation_tree_view = NULL;
 
 /** Model of the navigation tree. */
-GtkTreeModel * navigation_model = NULL;
+static GtkTreeModel *navigation_model = NULL;
 
 /** Widget that hold the scheduler calendar. */
-static GtkWidget * scheduler_calendar = NULL;
+static GtkWidget *scheduler_calendar = NULL;
 
 /** Widget that hold all reconciliation widgets. */
-GtkWidget * reconcile_panel;
+GtkWidget *reconcile_panel;
 
 /* contains the number of the last account
  * when switching between 2 accounts
@@ -1685,6 +1685,35 @@ void gsb_gui_navigation_update_home_page ( void )
         mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_gui_get_navigation_tree_view ( void )
+{
+    return navigation_tree_view;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_init_tree_view ( void )
+{
+    navigation_tree_view = NULL;
+}
+
+GtkTreeModel *gsb_gui_get_navigation_model ( void )
+{
+    if ( navigation_model )
+        return navigation_model;
+    else
+        return NULL;
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
