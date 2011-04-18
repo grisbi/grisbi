@@ -118,6 +118,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
 
     gsb_data_account_delete( account_number );
     g_date_free(date);
+    CU_ASSERT_EQUAL(TRUE, gsb_data_currency_remove ( cur_number ));
 }
 
 CU_pSuite gsb_data_account_cunit_create_suite()
