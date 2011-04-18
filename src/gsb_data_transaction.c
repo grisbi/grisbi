@@ -2316,10 +2316,10 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     complete_transactions_list = g_slist_remove ( complete_transactions_list,
 						  transaction );
 
-    gsb_data_transaction_free (transaction);
-
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( transaction -> account_number, BET_MAJ_ALL );
+
+    gsb_data_transaction_free (transaction);
 
     return TRUE;
 }
