@@ -492,6 +492,7 @@ void gsb_real_cunit__gsb_real_get_string_with_currency ( void )
     n.exponent = 2;
     s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
+    g_free(s);
 }
 
 
