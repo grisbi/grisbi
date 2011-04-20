@@ -13,6 +13,7 @@ enum navigation_cols {
     NAVIGATION_ACCOUNT,
     NAVIGATION_REPORT,
     NAVIGATION_SENSITIVE,
+    NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
     NAVIGATION_TOTAL,
 };
 
@@ -60,12 +61,12 @@ void gsb_gui_navigation_update_report ( gint report_number ) ;
 void gsb_navigation_update_account_label ( gint account_number );
 void gsb_navigation_update_statement_label ( gint account_number );
 gboolean navigation_change_account ( gint *no_account );
-gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
-                        GtkTreePath * dest_path,
-                        GtkSelectionData * selection_data );
-gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-                        GtkTreePath * dest_path,
-                        GtkSelectionData * selection_data );
+gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
+gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest, 
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
 /* END_DECLARATION */
 
 #endif
