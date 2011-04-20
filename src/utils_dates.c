@@ -392,6 +392,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
         }
         date_format++;
     }
+    g_free ( date_format_orig );
 
     /* TODO: Check that m,d,Yy are present. */
 
@@ -514,7 +515,6 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     /* comment for random crash. Memory allocation problem in split_unique_datefield () */
     g_strfreev ( tab_date );
 
-    g_free ( date_format_orig );
     /* need here to check if the date is valid, else an error occurs when
      * write for example only 31, and the current month has only 30 days... */
     if ( !g_date_valid ( date ) )
