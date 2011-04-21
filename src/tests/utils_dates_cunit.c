@@ -203,6 +203,12 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
 
     /* invalid month */
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+
+
+    /**
+     * tear down
+     */
+    gsb_date_set_format_date ( NULL );
 }
 
 CU_pSuite utils_dates_cunit_create_suite ( void )
