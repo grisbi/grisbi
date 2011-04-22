@@ -100,7 +100,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(0x80000000, balance.mantissa);
     CU_ASSERT_EQUAL(0, balance.exponent);
     */
-    CU_ASSERT_EQUAL(2200000021, balance.mantissa);
+    CU_ASSERT_EQUAL(G_GINT64_CONSTANT(2200000021), balance.mantissa);
     CU_ASSERT_EQUAL(2, balance.exponent);
     
     gint tr_number_3 = gsb_data_transaction_new_transaction(account_number);
