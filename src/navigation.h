@@ -45,7 +45,7 @@ gint gsb_gui_navigation_get_last_account ( void );
 GtkTreeModel *gsb_gui_navigation_get_model ( void );
 GQueue *gsb_gui_navigation_get_pages_list ( void );
 GtkWidget *gsb_gui_navigation_get_tree_view ( void );
-void gsb_gui_navigation_init_pages_list ( const gchar *order_list );
+void gsb_gui_navigation_init_pages_list ( void );
 void gsb_gui_navigation_init_tree_view ( void );
 void gsb_gui_navigation_remove_account ( gint account_number );
 void gsb_gui_navigation_remove_report ( gint report_number );

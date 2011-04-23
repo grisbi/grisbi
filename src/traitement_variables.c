@@ -292,7 +292,6 @@ void init_variables ( void )
     gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
-    gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
     gint i;
     
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
@@ -309,7 +308,7 @@ void init_variables ( void )
     initialise_number_separators ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
-    gsb_gui_navigation_init_pages_list ( default_navigation_order_list );
+    gsb_gui_navigation_init_pages_list ( );
 
     /* if ever there is still something from the previous list,
      * erase now */

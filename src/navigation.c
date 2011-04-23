@@ -146,8 +146,14 @@ GtkWidget *reconcile_panel;
  * at the end of the switch, contains the current account number */
 static gint buffer_last_account = -1;
 
-/** contains a g_queue of struct_page */
+/* contains a g_queue of struct_page */
 static GQueue *pages_list = NULL;
+
+/* nombre de pages du panneau de gauche */
+static gint navigation_nbre_pages = 7;
+
+/* ordre par défaut des pages du panneau de gauche */
+const gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
 
 
 /**
@@ -1718,13 +1724,23 @@ gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list )
 {
     gchar **pointeur_char;
     gint i;
+    gint nbre_pages;
 
     if ( pages_list )
         gsb_gui_navigation_clear_pages_list ( );
 
     pointeur_char = g_strsplit ( order_list, "-", 0 );
 
-    for ( i = 0 ; i < g_strv_length ( pointeur_char ) ; i++ )
+    nbre_pages = g_strv_length ( pointeur_char );
+
+    if ( nbre_pages != navigation_nbre_pages )
+    {
+        g_strfreev ( pointeur_char );
+        pointeur_char = g_strsplit ( default_navigation_order_list, "-", 0 );
+        nbre_pages = navigation_nbre_pages;
+    }
+
+    for ( i = 0 ; i < nbre_pages ; i++ )
     {
         struct_page *page;
 
@@ -1735,6 +1751,8 @@ gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list )
         g_queue_push_tail ( pages_list, page );
     }
 
+    g_strfreev ( pointeur_char );
+
     return TRUE;
 }
 
@@ -1744,13 +1762,13 @@ gboolean gsb_gui_navigation_set_page_list_order ( const gchar *order_list )
  *
  *
  */
-void gsb_gui_navigation_init_pages_list ( const gchar *order_list )
+void gsb_gui_navigation_init_pages_list ( void )
 {
     GQueue *new_queue;
 
-    new_queue = g_queue_new ( );   
+    new_queue = g_queue_new ( );
     pages_list = new_queue;
-    gsb_gui_navigation_set_page_list_order ( order_list );
+    gsb_gui_navigation_set_page_list_order ( default_navigation_order_list );
 }
 
 
