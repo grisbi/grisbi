@@ -40,10 +40,12 @@
 #include "gsb_data_import_rule.h"
 #include "navigation.h"
 #include "menu.h"
+#include "metatree.h"
 #include "import.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "print_transactions_list.h"
 #include "utils_buttons.h"
@@ -53,6 +55,8 @@
 
 /*START_STATIC*/
 static GtkWidget *creation_barre_outils ( void );
+static GtkWidget *creation_barre_outils_echeancier ( void );
+static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean popup_scheduled_view_mode_menu ( GtkWidget * button );
 static gboolean popup_transaction_rules_menu ( GtkWidget * button,
 					gpointer null );
@@ -77,7 +81,8 @@ GtkWidget *menu_import_rules;
 
 
 /*START_EXTERN*/
-extern GtkWidget *barre_outils;
+extern GtkWidget *transaction_toolbar;
+extern GtkWidget *scheduler_toolbar;
 extern gboolean block_menu_cb;
 /*END_EXTERN*/
 
@@ -140,7 +145,7 @@ GtkWidget *creation_barre_outils ( void )
 
     menu = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 					      GTK_STOCK_SELECT_COLOR, _("View"),
-					      G_CALLBACK(popup_transaction_view_mode_menu),
+					      G_CALLBACK (popup_transaction_view_mode_menu),
 					      NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (menu),
 				  _("Change display mode of the list"));
@@ -148,7 +153,7 @@ GtkWidget *creation_barre_outils ( void )
 
     menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 							    GTK_STOCK_EXECUTE, _("Import rules"),
-							    G_CALLBACK(popup_transaction_rules_menu),
+							    G_CALLBACK (popup_transaction_rules_menu),
 							    NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (menu_import_rules),
 				  _("Quick file import by rules"));
@@ -175,15 +180,15 @@ void gsb_gui_update_transaction_toolbar ( void )
 {
     GList * list = NULL;
 
-    list = gtk_container_get_children ( GTK_CONTAINER ( barre_outils ) );
+    list = gtk_container_get_children ( GTK_CONTAINER ( transaction_toolbar ) );
     
     if ( list )
     {
-	gtk_container_remove ( GTK_CONTAINER ( barre_outils ),
+	gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
 			       GTK_WIDGET ( list -> data ) );
 	g_list_free ( list );
     }
-    gtk_container_add ( GTK_CONTAINER ( barre_outils ), creation_barre_outils () );
+    gtk_container_add ( GTK_CONTAINER ( transaction_toolbar ), creation_barre_outils () );
 }
 
 
@@ -481,12 +486,9 @@ gboolean popup_scheduled_view_mode_menu ( GtkWidget * button )
  */
 GtkWidget *creation_barre_outils_echeancier ( void )
 {
-    GtkWidget *hbox, *handlebox, *button;
+    GtkWidget *hbox, *button;
 
-    /* HandleBox + inner hbox */
-    handlebox = gtk_handle_box_new ();
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox );
 
     /* Common actions */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
@@ -542,17 +544,146 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, _("View"),
-						G_CALLBACK(popup_scheduled_view_mode_menu),
+						G_CALLBACK (popup_scheduled_view_mode_menu),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
 				  _("Change display mode of scheduled transaction list"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    return ( hbox );
 }
 
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_scheduler_toolbar ( void )
+{
+    GList * list = NULL;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( scheduler_toolbar ) );
+    
+    if ( list )
+    {
+	gtk_container_remove ( GTK_CONTAINER ( scheduler_toolbar ),
+			       GTK_WIDGET ( list -> data ) );
+	g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( scheduler_toolbar ), creation_barre_outils_echeancier () );
+}
+
+
+
+/**
+ * Create a button bar allowing to act on the payee list.  Some of
+ * these buttons are "linked" to the selection status of the payee
+ * metatree.  That is, if nothing is selected, they will become
+ * unsensitive.
+ *
+ * \return	A newly-allocated widget.
+ */
+GtkWidget *creation_barre_outils_tiers ( void )
+{
+    GtkWidget *hbox, *button;
+    GtkWidget *payee_tree;
+    GtkTreeStore *payee_tree_model;
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+
+    /* get the tree_model and the tree_view */
+    payee_tree_model = gsb_payee_get_tree_store ( );
+    payee_tree = gsb_payee_get_tree_view ( );
+
+    /* Add various icons */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("New payee"), "new-payee.png",
+					       G_CALLBACK ( appui_sur_ajout_payee ),
+					       payee_tree_model );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Create a new payee"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Delete"),
+					   G_CALLBACK ( supprimer_division ),
+					   payee_tree );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ), button, "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Delete selected payee"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_PROPERTIES, _("Properties"),
+					   G_CALLBACK ( edit_payee ),
+					   payee_tree );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ), button, "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Edit selected payee"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+						GTK_STOCK_SELECT_COLOR,
+						_("View"),
+						G_CALLBACK ( popup_payee_view_mode_menu ),
+						NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Change view mode"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+	button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+						_("Manage payees"), "payeesmg.png",
+						G_CALLBACK ( appui_sur_manage_tiers ),
+						NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Manage the payees"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, _("Remove unused payees"),
+					   G_CALLBACK ( payee_remove_unused ),
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Remove orphan payees"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+
+    gtk_widget_show_all ( hbox );
+
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL( payee_tree_model ),
+					    FALSE, "selection" );
+
+    return ( hbox );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_payee_toolbar ( void )
+{
+    GtkWidget *payee_toolbar;
+    GList * list = NULL;
+
+    payee_toolbar = gsb_payee_get_toolbar ( );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( payee_toolbar ) );
+    
+    if ( list )
+    {
+	gtk_container_remove ( GTK_CONTAINER ( payee_toolbar ),
+			       GTK_WIDGET ( list -> data ) );
+	g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( payee_toolbar ), creation_barre_outils_tiers () );
+}
 
 
 

@@ -128,7 +128,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
-extern GtkWidget *payee_tree;
 /*END_EXTERN*/
 
 
@@ -1179,6 +1178,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur )
 {
+    GtkWidget *payee_tree;
     GtkTreeSelection *selection;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -1194,6 +1194,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
     }
 
     page_number = gsb_gui_navigation_get_current_page ( );
+    payee_tree = gsb_payee_get_tree_view ( );
 
     switch ( page_number )
     {

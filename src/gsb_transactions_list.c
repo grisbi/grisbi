@@ -131,7 +131,7 @@ gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* adr de la barre d'outils */
-GtkWidget *barre_outils;
+GtkWidget *transaction_toolbar;
 
 /* contient les tips et titres des colonnes des listes d'opé */
 gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -291,9 +291,9 @@ GtkWidget *creation_fenetre_operations ( void )
     win_operations = gtk_vbox_new ( FALSE, 6 );
 
     /* création de la barre d'outils */
-    barre_outils = gtk_handle_box_new ();
+    transaction_toolbar = gtk_handle_box_new ();
     gsb_gui_update_transaction_toolbar ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), transaction_toolbar, FALSE, FALSE, 0);
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
     tree_view_vbox = gtk_vbox_new ( FALSE, 0 );

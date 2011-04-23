@@ -9,7 +9,8 @@
 
 /* START_DECLARATION */
 gboolean change_aspect_liste ( gint demande );
-GtkWidget *creation_barre_outils_echeancier ( void );
+void gsb_gui_update_payee_toolbar ( void );
+void gsb_gui_update_scheduler_toolbar ( void );
 void gsb_gui_update_transaction_toolbar ( void );
 /* END_DECLARATION */
 #endif

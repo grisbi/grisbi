@@ -150,6 +150,9 @@ gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 
 gint scheduler_current_tree_view_width = 0;
 
+/* toolbar */
+GtkWidget *scheduler_toolbar;
+
 static GtkSortType sort_type;
 
 /**
@@ -190,9 +193,12 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gtk_widget_show ( vbox );
 
     /* create the toolbar */
+    scheduler_toolbar = gtk_handle_box_new ();
+    gtk_widget_show ( scheduler_toolbar );
+    gsb_gui_update_scheduler_toolbar ();
     gtk_box_pack_start ( GTK_BOX ( vbox ),
-			 creation_barre_outils_echeancier(),
-			 FALSE, FALSE, 0 );
+                         scheduler_toolbar,
+                         FALSE, FALSE, 0 );
 
     /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);

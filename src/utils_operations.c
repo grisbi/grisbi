@@ -35,6 +35,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "metatree.h"
+#include "tiers_onglet.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -56,8 +57,6 @@ extern GtkTreeStore *budgetary_line_tree_model;
 extern GtkTreeStore *categ_tree_model;
 extern MetatreeInterface * category_interface;
 extern MetatreeInterface * payee_interface;
-extern GtkWidget *payee_tree;
-extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
 
 
@@ -132,7 +131,9 @@ void update_transaction_in_payee_tree ( gint transaction_number )
 {
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_payee_update_counters ();
-    update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction_number );
+    update_transaction_in_tree ( payee_interface,
+                        GTK_TREE_MODEL ( gsb_payee_get_tree_store ( ) ),
+                        transaction_number );
 }
 
 /**
@@ -168,8 +169,10 @@ void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
 void delete_transaction_in_payee_tree ( gint transaction_number )
 {
     gsb_data_payee_remove_transaction_from_payee (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW (payee_tree), payee_interface,
-				  transaction_number, FALSE);
+    metatree_remove_transaction ( GTK_TREE_VIEW ( gsb_payee_get_tree_view ( ) ),
+                        payee_interface,
+                        transaction_number,
+                        FALSE );
 }
 
 
