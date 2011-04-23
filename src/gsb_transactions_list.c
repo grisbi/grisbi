@@ -131,7 +131,7 @@ gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* adr de la barre d'outils */
-GtkWidget *transaction_toolbar;
+static GtkWidget *transaction_toolbar;
 
 /* contient les tips et titres des colonnes des listes d'opé */
 gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -3826,6 +3826,17 @@ gboolean gsb_transactions_list_set_largeur_col ( void )
     }
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_transactions_list_get_toolbar ( void )
+{
+    return transaction_toolbar;
 }
 
 

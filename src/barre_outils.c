@@ -81,9 +81,6 @@ GtkWidget *menu_import_rules;
 
 
 /*START_EXTERN*/
-extern GtkWidget *transaction_toolbar;
-extern GtkWidget *scheduler_toolbar;
-extern gboolean block_menu_cb;
 /*END_EXTERN*/
 
 
@@ -178,19 +175,21 @@ GtkWidget *creation_barre_outils ( void )
  */
 void gsb_gui_update_transaction_toolbar ( void )
 {
+    GtkWidget *transaction_toolbar;
     GList * list = NULL;
+
+    transaction_toolbar = gsb_transactions_list_get_toolbar ( );
 
     list = gtk_container_get_children ( GTK_CONTAINER ( transaction_toolbar ) );
     
     if ( list )
     {
-	gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
-			       GTK_WIDGET ( list -> data ) );
-	g_list_free ( list );
+        gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
+                        GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
     }
-    gtk_container_add ( GTK_CONTAINER ( transaction_toolbar ), creation_barre_outils () );
+    gtk_container_add ( GTK_CONTAINER ( transaction_toolbar ), creation_barre_outils ( ) );
 }
-
 
 
 /**
@@ -267,6 +266,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     return FALSE;
 }
 
+
 /**
  *
  *
@@ -324,6 +324,7 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 gboolean change_aspect_liste ( gint demande )
 {
     GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+
     switch ( demande )
     {
 	case 0:
@@ -334,7 +335,7 @@ gboolean change_aspect_liste ( gint demande )
 
 	case 1 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowOneLine" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
@@ -343,7 +344,7 @@ gboolean change_aspect_liste ( gint demande )
 	    break;
 	case 2 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowTwoLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
@@ -352,7 +353,7 @@ gboolean change_aspect_liste ( gint demande )
 	    break;
 	case 3 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowThreeLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
@@ -361,7 +362,7 @@ gboolean change_aspect_liste ( gint demande )
 	    break;
 	case 4 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowFourLines" ) ),
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
@@ -377,12 +378,12 @@ gboolean change_aspect_liste ( gint demande )
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 
-	    block_menu_cb = TRUE;
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowReconciled" ) ),
 					    TRUE );
-	    block_menu_cb = FALSE;
+	    gsb_menu_set_block_menu_cb ( FALSE );
 
 	    break;
 
@@ -394,12 +395,12 @@ gboolean change_aspect_liste ( gint demande )
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 
-	    block_menu_cb = TRUE;
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowReconciled" ) ),
 					    FALSE );
-	    block_menu_cb = FALSE;
+	    gsb_menu_set_block_menu_cb ( FALSE );
 
 	    break;
 	case 7 :
@@ -410,12 +411,12 @@ gboolean change_aspect_liste ( gint demande )
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 
-	    block_menu_cb = TRUE;
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 						"/menubar/ViewMenu/ShowArchived" ) ),
 					    TRUE );
-	    block_menu_cb = FALSE;
+	    gsb_menu_set_block_menu_cb ( FALSE );
 
 	    break;
 
@@ -427,12 +428,12 @@ gboolean change_aspect_liste ( gint demande )
 	    if ( etat.modification_fichier == 0 )
             modification_fichier ( TRUE );
 
-	    block_menu_cb = TRUE;
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, 
+                        gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowArchived" ) ),
 					    FALSE );
-	    block_menu_cb = FALSE;
+	    gsb_menu_set_block_menu_cb ( FALSE );
 
 	    break;
     }
@@ -564,7 +565,10 @@ GtkWidget *creation_barre_outils_echeancier ( void )
  */
 void gsb_gui_update_scheduler_toolbar ( void )
 {
+    GtkWidget *scheduler_toolbar;
     GList * list = NULL;
+
+    scheduler_toolbar = gsb_scheduler_list_get_toolbar ( );
 
     list = gtk_container_get_children ( GTK_CONTAINER ( scheduler_toolbar ) );
     

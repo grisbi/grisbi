@@ -56,6 +56,7 @@ gboolean gsb_transactions_list_edit_transaction ( gint transaction_number );
 gboolean gsb_transactions_list_edit_transaction_by_pointer ( gint *transaction_number );
 gboolean gsb_transactions_list_fill_archive_store ( void );
 gfloat gsb_transactions_list_get_row_align ( void );
+GtkWidget *gsb_transactions_list_get_toolbar ( void );
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
                         gint cell_content_number );

@@ -151,7 +151,7 @@ gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 gint scheduler_current_tree_view_width = 0;
 
 /* toolbar */
-GtkWidget *scheduler_toolbar;
+static GtkWidget *scheduler_toolbar;
 
 static GtkSortType sort_type;
 
@@ -2607,6 +2607,16 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
     return TRUE;
 }
 
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_scheduler_list_get_toolbar ( void )
+{
+    return scheduler_toolbar;
+}
 
 
 /* Local Variables: */

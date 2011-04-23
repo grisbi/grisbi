@@ -81,7 +81,7 @@ extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 
-gboolean block_menu_cb = FALSE;
+static gboolean block_menu_cb = FALSE;
 static GtkUIManager *ui_manager;
 static gint merge_id = -1;
 static gint recent_files_merge_id = -1;
@@ -590,7 +590,8 @@ gboolean gsb_gui_toggle_show_form ( void )
     devel_debug (NULL);
 
     /* FIXME benj: ugly but I cannot find a way to block this ... */
-    if ( block_menu_cb ) return FALSE;
+    if ( block_menu_cb )
+        return FALSE;
 
     gsb_form_switch_expander ( );
 
@@ -854,6 +855,20 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
 
         gsb_scheduler_list_set_largeur_col ( );
     }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
+{
+    
+    block_menu_cb = etat;
 
     return FALSE;
 }
