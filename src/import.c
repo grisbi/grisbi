@@ -90,7 +90,8 @@ static gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 static gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
                         gchar *ligne,
                         GtkTreeModel *store );
-static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account );
+static void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account,
+                        gint account_number );
 static void cree_liens_virements_ope_import ( void );
 static GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte );
 static gint gsb_import_add_currency ( struct struct_compte_importation * compte );
@@ -138,7 +139,8 @@ static void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox )
 static gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id );
 static gboolean gsb_import_set_tmp_file ( gchar *filename,
                         gchar * pointeur_char );
-static void gsb_import_show_orphan_transactions ( GSList *orphan_list );
+static void gsb_import_show_orphan_transactions ( GSList *orphan_list,
+                        gint account_number );
 static gboolean import_account_action_activated ( GtkWidget * radio, gint action );
 static gboolean import_active_toggled ( GtkCellRendererToggle * cell, gchar *path_str,
                         gpointer model );
@@ -2041,7 +2043,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
     /* if we are not sure about some transactions, ask now */
     if ( demande_confirmation )
-        confirmation_enregistrement_ope_import ( imported_account );
+        confirmation_enregistrement_ope_import ( imported_account, account_number );
 
     /* ok, now we know what to do for each transactions, can import to the account */
     mother_transaction_number = 0;
@@ -2233,7 +2235,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
  *
  * \return
  * */
-void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account )
+void confirmation_enregistrement_ope_import ( struct struct_compte_importation *imported_account,
+                        gint account_number )
 {
     GSList *list_tmp;
     GtkWidget *dialog;
@@ -2249,11 +2252,14 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
     if ( etat.get_fusion_import_transactions )
-        tmpstr = g_strdup (
-                        _("Confirmation of transactions to be merged") );
+        tmpstr = g_strdup_printf (
+                        _("Confirmation of transactions to be merged in: %s"),
+                        gsb_data_account_get_name ( account_number ) );
     else
-        tmpstr = g_strdup (
-                        _("Confirmation of importation of transactions") );
+        tmpstr = g_strdup_printf (
+                        _("Confirmation of importation of transactions in: %s"),
+                        gsb_data_account_get_name ( account_number ) );
+
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL,
@@ -2475,7 +2481,8 @@ dialog_return:
  * \return the number of the new transaction
  * */
 gint gsb_import_create_transaction ( struct struct_ope_importation *imported_transaction,
-                        gint account_number, gchar * origine )
+                        gint account_number,
+                        gchar *origine )
 {
     gchar **tab_str;
     gint transaction_number;
@@ -3193,33 +3200,41 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
      * on les affiche dans une liste en proposant de les ajouter à la liste */
 
     if ( liste_opes_import_celibataires )
-        gsb_import_show_orphan_transactions ( liste_opes_import_celibataires );
+        gsb_import_show_orphan_transactions ( liste_opes_import_celibataires, account_number );
 }
 
 
 /**
- * 
- * 
  *
- * \param 
  *
- * return 
+ *
+ * \param
+ *
+ * return
  */
-void gsb_import_show_orphan_transactions ( GSList *orphan_list )
+void gsb_import_show_orphan_transactions ( GSList *orphan_list,
+                        gint account_number )
 {
 	GtkWidget *liste_ope_celibataires, *dialog, *label, *scrolled_window;
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
     GSList *list_tmp;
+    gchar* tmp_str;
 
-    dialog = gtk_dialog_new_with_buttons ( _("Orphaned transactions"),
+    tmp_str = g_strdup_printf (
+                        _("Orphaned transactions for: %s"),
+                        gsb_data_account_get_name ( account_number ) );
+
+    dialog = gtk_dialog_new_with_buttons ( tmp_str,
                         GTK_WINDOW ( window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_SELECT_ALL, GTK_RESPONSE_ACCEPT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
                         GTK_STOCK_OK, GTK_RESPONSE_OK,
                         NULL );
+
+    g_free ( tmp_str );
 
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
