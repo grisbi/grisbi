@@ -572,6 +572,7 @@ void gsb_gui_update_all_toolbars ( void )
     gsb_gui_update_payee_toolbar ();
     gsb_gui_update_category_toolbar ();
     gsb_gui_update_budgetary_toolbar ();
+    gsb_gui_update_reports_toolbar ();
 }
 
 
