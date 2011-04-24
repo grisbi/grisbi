@@ -90,11 +90,12 @@ extern GdkColor couleur_selection;
 
 
 
-/* **************************************************************************************************** */
-/* Fonction onglet_imputations : */
-/* crée et renvoie le widget contenu dans l'onglet */
-/* **************************************************************************************************** */
-
+/**
+ * crée et renvoie le widget contenu dans l'onglet
+ *
+ *
+ *
+ */
 GtkWidget *onglet_imputations ( void )
 {
     GtkWidget *scroll_window;
@@ -406,7 +407,7 @@ void exporter_ib ( void )
     switch ( resultat )
     {
 	case GTK_RESPONSE_OK :
-	    nom_ib =file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
+	    nom_ib = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
 	    gsb_file_update_last_path (file_selection_get_last_directory (GTK_FILE_CHOOSER (dialog), TRUE));
 	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 

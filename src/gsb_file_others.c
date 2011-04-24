@@ -92,10 +92,11 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
  * */
 gboolean gsb_file_others_save_category ( gchar *filename )
 {
+    gchar *file_content;
+    gchar *tmp_str;
     FILE *file;
     gulong iterator;
     gulong length_calculated;
-    gchar *file_content;
     gulong length_part;
 
     devel_debug (filename);
@@ -108,6 +109,14 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     length_part = 500;
     
     length_calculated = length_part * g_slist_length (gsb_data_category_get_categories_list());
+    if ( length_calculated == 0 )
+    {
+        tmp_str = g_strdup ( _("There is no category to record. Back.") );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+
+        return ( TRUE );
+    }
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -146,13 +155,13 @@ gboolean gsb_file_others_save_category ( gchar *filename )
 		   iterator,
 		   file ))
     {
-        gchar *tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   filename,
-					   g_strerror(errno) );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	g_free ( file_content);
-	return ( FALSE );
+        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
+                        filename,
+                        g_strerror ( errno ) );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        g_free ( file_content );
+        return ( FALSE );
     }
     
     fclose (file);
@@ -173,10 +182,11 @@ gboolean gsb_file_others_save_category ( gchar *filename )
  * */
 gboolean gsb_file_others_save_budget ( gchar *filename )
 {
+    gchar *file_content;
+    gchar *tmp_str;
     FILE *file;
     gulong iterator;
     gulong length_calculated;
-    gchar *file_content;
     gulong length_part;
 
     devel_debug (filename);
@@ -188,7 +198,15 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 
     length_part = 500;
     
-    length_calculated = length_part * g_slist_length (gsb_data_budget_get_budgets_list());
+    length_calculated = length_part * g_slist_length ( gsb_data_budget_get_budgets_list () );
+    if ( length_calculated == 0 )
+    {
+        tmp_str = g_strdup ( _("There is no budgetary line to record. Back.") );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+
+        return ( TRUE );
+    }
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -227,13 +245,13 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
 		   iterator,
 		   file ))
     {
-	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   filename,
-					   g_strerror(errno) );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	g_free ( file_content);
-	return ( FALSE );
+        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
+                        filename,
+                        g_strerror ( errno ) );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+        g_free ( file_content );
+        return ( FALSE );
     }
     
     fclose ( file );
@@ -254,10 +272,11 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
  * */
 gboolean gsb_file_others_save_report ( gchar *filename )
 {
+    gchar *file_content;
+    gchar *tmp_str;
     FILE *file;
     gulong iterator;
     gulong length_calculated;
-    gchar *file_content;
     gulong length_part;
 
     devel_debug (filename);
@@ -270,6 +289,14 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     length_part = 2500;
     
     length_calculated = length_part * g_slist_length (gsb_data_report_get_report_list ());
+    if ( length_calculated == 0 )
+    {
+        tmp_str = g_strdup ( _("There is no report to record. Back.") );
+        dialogue_error ( tmp_str );
+        g_free ( tmp_str );
+
+        return ( TRUE );
+    }
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated );
@@ -310,13 +337,13 @@ gboolean gsb_file_others_save_report ( gchar *filename )
 		   iterator,
 		   file ))
     {
-	gchar* tmpstr = g_strdup_printf ( _("Cannot save file '%s': %s"),
-					   filename,
-					   g_strerror(errno) );
-	dialogue_error ( tmpstr);
-	g_free ( tmpstr );
-	g_free ( file_content);
-	return ( FALSE );
+        tmp_str = g_strdup_printf ( _("Cannot save file '%s': %s"),
+                        filename,
+                        g_strerror ( errno ) );
+        dialogue_error ( tmp_str);
+        g_free ( tmp_str );
+        g_free ( file_content );
+        return ( FALSE );
     }
     
     fclose ( file );
