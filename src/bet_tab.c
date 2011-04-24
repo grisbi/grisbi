@@ -169,6 +169,9 @@ gint bet_array_col_width[BET_ARRAY_COLUMNS];
 /* the initial width of the tree_view */
 static gint bet_array_current_tree_view_width = 0;
 
+/* toolbar */
+static GtkWidget *bet_array_toolbar;
+
 
 enum bet_estimation_tree_columns
 {
@@ -535,7 +538,6 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
-    GtkWidget *toolbar;
 
     devel_debug (NULL);
     page = gtk_vbox_new ( FALSE, 5 );
@@ -588,9 +590,13 @@ GtkWidget *bet_array_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* on y ajoute la barre d'outils */
-    toolbar = bet_array_list_create_toolbar ( page, tree_view );
-    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
+    bet_array_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "page", page );
+    gtk_widget_show ( bet_array_toolbar );
+
+    gtk_box_pack_start ( GTK_BOX ( page ), bet_array_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), bet_array_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -2840,16 +2846,11 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
  * */
 GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view )
 {
-    GtkWidget *handlebox;
     GtkWidget *hbox;
     GtkWidget *button;
 
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ( );
-
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
 
     /* print button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -2877,9 +2878,9 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    return ( hbox );
 
 }
 
@@ -2995,6 +2996,26 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
 }
 
 
+void bet_array_update_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( bet_array_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( bet_array_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( bet_array_toolbar ),
+                        bet_array_list_create_toolbar ( page, tree_view ) );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

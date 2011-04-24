@@ -93,6 +93,9 @@ static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, Gt
 static void bet_finance_ui_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view );
 static void bet_finance_ui_struct_amortization_free ( struct_amortissement *s_amortissement );
 static void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget );
+static void bet_finance_update_account_toolbar ( void );
+static void bet_finance_update_amortization_toolbar ( void );
+static void bet_finance_update_simulator_toolbar ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -104,6 +107,11 @@ extern GdkColor couleur_selection;
 
 /* notebook pour la simulation de crédits */
 static GtkWidget *finance_notebook;
+
+/* toolbars */
+static GtkWidget *account_toolbar;
+static GtkWidget *amortization_toolbar;
+static GtkWidget *simulator_toolbar;
 
 enum bet_finance_data_columns
 {
@@ -202,7 +210,6 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     GtkWidget *label;
     GtkWidget *spin_button = NULL;
     GtkWidget *tree_view;
-    GtkWidget *toolbar;
     gchar *str_capital;
 
     devel_debug (NULL);
@@ -304,9 +311,12 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
-    toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
+    simulator_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( simulator_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( simulator_toolbar ), "page", page );
+    gtk_widget_show ( simulator_toolbar );
+    gtk_box_pack_start ( GTK_BOX ( page ), simulator_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), simulator_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -766,13 +776,6 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
-    
-    bouton = g_object_get_data ( G_OBJECT ( widget ), "amortization_button" );
-    gtk_widget_set_sensitive ( bouton, TRUE );
-    bouton = g_object_get_data ( G_OBJECT ( widget ), "print_button" );
-    gtk_widget_set_sensitive ( bouton, TRUE );
-    bouton = g_object_get_data ( G_OBJECT ( widget ), "export_button" );
-    gtk_widget_set_sensitive ( bouton, TRUE );
 
     gtk_tree_path_free ( path );
     g_free ( s_echeance );
@@ -1104,7 +1107,6 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
-    GtkWidget *toolbar;
 
     devel_debug (NULL);
 
@@ -1169,9 +1171,13 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
-    toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, TRUE );
-    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
+    amortization_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( amortization_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( amortization_toolbar ), "page", page );
+    gtk_widget_show ( amortization_toolbar );
+
+    gtk_box_pack_start ( GTK_BOX ( page ), amortization_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), amortization_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -1542,7 +1548,6 @@ GtkWidget *bet_finance_create_account_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
-    GtkWidget *toolbar;
 
     devel_debug (NULL);
 
@@ -1608,9 +1613,13 @@ GtkWidget *bet_finance_create_account_page ( void )
     utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* on y ajoute la barre d'outils */
-    toolbar = bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
+    account_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( account_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( account_toolbar ), "page", page );
+    gtk_widget_show ( account_toolbar );
+
+    gtk_box_pack_start ( GTK_BOX ( page ), account_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), account_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -1793,17 +1802,12 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         gboolean simulator,
                         gboolean amortization )
 {
-    GtkWidget *handlebox;
     GtkWidget *hbox;
     GtkWidget *button;
     GtkTreeSelection *selection;
 
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ( );
-
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
 
     if ( simulator )
     {
@@ -1833,8 +1837,6 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         "clicked",
                         G_CALLBACK ( bet_finance_fill_amortization_array ),
                         selection );
-        gtk_widget_set_sensitive ( button, FALSE );
-        g_object_set_data ( G_OBJECT ( parent ), "amortization_button", button );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
     }
     else if ( amortization )
@@ -1885,9 +1887,6 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         "clicked",
                         G_CALLBACK ( print_tree_view_list ),
                         tree_view );
-    if ( simulator )
-        gtk_widget_set_sensitive ( button, FALSE );
-    g_object_set_data ( G_OBJECT ( parent ), "print_button", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     /* Export button */
@@ -1901,14 +1900,11 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
                         "clicked",
                         G_CALLBACK ( bet_finance_ui_export_tab ),
                         tree_view );
-    if ( simulator )
-        gtk_widget_set_sensitive ( button, FALSE );
-    g_object_set_data ( G_OBJECT ( parent ), "export_button", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    return ( hbox );
 
 }
 
@@ -2175,6 +2171,11 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
 }
 
 
+/**
+ *
+ *
+ *
+ */
 GtkWidget *bet_finance_get_capital_entry ( void )
 {
     GtkWidget *page;
@@ -2184,6 +2185,100 @@ GtkWidget *bet_finance_get_capital_entry ( void )
     entry = g_object_get_data ( G_OBJECT ( page ), "capital" );
 
     return entry;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void bet_finance_update_account_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( account_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( account_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( account_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( account_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( account_toolbar ),
+                        bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, FALSE ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void bet_finance_update_amortization_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( amortization_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( amortization_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( amortization_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( amortization_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( amortization_toolbar ),
+                        bet_finance_create_simulator_toolbar ( page, tree_view, FALSE, TRUE ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void bet_finance_update_simulator_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( simulator_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( simulator_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( simulator_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( simulator_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( simulator_toolbar ),
+                        bet_finance_create_simulator_toolbar ( page, tree_view, TRUE, FALSE ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void bet_finance_update_all_finance_toolbars ( void )
+{
+    bet_finance_update_account_toolbar ( );
+    bet_finance_update_simulator_toolbar ( );
+    bet_finance_update_amortization_toolbar ( );
 }
 
 

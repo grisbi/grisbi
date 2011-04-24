@@ -567,12 +567,14 @@ gboolean gsb_gui_set_hpaned_left_width ( gint width )
  */
 void gsb_gui_update_all_toolbars ( void )
 {
-    gsb_gui_update_transaction_toolbar ();
-    gsb_gui_update_scheduler_toolbar ();
-    gsb_gui_update_payee_toolbar ();
-    gsb_gui_update_category_toolbar ();
-    gsb_gui_update_budgetary_toolbar ();
-    gsb_gui_update_reports_toolbar ();
+    gsb_gui_update_transaction_toolbar ( );
+    gsb_gui_update_scheduler_toolbar ( );
+    gsb_gui_update_payee_toolbar ( );
+    gsb_gui_update_category_toolbar ( );
+    gsb_gui_update_budgetary_toolbar ( );
+    gsb_gui_update_reports_toolbar ( );
+    bet_array_update_toolbar ( );
+    bet_finance_update_all_finance_toolbars ( );
 }
 
 
