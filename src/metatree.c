@@ -2193,22 +2193,23 @@ void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view,
     selection = gtk_tree_view_get_selection ( tree_view );
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, iter ) )
     {
-	GtkTreeIter * next = gtk_tree_iter_copy ( iter );
-	GtkTreePath * path = gtk_tree_model_get_path ( model, iter );
+        GtkTreeIter * next = gtk_tree_iter_copy ( iter );
+        GtkTreePath * path = gtk_tree_model_get_path ( model, iter );
 
-	g_return_if_fail ( path );
-	if ( ! gtk_tree_model_iter_next ( model, next ) )
-	{
-	    gtk_tree_path_up ( path );
-	    gtk_tree_path_next ( path );
-	}
+        g_return_if_fail ( path );
+        if ( ! gtk_tree_model_iter_next ( model, next ) )
+        {
+            gtk_tree_path_up ( path );
+            if ( gtk_tree_path_get_depth ( path ) )
+                gtk_tree_path_next ( path );
+        }
 
-	gtk_tree_store_remove ( GTK_TREE_STORE(model), iter );
-	gtk_tree_selection_select_path ( selection, path );
+        gtk_tree_store_remove ( GTK_TREE_STORE(model), iter );
+        gtk_tree_selection_select_path ( selection, path );
 
-	gtk_tree_iter_free ( next );
-	gtk_tree_path_free ( path );
-    }    
+        gtk_tree_iter_free ( next );
+        gtk_tree_path_free ( path );
+    }
 }
 
 
