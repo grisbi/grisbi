@@ -130,8 +130,6 @@ GtkWidget *creation_onglet_etats ( void )
 
     gtk_widget_show_all ( tab );
 
-    gsb_gui_unsensitive_report_widgets ();
-
     return ( tab );
 }
 
@@ -215,6 +213,8 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 
     gtk_widget_show_all ( hbox );
 
+    gsb_gui_unsensitive_report_widgets ();
+
     return ( hbox );
 }
 
@@ -227,6 +227,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 void gsb_gui_update_reports_toolbar ( void )
 {
     GList * list = NULL;
+    gint current_report;
 
     list = gtk_container_get_children ( GTK_CONTAINER ( reports_toolbar ) );
     
@@ -238,6 +239,9 @@ void gsb_gui_update_reports_toolbar ( void )
     }
 
     gtk_container_add ( GTK_CONTAINER ( reports_toolbar ), gsb_gui_create_report_toolbar ( ) );
+
+    if ( ( current_report = gsb_report_get_current ( ) ) > 0 )
+        gsb_gui_update_gui_to_report ( current_report );
 }
 
 
