@@ -27,7 +27,6 @@
 #include "include.h"
 #include <glib/gi18n.h>
 
-#include "metatree.h"
 
 /*START_INCLUDE*/
 #include "meta_budgetary.h"
@@ -35,8 +34,8 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
 #include "gsb_real.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 
@@ -45,10 +44,10 @@ static gint budgetary_line_add_div ();
 static gint budgetary_line_add_sub_div ( int div_id );
 static gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
 						 int div_id );
-static gchar * budgetary_line_div_name ( gint div );
+static gchar *budgetary_line_div_name ( gint div );
 static gint budgetary_line_get_without_div_pointer ( );
 static gsb_real budgetary_line_sub_div_balance ( gint div, gint sub_div );
-static gchar * budgetary_line_sub_div_name ( gint div, gint sub_div );
+static gchar *budgetary_line_sub_div_name ( gint div, gint sub_div );
 static gint budgetary_line_sub_div_nb_transactions ( gint div, gint sub_div );
 static gint budgetary_lint_get_number_by_name ( const gchar *name, gboolean create );
 /*END_STATIC*/
@@ -104,7 +103,7 @@ static MetatreeInterface _budgetary_interface = {
     budgetary_hold_position_set_expand,
 };
 
-MetatreeInterface * budgetary_interface = &_budgetary_interface;
+MetatreeInterface *budgetary_interface = &_budgetary_interface;
 
 
 /**
@@ -268,6 +267,7 @@ gint budgetary_line_add_sub_div ( int div_id )
 /**
  *
  *
+ *
  */
 gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
 						 int div_id )
@@ -278,3 +278,12 @@ gboolean budgetary_line_add_transaction_to_div ( gint transaction_number,
 }
 
 
+/**
+ *
+ *
+ *
+ */
+MetatreeInterface *budgetary_line_get_metatree_interface ( void )
+{
+    return budgetary_interface;
+}

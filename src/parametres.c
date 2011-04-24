@@ -119,8 +119,6 @@ static gint width_spin_button = 50;
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GtkWidget *arbre_categ;
-extern GtkWidget *budgetary_line_tree;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
@@ -1179,6 +1177,8 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         gint *pointeur )
 {
     GtkWidget *payee_tree;
+    GtkWidget *category_tree;
+    GtkWidget *budgetary_tree;
     GtkTreeSelection *selection;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -1195,6 +1195,8 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
 
     page_number = gsb_gui_navigation_get_current_page ( );
     payee_tree = gsb_payee_get_tree_view ( );
+    category_tree = category_list_get_tree_view ( );
+    budgetary_tree = budgetary_line_get_tree_view ( );
 
     switch ( page_number )
     {
@@ -1209,7 +1211,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
 	    break;
 
 	case GSB_CATEGORIES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( category_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
         remplit_arbre_categ ();
@@ -1219,7 +1221,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
 		remplit_arbre_imputation ();

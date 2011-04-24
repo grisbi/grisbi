@@ -38,6 +38,7 @@ enum
 
 
 /* START_DECLARATION */
+gboolean change_aspect_liste ( gint demande );
 gboolean clone_selected_transaction ( GtkWidget *menu_item,
                         gpointer null );
 GtkWidget *creation_fenetre_operations ( void );
@@ -45,6 +46,7 @@ gint find_element_col ( gint element_number );
 gint find_element_col_for_archive ( void );
 gint find_element_col_split ( gint element_number );
 gint find_element_line ( gint element_number );
+void gsb_gui_update_transaction_toolbar ( void );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
                         gboolean update_tree_view );

@@ -107,8 +107,6 @@ SET (grisbi_source
 	../src/affichage.h
 	../src/affichage_liste.c
 	../src/affichage_liste.h
-	../src/barre_outils.c
-	../src/barre_outils.h
 	../src/bet_config.c
 	../src/bet_config.h
 	../src/bet_data.c

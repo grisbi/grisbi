@@ -39,7 +39,6 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler_list.h"
-#include "barre_outils.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
@@ -66,6 +65,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *creation_barre_outils_echeancier ( void );
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
 static gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
@@ -111,6 +111,8 @@ static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 static gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
                         gint mother_scheduled_number );
 static void popup_scheduled_context_menu ( void );
+static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button );
+
 /*END_STATIC*/
 
 
@@ -123,9 +125,6 @@ extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gsb_real null_real;
-extern GtkWidget *scheduler_button_delete;
-extern GtkWidget *scheduler_button_edit;
-extern GtkWidget *scheduler_button_execute;
 extern GdkColor split_background;
 /*END_EXTERN*/
 
@@ -152,6 +151,16 @@ gint scheduler_current_tree_view_width = 0;
 
 /* toolbar */
 static GtkWidget *scheduler_toolbar;
+/** Used to display/hide comments in scheduler list */
+static GtkWidget *scheduler_display_hide_comments = NULL;
+/** here are the 3 buttons on the scheduler toolbar
+ * which can been unsensitive or sensitive */
+static GtkWidget *scheduler_button_execute = NULL;
+static GtkWidget *scheduler_button_delete = NULL;
+static GtkWidget *scheduler_button_edit = NULL;
+
+
+
 
 static GtkSortType sort_type;
 
@@ -195,10 +204,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     /* create the toolbar */
     scheduler_toolbar = gtk_handle_box_new ();
     gtk_widget_show ( scheduler_toolbar );
-    gsb_gui_update_scheduler_toolbar ();
-    gtk_box_pack_start ( GTK_BOX ( vbox ),
-                         scheduler_toolbar,
-                         FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), scheduler_toolbar, FALSE, FALSE, 0 );
 
     /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
@@ -236,6 +242,142 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 
     return vbox;
 }
+
+
+/**
+ * Create the toolbar that contains all elements needed to manipulate
+ * the scheduler.
+ *
+ * \param 
+ *
+ * \return A newly created hbox.
+ */
+GtkWidget *creation_barre_outils_echeancier ( void )
+{
+    GtkWidget *hbox, *button;
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+
+    /* Common actions */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("_New scheduled"),
+					       "new-scheduled.png",
+					       G_CALLBACK (gsb_scheduler_list_edit_transaction),
+					       GINT_TO_POINTER(-1) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Prepare form to create a new scheduled transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    scheduler_button_delete = gsb_automem_stock_button_new ( etat.display_toolbar,
+							    GTK_STOCK_DELETE, 
+							    _("Delete"),
+							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
+							    NULL );
+    gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_delete),
+				  _("Delete selected scheduled transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
+
+    scheduler_button_edit = gsb_automem_stock_button_new ( etat.display_toolbar,
+							  GTK_STOCK_PROPERTIES, 
+							  _("Edit"),
+							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
+							  0 );
+    gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_edit),
+				_("Edit selected transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
+
+    /* Display/hide comments */
+    scheduler_display_hide_comments = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+									_("Comments"),
+									"comments.png",
+									G_CALLBACK ( gsb_scheduler_list_show_notes ),
+									0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_comments),
+				  _("Display scheduled transactions comments"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
+			 FALSE, FALSE, 0 );
+
+    /* Execute transaction */
+    scheduler_button_execute = gsb_automem_stock_button_new ( etat.display_toolbar,
+							     GTK_STOCK_EXECUTE, 
+							     _("Execute"),
+							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
+							     NULL ); 
+    gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
+				  _("Execute current scheduled transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
+
+    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+						GTK_STOCK_SELECT_COLOR, _("View"),
+						G_CALLBACK (popup_scheduled_view_mode_menu),
+						NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Change display mode of scheduled transaction list"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( hbox );
+
+    return ( hbox );
+}
+
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_scheduler_toolbar ( void )
+{
+    GList * list = NULL;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( scheduler_toolbar ) );
+    
+    if ( list )
+    {
+	gtk_container_remove ( GTK_CONTAINER ( scheduler_toolbar ),
+			       GTK_WIDGET ( list -> data ) );
+	g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( scheduler_toolbar ), creation_barre_outils_echeancier () );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean popup_scheduled_view_mode_menu ( GtkWidget *button )
+{
+    GtkWidget *menu, *item;
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
+			_("Two months view"), _("Quarter view"), 
+			_("Year view"), _("Custom view"), NULL, };
+    int i;
+
+    menu = gtk_menu_new ();
+    
+    for ( i = 0 ; names[i] ; i++ )
+    {
+	item = gtk_menu_item_new_with_label ( names[i] );
+	g_signal_connect_swapped ( G_OBJECT ( item ), "activate",
+				    G_CALLBACK ( gsb_scheduler_list_change_scheduler_view ),
+				    GINT_TO_POINTER(i) );
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+    }
+
+    gtk_widget_show_all ( menu );
+
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
+
+    return FALSE;
+}
+
 
 /**
  * return the scheduler tree view

@@ -305,6 +305,9 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
                         creation_onglet_etats (),
                         gtk_label_new ( _("Reports") ) );
 
+    /* update toolbars */
+    gsb_gui_update_all_toolbars ( );
+
     return FALSE;
 }
 
@@ -555,6 +558,22 @@ gboolean gsb_gui_set_hpaned_left_width ( gint width )
 
     return TRUE;
 }
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_all_toolbars ( void )
+{
+    gsb_gui_update_transaction_toolbar ();
+    gsb_gui_update_scheduler_toolbar ();
+    gsb_gui_update_payee_toolbar ();
+    gsb_gui_update_category_toolbar ();
+    gsb_gui_update_budgetary_toolbar ();
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

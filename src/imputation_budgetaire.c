@@ -44,6 +44,7 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "main.h"
+#include "meta_budgetary.h"
 #include "metatree.h"
 #include "mouse.h"
 #include "transaction_list.h"
@@ -63,7 +64,6 @@ static gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
 static void budgetary_line_list_popup_context_menu ( void );
-static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static void exporter_ib ( void );
 static void importer_ib ( void );
@@ -71,9 +71,9 @@ static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 static void selectionne_sub_budgetary ( GtkTreeModel * model );
 /*END_STATIC*/
 
-
-GtkWidget *budgetary_line_tree = NULL;
-GtkTreeStore *budgetary_line_tree_model = NULL;
+static GtkWidget *budgetary_toolbar;
+static GtkWidget *budgetary_line_tree = NULL;
+static GtkTreeStore *budgetary_line_tree_model = NULL;
 gint no_devise_totaux_ib;
 
 /* variable for the management of the cancelled edition */
@@ -83,7 +83,6 @@ static gboolean sortie_edit_budgetary_line = FALSE;
 static struct metatree_hold_position *budgetary_hold_position;
 
 /*START_EXTERN*/
-extern MetatreeInterface * budgetary_interface;
 extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
@@ -108,7 +107,6 @@ GtkWidget *onglet_imputations ( void )
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
 
-
     /* We create the gtktreeview and model early so that they can be referenced. */
     budgetary_line_tree = gtk_tree_view_new();
 
@@ -123,7 +121,9 @@ GtkWidget *onglet_imputations ( void )
     gtk_widget_show ( vbox );
 
     /* on y ajoute la barre d'outils */
-    gtk_box_pack_start ( GTK_BOX ( vbox ), creation_barre_outils_ib(), FALSE, FALSE, 0 );
+    budgetary_toolbar = gtk_handle_box_new ( );
+    gtk_widget_show ( budgetary_toolbar );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), budgetary_toolbar, FALSE, FALSE, 0 );
 
     /* création de l'arbre principal */
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -136,12 +136,12 @@ GtkWidget *onglet_imputations ( void )
 
     /* Create model */
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(budgetary_line_tree_model),
-					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+                        META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(budgetary_line_tree_model),
-				      META_TREE_TEXT_COLUMN, metatree_sort_column,
-				      NULL, NULL );
+                        META_TREE_TEXT_COLUMN, metatree_sort_column,
+                        NULL, NULL );
     g_object_set_data ( G_OBJECT ( budgetary_line_tree_model), "metatree-interface",
-			budgetary_interface );
+                        budgetary_line_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (budgetary_line_tree), TRUE);
@@ -270,9 +270,11 @@ void remplit_arbre_imputation ( void )
 
 	budget_number = gsb_data_budget_get_no_budget (budget_list -> data);
 
-	gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model), &iter_budgetary_line, NULL);
-	fill_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface,
-			    &iter_budgetary_line, budget_number);
+	gtk_tree_store_append ( GTK_TREE_STORE ( budgetary_line_tree_model ), &iter_budgetary_line, NULL);
+	fill_division_row ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        budgetary_line_get_metatree_interface ( ),
+                        &iter_budgetary_line,
+                        budget_number );
 
 	/** Each budget has sub budgetary lines. */
 	if ( budget_number )
@@ -287,12 +289,13 @@ void remplit_arbre_imputation ( void )
 
 		sub_budget_number = gsb_data_budget_get_no_sub_budget (sub_budget_list -> data);
 
-		gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model),
+		gtk_tree_store_append ( GTK_TREE_STORE (budgetary_line_tree_model),
 				       &iter_sub_budgetary_line, &iter_budgetary_line);
-		fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface,
-					&iter_sub_budgetary_line,
-					budget_number,
-					sub_budget_number);
+		fill_sub_division_row ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        budgetary_line_get_metatree_interface ( ),
+                        &iter_sub_budgetary_line,
+                        budget_number,
+                        sub_budget_number );
 
 		sub_budget_list = sub_budget_list -> next;
 	    }
@@ -301,14 +304,18 @@ void remplit_arbre_imputation ( void )
 	/* add the no-sub-budget only if budget exists */
 	if (budget_number)
 	{
-	    gtk_tree_store_append (GTK_TREE_STORE (budgetary_line_tree_model),
-				   &iter_sub_budgetary_line, &iter_budgetary_line);
-	    fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model), budgetary_interface,
-				    &iter_sub_budgetary_line, budget_number, 0 );
+	    gtk_tree_store_append ( GTK_TREE_STORE ( budgetary_line_tree_model ),
+                        &iter_sub_budgetary_line,
+                        &iter_budgetary_line );
+	    fill_sub_division_row ( GTK_TREE_MODEL(budgetary_line_tree_model),
+                        budgetary_line_get_metatree_interface ( ),
+                        &iter_sub_budgetary_line,
+                        budget_number,
+                        0 );
 	}
 	budget_list = budget_list -> next;
     }
-        /* replace le curseur sur la division, sub_division ou opération initiale */
+    /* replace le curseur sur la division, sub_division ou opération initiale */
     if ( budgetary_hold_position -> path )
     {
         if ( budgetary_hold_position -> expand )
@@ -524,97 +531,115 @@ void importer_ib ( void )
  */
 GtkWidget *creation_barre_outils_ib ( void )
 {
-    GtkWidget * handlebox, * hbox2, * button;
+    GtkWidget *hbox, *button;
 
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ();
-
-    /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* New budgetary line button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("New\nbudgetary line"), "new-ib.png",
-					       G_CALLBACK(appui_sur_ajout_imputation),
-					       budgetary_line_tree_model );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Create a new budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (1) );
+                                _("New\nbudgetary line"), "new-ib.png",
+                                G_CALLBACK ( appui_sur_ajout_imputation ),
+                                budgetary_line_tree_model );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Create a new budgetary line") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (1) );
 
     /* New sub budgetary line button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("New sub\nbudgetary line"),
-					       "new-sub-ib.png",
-					       G_CALLBACK(appui_sur_ajout_imputation),
-					       budgetary_line_tree_model );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "sub-division" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Create a new sub-budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT (button), "type", GINT_TO_POINTER (2) );
+                                _("New sub\nbudgetary line"),
+                                "new-sub-ib.png",
+                                G_CALLBACK ( appui_sur_ajout_imputation ),
+                                budgetary_line_tree_model );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "sub-division" );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Create a new sub-budgetary line") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (2) );
 
     /* Import button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_OPEN,
-					   _("Import"),
-					   G_CALLBACK(importer_ib),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Import a Grisbi budgetary line file (.igsb)"
-                            " or create from a list of categories (.cgsb)" ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+                                GTK_STOCK_OPEN,
+                                _("Import"),
+                                G_CALLBACK(importer_ib),
+                                NULL );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+                        _("Import a Grisbi budgetary line file (.igsb)"
+                        " or create from a list of categories (.cgsb)" ) );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Export button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_SAVE,
-					   _("Export"),
-					   G_CALLBACK(exporter_ib),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Export a Grisbi budgetary line file (.igsb)") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+                                GTK_STOCK_SAVE,
+                                _("Export"),
+                                G_CALLBACK(exporter_ib),
+                                NULL );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+                        _("Export a Grisbi budgetary line file (.igsb)") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Delete button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_DELETE, _("Delete"),
-					   G_CALLBACK(supprimer_division),
-					   budgetary_line_tree );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Delete selected budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+                                GTK_STOCK_DELETE, _("Delete"),
+                                G_CALLBACK ( supprimer_division ),
+                                budgetary_line_tree );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "selection" );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Delete selected budgetary line") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_PROPERTIES, _("Properties"),
-					   G_CALLBACK(edit_budgetary_line),
-					   budgetary_line_tree );
+                                GTK_STOCK_PROPERTIES, _("Properties"),
+                                G_CALLBACK ( edit_budgetary_line ),
+                                budgetary_line_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Edit selected budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Edit selected budgetary line") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* View button */
     button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
-						GTK_STOCK_SELECT_COLOR,
-						_("View"),
-						G_CALLBACK(popup_budgetary_line_view_mode_menu),
-						NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Change display mode") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, TRUE, 0 );
+                                GTK_STOCK_SELECT_COLOR,
+                                _("View"),
+                                G_CALLBACK(popup_budgetary_line_view_mode_menu),
+                                NULL );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Change display mode") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL(budgetary_line_tree_model),
-					    FALSE, "selection" );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( budgetary_line_tree_model ), FALSE, "selection" );
+
+    return ( hbox );
 }
 
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_budgetary_toolbar ( void )
+{
+    GList *list = NULL;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( budgetary_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( budgetary_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+
+    gtk_container_add ( GTK_CONTAINER ( budgetary_toolbar ), creation_barre_outils_ib () );
+}
 
 
 /**
@@ -823,22 +848,24 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
     if ( sub_budget_number > 0 )
     {
 	div_iter = get_iter_from_div ( model, budget_number, sub_budget_number );
-	fill_sub_division_row ( model, budgetary_interface,
-				div_iter,
-				budget_number,
-				sub_budget_number);
+	fill_sub_division_row ( model,
+                        budgetary_line_get_metatree_interface ( ),
+                        div_iter,
+                        budget_number,
+                        sub_budget_number );
     }
     else
     {
 	div_iter = get_iter_from_div ( model, budget_number, 0 );
-	fill_division_row ( model, budgetary_interface,
-			    div_iter,
-			    budget_number );
+	fill_division_row ( model,
+                        budgetary_line_get_metatree_interface ( ),
+                        div_iter,
+                        budget_number );
     }
-    gtk_tree_iter_free (div_iter);
+    gtk_tree_iter_free ( div_iter );
 
     /* update the transactions list */
-    transaction_list_update_element (ELEMENT_BUDGET);
+    transaction_list_update_element ( ELEMENT_BUDGET );
 
     return TRUE;
 }
@@ -1106,6 +1133,28 @@ void budgetary_line_list_popup_context_menu ( void )
     gtk_widget_show_all ( menu );
 
     gtk_menu_popup ( GTK_MENU ( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkTreeStore *budgetary_line_get_tree_store ( void )
+{
+    return budgetary_line_tree_model;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *budgetary_line_get_tree_view ( void )
+{
+    return budgetary_line_tree;
 }
 
 

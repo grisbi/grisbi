@@ -36,7 +36,6 @@
 #include "gsb_file.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
-#include "barre_outils.h"
 #include "accueil.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
@@ -707,9 +706,7 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
     etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
 
     /* update toolbars */
-    gsb_gui_update_transaction_toolbar ();
-    gsb_gui_update_scheduler_toolbar ();
-    gsb_gui_update_payee_toolbar ();
+    gsb_gui_update_all_toolbars ( );
 
     return FALSE;
 }
@@ -1031,6 +1028,7 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
 
     return FALSE;
 }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

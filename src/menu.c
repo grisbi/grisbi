@@ -32,7 +32,6 @@
 
 /*START_INCLUDE*/
 #include "menu.h"
-#include "barre_outils.h"
 #include "custom_list.h"
 #include "export.h"
 #include "fenetre_principale.h"

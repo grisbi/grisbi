@@ -22,7 +22,6 @@ libgrisbi_la_SOURCES = \
 	accueil.c		\
 	affichage.c		\
 	affichage_liste.c	\
-	barre_outils.c		\
 	categories_onglet.c	\
 	classement_echeances.c	\
 	csv_parse.c		\
@@ -161,7 +160,6 @@ libgrisbi_la_SOURCES = \
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
-	barre_outils.h		\
     bet_config.h \
     bet_data.h \
     bet_data_finance.h \

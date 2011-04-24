@@ -216,7 +216,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern GtkTreeStore *categ_tree_model;
 extern gint current_tree_view_width;
 extern GtkWidget *detail_devise_compte;
 extern gint display_one_line;
@@ -475,9 +474,6 @@ void init_variables ( void )
     g_source_remove (id_timeout);
     id_timeout = 0;
     }
-
-    /* initialise la liste des catégories */
-    categ_tree_model = NULL;
 
     /* initializes the variables for the estimate balance module */
     /* création de la liste des données à utiliser dans le tableau de résultats */

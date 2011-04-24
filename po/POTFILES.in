@@ -8,7 +8,6 @@ src/bet_finance_ui.c
 src/bet_future.c
 src/bet_hist.c
 src/bet_tab.c
-src/barre_outils.c
 src/categories_onglet.c
 src/classement_echeances.c
 src/csv_parse.c
