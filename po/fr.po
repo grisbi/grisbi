@@ -9265,7 +9265,7 @@ msgstr "Opérations orphelines pour : %s"
 #: ../src/import.c:3244
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
-"Marquer les opérations que vous voulez ajouter à la liste en cliquer sur le "
+"Marquez les opérations que vous voulez ajouter à la liste et cliquez sur le "
 "bouton Valider"
 
 #: ../src/import.c:3310
