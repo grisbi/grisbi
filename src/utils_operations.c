@@ -37,6 +37,8 @@
 #include "gsb_data_payee.h"
 #include "imputation_budgetaire.h"
 #include "meta_budgetary.h"
+#include "meta_categories.h"
+#include "meta_payee.h"
 #include "metatree.h"
 #include "tiers_onglet.h"
 #include "erreur.h"
