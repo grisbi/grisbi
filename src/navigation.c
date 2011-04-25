@@ -37,7 +37,9 @@
 #include "categories_onglet.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "gsb_account.h"
 #include "gsb_account_property.h"
+#include "gsb_assistant_account.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
 #include "gsb_data_import_rule.h"
@@ -54,6 +56,7 @@
 #include "imputation_budgetaire.h"
 #include "main.h"
 #include "menu.h"
+#include "mouse.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
@@ -67,11 +70,15 @@
 
 
 /*START_STATIC*/
-static void gsb_gui_navigation_create_report_listreport_list ( GtkTreeModel *model );
+static gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
+                        GdkEventButton *ev,
+                        gpointer null );
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
 static void gsb_gui_navigation_clear_pages_list ( void );
+static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view );
+static void gsb_gui_navigation_create_report_list ( GtkTreeModel *model );
 static GtkTreePath *gsb_gui_navigation_get_page_path ( GtkTreeModel *model,
                         gint type_page );
 static gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
@@ -296,6 +303,12 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* Create reconcile stuff (hidden for now). */
     reconcile_panel = gsb_reconcile_create_box ();
     gtk_box_pack_end ( GTK_BOX(vbox), reconcile_panel, FALSE, FALSE, 0 );
+
+    /* signals of tree_view */
+    g_signal_connect ( G_OBJECT ( navigation_tree_view ),
+		                "button-press-event",
+		                G_CALLBACK ( gsb_gui_navigation_button_press ),
+		                NULL );
 
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
@@ -1911,6 +1924,147 @@ GtkTreePath *gsb_gui_navigation_get_page_path ( GtkTreeModel *model, gint type_p
     }
 
     return NULL;
+}
+
+
+/**
+ * called when we press a button on the list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
+                        GdkEventButton *ev,
+                        gpointer null )
+{
+	/* show the popup */
+	if ( ev -> button == RIGHT_BUTTON )
+        gsb_gui_navigation_context_menu ( tree_view );
+    if ( ev -> type == GDK_2BUTTON_PRESS )
+    {
+        GtkTreeSelection *selection;
+        GtkTreeModel *model;
+        GtkTreeIter iter;
+        GtkTreePath *path = NULL;
+
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+        if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        {
+            path = gtk_tree_model_get_path  ( model, &iter);
+
+            if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
+                gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
+            else
+                gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
+
+            gtk_tree_path_free ( path );
+            return FALSE;
+        }
+
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+
+/**
+ * Pop up a menu with several actions to apply to array_list.
+ *
+ * \param gtk_tree_view
+ *
+ */
+void gsb_gui_navigation_context_menu ( GtkWidget *tree_view )
+{
+    GtkWidget *image;
+    GtkWidget *menu = NULL;
+    GtkWidget *menu_item;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    gchar *tmp_str;
+    gint type_page;
+    gint account_number;
+    gint report_number;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( selection ), &model, &iter ) )
+        return;
+
+    gtk_tree_model_get ( model, &iter, 
+                        NAVIGATION_PAGE, &type_page,
+                        NAVIGATION_ACCOUNT, &account_number,
+                        NAVIGATION_REPORT, &report_number,
+                        -1 );
+
+    switch ( type_page )
+    {
+        case GSB_HOME_PAGE :
+        case GSB_ACCOUNT_PAGE :
+            menu = gtk_menu_new ();
+            menu_item = gtk_image_menu_item_new_with_label ( _("New account") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_assistant_account_run ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            if ( account_number == -1 )
+                break;
+
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Remove this account") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_account_delete ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        break;
+        case GSB_REPORTS_PAGE :
+            menu = gtk_menu_new ();
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-report.png", NULL);
+            image = gtk_image_new_from_file ( tmp_str );
+            g_free ( tmp_str );
+            menu_item = gtk_image_menu_item_new_with_label ( _("New report") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( ajout_etat ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+            if ( report_number == -1 )
+                break;
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Remove this report") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( efface_etat ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        break;
+    }
+
+    /* Finish all. */
+    if ( menu )
+    {
+        gtk_widget_show_all ( menu );
+        gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,
+                        gtk_get_current_event_time ( ) );
+    }
 }
 
 

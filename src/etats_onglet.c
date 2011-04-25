@@ -56,10 +56,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean ajout_etat ( void );
 static void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_description );
 static void dupliquer_etat ( void );
-static void efface_etat ( void );
 static void export_etat_courant_vers_csv ( gchar * filename );
 static void export_etat_courant_vers_html ( gchar * filename );
 static void exporter_etat ( void );
