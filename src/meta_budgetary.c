@@ -103,7 +103,7 @@ static MetatreeInterface _budgetary_interface = {
     budgetary_hold_position_set_expand,
 };
 
-MetatreeInterface *budgetary_interface = &_budgetary_interface;
+static MetatreeInterface *budgetary_interface = &_budgetary_interface;
 
 
 /**

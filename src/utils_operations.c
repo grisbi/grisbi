@@ -36,6 +36,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
 #include "imputation_budgetaire.h"
+#include "meta_budgetary.h"
 #include "metatree.h"
 #include "tiers_onglet.h"
 #include "erreur.h"
@@ -52,7 +53,6 @@ static void update_transaction_in_payee_tree ( gint transaction_number );
 
 
 /*START_EXTERN*/
-extern MetatreeInterface * budgetary_interface;
 extern MetatreeInterface * category_interface;
 extern MetatreeInterface * payee_interface;
 /*END_EXTERN*/
@@ -115,9 +115,11 @@ void update_transaction_in_categ_tree ( gint transaction_number )
  */
 void update_transaction_in_budgetary_line_tree ( gint transaction_number )
 {
-    
+    MetatreeInterface *budgetary_interface;
+
+    budgetary_interface = budgetary_line_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
-    gsb_data_budget_update_counters();
+    gsb_data_budget_update_counters ( );
     update_transaction_in_tree ( budgetary_interface,
                         GTK_TREE_MODEL ( budgetary_line_get_tree_store ( ) ), 
                         transaction_number );
@@ -159,6 +161,9 @@ void delete_transaction_in_categ_tree ( gint transaction_number )
  */
 void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
 {
+    MetatreeInterface *budgetary_interface;
+
+    budgetary_interface = budgetary_line_get_metatree_interface ( );
     gsb_data_budget_remove_transaction_from_budget (transaction_number);
     metatree_remove_transaction ( GTK_TREE_VIEW ( budgetary_line_get_tree_view ( ) ),
                         budgetary_interface,
