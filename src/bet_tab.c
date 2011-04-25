@@ -91,7 +91,8 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 static void bet_array_list_change_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
-static void bet_array_list_context_menu ( GtkWidget *tree_view );
+static void bet_array_list_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path );
 static void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_delete_menu ( GtkWidget *menu_item,
@@ -1318,7 +1319,18 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 {
 	/* show the popup */
 	if ( ev -> button == RIGHT_BUTTON )
-        bet_array_list_context_menu ( tree_view );
+    {
+        GtkTreePath *path = NULL;
+
+        if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
+        {
+            bet_array_list_context_menu ( tree_view, path );
+            gtk_tree_path_free ( path );
+
+            return FALSE;
+        }
+    }
+        
     if ( ev -> type == GDK_2BUTTON_PRESS )
         bet_array_list_traite_double_click ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -1332,7 +1344,8 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
  * \param
  *
  */
-void bet_array_list_context_menu ( GtkWidget *tree_view )
+void bet_array_list_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path )
 {
     GtkWidget *image;
     GtkWidget *menu, *menu_item;
@@ -1347,12 +1360,10 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gint origine;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
-     &model, &iter ) )
-        return;
-
-    gtk_tree_model_get ( model, &iter, 
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter,
                         SPP_ESTIMATE_TREE_SELECT_COLUMN, &select,
                         SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
