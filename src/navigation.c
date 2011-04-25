@@ -77,7 +77,8 @@ static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
 static void gsb_gui_navigation_clear_pages_list ( void );
-static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view );
+static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path );
 static void gsb_gui_navigation_create_report_list ( GtkTreeModel *model );
 static GtkTreePath *gsb_gui_navigation_get_page_path ( GtkTreeModel *model,
                         gint type_page );
@@ -1941,29 +1942,32 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 {
 	/* show the popup */
 	if ( ev -> button == RIGHT_BUTTON )
-        gsb_gui_navigation_context_menu ( tree_view );
-    if ( ev -> type == GDK_2BUTTON_PRESS )
     {
-        GtkTreeSelection *selection;
-        GtkTreeModel *model;
-        GtkTreeIter iter;
         GtkTreePath *path = NULL;
 
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-        if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
         {
-            path = gtk_tree_model_get_path  ( model, &iter);
+            gsb_gui_navigation_context_menu ( tree_view, path );
+            gtk_tree_path_free ( path );
 
+            return FALSE;
+        }
+    }
+    if ( ev -> type == GDK_2BUTTON_PRESS )
+    {
+        GtkTreePath *path = NULL;
+
+        if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
+        {
             if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
                 gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
             else
                 gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
 
             gtk_tree_path_free ( path );
+
             return FALSE;
         }
-
-        return TRUE;
     }
 
     return FALSE;
@@ -1976,24 +1980,22 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
  * \param gtk_tree_view
  *
  */
-void gsb_gui_navigation_context_menu ( GtkWidget *tree_view )
+void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path )
 {
     GtkWidget *image;
     GtkWidget *menu = NULL;
     GtkWidget *menu_item;
     GtkTreeModel *model;
-    GtkTreeSelection *selection;
     GtkTreeIter iter;
     gchar *tmp_str;
     gint type_page;
     gint account_number;
     gint report_number;
 
-    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( selection ), &model, &iter ) )
-        return;
-
+    gtk_tree_model_get_iter ( model, &iter, path );
     gtk_tree_model_get ( model, &iter, 
                         NAVIGATION_PAGE, &type_page,
                         NAVIGATION_ACCOUNT, &account_number,
@@ -2062,8 +2064,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view )
     if ( menu )
     {
         gtk_widget_show_all ( menu );
-        gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3,
-                        gtk_get_current_event_time ( ) );
+        gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
     }
 }
 
