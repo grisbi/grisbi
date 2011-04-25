@@ -27,8 +27,6 @@
 #include "include.h"
 #include <glib/gi18n.h>
 
-#include "metatree.h"
-
 /*START_INCLUDE*/
 #include "meta_payee.h"
 #include "gsb_data_payee.h"
@@ -119,7 +117,7 @@ static MetatreeInterface _payee_interface = {
     payee_hold_position_set_expand,
 };
 
-MetatreeInterface * payee_interface = &_payee_interface;
+static MetatreeInterface *payee_interface = &_payee_interface;
 
 
 /**
@@ -392,3 +390,17 @@ void payee_add_transaction_to_sub_div ( gint transaction_number,
 }
 
 
+/**
+ *
+ *
+ *
+ */
+MetatreeInterface *payee_get_metatree_interface ( void )
+{
+    return payee_interface;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

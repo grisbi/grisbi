@@ -53,8 +53,6 @@ static void update_transaction_in_payee_tree ( gint transaction_number );
 
 
 /*START_EXTERN*/
-extern MetatreeInterface * category_interface;
-extern MetatreeInterface * payee_interface;
 /*END_EXTERN*/
 
 
@@ -100,8 +98,11 @@ void delete_transaction_in_trees ( gint transaction_number )
  */
 void update_transaction_in_categ_tree ( gint transaction_number )
 {
+    MetatreeInterface *category_interface;
+
+    category_interface = category_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
-    gsb_data_category_update_counters();
+    gsb_data_category_update_counters ( );
     update_transaction_in_tree ( category_interface, 
                                  GTK_TREE_MODEL ( category_list_get_tree_store ( ) ), 
                                  transaction_number );
@@ -133,6 +134,9 @@ void update_transaction_in_budgetary_line_tree ( gint transaction_number )
  */
 void update_transaction_in_payee_tree ( gint transaction_number )
 {
+    MetatreeInterface *payee_interface;
+
+    payee_interface = payee_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_payee_update_counters ();
     update_transaction_in_tree ( payee_interface,
@@ -146,6 +150,9 @@ void update_transaction_in_payee_tree ( gint transaction_number )
  */
 void delete_transaction_in_categ_tree ( gint transaction_number )
 {
+    MetatreeInterface *category_interface;
+
+    category_interface = category_get_metatree_interface ( );
     gsb_data_category_remove_transaction_from_category (transaction_number);
     metatree_remove_transaction ( GTK_TREE_VIEW ( category_list_get_tree_view ), 
                                   category_interface,
@@ -179,6 +186,9 @@ void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
  */
 void delete_transaction_in_payee_tree ( gint transaction_number )
 {
+    MetatreeInterface *payee_interface;
+
+    payee_interface = payee_get_metatree_interface ( );
     gsb_data_payee_remove_transaction_from_payee (transaction_number);
     metatree_remove_transaction ( GTK_TREE_VIEW ( gsb_payee_get_tree_view ( ) ),
                         payee_interface,

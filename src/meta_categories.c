@@ -27,8 +27,6 @@
 #include "include.h"
 #include <glib/gi18n.h>
 
-#include "metatree.h"
-
 /*START_INCLUDE*/
 #include "meta_categories.h"
 #include "categories_onglet.h"
@@ -107,7 +105,7 @@ static MetatreeInterface _category_interface = {
     category_hold_position_set_expand,
 };
 
-MetatreeInterface * category_interface = &_category_interface;
+static MetatreeInterface *category_interface = &_category_interface;
 
 
 
@@ -341,6 +339,20 @@ gboolean category_add_transaction_to_div ( gint transaction_number,
 }
 
 
+/**
+ *
+ *
+ *
+ */
+MetatreeInterface *category_get_metatree_interface ( void )
+{
+    return category_interface;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
 
 
 

@@ -51,6 +51,7 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "import.h"
+#include "meta_payee.h"
 #include "metatree.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -120,7 +121,6 @@ static struct conditional_message *overwrite_payee;
 /*START_EXTERN*/
 extern GdkColor couleur_selection;
 extern GSList *liste_associations_tiers;
-extern MetatreeInterface * payee_interface;
 /*END_EXTERN*/
 
 enum payees_assistant_page
@@ -206,7 +206,7 @@ GtkWidget *onglet_tiers ( void )
                         META_TREE_TEXT_COLUMN, metatree_sort_column,
                         NULL, NULL );
     g_object_set_data ( G_OBJECT ( payee_tree_model), "metatree-interface",
-                        payee_interface );
+                        payee_get_metatree_interface ( ) );
 
     /* Create container + TreeView */
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (payee_tree), TRUE);
@@ -535,7 +535,8 @@ void payee_fill_tree ( void )
          gsb_data_payee_get_nb_transactions ( payee_number ) )
         {
             gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
-            fill_division_row ( GTK_TREE_MODEL(payee_tree_model), payee_interface,
+            fill_division_row ( GTK_TREE_MODEL(payee_tree_model),
+                        payee_get_metatree_interface ( ),
                         &iter_payee, payee_number );
         }
         payee_list_tmp = payee_list_tmp -> next;
@@ -622,6 +623,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gchar * title;
     gchar * old_payee;
     GtkTreeIter *div_iter;
+    MetatreeInterface *payee_interface;
 
     devel_debug (NULL);
 
@@ -713,8 +715,8 @@ gboolean edit_payee ( GtkTreeView * view )
         {
             gsb_data_payee_set_name ( payee_number,
                         gtk_entry_get_text ( GTK_ENTRY (entry_name)));
-	    break;
-	}
+            break;
+        }
         else
         {
             gchar *message;
@@ -734,6 +736,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     gtk_widget_destroy ( dialog );
 
+    payee_interface = payee_get_metatree_interface ( );
     div_iter = get_iter_from_div ( model, payee_number, 0 );
     fill_division_row ( model, payee_interface,
                         div_iter, payee_number );

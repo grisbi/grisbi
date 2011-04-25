@@ -39,6 +39,7 @@
 #include "gsb_file_others.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
+#include "meta_categories.h"
 #include "metatree.h"
 #include "mouse.h"
 #include "structures.h"
@@ -82,7 +83,6 @@ struct metatree_hold_position *category_hold_position;
 
 
 /*START_EXTERN*/
-extern MetatreeInterface * category_interface;
 extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
@@ -102,6 +102,9 @@ GtkWidget *onglet_categories ( void )
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+    MetatreeInterface *category_interface;
+
+    category_interface = category_get_metatree_interface ( );
 
     /* We create the gtktreeview and model early so that they can be referenced. */
     arbre_categ = gtk_tree_view_new();
@@ -239,6 +242,7 @@ void remplit_arbre_categ ( void )
 {
     GSList *category_list;
     GtkTreeIter iter_categ, iter_sous_categ;
+    MetatreeInterface *category_interface;
 
     devel_debug (NULL);
 
@@ -258,6 +262,8 @@ void remplit_arbre_categ ( void )
     
     /* add first the empty category */
     category_list = g_slist_prepend ( category_list, gsb_data_category_get_empty_category ());
+
+    category_interface = category_get_metatree_interface ( );
 
     while ( category_list )
     {
@@ -663,6 +669,7 @@ gboolean edit_category ( GtkTreeView * view )
     GtkTreeIter iter;
     gchar * title;
     GtkTreeIter *div_iter;
+    MetatreeInterface *category_interface;
 
     /* fill category_number and sub_category_number */
 
@@ -809,6 +816,8 @@ gboolean edit_category ( GtkTreeView * view )
     }
 
     gtk_widget_destroy ( dialog );
+
+    category_interface = category_get_metatree_interface ( );
 
     if ( sub_category_number > 0 )
     {

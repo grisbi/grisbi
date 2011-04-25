@@ -287,3 +287,8 @@ MetatreeInterface *budgetary_line_get_metatree_interface ( void )
 {
     return budgetary_interface;
 }
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
