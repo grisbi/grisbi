@@ -247,12 +247,12 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* check the keyboard before all, if we need to move other things that the navigation
      * tree view (for example, up and down on transactions list) */
     g_signal_connect ( navigation_tree_view,
-                        "key-press-event", 
+                        "key-press-event",
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
                         navigation_model  );
 
-    g_signal_connect_after ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) ), 
-                        "changed", 
+    g_signal_connect_after ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) ),
+                        "changed",
                         G_CALLBACK ( gsb_gui_navigation_select_line ),
                         navigation_model );
 
