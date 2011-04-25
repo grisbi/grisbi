@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:36+0200\n"
+"POT-Creation-Date: 2011-04-25 09:07+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -625,7 +625,7 @@ msgstr "Pēc noklusējuma"
 #: ../src/bet_config.c:683 ../src/bet_hist.c:165 ../src/etats_config.c:531
 #: ../src/etats_config.c:534 ../src/etats_config.c:2996
 #: ../src/etats_config.c:7062 ../src/fenetre_principale.c:296
-#: ../src/navigation.c:1160 ../src/navigation.c:1845
+#: ../src/navigation.c:1173 ../src/navigation.c:1858
 msgid "Categories"
 msgstr "Kategorijas"
 
@@ -636,7 +636,7 @@ msgstr "Kategorijas"
 #: ../src/etats_config.c:543 ../src/etats_config.c:3802
 #: ../src/etats_config.c:7139 ../src/export_csv.c:814
 #: ../src/fenetre_principale.c:301 ../src/import_csv.c:88
-#: ../src/navigation.c:1171 ../src/navigation.c:1849
+#: ../src/navigation.c:1184 ../src/navigation.c:1862
 #: ../src/traitement_variables.c:94
 msgid "Budgetary lines"
 msgstr "Budžeta pozīcijas"
@@ -751,7 +751,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:223 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1149 ../src/navigation.c:1841
+#: ../src/navigation.c:1162 ../src/navigation.c:1854
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Kredītkarte"
@@ -945,12 +945,12 @@ msgid "Credits"
 msgstr "Kredīts (ieņēmumi)"
 
 #: ../src/bet_finance_ui.c:1882 ../src/bet_tab.c:2858
-#: ../src/etats_onglet.c:179 ../src/gsb_transactions_list.c:368
+#: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:368
 msgid "Print"
 msgstr "Drukāt"
 
 #: ../src/bet_finance_ui.c:1895 ../src/bet_tab.c:2871
-#: ../src/categories_onglet.c:545 ../src/etats_onglet.c:169
+#: ../src/categories_onglet.c:545 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:578
 msgid "Export"
 msgstr "Eksports"
@@ -1273,7 +1273,7 @@ msgid "Check the box to automatically change start date"
 msgstr "Atzīmējiet rūtiņu, lai automātiski mainītu datumu"
 
 #. Description entry
-#: ../src/bet_tab.c:696 ../src/etats_onglet.c:279 ../src/tiers_onglet.c:679
+#: ../src/bet_tab.c:696 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
 msgid "Description"
 msgstr "Apraksts"
 
@@ -1380,7 +1380,7 @@ msgstr "Prognoze"
 #: ../src/gsb_assistant_reconcile_config.c:597
 #: ../src/gsb_payment_method_config.c:161 ../src/gsb_reconcile_config.c:103
 #: ../src/gsb_scheduler_list.c:511 ../src/imputation_budgetaire.c:174
-#: ../src/navigation.c:1088 ../src/tiers_onglet.c:237
+#: ../src/navigation.c:1101 ../src/tiers_onglet.c:237
 msgid "Account"
 msgstr "Konts"
 
@@ -1400,7 +1400,7 @@ msgstr "Importēt kategorijas"
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Grisbi kategoriju faili (*.cgsb)"
 
-#: ../src/categories_onglet.c:424 ../src/etats_onglet.c:1231
+#: ../src/categories_onglet.c:424 ../src/etats_onglet.c:1229
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:857
 #: ../src/imputation_budgetaire.c:464
 msgid "All files"
@@ -1457,7 +1457,7 @@ msgstr ""
 msgid "Create a new sub-category"
 msgstr "Izveidot jaunu apakškategoriju"
 
-#: ../src/categories_onglet.c:535 ../src/etats_onglet.c:160
+#: ../src/categories_onglet.c:535 ../src/etats_onglet.c:158
 #: ../src/import.c:440 ../src/import.c:3636 ../src/imputation_budgetaire.c:566
 #: ../src/parametres.c:319 ../src/utils_files.c:576
 msgid "Import"
@@ -1471,7 +1471,7 @@ msgstr "Grisbi (.cgsb) kategoriju failu imports"
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "Grisbi kategoriju failu (.cgsb) eksports"
 
-#: ../src/categories_onglet.c:554 ../src/etats_onglet.c:189
+#: ../src/categories_onglet.c:554 ../src/etats_onglet.c:187
 #: ../src/gsb_scheduler_list.c:273 ../src/gsb_transactions_list.c:340
 #: ../src/imputation_budgetaire.c:588 ../src/tiers_onglet.c:339
 msgid "Delete"
@@ -1481,7 +1481,7 @@ msgstr "Dzēst"
 msgid "Delete selected category"
 msgstr "Dzēst izvēlēto kategoriju"
 
-#: ../src/categories_onglet.c:563 ../src/etats_onglet.c:198
+#: ../src/categories_onglet.c:563 ../src/etats_onglet.c:196
 #: ../src/fenetre_principale.c:271 ../src/imputation_budgetaire.c:598
 #: ../src/tiers_onglet.c:348
 msgid "Properties"
@@ -2254,7 +2254,7 @@ msgstr "Transfers"
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:513 ../src/etats_config.c:516
 #: ../src/etats_config.c:6997 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1829
+#: ../src/navigation.c:1842
 msgid "Accounts"
 msgstr "Konti"
 
@@ -2544,8 +2544,8 @@ msgid "Outgoing budget lines"
 msgstr "Izejošās budžeta pozīcijas"
 
 #. set the title
-#: ../src/etats_config.c:3986 ../src/navigation.c:1138
-#: ../src/navigation.c:1837 ../src/tiers_onglet.c:228
+#: ../src/etats_config.c:3986 ../src/navigation.c:1151
+#: ../src/navigation.c:1850 ../src/tiers_onglet.c:228
 msgid "Payees"
 msgstr "Darījumu partneri"
 
@@ -3036,52 +3036,52 @@ msgstr "Pārliecinieties, vai fails pastāv un vai tajā var rakstīt."
 msgid "Cannot open file '%s' for writing"
 msgstr "Failu '%s'nevar atvērt rakstīšanai"
 
-#: ../src/etats_onglet.c:121 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1187 ../src/navigation.c:1853
+#: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
+#: ../src/navigation.c:1200 ../src/navigation.c:1866
 msgid "Reports"
 msgstr "Pārskati"
 
-#: ../src/etats_onglet.c:150
+#: ../src/etats_onglet.c:148 ../src/navigation.c:2037
 msgid "New report"
 msgstr "Jauns pārskats"
 
-#: ../src/etats_onglet.c:155
+#: ../src/etats_onglet.c:153
 msgid "Create a new report"
 msgstr "Izveidot jaunu pārskatu"
 
-#: ../src/etats_onglet.c:164
+#: ../src/etats_onglet.c:162
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "Grisbi pārskata failu imports (.egsb)"
 
-#: ../src/etats_onglet.c:173
+#: ../src/etats_onglet.c:171
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
 msgstr "Eksportēt izvēlēto pārskatu uz egsb, HTML, Tex, CSV, PostScript"
 
-#: ../src/etats_onglet.c:183
+#: ../src/etats_onglet.c:181
 msgid "Print selected report"
 msgstr "Printēt izvēlēto pārskatu"
 
-#: ../src/etats_onglet.c:193
+#: ../src/etats_onglet.c:191
 msgid "Delete selected report"
 msgstr "Dzēst izvēlēto pārskatu"
 
-#: ../src/etats_onglet.c:202
+#: ../src/etats_onglet.c:200
 msgid "Edit selected report"
 msgstr "Rediģēt izvēlēto pārskatu"
 
-#: ../src/etats_onglet.c:207
+#: ../src/etats_onglet.c:205
 msgid "Clone"
 msgstr "Klonēt"
 
-#: ../src/etats_onglet.c:211
+#: ../src/etats_onglet.c:209
 msgid "Clone selected report"
 msgstr "Klonēt izvēlēto pārskatu"
 
-#: ../src/etats_onglet.c:267
+#: ../src/etats_onglet.c:265
 msgid "Choose template for new report"
 msgstr "Izvēlēties veidni jaunam pārskatam"
 
-#: ../src/etats_onglet.c:268
+#: ../src/etats_onglet.c:266
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -3089,52 +3089,52 @@ msgstr ""
 "Jūs gatavojaties izveidot jaunu pārskatu. Ērtības labad Jūs varat izvēlēties "
 "starp veidnēm. Ziņojumi var tikt pielāgota vēlāk."
 
-#: ../src/etats_onglet.c:271
+#: ../src/etats_onglet.c:269
 msgid "Report type"
 msgstr "Pārskata tips"
 
 #. fill combobox
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:298 ../src/etats_onglet.c:339
+#: ../src/etats_onglet.c:296 ../src/etats_onglet.c:337
 msgid "Last month incomes and outgoings"
 msgstr "Pēdējā mēneša ienākumiem un izdevumiem"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:299 ../src/etats_onglet.c:399
+#: ../src/etats_onglet.c:297 ../src/etats_onglet.c:397
 msgid "Current month incomes and outgoings"
 msgstr "Kārtējā mēneša ienākumiem un izdevumiem"
 
 #. Annual budget
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:464
+#: ../src/etats_onglet.c:298 ../src/etats_onglet.c:462
 msgid "Annual budget"
 msgstr "Gada budžets"
 
 #. Blank report
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:530
+#: ../src/etats_onglet.c:299 ../src/etats_onglet.c:528
 msgid "Blank report"
 msgstr "Bankas pārskats"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:604
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
 msgid "Cheques deposit"
 msgstr "Noguldījumu čeki"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:303 ../src/etats_onglet.c:680
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
 msgid "Monthly outgoings by payee"
 msgstr "Ikmēneša maksa caur darījuma partneriem"
 
 #. Search
-#: ../src/etats_onglet.c:304 ../src/etats_onglet.c:769
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
 msgid "Search"
 msgstr "Meklēšana"
 
-#: ../src/etats_onglet.c:854
+#: ../src/etats_onglet.c:852
 msgid "Unknown report type, creation cancelled"
 msgstr "Nezināms pārskata tips, izveidošana atcelta"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:888
+#: ../src/etats_onglet.c:886
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3146,7 +3146,7 @@ msgstr ""
 "atlasīti."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:894
+#: ../src/etats_onglet.c:892
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3157,7 +3157,7 @@ msgstr ""
 "izvēlēties kontu (-us). Pēc noklusējuma visi konti tiek atlasīti."
 
 #. Annual budget
-#: ../src/etats_onglet.c:900
+#: ../src/etats_onglet.c:898
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3166,12 +3166,12 @@ msgstr ""
 "kontu (-us). Pēc noklusējuma visi konti tiek atlasīti."
 
 #. Blank report
-#: ../src/etats_onglet.c:906
+#: ../src/etats_onglet.c:904
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Šis pārskats ir tukšs. Jums ir nepieciešams pielāgot to pilnībā."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:912
+#: ../src/etats_onglet.c:910
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3180,7 +3180,7 @@ msgstr ""
 "izvēlēties kontu (-us). Pēc noklusējuma visi konti tiek atlasīti."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:918
+#: ../src/etats_onglet.c:916
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
@@ -3190,7 +3190,7 @@ msgstr ""
 "noklusējuma visi konti tiek atlasīti"
 
 #. Search
-#: ../src/etats_onglet.c:924
+#: ../src/etats_onglet.c:922
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, payees "
@@ -3200,54 +3200,54 @@ msgstr ""
 "Jums tikai jāpievieno summa, datums, maksājumu saņēmējiem un citi kritēriji. "
 "Pēc noklusējuma darījumi ir tabulas veidā."
 
-#: ../src/etats_onglet.c:929
+#: ../src/etats_onglet.c:927
 msgid "No description available"
 msgstr "Apraksts nav pieejams"
 
-#: ../src/etats_onglet.c:956
+#: ../src/etats_onglet.c:954
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Dzēst pārskatu \"%s\"?"
 
-#: ../src/etats_onglet.c:958
+#: ../src/etats_onglet.c:956
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr "Tas neatgriezeniski atceļ šo pārskatu. To nevar atsaukt."
 
-#: ../src/etats_onglet.c:1128
+#: ../src/etats_onglet.c:1126
 msgid "Export report"
 msgstr "Eksportēt pārskatu"
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1141
 #, fuzzy
 msgid "File format: "
 msgstr "Faila formāts:"
 
-#: ../src/etats_onglet.c:1148
+#: ../src/etats_onglet.c:1146
 msgid "Grisbi report file (egsb file)"
 msgstr "Grisbi pārskata fails (egsb)"
 
-#: ../src/etats_onglet.c:1149
+#: ../src/etats_onglet.c:1147
 msgid "HTML file"
 msgstr "HTML fails"
 
-#: ../src/etats_onglet.c:1150
+#: ../src/etats_onglet.c:1148
 msgid "CSV file"
 msgstr "CSV fails"
 
-#: ../src/etats_onglet.c:1167
+#: ../src/etats_onglet.c:1165
 msgid "Exporting report ..."
 msgstr "Eksportēt pārskatu..."
 
-#: ../src/etats_onglet.c:1191 ../src/gsb_debug.c:246 ../src/gsb_file.c:487
+#: ../src/etats_onglet.c:1189 ../src/gsb_debug.c:246 ../src/gsb_file.c:487
 #: ../src/gsb_file.c:611 ../src/gsb_file.c:682
 msgid "Done"
 msgstr "Izdarīt"
 
-#: ../src/etats_onglet.c:1214
+#: ../src/etats_onglet.c:1212
 msgid "Import a report"
 msgstr "Importēt pārskatus"
 
-#: ../src/etats_onglet.c:1225
+#: ../src/etats_onglet.c:1223
 msgid "Grisbi report files (*.egsb)"
 msgstr "Grisbi pārskatu faili (*.egsb)"
 
@@ -3433,7 +3433,7 @@ msgstr "Vēsturiskie dati"
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1833
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1846
 #: ../src/parametres.c:347 ../src/parametres.c:1098
 msgid "Scheduler"
 msgstr "Plānotājs"
@@ -7036,7 +7036,7 @@ msgid "No payee defined"
 msgstr "Nav definēts partneris"
 
 #: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3007 ../src/gsb_form.c:3008
-#: ../src/navigation.c:1185
+#: ../src/navigation.c:1198
 msgid "Report"
 msgstr "Pārskati"
 
@@ -8540,7 +8540,7 @@ msgid "Only this one"
 msgstr "Tikai šis viens"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:2107 ../src/navigation.c:1111
+#: ../src/gsb_scheduler_list.c:2107 ../src/navigation.c:1124
 msgid "Scheduled transactions"
 msgstr "Plānotais darījums"
 
@@ -10041,26 +10041,41 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr "Brīdinājums, jūs nevarat izveidot darījuma partnerus vai kategorijas"
 
-#: ../src/navigation.c:964
+#: ../src/navigation.c:977
 msgid "Last statement: "
 msgstr "Pēdējais paziņojums:"
 
-#: ../src/navigation.c:965 ../src/navigation.c:977
+#: ../src/navigation.c:978 ../src/navigation.c:990
 msgid "Reconciled balance: "
 msgstr "Jāsaskaņo bilance:"
 
-#: ../src/navigation.c:976 ../src/navigation.c:984
+#: ../src/navigation.c:989 ../src/navigation.c:997
 msgid "Last statement: none"
 msgstr "Pēdējais paziņojums: nav"
 
 #. set the title
-#: ../src/navigation.c:1000
+#: ../src/navigation.c:1013
 msgid "Account transactions"
 msgstr "Darījumu konts"
 
-#: ../src/navigation.c:1006
+#: ../src/navigation.c:1019
 msgid "closed"
 msgstr "aizvērts"
+
+#: ../src/navigation.c:2008
+#, fuzzy
+msgid "New account"
+msgstr "_Jauns konts"
+
+#: ../src/navigation.c:2022
+#, fuzzy
+msgid "Remove this account"
+msgstr "_Noņemt pašreizējo kontu"
+
+#: ../src/navigation.c:2049
+#, fuzzy
+msgid "Remove this report"
+msgstr "Noņemt noteikumus"
 
 #. Create dialog
 #: ../src/parametres.c:261
