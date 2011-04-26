@@ -70,6 +70,10 @@
 
 
 /*START_STATIC*/
+static void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        gpointer user_data );
 static gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
@@ -162,6 +166,10 @@ static gint navigation_nbre_pages = 7;
 
 /* ordre par défaut des pages du panneau de gauche */
 const gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
+
+/* gestion des expandeurs */
+static gboolean account_expander = TRUE;
+static gboolean report_expander = FALSE;
 
 
 /**
@@ -294,7 +302,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     }
 
     /* Finish tree. */
-/*     gtk_tree_view_expand_all ( GTK_TREE_VIEW(navigation_tree_view) );  */
     gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
 
     /* Create calendar (hidden for now). */
@@ -310,6 +317,15 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                "button-press-event",
 		                G_CALLBACK ( gsb_gui_navigation_button_press ),
 		                NULL );
+
+    g_signal_connect ( G_OBJECT ( navigation_tree_view ),
+		                "row-collapsed",
+		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
+		                GINT_TO_POINTER ( 0 ) );
+    g_signal_connect ( G_OBJECT ( navigation_tree_view ),
+		                "row-expanded",
+		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
+		                GINT_TO_POINTER ( 1 ) );
 
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
@@ -488,9 +504,12 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
     }
 
     /* Expand stuff */
-    path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &parent );
-    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
-    gtk_tree_path_free ( path );
+    if ( account_expander )
+    {
+        path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &parent );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
+        gtk_tree_path_free ( path );
+    }
 }
 
 
@@ -537,6 +556,14 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         -1 );
 	
         tmp_list = tmp_list -> next;
+    }
+
+    /* Expand stuff */
+    if ( report_expander )
+    {
+        path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &parent );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
+        gtk_tree_path_free ( path );
     }
 }
 
@@ -2068,6 +2095,31 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
     {
         gtk_widget_show_all ( menu );
         gtk_menu_popup ( GTK_MENU( menu ), NULL, NULL, NULL, NULL, 3, gtk_get_current_event_time ( ) );
+    }
+}
+
+
+void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
+                        GtkTreeIter *iter,
+                        GtkTreePath *path,
+                        gpointer user_data )
+{
+    GtkTreeModel *model;
+    gint type_page;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    gtk_tree_model_get ( model, iter, NAVIGATION_PAGE, &type_page, -1 );
+
+    switch ( type_page )
+    {
+        case GSB_HOME_PAGE :
+        case GSB_ACCOUNT_PAGE :
+            account_expander = GPOINTER_TO_INT ( user_data );
+        break;
+        case GSB_REPORTS_PAGE :
+            report_expander = GPOINTER_TO_INT ( user_data );
+        break;
     }
 }
 
