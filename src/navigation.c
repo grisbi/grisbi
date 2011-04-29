@@ -171,8 +171,11 @@ const gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
 static gboolean account_expander = TRUE;
 static gboolean report_expander = FALSE;
 
-/* gestion du drag and drop */
-static gboolean drag_and_drop = TRUE;
+static GtkTargetEntry row_targets[] =
+{
+	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+};
+
 
 /**
  * Create the navigation pane on the left of the GUI.  It contains
@@ -189,9 +192,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     GtkTreeDragSourceIface * navigation_src_iface;
     GtkTreeViewColumn * column;
 	gint i;
-    static GtkTargetEntry row_targets[] = {
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
-    };
 
     vbox = gtk_vbox_new ( FALSE, 6 );
 
@@ -1618,9 +1618,6 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
-    if ( drag_and_drop == FALSE )
-        return FALSE;
-
     if ( dest_path && selection_data )
     {
         GtkTreePath *orig_path;
@@ -1982,11 +1979,14 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 
         if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
         {
-            drag_and_drop = FALSE;
+            gtk_tree_view_unset_rows_drag_source ( GTK_TREE_VIEW ( tree_view ) );
             gsb_gui_navigation_context_menu ( tree_view, path );
             gtk_tree_path_free ( path );
 
-            drag_and_drop = TRUE;
+            gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( navigation_tree_view ),
+					    GDK_BUTTON1_MASK,
+                        row_targets, 1,
+					    GDK_ACTION_MOVE | GDK_ACTION_COPY );
 
             return FALSE;
         }
