@@ -171,6 +171,8 @@ const gchar *default_navigation_order_list = "0-2-3-4-5-6-7";
 static gboolean account_expander = TRUE;
 static gboolean report_expander = FALSE;
 
+/* gestion du drag and drop */
+static gboolean drag_and_drop = TRUE;
 
 /**
  * Create the navigation pane on the left of the GUI.  It contains
@@ -1616,6 +1618,9 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
+    if ( drag_and_drop == FALSE )
+        return FALSE;
+
     if ( dest_path && selection_data )
     {
         GtkTreePath *orig_path;
@@ -1700,7 +1705,7 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     GQueue *tmp_queue;
     GList *dst_list;
     gint i;
-    struct_page *page;
+    struct_page *page = NULL;
 
     tmp_queue = pages_list;
     for ( i = 0 ; i < tmp_queue -> length ; i++ )
@@ -1977,8 +1982,11 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 
         if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
         {
+            drag_and_drop = FALSE;
             gsb_gui_navigation_context_menu ( tree_view, path );
             gtk_tree_path_free ( path );
+
+            drag_and_drop = TRUE;
 
             return FALSE;
         }

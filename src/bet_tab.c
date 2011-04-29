@@ -994,8 +994,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
             continue;
 
         /* ignore splitted transactions */
-        if ( gsb_data_transaction_get_mother_transaction_number (
-         transaction_number ) != 0 )
+        if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) == TRUE )
             continue;
 
         /* Ignore transactions that are before date_com */
@@ -2769,7 +2768,7 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
             {
                 /* on cherche une opération par son IB */
                 gint tmp_budget_number;
-                gint tmp_sub_budget_number;
+                gint tmp_sub_budget_number = 0;
 
                 tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
                 if ( transfert -> sub_budgetary_number )
