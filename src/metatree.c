@@ -1139,22 +1139,26 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	/* We do not jump to a transaction if a division is specified */
 	if ( transaction_number && !no_division && !no_sub_division )
 	{
+        gint account_number;
+        gint archive_number;
+
+        account_number = gsb_data_transaction_get_account_number ( transaction_number );
+        archive_number = gsb_data_transaction_get_archive_number ( transaction_number );
+
         /* If transaction is an archive return */
-        if ( gsb_data_transaction_get_archive_number ( transaction_number ) )
+        if ( archive_number )
         {
-            dialogue_warning ( _("This transaction is archived.\n\n"
-                        "You must view the transactions in this archive for access.") );
-            return FALSE;
+		    gsb_transactions_list_add_transactions_from_archive (archive_number, account_number, FALSE );
         }
-	    /* If transaction is reconciled, show reconciled
-	     * transactions. */
-	    if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE &&
-		 !gsb_data_account_get_r (gsb_gui_navigation_get_current_account ()))
+	    /* If transaction is reconciled, show reconciled transactions. */
+	    if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_RAPPROCHEE
+         &&
+		 gsb_data_account_get_r ( account_number ) == FALSE )
 	    {
-		mise_a_jour_affichage_r ( TRUE );
+            mise_a_jour_affichage_r ( TRUE );
 	    }
 
-	    navigation_change_account ( GINT_TO_POINTER ( gsb_data_transaction_get_account_number (transaction_number)));
+	    navigation_change_account ( GINT_TO_POINTER ( account_number ) );
 	    gsb_account_property_fill_page ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
 	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 

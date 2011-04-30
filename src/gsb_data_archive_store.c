@@ -46,6 +46,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
 #include "transaction_list.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -68,6 +69,9 @@ typedef struct
 
     /* number of transactions in the archive for that account */
     gint nb_transactions;
+
+    /* les transactions archivées sont visibles dans la vue des opérations FALSE par défaut */
+    gboolean transactions_visibles;
 } struct_store_archive;
 
 
@@ -493,6 +497,11 @@ static gint gsb_data_archive_store_new ( void )
 }
 
 
+/**
+ *
+ *
+ *
+ */
 gsb_real gsb_data_archive_store_get_archives_balance ( gint account_number )
 {
     GSList *tmp_list;
@@ -514,6 +523,50 @@ gsb_real gsb_data_archive_store_get_archives_balance ( gint account_number )
 
     return balance;
 }
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_data_archive_store_get_transactions_visibles ( gint archive_number,
+                        gint account_number )
+{
+    struct_store_archive *archive_store;
+
+    archive_store = gsb_data_archive_store_find_struct ( archive_number, account_number );
+
+    if ( archive_store )
+        return archive_store -> transactions_visibles;
+    else
+        return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_data_archive_store_set_transactions_visibles ( gint archive_number,
+                        gint account_number,
+                        gboolean transactions_visibles )
+{
+    struct_store_archive *archive_store;
+
+    archive_store = gsb_data_archive_store_find_struct ( archive_number, account_number );
+
+    if ( archive_store )
+    {
+        archive_store -> transactions_visibles = transactions_visibles;
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
