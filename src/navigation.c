@@ -1029,18 +1029,17 @@ void gsb_navigation_update_statement_label ( gint account_number )
 
 
 /**
- * update the account name and the amount on the bottom
+ * Update the account name in the heading bar
  *
  * \param account_number
  *
  * \return
- * */
+ */
 void gsb_navigation_update_account_label ( gint account_number )
 {
     gchar * title = NULL; 
 
-    /* set the title */
-    title = g_strconcat ( _("Account transactions"), " : ",
+    title = g_strconcat ( _("Account"), " : ",
 			  gsb_data_account_get_name ( account_number ),
 			  NULL );
     if ( gsb_data_account_get_closed_account ( account_number ) )
@@ -1051,6 +1050,8 @@ void gsb_navigation_update_account_label ( gint account_number )
     }
 
     gsb_data_account_colorize_current_balance ( account_number );
+    gsb_gui_headings_update_title ( title );
+    
     g_free ( title );
 }
 
@@ -1086,7 +1087,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     gint account_number, page_number;
     gint report_number;
     gchar * title = NULL;
-    gboolean clear_sufix = TRUE;
+    gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
 
@@ -1113,7 +1114,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_HOME_PAGE:
 	    notice_debug ("Home page selected");
 
-        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
+            title = g_strdup(_("My accounts"));
+
+            gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
+
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
 	    gsb_form_set_expander_visible ( FALSE, FALSE );
@@ -1127,14 +1131,15 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
-	    gsb_navigation_update_account_label (account_number);
+            /* update title now -- different from others */
+            gsb_navigation_update_account_label (account_number);
+
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
-		title = g_strconcat ( _("Account"), " : ", gsb_data_account_get_name (account_number), NULL );
 		navigation_change_account ( GINT_TO_POINTER (account_number) );
 		gsb_account_property_fill_page ();
-		clear_sufix = FALSE;
+		clear_suffix = FALSE;
 	    }
 	    gsb_menu_update_accounts_in_menus ();
 	    gsb_menu_update_view_menu ( account_number );
@@ -1153,9 +1158,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_SCHEDULER_PAGE:
 	    notice_debug ("Scheduler page selected");
 
-	    /* set the title */
 	    title = g_strdup(_("Scheduled transactions"));
-
         
 	    /* what to be done if switch to that page */
 	    /* update the list (can do that because short list, so very fast) */
@@ -1180,7 +1183,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_PAYEES_PAGE:
 	    notice_debug ("Payee page selected");
 
-	    /* set the title */
 	    title = g_strdup(_("Payees"));
 
 	    /* what to be done if switch to that page */
@@ -1191,7 +1193,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_SIMULATOR_PAGE:
 	    notice_debug ("Credits simulator page selected");
 
-	    /* set the title */
 	    title = g_strdup(_("Credits simulator"));
 
 	    /* what to be done if switch to that page */
@@ -1202,7 +1203,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");
 
-	    /* set the title */
 	    title = g_strdup(_("Categories"));
 
 	    /* what to be done if switch to that page */
@@ -1213,7 +1213,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_BUDGETARY_LINES_PAGE:
 	    notice_debug ("Budgetary page selected");
 
-	    /* set the title */
 	    title = g_strdup(_("Budgetary lines"));
 
 	    /* what to be done if switch to that page */
@@ -1224,7 +1223,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_REPORTS_PAGE:
 	    notice_debug ("Reports page selected");
 
-	    /* set the title */
 	    report_number = gsb_gui_navigation_get_current_report ();
 
 	    if ( report_number >= 0 )
@@ -1248,15 +1246,16 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
-    /* title is not set when go on account
+    /* title is set here except in GSB_ACCOUNT_PAGE case
      * because gsb_navigation_update_account_label was called instead */
     if (title)
     {
 	gsb_gui_headings_update_title ( title );
 	g_free ( title );
     }
-    if (clear_sufix)
+    if (clear_suffix)
         gsb_gui_headings_update_suffix ( "" );
+
     return FALSE;
 }
 
