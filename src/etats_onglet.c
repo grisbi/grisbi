@@ -1014,7 +1014,6 @@ void gsb_gui_update_gui_to_report ( gint report_number )
     }
     else
         etat_affiche_finish ( );
-;
 }
 
 

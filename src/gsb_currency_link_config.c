@@ -297,7 +297,6 @@ GtkWidget *gsb_currency_link_config_create_list ( void )
 								gtk_cell_renderer_pixbuf_new (),
 								"stock-id", i,
 								NULL );
-        ;
 	}
 	else
 	{
