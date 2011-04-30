@@ -156,9 +156,9 @@ void delete_transaction_in_categ_tree ( gint transaction_number )
 
     category_interface = category_get_metatree_interface ( );
     gsb_data_category_remove_transaction_from_category (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW ( category_list_get_tree_view ( ) ), 
+    metatree_remove_transaction ( GTK_TREE_VIEW ( category_list_get_tree_view ( ) ),
                                   category_interface,
-                                  transaction_number, 
+                                  transaction_number,
                                   FALSE);
 }
 
