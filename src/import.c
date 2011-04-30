@@ -1960,7 +1960,8 @@ void gsb_import_create_imported_transactions ( struct struct_compte_importation 
         if ( nbre_transaction > NBRE_TRANSACTION_FOR_PROGRESS_BAR )
         {
             gsb_import_progress_bar_pulse ( progress, nbre_transaction );
-            while ( gtk_events_pending () ) gtk_main_iteration ( );
+            /* update progress bar NOW */
+            update_gui ( );
             nbre_transaction --;
         }
 

@@ -252,7 +252,7 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 
     /* just update screen so that the user does not see the previous report anymore
      * while we are processing the new report */
-    update_ecran ( );
+    update_gui ( );
 
     table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );

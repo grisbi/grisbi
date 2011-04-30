@@ -1094,9 +1094,6 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     page_number = gsb_gui_navigation_get_current_page ();
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), page_number );
 
-    /* step forward in GUI loops (context menu, ...) */
-/*     update_ecran ( );  */
-
     if ( page_number != GSB_ACCOUNT_PAGE )
     {
         gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );

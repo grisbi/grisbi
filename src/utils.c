@@ -444,18 +444,19 @@ gboolean assert_account_loaded ()
 
 
 
-
-
-/******************************************************************************/
-/* cette fonction rafraichit l'écran pendant les traitements d'information */
-/******************************************************************************/
-void update_ecran ( void )
+/**
+ * Function to explicitly update window "outside gtk_main ( )"
+ * For example during computations
+ *
+ * \return
+ */
+void update_gui ( void )
 {
     devel_debug (NULL);
 
-    while ( g_main_iteration (FALSE));
+    while ( gtk_events_pending ( ) )
+        gtk_main_iteration ( );
 }
-/******************************************************************************/
 
 
 void register_button_as_linked ( GtkWidget *widget, GtkWidget *linked )
