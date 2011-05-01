@@ -1975,14 +1975,10 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 
         if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
         {
-            gtk_tree_view_unset_rows_drag_source ( GTK_TREE_VIEW ( tree_view ) );
             gsb_gui_navigation_context_menu ( tree_view, path );
             gtk_tree_path_free ( path );
 
-            gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( navigation_tree_view ),
-					    GDK_BUTTON1_MASK,
-                        row_targets, 1,
-					    GDK_ACTION_MOVE | GDK_ACTION_COPY );
+            while ( g_main_context_iteration ( NULL, FALSE ) );
 
             return FALSE;
         }
@@ -2030,7 +2026,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     gtk_tree_model_get_iter ( model, &iter, path );
-    gtk_tree_model_get ( model, &iter, 
+    gtk_tree_model_get ( model, &iter,
                         NAVIGATION_PAGE, &type_page,
                         NAVIGATION_ACCOUNT, &account_number,
                         NAVIGATION_REPORT, &report_number,
@@ -2125,6 +2121,15 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
             report_expander = GPOINTER_TO_INT ( user_data );
         break;
     }
+}
+
+
+void gsb_gui_navigation_enable_drag_source ( void )
+{
+    gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( navigation_tree_view ),
+					    GDK_BUTTON1_MASK,
+                        row_targets, 1,
+					    GDK_ACTION_MOVE | GDK_ACTION_COPY );
 }
 
 
