@@ -1457,6 +1457,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 {
     gint page;
     GtkTreeIter iter;
+    GtkTreePath *path;
 
     if (! gtk_tree_selection_get_selected ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 					    NULL,
@@ -1464,11 +1465,17 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 	return FALSE;
 
     gtk_tree_model_get (model, &iter, NAVIGATION_PAGE, &page, -1 );
+    path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &iter );
 
     switch ( page )
     {
 	case GSB_HOME_PAGE:
-	    /* nothing to do here for now */
+	case GSB_REPORTS_PAGE:
+            /* expand or collapse subtree */
+	    if (ev -> keyval == GDK_Right)
+                gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
+	    if (ev -> keyval == GDK_Left)
+                gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
@@ -1494,11 +1501,9 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 	    if (ev -> keyval == GDK_Right)
 		gtk_widget_grab_focus (gsb_scheduler_list_get_tree_view ());
 	    break;
-
-	case GSB_REPORTS_PAGE:
-	    /* nothing to do here for now */
-	    break;
     }
+
+    gtk_tree_path_free ( path );
 
     return FALSE;
 }
