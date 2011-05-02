@@ -1379,18 +1379,21 @@ gboolean gsb_gui_navigation_select_prev ()
     }
     else
     {
-	gtk_tree_model_get_iter ( model, &iter, path );
-	if ( gtk_tree_model_iter_has_child ( model, &iter ) )
-	{
-	    GtkTreeIter parent = iter;
-	    gtk_tree_model_iter_nth_child ( model, &iter, &parent, 
-					    gtk_tree_model_iter_n_children ( model, 
-									     &parent ) - 1 );
-	    path = gtk_tree_model_get_path ( model, &iter );
-	}
+        gtk_tree_model_get_iter ( model, &iter, path );
+        /* if row has children and if row is expanded, go to the last child */
+        if ( gtk_tree_model_iter_has_child ( model, &iter )
+             && gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( navigation_tree_view ), path ) )
+        {
+            GtkTreeIter parent = iter;
+            gtk_tree_model_iter_nth_child ( model, &iter, &parent, 
+                                            gtk_tree_model_iter_n_children ( model, 
+                                                                             &parent ) - 1 );
+            path = gtk_tree_model_get_path ( model, &iter );
+        }
     }
     
     gtk_tree_selection_select_path ( selection, path );
+    gtk_tree_path_free ( path );
 
     return FALSE;
 }
@@ -1419,7 +1422,10 @@ gboolean gsb_gui_navigation_select_next ()
 
     if ( gtk_tree_model_iter_has_child ( model, &iter ) )
     {
-	gtk_tree_path_down ( path );
+        if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( navigation_tree_view ), path ) )
+            gtk_tree_path_down ( path );
+        else
+            gtk_tree_path_next ( path );
     }
     else
     {
@@ -1435,6 +1441,7 @@ gboolean gsb_gui_navigation_select_next ()
     }
 
     gtk_tree_selection_select_path ( selection, path );
+    gtk_tree_path_free ( path );
 
     return FALSE;
 }
