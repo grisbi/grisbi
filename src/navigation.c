@@ -42,6 +42,7 @@
 #include "gsb_assistant_account.h"
 #include "gsb_calendar.h"
 #include "gsb_data_account.h"
+#include "gsb_data_archive_store.h"
 #include "gsb_data_import_rule.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
@@ -1111,9 +1112,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_HOME_PAGE:
 	    notice_debug ("Home page selected");
 
-            title = g_strdup(_("My accounts"));
+        title = g_strdup(_("My accounts"));
 
-            gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
+        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
 
 	    /* what to be done if switch to that page */
 	    mise_a_jour_accueil ( FALSE );
@@ -1128,15 +1129,19 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    account_number = gsb_gui_navigation_get_current_account ();
 
-            /* update title now -- different from others */
-            gsb_navigation_update_account_label (account_number);
+        /* update title now -- different from others */
+        gsb_navigation_update_account_label (account_number);
 
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
-		navigation_change_account ( GINT_TO_POINTER (account_number) );
-		gsb_account_property_fill_page ();
-		clear_suffix = FALSE;
+            navigation_change_account ( GINT_TO_POINTER (account_number) );
+            gsb_account_property_fill_page ();
+            clear_suffix = FALSE;
+            if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
+                gsb_transaction_list_set_visible_archived_button ( TRUE );
+            else
+                gsb_transaction_list_set_visible_archived_button ( FALSE );
 	    }
 	    gsb_menu_update_accounts_in_menus ();
 	    gsb_menu_update_view_menu ( account_number );

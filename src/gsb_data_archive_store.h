@@ -6,7 +6,35 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
+
+/**
+ * \struct
+ * Describe an archive store
+ */
+typedef struct
+{
+    gint archive_store_number;
+
+    /* the corresponding archive (1 archive contains several archive store) */
+    gint archive_number;
+
+    /* account we are working on */
+    gint account_number;
+
+    /* balance of all the transactions of the archive for that account */
+    gsb_real balance;
+
+    /* number of transactions in the archive for that account */
+    gint nb_transactions;
+
+    /* les transactions archivées sont visibles dans la vue des opérations FALSE par défaut */
+    gboolean transactions_visibles;
+} struct_store_archive;
+
+
+
 /* START_DECLARATION */
+gboolean gsb_data_archive_store_account_have_transactions_visibles ( gint account_number );
 void gsb_data_archive_store_create_list ( void );
 gint gsb_data_archive_store_get_account_number ( gint archive_store_number );
 gint gsb_data_archive_store_get_archive_number ( gint archive_store_number );

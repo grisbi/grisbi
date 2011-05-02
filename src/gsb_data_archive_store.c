@@ -50,31 +50,6 @@
 /*END_INCLUDE*/
 
 
-/**
- * \struct 
- * Describe an archive store
- */
-typedef struct
-{
-    gint archive_store_number;
-
-    /* the corresponding archive (1 archive contains several archive store) */
-    gint archive_number;
-
-    /* account we are working on */
-    gint account_number;
-
-    /* balance of all the transactions of the archive for that account */
-    gsb_real balance;
-
-    /* number of transactions in the archive for that account */
-    gint nb_transactions;
-
-    /* les transactions archivées sont visibles dans la vue des opérations FALSE par défaut */
-    gboolean transactions_visibles;
-} struct_store_archive;
-
-
 /*START_STATIC*/
 static void _gsb_data_archive_store_free ( struct_store_archive *archive );
 static struct_store_archive *gsb_data_archive_store_find_struct ( gint archive_number,
@@ -564,6 +539,35 @@ gboolean gsb_data_archive_store_set_transactions_visibles ( gint archive_number,
     }
     else
         return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_data_archive_store_account_have_transactions_visibles ( gint account_number )
+{
+    GSList *tmp_list;
+
+    tmp_list = gsb_data_archive_store_get_archives_list ( );
+
+    while (tmp_list)
+    {
+        struct_store_archive *archive_store;
+
+        archive_store = tmp_list -> data;
+
+        if ( archive_store -> account_number == account_number
+         &&
+         archive_store -> transactions_visibles == TRUE )
+            return TRUE;
+
+        tmp_list = tmp_list -> next;
+    }
+
+    return FALSE;
 }
 
 
