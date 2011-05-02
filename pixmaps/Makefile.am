@@ -13,6 +13,7 @@ grisbi_pixmaps_DATA = \
 	addresses.png \
 	amount.png \
 	archive.png \
+	archive_24.png \
 	archives.png \
 	balance_estimate.png \
 	banks.png \
