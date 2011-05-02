@@ -398,12 +398,12 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), alignement, TRUE, TRUE, 0 );
 
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("Hide Archive"),
+					       _("Recreates archive"),
 					       "archive_24.png",
 					       G_CALLBACK ( gsb_transactions_list_hide_transactions_in_archive_line ),
 					       NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Hide archived transactions") );
+				  _("Recreates the line of the archive and hiding the transactions") );
     g_object_set_data ( G_OBJECT ( transaction_toolbar ), "archived_button", button );
     gtk_container_add ( GTK_CONTAINER ( alignement ), button );
 
