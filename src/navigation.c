@@ -2070,7 +2070,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
 
             menu_item = gtk_image_menu_item_new_with_label ( _("Remove this account") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_account_delete ),
