@@ -13,6 +13,9 @@ gint classement_alphabetique_tree ( GtkWidget *tree,
                         GtkCListRow *ligne_2 );
 GtkTreeStore *gsb_payee_get_tree_store ( void );
 GtkWidget *gsb_payee_get_tree_view ( void );
+void gsb_payee_manage_tiers ( void );
+void gsb_payee_new_payee ( void );
+void gsb_payee_remove_unused ( void );
 gboolean gsb_payee_update_combofix ( void );
 void gsb_gui_update_payee_toolbar ( void );
 GtkWidget *onglet_tiers ( void );

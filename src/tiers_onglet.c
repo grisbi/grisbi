@@ -65,7 +65,6 @@
 
 /*START_STATIC*/
 static void appui_sur_ajout_payee ( GtkTreeModel * model );
-static void appui_sur_manage_tiers ( void );
 static GtkWidget *creation_barre_outils_tiers ( void );
 static gboolean edit_payee ( GtkTreeView * view );
 static void gsb_assistant_payees_clicked ( GtkButton *button, GtkWidget *assistant );
@@ -96,8 +95,9 @@ static gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePa
 static gboolean payee_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
-static gboolean payee_remove_unused ( GtkWidget *button,
-                        gpointer null );
+/* static gboolean payee_remove_unused ( GtkWidget *button,
+ *                         gpointer null );
+ */
 static void payee_tree_update_transactions ( GtkTreeModel * model,
                         MetatreeInterface * iface, GtkTreeIter * iter,
                         gint division, gchar * old_payee );
@@ -364,7 +364,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
 	button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 						_("Manage payees"), "payeesmg.png",
-						G_CALLBACK ( appui_sur_manage_tiers ),
+						G_CALLBACK ( gsb_payee_manage_tiers ),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
 				  _("Manage the payees"));
@@ -372,7 +372,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Remove unused payees"),
-					   G_CALLBACK ( payee_remove_unused ),
+					   G_CALLBACK ( gsb_payee_remove_unused ),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
 				  _("Remove orphan payees"));
@@ -419,8 +419,7 @@ void gsb_gui_update_payee_toolbar ( void )
  *
  * \return FALSE
  * */
-gboolean payee_remove_unused ( GtkWidget *button,
-                        gpointer null )
+void gsb_payee_remove_unused ( void )
 {
     gint result;
 
@@ -450,7 +449,6 @@ gboolean payee_remove_unused ( GtkWidget *button,
         dialogue (tmpstr);
         g_free (tmpstr);
     }
-    return FALSE;
 }
 
 
@@ -840,7 +838,7 @@ gboolean payee_hold_position_set_expand ( gboolean expand )
  *
  *
  */
-void appui_sur_manage_tiers ( void )
+void gsb_payee_manage_tiers ( void )
 {
     GtkWidget *assistant;
     GtkResponseType return_value;
@@ -1763,6 +1761,25 @@ GtkTreeStore *gsb_payee_get_tree_store ( void )
 GtkWidget *gsb_payee_get_tree_view ( void )
 {
     return payee_tree;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_payee_new_payee ( void )
+{
+    metatree_new_division ( GTK_TREE_MODEL ( payee_tree_model ) );
+
+    sortie_edit_payee = FALSE;
+    edit_payee ( GTK_TREE_VIEW ( payee_tree ) );
+    if ( sortie_edit_payee )
+    {
+        supprimer_division ( GTK_TREE_VIEW ( payee_tree ) );
+        sortie_edit_payee = FALSE;
+    }
 }
 
 

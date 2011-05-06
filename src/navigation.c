@@ -2078,6 +2078,42 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
         break;
+        case GSB_PAYEES_PAGE :
+            menu = gtk_menu_new ();
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            image = gtk_image_new_from_file ( tmp_str );
+            g_free ( tmp_str );
+            menu_item = gtk_image_menu_item_new_with_label ( _("New payee") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_payee_new_payee ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            image = gtk_image_new_from_file ( tmp_str );
+            g_free ( tmp_str );
+            menu_item = gtk_image_menu_item_new_with_label ( _("Manage payees") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_payee_manage_tiers ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Remove unused payees") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_payee_remove_unused ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        break;
         case GSB_CATEGORIES_PAGE :
             menu = gtk_menu_new ();
             tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-categ.png", NULL);
@@ -2102,6 +2138,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         G_CALLBACK ( category_list_importer_categ ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
             menu_item = gtk_image_menu_item_new_with_label ( _("Export a category file (.cgsb)") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
