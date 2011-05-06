@@ -62,8 +62,6 @@ static gboolean category_list_button_press ( GtkWidget *tree_view,
 static void category_list_popup_context_menu ( void );
 static GtkWidget *creation_barre_outils_categ ( void );
 static gboolean edit_category ( GtkTreeView * view );
-static gboolean exporter_categ ( GtkButton * widget, gpointer data );
-static void importer_categ ( void );
 static gboolean popup_category_view_mode_menu ( GtkWidget * button );
 static void selectionne_sub_category ( GtkTreeModel * model );
 /*END_STATIC*/
@@ -361,7 +359,7 @@ gboolean categ_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
  *
  *
  */
-gboolean exporter_categ ( GtkButton * widget, gpointer data )
+void category_list_exporter_categ ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -383,8 +381,8 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
 
     if ( resultat != GTK_RESPONSE_OK )
     {
-	gtk_widget_destroy ( dialog );
-	return FALSE;
+        gtk_widget_destroy ( dialog );
+        return;
     }
 
     nom_categ = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ));
@@ -392,8 +390,6 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
     gtk_widget_destroy ( GTK_WIDGET ( dialog ));
 
     gsb_file_others_save_category ( nom_categ );
-
-    return FALSE;
 }
 
 
@@ -402,7 +398,7 @@ gboolean exporter_categ ( GtkButton * widget, gpointer data )
  *
  *
  */
-void importer_categ ( void )
+void category_list_importer_categ ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -539,7 +535,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                             GTK_STOCK_OPEN,
                                             _("Import"),
-                                            G_CALLBACK ( importer_categ ),
+                                            G_CALLBACK ( category_list_importer_categ ),
                                             NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
                                   _("Import a Grisbi category file (.cgsb)"));
@@ -549,7 +545,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                             GTK_STOCK_SAVE,
                                             _("Export"),
-                                            G_CALLBACK ( exporter_categ ),
+                                            G_CALLBACK ( category_list_exporter_categ ),
                                             NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
                                   _("Export a Grisbi category file (.cgsb)"));
@@ -1146,6 +1142,30 @@ GtkWidget *category_list_get_tree_view ( void )
 }
 
 
+/**
+ *
+ *
+ *
+ */
+void category_list_new_category ( void )
+{
+    metatree_new_division ( GTK_TREE_MODEL ( categ_tree_model ) );
+
+    sortie_edit_category = FALSE;
+    edit_category ( GTK_TREE_VIEW ( arbre_categ ) );
+    if ( sortie_edit_category )
+    {
+        supprimer_division ( GTK_TREE_VIEW ( arbre_categ ) );
+        sortie_edit_category = FALSE;
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
