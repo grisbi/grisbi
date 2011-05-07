@@ -8980,7 +8980,7 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
     {
         gint reconcile_number_next;
         gint reconcile_number;
-        const GDate *last_date_next;
+        const GDate *last_date_next = NULL;
         const GDate *last_date;
                 
         reconcile_number = GPOINTER_TO_INT ( rec_list -> data );

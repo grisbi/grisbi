@@ -45,6 +45,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         gpointer null );
 void gsb_gui_sensitive_headings ( gboolean sensitive );
 gboolean gsb_gui_set_hpaned_left_width ( gint width );
+void gsb_gui_update_all_toolbars ( void );
 gboolean gsb_gui_update_show_headings ();
 /*END_DECLARATION*/
 

@@ -28,6 +28,7 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
 gboolean gsb_gui_toggle_show_archived ( void );
 gboolean gsb_gui_toggle_show_reconciled ( void );
 GtkUIManager *gsb_menu_get_ui_manager ( void );
+gboolean gsb_menu_set_block_menu_cb ( gboolean etat );
 gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive );
 gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );

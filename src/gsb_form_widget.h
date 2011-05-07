@@ -45,5 +45,6 @@ gint gsb_form_widget_next_element ( gint account_number,
 void gsb_form_widget_set_empty ( GtkWidget *entry,
                     gboolean empty );
 void gsb_form_widget_set_focus ( gint element_number );
+gboolean gsb_form_widget_update_payee_combofix ( void );
 /* END_DECLARATION */
 #endif

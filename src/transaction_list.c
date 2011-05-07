@@ -292,7 +292,7 @@ void transaction_list_append_transaction ( gint transaction_number )
  *
  * \return
  * */
-void transaction_list_append_archive (gint archive_store_number)
+void transaction_list_append_archive ( gint archive_store_number )
 {
     gint archive_number;
     gulong newsize;
@@ -323,7 +323,7 @@ void transaction_list_append_archive (gint archive_store_number)
     /* create and fill the record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
 
-    archive_number = gsb_data_archive_store_get_archive_number (archive_store_number);
+    archive_number = gsb_data_archive_store_get_archive_number ( archive_store_number );
 
     if ( find_element_col ( ELEMENT_DATE ) == 0 )
         element_date = find_element_col_for_archive ( );
@@ -2183,6 +2183,79 @@ gboolean transaction_list_get_variance ( gint transaction_number )
     else
         return FALSE;
 }
+
+
+/**
+ * remove an archive line from the tree model
+ * it should be a good thing to update the tree_view after that
+ *
+ * \param archive_number    the archive to remove
+ * \param account_number    the account
+ *
+ * \return TRUE : archive removed, FALSE : problem, nothing done
+ * */
+gboolean transaction_list_remove_archive_line ( gint archive_number,
+                        gint account_number )
+{
+    gint i;
+    CustomList *custom_list;
+    gboolean return_val = FALSE;
+
+    custom_list = transaction_model_get_model ();
+
+    if ( custom_list == NULL )
+        return FALSE;
+
+    for ( i = 0 ; i < custom_list -> num_rows ; i++ )
+    {
+        CustomRecord *record;
+        gulong newsize;
+        gint j;
+        gint archive_store_number;
+
+        record = custom_list -> rows[i];
+        archive_store_number = gsb_data_archive_store_get_number ( record -> transaction_pointer );
+        if ( record -> what_is_line != IS_ARCHIVE
+         ||
+         gsb_data_archive_store_get_archive_number ( archive_store_number ) != archive_number
+         ||
+         gsb_data_archive_store_get_account_number ( archive_store_number ) != account_number )
+        {
+            continue;
+        }
+
+        /* we are on a good archive store, delete it */
+
+        /* delete the row */
+        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+            if (record -> visible_col[j])
+                g_free (record -> visible_col[j]);
+        
+        /* remove the row. I decrement "i" because the next line of model is shifted
+         * and has  "i" for index. Otherwise we do not test. */
+        custom_list -> num_rows--;
+        i--;
+
+        for (j=record -> pos ; j < custom_list -> num_rows ; j++)
+        {
+            custom_list -> rows[j] = custom_list -> rows[j+1];
+            custom_list -> rows[j] -> pos = j;
+        }
+
+        /* resize the array */
+        newsize = custom_list->num_rows * sizeof(CustomRecord*);
+        custom_list->rows = g_realloc(custom_list->rows, newsize);
+        custom_list->visibles_rows = g_realloc(custom_list->visibles_rows, newsize);
+
+        /* free the record */
+        g_free (record);
+        return_val = TRUE;
+    }
+
+    return return_val;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

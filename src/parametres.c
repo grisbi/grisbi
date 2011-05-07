@@ -119,8 +119,6 @@ static gint width_spin_button = 50;
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GtkWidget *arbre_categ;
-extern GtkWidget *budgetary_line_tree;
 extern struct conditional_message delete_msg[];
 extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
@@ -128,7 +126,6 @@ extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 extern gint nb_max_derniers_fichiers_ouverts;
-extern GtkWidget *payee_tree;
 /*END_EXTERN*/
 
 
@@ -1179,6 +1176,9 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur )
 {
+    GtkWidget *payee_tree;
+    GtkWidget *category_tree;
+    GtkWidget *budgetary_tree;
     GtkTreeSelection *selection;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -1194,6 +1194,9 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
     }
 
     page_number = gsb_gui_navigation_get_current_page ( );
+    payee_tree = payees_get_tree_view ( );
+    category_tree = categories_get_tree_view ( );
+    budgetary_tree = budgetary_lines_get_tree_view ( );
 
     switch ( page_number )
     {
@@ -1201,27 +1204,27 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
-		payee_fill_tree ();
+	    payees_fill_list ();
         gtk_tree_path_up ( path );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
         gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_CATEGORIES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( category_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
-        remplit_arbre_categ ();
+        categories_fill_list ();
         gtk_tree_path_up ( path );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
         gtk_tree_path_free ( path );
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
-		remplit_arbre_imputation ();
+		budgetary_lines_fill_list ();
         gtk_tree_path_up ( path );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
         gtk_tree_path_free ( path );
@@ -1624,11 +1627,11 @@ void gsb_localisation_update_affichage ( gint type_maj )
 
     /* update payees, categories and budgetary lines */
     if ( current_page == GSB_PAYEES_PAGE )
-        payee_fill_tree ( );
+        payees_fill_list ( );
     else if ( current_page == GSB_CATEGORIES_PAGE )
-        remplit_arbre_categ ( );
+        categories_fill_list ( );
     else if ( current_page == GSB_BUDGETARY_LINES_PAGE )
-        remplit_arbre_imputation ( );
+        budgetary_lines_fill_list ( );
 
     /* update simulator page */
     if ( current_page == GSB_SIMULATOR_PAGE )

@@ -732,6 +732,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     switch (origin)
     {
     case PROPERTY_NAME:
+        gsb_navigation_update_account_label (account_number);
         gsb_gui_navigation_update_account ( account_number );
         break;
     case PROPERTY_CLOSED_ACCOUNT:
@@ -743,9 +744,9 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
                         SCHEDULED_FORM_ACCOUNT), FALSE );
 
         /* Replace trees contents. */
-        remplit_arbre_categ ();
-        remplit_arbre_imputation ();
-        payee_fill_tree ();
+        categories_fill_list ();
+        budgetary_lines_fill_list ();
+        payees_fill_list ();
         break;
 
     case PROPERTY_KIND:
@@ -1532,7 +1533,6 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
 
         /*update the the view menu */
-        gsb_navigation_update_account_label (account_number);
         gsb_menu_update_accounts_in_menus ();
 
         /* update the name of accounts in form */
@@ -1540,9 +1540,9 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
                         SCHEDULED_FORM_ACCOUNT), FALSE );
 
         /* Replace trees contents. */
-        remplit_arbre_categ ();
-        remplit_arbre_imputation ();
-        payee_fill_tree ();
+        categories_fill_list ();
+        budgetary_lines_fill_list ();
+        payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
         gsb_main_set_grisbi_title ( account_number );

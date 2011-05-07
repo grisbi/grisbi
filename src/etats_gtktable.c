@@ -47,6 +47,7 @@
 #include "fenetre_principale.h"
 #include "etats_config.h"
 #include "etats_affiche.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -76,7 +77,6 @@ struct struct_etat_affichage gtktable_affichage = {
 extern gint nb_colonnes;
 extern GtkWidget *scrolled_window_etat;
 /*END_EXTERN*/
-
 
 
 /**
@@ -250,6 +250,10 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     if ( scrolled_window_etat && GTK_BIN ( scrolled_window_etat ) -> child )
 	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
 
+    /* just update screen so that the user does not see the previous report anymore
+     * while we are processing the new report */
+/*     update_gui ( );  */
+
     table_etat = gtk_table_new ( 0, nb_colonnes, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table_etat ), 5 );
 
@@ -261,7 +265,8 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 /*****************************************************************************************************/
 gint gtktable_finish ()
 {
-
+    if ( GTK_WIDGET ( table_etat ) -> parent )
+        gtk_widget_destroy ( GTK_WIDGET ( table_etat ) -> parent );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ), table_etat );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ), GTK_SHADOW_NONE );
 

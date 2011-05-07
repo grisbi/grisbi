@@ -78,7 +78,6 @@ static gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *main_vbox;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -826,7 +825,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label,
                         0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_tiers = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers,
-                        payee_fill_tree );
+                        payees_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_tiers,
                         1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -836,7 +835,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label,
                         0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_categ = gsb_currency_config_new_combobox ( &no_devise_totaux_categ,
-                        remplit_arbre_categ );
+                        categories_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_categ,
                         1, 2, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
@@ -846,7 +845,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label,
                         0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_ib = gsb_currency_config_new_combobox ( &no_devise_totaux_ib,
-                        remplit_arbre_imputation );
+                        budgetary_lines_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
                         1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

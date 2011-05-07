@@ -33,12 +33,12 @@
 #include "gsb_transactions_list.h"
 #include "accueil.h"
 #include "affichage_liste.h"
-#include "barre_outils.h"
 #include "bet_data.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_account.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
@@ -47,6 +47,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_fyear.h"
+#include "gsb_data_import_rule.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
@@ -57,10 +58,12 @@
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
+#include "import.h"
 #include "main.h"
 #include "menu.h"
 #include "mouse.h"
 #include "navigation.h"
+#include "print_transactions_list.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -75,6 +78,7 @@
 
 /*START_STATIC*/
 static gboolean assert_selected_transaction ();
+static GtkWidget *creation_barre_outils_transaction ( void );
 static gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr );
 static GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y );
 static gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
@@ -95,8 +99,12 @@ static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
+static gboolean gsb_transactions_list_delete_archived_transactions ( gint account_number,
+                        gint archive_number );
 static void gsb_transactions_list_display_contra_transaction ( gint *transaction_number );
 static gboolean gsb_transactions_list_fill_model ( void );
+static gboolean gsb_transactions_list_hide_transactions_in_archive_line ( GtkWidget *button,
+                        gpointer null );
 static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
@@ -113,6 +121,10 @@ static gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *but
 static gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
                         gpointer null );
 static void popup_transaction_context_menu ( gboolean full, int x, int y );
+static gboolean popup_transaction_rules_menu ( GtkWidget * button,
+                        gpointer null );
+static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+                        gpointer null );
 static gint schedule_transaction ( gint transaction_number );
 static void update_titres_tree_view ( void );
 /*END_STATIC*/
@@ -130,8 +142,12 @@ gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /* the initial alignment of each column */
 gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 
-/* adr de la barre d'outils */
-GtkWidget *barre_outils;
+/* Barre d'outils */
+static GtkWidget *transaction_toolbar;
+/** the import rules button is showed or hidden if account have or no some rules
+ * so need to set in global variables */
+GtkWidget *menu_import_rules;
+
 
 /* contient les tips et titres des colonnes des listes d'opé */
 gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -291,22 +307,273 @@ GtkWidget *creation_fenetre_operations ( void )
     win_operations = gtk_vbox_new ( FALSE, 6 );
 
     /* création de la barre d'outils */
-    barre_outils = gtk_handle_box_new ();
-    gsb_gui_update_transaction_toolbar ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), barre_outils, FALSE, FALSE, 0);
+    transaction_toolbar = gtk_handle_box_new ();
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), transaction_toolbar, FALSE, FALSE, 0);
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
     tree_view_vbox = gtk_vbox_new ( FALSE, 0 );
 
 
-    gtk_box_pack_start ( GTK_BOX ( win_operations ),
-			 tree_view_vbox,
-			 TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), tree_view_vbox, TRUE, TRUE, 0);
 
-    gtk_widget_show_all (win_operations);
+    gtk_widget_show_all ( win_operations );
+
     return ( win_operations );
 }
 
+
+GtkWidget *creation_barre_outils_transaction ( void )
+{
+    GtkWidget *hbox, *menu, *button;
+    GtkWidget *alignement;
+    gint account_number;
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+
+    /* Add various icons */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("New transaction"),
+					       "new-transaction.png",
+					       G_CALLBACK ( new_transaction ),
+					       GINT_TO_POINTER(-1) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Blank the form to create a new transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_DELETE, 
+					   _("Delete"),
+					   G_CALLBACK ( remove_transaction ),
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Delete selected transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_EDIT,
+					   _("Edit"),
+					   G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Edit current transaction"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("Reconcile"),
+					       "reconciliation.png",
+					       G_CALLBACK (gsb_reconcile_run_reconciliation),
+					       GINT_TO_POINTER(-1) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Start account reconciliation"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    /* This stuff needs GTK+ 2.10 to work. */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					    GTK_STOCK_PRINT,
+					    _("Print"),
+					    G_CALLBACK (print_transactions_list),
+					    NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Print the transactions list"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    menu = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+					      GTK_STOCK_SELECT_COLOR, _("View"),
+					      G_CALLBACK (popup_transaction_view_mode_menu),
+					      NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu),
+				  _("Change display mode of the list"));
+    gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
+
+    menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+							    GTK_STOCK_EXECUTE, _("Import rules"),
+							    G_CALLBACK (popup_transaction_rules_menu),
+							    NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu_import_rules),
+				  _("Quick file import by rules"));
+    gtk_box_pack_start ( GTK_BOX(hbox), menu_import_rules, FALSE, FALSE, 0 );
+
+    alignement = gtk_alignment_new ( 1, 0, 0, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), alignement, TRUE, TRUE, 0 );
+
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("Recreates archive"),
+					       "archive_24.png",
+					       G_CALLBACK ( gsb_transactions_list_hide_transactions_in_archive_line ),
+					       NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+				  _("Recreates the line of the archive and hiding the transactions") );
+    g_object_set_data ( G_OBJECT ( transaction_toolbar ), "archived_button", button );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+
+    gtk_widget_show_all ( hbox );
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    if ( gsb_data_import_rule_account_has_rule ( account_number ) )
+	    gtk_widget_show ( menu_import_rules );
+    else
+	    gtk_widget_hide ( menu_import_rules );
+
+    if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
+        gsb_transaction_list_set_visible_archived_button ( TRUE );
+    else
+        gsb_transaction_list_set_visible_archived_button ( FALSE );
+
+    return ( hbox );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_transaction_toolbar ( void )
+{
+    GtkWidget *transaction_toolbar;
+    GList * list = NULL;
+
+    transaction_toolbar = gsb_transactions_list_get_toolbar ( );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( transaction_toolbar ) );
+    
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
+                        GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( transaction_toolbar ), creation_barre_outils_transaction ( ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean popup_transaction_rules_menu ( GtkWidget * button,
+                        gpointer null )
+{
+    GtkWidget *menu, *menu_item;
+    GSList *tmp_list;
+    gint current_account = gsb_gui_navigation_get_current_account ();
+    gint i = 0;
+
+    menu = gtk_menu_new ();
+
+    tmp_list = gsb_data_import_rule_get_from_account (current_account);
+    
+    while (tmp_list)
+    {
+	gint rule;
+
+	rule = gsb_data_import_rule_get_number (tmp_list -> data);
+ 
+	if (i > 0)
+	{ 
+	    menu_item = gtk_separator_menu_item_new ( );
+	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+	}
+  
+	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
+	menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+				   G_CALLBACK (gsb_data_import_rule_remove), GINT_TO_POINTER (rule) );
+
+	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    i++;
+
+	tmp_list = tmp_list -> next;
+    }
+
+    gtk_widget_show_all ( menu );
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time());
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+                        gpointer null )
+{
+    GtkWidget *menu, *menu_item;
+    gint current_account;
+
+    menu = gtk_menu_new ();
+
+    menu_item = gtk_menu_item_new_with_label ( _("Simple view") );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (1) );
+
+    menu_item = gtk_menu_item_new_with_label ( _("Two lines view") );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (2) );
+
+    menu_item = gtk_menu_item_new_with_label ( _("Three lines view") );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (3) );
+
+    menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
+
+    current_account = gsb_gui_navigation_get_current_account ( );
+
+    menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
+				        gsb_data_account_get_r ( current_account ) );
+    if ( etat.equilibrage == 1 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    else
+        gtk_widget_set_sensitive ( menu_item, TRUE );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate", 
+			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
+                        NULL );
+
+    menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
+				        gsb_data_account_get_l ( current_account ) );
+    if ( etat.equilibrage == 1 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    else
+        gtk_widget_set_sensitive ( menu_item, TRUE );
+
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate", 
+			            G_CALLBACK ( gsb_gui_toggle_show_archived ),
+                        NULL );
+
+    gtk_menu_set_active ( GTK_MENU(menu), 
+			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
+
+    gtk_widget_show_all ( menu );
+    gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1, 
+		     gtk_get_current_event_time ( ) );
+
+    return FALSE;
+}
 
 
 /**
@@ -1184,9 +1451,11 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	if (ev -> type == GDK_2BUTTON_PRESS)
 	{
 	    gint archive_number;
+        gint archive_store_number;
 	    const gchar *name;
 
-	    archive_number = gsb_data_archive_store_get_archive_number (gsb_data_archive_store_get_number (transaction_pointer));
+        archive_store_number = gsb_data_archive_store_get_number ( transaction_pointer );
+	    archive_number = gsb_data_archive_store_get_archive_number ( archive_store_number );
 
 	    /* i don't know why but i had a crash with a NULL name of archive, so prevent here */
 	    name = gsb_data_archive_get_name (archive_number);
@@ -1197,7 +1466,10 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
                         "into the list ?"),
                         name );
 		if (question_yes_no ( tmpstr , GTK_RESPONSE_CANCEL ))
-		    gsb_transactions_list_restore_archive (archive_number, TRUE);
+		    gsb_transactions_list_add_transactions_from_archive (archive_number,
+                        gsb_data_archive_store_get_account_number ( archive_store_number ),
+                        TRUE );
+
 		g_free(tmpstr);
 	    }
 	    else
@@ -2131,7 +2403,6 @@ gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transact
 }
 
 
-
 /**
  * Pop up a menu with several actions to apply to current transaction.
  *
@@ -2179,7 +2450,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     /* Edit transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+				    gtk_image_new_from_stock ( GTK_STOCK_EDIT,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect_swapped ( G_OBJECT(menu_item),
 			       "activate",
@@ -3562,9 +3833,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
     devel_debug_int (archive_number);
 
     /* remove the lines of the archive in the model */
-    exist = transaction_list_remove_archive (archive_number);
-    /* remove the structures of archive_model */
-    gsb_data_archive_store_remove_by_archive (archive_number);
+    exist = transaction_list_remove_archive ( archive_number );
 
     /* si l'archive existait bien on ajoute les transactions dans la liste et dans le 
      * tree_view. Evite de charger deux fois les données si on supprime l'archive
@@ -3578,17 +3847,21 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
         tmp_list = gsb_data_transaction_get_complete_transactions_list ();
         while (tmp_list)
         {
-        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+            gint account_number;
 
-        if ( gsb_data_transaction_get_archive_number (transaction_number) == archive_number)
-        {
-            /* append the transaction to the list of non archived transactions */
-            gsb_data_transaction_add_archived_to_list (transaction_number);
+            transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+            account_number = gsb_data_transaction_get_account_number ( transaction_number );
+            if ( gsb_data_transaction_get_archive_number ( transaction_number ) == archive_number
+             &&
+             gsb_data_archive_store_get_transactions_visibles ( archive_number, account_number ) == FALSE )
+            {
+                /* append the transaction to the list of non archived transactions */
+                gsb_data_transaction_add_archived_to_list (transaction_number);
 
-            /* the transaction belongs to the archive we want to show, so append it to the list store */
-            transaction_list_append_transaction ( transaction_number);
-        }
-        tmp_list = tmp_list -> next;
+                /* the transaction belongs to the archive we want to show, so append it to the list store */
+                transaction_list_append_transaction ( transaction_number);
+            }
+            tmp_list = tmp_list -> next;
         }
 
         /* if orphan_child_transactions if filled, there are some children wich didn't find their
@@ -3636,6 +3909,9 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
         }
     }
 
+    /* remove the structures of archive_model */
+    gsb_data_archive_store_remove_by_archive ( archive_number );
+
     /* all the transactions of the archive have been added, we just need to clean the list,
      * but don't touch to the main page and to the current balances... we didn't change anything */
     account_number = gsb_gui_navigation_get_current_account ();
@@ -3651,6 +3927,118 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
     return FALSE;
 }
 
+
+/**
+ * add in the transactions list for the account the transactions in
+ * the archive
+ * set visible the transactions in the archive_store
+ *
+ * \param archive_number	the archive to restore
+ * \param account_number    the account
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_number,
+                        gint account_number,
+                        gboolean show_warning )
+{
+    GSList *tmp_list;
+    gint transaction_number;
+    gboolean exist = FALSE;
+
+    devel_debug_int ( archive_number );
+
+    /* remove the line of the archive in the model for the account*/
+    exist = transaction_list_remove_archive_line ( archive_number, account_number );
+    /* set visible the transactions in archive_store */
+    gsb_data_archive_store_set_transactions_visibles ( archive_number, account_number, TRUE );
+
+    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le 
+     * tree_view. Evite de charger deux fois les données si on supprime l'archive
+     * après avoir ajouté les lignes */
+    if ( exist )
+    {
+        orphan_child_transactions = NULL;
+
+        /* second step, we add all the archived transactions of that archive into the
+         * transactions_list and into the store */
+        tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
+        while ( tmp_list )
+        {
+            transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
+
+            if ( gsb_data_transaction_get_archive_number ( transaction_number ) == archive_number
+             &&
+             gsb_data_transaction_get_account_number ( transaction_number ) == account_number )
+            {
+                /* append the transaction to the list of non archived transactions */
+                gsb_data_transaction_add_archived_to_list ( transaction_number );
+
+                /* the transaction belongs to the archive we want to show, so append it to the list store */
+                transaction_list_append_transaction ( transaction_number);
+            }
+            tmp_list = tmp_list -> next;
+        }
+
+        /* if orphan_child_transactions if filled, there are some children wich didn't find their
+         * mother, we try again now that all the mothers are in the model */
+        if ( orphan_child_transactions )
+        {
+            GSList *orphan_list_copy;
+
+            orphan_list_copy = g_slist_copy ( orphan_child_transactions );
+            g_slist_free ( orphan_child_transactions );
+            orphan_child_transactions = NULL;
+
+            tmp_list = orphan_list_copy;
+            while (tmp_list)
+            {
+                transaction_number = GPOINTER_TO_INT ( tmp_list -> data );
+                transaction_list_append_transaction ( transaction_number );
+                tmp_list = tmp_list -> next;
+            }
+            g_slist_free ( orphan_list_copy );
+
+            /* if orphan_child_transactions is not null, there is still some children
+             * wich didn't find their mother. show them now */
+            if (orphan_child_transactions)
+            {
+                gchar *message = _("Some children didn't find their mother in the list, "
+                        "this shouldn't happen and there is probably a bug behind that. "
+                        "Please contact the Grisbi team.\n\nThe concerned children number are :\n");
+                gchar *string_1;
+                gchar *string_2;
+
+                string_1 = g_strconcat ( message, NULL );
+                tmp_list = orphan_child_transactions;
+                while (tmp_list)
+                {
+                    string_2 = g_strconcat ( string_1,
+                                    utils_str_itoa ( GPOINTER_TO_INT ( tmp_list -> data ) ),
+                                    " - ",
+                                    NULL );
+                    g_free ( string_1 );
+                    string_1 = string_2;
+                    tmp_list = tmp_list -> next;
+                }
+                dialogue_warning ( string_1 );
+                g_free ( string_1 );
+            }
+        }
+
+        gsb_transactions_list_update_tree_view ( account_number, TRUE );
+
+        if ( !gsb_data_account_get_r ( account_number) && show_warning )
+            dialogue ( _("You have just recovered an archive, if you don't see any new "
+                            "transaction, remember that the R transactions are not showed "
+                            "so the archived transactions are certainly hidden...\n\n"
+                            "Show the R transactions to make them visible.") );
+    }
+
+    gsb_transaction_list_set_visible_archived_button ( TRUE );
+
+    return FALSE;
+}
 
 
 /**
@@ -3826,6 +4214,235 @@ gboolean gsb_transactions_list_set_largeur_col ( void )
     }
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkWidget *gsb_transactions_list_get_toolbar ( void )
+{
+    return transaction_toolbar;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean change_aspect_liste ( gint demande )
+{
+    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+
+    switch ( demande )
+    {
+	case 0:
+	    /* not used */
+	    break;
+
+	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
+
+	case 1 :
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowOneLine" ) ),
+					    TRUE );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+	    break;
+	case 2 :
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowTwoLines" ) ),
+					    TRUE );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+	    break;
+	case 3 :
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowThreeLines" ) ),
+					    TRUE );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+	    break;
+	case 4 :
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowFourLines" ) ),
+					   TRUE );
+	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+	    break;
+
+	case 5 :
+
+	    /* ope avec r */
+
+	    mise_a_jour_affichage_r ( 1 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    gsb_menu_set_block_menu_cb ( TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowReconciled" ) ),
+					    TRUE );
+	    gsb_menu_set_block_menu_cb ( FALSE );
+
+	    break;
+
+	case 6 :
+
+	    /* ope sans r */
+
+	    mise_a_jour_affichage_r ( 0 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    gsb_menu_set_block_menu_cb ( TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowReconciled" ) ),
+					    FALSE );
+	    gsb_menu_set_block_menu_cb ( FALSE );
+
+	    break;
+	case 7 :
+
+	    /* show archive lines */
+
+	    gsb_transactions_list_show_archives_lines ( 1 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    gsb_menu_set_block_menu_cb ( TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+						"/menubar/ViewMenu/ShowArchived" ) ),
+					    TRUE );
+	    gsb_menu_set_block_menu_cb ( FALSE );
+
+	    break;
+
+	case 8 :
+
+	    /* hide archive lines */
+
+	    gsb_transactions_list_show_archives_lines ( 0 );
+	    if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+
+	    gsb_menu_set_block_menu_cb ( TRUE );
+	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
+                        gtk_ui_manager_get_action ( ui_manager,
+					    "/menubar/ViewMenu/ShowArchived" ) ),
+					    FALSE );
+	    gsb_menu_set_block_menu_cb ( FALSE );
+
+	    break;
+    }
+
+    return ( TRUE );
+}
+
+
+/**
+ * Cette fonction supprime les transactions concernées et les remplace par une ligne d'archive
+ *
+ *
+ * \return always FALSE
+ */
+gboolean gsb_transactions_list_hide_transactions_in_archive_line ( GtkWidget *button,
+                        gpointer null )
+{
+    GSList *tmp_list;
+    gint account_number;
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+
+    tmp_list = gsb_data_archive_store_get_archives_list ( );
+
+    while (tmp_list)
+    {
+        struct_store_archive *archive_store;
+
+        archive_store = tmp_list -> data;
+
+        if ( archive_store -> account_number == account_number
+         &&
+         archive_store -> transactions_visibles == TRUE )
+        {
+            transaction_list_append_archive ( archive_store -> archive_store_number );
+            gsb_transactions_list_delete_archived_transactions ( account_number,
+                        archive_store -> archive_number );
+            gsb_data_archive_store_set_transactions_visibles ( archive_store -> archive_number,
+                        account_number, FALSE );
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    gsb_transaction_list_set_visible_archived_button ( FALSE );
+
+    gsb_transactions_list_update_tree_view ( account_number, TRUE );
+
+    return FALSE;
+}
+
+
+/**
+ * Delete the archived transactions in the tree view
+ *
+ * \param account_number
+ * \param archive_number
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transactions_list_delete_archived_transactions ( gint account_number,
+                        gint archive_number )
+{
+	GSList *tmp_list;
+
+	tmp_list = gsb_data_transaction_get_transactions_list ( );
+	while (tmp_list)
+	{
+	    gint transaction_number;
+
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
+
+	    if ( gsb_data_transaction_get_account_number ( transaction_number ) == account_number
+		 &&
+		 gsb_data_transaction_get_archive_number ( transaction_number ) == archive_number )
+            transaction_list_remove_transaction ( transaction_number );
+
+	    tmp_list = tmp_list -> next;
+	}
+
+    return FALSE;
+}
+
+
+/**
+ * Rend visible ou cache le bouton utilisé pour cacher les transactions archivées
+ *
+ *
+ *
+ */
+void gsb_transaction_list_set_visible_archived_button ( gboolean visible )
+{
+    GtkWidget *button;
+
+    button = g_object_get_data ( G_OBJECT ( transaction_toolbar ), "archived_button");
+
+    gtk_widget_set_visible ( button, visible );
 }
 
 

@@ -282,7 +282,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 
     /* append the payee page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        onglet_tiers (),
+                        payees_create_list ( ),
                         gtk_label_new ( _("Payee") ) );
 
     /* append the financial page */
@@ -292,18 +292,21 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 
     /* append the categories page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        onglet_categories (),
+                        categories_create_list ( ),
                         gtk_label_new ( _("Categories") ) );
 
     /* append the budget page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        onglet_imputations(),
+                        budgetary_lines_create_list ( ),
                         gtk_label_new ( _("Budgetary lines") ) );
 
     /* append the reports page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         creation_onglet_etats (),
                         gtk_label_new ( _("Reports") ) );
+
+    /* update toolbars */
+    gsb_gui_update_all_toolbars ( );
 
     return FALSE;
 }
@@ -555,6 +558,25 @@ gboolean gsb_gui_set_hpaned_left_width ( gint width )
 
     return TRUE;
 }
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_all_toolbars ( void )
+{
+    gsb_gui_update_transaction_toolbar ( );
+    gsb_gui_update_scheduler_toolbar ( );
+    payees_update_toolbar_list ( );
+    categories_update_toolbar_list ( );
+    budgetary_lines_update_toolbar_list ( );
+    gsb_gui_update_reports_toolbar ( );
+    bet_array_update_toolbar ( );
+    bet_finance_update_all_finance_toolbars ( );
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

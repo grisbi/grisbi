@@ -822,7 +822,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
         {
             tmp_str = g_markup_printf_escaped ( "\t<Bet_historical Nb=\"%d\" Ac=\"%d\" "
-                        "Ori=\"%d\"Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
+                        "Ori=\"%d\" Div=\"%d\" Edit=\"%d\" Damount=\"%s\" SDiv=\"%d\" "
                         "SEdit=\"%d\" SDamount=\"%s\" />\n",
                         tab -> len + 1,
                         shd -> account_nb,

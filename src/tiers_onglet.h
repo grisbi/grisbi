@@ -8,13 +8,20 @@
 
 
 /* START_DECLARATION */
-gint classement_alphabetique_tree ( GtkWidget *tree,
-                        GtkCListRow *ligne_1,
-                        GtkCListRow *ligne_2 );
-gboolean gsb_payee_update_combofix ( void );
-GtkWidget *onglet_tiers ( void );
-void payee_fill_tree ( void );
-gboolean payee_hold_position_set_expand ( gboolean expand );
-gboolean payee_hold_position_set_path ( GtkTreePath *path );
+GtkWidget *payees_create_list ( void );
+void payees_fill_list ( void );
+void payees_update_toolbar_list ( void );
+GtkWidget *payees_get_tree_view ( void );
+GtkTreeStore *payees_get_tree_store ( void );
+
+void payees_new_payee ( void );
+void payees_delete_payee ( void );
+void payees_edit_payee ( void );
+
+void payees_manage_payees ( void );
+void payees_remove_unused_payees ( void );
+
+gboolean payees_hold_position_set_expand ( gboolean expand );
+gboolean payees_hold_position_set_path ( GtkTreePath *path );
 /* END_DECLARATION */
 #endif

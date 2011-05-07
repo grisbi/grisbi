@@ -36,7 +36,6 @@
 #include "gsb_file.h"
 #include "navigation.h"
 #include "fenetre_principale.h"
-#include "barre_outils.h"
 #include "accueil.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
@@ -697,12 +696,17 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  */
 gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 {
-    if ( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(button)) )
-    {
-	etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
-    }
+    /* Do not execute this callback twice,
+     * as it is triggered for both unselected button and newly selected one.
+     * We keep the call for the newly selected radio button */
+    if ( !gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
+        return FALSE;
 
-    gsb_gui_update_transaction_toolbar ();
+    /* save the new parameter */
+    etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+
+    /* update toolbars */
+    gsb_gui_update_all_toolbars ( );
 
     return FALSE;
 }
@@ -1024,6 +1028,7 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
 
     return FALSE;
 }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

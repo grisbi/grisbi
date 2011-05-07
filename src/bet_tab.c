@@ -91,7 +91,8 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 static void bet_array_list_change_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
-static void bet_array_list_context_menu ( GtkWidget *tree_view );
+static void bet_array_list_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path );
 static void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_delete_menu ( GtkWidget *menu_item,
@@ -168,6 +169,9 @@ static GtkTreeViewColumn *bet_array_tree_view_columns[BET_ARRAY_COLUMNS];
 gint bet_array_col_width[BET_ARRAY_COLUMNS];
 /* the initial width of the tree_view */
 static gint bet_array_current_tree_view_width = 0;
+
+/* toolbar */
+static GtkWidget *bet_array_toolbar;
 
 
 enum bet_estimation_tree_columns
@@ -535,7 +539,6 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
-    GtkWidget *toolbar;
 
     devel_debug (NULL);
     page = gtk_vbox_new ( FALSE, 5 );
@@ -588,9 +591,13 @@ GtkWidget *bet_array_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* on y ajoute la barre d'outils */
-    toolbar = bet_array_list_create_toolbar ( page, tree_view );
-    gtk_box_pack_start ( GTK_BOX ( page ), toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), toolbar, 0 );
+    bet_array_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "page", page );
+    gtk_widget_show ( bet_array_toolbar );
+
+    gtk_box_pack_start ( GTK_BOX ( page ), bet_array_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), bet_array_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -987,8 +994,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
             continue;
 
         /* ignore splitted transactions */
-        if ( gsb_data_transaction_get_mother_transaction_number (
-         transaction_number ) != 0 )
+        if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) == TRUE )
             continue;
 
         /* Ignore transactions that are before date_com */
@@ -1312,7 +1318,18 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
 {
 	/* show the popup */
 	if ( ev -> button == RIGHT_BUTTON )
-        bet_array_list_context_menu ( tree_view );
+    {
+        GtkTreePath *path = NULL;
+
+        if ( gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ), ev -> x, ev -> y, &path, NULL, NULL, NULL ) )
+        {
+            bet_array_list_context_menu ( tree_view, path );
+            gtk_tree_path_free ( path );
+
+            return FALSE;
+        }
+    }
+        
     if ( ev -> type == GDK_2BUTTON_PRESS )
         bet_array_list_traite_double_click ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -1326,7 +1343,8 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
  * \param
  *
  */
-void bet_array_list_context_menu ( GtkWidget *tree_view )
+void bet_array_list_context_menu ( GtkWidget *tree_view,
+                        GtkTreePath *path )
 {
     GtkWidget *image;
     GtkWidget *menu, *menu_item;
@@ -1341,12 +1359,10 @@ void bet_array_list_context_menu ( GtkWidget *tree_view )
     gint origine;
 
     tree_selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
-    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
-     &model, &iter ) )
-        return;
-
-    gtk_tree_model_get ( model, &iter, 
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter,
                         SPP_ESTIMATE_TREE_SELECT_COLUMN, &select,
                         SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
                         SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
@@ -2752,7 +2768,7 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
             {
                 /* on cherche une opération par son IB */
                 gint tmp_budget_number;
-                gint tmp_sub_budget_number;
+                gint tmp_sub_budget_number = 0;
 
                 tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
                 if ( transfert -> sub_budgetary_number )
@@ -2840,16 +2856,11 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
  * */
 GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view )
 {
-    GtkWidget *handlebox;
     GtkWidget *hbox;
     GtkWidget *button;
 
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ( );
-
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER ( handlebox ), hbox );
 
     /* print button */
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
@@ -2877,9 +2888,9 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
-    gtk_widget_show_all ( handlebox );
+    gtk_widget_show_all ( hbox );
 
-    return ( handlebox );
+    return ( hbox );
 
 }
 
@@ -2995,6 +3006,26 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
 }
 
 
+void bet_array_update_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( bet_array_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( bet_array_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( bet_array_toolbar ),
+                        bet_array_list_create_toolbar ( page, tree_view ) );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

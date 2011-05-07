@@ -36,7 +36,6 @@
 #include "gsb_data_account.h"
 #include "gsb_file_config.h"
 #include "structures.h"
-#include "utils_str.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
 /*END_INCLUDE*/
@@ -444,18 +443,17 @@ gboolean assert_account_loaded ()
 
 
 
-
-
-/******************************************************************************/
-/* cette fonction rafraichit l'écran pendant les traitements d'information */
-/******************************************************************************/
-void update_ecran ( void )
+/**
+ * Function to explicitly update window "outside gtk_main ( )"
+ * For example during computations
+ *
+ * \return
+ */
+void update_gui ( void )
 {
-    devel_debug (NULL);
-
-    while ( g_main_iteration (FALSE));
+    while ( gtk_events_pending ( ) )
+        gtk_main_iteration ( );
 }
-/******************************************************************************/
 
 
 void register_button_as_linked ( GtkWidget *widget, GtkWidget *linked )
@@ -491,18 +489,23 @@ gboolean radio_set_active_linked_widgets ( GtkWidget *widget )
     return FALSE;
 }
 
+
 /**
- *  Cette fonction renvoie une string de la version de GTK
+ * Get the string of the running GTK version.
+ * Must be freed when no longer used
+ *
+ * \return string
  */
 gchar *get_gtk_run_version ( void )
 {
-	gchar *version = NULL;
+    gchar *version = NULL;
 
-   	version = g_strconcat( utils_str_itoa ( (guint) gtk_major_version ), ".",
-                        utils_str_itoa ( (guint) gtk_minor_version ), ".", 
-                        utils_str_itoa ( (guint) gtk_micro_version ),
-                        NULL);
-	return version;
+    version = g_strdup_printf ( "%d.%d.%d",
+                                gtk_major_version,
+                                gtk_minor_version,
+                                gtk_micro_version );
+
+    return version;
 }
 
 

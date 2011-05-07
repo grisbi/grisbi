@@ -5,10 +5,15 @@
 
 /** Holds data for the navigation tree.  */
 enum navigation_cols { 
-    NAVIGATION_PIX, NAVIGATION_PIX_VISIBLE,
-    NAVIGATION_TEXT, NAVIGATION_FONT,
-    NAVIGATION_PAGE, NAVIGATION_ACCOUNT,
-    NAVIGATION_REPORT, NAVIGATION_SENSITIVE,
+    NAVIGATION_PIX,
+    NAVIGATION_PIX_VISIBLE,
+    NAVIGATION_TEXT,
+    NAVIGATION_FONT,
+    NAVIGATION_PAGE,
+    NAVIGATION_ACCOUNT,
+    NAVIGATION_REPORT,
+    NAVIGATION_SENSITIVE,
+    NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
     NAVIGATION_TOTAL,
 };
 
@@ -40,7 +45,7 @@ gint gsb_gui_navigation_get_last_account ( void );
 GtkTreeModel *gsb_gui_navigation_get_model ( void );
 GQueue *gsb_gui_navigation_get_pages_list ( void );
 GtkWidget *gsb_gui_navigation_get_tree_view ( void );
-void gsb_gui_navigation_init_pages_list ( const gchar *order_list );
+void gsb_gui_navigation_init_pages_list ( void );
 void gsb_gui_navigation_init_tree_view ( void );
 void gsb_gui_navigation_remove_account ( gint account_number );
 void gsb_gui_navigation_remove_report ( gint report_number );
@@ -56,12 +61,12 @@ void gsb_gui_navigation_update_report ( gint report_number ) ;
 void gsb_navigation_update_account_label ( gint account_number );
 void gsb_navigation_update_statement_label ( gint account_number );
 gboolean navigation_change_account ( gint *no_account );
-gboolean navigation_drag_data_received ( GtkTreeDragDest * drag_dest,
-                        GtkTreePath * dest_path,
-                        GtkSelectionData * selection_data );
-gboolean navigation_row_drop_possible ( GtkTreeDragDest * drag_dest, 
-                        GtkTreePath * dest_path,
-                        GtkSelectionData * selection_data );
+gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
+gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest, 
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
 /* END_DECLARATION */
 
 #endif

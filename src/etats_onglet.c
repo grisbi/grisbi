@@ -57,10 +57,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean ajout_etat ( void );
 static void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_description );
 static void dupliquer_etat ( void );
-static void efface_etat ( void );
 static void export_etat_courant_vers_csv ( gchar * filename );
 static void export_etat_courant_vers_html ( gchar * filename );
 static void exporter_etat ( void );
@@ -95,98 +93,6 @@ enum report_export_formats {
 };
 
 
-
-/**
- * Create a toolbar containing all necessary controls on reports tab.
- *
- * \return a newly-allocated hbox
- */
-GtkWidget *gsb_gui_create_report_toolbar ( void )
-{
-    GtkWidget *hbox, *handlebox, *hbox2, *button;
-
-    hbox = gtk_hbox_new ( FALSE, 5 );
-
-    /* HandleBox */
-    handlebox = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( hbox ), handlebox, TRUE, TRUE, 0 );
-    /* Hbox2 */
-    hbox2 = gtk_hbox_new ( FALSE, 0 );
-    gtk_container_add ( GTK_CONTAINER(handlebox), hbox2 );
-
-    /* Add various icons */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
-					       _("New report"),
-					       "new-report.png",
-					       G_CALLBACK ( ajout_etat ),
-					       NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Create a new report") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
-
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_OPEN,
-					   _("Import"),
-					   G_CALLBACK (importer_etat),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
-				  _("Import a Grisbi report file (.egsb)") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), button, FALSE, FALSE, 0 );
-
-    bouton_exporter_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							 GTK_STOCK_SAVE,
-							 _("Export"),
-							 G_CALLBACK (exporter_etat),
-							 NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_exporter_etat),
-				  _("Export selected report to egsb, HTML, Tex, CSV, PostScript") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_exporter_etat, FALSE, FALSE, 0 );
-
-    /* print button */
-    bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_PRINT,
-							  _("Print"),
-							  G_CALLBACK (print_report),
-							  NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_imprimer_etat),
-                   _("Print selected report") );
-
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_imprimer_etat, FALSE, FALSE, 0 );
-
-    bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							 GTK_STOCK_DELETE,
-							 _("Delete"),
-							 G_CALLBACK ( efface_etat ),
-							 NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_effacer_etat),
-				   _("Delete selected report") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_effacer_etat, FALSE, FALSE, 0 );
-
-    bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							      GTK_STOCK_PROPERTIES,
-							      _("Properties"),
-							      G_CALLBACK ( gsb_etats_config_personnalisation_etat ),
-							      NULL ),
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
-				  _("Edit selected report") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
-
-    bouton_dupliquer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_COPY,
-							  _("Clone"),
-							  G_CALLBACK (dupliquer_etat),
-							  NULL ),
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_dupliquer_etat),
-				  _("Clone selected report") );
-    gtk_box_pack_start ( GTK_BOX ( hbox2 ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
-
-    gtk_widget_show_all ( hbox );
-
-    return ( hbox );
-}
-
-
-
 /**
  * Create the report tab widgets.
  *
@@ -197,7 +103,10 @@ GtkWidget *creation_onglet_etats ( void )
     GtkWidget *tab, *vbox;
 
     tab = gtk_vbox_new ( FALSE, 6 );
-    reports_toolbar = gsb_gui_create_report_toolbar();
+
+    /* création de la barre d'outils */
+    reports_toolbar = gtk_handle_box_new ( );
+    gtk_widget_show ( reports_toolbar );
     gtk_box_pack_start ( GTK_BOX ( tab ), reports_toolbar, FALSE, FALSE, 0 );
 
     /* création du notebook contenant l'état et la config */
@@ -207,7 +116,6 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_box_pack_start ( GTK_BOX ( tab ), notebook_etats, TRUE, TRUE, 0 );
 
     /* création de la partie droite */
-
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
 
@@ -221,9 +129,118 @@ GtkWidget *creation_onglet_etats ( void )
 
     gtk_widget_show_all ( tab );
 
+    return ( tab );
+}
+
+
+/**
+ * Create a toolbar containing all necessary controls on reports tab.
+ *
+ * \return a newly-allocated hbox
+ */
+GtkWidget *gsb_gui_create_report_toolbar ( void )
+{
+    GtkWidget *hbox, *button;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+
+    /* Add various icons */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+					       _("New report"),
+					       "new-report.png",
+					       G_CALLBACK ( ajout_etat ),
+					       NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Create a new report") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_OPEN,
+					   _("Import"),
+					   G_CALLBACK (importer_etat),
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (button),
+				  _("Import a Grisbi report file (.egsb)") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    bouton_exporter_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							 GTK_STOCK_SAVE,
+							 _("Export"),
+							 G_CALLBACK (exporter_etat),
+							 NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_exporter_etat),
+				  _("Export selected report to egsb, HTML, Tex, CSV, PostScript") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_exporter_etat, FALSE, FALSE, 0 );
+
+    /* print button */
+    bouton_imprimer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							  GTK_STOCK_PRINT,
+							  _("Print"),
+							  G_CALLBACK (print_report),
+							  NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_imprimer_etat),
+                   _("Print selected report") );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_imprimer_etat, FALSE, FALSE, 0 );
+
+    bouton_effacer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							 GTK_STOCK_DELETE,
+							 _("Delete"),
+							 G_CALLBACK ( efface_etat ),
+							 NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_effacer_etat),
+				   _("Delete selected report") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_effacer_etat, FALSE, FALSE, 0 );
+
+    bouton_personnaliser_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							      GTK_STOCK_PROPERTIES,
+							      _("Properties"),
+							      G_CALLBACK ( gsb_etats_config_personnalisation_etat ),
+							      NULL ),
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
+				  _("Edit selected report") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_personnaliser_etat, FALSE, FALSE, 0 );
+
+    bouton_dupliquer_etat = gsb_automem_stock_button_new ( etat.display_toolbar,
+							  GTK_STOCK_COPY,
+							  _("Clone"),
+							  G_CALLBACK (dupliquer_etat),
+							  NULL ),
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_dupliquer_etat),
+				  _("Clone selected report") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), bouton_dupliquer_etat, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( hbox );
+
     gsb_gui_unsensitive_report_widgets ();
 
-    return ( tab );
+    return ( hbox );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_update_reports_toolbar ( void )
+{
+    GList * list = NULL;
+    gint current_report;
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( reports_toolbar ) );
+    
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( reports_toolbar ),
+                        GTK_WIDGET ( list -> data ) );
+	g_list_free ( list );
+    }
+
+    gtk_container_add ( GTK_CONTAINER ( reports_toolbar ), gsb_gui_create_report_toolbar ( ) );
+
+    if ( ( current_report = gsb_report_get_current ( ) ) > 0 )
+        gsb_gui_update_gui_to_report ( current_report );
 }
 
 
@@ -998,7 +1015,6 @@ void gsb_gui_update_gui_to_report ( gint report_number )
     }
     else
         etat_affiche_finish ( );
-;
 }
 
 

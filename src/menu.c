@@ -32,7 +32,6 @@
 
 /*START_INCLUDE*/
 #include "menu.h"
-#include "barre_outils.h"
 #include "custom_list.h"
 #include "export.h"
 #include "fenetre_principale.h"
@@ -81,7 +80,7 @@ extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 
-gboolean block_menu_cb = FALSE;
+static gboolean block_menu_cb = FALSE;
 static GtkUIManager *ui_manager;
 static gint merge_id = -1;
 static gint recent_files_merge_id = -1;
@@ -219,7 +218,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( remove_transaction ) },
         {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
          G_CALLBACK ( clone_selected_transaction ) },
-        {"EditTransactionAction", GTK_STOCK_PROPERTIES, _("_Edit transaction"), "", NULL,
+        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
          G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
          G_CALLBACK ( schedule_selected_transaction ) },
@@ -590,7 +589,8 @@ gboolean gsb_gui_toggle_show_form ( void )
     devel_debug (NULL);
 
     /* FIXME benj: ugly but I cannot find a way to block this ... */
-    if ( block_menu_cb ) return FALSE;
+    if ( block_menu_cb )
+        return FALSE;
 
     gsb_form_switch_expander ( );
 
@@ -854,6 +854,20 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
 
         gsb_scheduler_list_set_largeur_col ( );
     }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
+{
+    
+    block_menu_cb = etat;
 
     return FALSE;
 }

@@ -28,7 +28,7 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
                         GtkWidget *widget );
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
-void update_ecran ( void );
+void update_gui ( void );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 /* END_DECLARATION */
 #endif

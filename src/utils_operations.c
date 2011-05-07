@@ -31,10 +31,16 @@
 
 /*START_INCLUDE*/
 #include "utils_operations.h"
+#include "categories_onglet.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_payee.h"
+#include "imputation_budgetaire.h"
+#include "meta_budgetary.h"
+#include "meta_categories.h"
+#include "meta_payee.h"
 #include "metatree.h"
+#include "tiers_onglet.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -49,15 +55,6 @@ static void update_transaction_in_payee_tree ( gint transaction_number );
 
 
 /*START_EXTERN*/
-extern GtkWidget *arbre_categ;
-extern MetatreeInterface * budgetary_interface;
-extern GtkWidget *budgetary_line_tree;
-extern GtkTreeStore *budgetary_line_tree_model;
-extern GtkTreeStore *categ_tree_model;
-extern MetatreeInterface * category_interface;
-extern MetatreeInterface * payee_interface;
-extern GtkWidget *payee_tree;
-extern GtkTreeStore *payee_tree_model;
 /*END_EXTERN*/
 
 
@@ -103,9 +100,14 @@ void delete_transaction_in_trees ( gint transaction_number )
  */
 void update_transaction_in_categ_tree ( gint transaction_number )
 {
+    MetatreeInterface *category_interface;
+
+    category_interface = category_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
-    gsb_data_category_update_counters();
-    update_transaction_in_tree ( category_interface, GTK_TREE_MODEL (categ_tree_model), transaction_number );
+    gsb_data_category_update_counters ( );
+    update_transaction_in_tree ( category_interface, 
+                                 GTK_TREE_MODEL ( categories_get_tree_store ( ) ), 
+                                 transaction_number );
 }
 
 
@@ -116,10 +118,14 @@ void update_transaction_in_categ_tree ( gint transaction_number )
  */
 void update_transaction_in_budgetary_line_tree ( gint transaction_number )
 {
+    MetatreeInterface *budgetary_interface;
+
+    budgetary_interface = budgetary_line_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
-    gsb_data_budget_update_counters();
-    update_transaction_in_tree ( budgetary_interface, GTK_TREE_MODEL (budgetary_line_tree_model), 
-				 transaction_number );
+    gsb_data_budget_update_counters ( );
+    update_transaction_in_tree ( budgetary_interface,
+                        GTK_TREE_MODEL ( budgetary_lines_get_tree_store ( ) ), 
+                        transaction_number );
 }
 
 
@@ -130,9 +136,14 @@ void update_transaction_in_budgetary_line_tree ( gint transaction_number )
  */
 void update_transaction_in_payee_tree ( gint transaction_number )
 {
+    MetatreeInterface *payee_interface;
+
+    payee_interface = payee_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_payee_update_counters ();
-    update_transaction_in_tree ( payee_interface, GTK_TREE_MODEL (payee_tree_model), transaction_number );
+    update_transaction_in_tree ( payee_interface,
+                        GTK_TREE_MODEL ( payees_get_tree_store ( ) ),
+                        transaction_number );
 }
 
 /**
@@ -141,9 +152,14 @@ void update_transaction_in_payee_tree ( gint transaction_number )
  */
 void delete_transaction_in_categ_tree ( gint transaction_number )
 {
+    MetatreeInterface *category_interface;
+
+    category_interface = category_get_metatree_interface ( );
     gsb_data_category_remove_transaction_from_category (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW (arbre_categ), category_interface,
-				  transaction_number, FALSE);
+    metatree_remove_transaction ( GTK_TREE_VIEW ( categories_get_tree_view ( ) ),
+                                  category_interface,
+                                  transaction_number,
+                                  FALSE);
 }
 
 
@@ -154,9 +170,14 @@ void delete_transaction_in_categ_tree ( gint transaction_number )
  */
 void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
 {
+    MetatreeInterface *budgetary_interface;
+
+    budgetary_interface = budgetary_line_get_metatree_interface ( );
     gsb_data_budget_remove_transaction_from_budget (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW (budgetary_line_tree), budgetary_interface,
-				  transaction_number, FALSE);
+    metatree_remove_transaction ( GTK_TREE_VIEW ( budgetary_lines_get_tree_view ( ) ),
+                        budgetary_interface,
+                        transaction_number,
+                        FALSE );
 }
 
 
@@ -167,9 +188,14 @@ void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
  */
 void delete_transaction_in_payee_tree ( gint transaction_number )
 {
+    MetatreeInterface *payee_interface;
+
+    payee_interface = payee_get_metatree_interface ( );
     gsb_data_payee_remove_transaction_from_payee (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW (payee_tree), payee_interface,
-				  transaction_number, FALSE);
+    metatree_remove_transaction ( GTK_TREE_VIEW ( payees_get_tree_view ( ) ),
+                        payee_interface,
+                        transaction_number,
+                        FALSE );
 }
 
 

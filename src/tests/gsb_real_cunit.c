@@ -246,17 +246,17 @@ void gsb_real_cunit__gsb_real_raw_get_from_string()
 
 /*     // too large positive number ==> error  */
     val = gsb_real_raw_get_from_string ( " 2 147 483 648 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( 2147483648, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(2147483648), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
 /*     // too large positive number ==> error  */
     val = gsb_real_raw_get_from_string ( " 2 147 483 649 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( 2147483649, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(2147483649), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
 /*     // very large positive number ==> error  */
     val = gsb_real_raw_get_from_string ( " 112 147 483 649 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( 112147483649, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(112147483649), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
 /*     // 0 with positive sign  */
@@ -329,19 +329,19 @@ void gsb_real_cunit__gsb_real_raw_get_from_string()
     CU_ASSERT_EQUAL ( -2147483647, val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
-/*     // too large negative number ==> error  */
+    /*  G_MININT - 1 */
     val = gsb_real_raw_get_from_string ( " -2 147 483 648 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( -2147483648, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(-2147483648), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
-/*     // too large negative number ==> error  */
+    /* G_MININT - 2 */
     val = gsb_real_raw_get_from_string ( " -2 147 483 649 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( -2147483649, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(-2147483649), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
-/*     // too large negative number ==> error  */
+    /* large negative number */
     val = gsb_real_raw_get_from_string ( " -112 147 483 649 ", NULL, NULL );
-    CU_ASSERT_EQUAL ( -112147483649, val.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(-112147483649), val.mantissa );
     CU_ASSERT_EQUAL ( 0, val.exponent );
 
 /*     // error number as string ==> error  */
@@ -424,19 +424,19 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     CU_ASSERT_STRING_EQUAL("<+>21< >474< >836<.>47<€>", s);
     g_free(s);
 
-    n.mantissa = -2147483649;
+    n.mantissa = G_GINT64_CONSTANT(-2147483649);
     n.exponent = 0;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("<->2< >147< >483< >649<.>0<€>", s);
     g_free(s);
 
-    n.mantissa = -2147483649;
+    n.mantissa = G_GINT64_CONSTANT(-2147483649);
     n.exponent = 1;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("<->214< >748< >364<.>9<€>", s);
     g_free(s);
 
-    n.mantissa = -2147483649;
+    n.mantissa = G_GINT64_CONSTANT(-2147483649);
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
     CU_ASSERT_STRING_EQUAL("<->21< >474< >836<.>49<€>", s);
@@ -488,10 +488,11 @@ void gsb_real_cunit__gsb_real_get_string_with_currency ( void )
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
     g_free(s);
 
-    n.mantissa = 0x7fffffffffffffff + 1;
+    n.mantissa = G_GINT64_CONSTANT(0x8000000000000000);
     n.exponent = 2;
     s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
+    g_free(s);
 }
 
 
@@ -636,7 +637,7 @@ void gsb_real_cunit__gsb_real_mul()
     b.mantissa = 2;
     b.exponent = 0;
     r = gsb_real_mul ( a, b );
-    CU_ASSERT_EQUAL ( 4294967294, r.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(4294967294), r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
     
     a.mantissa = 0x7FFFFFFF;
@@ -668,7 +669,7 @@ void gsb_real_cunit__gsb_real_mul()
     b.mantissa = 100000;
     b.exponent = 0;
     r = gsb_real_mul ( a, b );
-    CU_ASSERT_EQUAL ( 2200000000, r.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(2200000000), r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
 
     a.mantissa = -22000;
@@ -676,7 +677,7 @@ void gsb_real_cunit__gsb_real_mul()
     b.mantissa = 100000;
     b.exponent = 0;
     r = gsb_real_mul ( a, b );
-    CU_ASSERT_EQUAL ( -2200000000, r.mantissa );
+    CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(-2200000000), r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
 }
 
