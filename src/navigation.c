@@ -1212,7 +1212,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
-        remplit_arbre_categ ();
+        categories_fill_list ();
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
@@ -2156,7 +2156,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( category_list_new_category ),
+                        G_CALLBACK ( categories_new_category ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2170,7 +2170,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
             if ( gtk_tree_selection_count_selected_rows ( gtk_tree_view_get_selection (
-             GTK_TREE_VIEW ( category_list_get_tree_view ( ) ) ) ) )
+             GTK_TREE_VIEW ( categories_get_tree_view ( ) ) ) ) )
                 gtk_widget_set_sensitive ( menu_item, TRUE );
             else
                 gtk_widget_set_sensitive ( menu_item, FALSE );
@@ -2183,7 +2183,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( category_list_importer_categ ),
+                        G_CALLBACK ( categories_importer_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2192,7 +2192,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( category_list_exporter_categ ),
+                        G_CALLBACK ( categories_exporter_list ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
         break;
@@ -2319,7 +2319,7 @@ void gsb_gui_navigation_supprimer_division ( GtkWidget *widget,
     GtkTreeView *tree_view = NULL;
 
     if ( GPOINTER_TO_INT ( type_page ) == GSB_CATEGORIES_PAGE )
-        tree_view = GTK_TREE_VIEW ( category_list_get_tree_view ( ) );
+        tree_view = GTK_TREE_VIEW ( categories_get_tree_view ( ) );
     else if ( GPOINTER_TO_INT ( type_page ) == GSB_BUDGETARY_LINES_PAGE )
         tree_view = GTK_TREE_VIEW ( budgetary_line_get_tree_view ( ) );
 

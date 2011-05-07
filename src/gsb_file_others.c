@@ -518,7 +518,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 	    case 0:
 		/* comes for category */
-		remplit_arbre_categ ();
+		categories_fill_list ();
 		break;
 
 	    case 1:

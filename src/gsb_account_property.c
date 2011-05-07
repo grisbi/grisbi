@@ -744,7 +744,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
                         SCHEDULED_FORM_ACCOUNT), FALSE );
 
         /* Replace trees contents. */
-        remplit_arbre_categ ();
+        categories_fill_list ();
         remplit_arbre_imputation ();
         payees_fill_list ();
         break;
@@ -1540,7 +1540,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
                         SCHEDULED_FORM_ACCOUNT), FALSE );
 
         /* Replace trees contents. */
-        remplit_arbre_categ ();
+        categories_fill_list ();
         remplit_arbre_imputation ();
         payees_fill_list ();
         break;

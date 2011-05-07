@@ -101,8 +101,8 @@ static MetatreeInterface _category_interface = {
     gsb_data_category_add_transaction_to_category,
     gsb_data_category_remove_transaction_from_category,
     gsb_data_category_remove_transaction_from_category,
-    category_hold_position_set_path,
-    category_hold_position_set_expand,
+    categories_hold_position_set_path,
+    categories_hold_position_set_expand,
 };
 
 static MetatreeInterface *category_interface = &_category_interface;

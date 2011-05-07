@@ -268,7 +268,7 @@ gboolean gsb_account_delete ( void )
     gsb_menu_update_accounts_in_menus();
 
     /* Replace trees contents. */
-    remplit_arbre_categ ();
+    categories_fill_list ();
     remplit_arbre_imputation ();
     payees_fill_list ();
 

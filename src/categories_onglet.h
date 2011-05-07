@@ -8,16 +8,20 @@
 
 
 /* START_DECLARATION */
-GtkTreePath *category_hold_position_get_path ( void );
-gboolean category_hold_position_set_expand ( gboolean expand );
-gboolean category_hold_position_set_path ( GtkTreePath *path );
-GtkTreeStore *category_list_get_tree_store ( void );
-GtkWidget *category_list_get_tree_view ( void );
-void category_list_exporter_categ ( void );
-void category_list_importer_categ ( void );
-void category_list_new_category ( void );
-GtkWidget *onglet_categories ( void );
-void gsb_gui_update_category_toolbar ( void );
-void remplit_arbre_categ ( void );
+GtkWidget *categories_create_list ( void );
+void categories_fill_list ( void );
+void categories_exporter_list ( void );
+void categories_importer_list ( void );
+void categories_update_toolbar_list ( void );
+GtkTreeStore *categories_get_tree_store ( void );
+GtkWidget *categories_get_tree_view ( void );
+
+void categories_new_category ( void );
+void categories_delete_category ( void );
+void categories_edit_category ( void );
+
+GtkTreePath *categories_hold_position_get_path ( void );
+gboolean categories_hold_position_set_expand ( gboolean expand );
+gboolean categories_hold_position_set_path ( GtkTreePath *path );
 /* END_DECLARATION */
 #endif

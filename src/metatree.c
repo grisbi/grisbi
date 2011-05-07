@@ -2993,7 +2993,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
         /* restitue l'état du tree_view */
         /* old path */
         if ( iface -> content == 1 )
-            path = category_hold_position_get_path ( );
+            path = categories_hold_position_get_path ( );
         else if ( iface -> content == 2 )
             path = budgetary_hold_position_get_path ( );
 
@@ -3221,7 +3221,7 @@ void metatree_update_tree_view ( MetatreeInterface *iface )
 		break;
 	    case 1:
 		transaction_list_update_element ( ELEMENT_CATEGORY );
-        remplit_arbre_categ ( );
+        categories_fill_list ( );
 		break;
 	    case 2:
 		transaction_list_update_element ( ELEMENT_BUDGET );
