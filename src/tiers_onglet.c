@@ -322,7 +322,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_PROPERTIES, _("Properties"),
+					   GTK_STOCK_EDIT, _("Edit"),
 					   G_CALLBACK ( edit_payee ),
 					   payee_tree );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ), button, "selection" );

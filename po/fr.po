@@ -8397,7 +8397,7 @@ msgstr "Supprimer l'opération sélectionnée"
 
 #: ../src/gsb_scheduler_list.c:283 ../src/gsb_transactions_list.c:355
 msgid "Edit"
-msgstr "Édition"
+msgstr "Éditer"
 
 #: ../src/gsb_scheduler_list.c:288
 msgid "Edit selected transaction"

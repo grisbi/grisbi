@@ -218,7 +218,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( remove_transaction ) },
         {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
          G_CALLBACK ( clone_selected_transaction ) },
-        {"EditTransactionAction", GTK_STOCK_PROPERTIES, _("_Edit transaction"), "", NULL,
+        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
          G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
          G_CALLBACK ( schedule_selected_transaction ) },

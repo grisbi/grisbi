@@ -269,7 +269,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     scheduler_button_delete = gsb_automem_stock_button_new ( etat.display_toolbar,
-							    GTK_STOCK_DELETE, 
+							    GTK_STOCK_DELETE,
 							    _("Delete"),
 							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
 							    NULL );
@@ -279,7 +279,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
 
     scheduler_button_edit = gsb_automem_stock_button_new ( etat.display_toolbar,
-							  GTK_STOCK_PROPERTIES, 
+							  GTK_STOCK_EDIT,
 							  _("Edit"),
 							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
 							  0 );
@@ -301,7 +301,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 
     /* Execute transaction */
     scheduler_button_execute = gsb_automem_stock_button_new ( etat.display_toolbar,
-							     GTK_STOCK_EXECUTE, 
+							     GTK_STOCK_EXECUTE,
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
 							     NULL ); 
@@ -2298,7 +2298,7 @@ void popup_scheduled_context_menu ( void )
 
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+                        gtk_image_new_from_stock ( GTK_STOCK_EDIT,
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",

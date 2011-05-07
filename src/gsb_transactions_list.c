@@ -351,7 +351,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
-					   GTK_STOCK_PROPERTIES, 
+					   GTK_STOCK_EDIT,
 					   _("Edit"),
 					   G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
 					   NULL );
@@ -2450,7 +2450,7 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     /* Edit transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+				    gtk_image_new_from_stock ( GTK_STOCK_EDIT,
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect_swapped ( G_OBJECT(menu_item),
 			       "activate",
