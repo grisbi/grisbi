@@ -1192,7 +1192,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
-		payee_fill_tree ();
+        payees_fill_list ();
 	    break;
 
 	case GSB_SIMULATOR_PAGE:
@@ -2090,7 +2090,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( gsb_payee_new_payee ),
+                        G_CALLBACK ( payees_new_payee ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2104,7 +2104,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( gsb_payee_manage_tiers ),
+                        G_CALLBACK ( payees_manage_payees ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2113,7 +2113,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-                        G_CALLBACK ( gsb_payee_remove_unused ),
+                        G_CALLBACK ( payees_remove_unused_payees ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
         break;

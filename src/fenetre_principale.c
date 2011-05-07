@@ -282,7 +282,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 
     /* append the payee page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        onglet_tiers (),
+                        payees_create_list ( ),
                         gtk_label_new ( _("Payee") ) );
 
     /* append the financial page */
@@ -569,7 +569,7 @@ void gsb_gui_update_all_toolbars ( void )
 {
     gsb_gui_update_transaction_toolbar ( );
     gsb_gui_update_scheduler_toolbar ( );
-    gsb_gui_update_payee_toolbar ( );
+    payees_update_toolbar_list ( );
     gsb_gui_update_category_toolbar ( );
     gsb_gui_update_budgetary_toolbar ( );
     gsb_gui_update_reports_toolbar ( );

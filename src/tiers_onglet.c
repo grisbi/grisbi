@@ -156,13 +156,14 @@ gboolean gsb_payee_update_combofix ( void )
 }
 
 
-
-/* **************************************************************************************************** */
-/* Fonction onglet_tiers : */
-/* crée et renvoie le widget contenu dans l'onglet */
-/* **************************************************************************************************** */
-
-GtkWidget *onglet_tiers ( void )
+/*
+ * Crée la liste des Tiers
+ *
+ * \param
+ *
+ * \return	A newly-allocated widget.
+* */
+GtkWidget *payees_create_list ( void )
 {
     GtkWidget *onglet, *scroll_window;
     GtkTreeViewColumn *column;
@@ -316,15 +317,9 @@ GtkWidget *onglet_tiers ( void )
 GtkWidget *creation_barre_outils_tiers ( void )
 {
     GtkWidget *hbox, *button;
-    GtkWidget *payee_tree;
-    GtkTreeStore *payee_tree_model;
 
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
-
-    /* get the tree_model and the tree_view */
-    payee_tree_model = gsb_payee_get_tree_store ( );
-    payee_tree = gsb_payee_get_tree_view ( );
 
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
@@ -364,7 +359,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
 	button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
 						_("Manage payees"), "payeesmg.png",
-						G_CALLBACK ( gsb_payee_manage_tiers ),
+						G_CALLBACK ( payees_manage_payees ),
 						NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
 				  _("Manage the payees"));
@@ -372,7 +367,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
 					   GTK_STOCK_DELETE, _("Remove unused payees"),
-					   G_CALLBACK ( gsb_payee_remove_unused ),
+					   G_CALLBACK ( payees_remove_unused_payees ),
 					   NULL );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
 				  _("Remove orphan payees"));
@@ -393,7 +388,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
  *
  *
  */
-void gsb_gui_update_payee_toolbar ( void )
+void payees_update_toolbar_list ( void )
 {
     GList * list = NULL;
 
@@ -419,7 +414,7 @@ void gsb_gui_update_payee_toolbar ( void )
  *
  * \return FALSE
  * */
-void gsb_payee_remove_unused ( void )
+void payees_remove_unused_payees ( void )
 {
     gint result;
 
@@ -437,7 +432,7 @@ void gsb_payee_remove_unused ( void )
         nb_removed = gsb_data_payee_remove_unused ();
         if ( nb_removed > 0 )
         {
-            payee_fill_tree ();
+            payees_fill_list ();
             tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
             if ( etat.modification_fichier == 0 )
                 modification_fichier ( TRUE );
@@ -496,7 +491,7 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
  *
  * \return
  * */
-void payee_fill_tree ( void )
+void payees_fill_list ( void )
 {
     GSList *payee_list_tmp;
     GtkTreeIter iter_payee;
@@ -590,10 +585,6 @@ gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 
     return FALSE;
 }
-
-
-
-
 
 
 /**
@@ -802,7 +793,7 @@ void appui_sur_ajout_payee ( GtkTreeModel * model )
  *
  * \param path
  */
-gboolean payee_hold_position_set_path ( GtkTreePath *path )
+gboolean payees_hold_position_set_path ( GtkTreePath *path )
 {
     payee_hold_position -> path = gtk_tree_path_copy ( path );
 
@@ -813,7 +804,7 @@ gboolean payee_hold_position_set_path ( GtkTreePath *path )
  *
  * \param expand
  */
-gboolean payee_hold_position_set_expand ( gboolean expand )
+gboolean payees_hold_position_set_expand ( gboolean expand )
 {
     payee_hold_position -> expand = expand;
 
@@ -830,7 +821,7 @@ gboolean payee_hold_position_set_expand ( gboolean expand )
  *
  *
  */
-void gsb_payee_manage_tiers ( void )
+void payees_manage_payees ( void )
 {
     GtkWidget *assistant;
     GtkResponseType return_value;
@@ -957,7 +948,7 @@ void gsb_payee_manage_tiers ( void )
             }
             /* on efface les tiers inutilisés */
             nb_removed = gsb_data_payee_remove_unused ();
-            payee_fill_tree ();
+            payees_fill_list ();
             if ( nb_removed == 1 )
             {
                 tmpstr = g_strdup_printf ( _("One payee was replaced with a new one."));
@@ -975,7 +966,7 @@ void gsb_payee_manage_tiers ( void )
             gsb_data_payee_set_name ( new_payee_number,
                         gtk_entry_get_text ( g_object_get_data (
                         G_OBJECT (assistant), "new_payee") ) );
-            payee_fill_tree ();
+            payees_fill_list ();
         }
 
         if ( etat.modification_fichier == 0 )
@@ -1739,7 +1730,7 @@ gboolean payee_list_button_press ( GtkWidget *tree_view,
  *
  *
  */
-GtkTreeStore *gsb_payee_get_tree_store ( void )
+GtkTreeStore *payees_get_tree_store ( void )
 {
     return payee_tree_model;
 }
@@ -1750,7 +1741,7 @@ GtkTreeStore *gsb_payee_get_tree_store ( void )
  *
  *
  */
-GtkWidget *gsb_payee_get_tree_view ( void )
+GtkWidget *payees_get_tree_view ( void )
 {
     return payee_tree;
 }
@@ -1761,7 +1752,7 @@ GtkWidget *gsb_payee_get_tree_view ( void )
  *
  *
  */
-void gsb_payee_new_payee ( void )
+void payees_new_payee ( void )
 {
     metatree_new_division ( GTK_TREE_MODEL ( payee_tree_model ) );
 
@@ -1772,6 +1763,28 @@ void gsb_payee_new_payee ( void )
         supprimer_division ( GTK_TREE_VIEW ( payee_tree ) );
         sortie_edit_payee = FALSE;
     }
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void payees_delete_payee ( void )
+{
+    supprimer_division ( GTK_TREE_VIEW ( payee_tree ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void payees_edit_payee ( void )
+{
+    edit_payee ( GTK_TREE_VIEW ( payee_tree ) );
 }
 
 

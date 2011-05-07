@@ -142,7 +142,7 @@ void update_transaction_in_payee_tree ( gint transaction_number )
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_payee_update_counters ();
     update_transaction_in_tree ( payee_interface,
-                        GTK_TREE_MODEL ( gsb_payee_get_tree_store ( ) ),
+                        GTK_TREE_MODEL ( payees_get_tree_store ( ) ),
                         transaction_number );
 }
 
@@ -192,7 +192,7 @@ void delete_transaction_in_payee_tree ( gint transaction_number )
 
     payee_interface = payee_get_metatree_interface ( );
     gsb_data_payee_remove_transaction_from_payee (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW ( gsb_payee_get_tree_view ( ) ),
+    metatree_remove_transaction ( GTK_TREE_VIEW ( payees_get_tree_view ( ) ),
                         payee_interface,
                         transaction_number,
                         FALSE );

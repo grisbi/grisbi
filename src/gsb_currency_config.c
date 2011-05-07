@@ -825,7 +825,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label,
                         0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_tiers = gsb_currency_config_new_combobox ( &no_devise_totaux_tiers,
-                        payee_fill_tree );
+                        payees_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_tiers,
                         1, 2, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

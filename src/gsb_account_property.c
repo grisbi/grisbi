@@ -746,7 +746,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
         /* Replace trees contents. */
         remplit_arbre_categ ();
         remplit_arbre_imputation ();
-        payee_fill_tree ();
+        payees_fill_list ();
         break;
 
     case PROPERTY_KIND:
@@ -1542,7 +1542,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         /* Replace trees contents. */
         remplit_arbre_categ ();
         remplit_arbre_imputation ();
-        payee_fill_tree ();
+        payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
         gsb_main_set_grisbi_title ( account_number );

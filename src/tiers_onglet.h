@@ -8,16 +8,22 @@
 
 
 /* START_DECLARATION */
-GtkTreeStore *gsb_payee_get_tree_store ( void );
-GtkWidget *gsb_payee_get_tree_view ( void );
-void gsb_payee_manage_tiers ( void );
-void gsb_payee_new_payee ( void );
-void gsb_payee_remove_unused ( void );
+GtkWidget *payees_create_list ( void );
+void payees_fill_list ( void );
+void payees_update_toolbar_list ( void );
+GtkWidget *payees_get_tree_view ( void );
+
+
+void payees_new_payee ( void );
+void payees_delete_payee ( void );
+void payees_edit_payee ( void );
+
+void payees_manage_payees ( void );
+void payees_remove_unused_payees ( void );
+
+GtkTreeStore *payees_get_tree_store ( void );
 gboolean gsb_payee_update_combofix ( void );
-void gsb_gui_update_payee_toolbar ( void );
-GtkWidget *onglet_tiers ( void );
-void payee_fill_tree ( void );
-gboolean payee_hold_position_set_expand ( gboolean expand );
-gboolean payee_hold_position_set_path ( GtkTreePath *path );
+gboolean payees_hold_position_set_expand ( gboolean expand );
+gboolean payees_hold_position_set_path ( GtkTreePath *path );
 /* END_DECLARATION */
 #endif
