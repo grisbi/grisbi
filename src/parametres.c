@@ -1196,7 +1196,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
     page_number = gsb_gui_navigation_get_current_page ( );
     payee_tree = payees_get_tree_view ( );
     category_tree = categories_get_tree_view ( );
-    budgetary_tree = budgetary_line_get_tree_view ( );
+    budgetary_tree = budgetary_lines_get_tree_view ( );
 
     switch ( page_number )
     {
@@ -1224,7 +1224,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_tree ) );
         if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
             path = gtk_tree_model_get_path ( model, &iter );
-		remplit_arbre_imputation ();
+		budgetary_lines_fill_list ();
         gtk_tree_path_up ( path );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
         gtk_tree_path_free ( path );
@@ -1631,7 +1631,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
     else if ( current_page == GSB_CATEGORIES_PAGE )
         categories_fill_list ( );
     else if ( current_page == GSB_BUDGETARY_LINES_PAGE )
-        remplit_arbre_imputation ( );
+        budgetary_lines_fill_list ( );
 
     /* update simulator page */
     if ( current_page == GSB_SIMULATOR_PAGE )

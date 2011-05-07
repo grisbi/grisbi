@@ -124,7 +124,7 @@ void update_transaction_in_budgetary_line_tree ( gint transaction_number )
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_budget_update_counters ( );
     update_transaction_in_tree ( budgetary_interface,
-                        GTK_TREE_MODEL ( budgetary_line_get_tree_store ( ) ), 
+                        GTK_TREE_MODEL ( budgetary_lines_get_tree_store ( ) ), 
                         transaction_number );
 }
 
@@ -174,7 +174,7 @@ void delete_transaction_in_budgetary_line_tree ( gint transaction_number )
 
     budgetary_interface = budgetary_line_get_metatree_interface ( );
     gsb_data_budget_remove_transaction_from_budget (transaction_number);
-    metatree_remove_transaction ( GTK_TREE_VIEW ( budgetary_line_get_tree_view ( ) ),
+    metatree_remove_transaction ( GTK_TREE_VIEW ( budgetary_lines_get_tree_view ( ) ),
                         budgetary_interface,
                         transaction_number,
                         FALSE );

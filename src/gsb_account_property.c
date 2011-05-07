@@ -745,7 +745,7 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
 
         /* Replace trees contents. */
         categories_fill_list ();
-        remplit_arbre_imputation ();
+        budgetary_lines_fill_list ();
         payees_fill_list ();
         break;
 
@@ -1541,7 +1541,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
 
         /* Replace trees contents. */
         categories_fill_list ();
-        remplit_arbre_imputation ();
+        budgetary_lines_fill_list ();
         payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:

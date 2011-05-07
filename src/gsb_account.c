@@ -269,7 +269,7 @@ gboolean gsb_account_delete ( void )
 
     /* Replace trees contents. */
     categories_fill_list ();
-    remplit_arbre_imputation ();
+    budgetary_lines_fill_list ();
     payees_fill_list ();
 
     /* update the categories in lists */

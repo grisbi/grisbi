@@ -523,7 +523,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 
 	    case 1:
 		/* comes for budget */
-		remplit_arbre_imputation ();
+		budgetary_lines_fill_list ();
 		break;
 
 	    case 2:
@@ -829,7 +829,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
                            NULL );
 
         /* on remplit l'arbre des imputation */
-        remplit_arbre_imputation ( );
+        budgetary_lines_fill_list ( );
 
         g_markup_parse_context_free ( context );
         g_free ( markup_parser );

@@ -96,7 +96,7 @@ extern GdkColor couleur_selection;
  *
  *
  */
-GtkWidget *onglet_imputations ( void )
+GtkWidget *budgetary_lines_create_list ( void )
 {
     GtkWidget *scroll_window;
     GtkWidget *vbox;
@@ -244,7 +244,7 @@ GtkWidget *onglet_imputations ( void )
  *
  * \return
  * */
-void remplit_arbre_imputation ( void )
+void budgetary_lines_fill_list ( void )
 {
     GSList *budget_list;
     GtkTreeIter iter_budgetary_line, iter_sub_budgetary_line;
@@ -384,7 +384,7 @@ gboolean gsb_budget_update_combofix ( gboolean force )
  *
  *
  */
-void budgetary_line_exporter_ib ( void )
+void budgetary_lines_exporter_list ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -431,7 +431,7 @@ void budgetary_line_exporter_ib ( void )
 
 
 /* **************************************************************************************************** */
-void budgetary_line_importer_ib ( void )
+void budgetary_lines_importer_list ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -564,7 +564,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                 GTK_STOCK_OPEN,
                                 _("Import"),
-                                G_CALLBACK ( budgetary_line_importer_ib ),
+                                G_CALLBACK ( budgetary_lines_importer_list ),
                                 NULL );
 
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
@@ -576,7 +576,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                 GTK_STOCK_SAVE,
                                 _("Export"),
-                                G_CALLBACK ( budgetary_line_exporter_ib ),
+                                G_CALLBACK ( budgetary_lines_exporter_list ),
                                 NULL );
 
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
@@ -626,7 +626,7 @@ GtkWidget *creation_barre_outils_ib ( void )
  *
  *
  */
-void gsb_gui_update_budgetary_toolbar ( void )
+void budgetary_lines_update_toolbar_list ( void )
 {
     GList *list = NULL;
 
@@ -1142,7 +1142,7 @@ void budgetary_line_list_popup_context_menu ( void )
  *
  *
  */
-GtkTreeStore *budgetary_line_get_tree_store ( void )
+GtkTreeStore *budgetary_lines_get_tree_store ( void )
 {
     return budgetary_line_tree_model;
 }
@@ -1153,7 +1153,7 @@ GtkTreeStore *budgetary_line_get_tree_store ( void )
  *
  *
  */
-GtkWidget *budgetary_line_get_tree_view ( void )
+GtkWidget *budgetary_lines_get_tree_view ( void )
 {
     return budgetary_line_tree;
 }
@@ -1164,7 +1164,7 @@ GtkWidget *budgetary_line_get_tree_view ( void )
  *
  *
  */
-void budgetary_line_new_imputation ( void )
+void budgetary_lines_new_budgetary_line ( void )
 {
     metatree_new_division ( GTK_TREE_MODEL ( budgetary_line_tree_model ) );
 
@@ -1175,6 +1175,28 @@ void budgetary_line_new_imputation ( void )
         supprimer_division ( GTK_TREE_VIEW ( budgetary_line_tree ) );
         sortie_edit_budgetary_line = FALSE;
     }
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void budgetary_lines_delete_budgetary_line ( void )
+{
+    supprimer_division ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void budgetary_lines_edit_budgetary_line ( void )
+{
+    edit_budgetary_line ( GTK_TREE_VIEW ( budgetary_line_tree ) );
 }
 
 

@@ -845,7 +845,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     gtk_table_attach ( GTK_TABLE ( table ), label,
                         0, 1, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     combo_devise_totaux_ib = gsb_currency_config_new_combobox ( &no_devise_totaux_ib,
-                        remplit_arbre_imputation );
+                        budgetary_lines_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
                         1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 

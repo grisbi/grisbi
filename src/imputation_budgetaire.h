@@ -8,17 +8,21 @@
 
 
 /* START_DECLARATION */
+GtkWidget *budgetary_lines_create_list ( void );
+void budgetary_lines_fill_list ( void );
+void budgetary_lines_exporter_list ( void );
+void budgetary_lines_importer_list ( void );
+void budgetary_lines_update_toolbar_list ( void );
+GtkTreeStore *budgetary_lines_get_tree_store ( void );
+GtkWidget *budgetary_lines_get_tree_view ( void );
+
+void budgetary_lines_new_budgetary_line ( void );
+void budgetary_lines_delete_budgetary_line ( void );
+void budgetary_lines_edit_budgetary_line ( void );
+
 GtkTreePath *budgetary_hold_position_get_path ( void );
 gboolean budgetary_hold_position_set_expand ( gboolean expand );
 gboolean budgetary_hold_position_set_path ( GtkTreePath *path );
-void budgetary_line_exporter_ib ( void );
-void budgetary_line_importer_ib ( void );
-GtkTreeStore *budgetary_line_get_tree_store ( void );
-GtkWidget *budgetary_line_get_tree_view ( void );
-void budgetary_line_new_imputation ( void );
 gboolean gsb_budget_update_combofix ( gboolean force );
-void gsb_gui_update_budgetary_toolbar ( void );
-GtkWidget *onglet_imputations ( void );
-void remplit_arbre_imputation ( void );
 /* END_DECLARATION */
 #endif
