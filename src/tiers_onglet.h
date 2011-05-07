@@ -14,7 +14,6 @@ void payees_update_toolbar_list ( void );
 GtkWidget *payees_get_tree_view ( void );
 GtkTreeStore *payees_get_tree_store ( void );
 
-
 void payees_new_payee ( void );
 void payees_delete_payee ( void );
 void payees_edit_payee ( void );

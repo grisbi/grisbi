@@ -2094,6 +2094,36 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
+            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected payee") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( payees_delete_payee ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            if ( gtk_tree_selection_count_selected_rows ( gtk_tree_view_get_selection (
+             GTK_TREE_VIEW ( payees_get_tree_view ( ) ) ) ) )
+                gtk_widget_set_sensitive ( menu_item, TRUE );
+            else
+                gtk_widget_set_sensitive ( menu_item, FALSE );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Edit selected payee") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( payees_edit_payee ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            if ( gtk_tree_selection_count_selected_rows ( gtk_tree_view_get_selection (
+             GTK_TREE_VIEW ( payees_get_tree_view ( ) ) ) ) )
+                gtk_widget_set_sensitive ( menu_item, TRUE );
+            else
+                gtk_widget_set_sensitive ( menu_item, FALSE );
+
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
