@@ -593,14 +593,6 @@ gboolean payee_drag_data_get ( GtkTreeDragSource * drag_source, GtkTreePath * pa
 
 
 
-gint classement_alphabetique_tree ( GtkWidget *tree,
-                        GtkCListRow *ligne_1,
-                        GtkCListRow *ligne_2 )
-{
-    return g_utf8_collate ( ligne_1->cell->u.text, ligne_2->cell->u.text );
-}
-
-
 
 
 

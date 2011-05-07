@@ -63,6 +63,9 @@ static void change_comparaison_montant ( GtkWidget *menu_item,
 				  gint amount_comparison_number );
 static void change_comparaison_texte ( GtkWidget *menu_item,
 				gint text_comparison_number );
+static gint classement_alphabetique_tree ( GtkWidget *tree,
+                        GtkCListRow *ligne_1,
+                        GtkCListRow *ligne_2 );
 static void click_bas_classement_etat ( void );
 static void click_haut_classement_etat ( void );
 static void click_liste_etat ( GtkCList *liste,
@@ -7448,7 +7451,17 @@ void etat_option_menu_changed (GtkWidget *optionmenu, GtkWidget *user_data)
         gtk_widget_set_sensitive ( user_data, FALSE );
     }
 }
+
+
 /******************************************************************************/
+
+gint classement_alphabetique_tree ( GtkWidget *tree,
+                        GtkCListRow *ligne_1,
+                        GtkCListRow *ligne_2 )
+{
+    return g_utf8_collate ( ligne_1->cell->u.text, ligne_2->cell->u.text );
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
