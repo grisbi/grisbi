@@ -57,6 +57,7 @@
 #include "imputation_budgetaire.h"
 #include "main.h"
 #include "menu.h"
+#include "metatree.h"
 #include "mouse.h"
 #include "structures.h"
 #include "tiers_onglet.h"
@@ -110,7 +111,9 @@ static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selectio
                         gint page,
 					    gint account_number,
                         gpointer report );
-static void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model, 
+static void gsb_gui_navigation_supprimer_division ( GtkWidget *widget,
+                        gint *type_page );
+static void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         GtkTreeIter * account_iter,
                         gint account_number );
 static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel *model,
@@ -2127,6 +2130,21 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
+            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected category") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_gui_navigation_supprimer_division ),
+                        GINT_TO_POINTER ( GSB_CATEGORIES_PAGE ) );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            if ( gtk_tree_selection_count_selected_rows ( gtk_tree_view_get_selection (
+             GTK_TREE_VIEW ( category_list_get_tree_view ( ) ) ) ) )
+                gtk_widget_set_sensitive ( menu_item, TRUE );
+            else
+                gtk_widget_set_sensitive ( menu_item, FALSE );
+
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
@@ -2145,6 +2163,55 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( category_list_exporter_categ ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        break;
+        case GSB_BUDGETARY_LINES_PAGE :
+            menu = gtk_menu_new ();
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-ib.png", NULL);
+            image = gtk_image_new_from_file ( tmp_str );
+            g_free ( tmp_str );
+            menu_item = gtk_image_menu_item_new_with_label ( _("New budgetary line") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( budgetary_line_new_imputation ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Delete selected budgetary line") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_gui_navigation_supprimer_division ),
+                        GINT_TO_POINTER ( GSB_BUDGETARY_LINES_PAGE ) );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            if ( gtk_tree_selection_count_selected_rows ( gtk_tree_view_get_selection (
+             GTK_TREE_VIEW ( budgetary_line_get_tree_view ( ) ) ) ) )
+                gtk_widget_set_sensitive ( menu_item, TRUE );
+            else
+                gtk_widget_set_sensitive ( menu_item, FALSE );
+
+            /* Separator */
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Import a budgetary line file (.igsb)") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( budgetary_line_importer_ib ),
+                        NULL );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+            menu_item = gtk_image_menu_item_new_with_label ( _("Export a budgetary line file (.igsb)") );
+            gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
+            g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( budgetary_line_exporter_ib ),
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
         break;
@@ -2211,12 +2278,22 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
 }
 
 
-void gsb_gui_navigation_enable_drag_source ( void )
+/**
+ *
+ *
+ *
+ */
+void gsb_gui_navigation_supprimer_division ( GtkWidget *widget,
+                        gint *type_page )
 {
-    gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( navigation_tree_view ),
-					    GDK_BUTTON1_MASK,
-                        row_targets, 1,
-					    GDK_ACTION_MOVE | GDK_ACTION_COPY );
+    GtkTreeView *tree_view = NULL;
+
+    if ( GPOINTER_TO_INT ( type_page ) == GSB_CATEGORIES_PAGE )
+        tree_view = GTK_TREE_VIEW ( category_list_get_tree_view ( ) );
+    else if ( GPOINTER_TO_INT ( type_page ) == GSB_BUDGETARY_LINES_PAGE )
+        tree_view = GTK_TREE_VIEW ( budgetary_line_get_tree_view ( ) );
+
+    supprimer_division ( tree_view );
 }
 
 

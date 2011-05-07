@@ -384,7 +384,7 @@ gboolean gsb_budget_update_combofix ( gboolean force )
  *
  *
  */
-void exporter_ib ( void )
+void budgetary_line_exporter_ib ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -431,7 +431,7 @@ void exporter_ib ( void )
 
 
 /* **************************************************************************************************** */
-void importer_ib ( void )
+void budgetary_line_importer_ib ( void )
 {
     GtkWidget *dialog;
     gint resultat;
@@ -564,7 +564,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                 GTK_STOCK_OPEN,
                                 _("Import"),
-                                G_CALLBACK(importer_ib),
+                                G_CALLBACK ( budgetary_line_importer_ib ),
                                 NULL );
 
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
@@ -576,7 +576,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     button = gsb_automem_stock_button_new ( etat.display_toolbar,
                                 GTK_STOCK_SAVE,
                                 _("Export"),
-                                G_CALLBACK(exporter_ib),
+                                G_CALLBACK ( budgetary_line_exporter_ib ),
                                 NULL );
 
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
@@ -1156,6 +1156,25 @@ GtkTreeStore *budgetary_line_get_tree_store ( void )
 GtkWidget *budgetary_line_get_tree_view ( void )
 {
     return budgetary_line_tree;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void budgetary_line_new_imputation ( void )
+{
+    metatree_new_division ( GTK_TREE_MODEL ( budgetary_line_tree_model ) );
+
+    sortie_edit_budgetary_line = FALSE;
+    edit_budgetary_line ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+    if ( sortie_edit_budgetary_line )
+    {
+        supprimer_division ( GTK_TREE_VIEW ( budgetary_line_tree ) );
+        sortie_edit_budgetary_line = FALSE;
+    }
 }
 
 
