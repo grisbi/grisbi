@@ -62,6 +62,7 @@
 #include "gsb_file_util.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
+#include "gsb_form_widget.h"
 #include "navigation.h"
 #include "menu.h"
 #include "tiers_onglet.h"
@@ -1995,7 +1996,7 @@ void gsb_import_create_imported_transactions ( struct struct_compte_importation 
         gtk_widget_destroy ( progress );
 
     /* some payee should have been added, so update the combofix */
-    gsb_payee_update_combofix ();
+    gsb_form_widget_update_payee_combofix ();
 }
 
 
@@ -2095,7 +2096,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     }
 
     /** some payee should have been added, so update the combofix */
-    gsb_payee_update_combofix ();
+    gsb_form_widget_update_payee_combofix ();
 
     /* if we are on the current account, we need to update the tree_view */
     if (gsb_gui_navigation_get_current_account () == account_number)

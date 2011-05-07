@@ -138,24 +138,6 @@ enum {
   N_COLUMNS
 };
 
-/**
- * update the payee combofix in the form with the current list of payee
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_payee_update_combofix ( void )
-{
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-    gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget 
-                        (TRANSACTION_FORM_PARTY)),
-                        gsb_data_payee_get_name_and_report_list ());
-
-    return FALSE;
-}
-
-
 /*
  * Crée la liste des Tiers
  *

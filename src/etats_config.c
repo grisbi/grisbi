@@ -1902,7 +1902,7 @@ void recuperation_info_perso_etat ( void )
     }
 
     /* update the payee combofix in the form, to add that report if asked */
-    gsb_payee_update_combofix ();
+    gsb_form_widget_update_payee_combofix ();
 
     if ( etat.modification_fichier == 0 )
         modification_fichier ( TRUE );
