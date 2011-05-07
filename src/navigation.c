@@ -2191,7 +2191,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Import a category file (.cgsb)") );
+            menu_item = gtk_image_menu_item_new_with_label ( _("Import a file of categories (.cgsb)") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
@@ -2200,7 +2200,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Export a category file (.cgsb)") );
+            menu_item = gtk_image_menu_item_new_with_label ( _("Export the list of categories (.cgsb)") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
@@ -2255,7 +2255,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Import a budgetary line file (.igsb)") );
+            menu_item = gtk_image_menu_item_new_with_label ( _("Import a file of budgetary lines (.igsb)") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
@@ -2264,7 +2264,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         NULL );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( _("Export a budgetary line file (.igsb)") );
+            menu_item = gtk_image_menu_item_new_with_label ( _("Export the list of budgetary lines (.igsb)") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_NEW, GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
