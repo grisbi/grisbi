@@ -2752,7 +2752,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
                         GTK_BUTTONS_OK_CANCEL,
                         make_hint ( tmp_str_1 , tmp_str_2 ) );
 
-    gtk_widget_set_size_request ( dialog, 450, -1 );
+    gtk_widget_set_size_request ( dialog, -1, -1 );
 
     g_free ( tmp_str_1 );
     g_free ( tmp_str_2 );
