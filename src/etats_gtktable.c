@@ -265,7 +265,6 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
 /*****************************************************************************************************/
 gint gtktable_finish ()
 {
-    gtk_widget_destroy ( GTK_WIDGET ( table_etat ) -> parent );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ), table_etat );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window_etat ), GTK_SHADOW_NONE );
 
