@@ -1903,41 +1903,6 @@
       <placeholder/>
     </child>
   </object>
-  <object class="GtkVBox" id="liste_texte_etat">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkHBox" id="hbox3">
-        <property name="visible">True</property>
-        <child>
-          <object class="GtkLabel" id="label11">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Transactions whose </property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkVBox" id="liste_montant_etat">
     <property name="visible">True</property>
     <property name="orientation">vertical</property>
@@ -2105,5 +2070,19 @@
     <property name="receives_default">False</property>
     <property name="active">True</property>
     <property name="draw_indicator">True</property>
+  </object>
+  <object class="GtkVBox" id="liste_texte_etat">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
   </object>
 </interface>

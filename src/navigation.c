@@ -331,6 +331,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
 		                GINT_TO_POINTER ( 1 ) );
 
+    gtk_tree_view_expand_all ( GTK_TREE_VIEW ( navigation_tree_view ) );
     gtk_widget_show_all ( vbox );
     gtk_widget_hide_all ( scheduler_calendar );
     gtk_widget_hide_all ( reconcile_panel );

@@ -94,10 +94,15 @@ static GtkWidget *gsb_etats_config_onglet_etat_ib ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_montant ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_texte ( void );
-static void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
-                        gchar **tab );
 static GtkWidget *gsb_etats_config_onglet_etat_tiers ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_virements ( void );
+static void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
+                        gchar **tab );
+static void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
+                        GtkWidget *widget );
+static void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *parent,
+                        gboolean button_2_visible );
+static GtkWidget *gsb_etats_config_onglet_etat_texte_new_line ( GtkWidget *parent );
 static gboolean gsb_etats_config_onglet_select_partie_liste_categ_budget ( GtkWidget *button,
                         GdkEventButton *event,
                         GtkWidget *tree_view );
@@ -136,8 +141,31 @@ static GtkWidget *gsb_etats_config_togglebutton_set_button_select ( gchar *sw_na
 
 
 /*START_EXTERN*/
-extern GtkWidget *notebook_config_etat;
 /*END_EXTERN*/
+
+
+/* the def of the columns in the categ and budget list to filter by categ and budget */
+enum
+{
+    GSB_ETAT_CATEG_BUDGET_LIST_NAME = 0,
+    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE,
+    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE,
+    GSB_ETAT_CATEG_BUDGET_LIST_NUMBER,
+    GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER,
+
+    GSB_ETAT_CATEG_BUDGET_LIST_NB,
+};
+
+
+/* the def of the columns in the model of config tree_view */
+enum gsb_report_tree_columns
+{
+    GSB_REPORT_TREE_TEXT_COLUMN,
+    GSB_REPORT_TREE_PAGE_COLUMN,
+    GSB_REPORT_TREE_BOLD_COLUMN,
+    GSB_REPORT_TREE_ITALIC_COLUMN,
+    GSB_REPORT_TREE_NUM_COLUMNS,
+};
 
 
 /* liste des plages de date possibles */
@@ -159,31 +187,6 @@ static gchar *etats_config_liste_plages_dates[] =
     NULL };
 
 
-static GtkBuilder *etat_config_builder = NULL;
-
-/* the def of the columns in the categ and budget list to filter by categ and budget */
-enum
-{
-    GSB_ETAT_CATEG_BUDGET_LIST_NAME = 0,
-    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVE,
-    GSB_ETAT_CATEG_BUDGET_LIST_ACTIVATABLE,
-    GSB_ETAT_CATEG_BUDGET_LIST_NUMBER,
-    GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER,
-
-    GSB_ETAT_CATEG_BUDGET_LIST_NB,
-};
-
-
-enum gsb_report_tree_columns
-{
-    GSB_REPORT_TREE_TEXT_COLUMN,
-    GSB_REPORT_TREE_PAGE_COLUMN,
-    GSB_REPORT_TREE_BOLD_COLUMN,
-    GSB_REPORT_TREE_ITALIC_COLUMN,
-    GSB_REPORT_TREE_NUM_COLUMNS,
-};
-
-
 /*
 static gchar *etats_config_jours_semaine[] =
 {
@@ -198,7 +201,7 @@ static gchar *etats_config_jours_semaine[] =
 */
 
 
-/*static gchar *champs_type_recherche_texte[] =
+static gchar *champs_type_recherche_texte[] =
 {
     N_("payee"),
     N_("payee information"),
@@ -213,9 +216,21 @@ static gchar *etats_config_jours_semaine[] =
     N_("reconciliation reference"),
     NULL
 };
-*/
 
-/*static gchar *champs_comparateur_montant[] =
+
+static gchar *champs_operateur_recherche_texte[] =
+{
+    N_("contains"),
+    N_("doesn't contain"),
+    N_("begins with"),
+    N_("ends with"),
+    N_("is empty"),
+    N_("isn't empty"),
+    NULL
+};
+
+/*
+static gchar *champs_comparateur_montant[] =
 {
     N_("equal"),
     N_("less than"),
@@ -230,6 +245,32 @@ static gchar *etats_config_jours_semaine[] =
     NULL
 };
 */
+
+static gchar *champs_comparateur_nombre[] =
+{
+    N_("equal"),
+    N_("less than"),
+    N_("less than or equal"),
+    N_("greater than"),
+    N_("greater than or equal"),
+    N_("different from"),
+    N_("the biggest"),
+    NULL
+};
+
+
+static gchar *champs_comparateur_nombre_2[] =
+{
+    N_("stop"),
+    N_("and"),
+    N_("or"),
+    N_("except"),
+    NULL
+};
+
+
+static GtkBuilder *etat_config_builder = NULL;
+
 
 /**
  * affiche la fenetre de personnalisation
@@ -309,7 +350,7 @@ void gsb_etats_config_personnalisation_etat ( void )
 
     gtk_widget_grab_focus ( tree_view );
 
-    gtk_widget_show_all ( dialog );
+    gtk_widget_show ( dialog );
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
@@ -432,6 +473,8 @@ GtkWidget *gsb_etats_config_get_report_tree_view ( void )
 
     sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "sw_dialog" ) );
     gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
+
+    gtk_widget_show_all ( tree_view );
 
     return tree_view;
 }
@@ -581,7 +624,7 @@ void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model,
 
     /* append page Currencies */
     widget = gsb_etats_config_affichage_etat_devises ( );
-   gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Currencies"), page );
+    gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Currencies"), page );
 }
 
 
@@ -699,6 +742,8 @@ GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ) );
+
+    gtk_widget_show_all ( vbox_onglet );
 
     return vbox_onglet;
 }
@@ -1837,6 +1882,8 @@ GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
+    GtkWidget *sw;
+    GtkWidget *lignes;
 
     devel_debug (NULL);
 
@@ -1851,16 +1898,12 @@ GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
                         "vbox_generale_texte_etat", NULL ), FALSE );
 
     /* on attache la vbox pour les lignes de recherche à sw_texte */
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (
-                        gsb_etats_config_get_variable_by_name ( "sw_texte", NULL ) ),
-                        gsb_etats_config_get_variable_by_name ( "liste_texte_etat", NULL ) );
+    sw = gsb_etats_config_get_variable_by_name ( "sw_texte", NULL );
+    lignes = gsb_etats_config_get_variable_by_name ( "liste_texte_etat", NULL );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), lignes );
 
-    /* on remplit le combobox de choix du type de texte dans lequel chercher */
-/*     gsb_etats_config_onglet_etat_combo_set_model (
- *                         gsb_etats_config_get_variable_by_name ( "combobox_texte_etat", NULL ),
- *                         champs_type_recherche_texte );
- */
-
+    /* on crée la première ligne de la recherche */
+    gsb_etats_config_onglet_etat_texte_new_line ( lignes );
 
     /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
     g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
@@ -1870,6 +1913,178 @@ GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
                         gsb_etats_config_get_variable_by_name ( "vbox_generale_texte_etat", NULL ) );
 
     return vbox_onglet;
+}
+
+
+/**
+ * crée une ligne de recherche de texte
+ *
+ *\parent       vbox qui contiendra toutes les lignes
+ *\first_line   première ligne ou ligne supplémentaire
+ *
+ *\return la nouvelle ligne
+ */
+GtkWidget *gsb_etats_config_onglet_etat_texte_new_line ( GtkWidget *parent )
+{
+    GtkWidget *vbox;
+    GtkWidget *hbox;
+    GtkWidget *hbox_1;
+    GtkWidget *hbox_2;
+    GtkWidget *combo;
+    GtkWidget *label;
+    GtkWidget *entry;
+    GtkWidget *radio_1;
+    GtkWidget *radio_2;
+
+    /* la vbox qui contient la ligne complète */
+    vbox = gtk_vbox_new ( FALSE, 5 );
+    gtk_widget_show ( vbox );
+
+    /* la première hbox pour le type de donnée concernée */
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_widget_show ( hbox );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( "Transactions whose " );
+    gtk_widget_show ( label );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
+
+    /* on crée et initialise le combobox du type de choix pour la recherche de texte */
+    combo = gtk_combo_box_new ( );
+    gtk_widget_show ( combo );
+    gsb_etats_config_onglet_etat_combo_set_model ( combo, champs_type_recherche_texte );
+    g_object_set_data ( G_OBJECT ( vbox ), "combobox_texte_etat", combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 5 );
+
+    /* on définit l'action a faire lorsque l'on change le choix du combobox */
+    g_signal_connect ( G_OBJECT ( combo ),
+                        "changed",
+                        G_CALLBACK ( gsb_etats_config_onglet_etat_texte_combo_changed ),
+                        vbox );
+
+    /* on ajoute le bouton ajouter une nouvelle ligne */
+    gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( hbox, FALSE );
+
+    /* la deuxième hbox pour le type recherche de texte */
+    hbox_1 = gtk_hbox_new ( FALSE, 5 );
+    gtk_widget_show ( hbox_1 );
+    g_object_set_data ( G_OBJECT ( vbox ), "hbox_etat_texte_compare_texte", hbox_1 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox_1, FALSE, FALSE, 0 );
+
+    /* on crée le radio bouton de sélection entre les deux types de recherche caché par défaut */
+    radio_1 = gtk_radio_button_new ( NULL );
+    g_object_set_data ( G_OBJECT ( vbox ), "radio_1_texte_etat", radio_1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_1 ), radio_1, FALSE, FALSE, 5 );
+
+    /* on crée et initialise le combobox de l'opérateur pour la recherche de texte */
+    combo = gtk_combo_box_new ( );
+    gtk_widget_show ( combo );
+    gsb_etats_config_onglet_etat_combo_set_model ( combo, champs_operateur_recherche_texte );
+    g_object_set_data ( G_OBJECT ( vbox ), "combobox_operateur_txt", combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_1 ), combo, FALSE, FALSE, 5 );
+
+    /* on crée le champs texte pour entrer le texte recherché */
+    entry = gtk_entry_new ( );
+    gtk_widget_show ( entry );
+    g_object_set_data ( G_OBJECT ( vbox ), "entry_operateur_txt", entry );
+    gtk_box_pack_start ( GTK_BOX ( hbox_1 ), entry, FALSE, FALSE, 5 );
+
+    /* la troisième hbox pour le type recherche de nombre */
+    hbox_2 = gtk_hbox_new ( FALSE, 5 );
+    g_object_set_data ( G_OBJECT ( vbox ), "hbox_etat_texte_compare_nbre", hbox_2 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox_2, FALSE, FALSE, 0 );
+
+    radio_2 = gtk_radio_button_new_from_widget ( GTK_RADIO_BUTTON ( radio_1 ) );
+    g_object_set_data ( G_OBJECT ( vbox ), "radio_2_texte_etat", radio_2 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), radio_2, FALSE, FALSE, 5 );
+
+    label = gtk_label_new ( _("is ") );
+    gtk_widget_show ( label );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), label, FALSE, FALSE, 5 );
+
+    /* on crée et initialise le combobox pour la première comparaison de nombre */
+    combo = gtk_combo_box_new ( );
+    gtk_widget_show ( combo );
+    gsb_etats_config_onglet_etat_combo_set_model ( combo, champs_comparateur_nombre );
+    g_object_set_data ( G_OBJECT ( vbox ), "combobox_first_comparison", combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), combo, FALSE, FALSE, 5 );
+
+    label = gtk_label_new ( _("at ") );
+    gtk_widget_show ( label );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), label, FALSE, FALSE, 5 );
+
+    /* on crée le champs texte pour entrer la première comparaison */
+    entry = gtk_entry_new ( );
+    gtk_widget_show ( entry );
+    g_object_set_data ( G_OBJECT ( vbox ), "entry_first_comparison", entry );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), entry, FALSE, FALSE, 5 );
+
+    /* on crée et initialise le combobox pour autoriser la seconde comparaison de nombre */
+    combo = gtk_combo_box_new ( );
+    gtk_widget_show ( combo );
+    gsb_etats_config_onglet_etat_combo_set_model ( combo, champs_comparateur_nombre_2 );
+    g_object_set_data ( G_OBJECT ( vbox ), "combobox_valid_second_comparison", combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), combo, FALSE, FALSE, 5 );
+
+    /* on crée et initialise le combobox pour la seconde comparaison de nombre */
+    combo = gtk_combo_box_new ( );
+    gsb_etats_config_onglet_etat_combo_set_model ( combo, champs_comparateur_nombre_2 );
+    g_object_set_data ( G_OBJECT ( vbox ), "combobox_second_comparison", combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), combo, FALSE, FALSE, 5 );
+
+    label = gtk_label_new ( _("at ") );
+    g_object_set_data ( G_OBJECT ( vbox ), "label_second_comparison", label );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), label, FALSE, FALSE, 5 );
+
+    /* on crée le champs texte pour entrer la première comparaison */
+    entry = gtk_entry_new ( );
+    g_object_set_data ( G_OBJECT ( vbox ), "entry_second_comparison", entry );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), entry, FALSE, FALSE, 5 );
+
+    /* on met la ligne complète (vbox) dans son parent */
+    gtk_box_pack_start ( GTK_BOX ( parent ), vbox, FALSE, FALSE, 5 );
+
+    return vbox;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *parent,
+                        gboolean button_2_visible )
+{
+    GtkWidget *alignement;
+    GtkWidget *button;
+
+    alignement = gtk_alignment_new ( 1, 0, 0, 0 );
+    gtk_widget_show ( alignement );
+    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+
+    button = gtk_button_new_with_label ( _("Add") );
+    gtk_widget_show ( button );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+
+/*    g_signal_connect_swapped ( G_OBJECT ( button ),
+			       "clicked",
+			       G_CALLBACK ( ajoute_ligne_liste_comparaisons_textes_etat ),
+			       GINT_TO_POINTER (text_comparison_number) );
+*/
+    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+
+    button = gtk_button_new_with_label ( _("Remove") );
+    if ( button_2_visible )
+        gtk_widget_show ( button );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+/*
+    g_signal_connect_swapped ( G_OBJECT ( button ),
+			       "clicked",
+			       G_CALLBACK ( retire_ligne_liste_comparaisons_textes_etat ),
+			       GINT_TO_POINTER (text_comparison_number) );
+*/
+    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
 }
 
 
@@ -1909,6 +2124,28 @@ void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
                         NULL);
 
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
+                        GtkWidget *widget )
+{
+     GtkTreeIter iter;
+
+    if ( gtk_combo_box_get_active_iter ( combo, &iter ) )
+    {
+        GtkTreeModel *model;
+        gchar *text;
+
+        model = gtk_combo_box_get_model ( combo );
+        gtk_tree_model_get ( model, &iter, 0, &text, -1 );
+        printf ("text = %s\n", text );
+    }
 }
 
 
