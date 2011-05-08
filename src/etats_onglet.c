@@ -1014,7 +1014,7 @@ void gsb_gui_update_gui_to_report ( gint report_number )
 	gsb_report_set_current (report_number);
     }
     else
-        etat_affiche_finish ( );
+        gtk_widget_show ( GTK_BIN ( scrolled_window_etat ) -> child );
 }
 
 

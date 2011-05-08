@@ -2092,6 +2092,7 @@ GtkWidget *gsb_etats_config_onglet_etat_divers ( void )
                         G_CALLBACK ( report_tree_update_style ),
                         GINT_TO_POINTER ( 9 ) );
 */
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, TRUE, TRUE, 5 );
     gtk_widget_show_all ( vbox_onglet );
 
     return vbox_onglet;
