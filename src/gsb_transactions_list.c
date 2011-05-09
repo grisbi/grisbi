@@ -1185,6 +1185,9 @@ gfloat gsb_transactions_list_get_row_align ( void )
     if (!path)
 	return 0;
 
+    if ( !GDK_IS_DRAWABLE ( gtk_tree_view_get_bin_window ( tree_view ) ) )
+        return 0;
+
     gdk_drawable_get_size ( GDK_DRAWABLE (gtk_tree_view_get_bin_window (tree_view)),
 			    NULL, &height_win);
     gtk_tree_view_get_background_area (tree_view, path, NULL, &back_rect);
