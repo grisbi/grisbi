@@ -42,7 +42,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] );
+static gchar **split_unique_datefield ( gchar * string, gchar **date_tokens );
 /*END_STATIC*/
 
 
@@ -301,24 +301,28 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  *
  * \return NULL if not a date
  */
-gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
+gchar **split_unique_datefield ( gchar *string, gchar **date_tokens )
 {
-/*TODO dOm : I add a & before date_tokens to avoid warning. Is is correct ? */
-    gchar ** return_tab = g_new ( gchar *, g_strv_length ( &date_tokens ) + 1 );
-    int size = strlen ( string );
-    gchar * max = string + size;
-    int i = 0;
+    gchar **return_tab;
+    gint size;
+    gchar *max;
+    gint i = 0;
+    gint num_fields = 0;
+
+    num_fields = g_strv_length ( date_tokens );
+    return_tab = g_new ( gchar *, num_fields + 1 );
+    size = strlen ( string );
+    max = string + size;
 
     /* size 1 could be used for example if we write 1 to set 01/mm/yyyy */
     if ( size != 1 && size != 2 && size != 4 && size != 6 && size != 8 )
     {
-    return NULL;
+        return NULL;
     }
 
     for ( i = 0 ; date_tokens [ i ] && string < max; i ++ )
     {
-        if ( size != 8 ||
-             date_tokens [ i ] != 'Y' )
+        if ( size != 8 || strcmp ( date_tokens [ i ], "Y" ) != 0 )
         {
             return_tab [ i ] = g_strndup ( string, 2 );
             string += 2;
@@ -349,11 +353,14 @@ gchar **split_unique_datefield ( gchar * string, gchar date_tokens [] )
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
     GDate *date;
-    gchar *string, *string_ptr;
-    gchar *date_format;
+    gchar *string;
+    gchar *string_ptr;
     gchar **tab_date;
-    gchar date_tokens [ 4 ] = { 0, 0, 0, 0 };
-    int num_tokens = 0, num_fields = 0, i, j;
+    gchar **date_tokens;
+    gint num_tokens = 3;
+    gint num_fields = 0;
+    gint i;
+    gint j;
 
     if ( !date_string || !strlen ( date_string ) )
         return NULL;
@@ -364,32 +371,11 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     /* And keep a pointer to free memory later */
     string_ptr = string;
 
-    /* keep the string format */
-    date_format = g_strdup ( format );
+    /* récupère le format des champs date */
+    date_tokens = g_strsplit ( format + 1, "/%", 3 );
 
     /* delete space char */
     g_strstrip ( string );
-
-    while ( *date_format )
-    {
-        if ( *date_format == '%' )
-        {
-            switch ( * ++date_format )
-            {
-            case 'd': case 'm': case 'y': case 'Y':
-                date_tokens [ num_tokens++ ] = *date_format ;
-                if ( num_tokens > 3 )
-                {
-                    dialogue_error_brain_damage ();
-                }
-            default:
-                break;
-            }
-        }
-        date_format++;
-    }
-
-    /* TODO: Check that m,d,Yy are present. */
 
     /* replace all separators by . */
     g_strcanon ( string, "0123456789", '.' );
@@ -424,10 +410,12 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     {
         /* there is only 1 field in the date, try to split the number
          * (ie 01042000 gives 01/04/2000) */
-        gchar ** new_tab_date;
+        gchar **new_tab_date;
 
-        new_tab_date = split_unique_datefield ( tab_date [ 0 ], date_tokens );
+        new_tab_date = split_unique_datefield ( tab_date [0], date_tokens );
+
         g_strfreev ( tab_date );
+
         if ( ! new_tab_date )
             return NULL;
         else
@@ -442,9 +430,9 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
 
     for ( i = 0, j = 0 ; i < num_tokens && j < num_fields ; i ++ )
     {
-        int nvalue = atoi ( tab_date [ j ] );
+        gint nvalue = atoi ( tab_date [ j ] );
 
-        switch ( date_tokens [ i ] )
+        switch ( date_tokens [ i ][0] )
         {
             case 'm':
             if ( g_date_valid_month ( nvalue ) )
@@ -500,7 +488,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
             }
             break;
             default:
-                g_printerr ( ">> Unknown format '%c'\n", date_tokens [ i ] );
+                g_printerr ( ">> Unknown format '%s'\n", date_tokens [ i ] );
                 g_date_free ( date );
                 g_strfreev ( tab_date );
                 return NULL;
