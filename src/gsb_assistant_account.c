@@ -284,15 +284,15 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
     
-    account_combobox_bank = gsb_bank_create_combobox (0, NULL, NULL, NULL, 0);
+    account_combobox_bank = gsb_bank_create_combobox (0 );
 
     if ( gsb_data_bank_max_number() != 0 )
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 1, 0 );
+	gsb_bank_list_set_bank ( account_combobox_bank, 1 );
     }
     else
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 0, 0 );
+	gsb_bank_list_set_bank ( account_combobox_bank, 0 );
     }
     gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
 		       1, 2, 1, 2,

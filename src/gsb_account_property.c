@@ -385,14 +385,10 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    bank_list_combobox = gsb_bank_create_combobox ( 0,
-                        NULL,
-                        NULL,
-                        G_CALLBACK (gsb_data_account_set_bank),
-                        0 );
-    g_signal_connect ( G_OBJECT (bank_list_combobox),
+    bank_list_combobox = gsb_bank_create_combobox ( 0 );
+    g_signal_connect ( G_OBJECT ( bank_list_combobox ),
                         "changed",
-                        G_CALLBACK (gsb_account_property_changed_bank_label),
+                        G_CALLBACK ( gsb_account_property_changed_bank_label ),
                         NULL );
     gtk_box_pack_start ( GTK_BOX(hbox), bank_list_combobox, TRUE, TRUE, 0);
 
@@ -672,7 +668,7 @@ gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
                         gpointer null )
 {
     gint bank_number;
-
+devel_debug (NULL);
     if (!combobox)
         return FALSE;
 
@@ -1144,9 +1140,7 @@ gboolean gsb_account_property_iban_set_bank_from_iban ( gchar *iban )
     g_signal_handlers_block_by_func ( G_OBJECT ( bank_list_combobox ),
                         G_CALLBACK ( gsb_account_property_changed_bank_label ),
                         NULL );
-    gsb_bank_list_set_bank ( bank_list_combobox,
-                        bank_number,
-                        current_account );
+    gsb_bank_list_set_bank ( bank_list_combobox, bank_number );
     g_signal_handlers_unblock_by_func ( G_OBJECT ( bank_list_combobox ),
                         G_CALLBACK ( gsb_account_property_changed_bank_label ),
                         NULL );
