@@ -48,6 +48,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_editables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -56,8 +57,6 @@ static gboolean gsb_bank_add ( GtkWidget *button,
                         gpointer null );
 static void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data );
 static void gsb_bank_code_changed ( GtkEntry *entry, gpointer data );
-static gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
-					    gboolean default_func (gint, gint));
 static gboolean gsb_bank_create_combobox_model ( void );
 static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         GtkWidget *combobox );
@@ -105,8 +104,8 @@ static GtkWidget *delete_bank_button;
 static GtkWidget *bank_name;
 static GtkWidget *bank_code;
 static GtkWidget *bank_BIC;
-static GtkWidget *bank_tel;
 static GtkWidget *bank_adr;
+static GtkWidget *bank_tel;
 static GtkWidget *bank_mail;
 static GtkWidget *bank_web;
 static GtkWidget *bank_contact_name;
@@ -160,14 +159,14 @@ GtkWidget *gsb_bank_create_combobox ( gint index )
 					   (GtkTreeViewRowSeparatorFunc) gsb_bank_list_check_separator,
 					   NULL, NULL );
 
+    /* set the index */
+    gsb_bank_list_set_bank ( combo_box, index );
+
     /* the signal just check if we select new bank, to show the dialog to add a new bank */
     g_signal_connect ( G_OBJECT (combo_box),
 		       "changed",
 		       G_CALLBACK ( gsb_bank_list_changed ),
 		       NULL );
-
-    /* set the index */
-    gsb_bank_list_set_bank ( combo_box, index );
 
     return combo_box;
 }
@@ -214,12 +213,16 @@ gboolean gsb_bank_list_set_bank ( GtkWidget *combobox,
 {
     GtkTreeIter iter;
 
-devel_debug_int (bank_number);
     if ( !combobox )
         return FALSE;
 
-    if (!gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( bank_list_model ), &iter ) )
+    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( bank_list_model ), &iter ) )
         return FALSE;
+
+    /* on bloque la fonction de callback */
+    g_signal_handlers_block_by_func ( G_OBJECT ( combobox ),
+                        gsb_bank_list_changed,
+                        NULL );
 
     do
     {
@@ -239,41 +242,13 @@ devel_debug_int (bank_number);
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( bank_list_model ), &iter ) );
 
-    return FALSE;
-}
-
-
-
-/**
- * called when the place change in the bank combobox
- *
- * \param combobox The reference Combobox
- * \param default_func the function to call to change the value in memory
- *
- * \return FALSE
- */
-static gboolean gsb_bank_combobox_changed ( GtkWidget *combobox,
-					    gboolean default_func (gint, gint))
-{
-    gint number_for_func;
-devel_debug (NULL);
-    /* just to be sure... */
-    if (!default_func || !combobox)
-	return FALSE;
-
-    number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (combobox), "number_for_func"));
-printf ("number_for_func = %d\n", number_for_func);
-    default_func ( number_for_func,
-		   gsb_bank_list_get_bank_number (combobox));
-
-    /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    /* on débloque la fonction de callback */
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( combobox ),
+                        gsb_bank_list_changed,
+                        NULL );
 
     return FALSE;
 }
-
-
 
 
 /**
@@ -289,7 +264,7 @@ gboolean gsb_bank_edit_from_button ( GtkWidget *button,
                         GtkWidget *combobox )
 {
     gint bank_number;
-devel_debug (NULL);
+
     bank_number = gsb_bank_list_get_bank_number ( combobox );
 
     /* if bank_number = 0, it's none ; -1 : it's new bank, so don't edit */
@@ -386,15 +361,7 @@ static gboolean gsb_bank_update_selected_line_model ( GtkWidget *combobox )
 
     /* restore the selection */
     if ( combobox )
-    {
-        g_signal_handlers_block_by_func ( G_OBJECT ( combobox ),
-                        gsb_bank_list_changed,
-                        NULL );
         gsb_bank_list_set_bank ( combobox, save_bank_number );
-        g_signal_handlers_unblock_by_func ( G_OBJECT ( combobox ),
-                        gsb_bank_list_changed,
-                        NULL );
-    }
 
     return TRUE;
 }
@@ -439,12 +406,11 @@ static gboolean gsb_bank_list_changed ( GtkWidget *combobox,
                         gpointer null )
 {
     gint bank_number;
-devel_debug (NULL);
+
     if (!combobox)
-	return FALSE;
+        return FALSE;
 
     bank_number = gsb_bank_list_get_bank_number (combobox);
-printf ("bank_number = %d\n", bank_number );
 
     /* check if not new bank, ie -2 */
     if ( bank_number != -2 )
@@ -458,9 +424,9 @@ printf ("bank_number = %d\n", bank_number );
 
     /* asked to add a new bank */
     bank_number = gsb_bank_edit_bank ( bank_number, combobox );
+
     return FALSE;
 }
-
 
 
 /* ---------------- the second part is on the parameters page of the banks ------------------------ */
@@ -1057,7 +1023,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 {
     GtkWidget *dialog, *form, *scrolled_window, *vbox;
     gint result;
-devel_debug_int (bank_number);
+
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -1102,12 +1068,15 @@ devel_debug_int (bank_number);
     if ( result == GTK_RESPONSE_APPLY )
     {
         if ( bank_number == -2 )
-        {
             bank_number = gsb_data_bank_new ( _("New bank") );
-            gsb_bank_update_selected_line_model ( combobox );
-        }
+
         gsb_bank_update_bank_data ( bank_number );
+        gsb_bank_update_selected_line_model ( combobox );
         gsb_bank_list_set_bank ( combobox, bank_number );
+
+        /* Mark file as modified */
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
     }
     else
     {
@@ -1190,6 +1159,7 @@ static gboolean gsb_bank_add ( GtkWidget *button,
                         gpointer null )
 {
     gint bank_number;
+
     /* create the new bank */
     bank_number = gsb_data_bank_new (_("New bank"));
 
@@ -1375,8 +1345,87 @@ static void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data )
  * */
 static void gsb_bank_update_bank_data ( gint bank_number )
 {
+    GtkTextBuffer *buffer;
+
+    devel_debug_int ( bank_number );
+    /* set bank_name */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_name ) ) > 0 )
+        gsb_data_bank_set_name ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_name ) ) );
+    else
+        gsb_data_bank_set_name ( bank_number, _("New bank") );
+
+    /* set bank_code */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_code ) ) > 0 )
+        gsb_data_bank_set_code ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_code ) ) );
+    else
+        gsb_data_bank_set_code ( bank_number, "" );
+
+    /* set bank_BIC */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_BIC ) ) > 0 )
+        gsb_data_bank_set_bic ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_BIC ) ) );
+    else
+        gsb_data_bank_set_bic ( bank_number, "" );
+
+    /* set bank_adr */
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( bank_adr ) );
+    if ( gtk_text_buffer_get_char_count ( buffer ) > 0 )
+        gsb_data_bank_set_bank_address ( bank_number,
+                        gsb_editable_text_view_get_content ( bank_adr ) );
+    else
+        gsb_data_bank_set_bank_address ( bank_number, "" );
+
+    /* set bank_tel */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_tel ) ) > 0 )
+        gsb_data_bank_set_bank_tel ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_tel ) ) );
+    else
+        gsb_data_bank_set_bank_tel ( bank_number, "" );
+
+    /* set bank_mail */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_mail ) ) > 0 )
+        gsb_data_bank_set_bank_mail ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_mail ) ) );
+    else
+        gsb_data_bank_set_bank_mail ( bank_number, "" );
+
+    /* set bank_web */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_web ) ) > 0 )
+        gsb_data_bank_set_bank_web ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_web ) ) );
+    else
+        gsb_data_bank_set_bank_web ( bank_number, "" );
+
+    /* set contact_name */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_contact_name ) ) > 0 )
+        gsb_data_bank_set_correspondent_name ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_contact_name ) ) );
+    else
+        gsb_data_bank_set_correspondent_name ( bank_number, "" );
+
+    /* set contact_tel */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_contact_tel ) ) > 0 )
+        gsb_data_bank_set_correspondent_tel ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_contact_tel ) ) );
+    else
+        gsb_data_bank_set_correspondent_tel ( bank_number, "" );
+
+    /* set contact_mail */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_contact_mail ) ) > 0 )
+        gsb_data_bank_set_correspondent_mail ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_contact_mail ) ) );
+    else
+        gsb_data_bank_set_correspondent_mail ( bank_number, "" );
+
+    /* set contact_fax */
+    if ( gtk_entry_get_text_length ( GTK_ENTRY ( bank_contact_fax ) ) > 0 )
+        gsb_data_bank_set_correspondent_fax ( bank_number, gtk_entry_get_text ( GTK_ENTRY ( bank_contact_fax ) ) );
+    else
+        gsb_data_bank_set_correspondent_fax ( bank_number, "" );
+
+    /* set bank_notes */
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( bank_adr ) );
+    if ( gtk_text_buffer_get_char_count ( buffer ) > 0 )
+        gsb_data_bank_set_bank_note ( bank_number,
+                        gsb_editable_text_view_get_content (  bank_notes ) );
+    else
+        gsb_data_bank_set_bank_note ( bank_number, "" );
 
 }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -668,7 +668,7 @@ gboolean gsb_account_property_changed_bank_label ( GtkWidget *combobox,
                         gpointer null )
 {
     gint bank_number;
-devel_debug (NULL);
+
     if (!combobox)
         return FALSE;
 
