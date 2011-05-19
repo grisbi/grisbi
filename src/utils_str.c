@@ -1037,7 +1037,7 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {
-    struct lconv *conv = gsb_locale_get_locale ( );
+    struct lconv *locale = gsb_locale_get_locale ( );
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)
@@ -1047,9 +1047,9 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
     /* First of all if number = 0 I return 0 with the symbol of the currency if necessary */
     if (number.mantissa == 0)
     {
-        if (currency_symbol && conv -> p_cs_precedes)
+        if (currency_symbol && locale -> p_cs_precedes)
             return g_strdup_printf ( "%s %s", currency_symbol, "0" );
-        else if (currency_symbol && ! conv -> p_cs_precedes)
+        else if (currency_symbol && ! locale -> p_cs_precedes)
             return g_strdup_printf ( "%s %s", "0", currency_symbol );
         else
             return g_strdup ("0");
@@ -1065,7 +1065,7 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
     if ( currency_number && number.exponent != floating_point )
         number = gsb_real_adjust_exponent ( number, floating_point );
 
-    return gsb_real_raw_format_string ( number, conv, currency_symbol );
+    return gsb_real_raw_format_string ( number, locale, currency_symbol );
 }
 
 

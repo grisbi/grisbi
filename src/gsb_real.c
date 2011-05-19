@@ -86,9 +86,9 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 */
 gchar *gsb_real_get_string ( gsb_real number )
 {
-    struct lconv *conv = gsb_locale_get_locale ();
+    struct lconv *locale = gsb_locale_get_locale ();
 
-    return gsb_real_raw_format_string ( number, conv, NULL );
+    return gsb_real_raw_format_string ( number, locale, NULL );
 }
 
 
@@ -98,14 +98,14 @@ gchar *gsb_real_get_string ( gsb_real number )
  * thousands separator and positive or negative sign.
  * 
  * \param number		    Number to format.
- * \param conv      		the locale obtained with localeconv(), or built manually
+ * \param locale      		the locale obtained with localeconv(), or built manually
  * \param currency_symbol 	the currency symbol
  *
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
  */
 gchar *gsb_real_raw_format_string (gsb_real number,
-                        struct lconv *conv,
+                        struct lconv *locale,
                         const gchar *currency_symbol )
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
@@ -120,12 +120,12 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     gint nbre_char;
 	lldiv_t units;
 /*printf ("currency_symbol = %s\n", currency_symbol);*/
-    cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
-    cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
+    cs_start = (currency_symbol && locale->p_cs_precedes) ? currency_symbol : "";
+    cs_start_space = (currency_symbol && locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
+    sign = (number.mantissa < 0) ? locale->negative_sign : locale->positive_sign;
     mon_decimal_point = gsb_decimal_point;
-    cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
+    cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
+    cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
     
     units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
 

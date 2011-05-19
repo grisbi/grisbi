@@ -225,7 +225,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     GtkWidget *page, *label, *button, *table;
     GtkWidget *align;
     GtkWidget *image;
-    struct lconv *conv = gsb_locale_get_locale ( );
+    struct lconv *locale = gsb_locale_get_locale ( );
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -251,7 +251,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
      * this would confuse US folks while rest of the world is used to
      * configure stuff to their locale.  */
     if ( ! gsb_data_currency_get_default_currency () &&
-	 ! gsb_currency_config_create_currency_from_iso4217list ( conv -> int_curr_symbol ) )
+	 ! gsb_currency_config_create_currency_from_iso4217list ( locale -> int_curr_symbol ) )
     {
 	gsb_currency_config_create_currency_from_iso4217list ( "USD" );
     }

@@ -42,7 +42,7 @@ gsb_real gsb_real_new ( gint64 mantissa, gint exponent );
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 );
 G_MODULE_EXPORT gsb_real gsb_real_opposite ( gsb_real number );
 gchar *gsb_real_raw_format_string (gsb_real number,
-                        struct lconv *conv,
+                        struct lconv *locale,
                         const gchar *currency_symbol );
 gsb_real gsb_real_raw_get_from_string ( const gchar *string,
                                         const gchar *mon_thousands_sep,
