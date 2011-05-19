@@ -78,3 +78,29 @@ struct lconv *gsb_locale_get_locale ( void )
 {
     return _locale;
 }
+
+
+gchar *gsb_locale_get_mon_decimal_point ( void )
+{
+    return g_strdup ( _locale -> mon_decimal_point );
+}
+
+
+void gsb_locale_set_mon_decimal_point ( const gchar *decimal_point )
+{
+    g_free ( _locale -> mon_decimal_point );
+    _locale -> mon_decimal_point = g_strdup ( decimal_point );
+}
+
+
+gchar *gsb_locale_get_mon_thousands_sep ( void )
+{
+    return g_strdup ( _locale -> mon_thousands_sep );
+}
+
+
+void gsb_locale_set_mon_thousands_sep ( const gchar *thousands_sep )
+{
+    g_free ( _locale -> mon_thousands_sep );
+    _locale -> mon_thousands_sep = g_strdup ( thousands_sep );
+}
