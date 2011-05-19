@@ -87,7 +87,7 @@ gchar *gsb_real_get_string ( gsb_real number )
 {
     struct lconv *conv = localeconv ();
 
-    return gsb_real_raw_format_string ( number, conv, FALSE );
+    return gsb_real_raw_format_string ( number, conv, NULL );
 }
 
 
