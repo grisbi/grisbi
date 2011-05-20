@@ -53,6 +53,7 @@
 #include "gsb_file.h"
 #include "gsb_form_config.h"
 #include "gsb_fyear_config.h"
+#include "gsb_locale.h"
 #include "gsb_payment_method_config.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_config.h"
@@ -1410,14 +1411,14 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
         gtk_box_pack_start ( GTK_BOX ( hbox ), thou_hbox, FALSE, FALSE, 0 );
     }
 
-    mon_decimal_point = gsb_real_get_decimal_point ( );
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
     if ( strcmp ( mon_decimal_point, "," ) == 0 )
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( dec_sep ), 1 );
     else
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( dec_sep ), 0 );
     g_free ( mon_decimal_point );
 
-    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    mon_thousands_sep = gsb_locale_get_mon_thousands_sep ( );
     if ( mon_thousands_sep == NULL )
         gtk_combo_box_set_active ( GTK_COMBO_BOX ( thou_sep ), 3 );
     else if ( strcmp ( mon_thousands_sep, "." ) == 0 )
@@ -1464,20 +1465,20 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
 
     if ( g_strcmp0 ( text, "," ) == 0 )
     {
-        gsb_real_set_decimal_point ( "," );
+        gsb_locale_set_mon_decimal_point ( "," );
 
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
-            gsb_real_set_thousands_sep ( " " );
+            gsb_locale_set_mon_thousands_sep ( " " );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
         }
     }
     else
     {
-        gsb_real_set_decimal_point ( "." );
+        gsb_locale_set_mon_decimal_point ( "." );
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
         {
-            gsb_real_set_thousands_sep ( "," );
+            gsb_locale_set_mon_thousands_sep ( "," );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 2 );
         }
     }
@@ -1517,30 +1518,30 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     
     if ( g_strcmp0 ( text, "' '" ) == 0 )
     {
-        gsb_real_set_thousands_sep ( " " );
+        gsb_locale_set_mon_thousands_sep ( " " );
     }
     else if ( g_strcmp0 ( text, "." ) == 0 )
     {
 
-        gsb_real_set_thousands_sep ( "." );
+        gsb_locale_set_mon_thousands_sep ( "." );
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
         {
-            gsb_real_set_decimal_point ( "," );
+            gsb_locale_set_mon_decimal_point ( "," );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 1 );
         }
     }
     else if ( g_strcmp0 ( text, "," ) == 0 )
     {
 
-        gsb_real_set_thousands_sep ( "," );
+        gsb_locale_set_mon_thousands_sep ( "," );
         if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
         {
-            gsb_real_set_decimal_point ( "." );
+            gsb_locale_set_mon_decimal_point ( "." );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
         }
     }
     else
-        gsb_real_set_thousands_sep ( NULL );
+        gsb_locale_set_mon_thousands_sep ( NULL );
 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );

@@ -69,6 +69,7 @@
 #include "gsb_file.h"
 #include "utils_dates.h"
 #include "navigation.h"
+#include "gsb_locale.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
@@ -712,8 +713,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
 
     /* save localization data */
     date_format = gsb_date_get_format_date ( );
-    mon_decimal_point = gsb_real_get_decimal_point ( );
-    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
+    mon_thousands_sep = gsb_locale_get_mon_thousands_sep ( );
     if ( mon_thousands_sep == NULL )
         mon_thousands_sep = g_strdup ( "empty" );
 

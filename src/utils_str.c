@@ -183,8 +183,8 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
     gchar *mon_separateur;
     gchar **tab;
 
-    mon_decimal_point = gsb_real_get_decimal_point ( );
-    mon_separateur = gsb_real_get_thousands_sep ( );
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
+    mon_separateur = gsb_locale_get_mon_thousands_sep ( );
 
     if ( ( ptr_1 = g_strstr_len ( string, -1, "," ) )
      &&

@@ -995,55 +995,6 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
 }
 
 
-/**
- *
- * The returned string should be freed with g_free() when no longer needed.
- *
- *
- * */
-gchar *gsb_real_get_decimal_point ( void )
-{
-    return gsb_locale_get_mon_decimal_point ( );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_real_set_decimal_point ( const gchar *decimal_point )
-{
-    gsb_locale_set_mon_decimal_point ( decimal_point );
-}
-
-
-/**
- *
- * The returned string should be freed with g_free() when no longer needed.
- *
- *
- * */
-gchar *gsb_real_get_thousands_sep ( void )
-{
-    return gsb_locale_get_mon_thousands_sep ( );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_real_set_thousands_sep ( const gchar *thousands_sep )
-{
-    gsb_locale_set_mon_thousands_sep ( thousands_sep );
-}
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-
