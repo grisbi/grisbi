@@ -123,7 +123,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     cs_start = (currency_symbol && locale->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     sign = (number.mantissa < 0) ? locale->negative_sign : locale->positive_sign;
-    mon_decimal_point = gsb_decimal_point;
+    mon_decimal_point = locale->mon_decimal_point && *locale->mon_decimal_point ? locale->mon_decimal_point : "";
     cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
     
@@ -135,7 +135,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
     if ( units.quot >= 1000 )
     {
-        temp = gsb_real_add_thousands_sep ( temp, gsb_thousands_sep );
+        temp = gsb_real_add_thousands_sep ( temp, locale->mon_thousands_sep );
     }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
