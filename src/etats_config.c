@@ -49,6 +49,7 @@
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"

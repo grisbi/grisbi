@@ -47,6 +47,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

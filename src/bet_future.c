@@ -56,6 +56,7 @@
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "utils.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "gsb_data_payment.h"

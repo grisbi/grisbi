@@ -51,6 +51,7 @@
 #include "structures.h"
 #include "utils.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 

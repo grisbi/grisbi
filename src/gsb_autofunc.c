@@ -50,6 +50,7 @@
 #include "utils_editables.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/

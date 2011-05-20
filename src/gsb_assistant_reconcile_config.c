@@ -46,6 +46,7 @@
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_config.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"

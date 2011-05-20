@@ -33,7 +33,6 @@ gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 );
 G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number );
 gsb_real gsb_real_get_from_string ( const gchar *string );
-gchar *gsb_real_get_string ( gsb_real number );
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_new ( gint64 mantissa, gint exponent );

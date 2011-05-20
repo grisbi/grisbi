@@ -60,6 +60,7 @@
 #include "transaction_list_sort.h"
 #include "utils_dates.h"
 #include "utils_editables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 

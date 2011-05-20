@@ -69,27 +69,6 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 
 
 /**
- * Return the real in a formatted string, according to the currency 
- * regarding decimal separator, thousands separator and positive or
- * negative sign.
- * this is directly the number coded in the real wich is returned
- * usually, gsb_real_get_string_with_currency is better to adapt the format
- * 	of the number to the currency format
- * 
- * \param number	Number to format.
- *
- * \return		A newly allocated string of the number (this
- *			function will never return NULL) 
-*/
-gchar *gsb_real_get_string ( gsb_real number )
-{
-    struct lconv *locale = gsb_locale_get_locale ();
-
-    return gsb_real_raw_format_string ( number, locale, NULL );
-}
-
-
-/**
  * Return the real in a formatted string with an optional currency
  * symbol, according to the given locale regarding decimal separator,
  * thousands separator and positive or negative sign.
