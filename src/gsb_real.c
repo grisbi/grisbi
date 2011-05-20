@@ -41,6 +41,7 @@
 #include <assert.h>
 
 /*START_INCLUDE*/
+#include "gsb_locale.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
@@ -85,7 +86,7 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 */
 gchar *gsb_real_get_string ( gsb_real number )
 {
-    struct lconv *conv = localeconv ();
+    struct lconv *conv = gsb_locale_get_locale ();
 
     return gsb_real_raw_format_string ( number, conv, NULL );
 }

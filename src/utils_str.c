@@ -36,6 +36,7 @@
 #include "utils_str.h"
 #include "gsb_data_report.h"
 #include "gsb_data_currency.h"
+#include "gsb_locale.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1036,7 +1037,7 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {
-    struct lconv *conv = localeconv ();
+    struct lconv *conv = gsb_locale_get_locale ( );
     gint floating_point;
 
     const gchar *currency_symbol = (currency_number && show_symbol)

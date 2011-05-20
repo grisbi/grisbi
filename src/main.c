@@ -43,6 +43,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
+#include "gsb_locale.h"
 #include "gsb_plugins.h"
 #include "gsb_status.h"
 #include "import.h"
@@ -143,6 +144,7 @@ int main ( int argc, char **argv )
         main_linux ( argc, argv );
     #endif /* GTKOSXAPPLICATION || linux */
 #endif /* _WIN32 */
+    gsb_locale_shutdown ( );
     gsb_dirs_shutdown ( );
 
 #if GSB_GMEMPROFILE
@@ -172,6 +174,8 @@ void main_linux ( int argc, char **argv )
 
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
+
+    gsb_locale_init ( );
 
 #if IS_DEVELOPMENT_VERSION == 1
     gsb_grisbi_print_environment_var ( );
@@ -248,6 +252,8 @@ void main_mac_osx ( int argc, char **argv )
 
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
+
+    gsb_locale_init ( );
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -351,6 +357,8 @@ void main_win_32 (  int argc, char **argv )
 
     /* Setup locale/gettext */
     setlocale( LC_ALL, NULL );
+
+    gsb_locale_init ( );
 
     gtk_init ( &argc, &argv );
 

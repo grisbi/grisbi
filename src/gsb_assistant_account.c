@@ -44,6 +44,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_currency.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "utils.h"
@@ -224,7 +225,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     GtkWidget *page, *label, *button, *table;
     GtkWidget *align;
     GtkWidget *image;
-    struct lconv * conv = localeconv();
+    struct lconv *conv = gsb_locale_get_locale ( );
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),

@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_locale.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -1376,7 +1377,7 @@ gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection
 gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path,
                         GtkTreeIter * iter, GtkTreeView * tree_view )
 {
-    struct lconv * conv = localeconv();
+    struct lconv *conv = gsb_locale_get_locale ( );
     gchar * code, * symbol, * country;
     gboolean good = FALSE, main_currency;
 
