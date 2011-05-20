@@ -1001,7 +1001,7 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
  * */
 gchar *gsb_real_get_decimal_point ( void )
 {
-    return g_strdup ( gsb_decimal_point );
+    return gsb_locale_get_mon_decimal_point ( );
 }
 
 
@@ -1015,6 +1015,7 @@ void gsb_real_set_decimal_point ( const gchar *decimal_point )
 {
     g_free ( gsb_decimal_point );
     gsb_decimal_point = g_strdup ( decimal_point );
+    gsb_locale_set_mon_decimal_point ( decimal_point );
 }
 
 
@@ -1026,7 +1027,7 @@ void gsb_real_set_decimal_point ( const gchar *decimal_point )
  * */
 gchar *gsb_real_get_thousands_sep ( void )
 {
-    return g_strdup ( gsb_thousands_sep );
+    return gsb_locale_get_mon_thousands_sep ( );
 }
 
 
@@ -1040,6 +1041,7 @@ void gsb_real_set_thousands_sep ( const gchar *thousands_sep )
 {
     g_free ( gsb_thousands_sep );
     gsb_thousands_sep = g_strdup ( thousands_sep );
+    gsb_locale_set_mon_thousands_sep ( thousands_sep );
 }
 
 
