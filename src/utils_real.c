@@ -103,3 +103,32 @@ gchar *gsb_real_get_string_with_currency ( gsb_real number,
 
     return gsb_real_raw_format_string ( number, locale, currency_symbol );
 }
+
+
+/**
+ * get a real number from a string
+ * the string can be formatted :
+ * - handle , or . as separator
+ * - spaces are ignored
+ * - another character makes a 0 return
+ *
+ *   there is no ask for any exponent, so the gsb_real will be exactly the
+ *   same as the string
+ *
+ * \param string
+ *
+ * \return the number in the string transformed to gsb_real
+ * */
+gsb_real gsb_real_get_from_string ( const gchar *string )
+{
+    gsb_real result;
+    gchar *thousands_sep = gsb_locale_get_mon_thousands_sep ( );
+    gchar *decimal_point = gsb_locale_get_mon_decimal_point ( );
+
+    result =  gsb_real_raw_get_from_string ( string, thousands_sep, decimal_point );
+
+    g_free ( decimal_point );
+    g_free ( thousands_sep );
+
+    return result;
+}

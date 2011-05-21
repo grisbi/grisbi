@@ -48,6 +48,7 @@
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "utils.h"
+#include "utils_real.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

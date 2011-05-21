@@ -38,6 +38,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

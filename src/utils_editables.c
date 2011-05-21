@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "utils_editables.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 

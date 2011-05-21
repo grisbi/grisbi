@@ -33,6 +33,7 @@
 #include "utils_dates.h"
 #include "gsb_data_currency.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "gsb_data_transaction.h"
 #include "import.h"
