@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:59+0200\n"
+"POT-Creation-Date: 2011-05-22 08:52+0200\n"
 "PO-Revision-Date: 2011-02-20 23:28+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -7200,8 +7200,8 @@ msgstr "Kreditkarte"
 msgid "Direct debit"
 msgstr "Barzahlung"
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2035
-#: ../src/gsb_data_transaction.c:2097
+#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
+#: ../src/gsb_data_transaction.c:2090
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Der Speicher kann nicht zugeteilt werden"
 

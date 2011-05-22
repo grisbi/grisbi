@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:59+0200\n"
+"POT-Creation-Date: 2011-05-22 08:52+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -7265,8 +7265,8 @@ msgstr "信用卡"
 msgid "Direct debit"
 msgstr "直接借记"
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2035
-#: ../src/gsb_data_transaction.c:2097
+#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
+#: ../src/gsb_data_transaction.c:2090
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "系统内存不足，请尽快关闭"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:59+0200\n"
+"POT-Creation-Date: 2011-05-22 08:52+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -7151,8 +7151,8 @@ msgstr "Kreditkort"
 msgid "Direct debit"
 msgstr ""
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2035
-#: ../src/gsb_data_transaction.c:2097
+#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
+#: ../src/gsb_data_transaction.c:2090
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr ""
 

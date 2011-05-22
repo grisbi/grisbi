@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:59+0200\n"
+"POT-Creation-Date: 2011-05-22 08:52+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -7287,8 +7287,8 @@ msgstr "Karta kredytowa"
 msgid "Direct debit"
 msgstr "Wypłata"
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2035
-#: ../src/gsb_data_transaction.c:2097
+#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
+#: ../src/gsb_data_transaction.c:2090
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Nie można przydzielić pamięci, zaraz przydarzy się coś niedobrego"
 

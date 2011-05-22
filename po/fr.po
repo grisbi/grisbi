@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-24 20:59+0200\n"
+"POT-Creation-Date: 2011-05-22 08:52+0200\n"
 "PO-Revision-Date: 2011-04-12 22:14+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -7214,8 +7214,8 @@ msgstr "Carte de crédit"
 msgid "Direct debit"
 msgstr "Prélèvement"
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2035
-#: ../src/gsb_data_transaction.c:2097
+#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
+#: ../src/gsb_data_transaction.c:2090
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "Erreur dans l'allocation de mémoire, ça va très mal se passer"
 
