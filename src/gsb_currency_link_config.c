@@ -547,7 +547,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     exchange_entry = g_object_get_data ( G_OBJECT (model),
 					 "exchange_entry" );
 
-    number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
+    number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
     if ( number.exponent > 8 )
         gtk_entry_set_max_length (GTK_ENTRY (exchange_entry),
                         strlen( gtk_entry_get_text ( GTK_ENTRY ( exchange_entry ) ) - 1) );

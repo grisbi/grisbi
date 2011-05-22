@@ -533,9 +533,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     account_number = gsb_gui_navigation_get_current_account ();
 
-    if ( gsb_real_sub ( gsb_real_add ( gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
+    if ( gsb_real_sub ( gsb_real_add ( utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
 				       gsb_data_account_calculate_waiting_marked_balance (account_number)),
-			gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry )))).mantissa != 0 )
+			utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry )))).mantissa != 0 )
     {
 	dialogue_warning_hint ( _("There is a variance in balances, check that both final balance and initial balance minus marked transactions are equal."),
 				_("Reconciliation can't be completed.") );
@@ -596,11 +596,11 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gsb_data_reconcile_set_init_date ( reconcile_number, date );
     g_free (date);
 
-    real = gsb_real_get_from_string ( gtk_entry_get_text (
+    real = utils_real_get_from_string ( gtk_entry_get_text (
                         GTK_ENTRY ( reconcile_initial_balance_entry ) ) );
     gsb_data_reconcile_set_init_balance ( reconcile_number, real );
 
-    real = gsb_real_get_from_string ( gtk_entry_get_text (
+    real = utils_real_get_from_string ( gtk_entry_get_text (
                         GTK_ENTRY ( reconcile_final_balance_entry ) ) );
     gsb_data_reconcile_set_final_balance ( reconcile_number,
 					   real );
@@ -808,9 +808,9 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 
     /* calculate the variation balance and show it */
     amount = gsb_real_sub ( gsb_real_add (
-                        gsb_real_get_from_string ( initial_balance ),
+                        utils_real_get_from_string ( initial_balance ),
 					    gsb_data_account_calculate_waiting_marked_balance ( account_number ) ),
-			            gsb_real_get_from_string ( final_balance ) );
+			            utils_real_get_from_string ( final_balance ) );
 
     tmpstr = utils_real_get_string_with_currency ( amount, currency_number, FALSE );
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);

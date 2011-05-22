@@ -416,7 +416,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             bet_historical_row_collapse_all ( GTK_TREE_VIEW ( tree_view ), &iter, model );
         }
 
-        number = gsb_real_get_from_string ( new_text );
+        number = utils_real_get_from_string ( new_text );
         currency_number = gsb_data_account_get_currency ( account_number );
         tmp_str = utils_real_get_string_with_currency ( number, currency_number, TRUE );
         str_amount = gsb_real_safe_real_to_string ( number,

@@ -131,7 +131,7 @@ GtkResponseType gsb_assistant_account_run ( void )
 	gsb_account_new ( GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (assistant), "account_kind")),
 			  gsb_currency_get_currency_from_combobox (account_combobox_currency),
 			  gsb_bank_list_get_bank_number (account_combobox_bank),
-			  gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
+			  utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (account_entry_initial_amount))),
 			  gtk_entry_get_text (GTK_ENTRY (account_entry_name)),
               new_icon );
         result = TRUE; /* assistant was not cancelled */

@@ -949,7 +949,7 @@ gdouble utils_str_strtod ( const gchar *str_number, gchar **endptr )
     if ( str_number == NULL )
         return 0.0;
 
-    real = gsb_real_get_from_string ( str_number );
+    real = utils_real_get_from_string ( str_number );
 
     number = gsb_real_real_to_double ( real );
 

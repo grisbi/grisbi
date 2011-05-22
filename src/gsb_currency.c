@@ -723,14 +723,14 @@ dialog_return:
         gint new_link_number;
         gint new_link_currency;
 
-        current_exchange = gsb_real_get_from_string (
+        current_exchange = utils_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) ) > 0
          ||
          strcmp ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ), "0" ) != 0 )
         {
-            current_exchange_fees = gsb_real_get_from_string (
+            current_exchange_fees = utils_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) );
         }
         else
@@ -1027,8 +1027,8 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 		else
         {
             gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), FALSE );
-            amount_1 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
-            amount_2 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
+            amount_1 = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
+            amount_2 = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
             taux = gsb_real_div ( amount_2, amount_1 );
             gtk_entry_set_text ( GTK_ENTRY ( entry ), utils_real_get_string ( taux ) );
         }

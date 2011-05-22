@@ -119,7 +119,7 @@ gchar *utils_real_get_string_with_currency ( gsb_real number,
  *
  * \return the number in the string transformed to gsb_real
  * */
-gsb_real gsb_real_get_from_string ( const gchar *string )
+gsb_real utils_real_get_from_string ( const gchar *string )
 {
     gsb_real result;
     gchar *thousands_sep = gsb_locale_get_mon_thousands_sep ( );

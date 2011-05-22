@@ -1156,7 +1156,7 @@ static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 
     number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
     default_func ( number_for_func,
-		   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
+		   utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
 
     /* Mark file as modified */
     gsb_file_set_modified ( TRUE );

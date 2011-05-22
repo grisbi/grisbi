@@ -428,7 +428,7 @@ gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar *
 
     if ( strlen ( string ) > 0 )
     {
-        ope -> montant = gsb_real_get_from_string ( string );
+        ope -> montant = utils_real_get_from_string ( string );
         return TRUE;
     }
 
@@ -445,7 +445,7 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
     if ( strlen ( string ) > 0 )
     {
 	ope -> montant = gsb_real_add ( ope -> montant,
-					gsb_real_get_from_string (string));
+					utils_real_get_from_string (string));
     }
     return TRUE;
 }
@@ -463,7 +463,7 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
     if ( strlen ( string ) > 0 )
     {
 	ope -> montant = gsb_real_sub ( ope -> montant,
-					gsb_real_get_from_string (string));
+					utils_real_get_from_string (string));
     }
     return TRUE;
 }

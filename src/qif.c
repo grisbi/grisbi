@@ -1132,7 +1132,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 gchar *new_str;
 
                 new_str = utils_str_localise_decimal_point_from_string ( string + 1 );
-                imported_transaction -> montant = gsb_real_get_from_string ( new_str );
+                imported_transaction -> montant = utils_real_get_from_string ( new_str );
 
                 g_free ( new_str );
             }
@@ -1210,7 +1210,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 gchar *new_str;
 
                 new_str = utils_str_localise_decimal_point_from_string ( string + 1 );
-                imported_splitted -> montant = gsb_real_get_from_string ( new_str );
+                imported_splitted -> montant = utils_real_get_from_string ( new_str );
 
                 g_free ( new_str );
             }
