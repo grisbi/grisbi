@@ -1,6 +1,10 @@
 #ifndef _UTILS_STR_H
 #define _UTILS_STR_H (1)
 
+#include <glib.h>
+#include <gmodule.h>
+
+
 #ifdef _WIN32
 #define NEW_LINE "\r\n"
 #else
