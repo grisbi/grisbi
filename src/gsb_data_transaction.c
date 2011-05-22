@@ -50,6 +50,7 @@
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -1548,25 +1549,17 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
-    return FALSE;
+        return FALSE;
 
-    /* we choose to set or not the transaction to the transactions_list
-     * if the archive_number of the transaction is 0 for now, it's already in that list,
+    /* if the archive_number of the transaction is 0 for now, it's already in that list,
      * so we mustn't add it,
-     * else, according to the new value, we remove it or append it */
-    if (transaction -> archive_number)
-    {
-    /* that transaction was an archive, so it's only in the complete_transactions_list */
-    if  (!archive_number)
-        /* the transaction was an archive, and we transform it as non archived transaction,
-         * so we add it into the transactions_list */
-        transactions_list = g_slist_append ( transactions_list, transaction );
-    }
-    else
+     * else, according to the new value, we remove it
+    */
+    if ( !transaction -> archive_number )
     {
         /* the transaction was not an archive, so it's into the 2 lists,
          * if we transform it as an archive, we remove it from the transactions_list */
-        if (archive_number)
+        if ( archive_number )
             transactions_list = g_slist_remove ( transactions_list, transaction );
     }
 
