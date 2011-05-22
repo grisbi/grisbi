@@ -43,6 +43,7 @@
 #include "gsb_data_currency_link.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"

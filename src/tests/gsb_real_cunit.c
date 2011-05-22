@@ -39,7 +39,7 @@
 #include "gsb_real_cunit.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
-#include "utils_str.h"
+#include "utils_real.h"
 /* END_INCLUDE */
 
 /* START_STATIC */

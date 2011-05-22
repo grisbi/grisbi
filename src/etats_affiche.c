@@ -46,6 +46,7 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "etats_config.h"

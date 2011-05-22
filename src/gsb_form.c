@@ -76,6 +76,7 @@
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
