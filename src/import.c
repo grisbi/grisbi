@@ -3284,7 +3284,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         0, FALSE,
                         1, gsb_format_gdate ( ope_import -> date ),
                         2, ope_import -> tiers,
-                        3, gsb_real_get_string_with_currency ( ope_import -> montant,
+                        3, utils_real_get_string_with_currency ( ope_import -> montant,
                         ope_import -> devise, TRUE ),
                         -1 );
 

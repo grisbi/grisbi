@@ -41,7 +41,7 @@ extern gsb_real error_real;
  * regarding decimal separator, thousands separator and positive or
  * negative sign.
  * this is directly the number coded in the real wich is returned
- * usually, gsb_real_get_string_with_currency is better to adapt the format
+ * usually, utils_real_get_string_with_currency is better to adapt the format
  * 	of the number to the currency format
  * 
  * \param number	Number to format.
@@ -69,7 +69,7 @@ gchar *utils_real_get_string ( gsb_real number )
  * \return		A newly allocated string of the number (this
  *			function will never return NULL)
  */
-gchar *gsb_real_get_string_with_currency ( gsb_real number,
+gchar *utils_real_get_string_with_currency ( gsb_real number,
                         gint currency_number,
                         gboolean show_symbol )
 {

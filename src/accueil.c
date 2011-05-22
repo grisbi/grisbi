@@ -855,7 +855,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     gtk_widget_show ( pLabel );
 
     /* Deuxième colonne : elle contient le solde pointé du compte */
-    tmpstr = gsb_real_get_string_with_currency (
+    tmpstr = utils_real_get_string_with_currency (
             gsb_data_account_get_marked_balance ( account_number ),
             gsb_data_account_get_currency (account_number), TRUE);
     pLabel = gtk_label_new ( tmpstr );
@@ -914,7 +914,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     gtk_widget_show ( pLabel );
 
     /* Troisième colonne : elle contient le solde courant du compte */
-    tmpstr = gsb_real_get_string_with_currency (
+    tmpstr = utils_real_get_string_with_currency (
             gsb_data_account_get_current_balance (account_number),
             gsb_data_account_get_currency (account_number), TRUE);
     pLabel = gtk_label_new ( tmpstr );
@@ -1108,7 +1108,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 	gtk_widget_show ( label );
 
 	/* Deuxième colonne : elle contient le solde total pointé des comptes */
-	tmpstr = gsb_real_get_string_with_currency (solde_global_pointe,
+	tmpstr = utils_real_get_string_with_currency (solde_global_pointe,
 								    currency_number, TRUE);
 	label = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
@@ -1117,7 +1117,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 	gtk_widget_show ( label );
 
 	/* Troisième colonne : elle contient le solde total courant des comptes */
-	tmpstr = gsb_real_get_string_with_currency (solde_global_courant, currency_number, TRUE);
+	tmpstr = utils_real_get_string_with_currency (solde_global_courant, currency_number, TRUE);
 	label = gtk_label_new ( tmpstr );
 	g_free ( tmpstr );
 	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
@@ -1327,7 +1327,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    /* label à droite */
 	    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
 	    {
-		gchar* tmpstr2 = gsb_real_get_string_with_currency (
+		gchar* tmpstr2 = utils_real_get_string_with_currency (
 			gsb_data_scheduled_get_amount (scheduled_number), currency_number, TRUE);
                 gchar* tmpstr = g_strdup_printf ( _("%s credited on %s"), tmpstr2,
 							  gsb_data_account_get_name (account_number));
@@ -1337,7 +1337,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    }
 	    else
 	    {
-		gchar* tmpstr2 = gsb_real_get_string_with_currency (gsb_real_abs (
+		gchar* tmpstr2 = utils_real_get_string_with_currency (gsb_real_abs (
 				  gsb_data_scheduled_get_amount (scheduled_number)), currency_number, TRUE);
 	        gchar* tmpstr = g_strdup_printf ( _("%s debited on %s"), tmpstr2,
 							  gsb_data_account_get_name (account_number));
@@ -1451,7 +1451,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 
 	    if ( gsb_data_transaction_get_amount (transaction_number).mantissa >= 0 )
 	    {
-		gchar* tmpstr2 = gsb_real_get_string_with_currency (
+		gchar* tmpstr2 = utils_real_get_string_with_currency (
 			gsb_data_transaction_get_amount (transaction_number), currency_number, TRUE);
 	        gchar* tmpstr = g_strdup_printf ( _("%s credited on %s"), tmpstr2 ,
 							  gsb_data_account_get_name (account_number));
@@ -1461,7 +1461,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    }
 	    else
 	    {
-		gchar* tmpstr2 = gsb_real_get_string_with_currency (gsb_real_abs (
+		gchar* tmpstr2 = utils_real_get_string_with_currency (gsb_real_abs (
 			gsb_data_transaction_get_amount (transaction_number)), currency_number, TRUE);
 	        gchar* tmpstr = g_strdup_printf ( _("%s debited on %s"),
 					  tmpstr2, gsb_data_account_get_name (account_number));
@@ -1912,7 +1912,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
     {
-	gchar* tmpstr2 = gsb_real_get_string_with_currency ( gsb_data_scheduled_get_amount (
+	gchar* tmpstr2 = utils_real_get_string_with_currency ( gsb_data_scheduled_get_amount (
 		scheduled_number), currency_number, TRUE );
         tmpstr = g_strdup_printf ( _("%s credited on %s"),
 				  tmpstr2,
@@ -1921,7 +1921,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     }
     else
     {
-	gchar* tmpstr2 = gsb_real_get_string_with_currency ( gsb_real_abs (
+	gchar* tmpstr2 = utils_real_get_string_with_currency ( gsb_real_abs (
 		gsb_data_scheduled_get_amount (scheduled_number)), currency_number, TRUE );
 	tmpstr = g_strdup_printf ( _("%s debited on %s"),
 				  tmpstr2,

@@ -1016,7 +1016,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		 (cell_content_number == ELEMENT_CREDIT
 		  &&
 		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
-		    return gsb_real_get_string_with_currency (
+		    return utils_real_get_string_with_currency (
                         gsb_real_abs ( gsb_data_transaction_get_amount ( transaction_number ) ),
 					    gsb_data_transaction_get_currency_number ( transaction_number ), TRUE );
 	    else

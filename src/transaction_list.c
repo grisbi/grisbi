@@ -157,9 +157,9 @@ void transaction_list_append_transaction ( gint transaction_number )
 	white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
-	amount_string = gsb_real_get_string_with_currency (null_real,
+	amount_string = utils_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
@@ -340,7 +340,7 @@ void transaction_list_append_archive ( gint archive_store_number )
     else
         amount_col = find_element_col (ELEMENT_CREDIT);
 
-    newrecord -> visible_col[amount_col] = gsb_real_get_string_with_currency (
+    newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
                         gsb_data_archive_store_get_balance (archive_store_number),
                         gsb_data_account_get_currency (
                         gsb_data_archive_store_get_account_number ( archive_store_number ) ),
@@ -959,7 +959,7 @@ void transaction_list_set_balances ( void )
 
         /* calculate the new balance */
         current_total = gsb_real_add ( current_total, amount );
-        record -> visible_col[column_balance] = gsb_real_get_string_with_currency ( current_total,
+        record -> visible_col[column_balance] = utils_real_get_string_with_currency ( current_total,
                                                  currency_number , TRUE);
         if (current_total.mantissa >= 0)
             record -> amount_color = NULL;
@@ -1051,9 +1051,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
-	amount_string = gsb_real_get_string_with_currency (null_real,
+	amount_string = utils_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
@@ -1957,9 +1957,9 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     variance = gsb_real_sub ( gsb_data_transaction_get_amount (transaction_number),
 			      total_split);
     /* update the white line */
-    amount_string = gsb_real_get_string_with_currency (total_split,
+    amount_string = utils_real_get_string_with_currency (total_split,
 						       gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-    variance_string = gsb_real_get_string_with_currency (variance,
+    variance_string = utils_real_get_string_with_currency (variance,
 							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 
     /* show the variance and sub-total only if different of the transaction */

@@ -793,13 +793,13 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 
     currency_number = gsb_data_account_get_currency ( account_number );
     amount = gsb_utils_edit_calculate_entry ( reconcile_final_balance_entry );
-    final_balance = gsb_real_get_string_with_currency ( amount, currency_number, FALSE );
+    final_balance = utils_real_get_string_with_currency ( amount, currency_number, FALSE );
     gtk_label_set_text ( GTK_LABEL ( reconcile_final_balance_label ), final_balance );
 
     /* set the marked balance amount,
      * this is what we mark as P while reconciling, so it's the total marked balance 
      * - the initial marked balance */
-    tmp_string = gsb_real_get_string_with_currency (
+    tmp_string = utils_real_get_string_with_currency (
                         gsb_data_account_calculate_waiting_marked_balance ( account_number ),
                         currency_number,
                         FALSE );
@@ -812,7 +812,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
 					    gsb_data_account_calculate_waiting_marked_balance ( account_number ) ),
 			            gsb_real_get_from_string ( final_balance ) );
 
-    tmpstr = gsb_real_get_string_with_currency ( amount, currency_number, FALSE );
+    tmpstr = utils_real_get_string_with_currency ( amount, currency_number, FALSE );
     gtk_label_set_text ( GTK_LABEL ( reconcile_variation_balance_label ), tmpstr);
     g_free ( tmpstr );
 

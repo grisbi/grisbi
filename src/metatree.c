@@ -354,7 +354,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	label = g_strdup_printf ( "%s (%d)", string_tmp, number_transactions);
 	g_free (string_tmp);
 	string_tmp = label;
-	balance = gsb_real_get_string_with_currency ( iface -> div_balance ( division ),
+	balance = utils_real_get_string_with_currency ( iface -> div_balance ( division ),
 						      iface -> tree_currency (), TRUE );
 
 	/* add a white child to show the arrow to open it */
@@ -437,7 +437,7 @@ void fill_sub_division_row ( GtkTreeModel *model,
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 
-	balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( division, sub_division ),
+	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, sub_division ),
 						      iface -> tree_currency (), TRUE );
     }
     
@@ -537,7 +537,7 @@ void fill_transaction_row ( GtkTreeModel *model,
 	g_free ( tmpstr );
     }
 
-    amount = gsb_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
+    amount = utils_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
 						 gsb_data_transaction_get_currency_number (transaction_number), TRUE );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
@@ -2326,7 +2326,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
 
 	if ( div_id ) 
 	{
-	    balance = gsb_real_get_string_with_currency ( iface -> div_balance ( div_id ),
+	    balance = utils_real_get_string_with_currency ( iface -> div_balance ( div_id ),
 							  iface -> tree_currency (), TRUE );
 	}
 
@@ -2337,7 +2337,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
 				 ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
 				   _(iface->no_sub_div_label) ), NULL );
             g_free ( tmpstr );
-	    balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
+	    balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
 							  iface -> tree_currency (), TRUE );
 	}
 
@@ -2532,7 +2532,7 @@ void fill_division_zero ( GtkTreeModel * model,
 	g_free (string_tmp);
 	string_tmp = label;
 
-	balance = gsb_real_get_string_with_currency ( iface -> div_balance ( 0 ),
+	balance = utils_real_get_string_with_currency ( iface -> div_balance ( 0 ),
 						      iface -> tree_currency (), TRUE );
 
 	/* add a white child to show the arrow to open it */
@@ -2610,7 +2610,7 @@ void fill_sub_division_zero ( GtkTreeModel * model,
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 
-	balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
+	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
 						      iface -> tree_currency (), TRUE );
     }
     

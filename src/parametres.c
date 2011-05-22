@@ -1493,7 +1493,7 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
                     FALSE );
@@ -1553,7 +1553,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
                     FALSE );

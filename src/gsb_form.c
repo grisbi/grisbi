@@ -701,7 +701,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEBIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
+		char_tmp = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 
@@ -715,7 +715,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_CREDIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
+		char_tmp = utils_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 

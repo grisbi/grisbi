@@ -2798,11 +2798,11 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 
 	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_data_account_get_current_balance (account_number),
                         gsb_data_account_get_currency (account_number), TRUE ));
 	else
-	    string = gsb_real_get_string_with_currency (
+	    string = utils_real_get_string_with_currency (
                         gsb_data_account_get_current_balance (account_number),
                         gsb_data_account_get_currency (account_number), TRUE );
     if ( !string )

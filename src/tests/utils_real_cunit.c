@@ -127,7 +127,7 @@ void utils_real_cunit__gsb_real_get_from_string ( void )
 }
 
 
-void utils_real_cunit__gsb_real_get_string_with_currency ( void )
+void utils_real_cunit__utils_real_get_string_with_currency ( void )
 {
     gchar *s;
     gsb_real n;
@@ -135,25 +135,25 @@ void utils_real_cunit__gsb_real_get_string_with_currency ( void )
 
     n.mantissa = 0;
     n.exponent = 0;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
+    s = utils_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL("0", s);
     g_free(s);
 
     n.mantissa = 31415;
     n.exponent = 100;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
+    s = utils_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
     g_free(s);
 
     n.mantissa = 31415;
     n.exponent = -1;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
+    s = utils_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
     g_free(s);
 
     n.mantissa = G_GINT64_CONSTANT(0x8000000000000000);
     n.exponent = 2;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
+    s = utils_real_get_string_with_currency ( n, currency_number, FALSE );
     CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
     g_free(s);
 }
@@ -168,7 +168,7 @@ CU_pSuite utils_real_cunit_create_suite ( void )
         return NULL;
 
     if ( ! CU_add_test( pSuite, "of gsb_real_get_from_string()",     utils_real_cunit__gsb_real_get_from_string )
-      || ! CU_add_test( pSuite, "of gsb_real_get_string_with_currency()", utils_real_cunit__gsb_real_get_string_with_currency )
+      || ! CU_add_test( pSuite, "of utils_real_get_string_with_currency()", utils_real_cunit__utils_real_get_string_with_currency )
        )
         return NULL;
 

@@ -1319,7 +1319,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
     if ( scheduled_number < 0 )
         line[COL_NB_AMOUNT] = NULL;
     else
-        line[COL_NB_AMOUNT] = gsb_real_get_string_with_currency (
+        line[COL_NB_AMOUNT] = utils_real_get_string_with_currency (
                         gsb_data_scheduled_get_amount ( scheduled_number ),
                         gsb_data_scheduled_get_currency_number ( scheduled_number ),
                         TRUE );
@@ -2727,8 +2727,8 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
         gint currency_number;
 
         currency_number = gsb_data_scheduled_get_currency_number ( mother_scheduled_number );
-        amount_string = gsb_real_get_string_with_currency ( total_split, currency_number, TRUE);
-        variance_string = gsb_real_get_string_with_currency (variance, currency_number, TRUE);
+        amount_string = utils_real_get_string_with_currency ( total_split, currency_number, TRUE);
+        variance_string = utils_real_get_string_with_currency (variance, currency_number, TRUE);
 
         tmp_str = g_strdup_printf ( _("Total : %s (variance : %s)"), amount_string, variance_string );
 
