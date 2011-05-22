@@ -381,7 +381,7 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
     else
 	invalid = NULL;
 
-    tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    tmpstr = utils_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_list_store_append ( GTK_LIST_STORE ( model ), iter_ptr );
     gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			 iter_ptr,
@@ -471,7 +471,7 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     g_signal_handlers_block_by_func ( G_OBJECT (exchange_entry),
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
 				      tree_view );
-    tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    tmpstr = utils_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_entry_set_text ( GTK_ENTRY (exchange_entry), tmpstr);
     g_free ( tmpstr );
     g_signal_handlers_unblock_by_func ( G_OBJECT (exchange_entry),
@@ -566,7 +566,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	invalid = NULL;
 
-    tmpstr = gsb_real_get_string ( gsb_data_currency_link_get_change_rate ( link_number ) );
+    tmpstr = utils_real_get_string ( gsb_data_currency_link_get_change_rate ( link_number ) );
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 &iter,
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),

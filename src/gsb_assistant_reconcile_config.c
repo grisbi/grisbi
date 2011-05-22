@@ -1073,7 +1073,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
 	    GtkTreeIter iter;
 
 	    date_str = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
-	    amount_str = gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number));
+	    amount_str = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
 
 	    gtk_list_store_append ( GTK_LIST_STORE (store),
 				    &iter );

@@ -798,7 +798,7 @@ gboolean qif_export ( const gchar *filename,
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le solde initial */
-		tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+		tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -853,7 +853,7 @@ gboolean qif_export ( const gchar *filename,
 
 
 		/* met le montant, transforme la devise si necessaire */
-		tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
+		tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -948,7 +948,7 @@ gboolean qif_export ( const gchar *filename,
 
 			    /* set the amount of the split child */
 
-			    tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
+			    tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,
 				      "$%s\n",
 				      tmpstr);
@@ -996,7 +996,7 @@ gboolean qif_export ( const gchar *filename,
 	/* there is no transaction in the account, so do the opening of the account, bug no date */
 	/* met le solde initial */
 
-	gchar* tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+	gchar* tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 	fprintf ( fichier_qif,
 		  "T%s\n",
 		  tmpstr);

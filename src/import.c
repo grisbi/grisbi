@@ -2354,7 +2354,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), ope_import -> bouton, FALSE, FALSE, 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    tmpstr2 = gsb_real_get_string (ope_import -> montant);
+	    tmpstr2 = utils_real_get_string (ope_import -> montant);
         if ( etat.get_fusion_import_transactions )
             tmpstr = g_strdup_printf ( _("Transactions to be merged : %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
@@ -2385,7 +2385,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 	    {
-            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+            tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
             tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (
@@ -2399,7 +2399,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    }
 	    else
 	    {
-            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+            tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
             tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (

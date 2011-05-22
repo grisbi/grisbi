@@ -1036,7 +1036,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
             gchar* tmpstr;
             gchar* result;
 
-            tmpstr = gsb_real_get_string (
+            tmpstr = utils_real_get_string (
                         gsb_data_transaction_get_adjusted_amount_for_currency (
                         transaction_number,
                         account_currency,

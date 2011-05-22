@@ -49,7 +49,7 @@ extern gsb_real error_real;
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
 */
-gchar *gsb_real_get_string ( gsb_real number )
+gchar *utils_real_get_string ( gsb_real number )
 {
     struct lconv *locale = gsb_locale_get_locale ();
 

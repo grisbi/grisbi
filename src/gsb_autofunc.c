@@ -1066,7 +1066,7 @@ GtkWidget *gsb_autofunc_real_new ( gsb_real real,
     /* first, create and fill the entry */
     entry = gtk_entry_new ();
 
-    string = gsb_real_get_string (real);
+    string = utils_real_get_string (real);
     gtk_entry_set_text ( GTK_ENTRY (entry), string );
     g_free (string);
 
@@ -1116,7 +1116,7 @@ void gsb_autofunc_real_set ( GtkWidget *entry,
 							     "changed-hook"));
 
     /* Fill in value */
-    string = gsb_real_get_string (real);
+    string = utils_real_get_string (real);
     gtk_entry_set_text ( GTK_ENTRY (entry), string );
     g_free (string);
 

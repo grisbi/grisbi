@@ -6941,7 +6941,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
         gsb_data_account_set_init_balance ( account_number, number );
     /* printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
                         number.mantissa, number.exponent,
-                        gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
+                        utils_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
 
     if (tmp_string) 
         g_free (tmp_string);

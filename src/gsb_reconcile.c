@@ -431,7 +431,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
                 g_date_free (today);
 
             /* it's not the first reconciliation, set the old balance and unsensitive the old balance entry */
-            tmpstr = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+            tmpstr = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
             gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ),
@@ -445,7 +445,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
             /* it's the first reconciliation, set the initial balance and make sensitive the old balance to change
              * it if necessary */
-            tmpstr = gsb_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
+            tmpstr = utils_real_get_string ( gsb_data_account_get_init_balance (account_number, -1));
             gtk_entry_set_text ( GTK_ENTRY ( reconcile_initial_balance_entry ), tmpstr);
             g_free ( tmpstr );
             gtk_widget_set_sensitive ( GTK_WIDGET ( reconcile_initial_balance_entry ), TRUE );

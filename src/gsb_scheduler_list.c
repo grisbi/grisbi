@@ -2014,7 +2014,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             result = delete_msg[msg_no].default_answer;
         else
         {
-	    tmpstr = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+	    tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
 	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
                         "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
                         gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
