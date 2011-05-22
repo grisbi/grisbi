@@ -4450,12 +4450,15 @@ gboolean gsb_transactions_list_delete_archived_transactions ( gint account_numbe
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
 
+	    tmp_list = tmp_list -> next;
+
 	    if ( gsb_data_transaction_get_account_number ( transaction_number ) == account_number
 		 &&
 		 gsb_data_transaction_get_archive_number ( transaction_number ) == archive_number )
+        {
+            gsb_data_transaction_remove_transaction_in_transaction_list ( transaction_number );
             transaction_list_remove_transaction ( transaction_number );
-
-	    tmp_list = tmp_list -> next;
+        }
 	}
 
     return FALSE;
