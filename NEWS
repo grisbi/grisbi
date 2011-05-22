@@ -1,3 +1,9 @@
+New in version 0.8.6
+- corrects a problem of calculating the balance after deletion of two archives
+- Simplification of the function of dates parsing : gsb_parse_date_string () fixes a systematic crash on Windows
+- Adds support for the variance for the planned transactions
+- fixes various bugs.
+
 New in version 0.8.5
 - Added cloning of scheduled operations
 - Fixed a bug of calculating balances with different currencies in the table estimates
