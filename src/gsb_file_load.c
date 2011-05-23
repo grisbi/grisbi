@@ -65,6 +65,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
+#include "gsb_locale.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
@@ -794,15 +795,15 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Decimal_point" ) )
     {
-        gsb_real_set_decimal_point ( attribute_values[i] );
+        gsb_locale_set_mon_decimal_point ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i], "Thousands_separator" ) )
     {
         if ( !strcmp ( attribute_values[i], "empty" ) )
-            gsb_real_set_thousands_sep ( NULL );
+            gsb_locale_set_mon_thousands_sep ( NULL );
         else
-            gsb_real_set_thousands_sep ( attribute_values[i] );
+            gsb_locale_set_mon_thousands_sep ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i],

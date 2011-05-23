@@ -46,6 +46,7 @@
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gsb_fyear.h"
+#include "gsb_locale.h"
 #include "gsb_payment_method.h"
 #include "gtk_combofix.h"
 #include "gsb_data_payment.h"
@@ -988,9 +989,9 @@ gboolean gsb_form_widget_get_valide_amout_entry ( const gchar *string )
      ( g_utf8_strchr ( ptr, -1, '*' ) && g_utf8_strchr ( ptr, -1, '-' ) ) )
         return FALSE;
 
-    mon_decimal_point = gsb_real_get_decimal_point ( );
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
     decimal_point = g_utf8_get_char_validated ( mon_decimal_point, -1 );
-    mon_thousands_sep = gsb_real_get_thousands_sep ( );
+    mon_thousands_sep = gsb_locale_get_mon_thousands_sep ( );
     if ( mon_thousands_sep )
         thousands_sep = g_utf8_get_char_validated ( mon_thousands_sep, -1 );
 
@@ -1214,8 +1215,8 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
         return TRUE;
     }
 
-    mon_decimal_point = gsb_real_get_decimal_point ( );
-    if ( g_strrstr ( text, gsb_real_get_decimal_point ( ) ) == NULL )
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
+    if ( g_strrstr ( text, gsb_locale_get_mon_decimal_point ( ) ) == NULL )
         tmp_str = g_strconcat ( text, mon_decimal_point, NULL );
     else
         tmp_str= g_strdup ( text );

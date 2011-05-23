@@ -41,14 +41,12 @@
 #include <assert.h>
 
 /*START_INCLUDE*/
+#include "gsb_locale.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
 gsb_real null_real = { 0 , 0 };
 gsb_real error_real = { G_MININT64, 0 };
-
-static gchar *gsb_thousands_sep;
-static gchar *gsb_decimal_point;
 
 glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
@@ -85,9 +83,9 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 */
 gchar *gsb_real_get_string ( gsb_real number )
 {
-    struct lconv *conv = localeconv ();
+    struct lconv *locale = gsb_locale_get_locale ();
 
-    return gsb_real_raw_format_string ( number, conv, FALSE );
+    return gsb_real_raw_format_string ( number, locale, NULL );
 }
 
 
@@ -97,14 +95,14 @@ gchar *gsb_real_get_string ( gsb_real number )
  * thousands separator and positive or negative sign.
  * 
  * \param number		    Number to format.
- * \param conv      		the locale obtained with localeconv(), or built manually
+ * \param locale      		the locale obtained with localeconv(), or built manually
  * \param currency_symbol 	the currency symbol
  *
  * \return		A newly allocated string of the number (this
  *			function will never return NULL) 
  */
 gchar *gsb_real_raw_format_string (gsb_real number,
-                        struct lconv *conv,
+                        struct lconv *locale,
                         const gchar *currency_symbol )
 {
     gchar buffer[G_ASCII_DTOSTR_BUF_SIZE];
@@ -119,12 +117,12 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     gint nbre_char;
 	lldiv_t units;
 /*printf ("currency_symbol = %s\n", currency_symbol);*/
-    cs_start = (currency_symbol && conv->p_cs_precedes) ? currency_symbol : "";
-    cs_start_space = (currency_symbol && conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    sign = (number.mantissa < 0) ? conv->negative_sign : conv->positive_sign;
-    mon_decimal_point = gsb_decimal_point;
-    cs_end_space = (currency_symbol && !conv->p_cs_precedes && conv->p_sep_by_space) ? " " : "";
-    cs_end = (currency_symbol && !conv->p_cs_precedes) ? currency_symbol : "";
+    cs_start = (currency_symbol && locale->p_cs_precedes) ? currency_symbol : "";
+    cs_start_space = (currency_symbol && locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
+    sign = (number.mantissa < 0) ? locale->negative_sign : locale->positive_sign;
+    mon_decimal_point = locale->mon_decimal_point && *locale->mon_decimal_point ? locale->mon_decimal_point : "";
+    cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
+    cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
     
     units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
 
@@ -134,7 +132,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 
     if ( units.quot >= 1000 )
     {
-        temp = gsb_real_add_thousands_sep ( temp, gsb_thousands_sep );
+        temp = gsb_real_add_thousands_sep ( temp, locale->mon_thousands_sep );
     }
 
     g_snprintf ( format, sizeof ( format ), "%s%d%s",
@@ -175,8 +173,13 @@ gchar *gsb_real_raw_format_string (gsb_real number,
 gsb_real gsb_real_get_from_string ( const gchar *string )
 {
     gsb_real result;
+    gchar *thousands_sep = gsb_locale_get_mon_thousands_sep ( );
+    gchar *decimal_point = gsb_locale_get_mon_decimal_point ( );
 
-    result =  gsb_real_raw_get_from_string ( string, gsb_thousands_sep, gsb_decimal_point );
+    result =  gsb_real_raw_get_from_string ( string, thousands_sep, decimal_point );
+
+    g_free ( decimal_point );
+    g_free ( thousands_sep );
 
     return result;
 }
@@ -992,67 +995,6 @@ gchar *gsb_real_add_thousands_sep ( gchar *str_number, const gchar *thousands_se
 }
 
 
-/**
- *
- * The returned string should be freed with g_free() when no longer needed.
- *
- *
- * */
-gchar *gsb_real_get_decimal_point ( void )
-{
-    return g_strdup ( gsb_decimal_point );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_real_set_decimal_point ( const gchar *decimal_point )
-{
-    if ( gsb_decimal_point && strlen ( gsb_decimal_point ) )
-        g_free ( gsb_decimal_point );
-
-    if ( decimal_point == NULL )
-        gsb_decimal_point = NULL;
-    else
-		gsb_decimal_point = g_strdup ( decimal_point );
-}
-
-
-/**
- *
- * The returned string should be freed with g_free() when no longer needed.
- *
- *
- * */
-gchar *gsb_real_get_thousands_sep ( void )
-{
-    return g_strdup ( gsb_thousands_sep );
-}
-
-
-/**
- *
- *
- *
- *
- * */
-void gsb_real_set_thousands_sep ( const gchar *thousands_sep )
-{
-    if ( gsb_thousands_sep && strlen ( gsb_thousands_sep ) )
-        g_free ( gsb_thousands_sep );
-
-    if ( thousands_sep == NULL )
-        gsb_thousands_sep = NULL;
-    else
-        gsb_thousands_sep = g_strdup ( thousands_sep );
-}
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
-

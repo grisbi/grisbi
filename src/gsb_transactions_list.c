@@ -92,7 +92,7 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
                         gint *no_column );
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
-                        gint selected_reconcile_number );
+                        gint transaction_number );
 static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
                         gpointer null );
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
@@ -1185,6 +1185,9 @@ gfloat gsb_transactions_list_get_row_align ( void )
     if (!path)
 	return 0;
 
+    if ( !GDK_IS_DRAWABLE ( gtk_tree_view_get_bin_window ( tree_view ) ) )
+        return 0;
+
     gdk_drawable_get_size ( GDK_DRAWABLE (gtk_tree_view_get_bin_window (tree_view)),
 			    NULL, &height_win);
     gtk_tree_view_get_background_area (tree_view, path, NULL, &back_rect);
@@ -1922,8 +1925,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	 * associate the transaction with a reconcile */
 	gint reconcile_number;
 
-	reconcile_number = gsb_transactions_list_choose_reconcile ( account_number,
-						gsb_data_transaction_get_reconcile_number (transaction_number));
+	reconcile_number = gsb_transactions_list_choose_reconcile ( account_number,transaction_number );
 	if (!reconcile_number)
 	    return FALSE;
 
@@ -1989,12 +1991,12 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
  * to choose one
  *
  * \param account_number
- * \param selected_reconcile_number if not null, we will select that reconcile in the list
+ * \param transaction_number, we will select that reconcile in the list
  *
  * \return the number of the chosen reconcile or 0 if cancel
  * */
 gint gsb_transactions_list_choose_reconcile ( gint account_number,
-                        gint selected_reconcile_number )
+                        gint transaction_number )
 {
     GtkWidget *dialog;
     GtkWidget *tree_view;
@@ -2094,35 +2096,65 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 
     /* fill the list */
     tmp_list = gsb_data_reconcile_get_reconcile_list ();
+
     while (tmp_list)
     {
-	reconcile_number = gsb_data_reconcile_get_no_reconcile (tmp_list -> data);
+        reconcile_number = gsb_data_reconcile_get_no_reconcile ( tmp_list -> data );
 
-	if (gsb_data_reconcile_get_account (reconcile_number) == account_number)
-	{
-	    gchar *init_date, *final_date;
+        if ( gsb_data_reconcile_get_account ( reconcile_number ) == account_number )
+        {
+            GtkTreePath *path;
+            gchar *init_date, *final_date;
+            gint tmp_reconcile_number;
 
-	    init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
-	    final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
+            init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date ( reconcile_number ) );
+            final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date ( reconcile_number) );
 
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( GTK_LIST_STORE (store),
-				 &iter,
-				 RECONCILE_CHOOSE_NAME, gsb_data_reconcile_get_name (reconcile_number),
-				 RECONCILE_CHOOSE_INIT_DATE, init_date,
-				 RECONCILE_CHOOSE_FINAL_DATE, final_date,
-				 RECONCILE_NUMBER, reconcile_number,
-				 -1 );
-	    g_free (init_date);
-	    g_free (final_date);
+            gtk_list_store_append ( GTK_LIST_STORE (store), &iter );
+            gtk_list_store_set ( GTK_LIST_STORE (store),
+                        &iter,
+                        RECONCILE_CHOOSE_NAME, gsb_data_reconcile_get_name (reconcile_number),
+                        RECONCILE_CHOOSE_INIT_DATE, init_date,
+                        RECONCILE_CHOOSE_FINAL_DATE, final_date,
+                        RECONCILE_NUMBER, reconcile_number,
+                        -1 );
 
-	    /* if we are on the reconcile to select, do it here */
-	    if (selected_reconcile_number == reconcile_number)
-		gtk_tree_selection_select_iter ( selection,
-						 &iter );
-	}
-	tmp_list = tmp_list -> next;
+            /* select the reconcile here */
+            tmp_reconcile_number = gsb_data_transaction_get_reconcile_number ( transaction_number );
+            if ( tmp_reconcile_number == 0 )
+            {
+                GDate *date_debut;
+                GDate *date_fin;
+                const GDate *date;
+                
+                date_debut = gsb_parse_date_string ( init_date );
+                date_fin = gsb_parse_date_string ( final_date );
+                date = gsb_data_transaction_get_date ( transaction_number );
+                if ( g_date_compare ( date, date_debut ) >= 0
+                 &&
+                 g_date_compare ( date, date_fin ) <= 0 )
+                {
+                    path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( store ), &iter );
+                    gtk_tree_selection_select_iter ( selection, &iter );
+                    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, FALSE, 0.0, 0.0 );
+
+                    gtk_tree_path_free ( path );
+                }
+                g_date_free ( date_debut );
+                g_date_free ( date_fin );
+            }
+            else if ( tmp_reconcile_number == reconcile_number )
+            {
+                path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( store ), &iter );
+                gtk_tree_selection_select_iter ( selection, &iter );
+                gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, FALSE, 0.0, 0.0 );
+            }
+
+            g_free ( init_date );
+            g_free ( final_date );
+
+        }
+        tmp_list = tmp_list -> next;
     }
 
     /* run the dialog */
@@ -4418,12 +4450,15 @@ gboolean gsb_transactions_list_delete_archived_transactions ( gint account_numbe
 
         transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
 
+	    tmp_list = tmp_list -> next;
+
 	    if ( gsb_data_transaction_get_account_number ( transaction_number ) == account_number
 		 &&
 		 gsb_data_transaction_get_archive_number ( transaction_number ) == archive_number )
+        {
+            gsb_data_transaction_remove_transaction_in_transaction_list ( transaction_number );
             transaction_list_remove_transaction ( transaction_number );
-
-	    tmp_list = tmp_list -> next;
+        }
 	}
 
     return FALSE;

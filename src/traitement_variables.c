@@ -65,6 +65,7 @@
 #include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_report.h"
 #include "gsb_scheduler_list.h"
@@ -821,22 +822,22 @@ void initialise_number_separators ( void )
     struct lconv *conv;
     gchar *dec_point = NULL, *thousand_sep = NULL;
 
-    gsb_real_set_decimal_point ( NULL );
-    gsb_real_set_thousands_sep ( NULL );
+    gsb_locale_set_mon_decimal_point ( NULL );
+    gsb_locale_set_mon_thousands_sep ( NULL );
 
     conv = localeconv();
 
     if ( conv->mon_decimal_point && strlen ( conv->mon_decimal_point ) )
     {
         dec_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-        gsb_real_set_decimal_point ( dec_point );
+        gsb_locale_set_mon_decimal_point ( dec_point );
         g_free ( dec_point );
     }
     else
-        gsb_real_set_decimal_point ( "." );
+        gsb_locale_set_mon_decimal_point ( "." );
 
     thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    gsb_real_set_thousands_sep ( thousand_sep );
+    gsb_locale_set_mon_thousands_sep ( thousand_sep );
     g_free ( thousand_sep );
 }
 

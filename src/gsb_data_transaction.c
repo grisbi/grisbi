@@ -50,6 +50,7 @@
 #include "gsb_real.h"
 #include "utils_str.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -193,10 +194,9 @@ gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number )
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
-	return FALSE;
+	    return FALSE;
+    transactions_list = g_slist_append ( transactions_list, transaction );
 
-    transactions_list = g_slist_append ( transactions_list,
-					 transaction );
     return TRUE;
 }
 
@@ -1548,25 +1548,17 @@ gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
 
     if ( !transaction )
-    return FALSE;
+        return FALSE;
 
-    /* we choose to set or not the transaction to the transactions_list
-     * if the archive_number of the transaction is 0 for now, it's already in that list,
+    /* if the archive_number of the transaction is 0 for now, it's already in that list,
      * so we mustn't add it,
-     * else, according to the new value, we remove it or append it */
-    if (transaction -> archive_number)
-    {
-    /* that transaction was an archive, so it's only in the complete_transactions_list */
-    if  (!archive_number)
-        /* the transaction was an archive, and we transform it as non archived transaction,
-         * so we add it into the transactions_list */
-        transactions_list = g_slist_append ( transactions_list, transaction );
-    }
-    else
+     * else, according to the new value, we remove it
+    */
+    if ( !transaction -> archive_number )
     {
         /* the transaction was not an archive, so it's into the 2 lists,
          * if we transform it as an archive, we remove it from the transactions_list */
-        if (archive_number)
+        if ( archive_number )
             transactions_list = g_slist_remove ( transactions_list, transaction );
     }
 
@@ -2723,6 +2715,30 @@ gint gsb_data_transaction_get_currency_floating_point ( gint transaction_number 
         floating_point = gsb_data_currency_get_floating_point ( transaction -> currency_number );
         return floating_point;
     }
+}
+
+
+/**
+ * remove the transaction from the transaction's list
+ * not in complete_transaction_list
+ *
+ * \param transaction_number
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_transaction_remove_transaction_in_transaction_list ( gint transaction_number )
+{
+    struct_transaction *transaction;
+
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number );
+
+    if ( !transaction )
+        return FALSE;
+
+    /* delete the transaction from the lists */
+    transactions_list = g_slist_remove ( transactions_list, transaction );
+
+    return TRUE;
 }
 
 

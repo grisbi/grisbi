@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_locale.h"
 #include "main.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -1376,7 +1377,7 @@ gboolean gsb_currency_config_select_currency_popup ( GtkTreeSelection *selection
 gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTreePath * path,
                         GtkTreeIter * iter, GtkTreeView * tree_view )
 {
-    struct lconv * conv = localeconv();
+    struct lconv *locale = gsb_locale_get_locale ( );
     gchar * code, * symbol, * country;
     gboolean good = FALSE, main_currency;
 
@@ -1385,9 +1386,9 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
 			 COUNTRY_NAME_COLUMN, &country,
 			 CURRENCY_MAIN_CURRENCY_COLUMN, &main_currency,
 			 -1 );
-    if ( conv && conv -> int_curr_symbol && strlen ( conv -> int_curr_symbol ) )
+    if ( locale && locale -> int_curr_symbol && strlen ( locale -> int_curr_symbol ) )
     {
-	symbol = g_strdup ( conv -> int_curr_symbol );
+	symbol = g_strdup ( locale -> int_curr_symbol );
 	g_strstrip ( symbol );
 	/* When matching, weed out currencies that are not "main"
 	 * currency, that is for example, do not match USD on Panama
@@ -1411,7 +1412,7 @@ gboolean gsb_currency_config_select_default ( GtkTreeModel * tree_model, GtkTree
     if ( good )
     {
         gchar* tmpstr = g_strdup_printf ( "found '%s'",
-					conv -> int_curr_symbol );
+					locale -> int_curr_symbol );
 	devel_debug ( tmpstr );
 	g_free ( tmpstr );
 	gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( tree_view ), path );

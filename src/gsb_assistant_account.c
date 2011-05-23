@@ -44,6 +44,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_currency.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "utils.h"
@@ -224,7 +225,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     GtkWidget *page, *label, *button, *table;
     GtkWidget *align;
     GtkWidget *image;
-    struct lconv * conv = localeconv();
+    struct lconv *locale = gsb_locale_get_locale ( );
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
@@ -250,7 +251,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
      * this would confuse US folks while rest of the world is used to
      * configure stuff to their locale.  */
     if ( ! gsb_data_currency_get_default_currency () &&
-	 ! gsb_currency_config_create_currency_from_iso4217list ( conv -> int_curr_symbol ) )
+	 ! gsb_currency_config_create_currency_from_iso4217list ( locale -> int_curr_symbol ) )
     {
 	gsb_currency_config_create_currency_from_iso4217list ( "USD" );
     }
@@ -284,15 +285,15 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
     
-    account_combobox_bank = gsb_bank_create_combobox (0, NULL, NULL, NULL, 0);
+    account_combobox_bank = gsb_bank_create_combobox (0 );
 
     if ( gsb_data_bank_max_number() != 0 )
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 1, 0 );
+	gsb_bank_list_set_bank ( account_combobox_bank, 1 );
     }
     else
     {
-	gsb_bank_list_set_bank ( account_combobox_bank, 0, 0 );
+	gsb_bank_list_set_bank ( account_combobox_bank, 0 );
     }
     gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
 		       1, 2, 1, 2,

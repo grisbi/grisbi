@@ -60,6 +60,7 @@
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
+#include "gsb_locale.h"
 #include "navigation.h"
 #include "menu.h"
 #include "tiers_onglet.h"
@@ -1836,7 +1837,7 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     account_number = gsb_form_get_account_number ();
     floating_point = gsb_data_currency_get_floating_point (gsb_data_account_get_currency (account_number));
 
-    mon_decimal_point = gsb_real_get_decimal_point ( );
+    mon_decimal_point = gsb_locale_get_mon_decimal_point ( );
     decimal_point = g_utf8_get_char_validated ( mon_decimal_point, -1 );
 
     if ( g_utf8_strchr (string, -1, decimal_point ) )

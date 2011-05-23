@@ -1041,8 +1041,8 @@ void metatree_remove_transaction ( GtkTreeView * tree_view,
  * \return FALSE
  *
  */
-gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
-                        GtkTreePath * tree_path, gpointer user_data ) 
+gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
+                        GtkTreePath * tree_path, gpointer user_data )
 {
     GtkTreeModel * model;
     GtkTreeIter child_iter;
@@ -1130,15 +1130,16 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
     {
 	gint transaction_number;
 	
-	gtk_tree_model_get( model, &iter, 
+	gtk_tree_model_get( model, &iter,
 			    META_TREE_NO_DIV_COLUMN, &no_division,
 			    META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
-			    META_TREE_POINTER_COLUMN, &transaction_number, 
+			    META_TREE_POINTER_COLUMN, &transaction_number,
 			    -1);
 
 	/* We do not jump to a transaction if a division is specified */
 	if ( transaction_number && !no_division && !no_sub_division )
 	{
+        GtkTreePath *path;
         gint account_number;
         gint archive_number;
 
@@ -1161,9 +1162,14 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    navigation_change_account ( GINT_TO_POINTER ( account_number ) );
 	    gsb_account_property_fill_page ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
-	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
-					       gsb_data_transaction_get_account_number (transaction_number), 
+	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
+					       gsb_data_transaction_get_account_number (transaction_number),
 					       NULL );
+
+        /* move selected iter */
+        path = gtk_tree_model_get_path ( model, &iter );
+        gtk_tree_view_scroll_to_cell ( treeview, path, NULL, FALSE, 0.0, 0.0 );
+        gtk_tree_path_free ( path );
 
 	    transaction_list_select ( transaction_number );
 	}
@@ -2752,7 +2758,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
                         GTK_BUTTONS_OK_CANCEL,
                         make_hint ( tmp_str_1 , tmp_str_2 ) );
 
-    gtk_widget_set_size_request ( dialog, 450, -1 );
+    gtk_widget_set_size_request ( dialog, -1, -1 );
 
     g_free ( tmp_str_1 );
     g_free ( tmp_str_2 );

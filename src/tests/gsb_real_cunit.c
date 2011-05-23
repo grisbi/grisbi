@@ -37,6 +37,7 @@
 
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
+#include "gsb_locale.h"
 #include "gsb_real.h"
 #include "utils_str.h"
 /* END_INCLUDE */
@@ -88,6 +89,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
         result = setlocale(LC_MONETARY, "C");
         if (result != NULL)
         {
+            gsb_locale_init();
+
             gsb_real val = gsb_real_get_from_string("123.45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
@@ -95,6 +98,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
             val = gsb_real_get_from_string("21000000");
             CU_ASSERT_EQUAL(21000000, val.mantissa);
             CU_ASSERT_EQUAL(0, val.exponent);
+
+            gsb_locale_shutdown();
         }
 
         /* French test */
@@ -105,6 +110,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
             result = setlocale(LC_MONETARY, "fr_FR");
         if (result != NULL)
         {
+            gsb_locale_init();
+
             gsb_real val = gsb_real_get_from_string("123,45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
@@ -112,6 +119,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
             val = gsb_real_get_from_string("21000000");
             CU_ASSERT_EQUAL(21000000, val.mantissa);
             CU_ASSERT_EQUAL(0, val.exponent);
+
+            gsb_locale_shutdown();
         }
 
         /* English test */
@@ -124,6 +133,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
             result = setlocale(LC_MONETARY, "en_GB");
         if (result != NULL)
         {
+            gsb_locale_init();
+
             gsb_real val = gsb_real_get_from_string("123.45");
             CU_ASSERT_EQUAL(12345, val.mantissa);
             CU_ASSERT_EQUAL(2, val.exponent);
@@ -131,6 +142,8 @@ void gsb_real_cunit__gsb_real_get_from_string ( void )
             val = gsb_real_get_from_string("21 000 000");
             CU_ASSERT_EQUAL(21000000, val.mantissa);
             CU_ASSERT_EQUAL(0, val.exponent);
+
+            gsb_locale_shutdown();
         }
 
         /* Restore current locale and free memory */
