@@ -241,7 +241,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         /* the file doesn't exist, so we will set the only user chmod */
         do_chmod = TRUE;
 
-    etat.en_train_de_sauvegarder = 1;
+    run.is_saving = TRUE;
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -486,7 +486,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 #endif /*_MSC_VER */
     }
 
-    etat.en_train_de_sauvegarder = 0;
+    run.is_saving = FALSE;
 
     return ( TRUE );
 }

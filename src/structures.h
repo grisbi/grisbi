@@ -46,8 +46,6 @@ struct gsb_etat_t
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
-    gint en_train_de_sauvegarder;
-    gint en_train_de_charger;
 
     /* Fonts & logo */
     gint utilise_logo;
@@ -203,6 +201,9 @@ struct gsb_run_t
 
     /* initialisation variables */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
+
+    gboolean is_saving;
+    gboolean is_loading;
 
     /* largeur des colonnes */
     gchar *transaction_column_width;

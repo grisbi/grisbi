@@ -85,19 +85,19 @@ void traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( etat.en_train_de_charger || 
-	 etat.en_train_de_sauvegarder || 
+    if ( run.is_loading || 
+	 run.is_saving || 
 	 etat.modification_fichier == 0 )
     {
 
-	if ( etat.en_train_de_charger )
+	if ( run.is_loading )
 	{
 	    old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
 	    g_free ( old_errmsg );
 	}
 
-	if ( etat.en_train_de_sauvegarder )
+	if ( run.is_saving )
 	{
 	    old_errmsg = errmsg;
 	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
