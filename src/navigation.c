@@ -1996,7 +1996,7 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
             gsb_gui_navigation_context_menu ( tree_view, path );
             gtk_tree_path_free ( path );
 
-            while ( g_main_context_iteration ( NULL, FALSE ) );
+            update_gui ( );
 
             return FALSE;
         }

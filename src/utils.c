@@ -451,8 +451,7 @@ gboolean assert_account_loaded ()
  */
 void update_gui ( void )
 {
-    while ( gtk_events_pending ( ) )
-        gtk_main_iteration ( );
+    while ( g_main_context_iteration ( NULL, FALSE ) );
 }
 
 
