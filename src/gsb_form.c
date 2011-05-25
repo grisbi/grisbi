@@ -2585,7 +2585,7 @@ gboolean gsb_form_finish_edition ( void )
      * the amount of marked transactions */
     if ( is_transaction
 	 &&
-	 etat.equilibrage )
+	 run.equilibrage )
     {
         if (new_transaction)
             /* we are reconciling and it's a new transaction, so need to show the checkbox */

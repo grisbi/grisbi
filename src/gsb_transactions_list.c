@@ -540,7 +540,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_r ( current_account ) );
-    if ( etat.equilibrage == 1 )
+    if ( run.equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -554,7 +554,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_l ( current_account ) );
-    if ( etat.equilibrage == 1 )
+    if ( run.equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -1513,7 +1513,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	 &&
 	 column == find_element_col (ELEMENT_MARK)
 	 &&
-	 (( etat.equilibrage
+	 (( run.equilibrage
 	    &&
 	    line_in_transaction == find_element_line (ELEMENT_MARK))
 	  ||
@@ -1614,7 +1614,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         transaction_number = gsb_data_account_get_current_transaction_number ( account_number );
         if ( transaction_number > 0 )
         {
-        if ( etat.equilibrage )
+        if ( run.equilibrage )
         {
             /* we are reconciling, so mark/unmark the transaction */
             gsb_transactions_list_switch_mark ( transaction_number );
@@ -1815,7 +1815,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     }
 
     /* if we are reconciling, update the amounts label */
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
     {
     /* pbiava 02/12/2009 : shows the balance after you mark the transaction */
     transaction_list_set_balances (  );
@@ -1864,7 +1864,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	return FALSE;
 
     /* if we are reconciling, cancel the action */
-    if (etat.equilibrage)
+    if (run.equilibrage)
     {
         dialogue_error ( _("You cannot switch a transaction between R and non R "
                          "while reconciling.\nPlease finish or cancel the "
@@ -2301,7 +2301,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
     /* if we are reconciling, update the amounts */
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
 	gsb_reconcile_update_amounts (NULL, NULL);
 
     /* we will update the home page */
@@ -2899,7 +2899,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
             list_tmp_transactions = list_tmp_transactions -> next;
         }
     }
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
         transaction_list_show_toggle_mark ( TRUE );
 
     return new_transaction_number;
@@ -3058,7 +3058,7 @@ void schedule_selected_transaction ()
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    if ( etat.equilibrage == 0 )
+    if ( run.equilibrage == 0 )
     {
         gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
         gsb_scheduler_list_select (scheduled_number);

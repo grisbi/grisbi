@@ -34,13 +34,6 @@ struct gsb_etat_t
     time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
 
-    /* Rapprochement */
-    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
-    gint equilibrage;
-    gint reconcile_account_number;  /* Save the last reconciliation try: account */
-    gchar *reconcile_final_balance; /* final balance amount */
-    GDate *reconcile_new_date;      /* new date */
-
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
     /* files and backup part */
@@ -215,6 +208,12 @@ struct gsb_run_t
     gchar *transaction_column_width;
     gchar *scheduler_column_width;
 
+    /* reconciliation */
+    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
+    gint equilibrage;
+    gint reconcile_account_number;  /* Save the last reconciliation try: account */
+    gchar *reconcile_final_balance; /*                                   final balance amount */
+    GDate *reconcile_new_date;      /*                                   new date */
 };
 
 /* declared in main.c */

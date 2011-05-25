@@ -383,13 +383,12 @@ void init_variables ( void )
     gsb_select_icon_init_logo_variables ();
 
     /* reconcile (etat) */
-    etat.reconcile_account_number = -1;
-    if ( etat.reconcile_final_balance )
-        g_free ( etat.reconcile_final_balance );
-    etat.reconcile_final_balance = NULL;
-    if ( etat.reconcile_new_date )
-        g_date_free ( etat.reconcile_new_date );
-    etat.reconcile_new_date = NULL;
+    run.reconcile_account_number = -1;
+    g_free ( run.reconcile_final_balance );
+    if ( run.reconcile_new_date )
+        g_date_free ( run.reconcile_new_date );
+    run.reconcile_final_balance = NULL;
+    run.reconcile_new_date = NULL;
 
     adresse_commune = NULL;
     adresse_secondaire = NULL;
