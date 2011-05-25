@@ -5,7 +5,8 @@
 ::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/
 ::    Specify the BUNDLE file
 ::    Don't include the extension
-SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.22.1-20101227_win32
+SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
+SET ZLIB_DEV_FILE_BASENAME%=zlib_1.2.5-2_win32
 SET LIBXML_FILE_BASENAME=libxml2-2.7.7.win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
 SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0d
@@ -83,11 +84,13 @@ echo openssl ok
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.7/libofx_mingw.zip/download
 cd "%TARGET_DIR%"
-unzip -uo "%DOWNLOADS_DIR%\libofx_Win32.zip" -d plugins-dev
+unzip -uo "%DOWNLOADS_DIR%\libofx_mingw.zip" -d plugins-dev
 echo ofx ok
 
 cd "%DOWNLOADS_DIR%"
-chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.22/%GTK_DEV_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/%ZLIB_DEV_FILE_BASENAME%.zip
+
 :: Checking if already unzipped
 :: If the readme file exists for this version, update the unzip
 cd "%TARGET_DIR%"
@@ -95,6 +98,7 @@ IF NOT EXIST gtk-dev (
 	echo GTK+ development files not present.
 	echo Unzipping the archive now...
 	unzip "%DOWNLOADS_DIR%\%GTK_DEV_FILE_BASENAME%" -d gtk-dev
+	unzip -uo "%DOWNLOADS_DIR%\%ZLIB_DEV_FILE_BASENAME%" -d gtk-dev
 	echo Done unzipping archive!
 )
 IF EXIST gtk-dev\%GTK_DEV_FILE_BASENAME%.README.txt (
