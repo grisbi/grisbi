@@ -2853,7 +2853,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
          * if it's not used before, else we show an warning message */
         if ( gsb_data_transaction_check_content_payment ( payment_number, imported_transaction -> cheque ) )
         {
-        gchar* tmpstr = g_strdup_printf ( _("Warning : the cheque number %s is already used.\nWe skip it"),
+        tmpstr = g_strdup_printf ( _("Warning : the cheque number %s is already used.\nWe skip it"),
                         imported_transaction -> cheque );
         dialogue_warning ( tmpstr );
         g_free ( tmpstr );
@@ -2862,7 +2862,6 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         gsb_data_transaction_set_method_of_payment_content ( transaction_number,
                         imported_transaction -> cheque );
     }
-    g_free ( tmpstr );
     }
     else
     {
