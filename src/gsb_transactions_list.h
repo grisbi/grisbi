@@ -91,5 +91,7 @@ void remove_transaction ();
 void schedule_selected_transaction ();
 gsb_real solde_debut_affichage ( gint account_number,
                         gint floating_point);
+void update_titres_tree_view ( void );
+
 /* END_DECLARATION */
 #endif

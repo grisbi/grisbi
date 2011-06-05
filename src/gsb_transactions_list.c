@@ -126,7 +126,6 @@ static gboolean popup_transaction_rules_menu ( GtkWidget * button,
 static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
                         gpointer null );
 static gint schedule_transaction ( gint transaction_number );
-static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
 
@@ -185,7 +184,6 @@ static gchar *cell_views[] = {
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern struct conditional_message messages[];
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -3301,8 +3299,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 break;
 
                 default:
-                temp = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-                              tab_affichage_ope[i][column_number] - 1 ));
+                temp = gsb_variables_get_titre_colonne_liste_ope ( tab_affichage_ope[i][column_number] - 1 );
             }
 
             if ( temp && strcmp ( temp, _("Balance") ) )
@@ -3325,6 +3322,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                                                  temp );
                 else
                     menu_item = gtk_radio_menu_item_new_with_label ( NULL, temp );
+                g_free ( temp );
 
                 if ( tab_affichage_ope[i][column_number] == active_sort )
                     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
@@ -3340,6 +3338,9 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
                 gtk_widget_show ( menu_item );
             }
+/*             if ( temp )
+ *                 g_free ( temp );
+ */
 	    }
 
         if ( menu )

@@ -203,8 +203,6 @@ GdkColor couleur_bet_transfert;
 GdkColor default_couleur_bet_transfert;
 
 
-GSList *liste_labels_titres_colonnes_liste_ope = NULL;
-
 gchar *nom_fichier_comptes = NULL;
 
 gchar *titre_fichier = NULL;
@@ -401,19 +399,6 @@ void init_variables ( void )
 
     valeur_echelle_recherche_date_import = 2;
     etat.get_fyear_by_value_date = FALSE;
-
-    /* 	on initialise la liste des labels des titres de colonnes */
-    if ( !liste_labels_titres_colonnes_liste_ope )
-    {
-    i=0;
-    while ( labels_titres_colonnes_liste_ope[i] )
-    {
-        liste_labels_titres_colonnes_liste_ope = g_slist_append (
-                                    liste_labels_titres_colonnes_liste_ope,
-                                    labels_titres_colonnes_liste_ope[i] );
-        i++;
-    }
-    }
 
     /* init default combofix values */
     etat.combofix_mixed_sort = FALSE;
@@ -838,6 +823,19 @@ void initialise_number_separators ( void )
     thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
     gsb_locale_set_mon_thousands_sep ( thousand_sep );
     g_free ( thousand_sep );
+}
+
+
+/**
+ * retourne le titre d'une colonne de la liste des opérations.
+ *
+ *\param numéro de l'élément demandé
+ *
+ *\return une chaine traduite qui doit être libérée.
+ * */
+gchar *gsb_variables_get_titre_colonne_liste_ope ( gint element )
+{
+    return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
 

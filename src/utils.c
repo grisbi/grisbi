@@ -263,7 +263,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_vbox_new ( FALSE, 6 );
     if ( GTK_IS_BOX(parent) )
     {
 	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
@@ -536,6 +536,12 @@ void lance_mailer ( const gchar *uri )
 }
 
 
+/**
+ * positionne les couleurs pour les tree_view
+ *
+ *\param tree_view
+ *
+ * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
     gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );

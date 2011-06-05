@@ -445,6 +445,16 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
+                        0, _("Transactions list cells"),
+                        1, TRANSACTIONS_CELLULES_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame,
+                        GTK_WIDGET ( onglet_affichage_liste ( ) ), NULL );
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
                         0, _("Messages before deleting"),
                         1, DELETE_MESSAGES_PAGE,
                         2, 400,
