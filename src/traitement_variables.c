@@ -88,28 +88,6 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-static gchar *labels_titres_colonnes_liste_ope[] = {
-    N_("Date"),
-    N_("Value date"),
-    N_("Payee"),
-    N_("Budgetary lines"),
-    N_("Debit"),
-    N_("Credit"),
-    N_("Balance"),
-    N_("Amount"),
-    N_("Method of payment"),
-    N_("Reconciliation ref."),
-    N_("Financial year"),
-    N_("Category"),
-    N_("C/R"),
-    N_("Voucher"),
-    N_("Notes"),
-    N_("Bank references"),
-    N_("Transaction number"),
-    N_("Number"),
-    NULL };
-
-
 /* background color */
 #define BG_COLOR_1_RED      55000
 #define BG_COLOR_1_GREEN    55000
@@ -823,19 +801,6 @@ void initialise_number_separators ( void )
     thousand_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
     gsb_locale_set_mon_thousands_sep ( thousand_sep );
     g_free ( thousand_sep );
-}
-
-
-/**
- * retourne le titre d'une colonne de la liste des opérations.
- *
- *\param numéro de l'élément demandé
- *
- *\return une chaine traduite qui doit être libérée.
- * */
-gchar *gsb_variables_get_titre_colonne_liste_ope ( gint element )
-{
-    return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
 

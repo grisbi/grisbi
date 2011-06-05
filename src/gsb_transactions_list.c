@@ -160,8 +160,8 @@ gint current_tree_view_width = 0;
  * when some children didn't find their mother */
 GSList *orphan_child_transactions = NULL;
 
-/* names of the cells */
-static gchar *cell_views[] = {
+/* names of the data for transactions list */
+static gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
@@ -2601,9 +2601,13 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
     menu = gtk_menu_new ();
 
-    for ( i = 0 ; cell_views[i] != NULL ; i++ )
+    for ( i = 0 ; i < 18 ; i++ )
     {
-        item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
+        gchar *tmp_str;
+
+        tmp_str = gsb_transaction_list_get_titre_colonne_liste_ope ( i );
+        item = gtk_menu_item_new_with_label ( tmp_str );
+        g_free ( tmp_str );
 
         g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
         g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
@@ -3299,7 +3303,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 break;
 
                 default:
-                temp = gsb_variables_get_titre_colonne_liste_ope ( tab_affichage_ope[i][column_number] - 1 );
+                temp = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][column_number] - 1 );
             }
 
             if ( temp && strcmp ( temp, _("Balance") ) )
@@ -4479,6 +4483,19 @@ void gsb_transaction_list_set_visible_archived_button ( gboolean visible )
     button = g_object_get_data ( G_OBJECT ( transaction_toolbar ), "archived_button");
 
     gtk_widget_set_visible ( button, visible );
+}
+
+
+/**
+ * retourne le titre d'une colonne de la liste des opérations.
+ *
+ *\param numéro de l'élément demandé
+ *
+ *\return une chaine traduite qui doit être libérée.
+ * */
+gchar *gsb_transaction_list_get_titre_colonne_liste_ope ( gint element )
+{
+    return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
 

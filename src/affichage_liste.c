@@ -447,7 +447,7 @@ void recuperation_noms_colonnes_et_tips ( void )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    /* 	    xxx changer ça pour faire une fonction comme gsb_form_widget_get_name */
-	    row[j] = gsb_variables_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
+	    row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
 
 	    /* on the first row, set for titles and tips, for others row, only for tips */
 	    if ( i )
@@ -1035,7 +1035,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     old_element = tab_affichage_ope[end_drag_row][end_drag_column];
     if ( old_element )
     {
-        string = gsb_variables_get_titre_colonne_liste_ope ( old_element - 1 );
+        string = gsb_transaction_list_get_titre_colonne_liste_ope ( old_element - 1 );
         gsb_transaction_list_config_button_set_active_from_string ( tree_view, string, FALSE );
 
         g_free ( string );
@@ -1051,7 +1051,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     /* modifie le titre de la colonne si nécessaire */
     if ( end_drag_row == 0 )
     {
-        string = gsb_variables_get_titre_colonne_liste_ope ( element - 1 );
+        string = gsb_transaction_list_get_titre_colonne_liste_ope ( element - 1 );
         gtk_tree_view_column_set_title  ( tree_column, string );
 
         g_free ( string );
@@ -1171,7 +1171,7 @@ gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view )
 
         for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
         {
-            row[j] = gsb_variables_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
+            row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
             /* on met le nom dans les lignes paires et le numéro de l'élément dans las lignes impaires */
             gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
                         2*j, row[j],
@@ -1208,7 +1208,7 @@ GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_vi
 	    gchar *string;
 	    gchar *changed_string;
 
-	    string = gsb_variables_get_titre_colonne_liste_ope ( current_number );
+	    string = gsb_transaction_list_get_titre_colonne_liste_ope ( current_number );
 
 	    if ( string )
 	    {
