@@ -728,8 +728,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -846,8 +845,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 	    }
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     /* update the form if needed */
 	saved_allocation_size = 0;
@@ -881,8 +879,7 @@ gboolean gsb_form_config_add_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -957,8 +954,7 @@ gboolean gsb_form_config_remove_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -996,8 +992,7 @@ gboolean gsb_form_config_add_column ( void )
 
     /* show the result */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1078,8 +1073,7 @@ gboolean gsb_form_config_remove_column ( void )
 
     /* fill the list */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1263,8 +1257,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gsb_form_config_fill_store (account_number);
     gsb_form_fill_from_account (account_number);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return (FALSE);
 }
 

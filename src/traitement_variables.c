@@ -219,41 +219,6 @@ extern gint valeur_echelle_recherche_date_import;
 
 
 /**
- * set or unset the modified flag
- * and sensitive or not the menu to save the file
- *
- * \param modif TRUE to set the modified flag, FALSE to unset
- *
- * \return
- * */
-void modification_fichier ( gboolean modif )
-{
-    devel_debug_int (modif);
-
-    /* If no file is loaded, do not change menu items. */
-    if ( ! gsb_data_account_get_accounts_amount () )
-    {
-        return;
-    }
-
-    if ( modif )
-    {
-    if ( ! etat.modification_fichier )
-    {
-        etat.modification_fichier = time ( NULL );
-        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
-    }
-    }
-    else
-    {
-        etat.modification_fichier = 0;
-        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
-    }
-}
-
-
-
-/**
  * initialisation of all the variables of grisbi
  * if some are not empty, free them before set it to NULL
  *

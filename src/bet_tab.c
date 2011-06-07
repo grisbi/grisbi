@@ -2020,8 +2020,7 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
     
     gsb_data_account_set_bet_start_date ( account_number, date );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
@@ -2302,8 +2301,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
     gsb_scheduler_list_select ( scheduled_number );
     gsb_scheduler_list_edit_transaction ( scheduled_number );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -2571,8 +2569,7 @@ void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  
             bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
         }
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 

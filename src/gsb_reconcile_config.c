@@ -557,8 +557,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 		/* update the last statement for that account */
 		gsb_navigation_update_statement_label (account_number);
 	    }
-	    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
 	}
     }
 
@@ -590,8 +589,7 @@ gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
 {
     run.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

@@ -1823,8 +1823,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     gsb_navigation_update_statement_label ( account_number );
     mise_a_jour_liste_comptes_accueil = 1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1977,8 +1976,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -2311,8 +2309,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     if (show_warning)
 	gsb_form_escape_form ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return TRUE;
 }
 
@@ -2705,8 +2702,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
                         gsb_data_account_get_sort_type ( current_account ) );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -2788,8 +2784,7 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -2826,8 +2821,7 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -2939,8 +2933,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
     mise_a_jour_accueil (FALSE);
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }
@@ -2972,8 +2965,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 
     gsb_data_account_colorize_current_balance ( source_account );
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -3069,8 +3061,7 @@ void schedule_selected_transaction ()
     else
         gsb_reconcile_set_last_scheduled_transaction ( scheduled_number );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -3556,8 +3547,7 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
         transaction_list_set_color_jour ( account_number );
     transaction_list_select (selected_transaction);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -4225,8 +4215,7 @@ gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
 		                "xalign", xalign,
 		                NULL );
     
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -4278,7 +4267,7 @@ gboolean change_aspect_liste ( gint demande )
     {
 	case 0:
 	    /* not used */
-	    break;
+            return ( TRUE );
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
@@ -4288,8 +4277,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowOneLine" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4297,8 +4284,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowTwoLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4306,8 +4291,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowThreeLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4315,8 +4298,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowFourLines" ) ),
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 
 	case 5 :
@@ -4324,8 +4305,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope avec r */
 
 	    mise_a_jour_affichage_r ( 1 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4341,8 +4320,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope sans r */
 
 	    mise_a_jour_affichage_r ( 0 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4357,8 +4334,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* show archive lines */
 
 	    gsb_transactions_list_show_archives_lines ( 1 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4374,8 +4349,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* hide archive lines */
 
 	    gsb_transactions_list_show_archives_lines ( 0 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4387,6 +4360,7 @@ gboolean change_aspect_liste ( gint demande )
 	    break;
     }
 
+    gsb_file_set_modified ( TRUE );
     return ( TRUE );
 }
 

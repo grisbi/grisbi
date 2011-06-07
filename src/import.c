@@ -1659,8 +1659,7 @@ void traitement_operations_importees ( void )
                  "with any reconcile number yet.  You may associate them with a reconcilation "
                  "later via the preferences windows.") );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -3533,8 +3532,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 	    mise_a_jour_liste_comptes_accueil = 1;
 	    mise_a_jour_soldes_minimaux = 1;
 
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
 
 	    if ( result != GTK_RESPONSE_OK
 		 &&
@@ -4261,8 +4259,7 @@ gboolean gsb_import_associations_check_add_button ( GObject * main_widget )
 gboolean changement_valeur_echelle_recherche_date_import ( GtkWidget *spin_button )
 {
     valeur_echelle_recherche_date_import = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ));
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return ( FALSE );
 }
 
@@ -4516,8 +4513,7 @@ gboolean gsb_import_by_rule ( gint rule )
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

@@ -2075,8 +2075,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     gsb_calendar_update ();
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -2115,8 +2114,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (-1);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -2427,8 +2425,7 @@ gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
     gsb_scheduler_list_set_background_color ( gsb_scheduler_list_get_tree_view ( ) );
     gsb_scheduler_list_select ( new_scheduled_number );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

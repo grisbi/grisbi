@@ -831,9 +831,7 @@ gboolean edit_category ( GtkTreeView *tree_view )
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_CATEGORY);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
-
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }

@@ -14,7 +14,6 @@ void initialisation_couleurs_listes ( void );
 void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description );
 void menus_sensitifs ( gboolean sensitif );
 void menus_view_sensitifs ( gboolean sensitif );
-void modification_fichier ( gboolean modif );
 /*END_DECLARATION*/
 
 

@@ -1041,8 +1041,7 @@ gboolean gsb_account_property_iban_key_press_event ( GtkWidget *entry,
             current_account = gsb_gui_navigation_get_current_account ();
             gsb_data_account_set_bank_account_iban ( current_account, iban );
             gsb_account_property_iban_set_bank_from_iban ( iban );
-            if ( etat.modification_fichier == 0 )
-                modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
         }
 
         if ( iban && strlen (iban) > 0 )
@@ -1099,8 +1098,7 @@ gboolean gsb_account_property_iban_focus_out_event ( GtkWidget *entry,
     {
         gsb_data_account_set_bank_account_iban ( current_account, iban );
         gsb_account_property_iban_set_bank_from_iban ( iban );
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     if ( iban && strlen (iban) > 0 )

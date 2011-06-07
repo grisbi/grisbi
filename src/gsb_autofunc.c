@@ -206,8 +206,7 @@ static gboolean gsb_autofunc_entry_changed ( GtkWidget *entry,
 		   gtk_entry_get_text ( GTK_ENTRY (entry)));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -337,8 +336,7 @@ static gboolean gsb_autofunc_textview_changed ( GtkTextBuffer *buffer,
 		   gtk_text_buffer_get_text (buffer, &start, &end, 0));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -512,8 +510,7 @@ static gboolean gsb_autofunc_int_changed ( GtkWidget *entry,
 		   utils_str_atoi (gtk_entry_get_text ( GTK_ENTRY (entry))));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -645,8 +642,7 @@ static gboolean gsb_autofunc_spin_changed ( GtkWidget *spin_button,
 		   gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON (spin_button)));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -772,8 +768,7 @@ static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 		   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1028,8 +1023,7 @@ static gboolean gsb_autofunc_date_changed ( GtkWidget *entry,
 	g_date_free (date);
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1163,8 +1157,7 @@ static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 		   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1294,8 +1287,7 @@ static gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
 		   gsb_combo_box_get_index (combobox));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1428,8 +1420,7 @@ gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
 		   gsb_currency_get_currency_from_combobox (combobox));
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

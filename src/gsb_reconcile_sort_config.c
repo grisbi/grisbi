@@ -593,8 +593,7 @@ gboolean gsb_reconcile_sort_config_payment_toggled ( GtkCellRendererToggle *cell
 	gtk_tree_view_collapse_row ( GTK_TREE_VIEW(tree_view), treepath );
 
     gtk_tree_path_free ( treepath );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -666,8 +665,7 @@ gboolean gsb_reconcile_sort_config_neutral_toggled ( GtkCellRendererToggle *cell
     }
     g_slist_free (sorted_list_copy);
     gsb_reconcile_sort_config_fill ();
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 

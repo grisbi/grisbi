@@ -555,8 +555,7 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
 			  FYEAR_INVALID_COLUMN, invalid,
 			  FYEAR_NUMBER_COLUMN, fyear_number,
 			  -1 );
-     if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+     gsb_file_set_modified ( TRUE );
      return FALSE;
 }
 
@@ -652,8 +651,7 @@ gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view )
 
     /* Update various menus */
     gsb_fyear_update_fyear_list ();
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -744,8 +742,7 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 
 	/* Update various menus */
 	gsb_fyear_update_fyear_list ();
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }
@@ -801,8 +798,7 @@ gboolean gsb_fyear_config_associate_transactions ( void )
 	dialogue (  tmpstr );
 	g_free ( tmpstr );
 	transaction_list_update_element (ELEMENT_EXERCICE);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     else
 	dialogue ( _("no transaction to associate"));

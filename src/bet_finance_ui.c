@@ -780,8 +780,7 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     gtk_tree_path_free ( path );
     g_free ( s_echeance );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 

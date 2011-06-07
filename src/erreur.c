@@ -87,7 +87,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     if ( run.is_loading || 
 	 run.is_saving || 
-	 etat.modification_fichier == 0 )
+	 !gsb_file_get_modified ( ) )
     {
 
 	if ( run.is_loading )

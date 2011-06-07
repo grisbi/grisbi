@@ -153,8 +153,7 @@ gboolean gsb_file_new_finish ( void )
     mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -387,7 +386,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         if ( conf.sauvegarde_demarrage )
         {
             gsb_file_save_backup ();
-            etat.modification_fichier = FALSE;
+            gsb_file_set_modified ( FALSE );
         }
     }
     else
@@ -482,7 +481,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* for now, the flag for modification of the file is ok, but the menu couldn't be set
      * as sensitive/unsensitive so do it now */
-    modification_fichier (etat.modification_fichier != 0);
+    gsb_file_set_modified ( gsb_file_get_modified ( ) );
 
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
@@ -535,7 +534,7 @@ gboolean gsb_file_save_file ( gint origine )
 
     etat_force = 0;
 
-    if ( ( !etat.modification_fichier && origine != -2 ) ||
+    if ( ( !gsb_file_get_modified ( ) && origine != -2 ) ||
 	 !gsb_data_account_get_accounts_amount () )
     {
 	notice_debug ( "nothing done in gsb_file_save_file" );
@@ -603,7 +602,7 @@ gboolean gsb_file_save_file ( gint origine )
 
 	/* update variables */
 	etat.fichier_deja_ouvert = 0;
-    modification_fichier ( FALSE );
+        gsb_file_set_modified ( FALSE );
 	gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
 	gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
     }
@@ -631,7 +630,7 @@ gboolean gsb_file_save_backup ( void )
 
     if (!gsb_file_get_backup_path ()
 	||
-	!etat.modification_fichier )
+	!gsb_file_get_modified ( ) )
 	return FALSE;
 
     gsb_status_message ( _("Saving backup") );
@@ -784,14 +783,14 @@ static gint gsb_file_dialog_save ( void )
     time_t now = time ( NULL );
     gint result;
     GtkWidget *dialog;
-    gint difference = (gint) difftime ( now, etat.modification_fichier );
+    gint difference = (gint) difftime ( now, run.file_modification );
     gchar* message;
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
 
-    if ( !etat.modification_fichier )
+    if ( ! gsb_file_get_modified ( ) )
 	return GTK_RESPONSE_NO;
 
     if ( conf.sauvegarde_auto &&
@@ -1173,6 +1172,54 @@ void gsb_file_save_remove_old_file ( gchar *filename )
         g_unlink ( filename );
     gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
 }
+
+
+/**
+ * set or unset the modified flag (run structure)
+ * and sensitive or not the menu to save the file
+ *
+ * \param modif TRUE to set the modified flag, FALSE to unset
+ *
+ * \return
+ */
+void gsb_file_set_modified ( gboolean modified )
+{
+    devel_debug_int (modified);
+
+    /* If no file is loaded, do not change menu items. */
+    if ( ! gsb_data_account_get_accounts_amount () )
+        return;
+
+    if ( modified )
+    {
+        if ( ! run.file_modification )
+        {
+            run.file_modification = time ( NULL );
+            gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
+        }
+    }
+    else
+    {
+        run.file_modification = 0;
+        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
+    }
+}
+
+
+/**
+ * Tell if the current file has been modified or not
+ *
+ * \return TRUE if modified, FALSE otherwise
+ */
+gboolean gsb_file_get_modified ( void )
+{
+    if ( run.file_modification == 0 )
+        return FALSE;
+    else
+        return TRUE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

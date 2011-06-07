@@ -319,8 +319,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
         etat.is_pixmaps_dir = 0;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return ( FALSE );
 }
@@ -572,8 +571,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         gtk_container_add ( GTK_CONTAINER ( logo_button ), preview );
         
         /* Mark file as modified */
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 /* **************************************************************************************************************************** */
@@ -678,8 +676,7 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
     gsb_main_set_grisbi_title ( -1 );
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

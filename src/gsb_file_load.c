@@ -8118,7 +8118,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     g_free ( tmpstr );
 
     /* for now the file is not modified */
-    modification_fichier ( FALSE );
+    gsb_file_set_modified ( FALSE );
 
     switch ( version_number )
     {
@@ -8865,8 +8865,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*      to set just before the new version */
         /* ********************************************************* */
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
         /* ************************************* */
         /*         opening 0.6.0                    */
@@ -8878,7 +8877,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     case 60:
         if ( conf.sauvegarde_demarrage )
-            etat.modification_fichier = TRUE;
+            gsb_file_set_modified ( TRUE );
         break;
 
     default :

@@ -2690,8 +2690,7 @@ gboolean gsb_form_finish_edition ( void )
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     /* If the origin of the operation is a model, so we select the new transaction */
     if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
