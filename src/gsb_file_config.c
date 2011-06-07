@@ -142,6 +142,7 @@ devel_debug (NULL);
         filename = g_build_filename ( my_get_grisbirc_dir(), C_OLD_GRISBIRC ( ), NULL );
 #endif
         
+        g_key_file_free ( config );
         config = g_key_file_new ();
         
         result = g_key_file_load_from_file ( config,
@@ -155,6 +156,7 @@ devel_debug (NULL);
             if ( result )
                 gsb_file_config_remove_old_config_file ( filename );
             g_free (filename);
+            g_key_file_free ( config );
             return result;
         }
         else
@@ -174,7 +176,10 @@ devel_debug (NULL);
         filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
                                  PACKAGE, ".conf", NULL );
         if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
+        {
+            g_key_file_free ( config );
             return FALSE;
+        }
 
         g_key_file_free (config);
         config = g_key_file_new ();

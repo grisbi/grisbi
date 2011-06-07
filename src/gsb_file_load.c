@@ -358,10 +358,14 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             length = crypt_function ( filename, &file_content, FALSE, length );
             
             if ( ! length )
+            {
+                g_free (file_content);
                 return FALSE;
+            }
             }
             else
             {
+                g_free (file_content);
                 dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
                         "handle that file.\n\n"
                         "Please make sure if is installed (i.e. check "
@@ -408,17 +412,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                         file_content,
                         strlen (file_content),
                         NULL );
-        if ( !download_tmp_values.download_ok )
-        {
-            g_markup_parse_context_free (context);
-            g_free (markup_parser);
-            g_free (file_content);
-            return FALSE;
-        }
 
         g_markup_parse_context_free (context);
         g_free (markup_parser);
         g_free (file_content);
+
+        if ( !download_tmp_values.download_ok )
+            return FALSE;
     }
     else
     {
