@@ -4495,7 +4495,10 @@ void gsb_transaction_list_set_visible_archived_button ( gboolean visible )
  * */
 gchar *gsb_transaction_list_get_titre_colonne_liste_ope ( gint element )
 {
-    return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
+    if ( element < 0 )
+        return NULL;
+    else
+        return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
 
