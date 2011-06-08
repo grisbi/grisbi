@@ -673,8 +673,7 @@ gboolean gsb_payment_method_config_toggled ( GtkCellRendererToggle *cell,
 
     /* clean up */
     gtk_tree_path_free (path);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1152,8 +1151,7 @@ gboolean gsb_payment_method_config_add ( GtkWidget *button,
     gsb_reconcile_sort_config_fill ();
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1247,8 +1245,7 @@ gboolean gsb_payment_method_config_remove ( GtkWidget *button,
     gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
     gsb_data_payment_remove (payment_number);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 

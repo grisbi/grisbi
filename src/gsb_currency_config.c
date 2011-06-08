@@ -747,8 +747,7 @@ gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 			 CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
 			 -1);
     gsb_currency_update_combobox_currency_list ();
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -913,8 +912,7 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
     }
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return (FALSE);
 }
@@ -1071,8 +1069,7 @@ dialog_return:
                 gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
                                    currency_number );
                 gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-                if ( etat.modification_fichier == 0 )
-                    modification_fichier ( TRUE );
+                gsb_file_set_modified ( TRUE );
                 return TRUE;
             }
         }

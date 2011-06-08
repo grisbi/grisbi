@@ -2337,8 +2337,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     g_slist_free (last_list);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -2735,8 +2734,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         gtk_button_set_image ( GTK_BUTTON ( button ), image );
         gsb_gui_navigation_update_account ( current_account );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 

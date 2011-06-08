@@ -31,7 +31,6 @@
  * */
 struct gsb_etat_t
 {
-    time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
 
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
@@ -202,6 +201,8 @@ struct gsb_run_t
     /* initialisation variables */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
+    /* file stuff */
+    time_t file_modification;
     gboolean is_saving;
     gboolean is_loading;
 

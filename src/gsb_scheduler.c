@@ -545,8 +545,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     if ( automatic_transactions_taken )
     {
 	mise_a_jour_liste_echeances_auto_accueil = 1;
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     if ( scheduled_transactions_to_take )

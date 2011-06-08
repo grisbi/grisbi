@@ -358,10 +358,14 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             length = crypt_function ( filename, &file_content, FALSE, length );
             
             if ( ! length )
+            {
+                g_free (file_content);
                 return FALSE;
+            }
             }
             else
             {
+                g_free (file_content);
                 dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
                         "handle that file.\n\n"
                         "Please make sure if is installed (i.e. check "
@@ -408,17 +412,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                         file_content,
                         strlen (file_content),
                         NULL );
-        if ( !download_tmp_values.download_ok )
-        {
-            g_markup_parse_context_free (context);
-            g_free (markup_parser);
-            g_free (file_content);
-            return FALSE;
-        }
 
         g_markup_parse_context_free (context);
         g_free (markup_parser);
         g_free (file_content);
+
+        if ( !download_tmp_values.download_ok )
+            return FALSE;
     }
     else
     {
@@ -8118,7 +8118,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     g_free ( tmpstr );
 
     /* for now the file is not modified */
-    modification_fichier ( FALSE );
+    gsb_file_set_modified ( FALSE );
 
     switch ( version_number )
     {
@@ -8865,8 +8865,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*      to set just before the new version */
         /* ********************************************************* */
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
         /* ************************************* */
         /*         opening 0.6.0                    */
@@ -8878,7 +8877,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     case 60:
         if ( conf.sauvegarde_demarrage )
-            etat.modification_fichier = TRUE;
+            gsb_file_set_modified ( TRUE );
         break;
 
     default :

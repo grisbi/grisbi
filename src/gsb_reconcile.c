@@ -642,8 +642,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     run.reconcile_new_date = NULL;
     run.reconcile_account_number = -1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     if ( reconcile_save_last_scheduled_convert )
     {

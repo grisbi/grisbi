@@ -1905,8 +1905,7 @@ void recuperation_info_perso_etat ( void )
     /* update the payee combofix in the form, to add that report if asked */
     gsb_form_widget_update_payee_combofix ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     /* on réaffiche l'état */
 
     rafraichissement_etat ( gsb_gui_navigation_get_current_report ());

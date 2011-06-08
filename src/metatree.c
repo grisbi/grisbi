@@ -572,8 +572,7 @@ void metatree_new_division ( GtkTreeModel *model )
 
     metatree_fill_new_division ( iface, model, div_id );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -644,8 +643,7 @@ void metatree_new_sub_division ( GtkTreeModel *model, gint div_id )
 
     metatree_fill_new_sub_division ( iface, model, div_id, sub_div_id );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -723,8 +721,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 
 	metatree_new_sub_division ( model, div_id );
 			     
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
 	gtk_tree_path_free ( path );
     }
@@ -845,8 +842,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
         /* update value in the tree view */
         metatree_update_tree_view ( iface );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     /* supprime dans la liste des division  */
@@ -973,8 +969,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	if ( it )
 	    fill_division_row ( model, iface, it, division );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1024,8 +1019,7 @@ void metatree_remove_transaction ( GtkTreeView * tree_view,
 	fill_division_row ( model, iface, it, division );
     
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1452,8 +1446,7 @@ void move_transaction_to_sub_division ( gint transaction_number,
     }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 /**
@@ -1552,8 +1545,7 @@ void move_sub_division_to_division ( GtkTreeModel *model,
     fill_sub_division_row ( model, iface, &iter, 
 			    no_dest_division, no_dest_sub_division );
     gtk_tree_iter_free (iter_parent);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 /**
@@ -2669,8 +2661,7 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
     }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -3022,8 +3013,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
         }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 

@@ -416,8 +416,7 @@ void payees_remove_unused_payees ( void )
         {
             payees_fill_list ();
             tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
-            if ( etat.modification_fichier == 0 )
-                modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
         }
         else
         {
@@ -720,8 +719,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -951,8 +949,7 @@ void payees_manage_payees ( void )
             payees_fill_list ();
         }
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
         /* On sélectionne le nouveau tiers */
         iter = get_iter_from_div ( GTK_TREE_MODEL ( payee_tree_model ), new_payee_number, 0 );

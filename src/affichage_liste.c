@@ -276,8 +276,7 @@ gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
 
         value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
         *pointeur = value;
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     switch ( page_number )
@@ -325,8 +324,7 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
     /* update the visible account */
     gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1065,8 +1063,7 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     recuperation_noms_colonnes_et_tips ( );
     update_titres_tree_view ( );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return (FALSE);
 }
 
@@ -1334,8 +1331,7 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
     recuperation_noms_colonnes_et_tips ( );
     update_titres_tree_view ( );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 

@@ -588,8 +588,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	gtk_widget_hide (label);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     gsb_gui_navigation_update_home_page ( );
 
     return FALSE;
@@ -627,8 +626,7 @@ gboolean gsb_currency_link_config_add_link ( GtkWidget *tree_view )
 					   &iter );
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 				     &iter );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -672,8 +670,7 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
     if ( GTK_WIDGET_VISIBLE ( label ) )
         gtk_widget_hide (label);
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }

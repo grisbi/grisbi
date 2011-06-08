@@ -345,8 +345,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         bet_data_update_bet_module ( account_number, GSB_HISTORICAL_PAGE );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -461,8 +460,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
 
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -1538,8 +1536,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 

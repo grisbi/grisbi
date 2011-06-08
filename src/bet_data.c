@@ -1193,8 +1193,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
         g_date_free ( date_max );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1432,8 +1431,7 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number, gboolea
         break;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     if ( maj )
     {
@@ -1480,8 +1478,7 @@ gboolean bet_data_future_remove_lines ( gint account_number,
             g_hash_table_iter_remove ( &iter );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1531,8 +1528,7 @@ gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 
     g_hash_table_replace ( bet_future_list, key, scheduled );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1620,8 +1616,7 @@ gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert )
     transfert -> number = transfert_number;
     g_hash_table_insert ( bet_transfert_list, key, transfert );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1653,8 +1648,7 @@ gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
         break;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
@@ -1698,8 +1692,7 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 
     g_hash_table_replace ( bet_transfert_list, key, transfert );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
