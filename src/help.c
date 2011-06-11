@@ -167,7 +167,8 @@ NULL};
     version_to_string = get_gtk_run_version ( );
     compiled_time = gsb_date_get_compiled_time ( );
 
-    comments = g_strconcat ( _("Personal finance manager for everyone\n"),
+    if ( IS_DEVELOPMENT_VERSION == 1 )
+        comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         plugins,
                         "\nVersion de GTK : ",
                         version_to_string,
@@ -179,6 +180,13 @@ NULL};
                         " ",
                         __TIME__,
                         NULL );
+    else
+        comments = g_strconcat ( _("Personal finance manager for everyone\n"),
+                        plugins,
+                        "\nVersion de GTK : ",
+                        version_to_string,
+                        NULL );
+
     /* Logo */
     logo = gsb_select_icon_get_logo_pixbuf ( );
     if (logo == NULL )
