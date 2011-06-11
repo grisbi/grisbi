@@ -208,7 +208,7 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
 
         switch ( partial_balance -> kind )
         {
-        case -1:
+        case GSB_TYPE_BALANCE:
             kind_str = g_strdup ( _("Additional balance") );
             break;
 
@@ -1305,6 +1305,9 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
         {
             switch ( kind )
             {
+            case GSB_TYPE_BALANCE:
+                break;
+
             case GSB_TYPE_BANK:
             case GSB_TYPE_CASH:
                 if ( kind_nb >= GSB_TYPE_LIABILITIES )

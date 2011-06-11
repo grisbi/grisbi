@@ -42,6 +42,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_fyear.h"
 #include "traitement_variables.h"
 #include "utils.h"

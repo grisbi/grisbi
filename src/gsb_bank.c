@@ -44,6 +44,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_transactions_list.h"
+#include "gsb_file.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"

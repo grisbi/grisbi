@@ -40,15 +40,16 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
 #include "gsb_reconcile_sort_config.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "transaction_list.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

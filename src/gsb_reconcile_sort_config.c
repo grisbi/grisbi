@@ -39,10 +39,11 @@
 #include "gsb_reconcile_sort_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_payment.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils.h"
+#include "gsb_file.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

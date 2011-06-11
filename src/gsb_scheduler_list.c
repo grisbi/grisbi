@@ -49,6 +49,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_real.h"

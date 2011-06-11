@@ -46,6 +46,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_file.h"
 #include "utils_editables.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"

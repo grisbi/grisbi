@@ -34,18 +34,19 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
-#include "utils.h"
 #include "dialog.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "navigation.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

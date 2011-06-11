@@ -34,20 +34,21 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
-#include "utils_dates.h"
+#include "accueil.h"
 #include "gsb_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_transaction.h"
-#include "accueil.h"
+#include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
-#include "traitement_variables.h"
-#include "erreur.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils_dates.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

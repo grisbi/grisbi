@@ -40,6 +40,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_report.h"
+#include "gsb_file.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "navigation.h"

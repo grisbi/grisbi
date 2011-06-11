@@ -36,6 +36,7 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
 #include "gsb_plugins.h"

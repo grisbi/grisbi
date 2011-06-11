@@ -42,6 +42,8 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"
@@ -51,7 +53,6 @@
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /** \struct
