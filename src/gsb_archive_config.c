@@ -43,6 +43,7 @@
 #include "gsb_data_archive_store.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"

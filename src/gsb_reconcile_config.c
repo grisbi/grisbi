@@ -41,6 +41,7 @@
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"

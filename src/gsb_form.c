@@ -56,6 +56,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "gsb_file.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"

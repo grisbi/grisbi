@@ -53,6 +53,7 @@
 #include "gsb_data_reconcile.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gsb_real.h"

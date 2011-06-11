@@ -38,12 +38,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_automem.h"
-#include "utils_editables.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils_buttons.h"
-#include "utils.h"
+#include "gsb_file.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

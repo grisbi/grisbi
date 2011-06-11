@@ -46,6 +46,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"

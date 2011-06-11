@@ -35,6 +35,7 @@
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "gsb_transactions_list.h"

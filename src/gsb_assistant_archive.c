@@ -44,6 +44,7 @@
 #include "gsb_data_fyear.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "gsb_fyear.h"
 #include "navigation.h"

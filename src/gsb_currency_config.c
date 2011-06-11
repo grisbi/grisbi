@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_locale.h"
 #include "main.h"
 #include "traitement_variables.h"

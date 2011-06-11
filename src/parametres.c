@@ -1617,6 +1617,8 @@ void gsb_localisation_update_affichage ( gint type_maj )
         kind = gsb_data_account_get_kind ( account_number );
         switch ( kind )
         {
+            case GSB_TYPE_BALANCE:
+                break;
             case GSB_TYPE_BANK:
             case GSB_TYPE_CASH:
                 if ( account_current_page == 1 || account_current_page == 2 )

@@ -42,6 +42,7 @@
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "navigation.h"
@@ -1029,6 +1030,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     notebook = g_object_get_data ( G_OBJECT ( account_page ), "config_notebook" );
     switch ( kind )
     {
+        case GSB_TYPE_BALANCE:
+            break;
         case GSB_TYPE_BANK:
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
             bet_config_initialise_duration_widget ( account_number, account_page );
@@ -1123,6 +1126,8 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
 
         switch ( kind )
         {
+        case GSB_TYPE_BALANCE:
+            break;
         case GSB_TYPE_BANK:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_show_all ( widget );

@@ -40,6 +40,7 @@
 #include "gsb_data_mix.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "traitement_variables.h"
@@ -121,6 +122,8 @@ void bet_data_select_bet_pages ( gint account_number )
 
     switch ( kind )
     {
+    case GSB_TYPE_BALANCE:
+        break;
     case GSB_TYPE_BANK:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );

@@ -41,11 +41,12 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
-#include "navigation.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
+#include "navigation.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
