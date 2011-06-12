@@ -84,7 +84,8 @@ void launch_mailto (GtkAboutDialog *about, const gchar * link, gpointer data)
  */
 void a_propos ( GtkWidget *bouton, gint data )
 {
-    GdkPixbuf * logo;
+    GtkWidget *about;
+    GdkPixbuf *logo;
     gchar *chemin_logo ;
 
 #define CSUFFIX "\n"
@@ -156,21 +157,41 @@ NULL};
                         "This product includes software developed by the OpenSSL Project "
                         "for use in the OpenSSL Toolkit.\n(http://www.openssl.org/)";
 
-    /* Plugins list */
-    gchar* comments = g_strconcat ( _("Personal finance manager for everyone\n"),
-                        gsb_plugin_get_list(),
+    /* Others info */
+    gchar *comments;
+    gchar *plugins;
+    gchar *version_to_string;
+
+    plugins = gsb_plugin_get_list ( );
+    version_to_string = get_gtk_run_version ( );
+
+    if ( IS_DEVELOPMENT_VERSION == 1 )
+    {
+        gchar *compiled_time;
+
+        compiled_time = gsb_date_get_compiled_time ( );
+
+        comments = g_strconcat ( _("Personal finance manager for everyone\n"),
+                        plugins,
                         "\nVersion de GTK : ",
-                        get_gtk_run_version ( ),
+                        version_to_string,
                         "\n",
                         _("This instance of Grisbi was compiled on\n"),
-                        gsb_date_get_compiled_time ( ) ,
+                        compiled_time,
                         " ",
                         _("at"),
                         " ",
                         __TIME__,
                         NULL );
 
-    GtkWidget * about;
+        g_free ( compiled_time );
+    }
+    else
+        comments = g_strconcat ( _("Personal finance manager for everyone\n"),
+                        plugins,
+                        "\nVersion de GTK : ",
+                        version_to_string,
+                        NULL );
 
     /* Logo */
     logo = gsb_select_icon_get_logo_pixbuf ( );
@@ -178,7 +199,10 @@ NULL};
     {
         chemin_logo = my_strdup ( LOGO_PATH );
         logo =  gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+
+        g_free ( chemin_logo );
     }
+
     about = gtk_about_dialog_new ( );
     gtk_about_dialog_set_url_hook (launch_url, NULL, NULL);
     gtk_about_dialog_set_email_hook (launch_mailto, NULL, NULL);
@@ -198,6 +222,10 @@ NULL};
     gtk_window_set_resizable ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( window ) );
+
+    g_free ( plugins );
+    g_free ( version_to_string );
+    g_free ( comments );
 
     gtk_dialog_run ( GTK_DIALOG (about)) ;
 
