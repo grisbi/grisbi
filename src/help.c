@@ -161,13 +161,15 @@ NULL};
     gchar *comments;
     gchar *plugins;
     gchar *version_to_string;
-    gchar *compiled_time;
 
     plugins = gsb_plugin_get_list ( );
     version_to_string = get_gtk_run_version ( );
-    compiled_time = gsb_date_get_compiled_time ( );
 
     if ( IS_DEVELOPMENT_VERSION == 1 )
+    {
+        gchar *compiled_time;
+
+        compiled_time = gsb_date_get_compiled_time ( );
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         plugins,
                         "\nVersion de GTK : ",
@@ -180,6 +182,9 @@ NULL};
                         " ",
                         __TIME__,
                         NULL );
+                        
+        g_free ( compiled_time );
+    }
     else
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
                         plugins,
@@ -219,7 +224,6 @@ NULL};
 
     g_free ( plugins );
     g_free ( version_to_string );
-    g_free ( compiled_time );
     g_free ( comments );
 
     gtk_dialog_run ( GTK_DIALOG (about)) ;
