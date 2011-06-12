@@ -83,7 +83,6 @@ struct metatree_hold_position *category_hold_position;
 
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
 
@@ -112,7 +111,15 @@ GtkWidget *categories_create_list ( void )
     /* set the color of selected row */
     utils_set_tree_view_selection_and_text_color ( arbre_categ );
 
+    /* Create model */
     categ_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model),
+					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(categ_tree_model),
+				      META_TREE_TEXT_COLUMN, metatree_sort_column,
+				      NULL, NULL );
+    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface",
+			category_interface );
 
     /* We create the main vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -124,7 +131,6 @@ GtkWidget *categories_create_list ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), category_toolbar, FALSE, FALSE, 0 );
 
     /* création de l'arbre principal */
-
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll_window ),
 				     GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
@@ -132,15 +138,6 @@ GtkWidget *categories_create_list ( void )
 					  GTK_SHADOW_IN );
     gtk_box_pack_start ( GTK_BOX ( vbox ), scroll_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scroll_window );
-
-    /* Create model */
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE(categ_tree_model),
-					   META_TREE_TEXT_COLUMN, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(categ_tree_model),
-				      META_TREE_TEXT_COLUMN, metatree_sort_column,
-				      NULL, NULL );
-    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface",
-			category_interface );
 
     /* Create container + TreeView */
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (arbre_categ), TRUE);
@@ -162,6 +159,7 @@ GtkWidget *categories_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Category"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -171,6 +169,7 @@ GtkWidget *categories_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -181,6 +180,7 @@ GtkWidget *categories_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( arbre_categ ),
@@ -190,6 +190,11 @@ GtkWidget *categories_create_list ( void )
     gtk_widget_show ( arbre_categ );
 
     /* Connect to signals */
+    g_signal_connect ( G_OBJECT ( arbre_categ ),
+                        "row-collapsed",
+                        G_CALLBACK ( division_column_collapsed ),
+                        NULL );
+
     g_signal_connect ( G_OBJECT ( arbre_categ ),
                         "row-expanded",
                         G_CALLBACK ( division_column_expanded ),
@@ -324,12 +329,17 @@ void categories_fill_list ( void )
             gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( arbre_categ ), ancestor );
             gtk_tree_path_free (ancestor );
         }
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( arbre_categ ) );
         gtk_tree_selection_select_path ( selection, category_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( arbre_categ ),
                         category_hold_position -> path,
                         NULL, TRUE, 0.5, 0.5 );
     }
+    else
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
 }
 
 

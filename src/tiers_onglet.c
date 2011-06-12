@@ -120,7 +120,6 @@ static struct metatree_hold_position *payee_hold_position;
 static struct conditional_message *overwrite_payee;
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 extern GSList *liste_associations_tiers;
 /*END_EXTERN*/
 
@@ -212,6 +211,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -221,6 +221,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -231,6 +232,7 @@ GtkWidget *payees_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -239,6 +241,11 @@ GtkWidget *payees_create_list ( void )
     gtk_widget_show ( payee_tree );
 
     /* Connect to signals */
+    g_signal_connect ( G_OBJECT ( payee_tree ),
+                        "row-collapsed",
+                        G_CALLBACK ( division_column_collapsed ),
+                        NULL );
+
     g_signal_connect ( G_OBJECT ( payee_tree ),
                         "row-expanded",
                         G_CALLBACK ( division_column_expanded ),
@@ -533,12 +540,18 @@ void payees_fill_list ( void )
             gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), ancestor );
             gtk_tree_path_free (ancestor );
         }
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
         gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
                         payee_hold_position -> path,
                         NULL, TRUE, 0.5, 0.5 );
     }
+    else
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+
     g_object_unref ( G_OBJECT ( payee_tree_model ) );
 
     gsb_status_stop_wait ( FALSE );

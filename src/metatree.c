@@ -48,9 +48,11 @@
 #include "imputation_budgetaire.h"
 #include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
+#include "utils.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -1102,9 +1104,35 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
+
+    /* on colorise les lignes du tree_view */
+    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+
     return FALSE;
 }
 
+
+/**
+ * callback when collapse a row
+ *
+ * \param treeview
+ * \param iter
+ * \param tree_path
+ * \param user_data not used
+ *
+ * \return FALSE
+ *
+ */
+gboolean division_column_collapsed  ( GtkTreeView *treeview,
+                        GtkTreeIter *iter,
+                        GtkTreePath *tree_path,
+                        gpointer user_data )
+{
+    /* on colorise les lignes du tree_view */
+    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+
+    return FALSE;
+}
 
 
 /**
@@ -1260,13 +1288,14 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 
     if ( dest_path && selection_data )
     {
-	GtkTreeModel * model;
-	GtkTreePath * orig_path;
-	gchar * name;
-	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
-	enum meta_tree_row_type orig_type;
-	MetatreeInterface * iface;
-	gint transaction_number;
+        GtkWidget *tree_view = NULL;
+        GtkTreeModel *model;
+        GtkTreePath *orig_path;
+        gchar *name;
+        gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
+        enum meta_tree_row_type orig_type;
+        MetatreeInterface * iface;
+        gint transaction_number;
 
 	/* get the orig_path */
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
@@ -1321,6 +1350,21 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 	    default:
 		break;
 	}
+        /* on colorise les lignes du tree_view */
+        switch ( iface -> content )
+        {
+            case 0:
+                tree_view = payees_get_tree_view ( );
+            break;
+            case 1:
+                tree_view = categories_get_tree_view ( );
+            break;
+            case 2:
+                tree_view = budgetary_lines_get_tree_view ( );
+            break;
+        }
+        utils_set_tree_view_background_color ( tree_view, META_TREE_BACKGROUND_COLOR );
+
     }
 
     return FALSE;
@@ -1638,14 +1682,17 @@ gboolean division_node_maybe_expand ( GtkTreeModel *model,
  */
 void expand_arbre_division ( GtkWidget *bouton, gint depth )
 {
-    GtkTreeView * tree_view = g_object_get_data ( G_OBJECT(bouton), "tree-view" );
-    GtkTreeModel * model;
+    GtkTreeView *tree_view = g_object_get_data ( G_OBJECT(bouton), "tree-view" );
+    GtkTreeModel *model;
     
     if ( tree_view )
     {
-	gtk_tree_view_collapse_all ( tree_view );
-	model = gtk_tree_view_get_model ( tree_view );
-	gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
+        gtk_tree_view_collapse_all ( tree_view );
+        model = gtk_tree_view_get_model ( tree_view );
+        gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
+
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( GTK_WIDGET ( tree_view ), META_TREE_BACKGROUND_COLOR );
     }
 }
 
