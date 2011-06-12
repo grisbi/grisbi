@@ -31,8 +31,8 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
-#include "utils.h"
-#include "dialog.h"
+ #include "dialog.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_file_config.h"
 #include "structures.h"
@@ -49,8 +49,6 @@
 
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
-extern GdkColor text_color[2];
 /*END_EXTERN*/
 
 
@@ -544,11 +542,90 @@ void lance_mailer ( const gchar *uri )
  * */
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view )
 {
-    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, &couleur_selection );
-    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, &couleur_selection );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur ( "couleur_selection" ) );
+    gtk_widget_modify_base ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
 
-    gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, &text_color[0] );
-    gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, &text_color[0] );
+    gtk_widget_modify_text ( tree_view, GTK_STATE_SELECTED, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+    gtk_widget_modify_text ( tree_view, GTK_STATE_ACTIVE, gsb_color_get_couleur_with_indice ( "text_color", 0 ) );
+}
+
+
+/**
+ * set the background colors of the list
+ *
+ * \param tree_view
+ * \param n° de colonne
+ *
+ * \return FALSE
+ * */
+gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color_column )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    if ( !tree_view )
+        return FALSE;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+        gint current_color = 0;
+        GtkTreeIter fils_iter;
+        GtkTreePath *path;
+
+        do
+        {
+            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                        -1 );
+
+            current_color = !current_color;
+            path = gtk_tree_model_get_path ( model, &iter );
+
+            if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &fils_iter, &iter )
+             &&
+             gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
+            {
+                GtkTreeIter third_iter;
+
+                do
+                {
+                    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                &fils_iter,
+                                color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                -1 );
+
+                    current_color = !current_color;
+                    gtk_tree_path_free ( path );
+                    path = gtk_tree_model_get_path ( model, &fils_iter );
+
+                    if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &third_iter, &fils_iter )
+                     &&
+                     gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
+                    {
+                        do
+                        {
+                            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                        &third_iter,
+                                        color_column, gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
+                                        -1 );
+
+                            current_color = !current_color;
+                        }
+                        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &third_iter ) );
+                    }
+                }
+                while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &fils_iter ) );
+            }
+
+            gtk_tree_path_free ( path );
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+
+    return FALSE;
 }
 
 

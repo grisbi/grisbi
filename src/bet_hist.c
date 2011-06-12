@@ -34,6 +34,7 @@
 #include "bet_data.h"
 #include "bet_tab.h"
 #include "fenetre_principale.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
@@ -104,8 +105,6 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_selection;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -1651,7 +1650,8 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_HISTORICAL_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
             current_color = !current_color;
 
@@ -1664,7 +1664,8 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
                 {
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils_iter,
-                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_HISTORICAL_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                     current_color = !current_color;
                 }

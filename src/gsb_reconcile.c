@@ -39,7 +39,8 @@
 /*START_INCLUDE*/
 #include "gsb_reconcile.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "fenetre_principale.h"
+#include "gsb_color.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
@@ -47,19 +48,19 @@
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
-#include "navigation.h"
-#include "fenetre_principale.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "utils_editables.h"
+#include "menu.h"
+#include "navigation.h"
+#include "structures.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_sort.h"
-#include "structures.h"
-#include "menu.h"
+#include "utils_dates.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -74,7 +75,6 @@ static void gsb_reconcile_sensitive ( gboolean sensitive );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor calendar_entry_color;
 extern GtkWidget *label_last_statement;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * reconcile_panel;
@@ -785,8 +785,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
         else
         {
             /* the entry is not valid, make it red */
-            gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
-                            &calendar_entry_color );
+            gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, gsb_color_get_couleur ( "entry_error_color" ) );
             return FALSE;
         }
     }

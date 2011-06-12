@@ -33,6 +33,7 @@
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_file.h"
@@ -105,8 +106,6 @@ static gint start_drag_row;
 
 
 /*START_EXTERN*/
-extern GdkColor couleur_grise;
-extern GdkColor couleur_selection;
 extern gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -1388,14 +1387,14 @@ void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_but
 {
     if ( normal )
     {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, &couleur_grise );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, &couleur_grise );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_grise" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_grise" ) );
     }
     else
     {
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, &couleur_selection );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_ACTIVE, &couleur_selection );
-        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, &couleur_selection );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_selection" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_selection" ) );
     }
 }
 

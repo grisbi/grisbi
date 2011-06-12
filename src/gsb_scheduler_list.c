@@ -43,6 +43,7 @@
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency.h"
@@ -120,13 +121,9 @@ static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button );
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_selection;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern gsb_real null_real;
-extern GdkColor split_background;
 /*END_EXTERN*/
 
 
@@ -1045,7 +1042,7 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, &split_background,
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_color_get_couleur ( "split_background" ),
                         -1 );
         }
         else
@@ -1409,13 +1406,14 @@ gboolean gsb_scheduler_list_set_background_color ( GtkWidget *tree_view )
         if ( virtual_transaction )
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, &couleur_grise,
+                        SCHEDULER_COL_NB_BACKGROUND, gsb_color_get_couleur ( "couleur_grise" ),
                         -1 );
         else
         {
             gtk_tree_store_set ( store,
                         &iter,
-                        SCHEDULER_COL_NB_BACKGROUND, &couleur_fond[current_color],
+                        SCHEDULER_COL_NB_BACKGROUND,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
             current_color = !current_color;
         }
