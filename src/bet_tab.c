@@ -40,6 +40,7 @@
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -149,12 +150,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_selection;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
@@ -472,7 +467,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
     g_value_unset ( &date_value );
@@ -2087,36 +2082,37 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                 current_color = !current_color;
                 break;
             case SPP_ORIGIN_HISTORICAL:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_division,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_division ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_division" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_division" ),
                         -1 );
                 break;
             case SPP_ORIGIN_FUTURE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_future,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_future ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_future" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_future" ),
                         -1 );
                 break;
             case SPP_ORIGIN_ACCOUNT:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_transfert,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_transfert ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_transfert" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "&couleur_bet_transfert" ),
                         -1 );
                 break;
             case SPP_ORIGIN_SOLDE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_solde ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_solde" ),
                         -1 );
             }
         }
@@ -2938,7 +2934,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, NULL,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
         g_value_unset ( &date_value );

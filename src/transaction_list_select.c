@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "transaction_list_select.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "menu.h"
@@ -48,7 +49,6 @@ static gboolean transaction_list_select_record ( CustomRecord *record );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
 
@@ -506,7 +506,7 @@ static gboolean transaction_list_select_record ( CustomRecord *record )
     for (i=0 ; i < custom_list -> nb_rows_by_transaction ; i++)
     {
 	record -> row_bg_save = record -> row_bg;
-	record -> row_bg = &couleur_selection;
+	record -> row_bg = gsb_color_get_couleur ( "couleur_selection" );
 
 	/* inform the world that the row has changed */
 	iter.user_data = record;

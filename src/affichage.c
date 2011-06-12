@@ -30,27 +30,28 @@
 
 /*START_INCLUDE*/
 #include "affichage.h"
-#include "utils_file_selection.h"
-#include "gsb_automem.h"
-#include "gsb_data_account.h"
-#include "gsb_file.h"
-#include "navigation.h"
-#include "fenetre_principale.h"
 #include "accueil.h"
+#include "custom_list.h"
+#include "fenetre_principale.h"
+#include "gsb_automem.h"
+#include "gsb_color.h"
+#include "gsb_data_account.h"
+#include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "main.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils.h"
+#include "navigation.h"
 #include "parametres.h"
-#include "transaction_list.h"
-#include "utils_font.h"
 #include "structures.h"
-#include "custom_list.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
 #include "utils_buttons.h"
+#include "utils_file_selection.h"
+#include "utils_font.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -81,33 +82,9 @@ static void update_fonte_listes ( gchar *fontname,
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern GdkColor archive_background_color;
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_jour;
-extern GdkColor couleur_selection;
-extern GdkColor default_archive_background_color;
-extern GdkColor default_calendar_entry_color;
-extern GdkColor default_couleur_bet_division;
-extern GdkColor default_couleur_bet_future;
-extern GdkColor default_couleur_bet_solde;
-extern GdkColor default_couleur_bet_transfert;
-extern GdkColor default_couleur_fond[2];
-extern GdkColor default_couleur_grise;
-extern GdkColor default_couleur_jour;
-extern GdkColor default_couleur_selection;
-extern GdkColor default_split_background;
-extern GdkColor default_text_color[2];
 extern GtkWidget *fenetre_preferences;
 extern GtkWidget *hbox_title;
 extern GtkWidget *logo_accueil;
-extern GdkColor split_background;
-extern GdkColor text_color[2];
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
@@ -236,7 +213,7 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_hbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
 
-    color_combobox = preferences_view_create_color_combobox ();
+    color_combobox = gsb_color_create_color_combobox ( );
     gtk_box_pack_start ( GTK_BOX (hbox),
 			 color_combobox,
 			 FALSE, FALSE, 0);
@@ -791,76 +768,6 @@ gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
     return FALSE;
 }
 
-
-
-/**
- * create a list of customable colors
- *
- * \param
- *
- * \return a GtkComboBox
- * */
-static GtkWidget *preferences_view_create_color_combobox (void)
-{
-    GtkWidget *combobox;
-    GtkListStore *store;
-    gint i;
-    GtkCellRenderer *renderer;
-
-    struct config_color {
-    gchar *name;
-    GdkColor *color;
-    GdkColor *default_color;
-
-    } config_colors[] = {
-    { N_("Transaction list background 1"), &couleur_fond[0], &default_couleur_fond[0]},
-    { N_("Transaction list background 2"), &couleur_fond[1], &default_couleur_fond[1]},
-    { N_("Color for the operation that gives the balance today"), &couleur_jour, &default_couleur_jour},
-    { N_("Color of transaction's text"), &text_color[0], &default_text_color[0]},
-    { N_("Text of unfinished split transaction"), &text_color[1], &default_text_color[1]},
-    { N_("Children of split transaction"), &split_background, &default_split_background},
-    { N_("Selection color"), &couleur_selection, &default_couleur_selection},
-    { N_("Background of non selectable scheduled transactions"), &couleur_grise, &default_couleur_grise},
-    { N_("Archive color"), &archive_background_color, &default_archive_background_color},
-    { N_("Background of invalid date entry"), &calendar_entry_color, &default_calendar_entry_color },
-    { N_("Background of bet division"), &couleur_bet_division, &default_couleur_bet_division },
-    { N_("Background of bet futur"), &couleur_bet_future, &default_couleur_bet_future },
-    { N_("Background of bet solde"), &couleur_bet_solde, &default_couleur_bet_solde },
-    { N_("Background of bet transfer"), &couleur_bet_transfert, &default_couleur_bet_transfert },
-    { NULL, 0, 0},
-    };
-
-    /* the store contains the name of the color we can modify and
-     * a pointer to the corresponding variable */
-    store = gtk_list_store_new ( 3,
-                        G_TYPE_STRING,
-                        G_TYPE_POINTER,
-                        G_TYPE_POINTER );
-    /* fill the store */
-    for ( i = 0 ; config_colors[i].name != NULL ; i++ )
-    {
-    GtkTreeIter iter;
-
-    gtk_list_store_append ( GTK_LIST_STORE (store),
-                        &iter );
-    gtk_list_store_set ( GTK_LIST_STORE (store),
-                        &iter,
-                        0, _(config_colors[i].name),
-                        1, config_colors[i].color,
-                        2, config_colors[i].default_color,
-                        -1);
-    }
-
-    /* create the combobox */
-    combobox = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
-
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combobox), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combobox), renderer,
-                        "text", 0,
-                        NULL);
-    return combobox;
-}
 
 
 /**

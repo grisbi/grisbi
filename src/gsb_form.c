@@ -108,7 +108,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor calendar_entry_color;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gsb_real null_real;
 /*END_EXTERN*/

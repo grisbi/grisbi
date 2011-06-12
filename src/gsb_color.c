@@ -34,9 +34,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_color_set_couleur_by_composante ( GdkColor *color,
-                        gchar *composante,
-                        gint value );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -75,8 +72,8 @@ static GdkColor entry_error_color;
 static GdkColor default_entry_error_color;
 
 /* colors of the amounts in the first page */
-GdkColor couleur_solde_alarme_verte_normal;
-GdkColor couleur_solde_alarme_verte_prelight;
+GdkColor couleur_nom_compte_normal;
+GdkColor couleur_nom_compte_prelight;
 
 GdkColor couleur_solde_alarme_orange_normal;
 GdkColor couleur_solde_alarme_orange_prelight;
@@ -84,8 +81,8 @@ GdkColor couleur_solde_alarme_orange_prelight;
 GdkColor couleur_solde_alarme_rouge_normal;
 GdkColor couleur_solde_alarme_rouge_prelight;
 
-GdkColor couleur_nom_compte_normal;
-GdkColor couleur_nom_compte_prelight;
+GdkColor couleur_solde_alarme_verte_normal;
+GdkColor couleur_solde_alarme_verte_prelight;
 
 /* colors for the balance estimate module */
 GdkColor couleur_bet_division;
@@ -208,8 +205,9 @@ void gsb_color_initialise_couleurs_par_defaut ( void )
 /**
  * retourne la couleur demandée.
  *
- *\
+ * \param gchar couleur
  *
+ * \return a GdkColor
  * */
 GdkColor *gsb_color_get_couleur ( gchar *couleur )
 {
@@ -221,22 +219,107 @@ GdkColor *gsb_color_get_couleur ( gchar *couleur )
         return &couleur_jaune;
     else if ( strcmp ( couleur, "archive_background_color" ) == 0 )
         return &archive_background_color;
-    else if ( strcmp ( couleur, "couleur_fond_0" ) == 0 )
-        return &couleur_fond[0];
-    else if ( strcmp ( couleur, "couleur_fond_1" ) == 0 )
-        return &couleur_fond[1];
     else if ( strcmp ( couleur, "couleur_jour" ) == 0 )
         return &couleur_jour;
     else if ( strcmp ( couleur, "couleur_selection" ) == 0 )
         return &couleur_selection;
     else if ( strcmp ( couleur, "split_background" ) == 0 )
         return &split_background;
-    else if ( strcmp ( couleur, "text_color_0" ) == 0 )
-        return &text_color[0];
-    else if ( strcmp ( couleur, "text_color_1" ) == 0 )
-        return &text_color[1];
     else if ( strcmp ( couleur, "entry_error_color" ) == 0 )
         return &entry_error_color;
+    else if ( strcmp ( couleur, "couleur_nom_compte_normal" ) == 0 )
+        return &couleur_nom_compte_normal;
+    else if ( strcmp ( couleur, "couleur_nom_compte_prelight" ) == 0 )
+        return &couleur_nom_compte_prelight;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_orange_normal" ) == 0 )
+        return &couleur_solde_alarme_orange_normal;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_orange_prelight" ) == 0 )
+        return &couleur_solde_alarme_orange_prelight;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_rouge_normal" ) == 0 )
+        return &couleur_solde_alarme_rouge_normal;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_rouge_prelight" ) == 0 )
+        return &couleur_solde_alarme_rouge_prelight;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_verte_normal" ) == 0 )
+        return &couleur_solde_alarme_verte_normal;
+    else if ( strcmp ( couleur, "couleur_solde_alarme_verte_prelight" ) == 0 )
+        return &couleur_solde_alarme_verte_prelight;
+    else if ( strcmp ( couleur, "couleur_bet_division" ) == 0 )
+        return &couleur_bet_division;
+    else if ( strcmp ( couleur, "couleur_bet_future" ) == 0 )
+        return &couleur_bet_future;
+    else if ( strcmp ( couleur, "couleur_bet_solde" ) == 0 )
+        return &couleur_bet_solde;
+    else if ( strcmp ( couleur, "couleur_bet_transfert" ) == 0 )
+        return &couleur_bet_transfert;
+
+    return NULL;
+}
+
+
+/**
+ * set the colors
+ *
+ * \param gchar couleur
+ * \param gchar composante de la couleur (ref, green, blue)
+ *
+ * \return TRUE
+ * */
+gboolean gsb_color_set_couleur ( gchar *couleur,
+                        gchar *component,
+                        gint value )
+{
+    GdkColor *color;
+
+    color = gsb_color_get_couleur ( couleur );
+
+    if ( color == NULL )
+        return FALSE;
+
+    if ( strcmp ( component, "red" ) == 0 )
+        color -> red = value;
+    else if ( strcmp ( component, "green" ) == 0 )
+        color -> green = value;
+    else if ( strcmp ( component, "blue" ) == 0 )
+        color -> blue = value;
+
+    return TRUE;
+}
+
+
+/**
+ * retourne la couleur demandée.
+ *
+ * \param gchar couleur
+ *
+ * \return textual specification of color in the hexadecimal form #rrrrggggbbbb
+ * */
+gchar *gsb_color_get_couleur_to_string ( gchar *couleur )
+{
+    GdkColor *color;
+    gchar *string;
+
+    color = gsb_color_get_couleur ( couleur );
+    string = gdk_color_to_string ( color );
+
+    return string;
+}
+
+
+/**
+ * retourne la couleur demandée.
+ *
+ *\param gchar couleur
+ *\param gint indice du tableau
+ *
+ * */
+GdkColor *gsb_color_get_couleur_with_indice ( gchar *couleur,
+                        gint indice )
+{
+
+    if ( strcmp ( couleur, "couleur_fond" ) == 0 )
+        return &couleur_fond[indice];
+    else if ( strcmp ( couleur, "text_color" ) == 0 )
+        return &text_color[indice];
 
     return &couleur_fond[0];
 }
@@ -246,88 +329,28 @@ GdkColor *gsb_color_get_couleur ( gchar *couleur )
  * set the colors
  *
  * \param gchar couleur
- * \param gint value
+ * \param gint indice du tableau
+ * \param gchar composante de la couleur (ref, green, blue)
  *
- * \return
+ * \return TRUE
  * */
-gboolean gsb_color_set_couleur ( gchar *couleur, gint value )
-{
-    gchar *composante = NULL;
-    gchar *tmp_str = NULL;
-    gchar *ptr;
-
-    if ( ( ptr = g_strrstr ( couleur, "." ) ) )
-    {
-        tmp_str = g_strndup ( couleur, ( ptr - couleur ) );
-        composante = g_strdup ( ptr+1 );
-    }
-printf ("tmp_str = %s composante = %s\n", tmp_str, composante);
-    if ( strcmp ( couleur, "couleur_grise" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "archive_background_color" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "couleur_fond_0" ) == 0 )
-    {
-        gsb_color_set_couleur_by_composante ( &couleur_fond[0], composante, value );
-
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "couleur_fond_1" ) == 0 )
-    {
-        gsb_color_set_couleur_by_composante ( &couleur_fond[1], composante, value );
-
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "couleur_jour" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "couleur_selection" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "split_background" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "text_color_0" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "text_color_1" ) == 0 )
-    {
-        return TRUE;
-    }
-    else if ( strcmp ( couleur, "entry_error_color" ) == 0 )
-    {
-        return TRUE;
-    }
-
-    return FALSE;
-}
-
-
-/**
- * set the colors
- *
- * \param gchar couleur
- * \param gint value
- *
- * \return
- * */
-gboolean gsb_color_set_couleur_by_composante ( GdkColor *color,
-                        gchar *composante,
+gboolean gsb_color_set_couleur_with_indice ( gchar *couleur,
+                        gint indice,
+                        gchar *component,
                         gint value )
 {
-    if ( strcmp ( composante, "red" ) == 0 )
+    GdkColor *color;
+
+    color = gsb_color_get_couleur_with_indice ( couleur, indice );
+
+    if ( color == NULL )
+        return FALSE;
+
+    if ( strcmp ( component, "red" ) == 0 )
         color -> red = value;
-    else if ( strcmp ( composante, "green" ) == 0 )
+    else if ( strcmp ( component, "green" ) == 0 )
         color -> green = value;
-    else if ( strcmp ( composante, "blue" ) == 0 )
+    else if ( strcmp ( component, "blue" ) == 0 )
         color -> blue = value;
 
     return TRUE;
@@ -389,7 +412,7 @@ void gsb_color_set_colors_to_default ( void )
  *
  * \return a GtkComboBox
  * */
-GtkWidget *gsb_color_create_color_combobox (void)
+GtkWidget *gsb_color_create_color_combobox ( void )
 {
     GtkWidget *combobox;
     GtkListStore *store;
@@ -456,7 +479,7 @@ GtkWidget *gsb_color_create_color_combobox (void)
  * construit la chaine de sauvegarde des couleurs de Grisbi
  *
  *
- *\return new_string;
+ * \return new_string;
  * */
 gchar *gsb_color_get_strings_to_save ( void )
 {
@@ -491,9 +514,9 @@ gchar *gsb_color_get_strings_to_save ( void )
                         "\t\tText_color_1_red=\"%d\"\n"
                         "\t\tText_color_1_green=\"%d\"\n"
                         "\t\tText_color_1_blue=\"%d\"\n"
-                        "\t\tCalendar_entry_red=\"%d\"\n"
-                        "\t\tCalendar_entry_green=\"%d\"\n"
-                        "\t\tCalendar_entry_blue=\"%d\"\n"
+                        "\t\tEntry_error_color_red=\"%d\"\n"
+                        "\t\tEntry_error_color_green=\"%d\"\n"
+                        "\t\tEntry_error_color_blue=\"%d\"\n"
                         "\t\tCouleur_bet_division_red=\"%d\"\n"
                         "\t\tCouleur_bet_division_green=\"%d\"\n"
                         "\t\tCouleur_bet_division_blue=\"%d\"\n"

@@ -33,6 +33,7 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_partial_balance.h"
@@ -88,16 +89,6 @@ static void update_soldes_minimaux ( gboolean force );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor couleur_bleue;
-extern GdkColor couleur_jaune;
-extern GdkColor couleur_nom_compte_normal;
-extern GdkColor couleur_nom_compte_prelight;
-extern GdkColor couleur_solde_alarme_orange_normal;
-extern GdkColor couleur_solde_alarme_orange_prelight;
-extern GdkColor couleur_solde_alarme_rouge_normal;
-extern GdkColor couleur_solde_alarme_rouge_prelight;
-extern GdkColor couleur_solde_alarme_verte_normal;
-extern GdkColor couleur_solde_alarme_verte_prelight;
 extern GtkWidget *form_transaction_part;
 extern gsb_real null_real;
 extern GSList *scheduled_transactions_taken;
@@ -774,8 +765,8 @@ GtkStyle *gsb_main_page_get_default_label_style ( )
 
     /* Initialisation du style « Nom du compte » */
     style_label = gtk_style_copy ( gtk_widget_get_style ( label ) );
-    style_label -> fg[GTK_STATE_NORMAL] = couleur_nom_compte_normal;
-    style_label ->fg[GTK_STATE_PRELIGHT] = couleur_nom_compte_prelight;
+    style_label -> fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_nom_compte_normal" ) );
+    style_label ->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_nom_compte_prelight" ) );
     gtk_widget_destroy ( label );
 
     return style_label;
@@ -875,21 +866,27 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
                 gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-        pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
-        pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
+            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_verte_normal" ) );
+            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_verte_prelight" ) );
     }
     else
     {
         if ( gsb_real_cmp ( gsb_data_account_get_marked_balance (account_number),
                 gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
         {
-        pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
-        pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
+            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_orange_normal" ) );
+            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_orange_prelight" ) );
         }
         else
         {
-        pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
-        pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
+            pStyleLabelSoldePointe->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_rouge_normal" ) );
+            pStyleLabelSoldePointe->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_rouge_prelight" ) );
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
@@ -928,21 +925,27 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
                 gsb_data_account_get_mini_balance_wanted (account_number)) != -1)
     {
-        pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_verte_normal;
-        pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_verte_prelight;
+        pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_verte_normal" ) );
+        pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_verte_prelight" ) );;
     }
     else
     {
         if ( gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
                 gsb_data_account_get_mini_balance_authorized (account_number)) != -1 )
         {
-        pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_orange_normal;
-        pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_orange_prelight;
+            pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_orange_normal" ) );
+            pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_orange_prelight" ) );
         }
         else
         {
-        pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = couleur_solde_alarme_rouge_normal;
-        pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = couleur_solde_alarme_rouge_prelight;
+            pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_rouge_normal" ) );
+            pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
+                        "couleur_solde_alarme_rouge_prelight" ) );
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
@@ -1263,11 +1266,11 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	style_label = gtk_style_copy ( gtk_widget_get_style (label));
 	gtk_widget_destroy (label);
 
-	style_label->fg[GTK_STATE_PRELIGHT] = couleur_jaune;
-	style_label->fg[GTK_STATE_NORMAL] = couleur_bleue;
-	style_label->fg[GTK_STATE_INSENSITIVE] = couleur_bleue;
-	style_label->fg[GTK_STATE_SELECTED] = couleur_bleue;
-	style_label->fg[GTK_STATE_ACTIVE] = couleur_bleue;
+	style_label->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_jaune" ) );
+	style_label->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
+	style_label->fg[GTK_STATE_INSENSITIVE] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
+	style_label->fg[GTK_STATE_SELECTED] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
+	style_label->fg[GTK_STATE_ACTIVE] = *( gsb_color_get_couleur ( "couleur_bleue" ) );
 
 
 	pointeur_liste = g_slist_sort_with_data ( scheduled_transactions_to_take,

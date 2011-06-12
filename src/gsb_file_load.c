@@ -42,6 +42,7 @@
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
+#include "gsb_color.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -169,17 +170,7 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor archive_background_color;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_jour;
-extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
@@ -190,9 +181,7 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real;
-extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GdkColor text_color[2];
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -1144,262 +1133,219 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-                        "(null)"))
+    if ( !strcmp (attribute_values[i], "(null)") )
     {
         /* Nothing */
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_red" ) )
     {
-        couleur_fond[0].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_green" ) )
     {
-        couleur_fond[0].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_blue" ) )
     {
-        couleur_fond[0].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_red" ) )
     {
-        couleur_fond[1].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_green" ) )
     {
-        couleur_fond[1].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_blue" ) )
     {
-        couleur_fond[1].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_red" ) )
     {
-        couleur_jour.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_green" ) )
     {
-        couleur_jour.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_blue" ) )
     {
-        couleur_jour.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_red" ) )
     {
-        couleur_grise.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_green" ) )
     {
-        couleur_grise.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_blue" ) )
     {
-        couleur_grise.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_red" ) )
     {
-        archive_background_color.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_green" ) )
     {
-        archive_background_color.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_blue" ) )
     {
-        archive_background_color.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_red" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_red" ) )
     {
-        couleur_selection.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_green" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_green" ) )
     {
-        couleur_selection.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_blue" ) )
     {
-        couleur_selection.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_red" ) )
     {
-        split_background.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_green" ) )
     {
-        split_background.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_blue" ) )
     {
-        split_background.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_red" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_red" ) )
     {
-        text_color[0].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_green" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_green" ) )
     {
-        text_color[0].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_blue" ) )
     {
-        text_color[0].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_red" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_red" ) )
     {
-        text_color[1].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_green" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_green" ) )
     {
-        text_color[1].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_blue" ) )
     {
-        text_color[1].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_red" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_red" ) )
     {
-        calendar_entry_color.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_green" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_green" ) )
     {
-        calendar_entry_color.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_blue" ) )
     {
-        calendar_entry_color.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_red" ) )
     {
-        couleur_bet_division.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_green" ) )
     {
-        couleur_bet_division.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_blue" ) )
     {
-        couleur_bet_division.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_red" ) )
     {
-        couleur_bet_future.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_green" ) )
     {
-        couleur_bet_future.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_blue" ) )
     {
-        couleur_bet_future.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_red" ) )
     {
-        couleur_bet_solde.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_green" ) )
     {
-        couleur_bet_solde.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_blue" ) )
     {
-        couleur_bet_solde.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_red" ) )
     {
-        couleur_bet_transfert.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_green" ) )
     {
-        couleur_bet_transfert.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_blue" ) )
     {
-        couleur_bet_transfert.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
     i++;

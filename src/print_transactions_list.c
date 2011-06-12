@@ -37,6 +37,7 @@
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_data_print_config.h"
 #include "gsb_data_transaction.h"
 #include "utils.h"
@@ -77,8 +78,6 @@ static GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * o
 
 
 /*START_EXTERN*/
-extern GdkColor archive_background_color;
-extern GdkColor couleur_fond[2];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -803,30 +802,38 @@ static void print_transactions_list_draw_background ( CustomRecord *record,
 						      gint line_position )
 {
     if (!gsb_data_print_config_get_draw_background ())
-	return;
+        return;
 
     if (record -> what_is_line == IS_ARCHIVE)
     {
-	cairo_rectangle (cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ());
-	cairo_set_source_rgb (cr, (gdouble) archive_background_color.red/65535, (gdouble) archive_background_color.green/65535, (gdouble) archive_background_color.blue/65535);
+        GdkColor *color;
+
+        color = gsb_color_get_couleur ( "archive_background_color" );
+        cairo_rectangle ( cr, 0, line_position, page_width, size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
+        cairo_set_source_rgb ( cr,
+                        (gdouble) color -> red/65535,
+                        (gdouble) color -> green/65535,
+                        (gdouble) color -> blue/65535 );
     }
     else
     {
-	if (color_bg)
-	{
-	    CustomList *custom_list = transaction_model_get_model ();
-	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
-	    cairo_set_source_rgb (cr, (gdouble) couleur_fond[0].red/65535, (gdouble) couleur_fond[0].green/65535, (gdouble) couleur_fond[0].blue/65535);
-	}
-	else
-	{
-	    CustomList *custom_list = transaction_model_get_model ();
-	    cairo_rectangle (cr, 0, line_position, page_width, custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ());
-	    cairo_set_source_rgb (cr, (gdouble) couleur_fond[1].red/65535, (gdouble) couleur_fond[1].green/65535, (gdouble) couleur_fond[1].blue/65535);
-	}
+        CustomList *custom_list = transaction_model_get_model ( );
+        GdkColor *color;
+
+        if ( color_bg )
+            color = gsb_color_get_couleur_with_indice ( "couleur_fond", 0 );
+        else
+            color = gsb_color_get_couleur_with_indice ( "couleur_fond", 1 );
+
+        cairo_rectangle (cr, 0, line_position, page_width,
+                        custom_list -> nb_rows_by_transaction * size_row + 2*gsb_data_print_config_get_draw_lines ( ) );
+        cairo_set_source_rgb (cr,
+                        (gdouble) color -> red/65535,
+                        (gdouble) color -> green/65535,
+                        (gdouble) color -> blue/65535 );
     }
-    cairo_fill (cr);
-    cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+    cairo_fill ( cr );
+    cairo_set_source_rgb ( cr, 0.0, 0.0, 0.0 );
 }
 
 /**
