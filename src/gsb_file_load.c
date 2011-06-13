@@ -868,7 +868,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
     else if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
     {
-        run.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+        etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i],
@@ -964,10 +964,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
     {
         /* initialise la réinitialisation des colonnes */
-        run.transaction_column_width = my_strdup ( attribute_values[i] );
+        etat.transaction_column_width = my_strdup ( attribute_values[i] );
 
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                        run.transaction_column_width );
+                        etat.transaction_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
@@ -987,10 +987,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
     {
         /* initialise la réinitialisation des colonnes */
-        run.scheduler_column_width = my_strdup ( attribute_values[i] );
+        etat.scheduler_column_width = my_strdup ( attribute_values[i] );
 
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                        run.scheduler_column_width );
+                        etat.scheduler_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i],
