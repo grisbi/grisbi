@@ -116,7 +116,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
                         _("Start Date + one month"),
                         _("Today's date"),
                         NULL,
-                        &run.reconcile_end_date,
+                        &etat.reconcile_end_date,
                         G_CALLBACK ( gsb_reconcile_config_end_date_changed ),
                         NULL,
                         GTK_ORIENTATION_HORIZONTAL );
@@ -588,7 +588,7 @@ gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gpointer data )
 {
-    run.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+    etat.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
 
     gsb_file_set_modified ( TRUE );
 

@@ -419,9 +419,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             g_free (string);
             g_date_add_months ( date, 1 );
 
-            /* if run.reconcile_end_date or the new date is after today, set today */
+            /* if etat.reconcile_end_date or the new date is after today, set today */
             today = gdate_today();
-            if ( run.reconcile_end_date || g_date_compare ( date, today) > 0 )
+            if ( etat.reconcile_end_date || g_date_compare ( date, today) > 0 )
             {
                 g_date_free (date);
                 date = gdate_today();

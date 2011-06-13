@@ -271,15 +271,15 @@ void init_variables ( void )
     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
         scheduler_col_width[i] = scheduler_col_width_init[i];
 
-    if ( run.transaction_column_width && strlen ( run.transaction_column_width ) )
+    if ( etat.transaction_column_width && strlen ( etat.transaction_column_width ) )
     {
-        g_free ( run.transaction_column_width );
-        run.transaction_column_width = NULL;
+        g_free ( etat.transaction_column_width );
+        etat.transaction_column_width = NULL;
     }
-    if ( run.scheduler_column_width && strlen ( run.scheduler_column_width ) )
+    if ( etat.scheduler_column_width && strlen ( etat.scheduler_column_width ) )
     {
-        g_free ( run.scheduler_column_width );
-        run.scheduler_column_width = NULL;
+        g_free ( etat.scheduler_column_width );
+        etat.scheduler_column_width = NULL;
     }
     
     gsb_gui_navigation_init_tree_view ( );

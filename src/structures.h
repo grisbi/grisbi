@@ -39,6 +39,9 @@ struct gsb_etat_t
     gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
+    /* reconciliation */
+    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
+
     /* formulaire */
     gint formulaire_toujours_affiche;
     gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
@@ -109,6 +112,10 @@ struct gsb_etat_t
     gint bet_index_duree;
     gdouble bet_frais;
     gint bet_type_taux;
+
+    /* largeur des colonnes */
+    gchar *transaction_column_width;
+    gchar *scheduler_column_width;
 };
 
 /* declared in parametres.c */
@@ -206,12 +213,7 @@ struct gsb_run_t
     gboolean is_saving;
     gboolean is_loading;
 
-    /* largeur des colonnes */
-    gchar *transaction_column_width;
-    gchar *scheduler_column_width;
-
     /* reconciliation */
-    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
     gint equilibrage;
     gint reconcile_account_number;  /* Save the last reconciliation try: account */
     gchar *reconcile_final_balance; /*                                   final balance amount */
