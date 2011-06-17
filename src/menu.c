@@ -113,10 +113,11 @@ static const gchar *ui_manager_buffer =
 "      <menuitem name='Quit' action='QuitAction'/>"
 "    </menu>"
 "    <menu name='EditMenu' action='EditMenuAction' >"
+"      <menuitem name='EditTransaction' action='EditTransactionAction'/>"
+"      <separator/>"
 "      <menuitem name='NewTransaction' action='NewTransactionAction'/>"
 "      <menuitem name='RemoveTransaction' action='RemoveTransactionAction'/>"
 "      <menuitem name='CloneTransaction' action='CloneTransactionAction'/>"
-"      <menuitem name='EditTransaction' action='EditTransactionAction'/>"
 "      <separator/>"
 "      <menuitem name='ConvertToScheduled' action='ConvertToScheduledAction'/>"
 "      <menu name='MoveToAnotherAccount' action='MoveToAnotherAccountAction'>"
@@ -212,14 +213,14 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
+        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
+         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "", NULL,
          G_CALLBACK ( new_transaction ) },
         {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
          G_CALLBACK ( remove_transaction ) },
         {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
          G_CALLBACK ( clone_selected_transaction ) },
-        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
-         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
          G_CALLBACK ( schedule_selected_transaction ) },
         {"MoveToAnotherAccountAction", NULL, _("_Move transaction to another account"), NULL, NULL, NULL },
