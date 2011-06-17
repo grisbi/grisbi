@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
+#include "affichage.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -43,13 +44,13 @@
 #include "gsb_currency.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "parametres.h"
+#include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "import.h"
+#include "parametres.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils.h"
-#include "affichage.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
