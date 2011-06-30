@@ -35,17 +35,18 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_first.h"
+#include "dialog.h"
 #include "gsb_assistant.h"
 #include "gsb_assistant_file.h"
 #include "gsb_automem.h"
-#include "parametres.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "traitement_variables.h"
-#include "dialog.h"
-#include "utils_files.h"
-#include "utils.h"
+#include "gsb_plugins.h"
+#include "parametres.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/

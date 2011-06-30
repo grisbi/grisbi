@@ -94,8 +94,6 @@ gint id_timeout = 0;
 
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
-extern gsize nb_derniers_fichiers_ouverts;
-extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar *nom_fichier_comptes;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *table_etat;
@@ -1006,8 +1004,11 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     if ( !path_fichier )
         return;
 
-    if ( nb_derniers_fichiers_ouverts < 0 )
-        nb_derniers_fichiers_ouverts = 0;
+    if ( conf.nb_max_derniers_fichiers_ouverts == 0 )
+        return;
+
+    if ( conf.nb_derniers_fichiers_ouverts < 0 )
+        conf.nb_derniers_fichiers_ouverts = 0;
 
     if ( !g_path_is_absolute ( nom_fichier_comptes ) )
     {
@@ -1028,9 +1029,9 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
      * noms */
     position = 0;
 
-    if ( nb_derniers_fichiers_ouverts )
+    if ( conf.nb_derniers_fichiers_ouverts )
     {
-        for ( i = 0; i < nb_derniers_fichiers_ouverts; i++ )
+        for ( i = 0; i < conf.nb_derniers_fichiers_ouverts; i++ )
         {
             if ( !strcmp ( real_name, tab_noms_derniers_fichiers_ouverts[i] ) )
             {
@@ -1066,18 +1067,18 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
 
         /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
         /* on garde le ptit dernier dans le cas contraire */
-        dernier = tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1];
-        for ( i = nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
+        dernier = tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts-1];
+        for ( i = conf.nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
             tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
     }
     else
         dernier = NULL;
 
-    if ( nb_derniers_fichiers_ouverts < nb_max_derniers_fichiers_ouverts )
+    if ( conf.nb_derniers_fichiers_ouverts < conf.nb_max_derniers_fichiers_ouverts )
     {
         tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
-						    ( ++nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
-        tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts-1] = dernier;
+						    ( ++conf.nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
+        tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
     tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
@@ -1100,17 +1101,17 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 
     devel_debug ( filename );
     efface_derniers_fichiers_ouverts();
-    devel_debug_int ( nb_derniers_fichiers_ouverts );
+    devel_debug_int ( conf.nb_derniers_fichiers_ouverts );
 
-    for ( i = 0 ; i < nb_derniers_fichiers_ouverts; i++ )
+    for ( i = 0 ; i < conf.nb_derniers_fichiers_ouverts; i++ )
     {
         if ( strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) == 0 )
         {
-            for ( j = i; ( j + 1 ) < nb_derniers_fichiers_ouverts; j++ )
+            for ( j = i; ( j + 1 ) < conf.nb_derniers_fichiers_ouverts; j++ )
             {
                 tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
             }
-            nb_derniers_fichiers_ouverts--;
+            conf.nb_derniers_fichiers_ouverts--;
         }
     }
     affiche_derniers_fichiers_ouverts();

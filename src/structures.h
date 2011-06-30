@@ -155,6 +155,8 @@ struct gsb_conf_t
     gint compress_file;                             /* TRUE if we want to compress the grisbi file */
     gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
     gint force_enregistrement;                      /* à un si on force l'enregistrement */
+    gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
+    gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
 
     /* backup part */
     gint make_backup;                               /* TRUE for create a backup when save file */
