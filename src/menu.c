@@ -74,8 +74,6 @@ static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 
 
 /*START_EXTERN*/
-extern gsize nb_derniers_fichiers_ouverts;
-extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
@@ -352,19 +350,19 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     efface_derniers_fichiers_ouverts ();
 
-    if ( nb_derniers_fichiers_ouverts > nb_max_derniers_fichiers_ouverts )
+    if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
     {
-        nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
+        conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
     }
 
-    if ( ! nb_derniers_fichiers_ouverts || ! nb_max_derniers_fichiers_ouverts )
+    if ( ! conf.nb_derniers_fichiers_ouverts || ! conf.nb_max_derniers_fichiers_ouverts )
     {
         return FALSE;
     }
 
     action_group = gtk_action_group_new ( "Group2" );
 
-    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    for ( i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         GtkAction *action;
@@ -387,7 +385,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     recent_files_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
 
-    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
+    for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         gchar *tmp_label;
