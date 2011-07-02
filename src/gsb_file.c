@@ -1009,6 +1009,9 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     if ( !path_fichier )
         return;
 
+    if ( nb_max_derniers_fichiers_ouverts == 0 )
+        return;
+
     if ( nb_derniers_fichiers_ouverts < 0 )
         nb_derniers_fichiers_ouverts = 0;
 
