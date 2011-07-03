@@ -2317,7 +2317,9 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
 {
     GtkTreeModel *model;
     gint type_page;
+    gint etat_expander;
 
+    etat_expander = GPOINTER_TO_INT ( user_data );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     gtk_tree_model_get ( model, iter, NAVIGATION_PAGE, &type_page, -1 );
@@ -2326,12 +2328,15 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
     {
         case GSB_HOME_PAGE :
         case GSB_ACCOUNT_PAGE :
-            account_expander = GPOINTER_TO_INT ( user_data );
+            account_expander = etat_expander;
         break;
         case GSB_REPORTS_PAGE :
-            report_expander = GPOINTER_TO_INT ( user_data );
+            report_expander = etat_expander;
         break;
     }
+
+    if ( etat_expander == 0 )
+        gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), iter );
 }
 
 
