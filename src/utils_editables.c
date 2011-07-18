@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "utils_editables.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -171,14 +172,14 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
                  pointeur[0] == '-' )
             {
                 total = gsb_real_add ( total,
-                            gsb_real_get_from_string ( pointeur ) );
+                            utils_real_get_from_string ( pointeur ) );
                 pointeur[0] = 0;
             }
             
             pointeur--;
         }
         total = gsb_real_add ( total,
-                        gsb_real_get_from_string ( pointeur ) );
+                        utils_real_get_from_string ( pointeur ) );
     }
     else if ( g_utf8_strchr ( string, -1, '*' ) )
     {
@@ -190,14 +191,14 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
             if ( pointeur[0] == '*' )
             {
                 total = gsb_real_mul ( total,
-                            gsb_real_get_from_string ( pointeur + 1 ) );
+                            utils_real_get_from_string ( pointeur + 1 ) );
                 pointeur[0] = 0;
             }
             
             pointeur--;
         }
         total = gsb_real_mul ( total,
-                        gsb_real_get_from_string ( pointeur ) );
+                        utils_real_get_from_string ( pointeur ) );
     }
     else if ( g_utf8_strchr ( string, -1, '/' ) )
     {
@@ -205,13 +206,13 @@ gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry )
 
         tab = g_strsplit ( string, "/", 2 );
 
-        total = gsb_real_div ( gsb_real_get_from_string ( tab[0] ),
-                        gsb_real_get_from_string ( tab[1] ) );
+        total = gsb_real_div ( utils_real_get_from_string ( tab[0] ),
+                        utils_real_get_from_string ( tab[1] ) );
 
         g_strfreev ( tab );
     }
     else
-        total = gsb_real_get_from_string ( string );
+        total = utils_real_get_from_string ( string );
 
     g_free ( string );
 

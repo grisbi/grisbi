@@ -66,6 +66,7 @@
 #include "transaction_list_sort.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1003,7 +1004,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
     {
         tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
                                             reconcile_number ) );
-        tmp_str2 = gsb_real_get_string_with_currency ( amount,
+        tmp_str2 = utils_real_get_string_with_currency ( amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
         
         tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",
@@ -1015,7 +1016,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
     }
     else if ( amount.mantissa != 0 )
     {
-        tmp_str2 = gsb_real_get_string_with_currency (amount,
+        tmp_str2 = utils_real_get_string_with_currency (amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
         
         tmp_str = g_strconcat ( _("Last statement: none"), " - ",
@@ -2317,7 +2318,9 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
 {
     GtkTreeModel *model;
     gint type_page;
+    gint etat_expander;
 
+    etat_expander = GPOINTER_TO_INT ( user_data );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
     gtk_tree_model_get ( model, iter, NAVIGATION_PAGE, &type_page, -1 );
@@ -2326,12 +2329,15 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
     {
         case GSB_HOME_PAGE :
         case GSB_ACCOUNT_PAGE :
-            account_expander = GPOINTER_TO_INT ( user_data );
+            account_expander = etat_expander;
         break;
         case GSB_REPORTS_PAGE :
-            report_expander = GPOINTER_TO_INT ( user_data );
+            report_expander = etat_expander;
         break;
     }
+
+    if ( etat_expander == 0 )
+        gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), iter );
 }
 
 

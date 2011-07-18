@@ -78,6 +78,7 @@
 #include "qif.h"
 #include "transaction_list.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "structures.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
@@ -2353,7 +2354,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), ope_import -> bouton, FALSE, FALSE, 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    tmpstr2 = gsb_real_get_string (ope_import -> montant);
+	    tmpstr2 = utils_real_get_string (ope_import -> montant);
         if ( etat.get_fusion_import_transactions )
             tmpstr = g_strdup_printf ( _("Transactions to be merged : %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
@@ -2384,7 +2385,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	    if ( gsb_data_transaction_get_notes (ope_import -> ope_correspondante))
 	    {
-            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+            tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
             tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (
@@ -2398,7 +2399,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    }
 	    else
 	    {
-            tmpstr2 = gsb_real_get_string (gsb_data_transaction_get_amount (
+            tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
             tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (
@@ -3283,7 +3284,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         0, FALSE,
                         1, gsb_format_gdate ( ope_import -> date ),
                         2, ope_import -> tiers,
-                        3, gsb_real_get_string_with_currency ( ope_import -> montant,
+                        3, utils_real_get_string_with_currency ( ope_import -> montant,
                         ope_import -> devise, TRUE ),
                         -1 );
 

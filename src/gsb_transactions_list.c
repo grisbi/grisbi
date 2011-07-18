@@ -73,6 +73,7 @@
 #include "transaction_model.h"
 #include "utils_dates.h"
 #include "utils_operations.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1015,7 +1016,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		 (cell_content_number == ELEMENT_CREDIT
 		  &&
 		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
-		    return gsb_real_get_string_with_currency (
+		    return utils_real_get_string_with_currency (
                         gsb_real_abs ( gsb_data_transaction_get_amount ( transaction_number ) ),
 					    gsb_data_transaction_get_currency_number ( transaction_number ), TRUE );
 	    else
@@ -1035,7 +1036,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
             gchar* tmpstr;
             gchar* result;
 
-            tmpstr = gsb_real_get_string (
+            tmpstr = utils_real_get_string (
                         gsb_data_transaction_get_adjusted_amount_for_currency (
                         transaction_number,
                         account_currency,

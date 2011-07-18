@@ -62,6 +62,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1318,7 +1319,7 @@ gboolean gsb_scheduler_list_fill_transaction_text ( gint scheduled_number,
     if ( scheduled_number < 0 )
         line[COL_NB_AMOUNT] = NULL;
     else
-        line[COL_NB_AMOUNT] = gsb_real_get_string_with_currency (
+        line[COL_NB_AMOUNT] = utils_real_get_string_with_currency (
                         gsb_data_scheduled_get_amount ( scheduled_number ),
                         gsb_data_scheduled_get_currency_number ( scheduled_number ),
                         TRUE );
@@ -2013,7 +2014,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             result = delete_msg[msg_no].default_answer;
         else
         {
-	    tmpstr = gsb_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+	    tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
 	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
                         "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
                         gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
@@ -2726,8 +2727,8 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
         gint currency_number;
 
         currency_number = gsb_data_scheduled_get_currency_number ( mother_scheduled_number );
-        amount_string = gsb_real_get_string_with_currency ( total_split, currency_number, TRUE);
-        variance_string = gsb_real_get_string_with_currency (variance, currency_number, TRUE);
+        amount_string = utils_real_get_string_with_currency ( total_split, currency_number, TRUE);
+        variance_string = utils_real_get_string_with_currency (variance, currency_number, TRUE);
 
         tmp_str = g_strdup_printf ( _("Total : %s (variance : %s)"), amount_string, variance_string );
 

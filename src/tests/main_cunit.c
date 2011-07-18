@@ -42,6 +42,7 @@
 #include "gsb_data_account_cunit.h"
 #include "gsb_real_cunit.h"
 #include "utils_dates_cunit.h"
+#include "utils_real_cunit.h"
 #include "structures.h"
 /*END_INCLUDE*/
 
@@ -79,6 +80,7 @@ int gsb_cunit_run_tests()
     if ( ( NULL == gsb_data_account_cunit_create_suite ( ) )
       || ( NULL == gsb_real_cunit_create_suite ( ) )
       || ( NULL == utils_dates_cunit_create_suite ( ) )
+      || ( NULL == utils_real_cunit_create_suite ( ) )
         )
     {
         CU_cleanup_registry();

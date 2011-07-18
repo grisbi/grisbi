@@ -51,6 +51,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_file_selection.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -233,7 +234,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                         etat.bet_capital ),
                         etat.bet_currency,
                         FALSE );
@@ -809,7 +810,7 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
         {
             number = utils_str_strtod ( entry, NULL );
 
-            tmp_str = gsb_real_get_string_with_currency (
+            tmp_str = utils_real_get_string_with_currency (
                                 gsb_real_double_to_real ( number ),
                                 etat.bet_currency,
                                 FALSE );
@@ -845,26 +846,26 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
 
     str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), " ", unit, " ", NULL );
 
-    str_capital = gsb_real_get_string_with_currency (
+    str_capital = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> capital ),
                         s_echeance -> devise, TRUE );
 
     nbre_char = g_sprintf ( buffer, "%.2f", s_echeance -> taux );
     str_taux =  g_strndup ( buffer, nbre_char + 1 );
 
-    str_frais = gsb_real_get_string_with_currency (
+    str_frais = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> frais ),
                         s_echeance -> devise, TRUE );
 
-    str_echeance = gsb_real_get_string_with_currency (
+    str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> echeance ),
                         s_echeance -> devise, TRUE );
 
-    str_totale = gsb_real_get_string_with_currency (
+    str_totale = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> total_echeance ),
                         s_echeance -> devise, TRUE );
 
-    str_total_cost = gsb_real_get_string_with_currency (
+    str_total_cost = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> total_cost ),
                         s_echeance -> devise, TRUE );
 
@@ -1409,7 +1410,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
                         s_amortissement -> interets,
                         s_amortissement -> frais );
             g_free ( s_amortissement -> str_echeance );
-            s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+            s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement ->  devise, TRUE );
             s_amortissement -> principal = s_amortissement -> capital_du;
@@ -1448,15 +1449,15 @@ void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
     gchar *str_interets = NULL;
     gchar *str_principal = NULL;
 
-    str_capital_du = gsb_real_get_string_with_currency (
+    str_capital_du = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> capital_du ),
                         s_amortissement -> devise, TRUE );
 
-    str_interets = gsb_real_get_string_with_currency (
+    str_interets = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> interets ),
                         s_amortissement ->  devise, TRUE );
 
-    str_principal = gsb_real_get_string_with_currency (
+    str_principal = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> principal ),
                         s_amortissement ->  devise, TRUE );
 
@@ -1643,7 +1644,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     /* set capital */
     s_amortissement -> capital_du = gsb_data_account_get_bet_finance_capital ( account_number );
     label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_capital" );
-    tmp_str = gsb_real_get_string_with_currency (
+    tmp_str = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> capital_du ),
                         s_amortissement -> devise, TRUE );
     gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
@@ -1672,7 +1673,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
 
     /* set frais */
     s_amortissement -> frais = gsb_data_account_get_bet_finance_frais ( account_number );
-    s_amortissement -> str_frais = gsb_real_get_string_with_currency (
+    s_amortissement -> str_frais = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> frais ),
                         s_amortissement -> devise, TRUE );
 
@@ -1684,7 +1685,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     s_amortissement -> echeance = bet_data_finance_get_echeance ( s_amortissement -> capital_du,
                         taux_periodique, nbre_echeances );
     s_amortissement -> echeance += s_amortissement -> frais;
-    s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+    s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement -> devise, TRUE );
 
@@ -1700,7 +1701,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
                         s_amortissement -> interets,
                         s_amortissement -> frais );
             g_free ( s_amortissement -> str_echeance );
-            s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+            s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement ->  devise, TRUE );
             s_amortissement -> principal = s_amortissement -> capital_du;
@@ -2096,7 +2097,7 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
             break;
 
         case GDK_Escape :
-            str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+            str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                                     etat.bet_capital ),
                                     etat.bet_currency,
                                     FALSE );

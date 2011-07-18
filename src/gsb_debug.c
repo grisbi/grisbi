@@ -41,6 +41,7 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -436,10 +437,10 @@ gchar * gsb_debug_reconcile_test ( void )
         {
             affected_accounts ++;
 
-            tmprealstr1 = gsb_real_get_string_with_currency (
+            tmprealstr1 = utils_real_get_string_with_currency (
 	                                gsb_data_reconcile_get_final_balance (reconcile_number),
 	                                gsb_data_account_get_currency ( account_nb ), TRUE  );
-            tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
+            tmprealstr2 = utils_real_get_string_with_currency (reconcilied_amount,
 					gsb_data_account_get_currency ( account_nb ), TRUE  );
             tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 					"  Last reconciliation amount : %s\n"

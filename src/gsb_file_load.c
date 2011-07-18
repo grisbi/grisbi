@@ -78,6 +78,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
@@ -5606,11 +5607,11 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             gsb_real number;
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
-            number = gsb_real_get_from_string (tmp_string);
+            number = utils_real_get_from_string (tmp_string);
             /* printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d\n", tmp_string,
                         number.mantissa, number.exponent); */
             gsb_data_transaction_set_amount ( transaction_number,
-                                  gsb_real_get_from_string (tmp_string));
+                                  utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -5627,12 +5628,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "Tc" ))
             gsb_data_transaction_set_exchange_rate ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     utils_real_get_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "Fc" ))
             gsb_data_transaction_set_exchange_fees ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     utils_real_get_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "T" ))
@@ -5781,7 +5782,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_scheduled_set_amount ( scheduled_number,
-                                gsb_real_get_from_string (tmp_string));
+                                utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6137,7 +6138,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
         if ( !strcmp ( attribute_names[i],
                    "Change" ))
-            tmp_currency_link.exchange = gsb_real_get_from_string (attribute_values[i]);
+            tmp_currency_link.exchange = utils_real_get_from_string (attribute_values[i]);
         if ( !strcmp ( attribute_names[i], "Date_dernier_change" ) 
          &&
          strlen ( attribute_values[i] ) )
@@ -6504,7 +6505,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                         gsb_real_get_from_string (tmp_string));
+                                         utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6517,7 +6518,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                          gsb_real_get_from_string (tmp_string));
+                                          utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6933,14 +6934,14 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     /* printf ("solde_initial = %s\n", tmp_string ); */
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_init_balance ( account_number, null_real );
     else
         gsb_data_account_set_init_balance ( account_number, number );
     /* printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
                         number.mantissa, number.exponent,
-                        gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
+                        utils_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
 
     if (tmp_string) 
         g_free (tmp_string);
@@ -6956,7 +6957,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_mini_balance_wanted ( account_number, null_real );
     else
@@ -6976,7 +6977,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_mini_balance_authorized ( account_number, null_real );
     else
@@ -7017,7 +7018,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     if (buffer_reconcile_conversion)
-        buffer_reconcile_conversion -> final_balance = gsb_real_get_from_string (tmp_string);
+        buffer_reconcile_conversion -> final_balance = utils_real_get_from_string (tmp_string);
     if (tmp_string) 
         g_free (tmp_string);
     return;

@@ -50,6 +50,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1411,7 +1412,7 @@ void bet_config_initialise_finance_widget ( gint account_number,
     /* set capital */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_capital" );
     gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_capital ( account_number ) ),
                         devise, FALSE ) );
@@ -1439,7 +1440,7 @@ void bet_config_initialise_finance_widget ( gint account_number,
     /* set frais */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_montant_frais" );
     gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_frais ( account_number ) ),
                         devise, FALSE ) );

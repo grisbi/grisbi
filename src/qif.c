@@ -44,6 +44,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file_util.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "import.h"
 #include "erreur.h"
@@ -797,7 +798,7 @@ gboolean qif_export ( const gchar *filename,
 			  g_date_get_year (gsb_data_transaction_get_date (transaction_number_tmp)));
 
 		/* met le solde initial */
-		tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+		tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -852,7 +853,7 @@ gboolean qif_export ( const gchar *filename,
 
 
 		/* met le montant, transforme la devise si necessaire */
-		tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
+		tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, floating_point));
 		fprintf ( fichier_qif,
 			  "T%s\n",
 			  tmpstr);
@@ -947,7 +948,7 @@ gboolean qif_export ( const gchar *filename,
 
 			    /* set the amount of the split child */
 
-			    tmpstr = gsb_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
+			    tmpstr = utils_real_get_string (gsb_data_transaction_get_adjusted_amount (transaction_number_tmp_2, floating_point));
 			    fprintf ( fichier_qif,
 				      "$%s\n",
 				      tmpstr);
@@ -995,7 +996,7 @@ gboolean qif_export ( const gchar *filename,
 	/* there is no transaction in the account, so do the opening of the account, bug no date */
 	/* met le solde initial */
 
-	gchar* tmpstr = gsb_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
+	gchar* tmpstr = utils_real_get_string (gsb_data_account_get_init_balance (account_nb, -1));
 	fprintf ( fichier_qif,
 		  "T%s\n",
 		  tmpstr);
@@ -1131,7 +1132,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 gchar *new_str;
 
                 new_str = utils_str_localise_decimal_point_from_string ( string + 1 );
-                imported_transaction -> montant = gsb_real_get_from_string ( new_str );
+                imported_transaction -> montant = utils_real_get_from_string ( new_str );
 
                 g_free ( new_str );
             }
@@ -1209,7 +1210,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 gchar *new_str;
 
                 new_str = utils_str_localise_decimal_point_from_string ( string + 1 );
-                imported_splitted -> montant = gsb_real_get_from_string ( new_str );
+                imported_splitted -> montant = utils_real_get_from_string ( new_str );
 
                 g_free ( new_str );
             }

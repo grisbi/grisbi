@@ -46,6 +46,7 @@
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_config.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"
@@ -822,10 +823,10 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gsb_data_reconcile_set_final_date ( reconcile_number,
                         gsb_calendar_entry_get_date ( reconcile_final_date_entry ) );
     gsb_data_reconcile_set_init_balance ( reconcile_number,
-                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        utils_real_get_from_string ( gtk_entry_get_text (
                         GTK_ENTRY (reconcile_init_balance_entry ) ) ) );
     gsb_data_reconcile_set_final_balance ( reconcile_number,
-                        gsb_real_get_from_string ( gtk_entry_get_text (
+                        utils_real_get_from_string ( gtk_entry_get_text (
                         GTK_ENTRY ( reconcile_final_balance_entry ) ) ) );
     gsb_data_reconcile_set_account ( reconcile_number,
                         gsb_account_get_combo_account_number ( reconcile_account_button ) );
@@ -1072,7 +1073,7 @@ gboolean gsb_assistant_reconcile_config_update_manu_asso ( GtkWidget *assistant,
 	    GtkTreeIter iter;
 
 	    date_str = gsb_format_gdate (gsb_data_transaction_get_date (transaction_number));
-	    amount_str = gsb_real_get_string (gsb_data_transaction_get_amount (transaction_number));
+	    amount_str = utils_real_get_string (gsb_data_transaction_get_amount (transaction_number));
 
 	    gtk_list_store_append ( GTK_LIST_STORE (store),
 				    &iter );

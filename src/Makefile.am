@@ -151,6 +151,7 @@ libgrisbi_la_SOURCES = \
 	utils_files.c		\
 	utils_font.c		\
 	utils_operations.c	\
+	utils_real.c		\
 	utils_str.c		\
 	bet_config.c \
 	bet_data.c \
@@ -302,6 +303,7 @@ libgrisbi_la_SOURCES = \
 	utils_files.h		\
 	utils_font.h		\
 	utils_operations.h	\
+	utils_real.h		\
 	utils_str.h
 
 grisbi_SOURCES = 		\

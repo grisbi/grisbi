@@ -56,6 +56,7 @@
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "utils.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "gsb_data_payment.h"
@@ -1392,13 +1393,13 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
     if ( scheduled -> amount.mantissa < 0 )
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
-        gtk_entry_set_text ( GTK_ENTRY ( widget ), gsb_real_get_string (
+        gtk_entry_set_text ( GTK_ENTRY ( widget ), utils_real_get_string (
                         gsb_real_opposite ( scheduled -> amount ) ) );
     }
     else
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
-        gtk_entry_set_text ( GTK_ENTRY ( widget ), gsb_real_get_string ( scheduled -> amount ) );
+        gtk_entry_set_text ( GTK_ENTRY ( widget ), utils_real_get_string ( scheduled -> amount ) );
     }
     gsb_form_widget_set_empty ( widget, FALSE );
 

@@ -76,6 +76,7 @@
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
@@ -700,7 +701,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEBIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
+		char_tmp = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 
@@ -714,7 +715,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_CREDIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
+		char_tmp = utils_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 
@@ -2860,14 +2861,14 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
         gsb_real number = null_real;
 
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
             
 	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
          number.mantissa == 0 )
         {
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
-            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
 
             if ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||

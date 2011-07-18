@@ -49,6 +49,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -356,8 +357,8 @@ void gsb_reconcile_config_fill ( void )
 
 		init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
 		final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
-		init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-		final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+		init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+		final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 		gtk_tree_store_append ( GTK_TREE_STORE (model),
 					&reconcile_iter,
@@ -477,8 +478,8 @@ gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 
 		init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
 		final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
-		init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-		final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+		init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+		final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 		gtk_tree_store_set ( GTK_TREE_STORE (model),
 				     &iter,

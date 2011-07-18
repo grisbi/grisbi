@@ -50,6 +50,7 @@
 #include "utils_editables.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -1065,7 +1066,7 @@ GtkWidget *gsb_autofunc_real_new ( gsb_real real,
     /* first, create and fill the entry */
     entry = gtk_entry_new ();
 
-    string = gsb_real_get_string (real);
+    string = utils_real_get_string (real);
     gtk_entry_set_text ( GTK_ENTRY (entry), string );
     g_free (string);
 
@@ -1115,7 +1116,7 @@ void gsb_autofunc_real_set ( GtkWidget *entry,
 							     "changed-hook"));
 
     /* Fill in value */
-    string = gsb_real_get_string (real);
+    string = utils_real_get_string (real);
     gtk_entry_set_text ( GTK_ENTRY (entry), string );
     g_free (string);
 
@@ -1155,7 +1156,7 @@ static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
 
     number_for_func = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "number_for_func"));
     default_func ( number_for_func,
-		   gsb_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
+		   utils_real_get_from_string (gtk_entry_get_text (GTK_ENTRY (entry))));
 
     /* Mark file as modified */
     gsb_file_set_modified ( TRUE );

@@ -37,17 +37,13 @@
 
 /* START_INCLUDE */
 #include "gsb_real_cunit.h"
-#include "gsb_locale.h"
 #include "gsb_real.h"
-#include "utils_str.h"
 /* END_INCLUDE */
 
 /* START_STATIC */
 static void gsb_real_cunit__gsb_real_add ( void );
-static void gsb_real_cunit__gsb_real_get_from_string ( void );
 static void gsb_real_cunit__gsb_real_mul();
 static void gsb_real_cunit__gsb_real_normalize();
-static void gsb_real_cunit__gsb_real_get_string_with_currency ( void );
 static void gsb_real_cunit__gsb_real_raw_format_string ( void );
 static void gsb_real_cunit__gsb_real_raw_get_from_string();
 static void gsb_real_cunit__gsb_real_raw_get_from_string__locale();
@@ -74,82 +70,6 @@ int gsb_real_cunit_init_suite ( void )
 int gsb_real_cunit_clean_suite ( void )
 {
     return 0;
-}
-
-void gsb_real_cunit__gsb_real_get_from_string ( void )
-{
-    char *lc_monetary_orig;
-    char *result = setlocale(LC_MONETARY, NULL);
-    if (result != NULL)
-    {
-        lc_monetary_orig = (char *)malloc((strlen(result) + 1) * sizeof(char));
-        strcpy(lc_monetary_orig, result);
-
-        /* C test */
-        result = setlocale(LC_MONETARY, "C");
-        if (result != NULL)
-        {
-            gsb_locale_init();
-
-            gsb_real val = gsb_real_get_from_string("123.45");
-            CU_ASSERT_EQUAL(12345, val.mantissa);
-            CU_ASSERT_EQUAL(2, val.exponent);
-
-            val = gsb_real_get_from_string("21000000");
-            CU_ASSERT_EQUAL(21000000, val.mantissa);
-            CU_ASSERT_EQUAL(0, val.exponent);
-
-            gsb_locale_shutdown();
-        }
-
-        /* French test */
-        result = setlocale(LC_MONETARY, "fr_FR.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_MONETARY, "fr_FR@euro");
-        if (result == NULL)
-            result = setlocale(LC_MONETARY, "fr_FR");
-        if (result != NULL)
-        {
-            gsb_locale_init();
-
-            gsb_real val = gsb_real_get_from_string("123,45");
-            CU_ASSERT_EQUAL(12345, val.mantissa);
-            CU_ASSERT_EQUAL(2, val.exponent);
-
-            val = gsb_real_get_from_string("21000000");
-            CU_ASSERT_EQUAL(21000000, val.mantissa);
-            CU_ASSERT_EQUAL(0, val.exponent);
-
-            gsb_locale_shutdown();
-        }
-
-        /* English test */
-        result = setlocale(LC_MONETARY, "en_US.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_MONETARY, "en_GB.UTF-8");
-        if (result == NULL)
-            result = setlocale(LC_MONETARY, "en_US");
-        if (result == NULL)
-            result = setlocale(LC_MONETARY, "en_GB");
-        if (result != NULL)
-        {
-            gsb_locale_init();
-
-            gsb_real val = gsb_real_get_from_string("123.45");
-            CU_ASSERT_EQUAL(12345, val.mantissa);
-            CU_ASSERT_EQUAL(2, val.exponent);
-
-            val = gsb_real_get_from_string("21 000 000");
-            CU_ASSERT_EQUAL(21000000, val.mantissa);
-            CU_ASSERT_EQUAL(0, val.exponent);
-
-            gsb_locale_shutdown();
-        }
-
-        /* Restore current locale and free memory */
-        setlocale(LC_MONETARY, lc_monetary_orig);
-        free(lc_monetary_orig) ;
-    }
 }
 
 void gsb_real_cunit__gsb_real_raw_get_from_string()
@@ -477,38 +397,6 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
 }
 
 
-void gsb_real_cunit__gsb_real_get_string_with_currency ( void )
-{
-    gchar *s;
-    gsb_real n;
-    gint currency_number = 1;
-
-    n.mantissa = 0;
-    n.exponent = 0;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
-    CU_ASSERT_STRING_EQUAL("0", s);
-    g_free(s);
-
-    n.mantissa = 31415;
-    n.exponent = 100;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
-    CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
-    g_free(s);
-
-    n.mantissa = 31415;
-    n.exponent = -1;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
-    CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
-    g_free(s);
-
-    n.mantissa = G_GINT64_CONSTANT(0x8000000000000000);
-    n.exponent = 2;
-    s = gsb_real_get_string_with_currency ( n, currency_number, FALSE );
-    CU_ASSERT_STRING_EQUAL(ERROR_REAL_STRING, s);
-    g_free(s);
-}
-
-
 void gsb_real_cunit__gsb_real_normalize()
 {
     gsb_real a;
@@ -720,8 +608,7 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
     if(NULL == pSuite)
         return NULL;
 
-    if ( ( NULL == CU_add_test( pSuite, "of gsb_real_get_from_string()",     gsb_real_cunit__gsb_real_get_from_string ) )
-      || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string()", gsb_real_cunit__gsb_real_raw_get_from_string ) )
+    if ( ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string()", gsb_real_cunit__gsb_real_raw_get_from_string ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_get_from_string() with locale", gsb_real_cunit__gsb_real_raw_get_from_string__locale ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_raw_format_string()",   gsb_real_cunit__gsb_real_raw_format_string ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_gsb_real_normalize()",  gsb_real_cunit__gsb_real_normalize ) )
@@ -729,7 +616,6 @@ CU_pSuite gsb_real_cunit_create_suite ( void )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_sub()",                 gsb_real_cunit__gsb_real_sub ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_mul()",                 gsb_real_cunit__gsb_real_mul ) )
       || ( NULL == CU_add_test( pSuite, "of gsb_real_adjust_exponent()",     gsb_real_cunit__gsb_real_adjust_exponent ) )
-      || ( NULL == CU_add_test( pSuite, "of gsb_real_get_string_with_currency()", gsb_real_cunit__gsb_real_get_string_with_currency ) )
        )
         return NULL;
 
