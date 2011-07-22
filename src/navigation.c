@@ -1089,7 +1089,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 {
     gint account_number, page_number;
     gint report_number;
-    gchar * title = NULL;
+    gchar *title = NULL;
     gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
@@ -1187,11 +1187,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_PAYEES_PAGE:
 	    notice_debug ("Payee page selected");
 
-	    title = g_strdup(_("Payees"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
         payees_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_SIMULATOR_PAGE:
@@ -1207,21 +1206,19 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");
 
-	    title = g_strdup(_("Categories"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
         categories_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
 	    notice_debug ("Budgetary page selected");
 
-	    title = g_strdup(_("Budgetary lines"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
 		budgetary_lines_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_REPORTS_PAGE:
@@ -1235,13 +1232,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		title = g_strdup(_("Reports"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
+	    gsb_form_set_expander_visible ( FALSE, FALSE );
 
 	    if ( report_number > 0 )
-		gsb_gui_update_gui_to_report ( report_number );
+            gsb_gui_update_gui_to_report ( report_number );
 	    else
-		gsb_gui_unsensitive_report_widgets ();
+            gsb_gui_unsensitive_report_widgets ();
 	    break;
 
 	default:
@@ -1250,12 +1246,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
-    /* title is set here except in GSB_ACCOUNT_PAGE case
-     * because gsb_navigation_update_account_label was called instead */
+    /* title is set here if necessary */
     if (title)
     {
-	gsb_gui_headings_update_title ( title );
-	g_free ( title );
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
     }
     if (clear_suffix)
         gsb_gui_headings_update_suffix ( "" );
