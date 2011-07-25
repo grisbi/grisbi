@@ -1360,7 +1360,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
  *
  *
  */
-gboolean gsb_gui_navigation_select_prev ()
+gboolean gsb_gui_navigation_select_prev ( void )
 {
     GtkTreeSelection * selection;
     GtkTreePath * path;
@@ -1375,9 +1375,10 @@ gboolean gsb_gui_navigation_select_prev ()
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 
-    if ( ! gtk_tree_path_prev ( path ) )
+    if ( !gtk_tree_path_prev ( path ) )
     {
-	gtk_tree_path_up ( path );
+        if ( gtk_tree_path_get_depth ( path ) > 1 )
+            gtk_tree_path_up ( path );
     }
     else
     {
@@ -1407,11 +1408,11 @@ gboolean gsb_gui_navigation_select_prev ()
  *
  *
  */
-gboolean gsb_gui_navigation_select_next ()
+gboolean gsb_gui_navigation_select_next ( void )
 {
-    GtkTreeSelection * selection;
-    GtkTreePath * path;
-    GtkTreeModel * model;
+    GtkTreeSelection *selection;
+    GtkTreePath *path;
+    GtkTreeModel *model;
     GtkTreeIter iter;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
@@ -1419,6 +1420,7 @@ gboolean gsb_gui_navigation_select_next ()
     
     if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
         return TRUE;
+
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 
@@ -1431,15 +1433,23 @@ gboolean gsb_gui_navigation_select_next ()
     }
     else
     {
-	if ( ! gtk_tree_model_iter_next ( model, &iter ) )
-	{
-	    gtk_tree_path_up ( path );
-	    gtk_tree_path_next ( path );
-	}
-	else
-	{ 
-	    path = gtk_tree_model_get_path ( model, &iter );
-	}
+        if ( !gtk_tree_model_iter_next ( model, &iter ) )
+        {
+            if ( gtk_tree_path_get_depth ( path ) > 1 )
+            {
+                gtk_tree_path_up ( path );
+                gtk_tree_path_next ( path );
+            }
+            else
+            {
+                gtk_tree_path_free ( path );
+                path = gtk_tree_path_new_first ( );
+            }
+        }
+        else
+        {
+            path = gtk_tree_model_get_path ( model, &iter );
+        }
     }
 
     gtk_tree_selection_select_path ( selection, path );
@@ -2311,12 +2321,17 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
                         GtkTreePath *path,
                         gpointer user_data )
 {
+    GtkTreeSelection *selection;
     GtkTreeModel *model;
+    GtkTreeIter iter_selected;
+    GtkTreePath *path_selected = NULL;
     gint type_page;
     gint etat_expander;
 
     etat_expander = GPOINTER_TO_INT ( user_data );
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    if ( gtk_tree_selection_get_selected ( selection, &model, &iter_selected ) )
+        path_selected = gtk_tree_model_get_path ( model, &iter_selected);
 
     gtk_tree_model_get ( model, iter, NAVIGATION_PAGE, &type_page, -1 );
 
@@ -2331,8 +2346,8 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
         break;
     }
 
-    if ( etat_expander == 0 )
-        gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), iter );
+    if ( etat_expander == 0 && path_selected == NULL )
+        gtk_tree_selection_select_iter ( selection, iter );
 }
 
 
