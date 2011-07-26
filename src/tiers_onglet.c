@@ -39,6 +39,7 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
+#include "fenetre_principale.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_form.h"
@@ -278,9 +279,10 @@ GtkWidget *payees_create_list ( void )
 	src_iface -> drag_data_get = &payee_drag_data_get;
     }
 
-    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
-		       "changed", G_CALLBACK(metatree_selection_changed),
-		       payee_tree_model );
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) ),
+                        "changed",
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
 
     /* création de la structure de sauvegarde de la position */
     payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
@@ -490,6 +492,12 @@ void payees_fill_list ( void )
 
     gsb_status_wait ( FALSE );
 
+    /* on bloque la fonction pendant la mise à jour du model */
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+    g_signal_handlers_block_by_func ( G_OBJECT ( selection ),
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
+
     /* Dettach the model so that insertion will be much faster */
     g_object_ref ( G_OBJECT(payee_tree_model) );
     gtk_tree_view_set_model ( GTK_TREE_VIEW (payee_tree), NULL );
@@ -528,6 +536,11 @@ void payees_fill_list ( void )
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
 			     GTK_TREE_MODEL (payee_tree_model));
 
+    /* on débloque la fonction de callback */
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( selection ),
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
+
     /* replace le curseur sur la division, sub_division ou opération initiale */
     if ( payee_hold_position -> path )
     {
@@ -540,17 +553,26 @@ void payees_fill_list ( void )
             gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), ancestor );
             gtk_tree_path_free (ancestor );
         }
+
         /* on colorise les lignes du tree_view */
         utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
         gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
                         payee_hold_position -> path,
                         NULL, TRUE, 0.5, 0.5 );
     }
     else
+    {
+        gchar *title;
+
         /* on colorise les lignes du tree_view */
         utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        /* on fixe le titre et le suffixe de la barre d'information */
+	    title = g_strdup(_("Payees"));
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
+        gsb_gui_headings_update_suffix ( "" );
+    }
 
     g_object_unref ( G_OBJECT ( payee_tree_model ) );
 

@@ -425,7 +425,7 @@ void gsb_gui_headings_update_suffix ( gchar * suffix )
  *
  * return		FALSE
  */
-gboolean gsb_gui_update_show_headings ()
+gboolean gsb_gui_update_show_headings ( void )
 {
     if ( etat.show_headings_bar )
     {

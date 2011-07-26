@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "categories_onglet.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_category.h"
@@ -338,8 +339,16 @@ void categories_fill_list ( void )
                         NULL, TRUE, 0.5, 0.5 );
     }
     else
+    {
+        gchar *title;
+
         /* on colorise les lignes du tree_view */
         utils_set_tree_view_background_color ( arbre_categ, META_TREE_BACKGROUND_COLOR );
+	    title = g_strdup(_("Categories"));
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
+        gsb_gui_headings_update_suffix ( "" );
+    }
 }
 
 
