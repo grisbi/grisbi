@@ -1030,11 +1030,9 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 
             white_line_number = gsb_data_scheduled_get_white_line ( scheduled_number );
             if ( white_line_number == -1 )
-            {
                 white_line_number = gsb_data_scheduled_new_white_line ( scheduled_number );
-                gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
-            }
 
+            gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
             gsb_scheduler_list_update_white_child ( white_line_number, scheduled_number );
         }
 
@@ -1115,10 +1113,14 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
     }
     else
     {
-	gchar* tmpstr = g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn't find the iter in the list...\nIt's normal if appending a new scheduled transaction, but abnormal else..."),
-					  scheduled_number );
-	warning_debug ( tmpstr);
-	g_free ( tmpstr );
+        gchar *tmpstr;
+
+        tmpstr = g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, "
+                            "ask to remove the transaction no %d,\nbut didn't find the iter in the list...\n"
+                            "It's normal if appending a new scheduled transaction, but abnormal else..."),
+                            scheduled_number );
+        warning_debug ( tmpstr);
+        g_free ( tmpstr );
     }
     return FALSE;
 }
@@ -1889,6 +1891,8 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     devel_debug_int (scheduled_number);
     if ( scheduled_number == 0 )
         gsb_form_fill_by_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ), FALSE, TRUE );
+    else if ( scheduled_number < 0 )
+        gsb_form_fill_by_transaction ( scheduled_number, FALSE, FALSE );
     else
         gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
     return FALSE;
@@ -1928,25 +1932,28 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
                         gboolean show_warning )
 {
     gchar *tmpstr;
+    gint mother_number = 0;
     gint result;
     gint msg_no = 0;
 
     devel_debug_int (scheduled_number);
 
     if ( !scheduled_number )
-	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
+        scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
 
     /* return for white line only if show_warning is set
      * (means the action is not automatic) */
     if ( scheduled_number <= 0
 	 &&
 	 show_warning )
-	return FALSE;
+        return FALSE;
+
+    mother_number = gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number );
 
     /* show a warning */
     if (show_warning)
     {
-        if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+        if ( mother_number )
         {
             /* ask all the time for a child */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
@@ -1990,89 +1997,93 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     /* split with child of split or normal scheduled,
      * for a child, we directly delete it, for mother, ask
      * for just that occurrence or the complete transaction */
-
-    if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+    if ( mother_number )
     {
-	/* !! important to remove first from the list... */
-	gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
-	gsb_data_scheduled_remove_scheduled (scheduled_number);
+        gint white_line_number;
+
+        /* !! important to remove first from the list... */
+        gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+        gsb_data_scheduled_remove_scheduled ( scheduled_number );
+
+        white_line_number = gsb_data_scheduled_get_white_line ( mother_number );
+        gsb_scheduler_list_update_white_child ( white_line_number, mother_number );
     }
     else
     {
-	/* ask if we want to remove only the current one (so only change the date
-	 * for the next) or all (so remove the transaction */
+        /* ask if we want to remove only the current one (so only change the date
+         * for the next) or all (so remove the transaction */
 
-	if ( gsb_data_scheduled_get_frequency (scheduled_number))
-	{
-	    GtkWidget * vbox, * checkbox, *dialog = NULL;
-	    gchar *occurences;
-
-        msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
-                        "delete-scheduled-occurences" );
-        
-        if ( delete_msg[msg_no].hidden )
-            result = delete_msg[msg_no].default_answer;
-        else
+        if ( gsb_data_scheduled_get_frequency ( scheduled_number) )
         {
-	    tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
-	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
-                        "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
-                        gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
-                        gsb_data_payee_get_name (
-                        gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-                        tmpstr,
-                        gsb_data_currency_get_name (
-                        gsb_data_scheduled_get_currency_number (scheduled_number)));
-	    g_free ( tmpstr );
+            GtkWidget * vbox, * checkbox, *dialog = NULL;
+            gchar *occurences;
 
-	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-                        make_hint ( _("Delete this scheduled transaction?"),
-                        occurences ));
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                            "delete-scheduled-occurences" );
+            
+            if ( delete_msg[msg_no].hidden )
+                result = delete_msg[msg_no].default_answer;
+            else
+            {
+            tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+            occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
+                            "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
+                            gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+                            gsb_data_payee_get_name (
+                            gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
+                            tmpstr,
+                            gsb_data_currency_get_name (
+                            gsb_data_scheduled_get_currency_number (scheduled_number)));
+            g_free ( tmpstr );
 
-	    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-                         GTK_STOCK_CANCEL, 2,
-                         _("All the occurences"), 1,
-                         _("Only this one"), 0,
-                         NULL );
+            dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                            make_hint ( _("Delete this scheduled transaction?"),
+                            occurences ));
 
-        vbox = GTK_DIALOG(dialog) -> vbox;
+            gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+                             GTK_STOCK_CANCEL, 2,
+                             _("All the occurences"), 1,
+                             _("Only this one"), 0,
+                             NULL );
 
-        checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
-        g_signal_connect ( G_OBJECT ( checkbox ),
-                        "toggled", 
-                        G_CALLBACK ( dialogue_update_struct_message ),
-                        &delete_msg[msg_no] );
-        gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
-        gtk_widget_show_all ( checkbox );
+            vbox = GTK_DIALOG(dialog) -> vbox;
 
-	    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+            checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+            g_signal_connect ( G_OBJECT ( checkbox ),
+                            "toggled",
+                            G_CALLBACK ( dialogue_update_struct_message ),
+                            &delete_msg[msg_no] );
+            gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+            gtk_widget_show_all ( checkbox );
 
-        delete_msg[msg_no].default_answer = result;
-	    g_free (occurences);
-	    gtk_widget_destroy ( dialog );
+            result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+            delete_msg[msg_no].default_answer = result;
+            g_free (occurences);
+            gtk_widget_destroy ( dialog );
+            }
         }
-	}
-	else
-	    result = 1;
+        else
+            result = 1;
 
-	switch ( result )
-	{
-	    case 0:
-		if ( gsb_scheduler_increase_scheduled (scheduled_number))
-		    gsb_scheduler_list_update_transaction_in_list (scheduled_number);
-		break;
+        switch ( result )
+        {
+            case 0:
+            if ( gsb_scheduler_increase_scheduled (scheduled_number))
+                gsb_scheduler_list_update_transaction_in_list (scheduled_number);
+            break;
 
-	    case 1:
-		/* !! important to remove first from the list... */
-		gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
-		gsb_data_scheduled_remove_scheduled (scheduled_number);
-		break;
-	}
+            case 1:
+            /* !! important to remove first from the list... */
+            gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+            gsb_data_scheduled_remove_scheduled ( scheduled_number );
+            break;
+        }
     }
 
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-    gsb_calendar_update ();
+    gsb_calendar_update ( );
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
     gsb_file_set_modified ( TRUE );
