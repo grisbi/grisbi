@@ -94,6 +94,8 @@ static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
                         gpointer null );
+static gboolean gsb_scheduler_list_set_color_of_mother ( gint mother_scheduled_number,
+                        gboolean is_red );
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
@@ -531,9 +533,10 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
             case 0:
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
 									      cell_renderer,
-									      "text", i,
-									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
-									      "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
 									      NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -554,6 +557,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -574,6 +578,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -594,6 +599,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 4:
@@ -602,6 +608,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 5:
@@ -610,6 +617,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 6:
@@ -651,19 +659,20 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
     devel_debug (NULL);
 
     store = gtk_tree_store_new ( SCHEDULER_COL_NB_TOTAL,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 GDK_TYPE_COLOR,
-				 GDK_TYPE_COLOR,
-				 G_TYPE_STRING,
-				 G_TYPE_INT,
-				 PANGO_TYPE_FONT_DESCRIPTION,
-				 G_TYPE_INT );
+				 G_TYPE_STRING,                 /* COL_NB_DATE */
+				 G_TYPE_STRING,                 /* COL_NB_ACCOUNT */
+				 G_TYPE_STRING,                 /* COL_NB_PARTY */
+				 G_TYPE_STRING,                 /* COL_NB_FREQUENCY */
+				 G_TYPE_STRING,                 /* COL_NB_MODE */
+				 G_TYPE_STRING,                 /* COL_NB_NOTES */
+				 G_TYPE_STRING,                 /* COL_NB_AMOUNT */
+				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_BACKGROUND */
+				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
+				 G_TYPE_STRING,                 /* SCHEDULER_COL_NB_AMOUNT_COLOR */
+				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_TRANSACTION_NUMBER */
+				 PANGO_TYPE_FONT_DESCRIPTION,   /* SCHEDULER_COL_NB_FONT */
+				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_VIRTUAL_TRANSACTION */
+				 G_TYPE_STRING );               /* SCHEDULER_COL_NB_TEXT_COLOR */
 
     gsb_scheduler_list_set_model (GTK_TREE_MODEL (store));
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
@@ -2745,9 +2754,14 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
 
         g_free ( amount_string );
         g_free ( variance_string );
+
+        gsb_scheduler_list_set_color_of_mother ( mother_scheduled_number, TRUE );
     }
     else
+    {
         tmp_str = "";
+        gsb_scheduler_list_set_color_of_mother ( mother_scheduled_number, FALSE );
+    }
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ), iter, 2, tmp_str, -1 );
 
@@ -2766,6 +2780,37 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
 GtkWidget *gsb_scheduler_list_get_toolbar ( void )
 {
     return scheduler_toolbar;
+}
+
+
+/**
+ * set the text red if the variance is nonzero
+ *
+ *
+ */
+gboolean gsb_scheduler_list_set_color_of_mother ( gint mother_scheduled_number,
+                        gboolean is_red )
+{
+    GtkTreeIter *iter = NULL;
+    gchar *color_str = NULL;
+    gint i;
+
+    iter = gsb_scheduler_list_get_iter_from_scheduled_number ( mother_scheduled_number );
+    if ( !iter )
+        return FALSE;
+
+    if ( is_red )
+        color_str = "red";
+
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++ )
+    {
+        gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
+                        iter,
+                        SCHEDULER_COL_NB_TEXT_COLOR, color_str,
+                        -1 );
+    }
+
+    return TRUE;
 }
 
 

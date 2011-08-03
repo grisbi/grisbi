@@ -13,12 +13,13 @@ enum
     COL_NB_NOTES,
     COL_NB_AMOUNT,
 
-    SCHEDULER_COL_NB_BACKGROUND,		/*< color of the background */
+    SCHEDULER_COL_NB_BACKGROUND,		    /*< color of the background */
     SCHEDULER_COL_NB_SAVE_BACKGROUND,		/*< when selection, save of the normal color of background */
-    SCHEDULER_COL_NB_AMOUNT_COLOR, 		/*< color of the amount */
+    SCHEDULER_COL_NB_AMOUNT_COLOR, 		    /*< color of the amount */
     SCHEDULER_COL_NB_TRANSACTION_NUMBER,
-    SCHEDULER_COL_NB_FONT,			/*< PangoFontDescription if used */
+    SCHEDULER_COL_NB_FONT,			        /*< PangoFontDescription if used */
     SCHEDULER_COL_NB_VIRTUAL_TRANSACTION,	/*< to 1 if it's a calculated scheduled transaction (for longer view), so, cannot edit */
+    SCHEDULER_COL_NB_TEXT_COLOR,            /*< color of the text */
 
     SCHEDULER_COL_NB_TOTAL,
 };
