@@ -53,6 +53,8 @@ gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_numb
                         gboolean show_warning );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
                         gboolean update_tree_view );
+gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+                        gpointer null );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
                         gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
