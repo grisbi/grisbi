@@ -2654,7 +2654,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
  *
  * \param menu_item The GtkMenuItem that triggered this handler.
  */
-void move_selected_operation_to_account_nb ( gint *account )
+void move_selected_operation_to_account_nb ( GtkAction *action, gint *account )
 {
     gint target_account, source_account;
 
