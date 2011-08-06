@@ -103,7 +103,6 @@ static gint transfert_number;
 void bet_data_select_bet_pages ( gint account_number )
 {
     GtkWidget *page;
-    GtkWidget *tree_view;
     kind_account kind;
     gint current_page;
     gint bet_use_budget;
@@ -118,14 +117,11 @@ void bet_data_select_bet_pages ( gint account_number )
     else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
         kind = GSB_TYPE_BANK;
 
-    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
-
     switch ( kind )
     {
     case GSB_TYPE_BANK:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );
-        bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
@@ -154,7 +150,6 @@ void bet_data_select_bet_pages ( gint account_number )
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
-        bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
