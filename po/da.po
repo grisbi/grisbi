@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-22 08:52+0200\n"
+"POT-Creation-Date: 2011-08-06 09:51+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Generator: KBabel 1.11.1\n"
 
 #: ../src/accueil.c:204
@@ -642,7 +642,7 @@ msgstr ""
 #: ../src/bet_config.c:683 ../src/bet_hist.c:164 ../src/etats_config.c:527
 #: ../src/etats_config.c:530 ../src/etats_config.c:2992
 #: ../src/etats_config.c:7058 ../src/fenetre_principale.c:285
-#: ../src/navigation.c:316 ../src/navigation.c:1217
+#: ../src/navigation.c:320 ../src/navigation.c:1231
 msgid "Categories"
 msgstr "Kategorier"
 
@@ -653,7 +653,7 @@ msgstr "Kategorier"
 #: ../src/etats_config.c:539 ../src/etats_config.c:3798
 #: ../src/etats_config.c:7135 ../src/export_csv.c:812
 #: ../src/fenetre_principale.c:290 ../src/import_csv.c:88
-#: ../src/navigation.c:332 ../src/navigation.c:1228
+#: ../src/navigation.c:336 ../src/navigation.c:1242
 #: ../src/traitement_variables.c:92
 msgid "Budgetary lines"
 msgstr ""
@@ -768,7 +768,7 @@ msgstr ""
 
 #. set the title
 #: ../src/bet_finance_ui.c:214 ../src/fenetre_principale.c:280
-#: ../src/navigation.c:300 ../src/navigation.c:1206
+#: ../src/navigation.c:304 ../src/navigation.c:1220
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Kreditkort"
@@ -916,7 +916,7 @@ msgstr "Bankkonto:"
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1296
 #: ../src/gsb_form_widget.c:409 ../src/gsb_reconcile.c:158
 #: ../src/gsb_scheduler_list.c:362 ../src/gsb_transactions_list.c:153
-#: ../src/import.c:3317 ../src/import_csv.c:81
+#: ../src/import.c:3316 ../src/import_csv.c:81
 #: ../src/traitement_variables.c:89
 msgid "Date"
 msgstr "Dato"
@@ -1107,7 +1107,7 @@ msgstr "Væl betaligsmåde"
 #: ../src/export_csv.c:788 ../src/fenetre_principale.c:275
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1317
 #: ../src/gsb_form_widget.c:429 ../src/gsb_scheduler_list.c:362
-#: ../src/gsb_transactions_list.c:155 ../src/import.c:3324
+#: ../src/gsb_transactions_list.c:155 ../src/import.c:3323
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
 #: ../src/traitement_variables.c:91
 #, fuzzy
@@ -1236,7 +1236,7 @@ msgstr "Dato"
 #: ../src/bet_hist.c:560 ../src/categories_onglet.c:175
 #: ../src/etats_config.c:5240 ../src/export_csv.c:797
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:363
-#: ../src/gsb_transactions_list.c:160 ../src/import.c:3331
+#: ../src/gsb_transactions_list.c:160 ../src/import.c:3330
 #: ../src/imputation_budgetaire.c:184 ../src/tiers_onglet.c:246
 #: ../src/traitement_variables.c:96
 msgid "Amount"
@@ -1580,7 +1580,7 @@ msgstr "Lukkede planlagte transaktioner"
 #: ../src/gsb_assistant_reconcile_config.c:596
 #: ../src/gsb_payment_method_config.c:160 ../src/gsb_reconcile_config.c:102
 #: ../src/gsb_scheduler_list.c:362 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1145 ../src/tiers_onglet.c:237
+#: ../src/navigation.c:1159 ../src/tiers_onglet.c:237
 msgid "Account"
 msgstr "Konto"
 
@@ -1655,7 +1655,7 @@ msgid "Create a new sub-category"
 msgstr "Giv den nye underkategori et navn"
 
 #: ../src/categories_onglet.c:532 ../src/etats_onglet.c:132
-#: ../src/import.c:438 ../src/import.c:3636 ../src/imputation_budgetaire.c:564
+#: ../src/import.c:438 ../src/import.c:3635 ../src/imputation_budgetaire.c:564
 #: ../src/parametres.c:322 ../src/utils_files.c:669
 msgid "Import"
 msgstr "Importér"
@@ -2436,7 +2436,7 @@ msgstr ""
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:509 ../src/etats_config.c:512
 #: ../src/etats_config.c:6993 ../src/fenetre_principale.c:238
-#: ../src/navigation.c:251
+#: ../src/navigation.c:255
 msgid "Accounts"
 msgstr ""
 
@@ -2717,7 +2717,7 @@ msgid "Outgoing budget lines"
 msgstr ""
 
 #. set the title
-#: ../src/etats_config.c:3982 ../src/navigation.c:284 ../src/navigation.c:1195
+#: ../src/etats_config.c:3982 ../src/navigation.c:288 ../src/navigation.c:1209
 #: ../src/tiers_onglet.c:228
 #, fuzzy
 msgid "Payees"
@@ -3293,7 +3293,7 @@ msgid "Clone selected report"
 msgstr ""
 
 #: ../src/etats_onglet.c:215 ../src/fenetre_principale.c:295
-#: ../src/navigation.c:348 ../src/navigation.c:1244
+#: ../src/navigation.c:352 ../src/navigation.c:1258
 msgid "Reports"
 msgstr ""
 
@@ -3647,7 +3647,7 @@ msgstr "Forkert dato"
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/fenetre_principale.c:270 ../src/navigation.c:268
+#: ../src/fenetre_principale.c:270 ../src/navigation.c:272
 #: ../src/parametres.c:350 ../src/parametres.c:1128
 msgid "Scheduler"
 msgstr ""
@@ -3854,7 +3854,7 @@ msgstr "Check"
 msgid "Cyrillic"
 msgstr ""
 
-#: ../src/go-charmap-sel.c:185 ../src/help.c:133
+#: ../src/go-charmap-sel.c:185 ../src/help.c:134
 msgid "Greek"
 msgstr ""
 
@@ -3891,7 +3891,7 @@ msgstr ""
 msgid "Western"
 msgstr "Website"
 
-#: ../src/go-charmap-sel.c:194 ../src/help.c:116 ../src/import_csv.c:110
+#: ../src/go-charmap-sel.c:194 ../src/help.c:117 ../src/import_csv.c:110
 msgid "Other"
 msgstr ""
 
@@ -7122,7 +7122,7 @@ msgid "No payee defined"
 msgstr ""
 
 #: ../src/gsb_data_payee.c:541 ../src/gsb_form.c:3007 ../src/gsb_form.c:3008
-#: ../src/navigation.c:1242
+#: ../src/navigation.c:1256
 msgid "Report"
 msgstr "Rapport"
 
@@ -7536,11 +7536,11 @@ msgstr ""
 msgid "Name the accounts file"
 msgstr ""
 
-#: ../src/gsb_file.c:1140
+#: ../src/gsb_file.c:1143
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1160
+#: ../src/gsb_file.c:1163
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -8425,7 +8425,7 @@ msgid "Only this one"
 msgstr ""
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1958 ../src/navigation.c:1168
+#: ../src/gsb_scheduler_list.c:1958 ../src/navigation.c:1182
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "Lukkede planlagte transaktioner"
@@ -8729,56 +8729,55 @@ msgstr ""
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
-#: ../src/help.c:93
+#: ../src/help.c:94
 #, fuzzy
 msgid "Programming"
 msgstr "Programmer"
 
-#: ../src/help.c:102
+#: ../src/help.c:103
 msgid "Packaging"
 msgstr ""
 
-#: ../src/help.c:123 ../src/help.c:124 ../src/help.c:126
+#: ../src/help.c:124 ../src/help.c:125 ../src/help.c:127
 msgid "English"
 msgstr ""
 
-#: ../src/help.c:125
+#: ../src/help.c:126
 #, fuzzy
 msgid "Spanish"
 msgstr "Symbol"
 
-#: ../src/help.c:127
+#: ../src/help.c:128
 msgid "Dutch"
 msgstr ""
 
-#: ../src/help.c:128 ../src/help.c:130
+#: ../src/help.c:129 ../src/help.c:131
 #, fuzzy
 msgid "Italian"
 msgstr "Ialt"
 
-#: ../src/help.c:129
+#: ../src/help.c:130
 msgid "Brazilian Portuguese"
 msgstr ""
 
-#: ../src/help.c:131
+#: ../src/help.c:132
 #, fuzzy
 msgid "German"
 msgstr "Generelt"
 
-#: ../src/help.c:132
+#: ../src/help.c:133
 msgid "Polish"
 msgstr ""
 
-#. Plugins list
-#: ../src/help.c:160
+#: ../src/help.c:174 ../src/help.c:190
 msgid "Personal finance manager for everyone\n"
 msgstr ""
 
-#: ../src/help.c:165
+#: ../src/help.c:179
 msgid "This instance of Grisbi was compiled on\n"
 msgstr ""
 
-#: ../src/help.c:168
+#: ../src/help.c:182
 #, fuzzy
 msgid "at"
 msgstr "Dato"
@@ -8824,14 +8823,14 @@ msgstr ""
 msgid "File name"
 msgstr "Indehaver"
 
-#: ../src/import.c:538 ../src/import.c:693 ../src/import.c:4403
+#: ../src/import.c:538 ../src/import.c:693 ../src/import.c:4402
 #: ../src/import_csv.c:1083 ../src/import_csv.c:1109
 #, c-format
 msgid "Unable to read file: %s\n"
 msgstr ""
 
-#: ../src/import.c:641 ../src/import.c:750 ../src/import.c:4299
-#: ../src/import.c:4322
+#: ../src/import.c:641 ../src/import.c:750 ../src/import.c:4298
+#: ../src/import.c:4321
 msgid "Unknown"
 msgstr "Ukendt"
 
@@ -9038,172 +9037,172 @@ msgid ""
 "We skip it"
 msgstr ""
 
-#: ../src/import.c:3226
+#: ../src/import.c:3225
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Fly transaktioner til kategori"
 
-#: ../src/import.c:3244
+#: ../src/import.c:3243
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 
-#: ../src/import.c:3310
+#: ../src/import.c:3309
 msgid "Mark"
 msgstr ""
 
-#: ../src/import.c:3364
+#: ../src/import.c:3363
 msgid "The id of the imported and chosen accounts are different"
 msgstr ""
 
-#: ../src/import.c:3365
+#: ../src/import.c:3364
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
 msgstr ""
 
-#: ../src/import.c:3614
+#: ../src/import.c:3613
 #, c-format
 msgid "%s #%d"
 msgstr ""
 
-#: ../src/import.c:3641
+#: ../src/import.c:3640
 #, fuzzy
 msgid "Import settings"
 msgstr "Eksportér kategorier"
 
-#: ../src/import.c:3648
+#: ../src/import.c:3647
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr ""
 
-#: ../src/import.c:3667
+#: ../src/import.c:3666
 #, fuzzy
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Opret en planlagt transaktion"
 
-#: ../src/import.c:3677
+#: ../src/import.c:3676
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/import.c:3688 ../src/tiers_onglet.c:1042
+#: ../src/import.c:3687 ../src/tiers_onglet.c:1042
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: ../src/import.c:3696
+#: ../src/import.c:3695
 #, fuzzy
 msgid "Set the financial year"
 msgstr "Vælg regnskabsår"
 
-#: ../src/import.c:3697
+#: ../src/import.c:3696
 msgid "According to the date"
 msgstr ""
 
-#: ../src/import.c:3698
+#: ../src/import.c:3697
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/import.c:3723
+#: ../src/import.c:3722
 #, fuzzy
 msgid "Manage import associations"
 msgstr "Yderligere info"
 
-#: ../src/import.c:3730 ../src/parametres.c:331
+#: ../src/import.c:3729 ../src/parametres.c:331
 #, fuzzy
 msgid "Import associations"
 msgstr "Eksportér kategorier"
 
-#: ../src/import.c:3732
+#: ../src/import.c:3731
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
 "specific payee representing your landlord."
 msgstr ""
 
-#: ../src/import.c:3801 ../src/tiers_onglet.c:1145
+#: ../src/import.c:3800 ../src/tiers_onglet.c:1145
 #, fuzzy
 msgid "Payee name"
 msgstr "Kategori ialt"
 
-#: ../src/import.c:3815
+#: ../src/import.c:3814
 msgid "Search string"
 msgstr ""
 
-#: ../src/import.c:3824
+#: ../src/import.c:3823
 #, fuzzy
 msgid "Details of associations"
 msgstr "Skjul afstemte transaktioner"
 
 #. Create entry liste des tiers
-#: ../src/import.c:3833
+#: ../src/import.c:3832
 #, fuzzy
 msgid "Payee name: "
 msgstr "Kategori ialt:"
 
 #. Create entry search string
-#: ../src/import.c:3856
+#: ../src/import.c:3855
 msgid "Search string: "
 msgstr ""
 
-#: ../src/import.c:4150
+#: ../src/import.c:4149
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: ../src/import.c:4387
+#: ../src/import.c:4386
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4447
+#: ../src/import.c:4446
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4538
+#: ../src/import.c:4537
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4549
+#: ../src/import.c:4548
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr ""
 
-#: ../src/import.c:4568
+#: ../src/import.c:4567
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Fly transaktioner til kategori"
 
-#: ../src/import.c:4571
+#: ../src/import.c:4570
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "Fly transaktioner til kategori"
 
 #. textstring 2
-#: ../src/import.c:4576
+#: ../src/import.c:4575
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr ""
 
-#: ../src/import.c:4583
+#: ../src/import.c:4582
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Fly transaktioner til kategori"
 
 #. label filename
-#: ../src/import.c:4594
+#: ../src/import.c:4593
 msgid "Name of the file to import: "
 msgstr ""
 
-#: ../src/import.c:4695
+#: ../src/import.c:4694
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr ""
 
-#: ../src/import.c:4724
+#: ../src/import.c:4723
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Kan ikke importerer fil."
@@ -9866,25 +9865,25 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr ""
 
-#: ../src/navigation.c:1021
+#: ../src/navigation.c:1035
 msgid "Last statement: "
 msgstr ""
 
-#: ../src/navigation.c:1022 ../src/navigation.c:1034
+#: ../src/navigation.c:1036 ../src/navigation.c:1048
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "Afstemt balance"
 
-#: ../src/navigation.c:1033 ../src/navigation.c:1041
+#: ../src/navigation.c:1047 ../src/navigation.c:1055
 msgid "Last statement: none"
 msgstr ""
 
 #. set the title
-#: ../src/navigation.c:1057
+#: ../src/navigation.c:1071
 msgid "Account transactions"
 msgstr "Kontotransaktioner"
 
-#: ../src/navigation.c:1063
+#: ../src/navigation.c:1077
 #, fuzzy
 msgid "closed"
 msgstr "Luk"
