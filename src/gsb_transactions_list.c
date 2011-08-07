@@ -95,9 +95,6 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint transaction_number );
-/* static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
- *                         gpointer null );
- */
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
@@ -2515,16 +2512,15 @@ void popup_transaction_context_menu ( gboolean full, int x, int y )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* use transaction as template */
-/*     menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
- *     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
- * 				    gtk_image_new_from_stock ( GTK_STOCK_COPY,
- * 							       GTK_ICON_SIZE_MENU ));
- *     g_signal_connect ( G_OBJECT(menu_item), "activate",
- * 		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
- *     gtk_widget_set_sensitive ( menu_item, full );
- *     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
- *
- */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Use selected transaction as a template") );
+    gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
+				    gtk_image_new_from_stock ( GTK_STOCK_COPY,
+							       GTK_ICON_SIZE_MENU ));
+    g_signal_connect ( G_OBJECT(menu_item), "activate",
+		       G_CALLBACK (gsb_transactions_list_clone_template), NULL );
+    gtk_widget_set_sensitive ( menu_item, full );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
     /* Clone transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
@@ -2783,8 +2779,6 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
     update_transaction_in_trees (new_transaction_number);
 
-/*     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );  */
-
     transaction_list_select ( new_transaction_number );
     gsb_transactions_list_edit_transaction ( new_transaction_number );
     g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget ( ) ),
@@ -2807,34 +2801,45 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
  *
  * \return FALSE
  * */
-/* static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
- *                         gpointer null )
- * {
- *     gint new_transaction_number;
- *
- *     if ( !assert_selected_transaction ( ) )
- *         return FALSE;
- *
- *     new_transaction_number = gsb_transactions_list_clone_transaction (
- *                                     gsb_data_account_get_current_transaction_number (
- *                                     gsb_gui_navigation_get_current_account ( ) ),
- * 								    0 );
- *
- *     update_transaction_in_trees ( new_transaction_number );
- *
- *     transaction_list_select ( new_transaction_number );
- *     gsb_transactions_list_edit_transaction ( new_transaction_number );
- *     g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget ( ) ),
- * 			    "transaction_selected_in_form",
- * 			    GINT_TO_POINTER ( -1 ) );
- */
+gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+                        gpointer null )
+{
+    gint new_transaction_number;
+    gint account_number;
+    GDate *date;
+
+    if ( !assert_selected_transaction ( ) )
+        return FALSE;
+
+    account_number = gsb_gui_navigation_get_current_account ( );
+    new_transaction_number = gsb_transactions_list_clone_transaction (
+                                    gsb_data_account_get_current_transaction_number (
+                                    account_number ),
+								    0 );
+
+    date = gdate_today ( );
+    gsb_data_transaction_set_date ( new_transaction_number, date );
+    gsb_data_transaction_set_value_date ( new_transaction_number, NULL );
+    g_date_free ( date );
+
+    gsb_transactions_list_update_transaction ( new_transaction_number );
+    update_transaction_in_trees ( new_transaction_number );
+
+    transaction_list_select ( new_transaction_number );
+    gsb_transactions_list_edit_transaction ( new_transaction_number );
+    g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget ( ) ),
+			    "transaction_selected_in_form",
+			    GINT_TO_POINTER ( -1 ) );
+
+    gsb_transactions_list_update_tree_view ( account_number, TRUE );
 
     /* force the update module budget */
-/*    gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
     gsb_file_set_modified ( TRUE );
+
     return FALSE;
-}*/
+}
 
 
 /**
@@ -2957,7 +2962,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
  *
  * \param menu_item The GtkMenuItem that triggered this handler.
  */
-void move_selected_operation_to_account_nb ( gint *account )
+void move_selected_operation_to_account_nb ( GtkAction *action, gint *account )
 {
     gint target_account, source_account;
 

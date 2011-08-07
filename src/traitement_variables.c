@@ -345,6 +345,7 @@ void menus_sensitifs ( gboolean sensitif )
         "/menubar/FileMenu/Close",
         "/menubar/EditMenu/NewTransaction",
         "/menubar/EditMenu/RemoveTransaction",
+        "/menubar/EditMenu/TemplateTransaction",
         "/menubar/EditMenu/CloneTransaction",
         "/menubar/EditMenu/EditTransaction",
         "/menubar/EditMenu/ConvertToScheduled",

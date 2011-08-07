@@ -53,6 +53,8 @@ gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_numb
                         gboolean show_warning );
 gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
                         gboolean update_tree_view );
+gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+                        gpointer null );
 gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
                         gint show_warning );
 gboolean gsb_transactions_list_delete_transaction_from_tree_view ( gint transaction_number );
@@ -86,7 +88,7 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number );
 void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction );
 void mise_a_jour_affichage_r ( gboolean show_r );
-void move_selected_operation_to_account_nb ( gint *account );
+void move_selected_operation_to_account_nb ( GtkAction *action, gint *account );
 gboolean new_transaction ();
 void remove_transaction ();
 void schedule_selected_transaction ();

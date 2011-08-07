@@ -115,6 +115,7 @@ static const gchar *ui_manager_buffer =
 "      <separator/>"
 "      <menuitem name='NewTransaction' action='NewTransactionAction'/>"
 "      <menuitem name='RemoveTransaction' action='RemoveTransactionAction'/>"
+"      <menuitem name='TemplateTransaction' action='TemplateTransactionAction'/>"
 "      <menuitem name='CloneTransaction' action='CloneTransactionAction'/>"
 "      <separator/>"
 "      <menuitem name='ConvertToScheduled' action='ConvertToScheduledAction'/>"
@@ -217,6 +218,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( new_transaction ) },
         {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
          G_CALLBACK ( remove_transaction ) },
+        {"TemplateTransactionAction", GTK_STOCK_COPY, _("Use selected transaction as a template"), "", NULL,
+         G_CALLBACK ( gsb_transactions_list_clone_template ) },
         {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
          G_CALLBACK ( clone_selected_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
@@ -805,6 +808,7 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/TemplateTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );

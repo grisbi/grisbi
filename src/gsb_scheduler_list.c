@@ -94,6 +94,8 @@ static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
                         gpointer null );
+static gboolean gsb_scheduler_list_set_color_of_mother ( gint mother_scheduled_number,
+                        gboolean is_red );
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
@@ -531,9 +533,10 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
             case 0:
                 scheduler_list_column[i] = gtk_tree_view_column_new_with_attributes ( scheduler_titles[i],
 									      cell_renderer,
-									      "text", i,
-									      "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
-									      "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "text", i,
+                                            "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
+                                            "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
 									      NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -554,6 +557,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -574,6 +578,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model_sort_scheduler_list ),
                                             i,
@@ -594,6 +599,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 4:
@@ -602,6 +608,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 5:
@@ -610,6 +617,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
                                             "text", i,
                                             "cell-background-gdk", SCHEDULER_COL_NB_BACKGROUND,
                                             "font-desc", SCHEDULER_COL_NB_FONT,
+                                            "foreground", SCHEDULER_COL_NB_TEXT_COLOR,
                                             NULL );
                 break;
             case 6:
@@ -651,19 +659,20 @@ GtkTreeModel *gsb_scheduler_list_create_model ( void )
     devel_debug (NULL);
 
     store = gtk_tree_store_new ( SCHEDULER_COL_NB_TOTAL,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 G_TYPE_STRING,
-				 GDK_TYPE_COLOR,
-				 GDK_TYPE_COLOR,
-				 G_TYPE_STRING,
-				 G_TYPE_INT,
-				 PANGO_TYPE_FONT_DESCRIPTION,
-				 G_TYPE_INT );
+				 G_TYPE_STRING,                 /* COL_NB_DATE */
+				 G_TYPE_STRING,                 /* COL_NB_ACCOUNT */
+				 G_TYPE_STRING,                 /* COL_NB_PARTY */
+				 G_TYPE_STRING,                 /* COL_NB_FREQUENCY */
+				 G_TYPE_STRING,                 /* COL_NB_MODE */
+				 G_TYPE_STRING,                 /* COL_NB_NOTES */
+				 G_TYPE_STRING,                 /* COL_NB_AMOUNT */
+				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_BACKGROUND */
+				 GDK_TYPE_COLOR,                /* SCHEDULER_COL_NB_SAVE_BACKGROUND */
+				 G_TYPE_STRING,                 /* SCHEDULER_COL_NB_AMOUNT_COLOR */
+				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_TRANSACTION_NUMBER */
+				 PANGO_TYPE_FONT_DESCRIPTION,   /* SCHEDULER_COL_NB_FONT */
+				 G_TYPE_INT,                    /* SCHEDULER_COL_NB_VIRTUAL_TRANSACTION */
+				 G_TYPE_STRING );               /* SCHEDULER_COL_NB_TEXT_COLOR */
 
     gsb_scheduler_list_set_model (GTK_TREE_MODEL (store));
     sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL (store));
@@ -1030,11 +1039,9 @@ gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
 
             white_line_number = gsb_data_scheduled_get_white_line ( scheduled_number );
             if ( white_line_number == -1 )
-            {
                 white_line_number = gsb_data_scheduled_new_white_line ( scheduled_number );
-                gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
-            }
 
+            gsb_scheduler_list_append_new_scheduled ( white_line_number, end_date );
             gsb_scheduler_list_update_white_child ( white_line_number, scheduled_number );
         }
 
@@ -1115,10 +1122,14 @@ gboolean gsb_scheduler_list_remove_transaction_from_list ( gint scheduled_number
     }
     else
     {
-	gchar* tmpstr = g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, ask to remove the transaction no %d,\nbut didn't find the iter in the list...\nIt's normal if appending a new scheduled transaction, but abnormal else..."),
-					  scheduled_number );
-	warning_debug ( tmpstr);
-	g_free ( tmpstr );
+        gchar *tmpstr;
+
+        tmpstr = g_strdup_printf ( _("in gsb_scheduler_list_remove_transaction_from_list, "
+                            "ask to remove the transaction no %d,\nbut didn't find the iter in the list...\n"
+                            "It's normal if appending a new scheduled transaction, but abnormal else..."),
+                            scheduled_number );
+        warning_debug ( tmpstr);
+        g_free ( tmpstr );
     }
     return FALSE;
 }
@@ -1889,6 +1900,8 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     devel_debug_int (scheduled_number);
     if ( scheduled_number == 0 )
         gsb_form_fill_by_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ), FALSE, TRUE );
+    else if ( scheduled_number < 0 )
+        gsb_form_fill_by_transaction ( scheduled_number, FALSE, FALSE );
     else
         gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
     return FALSE;
@@ -1928,25 +1941,28 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
                         gboolean show_warning )
 {
     gchar *tmpstr;
+    gint mother_number = 0;
     gint result;
     gint msg_no = 0;
 
     devel_debug_int (scheduled_number);
 
     if ( !scheduled_number )
-	scheduled_number = gsb_scheduler_list_get_current_scheduled_number ();
+        scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
 
     /* return for white line only if show_warning is set
      * (means the action is not automatic) */
     if ( scheduled_number <= 0
 	 &&
 	 show_warning )
-	return FALSE;
+        return FALSE;
+
+    mother_number = gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number );
 
     /* show a warning */
     if (show_warning)
     {
-        if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+        if ( mother_number )
         {
             /* ask all the time for a child */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
@@ -1990,89 +2006,93 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     /* split with child of split or normal scheduled,
      * for a child, we directly delete it, for mother, ask
      * for just that occurrence or the complete transaction */
-
-    if ( gsb_data_scheduled_get_mother_scheduled_number (scheduled_number))
+    if ( mother_number )
     {
-	/* !! important to remove first from the list... */
-	gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
-	gsb_data_scheduled_remove_scheduled (scheduled_number);
+        gint white_line_number;
+
+        /* !! important to remove first from the list... */
+        gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+        gsb_data_scheduled_remove_scheduled ( scheduled_number );
+
+        white_line_number = gsb_data_scheduled_get_white_line ( mother_number );
+        gsb_scheduler_list_update_white_child ( white_line_number, mother_number );
     }
     else
     {
-	/* ask if we want to remove only the current one (so only change the date
-	 * for the next) or all (so remove the transaction */
+        /* ask if we want to remove only the current one (so only change the date
+         * for the next) or all (so remove the transaction */
 
-	if ( gsb_data_scheduled_get_frequency (scheduled_number))
-	{
-	    GtkWidget * vbox, * checkbox, *dialog = NULL;
-	    gchar *occurences;
-
-        msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
-                        "delete-scheduled-occurences" );
-        
-        if ( delete_msg[msg_no].hidden )
-            result = delete_msg[msg_no].default_answer;
-        else
+        if ( gsb_data_scheduled_get_frequency ( scheduled_number) )
         {
-	    tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
-	    occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
-                        "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
-                        gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
-                        gsb_data_payee_get_name (
-                        gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
-                        tmpstr,
-                        gsb_data_currency_get_name (
-                        gsb_data_scheduled_get_currency_number (scheduled_number)));
-	    g_free ( tmpstr );
+            GtkWidget * vbox, * checkbox, *dialog = NULL;
+            gchar *occurences;
 
-	    dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-                        make_hint ( _("Delete this scheduled transaction?"),
-                        occurences ));
+            msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
+                            "delete-scheduled-occurences" );
+            
+            if ( delete_msg[msg_no].hidden )
+                result = delete_msg[msg_no].default_answer;
+            else
+            {
+            tmpstr = utils_real_get_string (gsb_data_scheduled_get_amount (scheduled_number));
+            occurences = g_strdup_printf ( _("Do you want to delete just this occurrence or "
+                            "the whole scheduled transaction?\n\n%s : %s [%s %s]"),
+                            gsb_format_gdate ( gsb_data_scheduled_get_date (scheduled_number)),
+                            gsb_data_payee_get_name (
+                            gsb_data_scheduled_get_party_number (scheduled_number), FALSE ),
+                            tmpstr,
+                            gsb_data_currency_get_name (
+                            gsb_data_scheduled_get_currency_number (scheduled_number)));
+            g_free ( tmpstr );
 
-	    gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-                         GTK_STOCK_CANCEL, 2,
-                         _("All the occurences"), 1,
-                         _("Only this one"), 0,
-                         NULL );
+            dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+                            make_hint ( _("Delete this scheduled transaction?"),
+                            occurences ));
 
-        vbox = GTK_DIALOG(dialog) -> vbox;
+            gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+                             GTK_STOCK_CANCEL, 2,
+                             _("All the occurences"), 1,
+                             _("Only this one"), 0,
+                             NULL );
 
-        checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
-        g_signal_connect ( G_OBJECT ( checkbox ),
-                        "toggled", 
-                        G_CALLBACK ( dialogue_update_struct_message ),
-                        &delete_msg[msg_no] );
-        gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
-        gtk_widget_show_all ( checkbox );
+            vbox = GTK_DIALOG(dialog) -> vbox;
 
-	    result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+            checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
+            g_signal_connect ( G_OBJECT ( checkbox ),
+                            "toggled",
+                            G_CALLBACK ( dialogue_update_struct_message ),
+                            &delete_msg[msg_no] );
+            gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
+            gtk_widget_show_all ( checkbox );
 
-        delete_msg[msg_no].default_answer = result;
-	    g_free (occurences);
-	    gtk_widget_destroy ( dialog );
+            result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+            delete_msg[msg_no].default_answer = result;
+            g_free (occurences);
+            gtk_widget_destroy ( dialog );
+            }
         }
-	}
-	else
-	    result = 1;
+        else
+            result = 1;
 
-	switch ( result )
-	{
-	    case 0:
-		if ( gsb_scheduler_increase_scheduled (scheduled_number))
-		    gsb_scheduler_list_update_transaction_in_list (scheduled_number);
-		break;
+        switch ( result )
+        {
+            case 0:
+            if ( gsb_scheduler_increase_scheduled (scheduled_number))
+                gsb_scheduler_list_update_transaction_in_list (scheduled_number);
+            break;
 
-	    case 1:
-		/* !! important to remove first from the list... */
-		gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
-		gsb_data_scheduled_remove_scheduled (scheduled_number);
-		break;
-	}
+            case 1:
+            /* !! important to remove first from the list... */
+            gsb_scheduler_list_remove_transaction_from_list ( scheduled_number );
+            gsb_data_scheduled_remove_scheduled ( scheduled_number );
+            break;
+        }
     }
 
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
-    gsb_calendar_update ();
+    gsb_calendar_update ( );
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
 
     gsb_file_set_modified ( TRUE );
@@ -2734,9 +2754,14 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
 
         g_free ( amount_string );
         g_free ( variance_string );
+
+        gsb_scheduler_list_set_color_of_mother ( mother_scheduled_number, TRUE );
     }
     else
+    {
         tmp_str = "";
+        gsb_scheduler_list_set_color_of_mother ( mother_scheduled_number, FALSE );
+    }
 
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ), iter, 2, tmp_str, -1 );
 
@@ -2755,6 +2780,37 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
 GtkWidget *gsb_scheduler_list_get_toolbar ( void )
 {
     return scheduler_toolbar;
+}
+
+
+/**
+ * set the text red if the variance is nonzero
+ *
+ *
+ */
+gboolean gsb_scheduler_list_set_color_of_mother ( gint mother_scheduled_number,
+                        gboolean is_red )
+{
+    GtkTreeIter *iter = NULL;
+    gchar *color_str = NULL;
+    gint i;
+
+    iter = gsb_scheduler_list_get_iter_from_scheduled_number ( mother_scheduled_number );
+    if ( !iter )
+        return FALSE;
+
+    if ( is_red )
+        color_str = "red";
+
+    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS -1 ; i++ )
+    {
+        gtk_tree_store_set ( GTK_TREE_STORE ( tree_model_scheduler_list ),
+                        iter,
+                        SCHEDULER_COL_NB_TEXT_COLOR, color_str,
+                        -1 );
+    }
+
+    return TRUE;
 }
 
 
