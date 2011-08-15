@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-06 11:12+0200\n"
-"PO-Revision-Date: 2011-05-10 22:56+0200\n"
+"PO-Revision-Date: 2011-08-15 17:11+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
 "Language: \n"
@@ -132,8 +132,7 @@ msgstr "%s Ausgabe am %s"
 #: ../src/accueil.c:1691
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
-msgstr ""
-"Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
+msgstr "Der Saldo vom Konto %s ist unter dem festgelegten und zulässigen Minimum!"
 
 #: ../src/accueil.c:1695
 msgid ""
@@ -179,8 +178,7 @@ msgid "Calculation of balances"
 msgstr "Berechnung der Salden"
 
 #: ../src/accueil.c:1995
-msgid ""
-"Take into account the scheduled operations in the calculation of balances"
+msgid "Take into account the scheduled operations in the calculation of balances"
 msgstr "Geplante Buchungen vom Konto in die Berechnung miteinbeziehen"
 
 #: ../src/accueil.c:2005
@@ -438,8 +436,7 @@ msgstr "Die zugehörigen Teilbuchungen von einer Buchung wiederherstellen"
 
 #: ../src/affichage_liste.c:558
 msgid "Limit the filling with payees belonging to the current account"
-msgstr ""
-"Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
+msgstr "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
 #: ../src/affichage_liste.c:566
 msgid "Mix credit/debit categories"
@@ -463,21 +460,18 @@ msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]: "
 
 #. à la base, on met une vbox
 #: ../src/affichage_liste.c:755 ../src/parametres.c:448
-#, fuzzy
 msgid "Transactions list cells"
-msgstr "Buchungsübersicht Einstellungen"
+msgstr "Buchungsübersicht Zellen"
 
 #. partie 1 visualisation de l'arrangement des données
 #: ../src/affichage_liste.c:758
-#, fuzzy
 msgid "Transactions list preview"
-msgstr "Buchungsübersicht Einstellungen"
+msgstr "Buchungsübersicht Vorschau"
 
 #. partie 2 Source des données
 #: ../src/affichage_liste.c:791
-#, fuzzy
 msgid "Transactions list contents"
-msgstr "Buchung Text"
+msgstr "Buchungsübersicht Inhalt"
 
 #: ../src/bet_config.c:95 ../src/etats_config.c:6381
 msgid "Month"
@@ -1183,8 +1177,7 @@ msgstr "Beginndatum: "
 
 #: ../src/bet_tab.c:578
 msgid "Check the box to automatically change start date"
-msgstr ""
-"Für eine automatische Änderung vom Beginndatum die 'Checkbox' auswählen"
+msgstr "Für eine automatische Änderung vom Beginndatum die 'Checkbox' auswählen"
 
 #. Description entry
 #: ../src/bet_tab.c:693 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
@@ -1674,10 +1667,8 @@ msgid "Grisbi made a backup file at '%s'."
 msgstr "Grisbi hat eine Sicherung im Verzeichnis '%s' erstellt."
 
 #: ../src/erreur.c:144
-msgid ""
-"Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
-msgstr ""
-"Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
+msgid "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
+msgstr "Bitte den Fehler unter <tt>http://www.grisbi.org/bugtracking/</tt> melden.  "
 
 #: ../src/erreur.c:150
 msgid "Copy and paste the following backtrace with your bug report."
@@ -4771,8 +4762,7 @@ msgstr "Ein neues Konto manuell erstellen"
 
 #: ../src/gsb_assistant_file.c:510
 msgid "Import data from online bank services or from accounting software"
-msgstr ""
-"Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
+msgstr "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1117
 #: ../src/traitement_variables.c:225
@@ -5151,8 +5141,7 @@ msgstr "Abstimmung für die Zuordnung von Buchungen auswählen: "
 
 #: ../src/gsb_assistant_reconcile_config.c:1304
 msgid "No selection found, the transactions are not modified."
-msgstr ""
-"Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
+msgstr "Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
 
 #: ../src/gsb_bank.c:326 ../src/gsb_reconcile.c:442
 msgid "None"
@@ -5290,8 +5279,7 @@ msgstr "Verknüpfung ändern"
 #: ../src/gsb_currency.c:741
 #, c-format
 msgid "The exchange rate or the transaction amount in %s must be filled."
-msgstr ""
-"Es müssen entweder der Wechselkurs oder der Betrag in %s eingegeben werden."
+msgstr "Es müssen entweder der Wechselkurs oder der Betrag in %s eingegeben werden."
 
 #: ../src/gsb_currency_config.c:94 ../src/gsb_currency_config.c:95
 #: ../src/gsb_currency_config.c:96 ../src/gsb_currency_config.c:97
@@ -6683,8 +6671,7 @@ msgstr "Die Währung '%s' kann nicht entfernt werden"
 #: ../src/gsb_currency_config.c:645
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
-msgstr ""
-"Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
+msgstr "Die Währung '%s' ist in Verwendung und kann daher nicht gelöscht werden."
 
 #: ../src/gsb_currency_config.c:823
 msgid "Currency for payees tree: "
@@ -6737,8 +6724,7 @@ msgstr "Währungssymbol: "
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
-msgstr ""
-"Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
+msgstr "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
 #: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
 #: ../src/gsb_data_partial_balance.c:434
@@ -6804,10 +6790,8 @@ msgstr "Kein Name %d"
 
 #: ../src/gsb_data_account.c:554
 #, c-format
-msgid ""
-"Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
-msgstr ""
-"Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
+msgstr "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
 
 #. TODO dOm : the return value of g_strdup_printf was not used !
 #. I add the devel_debug to print it. Is it OK to do that ?
@@ -6837,8 +6821,7 @@ msgstr "Kein Budgeteintrag"
 
 #: ../src/gsb_data_budget.c:1301
 #, c-format
-msgid ""
-"The transaction %d has a budget n%d and sub-budget n%d but they don't exist."
+msgid "The transaction %d has a budget n%d and sub-budget n%d but they don't exist."
 msgstr ""
 "Die Buchung %d hat als Budgeteintrag n%d und als Teil-Budgeteintrag n%d, "
 "jedoch sind diese Budgeteinträge nicht vorhanden."
@@ -6888,8 +6871,7 @@ msgid "Only one account is selected."
 msgstr "Es wurde nur ein Konto ausgewählt."
 
 #: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
-msgid ""
-"The name of the partial balance and the list of accounts must be completed."
+msgid "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 "Der Name des partiellen Saldo und die Liste der Konten müssen vollständig "
 "eingegeben werden."
@@ -6897,8 +6879,7 @@ msgstr ""
 #: ../src/gsb_data_partial_balance.c:1293
 #, c-format
 msgid "You need to create a link between currency %s and %s."
-msgstr ""
-"Es muss eine Verknüpfung zwischen den Währungen %s und %s hergestellt werden."
+msgstr "Es muss eine Verknüpfung zwischen den Währungen %s und %s hergestellt werden."
 
 #: ../src/gsb_data_partial_balance.c:1297
 msgid "Attention missing link between currencies"
@@ -7241,8 +7222,7 @@ msgstr ""
 #: ../src/gsb_debug.c:611
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
-msgstr ""
-"Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
+msgstr "Die Buchung %d hat als Kategorie %d und eine ungültige Unterkategorie %d.\n"
 
 #. category not found
 #: ../src/gsb_debug.c:625
@@ -7433,10 +7413,8 @@ msgstr "%d Sekunden"
 
 #: ../src/gsb_file.c:849
 #, c-format
-msgid ""
-"If you close without saving, all of your changes since %s will be discarded."
-msgstr ""
-"Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
+msgid "If you close without saving, all of your changes since %s will be discarded."
+msgstr "Beim Schließen ohne Speichern werden alle Änderungen seit %s verworfen."
 
 #: ../src/gsb_file.c:885
 msgid "Name the accounts file"
@@ -7794,8 +7772,7 @@ msgstr ""
 "erstellt werden."
 
 #: ../src/gsb_form.c:2931
-msgid ""
-"Cannot associate a transfer to a deleted account in a scheduled transaction."
+msgid "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "Das Konto für die zeitlich geplante Umbuchung ist gelöscht."
 
 #: ../src/gsb_form.c:2938
@@ -7835,13 +7812,11 @@ msgstr ""
 
 #: ../src/gsb_form.c:3016
 msgid "A transaction with a multiple payee must be a new one."
-msgstr ""
-"Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
+msgstr "Für Buchungen an mehrere Empfänger muss eine neue Buchung erfasst werden."
 
 #: ../src/gsb_form.c:3021
 msgid "A transaction with a multiple payee cannot be a split child."
-msgstr ""
-"Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
+msgstr "Eine Buchung an mehrere Empfänger darf kein Teil einer Splitt-Buchung sein."
 
 #: ../src/gsb_form.c:3032
 msgid "The word \"Report\" is reserved. Please use another one."
@@ -8453,8 +8428,7 @@ msgstr "Soll die geplante Teil-Buchung mit dem Empfänger '%s' gelöscht werden?
 
 #: ../src/gsb_scheduler_list.c:1989
 #, c-format
-msgid ""
-"Do you really want to delete the scheduled transaction with party '%s' ?"
+msgid "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "Soll die geplante Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: ../src/gsb_scheduler_list.c:2038
@@ -8763,8 +8737,7 @@ msgstr "Abstimmung für die Zuordnung der Buchung auswählen: "
 
 #: ../src/gsb_transactions_list.c:2179
 msgid "Grisbi couldn't get the selection, operation canceled..."
-msgstr ""
-"Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
+msgstr "Grisbi konnte die Auswahl nicht übernehmen, der Vorgang wurde abgebrochen..."
 
 #: ../src/gsb_transactions_list.c:2223
 msgid "Impossible to delete an archived transaction."
@@ -8784,8 +8757,7 @@ msgstr ""
 
 #: ../src/gsb_transactions_list.c:2247
 #, c-format
-msgid ""
-"Do you really want to delete the child of the transaction with party '%s' ?"
+msgid "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr "Soll die Teil-Buchung mit dem Empfänger '%s' gelöscht werden?"
 
 #: ../src/gsb_transactions_list.c:2259
@@ -9237,8 +9209,7 @@ msgstr "Markieren"
 
 #: ../src/import.c:3373
 msgid "The id of the imported and chosen accounts are different"
-msgstr ""
-"Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
+msgstr "Die ID's des importieren und des selektierten Kontos sind unterschiedlich"
 
 #: ../src/import.c:3374
 msgid ""
@@ -10206,8 +10177,7 @@ msgstr "Planer Meldungen"
 
 #: ../src/parametres.c:1114
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
-msgstr ""
-"am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
+msgstr "am Fälligkeitsdatum einen Hinweis anzeigen und die geplante Buchung ausführen"
 
 #: ../src/parametres.c:1115
 msgid "Warn/Execute the scheduled transactions of the month"
@@ -10408,8 +10378,7 @@ msgstr "Ungültige Ofx-Datei"
 
 #: ../src/plugins/ofx/ofx.c:202
 msgid "OFX processing returned following message:\n"
-msgstr ""
-"Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgende Warnung zurückgegeben:\n"
 
 #: ../src/plugins/ofx/ofx.c:208
 msgid "OFX processing ended in a warning message which is not valid."
@@ -10417,8 +10386,7 @@ msgstr "Die Datei ist keine gültige Ofx-Datei."
 
 #: ../src/plugins/ofx/ofx.c:214
 msgid "OFX processing returned following error message:\n"
-msgstr ""
-"Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
+msgstr "Bei der Verarbeitung der Ofx-Datei wurde folgender Fehler zurückgegeben:\n"
 
 #: ../src/plugins/ofx/ofx.c:220
 msgid "OFX processing returned an error message which is not valid."
@@ -10911,8 +10879,7 @@ msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
 #: ../src/tiers_onglet.c:1562
 msgid "Beware you don't use one of models for the research."
-msgstr ""
-"Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
+msgstr "Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
 
 #: ../src/tiers_onglet.c:1660
 #, c-format
@@ -11148,8 +11115,7 @@ msgstr ""
 "angeordnet werden können?"
 
 #: ../src/tip.c:100
-msgid ""
-"You can have future scheduled transactions 'executed' before their date, "
+msgid "You can have future scheduled transactions 'executed' before their date, "
 msgstr ""
 "... geplante Buchungen auch manuell ausgeführt werden können?\n"
 "\n"
@@ -11201,8 +11167,7 @@ msgstr ""
 
 #: ../src/transaction_list_sort.c:145
 #, c-format
-msgid ""
-"Asked to sort by column %d, wich is bigger than the visible columns (%d)"
+msgid "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 "Es wurde ein Sortierung nach Spalte %d aufgerufen, dieses Spalte ist breiter "
 "als die sichtbaren Spalten (%d)"
@@ -11316,47 +11281,3 @@ msgstr "Keine Schrift definiert"
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
 
-#~ msgid "Transaction list background 1"
-#~ msgstr "Hintergrund gerade Zeilen"
-
-#~ msgid "Transaction list background 2"
-#~ msgstr "Hintergrund ungerade Zeilen"
-
-#~ msgid "Color for the operation that gives the balance today"
-#~ msgstr "Hintergrund aktueller Saldo"
-
-#~ msgid "Color of transaction's text"
-#~ msgstr "Text Buchungen"
-
-#~ msgid "Text of unfinished split transaction"
-#~ msgstr "Text unvollständige Splittbuchungen"
-
-#~ msgid "Children of split transaction"
-#~ msgstr "Teilbuchungen von Splittbuchungen"
-
-#~ msgid "Selection color"
-#~ msgstr "Selektierte Buchung"
-
-#~ msgid "Background of non selectable scheduled transactions"
-#~ msgstr "Hintergrund nicht auswählbarer geplanter Buchungen"
-
-#~ msgid "Archive color"
-#~ msgstr "Archivierte Buchungen"
-
-#~ msgid "Background of invalid date entry"
-#~ msgstr "Hintergrund ungültiger Datumswert"
-
-#~ msgid "Background of bet division"
-#~ msgstr "Hintergrund geschätzte Teilung"
-
-#~ msgid "Background of bet futur"
-#~ msgstr "Hintergrund geschätzte Prognose"
-
-#~ msgid "Background of bet solde"
-#~ msgstr "Hintergrund geschätzter Betrag"
-
-#~ msgid "Background of bet transfer"
-#~ msgstr "Hintergrund geschätzte Umbuchung"
-
-#~ msgid "Reconciliation ref."
-#~ msgstr "Abstimmung Ref."
