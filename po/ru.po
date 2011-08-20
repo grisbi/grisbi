@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-06 11:12+0200\n"
+"POT-Creation-Date: 2011-08-20 21:59+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
 "X-Generator: KBabel 1.10.2\n"
 
 #: ../src/accueil.c:195
@@ -339,149 +339,154 @@ msgstr "Когда видны две строки, показывать стро
 msgid "In three lines visibles, show the lines: "
 msgstr "Когда видны три строки, показывать строки:"
 
-#: ../src/affichage_liste.c:142
-msgid "Transaction list behavior"
-msgstr "Поведение списка проводок"
-
-#. heading and boxes for layout
-#: ../src/affichage_liste.c:146
-msgid "Display modes"
-msgstr "Режимы отображения"
-
-#: ../src/affichage_liste.c:206
-msgid "Use simple click to select transactions"
-msgstr "Выбирайте проводки простым щелчком"
-
-#: ../src/affichage_liste.c:213
-msgid "Highlights the transaction that gives the balance today"
-msgstr "Подсвечивать проводку, дающую баланс текущего дня"
-
-#: ../src/affichage_liste.c:220
-msgid "Primary sorting option"
-msgstr ""
-
-#: ../src/affichage_liste.c:221
+#: ../src/affichage_liste.c:141
 msgid "Sort by value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/affichage_liste.c:222
+#: ../src/affichage_liste.c:142
 msgid "Sort by value date and then by date"
 msgstr ""
 
-#: ../src/affichage_liste.c:231
-msgid "Secondary sorting option"
-msgstr ""
-
-#: ../src/affichage_liste.c:232
+#: ../src/affichage_liste.c:145
 #, fuzzy
 msgid "Sort by transaction number"
 msgstr "Сортировать по дате и номеру проводки"
 
-#: ../src/affichage_liste.c:233
+#: ../src/affichage_liste.c:146
 msgid "Sort by type of amount (credit debit)"
 msgstr ""
 
-#: ../src/affichage_liste.c:234
+#: ../src/affichage_liste.c:147
 #, fuzzy
 msgid "Sort by payee name (if fail, by transaction number)"
 msgstr "Сортировать по дате и номеру проводки"
 
-#: ../src/affichage_liste.c:242
+#: ../src/affichage_liste.c:148
+#, fuzzy
+msgid "Sort by date and then by transaction number"
+msgstr "Сортировать по дате и объёму проводки"
+
+#: ../src/affichage_liste.c:152
+msgid "Transaction list behavior"
+msgstr "Поведение списка проводок"
+
+#. heading and boxes for layout
+#: ../src/affichage_liste.c:156
+msgid "Display modes"
+msgstr "Режимы отображения"
+
+#: ../src/affichage_liste.c:215
+msgid "Use simple click to select transactions"
+msgstr "Выбирайте проводки простым щелчком"
+
+#: ../src/affichage_liste.c:222
+msgid "Highlights the transaction that gives the balance today"
+msgstr "Подсвечивать проводку, дающую баланс текущего дня"
+
+#: ../src/affichage_liste.c:229
+msgid "Primary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:249
+msgid "Secondary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:269
 msgid "Account differentiation"
 msgstr "Разделение счетов"
 
-#: ../src/affichage_liste.c:246
+#: ../src/affichage_liste.c:273
 msgid "Remember display settings for each account separately"
 msgstr "Помнить параметры каждой учётной записи отдельно"
 
-#: ../src/affichage_liste.c:490
+#: ../src/affichage_liste.c:516
 msgid "Form behavior"
 msgstr "Поведение формуляра"
 
-#: ../src/affichage_liste.c:495
+#: ../src/affichage_liste.c:521
 msgid "Pressing RETURN in transaction form"
 msgstr "По нажатию клавиши ввода в формуляре проводки"
 
-#: ../src/affichage_liste.c:496
+#: ../src/affichage_liste.c:522
 msgid "selects next field"
 msgstr "выбирать следующее поле"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:523
 msgid "terminates transaction"
 msgstr "завершать проводку"
 
-#: ../src/affichage_liste.c:502
+#: ../src/affichage_liste.c:528
 msgid "Automatic financial year is set"
 msgstr "Автоматический финансовый год установлен"
 
-#: ../src/affichage_liste.c:503
+#: ../src/affichage_liste.c:529
 msgid "according to transaction date"
 msgstr "согласно дате проводки"
 
-#: ../src/affichage_liste.c:504
+#: ../src/affichage_liste.c:530
 msgid "according to transaction value date"
 msgstr ""
 
-#: ../src/affichage_liste.c:510
+#: ../src/affichage_liste.c:536
 msgid "Automatic amount separator"
 msgstr "Автоматический разделитель сумм"
 
-#: ../src/affichage_liste.c:513
+#: ../src/affichage_liste.c:539
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "По волшебству добавлять не указанный разделитель между полями сумм"
 
-#: ../src/affichage_liste.c:538
+#: ../src/affichage_liste.c:564
 msgid "Form completion"
 msgstr "Заполнение формуляра"
 
-#: ../src/affichage_liste.c:542
+#: ../src/affichage_liste.c:568
 msgid "Automatic filling transactions from payee"
 msgstr "Автоматическое заполнение проводки из получателя"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:575
 #, fuzzy
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Автоматически загружать последний файл при запуске"
 
-#: ../src/affichage_liste.c:558
+#: ../src/affichage_liste.c:584
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Ограничивать заполнение получателями, связанными со счётом"
 
-#: ../src/affichage_liste.c:566
+#: ../src/affichage_liste.c:592
 msgid "Mix credit/debit categories"
 msgstr "Смешивать категории кредита и дебита"
 
-#: ../src/affichage_liste.c:572
+#: ../src/affichage_liste.c:598
 msgid "Case sensitive completion"
 msgstr "Чувствительное к регистру заполнение"
 
-#: ../src/affichage_liste.c:578
+#: ../src/affichage_liste.c:604
 msgid "Don't allow new payee creation"
 msgstr "Не разрешать создание новых получателей"
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:610
 msgid "Don't allow new category/budget creation"
 msgstr "Не разрешать создание новых категорий и бюджетов"
 
-#: ../src/affichage_liste.c:593
+#: ../src/affichage_liste.c:619
 #, fuzzy
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 "Максимальное число элементов в раскрывающихся списках (ноль — бесконечное):"
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:755 ../src/parametres.c:448
+#: ../src/affichage_liste.c:781 ../src/parametres.c:448
 msgid "Transactions list cells"
 msgstr "Ячейки списка транзакций"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:758
+#: ../src/affichage_liste.c:784
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "Линии списка транзакций"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:791
+#: ../src/affichage_liste.c:817
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "Ячейки списка транзакций"
@@ -829,14 +834,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_tab.c:1538 ../src/bet_tab.c:2865
+#: ../src/bet_tab.c:1548 ../src/bet_tab.c:2875
 #, fuzzy
 msgid "Print the array"
 msgstr "Принтер"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1548
+#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1558
 #, fuzzy
 msgid "Export the array"
 msgstr "Принтер"
@@ -902,12 +907,12 @@ msgstr "Связывание при импорте"
 msgid "Credits"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2862
+#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2872
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Печать"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2875
+#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2885
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -918,7 +923,7 @@ msgstr "Экспортировать"
 msgid "credit.csv"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:2990
+#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:3000
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Невозможно сохранить файл"
@@ -1239,98 +1244,98 @@ msgstr "Описание"
 msgid "Balance"
 msgstr "Баланс"
 
-#: ../src/bet_tab.c:838 ../src/bet_tab.c:848 ../src/bet_tab.c:1039
-#: ../src/bet_tab.c:2475 ../src/bet_tab.c:2480
+#: ../src/bet_tab.c:842 ../src/bet_tab.c:855 ../src/bet_tab.c:1049
+#: ../src/bet_tab.c:2485 ../src/bet_tab.c:2490
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Передача: счёт удалён"
 
-#: ../src/bet_tab.c:1375
+#: ../src/bet_tab.c:1385
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1382
+#: ../src/bet_tab.c:1392
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Дополнительный баланс"
 
 #. Insert Row
-#: ../src/bet_tab.c:1399
+#: ../src/bet_tab.c:1409
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1416 ../src/bet_tab.c:1428 ../src/bet_tab.c:1449
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1426 ../src/bet_tab.c:1438 ../src/bet_tab.c:1459
+#: ../src/bet_tab.c:1518
 #, fuzzy
 msgid "Delete selection"
 msgstr "Выбор дат"
 
-#: ../src/bet_tab.c:1439
+#: ../src/bet_tab.c:1449
 #, fuzzy
 msgid "Change selection"
 msgstr "Выбор дат"
 
-#: ../src/bet_tab.c:1460
+#: ../src/bet_tab.c:1470
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Удаление одной или более попавшихся запланированных проводок"
 
-#: ../src/bet_tab.c:1475
+#: ../src/bet_tab.c:1485
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: ../src/bet_tab.c:1498
+#: ../src/bet_tab.c:1508
 msgid "Insert the balance of a cash account"
 msgstr ""
 
 #. redo item
-#: ../src/bet_tab.c:1524
+#: ../src/bet_tab.c:1534
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1869
+#: ../src/bet_tab.c:1879
 #, fuzzy
 msgid " (still available)"
 msgstr "Описание недоступно"
 
-#: ../src/bet_tab.c:1878 ../src/bet_tab.c:1900
+#: ../src/bet_tab.c:1888 ../src/bet_tab.c:1910
 msgid " (budget exceeded)"
 msgstr ""
 
-#: ../src/bet_tab.c:1891
+#: ../src/bet_tab.c:1901
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2398 ../src/bet_tab.c:2448 ../src/bet_tab.c:2508
+#: ../src/bet_tab.c:2408 ../src/bet_tab.c:2458 ../src/bet_tab.c:2518
 #, fuzzy
 msgid "No data by default"
 msgstr "Сбросить до исходных"
 
-#: ../src/bet_tab.c:2406 ../src/bet_tab.c:2456 ../src/bet_tab.c:2514
+#: ../src/bet_tab.c:2416 ../src/bet_tab.c:2466 ../src/bet_tab.c:2524
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr ""
 
-#: ../src/bet_tab.c:2414 ../src/bet_tab.c:2464 ../src/bet_tab.c:2520
+#: ../src/bet_tab.c:2424 ../src/bet_tab.c:2474 ../src/bet_tab.c:2530
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr ""
 
-#: ../src/bet_tab.c:2878 ../src/bet_tab.c:2966
+#: ../src/bet_tab.c:2888 ../src/bet_tab.c:2976
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Имя файла со счетами"
 
-#: ../src/bet_tab.c:2924
+#: ../src/bet_tab.c:2934
 #, fuzzy
 msgid "Balance at "
 msgstr "Баланс"
 
-#: ../src/bet_tab.c:2973
+#: ../src/bet_tab.c:2983
 msgid "forecast.csv"
 msgstr ""
 
@@ -10484,8 +10489,7 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
-"Вы собираетесь заменить одного получателя с именем, содержащим «%s», на "
-"«%s»\n"
+"Вы собираетесь заменить одного получателя с именем, содержащим «%s», на «%s»\n"
 "\n"
 "Вы уверены?"
 
@@ -10953,9 +10957,6 @@ msgstr "Общедоступное управление личными фина�
 
 #~ msgid "Transfer the transactions"
 #~ msgstr "Три линии на транзакцию"
-
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "Сортировать по дате и объёму проводки"
 
 #~ msgid "Initial period"
 #~ msgstr "Дата начала"

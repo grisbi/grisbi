@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-06 11:12+0200\n"
+"POT-Creation-Date: 2011-08-20 21:59+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Country: GREECE\n"
 "X-Poedit-Language: Greek\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -356,137 +356,142 @@ msgstr "Σε δύο γραμμές ορατές, παρουσιάστε τις �
 msgid "In three lines visibles, show the lines: "
 msgstr "Σε τρεις γραμμές ορατές, παρουσιάστε τις γραμμές:"
 
-#: ../src/affichage_liste.c:142
-msgid "Transaction list behavior"
-msgstr "Συμπεριφορά καταλόγων συναλλαγής"
-
-#. heading and boxes for layout
-#: ../src/affichage_liste.c:146
-msgid "Display modes"
-msgstr "Τρόποι επίδειξης"
-
-#: ../src/affichage_liste.c:206
-msgid "Use simple click to select transactions"
-msgstr "Με ένα απλό click επιλέξτε συναλλαγές"
-
-#: ../src/affichage_liste.c:213
-msgid "Highlights the transaction that gives the balance today"
-msgstr ""
-
-#: ../src/affichage_liste.c:220
-msgid "Primary sorting option"
-msgstr ""
-
-#: ../src/affichage_liste.c:221
+#: ../src/affichage_liste.c:141
 #, fuzzy
 msgid "Sort by value date (if fail, try with the date)"
 msgstr ""
 "Σύμφωνα με την τοκοφόρο ημερομηνία (εάν αποτύχετε, προσπαθήστε με την "
 "ημερομηνία)"
 
-#: ../src/affichage_liste.c:222
+#: ../src/affichage_liste.c:142
 msgid "Sort by value date and then by date"
 msgstr ""
 
-#: ../src/affichage_liste.c:231
-msgid "Secondary sorting option"
-msgstr ""
-
-#: ../src/affichage_liste.c:232
+#: ../src/affichage_liste.c:145
 #, fuzzy
 msgid "Sort by transaction number"
 msgstr "αριθμός συναλλαγής"
 
-#: ../src/affichage_liste.c:233
+#: ../src/affichage_liste.c:146
 msgid "Sort by type of amount (credit debit)"
 msgstr ""
 
-#: ../src/affichage_liste.c:234
+#: ../src/affichage_liste.c:147
 #, fuzzy
 msgid "Sort by payee name (if fail, by transaction number)"
 msgstr "αριθμός συναλλαγής"
 
-#: ../src/affichage_liste.c:242
+#: ../src/affichage_liste.c:148
+#, fuzzy
+msgid "Sort by date and then by transaction number"
+msgstr "Επιλέξτε τις συναλλαγές από το ποσό"
+
+#: ../src/affichage_liste.c:152
+msgid "Transaction list behavior"
+msgstr "Συμπεριφορά καταλόγων συναλλαγής"
+
+#. heading and boxes for layout
+#: ../src/affichage_liste.c:156
+msgid "Display modes"
+msgstr "Τρόποι επίδειξης"
+
+#: ../src/affichage_liste.c:215
+msgid "Use simple click to select transactions"
+msgstr "Με ένα απλό click επιλέξτε συναλλαγές"
+
+#: ../src/affichage_liste.c:222
+msgid "Highlights the transaction that gives the balance today"
+msgstr ""
+
+#: ../src/affichage_liste.c:229
+msgid "Primary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:249
+msgid "Secondary sorting option"
+msgstr ""
+
+#: ../src/affichage_liste.c:269
 msgid "Account differentiation"
 msgstr "Διαφοροποίηση λογαριασμού"
 
-#: ../src/affichage_liste.c:246
+#: ../src/affichage_liste.c:273
 msgid "Remember display settings for each account separately"
 msgstr "Θυμηθείτε τις ρυθμίσεις επίδειξης για κάθε λογαριαισμό χωριστά"
 
-#: ../src/affichage_liste.c:490
+#: ../src/affichage_liste.c:516
 msgid "Form behavior"
 msgstr "Συμπεριφορά μορφής"
 
-#: ../src/affichage_liste.c:495
+#: ../src/affichage_liste.c:521
 msgid "Pressing RETURN in transaction form"
 msgstr "Πιέζοντας ΕΠΙΣΤΡΟΦΗ στην μορφή συναλλαγής"
 
-#: ../src/affichage_liste.c:496
+#: ../src/affichage_liste.c:522
 msgid "selects next field"
 msgstr "επιλέγει τον επόμενο τομέα"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:523
 msgid "terminates transaction"
 msgstr "ολοκληρώνει τη συναλλαγή"
 
-#: ../src/affichage_liste.c:502
+#: ../src/affichage_liste.c:528
 msgid "Automatic financial year is set"
 msgstr "Το αυτόματο οικονιμικό έτος τίθεται"
 
-#: ../src/affichage_liste.c:503
+#: ../src/affichage_liste.c:529
 msgid "according to transaction date"
 msgstr "σύμφωνα με την ημερομηνία συναλλαγής"
 
-#: ../src/affichage_liste.c:504
+#: ../src/affichage_liste.c:530
 msgid "according to transaction value date"
 msgstr "σύμφωνα με την τοκοφόρο ημερομηνία συναλλαγής"
 
-#: ../src/affichage_liste.c:510
+#: ../src/affichage_liste.c:536
 msgid "Automatic amount separator"
 msgstr "Αυτόματος διαχωριστής ποσού"
 
-#: ../src/affichage_liste.c:513
+#: ../src/affichage_liste.c:539
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 "Αυτόματα προσθέτει το διαχωριστή στα πεδία των  ποσών εάν είναι απροσδιόριστο"
 
-#: ../src/affichage_liste.c:538
+#: ../src/affichage_liste.c:564
 msgid "Form completion"
 msgstr "Ολοκλήρωση μορφής"
 
-#: ../src/affichage_liste.c:542
+#: ../src/affichage_liste.c:568
 #, fuzzy
 msgid "Automatic filling transactions from payee"
 msgstr "Αυτόματες σχεδιασμένες συναλλαγές που εισάγονται"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:575
 #, fuzzy
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Αυτόματη φόρτωση τελευταίου αρχείου στο ξεκίνημα"
 
-#: ../src/affichage_liste.c:558
+#: ../src/affichage_liste.c:584
 #, fuzzy
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Ολοκλήρωση δικαιούχων πληρωμής ορίου στον τρέχον λογαριασμό"
 
-#: ../src/affichage_liste.c:566
+#: ../src/affichage_liste.c:592
 msgid "Mix credit/debit categories"
 msgstr "Κατηγορίες πίστωσης/χρεώσεων "
 
-#: ../src/affichage_liste.c:572
+#: ../src/affichage_liste.c:598
 msgid "Case sensitive completion"
 msgstr "Περίπτωση ευαίσθητης ολοκλήρωσης"
 
-#: ../src/affichage_liste.c:578
+#: ../src/affichage_liste.c:604
 msgid "Don't allow new payee creation"
 msgstr "Μην επιτρέψτε τη νέα δημιουργία δικαιούχων πληρωμής"
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:610
 msgid "Don't allow new category/budget creation"
 msgstr "Μην επιτρέψτε τη νέα δημιουργία κατηγορίας/προϋπολογισμών"
 
-#: ../src/affichage_liste.c:593
+#: ../src/affichage_liste.c:619
 #, fuzzy
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
@@ -494,19 +499,19 @@ msgstr ""
 "για κανένα όριο):"
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:755 ../src/parametres.c:448
+#: ../src/affichage_liste.c:781 ../src/parametres.c:448
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Συμπεριφορά καταλόγων συναλλαγής"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:758
+#: ../src/affichage_liste.c:784
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "Συμπεριφορά καταλόγων συναλλαγής"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:791
+#: ../src/affichage_liste.c:817
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "Περιεχόμενο συναλλαγής"
@@ -858,14 +863,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_tab.c:1538 ../src/bet_tab.c:2865
+#: ../src/bet_tab.c:1548 ../src/bet_tab.c:2875
 #, fuzzy
 msgid "Print the array"
 msgstr "Εκτυπωτής"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1548
+#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1558
 #, fuzzy
 msgid "Export the array"
 msgstr "Εκτυπωτής"
@@ -931,12 +936,12 @@ msgstr "Σειρά εκτίμησης"
 msgid "Credits"
 msgstr "Πίστωση"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2862
+#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2872
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Εκτύπωση"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2875
+#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2885
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -947,7 +952,7 @@ msgstr "Εξαγωγή"
 msgid "credit.csv"
 msgstr "Πίστωση"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:2990
+#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:3000
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Αδύνατη η αποθήκευση αρχείου"
@@ -1269,100 +1274,100 @@ msgstr "Περιγραφή"
 msgid "Balance"
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:838 ../src/bet_tab.c:848 ../src/bet_tab.c:1039
-#: ../src/bet_tab.c:2475 ../src/bet_tab.c:2480
+#: ../src/bet_tab.c:842 ../src/bet_tab.c:855 ../src/bet_tab.c:1049
+#: ../src/bet_tab.c:2485 ../src/bet_tab.c:2490
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Μεταφορά σε έναν διαγραμμένο λογαριασμό."
 
-#: ../src/bet_tab.c:1375
+#: ../src/bet_tab.c:1385
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1382
+#: ../src/bet_tab.c:1392
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Αρχική ισορροπία"
 
 #. Insert Row
-#: ../src/bet_tab.c:1399
+#: ../src/bet_tab.c:1409
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1416 ../src/bet_tab.c:1428 ../src/bet_tab.c:1449
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1426 ../src/bet_tab.c:1438 ../src/bet_tab.c:1459
+#: ../src/bet_tab.c:1518
 #, fuzzy
 msgid "Delete selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1439
+#: ../src/bet_tab.c:1449
 #, fuzzy
 msgid "Change selection"
 msgstr "Επιλογή ημερομηνίας"
 
-#: ../src/bet_tab.c:1460
+#: ../src/bet_tab.c:1470
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Διαγράψτε την επιλεγμένη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1475
+#: ../src/bet_tab.c:1485
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Μετατρέψτε τη συναλλαγή στη σχεδιασμένη συναλλαγή"
 
-#: ../src/bet_tab.c:1498
+#: ../src/bet_tab.c:1508
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "Αδύνατη η εκροή της μεταφοράς σε έναν κλειστό λογαριασμό"
 
 #. redo item
-#: ../src/bet_tab.c:1524
+#: ../src/bet_tab.c:1534
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1869
+#: ../src/bet_tab.c:1879
 #, fuzzy
 msgid " (still available)"
 msgstr "Καμία περιγραφή διαθέσιμη"
 
-#: ../src/bet_tab.c:1878 ../src/bet_tab.c:1900
+#: ../src/bet_tab.c:1888 ../src/bet_tab.c:1910
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "Δεν καθορίζεται κανένας προϋπολογισμός."
 
-#: ../src/bet_tab.c:1891
+#: ../src/bet_tab.c:1901
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2398 ../src/bet_tab.c:2448 ../src/bet_tab.c:2508
+#: ../src/bet_tab.c:2408 ../src/bet_tab.c:2458 ../src/bet_tab.c:2518
 #, fuzzy
 msgid "No data by default"
 msgstr "Πίσω στην προεπιλογή"
 
-#: ../src/bet_tab.c:2406 ../src/bet_tab.c:2456 ../src/bet_tab.c:2514
+#: ../src/bet_tab.c:2416 ../src/bet_tab.c:2466 ../src/bet_tab.c:2524
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Καμία κατηγορία"
 
-#: ../src/bet_tab.c:2414 ../src/bet_tab.c:2464 ../src/bet_tab.c:2520
+#: ../src/bet_tab.c:2424 ../src/bet_tab.c:2474 ../src/bet_tab.c:2530
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
 
-#: ../src/bet_tab.c:2878 ../src/bet_tab.c:2966
+#: ../src/bet_tab.c:2888 ../src/bet_tab.c:2976
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Εξάγετε τις δημοσιονομικές γραμμές"
 
-#: ../src/bet_tab.c:2924
+#: ../src/bet_tab.c:2934
 #, fuzzy
 msgid "Balance at "
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:2973
+#: ../src/bet_tab.c:2983
 msgid "forecast.csv"
 msgstr ""
 
@@ -7503,8 +7508,8 @@ msgstr "Η συναλλαγή %d έχει την άκυρη κατηγορία %
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
-"Η συναλλαγή %d έχει τον προϋπολογισμό %d αλλά τον άκυρο υπο--προϋπολογισμό "
-"%d.\n"
+"Η συναλλαγή %d έχει τον προϋπολογισμό %d αλλά τον άκυρο υπο--προϋπολογισμό %"
+"d.\n"
 
 #. budget not found
 #: ../src/gsb_debug.c:729
@@ -9654,8 +9659,8 @@ msgstr "Οι εισαγόμενες συναλλαγές θα προστεθού
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
-"Οι εισαγόμενες συναλλαγές θα χαρακτηρίσουν τις συναλλαγές στον λογαριασμό "
-"%s.\n"
+"Οι εισαγόμενες συναλλαγές θα χαρακτηρίσουν τις συναλλαγές στον λογαριασμό %"
+"s.\n"
 
 #. textstring 2
 #: ../src/import.c:4582
@@ -11777,9 +11782,6 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 
 #~ msgid "Transfer the transactions"
 #~ msgstr "Συναλλαγές μεταφοράς %s"
-
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "Επιλέξτε τις συναλλαγές από το ποσό"
 
 #~ msgid "Initial period"
 #~ msgstr "Αρχική ημερομηνία"
