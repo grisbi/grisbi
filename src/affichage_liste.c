@@ -571,6 +571,21 @@ GtkWidget *onglet_form_completion ( void )
                         vbox_pref ),
                         FALSE, FALSE, 0 );
 
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Erase the credit and debit fields"),
+                        &conf.automatic_erase_credit_debit,
+                        NULL,
+                        NULL );
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_3", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
+
     button = gsb_automem_checkbutton_new (
                         _("Automatically recover the children of the associated transaction"),
                         &conf.automatic_recover_splits,
@@ -578,7 +593,10 @@ GtkWidget *onglet_form_completion ( void )
                         NULL );
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_1", button );
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
                         _("Limit the filling with payees belonging to the current account"),
@@ -586,7 +604,7 @@ GtkWidget *onglet_form_completion ( void )
                         NULL, NULL);
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
@@ -750,12 +768,16 @@ gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *chec
         gtk_widget_set_sensitive ( button, TRUE );
         button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
         gtk_widget_set_sensitive ( button, TRUE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_3" );
+        gtk_widget_set_sensitive ( button, TRUE );
     }
     else
     {
         button = g_object_get_data ( G_OBJECT ( container ), "button_1" );
         gtk_widget_set_sensitive ( button, FALSE );
         button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
+        gtk_widget_set_sensitive ( button, FALSE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_3" );
         gtk_widget_set_sensitive ( button, FALSE );
     }
  
