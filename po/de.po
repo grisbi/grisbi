@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-20 21:59+0200\n"
+"POT-Creation-Date: 2011-08-21 18:08+0200\n"
 "PO-Revision-Date: 2011-08-15 17:11+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -437,47 +437,51 @@ msgstr "Eingabe Vervollständigung"
 msgid "Automatic filling transactions from payee"
 msgstr "Geplante Buchung automatisch ausgeführt"
 
-#: ../src/affichage_liste.c:575
+#: ../src/affichage_liste.c:578
+msgid "Erase the credit and debit fields"
+msgstr ""
+
+#: ../src/affichage_liste.c:590
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Die zugehörigen Teilbuchungen von einer Buchung wiederherstellen"
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:602
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 "Die Vervollständigung von Empfängern auf das aktuelle Konto beschränken"
 
-#: ../src/affichage_liste.c:592
+#: ../src/affichage_liste.c:610
 msgid "Mix credit/debit categories"
 msgstr "Eingabe und Ausgabenkategorien berücksichtigen"
 
-#: ../src/affichage_liste.c:598
+#: ../src/affichage_liste.c:616
 msgid "Case sensitive completion"
 msgstr "Beim Vervollständigen Groß und Kleinschreibung berücksichtigen"
 
-#: ../src/affichage_liste.c:604
+#: ../src/affichage_liste.c:622
 msgid "Don't allow new payee creation"
 msgstr "Neue Empfänger dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:610
+#: ../src/affichage_liste.c:628
 msgid "Don't allow new category/budget creation"
 msgstr "Neue Kategorien dürfen nicht erstellt werden"
 
-#: ../src/affichage_liste.c:619
+#: ../src/affichage_liste.c:637
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr "Maximale Einträge in der Auswahlliste [0 für kein Limit]: "
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:781 ../src/parametres.c:448
+#: ../src/affichage_liste.c:803 ../src/parametres.c:448
 msgid "Transactions list cells"
 msgstr "Buchungsübersicht Zellen"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:784
+#: ../src/affichage_liste.c:806
 msgid "Transactions list preview"
 msgstr "Buchungsübersicht Vorschau"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:817
+#: ../src/affichage_liste.c:839
 msgid "Transactions list contents"
 msgstr "Buchungsübersicht Inhalt"
 
@@ -7463,12 +7467,12 @@ msgstr ""
 "<b>>Soll diese Datei gelöscht werden:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:852
+#: ../src/gsb_file_config.c:862
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Die Konfiguration kann nicht gespeichert werden '%s': %s"
 
-#: ../src/gsb_file_config.c:893
+#: ../src/gsb_file_config.c:903
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7477,16 +7481,16 @@ msgstr ""
 "%s scheint keine gültige Konfigurationsdatei zu sein,\n"
 "bitte prüfen."
 
-#: ../src/gsb_file_config.c:930
+#: ../src/gsb_file_config.c:940
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Die Konfiguration kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_config.c:1293
+#: ../src/gsb_file_config.c:1304
 msgid "Delete config file from a previous version"
 msgstr "Die Konfigurationsdatei von einer älteren Grisbi-Version löschen"
 
-#: ../src/gsb_file_config.c:1313
+#: ../src/gsb_file_config.c:1324
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7498,11 +7502,11 @@ msgstr ""
 "\n"
 "<b>Wollen Sie die Löschung ausführen?</b>"
 
-#: ../src/gsb_file_config.c:1380
+#: ../src/gsb_file_config.c:1391
 msgid "Choose a file"
 msgstr "Eine Datei auswählen"
 
-#: ../src/gsb_file_config.c:1403
+#: ../src/gsb_file_config.c:1414
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7968,7 +7972,7 @@ msgstr "Konto auswählen"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automatische/manuell geplante Buchung"
 
-#: ../src/gsb_form_transaction.c:372
+#: ../src/gsb_form_transaction.c:385
 msgid "Report : "
 msgstr "Bericht : "
 
@@ -8869,7 +8873,7 @@ msgstr ""
 "Buchungsliste nicht angezeigt werden, wenn die Option \"Abgestimmte Buchungen"
 "\" anzeigen nicht gesetzt ist."
 
-#: ../src/gsb_transactions_list_sort.c:357
+#: ../src/gsb_transactions_list_sort.c:356
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""
