@@ -2492,6 +2492,16 @@ gboolean gsb_form_finish_edition ( void )
             gsb_data_mix_set_mother_transaction_number ( transaction_number,
                                  mother_transaction,
                                  is_transaction );
+
+            /* si l'opération mère est rapprochée on marque aussi la fille */
+            if ( mother_transaction
+             &&
+             gsb_data_transaction_get_marked_transaction ( mother_transaction ) == OPERATION_RAPPROCHEE )
+            {
+                gsb_data_transaction_set_marked_transaction ( transaction_number, OPERATION_RAPPROCHEE );
+                gsb_data_transaction_set_reconcile_number ( transaction_number,
+                        gsb_data_transaction_get_reconcile_number ( mother_transaction ) );
+            }
         }
 
         /* take the datas in the form, except the category */
