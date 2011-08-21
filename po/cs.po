@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-06 11:12+0200\n"
+"POT-Creation-Date: 2011-08-20 21:59+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
@@ -333,145 +333,150 @@ msgstr "Pokud jsou vidět dva řádky, zobrazit řádky: "
 msgid "In three lines visibles, show the lines: "
 msgstr "Pokud jsou vidět tři řádky, zobrazit řádky: "
 
+#: ../src/affichage_liste.c:141
+msgid "Sort by value date (if fail, try with the date)"
+msgstr "Řadit dle data pohybu (při neúspěchu zkusit datum transakce)"
+
 #: ../src/affichage_liste.c:142
+msgid "Sort by value date and then by date"
+msgstr "Řadit dle data pohybu a potom dle data transakce"
+
+#: ../src/affichage_liste.c:145
+msgid "Sort by transaction number"
+msgstr "Řadit podle čísla transakce"
+
+#: ../src/affichage_liste.c:146
+msgid "Sort by type of amount (credit debit)"
+msgstr "Třídit dle typu částky (kredit / debet)"
+
+#: ../src/affichage_liste.c:147
+msgid "Sort by payee name (if fail, by transaction number)"
+msgstr "Řadit podle jména plátce/příjemce (příp. čísla transakce)"
+
+#: ../src/affichage_liste.c:148
+#, fuzzy
+msgid "Sort by date and then by transaction number"
+msgstr "Řadit podle čísla transakce"
+
+#: ../src/affichage_liste.c:152
 msgid "Transaction list behavior"
 msgstr "Chování seznamu transakcí"
 
 #. heading and boxes for layout
-#: ../src/affichage_liste.c:146
+#: ../src/affichage_liste.c:156
 msgid "Display modes"
 msgstr "Mód zobrazení"
 
-#: ../src/affichage_liste.c:206
+#: ../src/affichage_liste.c:215
 msgid "Use simple click to select transactions"
 msgstr "Vybírat transakce jednoduchým kliknutím"
 
-#: ../src/affichage_liste.c:213
+#: ../src/affichage_liste.c:222
 msgid "Highlights the transaction that gives the balance today"
 msgstr "Zvýraznit transakce, které dávají dnešní součet"
 
-#: ../src/affichage_liste.c:220
+#: ../src/affichage_liste.c:229
 msgid "Primary sorting option"
 msgstr "Řadit primárně podle"
 
-#: ../src/affichage_liste.c:221
-msgid "Sort by value date (if fail, try with the date)"
-msgstr "Řadit dle data pohybu (při neúspěchu zkusit datum transakce)"
-
-#: ../src/affichage_liste.c:222
-msgid "Sort by value date and then by date"
-msgstr "Řadit dle data pohybu a potom dle data transakce"
-
-#: ../src/affichage_liste.c:231
+#: ../src/affichage_liste.c:249
 msgid "Secondary sorting option"
 msgstr "Následně řadit podle"
 
-#: ../src/affichage_liste.c:232
-msgid "Sort by transaction number"
-msgstr "Řadit podle čísla transakce"
-
-#: ../src/affichage_liste.c:233
-msgid "Sort by type of amount (credit debit)"
-msgstr "Třídit dle typu částky (kredit / debet)"
-
-#: ../src/affichage_liste.c:234
-msgid "Sort by payee name (if fail, by transaction number)"
-msgstr "Řadit podle jména plátce/příjemce (příp. čísla transakce)"
-
-#: ../src/affichage_liste.c:242
+#: ../src/affichage_liste.c:269
 msgid "Account differentiation"
 msgstr "Rozdílné nastavení účtů"
 
-#: ../src/affichage_liste.c:246
+#: ../src/affichage_liste.c:273
 msgid "Remember display settings for each account separately"
 msgstr "Pamatovat si nastavení pro každý účet zvlášť"
 
-#: ../src/affichage_liste.c:490
+#: ../src/affichage_liste.c:516
 msgid "Form behavior"
 msgstr "Chování formuláře"
 
-#: ../src/affichage_liste.c:495
+#: ../src/affichage_liste.c:521
 msgid "Pressing RETURN in transaction form"
 msgstr "Stisknutí ENTERu na formuláři transakce"
 
-#: ../src/affichage_liste.c:496
+#: ../src/affichage_liste.c:522
 msgid "selects next field"
 msgstr "přesune na následující pole"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:523
 msgid "terminates transaction"
 msgstr "ukončí transakakci"
 
-#: ../src/affichage_liste.c:502
+#: ../src/affichage_liste.c:528
 msgid "Automatic financial year is set"
 msgstr "Automatický fiskální rok je nastaven"
 
-#: ../src/affichage_liste.c:503
+#: ../src/affichage_liste.c:529
 msgid "according to transaction date"
 msgstr "podle data transakce"
 
-#: ../src/affichage_liste.c:504
+#: ../src/affichage_liste.c:530
 msgid "according to transaction value date"
 msgstr "podle data pohybu transakce"
 
-#: ../src/affichage_liste.c:510
+#: ../src/affichage_liste.c:536
 msgid "Automatic amount separator"
 msgstr "Automatický oddělovač částky"
 
-#: ../src/affichage_liste.c:513
+#: ../src/affichage_liste.c:539
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr "Automagicky přidat oddělovač do polí částek, pokud není zadán"
 
-#: ../src/affichage_liste.c:538
+#: ../src/affichage_liste.c:564
 msgid "Form completion"
 msgstr "Doplňování ve formuláři"
 
-#: ../src/affichage_liste.c:542
+#: ../src/affichage_liste.c:568
 msgid "Automatic filling transactions from payee"
 msgstr "Automaticky vyplnit transakci podle plátce/příjemce"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:575
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Automaticky opravit detaily připojené transakce"
 
-#: ../src/affichage_liste.c:558
+#: ../src/affichage_liste.c:584
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Omezit výběr plátců/příjemců na ty, kteří příslušejí danému účtu"
 
-#: ../src/affichage_liste.c:566
+#: ../src/affichage_liste.c:592
 msgid "Mix credit/debit categories"
 msgstr "Sloučit kategorie kreditu / debetu"
 
-#: ../src/affichage_liste.c:572
+#: ../src/affichage_liste.c:598
 msgid "Case sensitive completion"
 msgstr "Doplňovat s rozlišením velikosti písmen"
 
-#: ../src/affichage_liste.c:578
+#: ../src/affichage_liste.c:604
 msgid "Don't allow new payee creation"
 msgstr "Nepovolit vytvoření nového plátce/příjemce"
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:610
 msgid "Don't allow new category/budget creation"
 msgstr "Nepovolit vytvoření nové kategorie / rozpočtu"
 
-#: ../src/affichage_liste.c:593
+#: ../src/affichage_liste.c:619
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr "Maximum položek v rozbalovacích seznamech (0 bez limitu): "
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:755 ../src/parametres.c:448
+#: ../src/affichage_liste.c:781 ../src/parametres.c:448
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Chování seznamu transakcí"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:758
+#: ../src/affichage_liste.c:784
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "Chování seznamu transakcí"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:791
+#: ../src/affichage_liste.c:817
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "Obsah seznamu transakcí"
@@ -796,13 +801,13 @@ msgstr "Zobrazit rozpis amortizace od začátku"
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_tab.c:1538 ../src/bet_tab.c:2865
+#: ../src/bet_tab.c:1548 ../src/bet_tab.c:2875
 msgid "Print the array"
 msgstr "Vytisknout tabulku"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1548
+#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1558
 msgid "Export the array"
 msgstr "Exportovat tabulku"
 
@@ -861,12 +866,12 @@ msgstr "Amortizace"
 msgid "Credits"
 msgstr "Půjčky"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2862
+#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2872
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Tisk"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2875
+#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2885
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -876,7 +881,7 @@ msgstr "Export"
 msgid "credit.csv"
 msgstr "pujcka.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:2990
+#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:3000
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Nelze uložit soubor."
@@ -1190,8 +1195,8 @@ msgstr "Popis"
 msgid "Balance"
 msgstr "Zůstatek"
 
-#: ../src/bet_tab.c:838 ../src/bet_tab.c:848 ../src/bet_tab.c:1039
-#: ../src/bet_tab.c:2475 ../src/bet_tab.c:2480
+#: ../src/bet_tab.c:842 ../src/bet_tab.c:855 ../src/bet_tab.c:1049
+#: ../src/bet_tab.c:2485 ../src/bet_tab.c:2490
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1200,81 +1205,81 @@ msgstr ""
 "Převod mezi účtem: %s\n"
 "a účtem: %s"
 
-#: ../src/bet_tab.c:1375
+#: ../src/bet_tab.c:1385
 msgid "Subtract to the balance"
 msgstr "Odečíst od zůstatku"
 
-#: ../src/bet_tab.c:1382
+#: ../src/bet_tab.c:1392
 msgid "Adding to the balance"
 msgstr "Připočíst k zůstatku"
 
 #. Insert Row
-#: ../src/bet_tab.c:1399
+#: ../src/bet_tab.c:1409
 msgid "Insert Row"
 msgstr "Vložit řádek"
 
-#: ../src/bet_tab.c:1416 ../src/bet_tab.c:1428 ../src/bet_tab.c:1449
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1426 ../src/bet_tab.c:1438 ../src/bet_tab.c:1459
+#: ../src/bet_tab.c:1518
 msgid "Delete selection"
 msgstr "Odstranit výběr"
 
-#: ../src/bet_tab.c:1439
+#: ../src/bet_tab.c:1449
 msgid "Change selection"
 msgstr "Změnit výběr"
 
-#: ../src/bet_tab.c:1460
+#: ../src/bet_tab.c:1470
 msgid "Delete all occurences of the selection"
 msgstr "Odstranit všechny výskyty výběru"
 
-#: ../src/bet_tab.c:1475
+#: ../src/bet_tab.c:1485
 msgid "Convert selection to scheduled transaction"
 msgstr "Změnit výběr na plánovanou transakci"
 
-#: ../src/bet_tab.c:1498
+#: ../src/bet_tab.c:1508
 msgid "Insert the balance of a cash account"
 msgstr "Vložte saldo hotovostního účtu"
 
 #. redo item
-#: ../src/bet_tab.c:1524
+#: ../src/bet_tab.c:1534
 msgid "Reset data"
 msgstr "Vynulovat data"
 
-#: ../src/bet_tab.c:1869
+#: ../src/bet_tab.c:1879
 msgid " (still available)"
 msgstr " (stále k dispozici)"
 
-#: ../src/bet_tab.c:1878 ../src/bet_tab.c:1900
+#: ../src/bet_tab.c:1888 ../src/bet_tab.c:1910
 msgid " (budget exceeded)"
 msgstr " (rozpočet překročen)"
 
-#: ../src/bet_tab.c:1891
+#: ../src/bet_tab.c:1901
 msgid " (yet to receive)"
 msgstr " (zbývá k příjmu)"
 
-#: ../src/bet_tab.c:2398 ../src/bet_tab.c:2448 ../src/bet_tab.c:2508
+#: ../src/bet_tab.c:2408 ../src/bet_tab.c:2458 ../src/bet_tab.c:2518
 msgid "No data by default"
 msgstr "Žádná výchozí data"
 
-#: ../src/bet_tab.c:2406 ../src/bet_tab.c:2456 ../src/bet_tab.c:2514
+#: ../src/bet_tab.c:2416 ../src/bet_tab.c:2466 ../src/bet_tab.c:2524
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Žádná kategorie"
 
-#: ../src/bet_tab.c:2414 ../src/bet_tab.c:2464 ../src/bet_tab.c:2520
+#: ../src/bet_tab.c:2424 ../src/bet_tab.c:2474 ../src/bet_tab.c:2530
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "Žádný rozpočet"
 
-#: ../src/bet_tab.c:2878 ../src/bet_tab.c:2966
+#: ../src/bet_tab.c:2888 ../src/bet_tab.c:2976
 msgid "Export the array of forecast"
 msgstr "Exportovat tabulku prognózy"
 
-#: ../src/bet_tab.c:2924
+#: ../src/bet_tab.c:2934
 msgid "Balance at "
 msgstr "Zůstatek k "
 
-#: ../src/bet_tab.c:2973
+#: ../src/bet_tab.c:2983
 msgid "forecast.csv"
 msgstr "prognoza.csv"
 
@@ -7167,8 +7172,8 @@ msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"Transakce #%d je připojena k transakci #%d, která je připojena k transakci #"
-"%d.\n"
+"Transakce #%d je připojena k transakci #%d, která je připojena k transakci #%"
+"d.\n"
 
 #. sub-category not found
 #: ../src/gsb_debug.c:611
@@ -10783,8 +10788,8 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
-"Chystáte se nahradit %d plátců/příjemců jejichž jména obsahují %s hodnotou "
-"%s\n"
+"Chystáte se nahradit %d plátců/příjemců jejichž jména obsahují %s hodnotou %"
+"s\n"
 "\n"
 "Opravdu pokračovat?"
 

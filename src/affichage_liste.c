@@ -75,8 +75,7 @@ static gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
-static gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
-                        GdkEventButton *event,
+static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur );
 static gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
                         GtkWidget *container );
@@ -123,6 +122,7 @@ GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
+    GtkWidget *button;
     gchar *display_mode_lines_text [] = {
     _("In one line visible, show the line: "),
     _("In two lines visibles, show the lines: "),
@@ -137,6 +137,16 @@ GtkWidget *onglet_affichage_operations ( void )
     gchar *line_3 [] = {
     "1-2-3", "1-2-4", "1-3-4", "2-3-4",
     NULL };
+    gchar *options_tri_primaire[] = {
+    _("Sort by value date (if fail, try with the date)"),
+    _("Sort by value date and then by date"),
+    };
+    gchar *options_tri_secondaire[] = {
+    _("Sort by transaction number"),
+    _("Sort by type of amount (credit debit)"),
+    _("Sort by payee name (if fail, by transaction number)"),
+    _("Sort by date and then by transaction number"),
+    };
     gint i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
@@ -154,7 +164,6 @@ GtkWidget *onglet_affichage_operations ( void )
     for (i=0 ; i<3 ; i++)
     {
     gint j;
-    GtkWidget *button;
     gchar **text_line = NULL;
     gint position = 0;
 
@@ -216,26 +225,44 @@ GtkWidget *onglet_affichage_operations ( void )
                         FALSE, FALSE, 0 );
 
     /* Primary sorting option for the transactions */
-    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Primary sorting option"),
-                        _("Sort by value date (if fail, try with the date)"),
-                        _("Sort by value date and then by date"),
-                        NULL,
-                        &conf.transactions_list_primary_sorting,
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Primary sorting option") );
+
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gtk_combo_box_new_text ();
+    g_signal_connect ( G_OBJECT ( button ),
+                        "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_primary_sorting,
-                        GTK_ORIENTATION_VERTICAL );
+                        &conf.transactions_list_primary_sorting );
+
+    for ( i = 0 ; i < 2 ; i++ )
+    {
+        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_primaire[i] );
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Secondary sorting option for the transactions */
-    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Secondary sorting option"),
-                        _("Sort by transaction number"),
-                        _("Sort by type of amount (credit debit)"),
-                        _("Sort by payee name (if fail, by transaction number)"),
-                        &conf.transactions_list_secondary_sorting,
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Secondary sorting option") );
+
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gtk_combo_box_new_text ();
+    g_signal_connect ( G_OBJECT ( button ),
+                        "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_secondary_sorting,
-                        GTK_ORIENTATION_VERTICAL );
+                        &conf.transactions_list_secondary_sorting );
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_secondaire[i] );
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
@@ -261,8 +288,7 @@ GtkWidget *onglet_affichage_operations ( void )
  *
  *
  * */
-gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
-                        GdkEventButton *event,
+static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur )
 {
     gint page_number;
@@ -274,7 +300,7 @@ gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
     {
         gint value = 0;
 
-        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        value = gtk_combo_box_get_active ( widget );
         *pointeur = value;
         gsb_file_set_modified ( TRUE );
     }

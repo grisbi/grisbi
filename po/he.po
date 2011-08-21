@@ -283,14 +283,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-06 11:12+0200\n"
+"POT-Creation-Date: 2011-08-20 21:59+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Generator: KBabel 1.9.1\n"
 
 #: ../src/accueil.c:195
@@ -635,155 +635,160 @@ msgstr ""
 msgid "In three lines visibles, show the lines: "
 msgstr ""
 
+#: ../src/affichage_liste.c:141
+msgid "Sort by value date (if fail, try with the date)"
+msgstr ""
+
 #: ../src/affichage_liste.c:142
+msgid "Sort by value date and then by date"
+msgstr ""
+
+#: ../src/affichage_liste.c:145
+#, fuzzy
+msgid "Sort by transaction number"
+msgstr "מספר העיסקה"
+
+#: ../src/affichage_liste.c:146
+msgid "Sort by type of amount (credit debit)"
+msgstr ""
+
+#: ../src/affichage_liste.c:147
+#, fuzzy
+msgid "Sort by payee name (if fail, by transaction number)"
+msgstr "מספר העיסקה"
+
+#: ../src/affichage_liste.c:148
+#, fuzzy
+msgid "Sort by date and then by transaction number"
+msgstr "בחירת העיסקאות לפי סכום"
+
+#: ../src/affichage_liste.c:152
 #, fuzzy
 msgid "Transaction list behavior"
 msgstr "תצוגה מוקדמת של רשימת העיסקאות"
 
 #. heading and boxes for layout
-#: ../src/affichage_liste.c:146
+#: ../src/affichage_liste.c:156
 msgid "Display modes"
 msgstr "מצבי תצוגת הטבלאות"
 
-#: ../src/affichage_liste.c:206
+#: ../src/affichage_liste.c:215
 #, fuzzy
 msgid "Use simple click to select transactions"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/affichage_liste.c:213
+#: ../src/affichage_liste.c:222
 msgid "Highlights the transaction that gives the balance today"
 msgstr ""
 
-#: ../src/affichage_liste.c:220
+#: ../src/affichage_liste.c:229
 msgid "Primary sorting option"
 msgstr ""
 
-#: ../src/affichage_liste.c:221
-msgid "Sort by value date (if fail, try with the date)"
-msgstr ""
-
-#: ../src/affichage_liste.c:222
-msgid "Sort by value date and then by date"
-msgstr ""
-
-#: ../src/affichage_liste.c:231
+#: ../src/affichage_liste.c:249
 msgid "Secondary sorting option"
 msgstr ""
 
-#: ../src/affichage_liste.c:232
-#, fuzzy
-msgid "Sort by transaction number"
-msgstr "מספר העיסקה"
-
-#: ../src/affichage_liste.c:233
-msgid "Sort by type of amount (credit debit)"
-msgstr ""
-
-#: ../src/affichage_liste.c:234
-#, fuzzy
-msgid "Sort by payee name (if fail, by transaction number)"
-msgstr "מספר העיסקה"
-
-#: ../src/affichage_liste.c:242
+#: ../src/affichage_liste.c:269
 #, fuzzy
 msgid "Account differentiation"
 msgstr "עיסקאות בחשבון"
 
-#: ../src/affichage_liste.c:246
+#: ../src/affichage_liste.c:273
 msgid "Remember display settings for each account separately"
 msgstr "שמירת הגדרות תצוגה לכל חשבון בנפרד"
 
-#: ../src/affichage_liste.c:490
+#: ../src/affichage_liste.c:516
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/affichage_liste.c:495
+#: ../src/affichage_liste.c:521
 msgid "Pressing RETURN in transaction form"
 msgstr "לחיצה על Enter בטופס העברה"
 
-#: ../src/affichage_liste.c:496
+#: ../src/affichage_liste.c:522
 msgid "selects next field"
 msgstr "בוחרת בשדה הבא"
 
-#: ../src/affichage_liste.c:497
+#: ../src/affichage_liste.c:523
 msgid "terminates transaction"
 msgstr "מסיימת את העיסקה"
 
-#: ../src/affichage_liste.c:502
+#: ../src/affichage_liste.c:528
 #, fuzzy
 msgid "Automatic financial year is set"
 msgstr "פירוט שנות הכספים"
 
-#: ../src/affichage_liste.c:503
+#: ../src/affichage_liste.c:529
 msgid "according to transaction date"
 msgstr "בהתאם לתאריך העיסקה"
 
-#: ../src/affichage_liste.c:504
+#: ../src/affichage_liste.c:530
 #, fuzzy
 msgid "according to transaction value date"
 msgstr "בהתאם לתאריך העיסקה"
 
-#: ../src/affichage_liste.c:510
+#: ../src/affichage_liste.c:536
 #, fuzzy
 msgid "Automatic amount separator"
 msgstr "שמירת הקובץ אוטומטית עם היציאה"
 
-#: ../src/affichage_liste.c:513
+#: ../src/affichage_liste.c:539
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#: ../src/affichage_liste.c:538
+#: ../src/affichage_liste.c:564
 msgid "Form completion"
 msgstr ""
 
-#: ../src/affichage_liste.c:542
+#: ../src/affichage_liste.c:568
 #, fuzzy
 msgid "Automatic filling transactions from payee"
 msgstr "הוכנסו העברות שנקבעו אוטומטית מראש"
 
-#: ../src/affichage_liste.c:549
+#: ../src/affichage_liste.c:575
 #, fuzzy
 msgid "Automatically recover the children of the associated transaction"
 msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
-#: ../src/affichage_liste.c:558
+#: ../src/affichage_liste.c:584
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 
-#: ../src/affichage_liste.c:566
+#: ../src/affichage_liste.c:592
 #, fuzzy
 msgid "Mix credit/debit categories"
 msgstr "מיזוג קטגוריות"
 
-#: ../src/affichage_liste.c:572
+#: ../src/affichage_liste.c:598
 msgid "Case sensitive completion"
 msgstr ""
 
-#: ../src/affichage_liste.c:578
+#: ../src/affichage_liste.c:604
 msgid "Don't allow new payee creation"
 msgstr ""
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:610
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: ../src/affichage_liste.c:593
+#: ../src/affichage_liste.c:619
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:755 ../src/parametres.c:448
+#: ../src/affichage_liste.c:781 ../src/parametres.c:448
 msgid "Transactions list cells"
 msgstr "תאי רשימת העיסקאות"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:758
+#: ../src/affichage_liste.c:784
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "קווי רשימת עיסקאות"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:791
+#: ../src/affichage_liste.c:817
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "תאי רשימת העיסקאות"
@@ -1137,14 +1142,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_tab.c:1538 ../src/bet_tab.c:2865
+#: ../src/bet_tab.c:1548 ../src/bet_tab.c:2875
 #, fuzzy
 msgid "Print the array"
 msgstr "מדפסת"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1548
+#: ../src/bet_finance_ui.c:1884 ../src/bet_tab.c:1558
 #, fuzzy
 msgid "Export the array"
 msgstr "מדפסת"
@@ -1210,12 +1215,12 @@ msgstr "פעולה"
 msgid "Credits"
 msgstr "זכות"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2862
+#: ../src/bet_finance_ui.c:1842 ../src/bet_tab.c:2872
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2875
+#: ../src/bet_finance_ui.c:1855 ../src/bet_tab.c:2885
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -1226,7 +1231,7 @@ msgstr "ייצוא"
 msgid "credit.csv"
 msgstr "זכות"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:2990
+#: ../src/bet_finance_ui.c:1908 ../src/bet_tab.c:3000
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "לא ניתן לשמור את הקובץ."
@@ -1554,100 +1559,100 @@ msgstr "תיאור"
 msgid "Balance"
 msgstr "מאזן"
 
-#: ../src/bet_tab.c:838 ../src/bet_tab.c:848 ../src/bet_tab.c:1039
-#: ../src/bet_tab.c:2475 ../src/bet_tab.c:2480
+#: ../src/bet_tab.c:842 ../src/bet_tab.c:855 ../src/bet_tab.c:1049
+#: ../src/bet_tab.c:2485 ../src/bet_tab.c:2490
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "העברה לחשבון שנמחק"
 
-#: ../src/bet_tab.c:1375
+#: ../src/bet_tab.c:1385
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1382
+#: ../src/bet_tab.c:1392
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "יתרת פתיחה"
 
 #. Insert Row
-#: ../src/bet_tab.c:1399
+#: ../src/bet_tab.c:1409
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1416 ../src/bet_tab.c:1428 ../src/bet_tab.c:1449
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1426 ../src/bet_tab.c:1438 ../src/bet_tab.c:1459
+#: ../src/bet_tab.c:1518
 #, fuzzy
 msgid "Delete selection"
 msgstr "בחירת מידע"
 
-#: ../src/bet_tab.c:1439
+#: ../src/bet_tab.c:1449
 #, fuzzy
 msgid "Change selection"
 msgstr "בחירת מידע"
 
-#: ../src/bet_tab.c:1460
+#: ../src/bet_tab.c:1470
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/bet_tab.c:1475
+#: ../src/bet_tab.c:1485
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
-#: ../src/bet_tab.c:1498
+#: ../src/bet_tab.c:1508
 #, fuzzy
 msgid "Insert the balance of a cash account"
 msgstr "לא ניתן לבצע העברה בחשבון סגור."
 
 #. redo item
-#: ../src/bet_tab.c:1524
+#: ../src/bet_tab.c:1534
 #, fuzzy
 msgid "Reset data"
 msgstr "תאריך אחרון"
 
-#: ../src/bet_tab.c:1869
+#: ../src/bet_tab.c:1879
 msgid " (still available)"
 msgstr ""
 
-#: ../src/bet_tab.c:1878 ../src/bet_tab.c:1900
+#: ../src/bet_tab.c:1888 ../src/bet_tab.c:1910
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "אין קו תקציב"
 
-#: ../src/bet_tab.c:1891
+#: ../src/bet_tab.c:1901
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2398 ../src/bet_tab.c:2448 ../src/bet_tab.c:2508
+#: ../src/bet_tab.c:2408 ../src/bet_tab.c:2458 ../src/bet_tab.c:2518
 #, fuzzy
 msgid "No data by default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
-#: ../src/bet_tab.c:2406 ../src/bet_tab.c:2456 ../src/bet_tab.c:2514
+#: ../src/bet_tab.c:2416 ../src/bet_tab.c:2466 ../src/bet_tab.c:2524
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "אין קטגוריה"
 
-#: ../src/bet_tab.c:2414 ../src/bet_tab.c:2464 ../src/bet_tab.c:2520
+#: ../src/bet_tab.c:2424 ../src/bet_tab.c:2474 ../src/bet_tab.c:2530
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "ללא קו תקציב"
 
-#: ../src/bet_tab.c:2878 ../src/bet_tab.c:2966
+#: ../src/bet_tab.c:2888 ../src/bet_tab.c:2976
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "ייצוא קווי התקציב"
 
-#: ../src/bet_tab.c:2924
+#: ../src/bet_tab.c:2934
 #, fuzzy
 msgid "Balance at "
 msgstr "מאזן"
 
-#: ../src/bet_tab.c:2973
+#: ../src/bet_tab.c:2983
 msgid "forecast.csv"
 msgstr ""
 
@@ -7659,8 +7664,8 @@ msgid ""
 "with another name or activate the \"%s\" option in preferences."
 msgstr ""
 "גריסבי לא הצליח לשמור קובץ זה בגלל שהוא נעול. יש לשמור אותו בשם אחר, או "
-"להפעיל את האפשרות של \"%s\" בהגדרות התוכנה. לחילופין, ניתן לבחור באפשרות  "
-"\"%s\" אשר נמצאת מתחת."
+"להפעיל את האפשרות של \"%s\" בהגדרות התוכנה. לחילופין, ניתן לבחור באפשרות  \"%"
+"s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
 #: ../src/gsb_file.c:561 ../src/gsb_file.c:814 ../src/parametres.c:883
@@ -11673,9 +11678,6 @@ msgstr ""
 #~ msgid "Manage subdivisions"
 #~ msgstr "הצגת תת-חלוקות"
 
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "בחירת העיסקאות לפי סכום"
-
 #~ msgid "Initial period"
 #~ msgstr "תאריך התחלה"
 
@@ -12932,8 +12934,8 @@ msgstr ""
 #~ msgstr "לא ניתן לפתוח את הקובץ '%s' : זה אינו קובץ של גריסבי"
 
 #~ msgid ""
-#~ "Warning: Grisbi data format has changed. Grisbi made a backup under "
-#~ "'%s'.\n"
+#~ "Warning: Grisbi data format has changed. Grisbi made a backup under '%"
+#~ "s'.\n"
 #~ "Keep it for a while just in case."
 #~ msgstr ""
 #~ "אזהרה: דרך שמירת המידע של גריסבי השתנתה. גריסבי עשה גיבוי בשם '%s'.\n"
