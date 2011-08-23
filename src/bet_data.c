@@ -40,6 +40,7 @@
 #include "gsb_data_mix.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "traitement_variables.h"
@@ -102,7 +103,6 @@ static gint transfert_number;
 void bet_data_select_bet_pages ( gint account_number )
 {
     GtkWidget *page;
-    GtkWidget *tree_view;
     kind_account kind;
     gint current_page;
     gint bet_use_budget;
@@ -117,14 +117,13 @@ void bet_data_select_bet_pages ( gint account_number )
     else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
         kind = GSB_TYPE_BANK;
 
-    tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_estimate_treeview" );
-
     switch ( kind )
     {
+    case GSB_TYPE_BALANCE:
+        break;
     case GSB_TYPE_BANK:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );
-        bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
@@ -153,7 +152,6 @@ void bet_data_select_bet_pages ( gint account_number )
     case GSB_TYPE_LIABILITIES:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
-        bet_array_list_select_path ( tree_view, NULL );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
@@ -1193,8 +1191,7 @@ gboolean bet_data_future_add_lines ( struct_futur_data *scheduled )
         g_date_free ( date_max );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1432,8 +1429,7 @@ gboolean bet_data_future_remove_line ( gint account_number, gint number, gboolea
         break;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     if ( maj )
     {
@@ -1480,8 +1476,7 @@ gboolean bet_data_future_remove_lines ( gint account_number,
             g_hash_table_iter_remove ( &iter );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1531,8 +1526,7 @@ gboolean bet_data_future_modify_lines ( struct_futur_data *scheduled )
 
     g_hash_table_replace ( bet_future_list, key, scheduled );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1620,8 +1614,7 @@ gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert )
     transfert -> number = transfert_number;
     g_hash_table_insert ( bet_transfert_list, key, transfert );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -1653,8 +1646,7 @@ gboolean bet_data_transfert_remove_line ( gint account_number, gint number )
         break;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
@@ -1698,8 +1690,7 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 
     g_hash_table_replace ( bet_transfert_list, key, transfert );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }

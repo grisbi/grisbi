@@ -139,8 +139,11 @@ void gsb_data_scheduled_delete_all_scheduled ()
     }
 }
 
-/** set the scheduleds global variables to NULL, usually when we init all the global variables
+/**
+ * set the scheduleds global variables to NULL, usually when we init all the global variables
+ *
  * \param none
+ *
  * \return FALSE
  * */
 gboolean gsb_data_scheduled_init_variables ( void )
@@ -1445,8 +1448,9 @@ GDate *gsb_data_scheduled_get_limit_date ( gint scheduled_number )
 }
 
 
-/** set the limit_GDate of the scheduled
- * 
+/**
+ * set the limit_GDate of the scheduled
+ *
  * \param scheduled_number
  * \param no_account
  *

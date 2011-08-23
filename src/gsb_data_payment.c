@@ -704,6 +704,9 @@ gint gsb_data_payment_create_default  ( gint account_number )
 devel_debug_int ( account_number);
     switch (gsb_data_account_get_kind (account_number))
     {
+    case GSB_TYPE_BALANCE:
+        break;
+
 	case GSB_TYPE_CASH:
 	    break;
 

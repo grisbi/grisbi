@@ -38,12 +38,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_automem.h"
-#include "utils_editables.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils_buttons.h"
-#include "utils.h"
+#include "gsb_file.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -170,8 +171,7 @@ static gboolean gsb_automem_entry_changed (GtkWidget *entry,
         if ( *data )
 	    g_free ( *data );
 	*data = my_strdup (gtk_entry_get_text ( GTK_ENTRY (entry) ));
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return FALSE;
@@ -290,8 +290,7 @@ static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
     if (data)
     {
 	*data = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return FALSE;
@@ -397,8 +396,7 @@ static gboolean gsb_automem_checkbutton_changed ( GtkWidget *checkbutton,
     if (value)
     {
 	*value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(checkbutton));
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return FALSE;
@@ -775,8 +773,7 @@ static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
     if ( data )
     {
 	*data = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON(spin));
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return (FALSE);

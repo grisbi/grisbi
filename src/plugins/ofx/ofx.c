@@ -36,34 +36,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-/* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
- * This is a work around to this issues :
- *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
- *  on windows they should be prefixed by OFX_
- * libofx.h therefore needs to be patched on windows.
- */
-
-#ifndef OFX_INFO
-#define OFX_INFO    INFO
-#endif
-
-#ifndef OFX_WARN
-#define OFX_WARN    WARN
-#endif
-
-#ifndef OFX_ERROR
-#define OFX_ERROR   ERROR
-#endif
-
-#ifndef OFX_DELETE
-#define OFX_DELETE  DELETE
-#endif
-
-#ifndef OFX_REPLACE
-#define OFX_REPLACE REPLACE
-#endif
-
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
@@ -221,11 +193,11 @@ int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
     {
 	switch ( data.severity )
 	{
-	    case OFX_INFO :
+	    case INFO :
 		/* 		pas de pb, on fait rien */
 		break;
 
-	    case OFX_WARN :
+	    case WARN :
 		if ( data.code_valid )
 		    dialogue_warning ( g_strconcat ( _("OFX processing returned following message:\n"),
 						     data.name,
@@ -237,7 +209,7 @@ int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
 /* 		erreur_import_ofx = 1; */
 		break;
 
-	    case OFX_ERROR:
+	    case ERROR:
 		if ( data.code_valid )
 		    dialogue_error ( g_strconcat ( _("OFX processing returned following error message:\n"),
 						   data.name,

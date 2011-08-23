@@ -34,18 +34,19 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_config.h"
-#include "utils.h"
 #include "dialog.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "navigation.h"
-#include "utils_str.h"
-#include "traitement_variables.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -728,8 +729,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -846,8 +846,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 	    }
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     /* update the form if needed */
 	saved_allocation_size = 0;
@@ -881,8 +880,7 @@ gboolean gsb_form_config_add_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -957,8 +955,7 @@ gboolean gsb_form_config_remove_line ( void )
     gsb_form_config_fill_store (account_number);
     gsb_form_create_widgets ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -996,8 +993,7 @@ gboolean gsb_form_config_add_column ( void )
 
     /* show the result */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1078,8 +1074,7 @@ gboolean gsb_form_config_remove_column ( void )
 
     /* fill the list */
     gsb_form_config_realized ( form_config_tree_view, NULL );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1263,8 +1258,7 @@ gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
     gsb_form_config_fill_store (account_number);
     gsb_form_fill_from_account (account_number);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return (FALSE);
 }
 

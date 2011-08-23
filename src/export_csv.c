@@ -51,6 +51,7 @@
 #include "gsb_file_util.h"
 #include "gsb_real.h"
 #include "main.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "utils_files.h"
 /*END_INCLUDE*/
@@ -315,16 +316,16 @@ gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
 
     /* ok the balance is now good, can write it */
     CSV_CLEAR_FIELD (csv_field_solde);
-    csv_field_solde = gsb_real_get_string (current_balance);
+    csv_field_solde = utils_real_get_string (current_balance);
     if ( current_balance.mantissa >= 0 )
     {
 	CSV_CLEAR_FIELD (csv_field_credit);
-	csv_field_credit = gsb_real_get_string (current_balance);
+	csv_field_credit = utils_real_get_string (current_balance);
     }
     else
     {
 	CSV_CLEAR_FIELD (csv_field_debit);
-	csv_field_debit = gsb_real_get_string (gsb_real_abs (current_balance));
+	csv_field_debit = utils_real_get_string (gsb_real_abs (current_balance));
     }
 
     csv_add_record(csv_file,TRUE, TRUE);
@@ -520,9 +521,9 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 							    return_exponent);
 	CSV_CLEAR_FIELD (csv_field_credit);
 	if (amount.mantissa >= 0 )
-	    csv_field_credit = gsb_real_get_string (amount);
+	    csv_field_credit = utils_real_get_string (amount);
 	else
-	    csv_field_debit  = gsb_real_get_string (gsb_real_abs (amount));
+	    csv_field_debit  = utils_real_get_string (gsb_real_abs (amount));
 
 	/* met le cheque si c'est un type à numerotation automatique */
 	payment_method = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
@@ -554,7 +555,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	    current_balance = gsb_real_add ( current_balance,
 					     amount );
 	    CSV_CLEAR_FIELD (csv_field_solde);
-	    csv_field_solde = gsb_real_get_string (current_balance);
+	    csv_field_solde = utils_real_get_string (current_balance);
 	}
 
 	/* Number */
@@ -649,7 +650,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 		    /* met le montant de la ventilation */
 		    amount = gsb_data_transaction_get_adjusted_amount ( pSplitTransaction, return_exponent );
 		    CSV_CLEAR_FIELD (csv_field_montant);
-		    csv_field_montant = gsb_real_get_string (amount);
+		    csv_field_montant = utils_real_get_string (amount);
 
 		    /* met le rapprochement */
 		    if ( gsb_data_transaction_get_reconcile_number ( pSplitTransaction ) )

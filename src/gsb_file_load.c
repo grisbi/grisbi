@@ -42,6 +42,7 @@
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
+#include "gsb_color.h"
 #include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -77,6 +78,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
@@ -169,17 +171,7 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor archive_background_color;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_jour;
-extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
@@ -190,9 +182,7 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real;
-extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GdkColor text_color[2];
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -358,10 +348,14 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             length = crypt_function ( filename, &file_content, FALSE, length );
             
             if ( ! length )
+            {
+                g_free (file_content);
                 return FALSE;
+            }
             }
             else
             {
+                g_free (file_content);
                 dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
                         "handle that file.\n\n"
                         "Please make sure if is installed (i.e. check "
@@ -408,17 +402,13 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                         file_content,
                         strlen (file_content),
                         NULL );
-        if ( !download_tmp_values.download_ok )
-        {
-            g_markup_parse_context_free (context);
-            g_free (markup_parser);
-            g_free (file_content);
-            return FALSE;
-        }
 
         g_markup_parse_context_free (context);
         g_free (markup_parser);
         g_free (file_content);
+
+        if ( !download_tmp_values.download_ok )
+            return FALSE;
     }
     else
     {
@@ -975,10 +965,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
     {
         /* initialise la réinitialisation des colonnes */
-        run.transaction_column_width = my_strdup ( attribute_values[i] );
+        etat.transaction_column_width = my_strdup ( attribute_values[i] );
 
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                        run.transaction_column_width );
+                        etat.transaction_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
@@ -998,10 +988,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
     {
         /* initialise la réinitialisation des colonnes */
-        run.scheduler_column_width = my_strdup ( attribute_values[i] );
+        etat.scheduler_column_width = my_strdup ( attribute_values[i] );
 
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                        run.scheduler_column_width );
+                        etat.scheduler_column_width );
     }
 
     else if ( !strcmp ( attribute_names[i],
@@ -1144,262 +1134,219 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-                        "(null)"))
+    if ( !strcmp (attribute_values[i], "(null)") )
     {
         /* Nothing */
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_red" ) )
     {
-        couleur_fond[0].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_green" ) )
     {
-        couleur_fond[0].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_0_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_0_blue" ) )
     {
-        couleur_fond[0].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_red" ) )
     {
-        couleur_fond[1].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_green" ) )
     {
-        couleur_fond[1].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_color_1_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_color_1_blue" ) )
     {
-        couleur_fond[1].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "couleur_fond", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_red" ) )
     {
-        couleur_jour.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_green" ) )
     {
-        couleur_jour.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_jour_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_jour_blue" ) )
     {
-        couleur_jour.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_jour", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_red" ) )
     {
-        couleur_grise.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_green" ) )
     {
-        couleur_grise.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_scheduled_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_scheduled_blue" ) )
     {
-        couleur_grise.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_grise", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_red" ) )
     {
-        archive_background_color.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_green" ) )
     {
-        archive_background_color.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_archive_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_archive_blue" ) )
     {
-        archive_background_color.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "archive_background_color", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_red" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_red" ) )
     {
-        couleur_selection.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_green" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_green" ) )
     {
-        couleur_selection.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Selection_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Selection_blue" ) )
     {
-        couleur_selection.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_selection", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_red" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_red" ) )
     {
-        split_background.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_green" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_green" ) )
     {
-        split_background.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Background_split_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Background_split_blue" ) )
     {
-        split_background.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "split_background", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_red" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_red" ) )
     {
-        text_color[0].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_green" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_green" ) )
     {
-        text_color[0].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_0_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_0_blue" ) )
     {
-        text_color[0].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 0, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_red" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_red" ) )
     {
-        text_color[1].red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_green" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_green" ) )
     {
-        text_color[1].green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Text_color_1_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Text_color_1_blue" ) )
     {
-        text_color[1].blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur_with_indice ( "text_color", 1, "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_red" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_red" ) )
     {
-        calendar_entry_color.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_green" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_green" ) )
     {
-        calendar_entry_color.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Calendar_entry_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Entry_error_color_blue" ) )
     {
-        calendar_entry_color.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "entry_error_color", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_red" ) )
     {
-        couleur_bet_division.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_green" ) )
     {
-        couleur_bet_division.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_division_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_division_blue" ) )
     {
-        couleur_bet_division.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_division", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_red" ) )
     {
-        couleur_bet_future.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_green" ) )
     {
-        couleur_bet_future.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_future_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_future_blue" ) )
     {
-        couleur_bet_future.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_future", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_red" ) )
     {
-        couleur_bet_solde.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_green" ) )
     {
-        couleur_bet_solde.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_solde_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_solde_blue" ) )
     {
-        couleur_bet_solde.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_solde", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_red" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_red" ) )
     {
-        couleur_bet_transfert.red = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "red", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_green" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_green" ) )
     {
-        couleur_bet_transfert.green = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "green", utils_str_atoi ( attribute_values[i] ) );
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Couleur_bet_transfert_blue" ))
+    else if ( !strcmp ( attribute_names[i], "Couleur_bet_transfert_blue" ) )
     {
-        couleur_bet_transfert.blue = utils_str_atoi (attribute_values[i]);
+        gsb_color_set_couleur ( "couleur_bet_transfert", "blue", utils_str_atoi ( attribute_values[i] ) );
     }
 
     i++;
@@ -5660,11 +5607,11 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             gsb_real number;
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
-            number = gsb_real_get_from_string (tmp_string);
+            number = utils_real_get_from_string (tmp_string);
             /* printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d\n", tmp_string,
                         number.mantissa, number.exponent); */
             gsb_data_transaction_set_amount ( transaction_number,
-                                  gsb_real_get_from_string (tmp_string));
+                                  utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -5681,12 +5628,12 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "Tc" ))
             gsb_data_transaction_set_exchange_rate ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     utils_real_get_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "Fc" ))
             gsb_data_transaction_set_exchange_fees ( transaction_number,
-                                     gsb_real_get_from_string (attribute_values[i]));
+                                     utils_real_get_from_string (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                    "T" ))
@@ -5835,7 +5782,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_scheduled_set_amount ( scheduled_number,
-                                gsb_real_get_from_string (tmp_string));
+                                utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6191,7 +6138,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
         if ( !strcmp ( attribute_names[i],
                    "Change" ))
-            tmp_currency_link.exchange = gsb_real_get_from_string (attribute_values[i]);
+            tmp_currency_link.exchange = utils_real_get_from_string (attribute_values[i]);
         if ( !strcmp ( attribute_names[i], "Date_dernier_change" ) 
          &&
          strlen ( attribute_values[i] ) )
@@ -6558,7 +6505,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-                                         gsb_real_get_from_string (tmp_string));
+                                         utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6571,7 +6518,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-                                          gsb_real_get_from_string (tmp_string));
+                                          utils_real_get_from_string (tmp_string));
             if (tmp_string) g_free (tmp_string);
         }
 
@@ -6987,14 +6934,14 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     /* printf ("solde_initial = %s\n", tmp_string ); */
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_init_balance ( account_number, null_real );
     else
         gsb_data_account_set_init_balance ( account_number, number );
     /* printf ("tmp_string = %s number.mantissa = %ld number.exponent = %d initial_balance = %s\n", tmp_string,
                         number.mantissa, number.exponent,
-                        gsb_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
+                        utils_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
 
     if (tmp_string) 
         g_free (tmp_string);
@@ -7010,7 +6957,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_mini_balance_wanted ( account_number, null_real );
     else
@@ -7030,7 +6977,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     gsb_real number;
     
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
-    number = gsb_real_get_from_string ( tmp_string );
+    number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
         gsb_data_account_set_mini_balance_authorized ( account_number, null_real );
     else
@@ -7071,7 +7018,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
 
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     if (buffer_reconcile_conversion)
-        buffer_reconcile_conversion -> final_balance = gsb_real_get_from_string (tmp_string);
+        buffer_reconcile_conversion -> final_balance = utils_real_get_from_string (tmp_string);
     if (tmp_string) 
         g_free (tmp_string);
     return;
@@ -8118,7 +8065,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     g_free ( tmpstr );
 
     /* for now the file is not modified */
-    modification_fichier ( FALSE );
+    gsb_file_set_modified ( FALSE );
 
     switch ( version_number )
     {
@@ -8865,8 +8812,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*      to set just before the new version */
         /* ********************************************************* */
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
         /* ************************************* */
         /*         opening 0.6.0                    */
@@ -8878,7 +8824,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
     case 60:
         if ( conf.sauvegarde_demarrage )
-            etat.modification_fichier = TRUE;
+            gsb_file_set_modified ( TRUE );
         break;
 
     default :

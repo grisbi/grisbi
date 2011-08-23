@@ -41,6 +41,7 @@
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"
@@ -48,6 +49,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -355,8 +357,8 @@ void gsb_reconcile_config_fill ( void )
 
 		init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
 		final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
-		init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-		final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+		init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+		final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 		gtk_tree_store_append ( GTK_TREE_STORE (model),
 					&reconcile_iter,
@@ -476,8 +478,8 @@ gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 
 		init_date = gsb_format_gdate (gsb_data_reconcile_get_init_date (reconcile_number));
 		final_date = gsb_format_gdate (gsb_data_reconcile_get_final_date (reconcile_number));
-		init_balance = gsb_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
-		final_balance = gsb_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
+		init_balance = utils_real_get_string (gsb_data_reconcile_get_init_balance (reconcile_number));
+		final_balance = utils_real_get_string (gsb_data_reconcile_get_final_balance (reconcile_number));
 
 		gtk_tree_store_set ( GTK_TREE_STORE (model),
 				     &iter,
@@ -557,8 +559,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 		/* update the last statement for that account */
 		gsb_navigation_update_statement_label (account_number);
 	    }
-	    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
 	}
     }
 
@@ -590,8 +591,7 @@ gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
 {
     etat.reconcile_end_date = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }

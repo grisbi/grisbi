@@ -42,6 +42,7 @@
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "navigation.h"
@@ -49,6 +50,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -233,8 +235,7 @@ gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton
 
     bet_data_select_bet_pages ( gsb_gui_navigation_get_current_account ( ) );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -783,8 +784,7 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event,
                         G_CALLBACK ( bet_config_period_clicked ),
                         button );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -851,8 +851,7 @@ void bet_config_duration_button_clicked ( GtkWidget *togglebutton,
                         G_CALLBACK ( bet_config_duration_number_changed ),
                         data );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, -1 );
@@ -882,8 +881,7 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
                                                
     gsb_data_account_set_bet_months ( account_number, months );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, -1 );
@@ -947,8 +945,7 @@ void bet_config_origin_data_clicked ( GtkWidget *togglebutton, GdkEventButton *e
     gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN ( column ), title );
     g_free ( title );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
     bet_data_update_bet_module ( account_number, -1 );
@@ -973,8 +970,7 @@ void bet_config_fyear_clicked ( GtkWidget *combo, gpointer data )
     gsb_data_account_set_bet_hist_fyear ( account_number,
                         bet_historical_get_fyear_from_combobox ( combo ) );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
     bet_data_update_bet_module ( account_number, -1 );
@@ -1035,6 +1031,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     notebook = g_object_get_data ( G_OBJECT ( account_page ), "config_notebook" );
     switch ( kind )
     {
+        case GSB_TYPE_BALANCE:
+            break;
         case GSB_TYPE_BANK:
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), 0 );
             bet_config_initialise_duration_widget ( account_number, account_page );
@@ -1100,8 +1098,7 @@ gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
 
     gsb_data_account_set_bet_select_label ( account_number, origine, value );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, -1 );
@@ -1130,6 +1127,8 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
 
         switch ( kind )
         {
+        case GSB_TYPE_BALANCE:
+            break;
         case GSB_TYPE_BANK:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
             gtk_widget_show_all ( widget );
@@ -1413,7 +1412,7 @@ void bet_config_initialise_finance_widget ( gint account_number,
     /* set capital */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_capital" );
     gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_capital ( account_number ) ),
                         devise, FALSE ) );
@@ -1441,7 +1440,7 @@ void bet_config_initialise_finance_widget ( gint account_number,
     /* set frais */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_montant_frais" );
     gtk_entry_set_text ( GTK_ENTRY ( widget ),
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_frais ( account_number ) ),
                         devise, FALSE ) );
@@ -1499,8 +1498,7 @@ void bet_config_finance_apply_clicked ( GtkButton *button, GtkWidget *parent )
     type_taux = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton ) );
     gsb_data_account_set_bet_finance_type_taux ( account_number, type_taux );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     bet_finance_ui_update_amortization_tab ( account_number );
 }

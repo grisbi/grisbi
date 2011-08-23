@@ -39,6 +39,7 @@
 
 /*START_INCLUDE*/
 #include "tiers_onglet.h"
+#include "fenetre_principale.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_form.h"
@@ -46,6 +47,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
@@ -119,7 +121,6 @@ static struct metatree_hold_position *payee_hold_position;
 static struct conditional_message *overwrite_payee;
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 extern GSList *liste_associations_tiers;
 /*END_EXTERN*/
 
@@ -211,6 +212,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Payees"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -220,6 +222,7 @@ GtkWidget *payees_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -230,6 +233,7 @@ GtkWidget *payees_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( payee_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -238,6 +242,11 @@ GtkWidget *payees_create_list ( void )
     gtk_widget_show ( payee_tree );
 
     /* Connect to signals */
+    g_signal_connect ( G_OBJECT ( payee_tree ),
+                        "row-collapsed",
+                        G_CALLBACK ( division_column_collapsed ),
+                        NULL );
+
     g_signal_connect ( G_OBJECT ( payee_tree ),
                         "row-expanded",
                         G_CALLBACK ( division_column_expanded ),
@@ -270,9 +279,10 @@ GtkWidget *payees_create_list ( void )
 	src_iface -> drag_data_get = &payee_drag_data_get;
     }
 
-    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW(payee_tree)),
-		       "changed", G_CALLBACK(metatree_selection_changed),
-		       payee_tree_model );
+    g_signal_connect ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) ),
+                        "changed",
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
 
     /* création de la structure de sauvegarde de la position */
     payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
@@ -416,8 +426,7 @@ void payees_remove_unused_payees ( void )
         {
             payees_fill_list ();
             tmpstr = g_strdup_printf ( _("Removed %d payees."), nb_removed);
-            if ( etat.modification_fichier == 0 )
-                modification_fichier ( TRUE );
+            gsb_file_set_modified ( TRUE );
         }
         else
         {
@@ -483,6 +492,12 @@ void payees_fill_list ( void )
 
     gsb_status_wait ( FALSE );
 
+    /* on bloque la fonction pendant la mise à jour du model */
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+    g_signal_handlers_block_by_func ( G_OBJECT ( selection ),
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
+
     /* Dettach the model so that insertion will be much faster */
     g_object_ref ( G_OBJECT(payee_tree_model) );
     gtk_tree_view_set_model ( GTK_TREE_VIEW (payee_tree), NULL );
@@ -521,6 +536,11 @@ void payees_fill_list ( void )
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
 			     GTK_TREE_MODEL (payee_tree_model));
 
+    /* on débloque la fonction de callback */
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( selection ),
+                        G_CALLBACK ( metatree_selection_changed ),
+                        payee_tree_model );
+
     /* replace le curseur sur la division, sub_division ou opération initiale */
     if ( payee_hold_position -> path )
     {
@@ -533,12 +553,27 @@ void payees_fill_list ( void )
             gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), ancestor );
             gtk_tree_path_free (ancestor );
         }
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
+
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
         gtk_tree_selection_select_path ( selection, payee_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( payee_tree ),
                         payee_hold_position -> path,
                         NULL, TRUE, 0.5, 0.5 );
     }
+    else
+    {
+        gchar *title;
+
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( payee_tree, META_TREE_BACKGROUND_COLOR );
+        /* on fixe le titre et le suffixe de la barre d'information */
+	    title = g_strdup(_("Payees"));
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
+        gsb_gui_headings_update_suffix ( "" );
+    }
+
     g_object_unref ( G_OBJECT ( payee_tree_model ) );
 
     gsb_status_stop_wait ( FALSE );
@@ -720,8 +755,7 @@ gboolean edit_payee ( GtkTreeView * view )
 
     /* update the transactions list */
     transaction_list_update_element (ELEMENT_PARTY);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -951,8 +985,7 @@ void payees_manage_payees ( void )
             payees_fill_list ();
         }
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
         /* On sélectionne le nouveau tiers */
         iter = get_iter_from_div ( GTK_TREE_MODEL ( payee_tree_model ), new_payee_number, 0 );

@@ -40,6 +40,7 @@
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -63,6 +64,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_file_selection.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -149,12 +151,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_selection;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
@@ -350,7 +346,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
     amount = gsb_real_safe_real_from_string ( tmp_str );
 
     tmp_range -> current_balance = gsb_real_add ( tmp_range -> current_balance, amount );
-    str_balance = gsb_real_get_string_with_currency ( tmp_range -> current_balance, 
+    str_balance = utils_real_get_string_with_currency ( tmp_range -> current_balance, 
                                 gsb_data_account_get_currency ( selected_account ), TRUE );
 
     if ( tmp_range->current_balance.mantissa < 0 )
@@ -431,7 +427,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 
     str_amount = gsb_real_safe_real_to_string ( current_balance, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
-    str_current_balance = gsb_real_get_string_with_currency ( current_balance, currency_number, TRUE );
+    str_current_balance = utils_real_get_string_with_currency ( current_balance, currency_number, TRUE );
 
     if ( current_balance.mantissa < 0 )
         color_str = "red";
@@ -472,7 +468,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_current_balance,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, color_str,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
     g_value_unset ( &date_value );
@@ -839,47 +835,57 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                         scheduled_number );
             if ( transfer_account_number == selected_account )
             {
+                gint floating_point;
+
+                currency_number = gsb_data_account_get_currency ( selected_account );
+                floating_point = gsb_data_account_get_currency_floating_point ( selected_account );
                 str_description = g_strdup_printf ( _("Transfer between account: %s\n"
                         "and account: %s"),
                         gsb_data_account_get_name ( transfer_account_number ),
                         gsb_data_account_get_name ( account_number ) );
-            
-                amount = gsb_real_opposite ( gsb_data_scheduled_get_amount (
-                        scheduled_number ) );
+
+                amount = gsb_real_opposite ( gsb_data_scheduled_get_adjusted_amount_for_currency ( scheduled_number,
+                                    currency_number,
+                                    floating_point ) );
+                str_amount = gsb_real_safe_real_to_string ( amount, floating_point );
             }
             else if ( account_number == selected_account )
             {
+                currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
                 str_description = g_strdup_printf ( _("Transfer between account: %s\n"
                         "and account: %s"),
                         gsb_data_account_get_name ( account_number ),
                         gsb_data_account_get_name ( transfer_account_number ) );
 
                 amount = gsb_data_scheduled_get_amount ( scheduled_number );
+                str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        scheduled_number,
+                        SPP_ORIGIN_SCHEDULED );
             }
             else
                 continue;
         }
         else if ( account_number == selected_account )
         {
+            currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
             str_description = bet_array_list_get_description ( account_number,
                         SPP_ORIGIN_SCHEDULED,
                         GINT_TO_POINTER ( scheduled_number ) );
 
             amount = gsb_data_scheduled_get_amount ( scheduled_number );
+            str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        scheduled_number,
+                        SPP_ORIGIN_SCHEDULED );
         }
         else
             continue;
 
-        str_amount = bet_data_get_str_amount_in_account_currency ( amount,
-                        account_number,
-                        scheduled_number,
-                        SPP_ORIGIN_SCHEDULED );
-
-        currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
         if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
+            str_debit = utils_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
+            str_credit = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
 
         /* calculate each instance of the scheduled operation
          * in the range from date_min (today) to date_max */
@@ -1029,9 +1035,9 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
 
         currency_number = gsb_data_transaction_get_currency_number ( transaction_number);
         if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
+            str_debit = utils_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE);
+            str_credit = utils_real_get_string_with_currency ( amount, currency_number, TRUE);
 
         transfer_number =
                         gsb_data_transaction_get_contra_transaction_number (
@@ -1128,7 +1134,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     amount = gsb_real_safe_real_from_string ( str_amount );
 
     if ( amount.mantissa < 0 )
-        str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
+        str_debit = utils_real_get_string_with_currency ( gsb_real_opposite ( amount ),
                         bet_data_get_selected_currency ( ), TRUE );
     else
         str_credit = str_value;
@@ -1265,10 +1271,10 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
                     gsb_data_currency_get_floating_point ( currency_number ) );
 
         if ( amount.mantissa < 0 )
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_opposite ( amount ),
+            str_debit = utils_real_get_string_with_currency ( gsb_real_opposite ( amount ),
                             currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
+            str_credit = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
 
         str_date = gsb_format_gdate ( scheduled -> date );
 
@@ -1866,7 +1872,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             {
                                 str_amount = gsb_real_safe_real_to_string ( number, 
                                             gsb_data_currency_get_floating_point ( currency_number ) );
-                                str_debit = gsb_real_get_string_with_currency (
+                                str_debit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
                                             TRUE );
@@ -1874,7 +1880,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             }
                             else
                             {
-                                str_debit = gsb_real_get_string_with_currency (
+                                str_debit = utils_real_get_string_with_currency (
                                             null_real,
                                             currency_number,
                                             TRUE );
@@ -1888,7 +1894,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             {
                                 str_amount = gsb_real_safe_real_to_string ( number, 
                                             gsb_data_currency_get_floating_point ( currency_number ) );
-                                str_credit = gsb_real_get_string_with_currency (
+                                str_credit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
                                             currency_number,
                                             TRUE );
@@ -1896,7 +1902,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                             }
                             else
                             {
-                                str_credit = gsb_real_get_string_with_currency (
+                                str_credit = utils_real_get_string_with_currency (
                                             null_real,
                                             currency_number,
                                             TRUE );
@@ -2020,8 +2026,7 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
     
     gsb_data_account_set_bet_start_date ( account_number, date );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
@@ -2088,36 +2093,37 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                 current_color = !current_color;
                 break;
             case SPP_ORIGIN_HISTORICAL:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_division,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_division ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_division" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_division" ),
                         -1 );
                 break;
             case SPP_ORIGIN_FUTURE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_future,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_future ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_future" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_future" ),
                         -1 );
                 break;
             case SPP_ORIGIN_ACCOUNT:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_transfert,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_transfert ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_transfert" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "&couleur_bet_transfert" ),
                         -1 );
                 break;
             case SPP_ORIGIN_SOLDE:
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gdk_color_to_string ( &couleur_bet_solde ),
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_solde" ),
                         -1 );
             }
         }
@@ -2302,8 +2308,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
     gsb_scheduler_list_select ( scheduled_number );
     gsb_scheduler_list_edit_transaction ( scheduled_number );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -2571,8 +2576,7 @@ void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  
             bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
         }
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -2645,9 +2649,9 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
 
         currency_number = gsb_data_account_get_currency ( transfert -> replace_account );
         if (amount.mantissa < 0)
-            str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
+            str_debit = utils_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
-            str_credit = gsb_real_get_string_with_currency ( amount, currency_number, TRUE);
+            str_credit = utils_real_get_string_with_currency ( amount, currency_number, TRUE);
 
         str_date = gsb_format_gdate ( transfert -> date );
 
@@ -2941,7 +2945,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
                         SPP_ESTIMATE_TREE_DESC_COLUMN, str_description,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         SPP_ESTIMATE_TREE_BALANCE_COLOR, NULL,
-                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, &couleur_bet_solde,
+                        SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         -1);
 
         g_value_unset ( &date_value );

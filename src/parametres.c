@@ -71,6 +71,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_files.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -126,7 +127,6 @@ extern struct conditional_message messages[];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
-extern gint nb_max_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 
@@ -441,6 +441,16 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame,
                         GTK_WIDGET(onglet_affichage_operations()), NULL);
+
+    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+                        &iter2,
+                        0, _("Transactions list cells"),
+                        1, TRANSACTIONS_CELLULES_PAGE,
+                        2, 400,
+                        -1);
+    gtk_notebook_append_page (preference_frame,
+                        GTK_WIDGET ( onglet_affichage_liste ( ) ), NULL );
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
@@ -891,7 +901,7 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &(nb_max_derniers_fichiers_ouverts),
+    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
@@ -1023,8 +1033,7 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
     if ( path && strlen ( path ) > 0 )
         g_free ( path );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1236,8 +1245,7 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
 	    break;
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1485,7 +1493,7 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
                     FALSE );
@@ -1545,7 +1553,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                     etat.bet_capital ),
                     etat.bet_currency,
                     FALSE );
@@ -1609,6 +1617,8 @@ void gsb_localisation_update_affichage ( gint type_maj )
         kind = gsb_data_account_get_kind ( account_number );
         switch ( kind )
         {
+            case GSB_TYPE_BALANCE:
+                break;
             case GSB_TYPE_BANK:
             case GSB_TYPE_CASH:
                 if ( account_current_page == 1 || account_current_page == 2 )
@@ -1655,8 +1665,7 @@ gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
 
         value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
         *pointeur = value;
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return FALSE;

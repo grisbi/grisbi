@@ -150,6 +150,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
          &&
          element -> element_number != TRANSACTION_FORM_VALUE_DATE
          &&
+         element -> element_number != TRANSACTION_FORM_CREDIT
+         &&
+         element -> element_number != TRANSACTION_FORM_DEBIT
+         &&
          element -> element_number != TRANSACTION_FORM_EXERCICE
          &&
          element -> element_number != TRANSACTION_FORM_PARTY
@@ -174,6 +178,15 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
                         conf.automatic_recover_splits );
             gtk_widget_show ( form_button_recover_split );
         }
+    }
+    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !conf.automatic_erase_credit_debit )
+         ||
+         ( element -> element_number == TRANSACTION_FORM_DEBIT && !conf.automatic_erase_credit_debit ) )
+    {
+        gsb_form_fill_element ( element -> element_number,
+                        account_number,
+                        transaction_number,
+                        TRUE );
     }
     else if ( element -> element_number == TRANSACTION_FORM_TYPE )
     {

@@ -41,11 +41,13 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
-#include "navigation.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
+#include "navigation.h"
+#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "structures.h"
+#include "utils_real.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -379,7 +381,7 @@ void gsb_currency_link_config_append_line ( GtkTreeModel *model,
     else
 	invalid = NULL;
 
-    tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    tmpstr = utils_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_list_store_append ( GTK_LIST_STORE ( model ), iter_ptr );
     gtk_list_store_set ( GTK_LIST_STORE ( model ),
 			 iter_ptr,
@@ -469,7 +471,7 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     g_signal_handlers_block_by_func ( G_OBJECT (exchange_entry),
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
 				      tree_view );
-    tmpstr = gsb_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
+    tmpstr = utils_real_get_string (gsb_data_currency_link_get_change_rate (link_number));
     gtk_entry_set_text ( GTK_ENTRY (exchange_entry), tmpstr);
     g_free ( tmpstr );
     g_signal_handlers_unblock_by_func ( G_OBJECT (exchange_entry),
@@ -545,7 +547,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     exchange_entry = g_object_get_data ( G_OBJECT (model),
 					 "exchange_entry" );
 
-    number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
+    number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (exchange_entry) ) );
     if ( number.exponent > 8 )
         gtk_entry_set_max_length (GTK_ENTRY (exchange_entry),
                         strlen( gtk_entry_get_text ( GTK_ENTRY ( exchange_entry ) ) - 1) );
@@ -564,7 +566,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	invalid = NULL;
 
-    tmpstr = gsb_real_get_string ( gsb_data_currency_link_get_change_rate ( link_number ) );
+    tmpstr = utils_real_get_string ( gsb_data_currency_link_get_change_rate ( link_number ) );
     gtk_list_store_set ( GTK_LIST_STORE (model),
 			 &iter,
 			 LINK_CURRENCY1_COLUMN, gsb_data_currency_get_name (gsb_data_currency_link_get_first_currency(link_number)),
@@ -588,8 +590,7 @@ gboolean gsb_currency_link_config_modify_link ( GtkWidget *tree_view )
     else
 	gtk_widget_hide (label);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     gsb_gui_navigation_update_home_page ( );
 
     return FALSE;
@@ -627,8 +628,7 @@ gboolean gsb_currency_link_config_add_link ( GtkWidget *tree_view )
 					   &iter );
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 				     &iter );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -672,8 +672,7 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
     if ( GTK_WIDGET_VISIBLE ( label ) )
         gtk_widget_hide (label);
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }

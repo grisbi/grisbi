@@ -75,11 +75,7 @@ extern gchar *nom_fichier_comptes;
 /* global variable, see structures.h */
 struct gsb_conf_t conf;
 
-/* contient le nb de derniers fichiers ouverts */
-gsize nb_derniers_fichiers_ouverts = 0;
 
-/* contient le nb max que peut contenir nb_derniers_fichiers_ouverts ( réglé dans les paramètres ) */
-gint nb_max_derniers_fichiers_ouverts = 0;
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
 #if IS_DEVELOPMENT_VERSION == 1
@@ -106,7 +102,7 @@ gboolean gsb_file_config_load_config ( void )
     gint i;
     gint int_ret;
     GError* err = NULL;
-devel_debug (NULL);
+
     gsb_file_config_clean_config ();
 
     filename = g_build_filename ( my_get_XDG_grisbirc_dir(), C_GRISBIRC ( ), NULL );
@@ -142,6 +138,7 @@ devel_debug (NULL);
         filename = g_build_filename ( my_get_grisbirc_dir(), C_OLD_GRISBIRC ( ), NULL );
 #endif
         
+        g_key_file_free ( config );
         config = g_key_file_new ();
         
         result = g_key_file_load_from_file ( config,
@@ -155,6 +152,7 @@ devel_debug (NULL);
             if ( result )
                 gsb_file_config_remove_old_config_file ( filename );
             g_free (filename);
+            g_key_file_free ( config );
             return result;
         }
         else
@@ -174,7 +172,10 @@ devel_debug (NULL);
         filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
                                  PACKAGE, ".conf", NULL );
         if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
+        {
+            g_key_file_free ( config );
             return FALSE;
+        }
 
         g_key_file_free (config);
         config = g_key_file_new ();
@@ -323,7 +324,7 @@ devel_debug (NULL);
                         "Save at opening",
                         NULL );
 
-    nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
+    conf.nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
                         "IO",
                         "Nb last opened files",
                         NULL );
@@ -341,7 +342,7 @@ devel_debug (NULL);
     tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
                         "IO",
                         "Names last files",
-                        &nb_derniers_fichiers_ouverts,
+                        &conf.nb_derniers_fichiers_ouverts,
                         NULL );
     if (tab_noms_derniers_fichiers_ouverts)
         nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
@@ -431,6 +432,11 @@ devel_debug (NULL);
     conf.automatic_recover_splits = g_key_file_get_integer ( config,
                         "Display",
                         "Automatic_recover_splits",
+                        NULL );
+
+    conf.automatic_erase_credit_debit = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic_erase_credit_debit",
                         NULL );
 
     etat.display_toolbar = g_key_file_get_integer ( config,
@@ -687,7 +693,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "IO",
                         "Nb last opened files",
-                        nb_max_derniers_fichiers_ouverts );
+                        conf.nb_max_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config,
                         "IO",
@@ -699,14 +705,14 @@ gboolean gsb_file_config_save_config ( void )
                         "Force saving",
                         conf.force_enregistrement );
 
-    if ( nb_derniers_fichiers_ouverts > 0
+    if ( conf.nb_derniers_fichiers_ouverts > 0
      &&
      tab_noms_derniers_fichiers_ouverts)
         g_key_file_set_string_list ( config,
                         "IO",
                         "Names last files",
                         (const gchar **) tab_noms_derniers_fichiers_ouverts,
-                        nb_derniers_fichiers_ouverts);
+                        conf.nb_derniers_fichiers_ouverts);
 
     g_key_file_set_integer ( config, 
                         "IO",
@@ -779,6 +785,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Automatic_recover_splits",
                         conf.automatic_recover_splits );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic_erase_credit_debit",
+                        conf.automatic_erase_credit_debit );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1098,7 +1109,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Nb_max_derniers_fichiers_ouverts" ))
     {
-	nb_max_derniers_fichiers_ouverts = utils_str_atoi (text);
+	conf.nb_max_derniers_fichiers_ouverts = utils_str_atoi (text);
 	return;
     }
 
@@ -1120,10 +1131,10 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "fichier" ))
     {
 	if (!tab_noms_derniers_fichiers_ouverts)
-	    tab_noms_derniers_fichiers_ouverts = g_malloc0 ( nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
+	    tab_noms_derniers_fichiers_ouverts = g_malloc0 ( conf.nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
 
-	tab_noms_derniers_fichiers_ouverts[nb_derniers_fichiers_ouverts] = my_strdup (text);
-	nb_derniers_fichiers_ouverts++;
+	tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts] = my_strdup (text);
+	conf.nb_derniers_fichiers_ouverts++;
 	return;
     }
  
@@ -1217,13 +1228,14 @@ void gsb_file_config_clean_config ( void )
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
     conf.balances_with_scheduled = TRUE;
-    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    etat.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    conf.automatic_completion_payee = 1;        /* by default automatic completion */
-    conf.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_completion_payee = 1;            /* by default automatic completion */
+    conf.limit_completion_to_current_account = 0;   /* By default, do full search */
     conf.automatic_recover_splits = 1;
+    conf.automatic_erase_credit_debit = 0;
 
-    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
+    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
@@ -1250,8 +1262,8 @@ void gsb_file_config_clean_config ( void )
     conf.stable_config_file_model = 0;
 #endif
 
-    nb_derniers_fichiers_ouverts = 0;
-    nb_max_derniers_fichiers_ouverts = 3;
+    conf.nb_derniers_fichiers_ouverts = 0;
+    conf.nb_max_derniers_fichiers_ouverts = 3;
     tab_noms_derniers_fichiers_ouverts = NULL;
 
     /* no compress by default */

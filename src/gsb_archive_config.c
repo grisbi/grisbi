@@ -43,6 +43,7 @@
 #include "gsb_data_archive_store.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_real.h"
@@ -482,8 +483,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
 
     /* remove from the list */
     gtk_list_store_remove ( GTK_LIST_STORE (model), &iter );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }
@@ -602,8 +602,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	    transaction_list_set_balances ();
 	}
 	
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }

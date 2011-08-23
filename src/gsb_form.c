@@ -56,6 +56,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "utils_dates.h"
+#include "gsb_file.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"
@@ -75,6 +76,7 @@
 #include "utils_editables.h"
 #include "gtk_combofix.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
@@ -107,7 +109,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor calendar_entry_color;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gsb_real null_real;
 /*END_EXTERN*/
@@ -700,7 +701,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_DEBIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa < 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
+		char_tmp = utils_real_get_string_with_currency (gsb_real_abs (gsb_data_mix_get_amount (transaction_number, is_transaction)),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 
@@ -714,7 +715,7 @@ void gsb_form_fill_element ( gint element_number,
 	case TRANSACTION_FORM_CREDIT:
 	    if (gsb_data_mix_get_amount (transaction_number, is_transaction).mantissa >= 0)
 	    {
-		char_tmp = gsb_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
+		char_tmp = utils_real_get_string_with_currency (gsb_data_mix_get_amount (transaction_number, is_transaction),
 							      gsb_data_mix_get_currency_number (transaction_number, is_transaction),
 							      FALSE );
 
@@ -2491,6 +2492,16 @@ gboolean gsb_form_finish_edition ( void )
             gsb_data_mix_set_mother_transaction_number ( transaction_number,
                                  mother_transaction,
                                  is_transaction );
+
+            /* si l'opération mère est rapprochée on marque aussi la fille */
+            if ( mother_transaction
+             &&
+             gsb_data_transaction_get_marked_transaction ( mother_transaction ) == OPERATION_RAPPROCHEE )
+            {
+                gsb_data_transaction_set_marked_transaction ( transaction_number, OPERATION_RAPPROCHEE );
+                gsb_data_transaction_set_reconcile_number ( transaction_number,
+                        gsb_data_transaction_get_reconcile_number ( mother_transaction ) );
+            }
         }
 
         /* take the datas in the form, except the category */
@@ -2585,7 +2596,7 @@ gboolean gsb_form_finish_edition ( void )
      * the amount of marked transactions */
     if ( is_transaction
 	 &&
-	 etat.equilibrage )
+	 run.equilibrage )
     {
         if (new_transaction)
             /* we are reconciling and it's a new transaction, so need to show the checkbox */
@@ -2690,8 +2701,7 @@ gboolean gsb_form_finish_edition ( void )
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     /* If the origin of the operation is a model, so we select the new transaction */
     if ( GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
@@ -2861,14 +2871,14 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
         gsb_real number = null_real;
 
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
             
 	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
          number.mantissa == 0 )
         {
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
-            number = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
 
             if ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||

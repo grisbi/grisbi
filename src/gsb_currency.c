@@ -38,19 +38,21 @@
 #include "gsb_currency.h"
 #include "dialog.h"
 #include "gsb_autofunc.h"
+#include "gsb_color.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
-#include "utils.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_files.h"
-#include "gsb_data_form.h"
-#include "gsb_currency_config.h"
+#include "utils_real.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -105,7 +107,6 @@ static gsb_real current_exchange_fees;
 
 
 /*START_EXTERN*/
-extern GdkColor calendar_entry_color;
 extern GtkWidget *combo_devise_totaux_categ;
 extern GtkWidget *combo_devise_totaux_ib;
 extern GtkWidget *combo_devise_totaux_tiers;
@@ -699,14 +700,14 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     /* if the rate or fees exist already, fill them here */
     if ( exchange_rate.mantissa )
     {
-        tmpstr = gsb_real_get_string ( exchange_rate );
+        tmpstr = utils_real_get_string ( exchange_rate );
         gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr );
         g_free ( tmpstr );
     }
 
     if ( exchange_fees.mantissa )
     {
-        tmpstr = gsb_real_get_string (gsb_real_abs (exchange_fees));
+        tmpstr = utils_real_get_string (gsb_real_abs (exchange_fees));
         gtk_entry_set_text ( GTK_ENTRY ( fees_entry ), tmpstr );
         g_free ( tmpstr );
     }
@@ -722,14 +723,14 @@ dialog_return:
         gint new_link_number;
         gint new_link_currency;
 
-        current_exchange = gsb_real_get_from_string (
+        current_exchange = utils_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
         if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) ) > 0
          ||
          strcmp ( gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ), "0" ) != 0 )
         {
-            current_exchange_fees = gsb_real_get_from_string (
+            current_exchange_fees = utils_real_get_from_string (
                         gtk_entry_get_text ( GTK_ENTRY ( fees_entry ) ) );
         }
         else
@@ -998,7 +999,7 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     {
         /* the entry is not valid, make it red */
         gtk_widget_modify_base ( entry_1, GTK_STATE_NORMAL,
-                        &calendar_entry_color );
+                        gsb_color_get_couleur ( "entry_error_color" ) );
         return FALSE;
     }
     valide = gsb_form_widget_get_valide_amout_entry (
@@ -1012,7 +1013,7 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
     {
         /* the entry is not valid, make it red */
         gtk_widget_modify_base ( entry_2, GTK_STATE_NORMAL,
-                        &calendar_entry_color );
+                        gsb_color_get_couleur ( "entry_error_color" ) );
         return FALSE;
     }
 
@@ -1026,10 +1027,10 @@ gboolean gsb_currency_select_double_amount ( GtkWidget *entry_1,
 		else
         {
             gtk_widget_set_sensitive ( GTK_WIDGET ( entry ), FALSE );
-            amount_1 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
-            amount_2 = gsb_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
+            amount_1 = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_1 ) ) );
+            amount_2 = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( entry_2 ) ) );
             taux = gsb_real_div ( amount_2, amount_1 );
-            gtk_entry_set_text ( GTK_ENTRY ( entry ), gsb_real_get_string ( taux ) );
+            gtk_entry_set_text ( GTK_ENTRY ( entry ), utils_real_get_string ( taux ) );
         }
     }
     return FALSE;

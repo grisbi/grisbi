@@ -58,6 +58,7 @@ libgrisbi_la_SOURCES = \
 	gsb_automem.c		\
 	gsb_bank.c		\
 	gsb_category.c		\
+	gsb_color.c		\
 	gsb_combo_box.c		\
 	gsb_calendar.c		\
 	gsb_calendar_entry.c	\
@@ -151,6 +152,7 @@ libgrisbi_la_SOURCES = \
 	utils_files.c		\
 	utils_font.c		\
 	utils_operations.c	\
+	utils_real.c		\
 	utils_str.c		\
 	bet_config.c \
 	bet_data.c \
@@ -162,13 +164,13 @@ libgrisbi_la_SOURCES = \
 	accueil.h		\
 	affichage.h		\
 	affichage_liste.h	\
-    bet_config.h \
-    bet_data.h \
-    bet_data_finance.h \
-    bet_finance_ui.h \
-    bet_future.h \
-    bet_hist.h \
-    bet_tab.h  \
+	bet_config.h \
+	bet_data.h \
+	bet_data_finance.h \
+	bet_finance_ui.h \
+	bet_future.h \
+	bet_hist.h \
+	bet_tab.h  \
 	categories_onglet.h	\
 	classement_echeances.h	\
 	csv_parse.h             \
@@ -196,6 +198,7 @@ libgrisbi_la_SOURCES = \
 	gsb_automem.h		\
 	gsb_bank.h		\
 	gsb_category.h		\
+	gsb_color.h		\
 	gsb_combo_box.h		\
 	gsb_calendar.h		\
 	gsb_calendar_entry.h	\
@@ -302,6 +305,7 @@ libgrisbi_la_SOURCES = \
 	utils_files.h		\
 	utils_font.h		\
 	utils_operations.h	\
+	utils_real.h		\
 	utils_str.h
 
 grisbi_SOURCES = 		\

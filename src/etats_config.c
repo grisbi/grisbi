@@ -46,8 +46,10 @@
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
+#include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "traitement_variables.h"
@@ -1853,9 +1855,9 @@ void recuperation_info_perso_etat ( void )
 								      GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)) -> menu_item ),
 													      "no_comparateur" )));
 	    gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
-								 gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)))));
+								 utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)))));
 	    gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
-								  gsb_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))));
+								  utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)))));
 
 	    comparison_list = comparison_list -> next;
 	}
@@ -1905,8 +1907,7 @@ void recuperation_info_perso_etat ( void )
     /* update the payee combofix in the form, to add that report if asked */
     gsb_form_widget_update_payee_combofix ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     /* on réaffiche l'état */
 
     rafraichissement_etat ( gsb_gui_navigation_get_current_report ());
@@ -5402,11 +5403,11 @@ void remplit_liste_comparaisons_montants_etat ( void )
 	gtk_option_menu_set_history ( GTK_OPTION_MENU (gsb_data_report_amount_comparison_get_button_second_comparison (amount_comparison_number)),
 				      gsb_data_report_amount_comparison_get_second_comparison (amount_comparison_number));
 
-	tmpstr = gsb_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
+	tmpstr = utils_real_get_string (gsb_data_report_amount_comparison_get_first_amount (amount_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_first_amount (amount_comparison_number)), tmpstr);
 	g_free ( tmpstr );
 
-	tmpstr = gsb_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
+	tmpstr = utils_real_get_string (gsb_data_report_amount_comparison_get_second_amount (amount_comparison_number));
 	gtk_entry_set_text ( GTK_ENTRY (gsb_data_report_amount_comparison_get_entry_second_amount (amount_comparison_number)), tmpstr);
 	g_free ( tmpstr );
 

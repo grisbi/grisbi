@@ -66,6 +66,7 @@
 #include "transaction_list_sort.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -1004,7 +1005,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
     {
         tmp_str1 = gsb_format_gdate ( gsb_data_reconcile_get_final_date (
                                             reconcile_number ) );
-        tmp_str2 = gsb_real_get_string_with_currency ( amount,
+        tmp_str2 = utils_real_get_string_with_currency ( amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
         
         tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",
@@ -1016,7 +1017,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
     }
     else if ( amount.mantissa != 0 )
     {
-        tmp_str2 = gsb_real_get_string_with_currency (amount,
+        tmp_str2 = utils_real_get_string_with_currency (amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
         
         tmp_str = g_strconcat ( _("Last statement: none"), " - ",
@@ -1089,7 +1090,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 {
     gint account_number, page_number;
     gint report_number;
-    gchar * title = NULL;
+    gchar *title = NULL;
     gboolean clear_suffix = TRUE;
 
     devel_debug (NULL);
@@ -1187,11 +1188,10 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_PAYEES_PAGE:
 	    notice_debug ("Payee page selected");
 
-	    title = g_strdup(_("Payees"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
         payees_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_SIMULATOR_PAGE:
@@ -1207,21 +1207,19 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_CATEGORIES_PAGE:
 	    notice_debug ("Category page selected");
 
-	    title = g_strdup(_("Categories"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
         categories_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_BUDGETARY_LINES_PAGE:
 	    notice_debug ("Budgetary page selected");
 
-	    title = g_strdup(_("Budgetary lines"));
-
 	    /* what to be done if switch to that page */
 	    gsb_form_set_expander_visible (FALSE, FALSE );
 		budgetary_lines_fill_list ();
+        clear_suffix = FALSE;
 	    break;
 
 	case GSB_REPORTS_PAGE:
@@ -1235,13 +1233,12 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 		title = g_strdup(_("Reports"));
 
 	    /* what to be done if switch to that page */
-	    gsb_form_set_expander_visible (FALSE,
-					   FALSE );
+	    gsb_form_set_expander_visible ( FALSE, FALSE );
 
 	    if ( report_number > 0 )
-		gsb_gui_update_gui_to_report ( report_number );
+            gsb_gui_update_gui_to_report ( report_number );
 	    else
-		gsb_gui_unsensitive_report_widgets ();
+            gsb_gui_unsensitive_report_widgets ();
 	    break;
 
 	default:
@@ -1250,12 +1247,11 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    break;
     }
 
-    /* title is set here except in GSB_ACCOUNT_PAGE case
-     * because gsb_navigation_update_account_label was called instead */
+    /* title is set here if necessary */
     if (title)
     {
-	gsb_gui_headings_update_title ( title );
-	g_free ( title );
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
     }
     if (clear_suffix)
         gsb_gui_headings_update_suffix ( "" );
@@ -1365,7 +1361,7 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
  *
  *
  */
-gboolean gsb_gui_navigation_select_prev ()
+gboolean gsb_gui_navigation_select_prev ( void )
 {
     GtkTreeSelection * selection;
     GtkTreePath * path;
@@ -1380,9 +1376,10 @@ gboolean gsb_gui_navigation_select_prev ()
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 
-    if ( ! gtk_tree_path_prev ( path ) )
+    if ( !gtk_tree_path_prev ( path ) )
     {
-	gtk_tree_path_up ( path );
+        if ( gtk_tree_path_get_depth ( path ) > 1 )
+            gtk_tree_path_up ( path );
     }
     else
     {
@@ -1412,11 +1409,11 @@ gboolean gsb_gui_navigation_select_prev ()
  *
  *
  */
-gboolean gsb_gui_navigation_select_next ()
+gboolean gsb_gui_navigation_select_next ( void )
 {
-    GtkTreeSelection * selection;
-    GtkTreePath * path;
-    GtkTreeModel * model;
+    GtkTreeSelection *selection;
+    GtkTreePath *path;
+    GtkTreeModel *model;
     GtkTreeIter iter;
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
@@ -1424,6 +1421,7 @@ gboolean gsb_gui_navigation_select_next ()
     
     if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
         return TRUE;
+
     path = gtk_tree_model_get_path ( model, &iter );
     g_return_val_if_fail ( path, TRUE );
 
@@ -1436,15 +1434,23 @@ gboolean gsb_gui_navigation_select_next ()
     }
     else
     {
-	if ( ! gtk_tree_model_iter_next ( model, &iter ) )
-	{
-	    gtk_tree_path_up ( path );
-	    gtk_tree_path_next ( path );
-	}
-	else
-	{ 
-	    path = gtk_tree_model_get_path ( model, &iter );
-	}
+        if ( !gtk_tree_model_iter_next ( model, &iter ) )
+        {
+            if ( gtk_tree_path_get_depth ( path ) > 1 )
+            {
+                gtk_tree_path_up ( path );
+                gtk_tree_path_next ( path );
+            }
+            else
+            {
+                gtk_tree_path_free ( path );
+                path = gtk_tree_path_new_first ( );
+            }
+        }
+        else
+        {
+            path = gtk_tree_model_get_path ( model, &iter );
+        }
     }
 
     gtk_tree_selection_select_path ( selection, path );
@@ -1617,8 +1623,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
         /* update the order of accounts in first page */
         mise_a_jour_liste_comptes_accueil = TRUE;
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }
@@ -1997,7 +2002,7 @@ gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
             gsb_gui_navigation_context_menu ( tree_view, path );
             gtk_tree_path_free ( path );
 
-            while ( g_main_context_iteration ( NULL, FALSE ) );
+            update_gui ( );
 
             return FALSE;
         }
@@ -2317,10 +2322,17 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
                         GtkTreePath *path,
                         gpointer user_data )
 {
+    GtkTreeSelection *selection;
     GtkTreeModel *model;
+    GtkTreeIter iter_selected;
+    GtkTreePath *path_selected = NULL;
     gint type_page;
+    gint etat_expander;
 
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    etat_expander = GPOINTER_TO_INT ( user_data );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    if ( gtk_tree_selection_get_selected ( selection, &model, &iter_selected ) )
+        path_selected = gtk_tree_model_get_path ( model, &iter_selected);
 
     gtk_tree_model_get ( model, iter, NAVIGATION_PAGE, &type_page, -1 );
 
@@ -2328,12 +2340,15 @@ void gsb_gui_navigation_activate_expander ( GtkTreeView *tree_view,
     {
         case GSB_HOME_PAGE :
         case GSB_ACCOUNT_PAGE :
-            account_expander = GPOINTER_TO_INT ( user_data );
+            account_expander = etat_expander;
         break;
         case GSB_REPORTS_PAGE :
-            report_expander = GPOINTER_TO_INT ( user_data );
+            report_expander = etat_expander;
         break;
     }
+
+    if ( etat_expander == 0 && path_selected == NULL )
+        gtk_tree_selection_select_iter ( selection, iter );
 }
 
 

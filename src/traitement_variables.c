@@ -41,6 +41,7 @@
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar.h"
+#include "gsb_color.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -88,123 +89,6 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-static gchar *labels_titres_colonnes_liste_ope[] = {
-    N_("Date"),
-    N_("Value date"),
-    N_("Payee"),
-    N_("Budgetary lines"),
-    N_("Debit"),
-    N_("Credit"),
-    N_("Balance"),
-    N_("Amount"),
-    N_("Method of payment"),
-    N_("Reconciliation ref."),
-    N_("Financial year"),
-    N_("Category"),
-    N_("C/R"),
-    N_("Voucher"),
-    N_("Notes"),
-    N_("Bank references"),
-    N_("Transaction number"),
-    N_("Number"),
-    NULL };
-
-
-/* background color */
-#define BG_COLOR_1_RED      55000
-#define BG_COLOR_1_GREEN    55000
-#define BG_COLOR_1_BLUE     65535
-
-#define BG_COLOR_2_RED      65535
-#define BG_COLOR_2_GREEN    65535
-#define BG_COLOR_2_BLUE     65535
-
-/* couleur du jour */
-#define BG_COLOR_TODAY_RED      55512
-#define BG_COLOR_TODAY_GREEN    55512
-#define BG_COLOR_TODAY_BLUE     55512
-
-/* text color */
-#define TEXT_COLOR_1_RED    0
-#define TEXT_COLOR_1_GREEN  0
-#define TEXT_COLOR_1_BLUE   0
-
-#define TEXT_COLOR_2_RED    65535
-#define TEXT_COLOR_2_GREEN  0
-#define TEXT_COLOR_2_BLUE   0
-
-/* selection color */
-#define SELECTION_COLOR_RED     63000
-#define SELECTION_COLOR_GREEN   40000
-#define SELECTION_COLOR_BLUE    40000
-
-/* scheduler color */
-#define UNSENSITIVE_SCHEDULED_COLOR_RED     50000
-#define UNSENSITIVE_SCHEDULED_COLOR_GREEN   50000
-#define UNSENSITIVE_SCHEDULED_COLOR_BLUE    50000
-
-/* archive background color */
-#define COLOR_ARCHIVE_BG_RED    15000
-#define COLOR_ARCHIVE_BG_GREEN  30000
-#define COLOR_ARCHIVE_BG_BLUE   10000
-
-/* children of splitted transaction color */
-#define BREAKDOWN_BACKGROUND_COLOR_RED      61423
-#define BREAKDOWN_BACKGROUND_COLOR_GREEN    50629
-#define BREAKDOWN_BACKGROUND_COLOR_BLUE     50629
-
-/* calendar entry color (when wrong date) */
-#define CALENDAR_ENTRY_COLOR_RED    65535
-#define CALENDAR_ENTRY_COLOR_GREEN  0
-#define CALENDAR_ENTRY_COLOR_BLUE   0
-
-
-/** defaults colors in the transactions list */
-GdkColor default_couleur_fond[2];
-GdkColor default_couleur_jour;
-GdkColor default_couleur_grise;
-GdkColor default_archive_background_color;
-GdkColor default_couleur_selection;
-GdkColor default_split_background;
-GdkColor default_text_color[2];
-GdkColor default_calendar_entry_color;
-
-/** colors in the transactions list */
-GdkColor couleur_fond[2];
-GdkColor couleur_jour;
-GdkColor couleur_grise;
-GdkColor archive_background_color;
-GdkColor couleur_selection;
-GdkColor split_background;
-GdkColor text_color[2];
-GdkColor calendar_entry_color;
-
-/* colors of the amounts in the first page */
-GdkColor couleur_solde_alarme_verte_normal;
-GdkColor couleur_solde_alarme_verte_prelight;
-GdkColor couleur_solde_alarme_orange_normal;
-GdkColor couleur_solde_alarme_orange_prelight;
-GdkColor couleur_solde_alarme_rouge_normal;
-GdkColor couleur_solde_alarme_rouge_prelight;
-GdkColor couleur_nom_compte_normal;
-GdkColor couleur_nom_compte_prelight;
-
-GdkColor couleur_bleue;
-GdkColor couleur_jaune;
-
-/* colors for the balance estimate modul */
-GdkColor couleur_bet_division;
-GdkColor default_couleur_bet_division;
-GdkColor couleur_bet_future;
-GdkColor default_couleur_bet_future;
-GdkColor couleur_bet_solde;
-GdkColor default_couleur_bet_solde;
-GdkColor couleur_bet_transfert;
-GdkColor default_couleur_bet_transfert;
-
-
-GSList *liste_labels_titres_colonnes_liste_ope = NULL;
-
 gchar *nom_fichier_comptes = NULL;
 
 gchar *titre_fichier = NULL;
@@ -239,41 +123,6 @@ extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
-
-
-
-/**
- * set or unset the modified flag
- * and sensitive or not the menu to save the file
- *
- * \param modif TRUE to set the modified flag, FALSE to unset
- *
- * \return
- * */
-void modification_fichier ( gboolean modif )
-{
-    devel_debug_int (modif);
-
-    /* If no file is loaded, do not change menu items. */
-    if ( ! gsb_data_account_get_accounts_amount () )
-    {
-        return;
-    }
-
-    if ( modif )
-    {
-    if ( ! etat.modification_fichier )
-    {
-        etat.modification_fichier = time ( NULL );
-        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
-    }
-    }
-    else
-    {
-        etat.modification_fichier = 0;
-        gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
-    }
-}
 
 
 
@@ -383,13 +232,12 @@ void init_variables ( void )
     gsb_select_icon_init_logo_variables ();
 
     /* reconcile (etat) */
-    etat.reconcile_account_number = -1;
-    if ( etat.reconcile_final_balance )
-        g_free ( etat.reconcile_final_balance );
-    etat.reconcile_final_balance = NULL;
-    if ( etat.reconcile_new_date )
-        g_date_free ( etat.reconcile_new_date );
-    etat.reconcile_new_date = NULL;
+    run.reconcile_account_number = -1;
+    g_free ( run.reconcile_final_balance );
+    if ( run.reconcile_new_date )
+        g_date_free ( run.reconcile_new_date );
+    run.reconcile_final_balance = NULL;
+    run.reconcile_new_date = NULL;
 
     adresse_commune = NULL;
     adresse_secondaire = NULL;
@@ -402,19 +250,6 @@ void init_variables ( void )
 
     valeur_echelle_recherche_date_import = 2;
     etat.get_fyear_by_value_date = FALSE;
-
-    /* 	on initialise la liste des labels des titres de colonnes */
-    if ( !liste_labels_titres_colonnes_liste_ope )
-    {
-    i=0;
-    while ( labels_titres_colonnes_liste_ope[i] )
-    {
-        liste_labels_titres_colonnes_liste_ope = g_slist_append (
-                                    liste_labels_titres_colonnes_liste_ope,
-                                    labels_titres_colonnes_liste_ope[i] );
-        i++;
-    }
-    }
 
     /* init default combofix values */
     etat.combofix_mixed_sort = FALSE;
@@ -436,15 +271,15 @@ void init_variables ( void )
     for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
         scheduler_col_width[i] = scheduler_col_width_init[i];
 
-    if ( run.transaction_column_width && strlen ( run.transaction_column_width ) )
+    if ( etat.transaction_column_width && strlen ( etat.transaction_column_width ) )
     {
-        g_free ( run.transaction_column_width );
-        run.transaction_column_width = NULL;
+        g_free ( etat.transaction_column_width );
+        etat.transaction_column_width = NULL;
     }
-    if ( run.scheduler_column_width && strlen ( run.scheduler_column_width ) )
+    if ( etat.scheduler_column_width && strlen ( etat.scheduler_column_width ) )
     {
-        g_free ( run.scheduler_column_width );
-        run.scheduler_column_width = NULL;
+        g_free ( etat.scheduler_column_width );
+        etat.scheduler_column_width = NULL;
     }
     
     gsb_gui_navigation_init_tree_view ( );
@@ -454,16 +289,7 @@ void init_variables ( void )
     gsb_form_scheduler_free_list ();
 
     /* set colors to default */
-    couleur_fond[0] = default_couleur_fond[0];
-    couleur_fond[1] = default_couleur_fond[1];
-    couleur_jour = default_couleur_jour;
-    couleur_grise = default_couleur_grise;
-    archive_background_color = default_archive_background_color;
-    couleur_selection = default_couleur_selection;
-    split_background = default_split_background;
-    text_color[0] = default_text_color[0];
-    text_color[1] = default_text_color[1];
-    calendar_entry_color = default_calendar_entry_color;
+    gsb_color_set_colors_to_default ( );
 
     /* divers */
     etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
@@ -499,162 +325,6 @@ void free_variables ( void )
     gsb_gui_navigation_free_pages_list ( );
 }
 
-/**
- * initialize the colors used in grisbi
- *
- * \param
- *
- * \return
- * */
-void initialisation_couleurs_listes ( void )
-{
-    devel_debug (NULL);
-
-    /* colors of the background */
-    default_couleur_fond[0].red = BG_COLOR_1_RED;
-    default_couleur_fond[0].green = BG_COLOR_1_GREEN;
-    default_couleur_fond[0].blue = BG_COLOR_1_BLUE;
-
-    default_couleur_fond[1].red = BG_COLOR_2_RED;
-    default_couleur_fond[1].green = BG_COLOR_2_GREEN;
-    default_couleur_fond[1].blue = BG_COLOR_2_BLUE;
-
-    /* color of today */
-    default_couleur_jour.red = BG_COLOR_TODAY_RED;
-    default_couleur_jour.green = BG_COLOR_TODAY_GREEN;
-    default_couleur_jour.blue = BG_COLOR_TODAY_BLUE;
-
-    /* colors of the text */
-    default_text_color[0].red = TEXT_COLOR_1_RED;
-    default_text_color[0].green = TEXT_COLOR_1_GREEN;
-    default_text_color[0].blue = TEXT_COLOR_1_BLUE;
-
-    default_text_color[1].red = TEXT_COLOR_2_RED;
-    default_text_color[1].green = TEXT_COLOR_2_GREEN;
-    default_text_color[1].blue = TEXT_COLOR_2_BLUE;
-
-    /* selection color */
-    default_couleur_selection.red = SELECTION_COLOR_RED;
-    default_couleur_selection.green = SELECTION_COLOR_GREEN;
-    default_couleur_selection.blue = SELECTION_COLOR_BLUE;
-
-    /* color of the non selectable transactions on scheduler */
-    default_couleur_grise.red = UNSENSITIVE_SCHEDULED_COLOR_RED;
-    default_couleur_grise.green = UNSENSITIVE_SCHEDULED_COLOR_GREEN;
-    default_couleur_grise.blue = UNSENSITIVE_SCHEDULED_COLOR_BLUE;
-    default_couleur_grise.pixel = 0;
-
-    /* set the archive background color */
-    default_archive_background_color.red = COLOR_ARCHIVE_BG_RED;
-    default_archive_background_color.green = COLOR_ARCHIVE_BG_GREEN;
-    default_archive_background_color.blue = COLOR_ARCHIVE_BG_BLUE;
-    default_archive_background_color.pixel = 0;
-
-    /* color for split children */
-    default_split_background.red = BREAKDOWN_BACKGROUND_COLOR_RED;
-    default_split_background.green = BREAKDOWN_BACKGROUND_COLOR_GREEN;
-    default_split_background.blue = BREAKDOWN_BACKGROUND_COLOR_BLUE;
-    default_split_background.pixel = 0;
-
-    /* color for wrong entry in calendar entry */
-    default_calendar_entry_color.red = CALENDAR_ENTRY_COLOR_RED;
-    default_calendar_entry_color.green = CALENDAR_ENTRY_COLOR_GREEN;
-    default_calendar_entry_color.blue = CALENDAR_ENTRY_COLOR_BLUE;
-    default_calendar_entry_color.pixel = 0;
-
-    /* Initialisation des couleurs des différents labels */
-    /* Pourra être intégré à la configuration générale */
-    couleur_solde_alarme_verte_normal.red =     0.00 * 65535 ;
-    couleur_solde_alarme_verte_normal.green =   0.50 * 65535 ;
-    couleur_solde_alarme_verte_normal.blue =    0.00 * 65535 ;
-    couleur_solde_alarme_verte_normal.pixel = 1;
-
-    couleur_solde_alarme_verte_prelight.red =   0.00 * 65535 ;
-    couleur_solde_alarme_verte_prelight.green = 0.90 * 65535 ;
-    couleur_solde_alarme_verte_prelight.blue =  0.00 * 65535 ;
-    couleur_solde_alarme_verte_prelight.pixel = 1;
-
-
-    couleur_solde_alarme_orange_normal.red =     0.90 * 65535 ;
-    couleur_solde_alarme_orange_normal.green =   0.60 * 65535 ;
-    couleur_solde_alarme_orange_normal.blue =    0.00 * 65535 ;
-    couleur_solde_alarme_orange_normal.pixel = 1;
-
-    couleur_solde_alarme_orange_prelight.red =   1.00 * 65535 ;
-    couleur_solde_alarme_orange_prelight.green = 0.80 * 65535 ;
-    couleur_solde_alarme_orange_prelight.blue =  0.00 * 65535 ;
-    couleur_solde_alarme_orange_prelight.pixel = 1;
-
-
-    couleur_solde_alarme_rouge_normal.red =     0.60 * 65535 ;
-    couleur_solde_alarme_rouge_normal.green =   0.00 * 65535 ;
-    couleur_solde_alarme_rouge_normal.blue =    0.00 * 65535 ;
-    couleur_solde_alarme_rouge_normal.pixel = 1;
-
-    couleur_solde_alarme_rouge_prelight.red =   1.00 * 65535 ;
-    couleur_solde_alarme_rouge_prelight.green = 0.00 * 65535 ;
-    couleur_solde_alarme_rouge_prelight.blue =  0.00 * 65535 ;
-    couleur_solde_alarme_rouge_prelight.pixel = 1;
-
-
-    couleur_nom_compte_normal.red =     0.00 * 65535 ;
-    couleur_nom_compte_normal.green =   0.00 * 65535 ;
-    couleur_nom_compte_normal.blue =    0.00 * 65535 ;
-    couleur_nom_compte_normal.pixel = 1;
-
-    couleur_nom_compte_prelight.red =   0.61 * 65535 ;
-    couleur_nom_compte_prelight.green = 0.61 * 65535 ;
-    couleur_nom_compte_prelight.blue =  0.61 * 65535 ;
-    couleur_nom_compte_prelight.pixel = 1;
-
-    couleur_bleue.red = 500;
-    couleur_bleue.green = 500;
-    couleur_bleue.blue = 65535;
-    couleur_bleue.pixel = 1;
-
-
-    couleur_jaune.red = 50535;
-    couleur_jaune.green = 65535;
-    couleur_jaune.blue = 0;
-    couleur_jaune.pixel = 1;
-
-    /* colors of the background bet divisions */
-    couleur_bet_division.red = 64550;
-    couleur_bet_division.green = 65535;
-    couleur_bet_division.blue = 33466;
-
-    default_couleur_bet_division.red = 64550;
-    default_couleur_bet_division.green = 65535;
-    default_couleur_bet_division.blue = 33466;
-
-    /* colors of the background bet future data */
-    couleur_bet_future.red = 31829;
-    couleur_bet_future.green = 51015;
-    couleur_bet_future.blue = 35908;
-
-    default_couleur_bet_future.red = 31829;
-    default_couleur_bet_future.green = 51015;
-    default_couleur_bet_future.blue =  35908;
-
-    /* colors of the background bet solde data */
-    couleur_bet_solde.red = 2318;
-    couleur_bet_solde.green = 65535;
-    couleur_bet_solde.blue = 60331;
-
-    default_couleur_bet_solde.red = 2318;
-    default_couleur_bet_solde.green = 65535;
-    default_couleur_bet_solde.blue =  60331;
-
-    /* colors of the background bet transfert data */
-    couleur_bet_transfert.red = 31829;
-    couleur_bet_transfert.green = 51015;
-    couleur_bet_transfert.blue = 35908;
-
-    default_couleur_bet_transfert.red = 60035;
-    default_couleur_bet_transfert.green = 37622;
-    default_couleur_bet_transfert.blue =  59956;
-}
-/*****************************************************************************************************/
 
 /*****************************************************************************************************/
 /* si grise = 1 ; grise tous les menus qui doivent l'être quand aucun fichier n'est en mémoire */
@@ -675,6 +345,7 @@ void menus_sensitifs ( gboolean sensitif )
         "/menubar/FileMenu/Close",
         "/menubar/EditMenu/NewTransaction",
         "/menubar/EditMenu/RemoveTransaction",
+        "/menubar/EditMenu/TemplateTransaction",
         "/menubar/EditMenu/CloneTransaction",
         "/menubar/EditMenu/EditTransaction",
         "/menubar/EditMenu/ConvertToScheduled",

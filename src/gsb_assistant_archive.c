@@ -44,6 +44,7 @@
 #include "gsb_data_fyear.h"
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "utils_dates.h"
 #include "gsb_fyear.h"
 #include "navigation.h"
@@ -762,8 +763,7 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
     gsb_assistant_sensitive_button_prev ( assistant, TRUE );
     gsb_assistant_sensitive_button_next ( assistant, TRUE );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     /* update the display of tree_view if necessary */
     if ( ( account_nb = gsb_gui_navigation_get_current_account ( ) ) != -1 )

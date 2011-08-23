@@ -33,6 +33,7 @@
 /*START_INCLUDE*/
 #include "imputation_budgetaire.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -83,7 +84,6 @@ static gboolean sortie_edit_budgetary_line = FALSE;
 static struct metatree_hold_position *budgetary_hold_position;
 
 /*START_EXTERN*/
-extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
 
@@ -165,6 +165,7 @@ GtkWidget *budgetary_lines_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Budgetary line"), cell,
 						       "text", META_TREE_TEXT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -174,6 +175,7 @@ GtkWidget *budgetary_lines_create_list ( void )
     column = gtk_tree_view_column_new_with_attributes (_("Account"), cell,
 						       "text", META_TREE_ACCOUNT_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
@@ -184,6 +186,7 @@ GtkWidget *budgetary_lines_create_list ( void )
 						       "text", META_TREE_BALANCE_COLUMN,
 						       "weight", META_TREE_FONT_COLUMN,
 						       "xalign", META_TREE_XALIGN_COLUMN,
+                               "cell-background-gdk", META_TREE_BACKGROUND_COLOR,
 						       NULL);
     gtk_tree_view_column_set_alignment ( column, 1.0 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( budgetary_line_tree ),
@@ -193,6 +196,11 @@ GtkWidget *budgetary_lines_create_list ( void )
     gtk_widget_show ( budgetary_line_tree );
 
     /* Connect to signals */
+    g_signal_connect ( G_OBJECT ( budgetary_line_tree ),
+                        "row-collapsed",
+                        G_CALLBACK ( division_column_collapsed ),
+                        NULL );
+
     g_signal_connect ( G_OBJECT ( budgetary_line_tree ),
                         "row-expanded",
                         G_CALLBACK ( division_column_expanded ),
@@ -328,11 +336,24 @@ void budgetary_lines_fill_list ( void )
             gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( budgetary_line_tree ), ancestor );
             gtk_tree_path_free (ancestor );
         }
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_line_tree ) );
         gtk_tree_selection_select_path ( selection, budgetary_hold_position -> path );
         gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( budgetary_line_tree ),
                         budgetary_hold_position -> path,
                         NULL, TRUE, 0.5, 0.5 );
+    }
+    else
+    {
+        gchar *title;
+
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( budgetary_line_tree, META_TREE_BACKGROUND_COLOR );
+	    title = g_strdup(_("Budgetary lines"));
+        gsb_gui_headings_update_title ( title );
+        g_free ( title );
+        gsb_gui_headings_update_suffix ( "" );
     }
 }
 

@@ -43,6 +43,7 @@
 #include "gsb_data_currency_link.h"
 #include "navigation.h"
 #include "gsb_real.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "utils.h"
 #include "structures.h"
@@ -208,7 +209,7 @@ void gsb_partial_balance_fill_model ( GtkListStore *list_store )
 
         switch ( partial_balance -> kind )
         {
-        case -1:
+        case GSB_TYPE_BALANCE:
             kind_str = g_strdup ( _("Additional balance") );
             break;
 
@@ -1079,10 +1080,10 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE ) );
     else
-        string = gsb_real_get_string_with_currency (
+        string = utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE );
 
     return string;
@@ -1161,10 +1162,10 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE ) );
     else
-        string = gsb_real_get_string_with_currency (
+        string = utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE );
 
     return string;
@@ -1305,6 +1306,9 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
         {
             switch ( kind )
             {
+            case GSB_TYPE_BALANCE:
+                break;
+
             case GSB_TYPE_BANK:
             case GSB_TYPE_CASH:
                 if ( kind_nb >= GSB_TYPE_LIABILITIES )

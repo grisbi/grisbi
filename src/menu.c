@@ -74,8 +74,6 @@ static gboolean gsb_menu_reinit_largeur_col_menu ( void );
 
 
 /*START_EXTERN*/
-extern gsize nb_derniers_fichiers_ouverts;
-extern gint nb_max_derniers_fichiers_ouverts;
 extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
@@ -113,10 +111,12 @@ static const gchar *ui_manager_buffer =
 "      <menuitem name='Quit' action='QuitAction'/>"
 "    </menu>"
 "    <menu name='EditMenu' action='EditMenuAction' >"
+"      <menuitem name='EditTransaction' action='EditTransactionAction'/>"
+"      <separator/>"
 "      <menuitem name='NewTransaction' action='NewTransactionAction'/>"
 "      <menuitem name='RemoveTransaction' action='RemoveTransactionAction'/>"
+"      <menuitem name='TemplateTransaction' action='TemplateTransactionAction'/>"
 "      <menuitem name='CloneTransaction' action='CloneTransactionAction'/>"
-"      <menuitem name='EditTransaction' action='EditTransactionAction'/>"
 "      <separator/>"
 "      <menuitem name='ConvertToScheduled' action='ConvertToScheduledAction'/>"
 "      <menu name='MoveToAnotherAccount' action='MoveToAnotherAccountAction'>"
@@ -212,14 +212,16 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
+        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
+         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "", NULL,
          G_CALLBACK ( new_transaction ) },
         {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
          G_CALLBACK ( remove_transaction ) },
+        {"TemplateTransactionAction", GTK_STOCK_COPY, _("Use selected transaction as a template"), "", NULL,
+         G_CALLBACK ( gsb_transactions_list_clone_template ) },
         {"CloneTransactionAction", GTK_STOCK_COPY, _("_Clone transaction"), "", NULL,
          G_CALLBACK ( clone_selected_transaction ) },
-        {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
-         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
         {"ConvertToScheduledAction", GTK_STOCK_CONVERT, _("Convert to _scheduled transaction"), NULL, NULL,
          G_CALLBACK ( schedule_selected_transaction ) },
         {"MoveToAnotherAccountAction", NULL, _("_Move transaction to another account"), NULL, NULL, NULL },
@@ -351,19 +353,19 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     efface_derniers_fichiers_ouverts ();
 
-    if ( nb_derniers_fichiers_ouverts > nb_max_derniers_fichiers_ouverts )
+    if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
     {
-        nb_derniers_fichiers_ouverts = nb_max_derniers_fichiers_ouverts;
+        conf.nb_derniers_fichiers_ouverts = conf.nb_max_derniers_fichiers_ouverts;
     }
 
-    if ( ! nb_derniers_fichiers_ouverts || ! nb_max_derniers_fichiers_ouverts )
+    if ( ! conf.nb_derniers_fichiers_ouverts || ! conf.nb_max_derniers_fichiers_ouverts )
     {
         return FALSE;
     }
 
     action_group = gtk_action_group_new ( "Group2" );
 
-    for ( i = 0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    for ( i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         GtkAction *action;
@@ -386,7 +388,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     recent_files_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
 
-    for ( i=0 ; i<nb_derniers_fichiers_ouverts ; i++ )
+    for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         gchar *tmp_label;
@@ -612,7 +614,7 @@ gboolean gsb_gui_toggle_show_reconciled ( void )
 	    return FALSE;
 
     current_account = gsb_gui_navigation_get_current_account ( );
-    if ( current_account == -1 || etat.equilibrage == 1 )
+    if ( current_account == -1 || run.equilibrage == 1 )
         return FALSE;
 
     if ( gsb_data_account_get_r ( current_account ) )
@@ -661,8 +663,7 @@ gboolean gsb_gui_toggle_show_closed_accounts ( void )
     gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
     gsb_gui_navigation_update_home_page ( );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -807,6 +808,7 @@ gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/TemplateTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
@@ -843,14 +845,14 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
     if ( current_page == GSB_ACCOUNT_PAGE )
     {
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                        run.transaction_column_width );
+                        etat.transaction_column_width );
 
         gsb_transactions_list_set_largeur_col ( );
     }
     else if ( current_page == GSB_SCHEDULER_PAGE )
     {
         initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                        run.scheduler_column_width );
+                        etat.scheduler_column_width );
 
         gsb_scheduler_list_set_largeur_col ( );
     }

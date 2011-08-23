@@ -30,39 +30,59 @@
 
 /*START_INCLUDE*/
 #include "affichage_liste.h"
-#include "gsb_automem.h"
-#include "gsb_data_account.h"
-#include "gsb_form.h"
-#include "gsb_form_widget.h"
-#include "navigation.h"
-#include "gsb_transactions_list.h"
-#include "gtk_combofix.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "utils_str.h"
-#include "structures.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "gsb_automem.h"
+#include "gsb_color.h"
+#include "gsb_data_account.h"
 #include "gsb_data_form.h"
+#include "gsb_file.h"
+#include "gsb_form.h"
+#include "gsb_form_widget.h"
+#include "gsb_transactions_list.h"
+#include "gtk_combofix.h"
+#include "navigation.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 static gboolean display_mode_button_changed ( GtkWidget *button,
                         gint *line_ptr );
+static gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *tree_view,
+                        gchar *string,
+                        gboolean active );
+static void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
+                        gboolean normal );
+static GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_view );
+static GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store );
+static gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
+                        GdkDragContext *drag_context,
+                        gpointer null );
+static gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
+                        GdkDragContext *drag_context,
+                        gpointer null );
+static gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view );
+static gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
+                        gpointer null );
+static void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_button,
+                        GtkWidget *tree_view );
+static gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree_view );
 static gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null );
 static void gsb_transactions_list_display_show_gives_balance ( void );
-static gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
-                        GdkEventButton *event,
+static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur );
 static gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *checkbutton,
                         GtkWidget *container );
 static gboolean gsb_transactions_list_display_update_combofix ( void );
 /*END_STATIC*/
 
-
-
+/* tableau qui contient les numéros des éléments affichés (voir gsb_transactions_list.h) */
 gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 
 /* line displayed when the list show 1 line */
@@ -76,15 +96,19 @@ gint display_two_lines;
  * this is a number 0-3 according the order of the combo-box in the configuration */
 gint display_three_lines;
 
+/* buttons to config the list */
+static GtkWidget *list_config_buttons[18];
+
+/** tmp for drag'n drop */
+static gint start_drag_column;
+static gint start_drag_row;
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern gchar *tips_col_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titres_colonnes_liste_operations[CUSTOM_MODEL_VISIBLE_COLUMNS];
+extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
-
-
 
 
 /**
@@ -98,6 +122,7 @@ GtkWidget *onglet_affichage_operations ( void )
 {
     GtkWidget * vbox_pref, *label, *paddingbox;
     GtkWidget *hbox, *vbox_label, *vbox_buttons;
+    GtkWidget *button;
     gchar *display_mode_lines_text [] = {
     _("In one line visible, show the line: "),
     _("In two lines visibles, show the lines: "),
@@ -112,6 +137,16 @@ GtkWidget *onglet_affichage_operations ( void )
     gchar *line_3 [] = {
     "1-2-3", "1-2-4", "1-3-4", "2-3-4",
     NULL };
+    gchar *options_tri_primaire[] = {
+    _("Sort by value date (if fail, try with the date)"),
+    _("Sort by value date and then by date"),
+    };
+    gchar *options_tri_secondaire[] = {
+    _("Sort by transaction number"),
+    _("Sort by type of amount (credit debit)"),
+    _("Sort by payee name (if fail, by transaction number)"),
+    _("Sort by date and then by transaction number"),
+    };
     gint i;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
@@ -129,7 +164,6 @@ GtkWidget *onglet_affichage_operations ( void )
     for (i=0 ; i<3 ; i++)
     {
     gint j;
-    GtkWidget *button;
     gchar **text_line = NULL;
     gint position = 0;
 
@@ -191,26 +225,44 @@ GtkWidget *onglet_affichage_operations ( void )
                         FALSE, FALSE, 0 );
 
     /* Primary sorting option for the transactions */
-    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Primary sorting option"),
-                        _("Sort by value date (if fail, try with the date)"),
-                        _("Sort by value date and then by date"),
-                        NULL,
-                        &conf.transactions_list_primary_sorting,
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Primary sorting option") );
+
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gtk_combo_box_new_text ();
+    g_signal_connect ( G_OBJECT ( button ),
+                        "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_primary_sorting,
-                        GTK_ORIENTATION_VERTICAL );
+                        &conf.transactions_list_primary_sorting );
+
+    for ( i = 0 ; i < 2 ; i++ )
+    {
+        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_primaire[i] );
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Secondary sorting option for the transactions */
-    gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-                        _("Secondary sorting option"),
-                        _("Sort by transaction number"),
-                        _("Sort by type of amount (credit debit)"),
-                        _("Sort by payee name (if fail, by transaction number)"),
-                        &conf.transactions_list_secondary_sorting,
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
+                        _("Secondary sorting option") );
+
+    hbox = gtk_hbox_new ( FALSE, 5);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gtk_combo_box_new_text ();
+    g_signal_connect ( G_OBJECT ( button ),
+                        "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_secondary_sorting,
-                        GTK_ORIENTATION_VERTICAL );
+                        &conf.transactions_list_secondary_sorting );
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_secondaire[i] );
+    }
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Account distinction */
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
@@ -236,8 +288,7 @@ GtkWidget *onglet_affichage_operations ( void )
  *
  *
  * */
-gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
-                        GdkEventButton *event,
+static gboolean gsb_transactions_list_display_sort_changed ( GtkComboBox *widget,
                         gint *pointeur )
 {
     gint page_number;
@@ -249,10 +300,9 @@ gboolean gsb_transactions_list_display_sort_changed ( GtkWidget *checkbutton,
     {
         gint value = 0;
 
-        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        value = gtk_combo_box_get_active ( widget );
         *pointeur = value;
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     switch ( page_number )
@@ -300,8 +350,7 @@ static gboolean display_mode_button_changed ( GtkWidget *button,
     /* update the visible account */
     gsb_transactions_list_update_tree_view (gsb_gui_navigation_get_current_account (), TRUE);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -413,8 +462,8 @@ void recuperation_noms_colonnes_et_tips ( void )
     /* unset the titles and tips */
     for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
     {
-	titres_colonnes_liste_operations[j] = NULL;
-	tips_col_liste_operations[j] = NULL;
+        titres_colonnes_liste_operations[j] = NULL;
+        tips_col_liste_operations[j] = NULL;
     }
 
 
@@ -422,33 +471,34 @@ void recuperation_noms_colonnes_et_tips ( void )
 	for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	{
 	    /* 	    xxx changer ça pour faire une fonction comme gsb_form_widget_get_name */
-	    row[j] = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-					tab_affichage_ope[i][j] - 1 ));
+	    row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
 
 	    /* on the first row, set for titles and tips, for others row, only for tips */
 	    if ( i )
 	    {
-		if ( row[j] )
-		{
-		    if ( !titres_colonnes_liste_operations[j] )
-			titres_colonnes_liste_operations[j] = row[j];
+            if ( row[j] )
+            {
+                if ( tips_col_liste_operations[j] )
+                    tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
+                                                    "- ",
+                                                    row[j], " ",
+                                                    NULL );
+                else
+                    tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
 
-		    if ( tips_col_liste_operations[j] )
-			tips_col_liste_operations[j] = g_strconcat ( tips_col_liste_operations[j],
-								     "- ",
-								     row[j], " ",
-								     NULL );
-		    else
-			tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
-		}
+                if ( !titres_colonnes_liste_operations[j] )
+                    titres_colonnes_liste_operations[j] = row[j];
+                else
+                    g_free ( row[j] );
+            }
 	    }
 	    else
 	    {
-		if ( row[j] )
-		{
-		    titres_colonnes_liste_operations[j] = row[j];
-		    tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
-		}
+            if ( row[j] )
+            {
+                titres_colonnes_liste_operations[j] = row[j];
+                tips_col_liste_operations[j] = g_strconcat ( " ", row[j], " ", NULL );
+            }
 	    }
 	}
 }
@@ -521,6 +571,21 @@ GtkWidget *onglet_form_completion ( void )
                         vbox_pref ),
                         FALSE, FALSE, 0 );
 
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Erase the credit and debit fields"),
+                        &conf.automatic_erase_credit_debit,
+                        NULL,
+                        NULL );
+    g_object_set_data ( G_OBJECT ( vbox_pref ), "button_3", button );
+    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
+
     button = gsb_automem_checkbutton_new (
                         _("Automatically recover the children of the associated transaction"),
                         &conf.automatic_recover_splits,
@@ -528,7 +593,10 @@ GtkWidget *onglet_form_completion ( void )
                         NULL );
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_1", button );
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
                         _("Limit the filling with payees belonging to the current account"),
@@ -536,7 +604,7 @@ GtkWidget *onglet_form_completion ( void )
                         NULL, NULL);
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
@@ -700,6 +768,8 @@ gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *chec
         gtk_widget_set_sensitive ( button, TRUE );
         button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
         gtk_widget_set_sensitive ( button, TRUE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_3" );
+        gtk_widget_set_sensitive ( button, TRUE );
     }
     else
     {
@@ -707,10 +777,676 @@ gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *chec
         gtk_widget_set_sensitive ( button, FALSE );
         button = g_object_get_data ( G_OBJECT ( container ), "button_2" );
         gtk_widget_set_sensitive ( button, FALSE );
+        button = g_object_get_data ( G_OBJECT ( container ), "button_3" );
+        gtk_widget_set_sensitive ( button, FALSE );
     }
  
     return FALSE;
 }
+
+
+/**
+ * Affichage de l'onglet de sélection des données de la liste des colonnes
+ *
+ *
+ * */
+GtkWidget *onglet_affichage_liste ( void )
+{
+    GtkWidget *onglet;
+    GtkWidget *sw;
+    GtkWidget *tree_view;
+    GtkWidget *table;
+    GtkWidget *paddingbox;
+    GtkListStore* list_store;
+
+	/* à la base, on met une vbox */
+	onglet = new_vbox_with_title_and_icon ( _("Transactions list cells"), "transaction-list.png" );
+
+    /* partie 1 visualisation de l'arrangement des données */
+	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list preview") );
+
+    /*create the scolled window for tree_view */
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ),
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_widget_set_size_request ( sw, -1, 160 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), sw, TRUE, TRUE, 0 );
+
+    /* create the list_store */
+    list_store = gtk_list_store_new ( 2 * CUSTOM_MODEL_VISIBLE_COLUMNS,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT,
+                        G_TYPE_STRING,
+                        G_TYPE_INT );
+
+    /* create the tree_view */
+    tree_view = gsb_transaction_list_config_create_tree_view ( list_store );
+    g_object_unref ( G_OBJECT ( list_store ) );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), tree_view );
+
+    /* partie 2 Source des données */
+	paddingbox = new_paddingbox_with_title ( onglet, FALSE, _("Transactions list contents") );
+
+	/* on crée maintenant une table de 3x6 boutons */
+	table = gsb_transaction_list_config_create_buttons_table ( tree_view );
+	gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 0 );
+
+    gtk_widget_show_all ( onglet );
+
+    return onglet;
+}
+
+
+/**
+ * create the tree_view for the transaction list configuration
+ * set the model given in param
+ * set the columns and all the connections
+ *
+ * \param model the model to set in the tree_view
+ *
+ * \return the tree_view
+ * */
+GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
+{
+    GtkWidget *tree_view;
+    gint column;
+    GtkTargetEntry target_entry[] = { { "text", GTK_TARGET_SAME_WIDGET, 0 } };
+
+    if ( !store )
+        return NULL;
+
+    /* create the tree_view */
+    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
+
+    gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_GRID_LINES_BOTH );
+    
+    gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
+                        GTK_SELECTION_NONE );
+
+    /* set the columns */
+    for ( column=0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
+    {
+        GtkTreeViewColumn *tree_view_column;
+
+        tree_view_column = gtk_tree_view_column_new_with_attributes ( titres_colonnes_liste_operations[column],
+                                            gtk_cell_renderer_text_new (),
+                                            "text", 2*column,
+                                            NULL );
+        gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( tree_view_column ) );
+        gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( tree_view_column ),
+                        GTK_TREE_VIEW_COLUMN_FIXED );
+        gtk_tree_view_column_set_resizable ( GTK_TREE_VIEW_COLUMN ( tree_view_column ), TRUE );
+    }
+
+    /* we will fill the size of the columns when the window will be realized */
+    g_signal_connect ( G_OBJECT ( tree_view ),
+                        "realize",
+                        G_CALLBACK ( gsb_transaction_list_config_realized ),
+                        NULL );
+
+    /* enable the drag'n drop, we need to use low-level api because
+     * gtk_tree_view api can only move the entire row, not only a cell
+     * (at least, didn't find how...) */
+    gtk_drag_source_set ( tree_view,
+                        GDK_BUTTON1_MASK,
+                        target_entry, 1,
+                        GDK_ACTION_MOVE );
+    g_signal_connect ( G_OBJECT (tree_view),
+                        "drag-begin",
+                        G_CALLBACK ( gsb_transaction_list_config_drag_begin ),
+                        NULL );
+
+    gtk_drag_dest_set ( tree_view,
+                        GTK_DEST_DEFAULT_ALL,
+                        target_entry, 1,
+                        GDK_ACTION_MOVE );
+    g_signal_connect ( G_OBJECT (tree_view),
+                        "drag-end",
+                        G_CALLBACK ( gsb_transaction_list_config_drag_end ),
+                        NULL );
+
+    return tree_view;
+}
+
+
+/**
+ * called once the window is realized,
+ * fill the form and size the columns according to the configuration
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
+                        gpointer null )
+{
+    gint column;
+
+    if ( !assert_account_loaded ( ) )
+      return FALSE;
+
+    /* fill and update the transaction list and buttons */
+    gsb_transaction_list_config_update_list_config ( tree_view );
+
+    for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
+    {
+        gint width;
+
+        width = ( transaction_col_width [column] * ( tree_view -> allocation.width ) ) / 100;
+        gtk_tree_view_column_set_fixed_width (
+                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
+                        width );
+    }
+
+    gdk_window_set_cursor ( tree_view -> window, gdk_cursor_new ( GDK_HAND2 ) );
+
+    return FALSE;
+}
+
+
+/**
+ * called when we begin a drag,
+ * find what cell was under the cursor and change it
+ *
+ * \param tree_view
+ * \param drag_context
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
+                        GdkDragContext *drag_context,
+                        gpointer null )
+{
+    gint x, y;
+    GtkTreePath *path;
+    GtkTreeViewColumn *tree_column;
+    GdkWindow *drawable;
+    GdkRectangle rectangle;
+    GdkPixbuf *pixbuf_cursor;
+
+    /* get the cell coord */
+    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
+                        &x,
+                        &y,
+                        FALSE );
+    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
+				    x,
+				    y,
+				    &path,
+				    &tree_column,
+				    NULL, NULL );
+
+    if ( !path
+	 ||
+	 !tree_column )
+        return FALSE;
+
+    start_drag_column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view ) ), tree_column );
+    start_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ) );
+
+    /* draw the new cursor */
+    drawable = gtk_tree_view_get_bin_window (GTK_TREE_VIEW ( tree_view ) );
+    gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( tree_view ),
+                        path,
+                        tree_column,
+                        &rectangle );
+
+    pixbuf_cursor = gdk_pixbuf_get_from_drawable ( NULL,
+                        GDK_DRAWABLE ( drawable ),
+                        gdk_colormap_get_system (),
+                        rectangle.x,
+                        rectangle.y,
+                        0,
+                        0,
+                        rectangle.width,
+                        rectangle.height );
+    gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
+
+    g_object_unref ( pixbuf_cursor );
+
+    if ( start_drag_row == 0 )
+        gtk_tree_view_column_set_title  ( tree_column, "" );
+
+    return FALSE;
+}
+					
+
+/**
+ * called when we end a drag,
+ * find what cell was under the cursor and do the split between the 2 cells
+ *
+ * \param tree_view
+ * \param drag_context
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
+                        GdkDragContext *drag_context,
+                        gpointer null )
+{
+    GtkTreePath *path;
+    GtkTreeViewColumn *tree_column;
+    gchar *string;
+    gint x, y;
+    gint end_drag_row;
+    gint end_drag_column;
+    gint element;
+    gint old_element;
+    gint current_account;
+
+    /* get the cell position */
+    gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view ) ),
+                        &x,
+                        &y,
+                        FALSE );
+    gtk_tree_view_get_path_at_pos ( GTK_TREE_VIEW ( tree_view ),
+                        x,
+                        y,
+                        &path,
+                        &tree_column,
+                        NULL,
+                        NULL );
+
+    if ( !path || !tree_column )
+        return FALSE;
+
+    end_drag_column = g_list_index ( gtk_tree_view_get_columns ( GTK_TREE_VIEW ( tree_view ) ), tree_column );
+    end_drag_row = utils_str_atoi ( gtk_tree_path_to_string ( path ) );
+
+    /* if we are on the same cell, go away */
+    if ( start_drag_row == end_drag_row
+	 &&
+	 start_drag_column == end_drag_column )
+        return ( FALSE );
+
+    element = tab_affichage_ope[start_drag_row][start_drag_column];
+    current_account = gsb_gui_navigation_get_current_account ( );
+
+    /* save the old position et désensitive le bouton correspondant */
+    old_element = tab_affichage_ope[end_drag_row][end_drag_column];
+    if ( old_element )
+    {
+        string = gsb_transaction_list_get_titre_colonne_liste_ope ( old_element - 1 );
+        gsb_transaction_list_config_button_set_active_from_string ( tree_view, string, FALSE );
+
+        g_free ( string );
+    }
+
+    /* positionne le nouvel élément */
+    tab_affichage_ope[end_drag_row][end_drag_column] = element;
+
+    /* the element was already showed, we need to erase the last cell first */
+    tab_affichage_ope[start_drag_row][start_drag_column] = 0;
+    transaction_list_update_cell ( start_drag_column, start_drag_row );
+
+    /* modifie le titre de la colonne si nécessaire */
+    if ( end_drag_row == 0 )
+    {
+        string = gsb_transaction_list_get_titre_colonne_liste_ope ( element - 1 );
+        gtk_tree_view_column_set_title  ( tree_column, string );
+
+        g_free ( string );
+    }
+
+    /* fill the list */
+    gsb_transaction_list_config_update_list_config ( tree_view );
+
+    /* met à jour la liste des opérations */
+    transaction_list_update_element ( element );
+    recuperation_noms_colonnes_et_tips ( );
+    update_titres_tree_view ( );
+
+    gsb_file_set_modified ( TRUE );
+    return (FALSE);
+}
+
+
+/**
+ * fill the list and set the correct buttons as active/passive
+ *
+ * \param tree_view
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_update_list_config ( GtkWidget *tree_view )
+{
+    GtkTreeModel *store;
+    gint i;
+
+    /* fill the store */
+    gsb_transaction_list_config_fill_store ( tree_view );
+    store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* active/unactive the buttons */
+    for ( i = 0 ; i < 18 ; i++ )
+	{
+        GtkTreeIter iter;
+        gint current_number;
+
+        current_number = GPOINTER_TO_INT ( g_object_get_data (
+                            G_OBJECT ( list_config_buttons[i] ), "element_number" ) );
+
+        if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( store ), &iter ) )
+        {
+            do
+            {
+                gint num_1 = 0;
+                gint num_2 = 0;
+                gint num_3 = 0;
+                gint num_4 = 0;
+                gint num_5 = 0;
+                gint num_6 = 0;
+                gint num_7 = 0;
+
+                gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter,
+                                        1, &num_1,
+                                        3, &num_2,
+                                        5, &num_3,
+                                        7, &num_4,
+                                        9, &num_5,
+                                        11, &num_6,
+                                        13, &num_7,
+                                        -1 );
+
+                if ( current_number == num_1 ||
+                 current_number == num_2 ||
+                 current_number == num_3 ||
+                 current_number == num_4 ||
+                 current_number == num_5 ||
+                 current_number == num_6 )
+                {
+                    g_signal_handlers_block_by_func ( G_OBJECT ( list_config_buttons[i] ),
+                                        G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
+                                        tree_view );
+                    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), TRUE );
+                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], FALSE );
+
+                    g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
+                                        G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
+                                        tree_view );
+                }
+                else
+                    gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], TRUE );
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
+        }
+    }
+
+    return FALSE;
+}
+
+
+/**
+ * fill the configuration store according to the organization for transaction list
+ *
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view )
+{
+    GtkListStore *store;
+    gchar *row[CUSTOM_MODEL_VISIBLE_COLUMNS];
+    gint i;
+    gint j;
+
+    store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) ) );
+						
+    gtk_list_store_clear ( store );
+
+    for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
+    {
+        GtkTreeIter iter;
+
+        gtk_list_store_append ( GTK_LIST_STORE ( store ), &iter );
+
+        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+        {
+            row[j] = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][j] - 1 );
+            /* on met le nom dans les lignes paires et le numéro de l'élément dans las lignes impaires */
+            gtk_list_store_set ( GTK_LIST_STORE ( store ), &iter,
+                        2*j, row[j],
+                        2*j+1, tab_affichage_ope[i][j],
+                        -1 );
+
+            if ( row[j] )
+                g_free ( row[j] );
+        }
+    }
+    return FALSE;
+}
+
+
+/**
+ * create the table of buttons and set the signals
+ *
+ * \param
+ *
+ * \return the new table of buttons
+ * */
+GtkWidget *gsb_transaction_list_config_create_buttons_table ( GtkWidget *tree_view )
+{
+    GtkWidget *table;
+    gint current_number = 0;
+    gint row, column;
+
+    /* the table is 3x6 buttons */
+    table = gtk_table_new ( 3, 6, FALSE );
+
+    for ( row=0 ; row < 3 ; row++ )
+	for ( column = 0 ; column < 6 ; column++ )
+	{
+	    gchar *string;
+	    gchar *changed_string;
+
+	    string = gsb_transaction_list_get_titre_colonne_liste_ope ( current_number );
+
+	    if ( string )
+	    {
+            /* the max string in the button is 10 characters */
+            changed_string = limit_string ( string, 10 );
+
+            list_config_buttons[current_number] = gtk_toggle_button_new_with_label ( changed_string );
+            g_object_set_data ( G_OBJECT ( list_config_buttons[current_number] ),
+                        "element_number",
+                        GINT_TO_POINTER ( current_number + 1 ) );
+            g_signal_connect ( G_OBJECT ( list_config_buttons[current_number] ),
+                        "toggled",
+                        G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
+                        tree_view );
+            gtk_table_attach_defaults ( GTK_TABLE ( table ),
+                        list_config_buttons[current_number],
+                        column, column+1,
+                        row, row+1 );
+
+            /* set the tooltip with the real name */
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( list_config_buttons[current_number] ), string );
+
+            g_free ( string );
+            g_free ( changed_string );
+	    }
+
+	    current_number++;
+	}
+
+    return table;
+}
+
+
+/**
+ * called when toggle a button of the form configuration, append or remove
+ * the value from the tree view
+ *
+ * \param toggle_button the button we click
+ *
+ * \return FALSE
+ * */
+void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_button,
+                        GtkWidget *tree_view )
+{
+    gint element;
+
+    /* get the element number */
+    element = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( toggle_button ), "element_number" ) );
+
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( toggle_button ) ) )
+    {
+        gint row, column;
+        gboolean place_trouvee = FALSE;
+
+        /* on change la couleur du bouton */
+        gsb_transaction_list_config_button_set_normal_color ( toggle_button, FALSE );
+                        
+        /* button is on, append the element */
+        for ( row = 3 ; row >= 0 ; row-- )
+        {
+            for ( column = 6 ; column >= 0 ; column-- )
+            {
+                gint element;
+
+                element = tab_affichage_ope[row][column];
+                if ( element == 0 )
+                {
+                    place_trouvee = TRUE;
+                    break;
+                }
+            }
+            if ( place_trouvee )
+                break;
+        }
+
+        if ( place_trouvee )
+        {
+            /* on sauvegarde la position du nouvel élément */
+            tab_affichage_ope[row][column] = element;
+
+            /* met à jour la liste des opérations */
+            transaction_list_update_element ( element );
+        }
+    }
+    else
+    {
+        GtkTreeModel *store;
+        GtkTreeIter iter;
+
+        /* on change la couleur du bouton */
+        gsb_transaction_list_config_button_set_normal_color ( toggle_button, TRUE );
+
+        /* on supprime la donnée dans la liste */
+        store = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+        if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( store ), &iter ) )
+        {
+            gint i = 0, j;
+
+            do
+            {
+                for ( j = 0; j < CUSTOM_MODEL_VISIBLE_COLUMNS; j++ )
+                {
+                    gint num = 0;
+
+                    gtk_tree_model_get ( GTK_TREE_MODEL ( store ), &iter, 2*j+1, &num, -1 );
+                    if ( element == num )
+                    {
+                        tab_affichage_ope[i][j] = 0;
+                        /* met à jour la liste des opérations */
+                        transaction_list_update_cell (j, i);
+                    }
+                }
+                i++;
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( store ), &iter ) );
+        }
+    }
+
+    /* fill the list */
+    gsb_transaction_list_config_update_list_config ( tree_view );
+
+    /* on finit de mettre à jour la liste des opérations */
+    recuperation_noms_colonnes_et_tips ( );
+    update_titres_tree_view ( );
+
+    gsb_file_set_modified ( TRUE );
+}
+
+
+/**
+ * set the correct buttons as active/passive
+ *
+ * \param search string
+ *
+ * \return FALSE
+ * */
+gboolean gsb_transaction_list_config_button_set_active_from_string ( GtkWidget *tree_view,
+                        gchar *string,
+                        gboolean active )
+{
+    gint i;
+
+    for ( i = 0 ; i < 18 ; i++ )
+	{
+        gchar *tmp_str;
+
+        tmp_str = gtk_widget_get_tooltip_text ( list_config_buttons[i] );
+
+        if ( string && g_utf8_collate ( string, tmp_str ) == 0 )
+        {
+            g_signal_handlers_block_by_func ( G_OBJECT ( list_config_buttons[i] ),
+                                G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
+                                tree_view );
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( list_config_buttons[i] ), active );
+            gsb_transaction_list_config_button_set_normal_color ( list_config_buttons[i], !active );
+
+            g_signal_handlers_unblock_by_func ( G_OBJECT ( list_config_buttons[i] ),
+                                G_CALLBACK ( gsb_transaction_list_config_toggle_element_button ),
+                                tree_view );
+
+            g_free ( tmp_str );
+
+            return TRUE;
+        }
+    }
+
+    return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void gsb_transaction_list_config_button_set_normal_color ( GtkWidget *toggle_button,
+                        gboolean normal )
+{
+    if ( normal )
+    {
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_grise" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_grise" ) );
+    }
+    else
+    {
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_NORMAL, gsb_color_get_couleur ( "couleur_selection" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_ACTIVE, gsb_color_get_couleur ( "couleur_selection" ) );
+        gtk_widget_modify_bg ( toggle_button, GTK_STATE_PRELIGHT, gsb_color_get_couleur ( "couleur_selection" ) );
+    }
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -42,6 +42,8 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_form.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"
@@ -49,9 +51,9 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -2337,8 +2339,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     g_slist_free (last_list);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -2735,8 +2736,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
         gtk_button_set_image ( GTK_BUTTON ( button ), image );
         gsb_gui_navigation_update_account ( current_account );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -2798,11 +2798,11 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
 
 	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
 	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        gsb_real_get_string_with_currency (
+                        utils_real_get_string_with_currency (
                         gsb_data_account_get_current_balance (account_number),
                         gsb_data_account_get_currency (account_number), TRUE ));
 	else
-	    string = gsb_real_get_string_with_currency (
+	    string = utils_real_get_string_with_currency (
                         gsb_data_account_get_current_balance (account_number),
                         gsb_data_account_get_currency (account_number), TRUE );
     if ( !string )

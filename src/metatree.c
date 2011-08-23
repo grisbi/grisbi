@@ -41,16 +41,20 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "imputation_budgetaire.h"
 #include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
+#include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -350,7 +354,7 @@ void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
 	label = g_strdup_printf ( "%s (%d)", string_tmp, number_transactions);
 	g_free (string_tmp);
 	string_tmp = label;
-	balance = gsb_real_get_string_with_currency ( iface -> div_balance ( division ),
+	balance = utils_real_get_string_with_currency ( iface -> div_balance ( division ),
 						      iface -> tree_currency (), TRUE );
 
 	/* add a white child to show the arrow to open it */
@@ -433,7 +437,7 @@ void fill_sub_division_row ( GtkTreeModel *model,
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 
-	balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( division, sub_division ),
+	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, sub_division ),
 						      iface -> tree_currency (), TRUE );
     }
     
@@ -533,7 +537,7 @@ void fill_transaction_row ( GtkTreeModel *model,
 	g_free ( tmpstr );
     }
 
-    amount = gsb_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
+    amount = utils_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
 						 gsb_data_transaction_get_currency_number (transaction_number), TRUE );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
     gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
@@ -572,8 +576,7 @@ void metatree_new_division ( GtkTreeModel *model )
 
     metatree_fill_new_division ( iface, model, div_id );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -644,8 +647,7 @@ void metatree_new_sub_division ( GtkTreeModel *model, gint div_id )
 
     metatree_fill_new_sub_division ( iface, model, div_id, sub_div_id );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -723,8 +725,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 
 	metatree_new_sub_division ( model, div_id );
 			     
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 
 	gtk_tree_path_free ( path );
     }
@@ -845,8 +846,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
         /* update value in the tree view */
         metatree_update_tree_view ( iface );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     /* supprime dans la liste des division  */
@@ -973,8 +973,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 	if ( it )
 	    fill_division_row ( model, iface, it, division );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1024,8 +1023,7 @@ void metatree_remove_transaction ( GtkTreeView * tree_view,
 	fill_division_row ( model, iface, it, division );
     
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1107,9 +1105,35 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
     }
+
+    /* on colorise les lignes du tree_view */
+    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+
     return FALSE;
 }
 
+
+/**
+ * callback when collapse a row
+ *
+ * \param treeview
+ * \param iter
+ * \param tree_path
+ * \param user_data not used
+ *
+ * \return FALSE
+ *
+ */
+gboolean division_column_collapsed  ( GtkTreeView *treeview,
+                        GtkTreeIter *iter,
+                        GtkTreePath *tree_path,
+                        gpointer user_data )
+{
+    /* on colorise les lignes du tree_view */
+    utils_set_tree_view_background_color ( GTK_WIDGET ( treeview ), META_TREE_BACKGROUND_COLOR );
+
+    return FALSE;
+}
 
 
 /**
@@ -1265,13 +1289,14 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 
     if ( dest_path && selection_data )
     {
-	GtkTreeModel * model;
-	GtkTreePath * orig_path;
-	gchar * name;
-	gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
-	enum meta_tree_row_type orig_type;
-	MetatreeInterface * iface;
-	gint transaction_number;
+        GtkWidget *tree_view = NULL;
+        GtkTreeModel *model;
+        GtkTreePath *orig_path;
+        gchar *name;
+        gint no_dest_division, no_dest_sub_division, no_orig_division, no_orig_sub_division;
+        enum meta_tree_row_type orig_type;
+        MetatreeInterface * iface;
+        gint transaction_number;
 
 	/* get the orig_path */
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
@@ -1326,6 +1351,21 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 	    default:
 		break;
 	}
+        /* on colorise les lignes du tree_view */
+        switch ( iface -> content )
+        {
+            case 0:
+                tree_view = payees_get_tree_view ( );
+            break;
+            case 1:
+                tree_view = categories_get_tree_view ( );
+            break;
+            case 2:
+                tree_view = budgetary_lines_get_tree_view ( );
+            break;
+        }
+        utils_set_tree_view_background_color ( tree_view, META_TREE_BACKGROUND_COLOR );
+
     }
 
     return FALSE;
@@ -1452,8 +1492,7 @@ void move_transaction_to_sub_division ( gint transaction_number,
     }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 /**
@@ -1552,8 +1591,7 @@ void move_sub_division_to_division ( GtkTreeModel *model,
     fill_sub_division_row ( model, iface, &iter, 
 			    no_dest_division, no_dest_sub_division );
     gtk_tree_iter_free (iter_parent);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 /**
@@ -1645,14 +1683,17 @@ gboolean division_node_maybe_expand ( GtkTreeModel *model,
  */
 void expand_arbre_division ( GtkWidget *bouton, gint depth )
 {
-    GtkTreeView * tree_view = g_object_get_data ( G_OBJECT(bouton), "tree-view" );
-    GtkTreeModel * model;
+    GtkTreeView *tree_view = g_object_get_data ( G_OBJECT(bouton), "tree-view" );
+    GtkTreeModel *model;
     
     if ( tree_view )
     {
-	gtk_tree_view_collapse_all ( tree_view );
-	model = gtk_tree_view_get_model ( tree_view );
-	gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
+        gtk_tree_view_collapse_all ( tree_view );
+        model = gtk_tree_view_get_model ( tree_view );
+        gtk_tree_model_foreach ( model, division_node_maybe_expand, GINT_TO_POINTER ( depth ) );
+
+        /* on colorise les lignes du tree_view */
+        utils_set_tree_view_background_color ( GTK_WIDGET ( tree_view ), META_TREE_BACKGROUND_COLOR );
     }
 }
 
@@ -2239,97 +2280,120 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
     GtkTreePath *path;
     gboolean selection_is_set = FALSE;
     gint div_id = 0, sub_div_id = 0, current_number = 0;
+    gint indice;
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
-    tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    if ( !iface || !tree_view || ! model)
-	return FALSE;
+    iface = g_object_get_data ( G_OBJECT ( model ), "metatree-interface" );
+    tree_view = g_object_get_data ( G_OBJECT ( model ), "tree-view" );
+    if ( !iface || !tree_view )
+        return FALSE;
 
     if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
     {
-	gchar *text, *balance = "";
+        gchar *text = "";
+        gchar *balance = "";
 
-	if ( !model)
-	    return FALSE;
+        if ( !model)
+            return FALSE;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
-			     META_TREE_NO_DIV_COLUMN, &div_id,
-			     META_TREE_NO_SUB_DIV_COLUMN, &sub_div_id,
-			     META_TREE_POINTER_COLUMN, &current_number,
-			     -1);
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
+                        META_TREE_NO_DIV_COLUMN, &div_id,
+                        META_TREE_NO_SUB_DIV_COLUMN, &sub_div_id,
+                        META_TREE_POINTER_COLUMN, &current_number,
+                        -1);
 
-    /* save the new_position */
-    path = gtk_tree_model_get_path ( model, &iter );
-    gtk_tree_path_to_string ( path);
-    iface -> hold_position_set_path ( path );
+        /* save the new_position */
+        path = gtk_tree_model_get_path ( model, &iter );
+        iface -> hold_position_set_path ( path );
 
-	/* if we are on a transaction, get the div_id of the transaction */
-	if (!div_id
-	    &&
-	    current_number )
-	{
-	    div_id = iface -> transaction_div_id (current_number);
-	    sub_div_id = iface -> transaction_sub_div_id (current_number);
-        metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
-        /* save the new expand */
-        iface -> hold_position_set_expand ( TRUE );
-	}
-    else
-    {
-        metatree_set_linked_widgets_sensitive ( model, TRUE, "selection" );
-        iface -> hold_position_set_expand ( FALSE );
+        /* get the indice of the path */
+        indice = gtk_tree_path_get_depth ( path );
+        if ( ( indice == 2 && iface -> content == 0 ) || ( div_id == 0 && current_number > 0 ) )
+            indice = 4; /* the selected line is a transaction */
+
+        switch ( indice )
+        {
+            case 1:
+                metatree_set_linked_widgets_sensitive ( model, TRUE, "selection" );
+                iface -> hold_position_set_expand ( FALSE );
+
+                text = g_strconcat ( _(iface -> meta_name), " : ", iface -> div_name ( div_id ), NULL );
+                balance = utils_real_get_string_with_currency ( iface -> div_balance ( div_id ),
+                                    iface -> tree_currency (), TRUE );
+                break;
+            case 2:
+                metatree_set_linked_widgets_sensitive ( model, TRUE, "selection" );
+                iface -> hold_position_set_expand ( FALSE );
+
+                text = g_strconcat ( _(iface -> meta_name),  " : ",
+                        ( div_id ? iface -> div_name ( div_id ) : _(iface->no_div_label) ),
+                        " : ",
+                        ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
+                         _( iface->no_sub_div_label ) ),
+                        NULL );
+ 
+                balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
+                                    iface -> tree_currency (), TRUE );
+                break;
+            case 3:
+                /* if we are on a transaction, get the div_id of the transaction */
+                div_id = iface -> transaction_div_id ( current_number );
+                sub_div_id = iface -> transaction_sub_div_id ( current_number );
+                metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
+                /* save the new expand */
+                iface -> hold_position_set_expand ( TRUE );
+
+                text = g_strconcat ( _(iface -> meta_name),  " : ",
+                        ( div_id ? iface -> div_name ( div_id ) : _(iface->no_div_label) ),
+                        " : ",
+                        ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
+                         _( iface->no_sub_div_label ) ),
+                        NULL );
+ 
+                balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
+                                    iface -> tree_currency (), TRUE );
+                break;
+            case 4:
+                /* if we are on a transaction, get the div_id of the transaction */
+                div_id = iface -> transaction_div_id ( current_number );
+                metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
+                /* save the new expand */
+                iface -> hold_position_set_expand ( TRUE );
+
+                text = g_strconcat ( _(iface -> meta_name), " : ", iface -> div_name ( div_id ), NULL );
+                balance = utils_real_get_string_with_currency ( iface -> div_balance ( div_id ),
+                                    iface -> tree_currency (), TRUE );
+                break;
+        }
+
+        gsb_gui_headings_update_title ( text );
+        gsb_gui_headings_update_suffix ( balance );
+        g_free ( text );
+        g_free ( balance );
+        selection_is_set = TRUE;
     }
-	text = g_strconcat ( _(iface -> meta_name),  " : ", 
-			     (div_id ? iface -> div_name ( div_id ) : _(iface->no_div_label) ),
-			     NULL );
-
-	if ( div_id ) 
-	{
-	    balance = gsb_real_get_string_with_currency ( iface -> div_balance ( div_id ),
-							  iface -> tree_currency (), TRUE );
-	}
-
-	if ( sub_div_id >= 0 )
-	{
-	    gchar* tmpstr = text;
-	    text = g_strconcat ( tmpstr, " : ", 
-				 ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
-				   _(iface->no_sub_div_label) ), NULL );
-            g_free ( tmpstr );
-	    balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
-							  iface -> tree_currency (), TRUE );
-	}
-
-	gsb_gui_headings_update_title ( text );
-    gsb_gui_headings_update_suffix ( balance );
-	g_free ( text );
-	selection_is_set = TRUE;
-    }
-
-    if ( ! model )
-	return FALSE;
 
     /* Update sensitiveness of linked widgets. */
     /* metatree_set_linked_widgets_sensitive ( model, selection_is_set, "selection" ); */
-    if ( ! div_id || ( sub_div_id <= 0 && current_number <= 0 ) )
+    if ( !div_id || ( sub_div_id <= 0 && current_number <= 0 ) )
     {
-	metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
+        metatree_set_linked_widgets_sensitive ( model, FALSE, "selection" );
     }
 
-    if ( selection_is_set && 
-	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == META_TREE_DIV &&
+    if ( selection_is_set
+     &&
+	 metatree_get_row_type ( model, gtk_tree_model_get_path ( model, &iter ) ) == META_TREE_DIV
+     &&
 	 div_id )
     {
-	metatree_set_linked_widgets_sensitive ( model, TRUE, "sub-division" );
+        metatree_set_linked_widgets_sensitive ( model, TRUE, "sub-division" );
     }
     else
     {
-	metatree_set_linked_widgets_sensitive ( model, FALSE, "sub-division" );
+        metatree_set_linked_widgets_sensitive ( model, FALSE, "sub-division" );
     }
 
     return TRUE;
 }
-
 
 
 /**
@@ -2491,7 +2555,7 @@ void fill_division_zero ( GtkTreeModel * model,
 	g_free (string_tmp);
 	string_tmp = label;
 
-	balance = gsb_real_get_string_with_currency ( iface -> div_balance ( 0 ),
+	balance = utils_real_get_string_with_currency ( iface -> div_balance ( 0 ),
 						      iface -> tree_currency (), TRUE );
 
 	/* add a white child to show the arrow to open it */
@@ -2569,7 +2633,7 @@ void fill_sub_division_zero ( GtkTreeModel * model,
 	if ( ! gtk_tree_model_iter_has_child ( model, iter ) )
 	    gtk_tree_store_append (GTK_TREE_STORE (model), &dumb_iter, iter );
 
-	balance = gsb_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
+	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
 						      iface -> tree_currency (), TRUE );
     }
     
@@ -2669,8 +2733,7 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
     }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -3022,8 +3085,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
         }
 
     /* We did some modifications */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 

@@ -40,6 +40,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_report.h"
+#include "gsb_file.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "navigation.h"
@@ -587,8 +588,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 	g_free (markup_parser);
 	g_free (file_content);
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     else
     {
@@ -835,8 +835,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
         g_free ( markup_parser );
         g_free ( file_content );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     else
     {

@@ -31,15 +31,7 @@
  * */
 struct gsb_etat_t
 {
-    time_t modification_fichier;
     gint is_archive;                /** TRUE if the file is an archive, FALSE else */
-
-    /* Rapprochement */
-    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
-    gint equilibrage;
-    gint reconcile_account_number;  /* Save the last reconciliation try: account */
-    gchar *reconcile_final_balance; /* final balance amount */
-    GDate *reconcile_new_date;      /* new date */
 
     gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
 
@@ -47,14 +39,15 @@ struct gsb_etat_t
     gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
+    /* reconciliation */
+    gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
+
     /* formulaire */
     gint formulaire_toujours_affiche;
     gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint affiche_nb_ecritures_listes;
     gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
-    gint en_train_de_sauvegarder;
-    gint en_train_de_charger;
 
     /* Fonts & logo */
     gint utilise_logo;
@@ -119,6 +112,10 @@ struct gsb_etat_t
     gint bet_index_duree;
     gdouble bet_frais;
     gint bet_type_taux;
+
+    /* largeur des colonnes */
+    gchar *transaction_column_width;
+    gchar *scheduler_column_width;
 };
 
 /* declared in parametres.c */
@@ -158,6 +155,8 @@ struct gsb_conf_t
     gint compress_file;                             /* TRUE if we want to compress the grisbi file */
     gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
     gint force_enregistrement;                      /* à un si on force l'enregistrement */
+    gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
+    gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
 
     /* backup part */
     gint make_backup;                               /* TRUE for create a backup when save file */
@@ -170,6 +169,7 @@ struct gsb_conf_t
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
     gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
     gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
+    gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */
@@ -211,10 +211,16 @@ struct gsb_run_t
     /* initialisation variables */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
-    /* largeur des colonnes */
-    gchar *transaction_column_width;
-    gchar *scheduler_column_width;
+    /* file stuff */
+    time_t file_modification;
+    gboolean is_saving;
+    gboolean is_loading;
 
+    /* reconciliation */
+    gint equilibrage;
+    gint reconcile_account_number;  /* Save the last reconciliation try: account */
+    gchar *reconcile_final_balance; /*                                   final balance amount */
+    GDate *reconcile_new_date;      /*                                   new date */
 };
 
 /* declared in main.c */

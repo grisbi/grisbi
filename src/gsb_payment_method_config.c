@@ -40,15 +40,16 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
 #include "gsb_payment_method.h"
 #include "gsb_reconcile_sort_config.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "transaction_list.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
+#include "structures.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -673,8 +674,7 @@ gboolean gsb_payment_method_config_toggled ( GtkCellRendererToggle *cell,
 
     /* clean up */
     gtk_tree_path_free (path);
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1152,8 +1152,7 @@ gboolean gsb_payment_method_config_add ( GtkWidget *button,
     gsb_reconcile_sort_config_fill ();
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -1247,8 +1246,7 @@ gboolean gsb_payment_method_config_remove ( GtkWidget *button,
     gtk_tree_store_remove ( GTK_TREE_STORE(model), &iter );
     gsb_data_payment_remove (payment_number);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 

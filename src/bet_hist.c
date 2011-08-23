@@ -34,10 +34,12 @@
 #include "bet_data.h"
 #include "bet_tab.h"
 #include "fenetre_principale.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_fyear.h"
 #include "gsb_real.h"
 #include "mouse.h"
@@ -46,6 +48,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -103,8 +106,6 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_selection;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -316,7 +317,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                                 gsb_data_account_get_currency_floating_point ( account_number ) );
                     if ( str_average )
                         g_free ( str_average );
-                    str_average = gsb_real_get_string_with_currency ( amount,
+                    str_average = utils_real_get_string_with_currency ( amount,
                                 gsb_data_account_get_currency ( account_number ), TRUE );
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                                 &parent,
@@ -345,8 +346,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
         bet_data_update_bet_module ( account_number, GSB_HISTORICAL_PAGE );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -416,9 +416,9 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             bet_historical_row_collapse_all ( GTK_TREE_VIEW ( tree_view ), &iter, model );
         }
 
-        number = gsb_real_get_from_string ( new_text );
+        number = utils_real_get_from_string ( new_text );
         currency_number = gsb_data_account_get_currency ( account_number );
-        tmp_str = gsb_real_get_string_with_currency ( number, currency_number, TRUE );
+        tmp_str = utils_real_get_string_with_currency ( number, currency_number, TRUE );
         str_amount = gsb_real_safe_real_to_string ( number,
                                 gsb_data_currency_get_floating_point ( currency_number ) );
 
@@ -447,7 +447,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
             bet_data_set_div_amount ( account_number, div_number, 0, number );
             str_amount = gsb_real_safe_real_to_string ( number,
                                 gsb_data_currency_get_floating_point ( currency_number ) );
-            tmp_str = gsb_real_get_string_with_currency ( number, currency_number, TRUE );
+            tmp_str = utils_real_get_string_with_currency ( number, currency_number, TRUE );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &parent,
                         SPP_HISTORICAL_SELECT_COLUMN, TRUE,
@@ -461,8 +461,7 @@ void bet_historical_div_cell_edited (GtkCellRendererText *cell,
 
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -819,13 +818,13 @@ void bet_historical_populate_div_model ( gpointer key,
 
     model = gtk_tree_view_get_model ( tree_view );
 
-    str_balance = gsb_real_get_string_with_currency ( sbr -> current_balance, currency_number, TRUE );
+    str_balance = utils_real_get_string_with_currency ( sbr -> current_balance, currency_number, TRUE );
     average = gsb_real_div ( sbr -> current_balance, period );
     str_amount = gsb_real_safe_real_to_string ( average,
                         gsb_data_currency_get_floating_point ( currency_number ) );
-    str_average = gsb_real_get_string_with_currency ( average, currency_number, TRUE );
+    str_average = utils_real_get_string_with_currency ( average, currency_number, TRUE );
 
-    str_current_fyear = gsb_real_get_string_with_currency ( sbr -> current_fyear, currency_number, TRUE );
+    str_current_fyear = utils_real_get_string_with_currency ( sbr -> current_fyear, currency_number, TRUE );
 
     gtk_tree_store_append ( GTK_TREE_STORE ( model ), &parent, NULL);
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -853,7 +852,7 @@ void bet_historical_populate_div_model ( gpointer key,
             g_free ( str_amount );
         str_amount = gsb_real_safe_real_to_string ( retained,
                         gsb_data_currency_get_floating_point ( currency_number ) );
-        str_retained = gsb_real_get_string_with_currency ( retained, currency_number, TRUE );
+        str_retained = utils_real_get_string_with_currency ( retained, currency_number, TRUE );
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &parent,
                         SPP_HISTORICAL_SELECT_COLUMN, TRUE,
@@ -896,14 +895,14 @@ void bet_historical_populate_div_model ( gpointer key,
                 g_strfreev ( tab_str );
         }
 
-        str_balance = gsb_real_get_string_with_currency ( sub_sbr -> current_balance, 
+        str_balance = utils_real_get_string_with_currency ( sub_sbr -> current_balance, 
                         currency_number, TRUE );
         average = gsb_real_div ( sub_sbr -> current_balance, period );
         str_amount = gsb_real_safe_real_to_string ( average,
                         gsb_data_currency_get_floating_point ( currency_number ) );
-        str_average = gsb_real_get_string_with_currency ( average,
+        str_average = utils_real_get_string_with_currency ( average,
                         currency_number, TRUE );
-        str_current_fyear = gsb_real_get_string_with_currency ( sub_sbr -> current_fyear,
+        str_current_fyear = utils_real_get_string_with_currency ( sub_sbr -> current_fyear,
                         currency_number, TRUE );
 
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &fils, &parent );
@@ -933,7 +932,7 @@ void bet_historical_populate_div_model ( gpointer key,
                     g_free ( str_amount );
                 str_amount = gsb_real_safe_real_to_string ( retained,
                         gsb_data_currency_get_floating_point ( currency_number ) );
-                str_retained = gsb_real_get_string_with_currency ( retained, currency_number, TRUE );
+                str_retained = utils_real_get_string_with_currency ( retained, currency_number, TRUE );
 
                 edited = FALSE;
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -972,7 +971,7 @@ void bet_historical_populate_div_model ( gpointer key,
         amount = bet_historical_get_children_amount ( model, &parent );
         str_amount = gsb_real_safe_real_to_string ( amount,
                     gsb_data_currency_get_floating_point ( currency_number ) );
-        str_retained = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
+        str_retained = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
 
         gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                     &parent,
@@ -1209,7 +1208,7 @@ gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIter *par
             bet_data_hist_add_div ( account_nb, div_number, sub_div_nb );
             bet_data_set_div_amount ( account_nb, div_number, sub_div_nb,
                         gsb_real_safe_real_from_string ( str_amount ) );
-            str_retained = gsb_real_get_string_with_currency ( retained,
+            str_retained = utils_real_get_string_with_currency ( retained,
                         gsb_data_account_get_currency ( account_nb ), TRUE );
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &fils_iter,
                         SPP_HISTORICAL_SELECT_COLUMN, TRUE,
@@ -1514,7 +1513,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
     str_amount = gsb_real_safe_real_to_string ( amount, 
                     gsb_data_currency_get_floating_point ( currency_number ) );
 
-    tmp_str = gsb_real_get_string_with_currency ( amount, currency_number, TRUE );
+    tmp_str = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
     /* printf ("div = %d sub_div_nb = %d tmp_str = %s\n", div_number, sub_div_nb, tmp_str); */
     if ( bet_data_search_div_hist ( account_number, div_number, sub_div_nb ) == FALSE )
         bet_data_hist_add_div ( account_number, div_number, sub_div_nb );
@@ -1538,8 +1537,7 @@ void bet_historical_add_last_amount ( GtkWidget *menu_item,
 
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1653,7 +1651,8 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
-                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_HISTORICAL_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
             current_color = !current_color;
 
@@ -1666,7 +1665,8 @@ gboolean bet_historical_set_background_color ( GtkWidget *tree_view )
                 {
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &fils_iter,
-                        SPP_HISTORICAL_BACKGROUND_COLOR, &couleur_fond[current_color],
+                        SPP_HISTORICAL_BACKGROUND_COLOR,
+                        gsb_color_get_couleur_with_indice ( "couleur_fond", current_color ),
                         -1 );
                     current_color = !current_color;
                 }

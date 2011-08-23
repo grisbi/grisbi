@@ -42,6 +42,7 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_archive_store.h"
@@ -56,6 +57,7 @@
 #include "transaction_list_sort.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -68,17 +70,12 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor archive_background_color;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_jour;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gsb_real null_real;
 extern GSList *orphan_child_transactions;
-extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GdkColor text_color[2];
 /*END_EXTERN*/
 
 
@@ -157,12 +154,12 @@ void transaction_list_append_transaction ( gint transaction_number )
 	white_record = g_malloc0 (sizeof (CustomRecord));
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = &split_background;
+	white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
-	amount_string = gsb_real_get_string_with_currency (null_real,
+	amount_string = utils_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
@@ -244,7 +241,7 @@ void transaction_list_append_transaction ( gint transaction_number )
             newrecord[i] -> has_expander = TRUE;
             white_record -> mother_row = newrecord[i];
             /* set the color of the mother */
-            mother_text_color = &text_color[1];
+            mother_text_color = gsb_color_get_couleur_with_indice ( "text_color", 1 );
             newrecord[i] -> text_color = mother_text_color;
 	    }
 
@@ -343,7 +340,7 @@ void transaction_list_append_archive ( gint archive_store_number )
     else
         amount_col = find_element_col (ELEMENT_CREDIT);
 
-    newrecord -> visible_col[amount_col] = gsb_real_get_string_with_currency (
+    newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
                         gsb_data_archive_store_get_balance (archive_store_number),
                         gsb_data_account_get_currency (
                         gsb_data_archive_store_get_account_number ( archive_store_number ) ),
@@ -351,7 +348,7 @@ void transaction_list_append_archive ( gint archive_store_number )
     newrecord -> transaction_pointer = gsb_data_archive_store_get_structure (
                         archive_store_number);
     newrecord -> what_is_line = IS_ARCHIVE;
-    newrecord -> row_bg = &archive_background_color;
+    newrecord -> row_bg = gsb_color_get_couleur ( "archive_background_color" );
 
     /* save the newrecord pointer */
     custom_list->rows[pos] = newrecord;
@@ -856,7 +853,8 @@ void transaction_list_colorize (void)
             {
                 /* set the color of the mother */
                 for (j=0 ; j<TRANSACTION_LIST_ROWS_NB ; j++)
-                    record -> transaction_records[j] -> text_color = &text_color[0];
+                    record -> transaction_records[j] -> text_color =
+                                                            gsb_color_get_couleur_with_indice ( "text_color", 0 );
             }
 
         }
@@ -868,7 +866,7 @@ void transaction_list_colorize (void)
 	    }
 
 	    /* set the color of the row */
-	    record -> row_bg = &couleur_fond[current_color];
+	    record -> row_bg = gsb_color_get_couleur_with_indice ( "couleur_fond", current_color );
 	}
     }
 }
@@ -961,7 +959,7 @@ void transaction_list_set_balances ( void )
 
         /* calculate the new balance */
         current_total = gsb_real_add ( current_total, amount );
-        record -> visible_col[column_balance] = gsb_real_get_string_with_currency ( current_total,
+        record -> visible_col[column_balance] = utils_real_get_string_with_currency ( current_total,
                                                  currency_number , TRUE);
         if (current_total.mantissa >= 0)
             record -> amount_color = NULL;
@@ -1050,12 +1048,12 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
                         white_line_number);
 	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = &split_background;
+	white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
 
 	/* as we append just now the white line, there are no child split, so the total is 0 */
-	amount_string = gsb_real_get_string_with_currency (null_real,
+	amount_string = utils_real_get_string_with_currency (null_real,
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	variance_string = gsb_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
@@ -1822,7 +1820,7 @@ static void transaction_list_append_child ( gint transaction_number )
     white_record -> filtered_pos = pos;
 
     /* set the color */
-    newrecord -> row_bg = &split_background;
+    newrecord -> row_bg = gsb_color_get_couleur ( "split_background" );
 
     /* we can now save the new number of children and the new children rows into their mothers */
     for (i=0 ; i < TRANSACTION_LIST_ROWS_NB ; i++)
@@ -1914,7 +1912,7 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
     newrecord -> line_in_transaction = line_in_transaction;
     newrecord -> checkbox_visible_reconcile = line_in_transaction == 0 ? 1 : 0;
     newrecord -> checkbox_active = gsb_data_transaction_get_marked_transaction (transaction_number) != 0;
-    newrecord -> text_color = &text_color[0];
+    newrecord -> text_color = gsb_color_get_couleur_with_indice ( "text_color", 0 );
 
     return newrecord;
 }
@@ -1959,9 +1957,9 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     variance = gsb_real_sub ( gsb_data_transaction_get_amount (transaction_number),
 			      total_split);
     /* update the white line */
-    amount_string = gsb_real_get_string_with_currency (total_split,
+    amount_string = utils_real_get_string_with_currency (total_split,
 						       gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-    variance_string = gsb_real_get_string_with_currency (variance,
+    variance_string = utils_real_get_string_with_currency (variance,
 							 gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 
     /* show the variance and sub-total only if different of the transaction */
@@ -1970,12 +1968,12 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
 							   amount_string,
 							   variance_string );
-	mother_text_color = &text_color[1];
+	mother_text_color = gsb_color_get_couleur_with_indice ( "text_color", 1 );
     }
     else
     {
 	white_record -> visible_col[2] = NULL;
-	mother_text_color = &text_color[0];
+	mother_text_color = gsb_color_get_couleur_with_indice ( "text_color", 0 );
     }
 
     /* set the color of the mother */
@@ -2110,7 +2108,7 @@ void transaction_list_set_color_jour ( gint account_number )
                     /* colorize the record */
                     for (j=0 ; j < custom_list -> nb_rows_by_transaction ; j++)
                     {
-                        record -> row_bg = &couleur_jour;
+                        record -> row_bg = gsb_color_get_couleur ( "couleur_jour" );
                         i--;
                         if ( i >= 0 )
                             record = custom_list -> visibles_rows[i];

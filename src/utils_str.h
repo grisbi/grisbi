@@ -1,22 +1,17 @@
 #ifndef _UTILS_STR_H
 #define _UTILS_STR_H (1)
 
+#include <glib.h>
+#include <gmodule.h>
+
+
 #ifdef _WIN32
 #define NEW_LINE "\r\n"
 #else
 #define NEW_LINE "\n"
 #endif
 
-
-/* START_INCLUDE_H */
-#include "gsb_real.h"
-/* END_INCLUDE_H */
-
-
 /* START_DECLARATION */
-gchar *gsb_real_get_string_with_currency ( gsb_real number,
-                        gint currency_number,
-                        gboolean show_symbol );
 gchar *gsb_string_extract_int ( const gchar *chaine );
 GSList *gsb_string_get_categ_budget_struct_list_from_string ( const gchar *string );
 GSList *gsb_string_get_int_list_from_string ( const gchar *string,

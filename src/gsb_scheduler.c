@@ -34,20 +34,21 @@
 
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
-#include "utils_dates.h"
+#include "accueil.h"
 #include "gsb_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_transaction.h"
-#include "accueil.h"
+#include "gsb_file.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "main.h"
-#include "traitement_variables.h"
-#include "erreur.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils_dates.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -545,8 +546,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     if ( automatic_transactions_taken )
     {
 	mise_a_jour_liste_echeances_auto_accueil = 1;
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     if ( scheduled_transactions_to_take )

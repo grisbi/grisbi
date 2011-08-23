@@ -35,6 +35,7 @@
 #include "export_csv.h"
 #include "fenetre_principale.h"
 #include "gsb_automem.h"
+#include "gsb_color.h"
 #include "gsb_combo_box.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -50,6 +51,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_file_selection.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -86,7 +88,6 @@ static void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
 static void bet_finance_fill_data_ligne ( GtkTreeModel *model,
                         struct_echeance *s_echeance,
                         const gchar *unit );
-static gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gint color_column );
 static void bet_finance_spin_button_fees_changed ( GtkSpinButton *spinbutton, GtkWidget *page );
 static void bet_finance_spin_button_taux_changed ( GtkSpinButton *spinbutton, GtkWidget *page );
 static void bet_finance_switch_amortization_initial_date ( GtkWidget *button, GtkWidget *tree_view );
@@ -100,9 +101,6 @@ static void bet_finance_update_simulator_toolbar ( void );
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_selection;
 /*END_EXTERN*/
 
 /* notebook pour la simulation de crédits */
@@ -236,7 +234,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
-    str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+    str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                         etat.bet_capital ),
                         etat.bet_currency,
                         FALSE );
@@ -772,7 +770,7 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
         }
     }
 
-    bet_finance_list_set_background_color ( tree_view, BET_FINANCE_BACKGROUND_COLOR );
+    utils_set_tree_view_background_color ( tree_view, BET_FINANCE_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
@@ -780,8 +778,7 @@ void bet_finance_calculer_clicked ( GtkButton *button, GtkWidget *widget )
     gtk_tree_path_free ( path );
     g_free ( s_echeance );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -813,7 +810,7 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
         {
             number = utils_str_strtod ( entry, NULL );
 
-            tmp_str = gsb_real_get_string_with_currency (
+            tmp_str = utils_real_get_string_with_currency (
                                 gsb_real_double_to_real ( number ),
                                 etat.bet_currency,
                                 FALSE );
@@ -849,26 +846,26 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
 
     str_duree = g_strconcat ( utils_str_itoa ( s_echeance -> duree ), " ", unit, " ", NULL );
 
-    str_capital = gsb_real_get_string_with_currency (
+    str_capital = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> capital ),
                         s_echeance -> devise, TRUE );
 
     nbre_char = g_sprintf ( buffer, "%.2f", s_echeance -> taux );
     str_taux =  g_strndup ( buffer, nbre_char + 1 );
 
-    str_frais = gsb_real_get_string_with_currency (
+    str_frais = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> frais ),
                         s_echeance -> devise, TRUE );
 
-    str_echeance = gsb_real_get_string_with_currency (
+    str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> echeance ),
                         s_echeance -> devise, TRUE );
 
-    str_totale = gsb_real_get_string_with_currency (
+    str_totale = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> total_echeance ),
                         s_echeance -> devise, TRUE );
 
-    str_total_cost = gsb_real_get_string_with_currency (
+    str_total_cost = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> total_cost ),
                         s_echeance -> devise, TRUE );
 
@@ -898,43 +895,6 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
     g_free ( str_frais );
     g_free ( str_echeance );
     g_free ( str_totale );
-}
-
-
-/**
- * set the background colors of the list
- *
- * \param tree_view
- *
- * \return FALSE
- * */
-gboolean bet_finance_list_set_background_color ( GtkWidget *tree_view, gint color_column )
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-
-    if ( !tree_view )
-        return FALSE;
-
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ));
-
-    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
-    {
-        gint current_color = 0;
-
-        do
-        {
-            gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        color_column, &couleur_fond[current_color],
-                        -1 );
-
-            current_color = !current_color;
-        }
-        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
-    }
-
-    return FALSE;
 }
 
 
@@ -1450,7 +1410,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
                         s_amortissement -> interets,
                         s_amortissement -> frais );
             g_free ( s_amortissement -> str_echeance );
-            s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+            s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement ->  devise, TRUE );
             s_amortissement -> principal = s_amortissement -> capital_du;
@@ -1465,7 +1425,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
         s_amortissement -> capital_du -= s_amortissement -> principal;
     }
 
-    bet_finance_list_set_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
+    utils_set_tree_view_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
@@ -1489,15 +1449,15 @@ void bet_finance_fill_amortization_ligne ( GtkTreeModel *model,
     gchar *str_interets = NULL;
     gchar *str_principal = NULL;
 
-    str_capital_du = gsb_real_get_string_with_currency (
+    str_capital_du = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> capital_du ),
                         s_amortissement -> devise, TRUE );
 
-    str_interets = gsb_real_get_string_with_currency (
+    str_interets = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> interets ),
                         s_amortissement ->  devise, TRUE );
 
-    str_principal = gsb_real_get_string_with_currency (
+    str_principal = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> principal ),
                         s_amortissement ->  devise, TRUE );
 
@@ -1684,7 +1644,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     /* set capital */
     s_amortissement -> capital_du = gsb_data_account_get_bet_finance_capital ( account_number );
     label = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_capital" );
-    tmp_str = gsb_real_get_string_with_currency (
+    tmp_str = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> capital_du ),
                         s_amortissement -> devise, TRUE );
     gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
@@ -1713,7 +1673,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
 
     /* set frais */
     s_amortissement -> frais = gsb_data_account_get_bet_finance_frais ( account_number );
-    s_amortissement -> str_frais = gsb_real_get_string_with_currency (
+    s_amortissement -> str_frais = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> frais ),
                         s_amortissement -> devise, TRUE );
 
@@ -1725,7 +1685,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     s_amortissement -> echeance = bet_data_finance_get_echeance ( s_amortissement -> capital_du,
                         taux_periodique, nbre_echeances );
     s_amortissement -> echeance += s_amortissement -> frais;
-    s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+    s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement -> devise, TRUE );
 
@@ -1741,7 +1701,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
                         s_amortissement -> interets,
                         s_amortissement -> frais );
             g_free ( s_amortissement -> str_echeance );
-            s_amortissement -> str_echeance = gsb_real_get_string_with_currency (
+            s_amortissement -> str_echeance = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_amortissement -> echeance ),
                         s_amortissement ->  devise, TRUE );
             s_amortissement -> principal = s_amortissement -> capital_du;
@@ -1763,7 +1723,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     g_date_free ( date );
     g_date_free ( last_paid_date );
 
-    bet_finance_list_set_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
+    utils_set_tree_view_background_color ( tree_view, BET_AMORTIZATION_BACKGROUND_COLOR );
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
@@ -2100,7 +2060,7 @@ gboolean bet_finance_capital_entry_changed ( GtkWidget *entry, GtkWidget *page  
     {
 	    /* the entry is not valid, make it red */
 		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
-                        &calendar_entry_color );
+                        gsb_color_get_couleur ( "entry_error_color" ) );
     }
 
     return FALSE;
@@ -2137,7 +2097,7 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
             break;
 
         case GDK_Escape :
-            str_capital = gsb_real_get_string_with_currency ( gsb_real_double_to_real (
+            str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                                     etat.bet_capital ),
                                     etat.bet_currency,
                                     FALSE );

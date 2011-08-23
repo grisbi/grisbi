@@ -43,6 +43,7 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_locale.h"
 #include "main.h"
 #include "traitement_variables.h"
@@ -155,7 +156,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Asia"), N_("Philippine peso"), N_("Philippines"), "PHP", "₱", TRUE, "PHP.png", 2, 1 },
     { N_("Asia"), N_("Qatari Rial"), N_("Qatar"), "QAR", "﷼", TRUE, "QAR.png", 3, 1 },
     { N_("Asia"), N_("Rial Omani"), N_("Oman"), "OMR", "﷼", TRUE, "OMR.png", 3, 1 },
-    { N_("Asia"), N_("Russian Ruble"), N_("Russia"), "RUB", "руб", TRUE, "RUR.png", 2, 1 },
+    { N_("Asia"), N_("Russian Ruble"), N_("Russia"), "RUR", "руб", TRUE, "RUR.png", 2, 1 },
     { N_("Asia"), N_("Saudi Riyal"), N_("Saudi Arabia"), "SAR", "﷼", TRUE, "SAR.png", 2, 1 },
     { N_("Asia"), N_("Singapore Dollar"), N_("Singapore"), "SGD", "$", TRUE, "SGD.png", 2, 1 },
     { N_("Asia"), N_("South Korean Won"), N_("Republic of Korea"), "KRW", "₩", TRUE, "KRW.png", 2, 1 },
@@ -747,8 +748,7 @@ gboolean gsb_currency_config_entry_changed ( GtkWidget *entry,
 			 CURRENCY_FLOATING_COLUMN,  gsb_data_currency_get_floating_point (currency_number),
 			 -1);
     gsb_currency_update_combobox_currency_list ();
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -913,8 +913,7 @@ gboolean gsb_currency_config_set_int_from_combobox ( GtkWidget *combobox, gint *
     }
 
     /* Mark file as modified */
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return (FALSE);
 }
@@ -1071,8 +1070,7 @@ dialog_return:
                 gsb_currency_append_currency_to_list ( GTK_LIST_STORE ( currency_tree_model ),
                                    currency_number );
                 gtk_widget_destroy ( GTK_WIDGET ( dialog ));
-                if ( etat.modification_fichier == 0 )
-                    modification_fichier ( TRUE );
+                gsb_file_set_modified ( TRUE );
                 return TRUE;
             }
         }

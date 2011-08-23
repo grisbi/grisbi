@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -61,7 +62,6 @@ static gboolean gsb_form_widget_can_focus ( gint element_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor calendar_entry_color;
 extern GtkWidget *form_button_cancel;
 extern GtkWidget *form_button_valid;
 /*END_EXTERN*/
@@ -961,7 +961,7 @@ gboolean gsb_form_widget_amount_entry_changed ( GtkWidget *entry,
     {
 	    /* the entry is not valid, make it red */
 		gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
-                        &calendar_entry_color );
+                        gsb_color_get_couleur ( "entry_error_color" ) );
     }
 
     return FALSE;
@@ -1231,7 +1231,7 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
     else
     {
         /* the entry is not valid, make it red */
-        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, &calendar_entry_color );
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, gsb_color_get_couleur ( "entry_error_color" ) );
         return_value = FALSE;
     }
 

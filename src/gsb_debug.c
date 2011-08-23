@@ -37,9 +37,11 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "traitement_variables.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -335,8 +337,7 @@ gboolean gsb_debug_try_fix ( gboolean (* fix) () )
 
     if ( fix () )
     {
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
 	dialogue_hint ( _("Grisbi successfully repaired this account file.  "
 			  "You may now save your modifications."),
 			_("Fix completed"));
@@ -436,10 +437,10 @@ gchar * gsb_debug_reconcile_test ( void )
         {
             affected_accounts ++;
 
-            tmprealstr1 = gsb_real_get_string_with_currency (
+            tmprealstr1 = utils_real_get_string_with_currency (
 	                                gsb_data_reconcile_get_final_balance (reconcile_number),
 	                                gsb_data_account_get_currency ( account_nb ), TRUE  );
-            tmprealstr2 = gsb_real_get_string_with_currency (reconcilied_amount,
+            tmprealstr2 = utils_real_get_string_with_currency (reconcilied_amount,
 					gsb_data_account_get_currency ( account_nb ), TRUE  );
             tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 					"  Last reconciliation amount : %s\n"

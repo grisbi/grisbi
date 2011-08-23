@@ -86,8 +86,9 @@ enum meta_tree_columns {
     META_TREE_FONT_COLUMN,
     META_TREE_XALIGN_COLUMN,
     META_TREE_DATE_COLUMN,
+    META_TREE_BACKGROUND_COLOR,
     META_TREE_NUM_COLUMNS,
-}; 
+};
 
 enum meta_tree_row_type {
     META_TREE_DIV,
@@ -99,7 +100,7 @@ enum meta_tree_row_type {
 
 #define META_TREE_COLUMN_TYPES G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, \
 				 G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, \
-				 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER
+				 G_TYPE_INT, G_TYPE_FLOAT, G_TYPE_POINTER, GDK_TYPE_COLOR
 
 
 /*START_DECLARATION*/
@@ -108,6 +109,10 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
                         GtkTreeViewColumn * col, gpointer userdata );
 gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
                         GtkTreePath * tree_path, gpointer user_data ) ;
+gboolean division_column_collapsed  ( GtkTreeView *treeview,
+                        GtkTreeIter *iter,
+                        GtkTreePath *tree_path,
+                        gpointer user_data );
 gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
                         GtkSelectionData * selection_data );
 gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,

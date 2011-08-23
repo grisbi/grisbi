@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
+#include "affichage.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -43,13 +44,13 @@
 #include "gsb_currency.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "parametres.h"
+#include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "import.h"
+#include "parametres.h"
 #include "traitement_variables.h"
-#include "utils_str.h"
 #include "utils.h"
-#include "affichage.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -322,13 +323,20 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* will we crypt the file ? */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-					   &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-			 FALSE, FALSE, 0 );
+    if ( gsb_plugin_find ( "openssl" ) )
+    {
+        button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
+                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
+                             FALSE, FALSE, 0 );
 
-    if ( etat.crypt_file )
-        run.new_crypted_file = TRUE;
+        if ( etat.crypt_file )
+            run.new_crypted_file = TRUE;
+    }
+    else
+    {
+        run.new_crypted_file = FALSE;
+    }
 
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );

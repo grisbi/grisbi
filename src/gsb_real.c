@@ -41,7 +41,6 @@
 #include <assert.h>
 
 /*START_INCLUDE*/
-#include "gsb_locale.h"
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
@@ -66,27 +65,6 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
 
 /*START_EXTERN*/
 /*END_EXTERN*/
-
-
-/**
- * Return the real in a formatted string, according to the currency 
- * regarding decimal separator, thousands separator and positive or
- * negative sign.
- * this is directly the number coded in the real wich is returned
- * usually, gsb_real_get_string_with_currency is better to adapt the format
- * 	of the number to the currency format
- * 
- * \param number	Number to format.
- *
- * \return		A newly allocated string of the number (this
- *			function will never return NULL) 
-*/
-gchar *gsb_real_get_string ( gsb_real number )
-{
-    struct lconv *locale = gsb_locale_get_locale ();
-
-    return gsb_real_raw_format_string ( number, locale, NULL );
-}
 
 
 /**
@@ -155,34 +133,6 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     return result;
 }
 
-
-/**
- * get a real number from a string
- * the string can be formatted :
- * - handle , or . as separator
- * - spaces are ignored
- * - another character makes a 0 return
- *
- *   there is no ask for any exponent, so the gsb_real will be exactly the
- *   same as the string
- *
- * \param string
- *
- * \return the number in the string transformed to gsb_real
- * */
-gsb_real gsb_real_get_from_string ( const gchar *string )
-{
-    gsb_real result;
-    gchar *thousands_sep = gsb_locale_get_mon_thousands_sep ( );
-    gchar *decimal_point = gsb_locale_get_mon_decimal_point ( );
-
-    result =  gsb_real_raw_get_from_string ( string, thousands_sep, decimal_point );
-
-    g_free ( decimal_point );
-    g_free ( thousands_sep );
-
-    return result;
-}
 
 
 /**

@@ -53,6 +53,7 @@
 #include "gsb_data_reconcile.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gsb_real.h"
@@ -72,6 +73,7 @@
 #include "transaction_model.h"
 #include "utils_dates.h"
 #include "utils_operations.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -93,8 +95,6 @@ static gboolean gsb_transactions_list_change_sort_type ( GtkWidget *menu_item,
 static gboolean gsb_transactions_list_check_mark ( gint transaction_number );
 static gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint transaction_number );
-static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
-                        gpointer null );
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );
 static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
@@ -126,7 +126,6 @@ static gboolean popup_transaction_rules_menu ( GtkWidget * button,
 static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
                         gpointer null );
 static gint schedule_transaction ( gint transaction_number );
-static void update_titres_tree_view ( void );
 /*END_STATIC*/
 
 
@@ -161,8 +160,8 @@ gint current_tree_view_width = 0;
  * when some children didn't find their mother */
 GSList *orphan_child_transactions = NULL;
 
-/* names of the cells */
-static gchar *cell_views[] = {
+/* names of the data for transactions list */
+static gchar *labels_titres_colonnes_liste_ope[] = {
     N_("Date"),
     N_("Value date"),
     N_("Payee"),
@@ -185,7 +184,6 @@ static gchar *cell_views[] = {
 
 
 /*START_EXTERN*/
-extern GSList *liste_labels_titres_colonnes_liste_ope;
 extern struct conditional_message messages[];
 extern gint mise_a_jour_fin_comptes_passifs;
 extern gint mise_a_jour_liste_comptes_accueil;
@@ -540,7 +538,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_r ( current_account ) );
-    if ( etat.equilibrage == 1 )
+    if ( run.equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -554,7 +552,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_l ( current_account ) );
-    if ( etat.equilibrage == 1 )
+    if ( run.equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -1015,7 +1013,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
 		 (cell_content_number == ELEMENT_CREDIT
 		  &&
 		  gsb_data_transaction_get_amount ( transaction_number).mantissa >= 0 ))
-		    return gsb_real_get_string_with_currency (
+		    return utils_real_get_string_with_currency (
                         gsb_real_abs ( gsb_data_transaction_get_amount ( transaction_number ) ),
 					    gsb_data_transaction_get_currency_number ( transaction_number ), TRUE );
 	    else
@@ -1035,7 +1033,7 @@ gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
             gchar* tmpstr;
             gchar* result;
 
-            tmpstr = gsb_real_get_string (
+            tmpstr = utils_real_get_string (
                         gsb_data_transaction_get_adjusted_amount_for_currency (
                         transaction_number,
                         account_currency,
@@ -1513,7 +1511,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	 &&
 	 column == find_element_col (ELEMENT_MARK)
 	 &&
-	 (( etat.equilibrage
+	 (( run.equilibrage
 	    &&
 	    line_in_transaction == find_element_line (ELEMENT_MARK))
 	  ||
@@ -1614,7 +1612,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         transaction_number = gsb_data_account_get_current_transaction_number ( account_number );
         if ( transaction_number > 0 )
         {
-        if ( etat.equilibrage )
+        if ( run.equilibrage )
         {
             /* we are reconciling, so mark/unmark the transaction */
             gsb_transactions_list_switch_mark ( transaction_number );
@@ -1815,7 +1813,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     }
 
     /* if we are reconciling, update the amounts label */
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
     {
     /* pbiava 02/12/2009 : shows the balance after you mark the transaction */
     transaction_list_set_balances (  );
@@ -1825,8 +1823,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     gsb_navigation_update_statement_label ( account_number );
     mise_a_jour_liste_comptes_accueil = 1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1864,7 +1861,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 	return FALSE;
 
     /* if we are reconciling, cancel the action */
-    if (etat.equilibrage)
+    if (run.equilibrage)
     {
         dialogue_error ( _("You cannot switch a transaction between R and non R "
                          "while reconciling.\nPlease finish or cancel the "
@@ -1979,8 +1976,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     /* need to update the marked amount on the home page */
     mise_a_jour_liste_comptes_accueil = 1;
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -2301,7 +2297,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
     /* if we are reconciling, update the amounts */
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
 	gsb_reconcile_update_amounts (NULL, NULL);
 
     /* we will update the home page */
@@ -2313,8 +2309,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     if (show_warning)
 	gsb_form_escape_form ();
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return TRUE;
 }
 
@@ -2603,9 +2598,13 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 
     menu = gtk_menu_new ();
 
-    for ( i = 0 ; cell_views[i] != NULL ; i++ )
+    for ( i = 0 ; i < 18 ; i++ )
     {
-        item = gtk_menu_item_new_with_label ( _(cell_views[i]) );
+        gchar *tmp_str;
+
+        tmp_str = gsb_transaction_list_get_titre_colonne_liste_ope ( i );
+        item = gtk_menu_item_new_with_label ( tmp_str );
+        g_free ( tmp_str );
 
         g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
         g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
@@ -2703,8 +2702,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
                         gsb_data_account_get_sort_type ( current_account ) );
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -2781,13 +2779,16 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
 
     update_transaction_in_trees (new_transaction_number);
 
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_general_notebook ( ) ), 1 );
+    transaction_list_select ( new_transaction_number );
+    gsb_transactions_list_edit_transaction ( new_transaction_number );
+    g_object_set_data ( G_OBJECT ( gsb_form_get_form_widget ( ) ),
+			    "transaction_selected_in_form",
+			    GINT_TO_POINTER ( -1 ) );
 
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -2800,19 +2801,28 @@ gboolean clone_selected_transaction ( GtkWidget *menu_item,
  *
  * \return FALSE
  * */
-static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
+gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
                         gpointer null )
 {
     gint new_transaction_number;
+    gint account_number;
+    GDate *date;
 
     if ( !assert_selected_transaction ( ) )
         return FALSE;
 
+    account_number = gsb_gui_navigation_get_current_account ( );
     new_transaction_number = gsb_transactions_list_clone_transaction (
                                     gsb_data_account_get_current_transaction_number (
-                                    gsb_gui_navigation_get_current_account ( ) ),
+                                    account_number ),
 								    0 );
 
+    date = gdate_today ( );
+    gsb_data_transaction_set_date ( new_transaction_number, date );
+    gsb_data_transaction_set_value_date ( new_transaction_number, NULL );
+    g_date_free ( date );
+
+    gsb_transactions_list_update_transaction ( new_transaction_number );
     update_transaction_in_trees ( new_transaction_number );
 
     transaction_list_select ( new_transaction_number );
@@ -2821,11 +2831,13 @@ static gboolean gsb_transactions_list_clone_template ( GtkWidget *menu_item,
 			    "transaction_selected_in_form",
 			    GINT_TO_POINTER ( -1 ) );
 
-    /* force the update module budget */
-    gsb_data_account_set_bet_maj ( gsb_gui_navigation_get_current_account ( ), BET_MAJ_ALL );
+    gsb_transactions_list_update_tree_view ( account_number, TRUE );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    /* force the update module budget */
+    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
+
+    gsb_file_set_modified ( TRUE );
+
     return FALSE;
 }
 
@@ -2899,7 +2911,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
             list_tmp_transactions = list_tmp_transactions -> next;
         }
     }
-    if ( etat.equilibrage )
+    if ( run.equilibrage )
         transaction_list_show_toggle_mark ( TRUE );
 
     return new_transaction_number;
@@ -2937,8 +2949,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
 
     mise_a_jour_accueil (FALSE);
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
     return FALSE;
 }
@@ -2951,7 +2962,7 @@ gboolean move_selected_operation_to_account ( GtkMenuItem * menu_item,
  *
  * \param menu_item The GtkMenuItem that triggered this handler.
  */
-void move_selected_operation_to_account_nb ( gint *account )
+void move_selected_operation_to_account_nb ( GtkAction *action, gint *account )
 {
     gint target_account, source_account;
 
@@ -2970,8 +2981,7 @@ void move_selected_operation_to_account_nb ( gint *account )
 
     gsb_data_account_colorize_current_balance ( source_account );
 
-	if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 }
 
@@ -3058,7 +3068,7 @@ void schedule_selected_transaction ()
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    if ( etat.equilibrage == 0 )
+    if ( run.equilibrage == 0 )
     {
         gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
         gsb_scheduler_list_select (scheduled_number);
@@ -3067,8 +3077,7 @@ void schedule_selected_transaction ()
     else
         gsb_reconcile_set_last_scheduled_transaction ( scheduled_number );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -3301,8 +3310,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 break;
 
                 default:
-                temp = _(g_slist_nth_data ( liste_labels_titres_colonnes_liste_ope,
-                              tab_affichage_ope[i][column_number] - 1 ));
+                temp = gsb_transaction_list_get_titre_colonne_liste_ope ( tab_affichage_ope[i][column_number] - 1 );
             }
 
             if ( temp && strcmp ( temp, _("Balance") ) )
@@ -3325,6 +3333,7 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                                                  temp );
                 else
                     menu_item = gtk_radio_menu_item_new_with_label ( NULL, temp );
+                g_free ( temp );
 
                 if ( tab_affichage_ope[i][column_number] == active_sort )
                     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
@@ -3340,6 +3349,9 @@ gboolean gsb_transactions_list_title_column_button_press ( GtkWidget *button,
                 gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
                 gtk_widget_show ( menu_item );
             }
+/*             if ( temp )
+ *                 g_free ( temp );
+ */
 	    }
 
         if ( menu )
@@ -3551,8 +3563,7 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
         transaction_list_set_color_jour ( account_number );
     transaction_list_select (selected_transaction);
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 
@@ -4220,8 +4231,7 @@ gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
 		                "xalign", xalign,
 		                NULL );
     
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -4273,7 +4283,7 @@ gboolean change_aspect_liste ( gint demande )
     {
 	case 0:
 	    /* not used */
-	    break;
+            return ( TRUE );
 
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
@@ -4283,8 +4293,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowOneLine" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 2 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4292,8 +4300,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowTwoLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 3 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4301,8 +4307,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowThreeLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 	case 4 :
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4310,8 +4314,6 @@ gboolean change_aspect_liste ( gint demande )
 					    "/menubar/ViewMenu/ShowFourLines" ) ),
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 	    break;
 
 	case 5 :
@@ -4319,8 +4321,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope avec r */
 
 	    mise_a_jour_affichage_r ( 1 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4336,8 +4336,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* ope sans r */
 
 	    mise_a_jour_affichage_r ( 0 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4352,8 +4350,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* show archive lines */
 
 	    gsb_transactions_list_show_archives_lines ( 1 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4369,8 +4365,6 @@ gboolean change_aspect_liste ( gint demande )
 	    /* hide archive lines */
 
 	    gsb_transactions_list_show_archives_lines ( 0 );
-	    if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
 
 	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
@@ -4382,6 +4376,7 @@ gboolean change_aspect_liste ( gint demande )
 	    break;
     }
 
+    gsb_file_set_modified ( TRUE );
     return ( TRUE );
 }
 
@@ -4478,6 +4473,22 @@ void gsb_transaction_list_set_visible_archived_button ( gboolean visible )
     button = g_object_get_data ( G_OBJECT ( transaction_toolbar ), "archived_button");
 
     gtk_widget_set_visible ( button, visible );
+}
+
+
+/**
+ * retourne le titre d'une colonne de la liste des opérations.
+ *
+ *\param numéro de l'élément demandé
+ *
+ *\return une chaine traduite qui doit être libérée.
+ * */
+gchar *gsb_transaction_list_get_titre_colonne_liste_ope ( gint element )
+{
+    if ( element < 0 )
+        return NULL;
+    else
+        return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
 

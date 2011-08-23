@@ -145,8 +145,7 @@ gboolean gsb_account_new ( kind_account account_type,
         gsb_account_property_fill_page ();
     }
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
 
     return TRUE;
 }
@@ -183,7 +182,7 @@ gboolean gsb_account_delete ( void )
     /* if the last account, close the file */
     if ( gsb_data_account_get_accounts_amount () == 1 )
     {
-        modification_fichier ( FALSE );
+        gsb_file_set_modified ( FALSE );
         gsb_file_close ();
         return FALSE;
     }
@@ -288,8 +287,7 @@ gboolean gsb_account_delete ( void )
     /* Update navigation pane. */
     gsb_gui_navigation_remove_account ( deleted_account );
 
-    if ( etat.modification_fichier == 0 )
-        modification_fichier ( TRUE );
+    gsb_file_set_modified ( TRUE );
     return FALSE;
 }
 

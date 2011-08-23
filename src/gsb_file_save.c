@@ -46,6 +46,7 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "dialog.h"
+#include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_bank.h"
@@ -151,17 +152,7 @@ extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
-extern GdkColor archive_background_color;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
-extern GdkColor calendar_entry_color;
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_bet_solde;
-extern GdkColor couleur_bet_transfert;
-extern GdkColor couleur_fond[2];
-extern GdkColor couleur_grise;
-extern GdkColor couleur_jour;
-extern GdkColor couleur_selection;
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
@@ -169,9 +160,7 @@ extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
-extern GdkColor split_background;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern GdkColor text_color[2];
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -241,7 +230,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         /* the file doesn't exist, so we will set the only user chmod */
         do_chmod = TRUE;
 
-    etat.en_train_de_sauvegarder = 1;
+    run.is_saving = TRUE;
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -486,7 +475,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 #endif /*_MSC_VER */
     }
 
-    etat.en_train_de_sauvegarder = 0;
+    run.is_saving = FALSE;
 
     return ( TRUE );
 }
@@ -867,97 +856,10 @@ gulong gsb_file_save_color_part ( gulong iterator,
 {
     gchar *new_string;
 
-    /* save the general informations */
-    new_string = g_markup_printf_escaped ( "\t<Color\n"
-                        "\t\tBackground_color_0_red=\"%d\"\n"
-                        "\t\tBackground_color_0_green=\"%d\"\n"
-                        "\t\tBackground_color_0_blue=\"%d\"\n"
-                        "\t\tBackground_color_1_red=\"%d\"\n"
-                        "\t\tBackground_color_1_green=\"%d\"\n"
-                        "\t\tBackground_color_1_blue=\"%d\"\n"
-                        "\t\tCouleur_jour_red=\"%d\"\n"
-                        "\t\tCouleur_jour_green=\"%d\"\n"
-                        "\t\tCouleur_jour_blue=\"%d\"\n"
-                        "\t\tBackground_scheduled_red=\"%d\"\n"
-                        "\t\tBackground_scheduled_green=\"%d\"\n"
-                        "\t\tBackground_scheduled_blue=\"%d\"\n"
-                        "\t\tBackground_archive_red=\"%d\"\n"
-                        "\t\tBackground_archive_green=\"%d\"\n"
-                        "\t\tBackground_archive_blue=\"%d\"\n"
-                        "\t\tSelection_red=\"%d\"\n"
-                        "\t\tSelection_green=\"%d\"\n"
-                        "\t\tSelection_blue=\"%d\"\n"
-                        "\t\tBackground_split_red=\"%d\"\n"
-                        "\t\tBackground_split_green=\"%d\"\n"
-                        "\t\tBackground_split_blue=\"%d\"\n"
-                        "\t\tText_color_0_red=\"%d\"\n"
-                        "\t\tText_color_0_green=\"%d\"\n"
-                        "\t\tText_color_0_blue=\"%d\"\n"
-                        "\t\tText_color_1_red=\"%d\"\n"
-                        "\t\tText_color_1_green=\"%d\"\n"
-                        "\t\tText_color_1_blue=\"%d\"\n"
-                        "\t\tCalendar_entry_red=\"%d\"\n"
-                        "\t\tCalendar_entry_green=\"%d\"\n"
-                        "\t\tCalendar_entry_blue=\"%d\"\n"
-                        "\t\tCouleur_bet_division_red=\"%d\"\n"
-                        "\t\tCouleur_bet_division_green=\"%d\"\n"
-                        "\t\tCouleur_bet_division_blue=\"%d\"\n"
-                        "\t\tCouleur_bet_future_red=\"%d\"\n"
-                        "\t\tCouleur_bet_future_green=\"%d\"\n"
-                        "\t\tCouleur_bet_future_blue=\"%d\"\n"
-                        "\t\tCouleur_bet_solde_red=\"%d\"\n"
-                        "\t\tCouleur_bet_solde_green=\"%d\"\n"
-                        "\t\tCouleur_bet_solde_blue=\"%d\"\n"
-                        "\t\tCouleur_bet_transfert_red=\"%d\"\n"
-                        "\t\tCouleur_bet_transfert_green=\"%d\"\n"
-                        "\t\tCouleur_bet_transfert_blue=\"%d\" />\n",
-
-    couleur_fond[0].red,
-    couleur_fond[0].green,
-    couleur_fond[0].blue,
-    couleur_fond[1].red,
-    couleur_fond[1].green,
-    couleur_fond[1].blue,
-    couleur_jour.red,
-    couleur_jour.green,
-    couleur_jour.blue,
-    couleur_grise.red,
-    couleur_grise.green,
-    couleur_grise.blue,
-    archive_background_color.red,
-    archive_background_color.green,
-    archive_background_color.blue,
-    couleur_selection.red,
-    couleur_selection.green,
-    couleur_selection.blue,
-    split_background.red,
-    split_background.green,
-    split_background.blue,
-    text_color[0].red,
-    text_color[0].green,
-    text_color[0].blue,
-    text_color[1].red,
-    text_color[1].green,
-    text_color[1].blue,
-    calendar_entry_color.red,
-    calendar_entry_color.green,
-    calendar_entry_color.blue,
-    couleur_bet_division.red,
-    couleur_bet_division.green,
-    couleur_bet_division.blue,
-    couleur_bet_future.red,
-    couleur_bet_future.green,
-    couleur_bet_future.blue,
-    couleur_bet_solde.red,
-    couleur_bet_solde.green,
-    couleur_bet_solde.blue,
-    couleur_bet_transfert.red,
-    couleur_bet_transfert.green,
-    couleur_bet_transfert.blue );
+    new_string = gsb_color_get_strings_to_save ( );
 
     /* append the new string to the file content
      * and return the new iterator */
-
     return gsb_file_save_append_part ( iterator,
 				       length_calculated,
 				       file_content,
