@@ -91,19 +91,26 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/29/2009" ) );
 
     /* 2008 was a leap year */
-    date = gsb_parse_date_string ( "02/29/2008" );
+    date = gsb_parse_date_string ( "02:29:2008" );
     CU_ASSERT_EQUAL(2008, g_date_get_year(date));
     CU_ASSERT_EQUAL(2, g_date_get_month(date));
     CU_ASSERT_EQUAL(29, g_date_get_day(date));
     g_date_free( date );
 
-    date = gsb_parse_date_string ( "02/28/2009" );
+    date = gsb_parse_date_string ( "02-28-2009" );
     CU_ASSERT_EQUAL(2009, g_date_get_year(date));
     CU_ASSERT_EQUAL(2, g_date_get_month(date));
     CU_ASSERT_EQUAL(28, g_date_get_day(date));
     g_date_free( date );
 
-    date = gsb_parse_date_string ( "12/31/2009" );
+    date = gsb_parse_date_string ( "12312009" );
+    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+    CU_ASSERT_EQUAL(12, g_date_get_month(date));
+    CU_ASSERT_EQUAL(31, g_date_get_day(date));
+    g_date_free( date );
+
+    /* implicit year */
+    date = gsb_parse_date_string ( "12/31/09" );
     CU_ASSERT_EQUAL(2009, g_date_get_year(date));
     CU_ASSERT_EQUAL(12, g_date_get_month(date));
     CU_ASSERT_EQUAL(31, g_date_get_day(date));
@@ -143,16 +150,23 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
     CU_ASSERT_EQUAL(29, g_date_get_day(date));
     g_date_free( date );
 
-    date = gsb_parse_date_string ( "28/02/2009" );
+    date = gsb_parse_date_string ( "28.02.2009" );
     CU_ASSERT_EQUAL(2009, g_date_get_year(date));
     CU_ASSERT_EQUAL(2, g_date_get_month(date));
     CU_ASSERT_EQUAL(28, g_date_get_day(date));
     g_date_free( date );
 
-    date = gsb_parse_date_string ( "31/12/2009" );
+    date = gsb_parse_date_string ( "31122009" );
     CU_ASSERT_EQUAL(2009, g_date_get_year(date));
     CU_ASSERT_EQUAL(12, g_date_get_month(date));
     CU_ASSERT_EQUAL(31, g_date_get_day(date));
+    g_date_free( date );
+
+    /* implicit year */
+    date = gsb_parse_date_string ( "010209" );
+    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
+    CU_ASSERT_EQUAL(2, g_date_get_month(date));
+    CU_ASSERT_EQUAL(1, g_date_get_day(date));
     g_date_free( date );
 
     /* invalid day */
@@ -167,17 +181,14 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
     /* invalid day */
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/00/2009" ) );
 
-    date = gsb_parse_date_string ( "02/01/2009" );
-    CU_ASSERT_EQUAL(2009, g_date_get_year(date));
-    CU_ASSERT_EQUAL(2, g_date_get_month(date));
-    CU_ASSERT_EQUAL(1, g_date_get_day(date));
-    g_date_free( date );
-
     /* invalid day */
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/30/2009" ) );
 
     /* 2009 is not a leap year */
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/29/2009" ) );
+
+    /* 209 is not a valid year */
+    CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "02/29/209" ) );
 
     /* 2008 was a leap year */
     date = gsb_parse_date_string ( "02/29/2008" );
@@ -203,6 +214,20 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
 
     /* invalid month */
     CU_ASSERT_EQUAL ( NULL, gsb_parse_date_string ( "13/13/2009" ) );
+
+
+    /**
+     * short date tests
+     */
+    gsb_date_set_format_date ( "%d/%m/%Y" );
+
+    date = gsb_parse_date_string ( "1" );
+    CU_ASSERT_EQUAL(1, g_date_get_day(date));
+    g_date_free( date );
+
+    date = gsb_parse_date_string ( "10" );
+    CU_ASSERT_EQUAL(10, g_date_get_day(date));
+    g_date_free( date );
 
 
     /**
