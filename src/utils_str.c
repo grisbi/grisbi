@@ -794,9 +794,13 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
 gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
 {
     gchar **tab_str;
+    gchar *result;
 
     tab_str = g_strsplit_set ( chaine, "%*", 0 );
-    return g_strjoinv ( new_str, tab_str );
+    result = g_strjoinv ( new_str, tab_str );
+    g_strfreev ( tab_str );
+
+    return result;
 }
 
 
@@ -810,9 +814,13 @@ gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str )
 gchar *gsb_string_supprime_joker ( const gchar *chaine )
 {
     gchar **tab_str;
+    gchar *result;
 
     tab_str = g_strsplit_set ( chaine, "%*", 0 );
-    return g_strjoinv ( "", tab_str );
+    result = g_strjoinv ( "", tab_str );
+    g_strfreev ( tab_str );
+
+    return result;
 }
 
 
@@ -859,7 +867,8 @@ gchar *gsb_string_extract_int ( const gchar *chaine )
  */
 gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
 {
-    gchar **tab_str;
+    gchar **tab_str = NULL;
+    gchar *result = NULL;
 
     if ( chaine == NULL )
         return NULL;
@@ -867,19 +876,20 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
     if ( g_strstr_len ( chaine, nbre_char, "\r\n" ) )
     {
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
-        return g_strjoinv ( "", tab_str );
+        result = g_strjoinv ( "", tab_str );
     }
     else if ( g_strstr_len ( chaine, nbre_char, "\r" ) 
      && 
      !g_strstr_len ( chaine, nbre_char, "\n" ) )
     {
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
-        return g_strjoinv ( "\n", tab_str );
+        result = g_strjoinv ( "\n", tab_str );
     }
     else if ( g_strstr_len ( chaine, nbre_char, "\n" ) )
-        return g_strdup ( chaine );
-    else
-        return NULL;
+        result = g_strdup ( chaine );
+
+    g_strfreev ( tab_str );
+    return result;
 }
 
 
