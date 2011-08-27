@@ -993,7 +993,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         if ( account_number != selected_account )
             continue;
 
-        date = gsb_data_transaction_get_date ( transaction_number );
+        date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
 
         /* ignore transaction which are after date_max */
         if ( g_date_compare (date, date_max ) > 0 )
