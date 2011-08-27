@@ -68,6 +68,7 @@
 #include "gsb_fyear.h"
 #include "gsb_locale.h"
 #include "gsb_real.h"
+#include "gsb_regex.h"
 #include "gsb_report.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
@@ -188,6 +189,7 @@ void init_variables ( void )
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
     gsb_report_init_variables ();
+    gsb_regex_init_variables ();
 
     gsb_data_print_config_init ();
 
@@ -323,6 +325,7 @@ void free_variables ( void )
 {
     gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ( );
+    gsb_regex_destroy ( );
 }
 
 
