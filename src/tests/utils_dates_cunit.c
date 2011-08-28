@@ -37,6 +37,7 @@
 #include <locale.h>
 
 /* START_INCLUDE */
+#include "gsb_regex.h"
 #include "utils_dates_cunit.h"
 #include "utils_dates.h"
 /* END_INCLUDE */
@@ -69,6 +70,8 @@ int utils_dates_cunit_clean_suite ( void )
 void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
+
+    gsb_regex_init_variables ( );
 
     /**
      * month-first tests
@@ -234,6 +237,8 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
      * tear down
      */
     gsb_date_set_format_date ( NULL );
+
+    gsb_regex_destroy ( );
 }
 
 CU_pSuite utils_dates_cunit_create_suite ( void )
