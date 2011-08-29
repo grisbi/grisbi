@@ -562,10 +562,7 @@ gchar *gsb_date_get_compiled_time ( void )
     GDate *date;
     gchar **tab;
     gchar *str;
-    const gchar *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-                            "Sep", "Oct", "Nov", "Dec"};
     gint mois = 0;
-    gint i;
 
     str = g_strdup ( __DATE__ );
     if ( g_strstr_len ( str, -1, "  " ) )
