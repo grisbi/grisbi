@@ -28,6 +28,7 @@
 #include "include.h"
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #if defined(_MSC_VER) || defined (_MINGW)
 #include <winnls.h>
 #else
@@ -45,8 +46,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-/* format pour les dates */
-static gchar *format = NULL;
+static int gsb_date_get_month_from_string ( const gchar * );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -58,9 +58,20 @@ static gchar *format = NULL;
  * optional ( optional separator + 2 digits + 
  *            optional ( optional separator + 2 or 4 digits ) )
  */
-#define DATE_STRING_REGEX       "^(\\d{1,2})(?:[-/.:]?(\\d{1,2})(?:[-/.:]?(\\d{2}(?:\\d{2})?))?)?$"
+#define DATE_STRING_REGEX       "^(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{2}(?:\\d{2})?))?)?$"
 #define DATE_STRING_KEY         "date_string"
 
+
+
+/* months */
+static const gchar *months[] = {
+    "Jan", "Feb", "Mar", "Apr", 
+    "May", "Jun", "Jul", "Aug",
+    "Sep", "Oct", "Nov", "Dec"
+};
+
+/* format pour les dates */
+static gchar *format = NULL;
 
 /* save of the last date entried */
 static gchar *last_date = NULL;
@@ -305,8 +316,8 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
 
 /**
  * Create and try to return a GDate from a string representation of a date.
- * separator can be / . - :
- * and numbers can be stick (ex 01012001)
+ * separator can be "/.-:" and numbers can be stick (ex 01012001)
+ * Moreover, month can be specified as its non-localized string format (ex Jan)
  *
  * \param a string wich represent a date
  *
@@ -333,7 +344,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     {
         /* only for the first call */
         devel_debug ( DATE_STRING_KEY );
-        date_regex = gsb_regex_insert ( DATE_STRING_KEY, DATE_STRING_REGEX, 0, 0 );
+        date_regex = gsb_regex_insert ( DATE_STRING_KEY, 
+                                        DATE_STRING_REGEX, 
+                                        G_REGEX_CASELESS, 
+                                        0 );
         if ( ! date_regex )
         {
             /* big problem */
@@ -356,11 +370,21 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
           i < num_tokens && j < num_fields;
           i ++, j ++ )
     {
+        /* the string can represent:
+         * EITHER   a number (1 for January)
+         * OR       a 3-length string (Jan for january)
+         * We assume this is an integer as default behaviour */
         gint nvalue = atoi ( tab_date[j] );
 
         switch ( date_tokens[i][0] )
         {
             case 'm':
+                /* If month is NOT an integer, nvalue = 0, and we have 
+                 * to convert month string into an integer. If string is 
+                 * not valid, the function returns 0 which is not a valid
+                 * month -> goto invalid -> right behaviour!!! */
+                if ( isalpha ( tab_date[j][0] ) != 0 )
+                    nvalue = gsb_date_get_month_from_string ( tab_date[j] );
                 if ( ! g_date_valid_month ( nvalue ) )
                     goto invalid;
                 g_date_set_month ( date, nvalue );
@@ -553,14 +577,7 @@ gchar *gsb_date_get_compiled_time ( void )
     tab = g_strsplit ( str, " ", -1 );
     g_free ( str );
 
-    for (i = 0; i < 12; i++)
-    {
-        if ( !strcmp ( tab[0], months[i] ) )
-        {
-          mois = i + 1;
-          break;
-        }
-    }
+    mois = gsb_date_get_month_from_string ( tab[0] );
 
     date = g_date_new_dmy ( atoi ( tab[1] ), mois, atoi ( tab[2] ) );
     g_strfreev (tab);
@@ -622,6 +639,46 @@ void gsb_date_set_format_date ( const gchar *format_date )
         g_free ( last_date );
     last_date = NULL;
 }
+
+
+/**
+ * Returns the integer of the month, as in GDateMonth (ie 1 for January, 
+ * ..., 12 for December). This function is case-insensitive.
+ *
+ * \param month A 3-length string representing the month
+ *
+ * \return The integet from 1 to 12, or 0 otherwise 
+ */
+int gsb_date_get_month_from_string ( const gchar *month )
+{
+    int i;
+    gchar *tmp;
+
+    if ( !month )
+        return 0;
+
+    /* first put the case of it is expected:
+     * Uppercase first letter, and lower case for the two remaining */
+    tmp = g_strndup ( month, 3 );
+    tmp[0] = toupper ( tmp[0] );
+    tmp[1] = tolower ( tmp[1] );
+    tmp[2] = tolower ( tmp[2] );
+
+    /* find the month */
+    for (i = 0; i < 12; i ++)
+    {
+        if ( !strcmp ( tmp, months[i] ) )
+        {
+            g_free ( tmp );
+            /* return the real month number, so index array + 1 */
+            return i + 1;
+        }
+    }
+
+    g_free ( tmp );
+    return 0;
+}
+
 
 
 /* Local Variables: */
