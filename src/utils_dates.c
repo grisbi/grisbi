@@ -323,10 +323,10 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
  */
 GDate *gsb_parse_date_string ( const gchar *date_string )
 {
-    GDate *date;
+    GDate *date = NULL;
     GRegex *date_regex;
-    gchar **date_tokens;
-    gchar **tab_date;
+    gchar **date_tokens = NULL;
+    gchar **tab_date = NULL;
     int num_tokens, num_fields;
     int i, j;
 
@@ -350,12 +350,12 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
         {
             /* big problem */
             alert_debug ( DATE_STRING_KEY );
-            return NULL;
+            goto invalid;
         }
     }
 
     if ( ! g_regex_match ( date_regex, date_string, 0, NULL ) )
-        return NULL;
+        goto invalid;
 
     tab_date = g_regex_split ( date_regex, date_string, 0 );
 
@@ -420,11 +420,15 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     if ( ! g_date_valid ( date ) )
         goto invalid;
 
+    g_strfreev ( tab_date );
+    g_strfreev ( date_tokens );
     return date;
 
 invalid:
-    g_date_free ( date );
+    if ( date )
+        g_date_free ( date );
     g_strfreev ( tab_date );
+    g_strfreev ( date_tokens );
     return NULL;
 }
 
