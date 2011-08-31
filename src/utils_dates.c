@@ -116,8 +116,7 @@ gchar *gsb_date_today ( void )
  * */
 void gsb_date_set_last_date ( const gchar *date )
 {
-    if ( last_date ) 
-        g_free ( last_date );
+    g_free ( last_date );
     last_date = my_strdup (date);
 }
 
@@ -132,8 +131,7 @@ void gsb_date_set_last_date ( const gchar *date )
  * */
 void gsb_date_free_last_date ( void )
 {
-    if ( last_date ) 
-        g_free ( last_date );
+    g_free ( last_date );
     last_date = NULL;
 }
 
@@ -615,25 +613,25 @@ gchar *gsb_date_get_format_date ( void )
 
 
 /**
- * set the format of date.
- * 
- * */
+ * Set the format of date. If given format is not valid, the format
+ * value is set to NULL. Since the format is supposed to change, 
+ * the last date entry is erased.
+ *
+ * \param format_date the new format to apply
+ *
+ * \return
+ */
 void gsb_date_set_format_date ( const gchar *format_date )
 {
-    if ( format && strlen ( format ) )
-        g_free ( format );
+    g_free ( format );
+    format = NULL;
 
-    if ( format_date == NULL )
-        format = NULL;
-    else if ( strcmp ( format_date, "%d/%m/%Y" ) == 0 )
-        format = g_strdup ( "%d/%m/%Y" );
-    else if ( strcmp ( format_date, "%m/%d/%Y" ) == 0 )
-        format = g_strdup ( "%m/%d/%Y" );
-    else
-        format = NULL;
+    if ( format_date && 
+            ( strcmp ( format_date, "%d/%m/%Y" ) == 0
+           || strcmp ( format_date, "%m/%d/%Y" ) == 0 ) )
+        format = g_strdup ( format_date );
 
-    if ( last_date )
-        g_free ( last_date );
+    g_free ( last_date );
     last_date = NULL;
 }
 
