@@ -169,6 +169,7 @@ struct gsb_conf_t
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
     gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
     gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
+    gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */

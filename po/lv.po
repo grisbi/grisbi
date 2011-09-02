@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-20 21:59+0200\n"
+"POT-Creation-Date: 2011-08-21 18:08+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -448,50 +448,54 @@ msgstr "Veidlapu aizpildīšana"
 msgid "Automatic filling transactions from payee"
 msgstr "Automātiski aizpildīt darījumu no partnera info"
 
-#: ../src/affichage_liste.c:575
+#: ../src/affichage_liste.c:578
+msgid "Erase the credit and debit fields"
+msgstr ""
+
+#: ../src/affichage_liste.c:590
 #, fuzzy
 msgid "Automatically recover the children of the associated transaction"
 msgstr "Startējot automātiski ielādēt pēdējo failu"
 
-#: ../src/affichage_liste.c:584
+#: ../src/affichage_liste.c:602
 msgid "Limit the filling with payees belonging to the current account"
 msgstr "Limitēt partnera datus, kas attiecas uz norēķina kontu"
 
-#: ../src/affichage_liste.c:592
+#: ../src/affichage_liste.c:610
 msgid "Mix credit/debit categories"
 msgstr "Apvienot kredit/debit kategorijas"
 
-#: ../src/affichage_liste.c:598
+#: ../src/affichage_liste.c:616
 msgid "Case sensitive completion"
 msgstr "Lietas pabeigšana"
 
-#: ../src/affichage_liste.c:604
+#: ../src/affichage_liste.c:622
 msgid "Don't allow new payee creation"
 msgstr "Neatļaut jaunu partnera izveidi"
 
-#: ../src/affichage_liste.c:610
+#: ../src/affichage_liste.c:628
 msgid "Don't allow new category/budget creation"
 msgstr "Neatļaut jaunu kategoriju/budžeta izveidi"
 
-#: ../src/affichage_liste.c:619
+#: ../src/affichage_liste.c:637
 #, fuzzy
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr "Maksimālos ierakstus parāda nolaižamajā izvēlnē (0 bez ierobežojuma):"
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:781 ../src/parametres.c:448
+#: ../src/affichage_liste.c:803 ../src/parametres.c:448
 #, fuzzy
 msgid "Transactions list cells"
 msgstr "Darījumu saraksta darbība"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:784
+#: ../src/affichage_liste.c:806
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "Darījumu saraksta darbība"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:817
+#: ../src/affichage_liste.c:839
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "Darījuma saturs"
@@ -7486,12 +7490,12 @@ msgstr ""
 "<b>Vai vēlaties dzēst šo failu:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:852
+#: ../src/gsb_file_config.c:862
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nevar saglabāt konfigurācijas failu '%s': %s"
 
-#: ../src/gsb_file_config.c:893
+#: ../src/gsb_file_config.c:903
 #, c-format
 msgid ""
 "%s doesn't seem to be a regular config file,\n"
@@ -7500,16 +7504,16 @@ msgstr ""
 "%s tas šķiet nav regulārs konfigurācijas fails,\n"
 "lūdzu pārbaudiet to."
 
-#: ../src/gsb_file_config.c:930
+#: ../src/gsb_file_config.c:940
 #, c-format
 msgid "Cannot open config file '%s': %s"
 msgstr "Nevar atvērt konfigurācijas failu '%s': %s"
 
-#: ../src/gsb_file_config.c:1293
+#: ../src/gsb_file_config.c:1304
 msgid "Delete config file from a previous version"
 msgstr "Dzēst konfigurācijas failu no iepriekšējās versijas"
 
-#: ../src/gsb_file_config.c:1313
+#: ../src/gsb_file_config.c:1324
 msgid ""
 "Caution, you are about to delete the\n"
 "configuration file of a previous version of Grisbi.\n"
@@ -7521,11 +7525,11 @@ msgstr ""
 "\n"
 "<b>Vai vēlaties izdzēst šo failu?</b>"
 
-#: ../src/gsb_file_config.c:1380
+#: ../src/gsb_file_config.c:1391
 msgid "Choose a file"
 msgstr "Izvēlēties failu"
 
-#: ../src/gsb_file_config.c:1403
+#: ../src/gsb_file_config.c:1414
 msgid ""
 "Please Choose the name of file\n"
 "of configuration.\n"
@@ -7975,7 +7979,7 @@ msgstr "Izvēlēties kontu"
 msgid "Automatic/manual scheduled transaction"
 msgstr "Automātisks/manuāls plānotais darījums"
 
-#: ../src/gsb_form_transaction.c:372
+#: ../src/gsb_form_transaction.c:385
 msgid "Report : "
 msgstr "Pārskats :"
 
@@ -8871,7 +8875,7 @@ msgstr ""
 "\n"
 "Rādīt R darījumus, lai tie būtu redzami."
 
-#: ../src/gsb_transactions_list_sort.c:357
+#: ../src/gsb_transactions_list_sort.c:356
 #, c-format
 msgid "ask for the sort number %d which doesn't exist... return by date"
 msgstr ""

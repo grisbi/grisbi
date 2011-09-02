@@ -488,6 +488,7 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
             g_free ( tmpstr );
         }
     }
+    g_strfreev ( tab_char );
 
     if ( priv -> old_entry && strlen ( priv -> old_entry ) )
         g_free ( priv -> old_entry );

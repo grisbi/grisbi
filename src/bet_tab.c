@@ -993,7 +993,7 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         if ( account_number != selected_account )
             continue;
 
-        date = gsb_data_transaction_get_date ( transaction_number );
+        date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
 
         /* ignore transaction which are after date_max */
         if ( g_date_compare (date, date_max ) > 0 )
@@ -2069,6 +2069,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 {
     GtkTreeModel *model;
     GtkTreeIter iter;
+    gboolean absent = TRUE;
 
     if ( !tree_view )
 	    return FALSE;
@@ -2077,6 +2078,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
     {
+        GtkTreeIter *prev = NULL;
         gint origine;
         gint current_color = 0;
 
@@ -2086,6 +2088,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
 			            &iter,
 			            SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
 			            -1 );
+
             switch ( origine )
             {
             case SPP_ORIGIN_TRANSACTION:
@@ -2116,7 +2119,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                 gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_transfert" ),
-                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "&couleur_bet_transfert" ),
+                        SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_transfert" ),
                         -1 );
                 break;
             case SPP_ORIGIN_SOLDE:
@@ -2125,6 +2128,36 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_solde" ),
                         -1 );
+            }
+
+            /* gestion de la date du jour */
+            if ( conf.show_transaction_gives_balance && absent )
+            {
+                GValue date_value = {0,};
+                GDate* date;
+                GDate *date_jour;
+
+                date_jour = gdate_today ( );
+                gtk_tree_model_get_value ( model,
+                        &iter,
+                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value );
+                date = g_value_get_boxed ( &date_value );
+                if ( g_date_compare ( date, date_jour ) > 0 )
+                {
+                    absent = FALSE;
+                    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                    prev,
+                                    SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_jour" ),
+                                    SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_jour" ),
+                                    -1 );
+                }
+
+                g_date_free ( date_jour );
+                g_value_unset ( &date_value );
+                if ( prev )
+                    gtk_tree_iter_free ( prev );
+
+                prev = gtk_tree_iter_copy ( &iter );
             }
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );

@@ -643,8 +643,8 @@ gboolean gsb_file_save_backup ( void )
         {
             g_free ( name );
             name = g_strdup ( tab_str[0] );
-            g_strfreev ( tab_str );
         }
+        g_strfreev ( tab_str );
     }
     /* create a filename for the backup :
      * filename_yyyymmddTmmhhss.gsb */

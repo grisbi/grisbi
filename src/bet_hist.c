@@ -885,14 +885,13 @@ void bet_historical_populate_div_model ( gpointer key,
 /*         printf ("division = %d sub_div = %d div_name = %s\n", div_number, sub_sh -> div, div_name);  */
         if ( div_name && g_utf8_strrchr ( div_name, -1, ':' ) )
         {
-	        tab_str = g_strsplit ( div_name, ":", 2 );
+            tab_str = g_strsplit ( div_name, ":", 2 );
             if ( g_strv_length ( tab_str ) > 1 )
             {
                 g_free ( div_name );
                 div_name = g_strdup ( g_strstrip ( tab_str[1] ) );
             }
-            if ( tab_str )
-                g_strfreev ( tab_str );
+            g_strfreev ( tab_str );
         }
 
         str_balance = utils_real_get_string_with_currency ( sub_sbr -> current_balance, 

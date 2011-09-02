@@ -434,6 +434,11 @@ gboolean gsb_file_config_load_config ( void )
                         "Automatic_recover_splits",
                         NULL );
 
+    conf.automatic_erase_credit_debit = g_key_file_get_integer ( config,
+                        "Display",
+                        "Automatic_erase_credit_debit",
+                        NULL );
+
     etat.display_toolbar = g_key_file_get_integer ( config,
                         "Display",
                         "Display toolbar",
@@ -780,6 +785,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Display",
                         "Automatic_recover_splits",
                         conf.automatic_recover_splits );
+
+    g_key_file_set_integer ( config,
+                        "Display",
+                        "Automatic_erase_credit_debit",
+                        conf.automatic_erase_credit_debit );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1218,13 +1228,14 @@ void gsb_file_config_clean_config ( void )
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
     conf.balances_with_scheduled = TRUE;
-    etat.formulaire_toujours_affiche = 0;       /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    etat.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    conf.automatic_completion_payee = 1;        /* by default automatic completion */
-    conf.limit_completion_to_current_account = 0;        /* By default, do full search */
+    conf.automatic_completion_payee = 1;            /* by default automatic completion */
+    conf.limit_completion_to_current_account = 0;   /* By default, do full search */
     conf.automatic_recover_splits = 1;
+    conf.automatic_erase_credit_debit = 0;
 
-    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE;  /* show Accounts file title par défaut */
+    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
     etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     etat.show_toolbar = TRUE;                       /* Show toolbar or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */

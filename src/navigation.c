@@ -83,6 +83,8 @@ static gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
+static gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
+                        GdkEventScroll *ev );
 static void gsb_gui_navigation_clear_pages_list ( void );
 static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path );
@@ -262,7 +264,12 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     g_signal_connect ( navigation_tree_view,
                         "key-press-event",
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
-                        navigation_model  );
+                        navigation_model );
+
+    g_signal_connect ( navigation_tree_view,
+                        "scroll-event",
+                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        NULL );
 
     g_signal_connect_after ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) ),
                         "changed",
@@ -1523,6 +1530,36 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
     }
 
     gtk_tree_path_free ( path );
+
+    return FALSE;
+}
+
+
+
+/** 
+ * Check mouse scrolling on the navigation tree view.
+ *
+ * \param tree_view the navigation tree_view
+ * \param ev the scroll event
+ *
+ * \return FALSE : the signal continue / TRUE : the signal is stopped here
+ * */
+gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
+                                           GdkEventScroll *ev )
+{
+    switch ( ev -> direction )
+    {
+        case GDK_SCROLL_UP:
+            gsb_gui_navigation_select_prev ();
+            break;
+
+        case GDK_SCROLL_DOWN:
+            gsb_gui_navigation_select_next ();
+            break;
+
+        default:
+            break;
+    }
 
     return FALSE;
 }
