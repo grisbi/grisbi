@@ -32,6 +32,7 @@
 #endif
 
 #include "include.h"
+#include <glib-object.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
@@ -56,11 +57,27 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
+/**
+ * Below are all the definitions that MUST be made public if we ever make the
+ * account struct/class open.
+ */
+#define GSB_TYPE_DATA_ACCOUNT           (gsb_data_account_get_type ())
+#define GSB_DATA_ACCOUNT(obj)           (G_TYPE_CHECK_INSTANCE_CAST ((obj), GSB_TYPE_DATA_ACCOUNT, GsbDataAccount))
+#define GSB_DATA_ACCOUNT_CLASS(kls)     (G_TYPE_CHECK_CLASS_CAST ((kls),    GSB_TYPE_DATA_ACCOUNT, GsbDataAccountClass))
+#define GSB_IS_DATA_ACCOUNT(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GSB_TYPE_DATA_ACCOUNT))
+#define GSB_IS_DATA_ACCOUNT_CLASS(kls)  (G_TYPE_CHECK_CLASS_TYPE ((kls),    GSB_TYPE_DATA_ACCOUNT))
+#define GSB_DATA_ACCOUNT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj),   GSB_TYPE_DATA_ACCOUNT, GsbDataAccountClass))
+
+typedef struct _GsbDataAccount        GsbDataAccount;
+typedef struct _GsbDataAccountClass   GsbDataAccountClass;
+
 /** \struct
  * describe an account
  * */
-typedef struct
+struct _GsbDataAccount
 {
+    GObject object;
+
     /** @name general stuff */
     gint 	account_number;
     gchar 	*account_id;                       /**< for ofx import, invisible for the user */
@@ -140,11 +157,24 @@ typedef struct
     gdouble bet_taux_annuel;            /* taux d'interet annuel */
     gdouble bet_frais;                  /* frais par echeance */
     gint bet_type_taux;                 /* type de taux : actuariel ou proportionnel */
-} GsbDataAccount;
+};
+
+struct _GsbDataAccountClass
+{
+    GObjectClass parent_class;
+};
+
+/**
+ * End of the public defs.
+ */
+
+
+G_DEFINE_TYPE(GsbDataAccount, gsb_data_account, G_TYPE_OBJECT)
 
 
 /*START_STATIC*/
-static void _gsb_data_account_free ( GsbDataAccount* account );
+static void gsb_data_account_dispose (GObject *object);
+static void gsb_data_account_finalize (GObject *object);
 static void gsb_data_account_delete_all_accounts (void);
 static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind );
 static GsbDataAccount *gsb_data_account_get_structure ( gint no );
@@ -167,6 +197,72 @@ static GSList *list_accounts = NULL;
 /** a pointer to the last account used (to increase the speed) */
 static GsbDataAccount *account_buffer;
 
+
+
+/**
+ *
+ */
+static void gsb_data_account_class_init (GsbDataAccountClass *klass)
+{
+    GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+
+    gobject_class->dispose  = gsb_data_account_dispose;
+    gobject_class->finalize = gsb_data_account_finalize;
+}
+
+
+/**
+ *
+ */
+static void gsb_data_account_init (GsbDataAccount *self)
+{
+}
+
+
+/**
+ *
+ */
+static void gsb_data_account_dispose (GObject *object)
+{
+    GsbDataAccount *account = GSB_DATA_ACCOUNT (object);
+
+    if ( account -> pixbuf )
+    {
+        g_object_unref ( account -> pixbuf );
+        account -> pixbuf = NULL;
+    }
+
+    G_OBJECT_CLASS (gsb_data_account_parent_class)->dispose (object);
+}
+
+
+/**
+ *
+ */
+static void gsb_data_account_finalize (GObject *object)
+{
+    GsbDataAccount *account = GSB_DATA_ACCOUNT (object);
+
+    g_free ( account -> account_id );
+    g_free ( account -> account_name );
+    g_free ( account -> name_icon );
+    g_free ( account -> comment );
+    g_free ( account -> holder_name );
+    g_free ( account -> holder_address );
+    g_free ( account -> bank_branch_code );
+    g_free ( account -> bank_account_number );
+    g_free ( account -> bank_account_key );
+    g_free ( account -> bank_account_iban );
+    if ( account -> sort_list )
+        g_slist_free( account -> sort_list ) ;
+    g_free ( account -> form_organization );
+    if ( account -> bet_start_date )
+        g_date_free ( account -> bet_start_date );
+
+    G_OBJECT_CLASS (gsb_data_account_parent_class)->finalize (object);
+}
+
+
 /**
  * This function close all opened accounts and free the memory
  * used by them.
@@ -181,7 +277,7 @@ void gsb_data_account_delete_all_accounts (void)
 	    GsbDataAccount *account;
 	    account = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-            _gsb_data_account_free ( account );
+            g_object_unref ( account );
 	}
         g_slist_free ( list_accounts );
     }
@@ -230,7 +326,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     GsbDataAccount *account;
     gint last_number;
 
-    account = g_malloc0 (sizeof ( GsbDataAccount ));
+    account = GSB_DATA_ACCOUNT ( g_object_new ( GSB_TYPE_DATA_ACCOUNT, NULL ) );
 
     if ( !account )
     {
@@ -293,35 +389,6 @@ gint gsb_data_account_new ( kind_account account_kind )
     return account -> account_number;
 }
 
-/**
- * This internal function is called to free the memory used by a GsbDataAccount structure
- */
-static void _gsb_data_account_free ( GsbDataAccount* account )
-{
-    if ( ! account )
-        return;
-    g_free ( account -> account_id );
-    g_free ( account -> account_name );
-    g_free ( account -> name_icon );
-    g_free ( account -> comment );
-    g_free ( account -> holder_name );
-    g_free ( account -> holder_address );
-    g_free ( account -> bank_branch_code );
-    g_free ( account -> bank_account_number );
-    g_free ( account -> bank_account_key );
-    g_free ( account -> bank_account_iban );
-    if ( account -> sort_list )
-        g_slist_free( account -> sort_list ) ;
-    g_free ( account -> form_organization );
-    if ( account -> bet_start_date )
-        g_date_free ( account -> bet_start_date );
-    if ( account -> pixbuf )
-        g_object_unref ( account -> pixbuf );
-    g_free ( account );
-    if ( account_buffer == account )
-        account_buffer = NULL;
-}
-
 
 /**
  * delete and free the account given
@@ -341,7 +408,10 @@ gboolean gsb_data_account_delete ( gint account_number )
 
     list_accounts = g_slist_remove ( list_accounts, account );
 
-    _gsb_data_account_free ( account );
+    if ( account_buffer == account )
+        account_buffer = NULL;
+
+    g_object_unref ( account );
 
     return TRUE;
 }
