@@ -171,10 +171,19 @@ struct _GsbDataAccountClass
 
 G_DEFINE_TYPE(GsbDataAccount, gsb_data_account, G_TYPE_OBJECT)
 
+enum {
+    PROP_0,
+    PROP_SHOW_RECONCILED
+};
+
 
 /*START_STATIC*/
 static void gsb_data_account_dispose (GObject *object);
 static void gsb_data_account_finalize (GObject *object);
+static void gsb_data_account_set_property (GObject *object, guint property_id,
+                                           const GValue *value, GParamSpec *pspec);
+static void gsb_data_account_get_property (GObject *object, guint property_id,
+                                           GValue *value, GParamSpec *pspec);
 static void gsb_data_account_delete_all_accounts (void);
 static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind );
 static GsbDataAccount *gsb_data_account_get_structure ( gint no );
@@ -205,9 +214,21 @@ static GsbDataAccount *account_buffer;
 static void gsb_data_account_class_init (GsbDataAccountClass *klass)
 {
     GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
+    GParamSpec *pspec;
 
     gobject_class->dispose  = gsb_data_account_dispose;
     gobject_class->finalize = gsb_data_account_finalize;
+    gobject_class->set_property = gsb_data_account_set_property;
+    gobject_class->get_property = gsb_data_account_get_property;
+
+    pspec = g_param_spec_boolean ("show-reconciled",
+                                  "Show reconciled transactions",
+                                  "Show reconciled transactions",
+                                  FALSE,
+                                  G_PARAM_CONSTRUCT | G_PARAM_READWRITE);
+    g_object_class_install_property (gobject_class,
+                                     PROP_SHOW_RECONCILED,
+                                     pspec);
 }
 
 
@@ -216,6 +237,47 @@ static void gsb_data_account_class_init (GsbDataAccountClass *klass)
  */
 static void gsb_data_account_init (GsbDataAccount *self)
 {
+    /* FIXME: set struct members to 0/NULL */
+}
+
+
+/**
+ *
+ */
+static void gsb_data_account_set_property (GObject *object, guint property_id,
+                                           const GValue *value, GParamSpec *pspec)
+{
+    GsbDataAccount *account = GSB_DATA_ACCOUNT (object);
+
+    switch (property_id)
+    {
+    case PROP_SHOW_RECONCILED:
+        account -> show_r = g_value_get_boolean (value);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
+}
+
+
+/**
+ *
+ */
+static void gsb_data_account_get_property (GObject *object, guint property_id,
+                                           GValue *value, GParamSpec *pspec)
+{
+    GsbDataAccount *account = GSB_DATA_ACCOUNT (object);
+
+    switch (property_id)
+    {
+    case PROP_SHOW_RECONCILED:
+        g_value_set_boolean (value, account -> show_r);
+        break;
+    default:
+        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        break;
+    }
 }
 
 
@@ -716,7 +778,7 @@ gboolean gsb_data_account_set_r ( gint account_number,
     if ( !account )
 	return FALSE;
 
-    account -> show_r = show_r;
+    g_object_set (G_OBJECT(account), "show-reconciled", !!show_r, NULL);
 
     return TRUE;
 }
