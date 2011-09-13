@@ -409,6 +409,7 @@ gint gsb_gui_navigation_get_current_account ( void )
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
+    gint account_number;
 
     if ( !navigation_tree_view )
 	return -1;
@@ -421,15 +422,12 @@ gint gsb_gui_navigation_get_current_account ( void )
     gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
 			 &iter,
 			 NAVIGATION_PAGE, &page,
+			 NAVIGATION_ACCOUNT, &account_number,
 			 -1);
     
     if ( page == GSB_ACCOUNT_PAGE )
-    {
-	gint account_number;
-	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_ACCOUNT, &account_number, -1);
-
 	return account_number;
-    }
+
     return -1;
 }
 
