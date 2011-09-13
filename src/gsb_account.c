@@ -258,7 +258,7 @@ gboolean gsb_account_delete ( void )
     notebook_general = gsb_gui_get_general_notebook ( );
 	page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
 
-	navigation_change_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
+	navigation_change_account ( gsb_data_account_first_number () );
 
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }

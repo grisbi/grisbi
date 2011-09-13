@@ -60,7 +60,7 @@ void gsb_gui_navigation_update_home_page ( void );
 void gsb_gui_navigation_update_report ( gint report_number ) ;
 void gsb_navigation_update_account_label ( gint account_number );
 void gsb_navigation_update_statement_label ( gint account_number );
-gboolean navigation_change_account ( gint *no_account );
+gboolean navigation_change_account ( gint new_account );
 gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );

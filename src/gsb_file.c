@@ -193,7 +193,7 @@ void gsb_file_new_gui ( void )
                 0 );
     gtk_widget_show ( tree_view_widget );
 
-    navigation_change_account ( GINT_TO_POINTER ( gsb_gui_navigation_get_current_account () ) );
+    navigation_change_account ( gsb_gui_navigation_get_current_account () );
 
     /* Display accounts in menus */
     gsb_menu_update_accounts_in_menus ();

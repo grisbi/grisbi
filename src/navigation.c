@@ -919,13 +919,11 @@ void gsb_gui_navigation_add_account ( gint account_number,
  * 
  * \return FALSE
  * */
-gboolean navigation_change_account ( gint *no_account )
+gboolean navigation_change_account ( gint new_account )
 {
-    gint new_account;
     gint current_account;
     gchar *tmp_menu_path;
 
-    new_account = GPOINTER_TO_INT ( no_account );
     devel_debug_int (new_account);
 
     if ( new_account < 0 )
@@ -1144,7 +1142,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
-            navigation_change_account ( GINT_TO_POINTER (account_number) );
+            navigation_change_account ( account_number );
             gsb_account_property_fill_page ();
             clear_suffix = FALSE;
             if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
