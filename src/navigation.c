@@ -146,6 +146,20 @@ extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 
+/** Holds data for the navigation tree.  */
+enum navigation_cols {
+    NAVIGATION_PIX,
+    NAVIGATION_PIX_VISIBLE,
+    NAVIGATION_TEXT,
+    NAVIGATION_FONT,
+    NAVIGATION_PAGE,
+    NAVIGATION_ACCOUNT,
+    NAVIGATION_REPORT,
+    NAVIGATION_SENSITIVE,
+    NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
+    NAVIGATION_TOTAL,
+};
+
 /** Navigation tree view. */
 static GtkWidget *navigation_tree_view = NULL;
 

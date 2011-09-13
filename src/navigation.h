@@ -3,21 +3,6 @@
 
 #include <gtk/gtk.h>
 
-/** Holds data for the navigation tree.  */
-enum navigation_cols { 
-    NAVIGATION_PIX,
-    NAVIGATION_PIX_VISIBLE,
-    NAVIGATION_TEXT,
-    NAVIGATION_FONT,
-    NAVIGATION_PAGE,
-    NAVIGATION_ACCOUNT,
-    NAVIGATION_REPORT,
-    NAVIGATION_SENSITIVE,
-    NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
-    NAVIGATION_TOTAL,
-};
-
-
 /** \struct describe a page
  * */
 typedef struct
