@@ -2,6 +2,10 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(IGE_MAC_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
 
+if HAVE_GOFFICE
+AM_CPPFLAGS += $(GOFFICE_CFLAGS)
+endif
+
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
 
@@ -17,6 +21,10 @@ else
 libgrisbi_la_LDFLAGS = -export_dynamic
 endif
 libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(IGE_MAC_LIBS)
+
+if HAVE_GOFFICE
+libgrisbi_la_LIBADD += $(GOFFICE_LIBS)
+endif
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
