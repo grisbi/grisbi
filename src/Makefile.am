@@ -159,6 +159,7 @@ libgrisbi_la_SOURCES = \
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_font.c		\
+	utils_gtkbuilder.c	\
 	utils_operations.c	\
 	utils_real.c		\
 	utils_str.c		\
@@ -312,6 +313,7 @@ libgrisbi_la_SOURCES = \
 	utils_file_selection.h	\
 	utils_files.h		\
 	utils_font.h		\
+	utils_gtkbuilder.h	\
 	utils_operations.h	\
 	utils_real.h		\
 	utils_str.h
@@ -320,7 +322,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS =
+SUBDIRS = ui
 
 if HAVE_CUNIT
 SUBDIRS += tests
