@@ -574,6 +574,7 @@ void gsb_gui_update_all_toolbars ( void )
     budgetary_lines_update_toolbar_list ( );
     gsb_gui_update_reports_toolbar ( );
     bet_array_update_toolbar ( );
+    bet_historical_update_toolbar ( );
     bet_finance_update_all_finance_toolbars ( );
 }
 

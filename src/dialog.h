@@ -35,10 +35,10 @@ gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
                         struct conditional_message *message );
 G_MODULE_EXPORT void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar *hint );
-gchar *make_blue ( gchar *text );
+gchar *make_blue ( const gchar *text );
 gchar *make_hint ( const gchar *hint, const gchar *text );
-gchar *make_pango_attribut ( gchar *attribut, gchar *text );
-gchar *make_red ( gchar *text );
+gchar *make_pango_attribut ( gchar *attribut, const gchar *text );
+gchar *make_red ( const gchar *text );
 gboolean question_conditional_yes_no ( gchar *var );
 gint question_conditional_yes_no_get_no_struct ( struct conditional_message *msg,
                         gchar *name );

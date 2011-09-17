@@ -95,7 +95,6 @@ void bet_graph_sectors_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view 
     GtkWidget *box_pie;
     gchar *filename;
     gchar *title;
-    gchar *hist_srce_name;
     gint result;
     gint account_number;
     GError *error = NULL;
@@ -155,28 +154,16 @@ void bet_graph_sectors_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view 
 		                GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
                         NULL);
 
-    label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
     sw_canvas = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "sw_canvas" ) );
     box_pie = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "box_pie" ) );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw_canvas ), box_pie );
 
-    /* Set the title of the box_pie */
-    result = gsb_data_account_get_bet_hist_data ( account_number );
-    if ( result )
-        hist_srce_name = g_strdup ( _("Budgetary lines") );
-    else
-        hist_srce_name = g_strdup ( _("Categories") );
-
-    result = gsb_data_account_get_bet_hist_fyear ( account_number );
-
+    /* set the title */
+    label = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( tree_view ), "label_title") );
     title = make_pango_attribut ( "weight=\"bold\" size=\"x-large\"",
-                    g_strdup_printf (
-                    _("Amounts by %s in %s for the account: «%s»"),
-                    hist_srce_name,
-                    gsb_data_fyear_get_name ( result ),
-                    gsb_data_account_get_name ( account_number ) ) );
+                    gtk_label_get_text ( GTK_LABEL ( label ) ) );
 
-    g_free ( hist_srce_name );
+    label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), title );
     g_free ( title );
     
