@@ -1,3 +1,11 @@
+New in version 0.8.8
+- update the Russian translation
+- fixes bug 1373: the transaction is not transferred to the new account when use the Edit menu
+- fixes bug 1365: corrects the name of the International Russian currency RUB -> RUR
+- fixes some bugs in the navigation in the left panel of Grisbi
+- fixes a crash when the number of recently used files = 0
+- removal the display of the build date for the stable versions of Grisbi
+
 New in version 0.8.7
 - fixes a problem of gtk version under Windows.
 

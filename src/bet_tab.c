@@ -833,43 +833,53 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                         scheduled_number );
             if ( transfer_account_number == selected_account )
             {
+                gint floating_point;
+
+                currency_number = gsb_data_account_get_currency ( selected_account );
+                floating_point = gsb_data_account_get_currency_floating_point ( selected_account );
                 str_description = g_strdup_printf ( _("Transfer between account: %s\n"
                         "and account: %s"),
                         gsb_data_account_get_name ( transfer_account_number ),
                         gsb_data_account_get_name ( account_number ) );
-            
-                amount = gsb_real_opposite ( gsb_data_scheduled_get_amount (
-                        scheduled_number ) );
+
+                amount = gsb_real_opposite ( gsb_data_scheduled_get_adjusted_amount_for_currency ( scheduled_number,
+                                    currency_number,
+                                    floating_point ) );
+                str_amount = gsb_real_safe_real_to_string ( amount, floating_point );
             }
             else if ( account_number == selected_account )
             {
+                currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
                 str_description = g_strdup_printf ( _("Transfer between account: %s\n"
                         "and account: %s"),
                         gsb_data_account_get_name ( account_number ),
                         gsb_data_account_get_name ( transfer_account_number ) );
 
                 amount = gsb_data_scheduled_get_amount ( scheduled_number );
+                str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        scheduled_number,
+                        SPP_ORIGIN_SCHEDULED );
             }
             else
                 continue;
         }
         else if ( account_number == selected_account )
         {
+            currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
             str_description = bet_array_list_get_description ( account_number,
                         SPP_ORIGIN_SCHEDULED,
                         GINT_TO_POINTER ( scheduled_number ) );
 
             amount = gsb_data_scheduled_get_amount ( scheduled_number );
+            str_amount = bet_data_get_str_amount_in_account_currency ( amount,
+                        account_number,
+                        scheduled_number,
+                        SPP_ORIGIN_SCHEDULED );
         }
         else
             continue;
 
-        str_amount = bet_data_get_str_amount_in_account_currency ( amount,
-                        account_number,
-                        scheduled_number,
-                        SPP_ORIGIN_SCHEDULED );
-
-        currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number );
         if (amount.mantissa < 0)
             str_debit = gsb_real_get_string_with_currency ( gsb_real_abs ( amount ), currency_number, TRUE );
         else
