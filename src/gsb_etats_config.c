@@ -35,6 +35,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_etats_config.h"
+#include "dialog.h"
 #include "etats_calculs.h"
 #include "etats_config.h"
 #include "fenetre_principale.h"
@@ -48,6 +49,7 @@
 #include "navigation.h"
 #include "structures.h"
 #include "utils.h"
+#include "utils_gtkbuilder.h"
 #include "utils_str.h"
 
 #include "erreur.h"
@@ -75,7 +77,6 @@ static gint gsb_etats_config_categ_budget_sort_function ( GtkTreeModel *model,
 static gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *radio_renderer,
                         gchar *path_str,
                         GtkTreeStore *store );
-static gchar *gsb_etats_config_get_full_path ( const gchar *name );
 static GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void );
@@ -278,29 +279,6 @@ static GtkBuilder *etat_config_builder = NULL;
  *
  *
  * */
-GtkWidget *gsb_etats_config_get_variable_by_name ( const gchar *gtk_builder_var,
-                        const gchar *optional_var )
-{
-    GtkWidget *var_1;
-    GtkWidget *var_2 = NULL;
-
-    var_1 = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, gtk_builder_var ) );
-
-    if ( optional_var == NULL )
-        return var_1;
-
-    var_2 = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( var_1 ), optional_var ) );
-
-    return var_2;
-}
-
-
-/**
- * affiche la fenetre de personnalisation
- *
- *
- *
- * */
 void gsb_etats_config_personnalisation_etat ( void )
 {
     GtkWidget *dialog;
@@ -320,7 +298,17 @@ void gsb_etats_config_personnalisation_etat ( void )
         return;
 
     /* Chargement du XML dans etat_config_builder */
-    filename = gsb_etats_config_get_full_path ( "gsb_etats_config.ui" );
+    filename = utils_gtkbuilder_get_full_path ( "gsb_etats_config.ui" );
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        gchar* tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+        dialogue_error ( tmpstr );
+        g_free ( tmpstr );
+        g_free ( filename );
+        return;
+    }
 
     result = gtk_builder_add_from_file ( etat_config_builder, filename, &error );
     if ( result == 0 )
@@ -362,42 +350,6 @@ void gsb_etats_config_personnalisation_etat ( void )
     }
 
     gtk_widget_destroy ( dialog );
-}
-
-
-/**
- * obtient le fichier de l'interface graphique
- *
- *
- *
- * */
-gchar *gsb_etats_config_get_full_path ( const gchar *name )
-{
-    gchar *filename;
-
-/* #ifdef GRISBI_RUN_IN_SOURCE_TREE  */
-    filename = g_build_filename ( PACKAGE_SOURCE_DIR, "src/ui", name, NULL );
-/*     if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) == FALSE )
- *  {
- *      g_free (filename);
- */
-        /* Try the local file */
-/* 		filename = g_build_filename ( DATADIR, "grisbi", name, NULL );
- * 
- * 		if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) == FALSE )
- * 		{
- * 			g_free ( filename );
- * 
- * 			return NULL;
- * 		}
- * 	}
- */
-
-/* #else
- * 	filename = g_build_filename (DATADIR, "grisbi", name, NULL);
- */
-/*#endif */
-    return filename;
 }
 
 
@@ -497,7 +449,7 @@ gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection 
     gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK (
-                        gsb_etats_config_get_variable_by_name ( "notebook_config_etat", NULL ) ),
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "notebook_config_etat", NULL ) ),
                         selected );
 
     return FALSE;
@@ -696,7 +648,7 @@ GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
     /* on traite la partie gauche de l'onglet dates */
     sw = gsb_etats_config_onglet_get_liste_dates ( );
     gtk_container_set_border_width ( GTK_CONTAINER (
-                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_date", NULL ) ),
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_utilisation_date", NULL ) ),
                         10 );
 
     hbox =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_date_init" ) );
@@ -716,32 +668,33 @@ GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
     /* on traite la partie droite de l'onglet dates */
     sw = gsb_etats_config_onglet_get_liste_exercices ( );
     gtk_container_set_border_width ( GTK_CONTAINER (
-                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ) ),
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_utilisation_exo", NULL ) ),
                         10 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ), FALSE );
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ), FALSE );
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
+                        "vbox_utilisation_exo", NULL ), FALSE );
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_exer", NULL ), FALSE );
 
     /* on met la connection pour rendre sensitif la frame vbox_utilisation_date */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "radio_button_utilise_dates", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_date", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_utilisation_date", NULL ) );
 
     /* on met la connection pour rendre sensitif la frame vbox_utilisation_exo */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "radio_button_utilise_exo", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_utilisation_exo", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_utilisation_exo", NULL ) );
 
     /* on connecte les signaux nécessaires pour gérer la sélection de l'exercice */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "bouton_detaille_exo_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "sw_exer", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_exer", NULL ) );
 
     gtk_widget_show_all ( vbox_onglet );
 
@@ -783,7 +736,7 @@ GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void )
 
     sw = gsb_etats_config_get_scrolled_window_with_tree_view ( "sw_dates", GTK_TREE_MODEL ( list_store ) );
 
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_dates", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_dates", "tree_view" );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_selection_set_mode ( selection, GTK_SELECTION_SINGLE );
     g_signal_connect ( G_OBJECT ( selection ),
@@ -873,11 +826,11 @@ void gsb_etats_config_dates_interval_sensitive ( gboolean show )
     if ( show > 1 )
         show = 0;
 
-        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_en_date_valeur", NULL ), show );
-        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "hbox_date_init", "entree_date_init_etat" ), show );
-        gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "hbox_date_finale", "entree_date_finale_etat" ), show );
 }
 
@@ -904,19 +857,19 @@ GtkWidget *gsb_etats_config_onglet_etat_virements ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "hbox_liste_comptes_virements", NULL ), FALSE );
 
     /* on crée la liste des comptes */
     sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_virements" );
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_virements", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_virements", "tree_view" );
 
     /* on connecte les signaux nécessaires pour gérer l'affichage de la liste des comptes */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_inclusion_virements_perso", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "hbox_liste_comptes_virements", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "hbox_liste_comptes_virements", NULL ) );
 
     /* on met la connection pour (dé)sélectionner tous les comptes */
     button = gsb_etats_config_togglebutton_set_button_select ( "sw_virements", tree_view );
@@ -985,7 +938,7 @@ void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
     gchar *tmp_str;
 
     tmp_str = g_strconcat ( "button_bank", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_BANK ) );
     g_signal_connect ( G_OBJECT  ( button ),
                         "button-press-event",
@@ -994,7 +947,7 @@ void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "button_cash", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_CASH ) );
     g_signal_connect ( G_OBJECT  ( button ),
                         "button-press-event",
@@ -1003,7 +956,7 @@ void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "button_liabilities", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_LIABILITIES ) );
     g_signal_connect ( G_OBJECT  ( button ),
                         "button-press-event",
@@ -1012,7 +965,7 @@ void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "button_assets", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_ASSET ) );
     g_signal_connect ( G_OBJECT  ( button ),
                         "button-press-event",
@@ -1081,19 +1034,19 @@ GtkWidget *gsb_etats_config_onglet_etat_comptes ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_generale_comptes_etat", NULL ), FALSE );
 
     /* on crée la liste des comptes */
     sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_comptes" );
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_comptes", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_comptes", "tree_view" );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_detaille_comptes_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_generale_comptes_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_comptes_etat", NULL ) );
 
     /* on met la connection pour (dé)sélectionner tous les comptes */
     button = gsb_etats_config_togglebutton_set_button_select ( "sw_comptes", tree_view );
@@ -1129,19 +1082,19 @@ GtkWidget *gsb_etats_config_onglet_etat_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_detaille_tiers_etat", NULL ), FALSE );
 
     /* on crée la liste des tiers */
     sw = gsb_etats_config_onglet_get_liste_tiers ( "sw_tiers" );
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_tiers", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_tiers", "tree_view" );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_detaille_tiers_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_detaille_tiers_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_detaille_tiers_etat", NULL ) );
 
     /* on met la connection pour (dé)sélectionner tous les tiers */
     button = gsb_etats_config_togglebutton_set_button_select ( "sw_tiers", tree_view );
@@ -1220,22 +1173,22 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_detaille_categ_etat", NULL ), FALSE );
 
     /* on crée la liste des catégories */
     sw = gsb_etats_config_get_liste_categ_budget ( "sw_categ" );
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_categ", "tree_view" );
 
     /* on remplit la liste des catégories */
     gsb_etats_config_fill_liste_categ_budget ( TRUE );
 
     /* on met la connection pour rendre sensitif la vbox_detaille_categ_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "button_detail_categ_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_detaille_categ_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_detaille_categ_etat", NULL ) );
 
     /* on met la connection pour déplier replier les catégories */
     button = gsb_etats_config_togglebutton_set_button_expand ( "sw_categ", tree_view );
@@ -1529,17 +1482,17 @@ GtkWidget *gsb_etats_config_togglebutton_set_button_expand ( gchar *sw_name,
     gchar *tmp_str;
 
     tmp_str = g_strconcat ( "togglebutton_expand", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "hbox_toggle_expand", sw_name + 2, NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_expand",
-                        gsb_etats_config_get_variable_by_name ( tmp_str, NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "hbox_toggle_collapse", sw_name + 2, NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_collapse",
-                        gsb_etats_config_get_variable_by_name ( tmp_str, NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_etats_config_togglebutton_collapse_expand_lines ),
@@ -1561,17 +1514,17 @@ GtkWidget *gsb_etats_config_togglebutton_set_button_select ( gchar *sw_name,
     gchar *tmp_str;
 
     tmp_str = g_strconcat ( "togglebutton_select_all", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "hbox_toggle_select_all", sw_name + 2, NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_select_all",
-                        gsb_etats_config_get_variable_by_name ( tmp_str, NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "hbox_toggle_unselect_all", sw_name + 2, NULL );
     g_object_set_data ( G_OBJECT ( button ), "hbox_unselect_all",
-                        gsb_etats_config_get_variable_by_name ( tmp_str, NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_etats_config_togglebutton_select_all ),
@@ -1594,7 +1547,7 @@ void gsb_etats_config_onglet_set_buttons_select_categ_budget ( gchar *sw_name,
     gchar *tmp_str;
 
     tmp_str = g_strconcat ( "button_income", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "is_categ", GINT_TO_POINTER ( is_categ ) );
     g_object_set_data ( G_OBJECT ( button ), "type_div", GINT_TO_POINTER ( FALSE ) );
     g_signal_connect ( G_OBJECT  ( button ),
@@ -1604,7 +1557,7 @@ void gsb_etats_config_onglet_set_buttons_select_categ_budget ( gchar *sw_name,
     g_free ( tmp_str );
 
     tmp_str = g_strconcat ( "button_outgoing", sw_name + 2, NULL );
-    button = gsb_etats_config_get_variable_by_name ( tmp_str, NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
     g_object_set_data ( G_OBJECT ( button ), "is_categ", GINT_TO_POINTER ( is_categ ) );
     g_object_set_data ( G_OBJECT ( button ), "type_div", GINT_TO_POINTER ( TRUE ) );
     g_signal_connect ( G_OBJECT  ( button ),
@@ -1703,7 +1656,7 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
     {
         list_tmp = gsb_data_category_get_categories_list ( );
 
-        tree_view = gsb_etats_config_get_variable_by_name ( "sw_categ", "tree_view" );
+        tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_categ", "tree_view" );
         model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
         gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
@@ -1714,7 +1667,7 @@ gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ )
     else
     {
         list_tmp = gsb_data_budget_get_budgets_list ( );
-        tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" );
+        tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_budget", "tree_view" );
         model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
         gtk_tree_store_clear ( GTK_TREE_STORE ( model ) );
@@ -1843,22 +1796,22 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_detaille_budget_etat", NULL ), FALSE );
 
     /* on crée la liste des IB et on récupère le tree_view*/
     sw = gsb_etats_config_get_liste_categ_budget ( "sw_budget" );
-    tree_view = gsb_etats_config_get_variable_by_name ( "sw_budget", "tree_view" );
+    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_budget", "tree_view" );
 
     /* on remplit la liste des IB */
     gsb_etats_config_fill_liste_categ_budget ( FALSE );
 
     /* on met la connection pour rendre sensitif la hbox_detaille_budget_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_detaille_budget_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_detaille_budget_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_detaille_budget_etat", NULL ) );
 
     /* on met la connection pour déplier replier les IB */
     button = gsb_etats_config_togglebutton_set_button_expand ( "sw_budget", tree_view );
@@ -1894,23 +1847,23 @@ GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_generale_texte_etat", NULL ), FALSE );
 
     /* on attache la vbox pour les lignes de recherche à sw_texte */
-    sw = gsb_etats_config_get_variable_by_name ( "sw_texte", NULL );
-    lignes = gsb_etats_config_get_variable_by_name ( "liste_texte_etat", NULL );
+    sw = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_texte", NULL );
+    lignes = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "liste_texte_etat", NULL );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), lignes );
 
     /* on crée la première ligne de la recherche */
     gsb_etats_config_onglet_etat_texte_new_line ( lignes );
 
     /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_utilise_texte", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_generale_texte_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_texte_etat", NULL ) );
 
     return vbox_onglet;
 }
@@ -2168,27 +2121,27 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "vbox_generale_montant_etat", NULL ), FALSE );
 
     /* on attache la vbox pour les lignes de recherche à sw_montant */
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (
-                        gsb_etats_config_get_variable_by_name ( "sw_montant", NULL ) ),
-                        gsb_etats_config_get_variable_by_name ( "liste_montant_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_montant", NULL ) ),
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "liste_montant_etat", NULL ) );
 
     /* on remplit le combobox de choix du type de texte dans lequel chercher */
 /*     gsb_etats_config_onglet_etat_combo_set_model (
- *                         gsb_etats_config_get_variable_by_name ( "combobox_comparateur_1", NULL ),
+ *                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "combobox_comparateur_1", NULL ),
  *                         champs_comparateur_montant );
  */
 
 
     /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "bouton_utilise_montant", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_generale_montant_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_montant_etat", NULL ) );
 
     return vbox_onglet;
 }
@@ -2214,18 +2167,18 @@ GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( gsb_etats_config_get_variable_by_name (
+    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "vbox_mode_paiement_etat", NULL ), FALSE );
 
     /* on crée la liste des catégories */
     sw = gsb_etats_config_get_liste_mode_paiement ( "sw_mode_paiement" );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    g_signal_connect ( G_OBJECT ( gsb_etats_config_get_variable_by_name (
+    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "bouton_detaille_mode_paiement_etat", NULL ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_mode_paiement_etat", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_mode_paiement_etat", NULL ) );
 
     return vbox_onglet;
 }
@@ -2310,20 +2263,20 @@ GtkWidget *gsb_etats_config_onglet_etat_divers ( void )
     /* on peut sélectionner les opérations marquées */
     paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Selecting Transactions") );
 
-    vbox = gsb_etats_config_get_variable_by_name ( "vbox_select_transactions_buttons", NULL );
+    vbox = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_select_transactions_buttons", NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, TRUE, TRUE, 5 );
 
-    button = gsb_etats_config_get_variable_by_name ( "radiobutton_marked", NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "radiobutton_marked", NULL );
 
     /* on met la connection pour rendre sensitif la vbox_detaille_categ_etat */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gsb_etats_config_get_variable_by_name ( "vbox_marked_buttons", NULL ) );
+                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_marked_buttons", NULL ) );
 
     paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Split of transactions detail") );
 
-    button = gsb_etats_config_get_variable_by_name ( "bouton_pas_detailler_ventilation", NULL );
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "bouton_pas_detailler_ventilation", NULL );
 /*    g_signal_connect_swapped ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( report_tree_update_style ),
