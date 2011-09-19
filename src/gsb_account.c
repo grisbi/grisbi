@@ -302,7 +302,7 @@ gboolean gsb_account_delete ( void )
  *
  * \return a new GtkCombobox containing the list of the accounts
  */
-GtkWidget *gsb_account_create_combo_list ( GCallback func, 
+GtkWidget *gsb_account_create_combo_list ( GCallback func,
 					   gpointer data,
 					   gboolean include_closed )
 {
@@ -497,7 +497,7 @@ gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
  *
  * \return A newly created menu
  */
-GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func, 
+GtkWidget *gsb_account_create_menu_list ( GCallback func,
 					  gboolean activate_currrent,
 					  gboolean include_closed )
 {
