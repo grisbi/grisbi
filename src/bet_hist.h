@@ -6,24 +6,6 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-enum bet_historical_data_columns {
-    SPP_HISTORICAL_SELECT_COLUMN,
-    SPP_HISTORICAL_DESC_COLUMN,
-    SPP_HISTORICAL_CURRENT_COLUMN,  /* Accumulation of the current year */
-    SPP_HISTORICAL_BALANCE_COLUMN,
-    SPP_HISTORICAL_AVERAGE_COLUMN,
-    SPP_HISTORICAL_AVERAGE_AMOUNT,  /* average column without currency */
-    SPP_HISTORICAL_RETAINED_COLUMN,
-    SPP_HISTORICAL_RETAINED_AMOUNT, /* retenaid column without currency */
-    SPP_HISTORICAL_BALANCE_COLOR,
-    SPP_HISTORICAL_ACCOUNT_NUMBER,
-    SPP_HISTORICAL_DIV_NUMBER,
-    SPP_HISTORICAL_SUB_DIV_NUMBER,
-    SPP_HISTORICAL_EDITED_COLUMN,
-    SPP_HISTORICAL_BACKGROUND_COLOR,
-    SPP_HISTORICAL_NUM_COLUMNS
-};
-
 /* START_DECLARATION */
 GtkWidget *bet_historical_create_page ( void );
 gint bet_historical_get_fyear_from_combobox ( GtkWidget *combo_box );

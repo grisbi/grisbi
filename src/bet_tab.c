@@ -171,26 +171,6 @@ static gint bet_array_current_tree_view_width = 0;
 static GtkWidget *bet_array_toolbar;
 
 
-enum bet_estimation_tree_columns
-{
-    SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
-    SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
-    SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
-    SPP_ESTIMATE_TREE_SUB_DIV_COLUMN,   /* sub_div_nb */
-    SPP_ESTIMATE_TREE_DATE_COLUMN,
-    SPP_ESTIMATE_TREE_DESC_COLUMN,
-    SPP_ESTIMATE_TREE_DEBIT_COLUMN,
-    SPP_ESTIMATE_TREE_CREDIT_COLUMN,
-    SPP_ESTIMATE_TREE_BALANCE_COLUMN,
-    SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-    SPP_ESTIMATE_TREE_AMOUNT_COLUMN,    /* the amount without currency */
-    SPP_ESTIMATE_TREE_BALANCE_COLOR,
-    SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-    SPP_ESTIMATE_TREE_COLOR_STRING,
-    SPP_ESTIMATE_TREE_NUM_COLUMNS
-};
-
-
 /*
  * Met à jour les données à afficher dans les différentes vues du module
  *
