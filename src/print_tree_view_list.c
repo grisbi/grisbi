@@ -86,9 +86,6 @@ static GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operat
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GdkColor couleur_bet_division;
-extern GdkColor couleur_bet_future;
-extern GdkColor couleur_bet_transfert;
 /*END_EXTERN*/
 
 #define MAX_COLS 32
@@ -848,8 +845,12 @@ static gboolean print_tree_view_list_foreach_callback ( GtkTreeModel *model,
                         gpointer data )
 {
     gint *number = (gint *) data;
+    gint depth;
 
-    *number = *number + 1;
+    /* on n'imprime que les lignes de plus haut niveau */
+    depth = gtk_tree_path_get_depth ( path );
+    if ( depth == 1 )
+        *number = *number + 1;
 
     return FALSE;
 }

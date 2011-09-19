@@ -595,12 +595,12 @@ gchar *make_hint ( const gchar *hint, const gchar *text )
 /**
  * use pango layout to produce a string that will contain a text.
  *
- * \param text Text 
+ * \param text Text
  *
- * \return a pango formated string It returns a newly allocated string which must 
+ * \return a pango formated string It returns a newly allocated string which must
  *         be freed when no more used.
  */
-gchar *make_red ( gchar *text )
+gchar *make_red ( const gchar *text )
 {
     gchar *tmpstr;
 
@@ -614,12 +614,12 @@ gchar *make_red ( gchar *text )
  * use pango layout to produce a string that will contain a text.
  *
  * \param attribut  exemple foreground=\"red\", size=\"x-large\"
- * \param text      Text 
+ * \param text      Text
  *
- * \return a pango formated string It returns a newly allocated string which must 
+ * \return a pango formated string It returns a newly allocated string which must
  *         be freed when no more used.
  */
-gchar *make_pango_attribut ( gchar *attribut, gchar *text )
+gchar *make_pango_attribut ( gchar *attribut, const gchar *text )
 {
     gchar *tmpstr;
 
@@ -633,12 +633,12 @@ gchar *make_pango_attribut ( gchar *attribut, gchar *text )
 /**
  * use pango layout to produce a string that will contain a text.
  *
- * \param text Text 
+ * \param text Text
  *
- * \return a pango formated string It returns a newly allocated string which must 
+ * \return a pango formated string It returns a newly allocated string which must
  *         be freed when no more used.
  */
-gchar *make_blue ( gchar *text )
+gchar *make_blue ( const gchar *text )
 {
     gchar *tmpstr;
 

@@ -32,8 +32,12 @@
 #include "bet_hist.h"
 #include "bet_config.h"
 #include "bet_data.h"
+#include "bet_graph.h"
 #include "bet_tab.h"
+#include "dialog.h"
+#include "export_csv.h"
 #include "fenetre_principale.h"
+#include "gsb_automem.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -44,10 +48,12 @@
 #include "gsb_real.h"
 #include "mouse.h"
 #include "navigation.h"
+#include "print_tree_view_list.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
+#include "utils_file_selection.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -64,6 +70,8 @@ static gboolean bet_historical_amount_differ_average ( GtkTreeModel *model,
 static gboolean bet_historical_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
 static void bet_historical_context_menu ( GtkWidget *tree_view );
+static GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
+                        GtkWidget *tree_view );
 static void bet_historical_div_cell_edited (GtkCellRendererText *cell,
                         const gchar *path_string,
                         const gchar *new_text,
@@ -75,6 +83,8 @@ static void bet_historical_div_cell_editing_started (GtkCellRenderer *cell,
 static gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                         gchar *path_string,
                         GtkTreeModel *model );
+static void bet_historical_export_tab ( GtkWidget *menu_item,
+                        GtkTreeView *tree_view );
 static gboolean bet_historical_fyear_create_combobox_store ( void );
 static void bet_historical_fyear_hide_present_futures_fyears ( void );
 static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
@@ -88,6 +98,8 @@ static gboolean bet_historical_initializes_account_settings ( gint account_numbe
 static void bet_historical_populate_div_model ( gpointer key,
                         gpointer value,
                         gpointer user_data );
+static void bet_historical_print_tab ( GtkWidget *menu_item,
+                        GtkTreeView *tree_view );
 static void bet_historical_row_collapse_all ( GtkTreeView *tree_view,
                         GtkTreeIter *iter,
                         GtkTreeModel *model );
@@ -111,6 +123,11 @@ extern gsb_real null_real;
 
 /* blocage des signaux pour le tree_view pour les comptes de type GSB_TYPE_CASH */
 static gboolean hist_block_signal = FALSE;
+
+/* toolbar */
+static GtkWidget *bet_historical_toolbar;
+
+
 
 /**
  * this is a tree model filter with 3 columns :
@@ -137,7 +154,7 @@ GtkWidget *bet_historical_create_page ( void )
     GtkWidget *page;
     GtkWidget *hbox;
     GtkWidget *align;
-    GtkWidget *label;
+    GtkWidget *label_title;
     GtkWidget *button_1, *button_2;
     GtkWidget *tree_view;
     gpointer pointeur;
@@ -150,9 +167,9 @@ GtkWidget *bet_historical_create_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
  
-    label = gtk_label_new ( "bet_hist_title" );
-    gtk_container_add ( GTK_CONTAINER ( align ), label );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_title", label);
+    label_title = gtk_label_new ( "bet_hist_title" );
+    gtk_container_add ( GTK_CONTAINER ( align ), label_title );
+    g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_title", label_title);
 
     /* Choix des données sources */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -213,9 +230,19 @@ GtkWidget *bet_historical_create_page ( void )
     /* création de la liste des données */
     tree_view = bet_historical_get_data_tree_view ( page );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_treeview", tree_view );
+    g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* set the color of selected row */
     utils_set_tree_view_selection_and_text_color ( tree_view );
+
+    /* on y ajoute la barre d'outils */
+    bet_historical_toolbar = gtk_handle_box_new ( );
+    g_object_set_data ( G_OBJECT ( bet_historical_toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( bet_historical_toolbar ), "page", page );
+    gtk_widget_show ( bet_historical_toolbar );
+
+    gtk_box_pack_start ( GTK_BOX ( page ), bet_historical_toolbar, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( page ), bet_historical_toolbar, 0 );
 
     gtk_widget_show_all ( page );
 
@@ -537,6 +564,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_alignment ( column, 0.5 );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), column );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_SELECT_COLUMN ) );
 
     /* name of the div sous-div column*/
     title = g_strdup ( _("Category") );
@@ -552,6 +581,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
                         GTK_TREE_VIEW_COLUMN ( column ) );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_DESC_COLUMN ) );
 
     /* amount column */
     cell = gtk_cell_renderer_text_new ( );
@@ -568,6 +599,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_BALANCE_COLUMN ) );
 
     /* average column */
     cell = gtk_cell_renderer_text_new ( );
@@ -584,6 +617,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_AVERAGE_COLUMN ) );
 
     /* current fyear column */
     cell = gtk_cell_renderer_text_new ( );
@@ -600,6 +635,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_CURRENT_COLUMN ) );
 
     /* amount retained column */
     cell = gtk_cell_renderer_text_new ( );
@@ -618,6 +655,8 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     gtk_tree_view_column_set_clickable ( GTK_TREE_VIEW_COLUMN ( column ), FALSE );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
     gtk_tree_view_column_set_resizable ( column, TRUE );
+    g_object_set_data ( G_OBJECT ( column ), "num_col_model",
+                        GINT_TO_POINTER ( SPP_HISTORICAL_RETAINED_COLUMN ) );
 
     g_signal_connect ( cell,
                         "editing-started",
@@ -1738,14 +1777,29 @@ void bet_historical_g_signal_unblock_tree_view ( void )
  * */
 void bet_historical_set_page_title ( gint account_number )
 {
-    GtkWidget * widget;
+    GtkWidget *widget;
     gchar *title;
+    gchar *hist_srce_name;
+    gint result;
 
-    title = g_strdup_printf (
-                    _("Please select the data source for the account: \"%s\""),
+    hist_srce_name = bet_historical_get_hist_source_name ( account_number );
+    result = gsb_data_account_get_bet_hist_fyear ( account_number );
+    if ( result == 0 )
+        title = g_strdup_printf (
+                    _("Amounts by %s on 12 months rolling for the account: «%s»"),
+                    hist_srce_name,
                     gsb_data_account_get_name ( account_number ) );
+    else
+        title = g_strdup_printf (
+                    _("Amounts by %s in %s for the account: «%s»"),
+                    hist_srce_name,
+                    gsb_data_fyear_get_name ( result ),
+                    gsb_data_account_get_name ( account_number ) );
+
     widget = GTK_WIDGET ( g_object_get_data ( G_OBJECT ( account_page ), "bet_hist_title") );
     gtk_label_set_label ( GTK_LABEL ( widget ), title );
+
+    g_free ( hist_srce_name );
     g_free ( title );
 }
 
@@ -1847,6 +1901,194 @@ void bet_historical_fyear_hide_present_futures_fyears ( void )
         tmp_list = tmp_list -> next;
     }
 
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
+                        GtkWidget *tree_view )
+{
+    GtkWidget *hbox;
+    GtkWidget *button;
+
+    /* Hbox */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+
+    /* print button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+                        GTK_STOCK_PRINT,
+                        _("Print"),
+                        NULL,
+                        NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_historical_print_tab ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    /* Export button */
+    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+					   GTK_STOCK_SAVE,
+					   _("Export"),
+					   NULL,
+					   NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Export the array") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_historical_export_tab ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+#ifdef HAVE_GOFFICE
+    /* graph button */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+                        _("Data graph"),
+                        "graph-sectors.png",
+                        NULL,
+                        NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("display the data graph") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_graph_sectors_graph_new ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+#endif
+
+    gtk_widget_show_all ( hbox );
+
+    return ( hbox );
+
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_update_toolbar ( void )
+{
+    GtkWidget *page;
+    GtkWidget *tree_view;
+    GList *list = NULL;
+
+    page = g_object_get_data ( G_OBJECT ( bet_historical_toolbar ), "page" );
+    tree_view = g_object_get_data ( G_OBJECT ( bet_historical_toolbar ), "tree_view" );
+
+    list = gtk_container_get_children ( GTK_CONTAINER ( bet_historical_toolbar ) );
+
+    if ( list )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( bet_historical_toolbar ),
+                               GTK_WIDGET ( list -> data ) );
+        g_list_free ( list );
+    }
+    gtk_container_add ( GTK_CONTAINER ( bet_historical_toolbar ),
+                        bet_historical_create_toolbar ( page, tree_view ) );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_export_tab ( GtkWidget *menu_item,
+                        GtkTreeView *tree_view )
+{
+    GtkWidget *dialog;
+    gint resultat;
+    gchar *filename;
+
+    dialog = gtk_file_chooser_dialog_new ( _("Export the historical data"),
+					   GTK_WINDOW ( run.window ),
+					   GTK_FILE_CHOOSER_ACTION_SAVE,
+					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   NULL);
+
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( dialog ), "division.csv");
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
+    gtk_file_chooser_set_do_overwrite_confirmation ( GTK_FILE_CHOOSER ( dialog ), TRUE);
+    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
+
+    switch ( resultat )
+    {
+	case GTK_RESPONSE_OK :
+	    filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( dialog ) );
+	    gsb_file_update_last_path ( file_selection_get_last_directory ( GTK_FILE_CHOOSER ( dialog ), TRUE ) );
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+	    /* vérification que c'est possible est faite par la boite de dialogue */
+	    if ( !gsb_csv_export_tree_view_list ( filename, tree_view ) )
+	    {
+            dialogue_error ( _("Cannot save file.") );
+            return;
+	    }
+
+	    break;
+
+	default :
+	    gtk_widget_destroy ( GTK_WIDGET ( dialog ));
+	    return;
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_historical_print_tab ( GtkWidget *menu_item,
+                        GtkTreeView *tree_view )
+{
+    GtkTreeSelection *selection;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( selection ), NULL, NULL ) )
+    {
+        GtkTreePath *path;
+
+        path = gtk_tree_path_new_first ( );
+        gtk_tree_selection_select_path ( selection, path );
+        gtk_tree_path_free ( path );
+    }
+
+    print_tree_view_list ( menu_item, tree_view );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+gchar *bet_historical_get_hist_source_name ( gint account_number )
+{
+    gint result ;
+
+    if ( account_number == -1 )
+        return g_strdup ( _("Categories") );
+
+    result = gsb_data_account_get_bet_hist_data ( account_number );
+    if ( result )
+        return g_strdup ( _("Budgetary lines") );
+    else
+        return g_strdup ( _("Categories") );
 }
 
 

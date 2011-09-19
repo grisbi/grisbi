@@ -6,6 +6,7 @@ src/bet_data.c
 src/bet_data_finance.c
 src/bet_finance_ui.c
 src/bet_future.c
+src/bet_graph.c
 src/bet_hist.c
 src/bet_tab.c
 src/categories_onglet.c

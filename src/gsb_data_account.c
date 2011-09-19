@@ -336,7 +336,7 @@ gboolean gsb_data_account_delete ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     list_accounts = g_slist_remove ( list_accounts, account );
@@ -462,7 +462,7 @@ gint gsb_data_account_set_account_number ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return -1;
 
     account -> account_number = new_no;
@@ -530,7 +530,7 @@ gint gsb_data_account_get_nb_rows ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> nb_rows_by_transaction;
@@ -558,7 +558,7 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> nb_rows_by_transaction = nb_rows;
@@ -581,7 +581,7 @@ gboolean gsb_data_account_get_l ( gint account_number )
     account = gsb_data_account_get_structure ( account_number );
 
     if ( !account )
-	    return 0;
+	return 0;
 
     return account -> show_l;
 }
@@ -622,7 +622,7 @@ gboolean gsb_data_account_get_r ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> show_r;
@@ -643,7 +643,7 @@ gboolean gsb_data_account_set_r ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> show_r = show_r;
@@ -662,7 +662,7 @@ gchar *gsb_data_account_get_id ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> account_id;
@@ -685,7 +685,7 @@ gboolean gsb_data_account_set_id ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     if ( account -> account_id )
@@ -761,7 +761,7 @@ gboolean gsb_data_account_set_kind ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> account_kind = account_kind;
@@ -781,7 +781,7 @@ gchar *gsb_data_account_get_name ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> account_name;
@@ -804,7 +804,7 @@ gboolean gsb_data_account_set_name ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free ( account -> account_name );
@@ -867,7 +867,7 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return null_real;
 
     return gsb_real_adjust_exponent ( account -> init_balance,
@@ -914,7 +914,7 @@ gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return null_real;
 
     return account -> mini_balance_wanted;
@@ -936,7 +936,7 @@ gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> mini_balance_wanted = balance;
@@ -957,7 +957,7 @@ gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return null_real;
 
     return account -> mini_balance_authorized;
@@ -979,7 +979,7 @@ gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> mini_balance_authorized = balance;
@@ -1001,7 +1001,7 @@ gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return FALSE;
 
     account -> balances_are_dirty = TRUE;
@@ -1168,7 +1168,7 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return null_real;
 
     floating_point = gsb_data_currency_get_floating_point (account -> currency);
@@ -1228,7 +1228,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> column_element_sort[no_column];
@@ -1294,7 +1294,7 @@ gint gsb_data_account_get_current_transaction_number ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> current_transaction_number;
@@ -1317,7 +1317,7 @@ gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> current_transaction_number = transaction_number;
@@ -1340,7 +1340,7 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number 
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> mini_balance_wanted_message;
@@ -1362,7 +1362,7 @@ gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> mini_balance_wanted_message = value;
@@ -1381,7 +1381,7 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_num
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> mini_balance_authorized_message;
@@ -1403,7 +1403,7 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> mini_balance_authorized_message = value;
@@ -1425,7 +1425,7 @@ gint gsb_data_account_get_currency ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> currency;
@@ -1444,7 +1444,7 @@ gboolean gsb_data_account_set_currency ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> currency = currency;
@@ -1463,7 +1463,7 @@ gint gsb_data_account_get_bank ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> bank_number;
@@ -1482,7 +1482,7 @@ gboolean gsb_data_account_set_bank ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> bank_number = bank;
@@ -1501,7 +1501,7 @@ gchar *gsb_data_account_get_bank_branch_code ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> bank_branch_code;
@@ -1524,7 +1524,7 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free ( account -> bank_branch_code );
@@ -1548,7 +1548,7 @@ gchar *gsb_data_account_get_bank_account_number ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> bank_account_number;
@@ -1571,7 +1571,7 @@ gboolean gsb_data_account_set_bank_account_number ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     if ( account -> bank_account_number )
@@ -1597,7 +1597,7 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> bank_account_key;
@@ -1620,7 +1620,7 @@ gboolean gsb_data_account_set_bank_account_key ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     if ( account -> bank_account_key )
@@ -1645,7 +1645,7 @@ gint gsb_data_account_get_closed_account ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> closed_account;
@@ -1664,7 +1664,7 @@ gboolean gsb_data_account_set_closed_account ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> closed_account = closed_account;
@@ -1683,7 +1683,7 @@ gchar *gsb_data_account_get_comment ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> comment;
@@ -1706,7 +1706,7 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free ( account -> comment );
@@ -1731,7 +1731,7 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> reconcile_sort_type;
@@ -1754,7 +1754,7 @@ gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> reconcile_sort_type = sort_type;
@@ -1778,7 +1778,7 @@ GSList *gsb_data_account_get_sort_list ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> sort_list;
@@ -1801,7 +1801,7 @@ gboolean gsb_data_account_set_sort_list ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> sort_list = list;
@@ -1825,7 +1825,7 @@ gboolean gsb_data_account_sort_list_add ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> sort_list = g_slist_append ( account -> sort_list,
@@ -1849,7 +1849,7 @@ gboolean gsb_data_account_sort_list_remove ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> sort_list = g_slist_remove ( account -> sort_list,
@@ -1871,7 +1871,7 @@ gboolean gsb_data_account_sort_list_free ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
     if (!account -> sort_list)
 	return TRUE;
@@ -1895,7 +1895,7 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> split_neutral_payment;
@@ -1917,7 +1917,7 @@ gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> split_neutral_payment = split_neutral_payment;
@@ -1939,7 +1939,7 @@ gchar *gsb_data_account_get_holder_name ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> holder_name;
@@ -1962,7 +1962,7 @@ gboolean gsb_data_account_set_holder_name ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free ( account -> holder_name );
@@ -1986,7 +1986,7 @@ gchar *gsb_data_account_get_holder_address ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> holder_address;
@@ -2009,7 +2009,7 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free ( account -> holder_address );
@@ -2037,7 +2037,7 @@ gint gsb_data_account_get_default_debit ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> default_debit;
@@ -2059,7 +2059,7 @@ gboolean gsb_data_account_set_default_debit ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> default_debit = default_debit;
@@ -2082,7 +2082,7 @@ gint gsb_data_account_get_default_credit ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> default_credit;
@@ -2104,7 +2104,7 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> default_credit = default_credit;
@@ -2127,7 +2127,7 @@ gfloat gsb_data_account_get_row_align ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0.0;
 
     return account -> row_align;
@@ -2150,7 +2150,7 @@ gboolean gsb_data_account_set_row_align ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> row_align = row_align;
@@ -2172,7 +2172,7 @@ gint gsb_data_account_get_sort_type ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> sort_type;
@@ -2195,7 +2195,7 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> sort_type = sort_type;
@@ -2219,7 +2219,7 @@ gint gsb_data_account_get_sort_column ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return 0;
 
     return account -> sort_column;
@@ -2242,7 +2242,7 @@ gboolean gsb_data_account_set_sort_column ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     account -> sort_column = sort_column;
@@ -2265,7 +2265,7 @@ gpointer gsb_data_account_get_form_organization ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return NULL;
 
     return account -> form_organization;
@@ -2287,7 +2287,7 @@ gboolean gsb_data_account_set_form_organization ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     g_free (account -> form_organization);
@@ -2393,7 +2393,7 @@ gboolean gsb_data_account_move_account ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     /* first, remove the account from the list */
@@ -2445,7 +2445,7 @@ gboolean gsb_data_account_set_default_sort_values ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	return FALSE;
 
     for ( i = 0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
@@ -2493,7 +2493,7 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
     for ( j = 0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
 	target_account_ptr -> column_element_sort[j] = origin_account_ptr -> column_element_sort[j];
 
-    target_account_ptr -> sort_type = origin_account_ptr -> sort_type;
+    target_account_ptr -> sort_type   = origin_account_ptr -> sort_type;
     target_account_ptr -> sort_column = origin_account_ptr -> sort_column;
     return TRUE;
 }
@@ -2753,7 +2753,7 @@ gchar *gsb_data_account_get_bank_account_iban (gint account_number)
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return NULL;
 
     return account -> bank_account_iban;
@@ -2772,7 +2772,7 @@ gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gch
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return FALSE;
     
     g_free ( account -> bank_account_iban );
@@ -2894,7 +2894,7 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     date = account -> bet_start_date;
@@ -2923,7 +2923,7 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     if ( date && g_date_valid ( date ) )
@@ -2955,7 +2955,7 @@ gint gsb_data_account_get_bet_spin_range ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return 0;
 
     return account -> bet_spin_range;
@@ -2973,7 +2973,7 @@ gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_ra
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     account -> bet_spin_range = spin_range;
@@ -2993,7 +2993,7 @@ gint gsb_data_account_get_bet_months ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     if ( account -> bet_months == 0 )
@@ -3014,7 +3014,7 @@ gboolean gsb_data_account_set_bet_months ( gint account_number, gint months )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return FALSE;
 
     account -> bet_months = months;
@@ -3034,7 +3034,7 @@ gint gsb_data_account_get_bet_hist_data ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return 0;
 
     return account -> bet_hist_data;
@@ -3052,7 +3052,7 @@ gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_dat
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     account -> bet_hist_data = hist_data;
@@ -3072,7 +3072,7 @@ gint gsb_data_account_get_bet_hist_fyear ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return 0;
 
     return account -> bet_hist_fyear;
@@ -3090,7 +3090,7 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     account -> bet_hist_fyear = hist_fyear;
@@ -3110,7 +3110,7 @@ gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     return account -> bet_auto_inc_month;
@@ -3149,7 +3149,7 @@ gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return 0;
 
     switch ( origine )
@@ -3182,7 +3182,7 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
 	    return FALSE;
 
     switch ( origine )
@@ -3246,7 +3246,7 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     kind = account -> account_kind;
@@ -3301,7 +3301,7 @@ gint gsb_data_account_get_bet_maj ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     return account -> bet_maj;
@@ -3341,7 +3341,7 @@ gdouble gsb_data_account_get_bet_finance_capital ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     return account -> bet_capital;
@@ -3381,7 +3381,7 @@ gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     return account -> bet_taux_annuel;
@@ -3421,7 +3421,7 @@ gdouble gsb_data_account_get_bet_finance_frais ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     return account -> bet_frais;
@@ -3460,7 +3460,7 @@ gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
 
     return account -> bet_type_taux;
@@ -3478,7 +3478,7 @@ gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint 
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return FALSE;
 
     account -> bet_type_taux = type_taux;
@@ -3501,7 +3501,7 @@ gint gsb_data_account_get_currency_floating_point ( gint account_number )
 
     account = gsb_data_account_get_structure ( account_number );
 
-    if (!account )
+    if ( !account )
         return 0;
     else
     {

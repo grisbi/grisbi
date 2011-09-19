@@ -917,6 +917,12 @@ static gboolean gsb_csv_export_tree_view_list_foreach_callback ( GtkTreeModel *m
     GtkTreeView *tree_view;
     GList *list;
     GList *list_tmp;
+    gint depth;
+
+    /* on n'exporte que les lignes de plus haut niveau */
+    depth = gtk_tree_path_get_depth ( path );
+    if ( depth > 1 )
+        return FALSE;
 
     tree_view = g_object_get_data ( G_OBJECT ( model ), "tree_view" );
     list = gtk_tree_view_get_columns ( tree_view );
