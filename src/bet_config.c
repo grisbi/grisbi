@@ -333,7 +333,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX (hbox ), label, FALSE, FALSE, 0 );
 
-	combo = gsb_account_create_combo_list ( (GtkSignalFunc) bet_config_change_account,
+	combo = gsb_account_create_combo_list ( G_CALLBACK ( bet_config_change_account ),
                         NULL, FALSE );
     g_object_set_data ( G_OBJECT ( account_page ), "account_combo", combo );
     if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1 )

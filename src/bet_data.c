@@ -216,6 +216,7 @@ void bet_data_update_bet_module ( gint account_number, guint page )
                 bet_historical_populate_data ( account_number );
                 gsb_data_account_set_bet_maj ( account_number, BET_MAJ_FALSE );
             }
+            bet_historical_set_page_title ( account_number );
             break;
         default:
             break;

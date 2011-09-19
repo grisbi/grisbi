@@ -7,10 +7,10 @@
 
 
 /* START_DECLARATION */
-GtkWidget *gsb_account_create_combo_list ( GCallback func, 
+GtkWidget *gsb_account_create_combo_list ( GCallback func,
 					   gpointer data,
 					   gboolean include_closed );
-GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func, 
+GtkWidget *gsb_account_create_menu_list ( GCallback func,
 					  gboolean activate_currrent,
 					  gboolean include_closed );
 gboolean gsb_account_delete ( void );

@@ -34,6 +34,10 @@
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
 
+#ifdef HAVE_GOFFICE
+#include <goffice/goffice.h>
+#endif
+
 /*START_INCLUDE*/
 #include "main.h"
 #include "accueil.h"
@@ -184,6 +188,13 @@ void main_linux ( int argc, char **argv )
 
     gtk_init ( &argc, &argv );
 
+#ifdef HAVE_GOFFICE
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+#endif
+
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
 
@@ -216,6 +227,11 @@ void main_linux ( int argc, char **argv )
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
+
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+#endif
 }
 
 

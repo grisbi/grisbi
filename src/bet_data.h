@@ -87,6 +87,45 @@ struct _transfert_data
     gint sub_budgetary_number;
 };
 
+/* noms des colonnes du tree_view des previsions */
+enum bet_estimation_tree_columns
+{
+    SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
+    SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
+    SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
+    SPP_ESTIMATE_TREE_SUB_DIV_COLUMN,   /* sub_div_nb */
+    SPP_ESTIMATE_TREE_DATE_COLUMN,
+    SPP_ESTIMATE_TREE_DESC_COLUMN,
+    SPP_ESTIMATE_TREE_DEBIT_COLUMN,
+    SPP_ESTIMATE_TREE_CREDIT_COLUMN,
+    SPP_ESTIMATE_TREE_BALANCE_COLUMN,
+    SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+    SPP_ESTIMATE_TREE_AMOUNT_COLUMN,    /* the amount without currency */
+    SPP_ESTIMATE_TREE_BALANCE_COLOR,
+    SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+    SPP_ESTIMATE_TREE_COLOR_STRING,
+    SPP_ESTIMATE_TREE_NUM_COLUMNS
+};
+
+/* noms des colonnes du tree_view des données historiques */
+enum bet_historical_data_columns {
+    SPP_HISTORICAL_SELECT_COLUMN,
+    SPP_HISTORICAL_DESC_COLUMN,
+    SPP_HISTORICAL_CURRENT_COLUMN,  /* Accumulation of the current year */
+    SPP_HISTORICAL_BALANCE_COLUMN,
+    SPP_HISTORICAL_AVERAGE_COLUMN,
+    SPP_HISTORICAL_AVERAGE_AMOUNT,  /* average column without currency */
+    SPP_HISTORICAL_RETAINED_COLUMN,
+    SPP_HISTORICAL_RETAINED_AMOUNT, /* retenaid column without currency */
+    SPP_HISTORICAL_BALANCE_COLOR,
+    SPP_HISTORICAL_ACCOUNT_NUMBER,
+    SPP_HISTORICAL_DIV_NUMBER,
+    SPP_HISTORICAL_SUB_DIV_NUMBER,
+    SPP_HISTORICAL_EDITED_COLUMN,
+    SPP_HISTORICAL_BACKGROUND_COLOR,
+    SPP_HISTORICAL_NUM_COLUMNS
+};
+
 
 /* START_DECLARATION */
 GDate *bet_data_array_get_date_max ( gint account_number );

@@ -1306,7 +1306,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 				 NULL );
 	    g_signal_connect ( G_OBJECT ( event_box ),
 				 "button-press-event",
-				 (GtkSignalFunc) saisie_echeance_accueil,
+				 G_CALLBACK ( saisie_echeance_accueil ),
 				 GINT_TO_POINTER (scheduled_number));
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), event_box, TRUE, TRUE, 5 );
 	    gtk_widget_show ( event_box  );

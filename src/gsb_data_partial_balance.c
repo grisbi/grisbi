@@ -573,6 +573,7 @@ void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
             valid = gtk_tree_model_iter_next ( model, &iter );
         }
     }
+    g_strfreev ( tab );
 }
 
 
@@ -1077,6 +1078,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
         }
         solde = gsb_real_add ( solde, tmp_real );
     }
+    g_strfreev ( tab );
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
         string = g_strdup_printf ( "<span color=\"red\">%s</span>",
@@ -1138,6 +1140,7 @@ gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_numb
         }
         solde = gsb_real_add ( solde, tmp_real );
     }
+    g_strfreev ( tab );
 
     return solde;
 }
@@ -1325,6 +1328,8 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
             }
         }
     }
+    g_strfreev ( tab );
+
     if ( currency_mixte )
         gsb_data_partial_balance_set_currency ( partial_balance_number,
                         no_devise_solde_partiels );

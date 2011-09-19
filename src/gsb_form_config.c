@@ -153,7 +153,8 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     /* the accounts option_menu */
-    accounts_combobox = gsb_account_create_combo_list ((GtkSignalFunc) gsb_form_config_change_account_choice, NULL, FALSE );
+    accounts_combobox = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_config_change_account_choice ),
+                        NULL, FALSE );
 
     /*create the scolled window for tree_view */
     sw = gtk_scrolled_window_new ( NULL, NULL);

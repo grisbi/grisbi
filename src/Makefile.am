@@ -2,6 +2,10 @@
 
 AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(IGE_MAC_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\""
 
+if HAVE_GOFFICE
+AM_CPPFLAGS += $(GOFFICE_CFLAGS)
+endif
+
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
 
@@ -17,6 +21,10 @@ else
 libgrisbi_la_LDFLAGS = -export_dynamic
 endif
 libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(IGE_MAC_LIBS)
+
+if HAVE_GOFFICE
+libgrisbi_la_LIBADD += $(GOFFICE_LIBS)
+endif
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
@@ -112,6 +120,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_config.c	\
 	gsb_reconcile_list.c	\
 	gsb_reconcile_sort_config.c	\
+	gsb_regex.c		\
 	gsb_report.c		\
 	gsb_scheduler.c		\
 	gsb_scheduler_list.c	\
@@ -151,6 +160,7 @@ libgrisbi_la_SOURCES = \
 	utils_file_selection.c	\
 	utils_files.c		\
 	utils_font.c		\
+	utils_gtkbuilder.c	\
 	utils_operations.c	\
 	utils_real.c		\
 	utils_str.c		\
@@ -159,6 +169,7 @@ libgrisbi_la_SOURCES = \
 	bet_data_finance.c \
 	bet_finance_ui.c \
 	bet_future.c \
+	bet_graph.c \
 	bet_hist.c \
 	bet_tab.c	\
 	accueil.h		\
@@ -169,6 +180,7 @@ libgrisbi_la_SOURCES = \
 	bet_data_finance.h \
 	bet_finance_ui.h \
 	bet_future.h \
+	bet_graph.h \
 	bet_hist.h \
 	bet_tab.h  \
 	categories_onglet.h	\
@@ -252,6 +264,7 @@ libgrisbi_la_SOURCES = \
 	gsb_reconcile_config.h	\
 	gsb_reconcile_list.h	\
 	gsb_reconcile_sort_config.h	\
+	gsb_regex.h		\
 	gsb_report.h		\
 	gsb_status.h            \
 	gsb_select_icon.h 	\
@@ -304,6 +317,7 @@ libgrisbi_la_SOURCES = \
 	utils_file_selection.h	\
 	utils_files.h		\
 	utils_font.h		\
+	utils_gtkbuilder.h	\
 	utils_operations.h	\
 	utils_real.h		\
 	utils_str.h
