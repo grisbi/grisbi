@@ -2926,6 +2926,21 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
+#ifdef HAVE_GOFFICE
+    /* graph button */
+    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+                        _("Data graph"),
+                        "graph-line.png",
+                        NULL,
+                        NULL );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("display the data graph") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( bet_graph_line_graph_new ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+#endif
+
     gtk_widget_show_all ( hbox );
 
     return ( hbox );
