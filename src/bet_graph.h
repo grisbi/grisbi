@@ -8,8 +8,12 @@
 /* Definition de la taille mini de la boite de dialogue */
 #define PAGE_WIDTH 750
 #define PAGE_HEIGHT 550
+
 /* Definition du maximum de segments par camembert */
 #define MAX_SEGMENT_CAMEMBERT 30
+/* Definition du maximum de segments par camembert */
+#define MAX_POINTS_GRAPHIQUE 300
+
 /* Definition de la taille maximum d'un libelle */
 #define TAILLE_MAX_LIBELLE 50
 

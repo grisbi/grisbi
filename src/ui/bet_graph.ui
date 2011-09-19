@@ -90,4 +90,14 @@
       <placeholder/>
     </child>
   </object>
+  <object class="GtkVBox" id="box_line">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
 </interface>
