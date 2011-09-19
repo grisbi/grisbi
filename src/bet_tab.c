@@ -34,6 +34,7 @@
 #include "bet_config.h"
 #include "bet_data.h"
 #include "bet_future.h"
+#include "bet_graph.h"
 #include "bet_hist.h"
 #include "dialog.h"
 #include "export_csv.h"
@@ -714,7 +715,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
@@ -732,7 +733,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
@@ -751,7 +752,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
