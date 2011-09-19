@@ -54,6 +54,9 @@ dnl ================================================================
 dnl Main Grisbi libraries
 dnl ================================================================
 
+AC_CHECK_LIBM
+AC_SUBST(LIBM)
+
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])

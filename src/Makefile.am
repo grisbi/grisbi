@@ -16,7 +16,7 @@ libgrisbi_la_LIBADD += \
 else
 libgrisbi_la_LDFLAGS = -export_dynamic
 endif
-libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(IGE_MAC_LIBS)
+libgrisbi_la_LIBADD += $(LIBM) $(GRISBI_LIBS) $(IGE_MAC_LIBS)
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
