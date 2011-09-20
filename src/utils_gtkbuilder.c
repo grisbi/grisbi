@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "utils_gtkbuilder.h"
+#include "dialog.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -40,7 +41,7 @@
 
 
 /**
- * obtient le fichier de l'interface graphique
+ * retourne le nom long du fichier de l'interface graphique
  *
  *
  *
@@ -82,6 +83,45 @@ GtkWidget *utils_gtkbuilder_get_widget_by_name ( GtkBuilder *builder,
     return w_2;
 }
 
+
+/**
+ * retourne le nom long du fichier de l'interface graphique
+ *
+ *
+ *
+ * */
+gint utils_gtkbuilder_merge_ui_data_in_builder ( GtkBuilder *builder,
+                    const gchar *ui_name )
+{
+    gchar *filename;
+    gint result;
+    GError *error = NULL;
+
+    /* Chargement du XML dans bet_graph_builder */
+    filename = utils_gtkbuilder_get_full_path ( ui_name );
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        gchar* tmpstr;
+
+        tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+        dialogue_error ( tmpstr );
+        g_free ( tmpstr );
+        g_free ( filename );
+        return 0;
+    }
+
+    result = gtk_builder_add_from_file ( builder, filename, &error );
+    if ( result == 0 )
+    {
+        g_error ("%s", error->message);
+        g_error_free ( error );
+    }
+    g_free ( filename );
+
+    return result;
+}
 
 
 /* Local Variables: */
