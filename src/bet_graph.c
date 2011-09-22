@@ -48,7 +48,6 @@
 
 
 typedef struct _struct_bet_graph_data    struct_bet_graph_data;
-typedef struct _struct_bet_sectors_data struct_bet_sectors_data;
 
 struct _struct_bet_graph_data
 {
@@ -246,6 +245,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view 
     /* free the data */
     struct_free_bet_graph_data ( self_debit );
     struct_free_bet_graph_data ( self_credit );
+    g_object_unref ( G_OBJECT ( bet_graph_builder ) );
     gtk_widget_destroy ( dialog );
 }
 
@@ -434,6 +434,7 @@ void bet_graph_line_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view )
 
     /* free the data */
     struct_free_bet_graph_data ( self );
+    g_object_unref ( G_OBJECT ( bet_graph_builder ) );
     gtk_widget_destroy ( dialog );
 }
 
@@ -457,7 +458,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
     {
         gchar *libelle_axe_x = self -> tab_libelle[0];
         gchar **tab_libelle_axe_x;
-        gdouble *tab_X = self -> tab_X;
+/*         gdouble *tab_X = self -> tab_X;  */
         gdouble *tab_Y = self -> tab_Y;
         gdouble montant = 0.;
         GDateMonth mois_courant;
@@ -506,8 +507,9 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
  */
                     strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE );
                     mois_courant = g_date_get_month ( date );
-printf ("self -> nbre_elemnts = %d\tdate_value = %s date_texte = %s x = %d y = %.2f\n",
-    self -> nbre_elemnts, gsb_format_gdate (date), str_date, (gint) tab_X[self->nbre_elemnts], tab_Y[self->nbre_elemnts]);
+/* printf ("self -> nbre_elemnts = %d\tdate_value = %s date_texte = %s x = %d y = %.2f\n",
+ *     self -> nbre_elemnts, gsb_format_gdate (date), str_date, (gint) tab_X[self->nbre_elemnts], tab_Y[self->nbre_elemnts]);
+ */
 
 /*                 }                  */
             }
