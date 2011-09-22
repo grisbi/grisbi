@@ -17,7 +17,6 @@
             <child>
               <object class="GtkLabel" id="label_canvas">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">label</property>
               </object>
               <packing>
                 <property name="expand">False</property>

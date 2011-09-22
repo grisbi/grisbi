@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -975,7 +975,7 @@ msgstr "Exporteren"
 msgid "credit.csv"
 msgstr "Credit(bij)"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Kan het bestand niet opslaan."
@@ -1418,17 +1418,17 @@ msgstr "Geen categorie"
 msgid "No budgetary line"
 msgstr "Geen budgetregel"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Exporteer de budgetregels"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -9763,9 +9763,6 @@ msgstr "Transacties overschrijven naar "
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11389,6 +11386,19 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Geen budgetregel"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Toon de naam van de (sub)categorie"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Selecteer bankrekeningen"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

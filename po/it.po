@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -959,7 +959,7 @@ msgstr "Esporta"
 msgid "credit.csv"
 msgstr "Credito"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Impossibile salvare il file."
@@ -1402,17 +1402,17 @@ msgstr "Nessuna categoria"
 msgid "No budgetary line"
 msgstr "Nessuna linea budget"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Esporta le linee budget"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -9659,9 +9659,6 @@ msgstr "Trasferire la transazione a"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erorre su sigaction: SIGSEGV non sarà catturato \n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr ""
@@ -11278,6 +11275,19 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Nessuna linea budget"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Visualizza il nome della sotto-categoria"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Seleziona conti bancari"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

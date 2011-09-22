@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2011-02-01 21:33+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -895,7 +895,7 @@ msgstr "Exporter"
 msgid "credit.csv"
 msgstr "crédit.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
@@ -1202,7 +1202,7 @@ msgstr "Graphique"
 
 #: ../src/bet_hist.c:1955
 msgid "display the data graph"
-msgstr "Affiche le graphique"
+msgstr "Afficher le graphique"
 
 #: ../src/bet_hist.c:2011
 msgid "Export the historical data"
@@ -1313,15 +1313,15 @@ msgstr "Pas de catégorie"
 msgid "No budgetary line"
 msgstr "Pas d'imputation budgétaire"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 msgid "Export the array of forecast"
 msgstr "Exporter les prévisions"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 msgid "Balance at "
 msgstr "Solde au "
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr "prévisions.csv"
 
@@ -9653,9 +9653,6 @@ msgstr "Transférer les opérations dans une autre sous-catégorie"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11320,9 +11317,17 @@ msgstr "La conversion à échoué essayez un autre jeu de caractères"
 msgid "No font defined"
 msgstr "Aucune police définie"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+msgid "Display the data graph"
+msgstr "Afficher le graphique"
+
+#: ../src/ui/bet_graph.ui.h:2
+msgid "Select the chart type"
+msgstr "Sélectionnez le type de graphique"
+
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Please select the data source for the account: \"%s\""
-#~ msgstr "Sélectionnez la source des données pour le compte : %s"

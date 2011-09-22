@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -992,7 +992,7 @@ msgstr "Exportare"
 msgid "credit.csv"
 msgstr "Credit"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Imposibil de a înregistra fişierul."
@@ -1435,17 +1435,17 @@ msgstr "Nici o categorie"
 msgid "No budgetary line"
 msgstr "Nici o imputaţie bugetara"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Exporta imputaţiile bugetare"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Sold"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -9724,9 +9724,6 @@ msgstr "Transfera operaţiunile pe terţi"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Eroare pe sigaction, semnalul SIGSEGV nu va fi deturnat\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11341,6 +11338,19 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Nici'o imputaţie"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Afişa numele de la (sub-)categorie"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Selecţionaţi conturile bancare"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

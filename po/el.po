@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -957,7 +957,7 @@ msgstr "Εξαγωγή"
 msgid "credit.csv"
 msgstr "Πίστωση"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Αδύνατη η αποθήκευση αρχείου"
@@ -1392,17 +1392,17 @@ msgstr "Καμία κατηγορία"
 msgid "No budgetary line"
 msgstr "Καμία δημοσιονομική γραμμή"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Εξάγετε τις δημοσιονομικές γραμμές"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Ισορροπία"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -9959,9 +9959,6 @@ msgstr "Συναλλαγές μεταφοράς %s"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -11578,6 +11575,19 @@ msgstr ""
 #: ../src/utils_font.c:203
 msgid "No font defined"
 msgstr "Δεν καθορίστηκε γραμματοσειρά"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Εμφάνιση συμβουλής της ημέρας"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Επιλέξτε το βασικό νόμισμα"
 
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy

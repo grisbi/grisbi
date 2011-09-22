@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -949,7 +949,7 @@ msgstr "Eksportér"
 msgid "credit.csv"
 msgstr "Kredit"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr ""
@@ -1383,16 +1383,16 @@ msgstr "Ingen kategori"
 msgid "No budgetary line"
 msgstr ""
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 msgid "Export the array of forecast"
 msgstr ""
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Balance"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -9399,9 +9399,6 @@ msgstr "Fly transaktioner til kategori"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -10969,6 +10966,19 @@ msgstr ""
 #, fuzzy
 msgid "No font defined"
 msgstr "Ingen kategori  (%d)"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Vis gitter"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Tilføj valuta"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
