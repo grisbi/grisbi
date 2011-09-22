@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 15:22+0200\n"
+"POT-Creation-Date: 2011-09-22 21:04+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -271,7 +271,8 @@ msgstr "地址和名称抬头"
 
 #. Account file title
 #: ../src/affichage.c:365 ../src/etats_config.c:635 ../src/etats_config.c:638
-#: ../src/etats_config.c:6998
+#: ../src/etats_config.c:6998 ../src/gsb_etats_config.c:569
+#: ../src/gsb_etats_config.c:2367
 msgid "Titles"
 msgstr "名称抬头"
 
@@ -624,7 +625,8 @@ msgstr "恢复默认值"
 #: ../src/bet_hist.c:2091 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
+#: ../src/fenetre_principale.c:296 ../src/gsb_etats_config.c:518
+#: ../src/gsb_etats_config.c:1171 ../src/navigation.c:1958
 msgid "Categories"
 msgstr "类别"
 
@@ -634,8 +636,9 @@ msgstr "类别"
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
+#: ../src/gsb_etats_config.c:523 ../src/gsb_etats_config.c:1794
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1961
+#: ../src/navigation.c:1962
 msgid "Budgetary lines"
 msgstr "预算行"
 
@@ -749,7 +752,7 @@ msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1216 ../src/navigation.c:1953
+#: ../src/navigation.c:1217 ../src/navigation.c:1954
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
@@ -943,12 +946,12 @@ msgid "Credits"
 msgstr "贷方"
 
 #: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1925 ../src/bet_tab.c:2886
-#: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
+#: ../src/etats_onglet.c:178 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "打印"
 
 #: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1938 ../src/bet_tab.c:2899
-#: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
+#: ../src/categories_onglet.c:562 ../src/etats_onglet.c:168
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
 msgstr "导出"
@@ -958,7 +961,7 @@ msgstr "导出"
 msgid "credit.csv"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3026
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "不能保存文件"
@@ -1019,7 +1022,8 @@ msgid "Yearly"
 msgstr "每年"
 
 #: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:194
-#: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
+#: ../src/gsb_etats_config.c:176 ../src/gsb_form_scheduler.c:154
+#: ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "自定义"
 
@@ -1083,10 +1087,10 @@ msgstr "选择支付方式"
 #: ../src/etats_config.c:528 ../src/etats_config.c:531
 #: ../src/etats_config.c:696 ../src/etats_config.c:7032
 #: ../src/export_csv.c:791 ../src/fenetre_principale.c:286
-#: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1319
-#: ../src/gsb_form_widget.c:436 ../src/gsb_scheduler_list.c:512
-#: ../src/gsb_transactions_list.c:167 ../src/import.c:3333
-#: ../src/import_csv.c:83 ../src/meta_payee.c:79
+#: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_etats_config.c:513
+#: ../src/gsb_form.c:1319 ../src/gsb_form_widget.c:436
+#: ../src/gsb_scheduler_list.c:512 ../src/gsb_transactions_list.c:167
+#: ../src/import.c:3333 ../src/import_csv.c:83 ../src/meta_payee.c:79
 #, fuzzy
 msgid "Payee"
 msgstr "支付方"
@@ -1223,9 +1227,10 @@ msgstr "选择所有"
 
 #: ../src/bet_hist.c:590 ../src/categories_onglet.c:180
 #: ../src/etats_config.c:5249 ../src/export_csv.c:800
-#: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
-#: ../src/gsb_transactions_list.c:172 ../src/import.c:3340
-#: ../src/imputation_budgetaire.c:185 ../src/tiers_onglet.c:232
+#: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_etats_config.c:2119
+#: ../src/gsb_scheduler_list.c:513 ../src/gsb_transactions_list.c:172
+#: ../src/import.c:3340 ../src/imputation_budgetaire.c:185
+#: ../src/tiers_onglet.c:232
 msgid "Amount"
 msgstr "总计"
 
@@ -1279,9 +1284,13 @@ msgstr ""
 msgid "Data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:1955
-msgid "display the data graph"
-msgstr ""
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/bet_hist.c:1955 ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "显示（子）类别的名称"
 
 #: ../src/bet_hist.c:2011
 #, fuzzy
@@ -1308,7 +1317,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:674 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
+#: ../src/bet_tab.c:674 ../src/etats_onglet.c:278 ../src/tiers_onglet.c:679
 msgid "Description"
 msgstr "描述"
 
@@ -1392,26 +1401,28 @@ msgstr "恢复默认值"
 
 #: ../src/bet_tab.c:2430 ../src/bet_tab.c:2480 ../src/bet_tab.c:2538
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
+#: ../src/gsb_etats_config.c:1664 ../src/gsb_etats_config.c:2440
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "未分类"
 
 #: ../src/bet_tab.c:2438 ../src/bet_tab.c:2488 ../src/bet_tab.c:2544
-#: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
+#: ../src/etats_affiche.c:2034 ../src/gsb_etats_config.c:1675
+#: ../src/gsb_etats_config.c:2445 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "没有预算行"
 
-#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "导出预算行"
 
-#: ../src/bet_tab.c:2960
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "余额"
 
-#: ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -1419,7 +1430,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1062 ../src/tiers_onglet.c:222
+#: ../src/navigation.c:1063 ../src/tiers_onglet.c:222
 msgid "Account"
 msgstr "账户"
 
@@ -1441,7 +1452,7 @@ msgstr "导出类别"
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:448 ../src/etats_onglet.c:1225
+#: ../src/categories_onglet.c:448 ../src/etats_onglet.c:1226
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:238 ../src/import.c:859
 #: ../src/imputation_budgetaire.c:485
 #, fuzzy
@@ -1496,7 +1507,7 @@ msgstr "新增子类"
 msgid "Create a new sub-category"
 msgstr "请输入新增子类的名称"
 
-#: ../src/categories_onglet.c:552 ../src/etats_onglet.c:158
+#: ../src/categories_onglet.c:552 ../src/etats_onglet.c:159
 #: ../src/import.c:442 ../src/import.c:3644 ../src/imputation_budgetaire.c:587
 #: ../src/parametres.c:320 ../src/utils_files.c:576
 msgid "Import"
@@ -1512,14 +1523,14 @@ msgstr "导入类别清单"
 msgid "Export a Grisbi category file (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/categories_onglet.c:571 ../src/etats_onglet.c:187
+#: ../src/categories_onglet.c:571 ../src/etats_onglet.c:188
 #: ../src/gsb_scheduler_list.c:274 ../src/gsb_transactions_list.c:344
 #: ../src/imputation_budgetaire.c:609 ../src/tiers_onglet.c:326
 #, fuzzy
 msgid "Delete"
 msgstr "选择"
 
-#: ../src/categories_onglet.c:575 ../src/navigation.c:2213
+#: ../src/categories_onglet.c:575 ../src/navigation.c:2214
 #, fuzzy
 msgid "Delete selected category"
 msgstr "请输入一个类别"
@@ -1531,7 +1542,7 @@ msgid "Edit"
 msgstr "编辑"
 
 #: ../src/categories_onglet.c:584 ../src/categories_onglet.c:1077
-#: ../src/navigation.c:2228
+#: ../src/navigation.c:2229
 #, fuzzy
 msgid "Edit selected category"
 msgstr "类别"
@@ -2134,15 +2145,17 @@ msgstr "一般总计:"
 msgid "Split of transaction"
 msgstr "更改交易"
 
-#: ../src/etats_affiche.c:1950
+#: ../src/etats_affiche.c:1950 ../src/gsb_etats_config.c:1665
+#: ../src/gsb_etats_config.c:2441
 msgid "No subcategory"
 msgstr "没有子类别"
 
-#: ../src/etats_affiche.c:2119 ../src/meta_budgetary.c:69
+#: ../src/etats_affiche.c:2119 ../src/gsb_etats_config.c:1676
+#: ../src/gsb_etats_config.c:2446 ../src/meta_budgetary.c:69
 msgid "No sub-budgetary line"
 msgstr "没有子预算行"
 
-#: ../src/etats_affiche.c:2270 ../src/gsb_data_payee.c:124
+#: ../src/etats_affiche.c:2270 ../src/gsb_data_payee.c:123
 #: ../src/meta_payee.c:82
 #, fuzzy
 msgid "No payee"
@@ -2171,6 +2184,7 @@ msgstr "财年"
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2458 ../src/etats_config.c:573
 #: ../src/etats_config.c:576 ../src/etats_config.c:7231
+#: ../src/gsb_etats_config.c:538 ../src/gsb_etats_config.c:2165
 #: ../src/gsb_payment_method_config.c:120 ../src/parametres.c:566
 msgid "Payment methods"
 msgstr "支付方式"
@@ -2193,51 +2207,51 @@ msgstr "银行征信"
 msgid "Statement"
 msgstr "结算单"
 
-#: ../src/etats_config.c:193
+#: ../src/etats_config.c:193 ../src/gsb_etats_config.c:175
 msgid "All"
 msgstr "全部"
 
-#: ../src/etats_config.c:195
+#: ../src/etats_config.c:195 ../src/gsb_etats_config.c:177
 msgid "Total to now"
 msgstr "当前总计"
 
-#: ../src/etats_config.c:196
+#: ../src/etats_config.c:196 ../src/gsb_etats_config.c:178
 msgid "Current month"
 msgstr "本月"
 
-#: ../src/etats_config.c:197
+#: ../src/etats_config.c:197 ../src/gsb_etats_config.c:179
 msgid "Current year"
 msgstr "本年"
 
-#: ../src/etats_config.c:198
+#: ../src/etats_config.c:198 ../src/gsb_etats_config.c:180
 msgid "Current month to now"
 msgstr "本月到现在"
 
-#: ../src/etats_config.c:199
+#: ../src/etats_config.c:199 ../src/gsb_etats_config.c:181
 msgid "Current year to now"
 msgstr "本年到现在"
 
-#: ../src/etats_config.c:200
+#: ../src/etats_config.c:200 ../src/gsb_etats_config.c:182
 msgid "Previous month"
 msgstr "上月"
 
-#: ../src/etats_config.c:201
+#: ../src/etats_config.c:201 ../src/gsb_etats_config.c:183
 msgid "Previous year"
 msgstr "去年"
 
-#: ../src/etats_config.c:202
+#: ../src/etats_config.c:202 ../src/gsb_etats_config.c:184
 msgid "Last 30 days"
 msgstr "过去30天"
 
-#: ../src/etats_config.c:203
+#: ../src/etats_config.c:203 ../src/gsb_etats_config.c:185
 msgid "Last 3 months"
 msgstr "过去3个月"
 
-#: ../src/etats_config.c:204
+#: ../src/etats_config.c:204 ../src/gsb_etats_config.c:186
 msgid "Last 6 months"
 msgstr "过去6个月"
 
-#: ../src/etats_config.c:205
+#: ../src/etats_config.c:205 ../src/gsb_etats_config.c:187
 msgid "Last 12 months"
 msgstr "过去12个月"
 
@@ -2269,36 +2283,41 @@ msgstr "星期六"
 msgid "Sunday"
 msgstr "星期日"
 
-#: ../src/etats_config.c:410
+#: ../src/etats_config.c:410 ../src/ui/gsb_etats_config.ui.h:28
 #, fuzzy
 msgid "Report properties"
 msgstr "货币属性"
 
-#: ../src/etats_config.c:494
+#. append group page
+#: ../src/etats_config.c:494 ../src/gsb_etats_config.c:494
 msgid "Data selection"
 msgstr "数据选择"
 
 #: ../src/etats_config.c:501 ../src/etats_config.c:504
+#: ../src/gsb_etats_config.c:498
 msgid "Dates"
 msgstr "日期"
 
 #: ../src/etats_config.c:510 ../src/etats_config.c:513
-#: ../src/etats_config.c:2716
+#: ../src/etats_config.c:2716 ../src/gsb_etats_config.c:503
+#: ../src/gsb_etats_config.c:855
 msgid "Transfers"
 msgstr "转帐"
 
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
 #: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1941
+#: ../src/gsb_etats_config.c:508 ../src/navigation.c:1942
 msgid "Accounts"
 msgstr "账户"
 
 #: ../src/etats_config.c:555 ../src/etats_config.c:558
+#: ../src/gsb_etats_config.c:528
 msgid "Texts"
 msgstr "文本"
 
 #: ../src/etats_config.c:564 ../src/etats_config.c:567
+#: ../src/gsb_etats_config.c:533
 msgid "Amounts"
 msgstr "总额"
 
@@ -2307,45 +2326,52 @@ msgid "Misc."
 msgstr "其它"
 
 #: ../src/etats_config.c:585 ../src/etats_config.c:6148
+#: ../src/gsb_etats_config.c:543 ../src/gsb_etats_config.c:2258
 #, fuzzy
 msgid "Miscellaneous"
 msgstr "其它 : 礼物"
 
-#: ../src/etats_config.c:593
+#. remplissage de l'onglet d'organisation
+#: ../src/etats_config.c:593 ../src/gsb_etats_config.c:547
 #, fuzzy
 msgid "Data organization"
 msgstr "数据组织"
 
 #: ../src/etats_config.c:600 ../src/etats_config.c:605
-#: ../src/etats_config.c:6219
+#: ../src/etats_config.c:6219 ../src/gsb_etats_config.c:551
+#: ../src/gsb_etats_config.c:2304
 msgid "Data grouping"
 msgstr ""
 
 #. choix de ce qu'on utilise dans le classement
 #: ../src/etats_config.c:610 ../src/etats_config.c:615
 #: ../src/etats_config.c:6327 ../src/etats_config.c:6331
+#: ../src/gsb_etats_config.c:556 ../src/gsb_etats_config.c:2325
 #, fuzzy
 msgid "Data separation"
 msgstr "数据选择"
 
-#: ../src/etats_config.c:620
+#. remplissage de l'onglet d'affichage
+#: ../src/etats_config.c:620 ../src/gsb_etats_config.c:560
 msgid "Data display"
 msgstr "数据显示"
 
 #: ../src/etats_config.c:626 ../src/etats_config.c:629
-#: ../src/etats_config.c:6534
+#: ../src/etats_config.c:6534 ../src/gsb_etats_config.c:564
+#: ../src/gsb_etats_config.c:2346
 msgid "Generalities"
 msgstr "普遍性"
 
 #: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:767
-#: ../src/fenetre_principale.c:253 ../src/parametres.c:430
+#: ../src/fenetre_principale.c:253 ../src/gsb_etats_config.c:574
+#: ../src/parametres.c:430
 msgid "Transactions"
 msgstr "交易"
 
 #. echange line label
 #: ../src/etats_config.c:653 ../src/etats_config.c:656
 #: ../src/gsb_currency.c:555 ../src/gsb_currency_config.c:300
-#: ../src/parametres.c:530
+#: ../src/gsb_etats_config.c:579 ../src/parametres.c:530
 msgid "Currencies"
 msgstr "货币"
 
@@ -2407,39 +2433,39 @@ msgstr ""
 "所有的支付方式都被选中了，如果没有选中\n"
 " \"选择基于支付方式的交易\" 选项，Grisib能运行得更快"
 
-#: ../src/etats_config.c:2063
+#: ../src/etats_config.c:2063 ../src/gsb_etats_config.c:643
 #, fuzzy
 msgid "Date selection"
 msgstr "数据选择"
 
-#: ../src/etats_config.c:2088
+#: ../src/etats_config.c:2088 ../src/ui/gsb_etats_config.ui.h:46
 msgid "Use dates ranges"
 msgstr "使用日期范围"
 
-#: ../src/etats_config.c:2184
+#: ../src/etats_config.c:2184 ../src/ui/gsb_etats_config.ui.h:47
 msgid "Use financial years"
 msgstr "使用财年"
 
-#: ../src/etats_config.c:2221
+#: ../src/etats_config.c:2221 ../src/ui/gsb_etats_config.ui.h:1
 msgid "All financial years"
 msgstr "所有的财年"
 
-#: ../src/etats_config.c:2230
+#: ../src/etats_config.c:2230 ../src/ui/gsb_etats_config.ui.h:5
 msgid "Current financial year"
 msgstr "当前财年"
 
-#: ../src/etats_config.c:2239
+#: ../src/etats_config.c:2239 ../src/ui/gsb_etats_config.ui.h:16
 msgid "Former financial year"
 msgstr "前财年"
 
-#: ../src/etats_config.c:2250
+#: ../src/etats_config.c:2250 ../src/ui/gsb_etats_config.ui.h:8
 msgid "Detail financial years"
 msgstr "财年明细"
 
 #. set the initial date
 #: ../src/etats_config.c:2309 ../src/gsb_assistant_archive.c:235
 #: ../src/gsb_assistant_reconcile_config.c:415
-#: ../src/gsb_reconcile_config.c:214
+#: ../src/gsb_reconcile_config.c:214 ../src/ui/gsb_etats_config.ui.h:22
 #, fuzzy
 msgid "Initial date: "
 msgstr "初始日期"
@@ -2447,23 +2473,23 @@ msgstr "初始日期"
 #. set the final date
 #: ../src/etats_config.c:2339 ../src/gsb_assistant_archive.c:247
 #: ../src/gsb_assistant_reconcile_config.c:426
-#: ../src/gsb_reconcile_config.c:228
+#: ../src/gsb_reconcile_config.c:228 ../src/ui/gsb_etats_config.ui.h:15
 #, fuzzy
 msgid "Final date: "
 msgstr "结束日期"
 
-#: ../src/etats_config.c:2466
+#: ../src/etats_config.c:2466 ../src/gsb_etats_config.c:1032
 #, fuzzy
 msgid "Account selection"
 msgstr "账户交易"
 
 #. on met dans la partie de gauche une liste contenant les comptes à
 #. sélectionner
-#: ../src/etats_config.c:2472
+#: ../src/etats_config.c:2472 ../src/ui/gsb_etats_config.ui.h:41
 msgid "Select transactions only for given accounts"
 msgstr "选择已给出账户的交易"
 
-#: ../src/etats_config.c:2499
+#: ../src/etats_config.c:2499 ../src/ui/gsb_etats_config.ui.h:37
 #, fuzzy
 msgid "Select the accounts included in the report: "
 msgstr "选择报表包含的账户:"
@@ -2472,6 +2498,7 @@ msgstr "选择报表包含的账户:"
 #: ../src/etats_config.c:3094 ../src/etats_config.c:3901
 #: ../src/etats_config.c:4091 ../src/etats_config.c:7322
 #: ../src/tiers_onglet.c:1428 ../src/tiers_onglet.c:1448
+#: ../src/ui/gsb_etats_config.ui.h:29
 msgid "Select all"
 msgstr "选择所有"
 
@@ -2480,60 +2507,65 @@ msgstr "选择所有"
 #: ../src/etats_config.c:3109 ../src/etats_config.c:3916
 #: ../src/etats_config.c:4106 ../src/etats_config.c:7337 ../src/import.c:2270
 #: ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
+#: ../src/ui/gsb_etats_config.ui.h:45
 msgid "Unselect all"
 msgstr "取消选择所有"
 
 #: ../src/etats_config.c:2587 ../src/etats_config.c:2842
+#: ../src/ui/gsb_etats_config.ui.h:31
 msgid "Select bank accounts"
 msgstr "选择银行账户"
 
 #: ../src/etats_config.c:2602 ../src/etats_config.c:2857
+#: ../src/ui/gsb_etats_config.ui.h:32
 msgid "Select cash accounts"
 msgstr "选择现金账户"
 
 #: ../src/etats_config.c:2617 ../src/etats_config.c:2872
+#: ../src/ui/gsb_etats_config.ui.h:34
 msgid "Select liabilities accounts"
 msgstr "选择负债账户"
 
 #: ../src/etats_config.c:2632 ../src/etats_config.c:2887
+#: ../src/ui/gsb_etats_config.ui.h:30
 msgid "Select assets accounts"
 msgstr "选择资产账户"
 
-#: ../src/etats_config.c:2722
+#: ../src/etats_config.c:2722 ../src/ui/gsb_etats_config.ui.h:11
 msgid "Do not include transfers"
 msgstr "不要包含转帐"
 
-#: ../src/etats_config.c:2731
+#: ../src/etats_config.c:2731 ../src/ui/gsb_etats_config.ui.h:18
 msgid "Include transfers from or to assets or liabilities accounts"
 msgstr "包含来自或转入资产或负债账户的转帐"
 
-#: ../src/etats_config.c:2744
+#: ../src/etats_config.c:2744 ../src/ui/gsb_etats_config.ui.h:17
 msgid "Include transfers from or to accounts not in this report"
 msgstr "包含来自或转入不包含在本报表中的账户的转帐"
 
-#: ../src/etats_config.c:2757
+#: ../src/etats_config.c:2757 ../src/ui/gsb_etats_config.ui.h:19
 msgid "Include transfers from or to these accounts"
 msgstr "包含来自或转入其它账户的转帐"
 
 #. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2910
+#: ../src/etats_config.c:2910 ../src/ui/gsb_etats_config.ui.h:12
 msgid "Exclude the transactions which are not transfers"
 msgstr "不包含不是转帐的交易"
 
-#: ../src/etats_config.c:3014
+#: ../src/etats_config.c:3014 ../src/ui/gsb_etats_config.ui.h:7
 msgid "Detail categories"
 msgstr "类别详情"
 
-#: ../src/etats_config.c:3050
+#: ../src/etats_config.c:3050 ../src/ui/gsb_etats_config.ui.h:33
 #, fuzzy
 msgid "Select categories to include: "
 msgstr "选择包含的类别:"
 
-#: ../src/etats_config.c:3124
+#: ../src/etats_config.c:3124 ../src/ui/gsb_etats_config.ui.h:21
 msgid "Income categories"
 msgstr "收入类别"
 
-#: ../src/etats_config.c:3139
+#: ../src/etats_config.c:3139 ../src/ui/gsb_etats_config.ui.h:25
 msgid "Outgoing categories"
 msgstr "支出类别"
 
@@ -2574,46 +2606,47 @@ msgstr ""
 "所有的细目分类行都被选中了，如果没有选中\n"
 " \"使用细目分类行详细\" 选项，Grisib能运行得更快"
 
-#: ../src/etats_config.c:3820
+#: ../src/etats_config.c:3820 ../src/ui/gsb_etats_config.ui.h:6
 msgid "Detail budgetary lines"
 msgstr "详细细目分类行"
 
-#: ../src/etats_config.c:3857
+#: ../src/etats_config.c:3857 ../src/ui/gsb_etats_config.ui.h:38
 #, fuzzy
 msgid "Select the budgetary lines to include in the report: "
 msgstr "选择本报表包含的细目分类行:"
 
-#: ../src/etats_config.c:3931
+#: ../src/etats_config.c:3931 ../src/ui/gsb_etats_config.ui.h:20
 msgid "Income budget lines"
 msgstr "收入预算行"
 
-#: ../src/etats_config.c:3946
+#: ../src/etats_config.c:3946 ../src/ui/gsb_etats_config.ui.h:24
 msgid "Outgoing budget lines"
 msgstr "支出预算行"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1949
-#: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
+#: ../src/etats_config.c:3991 ../src/gsb_etats_config.c:1080
+#: ../src/navigation.c:1950 ../src/tiers_onglet.c:212
+#: ../src/tiers_onglet.c:571
 #, fuzzy
 msgid "Payees"
 msgstr "日"
 
-#: ../src/etats_config.c:4003
+#: ../src/etats_config.c:4003 ../src/ui/gsb_etats_config.ui.h:9
 #, fuzzy
 msgid "Detail payees"
 msgstr "类别详情"
 
-#: ../src/etats_config.c:4040
+#: ../src/etats_config.c:4040 ../src/ui/gsb_etats_config.ui.h:36
 #, fuzzy
 msgid "Select payees to include in this report: "
 msgstr "选择本报表包含的第三方:"
 
-#: ../src/etats_config.c:4173
+#: ../src/etats_config.c:4173 ../src/gsb_etats_config.c:1845
 #, fuzzy
 msgid "Transaction content"
 msgstr "交易清单内容"
 
-#: ../src/etats_config.c:4188
+#: ../src/etats_config.c:4188 ../src/ui/gsb_etats_config.ui.h:40
 #, fuzzy
 msgid "Select transactions according to content"
 msgstr "根据文字选择交易"
@@ -2623,7 +2656,7 @@ msgstr "根据文字选择交易"
 msgid "Transactions whose "
 msgstr "谁的交易"
 
-#: ../src/etats_config.c:4654
+#: ../src/etats_config.c:4654 ../src/gsb_etats_config.c:1954
 #, fuzzy
 msgid "is "
 msgstr "是"
@@ -2635,140 +2668,155 @@ msgstr "到"
 
 #. on met les bouton ajouter et supprimer
 #: ../src/etats_config.c:4749 ../src/etats_config.c:5642
+#: ../src/gsb_etats_config.c:2019
 msgid "Add"
 msgstr "增加"
 
 #: ../src/etats_config.c:4763 ../src/etats_config.c:5656
+#: ../src/gsb_etats_config.c:2030
 msgid "Remove"
 msgstr "移除"
 
 #: ../src/etats_config.c:4841 ../src/etats_config.c:6652
-#: ../src/etats_config.c:6732 ../src/meta_payee.c:80
+#: ../src/etats_config.c:6732 ../src/gsb_etats_config.c:207
+#: ../src/meta_payee.c:80
 #, fuzzy
 msgid "payee"
 msgstr "支付方"
 
-#: ../src/etats_config.c:4869
+#: ../src/etats_config.c:4869 ../src/gsb_etats_config.c:208
 #, fuzzy
 msgid "payee information"
 msgstr "预算信息"
 
 #: ../src/etats_config.c:4897 ../src/etats_config.c:6655
-#: ../src/etats_config.c:6739 ../src/meta_categories.c:68
+#: ../src/etats_config.c:6739 ../src/gsb_etats_config.c:209
+#: ../src/meta_categories.c:68
 msgid "category"
 msgstr "类别"
 
 #: ../src/etats_config.c:4925 ../src/etats_config.c:6658
-#: ../src/meta_categories.c:69
+#: ../src/gsb_etats_config.c:210 ../src/meta_categories.c:69
 #, fuzzy
 msgid "sub-category"
 msgstr "没有子类"
 
 #: ../src/etats_config.c:4953 ../src/etats_config.c:6661
-#: ../src/etats_config.c:6746 ../src/meta_budgetary.c:66
+#: ../src/etats_config.c:6746 ../src/gsb_etats_config.c:211
+#: ../src/meta_budgetary.c:66
 msgid "budgetary line"
 msgstr "预算行"
 
 #: ../src/etats_config.c:4981 ../src/etats_config.c:6664
-#: ../src/meta_budgetary.c:67
+#: ../src/gsb_etats_config.c:212 ../src/meta_budgetary.c:67
 #, fuzzy
 msgid "sub-budgetary line"
 msgstr "没有子预算行"
 
 #: ../src/etats_config.c:5009 ../src/etats_config.c:6753
+#: ../src/gsb_etats_config.c:213
 msgid "note"
 msgstr "备注"
 
 #: ../src/etats_config.c:5037 ../src/etats_config.c:6682
-#: ../src/etats_config.c:6781
+#: ../src/etats_config.c:6781 ../src/gsb_etats_config.c:214
 msgid "bank reference"
 msgstr "银行"
 
 #: ../src/etats_config.c:5065 ../src/etats_config.c:6676
-#: ../src/etats_config.c:6774
+#: ../src/etats_config.c:6774 ../src/gsb_etats_config.c:215
 msgid "voucher"
 msgstr "凭证"
 
-#: ../src/etats_config.c:5086
+#: ../src/etats_config.c:5086 ../src/gsb_etats_config.c:216
 #, fuzzy
 msgid "cheque number"
 msgstr "支票编号"
 
 #: ../src/etats_config.c:5106 ../src/etats_config.c:6685
-#: ../src/etats_config.c:6788
+#: ../src/etats_config.c:6788 ../src/gsb_etats_config.c:217
 msgid "reconciliation reference"
 msgstr "调整"
 
-#: ../src/etats_config.c:5161
+#: ../src/etats_config.c:5161 ../src/gsb_etats_config.c:224
 msgid "contains"
 msgstr "包含"
 
-#: ../src/etats_config.c:5173
+#: ../src/etats_config.c:5173 ../src/gsb_etats_config.c:225
 msgid "doesn't contain"
 msgstr "不要包含"
 
-#: ../src/etats_config.c:5185
+#: ../src/etats_config.c:5185 ../src/gsb_etats_config.c:226
 msgid "begins with"
 msgstr "开始于"
 
-#: ../src/etats_config.c:5197
+#: ../src/etats_config.c:5197 ../src/gsb_etats_config.c:227
 msgid "ends with"
 msgstr "结束于"
 
-#: ../src/etats_config.c:5209
+#: ../src/etats_config.c:5209 ../src/gsb_etats_config.c:228
 msgid "is empty"
 msgstr "是空的"
 
-#: ../src/etats_config.c:5221
+#: ../src/etats_config.c:5221 ../src/gsb_etats_config.c:229
 msgid "isn't empty"
 msgstr "不是空的"
 
-#: ../src/etats_config.c:5264
+#: ../src/etats_config.c:5264 ../src/ui/gsb_etats_config.ui.h:39
 msgid "Select the transactions by amount"
 msgstr "根据总数选择交易"
 
 #. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5314
+#: ../src/etats_config.c:5314 ../src/ui/gsb_etats_config.ui.h:13
 msgid "Exclude the transactions with a null amount"
 msgstr "不包含总额为空的交易"
 
-#: ../src/etats_config.c:5541
+#: ../src/etats_config.c:5541 ../src/ui/gsb_etats_config.ui.h:43
 msgid "Transactions with an amount of"
 msgstr "总额为...的交易"
 
 #: ../src/etats_config.c:5688 ../src/etats_config.c:6045
+#: ../src/gsb_etats_config.c:266
 msgid "and"
 msgstr "和"
 
 #: ../src/etats_config.c:5696 ../src/etats_config.c:6057
+#: ../src/gsb_etats_config.c:267
 msgid "or"
 msgstr "或"
 
 #: ../src/etats_config.c:5704 ../src/etats_config.c:6069
+#: ../src/gsb_etats_config.c:268
 msgid "except"
 msgstr "除非"
 
 #: ../src/etats_config.c:5734 ../src/etats_config.c:5912
+#: ../src/gsb_etats_config.c:252
 msgid "equal"
 msgstr "等于"
 
 #: ../src/etats_config.c:5746 ../src/etats_config.c:5924
+#: ../src/gsb_etats_config.c:253
 msgid "less than"
 msgstr "小于"
 
 #: ../src/etats_config.c:5758 ../src/etats_config.c:5936
+#: ../src/gsb_etats_config.c:254
 msgid "less than or equal"
 msgstr "小于或等于"
 
 #: ../src/etats_config.c:5770 ../src/etats_config.c:5948
+#: ../src/gsb_etats_config.c:255
 msgid "greater than"
 msgstr "大于"
 
 #: ../src/etats_config.c:5782 ../src/etats_config.c:5960
+#: ../src/gsb_etats_config.c:256
 msgid "greater than or equal"
 msgstr "大于或等于"
 
 #: ../src/etats_config.c:5794 ../src/etats_config.c:5972
+#: ../src/gsb_etats_config.c:257
 msgid "different from"
 msgstr "与不同"
 
@@ -2788,16 +2836,16 @@ msgstr "正数"
 msgid "negative"
 msgstr "负数"
 
-#: ../src/etats_config.c:5984
+#: ../src/etats_config.c:5984 ../src/gsb_etats_config.c:258
 msgid "the biggest"
 msgstr "最大的"
 
-#: ../src/etats_config.c:6081
+#: ../src/etats_config.c:6081 ../src/gsb_etats_config.c:265
 msgid "stop"
 msgstr "停止"
 
 #. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6154
+#: ../src/etats_config.c:6154 ../src/ui/gsb_etats_config.ui.h:27
 msgid "Reconciled transactions"
 msgstr "调整交易"
 
@@ -2816,12 +2864,12 @@ msgstr "调整后的交易"
 msgid "Select reconciled transactions"
 msgstr "调整后的交易"
 
-#: ../src/etats_config.c:6191
+#: ../src/etats_config.c:6191 ../src/gsb_etats_config.c:2277
 #, fuzzy
 msgid "Split of transactions detail"
 msgstr "删除交易确认"
 
-#: ../src/etats_config.c:6193
+#: ../src/etats_config.c:6193 ../src/ui/gsb_etats_config.ui.h:10
 #, fuzzy
 msgid "Do not detail split of transactions"
 msgstr "不要详列调整交易"
@@ -2909,7 +2957,7 @@ msgstr "显示有总额的交易数量"
 msgid "Consider the payees of this report as a multiple payee."
 msgstr "本报表的第三方将视为多第三方"
 
-#: ../src/etats_config.c:6619
+#: ../src/etats_config.c:6619 ../src/gsb_etats_config.c:2388
 #, fuzzy
 msgid "Transactions display"
 msgstr "交易清单"
@@ -2988,7 +3036,8 @@ msgstr "所有的交易"
 msgid "Make transactions clickable"
 msgstr "使交易可点击"
 
-#: ../src/etats_config.c:6838 ../src/parametres.c:1150
+#: ../src/etats_config.c:6838 ../src/gsb_etats_config.c:2409
+#: ../src/parametres.c:1150
 msgid "Totals currencies"
 msgstr "所有货币"
 
@@ -3092,7 +3141,7 @@ msgstr "如果没有的话显示 \"没有子预算行\" "
 msgid "Select the transactions by method of payment"
 msgstr "根据支付方式选择交易"
 
-#: ../src/etats_config.c:7263
+#: ../src/etats_config.c:7263 ../src/ui/gsb_etats_config.ui.h:35
 #, fuzzy
 msgid "Select methods of payment to include: "
 msgstr "选择包含的支付方式:"
@@ -3113,64 +3162,64 @@ msgstr "请保证文件已存在，并且是可写入的。"
 msgid "Cannot open file '%s' for writing"
 msgstr "不能打开并写入文件 '%s' "
 
-#: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1249 ../src/navigation.c:1965
+#: ../src/etats_onglet.c:120 ../src/fenetre_principale.c:306
+#: ../src/navigation.c:1250 ../src/navigation.c:1966
 msgid "Reports"
 msgstr "报表"
 
-#: ../src/etats_onglet.c:148 ../src/navigation.c:2333
+#: ../src/etats_onglet.c:149 ../src/navigation.c:2334
 msgid "New report"
 msgstr "新建报表"
 
-#: ../src/etats_onglet.c:153
+#: ../src/etats_onglet.c:154
 #, fuzzy
 msgid "Create a new report"
 msgstr "新增账户"
 
-#: ../src/etats_onglet.c:162
+#: ../src/etats_onglet.c:163
 #, fuzzy
 msgid "Import a Grisbi report file (.egsb)"
 msgstr "导入报表文件"
 
-#: ../src/etats_onglet.c:171
+#: ../src/etats_onglet.c:172
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
 msgstr ""
 
-#: ../src/etats_onglet.c:181
+#: ../src/etats_onglet.c:182
 #, fuzzy
 msgid "Print selected report"
 msgstr "打印报表"
 
-#: ../src/etats_onglet.c:191
+#: ../src/etats_onglet.c:192
 #, fuzzy
 msgid "Delete selected report"
 msgstr "删除报表"
 
-#: ../src/etats_onglet.c:196 ../src/fenetre_principale.c:271
+#: ../src/etats_onglet.c:197 ../src/fenetre_principale.c:271
 #, fuzzy
 msgid "Properties"
 msgstr "货币属性"
 
-#: ../src/etats_onglet.c:200
+#: ../src/etats_onglet.c:201
 #, fuzzy
 msgid "Edit selected report"
 msgstr "删除报表"
 
-#: ../src/etats_onglet.c:205
+#: ../src/etats_onglet.c:206
 #, fuzzy
 msgid "Clone"
 msgstr "关闭"
 
-#: ../src/etats_onglet.c:209
+#: ../src/etats_onglet.c:210
 #, fuzzy
 msgid "Clone selected report"
 msgstr "复制报表"
 
-#: ../src/etats_onglet.c:265
+#: ../src/etats_onglet.c:266
 msgid "Choose template for new report"
 msgstr "选择新报表的模板"
 
-#: ../src/etats_onglet.c:266
+#: ../src/etats_onglet.c:267
 msgid ""
 "You are about to create a new report.  For convenience, you can choose "
 "between the following templates.  Reports may be customized later."
@@ -3178,53 +3227,53 @@ msgstr ""
 "您想新建一份报表。  为方便起见，您可疑 在以下模板中选择一份。 稍后再进行定"
 "制。"
 
-#: ../src/etats_onglet.c:269
+#: ../src/etats_onglet.c:270
 msgid "Report type"
 msgstr "报表类型"
 
 #. fill combobox
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:296 ../src/etats_onglet.c:337
+#: ../src/etats_onglet.c:297 ../src/etats_onglet.c:338
 msgid "Last month incomes and outgoings"
 msgstr "上月收支"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:297 ../src/etats_onglet.c:397
+#: ../src/etats_onglet.c:298 ../src/etats_onglet.c:398
 msgid "Current month incomes and outgoings"
 msgstr "本月收支"
 
 #. Annual budget
-#: ../src/etats_onglet.c:298 ../src/etats_onglet.c:462
+#: ../src/etats_onglet.c:299 ../src/etats_onglet.c:463
 msgid "Annual budget"
 msgstr "年度预算"
 
 #. Blank report
-#: ../src/etats_onglet.c:299 ../src/etats_onglet.c:528
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:529
 msgid "Blank report"
 msgstr "空报表"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:603
 msgid "Cheques deposit"
 msgstr "支票存入"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:679
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "第三方月度支出"
 
 #. Search
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/etats_onglet.c:303 ../src/etats_onglet.c:768
 msgid "Search"
 msgstr "查找"
 
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:853
 msgid "Unknown report type, creation cancelled"
 msgstr "未知报表类型，取消新建"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:885
+#: ../src/etats_onglet.c:886
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3234,7 +3283,7 @@ msgstr ""
 "选中所有的账户。"
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:891
+#: ../src/etats_onglet.c:892
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3244,27 +3293,27 @@ msgstr ""
 "选中所有的账户。"
 
 #. Annual budget
-#: ../src/etats_onglet.c:897
+#: ../src/etats_onglet.c:898
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
 msgstr "本报表显示年度预算。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. Blank report
-#: ../src/etats_onglet.c:903
+#: ../src/etats_onglet.c:904
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "本报表是空的。您需要重新定制。"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:909
+#: ../src/etats_onglet.c:910
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
 msgstr "本报表显示支票存入。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:915
+#: ../src/etats_onglet.c:916
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -3274,7 +3323,7 @@ msgstr ""
 "户。"
 
 #. Search
-#: ../src/etats_onglet.c:921
+#: ../src/etats_onglet.c:922
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -3284,57 +3333,57 @@ msgstr ""
 "本报表显示本年度所有账户交易的信息。您只需要增加总额、日期、第三方等条件信"
 "息。默认设定下交易是可易点击的。"
 
-#: ../src/etats_onglet.c:926
+#: ../src/etats_onglet.c:927
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:953
+#: ../src/etats_onglet.c:954
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "删除报表 \"%s\"？"
 
-#: ../src/etats_onglet.c:955
+#: ../src/etats_onglet.c:956
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr "这样将永久删除报表，无法恢复。"
 
-#: ../src/etats_onglet.c:1122
+#: ../src/etats_onglet.c:1123
 msgid "Export report"
 msgstr "导出报表"
 
-#: ../src/etats_onglet.c:1137
+#: ../src/etats_onglet.c:1138
 #, fuzzy
 msgid "File format: "
 msgstr "信息:"
 
-#: ../src/etats_onglet.c:1142
+#: ../src/etats_onglet.c:1143
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1144
 msgid "HTML file"
 msgstr "HTML文件"
 
-#: ../src/etats_onglet.c:1144
+#: ../src/etats_onglet.c:1145
 #, fuzzy
 msgid "CSV file"
 msgstr "保存文件"
 
-#: ../src/etats_onglet.c:1161
+#: ../src/etats_onglet.c:1162
 #, fuzzy
 msgid "Exporting report ..."
 msgstr "导出报表为CSV..."
 
-#: ../src/etats_onglet.c:1185 ../src/gsb_debug.c:248 ../src/gsb_file.c:484
+#: ../src/etats_onglet.c:1186 ../src/gsb_debug.c:248 ../src/gsb_file.c:484
 #: ../src/gsb_file.c:608 ../src/gsb_file.c:679
 #, fuzzy
 msgid "Done"
 msgstr "无"
 
-#: ../src/etats_onglet.c:1208
+#: ../src/etats_onglet.c:1209
 msgid "Import a report"
 msgstr "导入报表"
 
-#: ../src/etats_onglet.c:1219
+#: ../src/etats_onglet.c:1220
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
@@ -3515,7 +3564,7 @@ msgstr "初始日期"
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1945
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1946
 #: ../src/parametres.c:348 ../src/parametres.c:1108
 msgid "Scheduler"
 msgstr "日程"
@@ -4864,7 +4913,7 @@ msgstr "新增账户"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1135
 #: ../src/traitement_variables.c:227
 #, fuzzy
 msgid "My accounts"
@@ -7020,17 +7069,17 @@ msgstr "输入新子预算行的名称"
 msgid "Select the currency of the partial balance: "
 msgstr "选择银行账户:"
 
-#: ../src/gsb_data_payee.c:420
+#: ../src/gsb_data_payee.c:419
 #, fuzzy
 msgid "No payee defined"
 msgstr "没有定义第三方"
 
-#: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
-#: ../src/navigation.c:1247
+#: ../src/gsb_data_payee.c:541 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
+#: ../src/navigation.c:1248
 msgid "Report"
 msgstr "报表"
 
-#: ../src/gsb_data_payee.c:738
+#: ../src/gsb_data_payee.c:737
 #, fuzzy, c-format
 msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr "交易 #%d 应当反 #%d，但本条没有。\n"
@@ -7311,6 +7360,30 @@ msgstr ""
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "交易清单预览"
 
+#: ../src/gsb_etats_config.c:304 ../src/gsb_file_load.c:298
+#: ../src/gsb_file_load.c:415 ../src/gsb_file_others.c:458
+#: ../src/gsb_file_others.c:595 ../src/gsb_file_others.c:782
+#: ../src/gsb_file_others.c:842
+#, c-format
+msgid "Cannot open file '%s': %s"
+msgstr "不能打开文件 '%s': %s"
+
+#: ../src/gsb_etats_config.c:306 ../src/gsb_file_load.c:300
+#, fuzzy
+msgid "File does not exist"
+msgstr "文件已经存在"
+
+#: ../src/gsb_etats_config.c:1965 ../src/gsb_etats_config.c:1988
+#, fuzzy
+msgid "at "
+msgstr "日期"
+
+#. on peut sélectionner les opérations marquées
+#: ../src/gsb_etats_config.c:2264
+#, fuzzy
+msgid "Selecting Transactions"
+msgstr "删除交易"
+
 #. Create main widget.
 #: ../src/gsb_file.c:175
 msgid "Creating main window"
@@ -7524,18 +7597,6 @@ msgid ""
 "\n"
 "and press the 'OK' button."
 msgstr ""
-
-#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
-#: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
-#: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
-#, c-format
-msgid "Cannot open file '%s': %s"
-msgstr "不能打开文件 '%s': %s"
-
-#: ../src/gsb_file_load.c:300
-#, fuzzy
-msgid "File does not exist"
-msgstr "文件已经存在"
 
 #: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
@@ -8479,7 +8540,7 @@ msgstr "所有的事件"
 msgid "Only this one"
 msgstr "只有这个"
 
-#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1182
+#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1183
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
@@ -9533,13 +9594,13 @@ msgstr "该文件不是Grisbi预算行文件"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2277
+#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2278
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "删除预算行"
 
 #: ../src/imputation_budgetaire.c:624 ../src/imputation_budgetaire.c:1112
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2293
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "删除预算行"
@@ -9615,9 +9676,6 @@ msgstr "转移这些交易到"
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "信号错误：SIGSEGV不能捕捉\n"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
@@ -9874,7 +9932,7 @@ msgid "No sub-category"
 msgstr "没有子类"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:280 ../src/navigation.c:2205
+#: ../src/meta_categories.c:280 ../src/navigation.c:2206
 msgid "New category"
 msgstr "新增类别"
 
@@ -9899,7 +9957,7 @@ msgid "No sub-payee"
 msgstr "没有子类"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:327 ../src/navigation.c:2139 ../src/tiers_onglet.c:318
+#: ../src/meta_payee.c:327 ../src/navigation.c:2140 ../src/tiers_onglet.c:318
 #, fuzzy
 msgid "New payee"
 msgstr "新支付方式"
@@ -10025,79 +10083,79 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr ""
 
-#: ../src/navigation.c:1027
+#: ../src/navigation.c:1028
 #, fuzzy
 msgid "Last statement: "
 msgstr "最后声明"
 
-#: ../src/navigation.c:1028 ../src/navigation.c:1040
+#: ../src/navigation.c:1029 ../src/navigation.c:1041
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "余额调整"
 
-#: ../src/navigation.c:1039 ../src/navigation.c:1047
+#: ../src/navigation.c:1040 ../src/navigation.c:1048
 msgid "Last statement: none"
 msgstr "最后声明：无"
 
-#: ../src/navigation.c:1068
+#: ../src/navigation.c:1069
 #, fuzzy
 msgid "closed"
 msgstr "关闭"
 
-#: ../src/navigation.c:2110
+#: ../src/navigation.c:2111
 #, fuzzy
 msgid "New account"
 msgstr "新账户"
 
-#: ../src/navigation.c:2124
+#: ../src/navigation.c:2125
 #, fuzzy
 msgid "Remove this account"
 msgstr "删除账户"
 
-#: ../src/navigation.c:2147 ../src/tiers_onglet.c:331
+#: ../src/navigation.c:2148 ../src/tiers_onglet.c:331
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "删除第三方"
 
-#: ../src/navigation.c:2162 ../src/tiers_onglet.c:340
+#: ../src/navigation.c:2163 ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2183 ../src/tiers_onglet.c:353
+#: ../src/navigation.c:2184 ../src/tiers_onglet.c:353
 #, fuzzy
 msgid "Manage payees"
 msgstr "首页"
 
-#: ../src/navigation.c:2191 ../src/tiers_onglet.c:361
+#: ../src/navigation.c:2192 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr ""
 
-#: ../src/navigation.c:2246
+#: ../src/navigation.c:2247
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "导入类别清单"
 
-#: ../src/navigation.c:2255
+#: ../src/navigation.c:2256
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/navigation.c:2269
+#: ../src/navigation.c:2270
 #, fuzzy
 msgid "New budgetary line"
 msgstr "新的预算行"
 
-#: ../src/navigation.c:2310
+#: ../src/navigation.c:2311
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2319
+#: ../src/navigation.c:2320
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2345
+#: ../src/navigation.c:2346
 #, fuzzy
 msgid "Remove this report"
 msgstr "删除报表"
@@ -11226,6 +11284,50 @@ msgstr ""
 msgid "No font defined"
 msgstr "没有定义汇率"
 
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "选择资产账户"
+
+#: ../src/ui/gsb_etats_config.ui.h:2
+#, fuzzy
+msgid "All transactions"
+msgstr "所有的交易"
+
+#: ../src/ui/gsb_etats_config.ui.h:3
+#, fuzzy
+msgid "At value date"
+msgstr "有效日期"
+
+#: ../src/ui/gsb_etats_config.ui.h:4
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/ui/gsb_etats_config.ui.h:14
+#, fuzzy
+msgid "Expand all"
+msgstr "数据选择"
+
+#: ../src/ui/gsb_etats_config.ui.h:23
+#, fuzzy
+msgid "Marked transactions"
+msgstr "新增交易"
+
+#: ../src/ui/gsb_etats_config.ui.h:26
+#, fuzzy
+msgid "Pointing transactions"
+msgstr "账户交易"
+
+#: ../src/ui/gsb_etats_config.ui.h:42
+#, fuzzy
+msgid "Tele-transmitted transactions"
+msgstr "调整后的交易"
+
+#: ../src/ui/gsb_etats_config.ui.h:44
+#, fuzzy
+msgid "Unreconciled transactions"
+msgstr "调整交易"
+
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
@@ -11286,9 +11388,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Hide archived transactions"
 #~ msgstr "新增交易"
-
-#~ msgid "Account transactions"
-#~ msgstr "账户交易"
 
 #, fuzzy
 #~ msgid "Import terminated"

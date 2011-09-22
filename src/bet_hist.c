@@ -1952,7 +1952,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
                         "graph-sectors.png",
                         NULL,
                         NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("display the data graph") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Display the data graph") );
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_graph_sectors_graph_new ),
