@@ -100,4 +100,39 @@
       <placeholder/>
     </child>
   </object>
+  <object class="GtkHBox" id="button_menu_box">
+    <property name="visible">True</property>
+    <property name="has_tooltip">True</property>
+    <property name="tooltip_text" translatable="yes">display the data graph</property>
+    <child>
+      <object class="GtkVBox" id="box_button">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="arrow_button">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="image">arrow</property>
+        <property name="relief">none</property>
+        <property name="draw_indicator">False</property>
+      </object>
+      <packing>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkArrow" id="arrow">
+    <property name="visible">True</property>
+    <property name="arrow_type">down</property>
+    <property name="shadow_type">etched-out</property>
+  </object>
 </interface>
