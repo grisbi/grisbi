@@ -103,10 +103,11 @@
   <object class="GtkHBox" id="button_menu_box">
     <property name="visible">True</property>
     <property name="has_tooltip">True</property>
-    <property name="tooltip_text" translatable="yes">display the data graph</property>
     <child>
       <object class="GtkVBox" id="box_button">
         <property name="visible">True</property>
+        <property name="has_tooltip">True</property>
+        <property name="tooltip_text" translatable="yes">Display the data graph</property>
         <property name="orientation">vertical</property>
         <child>
           <placeholder/>
@@ -121,6 +122,8 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="has_tooltip">True</property>
+        <property name="tooltip_text" translatable="yes">Select the chart type</property>
         <property name="image">arrow</property>
         <property name="relief">none</property>
         <property name="draw_indicator">False</property>

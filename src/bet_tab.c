@@ -2912,7 +2912,6 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         "forecast_graph",
                         G_CALLBACK ( bet_graph_line_graph_new ),
                         tree_view );
-/*    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("display the data graph") ); */
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     bet_graph_free_builder ( );

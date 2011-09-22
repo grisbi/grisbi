@@ -119,7 +119,7 @@ static GtkBuilder *bet_graph_builder = NULL;
 
 
 /**
- *
+ * Crée un builder et récupère les widgets du fichier bet_graph.ui
  *
  *
  *
