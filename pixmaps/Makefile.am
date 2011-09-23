@@ -29,6 +29,7 @@ grisbi_pixmaps_DATA = \
 	fonts.png \
 	form.png \
 	generalities.png \
+	graph-histo.png \
 	graph-line.png \
 	graph-sectors.png \
 	grisbi-logo.png \

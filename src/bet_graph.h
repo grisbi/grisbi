@@ -5,22 +5,31 @@
 
 #include <gtk/gtk.h>
 
+/* START_INCLUDE_H */
+#include "utils_buttons.h"
+/* END_INCLUDE_H */
+
 /* Definition de la taille mini de la boite de dialogue */
 #define PAGE_WIDTH 750
 #define PAGE_HEIGHT 550
+
 /* Definition du maximum de segments par camembert */
 #define MAX_SEGMENT_CAMEMBERT 30
+/* Definition du maximum de segments par camembert */
+#define MAX_POINTS_GRAPHIQUE 300
+
 /* Definition de la taille maximum d'un libelle */
 #define TAILLE_MAX_LIBELLE 50
 
 
-/* START_INCLUDE_H */
-/* END_INCLUDE_H */
-
-
 /* START_DECLARATION */
-void bet_graph_line_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view );
-void bet_graph_sectors_graph_new ( GtkWidget *menu_item, GtkTreeView *tree_view );
+GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
+					    const gchar *type_graph,
+					    GCallback callback,
+                        GtkWidget *tree_view );
+void bet_graph_free_builder ( void );
+void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
+void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
 GtkWidget *bet_graph_sectors_graph_new_new ( void );
 /* END_DECLARATION */
 

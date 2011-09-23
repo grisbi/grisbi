@@ -34,6 +34,7 @@
 #include "bet_config.h"
 #include "bet_data.h"
 #include "bet_future.h"
+#include "bet_graph.h"
 #include "bet_hist.h"
 #include "dialog.h"
 #include "export_csv.h"
@@ -168,26 +169,6 @@ static gint bet_array_current_tree_view_width = 0;
 
 /* toolbar */
 static GtkWidget *bet_array_toolbar;
-
-
-enum bet_estimation_tree_columns
-{
-    SPP_ESTIMATE_TREE_SELECT_COLUMN,    /* select column for the balance */
-    SPP_ESTIMATE_TREE_ORIGIN_DATA,      /* origin of data : transaction, scheduled, hist, future */
-    SPP_ESTIMATE_TREE_DIVISION_COLUMN,  /* div_number, transaction_number, futur_number, scheduled_number*/
-    SPP_ESTIMATE_TREE_SUB_DIV_COLUMN,   /* sub_div_nb */
-    SPP_ESTIMATE_TREE_DATE_COLUMN,
-    SPP_ESTIMATE_TREE_DESC_COLUMN,
-    SPP_ESTIMATE_TREE_DEBIT_COLUMN,
-    SPP_ESTIMATE_TREE_CREDIT_COLUMN,
-    SPP_ESTIMATE_TREE_BALANCE_COLUMN,
-    SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-    SPP_ESTIMATE_TREE_AMOUNT_COLUMN,    /* the amount without currency */
-    SPP_ESTIMATE_TREE_BALANCE_COLOR,
-    SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-    SPP_ESTIMATE_TREE_COLOR_STRING,
-    SPP_ESTIMATE_TREE_NUM_COLUMNS
-};
 
 
 /*
@@ -714,7 +695,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
@@ -732,7 +713,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
@@ -751,7 +732,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
 
     gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
     gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
     gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
     g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
@@ -2924,6 +2905,17 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         G_CALLBACK ( bet_array_export_tab ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+#ifdef HAVE_GOFFICE
+    /* graph button */
+    button = bet_graph_button_menu_new ( etat.display_toolbar,
+                        "forecast_graph",
+                        G_CALLBACK ( bet_graph_line_graph_new ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    bet_graph_free_builder ( );
+#endif
 
     gtk_widget_show_all ( hbox );
 

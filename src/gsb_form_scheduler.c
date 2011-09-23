@@ -159,8 +159,8 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
 	    switch ( element_number )
 	    {
 		case SCHEDULED_FORM_ACCOUNT:
-		    widget = gsb_account_create_combo_list ((GtkSignalFunc) 
-                        gsb_form_scheduler_change_account, NULL, FALSE);
+		    widget = gsb_account_create_combo_list ( G_CALLBACK ( gsb_form_scheduler_change_account ),
+                        NULL, FALSE);
 		    gtk_combo_box_set_active ( GTK_COMBO_BOX (widget), 0 );
 		    tooltip_text = _("Choose the account");
 		    break;

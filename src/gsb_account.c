@@ -258,7 +258,7 @@ gboolean gsb_account_delete ( void )
     notebook_general = gsb_gui_get_general_notebook ( );
 	page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
 
-	navigation_change_account ( GINT_TO_POINTER ( gsb_data_account_first_number () ));
+	navigation_change_account ( gsb_data_account_first_number () );
 
 	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
     }
@@ -302,7 +302,7 @@ gboolean gsb_account_delete ( void )
  *
  * \return a new GtkCombobox containing the list of the accounts
  */
-GtkWidget *gsb_account_create_combo_list ( GCallback func, 
+GtkWidget *gsb_account_create_combo_list ( GCallback func,
 					   gpointer data,
 					   gboolean include_closed )
 {
@@ -497,7 +497,7 @@ gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
  *
  * \return A newly created menu
  */
-GtkWidget *gsb_account_create_menu_list ( GtkSignalFunc func, 
+GtkWidget *gsb_account_create_menu_list ( GCallback func,
 					  gboolean activate_currrent,
 					  gboolean include_closed )
 {

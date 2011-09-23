@@ -69,6 +69,7 @@ rm -rf $RPM_BUILD_ROOT
 %_libdir/grisbi
 %dir %_datadir/grisbi
 %_datadir/grisbi/categories
+%_datadir/grisbi/ui/*
 %_datadir/pixmaps/*
 %_datadir/applications/*
 %_mandir/man1/*
@@ -76,6 +77,15 @@ rm -rf $RPM_BUILD_ROOT
 %_iconsdir/hicolor/48x48/apps/%name.png
 
 %changelog
+* Sat Aug 06 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.8-1mdv2010.2
+- new version 0.8.8
+
+* Sun May 22 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.6-1mdv2010.2
+- new version 0.8.6
+
+* Wed Apr 13 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.5-1mdv2010.1
+- new version 0.8.5
+
 * Mon Feb 22 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.2-1mdv2010.1
 - new version 0.8.2
 

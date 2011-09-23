@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-18 15:48+0200\n"
+"POT-Creation-Date: 2011-09-22 21:21+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
 "X-Generator: KBabel 1.10.2\n"
 
 #: ../src/accueil.c:195
@@ -596,7 +596,7 @@ msgstr "Сбросить до исходных"
 #: ../src/bet_hist.c:2091 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1947
+#: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
 msgid "Categories"
 msgstr "Категории"
 
@@ -607,7 +607,7 @@ msgstr "Категории"
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1951
+#: ../src/navigation.c:1961
 msgid "Budgetary lines"
 msgstr "Бюджетные линии"
 
@@ -721,7 +721,7 @@ msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1206 ../src/navigation.c:1943
+#: ../src/navigation.c:1216 ../src/navigation.c:1953
 #, fuzzy
 msgid "Credits simulator"
 msgstr "Кредитная карта"
@@ -839,14 +839,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1928 ../src/bet_tab.c:1548 ../src/bet_tab.c:2908
+#: ../src/bet_hist.c:1928 ../src/bet_tab.c:1529 ../src/bet_tab.c:2889
 #, fuzzy
 msgid "Print the array"
 msgstr "Принтер"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1941 ../src/bet_tab.c:1558
+#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1941 ../src/bet_tab.c:1539
 #, fuzzy
 msgid "Export the array"
 msgstr "Принтер"
@@ -862,7 +862,7 @@ msgstr ""
 msgid "Loan amount: "
 msgstr "Банковский счёт:"
 
-#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:771 ../src/bet_tab.c:676
+#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:771 ../src/bet_tab.c:657
 #: ../src/etats_affiche.c:2409 ../src/export_csv.c:776
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:162
@@ -912,12 +912,12 @@ msgstr "Связывание при импорте"
 msgid "Credits"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1925 ../src/bet_tab.c:2905
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1925 ../src/bet_tab.c:2886
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Печать"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1938 ../src/bet_tab.c:2918
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1938 ../src/bet_tab.c:2899
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -928,7 +928,7 @@ msgstr "Экспортировать"
 msgid "credit.csv"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3033
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Невозможно сохранить файл"
@@ -1057,7 +1057,7 @@ msgid "Payee"
 msgstr "Получатель"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:796 ../src/bet_graph.c:178 ../src/bet_tab.c:710
+#: ../src/bet_future.c:796 ../src/bet_graph.c:260 ../src/bet_tab.c:691
 #: ../src/categories_onglet.c:762 ../src/export_csv.c:797
 #: ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
@@ -1068,7 +1068,7 @@ msgid "Debit"
 msgstr "Расход"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:803 ../src/bet_graph.c:172 ../src/bet_tab.c:728
+#: ../src/bet_future.c:803 ../src/bet_graph.c:247 ../src/bet_tab.c:709
 #: ../src/categories_onglet.c:762 ../src/export_csv.c:794
 #: ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
@@ -1170,17 +1170,15 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:115 ../src/gsb_file_load.c:298
-#: ../src/gsb_file_load.c:415 ../src/gsb_file_others.c:458
-#: ../src/gsb_file_others.c:595 ../src/gsb_file_others.c:782
-#: ../src/gsb_file_others.c:842
-#, c-format
-msgid "Cannot open file '%s': %s"
-msgstr "Не удалось открыть файл «%s»: %s"
+#: ../src/bet_graph.c:629
+#, fuzzy
+msgid "Column"
+msgstr "Столбцы"
 
-#: ../src/bet_graph.c:117 ../src/gsb_file_load.c:300
-msgid "File does not exist"
-msgstr "Файл не существует"
+#: ../src/bet_graph.c:653
+#, fuzzy
+msgid "Line"
+msgstr "Лицензия"
 
 #: ../src/bet_hist.c:559 ../src/tiers_onglet.c:1151
 msgid "Select"
@@ -1252,128 +1250,128 @@ msgstr ""
 msgid "Export the historical data"
 msgstr "Дата начала"
 
-#: ../src/bet_tab.c:442
+#: ../src/bet_tab.c:423
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: ../src/bet_tab.c:459
+#: ../src/bet_tab.c:440
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:559
+#: ../src/bet_tab.c:540
 #, fuzzy
 msgid "Start date: "
 msgstr "Начало:"
 
-#: ../src/bet_tab.c:578
+#: ../src/bet_tab.c:559
 msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:693 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
+#: ../src/bet_tab.c:674 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
 msgid "Description"
 msgstr "Описание"
 
-#: ../src/bet_tab.c:746 ../src/export_csv.c:803 ../src/gsb_reconcile.c:165
+#: ../src/bet_tab.c:727 ../src/export_csv.c:803 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:513 ../src/gsb_transactions_list.c:171
 #: ../src/gsb_transactions_list.c:3316 ../src/import_csv.c:90
 msgid "Balance"
 msgstr "Баланс"
 
-#: ../src/bet_tab.c:842 ../src/bet_tab.c:855 ../src/bet_tab.c:1049
-#: ../src/bet_tab.c:2518 ../src/bet_tab.c:2523
+#: ../src/bet_tab.c:823 ../src/bet_tab.c:836 ../src/bet_tab.c:1030
+#: ../src/bet_tab.c:2499 ../src/bet_tab.c:2504
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Передача: счёт удалён"
 
-#: ../src/bet_tab.c:1385
+#: ../src/bet_tab.c:1366
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1392
+#: ../src/bet_tab.c:1373
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "Дополнительный баланс"
 
 #. Insert Row
-#: ../src/bet_tab.c:1409
+#: ../src/bet_tab.c:1390
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1426 ../src/bet_tab.c:1438 ../src/bet_tab.c:1459
-#: ../src/bet_tab.c:1518
+#: ../src/bet_tab.c:1407 ../src/bet_tab.c:1419 ../src/bet_tab.c:1440
+#: ../src/bet_tab.c:1499
 #, fuzzy
 msgid "Delete selection"
 msgstr "Выбор дат"
 
-#: ../src/bet_tab.c:1449
+#: ../src/bet_tab.c:1430
 #, fuzzy
 msgid "Change selection"
 msgstr "Выбор дат"
 
-#: ../src/bet_tab.c:1470
+#: ../src/bet_tab.c:1451
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "Удаление одной или более попавшихся запланированных проводок"
 
-#: ../src/bet_tab.c:1485
+#: ../src/bet_tab.c:1466
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "Преобразовать транзакцию в _запланированную"
 
-#: ../src/bet_tab.c:1508
+#: ../src/bet_tab.c:1489
 msgid "Insert the balance of a cash account"
 msgstr ""
 
 #. redo item
-#: ../src/bet_tab.c:1534
+#: ../src/bet_tab.c:1515
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1879
+#: ../src/bet_tab.c:1860
 #, fuzzy
 msgid " (still available)"
 msgstr "Описание недоступно"
 
-#: ../src/bet_tab.c:1888 ../src/bet_tab.c:1910
+#: ../src/bet_tab.c:1869 ../src/bet_tab.c:1891
 msgid " (budget exceeded)"
 msgstr ""
 
-#: ../src/bet_tab.c:1901
+#: ../src/bet_tab.c:1882
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2441 ../src/bet_tab.c:2491 ../src/bet_tab.c:2551
+#: ../src/bet_tab.c:2422 ../src/bet_tab.c:2472 ../src/bet_tab.c:2532
 #, fuzzy
 msgid "No data by default"
 msgstr "Сбросить до исходных"
 
-#: ../src/bet_tab.c:2449 ../src/bet_tab.c:2499 ../src/bet_tab.c:2557
+#: ../src/bet_tab.c:2430 ../src/bet_tab.c:2480 ../src/bet_tab.c:2538
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr ""
 
-#: ../src/bet_tab.c:2457 ../src/bet_tab.c:2507 ../src/bet_tab.c:2563
+#: ../src/bet_tab.c:2438 ../src/bet_tab.c:2488 ../src/bet_tab.c:2544
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr ""
 
-#: ../src/bet_tab.c:2921 ../src/bet_tab.c:3009
+#: ../src/bet_tab.c:2902 ../src/bet_tab.c:3001
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "Имя файла со счетами"
 
-#: ../src/bet_tab.c:2967
+#: ../src/bet_tab.c:2959
 #, fuzzy
 msgid "Balance at "
 msgstr "Баланс"
 
-#: ../src/bet_tab.c:3016
+#: ../src/bet_tab.c:3008
 msgid "forecast.csv"
 msgstr ""
 
@@ -1381,7 +1379,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1052 ../src/tiers_onglet.c:222
+#: ../src/navigation.c:1062 ../src/tiers_onglet.c:222
 msgid "Account"
 msgstr "Счёт"
 
@@ -1474,7 +1472,7 @@ msgstr "Экспортировать файл с категориями Grisbi (
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../src/categories_onglet.c:575 ../src/navigation.c:2203
+#: ../src/categories_onglet.c:575 ../src/navigation.c:2213
 msgid "Delete selected category"
 msgstr "Удалить выбранную категорию"
 
@@ -1485,7 +1483,7 @@ msgid "Edit"
 msgstr "_Правка"
 
 #: ../src/categories_onglet.c:584 ../src/categories_onglet.c:1077
-#: ../src/navigation.c:2218
+#: ../src/navigation.c:2228
 msgid "Edit selected category"
 msgstr "Изменить выбранную категорию"
 
@@ -2218,7 +2216,7 @@ msgstr "Передачи"
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
 #: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1931
+#: ../src/navigation.c:1941
 msgid "Accounts"
 msgstr "Счета"
 
@@ -2494,7 +2492,7 @@ msgid "Outgoing budget lines"
 msgstr ""
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1939
+#: ../src/etats_config.c:3991 ../src/navigation.c:1949
 #: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
 msgid "Payees"
 msgstr "Получатели платежей"
@@ -2991,11 +2989,11 @@ msgid "Cannot open file '%s' for writing"
 msgstr ""
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1239 ../src/navigation.c:1955
+#: ../src/navigation.c:1249 ../src/navigation.c:1965
 msgid "Reports"
 msgstr "Отчёты"
 
-#: ../src/etats_onglet.c:148 ../src/navigation.c:2323
+#: ../src/etats_onglet.c:148 ../src/navigation.c:2333
 msgid "New report"
 msgstr "Новый отчёт"
 
@@ -3384,7 +3382,7 @@ msgstr "Дата начала"
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1935
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1945
 #: ../src/parametres.c:348 ../src/parametres.c:1108
 msgid "Scheduler"
 msgstr "Расписание"
@@ -4737,7 +4735,7 @@ msgstr ""
 "Импортировать данные из онлайновой службы банка или другого финансового "
 "приложения"
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1124
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
 #: ../src/traitement_variables.c:227
 msgid "My accounts"
 msgstr "Мои счета"
@@ -6862,7 +6860,7 @@ msgid "No payee defined"
 msgstr "Получатели не определены"
 
 #: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
-#: ../src/navigation.c:1237
+#: ../src/navigation.c:1247
 msgid "Report"
 msgstr "Отчёт"
 
@@ -7239,7 +7237,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:779
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:791
 msgid "unnamed"
 msgstr ""
 
@@ -7332,6 +7330,17 @@ msgid ""
 "\n"
 "and press the 'OK' button."
 msgstr ""
+
+#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
+#: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
+#: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
+#, c-format
+msgid "Cannot open file '%s': %s"
+msgstr "Не удалось открыть файл «%s»: %s"
+
+#: ../src/gsb_file_load.c:300
+msgid "File does not exist"
+msgstr "Файл не существует"
 
 #: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
@@ -7650,53 +7659,53 @@ msgid "Form structure preview"
 msgstr "Предпросмотр структуры формуляра"
 
 #. set the box with the buttons
-#: ../src/gsb_form_config.c:176
+#: ../src/gsb_form_config.c:177
 msgid "Form structure content"
 msgstr "Содержимое формуляра"
 
-#: ../src/gsb_form_config.c:223
+#: ../src/gsb_form_config.c:224
 msgid "Col 1"
 msgstr "Столбец 1"
 
-#: ../src/gsb_form_config.c:224
+#: ../src/gsb_form_config.c:225
 msgid "Col 2"
 msgstr "Столбец 2"
 
-#: ../src/gsb_form_config.c:225
+#: ../src/gsb_form_config.c:226
 msgid "Col 3"
 msgstr "Столбец 3"
 
-#: ../src/gsb_form_config.c:226
+#: ../src/gsb_form_config.c:227
 msgid "Col 4"
 msgstr "Столбец 4"
 
-#: ../src/gsb_form_config.c:227
+#: ../src/gsb_form_config.c:228
 msgid "Col 5"
 msgstr "Столбец 5"
 
-#: ../src/gsb_form_config.c:228
+#: ../src/gsb_form_config.c:229
 msgid "Col 6"
 msgstr "Столбец 6"
 
-#: ../src/gsb_form_config.c:340
+#: ../src/gsb_form_config.c:341
 msgid "rows"
 msgstr "строки"
 
-#: ../src/gsb_form_config.c:387
+#: ../src/gsb_form_config.c:388
 msgid "columns"
 msgstr "столбцы"
 
-#: ../src/gsb_form_config.c:670
+#: ../src/gsb_form_config.c:671
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
 msgstr ""
 
-#: ../src/gsb_form_config.c:672 ../src/gsb_form_config.c:677
+#: ../src/gsb_form_config.c:673 ../src/gsb_form_config.c:678
 msgid "The table is full"
 msgstr ""
 
-#: ../src/gsb_form_config.c:674
+#: ../src/gsb_form_config.c:675
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -8206,7 +8215,7 @@ msgstr ""
 msgid "Only this one"
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1172
+#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1182
 msgid "Scheduled transactions"
 msgstr "Запланированные транзакции"
 
@@ -9201,12 +9210,12 @@ msgstr ""
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Файлы бюджетных линий Grisbi (*.igsb)"
 
-#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2267
+#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2277
 msgid "Delete selected budgetary line"
 msgstr ""
 
 #: ../src/imputation_budgetaire.c:624 ../src/imputation_budgetaire.c:1112
-#: ../src/navigation.c:2282
+#: ../src/navigation.c:2292
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "Бюджетная линия"
@@ -9273,15 +9282,12 @@ msgstr "Суббюджетная линия"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Три линии на транзакцию"
 
-#: ../src/main.c:595
+#: ../src/main.c:607
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
-#: ../src/main.c:732 ../src/main.c:772 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -9498,7 +9504,7 @@ msgid "No sub-category"
 msgstr ""
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:280 ../src/navigation.c:2195
+#: ../src/meta_categories.c:280 ../src/navigation.c:2205
 msgid "New category"
 msgstr "Новая категория"
 
@@ -9522,7 +9528,7 @@ msgid "No sub-payee"
 msgstr ""
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:327 ../src/navigation.c:2129 ../src/tiers_onglet.c:318
+#: ../src/meta_payee.c:327 ../src/navigation.c:2139 ../src/tiers_onglet.c:318
 msgid "New payee"
 msgstr "Новый получатель"
 
@@ -9647,79 +9653,79 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr ""
 
-#: ../src/navigation.c:1017
+#: ../src/navigation.c:1027
 #, fuzzy
 msgid "Last statement: "
 msgstr "Последняя выписка: нет"
 
-#: ../src/navigation.c:1018 ../src/navigation.c:1030
+#: ../src/navigation.c:1028 ../src/navigation.c:1040
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "Согласованный баланс"
 
-#: ../src/navigation.c:1029 ../src/navigation.c:1037
+#: ../src/navigation.c:1039 ../src/navigation.c:1047
 msgid "Last statement: none"
 msgstr "Последняя выписка: нет"
 
-#: ../src/navigation.c:1058
+#: ../src/navigation.c:1068
 #, fuzzy
 msgid "closed"
 msgstr "_Закрыть"
 
-#: ../src/navigation.c:2100
+#: ../src/navigation.c:2110
 #, fuzzy
 msgid "New account"
 msgstr "_Создать счёт"
 
-#: ../src/navigation.c:2114
+#: ../src/navigation.c:2124
 #, fuzzy
 msgid "Remove this account"
 msgstr "_Удалить активный счёт"
 
-#: ../src/navigation.c:2137 ../src/tiers_onglet.c:331
+#: ../src/navigation.c:2147 ../src/tiers_onglet.c:331
 msgid "Delete selected payee"
 msgstr "Удалить выбранного получателя"
 
-#: ../src/navigation.c:2152 ../src/tiers_onglet.c:340
+#: ../src/navigation.c:2162 ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2173 ../src/tiers_onglet.c:353
+#: ../src/navigation.c:2183 ../src/tiers_onglet.c:353
 msgid "Manage payees"
 msgstr "Управление получателями"
 
-#: ../src/navigation.c:2181 ../src/tiers_onglet.c:361
+#: ../src/navigation.c:2191 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr "Удалить неактивных"
 
-#: ../src/navigation.c:2236
+#: ../src/navigation.c:2246
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "Импортировать файл с категориями Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2245
+#: ../src/navigation.c:2255
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "Экспортировать файл с категориями Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2259
+#: ../src/navigation.c:2269
 #, fuzzy
 msgid "New budgetary line"
 msgstr ""
 "Создать\n"
 "бюджетную линию"
 
-#: ../src/navigation.c:2300
+#: ../src/navigation.c:2310
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Файлы бюджетных линий Grisbi (*.igsb)"
 
-#: ../src/navigation.c:2309
+#: ../src/navigation.c:2319
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Файлы бюджетных линий Grisbi (*.igsb)"
 
-#: ../src/navigation.c:2335
+#: ../src/navigation.c:2345
 #, fuzzy
 msgid "Remove this report"
 msgstr "Удалить отчёт"
@@ -10516,8 +10522,7 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
-"Вы собираетесь заменить одного получателя с именем, содержащим «%s», на "
-"«%s»\n"
+"Вы собираетесь заменить одного получателя с именем, содержащим «%s», на «%s»\n"
 "\n"
 "Вы уверены?"
 
@@ -10816,6 +10821,19 @@ msgstr ""
 #: ../src/utils_font.c:203
 msgid "No font defined"
 msgstr "Шрифт не определён"
+
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+#, fuzzy
+msgid "Display the data graph"
+msgstr "Показывать совет дня"
+
+#: ../src/ui/bet_graph.ui.h:2
+#, fuzzy
+msgid "Select the chart type"
+msgstr "Выделить все"
 
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
@@ -11418,9 +11436,6 @@ msgstr "Общедоступное управление личными фина�
 
 #~ msgid "Links"
 #~ msgstr "Ссылки"
-
-#~ msgid "License"
-#~ msgstr "Лицензия"
 
 #~ msgid "Revert to default font"
 #~ msgstr "Сбросить до исходного"

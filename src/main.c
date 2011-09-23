@@ -260,6 +260,13 @@ void main_mac_osx ( int argc, char **argv )
 
     gtk_init ( &argc, &argv );
 
+#ifdef HAVE_GOFFICE
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+#endif
+
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
@@ -339,6 +346,11 @@ void main_mac_osx ( int argc, char **argv )
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
 
     g_object_unref ( theApp );
+
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+#endif
 
 #endif /* GTKOSXAPPLICATION */
 }

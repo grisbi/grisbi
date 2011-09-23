@@ -146,6 +146,20 @@ extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 
+/** Holds data for the navigation tree.  */
+enum navigation_cols {
+    NAVIGATION_PIX,
+    NAVIGATION_PIX_VISIBLE,
+    NAVIGATION_TEXT,
+    NAVIGATION_FONT,
+    NAVIGATION_PAGE,
+    NAVIGATION_ACCOUNT,
+    NAVIGATION_REPORT,
+    NAVIGATION_SENSITIVE,
+    NAVIGATION_ORDRE,        /* ordre des pages dans le modèle */
+    NAVIGATION_TOTAL,
+};
+
 /** Navigation tree view. */
 static GtkWidget *navigation_tree_view = NULL;
 
@@ -395,6 +409,7 @@ gint gsb_gui_navigation_get_current_account ( void )
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
+    gint account_number;
 
     if ( !navigation_tree_view )
 	return -1;
@@ -407,15 +422,12 @@ gint gsb_gui_navigation_get_current_account ( void )
     gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
 			 &iter,
 			 NAVIGATION_PAGE, &page,
+			 NAVIGATION_ACCOUNT, &account_number,
 			 -1);
     
     if ( page == GSB_ACCOUNT_PAGE )
-    {
-	gint account_number;
-	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_ACCOUNT, &account_number, -1);
-
 	return account_number;
-    }
+
     return -1;
 }
 
@@ -919,13 +931,11 @@ void gsb_gui_navigation_add_account ( gint account_number,
  * 
  * \return FALSE
  * */
-gboolean navigation_change_account ( gint *no_account )
+gboolean navigation_change_account ( gint new_account )
 {
-    gint new_account;
     gint current_account;
     gchar *tmp_menu_path;
 
-    new_account = GPOINTER_TO_INT ( no_account );
     devel_debug_int (new_account);
 
     if ( new_account < 0 )
@@ -1144,7 +1154,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* what to be done if switch to that page */
 	    if (account_number >= 0 )
 	    {
-            navigation_change_account ( GINT_TO_POINTER (account_number) );
+            navigation_change_account ( account_number );
             gsb_account_property_fill_page ();
             clear_suffix = FALSE;
             if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
