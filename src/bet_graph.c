@@ -44,6 +44,7 @@
 #include "structures.h"
 #include "utils_gtkbuilder.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -77,6 +78,7 @@ struct _struct_bet_graph_data
 
     /* données pour les camemberts */
     gint type_infos;            /* 0 type crédit ou < 0, 1 type débit ou >= 0, -1 tous types */
+    gdouble montant;            /* montant annuel toutes catégories. sert au calculde pourcentage */
     gchar tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE];
     gchar **tab_vue_libelle;
 
@@ -170,6 +172,91 @@ gboolean bet_graph_initialise_builder ( void )
 
 
 /**
+ *
+ *
+ *
+ */
+gboolean bet_graph_on_motion ( GtkWidget *event_box,
+                        GdkEventMotion *event,
+                        struct_bet_graph_data *self )
+{
+    GogRenderer *rend = NULL;
+    GogView *graph_view = NULL;
+    GogView *view = NULL;
+    GogChartMap *map = NULL;
+	GogSeries *series;
+    gchar *buf = NULL;
+	gint index;
+
+    rend = go_graph_widget_get_renderer ( GO_GRAPH_WIDGET ( self->widget ) );
+    g_object_get ( G_OBJECT ( rend ), "view", &graph_view, NULL );
+    view = gog_view_find_child_view ( graph_view, GOG_OBJECT ( self->plot ) );
+
+    if ( strcmp ( self->service_id, "GogBarColPlot" ) == 0 )
+    {
+        index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
+
+        if ( index == -1 )
+            buf = NULL;
+        else
+            buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index],
+                        utils_real_get_string_with_currency_from_double (
+                        self->tab_Y[index], self->account_number ) );
+    }
+
+    else if (  strcmp ( self->service_id, "GogLinePlot")  == 0 )
+    {
+        GogAxis *x_axis, *y_axis;
+
+        x_axis = GOG_AXIS ( gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "X-Axis" ) );
+        y_axis = GOG_AXIS ( gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "Y-Axis" ) );
+
+        map = gog_chart_map_new ( self->chart, &(view->allocation), x_axis, y_axis, NULL, FALSE );
+
+        if (gog_chart_map_is_valid ( map )
+         &&
+         event->x >= view->allocation.x && event->x < view->allocation.x + view->allocation.w
+         &&
+        event->y >= view->allocation.y && event->y < view->allocation.y + view->allocation.h )
+        {
+            GogAxisMap *x_map;
+
+            x_map = gog_chart_map_get_axis_map (map, 0);
+            index = (gint) gog_axis_map_from_view (x_map, event->x);
+
+            buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index-1],
+                        utils_real_get_string_with_currency_from_double (
+                        self->tab_Y[index-1], self->account_number ) );
+        }
+        else
+            buf = NULL;
+    }
+    else if (  strcmp ( self->service_id, "GogPiePlot" ) == 0 )
+    {
+
+        index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
+        if ( index == -1 )
+            buf = NULL;
+        else
+            buf = g_strdup_printf ("%s : %s (%.2f%%)", self->tab_vue_libelle[index],
+                        utils_real_get_string_with_currency_from_double (
+                        self->tab_Y[index], self->account_number ),
+                        ( 100*self->tab_Y[index]/self->montant ) );
+    }
+
+    if ( buf )
+    {
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), buf );
+        g_free ( buf );
+    }
+    else
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), "" );
+
+    return TRUE;
+}
+
+
+/**
  * Création de la page pour le graphique initialisée
  *
  *
@@ -199,6 +286,9 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
 
     /* Set the graph widget */
     w = go_graph_widget_new ( NULL );
+    g_signal_connect ( G_OBJECT ( w ),
+                        "motion-notify-event",
+                        G_CALLBACK ( bet_graph_on_motion ), self );
     gtk_box_pack_end ( GTK_BOX ( child ), w, TRUE, TRUE, 0 );
 
 	self->widget = w;
@@ -402,7 +492,7 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
             gtk_tree_model_get ( GTK_TREE_MODEL( model ),
                         &iter,
                         SPP_HISTORICAL_DESC_COLUMN, &desc,
-                        SPP_HISTORICAL_RETAINED_AMOUNT, &amount,
+                        SPP_HISTORICAL_BALANCE_AMOUNT, &amount,
                         SPP_HISTORICAL_DIV_NUMBER, &div,
                         -1 );
 
@@ -412,6 +502,7 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
                 strncpy ( &libelle_division[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE );
                 tab_montant_division[self -> nbre_elemnts] = utils_str_strtod ( ( amount == NULL) ? "0" : amount, NULL );
 
+                self->montant += tab_montant_division[self -> nbre_elemnts];
                 self -> nbre_elemnts++;
             }
 

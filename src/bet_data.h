@@ -113,6 +113,7 @@ enum bet_historical_data_columns {
     SPP_HISTORICAL_DESC_COLUMN,
     SPP_HISTORICAL_CURRENT_COLUMN,  /* Accumulation of the current year */
     SPP_HISTORICAL_BALANCE_COLUMN,
+    SPP_HISTORICAL_BALANCE_AMOUNT,          /* balance column without currency */
     SPP_HISTORICAL_AVERAGE_COLUMN,
     SPP_HISTORICAL_AVERAGE_AMOUNT,  /* average column without currency */
     SPP_HISTORICAL_RETAINED_COLUMN,
