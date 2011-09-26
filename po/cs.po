@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 21:21+0200\n"
+"POT-Creation-Date: 2011-09-26 19:56+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
@@ -570,8 +570,8 @@ msgstr "Výchozí"
 
 #. mise en place de la paddingbox des catégories
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
-#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2085
-#: ../src/bet_hist.c:2091 ../src/categories_onglet.c:347
+#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2096
+#: ../src/bet_hist.c:2102 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
 #: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
@@ -580,7 +580,7 @@ msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
 #: ../src/bet_config.c:584 ../src/bet_config.c:603 ../src/bet_config.c:621
-#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2089
+#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2100
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
@@ -610,7 +610,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:920 ../src/bet_hist.c:571 ../src/bet_hist.c:1636
+#: ../src/bet_config.c:920 ../src/bet_hist.c:572 ../src/bet_hist.c:1647
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:684 ../src/export_csv.c:806
 #: ../src/gsb_transactions_list.c:176 ../src/import_csv.c:86
@@ -619,7 +619,7 @@ msgid "Category"
 msgstr "Kategorie"
 
 #: ../src/bet_config.c:933 ../src/bet_future.c:817 ../src/bet_future.c:2025
-#: ../src/bet_future.c:2501 ../src/bet_hist.c:1629 ../src/etats_affiche.c:2444
+#: ../src/bet_future.c:2501 ../src/bet_hist.c:1640 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:168
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:65
@@ -651,9 +651,13 @@ msgstr "Datum první splátky: "
 msgid "Annuel rate interest: "
 msgstr "Roční úroková míra: "
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
 #: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
-#: ../src/bet_finance_ui.c:1551
+#: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
+#, no-c-format
 msgid "%"
 msgstr "%"
 
@@ -806,13 +810,13 @@ msgstr "Zobrazit rozpis amortizace od začátku"
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1928 ../src/bet_tab.c:1529 ../src/bet_tab.c:2889
+#: ../src/bet_hist.c:1939 ../src/bet_tab.c:1529 ../src/bet_tab.c:2889
 msgid "Print the array"
 msgstr "Vytisknout tabulku"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1941 ../src/bet_tab.c:1539
+#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1952 ../src/bet_tab.c:1539
 msgid "Export the array"
 msgstr "Exportovat tabulku"
 
@@ -871,12 +875,12 @@ msgstr "Amortizace"
 msgid "Credits"
 msgstr "Půjčky"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1925 ../src/bet_tab.c:2886
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1936 ../src/bet_tab.c:2886
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Tisk"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1938 ../src/bet_tab.c:2899
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1949 ../src/bet_tab.c:2899
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -886,7 +890,7 @@ msgstr "Export"
 msgid "credit.csv"
 msgstr "pujcka.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2046 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Nelze uložit soubor."
@@ -1015,9 +1019,8 @@ msgid "Payee"
 msgstr "Plátce/příjemce"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:796 ../src/bet_graph.c:260 ../src/bet_tab.c:691
-#: ../src/categories_onglet.c:762 ../src/export_csv.c:797
-#: ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
+#: ../src/bet_future.c:796 ../src/bet_tab.c:691 ../src/categories_onglet.c:762
+#: ../src/export_csv.c:797 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
 #: ../src/gsb_payment_method_config.c:390
 #: ../src/gsb_payment_method_config.c:1084 ../src/gsb_transactions_list.c:169
@@ -1026,9 +1029,8 @@ msgid "Debit"
 msgstr "Debet"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:803 ../src/bet_graph.c:247 ../src/bet_tab.c:709
-#: ../src/categories_onglet.c:762 ../src/export_csv.c:794
-#: ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
+#: ../src/bet_future.c:803 ../src/bet_tab.c:709 ../src/categories_onglet.c:762
+#: ../src/export_csv.c:794 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
 #: ../src/gsb_payment_method_config.c:403
 #: ../src/gsb_payment_method_config.c:1080 ../src/gsb_transactions_list.c:170
@@ -1125,20 +1127,36 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:629
+#: ../src/bet_graph.c:282 ../src/bet_graph.c:392
+msgid "Graph"
+msgstr ""
+
+#: ../src/bet_graph.c:339 ../src/tiers_onglet.c:1064
+msgid "Options"
+msgstr "Volby"
+
+#: ../src/bet_graph.c:403
+msgid "Expenses"
+msgstr ""
+
+#: ../src/bet_graph.c:426 ../src/etats_affiche.c:2299
+msgid "Incomes"
+msgstr "Příjmy"
+
+#: ../src/bet_graph.c:829
 #, fuzzy
 msgid "Column"
 msgstr "Sloupce"
 
-#: ../src/bet_graph.c:653
+#: ../src/bet_graph.c:853
 msgid "Line"
 msgstr ""
 
-#: ../src/bet_hist.c:559 ../src/tiers_onglet.c:1151
+#: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../src/bet_hist.c:590 ../src/categories_onglet.c:180
+#: ../src/bet_hist.c:591 ../src/categories_onglet.c:180
 #: ../src/etats_config.c:5249 ../src/export_csv.c:800
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:172 ../src/import.c:3340
@@ -1146,15 +1164,15 @@ msgstr "Vybrat"
 msgid "Amount"
 msgstr "Částka"
 
-#: ../src/bet_hist.c:608
+#: ../src/bet_hist.c:609
 msgid "Average"
 msgstr "Průměr"
 
-#: ../src/bet_hist.c:626
+#: ../src/bet_hist.c:627
 msgid "Current fyear"
 msgstr "Aktuální rok"
 
-#: ../src/bet_hist.c:645
+#: ../src/bet_hist.c:646
 msgid "Amount retained"
 msgstr "Rezervovaná částka"
 
@@ -1163,40 +1181,40 @@ msgstr "Rezervovaná částka"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1056
+#: ../src/bet_hist.c:1067
 msgid "12 months rolling"
 msgstr "pohyblivých 12 měsíců"
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1471
+#: ../src/bet_hist.c:1482
 msgid "Assign the amount of the last operation"
 msgstr "Přiřadit částku podle poslední transakce"
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1494
+#: ../src/bet_hist.c:1505
 msgid "Copy the average amount"
 msgstr "Kopírovat průměrnou částku"
 
-#: ../src/bet_hist.c:1789
+#: ../src/bet_hist.c:1800
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: «%s»"
 msgstr ""
 
-#: ../src/bet_hist.c:1794
+#: ../src/bet_hist.c:1805
 #, fuzzy, c-format
 msgid "Amounts by %s in %s for the account: «%s»"
 msgstr "Měna pro tento účet: "
 
-#: ../src/bet_hist.c:1951
+#: ../src/bet_hist.c:1962
 #, fuzzy
 msgid "Data graph"
 msgstr "Seskupení dat"
 
-#: ../src/bet_hist.c:1955
+#: ../src/bet_hist.c:1966
 msgid "display the data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:2011
+#: ../src/bet_hist.c:2022
 #, fuzzy
 msgid "Export the historical data"
 msgstr "Zdroje historických dat"
@@ -2049,10 +2067,6 @@ msgstr "Žádný podrozpočet"
 #: ../src/meta_payee.c:82
 msgid "No payee"
 msgstr "Bez plátce/příjemce"
-
-#: ../src/etats_affiche.c:2299
-msgid "Incomes"
-msgstr "Příjmy"
 
 #: ../src/etats_affiche.c:2319
 msgid "Outgoings"
@@ -7207,8 +7221,8 @@ msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"Transakce #%d je připojena k transakci #%d, která je připojena k transakci #%"
-"d.\n"
+"Transakce #%d je připojena k transakci #%d, která je připojena k transakci #"
+"%d.\n"
 
 #. sub-category not found
 #: ../src/gsb_debug.c:611
@@ -10767,10 +10781,6 @@ msgstr "Zadejte nového plátce/příjemce"
 msgid "Enter the name of the new payee"
 msgstr "Zadejte jméno nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1064
-msgid "Options"
-msgstr "Volby"
-
 #: ../src/tiers_onglet.c:1072
 msgid "Save the payees in the notes"
 msgstr "Uložit plátce/příjemce do poznámek"
@@ -10820,8 +10830,8 @@ msgid ""
 "\n"
 "Are you sure?"
 msgstr ""
-"Chystáte se nahradit %d plátců/příjemců jejichž jména obsahují %s hodnotou %"
-"s\n"
+"Chystáte se nahradit %d plátců/příjemců jejichž jména obsahují %s hodnotou "
+"%s\n"
 "\n"
 "Opravdu pokračovat?"
 
@@ -11204,18 +11214,66 @@ msgstr "Konverze se nezdařila, zkuste jinou znakovou sadu"
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
-#: ../src/ui/bet_graph.ui.h:1
+#: ../src/ui/bet_graph.ui.h:3
+msgid "<b>Major ticks</b>"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:4
+msgid "<b>Options for the X axis</b>"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:5
+#, fuzzy
+msgid "<b>Options for the columns</b>"
+msgstr "Možnosti účtů hotovosti"
+
+#: ../src/ui/bet_graph.ui.h:6
+#, fuzzy
+msgid "<b>Position</b>"
+msgstr " <b>%s odsouhlasení</b> "
+
+#: ../src/ui/bet_graph.ui.h:7
+msgid "Crosses the Y axis at 0"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:8
 #, fuzzy
 msgid "Display the data graph"
 msgstr "Zobrazit tip dne"
 
-#: ../src/ui/bet_graph.ui.h:2
+#: ../src/ui/bet_graph.ui.h:9
+#, fuzzy
+msgid "Display the grids above the plot"
+msgstr "Zobrazit tip dne"
+
+#: ../src/ui/bet_graph.ui.h:10
+msgid "Gap:"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:11
+msgid "High"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:12
+msgid "Inside"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:13
+msgid "Low"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:14
+msgid "Outside"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:15
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Zvolte mapu znaků"
+
+#: ../src/ui/bet_graph.ui.h:16
+msgid "Show Labels"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"

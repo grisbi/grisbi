@@ -190,7 +190,7 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkCheckButton" id="major-tick-out">
-                                <property name="label" translatable="yes">_Outside</property>
+                                <property name="label" translatable="yes">Outside</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -207,7 +207,7 @@
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="major-tick-in">
-                                <property name="label" translatable="yes">_Inside</property>
+                                <property name="label" translatable="yes">Inside</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -223,7 +223,7 @@
                             </child>
                             <child>
                               <object class="GtkCheckButton" id="major-tick-labeled">
-                                <property name="label" translatable="yes">_Show Labels</property>
+                                <property name="label" translatable="yes">Show Labels</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -297,7 +297,7 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="axis_low">
-                                <property name="label" translatable="yes">_Low</property>
+                                <property name="label" translatable="yes">Low</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -313,7 +313,7 @@
                             </child>
                             <child>
                               <object class="GtkRadioButton" id="axis_high">
-                                <property name="label" translatable="yes">_High</property>
+                                <property name="label" translatable="yes">High</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -489,7 +489,7 @@
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0</property>
-                <property name="label" translatable="yes">_Gap:</property>
+                <property name="label" translatable="yes">Gap:</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">gap_spinner</property>
               </object>
@@ -536,7 +536,7 @@
             </child>
             <child>
               <object class="GtkCheckButton" id="before-grid">
-                <property name="label" translatable="yes">_Display the grids above the plot</property>
+                <property name="label" translatable="yes">Display the grids above the plot</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
