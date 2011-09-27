@@ -189,9 +189,9 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
     GogView *graph_view = NULL;
     GogView *view = NULL;
     GogChartMap *map = NULL;
-	GogSeries *series;
+    GogSeries *series;
     gchar *buf = NULL;
-	gint index;
+    gint index;
 
     rend = go_graph_widget_get_renderer ( GO_GRAPH_WIDGET ( self->widget ) );
     g_object_get ( G_OBJECT ( rend ), "view", &graph_view, NULL );
@@ -271,13 +271,13 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
                         gboolean add_page )
 {
     GtkWidget *child;
-	GtkWidget *w;
-	GogGraph *graph;
-	GogLabel *label;
-	GogPlot *plot;
-	GOStyle *style;
-	GOData *data;
-	PangoFontDescription *desc;
+    GtkWidget *w;
+    GogGraph *graph;
+    GogLabel *label;
+    GogPlot *plot;
+    GOStyle *style;
+    GOData *data;
+    PangoFontDescription *desc;
 
     devel_debug_int (add_page);
     if ( add_page )
@@ -339,7 +339,7 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
 void bet_graph_create_prefs_page  ( struct_bet_graph_data *self )
 {
     GtkWidget *child;
-	GtkWidget *label;
+    GtkWidget *label;
 
     label = gtk_label_new ( _("Options") );
     child = bet_graph_create_line_preferences ( self );
@@ -353,7 +353,8 @@ void bet_graph_create_prefs_page  ( struct_bet_graph_data *self )
  *
  *
  * */
-void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
+void bet_graph_sectors_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view )
 {
     GtkWidget *dialog;
     GtkWidget *label;
@@ -377,7 +378,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
                         "destroy",
-		                GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -554,7 +555,7 @@ gboolean bet_graph_affiche_camemberts ( struct_bet_graph_data *self )
     }
 
     data = go_data_vector_val_new ( self -> tab_Y, self -> nbre_elemnts, NULL);
-	gog_series_set_dim (series, 1, data, &error);
+    gog_series_set_dim (series, 1, data, &error);
     if ( error != NULL )
     {
         printf ("tab_montant_division : erreur = %s\n", error -> message);
@@ -607,7 +608,7 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
                         "destroy",
-		                GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -899,7 +900,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     arrow_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "arrow_button" ) );
     g_signal_connect ( G_OBJECT ( arrow_button ),
                         "button-press-event",
-			            G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
+                        G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
                         liste );
 
     return box;
@@ -936,7 +937,7 @@ gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), icon );
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-				        G_CALLBACK ( bet_graph_popup_choix_graph_activate ),
+                        G_CALLBACK ( bet_graph_popup_choix_graph_activate ),
                         self );
         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -952,7 +953,7 @@ gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
                         set_popup_position,
                         button,
                         1,
-		                gtk_get_current_event_time ( ) );
+                        gtk_get_current_event_time ( ) );
 
     return FALSE;
 }
