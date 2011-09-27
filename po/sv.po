@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-26 19:56+0200\n"
+"POT-Creation-Date: 2011-09-27 17:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1103,27 +1103,27 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:282 ../src/bet_graph.c:392
+#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:339 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr ""
 
-#: ../src/bet_graph.c:403
+#: ../src/bet_graph.c:409
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:426 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr ""
 
-#: ../src/bet_graph.c:829
+#: ../src/bet_graph.c:861
 msgid "Column"
 msgstr ""
 
-#: ../src/bet_graph.c:853
+#: ../src/bet_graph.c:885
 msgid "Line"
 msgstr ""
 
@@ -10394,58 +10394,62 @@ msgid "No font defined"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:3
-msgid "<b>Major ticks</b>"
+msgid "<b>Additional line</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:4
-msgid "<b>Options for the X axis</b>"
+msgid "<b>Major ticks</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:5
-msgid "<b>Options for the columns</b>"
+msgid "<b>Options for the X axis</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:6
-msgid "<b>Position</b>"
+msgid "<b>Options for the columns</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:7
-msgid "Crosses the Y axis at 0"
+msgid "<b>Position</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:8
-msgid "Display the data graph"
+msgid "Crosses the Y axis at 0"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:9
-msgid "Display the grids above the plot"
+msgid "Display the data graph"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:10
-msgid "Gap:"
+msgid "Display the grids above the plot"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:11
-msgid "High"
+msgid "Gap:"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:12
-msgid "Inside"
+msgid "High"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:13
-msgid "Low"
+msgid "Inside"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:14
-msgid "Outside"
+msgid "Low"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:15
-msgid "Select the chart type"
+msgid "Outside"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:16
+msgid "Select the chart type"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Show Labels"
 msgstr ""
 

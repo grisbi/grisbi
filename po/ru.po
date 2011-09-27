@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-26 19:56+0200\n"
+"POT-Creation-Date: 2011-09-27 17:17+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1172,28 +1172,28 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:282 ../src/bet_graph.c:392
+#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:339 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Параметры"
 
-#: ../src/bet_graph.c:403
+#: ../src/bet_graph.c:409
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:426 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Входящие"
 
-#: ../src/bet_graph.c:829
+#: ../src/bet_graph.c:861
 #, fuzzy
 msgid "Column"
 msgstr "Столбцы"
 
-#: ../src/bet_graph.c:853
+#: ../src/bet_graph.c:885
 #, fuzzy
 msgid "Line"
 msgstr "Лицензия"
@@ -10834,63 +10834,68 @@ msgid "No font defined"
 msgstr "Шрифт не определён"
 
 #: ../src/ui/bet_graph.ui.h:3
+#, fuzzy
+msgid "<b>Additional line</b>"
+msgstr "Дополнительный баланс"
+
+#: ../src/ui/bet_graph.ui.h:4
 msgid "<b>Major ticks</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:4
+#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Options for the X axis</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:5
+#: ../src/ui/bet_graph.ui.h:6
 #, fuzzy
 msgid "<b>Options for the columns</b>"
 msgstr "Выделить наличные счета"
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:7
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr " <b>Выверка счёта «%s»</b> "
 
-#: ../src/ui/bet_graph.ui.h:7
+#: ../src/ui/bet_graph.ui.h:8
 msgid "Crosses the Y axis at 0"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:8
+#: ../src/ui/bet_graph.ui.h:9
 #, fuzzy
 msgid "Display the data graph"
 msgstr "Показывать совет дня"
 
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "Display the grids above the plot"
 msgstr "Показывать совет дня"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:11
 msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:12
 msgid "High"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:13
 msgid "Inside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:14
 msgid "Low"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:15
 msgid "Outside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:16
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Выделить все"
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Show Labels"
 msgstr ""
 
