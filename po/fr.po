@@ -11331,15 +11331,15 @@ msgstr "Aucune police définie"
 
 #: ../src/ui/bet_graph.ui.h:3
 msgid "<b>Major ticks</b>"
-msgstr "Graduation principale"
+msgstr "<b>Graduation principale</b>"
 
 #: ../src/ui/bet_graph.ui.h:4
 msgid "<b>Options for the X axis</b>"
-msgstr "Options de l'axe X"
+msgstr "<b>Options de l'axe X</b>"
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Options for the columns</b>"
-msgstr "Option des barres du graphique"
+msgstr "<b>Option des barres du graphique</b>"
 
 #: ../src/ui/bet_graph.ui.h:6
 msgid "<b>Position</b>"
@@ -11355,7 +11355,7 @@ msgstr "Afficher le graphique"
 
 #: ../src/ui/bet_graph.ui.h:9
 msgid "Display the grids above the plot"
-msgstr "Afficher les étiquettes sur les barres"
+msgstr "Afficher la grille sur les barres"
 
 #: ../src/ui/bet_graph.ui.h:10
 msgid "Gap:"
