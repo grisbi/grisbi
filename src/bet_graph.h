@@ -16,7 +16,7 @@
 /* Definition du maximum de segments par camembert */
 #define MAX_SEGMENT_CAMEMBERT 30
 /* Definition du maximum de segments par camembert */
-#define MAX_POINTS_GRAPHIQUE 300
+#define MAX_POINTS_GRAPHIQUE 370
 
 /* Definition de la taille maximum d'un libelle */
 #define TAILLE_MAX_LIBELLE 50
