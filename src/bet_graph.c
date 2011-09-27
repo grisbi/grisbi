@@ -675,7 +675,11 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
         gchar **tab_libelle_axe_x;
         gdouble *tab_Y = self -> tab_Y;
         gdouble montant = 0.;
+        GDate *first_date;
+        GDate *last_date;
+        GDate *date_courante;
         GDateDay day_courant;
+        gint nbre_iterations;
 
         tab_libelle_axe_x = &libelle_axe_x;
 
@@ -686,6 +690,8 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             GValue date_value = {0,};
             GDate *date;
             GDateDay day;
+            gint diff_jours;
+            gint i;
 
             gtk_tree_model_get_value ( model,
                         &iter,
@@ -694,7 +700,6 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             gtk_tree_model_get ( GTK_TREE_MODEL( model ),
                         &iter,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &amount,
-                        SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
                         -1 );
             date = g_value_get_boxed ( &date_value );
 
@@ -702,32 +707,71 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
 
             if ( self -> nbre_elemnts == 0 )
             {
+                /* on ajoute 1 jour pour passer au 1er du mois */
                 g_date_add_days ( date, 1 );
+
+                /* on calcule le nombre maxi d'itération pour une année */
+                first_date = gsb_date_copy ( date );
+                last_date = gsb_date_copy ( date );
+                g_date_add_years ( last_date, 1 );
+                nbre_iterations = g_date_days_between ( first_date, last_date );
+
+                date_courante = gsb_date_copy ( date );
                 day_courant = g_date_get_day ( date );
+
+                str_date = gsb_format_gdate ( date_courante );
                 strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE );
+
                 self -> nbre_elemnts++;
+                g_free ( str_date );
+                g_date_free ( first_date );
+                g_date_free ( last_date );
             }
             else
             {
                 day = g_date_get_day ( date );
                 if ( day != day_courant )
                 {
-                    strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE );
-                    tab_Y[self->nbre_elemnts-1] = prev_montant;
+                    /* nombre de jours manquants */
+                    diff_jours = g_date_days_between ( date_courante, date );
+                    for ( i = diff_jours; i > 0; i-- )
+                    {
+                        g_date_add_days ( date_courante, 1 );
+                        str_date = gsb_format_gdate ( date_courante );
 
+                        strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE],
+                                    str_date, TAILLE_MAX_LIBELLE );
+                        tab_Y[self->nbre_elemnts-1] = prev_montant;
+                        self -> nbre_elemnts++;
+
+                        /* on dépasse d'un jour pour obtenir le solde du dernier jour */
+                        if ( self -> nbre_elemnts > nbre_iterations )
+                        {
+                            self -> nbre_elemnts = nbre_iterations + 1;
+                            break;
+                        }
+
+                        g_free ( str_date );
+                    }
                     day_courant = day;
-                    self -> nbre_elemnts++;
                 }
             }
-
             prev_montant = montant;
 
-            if ( self -> nbre_elemnts >= MAX_POINTS_GRAPHIQUE )
+            if ( self -> nbre_elemnts > nbre_iterations )
+            {
+                self -> nbre_elemnts = nbre_iterations;
+                dialogue_hint ( _("You can not exceed one year of visualization"), _("Overflow") );
+
                 break;
+            }
+
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 
         tab_Y[self->nbre_elemnts-1] = prev_montant;
+
+        g_date_free ( date_courante );
 
         return TRUE;
     }
