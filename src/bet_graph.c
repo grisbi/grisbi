@@ -100,14 +100,16 @@ struct _struct_bet_graph_button
 
 struct _struct_bet_graph_prefs
 {
-    gint major_tick_out;        /* TRUE par défaut */
-    gint major_tick_in;         /* FALSE par défaut */
-    gint major_tick_labeled;    /* affichage des libellés de l'axe X. TRUE par défaut*/
-    gint position;              /* position de l'axe des X. Croisé par défaut*/
-    gint cross_entry;           /* position du croisement avec l'axe Y. 0 par défaut */
-    gint degrees;               /* rotation des étiquettes de l'axe X en degrés. 90° par défaut */
-    gint espacement;            /* espace entre deux barres */
-    gint recouvrement;          /* les étiquettes sont cachées par les barres par défaut */
+    gboolean major_tick_out;        /* TRUE par défaut */
+    gboolean major_tick_in;         /* FALSE par défaut */
+    gboolean major_tick_labeled;    /* affichage des libellés de l'axe X. TRUE par défaut*/
+    gint position;                  /* position de l'axe des X. En bas par défaut*/
+    gboolean new_axis_line;         /* ligne supplémentaire. Croise l'axe des Y à 0. TRUE par défaut*/
+    gint cross_entry;               /* position du croisement avec l'axe Y. 0 par défaut */
+    gint degrees;                   /* rotation des étiquettes de l'axe X en degrés. 90° par défaut */
+    gint gap_spinner;               /* espace entre deux barres en %. 50 par défaut*/
+    gboolean before_grid;           /* les étiquettes sont cachées par les barres par défaut */
+
 };
 
 
@@ -119,8 +121,12 @@ static GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
 static void bet_graph_create_pie_canvas  ( struct_bet_graph_data *self );
 static GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self );
 static void bet_graph_create_prefs_page  ( struct_bet_graph_data *self );
+static void bet_graph_gap_spinner_changed ( GtkSpinButton *spinbutton,
+                        struct_bet_graph_data *self );
 static GtkWidget *bet_graph_get_canvas  ( void );
 static gboolean bet_graph_initialise_builder ( void );
+static void bet_graph_map_type_changed ( GtkComboBox *combo,
+                        struct_bet_graph_data *self );
 static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self );
 static gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self );
 static void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
@@ -184,9 +190,9 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
     GogView *graph_view = NULL;
     GogView *view = NULL;
     GogChartMap *map = NULL;
-	GogSeries *series;
+    GogSeries *series;
     gchar *buf = NULL;
-	gint index;
+    gint index;
 
     rend = go_graph_widget_get_renderer ( GO_GRAPH_WIDGET ( self->widget ) );
     g_object_get ( G_OBJECT ( rend ), "view", &graph_view, NULL );
@@ -266,13 +272,13 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
                         gboolean add_page )
 {
     GtkWidget *child;
-	GtkWidget *w;
-	GogGraph *graph;
-	GogLabel *label;
-	GogPlot *plot;
-	GOStyle *style;
-	GOData *data;
-	PangoFontDescription *desc;
+    GtkWidget *w;
+    GogGraph *graph;
+    GogLabel *label;
+    GogPlot *plot;
+    GOStyle *style;
+    GOData *data;
+    PangoFontDescription *desc;
 
     devel_debug_int (add_page);
     if ( add_page )
@@ -291,10 +297,10 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
                         G_CALLBACK ( bet_graph_on_motion ), self );
     gtk_box_pack_end ( GTK_BOX ( child ), w, TRUE, TRUE, 0 );
 
-	self->widget = w;
+    self->widget = w;
 
-	/* Get the embedded graph */
-	graph = go_graph_widget_get_graph ( GO_GRAPH_WIDGET ( w ) );
+    /* Get the embedded graph */
+    graph = go_graph_widget_get_graph ( GO_GRAPH_WIDGET ( w ) );
 
     /* set the title */
     if ( self->title && strlen ( self->title ) )
@@ -310,16 +316,16 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
         go_style_set_font_desc ( style, desc );
     }
 
-	/* Get the chart created by the widget initialization */
-	self->chart = go_graph_widget_get_chart ( GO_GRAPH_WIDGET ( w ) );
+    /* Get the chart created by the widget initialization */
+    self->chart = go_graph_widget_get_chart ( GO_GRAPH_WIDGET ( w ) );
 
-	/* Create a pie plot and add it to the chart */
-	plot = ( GogPlot *) gog_plot_new_by_name ( self->service_id );
-	gog_object_add_by_name ( GOG_OBJECT ( self->chart ), "Plot", GOG_OBJECT ( plot ) );
+    /* Create a pie plot and add it to the chart */
+    plot = ( GogPlot *) gog_plot_new_by_name ( self->service_id );
+    gog_object_add_by_name ( GOG_OBJECT ( self->chart ), "Plot", GOG_OBJECT ( plot ) );
 
-	/* Add a legend to the chart */
+    /* Add a legend to the chart */
     if ( self->is_legend )
-	    gog_object_add_by_name ( GOG_OBJECT ( self->chart ), "Legend", NULL);
+        gog_object_add_by_name ( GOG_OBJECT ( self->chart ), "Legend", NULL);
 
     return plot;
 }
@@ -334,7 +340,7 @@ GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
 void bet_graph_create_prefs_page  ( struct_bet_graph_data *self )
 {
     GtkWidget *child;
-	GtkWidget *label;
+    GtkWidget *label;
 
     label = gtk_label_new ( _("Options") );
     child = bet_graph_create_line_preferences ( self );
@@ -348,7 +354,8 @@ void bet_graph_create_prefs_page  ( struct_bet_graph_data *self )
  *
  *
  * */
-void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
+void bet_graph_sectors_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view )
 {
     GtkWidget *dialog;
     GtkWidget *label;
@@ -372,7 +379,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
                         "destroy",
-		                GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -549,7 +556,7 @@ gboolean bet_graph_affiche_camemberts ( struct_bet_graph_data *self )
     }
 
     data = go_data_vector_val_new ( self -> tab_Y, self -> nbre_elemnts, NULL);
-	gog_series_set_dim (series, 1, data, &error);
+    gog_series_set_dim (series, 1, data, &error);
     if ( error != NULL )
     {
         printf ("tab_montant_division : erreur = %s\n", error -> message);
@@ -602,7 +609,7 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     gtk_signal_connect ( GTK_OBJECT ( dialog ),
                         "destroy",
-		                GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -740,8 +747,9 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     GogPlot *cur_plot;
     GogSeries *series;
     GOData *data;
-	GOStyle *style;
+    GOStyle *style;
     GogObject *axis;
+    GogObject *axis_line = NULL;
     GError *error = NULL;
     gchar *position;
 
@@ -752,7 +760,6 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
 
     /* on met en vertical les libellés de l'axe X */
     axis = gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "X-Axis" );
-
     style = go_styled_object_get_style ( GO_STYLED_OBJECT ( axis ) );
 
     go_style_set_text_angle ( style, prefs_lines->degrees );
@@ -774,22 +781,48 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     }
     g_object_set ( G_OBJECT ( axis ),
                         "pos-str", position,
-						"cross-axis-id", gog_object_get_id ( GOG_OBJECT ( axis ) ),
-						NULL );
+                        "cross-axis-id", gog_object_get_id ( GOG_OBJECT ( axis ) ),
+                        NULL );
 
     g_object_set ( G_OBJECT ( axis ),
                         "major-tick-in", prefs_lines->major_tick_in,
                         "major-tick-out", prefs_lines->major_tick_out,
-						"major-tick-labeled", prefs_lines->major_tick_labeled,
-						NULL);
+                        "major-tick-labeled", prefs_lines->major_tick_labeled,
+                        NULL);
+
+    /* add a line which crosses the Y axis at 0 */
+    if ( prefs_lines->new_axis_line )
+    {
+        axis_line = gog_object_add_by_name ( axis, "AxisLine", NULL );
+        g_object_set ( G_OBJECT ( axis_line ),
+                        "pos-str", "cross",
+                        "cross-axis-id", gog_object_get_id ( GOG_OBJECT ( axis_line ) ),
+                        "major-tick-out", FALSE,
+                        "major-tick-labeled", FALSE,
+                        NULL );
+    }
+
+    /* affichage de la grille au dessus ou en dessous des barres */
+    /* sert aussi à afficher les étiquettes au dessus des barres à cause d'un bug de goffice */
+    if ( prefs_lines->before_grid )
+    {
+        g_object_set ( G_OBJECT ( self->plot ),
+                        "before-grid", TRUE,
+                        NULL );
+    }
+
+    /* modification du ratio de largeur des barres. 0 pas d'espace entre deux barres */
+    g_object_set ( G_OBJECT ( self->plot ),
+                        "gap-percentage", prefs_lines->gap_spinner,
+                        NULL );
 
     /* on met à jour les données à afficher */
     series = GOG_SERIES ( gog_plot_new_series ( GOG_PLOT ( cur_plot ) ) );
 
     data = go_data_vector_str_new ( (const char * const*) self -> tab_vue_libelle, self -> nbre_elemnts, NULL );
-	gog_series_set_dim (series, 0, data, &error);
+    gog_series_set_dim (series, 0, data, &error);
     data = go_data_vector_val_new ( self->tab_Y, self->nbre_elemnts, NULL);
-	gog_series_set_dim (series, 1, data, &error);
+    gog_series_set_dim (series, 1, data, &error);
 
     return TRUE;
 }
@@ -802,8 +835,8 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
  *
  * */
 GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
-					    const gchar *type_graph,
-					    GCallback callback,
+                        const gchar *type_graph,
+                        GCallback callback,
                         GtkWidget *tree_view )
 {
     GtkWidget *arrow_button = NULL;
@@ -868,7 +901,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     arrow_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "arrow_button" ) );
     g_signal_connect ( G_OBJECT ( arrow_button ),
                         "button-press-event",
-			            G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
+                        G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
                         liste );
 
     return box;
@@ -905,7 +938,7 @@ gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), icon );
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
-				        G_CALLBACK ( bet_graph_popup_choix_graph_activate ),
+                        G_CALLBACK ( bet_graph_popup_choix_graph_activate ),
                         self );
         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -921,7 +954,7 @@ gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
                         set_popup_position,
                         button,
                         1,
-		                gtk_get_current_event_time ( ) );
+                        gtk_get_current_event_time ( ) );
 
     return FALSE;
 }
@@ -996,7 +1029,7 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
     rot_align = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "rot_align") );
 
     /* configure les options d'affichage de l'axe X */
-    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major-tick-out" ) );
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major_tick_out" ) );
     if ( prefs_lines->major_tick_out )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), prefs_lines->major_tick_out );
 
@@ -1006,7 +1039,7 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
                         G_CALLBACK ( bet_graph_toggle_button_changed ),
                         self );
 
-    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major-tick-in" ) );
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major_tick_in" ) );
     if ( prefs_lines->major_tick_in )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), prefs_lines->major_tick_in );
 
@@ -1016,7 +1049,7 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
                         G_CALLBACK ( bet_graph_toggle_button_changed ),
                         self );
 
-    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major-tick-labeled" ) );
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major_tick_labeled" ) );
     if ( prefs_lines->major_tick_labeled )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), prefs_lines->major_tick_labeled );
 
@@ -1030,18 +1063,33 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
     button_1 = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "axis_low" ) );
     if ( prefs_lines->position == 0 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
-
     g_object_set_data ( G_OBJECT ( button_1 ), "rang", GINT_TO_POINTER ( 3 ) );
+
     button_2 = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "axis_high" ) );
     if ( prefs_lines->position == 1 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (button_2 ), TRUE );
-
     g_object_set_data ( G_OBJECT ( button_2 ), "rang", GINT_TO_POINTER ( 4 ) );
-    button_3 = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "axis_cross" ) );
-    if ( prefs_lines->position == 2 )
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_3 ), TRUE );
 
+    button_3 = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "axis_cross" ) );
     g_object_set_data ( G_OBJECT ( button_3 ), "rang", GINT_TO_POINTER ( 5 ) );
+
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "new_axis_line" ) );
+    g_object_set_data ( G_OBJECT ( widget ), "rang", GINT_TO_POINTER ( 6 ) );
+    g_object_set_data ( G_OBJECT ( widget ), "other_axis", button_3 );
+
+    if ( prefs_lines->new_axis_line )
+    {
+        gtk_widget_set_sensitive ( button_3, FALSE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+    }
+
+    if ( prefs_lines->position == 2 )
+    {
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_3 ), TRUE );
+        gtk_widget_set_sensitive ( widget, FALSE );
+    }
+
+    g_object_set_data ( G_OBJECT ( button_3 ), "other_axis", widget );
 
     /* set the signal */
     g_signal_connect ( button_1,
@@ -1059,6 +1107,11 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
                         G_CALLBACK ( bet_graph_toggle_button_changed ),
                         self );
 
+    g_signal_connect ( widget,
+                        "toggled",
+                        G_CALLBACK ( bet_graph_toggle_button_changed ),
+                        self );
+
     /* configure l'orientation des étiquettes de l'axe X */
     rotation = go_rotation_sel_new ( );
     go_rotation_sel_set_rotation (GO_ROTATION_SEL ( rotation ), prefs_lines->degrees );
@@ -1068,6 +1121,25 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
                         self );
 
     gtk_container_add ( GTK_CONTAINER ( rot_align ), rotation );
+
+    /* configure la visibilité de la grille et provisoirement des étiquettes de l'axe X (bug goffice) */
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "before_grid" ) );
+    g_object_set_data ( G_OBJECT ( widget ), "rang", GINT_TO_POINTER ( 7 ) );
+    if ( prefs_lines->before_grid )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
+    g_signal_connect ( widget,
+                        "toggled",
+                        G_CALLBACK ( bet_graph_toggle_button_changed ),
+                        self );
+
+    /* configure la valeur de la largeur des colonnes du graph */
+    widget = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "gap_spinner" ) );
+    if ( prefs_lines->gap_spinner )
+        gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( widget ), prefs_lines->gap_spinner );
+    g_signal_connect ( widget,
+                        "value-changed",
+                        G_CALLBACK ( bet_graph_gap_spinner_changed ),
+                        self );
 
     return box_prefs_line;
 }
@@ -1082,6 +1154,7 @@ GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *self )
 void bet_graph_toggle_button_changed ( GtkToggleButton *togglebutton,
                         struct_bet_graph_data *self )
 {
+    GtkWidget *button;
     gint rang;
     gboolean active;
 
@@ -1108,6 +1181,16 @@ void bet_graph_toggle_button_changed ( GtkToggleButton *togglebutton,
         break;
     case 5:
         prefs_lines->position = 2;
+        button = g_object_get_data ( G_OBJECT ( togglebutton ), "other_axis" );
+        gtk_widget_set_sensitive ( button, !active );
+        break;
+    case 6:
+        prefs_lines->new_axis_line = active;
+        button = g_object_get_data ( G_OBJECT ( togglebutton ), "other_axis" );
+        gtk_widget_set_sensitive ( button, !active );
+        break;
+    case 7:
+        prefs_lines->before_grid = active;
         break;
     }
 
@@ -1127,6 +1210,22 @@ void bet_graph_rotation_changed ( GORotationSel *rotation,
                         struct_bet_graph_data *self )
 {
     prefs_lines->degrees = angle;
+
+    /* on met à jour le graph */
+    bet_graph_update_graph ( self );
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_graph_gap_spinner_changed ( GtkSpinButton *spinbutton,
+                        struct_bet_graph_data *self )
+{
+    prefs_lines->gap_spinner = (gint) gtk_spin_button_get_value ( spinbutton );
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
@@ -1233,7 +1332,10 @@ struct_bet_graph_prefs *struct_initialise_bet_graph_prefs ( void )
     self->major_tick_out = TRUE;
     self->major_tick_labeled = TRUE;
     self->position = 2;
+    self->new_axis_line = FALSE;
     self->degrees = 90;
+    self->gap_spinner = 50;
+    self->before_grid = TRUE;
 
    return self;
 }

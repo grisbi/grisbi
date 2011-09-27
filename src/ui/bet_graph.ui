@@ -119,6 +119,7 @@
   <object class="GtkVBox" id="box_prefs_line">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="spacing">5</property>
     <child>
       <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
@@ -189,8 +190,8 @@
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <object class="GtkCheckButton" id="major-tick-out">
-                                <property name="label" translatable="yes">_Outside</property>
+                              <object class="GtkCheckButton" id="major_tick_out">
+                                <property name="label" translatable="yes">Outside</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -206,8 +207,8 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="major-tick-in">
-                                <property name="label" translatable="yes">_Inside</property>
+                              <object class="GtkCheckButton" id="major_tick_in">
+                                <property name="label" translatable="yes">Inside</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -222,8 +223,8 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="major-tick-labeled">
-                                <property name="label" translatable="yes">_Show Labels</property>
+                              <object class="GtkCheckButton" id="major_tick_labeled">
+                                <property name="label" translatable="yes">Show Labels</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -297,7 +298,7 @@
                             <property name="spacing">6</property>
                             <child>
                               <object class="GtkRadioButton" id="axis_low">
-                                <property name="label" translatable="yes">_Low</property>
+                                <property name="label" translatable="yes">Low</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -313,7 +314,7 @@
                             </child>
                             <child>
                               <object class="GtkRadioButton" id="axis_high">
-                                <property name="label" translatable="yes">_High</property>
+                                <property name="label" translatable="yes">High</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -391,6 +392,54 @@
                 <property name="position">1</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkVBox" id="vbox2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="label4">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Additional line&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkAlignment" id="alignment2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="top_padding">6</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkCheckButton" id="new_axis_line">
+                        <property name="label" translatable="yes">Crosses the Y axis at 0</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -436,6 +485,7 @@
     </child>
     <child>
       <object class="GtkHSeparator" id="hseparator2">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="no_show_all">True</property>
       </object>
@@ -447,6 +497,7 @@
     </child>
     <child>
       <object class="GtkLabel" id="label2">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="no_show_all">True</property>
         <property name="label" translatable="yes">&lt;b&gt;Options for the columns&lt;/b&gt;</property>
@@ -460,6 +511,7 @@
     </child>
     <child>
       <object class="GtkHSeparator" id="hseparator3">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="no_show_all">True</property>
       </object>
@@ -471,6 +523,7 @@
     </child>
     <child>
       <object class="GtkAlignment" id="alignment1">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="no_show_all">True</property>
         <property name="xscale">0</property>
@@ -489,7 +542,7 @@
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0</property>
-                <property name="label" translatable="yes">_Gap:</property>
+                <property name="label" translatable="yes">Gap:</property>
                 <property name="use_underline">True</property>
                 <property name="mnemonic_widget">gap_spinner</property>
               </object>
@@ -535,13 +588,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="before-grid">
-                <property name="label" translatable="yes">_Display the grids above the plot</property>
+              <object class="GtkCheckButton" id="before_grid">
+                <property name="label" translatable="yes">Display the grids above the plot</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_underline">True</property>
+                <property name="yalign">0.46000000834465027</property>
                 <property name="draw_indicator">True</property>
               </object>
               <packing>

@@ -24,12 +24,14 @@
 
 /* START_DECLARATION */
 GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
-					    const gchar *type_graph,
-					    GCallback callback,
+                        const gchar *type_graph,
+                        GCallback callback,
                         GtkWidget *tree_view );
 void bet_graph_free_builder ( void );
-void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
-void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
+void bet_graph_line_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view );
+void bet_graph_sectors_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view );
 GtkWidget *bet_graph_sectors_graph_new_new ( void );
 /* END_DECLARATION */
 
