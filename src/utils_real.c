@@ -24,12 +24,13 @@
 #endif
 
 #include "include.h"
+
+/*START_INCLUDE*/
+#include "utils_real.h"
+#include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
-
-#include "utils_real.h"
-
-
+/*END_INCLUDE*/
 
 /*START_EXTERN*/
 extern gsb_real error_real;
@@ -132,3 +133,30 @@ gsb_real utils_real_get_from_string ( const gchar *string )
 
     return result;
 }
+
+
+/**
+ * Retourne le gdouble formaté comme dans la fonction source.
+ * Le symbole de la monnaie est présent par défaut.
+ *
+ * \param number		Number to format.
+ * \param account_number
+ *
+ * \return		A newly allocated string of the number
+ * */
+gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
+                        gint account_number )
+{
+    gint currency_number;
+    gsb_real real;
+
+    currency_number = gsb_data_account_get_currency ( account_number );
+    real = gsb_real_double_to_real ( number );
+
+    return utils_real_get_string_with_currency ( real, currency_number, TRUE );
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

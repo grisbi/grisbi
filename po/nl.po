@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-22 21:21+0200\n"
+"POT-Creation-Date: 2011-09-27 17:17+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
@@ -635,8 +635,8 @@ msgstr "Herstel standaard"
 
 #. mise en place de la paddingbox des catégories
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
-#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2085
-#: ../src/bet_hist.c:2091 ../src/categories_onglet.c:347
+#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2096
+#: ../src/bet_hist.c:2102 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
 #: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
@@ -646,7 +646,7 @@ msgstr "Categorieën"
 # tekst in tabbladnaam (zoals in exel)
 #. mise en place de la paddingbox des ib
 #: ../src/bet_config.c:584 ../src/bet_config.c:603 ../src/bet_config.c:621
-#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2089
+#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2100
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
@@ -676,7 +676,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Kies een financieel jaar"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:920 ../src/bet_hist.c:571 ../src/bet_hist.c:1636
+#: ../src/bet_config.c:920 ../src/bet_hist.c:572 ../src/bet_hist.c:1647
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:684 ../src/export_csv.c:806
 #: ../src/gsb_transactions_list.c:176 ../src/import_csv.c:86
@@ -685,7 +685,7 @@ msgid "Category"
 msgstr "Categorie"
 
 #: ../src/bet_config.c:933 ../src/bet_future.c:817 ../src/bet_future.c:2025
-#: ../src/bet_future.c:2501 ../src/bet_hist.c:1629 ../src/etats_affiche.c:2444
+#: ../src/bet_future.c:2501 ../src/bet_hist.c:1640 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:168
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:65
@@ -722,9 +722,13 @@ msgstr "methode van betaling:"
 msgid "Annuel rate interest: "
 msgstr "Dit jaar:"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
 #: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
-#: ../src/bet_finance_ui.c:1551
+#: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
+#, no-c-format
 msgid "%"
 msgstr ""
 
@@ -885,14 +889,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1928 ../src/bet_tab.c:1529 ../src/bet_tab.c:2889
+#: ../src/bet_hist.c:1939 ../src/bet_tab.c:1529 ../src/bet_tab.c:2889
 #, fuzzy
 msgid "Print the array"
 msgstr "Printer"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1941 ../src/bet_tab.c:1539
+#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1952 ../src/bet_tab.c:1539
 #, fuzzy
 msgid "Export the array"
 msgstr "Printer"
@@ -958,13 +962,13 @@ msgstr "Actie"
 msgid "Credits"
 msgstr "Credit(bij)"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1925 ../src/bet_tab.c:2886
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1936 ../src/bet_tab.c:2886
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:372
 msgid "Print"
 msgstr "Print"
 
 # knop in menu > bestand
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1938 ../src/bet_tab.c:2899
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1949 ../src/bet_tab.c:2899
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:164 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -975,7 +979,7 @@ msgstr "Exporteren"
 msgid "credit.csv"
 msgstr "Credit(bij)"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2035 ../src/bet_tab.c:3025
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2046 ../src/bet_tab.c:3025
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Kan het bestand niet opslaan."
@@ -1109,9 +1113,8 @@ msgid "Payee"
 msgstr "Betaler/begunstigde"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:796 ../src/bet_graph.c:260 ../src/bet_tab.c:691
-#: ../src/categories_onglet.c:762 ../src/export_csv.c:797
-#: ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
+#: ../src/bet_future.c:796 ../src/bet_tab.c:691 ../src/categories_onglet.c:762
+#: ../src/export_csv.c:797 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
 #: ../src/gsb_payment_method_config.c:390
 #: ../src/gsb_payment_method_config.c:1084 ../src/gsb_transactions_list.c:169
@@ -1120,9 +1123,8 @@ msgid "Debit"
 msgstr "Debet(af)"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:803 ../src/bet_graph.c:247 ../src/bet_tab.c:709
-#: ../src/categories_onglet.c:762 ../src/export_csv.c:794
-#: ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
+#: ../src/bet_future.c:803 ../src/bet_tab.c:709 ../src/categories_onglet.c:762
+#: ../src/export_csv.c:794 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
 #: ../src/gsb_payment_method_config.c:403
 #: ../src/gsb_payment_method_config.c:1080 ../src/gsb_transactions_list.c:170
@@ -1223,22 +1225,39 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:629
+#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
+msgid "Graph"
+msgstr ""
+
+#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
+#, fuzzy
+msgid "Options"
+msgstr "Uitgaven"
+
+#: ../src/bet_graph.c:409
+msgid "Expenses"
+msgstr ""
+
+#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
+msgid "Incomes"
+msgstr "Inkomsten"
+
+#: ../src/bet_graph.c:861
 #, fuzzy
 msgid "Column"
 msgstr "Opmerkingen"
 
-#: ../src/bet_graph.c:653
+#: ../src/bet_graph.c:885
 #, fuzzy
 msgid "Line"
 msgstr "Licentie"
 
-#: ../src/bet_hist.c:559 ../src/tiers_onglet.c:1151
+#: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 #, fuzzy
 msgid "Select"
 msgstr "Selecteer alles"
 
-#: ../src/bet_hist.c:590 ../src/categories_onglet.c:180
+#: ../src/bet_hist.c:591 ../src/categories_onglet.c:180
 #: ../src/etats_config.c:5249 ../src/export_csv.c:800
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:172 ../src/import.c:3340
@@ -1246,16 +1265,16 @@ msgstr "Selecteer alles"
 msgid "Amount"
 msgstr "Bedrag"
 
-#: ../src/bet_hist.c:608
+#: ../src/bet_hist.c:609
 msgid "Average"
 msgstr ""
 
-#: ../src/bet_hist.c:626
+#: ../src/bet_hist.c:627
 #, fuzzy
 msgid "Current fyear"
 msgstr "Huidig jaar"
 
-#: ../src/bet_hist.c:645
+#: ../src/bet_hist.c:646
 #, fuzzy
 msgid "Amount retained"
 msgstr "Bedrag per budgetregel"
@@ -1265,42 +1284,42 @@ msgstr "Bedrag per budgetregel"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1056
+#: ../src/bet_hist.c:1067
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1471
+#: ../src/bet_hist.c:1482
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "dagen rond de datum van het importeren."
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1494
+#: ../src/bet_hist.c:1505
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1789
+#: ../src/bet_hist.c:1800
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: «%s»"
 msgstr ""
 
-#: ../src/bet_hist.c:1794
+#: ../src/bet_hist.c:1805
 #, fuzzy, c-format
 msgid "Amounts by %s in %s for the account: «%s»"
 msgstr ""
 "Valuta %s niet gevonden.\n"
 ":"
 
-#: ../src/bet_hist.c:1951
+#: ../src/bet_hist.c:1962
 msgid "Data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:1955
+#: ../src/bet_hist.c:1966
 msgid "display the data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:2011
+#: ../src/bet_hist.c:2022
 #, fuzzy
 msgid "Export the historical data"
 msgstr "Start datum"
@@ -2175,10 +2194,6 @@ msgstr "Geen sub-budgetregel"
 #, fuzzy
 msgid "No payee"
 msgstr "Geen naam"
-
-#: ../src/etats_affiche.c:2299
-msgid "Incomes"
-msgstr "Inkomsten"
 
 #: ../src/etats_affiche.c:2319
 msgid "Outgoings"
@@ -11037,11 +11052,6 @@ msgstr "Geef de naam van de begunstigde"
 msgid "Enter the name of the new payee"
 msgstr "Geef een naam voor de nieuwe sub-budgetregel"
 
-#: ../src/tiers_onglet.c:1064
-#, fuzzy
-msgid "Options"
-msgstr "Uitgaven"
-
 #: ../src/tiers_onglet.c:1072
 msgid "Save the payees in the notes"
 msgstr ""
@@ -11387,18 +11397,71 @@ msgstr ""
 msgid "No font defined"
 msgstr "Geen budgetregel"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
-#: ../src/ui/bet_graph.ui.h:1
+#: ../src/ui/bet_graph.ui.h:3
+#, fuzzy
+msgid "<b>Additional line</b>"
+msgstr "Begin saldo"
+
+#: ../src/ui/bet_graph.ui.h:4
+msgid "<b>Major ticks</b>"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:5
+msgid "<b>Options for the X axis</b>"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:6
+#, fuzzy
+msgid "<b>Options for the columns</b>"
+msgstr "Selecteer kasrekeningen"
+
+#: ../src/ui/bet_graph.ui.h:7
+#, fuzzy
+msgid "<b>Position</b>"
+msgstr "Controleer"
+
+#: ../src/ui/bet_graph.ui.h:8
+msgid "Crosses the Y axis at 0"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:9
 #, fuzzy
 msgid "Display the data graph"
 msgstr "Toon de naam van de (sub)categorie"
 
-#: ../src/ui/bet_graph.ui.h:2
+#: ../src/ui/bet_graph.ui.h:10
+#, fuzzy
+msgid "Display the grids above the plot"
+msgstr "Toon de naam van de (sub)categorie"
+
+#: ../src/ui/bet_graph.ui.h:11
+msgid "Gap:"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:12
+msgid "High"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:13
+msgid "Inside"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:14
+msgid "Low"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:15
+msgid "Outside"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:16
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Selecteer bankrekeningen"
+
+#: ../src/ui/bet_graph.ui.h:17
+msgid "Show Labels"
+msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
@@ -12874,8 +12937,8 @@ msgstr ""
 #~ msgstr "Kan het bestand '%s' niet openen, dit is geen grisbi bestand"
 
 #~ msgid ""
-#~ "Warning: Grisbi data format has changed. Grisbi made a backup under '%"
-#~ "s'.\n"
+#~ "Warning: Grisbi data format has changed. Grisbi made a backup under "
+#~ "'%s'.\n"
 #~ "Keep it for a while just in case."
 #~ msgstr ""
 #~ "Waarschuwing: Grisbi heeft het bestandsformaat veranderd. Grisbi heeft "

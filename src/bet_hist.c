@@ -517,8 +517,9 @@ GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container )
     tree_model = gtk_tree_store_new ( SPP_HISTORICAL_NUM_COLUMNS,
                         G_TYPE_BOOLEAN,     /* SPP_HISTORICAL_SELECT_COLUMN     */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_DESC_COLUMN       */
-                        G_TYPE_STRING,      /* SPP_HISTORICAL_CURRENT_COLUMN     */
+                        G_TYPE_STRING,      /* SPP_HISTORICAL_CURRENT_COLUMN    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_BALANCE_COLUMN    */
+                        G_TYPE_STRING,      /* SPP_HISTORICAL_BALANCE_AMOUNT    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_AVERAGE_COLUMN    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_AVERAGE_AMOUNT    */
                         G_TYPE_STRING,      /* SPP_HISTORICAL_RETAINED_COLUMN   */
@@ -830,6 +831,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gpointer sub_key, sub_value;
     gchar *div_name = NULL;
     gchar *str_balance;
+    gchar *str_balance_amount;
     gchar *str_average;
     gchar *str_amount;
     gchar *str_retained = NULL;
@@ -857,6 +859,8 @@ void bet_historical_populate_div_model ( gpointer key,
 
     model = gtk_tree_view_get_model ( tree_view );
 
+    str_balance_amount = gsb_real_safe_real_to_string ( sbr->current_balance,
+                        gsb_data_currency_get_floating_point ( currency_number ) );
     str_balance = utils_real_get_string_with_currency ( sbr -> current_balance, currency_number, TRUE );
     average = gsb_real_div ( sbr -> current_balance, period );
     str_amount = gsb_real_safe_real_to_string ( average,
@@ -871,6 +875,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
                         SPP_HISTORICAL_CURRENT_COLUMN, str_current_fyear,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
+                        SPP_HISTORICAL_BALANCE_AMOUNT, str_balance_amount,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
@@ -902,6 +907,8 @@ void bet_historical_populate_div_model ( gpointer key,
     }
 /* printf ("division = %d div_name = %s\n", div_number, div_name);  */
     g_free ( div_name );
+        g_free ( str_balance );
+        g_free ( str_balance_amount );
     g_free ( str_average );
     g_free ( str_amount );
     g_free ( str_current_fyear );
@@ -933,7 +940,9 @@ void bet_historical_populate_div_model ( gpointer key,
             g_strfreev ( tab_str );
         }
 
-        str_balance = utils_real_get_string_with_currency ( sub_sbr -> current_balance, 
+        str_balance_amount = gsb_real_safe_real_to_string ( sub_sbr->current_balance,
+                        gsb_data_currency_get_floating_point ( currency_number ) );
+        str_balance = utils_real_get_string_with_currency ( sub_sbr -> current_balance,
                         currency_number, TRUE );
         average = gsb_real_div ( sub_sbr -> current_balance, period );
         str_amount = gsb_real_safe_real_to_string ( average,
@@ -949,6 +958,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_DESC_COLUMN, div_name,
                         SPP_HISTORICAL_CURRENT_COLUMN, str_current_fyear,
                         SPP_HISTORICAL_BALANCE_COLUMN, str_balance,
+                        SPP_HISTORICAL_BALANCE_AMOUNT, str_balance_amount,
                         SPP_HISTORICAL_AVERAGE_COLUMN, str_average,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, str_amount,
                         SPP_HISTORICAL_RETAINED_AMOUNT, str_amount,
@@ -999,6 +1009,7 @@ void bet_historical_populate_div_model ( gpointer key,
         }
         g_free ( div_name );
         g_free ( str_balance );
+        g_free ( str_balance_amount );
         g_free ( str_average );
         g_free ( str_amount );
         g_free ( str_current_fyear );
