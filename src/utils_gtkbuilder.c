@@ -31,6 +31,7 @@
 /*START_INCLUDE*/
 #include "utils_gtkbuilder.h"
 #include "dialog.h"
+#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -50,7 +51,7 @@ gchar *utils_gtkbuilder_get_full_path ( const gchar *name )
 {
     gchar *filename;
 
-    filename = g_build_filename ( DATA_PATH, "/ui", name, NULL );
+    filename = g_build_filename ( gsb_dirs_get_ui_dir ( ), name, NULL );
 
     return filename;
 }
