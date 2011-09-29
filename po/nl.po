@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 17:17+0200\n"
+"POT-Creation-Date: 2011-09-29 09:28+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1225,29 +1225,37 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
+#: ../src/bet_graph.c:292 ../src/bet_graph.c:404
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:349 ../src/tiers_onglet.c:1064
 #, fuzzy
 msgid "Options"
 msgstr "Uitgaven"
 
-#: ../src/bet_graph.c:409
+#: ../src/bet_graph.c:417
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:441 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Inkomsten"
 
-#: ../src/bet_graph.c:861
+#: ../src/bet_graph.c:774
+msgid "You can not exceed one year of visualization"
+msgstr ""
+
+#: ../src/bet_graph.c:774
+msgid "Overflow"
+msgstr ""
+
+#: ../src/bet_graph.c:932
 #, fuzzy
 msgid "Column"
 msgstr "Opmerkingen"
 
-#: ../src/bet_graph.c:885
+#: ../src/bet_graph.c:959
 #, fuzzy
 msgid "Line"
 msgstr "Licentie"
@@ -7456,8 +7464,8 @@ msgstr "Bestand aan het laden"
 msgid "Failed to load accounts"
 msgstr "Selecteer bankrekeningen"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:301
-#: ../src/gsb_file_load.c:315 ../src/gsb_file_load.c:418
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
+#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "Er is een fout opgetreden bij het openen van het bestand '%s'."
@@ -7545,7 +7553,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:791
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
 msgid "unnamed"
 msgstr "Niet benoemd"
 
@@ -7644,19 +7652,19 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
+#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Kan het bestand '%s' niet openen %s"
 
-#: ../src/gsb_file_load.c:300
+#: ../src/gsb_file_load.c:305
 #, fuzzy
 msgid "File does not exist"
 msgstr "Bestand bestaat reeds"
 
-#: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, fuzzy, c-format
 msgid ""
@@ -7666,7 +7674,7 @@ msgstr ""
 "%s lijkt een verkeerd bestandstype te zijn,\n"
 "controleer het bestand en probeer het opnieuw."
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:390
+#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7674,17 +7682,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:395
+#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "Rekening %s niet gevonden. \n"
 
-#: ../src/gsb_file_load.c:459 ../src/gsb_file_load.c:5436
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Dit bestand is geen Grisbi rapport bestand"
 
-#: ../src/gsb_file_load.c:696
+#: ../src/gsb_file_load.c:709
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7693,14 +7701,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8832
+#: ../src/gsb_file_load.c:8887
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versie %s is nodig om dit bestand te openen"
 
-#: ../src/gsb_file_load.c:8857
+#: ../src/gsb_file_load.c:8912
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7708,7 +7716,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8861
+#: ../src/gsb_file_load.c:8916
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7717,8 +7725,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:416
-#: ../src/gsb_file_save.c:435
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
+#: ../src/gsb_file_save.c:456
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Kan het bestand '%s': %s niet opslaan."
@@ -9773,12 +9781,12 @@ msgstr "Geen sub-budgetregel"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transacties overschrijven naar "
 
-#: ../src/main.c:607
+#: ../src/main.c:609
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 
-#: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -11403,63 +11411,86 @@ msgid "<b>Additional line</b>"
 msgstr "Begin saldo"
 
 #: ../src/ui/bet_graph.ui.h:4
+#, fuzzy
+msgid "<b>Grid</b>"
+msgstr "Controleer"
+
+#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:5
+#: ../src/ui/bet_graph.ui.h:6
 msgid "<b>Options for the X axis</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:7
+#, fuzzy
+msgid "<b>Options for the Y axis</b>"
+msgstr "Selecteer kasrekeningen"
+
+#: ../src/ui/bet_graph.ui.h:8
+#, fuzzy
+msgid "<b>Options for the axis</b>"
+msgstr "Selecteer kasrekeningen"
+
+#: ../src/ui/bet_graph.ui.h:9
 #, fuzzy
 msgid "<b>Options for the columns</b>"
 msgstr "Selecteer kasrekeningen"
 
-#: ../src/ui/bet_graph.ui.h:7
+#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr "Controleer"
 
-#: ../src/ui/bet_graph.ui.h:8
+#: ../src/ui/bet_graph.ui.h:11
 msgid "Crosses the Y axis at 0"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:12
 #, fuzzy
 msgid "Display the data graph"
 msgstr "Toon de naam van de (sub)categorie"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
 msgid "Display the grids above the plot"
 msgstr "Toon de naam van de (sub)categorie"
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:14
 msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:15
 msgid "High"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:16
 msgid "Inside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Low"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:18
+msgid "Major grid"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:19
+msgid "Minor grid"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:20
 msgid "Outside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:21
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Selecteer bankrekeningen"
 
-#: ../src/ui/bet_graph.ui.h:17
+#: ../src/ui/bet_graph.ui.h:22
 msgid "Show Labels"
 msgstr ""
 
