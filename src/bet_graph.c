@@ -69,20 +69,22 @@ struct _struct_bet_graph_data
     gchar *title;
     gchar *service_id;          /* définit le type de graphique : GogPiePlot, GogLinePlot, GogBarColPlot = défaut */
     gboolean is_legend;
+    gboolean valid_data;         /* empêche le recalcul des données pendant la durée de vie du graph */
 
-    /* données communes */
+    /* données communes aux axes*/
     gint nbre_elemnts;
 
-    /* données pour les histogrammes et XY */
-    gdouble tab_X[MAX_POINTS_GRAPHIQUE];
-    gdouble tab_Y[MAX_POINTS_GRAPHIQUE];
-    gboolean valid_data;
+    /* données pour l'axe X */
+    gdouble tab_X[MAX_POINTS_GRAPHIQUE];                            /* données de type gdouble */
+    gchar tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE];    /* données de type string */
+    gchar **tab_vue_libelle;                                        /* tableau associé à celui ci-dessus */
+
+    /* données pour l'axe Y */
+    gdouble tab_Y[MAX_POINTS_GRAPHIQUE];                            /* données de type gdouble */
 
     /* données pour les camemberts */
     gint type_infos;            /* 0 type crédit ou < 0, 1 type débit ou >= 0, -1 tous types */
-    gdouble montant;            /* montant annuel toutes catégories. sert au calculde pourcentage */
-    gchar tab_libelle[MAX_POINTS_GRAPHIQUE][TAILLE_MAX_LIBELLE];
-    gchar **tab_vue_libelle;
+    gdouble montant;            /* montant annuel toutes catégories. sert au calcul de pourcentage */
 
 };
 
