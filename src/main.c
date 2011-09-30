@@ -152,6 +152,11 @@ int main ( int argc, char **argv )
     gsb_locale_shutdown ( );
     gsb_dirs_shutdown ( );
 
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+#endif
+
 #if GSB_GMEMPROFILE
     g_mem_profile();
 #endif
@@ -191,8 +196,8 @@ void main_linux ( int argc, char **argv )
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */
     libgoffice_init ( );
-	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    /* Initialize plugins manager */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif
 
     /* on commence par détourner le signal SIGSEGV */
@@ -227,11 +232,6 @@ void main_linux ( int argc, char **argv )
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
-
-#ifdef HAVE_GOFFICE
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-#endif
 }
 
 
@@ -263,8 +263,8 @@ void main_mac_osx ( int argc, char **argv )
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */
     libgoffice_init ( );
-	/* Initialize plugins manager */
-	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    /* Initialize plugins manager */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif
 
     /* init the app */
@@ -347,11 +347,6 @@ void main_mac_osx ( int argc, char **argv )
 
     g_object_unref ( theApp );
 
-#ifdef HAVE_GOFFICE
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-#endif
-
 #endif /* GTKOSXAPPLICATION */
 }
 
@@ -388,6 +383,13 @@ void main_win_32 (  int argc, char **argv )
     setlocale( LC_ALL, NULL );
 
     gsb_locale_init ( );
+
+#ifdef HAVE_GOFFICE
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+    /* Initialize plugins manager */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+#endif
 
     gtk_init ( &argc, &argv );
 
@@ -827,12 +829,12 @@ gchar *gsb_main_get_print_locale_var ( void )
 
     locale_str = g_strdup_printf ( "LANG = %s\n\n"
                         "Currency\n"
-                        "\tcurrency_symbol = %s\n"
+                        "\tcurrency_symbol   = %s\n"
                         "\tmon_thousands_sep = \"%s\"\n"
                         "\tmon_decimal_point = %s\n"
-                        "\tpositive_sign = \"%s\"\n"
-                        "\tnegative_sign = \"%s\"\n"
-                        "\tfrac_digits = \"%d\"\n\n",
+                        "\tpositive_sign     = \"%s\"\n"
+                        "\tnegative_sign     = \"%s\"\n"
+                        "\tfrac_digits       = \"%d\"\n\n",
                         g_getenv ( "LANG"),
                         conv->currency_symbol,
                         mon_thousands_sep,
@@ -860,16 +862,17 @@ gchar *gsb_main_get_print_dir_var ( void )
     gchar *path_str = NULL;
 
     path_str = g_strdup_printf ( "Paths\n"
-                        "\tXDG_DATA_HOME = %s\n"
-                        "\tXDG_CONFIG_HOME = %s\n\n"
-                        "\tC_GRISBIRC = %s\n"
-                        "\tC_PATH_CONFIG = %s\n"
-                        "\tC_PATH_CONFIG_ACCELS = %s\n"
-                        "\tC_PATH_DATA_FILES = %s\n\n"
-                        "\tDATA_PATH = %s\n\n"
-                        "\tgsb_dirs_get_locale_dir ( ) = %s\n"
+                        "\tXDG_DATA_HOME                = %s\n"
+                        "\tXDG_CONFIG_HOME              = %s\n\n"
+                        "\tC_GRISBIRC                   = %s\n"
+                        "\tC_PATH_CONFIG                = %s\n"
+                        "\tC_PATH_CONFIG_ACCELS         = %s\n"
+                        "\tC_PATH_DATA_FILES            = %s\n\n"
+                        "\tDATA_PATH                    = %s\n\n"
+                        "\tgsb_dirs_get_locale_dir ( )  = %s\n"
                         "\tgsb_dirs_get_plugins_dir ( ) = %s\n"
-                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n\n",
+                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n"
+                        "\tgsb_dirs_get_ui_dir ( )      = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
                         C_GRISBIRC ( ),
@@ -879,7 +882,8 @@ gchar *gsb_main_get_print_dir_var ( void )
                         DATA_PATH,
                         gsb_dirs_get_locale_dir ( ),
                         gsb_dirs_get_plugins_dir ( ),
-                        gsb_dirs_get_pixmaps_dir ( ) );
+                        gsb_dirs_get_pixmaps_dir ( ),
+                        gsb_dirs_get_ui_dir ( ) );
 
     return path_str;
 }

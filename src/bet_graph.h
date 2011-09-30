@@ -17,7 +17,7 @@
 #define MAX_SEGMENT_CAMEMBERT 30
 
 /* Definition du maximum de segments par camembert */
-#define MAX_POINTS_GRAPHIQUE 300
+#define MAX_POINTS_GRAPHIQUE 370
 
 /* Definition de la taille maximum d'un libelle */
 #define TAILLE_MAX_LIBELLE 50
@@ -25,13 +25,17 @@
 
 /* START_DECLARATION */
 GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
-					    const gchar *type_graph,
-					    GCallback callback,
+                        const gchar *type_graph,
+                        GCallback callback,
                         GtkWidget *tree_view );
 void bet_graph_free_builder ( void );
-void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
-void bet_graph_sectors_graph_new ( GtkWidget *button, GtkTreeView *tree_view );
+gchar *bet_graph_get_configuration_string ( void );
+void bet_graph_line_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view );
+void bet_graph_sectors_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view );
 GtkWidget *bet_graph_sectors_graph_new_new ( void );
+void bet_graph_set_configuration_variables ( const gchar *string );
 /* END_DECLARATION */
 
 #endif /* HAVE_GOFFICE */
