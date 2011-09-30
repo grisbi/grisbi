@@ -1386,6 +1386,8 @@ void bet_graph_toggle_button_changed ( GtkToggleButton *togglebutton,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1403,6 +1405,8 @@ void bet_graph_rotation_changed ( GORotationSel *rotation,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1419,6 +1423,8 @@ void bet_graph_gap_spinner_changed ( GtkSpinButton *spinbutton,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1527,8 +1533,6 @@ void bet_graph_update_graph ( struct_bet_graph_data *self )
     gtk_widget_show_all ( GTK_WIDGET ( self->notebook ) );
 
     bet_graph_affiche_XY_line ( self );
-
-    gsb_file_set_modified ( TRUE );
 }
 
 
