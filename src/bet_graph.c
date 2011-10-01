@@ -161,7 +161,6 @@ static void struct_free_bet_graph_button ( struct_bet_graph_button *self );
 static struct_bet_graph_button *struct_initialise_bet_graph_button ( void );
 static void struct_free_bet_graph_data ( struct_bet_graph_data *self );
 static struct_bet_graph_data *struct_initialise_bet_graph_data ( void );
-static void struct_free_bet_graph_prefs ( struct_bet_graph_prefs *self );
 static struct_bet_graph_prefs *struct_initialise_bet_graph_prefs ( void );
 /*END_STATIC*/
 
@@ -613,10 +612,6 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     if ( !bet_graph_initialise_builder ( ) )
         return;
 
-    /* initialisation des structures de données */
-    if ( prefs_lines == NULL )
-        prefs_lines = struct_initialise_bet_graph_prefs ( );
-
     account_number = gsb_gui_navigation_get_current_account ( );
     currency_number = gsb_data_account_get_currency ( account_number );
     service_id = g_object_get_data ( G_OBJECT ( button ), "service_id" );
@@ -992,7 +987,6 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
         if ( prefs_lines->type_graph == 1 )
         {
             self->is_visible = TRUE;
-
             self->button = gsb_automem_imagefile_button_new ( style,
                         self->name,
                         self->filename,
@@ -1581,6 +1575,9 @@ void bet_graph_set_configuration_variables ( const gchar *string )
     if ( prefs_lines == NULL )
         prefs_lines = struct_initialise_bet_graph_prefs ( );
 
+    if ( string == NULL )
+        return;
+
     tab = g_strsplit ( string, ":", 0 );
 
     prefs_lines->type_graph = utils_str_atoi ( tab[0] );
@@ -1694,9 +1691,10 @@ struct_bet_graph_prefs *struct_initialise_bet_graph_prefs ( void )
  *
  *
  * */
-void struct_free_bet_graph_prefs ( struct_bet_graph_prefs *self )
+void struct_free_bet_graph_prefs ( void )
 {
-    g_free ( self );
+
+    g_free ( prefs_lines );
 }
 
 
