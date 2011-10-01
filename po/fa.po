@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 20:33+0200\n"
+"POT-Creation-Date: 2011-09-27 17:17+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -1173,48 +1173,30 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:417
+#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr ""
 
-#: ../src/bet_graph.c:430
+#: ../src/bet_graph.c:409
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:454 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "درآمد ها"
 
-#: ../src/bet_graph.c:801
-msgid "You can not exceed one year of visualization"
-msgstr ""
-
-#: ../src/bet_graph.c:801
-msgid "Overflow"
-msgstr ""
-
-#: ../src/bet_graph.c:958
+#: ../src/bet_graph.c:861
 msgid "Column"
 msgstr ""
 
-#: ../src/bet_graph.c:985
+#: ../src/bet_graph.c:885
 #, fuzzy
 msgid "Line"
 msgstr "لینک ها"
-
-#. la grille est visible
-#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
-#, fuzzy
-msgid "Hide grid"
-msgstr "فعال سازی"
-
-#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
-msgid "Show grid"
-msgstr ""
 
 #: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 #, fuzzy
@@ -7148,8 +7130,8 @@ msgstr "حساب بانک"
 msgid "Failed to load accounts"
 msgstr "حساب حذف شده"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:301
+#: ../src/gsb_file_load.c:315 ../src/gsb_file_load.c:418
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "خطا در هنگام خواندن '%s'"
@@ -7232,7 +7214,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:791
 msgid "unnamed"
 msgstr "بی نام"
 
@@ -7326,19 +7308,19 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
+#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr ""
 
-#: ../src/gsb_file_load.c:305
+#: ../src/gsb_file_load.c:300
 #, fuzzy
 msgid "File does not exist"
 msgstr "این فایل موجود است."
 
-#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7346,7 +7328,7 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
+#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:390
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7354,15 +7336,15 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:395
 msgid "Encryption plugin not found."
 msgstr ""
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
+#: ../src/gsb_file_load.c:459 ../src/gsb_file_load.c:5436
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr ""
 
-#: ../src/gsb_file_load.c:709
+#: ../src/gsb_file_load.c:696
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7371,14 +7353,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8887
+#: ../src/gsb_file_load.c:8832
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8912
+#: ../src/gsb_file_load.c:8857
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7386,7 +7368,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8916
+#: ../src/gsb_file_load.c:8861
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7395,8 +7377,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
-#: ../src/gsb_file_save.c:456
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_save.c:435
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -9282,12 +9264,12 @@ msgstr "بخش های درآمد"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "جستجوی تراکنش"
 
-#: ../src/main.c:609
+#: ../src/main.c:607
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr ""
 
@@ -10790,84 +10772,62 @@ msgid "<b>Additional line</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:4
-msgid "<b>Grid</b>"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Options for the X axis</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:7
-#, fuzzy
-msgid "<b>Options for the Y axis</b>"
-msgstr "حساب بانک"
-
-#: ../src/ui/bet_graph.ui.h:8
-#, fuzzy
-msgid "<b>Options for the axis</b>"
-msgstr "حساب بانک"
-
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:6
 #, fuzzy
 msgid "<b>Options for the columns</b>"
 msgstr "حساب بانک"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:7
 msgid "<b>Position</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:8
 msgid "Crosses the Y axis at 0"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:9
 #, fuzzy
 msgid "Display the data graph"
 msgstr "نمایش نام حساب"
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "Display the grids above the plot"
 msgstr "نمایش نام حساب"
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:11
 msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:12
 msgid "High"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:13
 msgid "Inside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:17
+#: ../src/ui/bet_graph.ui.h:14
 msgid "Low"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Major grid"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:19
-msgid "Minor grid"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:20
+#: ../src/ui/bet_graph.ui.h:15
 msgid "Outside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:21
+#: ../src/ui/bet_graph.ui.h:16
 #, fuzzy
 msgid "Select the chart type"
 msgstr "انتخاب واحد"
 
-#: ../src/ui/bet_graph.ui.h:22
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Show Labels"
 msgstr ""
 
@@ -10914,6 +10874,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "Recreates the archive"
 #~ msgstr "جستجوی تراکنش"
+
+#, fuzzy
+#~ msgid "Hide Archive"
+#~ msgstr "فعال سازی"
 
 #, fuzzy
 #~ msgid "Hide archived transactions"
