@@ -27,6 +27,7 @@
 
 /*START_INCLUDE*/
 #include "utils_real.h"
+#include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
 /*END_INCLUDE*/
@@ -144,10 +145,12 @@ gsb_real utils_real_get_from_string ( const gchar *string )
  * \return		A newly allocated string of the number
  * */
 gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
-                        gint currency_number )
+                        gint account_number )
 {
+    gint currency_number;
     gsb_real real;
 
+    currency_number = gsb_data_account_get_currency ( account_number );
     real = gsb_real_double_to_real ( number );
 
     return utils_real_get_string_with_currency ( real, currency_number, TRUE );

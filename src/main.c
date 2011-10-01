@@ -152,11 +152,6 @@ int main ( int argc, char **argv )
     gsb_locale_shutdown ( );
     gsb_dirs_shutdown ( );
 
-#ifdef HAVE_GOFFICE
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-#endif
-
 #if GSB_GMEMPROFILE
     g_mem_profile();
 #endif
@@ -196,8 +191,8 @@ void main_linux ( int argc, char **argv )
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */
     libgoffice_init ( );
-    /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif
 
     /* on commence par détourner le signal SIGSEGV */
@@ -232,6 +227,11 @@ void main_linux ( int argc, char **argv )
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
+
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+#endif
 }
 
 
@@ -263,8 +263,8 @@ void main_mac_osx ( int argc, char **argv )
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */
     libgoffice_init ( );
-    /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+	/* Initialize plugins manager */
+	go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif
 
     /* init the app */
@@ -347,6 +347,11 @@ void main_mac_osx ( int argc, char **argv )
 
     g_object_unref ( theApp );
 
+#ifdef HAVE_GOFFICE
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+#endif
+
 #endif /* GTKOSXAPPLICATION */
 }
 
@@ -383,13 +388,6 @@ void main_win_32 (  int argc, char **argv )
     setlocale( LC_ALL, NULL );
 
     gsb_locale_init ( );
-
-#ifdef HAVE_GOFFICE
-    /* initialisation libgoffice */
-    libgoffice_init ( );
-    /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#endif
 
     gtk_init ( &argc, &argv );
 
