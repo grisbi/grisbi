@@ -28,6 +28,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
                         GCallback callback,
                         GtkWidget *tree_view );
 void bet_graph_free_builder ( void );
+gchar *bet_graph_get_configuration_string ( void );
 void bet_graph_line_graph_new ( GtkWidget *button,
                         GtkTreeView *tree_view );
 void bet_graph_sectors_graph_new ( GtkWidget *button,

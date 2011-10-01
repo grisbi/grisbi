@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "bet_data.h"
+#include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
@@ -100,6 +101,8 @@ static void gsb_file_load_bet_future_data ( const gchar **attribute_names,
 static void gsb_file_load_bet_historical ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bet_part ( const gchar **attribute_names,
+                        const gchar **attribute_values );
+static void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
 static void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
                         const gchar **attribute_values );
@@ -630,6 +633,14 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
         gsb_file_load_bet_part ( attribute_names, attribute_values );
         return;
     }
+
+#ifdef HAVE_GOFFICE
+    if ( !strcmp ( element_name, "Bet_graph" ) )
+    {
+        gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
+        return;
+    }
+#endif /* HAVE_GOFFICE */
 
     if ( !strcmp ( element_name, "Bet_historical" ) )
     {
@@ -3881,6 +3892,48 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Bet_deb_cash_account_option" ) )
     {
         etat.bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    /* normally, shouldn't come here */
+    i++;
+    }
+
+    while ( attribute_names[i] );
+}
+
+
+ /**
+ * load the bet_graph preferences in the grisbi file
+ *
+ * \param attribute_names
+ * \param attribute_values
+ *
+ * */
+void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
+                        const gchar **attribute_values )
+{
+    gint i=0;
+
+    if ( !attribute_names[i] )
+    return;
+
+    do
+    {
+    /*     we test at the beginning if the attribute_value is NULL, if yes, */
+    /*        go to the next */
+    if ( !strcmp ( attribute_values[i], "(null)") )
+    {
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "prefs" ) )
+    {
+#ifdef HAVE_GOFFICE
+        bet_graph_set_configuration_variables ( attribute_values[i] );
+#endif /* HAVE_GOFFICE */
         i++;
         continue;
     }
