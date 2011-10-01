@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 17:17+0200\n"
-"PO-Revision-Date: 2011-09-26 20:02+0200\n"
+"POT-Creation-Date: 2011-10-01 20:55+0200\n"
+"PO-Revision-Date: 2011-09-29 09:35+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: \n"
@@ -1137,29 +1137,46 @@ msgstr ""
 "Erreur : il manque un ou plusieurs liens entre les devises.\n"
 " Vous devez corriger ça et recommencer."
 
-#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr "Graphique"
 
-#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Options"
 
-#: ../src/bet_graph.c:409
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr "Dépenses"
 
-#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Revenus"
 
-#: ../src/bet_graph.c:861
+#: ../src/bet_graph.c:805
+msgid "You can not exceed one year of visualization"
+msgstr "Vous ne pouvez pas visualiser plus d'une année"
+
+#: ../src/bet_graph.c:805
+msgid "Overflow"
+msgstr "Dépassement"
+
+#: ../src/bet_graph.c:962
 msgid "Column"
 msgstr "Colonnes"
 
-#: ../src/bet_graph.c:885
+#: ../src/bet_graph.c:989
 msgid "Line"
 msgstr "Ligne"
+
+#. la grille est visible
+#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
+msgid "Hide grid"
+msgstr "Cacher la grille"
+
+#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
+msgid "Show grid"
+msgstr "Montrer la grille"
 
 #: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 msgid "Select"
@@ -4829,7 +4846,7 @@ msgstr ""
 "A partir de données provenant d'un fichier bancaire ou d'un autre logiciel."
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Mes comptes"
 
@@ -5312,6 +5329,62 @@ msgstr "Impossible d'ouvrir le fichier des catégories."
 #: ../src/gsb_category.c:385
 msgid "Unnamed category list"
 msgstr "Liste des catégories anonymes"
+
+#: ../src/gsb_color.c:428
+msgid "Transaction list background 1"
+msgstr "Couleur de fond 1 de la liste des opérations"
+
+#: ../src/gsb_color.c:429
+msgid "Transaction list background 2"
+msgstr "Couleur de fond 2 de la liste des opérations"
+
+#: ../src/gsb_color.c:430
+msgid "Color for the operation that gives the balance today"
+msgstr "Couleur de l'opération qui donne le solde à aujourd'hui"
+
+#: ../src/gsb_color.c:431
+msgid "Color of transaction's text"
+msgstr "Couleur du texte des opérations"
+
+#: ../src/gsb_color.c:432
+msgid "Text of unfinished split transaction"
+msgstr "Couleur d'une transaction ventilée non terminée"
+
+#: ../src/gsb_color.c:433
+msgid "Children of split transaction"
+msgstr "Couleur d'une sous-opération"
+
+#: ../src/gsb_color.c:434
+msgid "Selection color"
+msgstr "Couleur d'une sélection"
+
+#: ../src/gsb_color.c:435
+msgid "Background of non selectable scheduled transactions"
+msgstr "Couleur d'une opération planifiée non sélectionnable"
+
+#: ../src/gsb_color.c:436
+msgid "Archive color"
+msgstr "Couleur d'une la ligne archive"
+
+#: ../src/gsb_color.c:437
+msgid "Background of invalid date entry"
+msgstr "Couleur d'une zone de saisie d'une date invalide"
+
+#: ../src/gsb_color.c:438
+msgid "Background of bet division"
+msgstr "Couleur des divisions dans l'onglet prévisions"
+
+#: ../src/gsb_color.c:439
+msgid "Background of bet futur"
+msgstr "Couleur des données futures dans l'onglet prévisions"
+
+#: ../src/gsb_color.c:440
+msgid "Background of bet solde"
+msgstr "Couleurs des lignes de solde de début de mois"
+
+#: ../src/gsb_color.c:441
+msgid "Background of bet transfer"
+msgstr "Couleur des transferts dans l'onglet prévisions"
 
 #: ../src/gsb_currency.c:527
 msgid "Enter exchange rate"
@@ -7354,8 +7427,8 @@ msgstr "Chargement des comptes"
 msgid "Failed to load accounts"
 msgstr "Échec du chargement des comptes"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:301
-#: ../src/gsb_file_load.c:315 ../src/gsb_file_load.c:418
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:304
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_load.c:421
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Erreur lors de l'ouverture du fichier « %s »."
@@ -7458,7 +7531,7 @@ msgstr ""
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
 "alors activer l'option « %s » dans les préférences."
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:791
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
 msgid "unnamed"
 msgstr "sans nom"
 
@@ -7567,18 +7640,18 @@ msgstr ""
 "\n"
 "puis appuyez le bouton Valider"
 
-#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
+#: ../src/gsb_file_load.c:301 ../src/gsb_file_load.c:418
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Impossible d'ouvrir le fichier « %s » : %s"
 
-#: ../src/gsb_file_load.c:300
+#: ../src/gsb_file_load.c:303
 msgid "File does not exist"
 msgstr "Le fichier n'existe pas"
 
-#: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:316 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7588,7 +7661,7 @@ msgstr ""
 "%s ne semble pas être un fichier normal,\n"
 "veuillez vérifier et réessayer."
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:390
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7601,15 +7674,15 @@ msgstr ""
 "Vérifiez qu'il soit bien installé (i.e. vérifiez que le paquet 'grisbi-ssl' "
 "est installé) et essayez à nouveau."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:395
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
 msgid "Encryption plugin not found."
 msgstr "Plugin de cryptage non trouvé"
 
-#: ../src/gsb_file_load.c:459 ../src/gsb_file_load.c:5436
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Ce n'est pas un fichier Grisbi...chargement interrompu"
 
-#: ../src/gsb_file_load.c:696
+#: ../src/gsb_file_load.c:707
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7621,7 +7694,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8832
+#: ../src/gsb_file_load.c:8885
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7630,7 +7703,7 @@ msgstr ""
 "Pour ouvrir ce fichier, il vous faut la version %s de Grisbi.\n"
 "Vous utilisez la version %s."
 
-#: ../src/gsb_file_load.c:8857
+#: ../src/gsb_file_load.c:8910
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7643,7 +7716,7 @@ msgstr ""
 "c'est une archive avant de modifier certaines transactions ou informations "
 "importantes."
 
-#: ../src/gsb_file_load.c:8861
+#: ../src/gsb_file_load.c:8914
 msgid "Grisbi archive opened"
 msgstr "Archive grisbi ouverte"
 
@@ -7652,8 +7725,8 @@ msgid "There is no category to record. Back."
 msgstr "Il n'y a pas de catégorie à enregistrer. Retour."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:416
-#: ../src/gsb_file_save.c:435
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
+#: ../src/gsb_file_save.c:453
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr ""
@@ -9664,12 +9737,12 @@ msgstr "Gérer les sous-imputations"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
-#: ../src/main.c:607
+#: ../src/main.c:609
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -11334,58 +11407,78 @@ msgid "<b>Additional line</b>"
 msgstr "<b>Ligne supplémentaire</b>"
 
 #: ../src/ui/bet_graph.ui.h:4
+msgid "<b>Grid</b>"
+msgstr "<b>Grille</b>"
+
+#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr "<b>Graduation principale</b>"
 
-#: ../src/ui/bet_graph.ui.h:5
+#: ../src/ui/bet_graph.ui.h:6
 msgid "<b>Options for the X axis</b>"
 msgstr "<b>Options de l'axe X</b>"
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:7
+msgid "<b>Options for the Y axis</b>"
+msgstr "<b>Options de l'axe Y</b>"
+
+#: ../src/ui/bet_graph.ui.h:8
+msgid "<b>Options for the axis</b>"
+msgstr "<b>Options des axes du graphique</b>"
+
+#: ../src/ui/bet_graph.ui.h:9
 msgid "<b>Options for the columns</b>"
 msgstr "<b>Option des barres du graphique</b>"
 
-#: ../src/ui/bet_graph.ui.h:7
+#: ../src/ui/bet_graph.ui.h:10
 msgid "<b>Position</b>"
 msgstr " <b>Position</b> "
 
-#: ../src/ui/bet_graph.ui.h:8
+#: ../src/ui/bet_graph.ui.h:11
 msgid "Crosses the Y axis at 0"
 msgstr "Croise l'axe des Y à 0"
 
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:12
 msgid "Display the data graph"
 msgstr "Afficher le graphique"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:13
 msgid "Display the grids above the plot"
 msgstr "Afficher la grille sur les barres"
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:14
 msgid "Gap:"
 msgstr "Espacement"
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:15
 msgid "High"
 msgstr "En haut"
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:16
 msgid "Inside"
 msgstr "A l'intérieur"
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Low"
 msgstr "En bas"
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:18
+msgid "Major grid"
+msgstr "Grille principale"
+
+#: ../src/ui/bet_graph.ui.h:19
+msgid "Minor grid"
+msgstr "Grille secondaire"
+
+#: ../src/ui/bet_graph.ui.h:20
 msgid "Outside"
 msgstr "A l'extérieur"
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:21
 msgid "Select the chart type"
 msgstr "Sélectionnez le type de graphique"
 
-#: ../src/ui/bet_graph.ui.h:17
+#: ../src/ui/bet_graph.ui.h:22
 msgid "Show Labels"
 msgstr "Afficher les étiquettes"
 

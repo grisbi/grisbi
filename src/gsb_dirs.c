@@ -34,6 +34,7 @@
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
 static gchar *plugins_dir;
+static gchar *ui_dir;
 static gchar *_C_GRISBIRC;
 static gchar *_C_OLD_GRISBIRC;
 static gchar *_C_PATH_CONFIG;
@@ -56,6 +57,8 @@ void gsb_dirs_init ( void )
         locale_dir = g_strconcat (res_path, "/share/locale", NULL );
         pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );
         plugins_dir = g_strconcat (res_path, "/lib/grisbi", NULL );
+        ui_dir = g_strconcat (res_path, "/share/grisbi/ui", NULL );
+
         g_free ( res_path );
     }
     else
@@ -64,6 +67,7 @@ void gsb_dirs_init ( void )
         locale_dir = g_strdup ( LOCALEDIR );
         pixmaps_dir = g_strdup ( PIXMAPS_DIR );
         plugins_dir = g_strdup ( PLUGINS_DIR );
+        ui_dir = g_strdup ( UI_DIR );
     }
 
     /*
@@ -124,6 +128,7 @@ void gsb_dirs_shutdown ( void )
     g_free ( locale_dir );
     g_free ( pixmaps_dir );
     g_free ( plugins_dir );
+    g_free ( ui_dir );
     g_free ( _C_GRISBIRC );
     g_free ( _C_OLD_GRISBIRC );
     g_free ( _C_PATH_CONFIG );
@@ -151,6 +156,12 @@ const gchar *gsb_dirs_get_pixmaps_dir ( void )
 const gchar *gsb_dirs_get_plugins_dir ( void )
 {
     return plugins_dir;
+}
+
+
+const gchar *gsb_dirs_get_ui_dir ( void )
+{
+    return ui_dir;
 }
 
 

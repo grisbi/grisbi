@@ -1,0 +1,25 @@
+[Desktop Entry]
+Name=Grisbi
+Name[cs]=Grisbi
+Name[da]=Grisbi
+Name[de]=Grisbi
+Name[el]=Grisbi
+Name[es]=Grisbi
+Name[fr]=Grisbi
+Name[he]=גריסבי
+Name[lv]=Grisbi
+Name[nl]=Grisbi
+Name[pl]=Grisbi
+Name[pt_BR]=Grisbi
+Name[ro]=Grisbi
+Name[ru]=Grisbi
+Name[zh_CN]=Grisbi
+Comment=Personnal finances manager
+Comment[cs]=Osobní správce financí
+Comment[de]=Finanzprogramm für Privatpersonen
+Comment[fr]=Gestionnaire de finances personnelles
+Exec=grisbi
+Icon=grisbi
+Terminal=false
+Type=Application
+Categories=Office;Finance;
