@@ -40,10 +40,6 @@
 #	include <io.h> // for _chmod()
 #endif /*_MSC_VER */
 #include <zlib.h>
-#ifdef HAVE_GOFFICE
-#include "bet_graph.h"
-#endif /* HAVE_GOFFICE */
-
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
@@ -100,9 +96,6 @@ static gulong gsb_file_save_bank_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_bet_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content );
-static gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
 static gulong gsb_file_save_color_part ( gulong iterator,
@@ -216,9 +209,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint logo_part = 65536;
     gint account_icon_part = 4500;
     gint bet_part = 500;
-#ifdef HAVE_GOFFICE
-    gint bet_graph_part = 100;
-#endif /* HAVE_GOFFICE */
 
     struct stat buf;
 
@@ -264,12 +254,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
-#ifdef HAVE_GOFFICE
-    + bet_part
-    + bet_graph_part;
-#else
     + bet_part;
-#endif /* HAVE_GOFFICE */
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated * sizeof ( gchar ) );
@@ -363,12 +348,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     iterator = gsb_file_save_bet_part ( iterator,
                         &length_calculated,
                         &file_content );
-
-#ifdef HAVE_GOFFICE
-    iterator = gsb_file_save_bet_graph_part ( iterator,
-                        &length_calculated,
-                        &file_content );
-#endif /* HAVE_GOFFICE */
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
@@ -2858,37 +2837,6 @@ gulong gsb_file_save_bet_part ( gulong iterator,
 				        file_content,
 				        new_string );
     }
-
-    /* and return the new iterator */
-    return iterator;
-}
-
-
-/**
- * save the bet graph preferences part
- *
- * \param iterator the current iterator
- * \param length_calculated a pointer to the variable lengh_calculated
- * \param file_content a pointer to the variable file_content
- *
- * \return the new iterator
- * */
-gulong gsb_file_save_bet_graph_part ( gulong iterator,
-                        gulong *length_calculated,
-                        gchar **file_content )
-{
-#ifdef HAVE_GOFFICE
-    gchar *new_string = NULL;
-
-    /* save the preferences */
-    new_string = bet_graph_get_configuration_string ( );
-
-    /* append the new string to the file content */
-    iterator = gsb_file_save_append_part ( iterator,
-                        length_calculated,
-                        file_content,
-                        new_string );
-#endif /* HAVE_GOFFICE */
 
     /* and return the new iterator */
     return iterator;
