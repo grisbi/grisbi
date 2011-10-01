@@ -36,7 +36,7 @@
 
 #ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
-#endif
+#endif /* HAVE_GOFFICE */
 
 /*START_INCLUDE*/
 #include "main.h"
@@ -155,7 +155,7 @@ int main ( int argc, char **argv )
 #ifdef HAVE_GOFFICE
     /* liberation libgoffice */
     libgoffice_shutdown ( );
-#endif
+#endif /* HAVE_GOFFICE */
 
 #if GSB_GMEMPROFILE
     g_mem_profile();
@@ -198,7 +198,7 @@ void main_linux ( int argc, char **argv )
     libgoffice_init ( );
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#endif
+#endif /* HAVE_GOFFICE */
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -265,7 +265,7 @@ void main_mac_osx ( int argc, char **argv )
     libgoffice_init ( );
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#endif
+#endif /* HAVE_GOFFICE */
 
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
@@ -389,7 +389,7 @@ void main_win_32 (  int argc, char **argv )
     libgoffice_init ( );
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-#endif
+#endif /* HAVE_GOFFICE */
 
     gtk_init ( &argc, &argv );
 

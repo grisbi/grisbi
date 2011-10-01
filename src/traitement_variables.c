@@ -318,7 +318,7 @@ void init_variables ( void )
     bet_data_finance_data_simulator_init ( );
 #ifdef HAVE_GOFFICE
     bet_graph_set_configuration_variables ( NULL );
-#endif
+#endif /* HAVE_GOFFICE */
 
 }
 
@@ -331,7 +331,9 @@ void free_variables ( void )
     gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ( );
     gsb_regex_destroy ( );
+#ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ( );
+#endif /* HAVE_GOFFICE */
 }
 
 
