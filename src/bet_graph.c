@@ -60,7 +60,6 @@ struct _struct_bet_graph_data
     GtkTreeView *tree_view;
     GtkNotebook *notebook;
     gint account_number;
-    gint currency_number;
 
     /* Données pour le graphique */
     GtkWidget *widget;
@@ -211,7 +210,7 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
         else
             buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index],
                         utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number ) );
+                        self->tab_Y[index], self->account_number ) );
     }
 
     else if (  strcmp ( self->service_id, "GogLinePlot")  == 0 )
@@ -236,7 +235,7 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
 
             buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index-1],
                         utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index-1], self->currency_number ) );
+                        self->tab_Y[index-1], self->account_number ) );
         }
         else
             buf = NULL;
@@ -250,7 +249,7 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
         else
             buf = g_strdup_printf ("%s : %s (%.2f%%)", self->tab_vue_libelle[index],
                         utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number ),
+                        self->tab_Y[index], self->account_number ),
                         ( 100*self->tab_Y[index]/self->montant ) );
     }
 
@@ -368,7 +367,6 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     gchar *title;
     gint result;
     gint account_number;
-    gint currency_number;
     struct_bet_graph_data *self_credit;
     struct_bet_graph_data *self_debit;
 
@@ -405,14 +403,12 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
 
     /* initialisation des structures de données */
     account_number = gsb_gui_navigation_get_current_account ( );
-    currency_number = gsb_data_account_get_currency ( account_number );
 
     /* Set the graph for debit */
     self_debit = struct_initialise_bet_graph_data ( );
     self_debit->notebook = GTK_NOTEBOOK ( notebook );
     self_debit->tree_view = tree_view;
     self_debit->account_number = account_number;
-    self_debit->currency_number = currency_number;
     self_debit->type_infos = 1;
     self_debit->title = g_strdup ( _("Expenses") );
     self_debit->service_id = g_strdup ( "GogPiePlot" );
@@ -436,7 +432,6 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     self_credit->notebook = GTK_NOTEBOOK ( notebook );
     self_credit->tree_view = tree_view;
     self_credit->account_number = account_number;
-    self_credit->currency_number = currency_number;
     self_credit->type_infos = 0;
     self_credit->title = g_strdup ( _("Incomes") );
     self_credit->service_id = g_strdup ( "GogPiePlot" );
@@ -591,7 +586,6 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     gchar *service_id;
     gint result;
     gint account_number;
-    gint currency_number;
     struct_bet_graph_data *self;
 
     devel_debug (NULL);
@@ -605,13 +599,11 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
         prefs_lines = struct_initialise_bet_graph_prefs ( );
 
     account_number = gsb_gui_navigation_get_current_account ( );
-    currency_number = gsb_data_account_get_currency ( account_number );
     service_id = g_object_get_data ( G_OBJECT ( button ), "service_id" );
 
     self = struct_initialise_bet_graph_data ( );
     self->tree_view = tree_view;
     self->account_number = account_number;
-    self->currency_number = currency_number;
     self->service_id = g_strdup ( service_id );
 
     /* Création de la fenêtre de dialogue pour le graph */

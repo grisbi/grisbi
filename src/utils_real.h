@@ -11,7 +11,7 @@ gchar *utils_real_get_string_with_currency ( gsb_real number,
                         gboolean show_symbol );
 
 gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
-                        gint currency_number );
+                        gint account_number );
 
 gsb_real utils_real_get_from_string ( const gchar *string );
 
