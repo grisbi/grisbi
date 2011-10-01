@@ -711,6 +711,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
         GDate *last_date;
         GDate *date_courante;
         GDateDay day_courant;
+        GDateMonth month_courant;
         gint nbre_iterations;
 
         tab_libelle_axe_x = &libelle_axe_x;
@@ -722,6 +723,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             GValue date_value = {0,};
             GDate *date;
             GDateDay day;
+            GDateMonth month;
             gint diff_jours;
             gint i;
 
@@ -750,6 +752,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
 
                 date_courante = gsb_date_copy ( date );
                 day_courant = g_date_get_day ( date );
+                month_courant = g_date_get_month ( date );
 
                 str_date = gsb_format_gdate ( date_courante );
                 strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE );
@@ -762,7 +765,8 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             else
             {
                 day = g_date_get_day ( date );
-                if ( day != day_courant )
+                month = g_date_get_month ( date );
+                if ( day != day_courant || month != month_courant )
                 {
                     /* nombre de jours manquants */
                     diff_jours = g_date_days_between ( date_courante, date );
@@ -786,6 +790,8 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
                         g_free ( str_date );
                     }
                     day_courant = day;
+                    if ( g_date_is_first_of_month ( date ) )
+                        month_courant = g_date_get_month ( date );
                 }
             }
             prev_montant = montant;
