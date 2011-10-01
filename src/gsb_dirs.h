@@ -8,7 +8,6 @@ void gsb_dirs_shutdown ( void );
 const gchar *gsb_dirs_get_locale_dir ( void );
 const gchar *gsb_dirs_get_pixmaps_dir ( void );
 const gchar *gsb_dirs_get_plugins_dir ( void );
-const gchar *gsb_dirs_get_ui_dir ( void );
 const gchar *C_GRISBIRC ( void );
 const gchar *C_OLD_GRISBIRC ( void );
 const gchar *C_PATH_CONFIG ( void );
