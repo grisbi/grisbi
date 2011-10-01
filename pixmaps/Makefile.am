@@ -32,6 +32,7 @@ grisbi_pixmaps_DATA = \
 	graph-histo.png \
 	graph-line.png \
 	graph-sectors.png \
+	grille.png \
 	grisbi-logo.png \
 	grisbi.png \
 	hide_r.png \
