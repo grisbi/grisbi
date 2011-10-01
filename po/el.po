@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-29 09:28+0200\n"
+"POT-Creation-Date: 2011-10-01 13:01+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -1202,38 +1202,49 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:292 ../src/bet_graph.c:404
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:349 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Επιλογές"
 
-#: ../src/bet_graph.c:417
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:441 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Εισοδήματα"
 
-#: ../src/bet_graph.c:774
+#: ../src/bet_graph.c:796
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:774
+#: ../src/bet_graph.c:796
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:932
+#: ../src/bet_graph.c:953
 #, fuzzy
 msgid "Column"
 msgstr "Στήλες"
 
-#: ../src/bet_graph.c:959
+#: ../src/bet_graph.c:980
 msgid "Line"
 msgstr ""
+
+#. la grille est visible
+#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#, fuzzy
+msgid "Hide grid"
+msgstr "Αρχεία"
+
+#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#, fuzzy
+msgid "Show grid"
+msgstr "Παρουσιάστε _συμφωνίες"
 
 #: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 msgid "Select"
@@ -5023,7 +5034,7 @@ msgstr ""
 "λογισμικό."
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Οι λογαριασμοί μου"
 
@@ -11751,10 +11762,6 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #, fuzzy
 #~ msgid "Recreates the archive"
 #~ msgstr "Διαγράψτε το αρχείο"
-
-#, fuzzy
-#~ msgid "Hide Archive"
-#~ msgstr "Αρχεία"
 
 #, fuzzy
 #~ msgid "Hide archived transactions"

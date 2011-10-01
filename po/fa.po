@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-29 09:28+0200\n"
+"POT-Creation-Date: 2011-10-01 13:01+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -1173,38 +1173,48 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:292 ../src/bet_graph.c:404
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:349 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr ""
 
-#: ../src/bet_graph.c:417
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:441 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "درآمد ها"
 
-#: ../src/bet_graph.c:774
+#: ../src/bet_graph.c:796
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:774
+#: ../src/bet_graph.c:796
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:932
+#: ../src/bet_graph.c:953
 msgid "Column"
 msgstr ""
 
-#: ../src/bet_graph.c:959
+#: ../src/bet_graph.c:980
 #, fuzzy
 msgid "Line"
 msgstr "لینک ها"
+
+#. la grille est visible
+#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#, fuzzy
+msgid "Hide grid"
+msgstr "فعال سازی"
+
+#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+msgid "Show grid"
+msgstr ""
 
 #: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 #, fuzzy
@@ -4698,7 +4708,7 @@ msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr ""
 
@@ -10904,10 +10914,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Recreates the archive"
 #~ msgstr "جستجوی تراکنش"
-
-#, fuzzy
-#~ msgid "Hide Archive"
-#~ msgstr "فعال سازی"
 
 #, fuzzy
 #~ msgid "Hide archived transactions"
