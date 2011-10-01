@@ -144,12 +144,10 @@ gsb_real utils_real_get_from_string ( const gchar *string )
  * \return		A newly allocated string of the number
  * */
 gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
-                        gint account_number )
+                        gint currency_number )
 {
-    gint currency_number;
     gsb_real real;
 
-    currency_number = gsb_data_account_get_currency ( account_number );
     real = gsb_real_double_to_real ( number );
 
     return utils_real_get_string_with_currency ( real, currency_number, TRUE );

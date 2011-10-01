@@ -633,6 +633,9 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
 
     /* initialise le bouton show_grid avec la préférence "Major_grid" */
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
+    gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
+                        gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
+                        "grille.png", NULL ) ) );
     if ( prefs_lines->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
@@ -869,7 +872,7 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     g_object_set ( G_OBJECT ( axis ),
                         "major-tick-in", prefs_lines->major_tick_in,
                         "major-tick-out", prefs_lines->major_tick_out,
-                        "minor-tick-out", prefs_lines->minor_tick_out,
+                        "minor-tick-out", prefs_lines->major_tick_out,
                         "major-tick-labeled", prefs_lines->major_tick_labeled,
                         NULL);
 

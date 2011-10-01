@@ -265,6 +265,7 @@ void main_mac_osx ( int argc, char **argv )
     libgoffice_init ( );
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+#endif /* HAVE_GOFFICE */
 
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
