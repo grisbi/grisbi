@@ -40,15 +40,12 @@
 #	include <io.h> // for _chmod()
 #endif /*_MSC_VER */
 #include <zlib.h>
-#ifdef HAVE_GOFFICE
-#include "bet_graph.h"
-#endif /* HAVE_GOFFICE */
-
 
 /*START_INCLUDE*/
 #include "gsb_file_save.h"
 #include "bet_data.h"
 #include "bet_data_finance.h"
+#include "bet_graph.h"
 #include "dialog.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"

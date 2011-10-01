@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 20:33+0200\n"
+"POT-Creation-Date: 2011-10-01 20:55+0200\n"
 "PO-Revision-Date: 2011-09-24 22:55+0200\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1129,45 +1129,45 @@ msgstr ""
 "Achtung: Es fehlen eine oder mehrere Verknüpfungen zwischen den Währungen.\n"
 "Bitte die Verknüpfungen wiederherstellen und Grisbi neu starten."
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:417
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Weitere Optionen"
 
-#: ../src/bet_graph.c:430
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:454 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:958
+#: ../src/bet_graph.c:962
 msgid "Column"
 msgstr "Spalte"
 
-#: ../src/bet_graph.c:985
+#: ../src/bet_graph.c:989
 msgid "Line"
 msgstr "Zeile"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
 #, fuzzy
 msgid "Hide grid"
 msgstr "Passwort verbergen"
 
-#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "_Abgestimmte Buchungen anzeigen"
@@ -4841,7 +4841,7 @@ msgstr ""
 "Konten und Daten von anderen Finanzprogrammen oder Ihrer Bank importieren"
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Meine Konten"
 
@@ -5323,6 +5323,71 @@ msgstr "Die Kategoriendatei konnte nicht geöffnet werden."
 #: ../src/gsb_category.c:385
 msgid "Unnamed category list"
 msgstr "Kategorienliste ohne Namen"
+
+#: ../src/gsb_color.c:428
+#, fuzzy
+msgid "Transaction list background 1"
+msgstr "Buchungsübersicht Einstellungen"
+
+#: ../src/gsb_color.c:429
+#, fuzzy
+msgid "Transaction list background 2"
+msgstr "Buchungsübersicht Einstellungen"
+
+#: ../src/gsb_color.c:430
+#, fuzzy
+msgid "Color for the operation that gives the balance today"
+msgstr "Aktuellen Saldo hervorheben"
+
+#: ../src/gsb_color.c:431
+#, fuzzy
+msgid "Color of transaction's text"
+msgstr "Splittbuchungen"
+
+#: ../src/gsb_color.c:432
+#, fuzzy
+msgid "Text of unfinished split transaction"
+msgstr "Buchung in geplante Buchung _konvertieren"
+
+#: ../src/gsb_color.c:433
+#, fuzzy
+msgid "Children of split transaction"
+msgstr "Buchung bearbeiten"
+
+#: ../src/gsb_color.c:434
+#, fuzzy
+msgid "Selection color"
+msgstr "Verzeichnis für Symbole - Grisbi"
+
+#: ../src/gsb_color.c:435
+#, fuzzy
+msgid "Background of non selectable scheduled transactions"
+msgstr "Geplante Buchung manuell ausführen"
+
+#: ../src/gsb_color.c:436
+#, fuzzy
+msgid "Archive color"
+msgstr "Archivierung nach Bericht"
+
+#: ../src/gsb_color.c:437
+msgid "Background of invalid date entry"
+msgstr ""
+
+#: ../src/gsb_color.c:438
+msgid "Background of bet division"
+msgstr ""
+
+#: ../src/gsb_color.c:439
+msgid "Background of bet futur"
+msgstr ""
+
+#: ../src/gsb_color.c:440
+msgid "Background of bet solde"
+msgstr ""
+
+#: ../src/gsb_color.c:441
+msgid "Background of bet transfer"
+msgstr ""
 
 #: ../src/gsb_currency.c:527
 msgid "Enter exchange rate"
@@ -7364,8 +7429,8 @@ msgstr "Konten laden"
 msgid "Failed to load accounts"
 msgstr "Fehler beim Laden der Konten"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:304
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_load.c:421
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Fehler beim Öffnen der Datei '%s'"
@@ -7578,18 +7643,18 @@ msgstr ""
 "\n"
 "Die Eingabe mit 'OK' bestätigen."
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
+#: ../src/gsb_file_load.c:301 ../src/gsb_file_load.c:418
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Die Datei kann nicht geöffnet werden '%s': %s"
 
-#: ../src/gsb_file_load.c:305
+#: ../src/gsb_file_load.c:303
 msgid "File does not exist"
 msgstr "Die Datei ist nicht vorhanden"
 
-#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:316 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7599,7 +7664,7 @@ msgstr ""
 "%s scheint keine reguläre Datei zu sein,\n"
 "bitte prüfen und erneut versuchen."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7611,15 +7676,15 @@ msgstr ""
 "\n"
 "Bitte prüfen, ob das Modul installiert ist und erneut versuchen."
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
 msgid "Encryption plugin not found."
 msgstr "Das Modul für die Verschlüsselung kann nicht gefunden werden."
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Diese Datei ist kein Grisbi-Datei...der Ladevorgang wird abgebrochen."
 
-#: ../src/gsb_file_load.c:709
+#: ../src/gsb_file_load.c:707
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7631,7 +7696,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8887
+#: ../src/gsb_file_load.c:8885
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7640,7 +7705,7 @@ msgstr ""
 "Grisbi mit Version %s ist zum Öffnen der Datei notwendig.\n"
 "Sie verwenden Version %s."
 
-#: ../src/gsb_file_load.c:8912
+#: ../src/gsb_file_load.c:8910
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7651,7 +7716,7 @@ msgstr ""
 "Bevor Buchungen oder wichtige Informationen geändert werden sollten Sie "
 "beachten, dass es sich um ein Archiv handelt."
 
-#: ../src/gsb_file_load.c:8916
+#: ../src/gsb_file_load.c:8914
 msgid "Grisbi archive opened"
 msgstr "Grisbi Archiv geöffnet"
 
@@ -7660,8 +7725,8 @@ msgid "There is no category to record. Back."
 msgstr "Es ist keine Kategorie für eine Erfassung vorhanden."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
-#: ../src/gsb_file_save.c:456
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
+#: ../src/gsb_file_save.c:453
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Die Datei kann nicht gespeichert werden '%s': %s"

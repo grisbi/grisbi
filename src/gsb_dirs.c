@@ -57,7 +57,7 @@ void gsb_dirs_init ( void )
         locale_dir = g_strconcat (res_path, "/share/locale", NULL );
         pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );
         plugins_dir = g_strconcat (res_path, "/lib/grisbi", NULL );
-        plugins_dir = g_strconcat (res_path, "/share/grisbi/ui", NULL );
+        ui_dir = g_strconcat (res_path, "/share/grisbi/ui", NULL );
 
         g_free ( res_path );
     }

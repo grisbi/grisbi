@@ -161,7 +161,6 @@ static void struct_free_bet_graph_button ( struct_bet_graph_button *self );
 static struct_bet_graph_button *struct_initialise_bet_graph_button ( void );
 static void struct_free_bet_graph_data ( struct_bet_graph_data *self );
 static struct_bet_graph_data *struct_initialise_bet_graph_data ( void );
-static void struct_free_bet_graph_prefs ( struct_bet_graph_prefs *self );
 static struct_bet_graph_prefs *struct_initialise_bet_graph_prefs ( void );
 /*END_STATIC*/
 
@@ -613,10 +612,6 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     if ( !bet_graph_initialise_builder ( ) )
         return;
 
-    /* initialisation des structures de données */
-    if ( prefs_lines == NULL )
-        prefs_lines = struct_initialise_bet_graph_prefs ( );
-
     account_number = gsb_gui_navigation_get_current_account ( );
     currency_number = gsb_data_account_get_currency ( account_number );
     service_id = g_object_get_data ( G_OBJECT ( button ), "service_id" );
@@ -638,6 +633,9 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
 
     /* initialise le bouton show_grid avec la préférence "Major_grid" */
     self->button_show_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
+    gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
+                        gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
+                        "grille.png", NULL ) ) );
     if ( prefs_lines->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
@@ -716,6 +714,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
         GDate *last_date;
         GDate *date_courante;
         GDateDay day_courant;
+        GDateMonth month_courant;
         gint nbre_iterations;
 
         tab_libelle_axe_x = &libelle_axe_x;
@@ -727,6 +726,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             GValue date_value = {0,};
             GDate *date;
             GDateDay day;
+            GDateMonth month;
             gint diff_jours;
             gint i;
 
@@ -755,6 +755,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
 
                 date_courante = gsb_date_copy ( date );
                 day_courant = g_date_get_day ( date );
+                month_courant = g_date_get_month ( date );
 
                 str_date = gsb_format_gdate ( date_courante );
                 strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], str_date, TAILLE_MAX_LIBELLE );
@@ -767,7 +768,8 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
             else
             {
                 day = g_date_get_day ( date );
-                if ( day != day_courant )
+                month = g_date_get_month ( date );
+                if ( day != day_courant || month != month_courant )
                 {
                     /* nombre de jours manquants */
                     diff_jours = g_date_days_between ( date_courante, date );
@@ -791,6 +793,8 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
                         g_free ( str_date );
                     }
                     day_courant = day;
+                    if ( g_date_is_first_of_month ( date ) )
+                        month_courant = g_date_get_month ( date );
                 }
             }
             prev_montant = montant;
@@ -992,7 +996,6 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
         if ( prefs_lines->type_graph == 1 )
         {
             self->is_visible = TRUE;
-
             self->button = gsb_automem_imagefile_button_new ( style,
                         self->name,
                         self->filename,
@@ -1386,6 +1389,8 @@ void bet_graph_toggle_button_changed ( GtkToggleButton *togglebutton,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1403,6 +1408,8 @@ void bet_graph_rotation_changed ( GORotationSel *rotation,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1419,6 +1426,8 @@ void bet_graph_gap_spinner_changed ( GtkSpinButton *spinbutton,
 
     /* on met à jour le graph */
     bet_graph_update_graph ( self );
+
+    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1527,8 +1536,6 @@ void bet_graph_update_graph ( struct_bet_graph_data *self )
     gtk_widget_show_all ( GTK_WIDGET ( self->notebook ) );
 
     bet_graph_affiche_XY_line ( self );
-
-    gsb_file_set_modified ( TRUE );
 }
 
 
@@ -1576,6 +1583,9 @@ void bet_graph_set_configuration_variables ( const gchar *string )
     /* initialisation des préférences si nécessaire */
     if ( prefs_lines == NULL )
         prefs_lines = struct_initialise_bet_graph_prefs ( );
+
+    if ( string == NULL )
+        return;
 
     tab = g_strsplit ( string, ":", 0 );
 
@@ -1690,9 +1700,10 @@ struct_bet_graph_prefs *struct_initialise_bet_graph_prefs ( void )
  *
  *
  * */
-void struct_free_bet_graph_prefs ( struct_bet_graph_prefs *self )
+void struct_free_bet_graph_prefs ( void )
 {
-    g_free ( self );
+
+    g_free ( prefs_lines );
 }
 
 

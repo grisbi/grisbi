@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 20:33+0200\n"
+"POT-Creation-Date: 2011-10-01 20:55+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1208,48 +1208,48 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:417
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 #, fuzzy
 msgid "Options"
 msgstr "支出"
 
-#: ../src/bet_graph.c:430
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:454 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "收入"
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:958
+#: ../src/bet_graph.c:962
 #, fuzzy
 msgid "Column"
 msgstr "备注"
 
-#: ../src/bet_graph.c:985
+#: ../src/bet_graph.c:989
 #, fuzzy
 msgid "Line"
 msgstr "许可证"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
 #, fuzzy
 msgid "Hide grid"
 msgstr "活动"
 
-#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "对账"
@@ -4899,7 +4899,7 @@ msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 #, fuzzy
 msgid "My accounts"
 msgstr "显示账户"
@@ -5341,6 +5341,72 @@ msgstr "不能导入文件"
 #, fuzzy
 msgid "Unnamed category list"
 msgstr "导入类别清单"
+
+#: ../src/gsb_color.c:428
+#, fuzzy
+msgid "Transaction list background 1"
+msgstr "交易清单字体"
+
+#: ../src/gsb_color.c:429
+#, fuzzy
+msgid "Transaction list background 2"
+msgstr "交易清单字体"
+
+#: ../src/gsb_color.c:430
+msgid "Color for the operation that gives the balance today"
+msgstr ""
+
+#: ../src/gsb_color.c:431
+#, fuzzy
+msgid "Color of transaction's text"
+msgstr "复制交易"
+
+#: ../src/gsb_color.c:432
+#, fuzzy
+msgid "Text of unfinished split transaction"
+msgstr "删除一条定期交易"
+
+#: ../src/gsb_color.c:433
+#, fuzzy
+msgid "Children of split transaction"
+msgstr "已结清预定交易"
+
+#: ../src/gsb_color.c:434
+#, fuzzy
+msgid "Selection color"
+msgstr "选择所有"
+
+#: ../src/gsb_color.c:435
+#, fuzzy
+msgid "Background of non selectable scheduled transactions"
+msgstr ""
+"到期选择的\n"
+"定期交易"
+
+#: ../src/gsb_color.c:436
+#, fuzzy
+msgid "Archive color"
+msgstr "打印报表"
+
+#: ../src/gsb_color.c:437
+msgid "Background of invalid date entry"
+msgstr ""
+
+#: ../src/gsb_color.c:438
+msgid "Background of bet division"
+msgstr ""
+
+#: ../src/gsb_color.c:439
+msgid "Background of bet futur"
+msgstr ""
+
+#: ../src/gsb_color.c:440
+msgid "Background of bet solde"
+msgstr ""
+
+#: ../src/gsb_color.c:441
+msgid "Background of bet transfer"
+msgstr ""
 
 #: ../src/gsb_currency.c:527
 msgid "Enter exchange rate"
@@ -7375,8 +7441,8 @@ msgstr "载入账户文件"
 msgid "Failed to load accounts"
 msgstr "选择银行账户"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:304
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_load.c:421
 #, fuzzy, c-format
 msgid "Error loading file '%s'"
 msgstr "打开文件 '%s'.发生错误"
@@ -7559,19 +7625,19 @@ msgid ""
 "and press the 'OK' button."
 msgstr ""
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
+#: ../src/gsb_file_load.c:301 ../src/gsb_file_load.c:418
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "不能打开文件 '%s': %s"
 
-#: ../src/gsb_file_load.c:305
+#: ../src/gsb_file_load.c:303
 #, fuzzy
 msgid "File does not exist"
 msgstr "文件已经存在"
 
-#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:316 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, fuzzy, c-format
 msgid ""
@@ -7581,7 +7647,7 @@ msgstr ""
 "%s 似乎不时一个有效文件，\n"
 "请重新检查。"
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7589,17 +7655,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
 
-#: ../src/gsb_file_load.c:709
+#: ../src/gsb_file_load.c:707
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7608,14 +7674,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8887
+#: ../src/gsb_file_load.c:8885
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: ../src/gsb_file_load.c:8912
+#: ../src/gsb_file_load.c:8910
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7623,7 +7689,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8916
+#: ../src/gsb_file_load.c:8914
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7632,8 +7698,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
-#: ../src/gsb_file_save.c:456
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
+#: ../src/gsb_file_save.c:453
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
@@ -11348,36 +11414,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Please select the data source for the account: \"%s\""
 #~ msgstr "使用选中交易做模板"
-
-#, fuzzy
-#~ msgid "Transaction list background 1"
-#~ msgstr "交易清单字体"
-
-#, fuzzy
-#~ msgid "Transaction list background 2"
-#~ msgstr "交易清单字体"
-
-#, fuzzy
-#~ msgid "Color of transaction's text"
-#~ msgstr "复制交易"
-
-#, fuzzy
-#~ msgid "Text of unfinished split transaction"
-#~ msgstr "删除一条定期交易"
-
-#, fuzzy
-#~ msgid "Children of split transaction"
-#~ msgstr "已结清预定交易"
-
-#, fuzzy
-#~ msgid "Selection color"
-#~ msgstr "选择所有"
-
-#, fuzzy
-#~ msgid "Background of non selectable scheduled transactions"
-#~ msgstr ""
-#~ "到期选择的\n"
-#~ "定期交易"
 
 #~ msgid "Reconciliation ref."
 #~ msgstr "调整参考"

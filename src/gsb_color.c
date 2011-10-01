@@ -457,7 +457,7 @@ GtkWidget *gsb_color_create_color_combobox ( void )
                         &iter );
     gtk_list_store_set ( GTK_LIST_STORE (store),
                         &iter,
-                        0, _(config_colors[i].name),
+                        0, gettext ( config_colors[i].name ),
                         1, config_colors[i].color,
                         2, config_colors[i].default_color,
                         -1);

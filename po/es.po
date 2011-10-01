@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-30 20:33+0200\n"
+"POT-Creation-Date: 2011-10-01 20:55+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1161,46 +1161,46 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:417
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Opciones"
 
-#: ../src/bet_graph.c:430
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:454 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Ingresos"
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:801
+#: ../src/bet_graph.c:805
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:958
+#: ../src/bet_graph.c:962
 #, fuzzy
 msgid "Column"
 msgstr "Columnas"
 
-#: ../src/bet_graph.c:985
+#: ../src/bet_graph.c:989
 msgid "Line"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
 #, fuzzy
 msgid "Hide grid"
 msgstr "Archivos"
 
-#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Mostrar _reconciliados"
@@ -4892,7 +4892,7 @@ msgstr ""
 "contabilidad"
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Mis cuentas"
 
@@ -5383,6 +5383,63 @@ msgstr "No se puede abrir el fichero de categorías"
 #: ../src/gsb_category.c:385
 msgid "Unnamed category list"
 msgstr "Lista de categorías sin nombre"
+
+#: ../src/gsb_color.c:428
+msgid "Transaction list background 1"
+msgstr "Fondo 1 de la lista de transacciónes"
+
+#: ../src/gsb_color.c:429
+msgid "Transaction list background 2"
+msgstr "Fondo 2 de la lista de transacciones"
+
+#: ../src/gsb_color.c:430
+msgid "Color for the operation that gives the balance today"
+msgstr "Color de la operación que da el balance diario"
+
+#: ../src/gsb_color.c:431
+msgid "Color of transaction's text"
+msgstr "Color del texto de la transacción"
+
+#: ../src/gsb_color.c:432
+msgid "Text of unfinished split transaction"
+msgstr "Texto de la transacción dividida sin finalizar"
+
+#: ../src/gsb_color.c:433
+msgid "Children of split transaction"
+msgstr "Hijos de una transacción dividida"
+
+#: ../src/gsb_color.c:434
+msgid "Selection color"
+msgstr "Color de la selección"
+
+#: ../src/gsb_color.c:435
+msgid "Background of non selectable scheduled transactions"
+msgstr "Fondo de las transacciones programadas no seleccionables"
+
+#: ../src/gsb_color.c:436
+msgid "Archive color"
+msgstr "Color del archivo"
+
+#: ../src/gsb_color.c:437
+msgid "Background of invalid date entry"
+msgstr "Fondo de una entrada de fecha incorrecta"
+
+#: ../src/gsb_color.c:438
+msgid "Background of bet division"
+msgstr "Fondo de la división de apuestas"
+
+#: ../src/gsb_color.c:439
+msgid "Background of bet futur"
+msgstr "Trasfondo de la división de apuestas"
+
+#: ../src/gsb_color.c:440
+#, fuzzy
+msgid "Background of bet solde"
+msgstr "Fondo de la división de apuestas"
+
+#: ../src/gsb_color.c:441
+msgid "Background of bet transfer"
+msgstr "Trasfondo de la transferencia de apuestas"
 
 #: ../src/gsb_currency.c:527
 msgid "Enter exchange rate"
@@ -7430,8 +7487,8 @@ msgstr "Cargando cuentas"
 msgid "Failed to load accounts"
 msgstr "Fallo al cargar las cuentas"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:304
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_load.c:421
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Error abriendo el archivo '%s'"
@@ -7642,18 +7699,18 @@ msgstr ""
 "\n"
 "y pulse el botón de 'OK'."
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
+#: ../src/gsb_file_load.c:301 ../src/gsb_file_load.c:418
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "No se puede abrir el archivo '%s': %s"
 
-#: ../src/gsb_file_load.c:305
+#: ../src/gsb_file_load.c:303
 msgid "File does not exist"
 msgstr "El fichero no existe"
 
-#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:316 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7663,7 +7720,7 @@ msgstr ""
 "%s No parece que sea un fichero convencional,\n"
 "por favor compruébelo y pruebe de nuevo."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7675,15 +7732,15 @@ msgstr ""
 "Por favor, asegúrese de que está instalado (por ejemplo, compruebe que el "
 "paquete 'grisbi-ssl' está instalado) y pruebe de nuevo."
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
 msgid "Encryption plugin not found."
 msgstr "No se ha"
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Este fichero no es de de Grisbi... Carga interrumpida."
 
-#: ../src/gsb_file_load.c:709
+#: ../src/gsb_file_load.c:707
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7695,7 +7752,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8887
+#: ../src/gsb_file_load.c:8885
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7704,7 +7761,7 @@ msgstr ""
 "Se necesita la versión de Grisbi %s para abrir este archivo.\n"
 "Usted está usando la versión %s."
 
-#: ../src/gsb_file_load.c:8912
+#: ../src/gsb_file_load.c:8910
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7716,7 +7773,7 @@ msgstr ""
 "más tarde (nuevos informes...) pero recuerde que es un archivo antes de "
 "modificar algunas transacciones o informaciones importantes."
 
-#: ../src/gsb_file_load.c:8916
+#: ../src/gsb_file_load.c:8914
 msgid "Grisbi archive opened"
 msgstr "Archivo de Grisbi abierto"
 
@@ -7726,8 +7783,8 @@ msgid "There is no category to record. Back."
 msgstr "No hay un tercero que borrar"
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
-#: ../src/gsb_file_save.c:456
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
+#: ../src/gsb_file_save.c:453
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "No se puede guardar el archivo '%s': %s"
@@ -11522,49 +11579,6 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 
 #~ msgid "Please select the data source for the account: \"%s\""
 #~ msgstr "Por favor, elija la fuente de datos para la cuenta: \"%s\""
-
-#~ msgid "Transaction list background 1"
-#~ msgstr "Fondo 1 de la lista de transacciónes"
-
-#~ msgid "Transaction list background 2"
-#~ msgstr "Fondo 2 de la lista de transacciones"
-
-#~ msgid "Color for the operation that gives the balance today"
-#~ msgstr "Color de la operación que da el balance diario"
-
-#~ msgid "Color of transaction's text"
-#~ msgstr "Color del texto de la transacción"
-
-#~ msgid "Text of unfinished split transaction"
-#~ msgstr "Texto de la transacción dividida sin finalizar"
-
-#~ msgid "Children of split transaction"
-#~ msgstr "Hijos de una transacción dividida"
-
-#~ msgid "Selection color"
-#~ msgstr "Color de la selección"
-
-#~ msgid "Background of non selectable scheduled transactions"
-#~ msgstr "Fondo de las transacciones programadas no seleccionables"
-
-#~ msgid "Archive color"
-#~ msgstr "Color del archivo"
-
-#~ msgid "Background of invalid date entry"
-#~ msgstr "Fondo de una entrada de fecha incorrecta"
-
-#~ msgid "Background of bet division"
-#~ msgstr "Fondo de la división de apuestas"
-
-#~ msgid "Background of bet futur"
-#~ msgstr "Trasfondo de la división de apuestas"
-
-#, fuzzy
-#~ msgid "Background of bet solde"
-#~ msgstr "Fondo de la división de apuestas"
-
-#~ msgid "Background of bet transfer"
-#~ msgstr "Trasfondo de la transferencia de apuestas"
 
 #~ msgid "Reconciliation ref."
 #~ msgstr "Ref. de reconciliación"

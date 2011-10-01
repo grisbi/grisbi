@@ -32,13 +32,11 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gio/gio.h>
-#ifdef HAVE_GOFFICE
-#include "bet_graph.h"
-#endif /* HAVE_GOFFICE */
 
 /*START_INCLUDE*/
 #include "gsb_file_load.h"
 #include "bet_data.h"
+#include "bet_graph.h"
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
@@ -3906,7 +3904,7 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
 }
 
 
-/**
+ /**
  * load the bet_graph preferences in the grisbi file
  *
  * \param attribute_names
