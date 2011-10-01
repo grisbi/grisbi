@@ -33,6 +33,8 @@ void bet_graph_line_graph_new ( GtkWidget *button,
 void bet_graph_sectors_graph_new ( GtkWidget *button,
                         GtkTreeView *tree_view );
 GtkWidget *bet_graph_sectors_graph_new_new ( void );
+void bet_graph_set_configuration_variables ( const gchar *string );
+void struct_free_bet_graph_prefs ( void );
 /* END_DECLARATION */
 
 #endif /* HAVE_GOFFICE */

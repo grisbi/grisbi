@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-27 17:17+0200\n"
+"POT-Creation-Date: 2011-10-01 13:01+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -1202,30 +1202,49 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:287 ../src/bet_graph.c:398
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:344 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Επιλογές"
 
-#: ../src/bet_graph.c:409
+#: ../src/bet_graph.c:429
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:432 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Εισοδήματα"
 
-#: ../src/bet_graph.c:861
+#: ../src/bet_graph.c:796
+msgid "You can not exceed one year of visualization"
+msgstr ""
+
+#: ../src/bet_graph.c:796
+msgid "Overflow"
+msgstr ""
+
+#: ../src/bet_graph.c:953
 #, fuzzy
 msgid "Column"
 msgstr "Στήλες"
 
-#: ../src/bet_graph.c:885
+#: ../src/bet_graph.c:980
 msgid "Line"
 msgstr ""
+
+#. la grille est visible
+#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#, fuzzy
+msgid "Hide grid"
+msgstr "Αρχεία"
+
+#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#, fuzzy
+msgid "Show grid"
+msgstr "Παρουσιάστε _συμφωνίες"
 
 #: ../src/bet_hist.c:560 ../src/tiers_onglet.c:1151
 msgid "Select"
@@ -5015,7 +5034,7 @@ msgstr ""
 "λογισμικό."
 
 #: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
-#: ../src/traitement_variables.c:227
+#: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Οι λογαριασμοί μου"
 
@@ -7602,8 +7621,8 @@ msgstr "Φόρτωση λογαριασμών"
 msgid "Failed to load accounts"
 msgstr "Αδυναμία φόρτωσης λογαριασμών"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:301
-#: ../src/gsb_file_load.c:315 ../src/gsb_file_load.c:418
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
+#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Λάθος φόρτωσης αρχείου '%s'"
@@ -7706,7 +7725,7 @@ msgstr ""
 "πρέπει να το ακυρώσετε και το σώζετε με ένα άλλο όνομα ή ενεργοποιείτε την "
 "επιλογή \"%s\" στην οργάνωση."
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:791
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
 msgid "unnamed"
 msgstr "απροσδιόριστος"
 
@@ -7815,18 +7834,18 @@ msgstr ""
 "\n"
 "και πιέστε το πλήκτρο 'OK'"
 
-#: ../src/gsb_file_load.c:298 ../src/gsb_file_load.c:415
+#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Αδύνατο το άνοιγμαι του αρχείο '%s': %s"
 
-#: ../src/gsb_file_load.c:300
+#: ../src/gsb_file_load.c:305
 msgid "File does not exist"
 msgstr "Το αρχείο δεν υπάρχει"
 
-#: ../src/gsb_file_load.c:313 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7836,7 +7855,7 @@ msgstr ""
 "%s δεν φαίνεται να είναι ένα κανονικό αρχείο,\n"
 "παρακαλώ ελέγξτε το και προσπαθήστε πάλι."
 
-#: ../src/gsb_file_load.c:359 ../src/gsb_file_save.c:390
+#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7849,15 +7868,15 @@ msgstr ""
 "Παρακαλώ σιγουρευτείτε εάν είναι εγκατεστημένο (δηλ. ελέγξτε ότι το πακέτο "
 "'grisbi-ssl' εγκαταστάθηκε) και προσπαθήστε πάλι."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:395
+#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
 msgid "Encryption plugin not found."
 msgstr "Το plugin της κρυπτογράφησης δεν βρέθηκε."
 
-#: ../src/gsb_file_load.c:459 ../src/gsb_file_load.c:5436
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Αυτό δεν είναι ένα αρχείο Grisbi… Η φόρτωση αναβάλλεται."
 
-#: ../src/gsb_file_load.c:696
+#: ../src/gsb_file_load.c:709
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7869,7 +7888,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8832
+#: ../src/gsb_file_load.c:8887
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7878,7 +7897,7 @@ msgstr ""
 "Η έκδοση Grisbi %s απαιτείται για να ανοίξει αυτό το αρχείο.\n"
 "Eσείς χρησιμοποιείται την έκδοση %s."
 
-#: ../src/gsb_file_load.c:8857
+#: ../src/gsb_file_load.c:8912
 #, fuzzy
 msgid ""
 "You have opened an archive.\n"
@@ -7891,7 +7910,7 @@ msgstr ""
 "θέλετε και σώζετε αργότερα (νέες εκθέσεις…) αλλά θυμηθείτε ότι είναι ένα "
 "αρχείο πριν τροποποιηθούν  μερικές συναλλαγές ή σημαντικές πληροφορίες."
 
-#: ../src/gsb_file_load.c:8861
+#: ../src/gsb_file_load.c:8916
 msgid "Grisbi archive opened"
 msgstr "Αρχείο Grisbi που ανοίγουν"
 
@@ -7900,8 +7919,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:416
-#: ../src/gsb_file_save.c:435
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
+#: ../src/gsb_file_save.c:456
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Αδύνατη η αποθήκευση του αρχείου'%s': %s"
@@ -9968,12 +9987,12 @@ msgstr "υπο--δημοσιονομική γραμμή"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Συναλλαγές μεταφοράς %s"
 
-#: ../src/main.c:607
+#: ../src/main.c:609
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Λάθος στο sigaction: SIGSEGV δεν  είναι παγιδευμένο\n"
 
-#: ../src/main.c:744 ../src/main.c:784 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
@@ -11592,63 +11611,86 @@ msgid "<b>Additional line</b>"
 msgstr "Αρχική ισορροπία"
 
 #: ../src/ui/bet_graph.ui.h:4
+#, fuzzy
+msgid "<b>Grid</b>"
+msgstr " <b>%s συμφωνία</b> "
+
+#: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:5
+#: ../src/ui/bet_graph.ui.h:6
 msgid "<b>Options for the X axis</b>"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:6
+#: ../src/ui/bet_graph.ui.h:7
+#, fuzzy
+msgid "<b>Options for the Y axis</b>"
+msgstr "Επιλέξτε τους λογαριασμούς μετρητών"
+
+#: ../src/ui/bet_graph.ui.h:8
+#, fuzzy
+msgid "<b>Options for the axis</b>"
+msgstr "Επιλέξτε τους λογαριασμούς μετρητών"
+
+#: ../src/ui/bet_graph.ui.h:9
 #, fuzzy
 msgid "<b>Options for the columns</b>"
 msgstr "Επιλέξτε τους λογαριασμούς μετρητών"
 
-#: ../src/ui/bet_graph.ui.h:7
+#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr " <b>%s συμφωνία</b> "
 
-#: ../src/ui/bet_graph.ui.h:8
+#: ../src/ui/bet_graph.ui.h:11
 msgid "Crosses the Y axis at 0"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:9
+#: ../src/ui/bet_graph.ui.h:12
 #, fuzzy
 msgid "Display the data graph"
 msgstr "Εμφάνιση συμβουλής της ημέρας"
 
-#: ../src/ui/bet_graph.ui.h:10
+#: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
 msgid "Display the grids above the plot"
 msgstr "Εμφάνιση συμβουλής της ημέρας"
 
-#: ../src/ui/bet_graph.ui.h:11
+#: ../src/ui/bet_graph.ui.h:14
 msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:12
+#: ../src/ui/bet_graph.ui.h:15
 msgid "High"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:13
+#: ../src/ui/bet_graph.ui.h:16
 msgid "Inside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:14
+#: ../src/ui/bet_graph.ui.h:17
 msgid "Low"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:15
+#: ../src/ui/bet_graph.ui.h:18
+msgid "Major grid"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:19
+msgid "Minor grid"
+msgstr ""
+
+#: ../src/ui/bet_graph.ui.h:20
 msgid "Outside"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:16
+#: ../src/ui/bet_graph.ui.h:21
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Επιλέξτε το βασικό νόμισμα"
 
-#: ../src/ui/bet_graph.ui.h:17
+#: ../src/ui/bet_graph.ui.h:22
 msgid "Show Labels"
 msgstr ""
 
@@ -11720,10 +11762,6 @@ msgstr "Προσωπικός διευθυντής χρηματοδότησης �
 #, fuzzy
 #~ msgid "Recreates the archive"
 #~ msgstr "Διαγράψτε το αρχείο"
-
-#, fuzzy
-#~ msgid "Hide Archive"
-#~ msgstr "Αρχεία"
 
 #, fuzzy
 #~ msgid "Hide archived transactions"

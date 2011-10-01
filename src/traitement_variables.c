@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2009-2011 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -38,6 +38,7 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_future.h"
+#include "bet_graph.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar.h"
@@ -315,6 +316,10 @@ void init_variables ( void )
         bet_array_col_width[i] = bet_array_col_width_init[i];
 
     bet_data_finance_data_simulator_init ( );
+#ifdef HAVE_GOFFICE
+    bet_graph_set_configuration_variables ( NULL );
+#endif /* HAVE_GOFFICE */
+
 }
 
 /**
@@ -326,6 +331,9 @@ void free_variables ( void )
     gsb_data_print_config_free ();
     gsb_gui_navigation_free_pages_list ( );
     gsb_regex_destroy ( );
+#ifdef HAVE_GOFFICE
+    struct_free_bet_graph_prefs ( );
+#endif /* HAVE_GOFFICE */
 }
 
 

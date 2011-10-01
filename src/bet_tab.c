@@ -2915,7 +2915,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     bet_graph_free_builder ( );
-#endif
+#endif /* HAVE_GOFFICE */
 
     gtk_widget_show_all ( hbox );
 
