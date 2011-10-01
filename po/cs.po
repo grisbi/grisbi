@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-01 13:01+0200\n"
+"POT-Creation-Date: 2011-10-01 20:55+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1143,30 +1143,30 @@ msgstr ""
 msgid "Incomes"
 msgstr "Příjmy"
 
-#: ../src/bet_graph.c:796
+#: ../src/bet_graph.c:805
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:796
+#: ../src/bet_graph.c:805
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:953
+#: ../src/bet_graph.c:962
 #, fuzzy
 msgid "Column"
 msgstr "Sloupce"
 
-#: ../src/bet_graph.c:980
+#: ../src/bet_graph.c:989
 msgid "Line"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1440 ../src/bet_graph.c:1474
+#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
 #, fuzzy
 msgid "Hide grid"
 msgstr "Archivy"
 
-#: ../src/bet_graph.c:1442 ../src/bet_graph.c:1476 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Zobrazit _odsouhlasené"
@@ -5284,6 +5284,62 @@ msgstr "Nelze otevřít soubor kategorií."
 msgid "Unnamed category list"
 msgstr "Nepojmenovaný seznam kategorií"
 
+#: ../src/gsb_color.c:428
+msgid "Transaction list background 1"
+msgstr "Pozadí seznamu transakcí 1"
+
+#: ../src/gsb_color.c:429
+msgid "Transaction list background 2"
+msgstr "Pozadí seznamu transakcí 2"
+
+#: ../src/gsb_color.c:430
+msgid "Color for the operation that gives the balance today"
+msgstr "Barva pro transakce, které dávají dnešní součet"
+
+#: ../src/gsb_color.c:431
+msgid "Color of transaction's text"
+msgstr "Barva textu transakce"
+
+#: ../src/gsb_color.c:432
+msgid "Text of unfinished split transaction"
+msgstr "Text nedokončené rozdělené transakce"
+
+#: ../src/gsb_color.c:433
+msgid "Children of split transaction"
+msgstr "Detaily rozdělené transakce"
+
+#: ../src/gsb_color.c:434
+msgid "Selection color"
+msgstr "Barva výběru"
+
+#: ../src/gsb_color.c:435
+msgid "Background of non selectable scheduled transactions"
+msgstr "Pozadí plánovaných transakcí, které nejdou označit"
+
+#: ../src/gsb_color.c:436
+msgid "Archive color"
+msgstr "Barva archivu"
+
+#: ../src/gsb_color.c:437
+msgid "Background of invalid date entry"
+msgstr "Pozadí chybně zadaného data"
+
+#: ../src/gsb_color.c:438
+msgid "Background of bet division"
+msgstr "Pozadí oddělovačů v proznóze"
+
+#: ../src/gsb_color.c:439
+msgid "Background of bet futur"
+msgstr "Pozadí dat v proznóze"
+
+#: ../src/gsb_color.c:440
+msgid "Background of bet solde"
+msgstr "Pozadí zůstatku"
+
+#: ../src/gsb_color.c:441
+msgid "Background of bet transfer"
+msgstr "Pozadí transakce převodu"
+
 #: ../src/gsb_currency.c:527
 msgid "Enter exchange rate"
 msgstr "Vložte směnný kurz"
@@ -7301,8 +7357,8 @@ msgstr "Nahrávání účtů"
 msgid "Failed to load accounts"
 msgstr "Nepodařilo se nahrát účty"
 
-#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:306
-#: ../src/gsb_file_load.c:320 ../src/gsb_file_load.c:423
+#: ../src/gsb_file.c:397 ../src/gsb_file.c:414 ../src/gsb_file_load.c:304
+#: ../src/gsb_file_load.c:318 ../src/gsb_file_load.c:421
 #, c-format
 msgid "Error loading file '%s'"
 msgstr "Chyba při nahrávání souboru '%s'"
@@ -7514,18 +7570,18 @@ msgstr ""
 "\n"
 "a stiskněte tlačítko 'OK'."
 
-#: ../src/gsb_file_load.c:303 ../src/gsb_file_load.c:420
+#: ../src/gsb_file_load.c:301 ../src/gsb_file_load.c:418
 #: ../src/gsb_file_others.c:458 ../src/gsb_file_others.c:595
 #: ../src/gsb_file_others.c:782 ../src/gsb_file_others.c:842
 #, c-format
 msgid "Cannot open file '%s': %s"
 msgstr "Nelze otevřít soubor '%s': %s"
 
-#: ../src/gsb_file_load.c:305
+#: ../src/gsb_file_load.c:303
 msgid "File does not exist"
 msgstr "Soubor neexistuje"
 
-#: ../src/gsb_file_load.c:318 ../src/gsb_file_others.c:471
+#: ../src/gsb_file_load.c:316 ../src/gsb_file_others.c:471
 #: ../src/gsb_file_others.c:794
 #, c-format
 msgid ""
@@ -7535,7 +7591,7 @@ msgstr ""
 "%s vypadá, že není správný soubor,\n"
 "prosím zkontrolujte jej a spuťte akci znovu."
 
-#: ../src/gsb_file_load.c:364 ../src/gsb_file_save.c:411
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7547,15 +7603,15 @@ msgstr ""
 "Prosím ujistěte se, že je nainstalovaný (tzn. ověřte že je nainstalovaný "
 "balíček 'grisbi-ssl') a akci zopakujte."
 
-#: ../src/gsb_file_load.c:369 ../src/gsb_file_save.c:416
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
 msgid "Encryption plugin not found."
 msgstr "Plugin pro šifrování nebyl nalezen."
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5491
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Toto není soubor Grisbi... Nahrávání bylo přerušeno."
 
-#: ../src/gsb_file_load.c:709
+#: ../src/gsb_file_load.c:707
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -7567,7 +7623,7 @@ msgstr ""
 "%s"
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8887
+#: ../src/gsb_file_load.c:8885
 #, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
@@ -7576,7 +7632,7 @@ msgstr ""
 "Pro otevření tohoto souboru potřebujete verzi Grisbi %s.\n"
 "Vy používáte verzi %s."
 
-#: ../src/gsb_file_load.c:8912
+#: ../src/gsb_file_load.c:8910
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7589,7 +7645,7 @@ msgstr ""
 "důležitých informací mějte na paměti, že se jedná o již archivované "
 "transakce."
 
-#: ../src/gsb_file_load.c:8916
+#: ../src/gsb_file_load.c:8914
 msgid "Grisbi archive opened"
 msgstr "Archiv Grisbi otevřen"
 
@@ -7599,8 +7655,8 @@ msgid "There is no category to record. Back."
 msgstr "Žádný plátce / příjemce k odstranění."
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:437
-#: ../src/gsb_file_save.c:456
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
+#: ../src/gsb_file_save.c:453
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Nelze uložit soubor '%s': %s"
@@ -11328,48 +11384,6 @@ msgstr "Osobní správce financí"
 
 #~ msgid "Please select the data source for the account: \"%s\""
 #~ msgstr "Prosím vyberte zdroj dat pro účet: \"%s\""
-
-#~ msgid "Transaction list background 1"
-#~ msgstr "Pozadí seznamu transakcí 1"
-
-#~ msgid "Transaction list background 2"
-#~ msgstr "Pozadí seznamu transakcí 2"
-
-#~ msgid "Color for the operation that gives the balance today"
-#~ msgstr "Barva pro transakce, které dávají dnešní součet"
-
-#~ msgid "Color of transaction's text"
-#~ msgstr "Barva textu transakce"
-
-#~ msgid "Text of unfinished split transaction"
-#~ msgstr "Text nedokončené rozdělené transakce"
-
-#~ msgid "Children of split transaction"
-#~ msgstr "Detaily rozdělené transakce"
-
-#~ msgid "Selection color"
-#~ msgstr "Barva výběru"
-
-#~ msgid "Background of non selectable scheduled transactions"
-#~ msgstr "Pozadí plánovaných transakcí, které nejdou označit"
-
-#~ msgid "Archive color"
-#~ msgstr "Barva archivu"
-
-#~ msgid "Background of invalid date entry"
-#~ msgstr "Pozadí chybně zadaného data"
-
-#~ msgid "Background of bet division"
-#~ msgstr "Pozadí oddělovačů v proznóze"
-
-#~ msgid "Background of bet futur"
-#~ msgstr "Pozadí dat v proznóze"
-
-#~ msgid "Background of bet solde"
-#~ msgstr "Pozadí zůstatku"
-
-#~ msgid "Background of bet transfer"
-#~ msgstr "Pozadí transakce převodu"
 
 #~ msgid "Reconciliation ref."
 #~ msgstr "Ref. odsouhlasení"
