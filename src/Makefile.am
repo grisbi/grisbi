@@ -39,6 +39,7 @@ libgrisbi_la_SOURCES = \
 	etats_affiche.c		\
 	etats_calculs.c		\
 	etats_config.c		\
+	etats_config_ui.c \
 	etats_csv.c		\
 	etats_gtktable.c	\
 	etats_html.c		\
@@ -275,6 +276,7 @@ libgrisbi_la_SOURCES = \
 	dialog.h		\
 	etats_calculs.h		\
 	etats_config.h		\
+	etats_config_ui.h \
 	etats_gtktable.h	\
 	etats.h			\
 	etats_onglet.h		\

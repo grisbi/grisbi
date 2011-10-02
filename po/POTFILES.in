@@ -18,6 +18,7 @@ src/erreur.c
 src/etats_affiche.c
 src/etats_calculs.c
 src/etats_config.c
+src/etats_config_ui.c
 src/etats_csv.c
 src/etats_gtktable.c
 src/etats_html.c
