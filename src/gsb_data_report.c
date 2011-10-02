@@ -54,7 +54,10 @@ typedef struct
     gchar *report_name;
     
     /** @name what we show of the transactions */
+    gint show_m;                                    /**< 0=all transactions, 1=report marked, 2=report non marked R */
+    gint show_p;                                    /**< 0=report not marked P, 1=report marked P */
     gint show_r;                                    /**< 0=report not marked R, 1=report marked R */
+    gint show_t;                                    /**< 0=report not marked T, 1=report marked T */
     gint show_report_transactions;
     gint show_report_transaction_amount;
     gint show_report_date;
@@ -4119,6 +4122,93 @@ gboolean gsb_data_report_set_select_date_value ( gint report_number,
 
 
 /**
+ * get the  show_m
+ *
+ * \param report_number the number of the report
+ *
+ * \return the show_m  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_show_m ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return -1;
+
+    return report -> show_m;
+}
+
+
+/**
+ * set the show_m
+ *
+ * \param report_number number of the report
+ * \param show_m
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_show_m ( gint report_number,
+                        gint show_m )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return FALSE;
+
+    report -> show_m = show_m;
+
+    return TRUE;
+}
+
+
+/**
+ * get the  show_p
+ *
+ * \param report_number the number of the report
+ *
+ * \return the show_p  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_show_p ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return -1;
+
+    return report -> show_p;
+}
+
+/**
+ * set the show_p
+ *
+ * \param report_number number of the report
+ * \param show_p
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_show_p ( gint report_number,
+                        gint show_p )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return FALSE;
+
+    report -> show_p = show_p;
+
+    return TRUE;
+}
+
+
+/**
  * get the  show_r
  *
  * \param report_number the number of the report
@@ -4156,6 +4246,50 @@ gboolean gsb_data_report_set_show_r ( gint report_number,
         return FALSE;
 
     report -> show_r = show_r;
+
+    return TRUE;
+}
+
+
+/**
+ * get the  show_t
+ *
+ * \param report_number the number of the report
+ *
+ * \return the show_t  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_show_t ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return -1;
+
+    return report -> show_t;
+}
+
+
+/**
+ * set the show_t
+ *
+ * \param report_number number of the report
+ * \param show_t
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_show_t ( gint report_number,
+                        gint show_t )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return FALSE;
+
+    report -> show_t = show_t;
 
     return TRUE;
 }

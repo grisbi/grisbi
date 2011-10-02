@@ -81,6 +81,8 @@ gint gsb_data_report_get_report_can_click ( gint report_number );
 GSList *gsb_data_report_get_report_list ( void );
 gchar *gsb_data_report_get_report_name ( gint report_number );
 gint gsb_data_report_get_report_number ( gpointer report_pointer );
+gint gsb_data_report_get_show_m ( gint report_number );
+gint gsb_data_report_get_show_p ( gint report_number );
 gint gsb_data_report_get_show_r ( gint report_number );
 gint gsb_data_report_get_show_report_bank_references ( gint report_number );
 gint gsb_data_report_get_show_report_budget ( gint report_number );
@@ -99,6 +101,7 @@ gint gsb_data_report_get_show_report_transaction_number ( gint report_number );
 gint gsb_data_report_get_show_report_transactions ( gint report_number );
 gint gsb_data_report_get_show_report_value_date ( gint report_number );
 gint gsb_data_report_get_show_report_voucher ( gint report_number );
+gint gsb_data_report_get_show_t ( gint report_number );
 gint gsb_data_report_get_sorting_report ( gint report_number );
 GSList *gsb_data_report_get_sorting_type ( gint report_number );
 gint gsb_data_report_get_split_credit_debit ( gint report_number );
@@ -217,6 +220,10 @@ gboolean gsb_data_report_set_report_can_click ( gint report_number,
                         gint report_can_click );
 gboolean gsb_data_report_set_report_name ( gint report_number,
                         const gchar *report_name );
+gboolean gsb_data_report_set_show_m ( gint report_number,
+                        gint show_m );
+gboolean gsb_data_report_set_show_p ( gint report_number,
+                        gint show_p );
 gboolean gsb_data_report_set_show_r ( gint report_number,
                         gint show_r );
 gboolean gsb_data_report_set_show_report_bank_references ( gint report_number,
@@ -253,6 +260,8 @@ gboolean gsb_data_report_set_show_report_value_date ( gint report_number,
                         gint show_report_value_date );
 gboolean gsb_data_report_set_show_report_voucher ( gint report_number,
                         gint show_report_voucher );
+gboolean gsb_data_report_set_show_t ( gint report_number,
+                        gint show_t );
 gboolean gsb_data_report_set_sorting_report ( gint report_number,
                         gint sorting_report );
 gboolean gsb_data_report_set_sorting_type ( gint report_number,
