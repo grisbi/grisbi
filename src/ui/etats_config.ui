@@ -1,8 +1,74 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <requires lib="gtk+" version="2.16"/>
+  <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkVBox" id="affichage_etat_devises">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkVBox" id="affichage_etat_divers">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkVBox" id="affichage_etat_generalites">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkVBox" id="affichage_etat_operations">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkCheckButton" id="bouton_pas_detailler_ventilation">
+    <property name="label" translatable="yes">Do not detail split of transactions</property>
+    <property name="visible">True</property>
+    <property name="can_focus">True</property>
+    <property name="receives_default">False</property>
+    <property name="use_action_appearance">False</property>
+    <property name="active">True</property>
+    <property name="draw_indicator">True</property>
+  </object>
   <object class="GtkDialog" id="config_etats_dialog">
+    <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Report properties</property>
     <property name="modal">True</property>
@@ -11,8 +77,51 @@
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_Annuler">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_OK">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkHPaned" id="dialog_hpaned">
             <property name="visible">True</property>
@@ -21,7 +130,7 @@
               <object class="GtkVBox" id="vbox10">
                 <property name="width_request">220</property>
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">False</property>
                 <child>
                   <object class="GtkScrolledWindow" id="sw_dialog">
                     <property name="visible">True</property>
@@ -34,6 +143,8 @@
                     </child>
                   </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -59,47 +170,10 @@
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="padding">10</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="button_Annuler">
-                <property name="label">gtk-cancel</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_OK">
-                <property name="label">gtk-ok</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
           </packing>
         </child>
       </object>
@@ -109,320 +183,18 @@
       <action-widget response="0">button_OK</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkVBox" id="onglet_etat_dates">
+  <object class="GtkVBox" id="liste_montant_etat">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
+    <property name="can_focus">False</property>
     <child>
-      <object class="GtkHBox" id="hbox1">
+      <object class="GtkHBox" id="hbox4">
         <property name="visible">True</property>
-        <property name="spacing">5</property>
+        <property name="can_focus">False</property>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkLabel" id="label12">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkRadioButton" id="radio_button_utilise_dates">
-                <property name="label" translatable="yes">Use dates ranges</property>
-                <property name="height_request">25</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="active">True</property>
-                <property name="draw_indicator">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame-dates">
-                <property name="width_request">285</property>
-                <property name="height_request">410</property>
-                <property name="visible">True</property>
-                <property name="label_xalign">0</property>
-                <child>
-                  <object class="GtkVBox" id="vbox_utilisation_date">
-                    <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkScrolledWindow" id="sw_dates">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <property name="window_placement_set">True</property>
-                        <property name="shadow_type">in</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="padding">5</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="bouton_en_date_valeur">
-                        <property name="label" translatable="yes">At value date</property>
-                        <property name="visible">True</property>
-                        <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">5</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox_date_init">
-                        <property name="visible">True</property>
-                        <property name="spacing">5</property>
-                        <child>
-                          <object class="GtkLabel" id="label1">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">Initial date: </property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">5</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox_date_finale">
-                        <property name="visible">True</property>
-                        <property name="spacing">5</property>
-                        <child>
-                          <object class="GtkLabel" id="label2">
-                            <property name="visible">True</property>
-                            <property name="label" translatable="yes">Final date: </property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">5</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="padding">5</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="padding">5</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkVSeparator" id="vseparator1">
-            <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkVBox" id="vbox2">
-            <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkRadioButton" id="radio_button_utilise_exo">
-                <property name="label" translatable="yes">Use financial years</property>
-                <property name="height_request">25</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">False</property>
-                <property name="active">True</property>
-                <property name="draw_indicator">True</property>
-                <property name="group">radio_button_utilise_dates</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFrame" id="frame_exer">
-                <property name="width_request">240</property>
-                <property name="height_request">410</property>
-                <property name="visible">True</property>
-                <property name="label_xalign">0</property>
-                <child>
-                  <object class="GtkVBox" id="vbox_utilisation_exo">
-                    <property name="visible">True</property>
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkRadioButton" id="bouton_exo_tous">
-                        <property name="label" translatable="yes">All financial years</property>
-                        <property name="height_request">0</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="bouton_exo_courant">
-                        <property name="label" translatable="yes">Current financial year</property>
-                        <property name="height_request">0</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">bouton_exo_tous</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="bouton_exo_precedent">
-                        <property name="label" translatable="yes">Former financial year</property>
-                        <property name="height_request">0</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">bouton_exo_tous</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkRadioButton" id="bouton_detaille_exo_etat">
-                        <property name="label" translatable="yes">Detail financial years</property>
-                        <property name="height_request">25</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="draw_indicator">True</property>
-                        <property name="group">bouton_exo_tous</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkScrolledWindow" id="sw_exer">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">automatic</property>
-                        <property name="vscrollbar_policy">automatic</property>
-                        <property name="shadow_type">in</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="padding">5</property>
-                        <property name="position">4</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-                <child type="label_item">
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="padding">5</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="padding">5</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="padding">10</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkVBox" id="onglet_etat_comptes">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkCheckButton" id="bouton_detaille_comptes_etat">
-        <property name="label" translatable="yes">Select transactions only for given accounts</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="padding">5</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkVBox" id="vbox_generale_comptes_etat">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="label3">
-            <property name="visible">True</property>
-            <property name="xalign">0.05000000074505806</property>
-            <property name="label" translatable="yes">Select the accounts included in the report: </property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Transactions with an amount of</property>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -431,199 +203,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox2">
-            <property name="visible">True</property>
-            <property name="spacing">5</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkScrolledWindow" id="sw_comptes">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">automatic</property>
-                <property name="vscrollbar_policy">automatic</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="padding">5</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkVBox" id="vbox4">
-                <property name="visible">True</property>
-                <property name="orientation">vertical</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkToggleButton" id="togglebutton_select_all_comptes">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                    <property name="yalign">0</property>
-                    <property name="draw_indicator">True</property>
-                    <child>
-                      <object class="GtkAlignment" id="alignment5">
-                        <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="xscale">0</property>
-                        <property name="yscale">0</property>
-                        <child>
-                          <object class="GtkVBox" id="vbox15">
-                            <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
-                            <property name="homogeneous">True</property>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_select_all_comptes">
-                                <property name="visible">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="label18">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Select all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_unselect_all_comptes">
-                                <property name="no_show_all">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="label19">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Unselect all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_bank_comptes">
-                    <property name="label" translatable="yes">Select bank accounts</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_cash_comptes">
-                    <property name="label" translatable="yes">Select cash accounts</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_liabilities_comptes">
-                    <property name="label" translatable="yes">Select liabilities accounts</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button_assets_comptes">
-                    <property name="label" translatable="yes">Select assets accounts</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">4</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
+          <placeholder/>
         </child>
-      </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkVBox" id="onglet_etat_virements">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkRadioButton" id="bouton_non_inclusion_virements">
-        <property name="label" translatable="yes">Do not include transfers</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="active">True</property>
-        <property name="draw_indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -632,247 +213,29 @@
       </packing>
     </child>
     <child>
-      <object class="GtkRadioButton" id="bouton_inclusion_virements_actifs_etat">
-        <property name="label" translatable="yes">Include transfers from or to assets or liabilities accounts</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-        <property name="group">bouton_non_inclusion_virements</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">1</property>
-      </packing>
+      <placeholder/>
     </child>
     <child>
-      <object class="GtkRadioButton" id="bouton_inclusion_virements_hors_etat">
-        <property name="label" translatable="yes">Include transfers from or to accounts not in this report</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-        <property name="group">bouton_non_inclusion_virements</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">2</property>
-      </packing>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkVBox" id="liste_texte_etat">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
     </child>
     <child>
-      <object class="GtkRadioButton" id="bouton_inclusion_virements_perso">
-        <property name="label" translatable="yes">Include transfers from or to these accounts</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-        <property name="group">bouton_non_inclusion_virements</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">3</property>
-      </packing>
+      <placeholder/>
     </child>
     <child>
-      <object class="GtkHBox" id="hbox_liste_comptes_virements">
-        <property name="visible">True</property>
-        <property name="spacing">5</property>
-        <property name="homogeneous">True</property>
-        <child>
-          <object class="GtkScrolledWindow" id="sw_virements">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
-            <property name="window_placement_set">True</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="padding">5</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkVBox" id="vbox3">
-            <property name="visible">True</property>
-            <property name="orientation">vertical</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkToggleButton" id="togglebutton_select_all_virements">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-                <property name="yalign">0</property>
-                <property name="draw_indicator">True</property>
-                <child>
-                  <object class="GtkAlignment" id="alignment6">
-                    <property name="visible">True</property>
-                    <property name="xalign">0</property>
-                    <property name="xscale">0</property>
-                    <property name="yscale">0</property>
-                    <child>
-                      <object class="GtkVBox" id="vbox16">
-                        <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkHBox" id="hbox_toggle_select_all_virements">
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkLabel" id="label20">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Select all</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHBox" id="hbox_toggle_unselect_all_virements">
-                            <property name="no_show_all">True</property>
-                            <child>
-                              <object class="GtkLabel" id="label21">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Unselect all</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_bank_virements">
-                <property name="label" translatable="yes">Select bank accounts</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_cash_virements">
-                <property name="label" translatable="yes">Select cash accounts</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_liabilities_virements">
-                <property name="label" translatable="yes">Select liabilities accounts</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="button_assets_virements">
-                <property name="label" translatable="yes">Select assets accounts</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="padding">10</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="padding">10</property>
-        <property name="position">4</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkCheckButton" id="bouton_exclure_non_virements_etat">
-        <property name="label" translatable="yes">Exclude the transactions which are not transfers</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="padding">5</property>
-        <property name="position">5</property>
-      </packing>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkVBox" id="onglet_etat_categories">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkCheckButton" id="button_detail_categ_etat">
@@ -880,6 +243,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
@@ -892,11 +256,12 @@
     <child>
       <object class="GtkVBox" id="vbox_detaille_categ_etat">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="label5">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0.05000000074505806</property>
             <property name="label" translatable="yes">Select categories to include: </property>
           </object>
@@ -909,6 +274,7 @@
         <child>
           <object class="GtkHBox" id="hbox7">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <property name="homogeneous">True</property>
             <child>
@@ -923,19 +289,22 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox7">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_select_all_categ">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="yalign">0</property>
@@ -943,20 +312,23 @@
                     <child>
                       <object class="GtkAlignment" id="alignment3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <property name="yscale">0</property>
                         <child>
                           <object class="GtkVBox" id="vbox8">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
+                            <property name="can_focus">False</property>
                             <property name="homogeneous">True</property>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_select_all_categ">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkLabel" id="label14">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Select all</property>
                                   </object>
@@ -975,10 +347,12 @@
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_unselect_all_categ">
+                                <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label15">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Unselect all</property>
                                   </object>
@@ -1013,6 +387,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                   </object>
@@ -1029,6 +404,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                   </object>
@@ -1044,24 +420,28 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="draw_indicator">True</property>
                     <child>
                       <object class="GtkAlignment" id="alignment1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <child>
                           <object class="GtkVBox" id="vbox9">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
+                            <property name="can_focus">False</property>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_expand_categ">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkArrow" id="arrow1">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="arrow_type">down</property>
                                     <property name="shadow_type">in</property>
@@ -1075,6 +455,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label6">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Expand all</property>
                                   </object>
@@ -1093,10 +474,12 @@
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_collapse_categ">
+                                <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkArrow" id="arrow2">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="arrow_type">up</property>
                                     <property name="shadow_type">in</property>
@@ -1110,6 +493,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label7">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Collapse all</property>
                                   </object>
@@ -1140,24 +524,283 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
   </object>
+  <object class="GtkVBox" id="onglet_etat_comptes">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkCheckButton" id="bouton_detaille_comptes_etat">
+        <property name="label" translatable="yes">Select transactions only for given accounts</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="vbox_generale_comptes_etat">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkLabel" id="label3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0.05000000074505806</property>
+            <property name="label" translatable="yes">Select the accounts included in the report: </property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">5</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkScrolledWindow" id="sw_comptes">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkToggleButton" id="togglebutton_select_all_comptes">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.05000000074505806</property>
+                    <property name="yalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment5">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">0</property>
+                        <property name="xscale">0</property>
+                        <property name="yscale">0</property>
+                        <child>
+                          <object class="GtkVBox" id="vbox15">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="homogeneous">True</property>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_select_all_comptes">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkLabel" id="label18">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Select all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox_toggle_unselect_all_comptes">
+                                <property name="can_focus">False</property>
+                                <property name="no_show_all">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label19">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Unselect all</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_bank_comptes">
+                    <property name="label" translatable="yes">Select bank accounts</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.05000000074505806</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_cash_comptes">
+                    <property name="label" translatable="yes">Select cash accounts</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.05000000074505806</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_liabilities_comptes">
+                    <property name="label" translatable="yes">Select liabilities accounts</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.05000000074505806</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button_assets_comptes">
+                    <property name="label" translatable="yes">Select assets accounts</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.05000000074505806</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkVBox" id="onglet_etat_divers">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
   <object class="GtkVBox" id="onglet_etat_ib">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkCheckButton" id="bouton_detaille_budget_etat">
@@ -1165,6 +808,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
@@ -1177,11 +821,12 @@
     <child>
       <object class="GtkVBox" id="vbox_detaille_budget_etat">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="label8">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0.05000000074505806</property>
             <property name="label" translatable="yes">Select the budgetary lines to include in the report: </property>
             <property name="wrap">True</property>
@@ -1195,6 +840,7 @@
         <child>
           <object class="GtkHBox" id="hbox_detaille_budget_etat">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <property name="homogeneous">True</property>
             <child>
@@ -1209,19 +855,22 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox12">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_select_all_budget">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="yalign">0</property>
@@ -1229,20 +878,23 @@
                     <child>
                       <object class="GtkAlignment" id="alignment4">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <property name="yscale">0</property>
                         <child>
                           <object class="GtkVBox" id="vbox11">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
+                            <property name="can_focus">False</property>
                             <property name="homogeneous">True</property>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_select_all_budget">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkLabel" id="label16">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Select all</property>
                                   </object>
@@ -1261,10 +913,12 @@
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_unselect_all_budget">
+                                <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Unselect all</property>
                                   </object>
@@ -1299,6 +953,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                   </object>
@@ -1315,6 +970,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                   </object>
@@ -1330,24 +986,28 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="draw_indicator">True</property>
                     <child>
                       <object class="GtkAlignment" id="alignment2">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <child>
                           <object class="GtkVBox" id="vbox13">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
+                            <property name="can_focus">False</property>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_expand_budget">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkArrow" id="arrow3">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="arrow_type">down</property>
                                     <property name="shadow_type">in</property>
@@ -1361,6 +1021,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label9">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Expand all</property>
                                   </object>
@@ -1372,15 +1033,19 @@
                                 </child>
                               </object>
                               <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_collapse_budget">
+                                <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkArrow" id="arrow4">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="arrow_type">up</property>
                                     <property name="shadow_type">in</property>
@@ -1394,6 +1059,7 @@
                                 <child>
                                   <object class="GtkLabel" id="label10">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Collapse all</property>
                                   </object>
@@ -1405,6 +1071,8 @@
                                 </child>
                               </object>
                               <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -1422,24 +1090,637 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkVBox" id="onglet_etat_mode_paiement">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkCheckButton" id="bouton_detaille_mode_paiement_etat">
+        <property name="label" translatable="yes">Select transactions only for given accounts</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="vbox_mode_paiement_etat">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkLabel" id="label13">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="xalign">0.05000000074505806</property>
+            <property name="label" translatable="yes">Select methods of payment to include: </property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHBox" id="hbox5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkScrolledWindow" id="sw_mode_paiement">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkVBox" id="vbox14">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="homogeneous">True</property>
+                <child>
+                  <object class="GtkButton" id="button1_mode_paiement">
+                    <property name="label" translatable="yes">Select all</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.019999999552965164</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="button2_mode_paiement">
+                    <property name="label" translatable="yes">Unselect all</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
+                    <property name="relief">none</property>
+                    <property name="xalign">0.029999999329447746</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">10</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkVBox" id="onglet_etat_montant">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkCheckButton" id="bouton_utilise_montant">
+        <property name="label" translatable="yes">Select the transactions by amount</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="vbox_generale_montant_etat">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkScrolledWindow" id="sw_montant">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkCheckButton" id="bouton_exclure_ope_nulles_etat">
+        <property name="label" translatable="yes">Exclude the transactions with a null amount</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkVBox" id="onglet_etat_period">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkHBox" id="hbox1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkVBox" id="vbox1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkRadioButton" id="radio_button_utilise_dates">
+                <property name="label" translatable="yes">Use dates ranges</property>
+                <property name="height_request">25</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame-dates">
+                <property name="width_request">285</property>
+                <property name="height_request">410</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <child>
+                  <object class="GtkVBox" id="vbox_utilisation_date">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkScrolledWindow" id="sw_dates">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="window_placement_set">True</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="padding">5</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHSeparator" id="hseparator1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">5</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label11">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Selection of transactions by:</property>
+                        <property name="track_visited_links">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox_select_dates">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkRadioButton" id="button_sel_date">
+                            <property name="label" translatable="yes">Date</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="active">True</property>
+                            <property name="draw_indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkRadioButton" id="button_sel_value_date">
+                            <property name="label" translatable="yes">Value date</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">False</property>
+                            <property name="use_action_appearance">False</property>
+                            <property name="draw_indicator">True</property>
+                            <property name="group">button_sel_date</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox_date_init">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkLabel" id="label1">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Initial date: </property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkHBox" id="hbox_date_finale">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="spacing">5</property>
+                        <child>
+                          <object class="GtkLabel" id="label2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Final date: </property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">5</property>
+                        <property name="position">5</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child type="label_item">
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVSeparator" id="vseparator1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkRadioButton" id="radio_button_utilise_exo">
+                <property name="label" translatable="yes">Use financial years</property>
+                <property name="height_request">25</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">radio_button_utilise_dates</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frame_exer">
+                <property name="width_request">240</property>
+                <property name="height_request">410</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label_xalign">0</property>
+                <child>
+                  <object class="GtkVBox" id="vbox_utilisation_exo">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkRadioButton" id="bouton_exo_tous">
+                        <property name="label" translatable="yes">All financial years</property>
+                        <property name="height_request">0</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="bouton_exo_courant">
+                        <property name="label" translatable="yes">Current financial year</property>
+                        <property name="height_request">0</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">bouton_exo_tous</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="bouton_exo_precedent">
+                        <property name="label" translatable="yes">Former financial year</property>
+                        <property name="height_request">0</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">bouton_exo_tous</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="bouton_detaille_exo_etat">
+                        <property name="label" translatable="yes">Detail financial years</property>
+                        <property name="height_request">25</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">bouton_exo_tous</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkScrolledWindow" id="sw_exer">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="padding">5</property>
+                        <property name="position">4</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child type="label_item">
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="padding">10</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkVBox" id="onglet_etat_texte">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkCheckButton" id="bouton_utilise_texte">
+        <property name="label" translatable="yes">Select transactions according to content</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="vbox_generale_texte_etat">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkScrolledWindow" id="sw_texte">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
   </object>
   <object class="GtkVBox" id="onglet_etat_tiers">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
       <object class="GtkCheckButton" id="bouton_detaille_tiers_etat">
@@ -1447,6 +1728,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
@@ -1459,11 +1741,12 @@
     <child>
       <object class="GtkVBox" id="vbox_detaille_tiers_etat">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0.05000000074505806</property>
             <property name="label" translatable="yes">Select payees to include in this report: </property>
           </object>
@@ -1476,6 +1759,7 @@
         <child>
           <object class="GtkHBox" id="hbox6">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <property name="homogeneous">True</property>
             <child>
@@ -1490,19 +1774,22 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkVBox" id="vbox5">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">False</property>
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_select_all_tiers">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
                     <property name="yalign">0</property>
@@ -1510,20 +1797,23 @@
                     <child>
                       <object class="GtkAlignment" id="alignment7">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="xscale">0</property>
                         <property name="yscale">0</property>
                         <child>
                           <object class="GtkVBox" id="vbox17">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
+                            <property name="can_focus">False</property>
                             <property name="homogeneous">True</property>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_select_all_tiers">
                                 <property name="visible">True</property>
+                                <property name="can_focus">False</property>
                                 <child>
                                   <object class="GtkLabel" id="label22">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Select all</property>
                                   </object>
@@ -1542,10 +1832,12 @@
                             </child>
                             <child>
                               <object class="GtkHBox" id="hbox_toggle_unselect_all_tiers">
+                                <property name="can_focus">False</property>
                                 <property name="no_show_all">True</property>
                                 <child>
                                   <object class="GtkLabel" id="label23">
                                     <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Unselect all</property>
                                   </object>
@@ -1576,142 +1868,309 @@
                 </child>
               </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
   </object>
-  <object class="GtkVBox" id="onglet_etat_texte">
+  <object class="GtkVBox" id="onglet_etat_virements">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
-      <object class="GtkCheckButton" id="bouton_utilise_texte">
-        <property name="label" translatable="yes">Select transactions according to content</property>
+      <object class="GtkRadioButton" id="bouton_non_inclusion_virements">
+        <property name="label" translatable="yes">Do not include transfers</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="active">True</property>
         <property name="draw_indicator">True</property>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
-        <property name="padding">5</property>
         <property name="position">0</property>
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox_generale_texte_etat">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkScrolledWindow" id="sw_texte">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
-    </child>
-  </object>
-  <object class="GtkVBox" id="onglet_etat_montant">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkCheckButton" id="bouton_utilise_montant">
-        <property name="label" translatable="yes">Select the transactions by amount</property>
+      <object class="GtkRadioButton" id="bouton_inclusion_virements_actifs_etat">
+        <property name="label" translatable="yes">Include transfers from or to assets or liabilities accounts</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
+        <property name="group">bouton_non_inclusion_virements</property>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
-        <property name="padding">5</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkVBox" id="vbox_generale_montant_etat">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkScrolledWindow" id="sw_montant">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="hscrollbar_policy">automatic</property>
-            <property name="vscrollbar_policy">automatic</property>
-            <property name="shadow_type">in</property>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
         <property name="position">1</property>
       </packing>
     </child>
     <child>
-      <object class="GtkCheckButton" id="bouton_exclure_ope_nulles_etat">
-        <property name="label" translatable="yes">Exclude the transactions with a null amount</property>
+      <object class="GtkRadioButton" id="bouton_inclusion_virements_hors_etat">
+        <property name="label" translatable="yes">Include transfers from or to accounts not in this report</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
+        <property name="group">bouton_non_inclusion_virements</property>
       </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
-        <property name="padding">5</property>
         <property name="position">2</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkVBox" id="onglet_etat_divers">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
     <child>
-      <placeholder/>
+      <object class="GtkRadioButton" id="bouton_inclusion_virements_perso">
+        <property name="label" translatable="yes">Include transfers from or to these accounts</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+        <property name="group">bouton_non_inclusion_virements</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="position">3</property>
+      </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkHBox" id="hbox_liste_comptes_virements">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="spacing">5</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkScrolledWindow" id="sw_virements">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <property name="window_placement_set">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkToggleButton" id="togglebutton_select_all_virements">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="relief">none</property>
+                <property name="xalign">0.05000000074505806</property>
+                <property name="yalign">0</property>
+                <property name="draw_indicator">True</property>
+                <child>
+                  <object class="GtkAlignment" id="alignment6">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="xalign">0</property>
+                    <property name="xscale">0</property>
+                    <property name="yscale">0</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox16">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkHBox" id="hbox_toggle_select_all_virements">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="label20">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Select all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="hbox_toggle_unselect_all_virements">
+                            <property name="can_focus">False</property>
+                            <property name="no_show_all">True</property>
+                            <child>
+                              <object class="GtkLabel" id="label21">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Unselect all</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">10</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_bank_virements">
+                <property name="label" translatable="yes">Select bank accounts</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="relief">none</property>
+                <property name="xalign">0.05000000074505806</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">10</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_cash_virements">
+                <property name="label" translatable="yes">Select cash accounts</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="relief">none</property>
+                <property name="xalign">0.05000000074505806</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">10</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_liabilities_virements">
+                <property name="label" translatable="yes">Select liabilities accounts</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="relief">none</property>
+                <property name="xalign">0.05000000074505806</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">10</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_assets_virements">
+                <property name="label" translatable="yes">Select assets accounts</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="relief">none</property>
+                <property name="xalign">0.05000000074505806</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">10</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+        <property name="fill">True</property>
+        <property name="padding">10</property>
+        <property name="position">4</property>
+      </packing>
     </child>
     <child>
-      <placeholder/>
+      <object class="GtkCheckButton" id="bouton_exclure_non_virements_etat">
+        <property name="label" translatable="yes">Exclude the transactions which are not transfers</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="draw_indicator">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">5</property>
+        <property name="position">5</property>
+      </packing>
     </child>
   </object>
   <object class="GtkVBox" id="page_data_grouping">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
       <placeholder/>
@@ -1725,210 +2184,10 @@
   </object>
   <object class="GtkVBox" id="page_data_separation">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <property name="spacing">5</property>
     <child>
       <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="affichage_etat_generalites">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="affichage_etat_operations">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="affichage_etat_devises">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="affichage_etat_divers">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="onglet_etat_mode_paiement">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <object class="GtkCheckButton" id="bouton_detaille_mode_paiement_etat">
-        <property name="label" translatable="yes">Select transactions only for given accounts</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">False</property>
-        <property name="draw_indicator">True</property>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="padding">5</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkVBox" id="vbox_mode_paiement_etat">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">5</property>
-        <child>
-          <object class="GtkLabel" id="label13">
-            <property name="visible">True</property>
-            <property name="xalign">0.05000000074505806</property>
-            <property name="label" translatable="yes">Select methods of payment to include: </property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkHBox" id="hbox5">
-            <property name="visible">True</property>
-            <child>
-              <object class="GtkScrolledWindow" id="sw_mode_paiement">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">automatic</property>
-                <property name="vscrollbar_policy">automatic</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <placeholder/>
-                </child>
-              </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkVBox" id="vbox14">
-                <property name="visible">True</property>
-                <property name="orientation">vertical</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkButton" id="button1_mode_paiement">
-                    <property name="label" translatable="yes">Select all</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.019999999552965164</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="button2_mode_paiement">
-                    <property name="label" translatable="yes">Unselect all</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.029999999329447746</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="liste_montant_etat">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <object class="GtkHBox" id="hbox4">
-        <property name="visible">True</property>
-        <child>
-          <object class="GtkLabel" id="label12">
-            <property name="visible">True</property>
-            <property name="label" translatable="yes">Transactions with an amount of</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <placeholder/>
@@ -1939,13 +2198,14 @@
   </object>
   <object class="GtkVBox" id="vbox_select_transactions_buttons">
     <property name="visible">True</property>
-    <property name="orientation">vertical</property>
+    <property name="can_focus">False</property>
     <child>
       <object class="GtkRadioButton" id="radiobutton_marked_all">
         <property name="label" translatable="yes">All transactions</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="active">True</property>
         <property name="draw_indicator">True</property>
       </object>
@@ -1958,13 +2218,14 @@
     <child>
       <object class="GtkVBox" id="vbox6">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <child>
           <object class="GtkRadioButton" id="radiobutton_marked">
             <property name="label" translatable="yes">Marked transactions</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
+            <property name="use_action_appearance">False</property>
             <property name="draw_indicator">True</property>
             <property name="group">radiobutton_marked_all</property>
           </object>
@@ -1977,6 +2238,7 @@
         <child>
           <object class="GtkAspectFrame" id="aspectframe1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="shadow_type">none</property>
             <property name="xalign">0.070000000298023224</property>
@@ -1984,7 +2246,7 @@
               <object class="GtkVBox" id="vbox_marked_buttons">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <property name="homogeneous">True</property>
                 <child>
@@ -1993,6 +2255,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -2007,6 +2270,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -2021,6 +2285,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
                   </object>
@@ -2053,6 +2318,7 @@
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">False</property>
+        <property name="use_action_appearance">False</property>
         <property name="draw_indicator">True</property>
         <property name="group">radiobutton_marked_all</property>
       </object>
@@ -2061,28 +2327,6 @@
         <property name="fill">False</property>
         <property name="position">2</property>
       </packing>
-    </child>
-  </object>
-  <object class="GtkCheckButton" id="bouton_pas_detailler_ventilation">
-    <property name="label" translatable="yes">Do not detail split of transactions</property>
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">False</property>
-    <property name="active">True</property>
-    <property name="draw_indicator">True</property>
-  </object>
-  <object class="GtkVBox" id="liste_texte_etat">
-    <property name="visible">True</property>
-    <property name="orientation">vertical</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
   </object>
 </interface>

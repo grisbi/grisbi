@@ -89,7 +89,7 @@ static GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *s
 static gboolean gsb_etats_config_fill_liste_categ_budget ( gboolean is_categ );
 static GtkWidget *gsb_etats_config_onglet_etat_categories ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_comptes ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_dates ( void );
+static GtkWidget *gsb_etats_config_onglet_etat_period ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_divers ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_ib ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void );
@@ -284,10 +284,7 @@ void gsb_etats_config_personnalisation_etat ( void )
     GtkWidget *dialog;
     GtkWidget *notebook_general;
     GtkWidget *tree_view;
-    gchar *filename;
     gint current_report_number;
-    gint result;
-    GError *error = NULL;
 
     devel_debug (NULL);
 
@@ -298,27 +295,8 @@ void gsb_etats_config_personnalisation_etat ( void )
         return;
 
     /* Chargement du XML dans etat_config_builder */
-    filename = utils_gtkbuilder_get_full_path ( "gsb_etats_config.ui" );
-    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
-    {
-        gchar* tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                        filename,
-                        _("File does not exist") );
-        dialogue_error ( tmpstr );
-        g_free ( tmpstr );
-        g_free ( filename );
+    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( etat_config_builder, "etats_config.ui" ) )
         return;
-    }
-
-    result = gtk_builder_add_from_file ( etat_config_builder, filename, &error );
-    if ( result == 0 )
-    {
-        g_error ("%s", error->message);
-        g_free ( filename );
-        g_error_free ( error );
-
-        return;
-    }
 
     if ( !( current_report_number = gsb_gui_navigation_get_current_report ( ) ) )
         return;
@@ -330,8 +308,6 @@ void gsb_etats_config_personnalisation_etat ( void )
     /* Recuparation d'un pointeur sur la fenetre. */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "config_etats_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
-
-    g_free ( filename );
 
     /* Recuparation d'un pointeur sur le gtk_tree_view. */
     tree_view = gsb_etats_config_get_report_tree_view ( );
@@ -348,6 +324,8 @@ void gsb_etats_config_personnalisation_etat ( void )
         default:
             break;
     }
+
+    g_object_unref ( G_OBJECT ( etat_config_builder ) );
 
     gtk_widget_destroy ( dialog );
 }
@@ -494,7 +472,7 @@ void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model,
     gsb_etats_config_add_line_ ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
 
     /* append page Dates */
-    widget = gsb_etats_config_onglet_etat_dates ( );
+    widget = gsb_etats_config_onglet_etat_period ( );
     gsb_etats_config_add_line_ ( tree_model, &iter, notebook, widget, _("Dates"), page );
     page++;
 
@@ -627,7 +605,7 @@ void gsb_etats_config_add_line_ ( GtkTreeStore *tree_model,
  *
  *
  */
-GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
+GtkWidget *gsb_etats_config_onglet_etat_period ( void )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -638,7 +616,7 @@ GtkWidget *gsb_etats_config_onglet_etat_dates ( void )
 
     devel_debug (NULL);
 
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_dates" ) );
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_period" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
 
@@ -827,7 +805,7 @@ void gsb_etats_config_dates_interval_sensitive ( gboolean show )
         show = 0;
 
         gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "bouton_en_date_valeur", NULL ), show );
+                        "hbox_select_dates", NULL ), show );
         gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
                         "hbox_date_init", "entree_date_init_etat" ), show );
         gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
@@ -1856,15 +1834,17 @@ GtkWidget *gsb_etats_config_onglet_etat_texte ( void )
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( sw ), lignes );
 
     /* on crée la première ligne de la recherche */
-    gsb_etats_config_onglet_etat_texte_new_line ( lignes );
+/*     gsb_etats_config_onglet_etat_texte_new_line ( lignes );  */
 
     /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "bouton_utilise_texte", NULL ) ),
-                        "toggled",
-                        G_CALLBACK ( sens_desensitive_pointeur ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_texte_etat", NULL ) );
+/*     g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
+ *                         "bouton_utilise_texte", NULL ) ),
+ *                         "toggled",
+ *                         G_CALLBACK ( sens_desensitive_pointeur ),
+ *                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_texte_etat", NULL ) );
+ */
 
+    /* on retourne la vbox */
     return vbox_onglet;
 }
 
@@ -2137,12 +2117,14 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
 
 
     /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "bouton_utilise_montant", NULL ) ),
-                        "toggled",
-                        G_CALLBACK ( sens_desensitive_pointeur ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_montant_etat", NULL ) );
+/*     g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
+ *                         "bouton_utilise_montant", NULL ) ),
+ *                         "toggled",
+ *                         G_CALLBACK ( sens_desensitive_pointeur ),
+ *                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_montant_etat", NULL ) );
+ */
 
+    /* on retourne la vbox */
     return vbox_onglet;
 }
 
