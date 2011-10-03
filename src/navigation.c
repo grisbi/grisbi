@@ -83,8 +83,6 @@ static gboolean gsb_gui_navigation_button_press ( GtkWidget *tree_view,
 static gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev,
                         GtkTreeModel *model );
-static gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
-                        GdkEventScroll *ev );
 static void gsb_gui_navigation_clear_pages_list ( void );
 static void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path );
@@ -280,8 +278,13 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
                         navigation_model );
 
-    g_signal_connect ( navigation_tree_view,
+        g_signal_connect ( navigation_tree_view,
                         "scroll-event",
+                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        NULL );
+
+    if ( conf.active_scrolling_left_pane == 0 )
+        g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
 

@@ -20,6 +20,8 @@ typedef struct
 void gsb_gui_navigation_add_account ( gint account_number,
                         gboolean switch_to_account );
 void gsb_gui_navigation_add_report ( gint report_number );
+gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
+                        GdkEventScroll *ev );
 void gsb_gui_navigation_create_account_list ( GtkTreeModel *model );
 GtkWidget *gsb_gui_navigation_create_navigation_pane ( void );
 void gsb_gui_navigation_free_pages_list ( void );
