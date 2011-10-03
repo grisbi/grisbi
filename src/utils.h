@@ -36,5 +36,7 @@ void update_gui ( void );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path );
 /* END_DECLARATION */
 #endif

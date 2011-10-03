@@ -629,6 +629,31 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
 }
 
 
+/**
+ *  expand all the tree_view and select le path when the widget is realized
+ *
+ *
+ *
+ * */
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path )
+{
+    GtkTreePath *path;
+
+    gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* selection du premier item sélectionnable */
+    path = gtk_tree_path_new_from_string ( str_path );
+
+    gtk_tree_selection_select_path ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
+                        path );
+
+    gtk_tree_path_free (path);
+
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
