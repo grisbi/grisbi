@@ -59,6 +59,7 @@ gint gsb_data_report_get_column_title_show ( gint report_number );
 gint gsb_data_report_get_column_title_type ( gint report_number );
 gint gsb_data_report_get_currency_general ( gint report_number );
 gint gsb_data_report_get_date_type ( gint report_number );
+gint gsb_data_report_get_date_select_value ( gint report_number );
 GSList *gsb_data_report_get_financial_year_list ( gint report_number );
 gint gsb_data_report_get_financial_year_split ( gint report_number );
 gint gsb_data_report_get_financial_year_type ( gint report_number );
@@ -182,6 +183,8 @@ gboolean gsb_data_report_set_currency_general ( gint report_number,
                         gint currency_general );
 gboolean gsb_data_report_set_date_type ( gint report_number,
                         gint date_type );
+gboolean gsb_data_report_set_date_select_value ( gint report_number,
+                        gint date_select_value );
 gboolean gsb_data_report_set_financial_year_list ( gint report_number,
                         GSList *financial_year_list );
 gboolean gsb_data_report_set_financial_year_split ( gint report_number,

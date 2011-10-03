@@ -4415,9 +4415,36 @@ void gsb_file_load_report ( const gchar **attribute_names,
     }
 
     if ( !strcmp ( attribute_names[i],
+               "Show_m" ))
+    {
+        gsb_data_report_set_show_m ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Show_p" ))
+    {
+        gsb_data_report_set_show_p ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
                "Show_r" ))
     {
         gsb_data_report_set_show_r ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Show_t" ))
+    {
+        gsb_data_report_set_show_t ( report_number,
                      utils_str_atoi (attribute_values[i]));
         i++;
         continue;
@@ -4680,6 +4707,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
                "Date_kind" ))
     {
         gsb_data_report_set_date_type ( report_number,
+                        utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Date_select_value" ))
+    {
+        gsb_data_report_set_date_select_value ( report_number,
                         utils_str_atoi (attribute_values[i]));
         i++;
         continue;

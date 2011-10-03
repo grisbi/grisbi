@@ -98,7 +98,7 @@ typedef struct
 
     /** dates */
     gint date_type;                                 /* 0=perso, 1=all ... */
-    gint select_date_value;                         /* 0=date (default), 1=value date */
+    gint date_select_value;                         /* 0=date (default), 1=value date */
     GDate *personal_date_start;
     GDate *personal_date_end;
 
@@ -4079,13 +4079,13 @@ gboolean gsb_data_report_check_categ_budget_in_report ( GSList *list_struct_repo
 
 
 /**
- * get the  select_date_value
+ * get the date_select_value
  *
  * \param report_number the number of the report
  *
- * \return the  select_date_value, -1 if problem
+ * \return the date_select_value, -1 if problem
  * */
-gint gsb_data_report_get_select_date_value ( gint report_number )
+gint gsb_data_report_get_date_select_value ( gint report_number )
 {
     struct_report *report;
 
@@ -4094,19 +4094,19 @@ gint gsb_data_report_get_select_date_value ( gint report_number )
     if ( !report )
         return -1;
 
-    return report -> select_date_value;
+    return report -> date_select_value;
 }
 
 /**
- * set the select_date_value
+ * set the date_select_value
  *
  * \param report_number number of the report
- * \param select_date_value
+ * \param date_select_value
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_select_date_value ( gint report_number,
-                        gint select_date_value )
+gboolean gsb_data_report_set_date_select_value ( gint report_number,
+                        gint date_select_value )
 {
     struct_report *report;
 
@@ -4115,7 +4115,7 @@ gboolean gsb_data_report_set_select_date_value ( gint report_number,
     if ( !report )
         return FALSE;
 
-    report -> show_report_payee = select_date_value;
+    report -> date_select_value = date_select_value;
 
     return TRUE;
 }

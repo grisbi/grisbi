@@ -2426,7 +2426,10 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
 					       "\t\tGeneral_sort_type=\"%s\"\n"
+					       "\t\tShow_m=\"%d\"\n"
+					       "\t\tShow_p=\"%d\"\n"
 					       "\t\tShow_r=\"%d\"\n"
+					       "\t\tShow_t=\"%d\"\n"
 					       "\t\tShow_transaction=\"%d\"\n"
 					       "\t\tShow_transaction_amount=\"%d\"\n"
 					       "\t\tShow_transaction_nb=\"%d\"\n"
@@ -2456,6 +2459,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tFinancial_year_kind=\"%d\"\n"
 					       "\t\tFinancial_year_select=\"%s\"\n"
 					       "\t\tDate_kind=\"%d\"\n"
+					       "\t\tDate_select_value=\"%d\"\n"
 					       "\t\tDate_beginning=\"%s\"\n"
 					       "\t\tDate_end=\"%s\"\n"
 					       "\t\tSplit_by_date=\"%d\"\n"
@@ -2503,7 +2507,10 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_number_to_write,
 	    my_safe_null_str(report_name),
 	    my_safe_null_str(general_sort_type),
+	    gsb_data_report_get_show_m (report_number),
+	    gsb_data_report_get_show_p (report_number),
 	    gsb_data_report_get_show_r (report_number),
+	    gsb_data_report_get_show_t (report_number),
 	    gsb_data_report_get_show_report_transactions (report_number),
 	    gsb_data_report_get_show_report_transaction_amount (report_number),
 	    gsb_data_report_get_show_report_transaction_number (report_number),
@@ -2533,6 +2540,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_financial_year_type (report_number),
 	    my_safe_null_str(financial_year_select),
 	    gsb_data_report_get_date_type (report_number),
+	    gsb_data_report_get_date_select_value (report_number),
 	    my_safe_null_str(date_start),
 	    my_safe_null_str(date_end),
 	    gsb_data_report_get_period_split (report_number),
