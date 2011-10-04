@@ -654,6 +654,46 @@ void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_vi
 }
 
 
+/**
+ * Cette fonction retourne TRUE si tous les items sont sélectionnés
+ *
+ * \param le tree_view considéré
+ *
+ * \return TRUE si tous sélectionnés FALSE autrement.
+ */
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeSelection *selection;
+    GList *rows_list;
+    gint index;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    rows_list = gtk_tree_selection_get_selected_rows ( selection, &model );
+    index = g_list_length ( rows_list );
+
+    if ( gtk_tree_model_get_iter_first ( model, &iter ) )
+    {
+        do
+        {
+            index--;
+            if ( index < 0 )
+                break;
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );    }
+
+    g_list_foreach ( rows_list, ( GFunc ) gtk_tree_path_free, NULL );
+    g_list_free ( rows_list );
+
+    if ( index == 0 )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

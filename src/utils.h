@@ -33,6 +33,7 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
 void update_gui ( void );
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
