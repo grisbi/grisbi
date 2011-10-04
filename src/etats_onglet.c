@@ -76,7 +76,7 @@ static GtkWidget *bouton_dupliquer_etat = NULL;
 GtkWidget *scrolled_window_etat = NULL;          /* contient l'état en cours */
 gint nb_colonnes;
 gint ligne_debut_partie;
-GtkWidget *notebook_etats = NULL;
+static GtkWidget *notebook_etats = NULL;
 GtkWidget *notebook_config_etat = NULL;
 static GtkWidget *reports_toolbar = NULL;
 
@@ -1275,6 +1275,17 @@ void dupliquer_etat ( void )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_onglet_get_notebook_etats ( void )
+{
+    return notebook_etats;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

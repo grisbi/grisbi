@@ -32,6 +32,7 @@
 /*START_INCLUDE*/
 #include "etats_config.h"
 #include "etats_calculs.h"
+#include "etats_onglet.h"
 #include "tiers_onglet.h"
 #include "utils.h"
 #include "dialog.h"
@@ -379,7 +380,6 @@ static GtkTreeIter parent_iter;
 
 /*START_EXTERN*/
 extern GtkWidget *notebook_config_etat;
-extern GtkWidget *notebook_etats;
 /*END_EXTERN*/
 
 
@@ -1913,7 +1913,7 @@ void recuperation_info_perso_etat ( void )
     rafraichissement_etat ( gsb_gui_navigation_get_current_report ());
 
     /* on repasse à la 1ère page du notebook */
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_etats ),
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( etats_onglet_get_notebook_etats ( ) ),
 			    0 );
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), TRUE );
 
