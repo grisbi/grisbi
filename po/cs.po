@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-01 20:55+0200\n"
+"POT-Creation-Date: 2011-10-04 22:27+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -211,115 +211,123 @@ msgstr "Druh účtu"
 msgid "Currency"
 msgstr "Měna"
 
-#: ../src/affichage.c:117 ../src/parametres.c:384
+#: ../src/affichage.c:119 ../src/parametres.c:384
 msgid "Fonts & logo"
 msgstr "Písma a loga"
 
 #. Change Grisbi Logo
-#: ../src/affichage.c:120
+#: ../src/affichage.c:122
 msgid "Grisbi logo"
 msgstr "Logo Grisbi"
 
-#: ../src/affichage.c:125
+#: ../src/affichage.c:127
 msgid "Display a logo"
 msgstr "Zobrazit logo"
 
-#: ../src/affichage.c:173
+#: ../src/affichage.c:175
 msgid "Click on preview to change logo"
 msgstr "Kliknutím na náhled změníte logo"
 
 #. Change fonts
-#: ../src/affichage.c:177 ../src/print_report.c:108 ../src/print_report.c:409
+#: ../src/affichage.c:179 ../src/print_report.c:108 ../src/print_report.c:409
 #: ../src/print_transactions_list.c:262 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Písma"
 
-#: ../src/affichage.c:183
+#: ../src/affichage.c:185
 msgid "Use a custom font for the transactions: "
 msgstr "Použít vlastní písmo pro transakce: "
 
 #. change colors
-#: ../src/affichage.c:208
+#: ../src/affichage.c:210
 msgid "Colors"
 msgstr "Barvy"
 
-#: ../src/affichage.c:222
+#: ../src/affichage.c:224
 msgid "Choosing color"
 msgstr "Výběr barvy"
 
-#: ../src/affichage.c:237
+#: ../src/affichage.c:239
 msgid "Back to default"
 msgstr "Zpět k výchozím"
 
-#: ../src/affichage.c:361 ../src/parametres.c:402
+#: ../src/affichage.c:363 ../src/parametres.c:402
 msgid "Addresses & titles"
 msgstr "Adresy a názvy"
 
 #. Account file title
-#: ../src/affichage.c:365 ../src/etats_config.c:635 ../src/etats_config.c:638
+#: ../src/affichage.c:367 ../src/etats_config.c:635 ../src/etats_config.c:638
 #: ../src/etats_config.c:6998
 msgid "Titles"
 msgstr "Názvy"
 
-#: ../src/affichage.c:375
+#: ../src/affichage.c:377
 msgid "Accounts file title"
 msgstr "Název souboru účtů"
 
-#: ../src/affichage.c:387
+#: ../src/affichage.c:389
 msgid "Account owner name"
 msgstr "Jméno majitele účtu"
 
-#: ../src/affichage.c:399
+#: ../src/affichage.c:401
 msgid "Filename"
 msgstr "Název souboru"
 
 #. label account name
-#: ../src/affichage.c:413 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:415 ../src/gsb_assistant_file.c:286
 msgid "Accounts file title: "
 msgstr "Název souboru účtů: "
 
-#: ../src/affichage.c:426
+#: ../src/affichage.c:428
 msgid "Addresses"
 msgstr "Adresy"
 
 #. Common address
-#: ../src/affichage.c:429
+#: ../src/affichage.c:431
 msgid "Common address: "
 msgstr "Běžná adresa: "
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:448
+#: ../src/affichage.c:450
 msgid "Secondary address: "
 msgstr "Druhá adresa: "
 
-#: ../src/affichage.c:562
+#: ../src/affichage.c:564
 msgid "Select a new logo"
 msgstr "Vyberte nové logo"
 
-#: ../src/affichage.c:700 ../src/parametres.c:420
+#: ../src/affichage.c:704
 msgid "Toolbars"
 msgstr "Panely nástrojů"
 
-#: ../src/affichage.c:703
+#: ../src/affichage.c:707
 msgid "Display toolbar buttons as"
 msgstr "Zobrazit tlačítka panelu nástrojů jako"
 
-#: ../src/affichage.c:705
+#: ../src/affichage.c:709
 msgid "Text"
 msgstr "Text"
 
-#: ../src/affichage.c:714
+#: ../src/affichage.c:718
 msgid "Icons"
 msgstr "Ikony"
 
-#: ../src/affichage.c:723
+#: ../src/affichage.c:727
 msgid "Both"
 msgstr "Obojí"
 
-#: ../src/affichage.c:745
+#: ../src/affichage.c:741
 msgid "Display headings bar"
 msgstr "Zobrazit panel záhlaví"
+
+#: ../src/affichage.c:746
+msgid "Navigation pane"
+msgstr ""
+
+#: ../src/affichage.c:749
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr ""
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -574,7 +582,7 @@ msgstr "Výchozí"
 #: ../src/bet_hist.c:2102 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
+#: ../src/fenetre_principale.c:296 ../src/navigation.c:1960
 msgid "Categories"
 msgstr "Kategorie"
 
@@ -585,7 +593,7 @@ msgstr "Kategorie"
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1961
+#: ../src/navigation.c:1964
 msgid "Budgetary lines"
 msgstr "Rozpočty"
 
@@ -694,7 +702,7 @@ msgid "You must enter at least one value for the capital"
 msgstr "Musíte zadat nejméně jednu hodnotu pro půjčku"
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1216 ../src/navigation.c:1953
+#: ../src/navigation.c:1219 ../src/navigation.c:1956
 msgid "Credits simulator"
 msgstr "Simulace půjčky"
 
@@ -1359,7 +1367,7 @@ msgstr "prognoza.csv"
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1062 ../src/tiers_onglet.c:222
+#: ../src/navigation.c:1065 ../src/tiers_onglet.c:222
 msgid "Account"
 msgstr "Účet"
 
@@ -1457,7 +1465,7 @@ msgstr "Exportovat soubor kategorií Grisbi (.cgsb)"
 msgid "Delete"
 msgstr "Odstranit"
 
-#: ../src/categories_onglet.c:575 ../src/navigation.c:2213
+#: ../src/categories_onglet.c:575 ../src/navigation.c:2216
 msgid "Delete selected category"
 msgstr "Odstranit vybranou kategorii"
 
@@ -1468,7 +1476,7 @@ msgid "Edit"
 msgstr "Upravit"
 
 #: ../src/categories_onglet.c:584 ../src/categories_onglet.c:1077
-#: ../src/navigation.c:2228
+#: ../src/navigation.c:2231
 msgid "Edit selected category"
 msgstr "Upravit vybranou kategorii"
 
@@ -2224,7 +2232,7 @@ msgstr "Převody"
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
 #: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1941
+#: ../src/navigation.c:1944
 msgid "Accounts"
 msgstr "Účty"
 
@@ -2509,7 +2517,7 @@ msgid "Outgoing budget lines"
 msgstr "Výdajové rozpočty"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1949
+#: ../src/etats_config.c:3991 ../src/navigation.c:1952
 #: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
 msgid "Payees"
 msgstr "Plátci/příjemci"
@@ -2990,11 +2998,11 @@ msgid "Cannot open file '%s' for writing"
 msgstr "Nelze otevřít soubor '%s' pro zápis"
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1249 ../src/navigation.c:1965
+#: ../src/navigation.c:1252 ../src/navigation.c:1968
 msgid "Reports"
 msgstr "Sestavy"
 
-#: ../src/etats_onglet.c:148 ../src/navigation.c:2333
+#: ../src/etats_onglet.c:148 ../src/navigation.c:2336
 msgid "New report"
 msgstr "Nová sestava"
 
@@ -3387,7 +3395,7 @@ msgstr "Historická data"
 msgid "Amortization array"
 msgstr "Tabulka amortizace"
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1945
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1948
 #: ../src/parametres.c:348 ../src/parametres.c:1108
 msgid "Scheduler"
 msgstr "Plánovač"
@@ -4807,7 +4815,7 @@ msgstr "Vytvořit nový účet od základu"
 msgid "Import data from online bank services or from accounting software"
 msgstr "Importovat data z online bankovních služeb nebo z účetního software"
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1137
 #: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Moje účty"
@@ -5268,19 +5276,19 @@ msgstr "Opravdu chcete odstranit banku \"%s\"?\n"
 msgid "Cancel"
 msgstr "Storno"
 
-#: ../src/gsb_category.c:215
+#: ../src/gsb_category.c:216
 msgid "Category list"
 msgstr "Seznam kategorií"
 
-#: ../src/gsb_category.c:226
+#: ../src/gsb_category.c:227
 msgid "Display foreign category sets"
 msgstr "Zobrazit soubor cizích kategorií"
 
-#: ../src/gsb_category.c:367
+#: ../src/gsb_category.c:368
 msgid "Cannot open the category file."
 msgstr "Nelze otevřít soubor kategorií."
 
-#: ../src/gsb_category.c:385
+#: ../src/gsb_category.c:386
 msgid "Unnamed category list"
 msgstr "Nepojmenovaný seznam kategorií"
 
@@ -7019,7 +7027,7 @@ msgid "No payee defined"
 msgstr "Není zadán plátce/příjemce"
 
 #: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
-#: ../src/navigation.c:1247
+#: ../src/navigation.c:1250
 msgid "Report"
 msgstr "Sestava"
 
@@ -8521,7 +8529,7 @@ msgstr "Všechny výskyty"
 msgid "Only this one"
 msgstr "Pouze tento"
 
-#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1182
+#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1185
 msgid "Scheduled transactions"
 msgstr "Plánované transakce"
 
@@ -9571,12 +9579,12 @@ msgstr ""
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Exportovat soubor rozpočtů Grisbi (.igsb)"
 
-#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2277
+#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2280
 msgid "Delete selected budgetary line"
 msgstr "Odstranit vybraný rozpočet"
 
 #: ../src/imputation_budgetaire.c:624 ../src/imputation_budgetaire.c:1112
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2295
 msgid "Edit selected budgetary line"
 msgstr "Upravit vybraný rozpočet"
 
@@ -9858,7 +9866,7 @@ msgid "No sub-category"
 msgstr "Žádná podkategorie"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:280 ../src/navigation.c:2205
+#: ../src/meta_categories.c:280 ../src/navigation.c:2208
 msgid "New category"
 msgstr "Nová kategorie"
 
@@ -9881,7 +9889,7 @@ msgid "No sub-payee"
 msgstr "Žádný pod-plátce/příjemce"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:327 ../src/navigation.c:2139 ../src/tiers_onglet.c:318
+#: ../src/meta_payee.c:327 ../src/navigation.c:2142 ../src/tiers_onglet.c:318
 msgid "New payee"
 msgstr "Nový plátce/příjemce"
 
@@ -10016,76 +10024,76 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr "Pozor, nemůžete vytvořit %s."
 
-#: ../src/navigation.c:1027
+#: ../src/navigation.c:1030
 msgid "Last statement: "
 msgstr "Poslední výpis: "
 
-#: ../src/navigation.c:1028 ../src/navigation.c:1040
+#: ../src/navigation.c:1031 ../src/navigation.c:1043
 msgid "Reconciled balance: "
 msgstr "Odsouhlasený zůstatek: "
 
-#: ../src/navigation.c:1039 ../src/navigation.c:1047
+#: ../src/navigation.c:1042 ../src/navigation.c:1050
 msgid "Last statement: none"
 msgstr "Poslední výpis: není"
 
-#: ../src/navigation.c:1068
+#: ../src/navigation.c:1071
 msgid "closed"
 msgstr "uzavřeno"
 
-#: ../src/navigation.c:2110
+#: ../src/navigation.c:2113
 #, fuzzy
 msgid "New account"
 msgstr "_Nový účet"
 
-#: ../src/navigation.c:2124
+#: ../src/navigation.c:2127
 #, fuzzy
 msgid "Remove this account"
 msgstr "_Odstranit aktuální účet"
 
-#: ../src/navigation.c:2147 ../src/tiers_onglet.c:331
+#: ../src/navigation.c:2150 ../src/tiers_onglet.c:331
 msgid "Delete selected payee"
 msgstr "Odstranit vybraného plátce/příjemce"
 
-#: ../src/navigation.c:2162 ../src/tiers_onglet.c:340
+#: ../src/navigation.c:2165 ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr "Upravit vybraného plátce/příjemce"
 
-#: ../src/navigation.c:2183 ../src/tiers_onglet.c:353
+#: ../src/navigation.c:2186 ../src/tiers_onglet.c:353
 msgid "Manage payees"
 msgstr "Spravovat plátce/příjemce"
 
-#: ../src/navigation.c:2191 ../src/tiers_onglet.c:361
+#: ../src/navigation.c:2194 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr "Odstranit nepoužité plátce/příjemce"
 
-#: ../src/navigation.c:2246
+#: ../src/navigation.c:2249
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "Importovat soubor kategorií Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2255
+#: ../src/navigation.c:2258
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "Exportovat soubor kategorií Grisbi (.cgsb)"
 
-#: ../src/navigation.c:2269
+#: ../src/navigation.c:2272
 #, fuzzy
 msgid "New budgetary line"
 msgstr ""
 "Nový\n"
 "rozpočet"
 
-#: ../src/navigation.c:2310
+#: ../src/navigation.c:2313
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Exportovat soubor rozpočtů Grisbi (.igsb)"
 
-#: ../src/navigation.c:2319
+#: ../src/navigation.c:2322
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Exportovat soubor rozpočtů Grisbi (.igsb)"
 
-#: ../src/navigation.c:2345
+#: ../src/navigation.c:2348
 #, fuzzy
 msgid "Remove this report"
 msgstr "Odstranit pravidlo"
@@ -10122,6 +10130,10 @@ msgstr "Zprávy a varování"
 #: ../src/parametres.c:411 ../src/parametres.c:1147
 msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
+
+#: ../src/parametres.c:420
+msgid "Toolbars - Navigation pane"
+msgstr ""
 
 #: ../src/parametres.c:438
 msgid "List behavior"

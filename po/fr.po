@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-01 20:55+0200\n"
-"PO-Revision-Date: 2011-09-29 09:35+0200\n"
+"POT-Creation-Date: 2011-10-04 22:27+0200\n"
+"PO-Revision-Date: 2011-10-04 22:30+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: \n"
@@ -218,115 +218,123 @@ msgstr "Type de compte"
 msgid "Currency"
 msgstr "Devise"
 
-#: ../src/affichage.c:117 ../src/parametres.c:384
+#: ../src/affichage.c:119 ../src/parametres.c:384
 msgid "Fonts & logo"
 msgstr "Polices et logo"
 
 #. Change Grisbi Logo
-#: ../src/affichage.c:120
+#: ../src/affichage.c:122
 msgid "Grisbi logo"
 msgstr "Logo de Grisbi"
 
-#: ../src/affichage.c:125
+#: ../src/affichage.c:127
 msgid "Display a logo"
 msgstr "Afficher un logo"
 
-#: ../src/affichage.c:173
+#: ../src/affichage.c:175
 msgid "Click on preview to change logo"
 msgstr "Cliquer sur la prévisualisation pour modifier le logo"
 
 #. Change fonts
-#: ../src/affichage.c:177 ../src/print_report.c:108 ../src/print_report.c:409
+#: ../src/affichage.c:179 ../src/print_report.c:108 ../src/print_report.c:409
 #: ../src/print_transactions_list.c:262 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "Polices"
 
-#: ../src/affichage.c:183
+#: ../src/affichage.c:185
 msgid "Use a custom font for the transactions: "
 msgstr "Choisir une police pour les opérations : "
 
 #. change colors
-#: ../src/affichage.c:208
+#: ../src/affichage.c:210
 msgid "Colors"
 msgstr "Couleurs"
 
-#: ../src/affichage.c:222
+#: ../src/affichage.c:224
 msgid "Choosing color"
 msgstr "Choisissez une couleur"
 
-#: ../src/affichage.c:237
+#: ../src/affichage.c:239
 msgid "Back to default"
 msgstr "Restaurer les réglages par défaut"
 
-#: ../src/affichage.c:361 ../src/parametres.c:402
+#: ../src/affichage.c:363 ../src/parametres.c:402
 msgid "Addresses & titles"
 msgstr "Adresses et titres"
 
 #. Account file title
-#: ../src/affichage.c:365 ../src/etats_config.c:635 ../src/etats_config.c:638
+#: ../src/affichage.c:367 ../src/etats_config.c:635 ../src/etats_config.c:638
 #: ../src/etats_config.c:6998
 msgid "Titles"
 msgstr "Titres"
 
-#: ../src/affichage.c:375
+#: ../src/affichage.c:377
 msgid "Accounts file title"
 msgstr "Titre du fichier de comptes"
 
-#: ../src/affichage.c:387
+#: ../src/affichage.c:389
 msgid "Account owner name"
 msgstr "Nom du titulaire"
 
-#: ../src/affichage.c:399
+#: ../src/affichage.c:401
 msgid "Filename"
 msgstr "Nom du fichier"
 
 #. label account name
-#: ../src/affichage.c:413 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:415 ../src/gsb_assistant_file.c:286
 msgid "Accounts file title: "
 msgstr "Titre du fichier de comptes : "
 
-#: ../src/affichage.c:426
+#: ../src/affichage.c:428
 msgid "Addresses"
 msgstr "Adresses"
 
 #. Common address
-#: ../src/affichage.c:429
+#: ../src/affichage.c:431
 msgid "Common address: "
 msgstr "Adresse commune : "
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:448
+#: ../src/affichage.c:450
 msgid "Secondary address: "
 msgstr "Adresse secondaire : "
 
-#: ../src/affichage.c:562
+#: ../src/affichage.c:564
 msgid "Select a new logo"
 msgstr "Sélectionner un nouveau logo"
 
-#: ../src/affichage.c:700 ../src/parametres.c:420
+#: ../src/affichage.c:704
 msgid "Toolbars"
 msgstr "Barres d'outils"
 
-#: ../src/affichage.c:703
+#: ../src/affichage.c:707
 msgid "Display toolbar buttons as"
 msgstr "Afficher les boutons de barres d'outils avec"
 
-#: ../src/affichage.c:705
+#: ../src/affichage.c:709
 msgid "Text"
 msgstr "du texte"
 
-#: ../src/affichage.c:714
+#: ../src/affichage.c:718
 msgid "Icons"
 msgstr "Des icônes"
 
-#: ../src/affichage.c:723
+#: ../src/affichage.c:727
 msgid "Both"
 msgstr "Les deux"
 
-#: ../src/affichage.c:745
+#: ../src/affichage.c:741
 msgid "Display headings bar"
 msgstr "Afficher la barre d'informations"
+
+#: ../src/affichage.c:746
+msgid "Navigation pane"
+msgstr "Panneau de navigation"
+
+#: ../src/affichage.c:749
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -581,7 +589,7 @@ msgstr "Par défaut"
 #: ../src/bet_hist.c:2102 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
+#: ../src/fenetre_principale.c:296 ../src/navigation.c:1960
 msgid "Categories"
 msgstr "Catégories"
 
@@ -592,7 +600,7 @@ msgstr "Catégories"
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1961
+#: ../src/navigation.c:1964
 msgid "Budgetary lines"
 msgstr "Imputations budgétaires"
 
@@ -701,7 +709,7 @@ msgid "You must enter at least one value for the capital"
 msgstr "Vous devez entrer au moins une valeur pour le capital"
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1216 ../src/navigation.c:1953
+#: ../src/navigation.c:1219 ../src/navigation.c:1956
 msgid "Credits simulator"
 msgstr "Simulateur de crédits"
 
@@ -1364,7 +1372,7 @@ msgstr "prévisions.csv"
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1062 ../src/tiers_onglet.c:222
+#: ../src/navigation.c:1065 ../src/tiers_onglet.c:222
 msgid "Account"
 msgstr "Compte"
 
@@ -1463,7 +1471,7 @@ msgstr "Exporter une liste de catégories (.cgsb)"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../src/categories_onglet.c:575 ../src/navigation.c:2213
+#: ../src/categories_onglet.c:575 ../src/navigation.c:2216
 msgid "Delete selected category"
 msgstr "Supprimer la catégorie sélectionnée"
 
@@ -1474,7 +1482,7 @@ msgid "Edit"
 msgstr "Éditer"
 
 #: ../src/categories_onglet.c:584 ../src/categories_onglet.c:1077
-#: ../src/navigation.c:2228
+#: ../src/navigation.c:2231
 msgid "Edit selected category"
 msgstr "Editer la catégorie sélectionnée"
 
@@ -2240,7 +2248,7 @@ msgstr "Virements"
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
 #: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1941
+#: ../src/navigation.c:1944
 msgid "Accounts"
 msgstr "Comptes"
 
@@ -2528,7 +2536,7 @@ msgid "Outgoing budget lines"
 msgstr "I.B. de dépenses"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1949
+#: ../src/etats_config.c:3991 ../src/navigation.c:1952
 #: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
 msgid "Payees"
 msgstr "Tiers"
@@ -3012,11 +3020,11 @@ msgid "Cannot open file '%s' for writing"
 msgstr "Impossible d'ouvrir le fichier « %s » en écriture"
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1249 ../src/navigation.c:1965
+#: ../src/navigation.c:1252 ../src/navigation.c:1968
 msgid "Reports"
 msgstr "États"
 
-#: ../src/etats_onglet.c:148 ../src/navigation.c:2333
+#: ../src/etats_onglet.c:148 ../src/navigation.c:2336
 msgid "New report"
 msgstr "Nouvel état"
 
@@ -3409,7 +3417,7 @@ msgstr "Données historiques"
 msgid "Amortization array"
 msgstr "Tableau d'amortissement"
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1945
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1948
 #: ../src/parametres.c:348 ../src/parametres.c:1108
 msgid "Scheduler"
 msgstr "Échéancier"
@@ -4845,7 +4853,7 @@ msgid "Import data from online bank services or from accounting software"
 msgstr ""
 "A partir de données provenant d'un fichier bancaire ou d'un autre logiciel."
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1137
 #: ../src/traitement_variables.c:228
 msgid "My accounts"
 msgstr "Mes comptes"
@@ -5314,19 +5322,19 @@ msgstr "Êtes-vous sûr de vouloir supprimer la banque « %s » ?\n"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../src/gsb_category.c:215
+#: ../src/gsb_category.c:216
 msgid "Category list"
 msgstr "Liste des catégories"
 
-#: ../src/gsb_category.c:226
+#: ../src/gsb_category.c:227
 msgid "Display foreign category sets"
 msgstr "Afficher l'ensemble des catégories"
 
-#: ../src/gsb_category.c:367
+#: ../src/gsb_category.c:368
 msgid "Cannot open the category file."
 msgstr "Impossible d'ouvrir le fichier des catégories."
 
-#: ../src/gsb_category.c:385
+#: ../src/gsb_category.c:386
 msgid "Unnamed category list"
 msgstr "Liste des catégories anonymes"
 
@@ -7077,7 +7085,7 @@ msgid "No payee defined"
 msgstr "Aucun tiers défini"
 
 #: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
-#: ../src/navigation.c:1247
+#: ../src/navigation.c:1250
 msgid "Report"
 msgstr "État"
 
@@ -8608,7 +8616,7 @@ msgstr "Toutes les occurences"
 msgid "Only this one"
 msgstr "Juste celle-ci"
 
-#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1182
+#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1185
 msgid "Scheduled transactions"
 msgstr "Opérations planifiées"
 
@@ -9668,12 +9676,12 @@ msgstr ""
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "Exporter une liste d'imputations budgétaires (.igsb)"
 
-#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2277
+#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2280
 msgid "Delete selected budgetary line"
 msgstr "Supprimer l'imputation sélectionnée"
 
 #: ../src/imputation_budgetaire.c:624 ../src/imputation_budgetaire.c:1112
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2295
 msgid "Edit selected budgetary line"
 msgstr "Éditer l'imputation sélectionnée"
 
@@ -9955,7 +9963,7 @@ msgid "No sub-category"
 msgstr "Pas de sous-catégorie"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:280 ../src/navigation.c:2205
+#: ../src/meta_categories.c:280 ../src/navigation.c:2208
 msgid "New category"
 msgstr "Nouvelle catégorie"
 
@@ -9978,7 +9986,7 @@ msgid "No sub-payee"
 msgstr "Aucun sous-tiers"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:327 ../src/navigation.c:2139 ../src/tiers_onglet.c:318
+#: ../src/meta_payee.c:327 ../src/navigation.c:2142 ../src/tiers_onglet.c:318
 msgid "New payee"
 msgstr "Nouveau tiers"
 
@@ -10114,67 +10122,67 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr "Attention vous ne pouvez pas créer de %s"
 
-#: ../src/navigation.c:1027
+#: ../src/navigation.c:1030
 msgid "Last statement: "
 msgstr "Dernier relevé : "
 
-#: ../src/navigation.c:1028 ../src/navigation.c:1040
+#: ../src/navigation.c:1031 ../src/navigation.c:1043
 msgid "Reconciled balance: "
 msgstr "Solde pointé : "
 
-#: ../src/navigation.c:1039 ../src/navigation.c:1047
+#: ../src/navigation.c:1042 ../src/navigation.c:1050
 msgid "Last statement: none"
 msgstr "Dernier relevé : Aucun"
 
-#: ../src/navigation.c:1068
+#: ../src/navigation.c:1071
 msgid "closed"
 msgstr "fermé"
 
-#: ../src/navigation.c:2110
+#: ../src/navigation.c:2113
 msgid "New account"
 msgstr "Nouveau compte"
 
-#: ../src/navigation.c:2124
+#: ../src/navigation.c:2127
 msgid "Remove this account"
 msgstr "Supprimer ce compte"
 
-#: ../src/navigation.c:2147 ../src/tiers_onglet.c:331
+#: ../src/navigation.c:2150 ../src/tiers_onglet.c:331
 msgid "Delete selected payee"
 msgstr "Supprimer le tiers sélectionné"
 
-#: ../src/navigation.c:2162 ../src/tiers_onglet.c:340
+#: ../src/navigation.c:2165 ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr "Éditer le tiers sélectionné"
 
-#: ../src/navigation.c:2183 ../src/tiers_onglet.c:353
+#: ../src/navigation.c:2186 ../src/tiers_onglet.c:353
 msgid "Manage payees"
 msgstr "Gérer les tiers"
 
-#: ../src/navigation.c:2191 ../src/tiers_onglet.c:361
+#: ../src/navigation.c:2194 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr "Supprimer les tiers inutilisés"
 
-#: ../src/navigation.c:2246
+#: ../src/navigation.c:2249
 msgid "Import a file of categories (.cgsb)"
 msgstr "Importer un fichier de catégories (.csgb)"
 
-#: ../src/navigation.c:2255
+#: ../src/navigation.c:2258
 msgid "Export the list of categories (.cgsb)"
 msgstr "Exporter la liste des catégories (.cgsb)"
 
-#: ../src/navigation.c:2269
+#: ../src/navigation.c:2272
 msgid "New budgetary line"
 msgstr "Nouvelle imputation budgétaire"
 
-#: ../src/navigation.c:2310
+#: ../src/navigation.c:2313
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "Importer un fichier d'imputations budgétaires (.igsb)"
 
-#: ../src/navigation.c:2319
+#: ../src/navigation.c:2322
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "Exporter la liste des imputations budgétaires (.igsb)"
 
-#: ../src/navigation.c:2345
+#: ../src/navigation.c:2348
 msgid "Remove this report"
 msgstr "Supprimer cet état"
 
@@ -10210,6 +10218,10 @@ msgstr "Messages et alertes"
 #: ../src/parametres.c:411 ../src/parametres.c:1147
 msgid "Payees, categories and budgetaries"
 msgstr "Tiers, catégories imputations budgétaires"
+
+#: ../src/parametres.c:420
+msgid "Toolbars - Navigation pane"
+msgstr "Barres d'outils - Panneau de navigation"
 
 #: ../src/parametres.c:438
 msgid "List behavior"

@@ -862,17 +862,18 @@ gchar *gsb_main_get_print_dir_var ( void )
     gchar *path_str = NULL;
 
     path_str = g_strdup_printf ( "Paths\n"
-                        "\tXDG_DATA_HOME                = %s\n"
-                        "\tXDG_CONFIG_HOME              = %s\n\n"
-                        "\tC_GRISBIRC                   = %s\n"
-                        "\tC_PATH_CONFIG                = %s\n"
-                        "\tC_PATH_CONFIG_ACCELS         = %s\n"
-                        "\tC_PATH_DATA_FILES            = %s\n\n"
-                        "\tDATA_PATH                    = %s\n\n"
-                        "\tgsb_dirs_get_locale_dir ( )  = %s\n"
-                        "\tgsb_dirs_get_plugins_dir ( ) = %s\n"
-                        "\tgsb_dirs_get_pixmaps_dir ( ) = %s\n"
-                        "\tgsb_dirs_get_ui_dir ( )      = %s\n\n",
+                        "\tXDG_DATA_HOME                    = %s\n"
+                        "\tXDG_CONFIG_HOME                  = %s\n\n"
+                        "\tC_GRISBIRC                       = %s\n"
+                        "\tC_PATH_CONFIG                    = %s\n"
+                        "\tC_PATH_CONFIG_ACCELS             = %s\n"
+                        "\tC_PATH_DATA_FILES                = %s\n\n"
+                        "\tDATA_PATH                        = %s\n\n"
+                        "\tgsb_dirs_get_categories_dir ( )  = %s\n"
+                        "\tgsb_dirs_get_locale_dir ( )      = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ( )     = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ( )     = %s\n"
+                        "\tgsb_dirs_get_ui_dir ( )          = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
                         C_GRISBIRC ( ),
@@ -880,6 +881,7 @@ gchar *gsb_main_get_print_dir_var ( void )
                         C_PATH_CONFIG_ACCELS ( ),
                         C_PATH_DATA_FILES ( ),
                         DATA_PATH,
+                        gsb_dirs_get_categories_dir ( ),
                         gsb_dirs_get_locale_dir ( ),
                         gsb_dirs_get_plugins_dir ( ),
                         gsb_dirs_get_pixmaps_dir ( ),
