@@ -34,6 +34,7 @@
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
 static gchar *plugins_dir;
+static gchar *categories_dir;
 static gchar *ui_dir;
 static gchar *_C_GRISBIRC;
 static gchar *_C_OLD_GRISBIRC;
@@ -54,6 +55,7 @@ void gsb_dirs_init ( void )
         gchar *res_path;
 
         res_path = gtk_osxapplication_get_resource_path ();
+        categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
         locale_dir = g_strconcat (res_path, "/share/locale", NULL );
         pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );
         plugins_dir = g_strconcat (res_path, "/lib/grisbi", NULL );
@@ -64,6 +66,7 @@ void gsb_dirs_init ( void )
     else
 #endif
     {
+        categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
         locale_dir = g_strdup ( LOCALEDIR );
         pixmaps_dir = g_strdup ( PIXMAPS_DIR );
         plugins_dir = g_strdup ( PLUGINS_DIR );
@@ -125,6 +128,7 @@ void gsb_dirs_init ( void )
 
 void gsb_dirs_shutdown ( void )
 {
+    g_free ( categories_dir );
     g_free ( locale_dir );
     g_free ( pixmaps_dir );
     g_free ( plugins_dir );
@@ -138,6 +142,12 @@ void gsb_dirs_shutdown ( void )
     g_free ( _my_get_XDG_grisbirc_dir );
     g_free ( _my_get_grisbirc_dir );
     g_free ( _my_get_gsb_file_default_dir );
+}
+
+
+const gchar *gsb_dirs_get_categories_dir ( void )
+{
+    return categories_dir;
 }
 
 
