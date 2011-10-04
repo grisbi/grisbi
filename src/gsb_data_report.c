@@ -3376,6 +3376,27 @@ gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
 
 
 /**
+ * free the financial_year_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_financial_year_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+    if ( report -> financial_year_list )
+        g_slist_free ( report -> financial_year_list );
+    report -> financial_year_list = NULL;
+}
+
+
+/**
  * get the  financial_year_list
  *
  * \param report_number the number of the report
@@ -3416,6 +3437,7 @@ gboolean gsb_data_report_set_financial_year_list ( gint report_number,
 
     return TRUE;
 }
+
 
 /**
  * get the  sorting_type
