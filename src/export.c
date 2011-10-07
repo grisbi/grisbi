@@ -202,6 +202,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
  */
 GtkWidget * export_create_resume_page ( GtkWidget * assistant )
 {
+    GtkWidget *sw;
     GtkWidget * view;
     GtkTextBuffer * buffer;
 
@@ -223,7 +224,15 @@ GtkWidget * export_create_resume_page ( GtkWidget * assistant )
 
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
 
-    return view;
+    /* Scroll for view. */
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_widget_set_size_request ( sw, 480, 200 );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( sw ), GTK_SHADOW_ETCHED_IN );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ), GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_container_add ( GTK_CONTAINER ( sw ), view );
+
+    return sw;
 }
 
 
