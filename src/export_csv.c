@@ -51,6 +51,7 @@
 #include "main.h"
 #include "utils_str.h"
 #include "utils_files.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -269,81 +270,88 @@ static void csv_add_record(FILE* file,
  *
  * \return TRUE if ok, FALSE if problem
  * */
-gboolean gsb_csv_export_account ( const gchar *filename, gint account_nb )
+gboolean gsb_csv_export_account ( const gchar *filename, gint account_number )
 {
     FILE *csv_file;
     GSList *pTransactionList;
     GSList *tmp_list;
-	gchar* tmpstr;
 
-    csv_file = gsb_csv_export_open_file (filename);
+    csv_file = gsb_csv_export_open_file ( filename );
 
-    if (!csv_file)
-	return FALSE;
+    if ( !csv_file )
+        return FALSE;
 
-    if (g_csv_with_title_line)
-	gsb_csv_export_title_line (csv_file, TRUE);
+    if ( g_csv_with_title_line )
+        gsb_csv_export_title_line ( csv_file, TRUE );
 
     /* set the initial balance */
-    tmpstr = g_strconcat (_("Initial balance") , " [", 
-						     gsb_data_account_get_name(account_nb),
-						     "]", NULL );
     if ( csv_field_tiers )
         g_free ( csv_field_tiers );
-    /* TODO dOm : is it necessary to duplicate memory with g_strdup_printf since it was already newly allocated memory ? */
-    csv_field_tiers = g_strdup_printf ( "%s", tmpstr );
-    g_free ( tmpstr );
+
+    csv_field_tiers = g_strconcat (_("Initial balance") , " [",
+                        gsb_data_account_get_name ( account_number ),
+                        "]", NULL );
 
     /* set the initial current_balance,
      * as we will write all the non archived transactions,
      * we need to get the initial balance of the account, without the archived transactions */
-    current_balance = gsb_data_account_get_init_balance ( account_nb, -1);
-    tmp_list = gsb_data_archive_store_get_archives_list ();
-    while (tmp_list)
+    current_balance = gsb_data_account_get_init_balance ( account_number, -1);
+
+    tmp_list = gsb_data_archive_store_get_archives_list ( );
+    while ( tmp_list )
     {
-	gint archive_store_number;
+        gint archive_store_number;
 
-	archive_store_number = gsb_data_archive_store_get_number ( tmp_list -> data );
+        archive_store_number = gsb_data_archive_store_get_number ( tmp_list -> data );
 
-	if (gsb_data_archive_store_get_account_number (archive_store_number) == account_nb)
-	    current_balance = gsb_real_add ( current_balance,
-					     gsb_data_archive_store_get_balance (archive_store_number));
-	tmp_list = tmp_list -> next;
+        if ( gsb_data_archive_store_get_account_number ( archive_store_number ) == account_number )
+            current_balance = gsb_real_add ( current_balance,
+                                gsb_data_archive_store_get_balance ( archive_store_number ) );
+
+        tmp_list = tmp_list -> next;
     }
 
     /* ok the balance is now good, can write it */
-    CSV_CLEAR_FIELD (csv_field_solde);
-    csv_field_solde = gsb_real_get_string (current_balance);
+    CSV_CLEAR_FIELD ( csv_field_solde );
+    csv_field_solde = utils_real_get_string ( current_balance );
     if ( current_balance.mantissa >= 0 )
     {
-	CSV_CLEAR_FIELD (csv_field_credit);
-	csv_field_credit = gsb_real_get_string (current_balance);
+        CSV_CLEAR_FIELD ( csv_field_credit );
+        csv_field_credit = utils_real_get_string ( current_balance );
     }
     else
     {
-	CSV_CLEAR_FIELD (csv_field_debit);
-	csv_field_debit = gsb_real_get_string (gsb_real_abs (current_balance));
+        CSV_CLEAR_FIELD ( csv_field_debit );
+        csv_field_debit = utils_real_get_string ( gsb_real_abs ( current_balance ) );
     }
 
-    csv_add_record(csv_file,TRUE, TRUE);
+    csv_add_record ( csv_file, TRUE, TRUE );
 
     /* export the transactions */
-    pTransactionList = gsb_data_transaction_get_transactions_list ();
-    pTransactionList = g_slist_sort ( pTransactionList,
+    pTransactionList = gsb_data_transaction_get_transactions_list ( );
+    tmp_list = g_slist_sort ( g_slist_copy ( pTransactionList ),
                         (GCompareFunc) gsb_csv_export_sort_by_value_date_or_date );
-    while ( pTransactionList )
+
+    while ( tmp_list )
     {
-	gint pTransaction = gsb_data_transaction_get_transaction_number (pTransactionList -> data);
+        gint pTransaction;
 
-	if ( gsb_data_transaction_get_account_number ( pTransaction ) == account_nb )
-	    /* export the transaction */
-	    /* for now, print the balance. is this usefull ? */
-	    gsb_csv_export_transaction ( pTransaction, csv_file, TRUE);
+        pTransaction = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
 
-	pTransactionList = pTransactionList -> next;
+        if ( gsb_data_transaction_get_account_number ( pTransaction ) == account_number )
+        {
+            /* export the transaction */
+            /* for now, print the balance. is this usefull ? */
+            gsb_csv_export_transaction ( pTransaction, csv_file, TRUE);
+        }
+
+        tmp_list = tmp_list -> next;
     }
-    fclose ( csv_file );
 
+    fclose ( csv_file );
+    g_slist_free ( tmp_list );
+
+    /* return */
     return TRUE;
 }
 
@@ -972,7 +980,6 @@ gint gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1,
     gint transaction_number_2;
     const GDate *value_date_1;
     const GDate *value_date_2;
-
 
     transaction_number_1 = gsb_data_transaction_get_transaction_number (
                         transaction_pointer_1 );
