@@ -8421,7 +8421,7 @@ msgstr "Rapprochement sélectionné"
 #. set the delete button
 #: ../src/gsb_reconcile_config.c:242
 msgid "Delete the reconcile"
-msgstr "Supprimer le raprochement"
+msgstr "Supprimer le rapprochement"
 
 #: ../src/gsb_reconcile_config.c:284
 msgid "Find all marked transactions not associated with a reconcile number"
