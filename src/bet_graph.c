@@ -377,6 +377,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     GtkWidget *label;
     GtkWidget *notebook;
     GtkWidget *box_pie;
+    GtkWidget *button_grid;
     gchar *title;
     gint result;
     gint account_number;
@@ -407,6 +408,9 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), title );
     g_free ( title );
+
+    /* cache le bouton show_grid inutile ici */
+    button_grid = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_show_grid" ) );
 
     /* initialise les pages pour les graphiques ligne et barre */
     notebook = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "notebook" ) );
@@ -468,6 +472,7 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
         return;
 
     gtk_widget_show_all ( dialog );
+    gtk_widget_hide ( button_grid );
 
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
