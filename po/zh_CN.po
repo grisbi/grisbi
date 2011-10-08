@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-01 20:55+0200\n"
+"POT-Creation-Date: 2011-10-04 22:27+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -220,130 +220,138 @@ msgstr "账户名称"
 msgid "Currency"
 msgstr "货币"
 
-#: ../src/affichage.c:117 ../src/parametres.c:384
+#: ../src/affichage.c:119 ../src/parametres.c:384
 msgid "Fonts & logo"
 msgstr "字体和标志"
 
 #. Change Grisbi Logo
-#: ../src/affichage.c:120
+#: ../src/affichage.c:122
 msgid "Grisbi logo"
 msgstr "Grisbi标志"
 
-#: ../src/affichage.c:125
+#: ../src/affichage.c:127
 #, fuzzy
 msgid "Display a logo"
 msgstr "显示模式"
 
-#: ../src/affichage.c:173
+#: ../src/affichage.c:175
 #, fuzzy
 msgid "Click on preview to change logo"
 msgstr "点击预览图更换首页标志"
 
 #. Change fonts
-#: ../src/affichage.c:177 ../src/print_report.c:108 ../src/print_report.c:409
+#: ../src/affichage.c:179 ../src/print_report.c:108 ../src/print_report.c:409
 #: ../src/print_transactions_list.c:262 ../src/print_tree_view_list.c:1014
 msgid "Fonts"
 msgstr "字体"
 
-#: ../src/affichage.c:183
+#: ../src/affichage.c:185
 #, fuzzy
 msgid "Use a custom font for the transactions: "
 msgstr "本交易使用自定义的字体"
 
 #. change colors
-#: ../src/affichage.c:208
+#: ../src/affichage.c:210
 #, fuzzy
 msgid "Colors"
 msgstr "Comoros"
 
-#: ../src/affichage.c:222
+#: ../src/affichage.c:224
 msgid "Choosing color"
 msgstr ""
 
-#: ../src/affichage.c:237
+#: ../src/affichage.c:239
 #, fuzzy
 msgid "Back to default"
 msgstr "恢复默认值"
 
-#: ../src/affichage.c:361 ../src/parametres.c:402
+#: ../src/affichage.c:363 ../src/parametres.c:402
 msgid "Addresses & titles"
 msgstr "地址和名称抬头"
 
 #. Account file title
-#: ../src/affichage.c:365 ../src/etats_config.c:635 ../src/etats_config.c:638
+#: ../src/affichage.c:367 ../src/etats_config.c:635 ../src/etats_config.c:638
 #: ../src/etats_config.c:6998
 msgid "Titles"
 msgstr "名称抬头"
 
-#: ../src/affichage.c:375
+#: ../src/affichage.c:377
 msgid "Accounts file title"
 msgstr "账户文件标题"
 
-#: ../src/affichage.c:387
+#: ../src/affichage.c:389
 #, fuzzy
 msgid "Account owner name"
 msgstr "账户名称"
 
-#: ../src/affichage.c:399
+#: ../src/affichage.c:401
 #, fuzzy
 msgid "Filename"
 msgstr "文件"
 
 #. label account name
-#: ../src/affichage.c:413 ../src/gsb_assistant_file.c:286
+#: ../src/affichage.c:415 ../src/gsb_assistant_file.c:286
 #, fuzzy
 msgid "Accounts file title: "
 msgstr "账户文件标题:"
 
-#: ../src/affichage.c:426
+#: ../src/affichage.c:428
 msgid "Addresses"
 msgstr "地址"
 
 #. Common address
-#: ../src/affichage.c:429
+#: ../src/affichage.c:431
 #, fuzzy
 msgid "Common address: "
 msgstr "地址:"
 
 #. Secondary address
 #. * \note This is not implemented yet
-#: ../src/affichage.c:448
+#: ../src/affichage.c:450
 #, fuzzy
 msgid "Secondary address: "
 msgstr "备用地址:"
 
-#: ../src/affichage.c:562
+#: ../src/affichage.c:564
 msgid "Select a new logo"
 msgstr "选择一个新标志图"
 
-#: ../src/affichage.c:700 ../src/parametres.c:420
+#: ../src/affichage.c:704
 msgid "Toolbars"
 msgstr ""
 
-#: ../src/affichage.c:703
+#: ../src/affichage.c:707
 #, fuzzy
 msgid "Display toolbar buttons as"
 msgstr "显示交易"
 
-#: ../src/affichage.c:705
+#: ../src/affichage.c:709
 #, fuzzy
 msgid "Text"
 msgstr "文本"
 
-#: ../src/affichage.c:714
+#: ../src/affichage.c:718
 #, fuzzy
 msgid "Icons"
 msgstr "收入"
 
-#: ../src/affichage.c:723
+#: ../src/affichage.c:727
 #, fuzzy
 msgid "Both"
 msgstr "总计"
 
-#: ../src/affichage.c:745
+#: ../src/affichage.c:741
 #, fuzzy
 msgid "Display headings bar"
 msgstr "显示关于...的信息"
+
+#: ../src/affichage.c:746
+msgid "Navigation pane"
+msgstr ""
+
+#: ../src/affichage.c:749
+msgid "Add mouse scrolling support on the navigation pane"
+msgstr ""
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -624,7 +632,7 @@ msgstr "恢复默认值"
 #: ../src/bet_hist.c:2102 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1957
+#: ../src/fenetre_principale.c:296 ../src/navigation.c:1960
 msgid "Categories"
 msgstr "类别"
 
@@ -635,7 +643,7 @@ msgstr "类别"
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
 #: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1961
+#: ../src/navigation.c:1964
 msgid "Budgetary lines"
 msgstr "预算行"
 
@@ -753,7 +761,7 @@ msgid "You must enter at least one value for the capital"
 msgstr ""
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
-#: ../src/navigation.c:1216 ../src/navigation.c:1953
+#: ../src/navigation.c:1219 ../src/navigation.c:1956
 #, fuzzy
 msgid "Credits simulator"
 msgstr "信用卡"
@@ -1457,7 +1465,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
-#: ../src/navigation.c:1062 ../src/tiers_onglet.c:222
+#: ../src/navigation.c:1065 ../src/tiers_onglet.c:222
 msgid "Account"
 msgstr "账户"
 
@@ -1557,7 +1565,7 @@ msgstr "导出类别"
 msgid "Delete"
 msgstr "选择"
 
-#: ../src/categories_onglet.c:575 ../src/navigation.c:2213
+#: ../src/categories_onglet.c:575 ../src/navigation.c:2216
 #, fuzzy
 msgid "Delete selected category"
 msgstr "请输入一个类别"
@@ -1569,7 +1577,7 @@ msgid "Edit"
 msgstr "编辑"
 
 #: ../src/categories_onglet.c:584 ../src/categories_onglet.c:1077
-#: ../src/navigation.c:2228
+#: ../src/navigation.c:2231
 #, fuzzy
 msgid "Edit selected category"
 msgstr "类别"
@@ -2324,7 +2332,7 @@ msgstr "转帐"
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
 #: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1941
+#: ../src/navigation.c:1944
 msgid "Accounts"
 msgstr "账户"
 
@@ -2626,7 +2634,7 @@ msgid "Outgoing budget lines"
 msgstr "支出预算行"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1949
+#: ../src/etats_config.c:3991 ../src/navigation.c:1952
 #: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
 #, fuzzy
 msgid "Payees"
@@ -3148,11 +3156,11 @@ msgid "Cannot open file '%s' for writing"
 msgstr "不能打开并写入文件 '%s' "
 
 #: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
-#: ../src/navigation.c:1249 ../src/navigation.c:1965
+#: ../src/navigation.c:1252 ../src/navigation.c:1968
 msgid "Reports"
 msgstr "报表"
 
-#: ../src/etats_onglet.c:148 ../src/navigation.c:2333
+#: ../src/etats_onglet.c:148 ../src/navigation.c:2336
 msgid "New report"
 msgstr "新建报表"
 
@@ -3549,7 +3557,7 @@ msgstr "初始日期"
 msgid "Amortization array"
 msgstr ""
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1945
+#: ../src/fenetre_principale.c:281 ../src/navigation.c:1948
 #: ../src/parametres.c:348 ../src/parametres.c:1108
 msgid "Scheduler"
 msgstr "日程"
@@ -4898,7 +4906,7 @@ msgstr "新增账户"
 msgid "Import data from online bank services or from accounting software"
 msgstr ""
 
-#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1134
+#: ../src/gsb_assistant_file.c:582 ../src/navigation.c:1137
 #: ../src/traitement_variables.c:228
 #, fuzzy
 msgid "My accounts"
@@ -5322,22 +5330,22 @@ msgstr "您确定要删除银行 \"%s\"吗？\n"
 msgid "Cancel"
 msgstr "取消"
 
-#: ../src/gsb_category.c:215
+#: ../src/gsb_category.c:216
 #, fuzzy
 msgid "Category list"
 msgstr "类别清单"
 
-#: ../src/gsb_category.c:226
+#: ../src/gsb_category.c:227
 #, fuzzy
 msgid "Display foreign category sets"
 msgstr "显示子类别"
 
-#: ../src/gsb_category.c:367
+#: ../src/gsb_category.c:368
 #, fuzzy
 msgid "Cannot open the category file."
 msgstr "不能导入文件"
 
-#: ../src/gsb_category.c:385
+#: ../src/gsb_category.c:386
 #, fuzzy
 msgid "Unnamed category list"
 msgstr "导入类别清单"
@@ -7126,7 +7134,7 @@ msgid "No payee defined"
 msgstr "没有定义第三方"
 
 #: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3018 ../src/gsb_form.c:3019
-#: ../src/navigation.c:1247
+#: ../src/navigation.c:1250
 msgid "Report"
 msgstr "报表"
 
@@ -8579,7 +8587,7 @@ msgstr "所有的事件"
 msgid "Only this one"
 msgstr "只有这个"
 
-#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1182
+#: ../src/gsb_scheduler_list.c:2126 ../src/navigation.c:1185
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "已结清预定交易"
@@ -9633,13 +9641,13 @@ msgstr "该文件不是Grisbi预算行文件"
 msgid "Export a Grisbi budgetary line file (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2277
+#: ../src/imputation_budgetaire.c:614 ../src/navigation.c:2280
 #, fuzzy
 msgid "Delete selected budgetary line"
 msgstr "删除预算行"
 
 #: ../src/imputation_budgetaire.c:624 ../src/imputation_budgetaire.c:1112
-#: ../src/navigation.c:2292
+#: ../src/navigation.c:2295
 #, fuzzy
 msgid "Edit selected budgetary line"
 msgstr "删除预算行"
@@ -9971,7 +9979,7 @@ msgid "No sub-category"
 msgstr "没有子类"
 
 #. * Find a unique name for category
-#: ../src/meta_categories.c:280 ../src/navigation.c:2205
+#: ../src/meta_categories.c:280 ../src/navigation.c:2208
 msgid "New category"
 msgstr "新增类别"
 
@@ -9996,7 +10004,7 @@ msgid "No sub-payee"
 msgstr "没有子类"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:327 ../src/navigation.c:2139 ../src/tiers_onglet.c:318
+#: ../src/meta_payee.c:327 ../src/navigation.c:2142 ../src/tiers_onglet.c:318
 #, fuzzy
 msgid "New payee"
 msgstr "新支付方式"
@@ -10122,79 +10130,79 @@ msgstr ""
 msgid "Warning you can not create %s."
 msgstr ""
 
-#: ../src/navigation.c:1027
+#: ../src/navigation.c:1030
 #, fuzzy
 msgid "Last statement: "
 msgstr "最后声明"
 
-#: ../src/navigation.c:1028 ../src/navigation.c:1040
+#: ../src/navigation.c:1031 ../src/navigation.c:1043
 #, fuzzy
 msgid "Reconciled balance: "
 msgstr "余额调整"
 
-#: ../src/navigation.c:1039 ../src/navigation.c:1047
+#: ../src/navigation.c:1042 ../src/navigation.c:1050
 msgid "Last statement: none"
 msgstr "最后声明：无"
 
-#: ../src/navigation.c:1068
+#: ../src/navigation.c:1071
 #, fuzzy
 msgid "closed"
 msgstr "关闭"
 
-#: ../src/navigation.c:2110
+#: ../src/navigation.c:2113
 #, fuzzy
 msgid "New account"
 msgstr "新账户"
 
-#: ../src/navigation.c:2124
+#: ../src/navigation.c:2127
 #, fuzzy
 msgid "Remove this account"
 msgstr "删除账户"
 
-#: ../src/navigation.c:2147 ../src/tiers_onglet.c:331
+#: ../src/navigation.c:2150 ../src/tiers_onglet.c:331
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "删除第三方"
 
-#: ../src/navigation.c:2162 ../src/tiers_onglet.c:340
+#: ../src/navigation.c:2165 ../src/tiers_onglet.c:340
 msgid "Edit selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2183 ../src/tiers_onglet.c:353
+#: ../src/navigation.c:2186 ../src/tiers_onglet.c:353
 #, fuzzy
 msgid "Manage payees"
 msgstr "首页"
 
-#: ../src/navigation.c:2191 ../src/tiers_onglet.c:361
+#: ../src/navigation.c:2194 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
 msgstr ""
 
-#: ../src/navigation.c:2246
+#: ../src/navigation.c:2249
 #, fuzzy
 msgid "Import a file of categories (.cgsb)"
 msgstr "导入类别清单"
 
-#: ../src/navigation.c:2255
+#: ../src/navigation.c:2258
 #, fuzzy
 msgid "Export the list of categories (.cgsb)"
 msgstr "导出类别"
 
-#: ../src/navigation.c:2269
+#: ../src/navigation.c:2272
 #, fuzzy
 msgid "New budgetary line"
 msgstr "新的预算行"
 
-#: ../src/navigation.c:2310
+#: ../src/navigation.c:2313
 #, fuzzy
 msgid "Import a file of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2319
+#: ../src/navigation.c:2322
 #, fuzzy
 msgid "Export the list of budgetary lines (.igsb)"
 msgstr "该文件不是Grisbi预算行文件"
 
-#: ../src/navigation.c:2345
+#: ../src/navigation.c:2348
 #, fuzzy
 msgid "Remove this report"
 msgstr "删除报表"
@@ -10235,6 +10243,10 @@ msgstr "消息和警告"
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "请输入一个预算行！"
+
+#: ../src/parametres.c:420
+msgid "Toolbars - Navigation pane"
+msgstr ""
 
 #: ../src/parametres.c:438
 msgid "List behavior"

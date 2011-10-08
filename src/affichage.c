@@ -63,6 +63,8 @@ static gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *en
 static void change_logo_accueil ( GtkWidget * file_selector );
 static gboolean change_toolbar_display_mode ( GtkRadioButton *button );
 static gboolean modification_logo_accueil ( );
+static gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
+                        gpointer null );
 static gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
                         gpointer null );
 static gboolean preferences_view_color_changed ( GtkWidget *color_button,
@@ -696,6 +698,8 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 GtkWidget *tab_display_toolbar ( void )
 {
     GtkWidget * vbox_pref, * paddingbox, * radio, * radiogroup;
+    GtkWidget *vbox;
+    GtkWidget *button;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
 
@@ -733,19 +737,20 @@ GtkWidget *tab_display_toolbar ( void )
     if ( !gsb_data_account_get_accounts_amount () )
 	gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
-    /** TODO: really add option to hide toolbar?  This could save
-     * space, but if so, we should add all equivalents to menus.  */
-/*     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),  */
-/* 			 gsb_automem_checkbutton_new ( _("Display toolbar"), */
-/* 						   &(etat.show_toolbar), */
-/* 						   NULL ), */
-/* 			 FALSE, FALSE, 0 ); */
-
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
 			 gsb_automem_checkbutton_new ( _("Display headings bar"),
 						       &(etat.show_headings_bar),
 						       G_CALLBACK (preferences_switch_headings_bar), NULL ),
 			 FALSE, FALSE, 0 );
+
+    vbox = new_vbox_with_title_and_icon ( _("Navigation pane"), "organization.png" );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
+
+    button = gsb_automem_checkbutton_new (_("Add mouse scrolling support on the navigation pane"),
+                        &conf.active_scrolling_left_pane,
+                        G_CALLBACK ( preferences_active_mouse_scrolling_left_pane ),
+                        NULL);
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
     return ( vbox_pref );
 
@@ -769,6 +774,29 @@ gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
 }
 
 
+/**
+ * called when switch the active mouse scrolling option
+ * to set unset the scrolling
+ *
+ * \param toggle button
+ * \param null
+ *
+ * \return FALSE
+ * */
+gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
+                        gpointer null )
+{
+    if ( conf.active_scrolling_left_pane )
+        g_signal_handlers_unblock_by_func ( gsb_gui_navigation_get_tree_view ( ),
+                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        NULL );
+    else
+        g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
+                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        NULL );
+
+    return FALSE;
+}
 
 /**
  * called when the color combobox changed,

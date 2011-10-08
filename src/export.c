@@ -38,6 +38,7 @@
 #include "utils.h"
 #include "qif.h"
 #include "structures.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -47,6 +48,8 @@ static gboolean export_account_change_format ( GtkWidget * combo,
 					struct exported_account * account );
 static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
 			      GtkTreeModel * model );
+static void export_account_all_toggled ( GtkToggleButton *button,
+                        GtkTreeView *tree_view );
 static GtkWidget * export_create_final_page ( GtkWidget * assistant );
 static GtkWidget * export_create_resume_page ( GtkWidget * assistant );
 static GtkWidget * export_create_selection_page ( GtkWidget * assistant );
@@ -61,7 +64,6 @@ extern gchar *titre_fichier;
 
 static GSList *selected_accounts = NULL;
 static GSList *exported_accounts = NULL;
-
 
 
 /**
@@ -126,6 +128,7 @@ void export_accounts ( void )
 GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * view, * vbox, * padding_box, * sw;
+    GtkWidget *button_select;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkListStore * model;
@@ -191,6 +194,13 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 	tmp_list = tmp_list -> next;
     }
 
+    button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
+    g_object_set_data ( G_OBJECT ( button_select ), "tree_view", view );
+    g_signal_connect ( G_OBJECT ( button_select ),
+                        "toggled",
+                        G_CALLBACK ( export_account_all_toggled ),
+                        view );
+
     return vbox;
 }
 
@@ -202,6 +212,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
  */
 GtkWidget * export_create_resume_page ( GtkWidget * assistant )
 {
+    GtkWidget *sw;
     GtkWidget * view;
     GtkTextBuffer * buffer;
 
@@ -223,7 +234,15 @@ GtkWidget * export_create_resume_page ( GtkWidget * assistant )
 
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", buffer );
 
-    return view;
+    /* Scroll for view. */
+    sw = gtk_scrolled_window_new ( NULL, NULL );
+    gtk_widget_set_size_request ( sw, 480, 200 );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( sw ), GTK_SHADOW_ETCHED_IN );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( sw ), GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_container_add ( GTK_CONTAINER ( sw ), view );
+
+    return sw;
 }
 
 
@@ -273,6 +292,7 @@ GtkWidget * export_create_final_page ( GtkWidget * assistant )
  */
 gboolean export_enter_resume_page ( GtkWidget * assistant )
 {
+    GtkWidget *button_select;
     GtkTextBuffer * buffer;
     GtkTextIter iter;
     GSList * list;
@@ -281,6 +301,9 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
     buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
     gtk_text_buffer_set_text (buffer, "\n", -1 );
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
+
+    button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
+    gtk_widget_hide ( button_select );
 
     if ( selected_accounts && g_slist_length ( selected_accounts ) )
     {
@@ -296,8 +319,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 				-1 );
 	gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
-	while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) >
-		3 )
+	while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), "notebook" ) ) > 3 )
 	{
 	    gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), -1 );
 	}
@@ -485,18 +507,72 @@ void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
  */
 void export_resume_maybe_sensitive_next ( GtkWidget * assistant )
 {
+    GtkWidget *button_select;
+
+    button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
+    gtk_widget_show ( button_select );
+
     if ( selected_accounts && g_slist_length ( selected_accounts ) )
     {
-	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ),
-				   TRUE );
+        gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), TRUE );
     }
     else
     {
-	gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ),
-				   FALSE );
+        gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), FALSE );
     }
 }
 
+
+void export_account_all_toggled ( GtkToggleButton *button,
+                        GtkTreeView *tree_view )
+{
+    GtkWidget *assistant;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint toggle_value;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    assistant = g_object_get_data ( G_OBJECT ( model ), "assistant" );
+    toggle_value = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) );
+    if ( toggle_value )
+    {
+      gtk_button_set_label ( GTK_BUTTON ( button ), _("Unselect all") );
+      gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), TRUE );
+    }
+    else
+    {
+      gtk_button_set_label ( GTK_BUTTON ( button ), _("Select all") );
+      gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT (assistant), "button_next" ), FALSE );
+    }
+
+    /* get first iter */
+    gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter );
+    do
+    {
+        gboolean toggle_item;
+        gint account_toggled;
+
+        gtk_tree_model_get (GTK_TREE_MODEL(model), &iter,
+                0, &toggle_item,
+                2, &account_toggled,
+                -1);
+
+        if ( toggle_value && !toggle_item )
+        {
+            selected_accounts = g_slist_append ( selected_accounts, GINT_TO_POINTER ( account_toggled ) );
+            gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 0, !toggle_item, -1);
+        }
+        else if ( !toggle_value && toggle_item )
+        {
+            selected_accounts = g_slist_remove ( selected_accounts, GINT_TO_POINTER ( account_toggled ) );
+            gtk_list_store_set ( GTK_LIST_STORE(model), &iter, 0, !toggle_item, -1);
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+
+    /* clean up */
+    export_resume_maybe_sensitive_next ( assistant );
+}
 
 
 /* Local Variables: */

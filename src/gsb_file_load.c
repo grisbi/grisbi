@@ -8741,10 +8741,14 @@ gboolean gsb_file_load_update_previous_version ( void )
                 /* add the amount of the transaction to the init balance of that reconcile,
                  * used later to find the initials and finals balances */
                 if (!gsb_data_transaction_get_mother_transaction_number (transaction_number))
+                {
                     gsb_data_reconcile_set_init_balance ( reconcile_number,
                             gsb_real_add ( gsb_data_reconcile_get_init_balance (
                             reconcile_number),
-                            gsb_data_transaction_get_amount (transaction_number)));
+                            gsb_data_transaction_get_adjusted_amount ( transaction_number,
+                            gsb_data_account_get_currency_floating_point ( account_number ) ) ) );
+
+                }
             }
             list_tmp_transactions = list_tmp_transactions -> next;
         }
