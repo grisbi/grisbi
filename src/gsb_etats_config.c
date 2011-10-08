@@ -61,8 +61,11 @@
 /*START_STATIC*/
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
 static void gsb_etats_config_initialise_onglet_periode ( gint report_number );
+static void gsb_etats_config_initialise_onglet_virements ( gint report_number );
+
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_periode ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_virements ( gint report_number );
 
 
 /**********************************************************************************************************************/
@@ -86,7 +89,6 @@ static gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *r
                         gchar *path_str,
                         GtkTreeStore *store );
 static GtkWidget *gsb_etats_config_get_liste_categ_budget ( gchar *sw_name );
-static GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void );
 static GtkWidget *gsb_etats_config_onglet_get_liste_tiers ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_get_liste_mode_paiement ( gchar *sw_name );
@@ -115,9 +117,6 @@ static GtkWidget *gsb_etats_config_onglet_etat_texte_new_line ( GtkWidget *paren
 static gboolean gsb_etats_config_onglet_select_partie_liste_categ_budget ( GtkWidget *button,
                         GdkEventButton *event,
                         GtkWidget *tree_view );
-static gboolean gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *button,
-                        GdkEventButton *event,
-                        GtkWidget *tree_view );
 static GtkWidget *gsb_etats_config_page_data_grouping ( void );
 static GtkWidget *gsb_etats_config_page_data_separation ( void );
 static void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model,
@@ -134,17 +133,11 @@ static gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *sel
 static void gsb_etats_config_onglet_set_buttons_select_categ_budget ( gchar *sw_name,
                         GtkWidget *tree_view,
                         gboolean is_categ );
-static void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
-                        GtkWidget *tree_view );
-static void gsb_etats_config_togglebutton_check_uncheck_all ( GtkTreeModel *model,
-                        gboolean toggle_value );
 static void gsb_etats_config_togglebutton_collapse_expand_lines ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
 static void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
 static GtkWidget *gsb_etats_config_togglebutton_set_button_expand ( gchar *sw_name,
-                        GtkWidget *tree_view );
-static GtkWidget *gsb_etats_config_togglebutton_set_button_select ( gchar *sw_name,
                         GtkWidget *tree_view );
 /*END_STATIC*/
 
@@ -322,6 +315,9 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet période */
     gsb_etats_config_initialise_onglet_periode ( report_number );
 
+    /* onglet période */
+    gsb_etats_config_initialise_onglet_virements ( report_number );
+
     /* return */
     return TRUE;
 }
@@ -338,6 +334,10 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
 {
     /* onglet période */
     gsb_etats_config_recupere_info_onglet_periode ( report_number );
+
+    /* onglet virements */
+    gsb_etats_config_recupere_info_onglet_virements ( report_number );
+
 
     /* update the payee combofix in the form, to add that report if asked */
     gsb_form_widget_update_payee_combofix ( );
@@ -360,9 +360,9 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
 
 /*ONGLET_PERIODE*/
 /**
+ * Initialise les informations de l'onglet periode
  *
- *
- * \param
+ * \param report_number
  *
  * \return
  */
@@ -375,28 +375,18 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
         etats_config_ui_widget_set_actif ( "radio_button_utilise_exo", TRUE );
 
         financial_year_type = gsb_data_report_get_financial_year_type ( report_number );
-        switch ( financial_year_type )
-        {
-        case 1:
-            etats_config_ui_widget_set_actif ( "bouton_exo_courant", TRUE );
-            break;
-        case 2:
-            etats_config_ui_widget_set_actif ( "bouton_exo_precedent", TRUE );
-            break;
-        case 3:
-            etats_config_ui_widget_set_actif ( "bouton_detaille_exo_etat", TRUE );
-            etats_config_ui_onglet_periode_select_exer_from_list (
-                                gsb_data_report_get_financial_year_list ( report_number ) );
+        etats_config_ui_buttons_radio_set_active_index ( "bouton_exo_tous", financial_year_type );
 
-            break;
-        default:
-            etats_config_ui_widget_set_actif ( "bouton_exo_tous", TRUE );
-        }
+        if ( financial_year_type == 3 )
+            etats_config_ui_tree_view_select_rows_from_list (
+                                gsb_data_report_get_financial_year_list ( report_number ),
+                                "treeview_exer",
+                                1 );
     }
     else
     {
         etats_config_ui_widget_set_actif ( "radio_button_utilise_dates", TRUE );
-        etats_config_ui_tree_view_select_single_item ( "treeview_dates",
+        etats_config_ui_tree_view_select_single_row ( "treeview_dates",
                         gsb_data_report_get_date_type ( report_number ) );
 
         if ( gsb_data_report_get_date_type ( report_number ) != 1 )
@@ -431,11 +421,11 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
 
 
 /**
- *
+ * retourne la liste des exercices
  *
  * \param
  *
- * \return un G
+ * \return un GtkTreeModel
  */
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void )
 {
@@ -473,7 +463,7 @@ GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void )
 
 
 /**
- *
+ * Récupère les informations de l'onglet periode
  *
  * \param numéro d'état à mettre à jour
  *
@@ -492,7 +482,7 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
 
         /* Check that custom dates are OK, but only if custom date range
          * has been selected. */
-        if ( ( item_selected = etats_config_ui_tree_view_get_single_item_selected ( "treeview_dates" ) ) == 1 )
+        if ( ( item_selected = etats_config_ui_tree_view_get_single_row_selected ( "treeview_dates" ) ) == 1 )
         {
             GtkWidget *entry;
 
@@ -544,12 +534,16 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
     }
     else
     {
-        if ( etats_config_ui_widget_get_actif ( "bouton_detaille_exo_etat" ) )
+        gint index;
+
+        index = etats_config_ui_buttons_radio_get_active_index ( "bouton_exo_tous" );
+        gsb_data_report_set_financial_year_type ( report_number, index );
+
+        if ( index == 3 )
         {
-            gsb_data_report_set_financial_year_type ( report_number, 3 );
             gsb_data_report_free_financial_year_list ( report_number );
             gsb_data_report_set_financial_year_list ( report_number,
-                                etats_config_ui_tree_view_get_list_item_selected ( "treeview_exer" ) );
+                                etats_config_ui_tree_view_get_list_rows_selected ( "treeview_exer" ) );
             if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
              etats_config_ui_widget_get_widget_by_name ( "treeview_exer", NULL ) ) ) )
             {
@@ -567,19 +561,6 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
                 g_free ( text );
                 g_free ( hint );
             }
-
-        }
-        else
-        {
-            if ( etats_config_ui_widget_get_actif ( "bouton_exo_courant" ) )
-                gsb_data_report_set_financial_year_type ( report_number, 1 );
-            else
-            {
-                if ( etats_config_ui_widget_get_actif ( "bouton_exo_precedent" ) )
-                    gsb_data_report_set_financial_year_type ( report_number, 2 );
-                else
-                    gsb_data_report_set_financial_year_type ( report_number, 0 );
-            }
         }
     }
 }
@@ -587,63 +568,71 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
 
 /*ONGLET_VIREMENTS*/
 /**
+ * Initialise les informations de l'onglet virements
  *
- *
- * \param
+ * \param report_number
  *
  * \return
  */
-GtkWidget *gsb_etats_config_onglet_etat_virements ( void )
+void gsb_etats_config_initialise_onglet_virements ( gint report_number )
 {
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *sw;
-    GtkWidget *tree_view;
-    GtkWidget *button;
+    gint index;
 
-    devel_debug (NULL);
+    index = gsb_data_report_get_transfer_choice ( report_number );
+    etats_config_ui_buttons_radio_set_active_index ( "bouton_non_inclusion_virements", index );
 
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_virements" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Transfers"), "transfer.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "hbox_liste_comptes_virements", NULL ), FALSE );
-
-    /* on crée la liste des comptes */
-    sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_virements" );
-    tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_virements", "tree_view" );
-
-    /* on connecte les signaux nécessaires pour gérer l'affichage de la liste des comptes */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "bouton_inclusion_virements_perso", NULL ) ),
-                        "toggled",
-                        G_CALLBACK ( sens_desensitive_pointeur ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "hbox_liste_comptes_virements", NULL ) );
-
-    /* on met la connection pour (dé)sélectionner tous les comptes */
-    button = gsb_etats_config_togglebutton_set_button_select ( "sw_virements", tree_view );
-
-    /* on met la connection pour sélectionner une partie des comptes */
-    gsb_etats_config_onglet_set_buttons_select_comptes ( "sw_virements", tree_view );
-
-    gtk_widget_show_all ( vbox_onglet );
-
-    return vbox_onglet;
+    if ( index == 3 )
+        etats_config_ui_tree_view_select_rows_from_list (
+                                gsb_data_report_get_transfer_account_numbers_list ( report_number ),
+                                "treeview_virements",
+                                1 );
+    if ( index > 0 )
+    {
+        gtk_widget_set_sensitive ( etats_config_ui_widget_get_widget_by_name (
+                                "bouton_exclure_non_virements_etat", NULL ), TRUE );
+        etats_config_ui_widget_set_actif ( "bouton_exclure_non_virements_etat",
+                                gsb_data_report_get_transfer_reports_only ( report_number ) );
+    }
+    else
+        gtk_widget_set_sensitive ( etats_config_ui_widget_get_widget_by_name (
+                                "bouton_exclure_non_virements_etat", NULL ), FALSE );
 }
 
 
 /**
+ * Récupère les informations de l'onglet virements
  *
+ * \param numéro d'état à mettre à jour
  *
- *
+ * \return
  */
-GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name )
+void gsb_etats_config_recupere_info_onglet_virements ( gint report_number )
 {
-    GtkWidget *sw;
+    gint index;
+
+    index = etats_config_ui_buttons_radio_get_active_index ( "bouton_non_inclusion_virements" );
+    gsb_data_report_set_transfer_choice ( report_number, index );
+
+    if ( index == 3 )
+    {
+        gsb_data_report_free_transfer_account_numbers_list ( report_number );
+        gsb_data_report_set_transfer_account_numbers_list ( report_number,
+                            etats_config_ui_tree_view_get_list_rows_selected ( "treeview_virements" ) );
+    }
+
+    gsb_data_report_set_transfer_reports_only ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_exclure_non_virements_etat" ) );
+}
+
+
+/*ONGLET_COMPTES*/
+/**
+ * retourne la liste des comptes dans un GtkTreeModel
+ *
+ * \return model
+ */
+GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void )
+{
     GtkListStore *list_store;
     GSList *list_tmp;
 
@@ -671,11 +660,7 @@ GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name )
         list_tmp = list_tmp -> next;
     }
 
-    sw = gsb_etats_config_get_scrolled_window_with_tree_view ( sw_name, GTK_TREE_MODEL ( list_store ) );
-
-    gtk_widget_show_all ( sw );
-
-    return sw;
+    return GTK_TREE_MODEL ( list_store );
 }
 
 
@@ -684,84 +669,28 @@ GtkWidget *gsb_etats_config_onglet_get_liste_comptes ( gchar *sw_name )
  *
  *
  */
-void gsb_etats_config_onglet_set_buttons_select_comptes ( gchar *sw_name,
-                        GtkWidget *tree_view )
+void gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
+                        gint type_compte )
 {
-    GtkWidget *button;
-    gchar *tmp_str;
+        GtkTreeModel *model;
+        GtkTreeIter iter;
+        GtkTreeSelection *selection;
 
-    tmp_str = g_strconcat ( "button_bank", sw_name + 2, NULL );
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_BANK ) );
-    g_signal_connect ( G_OBJECT  ( button ),
-                        "button-press-event",
-                        G_CALLBACK ( gsb_etats_config_onglet_select_partie_liste_comptes ),
-                        tree_view );
-    g_free ( tmp_str );
+        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
 
-    tmp_str = g_strconcat ( "button_cash", sw_name + 2, NULL );
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_CASH ) );
-    g_signal_connect ( G_OBJECT  ( button ),
-                        "button-press-event",
-                        G_CALLBACK ( gsb_etats_config_onglet_select_partie_liste_comptes ),
-                        tree_view );
-    g_free ( tmp_str );
+        model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+        if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+            return;
 
-    tmp_str = g_strconcat ( "button_liabilities", sw_name + 2, NULL );
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_LIABILITIES ) );
-    g_signal_connect ( G_OBJECT  ( button ),
-                        "button-press-event",
-                        G_CALLBACK ( gsb_etats_config_onglet_select_partie_liste_comptes ),
-                        tree_view );
-    g_free ( tmp_str );
+        do
+        {
+            gint account_number;
 
-    tmp_str = g_strconcat ( "button_assets", sw_name + 2, NULL );
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "type_compte", GINT_TO_POINTER ( GSB_TYPE_ASSET ) );
-    g_signal_connect ( G_OBJECT  ( button ),
-                        "button-press-event",
-                        G_CALLBACK ( gsb_etats_config_onglet_select_partie_liste_comptes ),
-                        tree_view );
-    g_free ( tmp_str );
-}
-
-
-/**
- *
- *
- *
- */
-gboolean gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *button,
-                        GdkEventButton *event,
-                        GtkWidget *tree_view )
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    GtkTreeSelection *selection;
-    gint type_compte;
-
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-
-    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
-        return FALSE;
-
-    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-    gtk_tree_selection_unselect_all ( selection );
-    type_compte = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( button ), "type_compte" ) );
-
-    do
-    {
-        gint account_number;
-
-        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 1, &account_number, -1 );
-        if ( gsb_data_account_get_kind ( account_number ) == type_compte )
-            gtk_tree_selection_select_iter ( selection, &iter );
-    }
-    while (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
-
-    return FALSE;
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 1, &account_number, -1 );
+            if ( gsb_data_account_get_kind ( account_number ) == type_compte )
+                gtk_tree_selection_select_iter ( selection, &iter );
+        }
+        while (gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 }
 
 
@@ -774,9 +703,9 @@ GtkWidget *gsb_etats_config_onglet_etat_comptes ( void )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *sw;
+/*     GtkWidget *sw;  */
     GtkWidget *tree_view;
-    GtkWidget *button;
+/*     GtkWidget *button;  */
 
     devel_debug (NULL);
 
@@ -791,7 +720,6 @@ GtkWidget *gsb_etats_config_onglet_etat_comptes ( void )
                         "vbox_generale_comptes_etat", NULL ), FALSE );
 
     /* on crée la liste des comptes */
-    sw = gsb_etats_config_onglet_get_liste_comptes ( "sw_comptes" );
     tree_view = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_comptes", "tree_view" );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
@@ -801,14 +729,12 @@ GtkWidget *gsb_etats_config_onglet_etat_comptes ( void )
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_comptes_etat", NULL ) );
 
-    /* on met la connection pour (dé)sélectionner tous les comptes */
-    button = gsb_etats_config_togglebutton_set_button_select ( "sw_comptes", tree_view );
-
     /* on met la connection pour sélectionner une partie des comptes */
-    gsb_etats_config_onglet_set_buttons_select_comptes ( "sw_comptes", tree_view );
+/*     gsb_etats_config_onglet_init_buttons_select_comptes ( "sw_comptes", tree_view );  */
 
     gtk_widget_show_all ( vbox_onglet );
 
+    /* return */
     return vbox_onglet;
 }
 
@@ -824,7 +750,7 @@ GtkWidget *gsb_etats_config_onglet_etat_tiers ( void )
     GtkWidget *vbox;
     GtkWidget *sw;
     GtkWidget *tree_view;
-    GtkWidget *button;
+/*     GtkWidget *button;  */
 
     devel_debug (NULL);
 
@@ -850,10 +776,11 @@ GtkWidget *gsb_etats_config_onglet_etat_tiers ( void )
                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_detaille_tiers_etat", NULL ) );
 
     /* on met la connection pour (dé)sélectionner tous les tiers */
-    button = gsb_etats_config_togglebutton_set_button_select ( "sw_tiers", tree_view );
+/*     button = gsb_etats_config_togglebutton_set_button_select ( "sw_tiers", tree_view );  */
 
     gtk_widget_show_all ( vbox_onglet );
 
+    /* return */
     return vbox_onglet;
 }
 
@@ -947,7 +874,7 @@ GtkWidget *gsb_etats_config_onglet_etat_categories ( void )
     button = gsb_etats_config_togglebutton_set_button_expand ( "sw_categ", tree_view );
 
     /* on met la connection pour (dé)sélectionner toutes les catégories */
-    button = gsb_etats_config_togglebutton_set_button_select ( "sw_categ", tree_view );
+/*     button = gsb_etats_config_togglebutton_set_button_select ( "sw_categ", tree_view );  */
 
     /* on met la connection pour sélectionner une partie des catégories */
     gsb_etats_config_onglet_set_buttons_select_categ_budget ( "sw_categ", tree_view, TRUE );
@@ -1113,48 +1040,6 @@ gboolean gsb_etats_config_categ_budget_toggled ( GtkCellRendererToggle *radio_re
 
 
 /**
- * select or unselect all the categories
- *
- * \param button
- * \param select_ptr    TRUE or FALSE to select/unselect all
- *
- * \return FALSE
- * */
-void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
-                        GtkWidget *tree_view )
-{
-    GtkTreeModel *model;
-    GtkWidget *hbox_select_all;
-    GtkWidget *hbox_unselect_all;
-    gboolean toggle_value;
-
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
-    toggle_value = gtk_toggle_button_get_active ( togglebutton );
-    hbox_select_all = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_select_all" );
-    hbox_unselect_all = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_unselect_all" );
-
-    if ( toggle_value )
-    {
-        gtk_widget_hide ( hbox_select_all );
-        gtk_widget_show ( hbox_unselect_all );
-        if ( GTK_IS_TREE_STORE ( model ) )
-            gsb_etats_config_togglebutton_check_uncheck_all ( model, toggle_value );
-        else
-            gtk_tree_selection_select_all ( gtk_tree_view_get_selection GTK_TREE_VIEW ( tree_view ) );
-    }
-    else
-    {
-        gtk_widget_show ( hbox_select_all );
-        gtk_widget_hide ( hbox_unselect_all );
-        if ( GTK_IS_TREE_STORE ( model ) )
-            gsb_etats_config_togglebutton_check_uncheck_all ( model, toggle_value );
-        else
-            gtk_tree_selection_unselect_all ( gtk_tree_view_get_selection GTK_TREE_VIEW ( tree_view ) );
-    }
-}
-
-
-/**
  * check or uncheck all the budgets or categories
  *
  * \param model         the model to fill (is model_categ or model_budget
@@ -1162,7 +1047,7 @@ void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
  *
  * \return FALSE
  * */
-void gsb_etats_config_togglebutton_check_uncheck_all ( GtkTreeModel *model,
+void gsb_etats_config_tree_model_check_uncheck_all ( GtkTreeModel *model,
                         gboolean toggle_value )
 {
     GtkTreeIter parent_iter;
@@ -1260,38 +1145,6 @@ GtkWidget *gsb_etats_config_togglebutton_set_button_expand ( gchar *sw_name,
  *
  *
  */
-GtkWidget *gsb_etats_config_togglebutton_set_button_select ( gchar *sw_name,
-                        GtkWidget *tree_view )
-{
-    GtkWidget *button;
-    gchar *tmp_str;
-
-    tmp_str = g_strconcat ( "togglebutton_select_all", sw_name + 2, NULL );
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL );
-    g_free ( tmp_str );
-
-    tmp_str = g_strconcat ( "hbox_toggle_select_all", sw_name + 2, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "hbox_select_all",
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
-    g_free ( tmp_str );
-
-    tmp_str = g_strconcat ( "hbox_toggle_unselect_all", sw_name + 2, NULL );
-    g_object_set_data ( G_OBJECT ( button ), "hbox_unselect_all",
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, tmp_str, NULL ) );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "clicked",
-                        G_CALLBACK ( gsb_etats_config_togglebutton_select_all ),
-                        tree_view );
-
-    return button;
-}
-
-
-/**
- *
- *
- *
- */
 void gsb_etats_config_onglet_set_buttons_select_categ_budget ( gchar *sw_name,
                         GtkWidget *tree_view,
                         gboolean is_categ )
@@ -1340,7 +1193,7 @@ gboolean gsb_etats_config_onglet_select_partie_liste_categ_budget ( GtkWidget *b
     if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
         return FALSE;
 
-    gsb_etats_config_togglebutton_check_uncheck_all ( model, FALSE );
+    gsb_etats_config_tree_model_check_uncheck_all ( model, FALSE );
 
     is_categ = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( button ), "is_categ" ) );
     type_div = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( button ), "type_div" ) );
@@ -1570,7 +1423,7 @@ GtkWidget *gsb_etats_config_onglet_etat_ib ( void )
     button = gsb_etats_config_togglebutton_set_button_expand ( "sw_budget", tree_view );
 
     /* on met la connection pour sélectionner toutes les IB */
-    button = gsb_etats_config_togglebutton_set_button_select ( "sw_budget", tree_view );
+/*     button = gsb_etats_config_togglebutton_set_button_select ( "sw_budget", tree_view );  */
 
     /* on met la connection pour sélectionner une partie des IB */
     gsb_etats_config_onglet_set_buttons_select_categ_budget ( "sw_budget", tree_view, FALSE );

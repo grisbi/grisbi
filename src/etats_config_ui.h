@@ -7,12 +7,21 @@
 /* START_DECLARATION */
 void etats_config_ui_free_builder ( void );
 GtkWidget *etats_config_ui_create_dialog ( void );
+
 void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show );
-void etats_config_ui_onglet_periode_select_exer_from_list ( GSList *liste );
-GSList *etats_config_ui_tree_view_get_list_item_selected ( const gchar *treeview_name );
-gint etats_config_ui_tree_view_get_single_item_selected ( const gchar *treeview_name );
-void etats_config_ui_tree_view_select_single_item ( const gchar *treeview_name,
+
+gint etats_config_ui_buttons_radio_get_active_index ( const gchar *button_name );
+void etats_config_ui_buttons_radio_set_active_index ( const gchar *button_name,
+                        gint index );
+
+GSList *etats_config_ui_tree_view_get_list_rows_selected ( const gchar *treeview_name );
+gint etats_config_ui_tree_view_get_single_row_selected ( const gchar *treeview_name );
+void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
+                        gchar *treeview_name,
+                        gint column );
+void etats_config_ui_tree_view_select_single_row ( const gchar *treeview_name,
                         gint numero );
+
 gboolean etats_config_ui_widget_get_actif ( const gchar *widget_name );
 GtkWidget *etats_config_ui_widget_get_widget_by_name ( const gchar *parent_name,
                         const gchar *child_name );

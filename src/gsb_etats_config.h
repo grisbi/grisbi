@@ -6,7 +6,14 @@
 
 /* START_DECLARATION */
 void gsb_etats_config_personnalisation_etat ( void );
+GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void );
+void gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
+                        gint type_compte );
+
+
+void gsb_etats_config_tree_model_check_uncheck_all ( GtkTreeModel *model,
+                        gboolean toggle_value );
 
 /* END_DECLARATION */
 

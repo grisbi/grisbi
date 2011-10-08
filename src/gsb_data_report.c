@@ -4318,6 +4318,48 @@ gboolean gsb_data_report_set_show_t ( gint report_number,
 }
 
 
+/**
+ * free the account_numbers_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_account_numbers_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+    if ( report -> account_numbers )
+        g_slist_free ( report -> account_numbers );
+    report -> account_numbers = NULL;
+}
+
+
+/**
+ * free the transfert_account_numbers_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_transfer_account_numbers_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+    if ( report -> account_numbers )
+        g_slist_free ( report -> transfer_account_numbers );
+    report -> transfer_account_numbers = NULL;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

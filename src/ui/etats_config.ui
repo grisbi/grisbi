@@ -1576,7 +1576,6 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_action_appearance">False</property>
-                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                       </object>
                       <packing>
@@ -1991,7 +1990,10 @@
             <property name="window_placement_set">True</property>
             <property name="shadow_type">in</property>
             <child>
-              <placeholder/>
+              <object class="GtkTreeView" id="treeview_virements">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+              </object>
             </child>
           </object>
           <packing>
@@ -2008,78 +2010,14 @@
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkToggleButton" id="togglebutton_select_all_virements">
+                <property name="label" translatable="yes">Select all</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
-                <property name="xalign">0.05000000074505806</property>
-                <property name="yalign">0</property>
+                <property name="xalign">0</property>
                 <property name="draw_indicator">True</property>
-                <child>
-                  <object class="GtkAlignment" id="alignment6">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="xalign">0</property>
-                    <property name="xscale">0</property>
-                    <property name="yscale">0</property>
-                    <child>
-                      <object class="GtkVBox" id="vbox16">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkHBox" id="hbox_toggle_select_all_virements">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="label20">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Select all</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHBox" id="hbox_toggle_unselect_all_virements">
-                            <property name="can_focus">False</property>
-                            <property name="no_show_all">True</property>
-                            <child>
-                              <object class="GtkLabel" id="label21">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Unselect all</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2089,7 +2027,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_bank_virements">
+              <object class="GtkToggleButton" id="button_bank_virements">
                 <property name="label" translatable="yes">Select bank accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2097,6 +2035,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
                 <property name="xalign">0.05000000074505806</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2106,7 +2045,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_cash_virements">
+              <object class="GtkToggleButton" id="button_cash_virements">
                 <property name="label" translatable="yes">Select cash accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2114,6 +2053,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
                 <property name="xalign">0.05000000074505806</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2123,7 +2063,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_liabilities_virements">
+              <object class="GtkToggleButton" id="button_liabilities_virements">
                 <property name="label" translatable="yes">Select liabilities accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2131,6 +2071,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
                 <property name="xalign">0.05000000074505806</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -2140,7 +2081,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button_assets_virements">
+              <object class="GtkToggleButton" id="button_assets_virements">
                 <property name="label" translatable="yes">Select assets accounts</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -2148,6 +2089,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="relief">none</property>
                 <property name="xalign">0.05000000074505806</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
