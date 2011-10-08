@@ -2202,7 +2202,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_name = my_strdup (gsb_data_report_get_report_name (report_number));
 
 	/* set the general sort type */
-	tmp_list = gsb_data_report_get_sorting_type (report_number);
+	tmp_list = gsb_data_report_get_sorting_type_list (report_number);
 	general_sort_type = NULL;
 
 	while ( tmp_list )
@@ -2244,7 +2244,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* set the account_selected */
-	tmp_list = gsb_data_report_get_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_account_numbers_list (report_number);
 	account_selected = NULL;
 
 	while ( tmp_list )
@@ -2265,7 +2265,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the transfer_selected_accounts */
-	tmp_list = gsb_data_report_get_transfer_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_transfer_account_numbers_list (report_number);
 	transfer_selected_accounts = NULL;
 
 	while ( tmp_list )
@@ -2286,7 +2286,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* save the category and sub-category list */
-	tmp_list = gsb_data_report_get_category_struct (report_number);
+	tmp_list = gsb_data_report_get_category_struct_list (report_number);
 	categ_selected = NULL;
 
 	while ( tmp_list )
@@ -2331,7 +2331,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* save the budget and sub-budget list */
-	tmp_list = gsb_data_report_get_budget_struct (report_number);
+	tmp_list = gsb_data_report_get_budget_struct_list (report_number);
 	budget_selected = NULL;
 
 	while ( tmp_list )
@@ -2376,7 +2376,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the payee_selected */
-	tmp_list = gsb_data_report_get_payee_numbers (report_number);
+	tmp_list = gsb_data_report_get_payee_numbers_list (report_number);
 	payee_selected = NULL;
 
 	while ( tmp_list )

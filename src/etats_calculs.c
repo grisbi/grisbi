@@ -276,7 +276,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		if ( !gsb_data_report_get_account_use_chosen (report_number)
 		     ||
-		     g_slist_index ( gsb_data_report_get_account_numbers (report_number),
+		     g_slist_index ( gsb_data_report_get_account_numbers_list (report_number),
 				     GINT_TO_POINTER ( i )) != -1 )
 		{
 		    GSList *list_tmp_transactions;
@@ -349,7 +349,7 @@ GSList *recupere_opes_etat ( gint report_number )
 
 	if ( !gsb_data_report_get_account_use_chosen (report_number)
 	     ||
-	     g_slist_index ( gsb_data_report_get_account_numbers (report_number),
+	     g_slist_index ( gsb_data_report_get_account_numbers_list (report_number),
 			     GINT_TO_POINTER ( i )) != -1 )
 	{
 	    /* 	  le compte est bon, passe à la suite de la sélection */
@@ -616,7 +616,7 @@ GSList *recupere_opes_etat ( gint report_number )
 				/*    si on ne détaille pas les comptes, on ne cherche pas, l'opé est refusée */
 				if ( gsb_data_report_get_account_use_chosen (report_number))
 				{
-				    if ( g_slist_index ( gsb_data_report_get_account_numbers (report_number),
+				    if ( g_slist_index ( gsb_data_report_get_account_numbers_list (report_number),
 							 GINT_TO_POINTER ( gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp))) != -1 )
 					goto operation_refusee;
 				}
@@ -627,7 +627,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    {
 				/* on inclut l'opé que si le compte de virement est dans la liste */
 
-				if ( g_slist_index ( gsb_data_report_get_transfer_account_numbers (report_number),
+				if ( g_slist_index ( gsb_data_report_get_transfer_account_numbers_list (report_number),
 						     GINT_TO_POINTER ( gsb_data_transaction_get_contra_transaction_account ( transaction_number_tmp))) == -1 )
 				    goto operation_refusee;
 
@@ -652,7 +652,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			/* it's a normal categ (or not categ) */
 			gsb_data_report_get_category_detail_used (report_number)
 			&&
-			!gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_category_struct (report_number),
+			!gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_category_struct_list (report_number),
 								       gsb_data_transaction_get_category_number (transaction_number_tmp),
 								       gsb_data_transaction_get_sub_category_number (transaction_number_tmp)))
 			goto operation_refusee;
@@ -661,7 +661,7 @@ GSList *recupere_opes_etat ( gint report_number )
 		    /* check the buget */
 		    if ((gsb_data_report_get_budget_detail_used (report_number)
 			 &&
-			 !gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_budget_struct (report_number),
+			 !gsb_data_report_check_categ_budget_in_report (gsb_data_report_get_budget_struct_list (report_number),
 									gsb_data_transaction_get_budgetary_number (transaction_number_tmp),
 									gsb_data_transaction_get_sub_budgetary_number (transaction_number_tmp))))
 			goto operation_refusee;
@@ -669,7 +669,7 @@ GSList *recupere_opes_etat ( gint report_number )
 		    /* vérification du tiers */
 		    if ( gsb_data_report_get_payee_detail_used (report_number)
 			 &&
-			 g_slist_index ( gsb_data_report_get_payee_numbers (report_number),
+			 g_slist_index ( gsb_data_report_get_payee_numbers_list (report_number),
 					 GINT_TO_POINTER ( gsb_data_transaction_get_party_number ( transaction_number_tmp))) == -1 )
 			goto operation_refusee;
 
@@ -1428,7 +1428,7 @@ gint classement_liste_opes_etat ( gpointer transaction_1, gpointer transaction_2
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
-    pointeur = gsb_data_report_get_sorting_type (current_report_number);
+    pointeur = gsb_data_report_get_sorting_type_list (current_report_number);
 
 classement_suivant:
 
@@ -1978,7 +1978,7 @@ void etape_finale_affichage_etat ( GSList *ope_selectionnees,
     liste_ope_revenus = NULL;
     liste_ope_depenses = NULL;
     pointeur_tmp = ope_selectionnees;
-    pointeur_glist = gsb_data_report_get_sorting_type (current_report_number);
+    pointeur_glist = gsb_data_report_get_sorting_type_list (current_report_number);
 
     if ( gsb_data_report_get_split_credit_debit (current_report_number))
     {
@@ -2350,7 +2350,7 @@ pas_decalage:
 
 	    transaction_number = gsb_data_transaction_get_transaction_number (pointeur_tmp -> data);
 
-	    pointeur_glist = gsb_data_report_get_sorting_type (current_report_number);
+	    pointeur_glist = gsb_data_report_get_sorting_type_list (current_report_number);
 
 	    while ( pointeur_glist )
 	    {
@@ -2531,14 +2531,15 @@ pas_decalage:
 						     ligne,
 						     1 );
 
-	ligne = etat_affiche_affiche_totaux_sous_jaccent ( GPOINTER_TO_INT ( gsb_data_report_get_sorting_type (current_report_number)-> data ),
-							   ligne );
+	ligne = etat_affiche_affiche_totaux_sous_jaccent ( GPOINTER_TO_INT (
+                        gsb_data_report_get_sorting_type_list (current_report_number)-> data ),
+                        ligne );
 
 
 	/* on ajoute le total de la structure racine */
 
 
-	switch ( GPOINTER_TO_INT ( gsb_data_report_get_sorting_type (current_report_number)-> data ))
+	switch ( GPOINTER_TO_INT ( gsb_data_report_get_sorting_type_list (current_report_number)-> data ))
 	{
 	    case 1:
 		ligne = etat_affiche_affiche_total_categories ( ligne );
@@ -2601,7 +2602,7 @@ void denote_struct_sous_jaccentes ( gint origine )
     /* on peut partir du bout de la liste pour revenir vers la structure demandée */
     /* gros vulgaire copier coller de la fonction précédente */
 
-    pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type (current_report_number)));
+    pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type_list (current_report_number)));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {

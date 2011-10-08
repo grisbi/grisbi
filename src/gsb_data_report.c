@@ -407,9 +407,9 @@ static void _gsb_data_report_free ( struct_report *report )
     g_slist_free (report -> sorting_type);
     g_slist_free (report -> account_numbers);
     g_slist_free (report -> transfer_account_numbers);
-    gsb_data_report_free_categ_budget_struct (report -> categ_select_struct);
+    gsb_data_report_free_categ_budget_struct_list (report -> categ_select_struct);
     report -> categ_select_struct = NULL;
-    gsb_data_report_free_categ_budget_struct (report -> budget_select_struct);
+    gsb_data_report_free_categ_budget_struct_list (report -> budget_select_struct);
     report -> budget_select_struct = NULL;
     g_slist_free (report -> payee_numbers);
     g_slist_free (report -> method_of_payment_list);
@@ -3446,7 +3446,7 @@ gboolean gsb_data_report_set_financial_year_list ( gint report_number,
  *
  * \return the sorting_type  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_sorting_type ( gint report_number )
+GSList *gsb_data_report_get_sorting_type_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3466,7 +3466,7 @@ GSList *gsb_data_report_get_sorting_type ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_sorting_type ( gint report_number,
+gboolean gsb_data_report_set_sorting_type_list ( gint report_number,
                         GSList *sorting_type )
 {
     struct_report *report;
@@ -3488,7 +3488,7 @@ gboolean gsb_data_report_set_sorting_type ( gint report_number,
  *
  * \return the account_numbers  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_account_numbers ( gint report_number )
+GSList *gsb_data_report_get_account_numbers_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3508,7 +3508,7 @@ GSList *gsb_data_report_get_account_numbers ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_account_numbers ( gint report_number,
+gboolean gsb_data_report_set_account_numbers_list ( gint report_number,
                         GSList *account_numbers )
 {
     struct_report *report;
@@ -3530,7 +3530,7 @@ gboolean gsb_data_report_set_account_numbers ( gint report_number,
  *
  * \return the transfer_account_numbers  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number )
+GSList *gsb_data_report_get_transfer_account_numbers_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3550,7 +3550,7 @@ GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
+gboolean gsb_data_report_set_transfer_account_numbers_list ( gint report_number,
                         GSList *transfer_account_numbers )
 {
     struct_report *report;
@@ -3574,7 +3574,7 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
  *
  * \return the categ_select_struct  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_category_struct ( gint report_number )
+GSList *gsb_data_report_get_category_struct_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3596,7 +3596,7 @@ GSList *gsb_data_report_get_category_struct ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_category_struct ( gint report_number,
+gboolean gsb_data_report_set_category_struct_list ( gint report_number,
                         GSList *categ_select_struct )
 {
     struct_report *report;
@@ -3607,7 +3607,7 @@ gboolean gsb_data_report_set_category_struct ( gint report_number,
 	return FALSE;
 
     if (report -> categ_select_struct)
-	gsb_data_report_free_categ_budget_struct (report -> categ_select_struct);
+	gsb_data_report_free_categ_budget_struct_list (report -> categ_select_struct);
 
     report -> categ_select_struct = categ_select_struct;
 
@@ -3621,23 +3621,24 @@ gboolean gsb_data_report_set_category_struct ( gint report_number,
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_free_categ_budget_struct (GSList *categ_budget_sel_list)
+void gsb_data_report_free_categ_budget_struct_list (GSList *categ_budget_sel_list)
 {
     GSList *tmp_list;
 
     tmp_list = categ_budget_sel_list;
     while (tmp_list)
     {
-	struct_categ_budget_sel *categ_budget_struct;
+        struct_categ_budget_sel *categ_budget_struct;
 
-	categ_budget_struct = tmp_list -> data;
-	if (categ_budget_struct -> sub_div_numbers)
-	    g_slist_free (categ_budget_struct -> sub_div_numbers);
-	g_free (categ_budget_struct);
-	tmp_list = tmp_list -> next;
+        categ_budget_struct = tmp_list -> data;
+        if (categ_budget_struct -> sub_div_numbers)
+            g_slist_free (categ_budget_struct -> sub_div_numbers);
+        g_free (categ_budget_struct);
+        tmp_list = tmp_list -> next;
     }
     g_slist_free (categ_budget_sel_list);
-    return TRUE;
+
+    
 }
 
 /**
@@ -3680,7 +3681,7 @@ GSList *gsb_data_report_copy_categ_budget_struct (GSList *orig_categ_budget_list
  *
  * \return the categ_select_struct  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_budget_struct ( gint report_number )
+GSList *gsb_data_report_get_budget_struct_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3702,7 +3703,7 @@ GSList *gsb_data_report_get_budget_struct ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_budget_struct ( gint report_number,
+gboolean gsb_data_report_set_budget_struct_list ( gint report_number,
                         GSList *budget_select_struct )
 {
     struct_report *report;
@@ -3713,7 +3714,7 @@ gboolean gsb_data_report_set_budget_struct ( gint report_number,
 	return FALSE;
 
     if (report -> budget_select_struct)
-	gsb_data_report_free_categ_budget_struct (report -> budget_select_struct);
+	gsb_data_report_free_categ_budget_struct_list (report -> budget_select_struct);
 
     report -> budget_select_struct = budget_select_struct;
 
@@ -3729,7 +3730,7 @@ gboolean gsb_data_report_set_budget_struct ( gint report_number,
  *
  * \return the payee_numbers  of the report, -1 if problem
  * */
-GSList *gsb_data_report_get_payee_numbers ( gint report_number )
+GSList *gsb_data_report_get_payee_numbers_list ( gint report_number )
 {
     struct_report *report;
 
@@ -3749,7 +3750,7 @@ GSList *gsb_data_report_get_payee_numbers ( gint report_number )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_data_report_set_payee_numbers ( gint report_number,
+gboolean gsb_data_report_set_payee_numbers_list ( gint report_number,
                         GSList *payee_numbers )
 {
     struct_report *report;

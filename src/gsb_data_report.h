@@ -26,10 +26,10 @@ gboolean gsb_data_report_check_categ_budget_in_report ( GSList *list_struct_repo
 gint gsb_data_report_compare_position ( gint report_number_1,
                         gint report_number_2 );
 gint gsb_data_report_dup ( gint report_number );
-gboolean gsb_data_report_free_categ_budget_struct (GSList *categ_budget_sel_list);
+void gsb_data_report_free_categ_budget_struct_list (GSList *categ_budget_sel_list);
 void gsb_data_report_free_financial_year_list ( gint report_number );
 gint gsb_data_report_get_account_group_reports ( gint report_number );
-GSList *gsb_data_report_get_account_numbers ( gint report_number );
+GSList *gsb_data_report_get_account_numbers_list ( gint report_number );
 gint gsb_data_report_get_account_show_amount ( gint report_number );
 gint gsb_data_report_get_account_show_name ( gint report_number );
 gint gsb_data_report_get_account_use_chosen ( gint report_number );
@@ -45,7 +45,7 @@ gint gsb_data_report_get_budget_show_name ( gint report_number );
 gint gsb_data_report_get_budget_show_sub_budget ( gint report_number );
 gint gsb_data_report_get_budget_show_sub_budget_amount ( gint report_number );
 gint gsb_data_report_get_budget_show_without_budget ( gint report_number );
-GSList *gsb_data_report_get_budget_struct ( gint report_number );
+GSList *gsb_data_report_get_budget_struct_list ( gint report_number );
 gint gsb_data_report_get_budget_used ( gint report_number );
 gint gsb_data_report_get_category_currency ( gint report_number );
 gint gsb_data_report_get_category_detail_used ( gint report_number );
@@ -54,7 +54,7 @@ gint gsb_data_report_get_category_show_name ( gint report_number );
 gint gsb_data_report_get_category_show_sub_category ( gint report_number );
 gint gsb_data_report_get_category_show_sub_category_amount ( gint report_number );
 gint gsb_data_report_get_category_show_without_category ( gint report_number );
-GSList *gsb_data_report_get_category_struct ( gint report_number );
+GSList *gsb_data_report_get_category_struct_list ( gint report_number );
 gint gsb_data_report_get_category_used ( gint report_number );
 gint gsb_data_report_get_column_title_show ( gint report_number );
 gint gsb_data_report_get_column_title_type ( gint report_number );
@@ -69,7 +69,7 @@ gint gsb_data_report_get_method_of_payment_used ( gint report_number );
 gint gsb_data_report_get_not_detail_split ( gint report_number );
 gint gsb_data_report_get_payee_currency ( gint report_number );
 gint gsb_data_report_get_payee_detail_used ( gint report_number );
-GSList *gsb_data_report_get_payee_numbers ( gint report_number );
+GSList *gsb_data_report_get_payee_numbers_list ( gint report_number );
 gint gsb_data_report_get_payee_show_name ( gint report_number );
 gint gsb_data_report_get_payee_show_payee_amount ( gint report_number );
 gint gsb_data_report_get_payee_used ( gint report_number );
@@ -105,11 +105,11 @@ gint gsb_data_report_get_show_report_value_date ( gint report_number );
 gint gsb_data_report_get_show_report_voucher ( gint report_number );
 gint gsb_data_report_get_show_t ( gint report_number );
 gint gsb_data_report_get_sorting_report ( gint report_number );
-GSList *gsb_data_report_get_sorting_type ( gint report_number );
+GSList *gsb_data_report_get_sorting_type_list ( gint report_number );
 gint gsb_data_report_get_split_credit_debit ( gint report_number );
 GSList *gsb_data_report_get_text_comparison_list ( gint report_number );
 gint gsb_data_report_get_text_comparison_used ( gint report_number );
-GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number );
+GSList *gsb_data_report_get_transfer_account_numbers_list ( gint report_number );
 gint gsb_data_report_get_transfer_choice ( gint report_number );
 gint gsb_data_report_get_transfer_reports_only ( gint report_number );
 gint gsb_data_report_get_use_financial_year ( gint report_number );
@@ -122,7 +122,7 @@ gint gsb_data_report_new_with_number ( gint number );
 gboolean gsb_data_report_remove ( gint no_report );
 gboolean gsb_data_report_set_account_group_reports ( gint report_number,
                         gint account_group_reports );
-gboolean gsb_data_report_set_account_numbers ( gint report_number,
+gboolean gsb_data_report_set_account_numbers_list ( gint report_number,
                         GSList *account_numbers );
 gboolean gsb_data_report_set_account_show_amount ( gint report_number,
                         gint account_show_amount );
@@ -154,7 +154,7 @@ gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
                         gint budget_show_sub_budget_amount );
 gboolean gsb_data_report_set_budget_show_without_budget ( gint report_number,
                         gint budget_show_without_budget );
-gboolean gsb_data_report_set_budget_struct ( gint report_number,
+gboolean gsb_data_report_set_budget_struct_list ( gint report_number,
                         GSList *budget_select_struct );
 gboolean gsb_data_report_set_budget_used ( gint report_number,
                         gint budget_used );
@@ -172,7 +172,7 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
                         gint category_show_sub_category_amount );
 gboolean gsb_data_report_set_category_show_without_category ( gint report_number,
                         gint category_show_without_category );
-gboolean gsb_data_report_set_category_struct ( gint report_number,
+gboolean gsb_data_report_set_category_struct_list ( gint report_number,
                         GSList *categ_select_struct );
 gboolean gsb_data_report_set_category_used ( gint report_number,
                         gint category_used );
@@ -202,7 +202,7 @@ gboolean gsb_data_report_set_payee_currency ( gint report_number,
                     gint payee_currency );
 gboolean gsb_data_report_set_payee_detail_used ( gint report_number,
                         gint payee_detail_used );
-gboolean gsb_data_report_set_payee_numbers ( gint report_number,
+gboolean gsb_data_report_set_payee_numbers_list ( gint report_number,
                         GSList *payee_numbers );
 gboolean gsb_data_report_set_payee_show_name ( gint report_number,
                         gint payee_show_name );
@@ -268,7 +268,7 @@ gboolean gsb_data_report_set_show_t ( gint report_number,
                         gint show_t );
 gboolean gsb_data_report_set_sorting_report ( gint report_number,
                         gint sorting_report );
-gboolean gsb_data_report_set_sorting_type ( gint report_number,
+gboolean gsb_data_report_set_sorting_type_list ( gint report_number,
                         GSList *sorting_type );
 gboolean gsb_data_report_set_split_credit_debit ( gint report_number,
                         gint split_credit_debit );
@@ -276,7 +276,7 @@ gboolean gsb_data_report_set_text_comparison_list ( gint report_number,
                         GSList *text_comparison_list );
 gboolean gsb_data_report_set_text_comparison_used ( gint report_number,
                         gint text_comparison_used );
-gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
+gboolean gsb_data_report_set_transfer_account_numbers_list ( gint report_number,
                         GSList *transfer_account_numbers );
 gboolean gsb_data_report_set_transfer_choice ( gint report_number,
                         gint transfer_choice );

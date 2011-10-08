@@ -555,16 +555,16 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    gsb_data_report_set_financial_year_list ( report_number,
 							      NULL );
 		    /* erase the accounts */
-		    gsb_data_report_set_account_numbers ( report_number,
+		    gsb_data_report_set_account_numbers_list ( report_number,
 							  NULL);
 		    /* erase the transferts accounts */
-		    gsb_data_report_set_transfer_account_numbers ( report_number,
+		    gsb_data_report_set_transfer_account_numbers_list ( report_number,
 								   NULL );
 		    /* erase the categories */
-		    gsb_data_report_set_category_struct ( report_number,
+		    gsb_data_report_set_category_struct_list ( report_number,
 							  NULL );
 		    /* erase the parties */
-		    gsb_data_report_set_payee_numbers ( report_number,
+		    gsb_data_report_set_payee_numbers_list ( report_number,
 							NULL );
 		    /* erase the kinds of payment */
 		    gsb_data_report_set_method_of_payment_list ( report_number,

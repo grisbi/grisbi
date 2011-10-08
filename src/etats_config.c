@@ -668,7 +668,7 @@ void personnalisation_etat (void)
 
     /* on remplit le ctree en fonction du classement courant */
 
-    list_tmp = gsb_data_report_get_sorting_type (current_report_number);
+    list_tmp = gsb_data_report_get_sorting_type_list (current_report_number);
     parent = NULL;
     gtk_clist_clear ( GTK_CLIST ( liste_type_classement_etat ));
 
@@ -1209,7 +1209,7 @@ void selectionne_liste_comptes_etat_courant ( void )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_etat ));
 
-    pointeur_sliste = gsb_data_report_get_account_numbers (current_report_number);
+    pointeur_sliste = gsb_data_report_get_account_numbers_list (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1233,7 +1233,7 @@ void selectionne_liste_virements_etat_courant ( void )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_comptes_virements ));
 
-    pointeur_sliste = gsb_data_report_get_transfer_account_numbers (current_report_number);
+    pointeur_sliste = gsb_data_report_get_transfer_account_numbers_list (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1284,7 +1284,7 @@ void selectionne_liste_tiers_etat_courant ( void )
 
     gtk_clist_unselect_all ( GTK_CLIST ( liste_tiers_etat ));
 
-    pointeur_sliste = gsb_data_report_get_payee_numbers (current_report_number);
+    pointeur_sliste = gsb_data_report_get_payee_numbers_list (current_report_number);
 
     while ( pointeur_sliste )
     {
@@ -1357,9 +1357,9 @@ void recuperation_info_perso_etat ( void )
 
     /* récupération du type de classement */
 
-    g_slist_free ( gsb_data_report_get_sorting_type (current_report_number));
+    g_slist_free ( gsb_data_report_get_sorting_type_list (current_report_number));
 
-    gsb_data_report_set_sorting_type ( current_report_number,
+    gsb_data_report_set_sorting_type_list ( current_report_number,
 				       NULL );
 
     for ( i=0 ; i<GTK_CLIST ( liste_type_classement_etat ) -> rows ; i++ )
@@ -1370,19 +1370,19 @@ void recuperation_info_perso_etat ( void )
 							     gtk_ctree_node_nth ( GTK_CTREE ( liste_type_classement_etat ),
 										  i )));
 
-	gsb_data_report_set_sorting_type ( current_report_number,
-					   g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+	gsb_data_report_set_sorting_type_list ( current_report_number,
+					   g_slist_append ( gsb_data_report_get_sorting_type_list (current_report_number),
 							    GINT_TO_POINTER ( no )));
 
 	/* rajoute les ss categ et ss ib */
 
 	if ( no == 1 )
-	    gsb_data_report_set_sorting_type ( current_report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+	    gsb_data_report_set_sorting_type_list ( current_report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (current_report_number),
 								GINT_TO_POINTER ( 2 )));
 	if ( no == 3 )
-	    gsb_data_report_set_sorting_type ( current_report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (current_report_number),
+	    gsb_data_report_set_sorting_type_list ( current_report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (current_report_number),
 								GINT_TO_POINTER ( 4 )));
     }
 
@@ -1543,10 +1543,10 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_account_use_chosen ( current_report_number,
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_comptes_etat )));
 
-    if ( gsb_data_report_get_account_numbers (current_report_number))
+    if ( gsb_data_report_get_account_numbers_list (current_report_number))
     {
-	g_slist_free ( gsb_data_report_get_account_numbers (current_report_number));
-	gsb_data_report_set_account_numbers ( current_report_number,
+	g_slist_free ( gsb_data_report_get_account_numbers_list (current_report_number));
+	gsb_data_report_set_account_numbers_list ( current_report_number,
 					      NULL );
     }
 
@@ -1554,8 +1554,8 @@ void recuperation_info_perso_etat ( void )
 
     while ( list_tmp )
     {
-	gsb_data_report_set_account_numbers ( current_report_number,
-					      g_slist_append ( gsb_data_report_get_account_numbers (current_report_number),
+	gsb_data_report_set_account_numbers_list ( current_report_number,
+					      g_slist_append ( gsb_data_report_get_account_numbers_list (current_report_number),
 							       gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_etat ),
 											GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
@@ -1603,10 +1603,10 @@ void recuperation_info_perso_etat ( void )
 						      3 );
 	}
 
-    if ( gsb_data_report_get_transfer_account_numbers (current_report_number))
+    if ( gsb_data_report_get_transfer_account_numbers_list (current_report_number))
     {
-	g_slist_free ( gsb_data_report_get_transfer_account_numbers (current_report_number));
-	gsb_data_report_set_transfer_account_numbers ( current_report_number,
+	g_slist_free ( gsb_data_report_get_transfer_account_numbers_list (current_report_number));
+	gsb_data_report_set_transfer_account_numbers_list ( current_report_number,
 						       NULL );
     }
 
@@ -1614,8 +1614,8 @@ void recuperation_info_perso_etat ( void )
 
     while ( list_tmp )
     {
-	gsb_data_report_set_transfer_account_numbers ( current_report_number,
-						       g_slist_append ( gsb_data_report_get_transfer_account_numbers (current_report_number),
+	gsb_data_report_set_transfer_account_numbers_list ( current_report_number,
+						       g_slist_append ( gsb_data_report_get_transfer_account_numbers_list (current_report_number),
 									gtk_clist_get_row_data ( GTK_CLIST ( liste_comptes_virements ),
 												 GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
@@ -1632,10 +1632,10 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_category_detail_used ( current_report_number,
 					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )));
 
-    gsb_data_report_set_category_struct (current_report_number, report_config_categ_budget_get_selected (TRUE));
+    gsb_data_report_set_category_struct_list (current_report_number, report_config_categ_budget_get_selected (TRUE));
 
     /* if all was selected, remove the category_detail_used */
-    if (!gsb_data_report_get_category_struct (current_report_number))
+    if (!gsb_data_report_get_category_struct_list (current_report_number))
 	gsb_data_report_set_category_detail_used ( current_report_number,
 						   FALSE );
 
@@ -1661,10 +1661,10 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_budget_detail_used ( current_report_number,
 					     gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_ib_etat )));
 
-    gsb_data_report_set_budget_struct (current_report_number, report_config_categ_budget_get_selected (FALSE));
+    gsb_data_report_set_budget_struct_list (current_report_number, report_config_categ_budget_get_selected (FALSE));
 
     /* if all was selected, remove the budget_detail_used */
-    if (!gsb_data_report_get_budget_struct (current_report_number))
+    if (!gsb_data_report_get_budget_struct_list (current_report_number))
 	gsb_data_report_set_budget_detail_used ( current_report_number,
 						 FALSE );
 
@@ -1692,10 +1692,10 @@ void recuperation_info_perso_etat ( void )
     gsb_data_report_set_payee_detail_used ( current_report_number,
 					    gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_detaille_tiers_etat )));
 
-    if ( gsb_data_report_get_payee_numbers (current_report_number))
+    if ( gsb_data_report_get_payee_numbers_list (current_report_number))
     {
-	g_slist_free ( gsb_data_report_get_payee_numbers (current_report_number));
-	gsb_data_report_set_payee_numbers ( current_report_number,
+	g_slist_free ( gsb_data_report_get_payee_numbers_list (current_report_number));
+	gsb_data_report_set_payee_numbers_list ( current_report_number,
 					    NULL );
     }
 
@@ -1703,8 +1703,8 @@ void recuperation_info_perso_etat ( void )
 
     while ( list_tmp )
     {
-	gsb_data_report_set_payee_numbers ( current_report_number,
-					    g_slist_append ( gsb_data_report_get_payee_numbers (current_report_number),
+	gsb_data_report_set_payee_numbers_list ( current_report_number,
+					    g_slist_append ( gsb_data_report_get_payee_numbers_list (current_report_number),
 							     gtk_clist_get_row_data ( GTK_CLIST ( liste_tiers_etat ),
 										      GPOINTER_TO_INT ( list_tmp -> data ))));
 	list_tmp = list_tmp -> next;
@@ -3689,7 +3689,7 @@ static GSList *report_config_categ_budget_get_selected ( gboolean is_categ )
 					   _("All budgets have been selected.  Grisbi will run faster without the \"Detail budgets used\" option activated.")));
 
 	report_config_mix_select_all (model, FALSE);
-	gsb_data_report_free_categ_budget_struct (tmp_list);
+	gsb_data_report_free_categ_budget_struct_list (tmp_list);
 	tmp_list = NULL;
     }
     return tmp_list;
@@ -3713,12 +3713,12 @@ static void report_config_category_update_treeview ( gboolean is_categ )
     if (is_categ)
     {
 	report_config_mix_select_all (model_categ, FALSE);
-	tmp_list = gsb_data_report_get_category_struct (current_report_number);
+	tmp_list = gsb_data_report_get_category_struct_list (current_report_number);
     }
     else
     {
 	report_config_mix_select_all (model_budget, FALSE);
-	tmp_list = gsb_data_report_get_budget_struct (current_report_number);
+	tmp_list = gsb_data_report_get_budget_struct_list (current_report_number);
     }
 
     while ( tmp_list )
