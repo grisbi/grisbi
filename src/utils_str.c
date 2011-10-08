@@ -680,7 +680,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
  * remplace la chaine old_str par new_str dans str
  *
  */
-gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str )
+gchar * gsb_string_remplace_string ( const gchar *str, gchar *old_str, gchar *new_str )
 {
     gchar *ptr_debut;
     gint long_old, str_len;
