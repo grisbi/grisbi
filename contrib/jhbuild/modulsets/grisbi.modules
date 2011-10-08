@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE moduleset SYSTEM "moduleset.dtd">
+<?xml-stylesheet type="text/xsl" href="moduleset.xsl"?>
+<moduleset>
+
+        <include href="http://git.gnome.org/browse/gtk-osx/plain/modulesets-stable/gtk-osx.modules"/>
+
+	<repository type='tarball' name='ftp.gnu.org'
+		href="ftp://ftp.gnu.org/gnu/"/>
+	<repository type='tarball' name='ftp.gmplib.org'
+		href="ftp://ftp.gmplib.org/pub/"/>
+	<repository type='tarball' name='sourceforge'
+		href="http://downloads.sourceforge.net/"/>
+	<repository type='tarball' name='download.grisbi.org'
+		href="http://download.grisbi.org/"/>
+	<repository type='git' name='grisbi.git.sourceforge.net'
+		href="git://grisbi.git.sourceforge.net/gitroot/"/>
+	<repository type='git' name='libofx.git.sourceforge.net'
+		href="git://libofx.git.sourceforge.net/gitroot/"/>
+	<repository type="svn" name="bluefish-svn"
+		href="https://bluefish.svn.sourceforge.net/svnroot/"/>
+	<repository type='tarball' name='ftp.gnome.org'
+		href="ftp://ftp.gnome.org/pub/gnome/sources/"/>
+	
+	<autotools id="gmp">
+		<branch repo="ftp.gmplib.org" module="gmp-5.0.1/gmp-5.0.1.tar.bz2" version="5.0.1"/>	
+	</autotools>
+
+	<autotools id='readline' >
+		<branch repo="ftp.gnu.org" module="readline/readline-6.0.tar.gz" version="6.0"/>
+	</autotools>
+
+	<autotools id="OpenSP" autogen-template="%(srcdir)s/autoinit.sh &amp;&amp; %(srcdir)s/configure --prefix %(prefix)s --libdir %(libdir)s %(autogenargs)s" autogenargs="--disable-static --enable-shared --disable-doc-build --disable-nls">
+		<branch repo="sourceforge" module="openjade/OpenSP-1.5.2.tar.gz" version='1.5.2'/>
+	</autotools>
+
+	<autotools id="libofx" autogen-template="%(srcdir)s/configure --prefix=%(prefix)s --with-opensp-includes=%(prefix)s/include/OpenSP --with-opensp-libs=%(prefix)s/include">
+		<branch repo="sourceforge" module="libofx/libofx-0.9.4.tar.gz" version='0.9.4'/>
+		<dependencies>
+			<dep package='guile'/>
+			<dep package="OpenSP"/>
+		</dependencies>
+	</autotools>
+
+	<autotools id="libofx-devel" autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s --with-opensp-includes=%(prefix)s/include/OpenSP --with-opensp-libs=%(prefix)s/include">
+		<branch repo="libofx.git.sourceforge.net" module="libofx/libofx" checkoudir="libofx" />
+		<dependencies>
+			<dep package='guile'/>
+			<dep package="OpenSP"/>
+		</dependencies>
+	</autotools>
+	
+	<autotools id="goffice" autogen-sh="autogen.sh">
+		<branch repo="ftp.gnome.org" module="goffice/0.8/goffice-0.8.17.tar.bz2" version='0.8.17'>
+			<patch file="http://download.grisbi.org/sources/patches/libgoffice-0.8.17.patch" strip="1"/>
+		</branch>
+		<dependencies>
+			<dep package='libgsf'/>
+		</dependencies>
+	</autotools>
+
+	<autotools id="libgsf" autogen-sh="configure">
+		<branch repo="ftp.gnome.org" module="libgsf/1.14/libgsf-1.14.21.tar.bz2" version='1.14.21'/>
+	</autotools>
+
+	<autotools id="guile" autogen-sh="configure">
+		<branch repo="ftp.gnu.org" module="guile/guile-1.8.7.tar.gz" version="1.8.7" />
+		<dependencies>
+			<dep package='readline'/>
+			<dep package="gmp"/>
+		</dependencies>
+	</autotools>
+
+	<autotools id="grisbi" autogen-sh="configure">
+		<branch repo="sourceforge" version="0.8.8" module="grisbi/grisbi-0.8.8.tar.bz2" />
+		<dependencies>
+			<dep package="meta-gtk-osx-core"/>
+			<dep package="libofx"/>
+			<dep package="gmp"/>
+		</dependencies>
+	</autotools>
+
+	<autotools id="grisbi-testing" autogen-sh="configure">
+		<branch repo="sourceforge" version="0.9.4" module="grisbi/grisbi-0.9.4.tar.bz2" />
+		<dependencies>
+			<dep package="meta-gtk-osx-core"/>
+			<dep package="libofx"/>
+			<dep package="gmp"/>
+			<dep package="goffice"/>
+		</dependencies>
+	</autotools>
+
+	<autotools id="grisbi-devel" autogen-template="%(srcdir)s/%(autogen-sh)s &amp;&amp; %(srcdir)s/configure --prefix=%(prefix)s">
+		<branch repo="grisbi.git.sourceforge.net" module="grisbi/grisbi" checkoudir="grisbi" />
+		<dependencies>
+			<dep package="meta-gtk-osx-core"/>
+			<dep package="libofx"/>
+			<dep package="gmp"/>
+			<dep package="goffice"/>
+		</dependencies>
+	</autotools>
+
+</moduleset>
