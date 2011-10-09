@@ -697,53 +697,58 @@ gchar *gsb_debug_budget_test  ( void )
     gboolean invalid = FALSE;
 
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
-    while (tmp_list)
+    while ( tmp_list )
     {
-	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-	gint budget_number = gsb_data_transaction_get_budgetary_number (transaction_number);
+        gint transaction_number;
+        gint budget_number;
 
-	if ( gsb_data_budget_get_structure (budget_number))
-	{
-	    /* budget found, check sub-budget */
-	    gint sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
-	    if (sub_budget_number &&
-		!gsb_data_budget_get_sub_budget_structure (budget_number, sub_budget_number))
-	    {
-		/* sub-budget not found */
-		tmpstr = g_strdup_printf ( _("Transaction %d has budget %d but invalid sub-budget %d.\n"),
-					   transaction_number, budget_number, sub_budget_number );
-		tmpstr1 = g_strconcat ( returned_text,
-					tmpstr,
-					NULL );
-		g_free (returned_text);
-		g_free (tmpstr);
-		returned_text = tmpstr1;
-		invalid = TRUE;
-	    }
-	}
-	else
-	{
-	    /* budget not found */
-	    tmpstr = g_strdup_printf ( _("Transaction %d has invalid budget %d.\n"),
-				       transaction_number, budget_number );
-	    tmpstr1 = g_strconcat ( returned_text,
-				    tmpstr,
-				    NULL );
-	    g_free (returned_text);
-	    g_free (tmpstr);
-	    returned_text = tmpstr1;
-	    invalid = TRUE;
-	}
-	tmp_list = tmp_list -> next;
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list -> data );
+        budget_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+
+        if ( gsb_data_budget_get_structure ( budget_number ) )
+        {
+            gint sub_budget_number;
+
+            sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
+            /* budget found, check sub-budget */
+            if ( sub_budget_number
+             &&
+             !gsb_data_budget_get_sub_budget_structure ( budget_number, sub_budget_number ) )
+            {
+            /* sub-budget not found */
+                tmpstr = g_strdup_printf ( _("Transaction %d has budget %d but invalid sub-budget %d.\n"),
+                               transaction_number, budget_number, sub_budget_number );
+                tmpstr1 = g_strconcat ( returned_text, tmpstr, NULL );
+                g_free (returned_text);
+                g_free (tmpstr);
+                returned_text = tmpstr1;
+                invalid = TRUE;
+            }
+        }
+        else
+        {
+            /* budget not found */
+            tmpstr = g_strdup_printf ( _("Transaction %d has invalid budget %d.\n"),
+                           transaction_number, budget_number );
+            tmpstr1 = g_strconcat ( returned_text,
+                        tmpstr,
+                        NULL );
+            g_free (returned_text);
+            g_free (tmpstr);
+            returned_text = tmpstr1;
+            invalid = TRUE;
+        }
+        tmp_list = tmp_list -> next;
     }
 
     if (invalid)
-	return returned_text;
+        return returned_text;
     else
     {
-	g_free (returned_text);
-	return NULL;
+        g_free (returned_text);
+        return NULL;
     }
+
     return NULL;
 }
 
@@ -762,25 +767,30 @@ gboolean gsb_debug_budget_test_fix ()
     tmp_list = gsb_data_transaction_get_complete_transactions_list ();
     while (tmp_list)
     {
-	gint transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
-	gint budget_number = gsb_data_transaction_get_budgetary_number (transaction_number);
+        gint transaction_number;
+        gint budget_number;
 
-	if ( gsb_data_budget_get_structure (budget_number))
-	{
-	    /* budget found, check sub-budget */
-	    gint sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (transaction_number);
-	    if (sub_budget_number &&
-		!gsb_data_budget_get_sub_budget_structure (budget_number, sub_budget_number))
-		/* sub-budget not found */
-		gsb_data_transaction_set_budgetary_number (transaction_number, 0);
-	}
-	else
-	{
-	    /* budget not found */
-	    gsb_data_transaction_set_sub_budgetary_number (transaction_number, 0);
-	    gsb_data_transaction_set_budgetary_number (transaction_number, 0);
-	}
-	tmp_list = tmp_list -> next;
+        transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
+        budget_number = gsb_data_transaction_get_budgetary_number (transaction_number);
+
+        if ( gsb_data_budget_get_structure ( budget_number ) )
+        {
+            gint sub_budget_number;
+
+            /* budget found, check sub-budget */
+            sub_budget_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+            if (sub_budget_number &&
+            !gsb_data_budget_get_sub_budget_structure ( budget_number, sub_budget_number ) )
+            /* sub-budget not found */
+                gsb_data_transaction_set_sub_budgetary_number ( transaction_number, 0 );
+        }
+        else
+        {
+            /* budget not found */
+            gsb_data_transaction_set_sub_budgetary_number (transaction_number, 0);
+            gsb_data_transaction_set_budgetary_number (transaction_number, 0);
+        }
+        tmp_list = tmp_list -> next;
     }
     return TRUE;
 }

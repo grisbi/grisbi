@@ -7490,33 +7490,32 @@ msgstr ""
 #, c-format
 msgid "Transaction %d has category %d but invalid sub-category %d.\n"
 msgstr ""
-"La sous-catégorie %d de la catégorie %d de la transaction %d est invalide.\n"
+"L'opération %d a la catégorie %d et la sous-catégorie %d qui est invalide.\n"
 
 #. category not found
 #: ../src/gsb_debug.c:623
 #, c-format
 msgid "Transaction %d has invalid category %d.\n"
-msgstr "La catégorie %d de la transaction %d est invalide.\n"
+msgstr "L'opération %d a la catégorie %d qui est invalide.\n"
 
 #. sub-budget not found
 #: ../src/gsb_debug.c:713
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
-"La sous-imputation budgétaire %d de l'imputation budgétaire %d de la "
-"transaction %d est invalide.\n"
+"L'opération %d a l'imputation budgétaire %d et la sous-imputation %d qui est invalide.\n"
 
 #. budget not found
 #: ../src/gsb_debug.c:727
 #, c-format
 msgid "Transaction %d has invalid budget %d.\n"
-msgstr "L'imputation budgétaire %d de la transaction %d est invalide\n"
+msgstr "L'opération %d a l'imputation budgétaire %d qui est invalide\n"
 
 #. payee not found
 #: ../src/gsb_debug.c:812
 #, c-format
 msgid "Transaction %d has invalid payee %d.\n"
-msgstr "Le tiers %d de la transaction %d est invalide.\n"
+msgstr "L'opération %d a le tiers %d qui est invalide.\n"
 
 #. Create main widget.
 #: ../src/gsb_file.c:179
