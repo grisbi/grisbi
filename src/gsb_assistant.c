@@ -37,6 +37,8 @@
 #include "structures.h"
 #include "utils.h"
 #include "utils_str.h"
+#include "erreur.h"
+
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -65,36 +67,47 @@ extern GtkWidget *window;
  *
  */
 GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
-				gchar * image_filename,
-				GCallback enter_callback )
+                        gchar * image_filename,
+                        GCallback enter_callback )
 {
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
     GtkWidget * button_cancel, * button_prev, * button_next;
+    GtkWidget *button_select;
     GtkStyle * style;
     GtkTextBuffer * buffer;
-	gchar* tmpstr;
+    gchar *tmpstr;
+    gint width = 140;
 
     assistant = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
+                        NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
     g_object_set_data ( G_OBJECT ( window ), "assistant", assistant );
 
+    button_select = gtk_toggle_button_new_with_label ( _("Select all") );
+    gtk_widget_set_size_request ( button_select, width, -1 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( assistant )->action_area ),
+                        button_select, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT(assistant), "button_select", button_select );
+
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-					    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+    gtk_widget_set_size_request ( button_cancel, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_cancel", button_cancel );
 
     button_prev = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-					  GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+                        GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+    gtk_widget_set_size_request ( button_prev, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_prev", button_prev );
     gtk_widget_set_sensitive ( button_prev, FALSE );
 
     button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-					  GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+                        GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    gtk_widget_set_size_request ( button_next, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_next", button_next );
 
     eb = gtk_event_box_new ();
@@ -120,14 +133,12 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), eb,
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), eb, FALSE, FALSE, 0 );
 
     notebook = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), notebook,
-			 TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), notebook, TRUE, TRUE, 0 );
 
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);
@@ -148,7 +159,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new(NULL) );
 
     g_signal_connect_after ( notebook, "switch-page",
-			     G_CALLBACK ( gsb_assistant_change_page ), assistant );
+                        G_CALLBACK ( gsb_assistant_change_page ), assistant );
 
     gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( G_OBJECT(assistant), "notebook", notebook );
@@ -210,10 +221,13 @@ void gsb_assistant_add_page ( GtkWidget * assistant, GtkWidget * widget, gint po
 GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 {
     GtkWidget * notebook, * button_prev;
+    GtkWidget *button_select;
 
     button_prev = g_object_get_data ( G_OBJECT(assistant), "button_prev" );
+    button_select = g_object_get_data ( G_OBJECT ( assistant ), "button_select" );
 
     gtk_widget_show_all ( assistant );
+    gtk_widget_hide ( button_select );
 
     notebook = g_object_get_data ( G_OBJECT(assistant), "notebook" );
     gtk_notebook_set_current_page ( GTK_NOTEBOOK (notebook),
@@ -402,24 +416,6 @@ void gsb_assistant_next_page ( GtkWidget *assistant )
     gtk_button_clicked ( GTK_BUTTON (button_next));
 }
 
-/**
- * force the assistant to go to the previous page
- *
- * \param assistant
- *
- * \return
- * */
-/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
-void gsb_assistant_prev_page ( GtkWidget *assistant )
-{
-    GtkWidget * button_prev;
-
-    button_prev = g_object_get_data ( G_OBJECT (assistant), "button_prev" );
-    gtk_button_clicked ( GTK_BUTTON (button_prev));
-}
-*/
-
-
 
 /**
  *
@@ -435,30 +431,6 @@ void gsb_assistant_change_button_next ( GtkWidget * assistant, gchar * title,
     button_next = gtk_dialog_add_button ( GTK_DIALOG (assistant), title, response );
     g_object_set_data ( G_OBJECT (assistant), "button_next", button_next );
 }
-
-
-/**
- *
- *
- */
-/* dOm TODO : this function seems not to be used. Is it possible to remove it ?
-void gsb_assistant_set_additional_button ( GtkWidget * assistant, gchar * title )
-{
-    GtkWidget * additional_button;
-
-    additional_button = gtk_button_new_with_label ( title );
-    g_return_if_fail ( additional_button );
-    gtk_widget_show_all ( additional_button );
-
-
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG(assistant)->action_area), additional_button, TRUE, TRUE, 0 );
-
-    additional_button = gtk_button_new_with_label ( title );
-    gtk_widget_show_all ( additional_button );
-    gtk_box_pack_end ( GTK_BOX (GTK_DIALOG(assistant)->action_area), additional_button, TRUE, TRUE, 0 );
-}
-*/
-
 
 
 /* Local Variables: */
