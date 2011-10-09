@@ -127,6 +127,7 @@ struct gsb_etat_t
 
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
+    gboolean export_files_traitement;       /* 0 = traitement individuel, 1 = traitement automatique */
 
     /* combofix configuration */
     gint combofix_mixed_sort;               /* TRUE for no separation between the categories */
