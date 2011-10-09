@@ -30,26 +30,31 @@
 
 /*START_INCLUDE*/
 #include "export.h"
-#include "gsb_assistant.h"
+#include "dialog.h"
 #include "export_csv.h"
+#include "gsb_assistant.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_file.h"
-#include "dialog.h"
-#include "utils.h"
 #include "qif.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
 static GtkWidget * create_export_account_resume_page ( struct exported_account * account );
-static gboolean export_account_change_format ( GtkWidget * combo,
-					struct exported_account * account );
-static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      GtkTreeModel * model );
 static void export_account_all_toggled ( GtkToggleButton *button,
                         GtkTreeView *tree_view );
+static gboolean export_account_change_format ( GtkWidget * combo,
+					struct exported_account * account );
+static gboolean export_account_checkbutton_format_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
+static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+			      GtkTreeModel * model );
 static GtkWidget * export_create_final_page ( GtkWidget * assistant );
 static GtkWidget * export_create_resume_page ( GtkWidget * assistant );
 static GtkWidget * export_create_selection_page ( GtkWidget * assistant );
@@ -128,6 +133,7 @@ void export_accounts ( void )
 GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * view, * vbox, * padding_box, * sw;
+    GtkWidget *combo;
     GtkWidget *button_select;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -201,9 +207,17 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
                         G_CALLBACK ( export_account_all_toggled ),
                         view );
 
+    combo = gsb_automem_radiobutton3_new_with_title ( vbox,
+					    _("Select format to export" ),
+					    _("QIF format" ), _("CSV format" ), NULL,
+					    &etat.export_file_format,
+					    G_CALLBACK ( export_account_checkbutton_format_changed ),
+                        &etat.export_file_format,
+                        GTK_ORIENTATION_HORIZONTAL );
+
+    /* return */
     return vbox;
 }
-
 
 
 /**
@@ -403,7 +417,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(account -> chooser), hbox );
     gtk_box_pack_start ( GTK_BOX ( vbox ), account -> chooser, TRUE, TRUE, 0 );
 
-    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), etat.export_file_format );
 
     return vbox;
 }
@@ -572,6 +586,33 @@ void export_account_all_toggled ( GtkToggleButton *button,
 
     /* clean up */
     export_resume_maybe_sensitive_next ( assistant );
+}
+
+
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param event
+ * \param pointeur vers la donnée à modifier
+ */
+gboolean export_account_checkbutton_format_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
+{
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+
+        if ( etat.modification_fichier == 0 )
+            modification_fichier ( TRUE );
+    }
+
+    return FALSE;
 }
 
 
