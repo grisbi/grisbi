@@ -878,10 +878,14 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
     }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Export_file_format" ))
+    else if ( !strcmp ( attribute_names[i], "Export_file_format" ) )
     {
-        etat.export_file_format = utils_str_atoi ( attribute_values[i]);
+        etat.export_file_format = utils_str_atoi ( attribute_values[i] );
+    }
+
+    else if ( !strcmp ( attribute_names[i], "Export_files_traitement" ) )
+    {
+        etat.export_files_traitement = utils_str_atoi ( attribute_values[i] );
     }
 
     else if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )

@@ -756,6 +756,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tImport_categorie_for_payee=\"%d\"\n"
 					   "\t\tImport_fyear_by_value_date=\"%d\"\n"
 					   "\t\tExport_file_format=\"%d\"\n"
+                       "\t\tExport_files_traitement=\"%d\"\n"
 					   "\t\tReconcile_end_date=\"%d\"\n"
 					   "\t\tUse_logo=\"%d\"\n"
                        "\t\tName_logo=\"%s\"\n"
@@ -809,6 +810,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.get_categorie_for_payee,
 	etat.get_fyear_by_value_date,
     etat.export_file_format,
+    etat.export_files_traitement,
     etat.reconcile_end_date,
 	etat.utilise_logo,
     my_safe_null_str( etat.name_logo ),
