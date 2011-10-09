@@ -608,8 +608,7 @@ gboolean export_account_checkbutton_format_changed ( GtkWidget *checkbutton,
         value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
         *pointeur = value;
 
-        if ( etat.modification_fichier == 0 )
-            modification_fichier ( TRUE );
+        gsb_file_set_modified ( TRUE );
     }
 
     return FALSE;
