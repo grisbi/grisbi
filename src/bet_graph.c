@@ -252,6 +252,7 @@ gboolean bet_graph_on_motion ( GtkWidget *event_box,
         }
         else
             buf = NULL;
+        gog_chart_map_free ( map );
     }
     else if (  strcmp ( self->service_id, "GogPiePlot" ) == 0 )
     {
