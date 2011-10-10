@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-04 22:27+0200\n"
+"POT-Creation-Date: 2011-10-10 21:50+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -657,7 +657,7 @@ msgstr "Categorieën"
 #: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2100
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
-#: ../src/export_csv.c:815 ../src/fenetre_principale.c:301
+#: ../src/export_csv.c:823 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
 #: ../src/navigation.c:1964
 msgid "Budgetary lines"
@@ -686,7 +686,7 @@ msgstr "Kies een financieel jaar"
 #. name of the div sous-div column
 #: ../src/bet_config.c:920 ../src/bet_hist.c:572 ../src/bet_hist.c:1647
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
-#: ../src/etats_config.c:684 ../src/export_csv.c:806
+#: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:176 ../src/import_csv.c:86
 #: ../src/meta_categories.c:67
 msgid "Category"
@@ -921,7 +921,7 @@ msgid "Loan amount: "
 msgstr "Bestand aan het laden:"
 
 #: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:771 ../src/bet_tab.c:657
-#: ../src/etats_affiche.c:2409 ../src/export_csv.c:776
+#: ../src/etats_affiche.c:2409 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:162
 #: ../src/gsb_scheduler_list.c:512 ../src/gsb_transactions_list.c:165
@@ -978,7 +978,7 @@ msgstr "Print"
 # knop in menu > bestand
 #: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1949 ../src/bet_tab.c:2899
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
-#: ../src/export.c:164 ../src/imputation_budgetaire.c:599
+#: ../src/export.c:202 ../src/imputation_budgetaire.c:599
 msgid "Export"
 msgstr "Exporteren"
 
@@ -1111,7 +1111,7 @@ msgstr "Kies een betalingsmethode"
 #: ../src/bet_future.c:789 ../src/etats_affiche.c:2430
 #: ../src/etats_config.c:528 ../src/etats_config.c:531
 #: ../src/etats_config.c:696 ../src/etats_config.c:7032
-#: ../src/export_csv.c:791 ../src/fenetre_principale.c:286
+#: ../src/export_csv.c:799 ../src/fenetre_principale.c:286
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1319
 #: ../src/gsb_form_widget.c:436 ../src/gsb_scheduler_list.c:512
 #: ../src/gsb_transactions_list.c:167 ../src/import.c:3333
@@ -1122,7 +1122,7 @@ msgstr "Betaler/begunstigde"
 
 #. Debit method_ptr
 #: ../src/bet_future.c:796 ../src/bet_tab.c:691 ../src/categories_onglet.c:762
-#: ../src/export_csv.c:797 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
+#: ../src/export_csv.c:805 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
 #: ../src/gsb_payment_method_config.c:390
 #: ../src/gsb_payment_method_config.c:1084 ../src/gsb_transactions_list.c:169
@@ -1132,7 +1132,7 @@ msgstr "Debet(af)"
 
 #. Credit method_ptr
 #: ../src/bet_future.c:803 ../src/bet_tab.c:709 ../src/categories_onglet.c:762
-#: ../src/export_csv.c:794 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
+#: ../src/export_csv.c:802 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
 #: ../src/gsb_payment_method_config.c:403
 #: ../src/gsb_payment_method_config.c:1080 ../src/gsb_transactions_list.c:170
@@ -1146,7 +1146,7 @@ msgid "Categories : Sub-categories"
 msgstr "Categorieën : Sub-categorieën"
 
 #. Notes
-#: ../src/bet_future.c:824 ../src/etats_affiche.c:2451 ../src/export_csv.c:812
+#: ../src/bet_future.c:824 ../src/etats_affiche.c:2451 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1348 ../src/gsb_form_widget.c:452
 #: ../src/gsb_transactions_list.c:179 ../src/import_csv.c:84
 msgid "Notes"
@@ -1157,8 +1157,8 @@ msgstr "Aantekeningen"
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
 #: ../src/bet_future.c:1423 ../src/bet_future.c:1670
-#: ../src/etats_affiche.c:1848 ../src/export_csv.c:617 ../src/export_csv.c:729
-#: ../src/export_csv.c:741 ../src/gsb_data_category.c:1060
+#: ../src/etats_affiche.c:1848 ../src/export_csv.c:625 ../src/export_csv.c:737
+#: ../src/export_csv.c:749 ../src/gsb_data_category.c:1060
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
 #: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2314 ../src/import.c:2762
 #: ../src/import.c:2780 ../src/plugins/ofx/ofx.c:434
@@ -1233,7 +1233,7 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:304 ../src/bet_graph.c:416
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:420
 msgid "Graph"
 msgstr ""
 
@@ -1242,39 +1242,39 @@ msgstr ""
 msgid "Options"
 msgstr "Uitgaven"
 
-#: ../src/bet_graph.c:429
+#: ../src/bet_graph.c:433
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:453 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:457 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "Inkomsten"
 
-#: ../src/bet_graph.c:805
+#: ../src/bet_graph.c:810
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:805
+#: ../src/bet_graph.c:810
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:962
+#: ../src/bet_graph.c:967
 #, fuzzy
 msgid "Column"
 msgstr "Opmerkingen"
 
-#: ../src/bet_graph.c:989
+#: ../src/bet_graph.c:994
 #, fuzzy
 msgid "Line"
 msgstr "Licentie"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1449 ../src/bet_graph.c:1483
+#: ../src/bet_graph.c:1454 ../src/bet_graph.c:1488
 #, fuzzy
 msgid "Hide grid"
 msgstr "Activeer"
 
-#: ../src/bet_graph.c:1451 ../src/bet_graph.c:1485 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1456 ../src/bet_graph.c:1490 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Controleer"
@@ -1285,7 +1285,7 @@ msgid "Select"
 msgstr "Selecteer alles"
 
 #: ../src/bet_hist.c:591 ../src/categories_onglet.c:180
-#: ../src/etats_config.c:5249 ../src/export_csv.c:800
+#: ../src/etats_config.c:5249 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:172 ../src/import.c:3340
 #: ../src/imputation_budgetaire.c:185 ../src/tiers_onglet.c:232
@@ -1375,7 +1375,7 @@ msgstr ""
 msgid "Description"
 msgstr "Omschrijving"
 
-#: ../src/bet_tab.c:727 ../src/export_csv.c:803 ../src/gsb_reconcile.c:165
+#: ../src/bet_tab.c:727 ../src/export_csv.c:811 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:513 ../src/gsb_transactions_list.c:171
 #: ../src/gsb_transactions_list.c:3316 ../src/import_csv.c:90
 msgid "Balance"
@@ -2201,7 +2201,7 @@ msgstr "Algemeen totaal (%d transacties):"
 msgid "General total: "
 msgstr "Totaal algemeen:"
 
-#: ../src/etats_affiche.c:1857 ../src/export_csv.c:587
+#: ../src/etats_affiche.c:1857 ../src/export_csv.c:595
 #: ../src/gsb_data_category.c:1058 ../src/gsb_form.c:735
 #: ../src/gsb_form.c:1761 ../src/gsb_form.c:2905 ../src/gsb_form.c:3308
 #: ../src/gsb_form_scheduler.c:317 ../src/gsb_transactions_list.c:3794
@@ -2226,13 +2226,13 @@ msgstr "Geen naam"
 msgid "Outgoings"
 msgstr "Uitgaven"
 
-#: ../src/etats_affiche.c:2416 ../src/export_csv.c:779 ../src/gsb_form.c:1303
+#: ../src/etats_affiche.c:2416 ../src/export_csv.c:787 ../src/gsb_form.c:1303
 #: ../src/gsb_form.c:2148 ../src/gsb_form.c:2178 ../src/gsb_form_widget.c:428
 #: ../src/gsb_transactions_list.c:166 ../src/import_csv.c:82
 msgid "Value date"
 msgstr "Valuta datum"
 
-#: ../src/etats_affiche.c:2423 ../src/export_csv.c:785
+#: ../src/etats_affiche.c:2423 ../src/export_csv.c:793
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_form_widget.c:432 ../src/gsb_transactions_list.c:175
 msgid "Financial year"
@@ -2249,12 +2249,12 @@ msgstr "Betaalmethodes"
 msgid "Cheque"
 msgstr "Cheque"
 
-#: ../src/etats_affiche.c:2472 ../src/export_csv.c:821 ../src/gsb_form.c:1395
+#: ../src/etats_affiche.c:2472 ../src/export_csv.c:829 ../src/gsb_form.c:1395
 #: ../src/gsb_form_widget.c:472 ../src/gsb_transactions_list.c:178
 msgid "Voucher"
 msgstr "Waardebon"
 
-#: ../src/etats_affiche.c:2479 ../src/export_csv.c:827 ../src/gsb_form.c:1390
+#: ../src/etats_affiche.c:2479 ../src/export_csv.c:835 ../src/gsb_form.c:1390
 #: ../src/gsb_form_widget.c:476 ../src/gsb_transactions_list.c:180
 msgid "Bank references"
 msgstr "Bank referenties"
@@ -2408,7 +2408,7 @@ msgstr "Toon data"
 msgid "Generalities"
 msgstr "Algemeen"
 
-#: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:767
+#: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:775
 #: ../src/fenetre_principale.c:253 ../src/parametres.c:430
 msgid "Transactions"
 msgstr "Boekingen"
@@ -2542,16 +2542,17 @@ msgstr "Kies een of meer rekeningen voor in het rapport :"
 
 #: ../src/etats_config.c:2557 ../src/etats_config.c:2812
 #: ../src/etats_config.c:3094 ../src/etats_config.c:3901
-#: ../src/etats_config.c:4091 ../src/etats_config.c:7322
-#: ../src/tiers_onglet.c:1428 ../src/tiers_onglet.c:1448
+#: ../src/etats_config.c:4091 ../src/etats_config.c:7322 ../src/export.c:611
+#: ../src/gsb_assistant.c:91 ../src/tiers_onglet.c:1428
+#: ../src/tiers_onglet.c:1448
 msgid "Select all"
 msgstr "Selecteer alles"
 
 #. ajoute le bouton (dé)sélectionne tout
 #: ../src/etats_config.c:2572 ../src/etats_config.c:2827
 #: ../src/etats_config.c:3109 ../src/etats_config.c:3916
-#: ../src/etats_config.c:4106 ../src/etats_config.c:7337 ../src/import.c:2270
-#: ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
+#: ../src/etats_config.c:4106 ../src/etats_config.c:7337 ../src/export.c:606
+#: ../src/import.c:2270 ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
 msgid "Unselect all"
 msgstr "Selectie opheffen"
 
@@ -3174,7 +3175,7 @@ msgstr "Gebruik de transacties aan de hand van de betalingsmethode"
 msgid "Select methods of payment to include: "
 msgstr "Kies een of meer betaalmethode voor in het rapport :"
 
-#: ../src/etats_csv.c:175 ../src/export_csv.c:410
+#: ../src/etats_csv.c:175 ../src/export_csv.c:418
 #, fuzzy, c-format
 msgid ""
 "Unable to create file \"%s\" :\n"
@@ -3491,11 +3492,11 @@ msgstr "van %s %d"
 msgid "to %s %d"
 msgstr "naar %s %d"
 
-#: ../src/export.c:79
+#: ../src/export.c:89
 msgid "Exporting Grisbi accounts"
 msgstr ""
 
-#: ../src/export.c:80
+#: ../src/export.c:90
 msgid ""
 "This assistant will guide you through the process of exporting Grisbi "
 "accounts into QIF or CSV files.\n"
@@ -3504,84 +3505,94 @@ msgid ""
 "into currency of their respective account."
 msgstr ""
 
-#: ../src/export.c:136
+#: ../src/export.c:174
 msgid "Select accounts to export"
 msgstr "Selecteer een of meer rekeningen om te exporteren"
 
-#: ../src/export.c:173 ../src/export_csv.c:770
+#: ../src/export.c:211 ../src/export_csv.c:778
 #: ../src/gsb_data_partial_balance.c:1508
 msgid "Account name"
 msgstr "Rekening naam"
 
-#: ../src/export.c:256
+#: ../src/export.c:240
+#, fuzzy
+msgid "Select options to export"
+msgstr "Selecteer een of meer rekeningen om te exporteren"
+
+#: ../src/export.c:241 ../src/export.c:460
+#: ../src/gsb_assistant_archive_export.c:306
+#, fuzzy
+msgid "QIF format"
+msgstr "Informatie"
+
+#: ../src/export.c:241 ../src/export.c:461
+#: ../src/gsb_assistant_archive_export.c:307
+msgid "CSV format"
+msgstr ""
+
+#: ../src/export.c:247
+msgid "Treat all files as the first"
+msgstr ""
+
+#: ../src/export.c:324
 msgid "Export settings completed successfully"
 msgstr ""
 
-#: ../src/export.c:260
+#: ../src/export.c:328
 msgid "Press the 'Close' button to finish the export."
 msgstr ""
 
-#: ../src/export.c:288
+#: ../src/export.c:361
 #, fuzzy
 msgid "Accounts to export"
 msgstr "Selecteer een of meer rekeningen om te exporteren"
 
-#: ../src/export.c:293
+#: ../src/export.c:366
 msgid ""
 "The following accounts are to be exported. In the next screens, you will "
 "choose what to do with each of them."
 msgstr ""
 
-#: ../src/export.c:368 ../src/gsb_assistant_archive_export.c:300
+#: ../src/export.c:455 ../src/gsb_assistant_archive_export.c:300
 #, fuzzy
 msgid "Export format: "
 msgstr "Exporteer rapport:"
 
-#: ../src/export.c:373 ../src/gsb_assistant_archive_export.c:306
-#, fuzzy
-msgid "QIF format"
-msgstr "Informatie"
-
-#: ../src/export.c:374 ../src/gsb_assistant_archive_export.c:307
-msgid "CSV format"
-msgstr ""
-
-#. set the initial balance
-#: ../src/export_csv.c:291
+#: ../src/export_csv.c:294
 msgid "Initial balance"
 msgstr "Begin saldo"
 
-#: ../src/export_csv.c:608
+#: ../src/export_csv.c:616
 msgid "B"
 msgstr "B"
 
 # geen idee waar dit staat
-#: ../src/export_csv.c:731 ../src/gsb_form.c:1915
+#: ../src/export_csv.c:739 ../src/gsb_form.c:1915
 msgid "Deleted account"
 msgstr "Verwijderde rekening"
 
-#: ../src/export_csv.c:773 ../src/import_csv.c:95
+#: ../src/export_csv.c:781 ../src/import_csv.c:95
 msgid "Split"
 msgstr "Opsplitsen"
 
-#: ../src/export_csv.c:782
+#: ../src/export_csv.c:790
 msgid "Cheques"
 msgstr "Cheques"
 
-#: ../src/export_csv.c:788 ../src/gsb_transactions_list.c:177
+#: ../src/export_csv.c:796 ../src/gsb_transactions_list.c:177
 #: ../src/import_csv.c:94
 msgid "C/R"
 msgstr "C/R"
 
-#: ../src/export_csv.c:809 ../src/import_csv.c:87
+#: ../src/export_csv.c:817 ../src/import_csv.c:87
 msgid "Sub-categories"
 msgstr "Sub-categorieën"
 
-#: ../src/export_csv.c:818 ../src/import_csv.c:89
+#: ../src/export_csv.c:826 ../src/import_csv.c:89
 msgid "Sub-budgetary lines"
 msgstr "Sub-budgetregel"
 
-#: ../src/export_csv.c:824
+#: ../src/export_csv.c:832
 msgid "Reconciliation number"
 msgstr "Controlenummer"
 
@@ -4844,7 +4855,7 @@ msgid ""
 "or the close button to cancel the action."
 msgstr ""
 
-#: ../src/gsb_assistant.c:230
+#: ../src/gsb_assistant.c:243
 #, c-format
 msgid "%s (%d of %d)"
 msgstr ""
@@ -7498,21 +7509,21 @@ msgid "Transaction %d has invalid category %d.\n"
 msgstr "Groepeer transacties volgens categorie"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:715
+#: ../src/gsb_debug.c:721
 #, fuzzy, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
 "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet. "
 
 #. budget not found
-#: ../src/gsb_debug.c:729
+#: ../src/gsb_debug.c:733
 #, fuzzy, c-format
 msgid "Transaction %d has invalid budget %d.\n"
 msgstr ""
 "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet. "
 
 #. payee not found
-#: ../src/gsb_debug.c:814
+#: ../src/gsb_debug.c:824
 #, fuzzy, c-format
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr ""
@@ -7772,7 +7783,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "Rekening %s niet gevonden. \n"
 
-#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5489
+#: ../src/gsb_file_load.c:462 ../src/gsb_file_load.c:5499
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "Dit bestand is geen Grisbi rapport bestand"
@@ -7786,14 +7797,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8885
+#: ../src/gsb_file_load.c:8899
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "Grisbi versie %s is nodig om dit bestand te openen"
 
-#: ../src/gsb_file_load.c:8910
+#: ../src/gsb_file_load.c:8924
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7801,7 +7812,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8914
+#: ../src/gsb_file_load.c:8928
 msgid "Grisbi archive opened"
 msgstr ""
 
