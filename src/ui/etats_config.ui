@@ -606,7 +606,10 @@
                 <property name="vscrollbar_policy">automatic</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkTreeView" id="treeview_comptes">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
                 </child>
               </object>
               <packing>
@@ -623,78 +626,14 @@
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_select_all_comptes">
+                    <property name="label" translatable="yes">Select all</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                    <property name="yalign">0</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
-                    <child>
-                      <object class="GtkAlignment" id="alignment5">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="xscale">0</property>
-                        <property name="yscale">0</property>
-                        <child>
-                          <object class="GtkVBox" id="vbox15">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="homogeneous">True</property>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_select_all_comptes">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label18">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Select all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_unselect_all_comptes">
-                                <property name="can_focus">False</property>
-                                <property name="no_show_all">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="label19">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Unselect all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -704,7 +643,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_bank_comptes">
+                  <object class="GtkToggleButton" id="button_bank_comptes">
                     <property name="label" translatable="yes">Select bank accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -712,6 +651,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -721,7 +661,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_cash_comptes">
+                  <object class="GtkToggleButton" id="button_cash_comptes">
                     <property name="label" translatable="yes">Select cash accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -729,6 +669,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -738,7 +679,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_liabilities_comptes">
+                  <object class="GtkToggleButton" id="button_liabilities_comptes">
                     <property name="label" translatable="yes">Select liabilities accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -746,6 +687,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -755,7 +697,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="button_assets_comptes">
+                  <object class="GtkToggleButton" id="button_assets_comptes">
                     <property name="label" translatable="yes">Select assets accounts</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -763,6 +705,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="xalign">0.05000000074505806</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1789,7 +1732,10 @@
                 <property name="vscrollbar_policy">automatic</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkTreeView" id="treeview_tiers">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
                 </child>
               </object>
               <packing>
@@ -1805,78 +1751,14 @@
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkToggleButton" id="togglebutton_select_all_tiers">
+                    <property name="label" translatable="yes">Select all</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
-                    <property name="yalign">0</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
-                    <child>
-                      <object class="GtkAlignment" id="alignment7">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                        <property name="xscale">0</property>
-                        <property name="yscale">0</property>
-                        <child>
-                          <object class="GtkVBox" id="vbox17">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="homogeneous">True</property>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_select_all_tiers">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                  <object class="GtkLabel" id="label22">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Select all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkHBox" id="hbox_toggle_unselect_all_tiers">
-                                <property name="can_focus">False</property>
-                                <property name="no_show_all">True</property>
-                                <child>
-                                  <object class="GtkLabel" id="label23">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Unselect all</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1885,10 +1767,52 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkHBox" id="hbox3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="label18">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Search : </property>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="search_entry_tiers">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">●</property>
+                        <property name="invisible_char_set">True</property>
+                        <property name="secondary_icon_stock">gtk-find</property>
+                        <property name="primary_icon_activatable">True</property>
+                        <property name="secondary_icon_activatable">True</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="padding">10</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>

@@ -8,6 +8,7 @@
 void gsb_etats_config_personnalisation_etat ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void );
+GtkTreeModel *gsb_etats_config_onglet_get_liste_tiers ( void );
 void gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
                         gint type_compte );
 

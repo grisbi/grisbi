@@ -27,6 +27,9 @@ void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebu
                         gint toggle );
 void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
+void utils_togglebutton_set_label_position_unselect ( GtkWidget *togglebutton,
+                        GCallback callback,
+                        GtkWidget *tree_view );
 /*END_DECLARATION*/
 
 #endif

@@ -246,12 +246,12 @@ void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton
 
     if ( gtk_toggle_button_get_active ( togglebutton ) )
     {
-        gtk_tree_selection_select_all ( gtk_tree_view_get_selection GTK_TREE_VIEW ( tree_view ) );
+        gtk_tree_selection_select_all ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) );
         label = g_strdup ( _("Unselect all") );
     }
     else
     {
-        gtk_tree_selection_unselect_all ( gtk_tree_view_get_selection GTK_TREE_VIEW ( tree_view ) );
+        gtk_tree_selection_unselect_all ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) );
         label = g_strdup ( _("Select all") );
     }
 
@@ -286,6 +286,42 @@ void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebu
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), toggle );
 
     g_free ( label );
+}
+
+
+/**
+ * Cette fonction remplace le libellé select par unselect et positionne le bouton sur ON
+ *
+ * \param le button de commande
+ *
+ * \return
+ */
+void utils_togglebutton_set_label_position_unselect ( GtkWidget *togglebutton,
+                        GCallback callback,
+                        GtkWidget *tree_view )
+{
+    if ( callback == NULL )
+    {
+        g_signal_handlers_block_by_func ( G_OBJECT ( togglebutton ),
+                                utils_togglebutton_select_unselect_all_rows,
+                                tree_view );
+
+        utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( togglebutton ),
+                                utils_togglebutton_select_unselect_all_rows,
+                                tree_view );
+    }
+    else
+    {
+        g_signal_handlers_block_by_func ( G_OBJECT ( togglebutton ),
+                                G_CALLBACK ( callback ),
+                                tree_view );
+
+        utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( togglebutton ),
+                                G_CALLBACK ( callback ),
+                                tree_view );
+    }
 }
 
 

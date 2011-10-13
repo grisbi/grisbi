@@ -3722,6 +3722,26 @@ gboolean gsb_data_report_set_budget_struct_list ( gint report_number,
 }
 
 
+/**
+ * free the payee_numbers_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_payee_numbers_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+    if ( report -> payee_numbers )
+        g_slist_free ( report -> payee_numbers );
+    report -> payee_numbers = NULL;
+}
+
 
 /**
  * get the  payee_numbers
