@@ -30,29 +30,36 @@
 
 /*START_INCLUDE*/
 #include "export.h"
-#include "gsb_assistant.h"
+#include "dialog.h"
 #include "export_csv.h"
+#include "gsb_assistant.h"
+#include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_file.h"
-#include "dialog.h"
-#include "utils.h"
 #include "qif.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
 
 /*START_STATIC*/
 static GtkWidget * create_export_account_resume_page ( struct exported_account * account );
-static gboolean export_account_change_format ( GtkWidget * combo,
-					struct exported_account * account );
-static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      GtkTreeModel * model );
 static void export_account_all_toggled ( GtkToggleButton *button,
                         GtkTreeView *tree_view );
+static gboolean export_account_change_format ( GtkWidget * combo,
+					struct exported_account * account );
+static gboolean export_account_radiobutton_format_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
+static void expert_account_free_account_structure ( struct exported_account *account );
+static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
+			      GtkTreeModel * model );
 static GtkWidget * export_create_final_page ( GtkWidget * assistant );
 static GtkWidget * export_create_resume_page ( GtkWidget * assistant );
 static GtkWidget * export_create_selection_page ( GtkWidget * assistant );
+static gboolean export_enter_final_page ( GtkWidget *assistant );
 static gboolean export_enter_resume_page ( GtkWidget * assistant );
 static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
@@ -74,51 +81,77 @@ static GSList *exported_accounts = NULL;
 void export_accounts ( void )
 {
     GtkWidget *dialog;
+    gchar *extension = NULL;
 
     selected_accounts = NULL;
     exported_accounts = NULL;
 
     dialog = gsb_assistant_new ( _("Exporting Grisbi accounts"),
-				 _("This assistant will guide you through the process of "
-				   "exporting Grisbi accounts into QIF or CSV files.\n\n"
-				   "As QIF and CSV do not support currencies, all "
-				   "transactions will be converted into currency of their "
-				   "respective account."),
-				 "impexp.png",
-				 NULL );
+                        _("This assistant will guide you through the process of "
+                        "exporting Grisbi accounts into QIF or CSV files.\n\n"
+                        "As QIF and CSV do not support currencies, all "
+                        "transactions will be converted into currency of their "
+                        "respective account."),
+                        "impexp.png",
+                        NULL );
 
-    gsb_assistant_add_page ( dialog, export_create_selection_page(dialog), 1, 0, 2,
-			     G_CALLBACK ( export_resume_maybe_sensitive_next ) );
-    gsb_assistant_add_page ( dialog, export_create_resume_page(dialog), 2, 1, 3,
-			     G_CALLBACK ( export_enter_resume_page ) );
+    gsb_assistant_add_page ( dialog, export_create_selection_page ( dialog ), 1, 0, 2,
+                        G_CALLBACK ( export_resume_maybe_sensitive_next ) );
+    gsb_assistant_add_page ( dialog, export_create_resume_page ( dialog ), 2, 1, 3,
+                        G_CALLBACK ( export_enter_resume_page ) );
 
 
     if ( gsb_assistant_run ( dialog ) == GTK_RESPONSE_APPLY )
     {
-	while ( exported_accounts )
-	{
-	    struct exported_account * account;
+        while ( exported_accounts )
+        {
+            struct exported_account *account;
 
-	    account = (struct exported_account *) exported_accounts -> data;
+            account = (struct exported_account *) exported_accounts->data;
 
-	    account -> filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(account -> chooser) );
+            if ( etat.export_files_traitement )
+            {
+                const gchar *title;
+                gchar *tmp_str;
 
-	    if ( account -> format == EXPORT_QIF )
-	    {
-		qif_export ( account -> filename, account -> account_nb, 0 );
-	    }
-	    else
-	    {
-		gsb_csv_export_account ( account -> filename, account -> account_nb );
-	    }
+                if ( titre_fichier && strlen ( titre_fichier ) )
+                    title = titre_fichier;
+                else
+                    title = g_get_user_name ( );
 
-	    exported_accounts = exported_accounts -> next;
-	}
+                if ( extension == NULL )
+                    extension = g_strdup ( account->extension );
+
+                tmp_str = g_strconcat ( title, "-",
+                                gsb_data_account_get_name ( account -> account_nb ),
+                                ".",
+                                extension,
+                                NULL );
+
+                account -> filename = g_build_filename ( gsb_file_get_last_path (), tmp_str, NULL );
+
+                g_free ( tmp_str );
+            }
+            else
+            {
+                account->filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( account -> chooser ) );
+                extension = g_strdup ( account->extension );
+            }
+
+            if ( strcmp ( extension, "qif" ) == 0 )
+                qif_export ( account->filename, account->account_nb, 0 );
+            else    /* extension = csv */
+                gsb_csv_export_account ( account->filename, account->account_nb );
+
+            exported_accounts = exported_accounts->next;
+        }
     }
 
+    g_free ( extension );
+    g_slist_free ( selected_accounts );
+    g_slist_free_full ( exported_accounts, ( GDestroyNotify ) expert_account_free_account_structure );
     gtk_widget_destroy ( dialog );
 }
-
 
 
 /**
@@ -128,6 +161,8 @@ void export_accounts ( void )
 GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * view, * vbox, * padding_box, * sw;
+    GtkWidget *combo;
+    GtkWidget *button;
     GtkWidget *button_select;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
@@ -201,9 +236,23 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
                         G_CALLBACK ( export_account_all_toggled ),
                         view );
 
+    combo = gsb_automem_radiobutton3_new_with_title ( vbox,
+					    _("Select options to export" ),
+					    _("QIF format" ), _("CSV format" ), NULL,
+					    &etat.export_file_format,
+					    G_CALLBACK ( export_account_radiobutton_format_changed ),
+                        &etat.export_file_format,
+                        GTK_ORIENTATION_HORIZONTAL );
+
+    button = gsb_automem_checkbutton_new ( _("Treat all files as the first" ),
+                        &etat.export_files_traitement,
+                        NULL,
+                        NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
+
+    /* return */
     return vbox;
 }
-
 
 
 /**
@@ -293,10 +342,11 @@ GtkWidget * export_create_final_page ( GtkWidget * assistant )
 gboolean export_enter_resume_page ( GtkWidget * assistant )
 {
     GtkWidget *button_select;
-    GtkTextBuffer * buffer;
+    GtkTextBuffer *buffer;
     GtkTextIter iter;
-    GSList * list;
+    GSList *list;
     gint page = 3;
+    gint index = 0;
 
     buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
     gtk_text_buffer_set_text (buffer, "\n", -1 );
@@ -327,24 +377,40 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 	list = selected_accounts;
 	while ( list )
 	{
-	    struct exported_account * account;
-	    gint i = GPOINTER_TO_INT(list -> data);
+	    struct exported_account *account;
+	    gint i = GPOINTER_TO_INT ( list -> data );
 
 	    gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-						      g_strconcat ( "• ",
-								    gsb_data_account_get_name ( i ),
-								    "\n\n",
-								    NULL ),
-						      -1, "indented", NULL );
+                                g_strconcat ( "• ",
+                                gsb_data_account_get_name ( i ),
+                                "\n\n",
+                                NULL ),
+                                -1, "indented", NULL );
 
 	    account = g_malloc0 ( sizeof ( struct exported_account ) );
 	    account -> account_nb = i;
+        account->extension = "";
 	    exported_accounts = g_slist_append ( exported_accounts, account );
-	    gsb_assistant_add_page ( assistant,
-				     create_export_account_resume_page ( account ),
-				     page, page - 1, page + 1, G_CALLBACK ( NULL ) );
-	    page ++;
 
+        if ( etat.export_files_traitement )
+        {
+            if ( index == 0 )
+            {
+                gsb_assistant_add_page ( assistant,
+                         create_export_account_resume_page ( account ),
+                         page, page - 1, page + 1, G_CALLBACK ( NULL ) );
+                page ++;
+            }
+        }
+        else
+        {
+            gsb_assistant_add_page ( assistant,
+                         create_export_account_resume_page ( account ),
+                         page, page - 1, page + 1, G_CALLBACK ( NULL ) );
+            page ++;
+        }
+
+        index++;
 	    list = list -> next;
 	}
 
@@ -359,7 +425,6 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 
     return FALSE;
 }
-
 
 
 /**
@@ -403,7 +468,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(account -> chooser), hbox );
     gtk_box_pack_start ( GTK_BOX ( vbox ), account -> chooser, TRUE, TRUE, 0 );
 
-    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), etat.export_file_format );
 
     return vbox;
 }
@@ -422,36 +487,38 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
  *
  * \return FALSE
  */
-gboolean export_account_change_format ( GtkWidget * combo,
-					struct exported_account * account )
+gboolean export_account_change_format ( GtkWidget *combo,
+                        struct exported_account *account )
 {
-    gchar * extension = "", * title;
+    gchar *title;
 
-    switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX(combo) ) )
+    switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
-	    case EXPORT_QIF:
-		extension = "qif";
-		account -> format = EXPORT_QIF;
-		break;
+        case EXPORT_QIF:
+        account->extension = "qif";
+        account->format = EXPORT_QIF;
+        break;
 
-	    case EXPORT_CSV:
-		extension = "csv";
-		account -> format = EXPORT_CSV;
-		break;
+        case EXPORT_CSV:
+        account->extension = "csv";
+        account -> format = EXPORT_CSV;
+        break;
     }
 
     if ( titre_fichier && strlen ( titre_fichier ) )
     {
-	title = titre_fichier;
+        title = titre_fichier;
     }
     else
     {
-	title = (gchar *) g_get_user_name ();
+        title = (gchar *) g_get_user_name ( );
     }
 
-    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER(account -> chooser),
-		       g_strconcat ( title, "-", gsb_data_account_get_name ( account -> account_nb ), ".", extension, NULL ) );
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER(account -> chooser), gsb_file_get_last_path () );
+    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER ( account->chooser ),
+                        g_strconcat ( title, "-",
+                        gsb_data_account_get_name ( account->account_nb ), ".", account->extension,
+                        NULL ) );
+    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( account->chooser ), gsb_file_get_last_path () );
 
     return FALSE;
 }
@@ -575,6 +642,39 @@ void export_account_all_toggled ( GtkToggleButton *button,
 }
 
 
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param event
+ * \param pointeur vers la donnée à modifier
+ */
+gboolean export_account_radiobutton_format_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur )
+{
+    if ( pointeur )
+    {
+        gint value = 0;
+
+        value = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( checkbutton ), "pointer" ) );
+        *pointeur = value;
+
+        gsb_file_set_modified ( TRUE );
+    }
+
+    return FALSE;
+}
+
+
+void expert_account_free_account_structure ( struct exported_account *account )
+{
+    g_free ( account->extension );
+    g_free ( account->filename );
+
+    g_free ( account );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
