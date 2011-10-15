@@ -8,6 +8,8 @@
 void etats_config_ui_free_builder ( void );
 GtkWidget *etats_config_ui_create_dialog ( void );
 
+void etats_config_ui_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *togglebutton,
+                        GtkWidget *tree_view );
 void etats_config_ui_onglet_comptes_select_unselect ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
 void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show );
