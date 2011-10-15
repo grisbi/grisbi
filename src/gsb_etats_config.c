@@ -669,14 +669,14 @@ void gsb_etats_config_initialise_onglet_comptes ( gint report_number )
     etats_config_ui_widget_set_actif ( "bouton_detaille_comptes_etat", active );
 
     if ( active )
+    {
         etats_config_ui_tree_view_select_rows_from_list (
                                 gsb_data_report_get_account_numbers_list ( report_number ),
                                 "treeview_comptes",
                                 1 );
 
-    if ( g_slist_length ( gsb_data_report_get_account_numbers_list ( report_number ) ) )
-    {
-        utils_togglebutton_set_label_position_unselect (
+        if ( g_slist_length ( gsb_data_report_get_account_numbers_list ( report_number ) ) )
+            utils_togglebutton_set_label_position_unselect (
                                 etats_config_ui_widget_get_widget_by_name (
                                 "togglebutton_select_all_comptes", NULL ),
                                 G_CALLBACK ( etats_config_ui_onglet_comptes_select_unselect ),
@@ -790,14 +790,14 @@ void gsb_etats_config_initialise_onglet_tiers ( gint report_number )
     etats_config_ui_widget_set_actif ( "bouton_detaille_tiers_etat", active );
 
     if ( active )
+    {
         etats_config_ui_tree_view_select_rows_from_list (
                                 gsb_data_report_get_payee_numbers_list ( report_number ),
                                 "treeview_tiers",
                                 1 );
 
-    if ( g_slist_length ( gsb_data_report_get_payee_numbers_list ( report_number ) ) )
-    {
-        utils_togglebutton_set_label_position_unselect (
+        if ( g_slist_length ( gsb_data_report_get_payee_numbers_list ( report_number ) ) )
+            utils_togglebutton_set_label_position_unselect (
                                 etats_config_ui_widget_get_widget_by_name (
                                 "togglebutton_select_all_tiers", NULL ),
                                 NULL,
@@ -907,11 +907,11 @@ void gsb_etats_config_initialise_onglet_categ_budget ( gint report_number,
     etats_config_ui_widget_set_actif ( checkbutton_name, active );
 
     if ( active )
+    {
         gsb_etats_config_onglet_categ_budget_init_treeview ( treeview_name, tmp_list );
 
-    if ( g_slist_length ( tmp_list ) )
-    {
-        utils_togglebutton_set_label_position_unselect (
+        if ( g_slist_length ( tmp_list ) )
+            utils_togglebutton_set_label_position_unselect (
                                 etats_config_ui_widget_get_widget_by_name (
                                 button_name, NULL ),
                                 G_CALLBACK ( etats_config_ui_onglet_categ_budget_check_uncheck_all ),
@@ -2173,8 +2173,6 @@ GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
     GtkWidget *tree_view;
     GtkCellRenderer *cell;
     GtkTreeViewColumn *column;
-
-/*     devel_debug (sw_name);  */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );

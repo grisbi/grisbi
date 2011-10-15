@@ -1678,9 +1678,9 @@ void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
     {
         do
         {
-            gint fyear_number;
+            gint tmp_number;
 
-            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, column, &fyear_number, -1 );
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, column, &tmp_number, -1 );
 
             tmp_list = liste;
             while ( tmp_list )
@@ -1689,7 +1689,7 @@ void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
                 
                 result = GPOINTER_TO_INT ( tmp_list -> data );
 
-                if ( result == fyear_number )
+                if ( result == tmp_number )
                     gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( selection ), &iter );
 
                 tmp_list = tmp_list -> next;
