@@ -89,7 +89,34 @@ static void etats_config_ui_onglet_comptes_init_buttons_selection ( gchar *name,
                         GtkWidget *tree_view );
 static GtkWidget *etats_config_ui_onglet_periode_create_page ( void );
 static GtkTreeModel *etats_config_ui_onglet_periode_get_liste_dates ( void );
+static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelection *selection,
+                        GtkWidget *widget );
 static GtkWidget *etats_config_ui_onglet_tiers_create_page ( void );
+static void etats_config_ui_onglet_tiers_entry_delete_text ( GtkEditable *editable,
+                        gint start_pos,
+                        gint end_pos,
+                        GtkWidget *tree_view );
+static void etats_config_ui_onglet_tiers_search_iter_from_entry ( const gchar *text,
+                        GtkTreeView *tree_view,
+                        gint sens );
+static void etats_config_ui_onglet_tiers_entry_insert_text ( GtkEditable *editable,
+                        gchar *new_text,
+                        gint new_text_length,
+                        gpointer position,
+                        GtkWidget *tree_view );
+static gboolean etats_config_ui_onglet_tiers_select_first_last_item ( GtkWidget *button,
+                        GdkEventButton *event,
+                        gpointer ptr_sens );
+static gboolean etats_config_ui_onglet_tiers_select_prev_next_item ( GtkWidget *button,
+                        GdkEventButton *event,
+                        gpointer ptr_sens );
+static void etats_config_ui_onglet_tiers_selection_changed ( GtkTreeSelection *selection,
+                        gpointer user_data );
+static gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget *tree_view,
+                        GdkEventVisibility  *event,
+                        gpointer   user_data);
+static void etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( gint show_left,
+                        gint show_right );
 static GtkWidget *etats_config_ui_onglet_virements_create_page ( void );
 
 static void etats_config_ui_tree_view_init ( const gchar *treeview_name,
@@ -98,8 +125,7 @@ static void etats_config_ui_tree_view_init ( const gchar *treeview_name,
                         GCallback selection_callback );
 static GtkWidget *etats_config_ui_tree_view_new_with_model ( const gchar *treeview_name,
                         GtkTreeModel *model );
-static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelection *selection,
-                        GtkWidget *widget );
+
 
 /*END_STATIC*/
 
@@ -143,6 +169,9 @@ static GtkBuilder *etat_config_builder = NULL;
 
 /* mémorisation du togglebutton utilisé servira à remplacer son label */
 GtkToggleButton *prev_togglebutton = NULL;
+
+/* variables utilisées pour la gestion des tiers*/
+GtkTreePath *tiers_selected = NULL;
 
 /*END_GLOBAL_VARIABLES*/
 
@@ -1021,10 +1050,45 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( void )
                         GTK_SELECTION_MULTIPLE,
                         NULL );
 
+    /* on ajoute un callback pour aller au premier item sélectionné */
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_tiers" ) );
+    g_signal_connect ( G_OBJECT ( tree_view ),
+                        "visibility-notify-event",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_show_first_row_selected ),
+                        NULL );
+    /* on supprime la recherche intégrée */
+    gtk_tree_view_set_enable_search ( GTK_TREE_VIEW ( tree_view ), FALSE );
 
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_detaille_tiers_etat" ) );
+    /* on rend les boutons premier, précédent, suivant et dernier actifs */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_tiers_premier" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-press-event",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_select_first_last_item ),
+                        GINT_TO_POINTER ( GDK_LEFTBUTTON ) );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_tiers_precedent" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-press-event",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_select_prev_next_item ),
+                        GINT_TO_POINTER ( GDK_LEFTBUTTON ) );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_tiers_suivant" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-press-event",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_select_prev_next_item ),
+                        GINT_TO_POINTER ( GDK_RIGHTBUTTON ) );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_tiers_dernier" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-press-event",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_select_first_last_item ),
+                        GINT_TO_POINTER ( GDK_RIGHTBUTTON ) );
+
+    /* on rend insensible les bouton premier et précédent car on est positionné sur le 1er item sélectionné */
+    etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, -1 );
+
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_detaille_tiers_etat" ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
@@ -1035,7 +1099,6 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( void )
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object ( etat_config_builder, "vbox_detaille_tiers_etat" ) );
 
-
     /* on met la connection pour (dé)sélectionner tous les tiers */
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "togglebutton_select_all_tiers" ) );
     g_signal_connect ( G_OBJECT ( button ),
@@ -1044,12 +1107,447 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( void )
                         tree_view );
 
     entry = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "search_entry_tiers" ) );
-    gtk_tree_view_set_search_entry ( GTK_TREE_VIEW ( tree_view ), GTK_ENTRY ( entry ) );
+    g_signal_connect ( G_OBJECT ( entry ),
+                        "insert-text",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_entry_insert_text ),
+                        tree_view );
+    g_signal_connect ( G_OBJECT ( entry ),
+                        "delete-text",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_entry_delete_text ),
+                        tree_view );
 
     gtk_widget_show_all ( vbox_onglet );
 
     /* return */
     return vbox_onglet;
+}
+
+
+/**
+ * Gestion des flêches de déplacement des tiers sélextionnés
+ *
+ * \param button
+ * \param event
+ * \param un pointeur donnant le sens de déplacement GDK_LEFTBUTTON et GDK_RIGHTBUTTON
+ *
+ * \return
+ */
+gboolean etats_config_ui_onglet_tiers_select_prev_next_item ( GtkWidget *button,
+                        GdkEventButton *event,
+                        gpointer ptr_sens )
+{
+    GtkWidget *tree_view;
+    GtkTreeSelection *selection;
+    GtkTreePath *start_path;
+    GtkTreePath *end_path;
+    GtkTreePath *first_path;
+    GtkTreePath *last_path;
+    GtkTreePath *path = NULL;
+    GList *liste;
+    gint sens;
+    gint nbre_selections;
+    gboolean find = FALSE;
+    gboolean return_value = FALSE;
+
+    sens = GPOINTER_TO_INT ( ptr_sens );
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_tiers" ) );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
+    if ( liste == NULL )
+    {
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, FALSE );
+        return FALSE;
+    }
+    nbre_selections = g_list_length (liste );
+
+    first_path = g_list_nth_data ( liste, 0 );
+    last_path = g_list_nth_data ( liste, nbre_selections - 1 );
+
+    liste = g_list_find_custom ( liste, tiers_selected, ( GCompareFunc ) gtk_tree_path_compare );
+
+    if ( gtk_tree_view_get_visible_range ( GTK_TREE_VIEW ( tree_view ), &start_path, &end_path ) )
+    {
+        while ( liste )
+        {
+            path = ( GtkTreePath * ) liste->data;
+
+            if ( gtk_tree_selection_path_is_selected ( selection, path ) )
+            {
+                if ( sens == GDK_LEFTBUTTON )
+                {
+                    if ( gtk_tree_path_compare ( start_path, path ) <= 0 )
+                    {
+                        liste = liste->prev;
+                        continue;
+                    }
+                    else if ( gtk_tree_path_compare ( path, tiers_selected ) != 0 )
+                    {
+                        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, FALSE, 0., 0. );
+                        tiers_selected = path;
+                        find = TRUE;
+                        break;
+                    }
+                }
+                else
+                {
+                    if ( gtk_tree_path_compare ( path, end_path ) <= 0 )
+                    {
+                        liste = liste->next;
+                        continue;
+                    }
+                    else if ( gtk_tree_path_compare ( path, tiers_selected ) != 0 )
+                    {
+                        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, FALSE, 0., 0. );
+                        tiers_selected = path;
+                        find = TRUE;
+                        break;
+                    }
+                }
+            }
+
+            if ( sens == GDK_LEFTBUTTON )
+                liste = liste->prev;
+            else
+                liste = liste->next;
+        }
+
+        gtk_tree_path_free ( start_path );
+        gtk_tree_path_free ( end_path );
+
+        if ( find )
+            return_value = TRUE;
+    }
+
+    if ( !find )
+    {
+        liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
+        if ( liste == NULL )
+            return FALSE;
+
+        if ( sens == GDK_LEFTBUTTON )
+            liste = g_list_first ( liste );
+        else
+            liste = g_list_last ( liste );
+
+        path = ( GtkTreePath * ) liste->data;
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, FALSE, 0., 0. );
+        tiers_selected = path;
+
+        return_value = TRUE;
+    }
+
+    if ( gtk_tree_path_compare ( path, first_path ) == 0 )
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, -1 );
+    else
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( TRUE, -1 );
+
+    if ( gtk_tree_path_compare ( path, last_path ) == 0 )
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( -1, FALSE );
+    else
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( -1, TRUE );
+
+    /* return */
+    return return_value;
+}
+
+
+/**
+ * Gestion des flèches de déplacement des tiers sélextionnés
+ *
+ * \param button
+ * \param event
+ * \param un pointeur donnant le sens de déplacement GDK_LEFTBUTTON et GDK_RIGHTBUTTON
+ *
+ * \return
+ */
+gboolean etats_config_ui_onglet_tiers_select_first_last_item ( GtkWidget *button,
+                        GdkEventButton *event,
+                        gpointer ptr_sens )
+{
+    GtkWidget *tree_view;
+    GtkTreeSelection *selection;
+    GtkTreePath *first_path;
+    GtkTreePath *last_path;
+    GList *liste;
+    gint sens;
+    gint nbre_selections;
+
+    sens = GPOINTER_TO_INT ( ptr_sens );
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_tiers" ) );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
+    if ( liste == NULL )
+    {
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, FALSE );
+        return FALSE;
+    }
+    nbre_selections = g_list_length (liste );
+
+    first_path = g_list_nth_data ( liste, 0 );
+    last_path = g_list_nth_data ( liste, nbre_selections - 1 );
+
+    if ( sens == GDK_LEFTBUTTON )
+    {
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), first_path, NULL, FALSE, 0., 0. );
+        tiers_selected = first_path;
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, TRUE );
+    }
+    else
+    {
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), last_path, NULL, FALSE, 0., 0. );
+        tiers_selected = last_path;
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( TRUE, FALSE );
+    }
+
+    return TRUE;
+}
+/**
+ * positionne le tree_view sur le premier tiers sélectionné
+ *
+ * \param tree_view
+ * \param event
+ * \param user_data = NULL
+ *
+ * \return
+ */
+gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget *tree_view,
+                        GdkEventVisibility  *event,
+                        gpointer user_data)
+{
+    GtkTreeSelection *selection;
+    GtkTreePath *start_path;
+    GtkTreePath *end_path;
+    GList *liste;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
+    if ( liste )
+        tiers_selected = ( GtkTreePath * ) liste->data;
+
+    if ( gtk_tree_view_get_visible_range ( GTK_TREE_VIEW ( tree_view ), &start_path, &end_path ) )
+    {
+        if ( tiers_selected && gtk_tree_path_compare ( tiers_selected, end_path ) )
+            gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), tiers_selected, NULL, FALSE, 0., 0. );
+
+        gtk_tree_path_free ( start_path );
+        gtk_tree_path_free ( end_path );
+    }
+    else if ( tiers_selected )
+        gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), tiers_selected, NULL, FALSE, 0., 0. );
+
+    /* on ajoute un callback pour gérer le changement de sélection */
+    g_signal_connect ( G_OBJECT ( selection ),
+                        "changed",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_selection_changed ),
+                        NULL );
+
+    return FALSE;
+}
+
+
+/**
+ * fonction de callback de changement de sélection
+ *
+ * \param selection
+ * \param NULL
+ *
+ * \return
+ */
+void etats_config_ui_onglet_tiers_selection_changed ( GtkTreeSelection *selection,
+                        gpointer user_data )
+{
+    GtkTreeView *tree_view;
+    GtkTreePath *start_path;
+    GtkTreePath *end_path;
+    GtkTreePath *path = NULL;
+    GList *liste;
+
+    tree_view = gtk_tree_selection_get_tree_view ( selection );
+
+    /* on récupère la liste des libnes sélectionnées */
+    liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
+
+    /* on change la sensibilité des boutons de navigation si nécessaire */
+    if ( g_list_length ( liste ) > 1 )
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( TRUE, TRUE );
+    else
+        etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( FALSE, FALSE );
+
+    /* on positionne le tree_view sur la ligne sélectionnée visible la plus proche */
+    if ( gtk_tree_view_get_visible_range ( GTK_TREE_VIEW ( tree_view ), &start_path, &end_path ) )
+    {
+        while ( liste )
+        {
+            path = ( GtkTreePath * ) liste->data;
+
+            if ( gtk_tree_selection_path_is_selected ( selection, path ) )
+            {
+                if ( gtk_tree_path_compare ( start_path, path ) <= 0
+                 &&
+                 gtk_tree_path_compare ( path, end_path ) <= 0 )
+                {
+                    if ( gtk_tree_path_compare ( path, tiers_selected ) == 0 )
+                    {
+                        liste = liste->next;
+                        continue;
+                    }
+                    tiers_selected = path;
+                    break;
+                }
+            }
+            liste = liste->next;
+        }
+
+        /* free the path */
+        gtk_tree_path_free ( start_path );
+        gtk_tree_path_free ( end_path );
+    }
+}
+
+
+/**
+ * gère la sensibilité des boutons premier,précédent, suivant et dernier pour les tiers
+ *
+ * \param show left buttons 0 = insensitif 1 = sensitif -1 = sans changement
+ * \param show right buttons 0 = insensitif 1 = sensitif -1 = sans changement
+ *
+ * \return
+ */
+void etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( gint show_left,
+                        gint show_right )
+{
+    if ( show_left >= 0 )
+    {
+        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
+                        etat_config_builder, "button_tiers_premier" ) ), show_left );
+        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
+                        etat_config_builder, "button_tiers_precedent" ) ), show_left );
+    }
+    if ( show_right >= 0 )
+    {
+        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
+                        etat_config_builder, "button_tiers_suivant" ) ), show_right );
+        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
+                        etat_config_builder, "button_tiers_dernier" ) ), show_right );
+    }
+}
+
+
+/**
+ * Fonction de CALLBACK pour la recherche de tiers
+ *
+ * \param editable
+ * \param new_test
+ * \param longueur ajoutée
+ * \param position de l'ajout
+ * \param tree_view pour la recherche
+ *
+ * \return
+ */
+void etats_config_ui_onglet_tiers_entry_insert_text ( GtkEditable *editable,
+                        gchar *new_text,
+                        gint new_text_length,
+                        gpointer position,
+                        GtkWidget *tree_view )
+{
+    gchar *text;
+
+    /* on bloque l'appel de la fonction */
+    g_signal_handlers_block_by_func ( G_OBJECT ( editable ),
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_entry_insert_text ),
+                        tree_view );
+
+    gtk_editable_insert_text ( editable, new_text, new_text_length, position );
+
+    /* on lance la recherche de la chaine */
+    text = gtk_editable_get_chars ( editable, 0, -1 );
+    etats_config_ui_onglet_tiers_search_iter_from_entry ( text, GTK_TREE_VIEW ( tree_view ), GDK_RIGHTBUTTON );
+
+    /* on débloque l'appel de la fonction */
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( editable ),
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_entry_insert_text ),
+                        tree_view );
+    /* evite d'écrire en double dans l'entry */
+    g_signal_stop_emission_by_name ( editable, "insert_text" );
+}
+
+/**
+ * Fonction de CALLBACK pour la recherche de tiers
+ *
+ * \param editable
+ * \param début du caractère supprimé
+ * \param fin du caractère supprimé
+ * \param tree_view pour la recherche
+ *
+ * \return
+ */
+void etats_config_ui_onglet_tiers_entry_delete_text ( GtkEditable *editable,
+                        gint start_pos,
+                        gint end_pos,
+                        GtkWidget *tree_view )
+{
+    gchar *text;
+
+    text = gtk_editable_get_chars ( editable, 0, start_pos );
+    etats_config_ui_onglet_tiers_search_iter_from_entry ( text, GTK_TREE_VIEW ( tree_view ), GDK_LEFTBUTTON );
+}
+
+
+/**
+ * Fonction de de recherche de tiers
+ *
+ * \param text à rechercher
+ * \param tree_view pour la recherche
+ *
+ * \return
+ */
+void etats_config_ui_onglet_tiers_search_iter_from_entry ( const gchar *text,
+                        GtkTreeView *tree_view,
+                        gint sens)
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path;
+    gint index = 1;
+    gint longueur;
+
+    if ( !text || strlen ( text ) == 0 )
+        return;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    path = gtk_tree_path_new_first ( );
+
+    if ( !gtk_tree_model_get_iter ( model, &iter, path ) )
+        return;
+
+    do
+    {
+        gchar *str;
+        gchar *tmp_str;
+
+        gtk_tree_model_get ( model, &iter, 0, &str, -1 );
+
+        longueur = g_utf8_strlen ( text, -1 );
+        tmp_str = g_strndup ( str, longueur );
+
+        if ( strcmp (  g_utf8_casefold ( tmp_str, -1 ),  g_utf8_casefold ( text, -1 ) ) == 0 )
+        {
+            gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
+            break;
+        }
+        if ( path )
+        {
+            gtk_tree_path_next ( path );
+            if ( !gtk_tree_model_get_iter ( model, &iter, path ) )
+                index--;
+        }
+    }
+    /*termine la boucle si la lettre n'existe pas */
+    while ( index );
 }
 
 
@@ -1646,6 +2144,7 @@ void etats_config_ui_tree_view_init ( const gchar *treeview_name,
     model = function ( );
 
     tree_view = etats_config_ui_tree_view_new_with_model ( treeview_name, GTK_TREE_MODEL ( model ) );
+    gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW ( tree_view ), TRUE );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     gtk_tree_selection_set_mode ( selection, type_selection );
 
@@ -1657,8 +2156,17 @@ void etats_config_ui_tree_view_init ( const gchar *treeview_name,
 }
 
 
+/**
+ * Sélectionne les iters en fonction des données de la liste
+ *
+ * \param liste des lignes à sélectionner
+ * \param nom du tree_view concerné
+ * \param numéro de la colonne contenant la donnée testée
+ *
+ * \return
+ */
 void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
-                        gchar *treeview_name,
+                        const gchar *treeview_name,
                         gint column )
 {
     GtkWidget *tree_view;

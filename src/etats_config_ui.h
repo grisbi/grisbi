@@ -21,7 +21,7 @@ void etats_config_ui_buttons_radio_set_active_index ( const gchar *button_name,
 GSList *etats_config_ui_tree_view_get_list_rows_selected ( const gchar *treeview_name );
 gint etats_config_ui_tree_view_get_single_row_selected ( const gchar *treeview_name );
 void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
-                        gchar *treeview_name,
+                        const gchar *treeview_name,
                         gint column );
 void etats_config_ui_tree_view_select_single_row ( const gchar *treeview_name,
                         gint numero );
@@ -31,8 +31,6 @@ GtkWidget *etats_config_ui_widget_get_widget_by_name ( const gchar *parent_name,
                         const gchar *child_name );
 gboolean etats_config_ui_widget_set_actif ( const gchar *widget_name,
                         gboolean actif );
-
-
 /* END_DECLARATION */
 
 
