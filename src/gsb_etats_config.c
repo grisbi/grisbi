@@ -694,10 +694,30 @@ void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number )
 
     active = etats_config_ui_widget_get_actif ( "bouton_detaille_comptes_etat" );
     gsb_data_report_set_account_use_chosen ( report_number, active );
+
     if ( active )
     {
         gsb_data_report_free_account_numbers_list ( report_number );
-        gsb_data_report_set_account_numbers_list ( report_number,
+
+        if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
+         etats_config_ui_widget_get_widget_by_name ( "treeview_comptes", NULL ) ) ) )
+        {
+            gchar *text;
+            gchar *hint;
+
+            hint = g_strdup ( _("Performance issue.") );
+            text = g_strdup ( _("All accounts have been selected.  Grisbi will run "
+                            "faster without the \"Detail accounts used\" option activated") );
+
+            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            etats_config_ui_widget_set_actif ( "gsb_data_report_set_account_use_chosen", FALSE );
+            gsb_data_report_set_account_use_chosen ( report_number, FALSE );
+
+            g_free ( text );
+            g_free ( hint );
+        }
+        else
+            gsb_data_report_set_account_numbers_list ( report_number,
                             etats_config_ui_tree_view_get_list_rows_selected ( "treeview_comptes" ) );
     }
 }
