@@ -94,19 +94,12 @@ static GtkWidget *gsb_etats_config_affichage_etat_devises ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_generalites ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_operations ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_titres ( void );
-static GtkWidget *gsb_etats_config_get_liste_mode_paiement ( gchar *sw_name );
-static GtkWidget *gsb_etats_config_get_report_tree_view ( void );
 
-static GtkWidget *gsb_etats_config_onglet_etat_categories ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_comptes ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_period ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_divers ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_ib ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void );
+
 static GtkWidget *gsb_etats_config_onglet_etat_montant ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_texte ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_tiers ( void );
-static GtkWidget *gsb_etats_config_onglet_etat_virements ( void );
+
 static void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
                         gchar **tab );
 static void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
@@ -116,21 +109,6 @@ static void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidge
 static GtkWidget *gsb_etats_config_onglet_etat_texte_new_line ( GtkWidget *parent );
 static GtkWidget *gsb_etats_config_page_data_grouping ( void );
 static GtkWidget *gsb_etats_config_page_data_separation ( void );
-static void gsb_etats_config_populate_tree_model ( GtkTreeStore *tree_model,
-                        GtkWidget *notebook );
-static gboolean gsb_etats_config_report_tree_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data);
-static gboolean gsb_etats_config_report_tree_view_selection_changed ( GtkTreeSelection *selection,
-                        GtkTreeModel *model );
-static gboolean gsb_etats_config_selection_dates_changed ( GtkTreeSelection *selection,
-                        GtkWidget *widget );
-static void gsb_etats_config_togglebutton_collapse_expand_lines ( GtkToggleButton *togglebutton,
-                        GtkWidget *tree_view );
-static void gsb_etats_config_togglebutton_select_all ( GtkToggleButton *togglebutton,
-                        GtkWidget *tree_view );
 /*END_STATIC*/
 
 
