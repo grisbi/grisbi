@@ -20,6 +20,7 @@ void gsb_etats_config_onglet_categ_budget_tree_model_check_uncheck_all ( GtkTree
 GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_tiers ( void );
+GtkTreeModel *gsb_etats_config_onglet_mode_paiement_get_model ( void );
 void gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
                         gint type_compte );
 

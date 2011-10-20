@@ -62,6 +62,7 @@
 /*START_STATIC*/
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
 static void gsb_etats_config_initialise_onglet_comptes ( gint report_number );
+static void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_initialise_onglet_periode ( gint report_number );
 static void gsb_etats_config_initialise_onglet_tiers ( gint report_number );
 static void gsb_etats_config_initialise_onglet_virements ( gint report_number );
@@ -80,6 +81,7 @@ static gint gsb_etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *m
 
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_periode ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_tiers ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_virements ( gint report_number );
@@ -92,11 +94,8 @@ static GtkWidget *gsb_etats_config_affichage_etat_devises ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_generalites ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_operations ( void );
 static GtkWidget *gsb_etats_config_affichage_etat_titres ( void );
-static GtkWidget *gsb_etats_config_onglet_get_liste_dates ( void );
 static GtkWidget *gsb_etats_config_get_liste_mode_paiement ( gchar *sw_name );
 static GtkWidget *gsb_etats_config_get_report_tree_view ( void );
-static GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
-                        GtkTreeModel *model );
 
 static GtkWidget *gsb_etats_config_onglet_etat_categories ( void );
 static GtkWidget *gsb_etats_config_onglet_etat_comptes ( void );
@@ -149,17 +148,6 @@ enum
     GSB_ETAT_CATEG_BUDGET_LIST_SUB_NUMBER,
 
     GSB_ETAT_CATEG_BUDGET_LIST_NB,
-};
-
-
-/* the def of the columns in the model of config tree_view */
-enum gsb_report_tree_columns
-{
-    GSB_REPORT_TREE_TEXT_COLUMN,
-    GSB_REPORT_TREE_PAGE_COLUMN,
-    GSB_REPORT_TREE_BOLD_COLUMN,
-    GSB_REPORT_TREE_ITALIC_COLUMN,
-    GSB_REPORT_TREE_NUM_COLUMNS,
 };
 
 
@@ -290,7 +278,7 @@ void gsb_etats_config_personnalisation_etat ( void )
             break;
     }
 
-    etats_config_ui_free_builder ( );
+    etats_config_ui_free_all_var ( );
 
     gtk_widget_destroy ( dialog );
 }
@@ -323,6 +311,9 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet Budgets */
     gsb_etats_config_initialise_onglet_categ_budget ( report_number, FALSE );
 
+    /* onglet modes de paiement */
+    gsb_etats_config_initialise_onglet_mode_paiement ( report_number );
+
     /* return */
     return TRUE;
 }
@@ -354,6 +345,11 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
 
     /* onglet Budgets */
     gsb_etats_config_recupere_info_onglet_categ_budget ( report_number, FALSE );
+
+    /* onglet mode de paiement */
+    gsb_etats_config_recupere_info_onglet_mode_paiement ( report_number );
+
+
 
 
     /* update the payee combofix in the form, to add that report if asked */
@@ -863,7 +859,26 @@ void gsb_etats_config_recupere_info_onglet_tiers ( gint report_number )
     if ( active )
     {
         gsb_data_report_free_payee_numbers_list ( report_number );
-        gsb_data_report_set_payee_numbers_list ( report_number,
+
+        if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
+         etats_config_ui_widget_get_widget_by_name ( "treeview_tiers", NULL ) ) ) )
+        {
+            gchar *text;
+            gchar *hint;
+
+            hint = g_strdup ( _("Performance issue.") );
+            text = g_strdup ( _("All payees have been selected.  Grisbi will run "
+                            "faster without the \"Detail payees used\" option activated.") );
+
+            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            etats_config_ui_widget_set_actif ( "togglebutton_select_all_tiers", FALSE );
+            gsb_data_report_set_payee_detail_used ( report_number, FALSE );
+
+            g_free ( text );
+            g_free ( hint );
+        }
+        else
+            gsb_data_report_set_payee_numbers_list ( report_number,
                             etats_config_ui_tree_view_get_list_rows_selected ( "treeview_tiers" ) );
     }
 }
@@ -1566,6 +1581,134 @@ void gsb_etats_config_onglet_categ_budget_init_treeview ( const gchar *treeview_
     }
 }
 
+
+/*ONGLET_MODE_PAIEMENT*/
+/**
+ * Initialise les informations de l'onglet modes de paiement
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number )
+{
+    gint active;
+
+    active = gsb_data_report_get_method_of_payment_used ( report_number );
+    etats_config_ui_widget_set_actif ( "bouton_detaille_mode_paiement_etat", active );
+
+    if ( active )
+    {
+        etats_config_ui_onglet_mode_paiement_select_rows_from_list (
+                                gsb_data_report_get_method_of_payment_list ( report_number ),
+                                "treeview_mode_paiement" );
+
+        if ( g_slist_length ( gsb_data_report_get_method_of_payment_list ( report_number ) ) )
+            utils_togglebutton_set_label_position_unselect (
+                                etats_config_ui_widget_get_widget_by_name (
+                                "togglebutton_select_all_mode_paiement", NULL ),
+                                NULL,
+                                etats_config_ui_widget_get_widget_by_name ( "treeview_mode_paiement", NULL ) );
+    }
+}
+
+
+/**
+ * Récupère les informations de l'onglet mode de paiement
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number )
+{
+    gint active;
+
+    active = etats_config_ui_widget_get_actif ( "bouton_detaille_mode_paiement_etat" );
+    gsb_data_report_set_method_of_payment_used ( report_number, active );
+    if ( active )
+    {
+        gsb_data_report_free_method_of_payment_list ( report_number );
+
+        if ( utils_tree_view_all_rows_are_selected ( GTK_TREE_VIEW (
+         etats_config_ui_widget_get_widget_by_name ( "treeview_mode_paiement", NULL ) ) ) )
+        {
+            gchar *text;
+            gchar *hint;
+
+            hint = g_strdup ( _("Performance issue.") );
+            text = g_strdup ( _("All methods of payment have been selected.  Grisbi will run "
+                            "faster without the \"Detail methods of payment used\" option activated.") );
+
+            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            etats_config_ui_widget_set_actif ( "togglebutton_select_all_mode_paiement", FALSE );
+            gsb_data_report_set_method_of_payment_used ( report_number, 0 );
+
+            g_free ( text );
+            g_free ( hint );
+        }
+        else
+            gsb_data_report_set_method_of_payment_list ( report_number,
+                            etats_config_ui_onglet_mode_paiement_get_list_rows_selected (
+                            "treeview_mode_paiement" ) );
+
+    }
+    /* return */
+}
+
+
+/**
+ *
+ *
+ *
+ */
+GtkTreeModel *gsb_etats_config_onglet_mode_paiement_get_model ( void )
+{
+    GtkListStore *list_store;
+    GSList *liste_nom_types = NULL;
+    GSList *list_tmp;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
+                        0, GTK_SORT_ASCENDING );
+
+    /* create a list of unique names */
+    list_tmp = gsb_data_payment_get_payments_list ( );
+
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint payment_number;
+
+        payment_number = gsb_data_payment_get_number (list_tmp -> data);
+        name = my_strdup ( gsb_data_payment_get_name ( payment_number ) );
+
+        if ( !g_slist_find_custom ( liste_nom_types,
+                        name,
+                        ( GCompareFunc ) cherche_string_equivalente_dans_slist ) )
+        {
+            liste_nom_types = g_slist_append ( liste_nom_types, name );
+            gtk_list_store_append ( list_store, &iter );
+            gtk_list_store_set ( list_store, &iter, 0, name, 1, payment_number, -1 );
+        }
+        else
+            g_free ( name );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /* on libère la mémoire utilisée par liste_nom_types */
+    g_slist_foreach ( liste_nom_types, ( GFunc ) g_free, NULL );
+    g_slist_free ( liste_nom_types );
+
+    /* return */
+    return GTK_TREE_MODEL ( list_store );
+}
+
+
+
 /*OLD_FUNCTIONS*/
 
 /**
@@ -1898,98 +2041,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  *
  *
  */
-GtkWidget *gsb_etats_config_onglet_etat_mode_paiement ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *sw;
-
-    devel_debug (NULL);
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_mode_paiement" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
-                        "vbox_mode_paiement_etat", NULL ), FALSE );
-
-    /* on crée la liste des catégories */
-    sw = gsb_etats_config_get_liste_mode_paiement ( "sw_mode_paiement" );
-
-    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
-                        "bouton_detaille_mode_paiement_etat", NULL ) ),
-                        "toggled",
-                        G_CALLBACK ( sens_desensitive_pointeur ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_mode_paiement_etat", NULL ) );
-
-    return vbox_onglet;
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_get_liste_mode_paiement ( gchar *sw_name )
-{
-    GtkWidget *sw;
-    GtkListStore *list_store;
-    GSList *liste_nom_types = NULL;
-    GSList *list_tmp;
-
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
-                        0, GTK_SORT_ASCENDING );
-
-    /* create a list of unique names */
-    list_tmp = gsb_data_payment_get_payments_list ( );
-
-    while (list_tmp)
-    {
-        GtkTreeIter iter;
-        gchar *name;
-        gint payment_number;
-
-        payment_number = gsb_data_payment_get_number (list_tmp -> data);
-        name = my_strdup ( gsb_data_payment_get_name ( payment_number ) );
-
-        if ( !g_slist_find_custom ( liste_nom_types,
-                        name,
-                        ( GCompareFunc ) cherche_string_equivalente_dans_slist ) )
-        {
-            liste_nom_types = g_slist_append ( liste_nom_types, name );
-            gtk_list_store_append ( list_store, &iter );
-            gtk_list_store_set ( list_store, &iter, 0, name, 1, payment_number, -1 );
-        }
-        else
-            g_free ( name );
-
-        list_tmp = list_tmp -> next;
-    }
-
-    /* on libère la mémoire utilisée par liste_nom_types */
-    g_slist_foreach ( liste_nom_types, ( GFunc ) g_free, NULL );
-    g_slist_free ( liste_nom_types );
-
-    sw = gsb_etats_config_get_scrolled_window_with_tree_view ( sw_name, GTK_TREE_MODEL ( list_store ) );
-
-    gtk_widget_show_all ( sw );
-
-    return sw;
-}
-
-
-/**
- *
- *
- *
- */
 GtkWidget *gsb_etats_config_onglet_etat_divers ( void )
 {
     GtkWidget *vbox_onglet;
@@ -2160,50 +2211,6 @@ GtkWidget *gsb_etats_config_affichage_etat_devises ( void )
     return vbox_onglet;
 }
 
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_get_scrolled_window_with_tree_view ( gchar *sw_name,
-                        GtkTreeModel *model )
-{
-    GtkWidget *sw;
-    GtkWidget *tree_view;
-    GtkCellRenderer *cell;
-    GtkTreeViewColumn *column;
-
-    tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( model ) );
-    gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW ( tree_view ), FALSE );
-    utils_set_tree_view_selection_and_text_color ( tree_view );
-
-    gtk_tree_selection_set_mode (
-                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ),
-                        GTK_SELECTION_MULTIPLE );
-    g_object_unref ( G_OBJECT ( model ) );
-
-    /* set the column */
-    cell = gtk_cell_renderer_text_new ( );
-
-    column = gtk_tree_view_column_new_with_attributes ( NULL,
-                        cell,
-                        "text", 0,
-                        NULL);
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-                        GTK_TREE_VIEW_COLUMN ( column ) );
-    gtk_tree_view_column_set_resizable ( column, TRUE );
-
-    /* get the container */
-    sw = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, sw_name ) );
-    gtk_container_add ( GTK_CONTAINER ( sw ), tree_view );
-
-    g_object_set_data ( G_OBJECT ( sw ), "tree_view", tree_view );
-
-    gtk_widget_show_all ( sw );
-
-    return sw;
-}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

@@ -77,21 +77,22 @@ static gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTree
 static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number );
 
-static GtkWidget *etats_config_ui_onglet_budgets_create_page ( void );
+static GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page );
 static void etats_config_ui_onglet_categ_budget_init_buttons_select_unselect ( gchar *name,
                         GtkWidget *tree_view,
                         gboolean is_categ );
 static GtkWidget *etats_config_ui_onglet_categ_budget_tree_view_create ( gboolean is_categ );
-static GtkWidget *etats_config_ui_onglet_categories_create_page ( void );
-static GtkWidget *etats_config_ui_onglet_comptes_create_page ( void );
-static void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( void );
+static GtkWidget *etats_config_ui_onglet_categories_create_page ( gint page );
+static GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page );
+static void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( gint page );
 static void etats_config_ui_onglet_comptes_init_buttons_selection ( gchar *name,
                         GtkWidget *tree_view );
+static GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_periode_create_page ( void );
 static GtkTreeModel *etats_config_ui_onglet_periode_get_liste_dates ( void );
 static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelection *selection,
                         GtkWidget *widget );
-static GtkWidget *etats_config_ui_onglet_tiers_create_page ( void );
+static GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page );
 static void etats_config_ui_onglet_tiers_entry_delete_text ( GtkEditable *editable,
                         gint start_pos,
                         gint end_pos,
@@ -117,7 +118,7 @@ static gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget
                         gpointer   user_data);
 static void etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( gint show_left,
                         gint show_right );
-static GtkWidget *etats_config_ui_onglet_virements_create_page ( void );
+static GtkWidget *etats_config_ui_onglet_virements_create_page ( gint page );
 
 static void etats_config_ui_tree_view_init ( const gchar *treeview_name,
                         GtkTreeModel *(*function) ( void ),
@@ -219,7 +220,7 @@ GtkWidget *etats_config_ui_create_dialog ( void )
  *
  *
  * */
-void etats_config_ui_free_builder ( void )
+void etats_config_ui_free_all_var ( void )
 {
     g_object_unref ( G_OBJECT ( etat_config_builder ) );
 }
@@ -325,50 +326,49 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Transferts */
-    widget = etats_config_ui_onglet_virements_create_page ( );
+    widget = etats_config_ui_onglet_virements_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
     page++;
 
     /* append page Accounts */
-    widget = etats_config_ui_onglet_comptes_create_page ( );
+    widget = etats_config_ui_onglet_comptes_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
     page++;
 
     /* append page Payee */
-    widget = etats_config_ui_onglet_tiers_create_page ( );
+    widget = etats_config_ui_onglet_tiers_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
     page++;
 
     /* append page Categories */
-    widget = etats_config_ui_onglet_categories_create_page ( );
+    widget = etats_config_ui_onglet_categories_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
     page++;
 
     /* append page Budgetary lines */
-    widget = etats_config_ui_onglet_budgets_create_page ( );
+    widget = etats_config_ui_onglet_budgets_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
     page++;
 
     /* append page Texts */
-/*     widget = gsb_etats_config_onglet_etat_texte ( );
+/*     widget = gsb_etats_config_onglet_etat_texte ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
  *     page++;
  */
 
     /* append page Amounts */
-/*     widget = gsb_etats_config_onglet_etat_montant ( );
+/*     widget = gsb_etats_config_onglet_etat_montant ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
  *     page++;
  */
 
     /* append page Payment methods */
-/*     widget = gsb_etats_config_onglet_etat_mode_paiement ( );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_mode_paiement_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
+    page++;
 
     /* append page Misc. */
-/*     widget = gsb_etats_config_onglet_etat_divers ( );
+/*     widget = gsb_etats_config_onglet_etat_divers ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
  *     page++;
  */
@@ -377,13 +377,13 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
 
     /* Data grouping */
-/*     widget = gsb_etats_config_page_data_grouping ( );
+/*     widget = gsb_etats_config_page_data_grouping ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
  *     page++;
  */
 
     /* Data separation */
-/*     widget = gsb_etats_config_page_data_separation ( );
+/*     widget = gsb_etats_config_page_data_separation ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
  *     page++;
  */
@@ -392,25 +392,25 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
 
     /* append page Generalities */
-/*     widget = gsb_etats_config_affichage_etat_generalites ( );
+/*     widget = gsb_etats_config_affichage_etat_generalites ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
  *     page++;
  */
 
     /* append page Titles */
-/*     widget = gsb_etats_config_affichage_etat_titres ( );
+/*     widget = gsb_etats_config_affichage_etat_titres ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
  *     page++;
  */
 
     /* append page Transactions */
-/*     widget = gsb_etats_config_affichage_etat_operations ( );
+/*     widget = gsb_etats_config_affichage_etat_operations ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
  *     page++;
  */
 
     /* append page Currencies */
-/*     widget = gsb_etats_config_affichage_etat_devises ( );
+/*     widget = gsb_etats_config_affichage_etat_devises ( page );
  *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
  */
 
@@ -735,7 +735,7 @@ void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show )
  *
  * \return
  */
-GtkWidget *etats_config_ui_onglet_virements_create_page ( void )
+GtkWidget *etats_config_ui_onglet_virements_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -762,7 +762,7 @@ GtkWidget *etats_config_ui_onglet_virements_create_page ( void )
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_virements" ) );
 
     /* on initialise les boutons pour sensibiliser bouton_exclure_non_virements_etat et la liste des comptes */
-    etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( );
+    etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( page );
 
     /* on initialise les boutons pour sélectionner tout ou partie des comptes */
     etats_config_ui_onglet_comptes_init_buttons_selection ( "virements", tree_view );
@@ -782,7 +782,7 @@ GtkWidget *etats_config_ui_onglet_virements_create_page ( void )
  *
  * \return
  */
-void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( void )
+void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( gint page )
 {
     GtkWidget *button;
 
@@ -792,7 +792,7 @@ void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( v
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 1 ) );
+                        GINT_TO_POINTER ( page ) );
     /* on connecte le signal pour gérer la sensibilité du bouton bouton_bouton_inclusion_virements_actifs_etat */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
@@ -805,7 +805,7 @@ void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( v
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 1 ) );
+                        GINT_TO_POINTER ( page ) );
     /* on connecte le signal pour gérer la sensibilité du bouton_inclusion_virements_hors_etat */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
@@ -818,7 +818,7 @@ void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( v
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 1 ) );
+                        GINT_TO_POINTER ( page ) );
     /* on connecte le signal pour gérer la sensibilité du bouton_inclusion_virements_perso */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
@@ -842,7 +842,7 @@ void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( v
  *
  * \return
  */
-GtkWidget *etats_config_ui_onglet_comptes_create_page ( void )
+GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -870,11 +870,12 @@ GtkWidget *etats_config_ui_onglet_comptes_create_page ( void )
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_comptes" ) );
 
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_detaille_comptes_etat" ) );
+
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 2 ) );
+                        GINT_TO_POINTER ( page ) );
 
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
     g_signal_connect ( G_OBJECT ( button ),
@@ -1024,7 +1025,7 @@ void etats_config_ui_onglet_comptes_select_unselect ( GtkToggleButton *togglebut
  *
  * \return
  */
-GtkWidget *etats_config_ui_onglet_tiers_create_page ( void )
+GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -1092,7 +1093,7 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 3 ) );
+                        GINT_TO_POINTER ( page ) );
     /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
@@ -1327,10 +1328,20 @@ gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget *tree_
     liste = gtk_tree_selection_get_selected_rows ( selection, NULL );
     if ( liste )
         tiers_selected = ( GtkTreePath * ) liste->data;
+    else
+    {
+        /* on ajoute un callback pour gérer le changement de sélection */
+        g_signal_connect ( G_OBJECT ( selection ),
+                        "changed",
+                        G_CALLBACK ( etats_config_ui_onglet_tiers_selection_changed ),
+                        NULL );
+
+        return FALSE;
+    }
 
     if ( gtk_tree_view_get_visible_range ( GTK_TREE_VIEW ( tree_view ), &start_path, &end_path ) )
     {
-        if ( tiers_selected && gtk_tree_path_compare ( tiers_selected, end_path ) )
+        if ( tiers_selected && gtk_tree_path_compare ( tiers_selected, end_path ) == 1 )
             gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), tiers_selected, NULL, FALSE, 0., 0. );
 
         gtk_tree_path_free ( start_path );
@@ -1345,7 +1356,7 @@ gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget *tree_
                         G_CALLBACK ( etats_config_ui_onglet_tiers_selection_changed ),
                         NULL );
 
-    return FALSE;
+    return TRUE;
 }
 
 
@@ -1559,7 +1570,7 @@ void etats_config_ui_onglet_tiers_search_iter_from_entry ( const gchar *text,
  *
  * \return
  */
-GtkWidget *etats_config_ui_onglet_categories_create_page ( void )
+GtkWidget *etats_config_ui_onglet_categories_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -1592,7 +1603,7 @@ GtkWidget *etats_config_ui_onglet_categories_create_page ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 4 ) );
+                        GINT_TO_POINTER ( page ) );
 
     /* on met la connection pour déplier replier les catégories */
     etats_config_ui_toggle_button_init_button_expand ( "categ", tree_view );
@@ -1612,7 +1623,7 @@ GtkWidget *etats_config_ui_onglet_categories_create_page ( void )
  *
  * \return
  */
-GtkWidget *etats_config_ui_onglet_budgets_create_page ( void )
+GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
@@ -1645,7 +1656,7 @@ GtkWidget *etats_config_ui_onglet_budgets_create_page ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
-                        GINT_TO_POINTER ( 5 ) );
+                        GINT_TO_POINTER ( page ) );
 
     /* on met la connection pour déplier replier les IB */
     etats_config_ui_toggle_button_init_button_expand ( "budget", tree_view );
@@ -1812,7 +1823,158 @@ void etats_config_ui_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *to
 }
 
 
+/*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/
+/**
+ * Création de l'onglet moyens de paiement
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *tree_view;
+    GtkWidget *button;
 
+    devel_debug (NULL);
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_mode_paiement" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
+                        "vbox_mode_paiement_etat" ) ), FALSE );
+
+    /* on crée la liste des moyens de paiement */
+    etats_config_ui_tree_view_init ( "treeview_mode_paiement",
+                        gsb_etats_config_onglet_mode_paiement_get_model,
+                        GTK_SELECTION_MULTIPLE,
+                        NULL );
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_mode_paiement" ) );
+
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_detaille_mode_paiement_etat" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_comptes_etat */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "vbox_mode_paiement_etat" ) );
+
+    /* on met la connection pour (dé)sélectionner tous les tiers */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
+                        "togglebutton_select_all_mode_paiement" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( utils_togglebutton_select_unselect_all_rows ),
+                        tree_view );
+
+    return vbox_onglet;
+}
+
+
+/**
+ * Sélectionne les iters en fonction des données de la liste
+ *
+ * \param liste des lignes à sélectionner
+ * \param nom du tree_view concerné
+ *
+ * \return
+ */
+void etats_config_ui_onglet_mode_paiement_select_rows_from_list ( GSList *liste,
+                        const gchar *treeview_name )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GSList *tmp_list;
+
+    if ( !liste )
+        return;
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, treeview_name ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &iter ) )
+    {
+        do
+        {
+            gchar *tmp_str;
+
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 0, &tmp_str, -1 );
+
+            tmp_list = liste;
+            while ( tmp_list )
+            {
+                gchar *str;
+                
+                str = tmp_list -> data;
+
+                if ( strcmp ( str, tmp_str ) == 0 )
+                    gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( selection ), &iter );
+
+                tmp_list = tmp_list -> next;
+            }
+            g_free ( tmp_str );
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+    }
+}
+
+
+/**
+ * récupère la liste des libellés des item sélectionnés
+ *
+ * \param nom du tree_view
+ *
+ * \return numéro de la ligne sélectionnée
+ */
+GSList *etats_config_ui_onglet_mode_paiement_get_list_rows_selected ( const gchar *treeview_name )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection;
+    GtkTreeIter iter;
+    GSList *tmp_list = NULL;
+    GList *rows_list;
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, treeview_name ) );
+    if ( !tree_view )
+        return NULL;
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    rows_list = gtk_tree_selection_get_selected_rows ( selection, &model );
+    while ( rows_list )
+    {
+        GtkTreePath *path;
+        gchar *tmp_str;
+
+        path = rows_list->data;
+
+        gtk_tree_model_get_iter ( model, &iter, path) ;
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 0, &tmp_str, -1 );
+
+        tmp_list = g_slist_append ( tmp_list, tmp_str );
+        
+        gtk_tree_path_free ( path );
+        rows_list = rows_list->next;
+    }
+    g_list_free ( rows_list );
+
+    return tmp_list;
+}
 
 
 /*FONCTIONS UTILITAIRES COMMUNES*/

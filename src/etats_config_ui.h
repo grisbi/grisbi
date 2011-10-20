@@ -5,13 +5,16 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void etats_config_ui_free_builder ( void );
+void etats_config_ui_free_all_var ( void );
 GtkWidget *etats_config_ui_create_dialog ( void );
 
 void etats_config_ui_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
 void etats_config_ui_onglet_comptes_select_unselect ( GtkToggleButton *togglebutton,
                         GtkWidget *tree_view );
+GSList *etats_config_ui_onglet_mode_paiement_get_list_rows_selected ( const gchar *treeview_name );
+void etats_config_ui_onglet_mode_paiement_select_rows_from_list ( GSList *liste,
+                        const gchar *treeview_name );
 void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show );
 
 gint etats_config_ui_buttons_radio_get_active_index ( const gchar *button_name );

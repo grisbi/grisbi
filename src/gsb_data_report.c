@@ -3739,6 +3739,7 @@ void gsb_data_report_free_payee_numbers_list ( gint report_number )
         return;
     if ( report -> payee_numbers )
         g_slist_free ( report -> payee_numbers );
+
     report -> payee_numbers = NULL;
 }
 
@@ -4377,6 +4378,29 @@ void gsb_data_report_free_transfer_account_numbers_list ( gint report_number )
     if ( report -> account_numbers )
         g_slist_free ( report -> transfer_account_numbers );
     report -> transfer_account_numbers = NULL;
+}
+
+
+/**
+ * free the method_of_payment_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_method_of_payment_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+
+    if ( report->method_of_payment_list )
+        g_slist_free ( report->method_of_payment_list );
+
+    report->method_of_payment_list = NULL;
 }
 
 

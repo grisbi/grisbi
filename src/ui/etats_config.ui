@@ -362,6 +362,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="focus_on_click">False</property>
+                    <property name="xalign">0.05000000074505806</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -379,6 +380,7 @@
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
                     <property name="focus_on_click">False</property>
+                    <property name="xalign">0.05000000074505806</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -496,8 +498,8 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
@@ -1015,7 +1017,10 @@
                 <property name="vscrollbar_policy">automatic</property>
                 <property name="shadow_type">in</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkTreeView" id="treeview_mode_paiement">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
                 </child>
               </object>
               <packing>
@@ -1028,16 +1033,16 @@
               <object class="GtkVBox" id="vbox14">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="button1_mode_paiement">
+                  <object class="GtkToggleButton" id="togglebutton_select_all_mode_paiement">
                     <property name="label" translatable="yes">Select all</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.019999999552965164</property>
+                    <property name="xalign">0.05000000074505806</property>
+                    <property name="draw_indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1046,27 +1051,11 @@
                     <property name="position">0</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkButton" id="button2_mode_paiement">
-                    <property name="label" translatable="yes">Unselect all</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_action_appearance">False</property>
-                    <property name="relief">none</property>
-                    <property name="xalign">0.029999999329447746</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="padding">10</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
