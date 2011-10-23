@@ -190,7 +190,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK (gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
-            tooltip_text = _("Frequency");
+            tooltip_text = _("Limit date");
             break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
