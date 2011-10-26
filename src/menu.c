@@ -915,15 +915,13 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
 
     if ( current_page == GSB_ACCOUNT_PAGE )
     {
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                        run.transaction_column_width );
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, NULL );
 
         gsb_transactions_list_set_largeur_col ( );
     }
     else if ( current_page == GSB_SCHEDULER_PAGE )
     {
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                        run.scheduler_column_width );
+        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE, NULL );
 
         gsb_scheduler_list_set_largeur_col ( );
     }
