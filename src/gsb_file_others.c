@@ -447,6 +447,7 @@ gboolean gsb_file_others_load ( gchar *filename,
 {
     gchar *file_content;
     GSList *import_list = NULL;
+    GError *error = NULL;
 
     devel_debug (filename);
 
@@ -498,19 +499,26 @@ gboolean gsb_file_others_load ( gchar *filename,
 	 * and i'm too lazy to create an import for old files */
 	/* fill the GMarkupParser for a new xml structure */
 
-	markup_parser = g_malloc0 (sizeof (GMarkupParser));
-	markup_parser -> start_element = (void *) gsb_file_others_start_element;
-	markup_parser -> error = (void *) gsb_file_load_error;
+	markup_parser = g_malloc0 ( sizeof ( GMarkupParser ) );
+	markup_parser -> start_element = ( void * ) gsb_file_others_start_element;
+	markup_parser -> error = ( void * ) gsb_file_load_error;
 
-	context = g_markup_parse_context_new ( markup_parser,
-					       0,
-					       &import_list,
-					       NULL );
+    context = g_markup_parse_context_new ( markup_parser, 0, &import_list, NULL );
 
-	g_markup_parse_context_parse ( context,
-				       file_content,
-				       strlen (file_content),
-				       NULL );
+    if ( !g_markup_parse_context_parse ( context, file_content, strlen ( file_content ), &error ) )
+    {
+        gchar* tmpstr;
+
+        tmpstr = g_strdup_printf (_("Error parsing file '%s': %s"), filename, error->message );
+        dialogue_error ( tmpstr );
+
+        g_free ( tmpstr );
+        g_markup_parse_context_free ( context );
+        g_free ( markup_parser );
+        g_free ( file_content );
+
+        return FALSE;
+    }
 
 	/* now, import_list contains the list of categories/budget or report */
 	switch ( origin )
