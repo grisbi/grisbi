@@ -87,11 +87,16 @@ static GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page );
 static void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( gint page );
 static void etats_config_ui_onglet_comptes_init_buttons_selection ( gchar *name,
                         GtkWidget *tree_view );
+static GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page );
+static gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *button,
+                        gint *page_number );
 static GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page );
-static GtkWidget *etats_config_ui_onglet_periode_create_page ( void );
+static GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page );
 static GtkTreeModel *etats_config_ui_onglet_periode_get_liste_dates ( void );
 static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelection *selection,
                         GtkWidget *widget );
+static gboolean etats_config_ui_onglet_periode_update_style_left_panel ( GtkWidget *button,
+                        gint *page_number );
 static GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page );
 static void etats_config_ui_onglet_tiers_entry_delete_text ( GtkEditable *editable,
                         gint start_pos,
@@ -321,7 +326,7 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
 
     /* append page Dates */
-    widget = etats_config_ui_onglet_periode_create_page ( );
+    widget = etats_config_ui_onglet_periode_create_page ( page );
     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
     page++;
 
@@ -368,10 +373,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Misc. */
-/*     widget = gsb_etats_config_onglet_etat_divers ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_divers_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
+    page++;
 
     /* remplissage de l'onglet d'organisation */
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
@@ -556,6 +560,8 @@ gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
 
         return TRUE;
     }
+
+    /* return */
     return FALSE;
 }
 
@@ -569,13 +575,14 @@ gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
  *
  * \return la page
  */
-GtkWidget *etats_config_ui_onglet_periode_create_page ( void )
+GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
     GtkWidget *hbox;
     GtkWidget *entree_date_init_etat;
     GtkWidget *entree_date_finale_etat;
+    GtkWidget *button;
 
     devel_debug (NULL);
 
@@ -619,16 +626,30 @@ GtkWidget *etats_config_ui_onglet_periode_create_page ( void )
                         gtk_builder_get_object ( etat_config_builder, "vbox_utilisation_exo" ) ),
                         10 );
 
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
+                        "radio_button_utilise_dates", NULL );
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_onglet_periode_update_style_left_panel ),
+                        GINT_TO_POINTER ( page ) );
+
     /* on met la connection pour rendre sensitif la frame vbox_utilisation_date */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
-                        "radio_button_utilise_dates", NULL ) ),
+    g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object ( etat_config_builder, "vbox_utilisation_date" ) );
 
+    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
+                        "radio_button_utilise_exo", NULL );
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_onglet_periode_update_style_left_panel ),
+                        GINT_TO_POINTER ( page ) );
+
     /* on met la connection pour rendre sensitif la frame vbox_utilisation_exo */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
-                        "radio_button_utilise_exo", NULL ) ),
+    g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object ( etat_config_builder, "vbox_utilisation_exo" ) );
@@ -702,6 +723,9 @@ gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelecti
     gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
     etats_config_ui_onglet_periode_date_interval_sensitive ( selected );
 
+    /* on regarde si on utilise des dates personalisées */
+    etats_config_ui_onglet_periode_update_style_left_panel ( NULL, 0 );
+
     return TRUE;
 }
 
@@ -726,6 +750,55 @@ void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show )
                         "hbox_date_finale", "entree_date_finale_etat" ), show );
 }
 
+
+/**
+ * If applicable, update report navigation tree style to reflect which
+ * pages have been changed.
+ *
+ * \param page_number Page that contained an interface element just
+ *                      changed that triggered this event.
+ *
+ * \return      FALSE
+ */
+gboolean etats_config_ui_onglet_periode_update_style_left_panel ( GtkWidget *button,
+                        gint *page_number )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gchar *path_string;
+    gchar *tmp_str;
+    gint index;
+    gint iter_page_number;
+
+    iter_page_number = GPOINTER_TO_INT ( page_number );
+
+    index = etats_config_ui_buttons_radio_get_active_index ( "radio_button_utilise_exo" );
+
+    if ( index == 0 )
+    {
+        if ( etats_config_ui_tree_view_get_single_row_selected ( "treeview_dates" ) == 1 )
+        index = 1;
+    }
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_left_panel" ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    tmp_str = utils_str_itoa ( iter_page_number );
+    path_string = g_strconcat ("0:", tmp_str, NULL );
+
+    gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        LEFT_PANEL_TREE_ITALIC_COLUMN, index,
+                        -1 );
+
+    g_free ( tmp_str );
+    g_free ( path_string );
+
+    /* return */
+    return FALSE;
+}
 
 /*RIGHT_PANEL : ONGLET_VIREMENTS*/
 /**
@@ -1976,6 +2049,106 @@ GSList *etats_config_ui_onglet_mode_paiement_get_list_rows_selected ( const gcha
     return tmp_list;
 }
 
+
+/*RIGHT_PANEL : ONGLET_DIVERS*/
+/**
+ * Création de l'onglet Divers
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *paddingbox;
+    GtkWidget *button;
+
+    devel_debug (NULL);
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_divers" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* on crée la vbax pour sélectionner les opérations marquées */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Selecting Transactions") );
+
+    vbox = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "vbox_select_transactions_buttons" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, TRUE, TRUE, 5 );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "radiobutton_marked" ) );
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on met la connection pour rendre sensitif la vbox_marked_buttons */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "vbox_marked_buttons" ) );
+
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "radiobutton_marked_No_R" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on crée la vbox pour le bouton bouton_pas_detailler_ventilation */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Split of transactions detail") );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_pas_detailler_ventilation" ) );
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
+                        GINT_TO_POINTER ( page ) );
+
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, TRUE, TRUE, 5 );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
+
+
+/**
+ * If applicable, update report navigation tree style to reflect which
+ * pages have been changed.
+ *
+ * \param page_number Page that contained an interface element just
+ *                      changed that triggered this event.
+ *
+ * \return      FALSE
+ */
+gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *button,
+                        gint *page_number )
+{
+    gint active;
+    gint index;
+
+    index = etats_config_ui_buttons_radio_get_active_index ( "radiobutton_marked_all" );
+    active = etats_config_ui_widget_get_actif ( "bouton_pas_detailler_ventilation" );
+
+    if ( GTK_IS_RADIO_BUTTON ( button ) )
+    {
+        if ( active == 0 )
+            etats_config_ui_left_panel_tree_view_update_style ( button, page_number );
+    }
+    else
+    {
+        if ( index == 0 )
+            etats_config_ui_left_panel_tree_view_update_style ( button, page_number );
+    }
+
+    return TRUE;
+}
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
 /**

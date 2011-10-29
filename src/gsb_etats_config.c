@@ -62,6 +62,7 @@
 /*START_STATIC*/
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
 static void gsb_etats_config_initialise_onglet_comptes ( gint report_number );
+static void gsb_etats_config_initialise_onglet_divers ( gint report_number );
 static void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_initialise_onglet_periode ( gint report_number );
 static void gsb_etats_config_initialise_onglet_tiers ( gint report_number );
@@ -81,6 +82,7 @@ static gint gsb_etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *m
 
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_divers ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_periode ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_tiers ( gint report_number );
@@ -292,6 +294,11 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet modes de paiement */
     gsb_etats_config_initialise_onglet_mode_paiement ( report_number );
 
+    /* onglet modes divers */
+    gsb_etats_config_initialise_onglet_divers ( report_number );
+
+
+
     /* return */
     return TRUE;
 }
@@ -327,6 +334,8 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
     /* onglet mode de paiement */
     gsb_etats_config_recupere_info_onglet_mode_paiement ( report_number );
 
+    /* onglet modes divers */
+    gsb_etats_config_recupere_info_onglet_divers ( report_number );
 
 
 
@@ -1706,6 +1715,58 @@ GtkTreeModel *gsb_etats_config_onglet_mode_paiement_get_model ( void )
 }
 
 
+/*ONGLET_DIVERS*/
+/**
+ * Initialise les informations de l'onglet divers
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_divers ( gint report_number )
+{
+    gint index;
+
+    index = gsb_data_report_get_show_m ( report_number );
+    etats_config_ui_buttons_radio_set_active_index ( "radiobutton_marked_all", index );
+
+    etats_config_ui_widget_set_actif ( "checkbutton_marked_P",
+                        gsb_data_report_get_show_p ( report_number ) );
+    etats_config_ui_widget_set_actif ( "checkbutton_marked_R",
+                        gsb_data_report_get_show_r ( report_number ) );
+    etats_config_ui_widget_set_actif ( "checkbutton_marked_T",
+                        gsb_data_report_get_show_t ( report_number ) );
+
+    etats_config_ui_widget_set_actif ( "bouton_pas_detailler_ventilation",
+                        gsb_data_report_get_not_detail_split ( report_number ) );
+}
+
+
+/**
+ * Récupère les informations de l'onglet divers
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_divers ( gint report_number )
+{
+    gint index;
+
+    index = etats_config_ui_buttons_radio_get_active_index ( "radiobutton_marked_all" );
+    gsb_data_report_set_show_m ( report_number, index );
+
+    gsb_data_report_set_show_p ( report_number,
+                        etats_config_ui_widget_get_actif ( "checkbutton_marked_P" ) );
+    gsb_data_report_set_show_r ( report_number,
+                        etats_config_ui_widget_get_actif ( "checkbutton_marked_R" ) );
+    gsb_data_report_set_show_t ( report_number,
+                        etats_config_ui_widget_get_actif ( "checkbutton_marked_T" ) );
+
+    gsb_data_report_set_not_detail_split ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_pas_detailler_ventilation" ) );
+}
+
 
 /*OLD_FUNCTIONS*/
 
@@ -2030,56 +2091,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  */
 
     /* on retourne la vbox */
-    return vbox_onglet;
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_onglet_etat_divers ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-    GtkWidget *paddingbox;
-    GtkWidget *button;
-
-    devel_debug (NULL);
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_divers" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Miscellaneous"), "generalities.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    /* on peut sélectionner les opérations marquées */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Selecting Transactions") );
-
-    vbox = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_select_transactions_buttons", NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, TRUE, TRUE, 5 );
-
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "radiobutton_marked", NULL );
-
-    /* on met la connection pour rendre sensitif la vbox_detaille_categ_etat */
-    g_signal_connect ( G_OBJECT ( button ),
-                        "toggled",
-                        G_CALLBACK ( sens_desensitive_pointeur ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_marked_buttons", NULL ) );
-
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Split of transactions detail") );
-
-    button = utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "bouton_pas_detailler_ventilation", NULL );
-/*    g_signal_connect_swapped ( G_OBJECT ( button ),
-                        "toggled",
-                        G_CALLBACK ( report_tree_update_style ),
-                        GINT_TO_POINTER ( 9 ) );
-*/
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, TRUE, TRUE, 5 );
-    gtk_widget_show_all ( vbox_onglet );
-
     return vbox_onglet;
 }
 

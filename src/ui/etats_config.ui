@@ -58,18 +58,12 @@
       <placeholder/>
     </child>
   </object>
-  <object class="GtkArrow" id="arrow_up">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="arrow_type">up</property>
-  </object>
   <object class="GtkCheckButton" id="bouton_pas_detailler_ventilation">
     <property name="label" translatable="yes">Do not detail split of transactions</property>
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">False</property>
     <property name="use_action_appearance">False</property>
-    <property name="active">True</property>
     <property name="draw_indicator">True</property>
   </object>
   <object class="GtkDialog" id="config_etats_dialog">
@@ -195,26 +189,6 @@
       <action-widget response="-1">button_Annuler</action-widget>
       <action-widget response="-5">button_OK</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkImage" id="image_tiers_dernier">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-goto-last</property>
-  </object>
-  <object class="GtkImage" id="image_tiers_precedent">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-go-back</property>
-  </object>
-  <object class="GtkImage" id="image_tiers_premier">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-goto-first</property>
-  </object>
-  <object class="GtkImage" id="image_tiers_suivant">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="stock">gtk-go-forward</property>
   </object>
   <object class="GtkVBox" id="liste_montant_etat">
     <property name="visible">True</property>
@@ -1041,7 +1015,7 @@
                     <property name="receives_default">True</property>
                     <property name="use_action_appearance">False</property>
                     <property name="relief">none</property>
-                    <property name="xalign">0.05000000074505806</property>
+                    <property name="xalign">0</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
@@ -1689,13 +1663,18 @@
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">First item</property>
                             <property name="use_action_appearance">False</property>
-                            <property name="image">image_tiers_premier</property>
                             <property name="relief">none</property>
+                            <child>
+                              <object class="GtkImage" id="image_tiers_premier">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-goto-top</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="padding">10</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
@@ -1706,8 +1685,14 @@
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">Prévious</property>
                             <property name="use_action_appearance">False</property>
-                            <property name="image">image_tiers_precedent</property>
                             <property name="relief">none</property>
+                            <child>
+                              <object class="GtkImage" id="image_tiers_precedent">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-go-up</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1723,9 +1708,15 @@
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">Following</property>
                             <property name="use_action_appearance">False</property>
-                            <property name="image">image_tiers_suivant</property>
                             <property name="relief">none</property>
                             <property name="image_position">right</property>
+                            <child>
+                              <object class="GtkImage" id="image_tiers_suivant">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-go-down</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1741,8 +1732,14 @@
                             <property name="receives_default">True</property>
                             <property name="tooltip_text" translatable="yes">Last item</property>
                             <property name="use_action_appearance">False</property>
-                            <property name="image">image_tiers_dernier</property>
                             <property name="relief">none</property>
+                            <child>
+                              <object class="GtkImage" id="image_tiers_dernier">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="stock">gtk-goto-bottom</property>
+                              </object>
+                            </child>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -2100,16 +2097,6 @@ to add at the selection</property>
     <child>
       <placeholder/>
     </child>
-  </object>
-  <object class="GtkToggleButton" id="togglebutton_select_all_">
-    <property name="label" translatable="yes">Select all</property>
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">True</property>
-    <property name="use_action_appearance">False</property>
-    <property name="relief">none</property>
-    <property name="xalign">0</property>
-    <property name="draw_indicator">True</property>
   </object>
   <object class="GtkVBox" id="vbox_select_transactions_buttons">
     <property name="visible">True</property>
