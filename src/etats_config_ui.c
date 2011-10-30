@@ -2190,7 +2190,7 @@ GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_tiers_etat" ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_group_by_categ" ) );
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_group_by_categ" ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_ib_etat" ) );

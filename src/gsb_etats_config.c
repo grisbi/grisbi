@@ -1792,7 +1792,7 @@ void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number )
                         gsb_data_report_get_account_group_reports ( report_number ) );
     etats_config_ui_widget_set_actif ( "bouton_utilise_tiers_etat",
                         gsb_data_report_get_payee_used ( report_number ) );
-    etats_config_ui_widget_set_actif ( "button_group_by_categ",
+    etats_config_ui_widget_set_actif ( "bouton_group_by_categ",
                         gsb_data_report_get_category_used ( report_number ) );
     etats_config_ui_widget_set_actif ( "bouton_utilise_ib_etat",
                         gsb_data_report_get_budget_used ( report_number ) );
@@ -1815,7 +1815,7 @@ void gsb_etats_config_recupere_info_onglet_data_grouping ( gint report_number )
     gsb_data_report_set_payee_used ( report_number,
                         etats_config_ui_widget_get_actif ( "bouton_utilise_tiers_etat" ) );
     gsb_data_report_set_category_used ( report_number,
-                        etats_config_ui_widget_get_actif ( "button_group_by_categ" ) );
+                        etats_config_ui_widget_get_actif ( "bouton_group_by_categ" ) );
     gsb_data_report_set_budget_used ( report_number,
                         etats_config_ui_widget_get_actif ( "bouton_utilise_ib_etat" ) );
 

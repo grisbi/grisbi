@@ -90,7 +90,7 @@
     <property name="use_action_appearance">False</property>
     <property name="draw_indicator">True</property>
   </object>
-  <object class="GtkCheckButton" id="button_group_by_categ">
+  <object class="GtkCheckButton" id="bouton_group_by_categ">
     <property name="label" translatable="yes">Group transactions by category</property>
     <property name="visible">True</property>
     <property name="can_focus">True</property>

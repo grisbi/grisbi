@@ -282,7 +282,7 @@ static GtkWidget *liste_comptes_virements = NULL;
 static GtkWidget *bouton_exclure_non_virements_etat = NULL;
 static GtkWidget *hbox_liste_comptes_virements = NULL;
 
-static GtkWidget *button_group_by_categ = NULL;
+static GtkWidget *bouton_group_by_categ = NULL;
 static GtkWidget *button_detail_categ = NULL;
 static GtkWidget *hbox_detaille_categ_etat = NULL;
 static GtkWidget *bouton_afficher_sous_categ = NULL;
@@ -969,18 +969,18 @@ void personnalisation_etat (void)
 
 
     /* onglet catégories */
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ ),
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( bouton_group_by_categ ),
 				   gsb_data_report_get_category_used (current_report_number));
 
-    sens_desensitive_pointeur ( button_group_by_categ,
+    sens_desensitive_pointeur ( bouton_group_by_categ,
 				bouton_affiche_sous_total_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
+    sens_desensitive_pointeur ( bouton_group_by_categ,
 				bouton_afficher_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
+    sens_desensitive_pointeur ( bouton_group_by_categ,
 				bouton_affiche_sous_total_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
+    sens_desensitive_pointeur ( bouton_group_by_categ,
 				bouton_afficher_pas_de_sous_categ );
-    sens_desensitive_pointeur ( button_group_by_categ,
+    sens_desensitive_pointeur ( bouton_group_by_categ,
 				bouton_afficher_noms_categ );
 
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_detail_categ ),
@@ -1627,7 +1627,7 @@ void recuperation_info_perso_etat ( void )
 
     /* get the categories */
     gsb_data_report_set_category_used ( current_report_number,
-					gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_group_by_categ )));
+					gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( bouton_group_by_categ )));
 
     gsb_data_report_set_category_detail_used ( current_report_number,
 					       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )));
@@ -6229,8 +6229,8 @@ GtkWidget *page_data_grouping ( void )
     bouton_utilise_tiers_etat = gtk_check_button_new_with_label ( _("Group transactions by payee") );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_tiers_etat, FALSE, FALSE, 0 );
 
-    button_group_by_categ = gtk_check_button_new_with_label ( _("Group transactions by category") );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_group_by_categ, FALSE, FALSE, 0 );
+    bouton_group_by_categ = gtk_check_button_new_with_label ( _("Group transactions by category") );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_group_by_categ, FALSE, FALSE, 0 );
 
     bouton_utilise_ib_etat = gtk_check_button_new_with_label ( _("Group transactions by budgetary line") );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), bouton_utilise_ib_etat, FALSE, FALSE, 0 );
@@ -7075,7 +7075,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_noms_categ );
 
-    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( bouton_group_by_categ ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_noms_categ );
@@ -7091,7 +7091,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_categ );
 
-    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( bouton_group_by_categ ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_categ );
@@ -7106,7 +7106,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_sous_categ );
 
-    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( bouton_group_by_categ ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_sous_categ );
@@ -7120,7 +7120,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_affiche_sous_total_sous_categ );
 
-    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( bouton_group_by_categ ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_affiche_sous_total_sous_categ );
@@ -7134,7 +7134,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
 			 0 );
     gtk_widget_show ( bouton_afficher_pas_de_sous_categ );
 
-    g_signal_connect ( G_OBJECT ( button_group_by_categ ),
+    g_signal_connect ( G_OBJECT ( bouton_group_by_categ ),
 			 "toggled",
 			 G_CALLBACK ( sens_desensitive_pointeur ),
 			 bouton_afficher_pas_de_sous_categ );
