@@ -4404,6 +4404,29 @@ void gsb_data_report_free_method_of_payment_list ( gint report_number )
 }
 
 
+/**
+ * free the sorting_type_list
+ *
+ * \param report_number number of the report
+ *
+ * \return
+ * */
+void gsb_data_report_free_sorting_type_list ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return;
+
+    if ( report->sorting_type )
+        g_slist_free ( report->sorting_type );
+
+    report->sorting_type = NULL;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

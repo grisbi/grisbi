@@ -31,6 +31,7 @@ void gsb_data_report_free_categ_budget_struct_list (GSList *categ_budget_sel_lis
 void gsb_data_report_free_financial_year_list ( gint report_number );
 void gsb_data_report_free_method_of_payment_list ( gint report_number );
 void gsb_data_report_free_payee_numbers_list ( gint report_number );
+void gsb_data_report_free_sorting_type_list ( gint report_number );
 void gsb_data_report_free_transfer_account_numbers_list ( gint report_number );
 gint gsb_data_report_get_account_group_reports ( gint report_number );
 GSList *gsb_data_report_get_account_numbers_list ( gint report_number );

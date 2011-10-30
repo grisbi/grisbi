@@ -62,6 +62,7 @@
 /*START_STATIC*/
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
 static void gsb_etats_config_initialise_onglet_comptes ( gint report_number );
+static void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number );
 static void gsb_etats_config_initialise_onglet_divers ( gint report_number );
 static void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_initialise_onglet_periode ( gint report_number );
@@ -79,9 +80,12 @@ static gint gsb_etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *m
                         GtkTreeIter *iter_1,
                         GtkTreeIter *iter_2,
                         gpointer ptr );
+static GSList *gsb_etats_config_onglet_data_grouping_get_list ( gint report_number );
+static gboolean gsb_etats_config_onglet_data_grouping_update_model ( gint report_number );
 
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_data_grouping ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_divers ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_periode ( gint report_number );
@@ -294,9 +298,11 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet modes de paiement */
     gsb_etats_config_initialise_onglet_mode_paiement ( report_number );
 
-    /* onglet modes divers */
+    /* onglet divers */
     gsb_etats_config_initialise_onglet_divers ( report_number );
 
+    /* onglet data grouping */
+    gsb_etats_config_initialise_onglet_data_grouping ( report_number );
 
 
     /* return */
@@ -336,6 +342,10 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
 
     /* onglet modes divers */
     gsb_etats_config_recupere_info_onglet_divers ( report_number );
+
+    /* onglet modes data grouping */
+    gsb_etats_config_recupere_info_onglet_data_grouping ( report_number );
+
 
 
 
@@ -1768,6 +1778,270 @@ void gsb_etats_config_recupere_info_onglet_divers ( gint report_number )
 }
 
 
+/*ONGLET_DATA_GROUPING*/
+/**
+ * Initialise les informations de l'onglet groupement des données
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number )
+{
+    etats_config_ui_widget_set_actif ( "bouton_regroupe_ope_compte_etat",
+                        gsb_data_report_get_account_group_reports ( report_number ) );
+    etats_config_ui_widget_set_actif ( "bouton_utilise_tiers_etat",
+                        gsb_data_report_get_payee_used ( report_number ) );
+    etats_config_ui_widget_set_actif ( "button_group_by_categ",
+                        gsb_data_report_get_category_used ( report_number ) );
+    etats_config_ui_widget_set_actif ( "bouton_utilise_ib_etat",
+                        gsb_data_report_get_budget_used ( report_number ) );
+
+    gsb_etats_config_onglet_data_grouping_update_model ( report_number );
+}
+
+
+/**
+ * Récupère les informations de l'onglet groupement des données
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_data_grouping ( gint report_number )
+{
+    gsb_data_report_set_account_group_reports ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_regroupe_ope_compte_etat" ) );
+    gsb_data_report_set_payee_used ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_utilise_tiers_etat" ) );
+    gsb_data_report_set_category_used ( report_number,
+                        etats_config_ui_widget_get_actif ( "button_group_by_categ" ) );
+    gsb_data_report_set_budget_used ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_utilise_ib_etat" ) );
+
+    /* on récupère les données servant au tri des données pour l'affichage */
+    gsb_data_report_free_sorting_type_list ( report_number );
+    gsb_data_report_set_sorting_type_list ( report_number,
+                        gsb_etats_config_onglet_data_grouping_get_list ( report_number ) );
+}
+
+
+/**
+ * Update le modèle avec les données sauvegardées
+ *
+ * \param report_number
+ *
+ * \return TRUE
+ */
+gboolean gsb_etats_config_onglet_data_grouping_update_model ( gint report_number )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GSList *tmp_list;
+    gint i = 0;
+
+    tree_view = etats_config_ui_widget_get_widget_by_name ( "treeview_data_grouping", NULL );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* on reset le model */
+    gtk_list_store_clear ( GTK_LIST_STORE ( model ) );
+
+    /* on remplit la liste des données */
+    tmp_list = gsb_data_report_get_sorting_type_list ( report_number );
+
+    while ( tmp_list )
+    {
+        GtkTreeIter iter;
+        gchar *string = NULL;
+        gint type_data;
+
+        type_data = GPOINTER_TO_INT ( tmp_list->data );
+
+        string = gsb_etats_config_onglet_data_grouping_get_string ( type_data, i );
+        if ( !string )
+        {
+            tmp_list = tmp_list->next;
+            continue;
+        }
+
+        gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter, 0, string, 1, i, 2, type_data, -1 );
+
+        g_free ( string );
+
+        i++;
+        tmp_list = tmp_list->next;
+    }
+
+    /* return */
+    return TRUE;
+}
+
+/**
+ * retourne une chaine de caractère formatée en fonction du type de donnée
+ * et de la position dans la liste
+ *
+ * \param type_data     type de donnée : 1 Categ, 3 IB, 5 Account, 6 Payee.
+ * \param pos           numéro de ligne dans le modèle
+ *
+ * \return NULL or a formatted string
+ */
+gchar *gsb_etats_config_onglet_data_grouping_get_string ( gint type_data,
+                        gint pos )
+{
+    gchar *string = NULL;
+    gchar *text = NULL;
+
+    switch ( type_data )
+    {
+        case 1:
+        text = g_strdup ( _("Category") );
+        break;
+
+        case 3:
+        text = g_strdup ( _("Budgetary line") );
+        break;
+
+        case 5:
+        text = g_strdup ( _("Account") );
+        break;
+
+        case 6:
+        text = g_strdup ( _("Payee") );
+        break;
+    }
+
+    if ( !text )
+        return NULL;
+
+    if ( pos <= 0 )
+        string = text;
+    else if ( pos == 1 )
+    {
+        string = g_strconcat ( "\t", text, NULL );
+        g_free ( text );
+    }
+    else if ( pos == 2 )
+    {
+        string = g_strconcat ( "\t\t", text, NULL );
+        g_free ( text );
+    }
+    else if ( pos == 3 )
+    {
+        string = g_strconcat ( "\t\t\t", text, NULL );
+        g_free ( text );
+    }
+
+    return string;
+}
+
+/**
+ * return la liste des données par ordre de tri
+ *
+ * \param report_number
+ *
+ * \return a GSList
+ * */
+GSList *gsb_etats_config_onglet_data_grouping_get_list ( gint report_number )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GSList *tmp_list = NULL;
+
+    tree_view = etats_config_ui_widget_get_widget_by_name ( "treeview_data_grouping", NULL );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( gtk_tree_model_get_iter_first ( model, &iter ) )
+    {
+        do
+        {
+            gint type_data;
+
+            gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 2, &type_data, -1 );
+            tmp_list = g_slist_append ( tmp_list, GINT_TO_POINTER ( type_data ) );
+
+            /* on ajoute les sous catégories ici */
+            if ( type_data == 1 )
+            {
+                tmp_list = g_slist_append ( tmp_list, GINT_TO_POINTER ( 2 ) );
+            }
+            /* et les sous imputations ici */
+            else if ( type_data == 3 )
+            {
+                tmp_list = g_slist_append ( tmp_list, GINT_TO_POINTER ( 4 ) );
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+
+        return tmp_list;
+    }
+
+    /* return */
+    return NULL;
+}
+
+/**
+ * déplace un item suite à un drag and drop dans le tree_view
+ *
+ * \param src_pos           position avant
+ * \param src_type_data     type de donnée
+ * \param dst_pos           position après drag and drop
+ *
+ * \return
+ * */
+void gsb_etats_config_onglet_data_grouping_move_in_list ( gint src_pos,
+                        gint src_type_data,
+                        gint dst_pos )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GSList *tmp_list;
+    gint report_number;
+    gint i = 0;
+
+    report_number = gsb_gui_navigation_get_current_report ( );
+    tmp_list = g_slist_copy ( gsb_data_report_get_sorting_type_list ( report_number ) );
+
+    /* on supprime les sous categ et les sous IB */
+    tmp_list = g_slist_remove ( tmp_list, GINT_TO_POINTER ( 4 ) );
+    tmp_list = g_slist_remove ( tmp_list, GINT_TO_POINTER ( 2 ) );
+
+    /* on supprime la donnée à la position initiale */
+    tmp_list = g_slist_remove ( tmp_list, GINT_TO_POINTER ( src_type_data ) );
+
+    /* on insère la donnée à la position finale */
+    tmp_list = g_slist_insert ( tmp_list, GINT_TO_POINTER ( src_type_data ), dst_pos );
+
+    tree_view = etats_config_ui_widget_get_widget_by_name ( "treeview_data_grouping", NULL );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* on reset le model */
+    gtk_list_store_clear ( GTK_LIST_STORE ( model ) );
+
+    while ( tmp_list )
+    {
+        GtkTreeIter iter;
+        gchar *string = NULL;
+        gint type_data;
+        gpointer ptr;
+
+        ptr = tmp_list->data;
+        type_data = GPOINTER_TO_INT ( ptr );
+
+        string = gsb_etats_config_onglet_data_grouping_get_string ( type_data, i );
+
+        gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter, 0, string, 1, i, 2, type_data, -1 );
+
+        g_free ( string );
+
+        i++;
+        tmp_list = tmp_list->next;
+    }
+}
+
+
 /*OLD_FUNCTIONS*/
 
 /**
@@ -2091,27 +2365,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  */
 
     /* on retourne la vbox */
-    return vbox_onglet;
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_page_data_grouping ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_grouping" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Data grouping"), "organization.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
     return vbox_onglet;
 }
 

@@ -32,19 +32,8 @@
 
 /*START_INCLUDE*/
 #include "etats_config_ui.h"
-/* #include "dialog.h"  */
-/* #include "etats_calculs.h"  */
-/* #include "etats_config.h"  */
-/* #include "fenetre_principale.h"  */
 #include "gsb_calendar_entry.h"
-/* #include "gsb_data_account.h"  */
-/* #include "gsb_data_budget.h"  */
-/* #include "gsb_data_category.h"  */
-/* #include "gsb_data_fyear.h"  */
-/* #include "gsb_data_payee.h"  */
-/* #include "gsb_data_payment.h"  */
 #include "gsb_etats_config.h"
-/* #include "navigation.h"  */
 #include "structures.h"
 #include "utils.h"
 #include "utils_buttons.h"
@@ -87,6 +76,22 @@ static GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page );
 static void etats_config_ui_onglet_comptes_init_buttons_choix_utilisation_virements ( gint page );
 static void etats_config_ui_onglet_comptes_init_buttons_selection ( gchar *name,
                         GtkWidget *tree_view );
+static void etats_config_ui_onglet_data_grouping_button_clicked ( GtkWidget *button,
+                        gpointer data );
+static GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page );
+static gboolean etats_config_ui_onglet_data_grouping_drag_data_get ( GtkTreeDragSource *drag_source,
+                        GtkTreePath *path,
+                        GtkSelectionData *selection_data );
+static gboolean etats_config_ui_onglet_data_grouping_drag_data_received ( GtkTreeDragDest * drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
+static gboolean etats_config_ui_onglet_data_grouping_drop_possible ( GtkTreeDragDest *drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data );
+static gboolean etats_config_ui_onglet_data_grouping_init_tree_view ( void );
+static void etats_config_ui_onglet_data_grouping_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *tree_view );
+
 static GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page );
 static gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *button,
                         gint *page_number );
@@ -167,7 +172,8 @@ static gchar *etats_config_liste_plages_dates[] =
     N_("Last 3 months"),
     N_("Last 6 months"),
     N_("Last 12 months"),
-    NULL };
+    NULL,
+};
 
 
 /* builder */
@@ -381,10 +387,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
 
     /* Data grouping */
-/*     widget = gsb_etats_config_page_data_grouping ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_data_grouping_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
+    page++;
 
     /* Data separation */
 /*     widget = gsb_etats_config_page_data_separation ( page );
@@ -2149,6 +2154,395 @@ gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *butt
 
     return TRUE;
 }
+
+
+/*RIGHT_PANEL : ONGLET_DATA_GROUPING*/
+/**
+ * Création de l'onglet groupement des donnés
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *hbox;
+    GtkWidget *paddingbox;
+    GtkWidget *button;
+
+    devel_debug (NULL);
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_grouping" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Data grouping"), "organization.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* choix de ce qu'on utilise dans le classement */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Group transactions") );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_regroupe_ope_compte_etat" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_tiers_etat" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_group_by_categ" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_ib_etat" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    /* choix du type de classement */
+    paddingbox = new_paddingbox_with_title ( vbox_onglet, TRUE, _("Group level organisation") );
+
+    etats_config_ui_onglet_data_grouping_init_tree_view ( );
+
+    hbox = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_data_grouping" ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    /* on met la connection pour modifier l'ordre des données dans le tree_view data_grouping */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_data_grouping_up" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( etats_config_ui_onglet_data_grouping_button_clicked ),
+                        GINT_TO_POINTER ( GSB_UP ) );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_data_grouping_down" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( etats_config_ui_onglet_data_grouping_button_clicked ),
+                        GINT_TO_POINTER ( GSB_DOWN ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* return */
+    return vbox_onglet;
+}
+
+
+/**
+ * crée un nouveau tree_view initialisé avec model.
+ * le modèle comporte 3 colonnes : G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT
+ * le tree_view n'affiche que la colonne texte.
+ *
+ * \return the tree_wiew
+ */
+gboolean etats_config_ui_onglet_data_grouping_init_tree_view ( void )
+{
+    GtkWidget *tree_view;
+    GtkListStore *store;
+    GtkTreeSelection *selection;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeDragDestIface *dst_iface;
+    GtkTreeDragSourceIface *src_iface;
+    static GtkTargetEntry row_targets[] =
+    {
+        { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    };
+
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_data_grouping" ) );
+    if ( !tree_view )
+        return FALSE;
+
+    /* colonnes du list_store :
+     *  1 : chaine affichée
+     *  2 : numéro de ligne dans le modèle
+     *  3 : type de donnée : 1 Categ, 3 IB, 5 Account, 6 Payee.
+     */
+    store = gtk_list_store_new ( 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( store ) );
+    g_object_unref ( G_OBJECT ( store ) );
+
+    utils_set_tree_view_selection_and_text_color ( tree_view );
+
+    /* set the column */
+    cell = gtk_cell_renderer_text_new ( );
+
+    column = gtk_tree_view_column_new_with_attributes ( NULL,
+                        cell,
+                        "text", 0,
+                        NULL);
+    gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( column ), GTK_TREE_VIEW_COLUMN_FIXED );
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
+                        GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_tree_view_column_set_resizable ( column, TRUE );
+
+    /* Enable drag & drop */
+    gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( tree_view ),
+                        GDK_BUTTON1_MASK,
+                        row_targets,
+                        1,
+                        GDK_ACTION_MOVE );
+    gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW ( tree_view ),
+                        row_targets,
+                        1,
+                        GDK_ACTION_MOVE );
+    gtk_tree_view_set_reorderable ( GTK_TREE_VIEW (tree_view), TRUE );
+
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE ( store );
+    if ( dst_iface )
+    {
+        dst_iface -> drag_data_received = &etats_config_ui_onglet_data_grouping_drag_data_received;
+        dst_iface -> row_drop_possible = &etats_config_ui_onglet_data_grouping_drop_possible;
+    }
+
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE ( store );
+    if ( src_iface )
+    {
+        gtk_selection_add_target ( tree_view,
+                      GDK_SELECTION_PRIMARY,
+                      GDK_SELECTION_TYPE_ATOM,
+                      1 );
+        src_iface -> drag_data_get = &etats_config_ui_onglet_data_grouping_drag_data_get;
+    }
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    g_signal_connect ( G_OBJECT ( selection ),
+                        "changed",
+                        G_CALLBACK ( etats_config_ui_onglet_data_grouping_selection_changed ),
+                        tree_view );
+
+    /* return */
+    return TRUE;
+}
+
+
+/**
+ * callback when treeview_data_grouping receive a drag and drop signal
+ *
+ * \param drag_dest
+ * \param dest_path
+ * \param selection_data
+ *
+ * \return FALSE
+ */
+gboolean etats_config_ui_onglet_data_grouping_drag_data_received ( GtkTreeDragDest *drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data )
+{
+    if ( dest_path && selection_data )
+    {
+        GtkTreeModel *model;
+        GtkTreeIter src_iter;
+        GtkTreeIter dest_iter;
+        GtkTreePath *src_path;
+        gint src_pos = 0;
+        gint dest_pos;
+        gint src_type_data;
+        gint dest_type_data;
+
+        /* On récupère le model et le path d'origine */
+        gtk_tree_get_row_drag_data ( selection_data, &model, &src_path );
+        
+        /* On récupère les données des 2 lignes à modifier */
+        if ( gtk_tree_model_get_iter ( model, &src_iter, src_path ) )
+            gtk_tree_model_get ( model, &src_iter, 1, &src_pos, 2, &src_type_data, -1 );
+
+        if ( gtk_tree_model_get_iter ( model, &dest_iter, dest_path ) )
+            gtk_tree_model_get ( model, &dest_iter, 1, &dest_pos, 2, &dest_type_data, -1 );
+        else
+            return FALSE;
+
+        /* on met à jour la liste des types pour le tri de données */
+        gsb_etats_config_onglet_data_grouping_move_in_list ( src_pos,
+                        src_type_data,
+                        dest_pos );
+
+        return TRUE;
+    }
+
+    /* return */
+    return FALSE;
+}
+
+
+/**
+ * Fill the drag & drop structure with the path of selected column.
+ * This is an interface function called from GTK, much like a callback.
+ *
+ * \param drag_source       Not used.
+ * \param path              Original path for the gtk selection.
+ * \param selection_data    A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
+ */
+gboolean etats_config_ui_onglet_data_grouping_drag_data_get ( GtkTreeDragSource *drag_source,
+                        GtkTreePath *path,
+                        GtkSelectionData *selection_data )
+{
+    if ( path )
+    {
+        GtkWidget *tree_view;
+        GtkTreeModel *model;
+
+        tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_data_grouping" ) );
+        model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+        gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL ( model ), path );
+    }
+
+    return FALSE;
+}
+/**
+ * Checks the validity of the change of position
+ * This is an interface function called from GTK, much like a callback.
+ *
+ * \param drag_dest         Not used.
+ * \param path              Original path for the gtk selection.
+ * \param selection_data    A pointer to the drag & drop structure.
+ *
+ * \return FALSE, to allow future processing by the callback chain.
+ */
+gboolean etats_config_ui_onglet_data_grouping_drop_possible ( GtkTreeDragDest *drag_dest,
+                        GtkTreePath *dest_path,
+                        GtkSelectionData *selection_data )
+{
+    GtkTreePath *orig_path;
+    GtkTreeModel *model;
+    gint src_pos;
+    gint dst_pos = 0;
+    GtkTreeIter iter;
+
+    gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
+
+    if ( gtk_tree_model_get_iter ( model, &iter, orig_path ) )
+        gtk_tree_model_get ( model, &iter, 1, &src_pos, -1 );
+
+    if ( gtk_tree_model_get_iter ( model, &iter, dest_path ) )
+        gtk_tree_model_get ( model, &iter, 1, &dst_pos, -1 );
+
+    if ( dst_pos < 0 || dst_pos > 3 )
+        return FALSE;
+
+    if ( src_pos != dst_pos )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/**
+ * callback when a button receive a clicked signal
+ *
+ * \param the button
+ * \param a pointer for the direction of movement
+ *
+ * \return
+ */
+void etats_config_ui_onglet_data_grouping_button_clicked ( GtkWidget *button,
+                        gpointer data )
+{
+    GtkWidget *tree_view;
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter orig_iter;
+
+    /* On récupère le model et le path d'origine */
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_data_grouping" ) );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( gtk_tree_selection_get_selected ( selection, &model, &orig_iter ) )
+    {
+        GtkTreeIter dest_iter;
+        GtkTreePath *path;
+        gchar *string = NULL;
+        gint orig_pos = 0;
+        gint dest_pos;
+        gint orig_type_data;
+        gint dest_type_data;
+        gint sens;
+
+        sens = GPOINTER_TO_INT ( data );
+
+        path = gtk_tree_model_get_path ( model, &orig_iter );
+
+        /* On récupère les données des 2 lignes à modifier */
+        gtk_tree_model_get ( model, &orig_iter, 1, &orig_pos, 2, &orig_type_data, -1 );
+
+        if ( sens == GSB_UP )
+            gtk_tree_path_prev ( path );
+        else
+            gtk_tree_path_next ( path );
+            
+        if ( gtk_tree_model_get_iter ( model, &dest_iter, path ) )
+            gtk_tree_model_get ( model, &dest_iter, 1, &dest_pos, 2, &dest_type_data, -1 );
+        else
+            return;
+        /* on met à jour la ligne de destination */
+        string = gsb_etats_config_onglet_data_grouping_get_string ( orig_type_data, dest_pos );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ), &dest_iter, 0, string, 2, orig_type_data, -1 );
+
+        g_free ( string );
+
+        /* on met à jour la ligne d'origine */
+        string = gsb_etats_config_onglet_data_grouping_get_string ( dest_type_data, orig_pos );
+        gtk_list_store_set ( GTK_LIST_STORE ( model ), &orig_iter, 0, string, 2, dest_type_data, -1 );
+
+        /* on garde la sélection sur le même iter */
+        gtk_tree_selection_select_path ( selection, path );
+
+        g_free ( string );
+    }
+
+    /* return */
+    return;
+}
+
+
+/**
+ * fonction de callback de changement de sélection
+ *
+ * \param selection
+ * \param NULL
+ *
+ * \return
+ */
+void etats_config_ui_onglet_data_grouping_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+    {
+        gint pos;
+
+        gtk_tree_model_get ( model, &iter, 1, &pos, -1 );
+        switch ( pos )
+        {
+            case 0:
+                desensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_up" ) ) );
+                sensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_down" ) ) );
+                break;
+            case 3:
+                sensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_up" ) ) );
+                desensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_down" ) ) );
+                break;
+            default:
+                sensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_up" ) ) );
+                sensitive_widget ( NULL,
+                                GTK_WIDGET ( gtk_builder_get_object (
+                                etat_config_builder, "button_data_grouping_down" ) ) );
+                break;
+        }
+    }
+}
+
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
 /**

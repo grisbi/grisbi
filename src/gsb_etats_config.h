@@ -16,6 +16,11 @@ gboolean gsb_etats_config_onglet_categ_budget_toggled ( GtkCellRendererToggle *r
                         GtkTreeStore *store );
 void gsb_etats_config_onglet_categ_budget_tree_model_check_uncheck_all ( GtkTreeModel *model,
                         gboolean toggle_value );
+gchar *gsb_etats_config_onglet_data_grouping_get_string ( gint type_data,
+                        gint pos );
+void gsb_etats_config_onglet_data_grouping_move_in_list ( gint src_pos,
+                        gint src_type_data,
+                        gint dst_pos );;
 
 GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void );
@@ -23,9 +28,6 @@ GtkTreeModel *gsb_etats_config_onglet_get_liste_tiers ( void );
 GtkTreeModel *gsb_etats_config_onglet_mode_paiement_get_model ( void );
 void gsb_etats_config_onglet_select_partie_liste_comptes ( GtkWidget *tree_view,
                         gint type_compte );
-
-
-
 /* END_DECLARATION */
 
 
