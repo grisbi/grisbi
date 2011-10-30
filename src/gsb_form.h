@@ -6,13 +6,6 @@
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
 
-enum direction_move {
-    GSB_LEFT = 0,
-    GSB_RIGHT,
-    GSB_UP,
-    GSB_DOWN
-};
-
 /** returned values want ask for the origin
  * must be < 0 because 0 and more are reserved for account numbers */
 enum origin_values {
