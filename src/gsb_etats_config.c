@@ -63,6 +63,7 @@
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
 static void gsb_etats_config_initialise_onglet_comptes ( gint report_number );
 static void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number );
+static void gsb_etats_config_initialise_onglet_data_separation ( gint report_number );
 static void gsb_etats_config_initialise_onglet_divers ( gint report_number );
 static void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_initialise_onglet_periode ( gint report_number );
@@ -86,6 +87,7 @@ static gboolean gsb_etats_config_onglet_data_grouping_update_model ( gint report
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_data_grouping ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_data_separation ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_divers ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_periode ( gint report_number );
@@ -133,20 +135,6 @@ enum
 
     GSB_ETAT_CATEG_BUDGET_LIST_NB,
 };
-
-
-/*
-static gchar *etats_config_jours_semaine[] =
-{
-    N_("Monday"),
-    N_("Tuesday"),
-    N_("Wednesday"),
-    N_("Thursday"),
-    N_("Friday"),
-    N_("Saturday"),
-    N_("Sunday"),
-    NULL };
-*/
 
 
 static gchar *champs_type_recherche_texte[] =
@@ -304,6 +292,9 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet data grouping */
     gsb_etats_config_initialise_onglet_data_grouping ( report_number );
 
+    /* onglet data separation */
+    gsb_etats_config_initialise_onglet_data_separation ( report_number );
+
 
     /* return */
     return TRUE;
@@ -346,6 +337,8 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
     /* onglet modes data grouping */
     gsb_etats_config_recupere_info_onglet_data_grouping ( report_number );
 
+    /* onglet modes data separation */
+    gsb_etats_config_recupere_info_onglet_data_separation ( report_number );
 
 
 
@@ -2042,6 +2035,100 @@ void gsb_etats_config_onglet_data_grouping_move_in_list ( gint src_pos,
 }
 
 
+/*ONGLET_DATA_SEPARATION*/
+/**
+ * Initialise les informations de l'onglet separation des données
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_data_separation ( gint report_number )
+{
+    GtkWidget *combo_1;
+    GtkWidget *combo_2;
+
+    etats_config_ui_widget_set_actif ( "bouton_separer_revenus_depenses",
+                        gsb_data_report_get_split_credit_debit ( report_number ) );
+    etats_config_ui_widget_set_actif ( "bouton_separe_exo_etat",
+                        gsb_data_report_get_financial_year_split ( report_number ) );
+
+    /* on initialise le combo bouton_type_separe_plages_etat */
+    combo_1 = etats_config_ui_widget_get_widget_by_name ( "bouton_type_separe_plages_etat", NULL );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_1 ),
+                        gsb_data_report_get_period_split_type ( report_number ) );
+
+    /* on initialise le combo bouton_debut_semaine */
+    combo_2 = etats_config_ui_widget_get_widget_by_name ( "bouton_debut_semaine", NULL );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_2 ),
+                        gsb_data_report_get_period_split_day ( report_number ) );
+
+    if ( gsb_data_report_get_period_split ( report_number ) )
+    {
+        GtkWidget *button;
+
+        button = etats_config_ui_widget_get_widget_by_name ( "bouton_separe_plages_etat", NULL );
+        etats_config_ui_widget_set_actif ( "bouton_separe_plages_etat", TRUE );
+        sens_desensitive_pointeur ( button,
+                        etats_config_ui_widget_get_widget_by_name ( "paddingbox_data_separation2", NULL ) );
+
+        if ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo_1 ) ) == 1 )
+            gtk_widget_set_sensitive ( combo_2, TRUE );
+    }
+}
+
+
+/**
+ * Récupère les informations de l'onglet separation des données
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_data_separation ( gint report_number )
+{
+    gsb_data_report_set_split_credit_debit ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_separer_revenus_depenses" ) );
+    gsb_data_report_set_financial_year_split ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_separe_exo_etat" ) );
+    gsb_data_report_set_period_split ( report_number,
+                        etats_config_ui_widget_get_actif ( "bouton_separe_plages_etat" ) );
+
+    /* récupère des index des GtkComboBox */
+    gsb_data_report_set_period_split_type ( report_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                        etats_config_ui_widget_get_widget_by_name ( "bouton_type_separe_plages_etat", NULL ) ) ) );
+
+    gsb_data_report_set_period_split_day ( report_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                        etats_config_ui_widget_get_widget_by_name ( "bouton_debut_semaine", NULL ) ) ) );
+}
+
+
+/**
+ * fonction de callback appellée quand on change le type de période
+ *
+ * \param combo         le GtkComboBox qui change
+ * \param widget        le widget qu'on rend sensible ou pas.
+ *
+ * \return
+ */
+void gsb_etats_config_onglet_data_separation_combo_changed ( GtkComboBox *combo,
+                        GtkWidget *widget )
+{
+    gint report_number;
+
+    report_number = gsb_gui_navigation_get_current_report ( );
+    if ( gsb_data_report_get_period_split ( report_number ) )
+    {
+        if ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) == 1 )
+            gtk_widget_set_sensitive ( widget, TRUE );
+        else
+            gtk_widget_set_sensitive ( widget, FALSE );
+    }
+}
+
+
 /*OLD_FUNCTIONS*/
 
 /**
@@ -2374,22 +2461,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  *
  *
  */
-GtkWidget *gsb_etats_config_page_data_separation ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_separation" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Data separation"), "organization.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    return vbox_onglet;
-}
-
-
 /**
  *
  *

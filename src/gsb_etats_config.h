@@ -21,6 +21,8 @@ gchar *gsb_etats_config_onglet_data_grouping_get_string ( gint type_data,
 void gsb_etats_config_onglet_data_grouping_move_in_list ( gint src_pos,
                         gint src_type_data,
                         gint dst_pos );;
+void gsb_etats_config_onglet_data_separation_combo_changed ( GtkComboBox *combo,
+                        GtkWidget *widget );
 
 GtkTreeModel *gsb_etats_config_onglet_get_liste_comptes ( void );
 GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void );

@@ -91,6 +91,7 @@ static gboolean etats_config_ui_onglet_data_grouping_drop_possible ( GtkTreeDrag
 static gboolean etats_config_ui_onglet_data_grouping_init_tree_view ( void );
 static void etats_config_ui_onglet_data_grouping_selection_changed ( GtkTreeSelection *selection,
                         GtkWidget *tree_view );
+static GtkWidget *etats_config_ui_onglet_data_separation_create_page ( gint page );
 
 static GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page );
 static gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *button,
@@ -175,6 +176,28 @@ static gchar *etats_config_liste_plages_dates[] =
     NULL,
 };
 
+
+static gchar *jours_semaine[] =
+{
+    N_("Monday"),
+    N_("Tuesday"),
+    N_("Wednesday"),
+    N_("Thursday"),
+    N_("Friday"),
+    N_("Saturday"),
+    N_("Sunday"),
+    NULL,
+};
+
+
+static gchar *data_separation_periodes[] =
+{
+    N_("Day"),
+    N_("Week"),
+    N_("Month"),
+    N_("Year"),
+    NULL,
+};
 
 /* builder */
 static GtkBuilder *etat_config_builder = NULL;
@@ -392,10 +415,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* Data separation */
-/*     widget = gsb_etats_config_page_data_separation ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_data_separation_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
+    page++;
 
     /* remplissage de l'onglet d'affichage */
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
@@ -589,8 +611,6 @@ GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page )
     GtkWidget *entree_date_finale_etat;
     GtkWidget *button;
 
-    devel_debug (NULL);
-
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_periode" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Date selection"), "scheduler.png" );
@@ -682,26 +702,8 @@ GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page )
 GtkTreeModel *etats_config_ui_onglet_periode_get_liste_dates ( void )
 {
     GtkListStore *list_store;
-    gchar **plages_dates;
-    gint i;
 
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-
-    /* on remplit la liste des dates */
-    plages_dates = etats_config_liste_plages_dates;
-
-    i = 0;
-
-    while ( plages_dates[i] )
-    {
-        GtkTreeIter iter;
-        gchar *plage = gettext ( plages_dates[i] );
-
-        gtk_list_store_append ( list_store, &iter );
-        gtk_list_store_set ( list_store, &iter, 0, plage, 1, i, -1 );
-    
-        i++;
-    }
+    list_store = utils_list_store_create_from_string_array ( etats_config_liste_plages_dates );
 
     /* return */
     return GTK_TREE_MODEL ( list_store );
@@ -819,8 +821,6 @@ GtkWidget *etats_config_ui_onglet_virements_create_page ( gint page )
     GtkWidget *vbox;
     GtkWidget *tree_view;
 
-    devel_debug (NULL);
-
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_virements" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Transfers"), "transfer.png" );
@@ -926,8 +926,6 @@ GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page )
     GtkWidget *vbox;
     GtkWidget *button;
     GtkWidget *tree_view;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_comptes" ) );
 
@@ -1110,8 +1108,6 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page )
     GtkWidget *tree_view;
     GtkWidget *entry;
     GtkWidget *button;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_tiers" ) );
 
@@ -1655,8 +1651,6 @@ GtkWidget *etats_config_ui_onglet_categories_create_page ( gint page )
     GtkWidget *tree_view;
     GtkWidget *button;
 
-    devel_debug (NULL);
-
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_categories" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Categories"), "categories.png" );
@@ -1689,6 +1683,8 @@ GtkWidget *etats_config_ui_onglet_categories_create_page ( gint page )
     /* on met la connection pour (dé)sélectionner tout ou partie des catégories */
     etats_config_ui_onglet_categ_budget_init_buttons_select_unselect ( "categ", tree_view, TRUE );
 
+    gtk_widget_show_all ( vbox_onglet );
+
     return vbox_onglet;
 }
 
@@ -1707,8 +1703,6 @@ GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page )
     GtkWidget *vbox;
     GtkWidget *button;
     GtkWidget *tree_view;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_ib" ) );
 
@@ -1741,6 +1735,8 @@ GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page )
 
     /* on met la connection pour sélectionner tout ou partie des IB */
     etats_config_ui_onglet_categ_budget_init_buttons_select_unselect ( "budget", tree_view, FALSE );
+
+    gtk_widget_show_all ( vbox_onglet );
 
     /* return */
     return vbox_onglet;
@@ -1916,8 +1912,6 @@ GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page )
     GtkWidget *tree_view;
     GtkWidget *button;
 
-    devel_debug (NULL);
-
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_mode_paiement" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Payment methods"), "payment.png" );
@@ -1956,6 +1950,8 @@ GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page )
                         "toggled",
                         G_CALLBACK ( utils_togglebutton_select_unselect_all_rows ),
                         tree_view );
+
+    gtk_widget_show_all ( vbox_onglet );
 
     return vbox_onglet;
 }
@@ -2067,10 +2063,8 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *paddingbox;
+    GtkLabel *label;
     GtkWidget *button;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_divers" ) );
 
@@ -2080,13 +2074,11 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
     /* on crée la vbax pour sélectionner les opérations marquées */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Selecting Transactions") );
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_etat_divers1" ) );
+    gtk_label_set_text ( label, _("Selecting Transactions") );
 
-    vbox = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "vbox_select_transactions_buttons" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, TRUE, TRUE, 5 );
-
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "radiobutton_marked" ) );
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "radiobutton_marked" ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
@@ -2106,16 +2098,15 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
                         GINT_TO_POINTER ( page ) );
 
     /* on crée la vbox pour le bouton bouton_pas_detailler_ventilation */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Split of transactions detail") );
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_etat_divers2" ) );
+    gtk_label_set_text ( label, _("Split of transactions detail") );
 
+     /* on met la connection pour changer le style de la ligne du panneau de gauche */
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_pas_detailler_ventilation" ) );
-    /* on met la connection pour changer le style de la ligne du panneau de gauche */
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
                         GINT_TO_POINTER ( page ) );
-
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, TRUE, TRUE, 5 );
 
     gtk_widget_show_all ( vbox_onglet );
 
@@ -2168,11 +2159,8 @@ GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *hbox;
-    GtkWidget *paddingbox;
+    GtkLabel *label;
     GtkWidget *button;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_grouping" ) );
 
@@ -2182,27 +2170,14 @@ GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
     /* choix de ce qu'on utilise dans le classement */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, FALSE, _("Group transactions") );
-
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_regroupe_ope_compte_etat" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_tiers_etat" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_group_by_categ" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_ib_etat" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_grouping1" ) );
+    gtk_label_set_text ( label, _("Group transactions") );
 
     /* choix du type de classement */
-    paddingbox = new_paddingbox_with_title ( vbox_onglet, TRUE, _("Group level organisation") );
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_grouping2" ) );
+    gtk_label_set_text ( label, _("Group level organisation") );
 
     etats_config_ui_onglet_data_grouping_init_tree_view ( );
-
-    hbox = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_data_grouping" ) );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /* on met la connection pour modifier l'ordre des données dans le tree_view data_grouping */
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "button_data_grouping_up" ) );
@@ -2542,6 +2517,82 @@ void etats_config_ui_onglet_data_grouping_selection_changed ( GtkTreeSelection *
         }
     }
 }
+
+
+/*RIGHT_PANEL : ONGLET_DATA_SEPARATION*/
+/**
+ * Création de l'onglet séparation des donnés
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_data_separation_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkLabel *label;
+    GtkComboBox *combo_1;
+    GtkComboBox *combo_2;
+    GtkTreeModel *model;
+
+    devel_debug_int ( page );
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_separation" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Data separation"), "organization.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* choix de ce qu'on utilise dans le classement */
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_separation1" ) );
+    gtk_label_set_text ( label, _("Group transactions") );
+
+    /* on met la connexion pour la séparation par exercice avec le bouton radio_button_utilise_exo */
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etat_config_builder, "radio_button_utilise_exo" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_separe_exo_etat" ) );
+
+    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_separation2" ) );
+    gtk_label_set_text ( label, _("Separation by period") );
+
+
+    /* on met la connexion pour rendre sensible la boite avec le bouton bouton_type_separe_plages_etat */
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etat_config_builder, "bouton_separe_plages_etat" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "paddingbox_data_separation2" ) );
+
+    /* on crée le bouton avec les pérodes pour la séparation de l'état */
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( data_separation_periodes ) );
+    combo_1 = GTK_COMBO_BOX ( gtk_builder_get_object ( etat_config_builder, "bouton_type_separe_plages_etat" ) );
+    gtk_combo_box_set_model ( combo_1, model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo_1 ), 0 );
+
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( jours_semaine ) );
+    combo_2 = GTK_COMBO_BOX ( gtk_builder_get_object ( etat_config_builder, "bouton_debut_semaine" ) );
+    gtk_combo_box_set_model ( combo_2, model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo_2 ), 0 );
+
+    /* on connecte le signal "changed" au bouton bouton_type_separe_plages_etat
+     * pour rendre insensible le choix du jour de la semaine pour les choix
+     * autres que la semaine. On le met ici pour que l'initialisation se fasse
+     * proprement */
+    g_signal_connect ( G_OBJECT ( combo_1 ),
+                        "changed",
+                        G_CALLBACK ( gsb_etats_config_onglet_data_separation_combo_changed ),
+                        combo_2 );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* return */
+    return vbox_onglet;
+}
+
+
+
 
 
 /*FONCTIONS UTILITAIRES COMMUNES*/
