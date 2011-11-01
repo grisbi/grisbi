@@ -694,6 +694,59 @@ gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view )
 }
 
 
+/**
+ * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ */
+GtkListStore *utils_list_store_create_from_string_array ( gchar **array )
+{
+    GtkListStore *store = NULL;
+    gint i = 0;
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    while ( array[i] )
+    {
+        GtkTreeIter iter;
+        gchar *string = gettext ( array[i] );
+
+        gtk_list_store_append ( store, &iter );
+        gtk_list_store_set ( store, &iter, 0, string, 1, i, -1 );
+    
+        i++;
+    }
+
+    /* return */
+
+
+    return store;
+}
+
+
+/**
+ * Cette fonction crée la colonne visible d'un GtkComboBox
+ *
+ * \param le combo à initialiser
+ * \param le numéro de la colonne texte
+ *
+ * \return
+ */
+void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col )
+{
+    GtkCellRenderer *renderer;
+
+    renderer = gtk_cell_renderer_text_new ( );
+    gtk_cell_layout_pack_start ( GTK_CELL_LAYOUT ( combo ), renderer, TRUE );
+    gtk_cell_layout_set_attributes ( GTK_CELL_LAYOUT ( combo ), renderer,
+                                    "text", num_col,
+                                    NULL );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
