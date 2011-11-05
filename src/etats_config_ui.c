@@ -2122,7 +2122,7 @@ gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *butt
     gint index;
 
     index = etats_config_ui_buttons_radio_get_active_index ( "radiobutton_marked_all" );
-    active = etats_config_ui_widget_get_actif ( "bouton_pas_detailler_ventilation" );
+    active = etats_config_ui_toggle_button_get_actif ( "bouton_pas_detailler_ventilation" );
 
     if ( GTK_IS_RADIO_BUTTON ( button ) )
     {
@@ -2798,7 +2798,7 @@ void etats_config_ui_toggle_button_init_button_expand ( gchar *name,
  *
  * \return activ
  */
-gboolean etats_config_ui_widget_get_actif ( const gchar *button_name )
+gboolean etats_config_ui_toggle_button_get_actif ( const gchar *button_name )
 {
     GtkWidget *button = NULL;
 

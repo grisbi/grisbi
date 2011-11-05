@@ -29,7 +29,7 @@ void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
 void etats_config_ui_tree_view_select_single_row ( const gchar *treeview_name,
                         gint numero );
 
-gboolean etats_config_ui_widget_get_actif ( const gchar *widget_name );
+gboolean etats_config_ui_toggle_button_get_actif ( const gchar *widget_name );
 GtkWidget *etats_config_ui_widget_get_widget_by_name ( const gchar *parent_name,
                         const gchar *child_name );
 gboolean etats_config_ui_widget_set_actif ( const gchar *widget_name,

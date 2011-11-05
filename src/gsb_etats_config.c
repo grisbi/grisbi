@@ -497,7 +497,7 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
 {
     gint active;
 
-    active = etats_config_ui_widget_get_actif ( "radio_button_utilise_exo" );
+    active = etats_config_ui_toggle_button_get_actif ( "radio_button_utilise_exo" );
     gsb_data_report_set_use_financial_year ( report_number, active );
 
     if ( !active )
@@ -511,7 +511,7 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
             GtkWidget *entry;
 
             gsb_data_report_set_date_select_value ( report_number,
-                                etats_config_ui_widget_get_actif ( "button_sel_value_date" ) );
+                                etats_config_ui_toggle_button_get_actif ( "button_sel_value_date" ) );
 
             entry = etats_config_ui_widget_get_widget_by_name ( "hbox_date_init", "entree_date_init_etat" );
             if ( !gsb_date_check_entry ( entry ) )
@@ -656,7 +656,7 @@ void gsb_etats_config_recupere_info_onglet_virements ( gint report_number )
     }
 
     gsb_data_report_set_transfer_reports_only ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_exclure_non_virements_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_exclure_non_virements_etat" ) );
 }
 
 
@@ -703,7 +703,7 @@ void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number )
 {
     gint active;
 
-    active = etats_config_ui_widget_get_actif ( "bouton_detaille_comptes_etat" );
+    active = etats_config_ui_toggle_button_get_actif ( "bouton_detaille_comptes_etat" );
     gsb_data_report_set_account_use_chosen ( report_number, active );
 
     if ( active )
@@ -885,7 +885,7 @@ void gsb_etats_config_recupere_info_onglet_tiers ( gint report_number )
 {
     gint active;
 
-    active = etats_config_ui_widget_get_actif ( "bouton_detaille_tiers_etat" );
+    active = etats_config_ui_toggle_button_get_actif ( "bouton_detaille_tiers_etat" );
     gsb_data_report_set_payee_detail_used ( report_number, active );
     if ( active )
     {
@@ -986,7 +986,7 @@ void gsb_etats_config_recupere_info_onglet_categ_budget ( gint report_number,
 
     if ( is_categ )
     {
-        active = etats_config_ui_widget_get_actif ( "bouton_detaille_categ_etat" );
+        active = etats_config_ui_toggle_button_get_actif ( "bouton_detaille_categ_etat" );
         treeview_name = g_strdup ( "treeview_categ" );
 
         gsb_data_report_set_category_detail_used ( report_number, active );
@@ -998,7 +998,7 @@ void gsb_etats_config_recupere_info_onglet_categ_budget ( gint report_number,
     }
     else
     {
-        active = etats_config_ui_widget_get_actif ( "bouton_detaille_budget_etat" );
+        active = etats_config_ui_toggle_button_get_actif ( "bouton_detaille_budget_etat" );
         treeview_name = g_strdup ( "treeview_budget" );
 
         gsb_data_report_set_budget_detail_used ( report_number, active );
@@ -1655,7 +1655,7 @@ void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number )
 {
     gint active;
 
-    active = etats_config_ui_widget_get_actif ( "bouton_detaille_mode_paiement_etat" );
+    active = etats_config_ui_toggle_button_get_actif ( "bouton_detaille_mode_paiement_etat" );
     gsb_data_report_set_method_of_payment_used ( report_number, active );
     if ( active )
     {
@@ -1781,14 +1781,14 @@ void gsb_etats_config_recupere_info_onglet_divers ( gint report_number )
     gsb_data_report_set_show_m ( report_number, index );
 
     gsb_data_report_set_show_p ( report_number,
-                        etats_config_ui_widget_get_actif ( "checkbutton_marked_P" ) );
+                        etats_config_ui_toggle_button_get_actif ( "checkbutton_marked_P" ) );
     gsb_data_report_set_show_r ( report_number,
-                        etats_config_ui_widget_get_actif ( "checkbutton_marked_R" ) );
+                        etats_config_ui_toggle_button_get_actif ( "checkbutton_marked_R" ) );
     gsb_data_report_set_show_t ( report_number,
-                        etats_config_ui_widget_get_actif ( "checkbutton_marked_T" ) );
+                        etats_config_ui_toggle_button_get_actif ( "checkbutton_marked_T" ) );
 
     gsb_data_report_set_not_detail_split ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_pas_detailler_ventilation" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_pas_detailler_ventilation" ) );
 }
 
 
@@ -1825,13 +1825,13 @@ void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number )
 void gsb_etats_config_recupere_info_onglet_data_grouping ( gint report_number )
 {
     gsb_data_report_set_account_group_reports ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_regroupe_ope_compte_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_regroupe_ope_compte_etat" ) );
     gsb_data_report_set_payee_used ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_utilise_tiers_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_utilise_tiers_etat" ) );
     gsb_data_report_set_category_used ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_group_by_categ" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_group_by_categ" ) );
     gsb_data_report_set_budget_used ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_utilise_ib_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_utilise_ib_etat" ) );
 
     /* on récupère les données servant au tri des données pour l'affichage */
     gsb_data_report_free_sorting_type_list ( report_number );
@@ -2109,11 +2109,11 @@ void gsb_etats_config_initialise_onglet_data_separation ( gint report_number )
 void gsb_etats_config_recupere_info_onglet_data_separation ( gint report_number )
 {
     gsb_data_report_set_split_credit_debit ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_separer_revenus_depenses" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_separer_revenus_depenses" ) );
     gsb_data_report_set_financial_year_split ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_separe_exo_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_separe_exo_etat" ) );
     gsb_data_report_set_period_split ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_separe_plages_etat" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_separe_plages_etat" ) );
 
     /* récupère des index des GtkComboBox */
     gsb_data_report_set_period_split_type ( report_number,
@@ -2194,9 +2194,9 @@ void gsb_etats_config_recupere_info_onglet_affichage_generalites ( gint report_n
 
     /* on récupère les autres informations */
     gsb_data_report_set_show_report_transaction_amount ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_afficher_nb_opes" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_nb_opes" ) );
     gsb_data_report_set_append_in_payee ( report_number,
-                        etats_config_ui_widget_get_actif ( "bouton_inclure_dans_tiers" ) );
+                        etats_config_ui_toggle_button_get_actif ( "bouton_inclure_dans_tiers" ) );
 }
 
 
@@ -2306,39 +2306,39 @@ void gsb_etats_config_recupere_info_onglet_affichage_titres ( gint report_number
 {
     /* données des comptes */
     gsb_data_report_set_account_show_name ( report_number,
-					    etats_config_ui_widget_get_actif ( "bouton_afficher_noms_comptes" ) );
+					    etats_config_ui_toggle_button_get_actif ( "bouton_afficher_noms_comptes" ) );
     gsb_data_report_set_account_show_amount ( report_number,
-					    etats_config_ui_widget_get_actif ( "bouton_affiche_sous_total_compte" ) );
+					    etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_compte" ) );
 
     /* données des tiers */
     gsb_data_report_set_payee_show_name ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_noms_tiers" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_noms_tiers" ) );
     gsb_data_report_set_payee_show_payee_amount ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_sous_total_tiers" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_total_tiers" ) );
 
     /* données des catégories */
     gsb_data_report_set_category_show_name ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_noms_categ" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_noms_categ" ) );
     gsb_data_report_set_category_show_category_amount ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_affiche_sous_total_categ" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_categ" ) );
     gsb_data_report_set_category_show_sub_category ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_sous_categ" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_categ" ) );
     gsb_data_report_set_category_show_sub_category_amount ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_affiche_sous_total_categ" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_categ" ) );
     gsb_data_report_set_category_show_without_category ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_pas_de_sous_categ" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_pas_de_sous_categ" ) );
 
     /* données des IB */
     gsb_data_report_set_budget_show_name ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_noms_ib" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_noms_ib" ) );
     gsb_data_report_set_budget_show_budget_amount ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_affiche_sous_total_ib" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_ib" ) );
     gsb_data_report_set_budget_show_sub_budget ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_sous_ib" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_ib" ) );
     gsb_data_report_set_budget_show_sub_budget_amount ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_affiche_sous_total_ib" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_ib" ) );
     gsb_data_report_set_budget_show_without_budget ( report_number,
-					  etats_config_ui_widget_get_actif ( "bouton_afficher_pas_de_sous_ib" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_pas_de_sous_ib" ) );
 }
 
 
