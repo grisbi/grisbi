@@ -39,6 +39,17 @@
 /*END_INCLUDE*/
 
 
+/* these two macros are here to reduce 
+ * amount of code for setters and getters */
+#define BANK_GET_OR_RETURN(bank, number, ret) \
+    bank = gsb_data_bank_get_structure ( number ); \
+    if ( !bank ) \
+	return ret;
+#define BANK_SET_FIELD(bank, field, value) \
+    g_free (bank -> field); \
+    bank -> field = my_strdup (value);
+
+
 /**
  * \struct 
  * Describe a bank 
@@ -236,29 +247,23 @@ gint gsb_data_bank_new ( const gchar *name )
  */
 static void _gsb_data_bank_free ( struct_bank* bank)
 {
-    if ( ! bank )
+    if ( !bank )
 	return;
-    if ( bank -> bank_name )
-	g_free ( bank -> bank_name );
-    if ( bank -> bank_code )
-	g_free ( bank -> bank_code );
-    if ( bank -> bank_BIC )
-	g_free ( bank -> bank_BIC );
-    if ( bank -> bank_address )
-	g_free ( bank -> bank_address );
-    if ( bank -> bank_web )
-	g_free ( bank -> bank_web );
-    if ( bank -> bank_note )
-	g_free ( bank -> bank_note );
-    if ( bank -> correspondent_name )
-	g_free ( bank -> correspondent_name );
-    if ( bank -> correspondent_tel )
-	g_free ( bank -> correspondent_tel );
-    if ( bank -> correspondent_mail )
-	g_free ( bank -> correspondent_mail );
-    if ( bank -> correspondent_fax )
-	g_free ( bank -> correspondent_fax );
+
+    /* free string fields */
+    g_free ( bank -> bank_name );
+    g_free ( bank -> bank_code );
+    g_free ( bank -> bank_BIC );
+    g_free ( bank -> bank_address );
+    g_free ( bank -> bank_web );
+    g_free ( bank -> bank_note );
+    g_free ( bank -> correspondent_name );
+    g_free ( bank -> correspondent_tel );
+    g_free ( bank -> correspondent_mail );
+    g_free ( bank -> correspondent_fax );
+
     g_free ( bank );
+
     if ( bank_buffer == bank )
 	bank_buffer = NULL;
 }
@@ -314,612 +319,284 @@ gint gsb_data_bank_set_new_number ( gint bank_number,
 				    gint new_no_bank )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure (bank_number);
-
-    if (!bank)
-	return 0;
-
+    BANK_GET_OR_RETURN(bank, bank_number, 0);
     bank -> bank_number = new_no_bank;
     return new_no_bank;
 }
 
 
 /**
- * return the name of the bank
+ * Setters and getters are defined just after.
  *
- * \param bank_number the number of the bank
+ * Each setter takes a string as parameter. So the field of the structure is 
+ * first freed and the value is duplicated. It is freed when the bank is
+ * destroyed (by _gsb_data_bank_free).
+ * Setters return TRUE on success, FALSE otherwise
  *
- * \return the name of the bank or NULL if problem
- * */
-const gchar *gsb_data_bank_get_name ( gint bank_number )
-{
-    struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
-    return bank -> bank_name;
-}
+ * Each getter returns a pointer on a string, which must not be freed.
+ * Setters return the pointer on success, NULL otherwise
+ */
 
 
 /**
- * set the name of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param name the name of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Getter for the bank_name
+ */
+const gchar *gsb_data_bank_get_name ( gint bank_number )
+{
+    struct_bank *bank;
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
+    return bank -> bank_name;
+}
+/**
+ * Setter for the bank_name
+ */
 gboolean gsb_data_bank_set_name ( gint bank_number,
 				  const gchar *name )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_name )
-	g_free (bank -> bank_name);
-
-    /* and copy the new one */
-    bank -> bank_name = my_strdup (name);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_name, name);
     return TRUE;
 }
 
 
 /**
- * return the  of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_code of the bank or NULL if problem
- * */
+ * Getter for the bank_code
+ */
 const gchar *gsb_data_bank_get_code ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_code;
 }
-
-
 /**
- * set the  of the bank
- * the value is dupplicate in memory
- *
- * \param bank_number the number of the bank
- * \param  the  of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_code
+ */
 gboolean gsb_data_bank_set_code ( gint bank_number,
 				  const gchar *bank_code )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last  */
-    if ( bank -> bank_code )
-	g_free (bank -> bank_code);
-
-    /* and copy the new one */
-    bank -> bank_code = my_strdup (bank_code);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_code, bank_code);
     return TRUE;
 }
 
 
-
 /**
- * return the bank_address of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_address of the bank or NULL if problem
- * */
+ * Getter for the bank_address
+ */
 const gchar *gsb_data_bank_get_bank_address ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_address;
 }
-
-
 /**
- * set the bank_address of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param bank_address the bank_address of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_address
+ */
 gboolean gsb_data_bank_set_bank_address ( gint bank_number,
 					  const gchar *bank_address )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_address )
-	g_free (bank -> bank_address);
-
-    /* and copy the new one */
-    bank -> bank_address = my_strdup (bank_address);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_address, bank_address);
     return TRUE;
 }
 
+
 /**
- * return the bank_tel of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_tel of the bank or NULL if problem
- * */
+ * Getter for the bank_tel
+ */
 const gchar *gsb_data_bank_get_bank_tel ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_tel;
 }
-
-
 /**
- * set the bank_tel of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param bank_tel the bank_tel of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_tel
+ */
 gboolean gsb_data_bank_set_bank_tel ( gint bank_number,
 				      const gchar *bank_tel )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_tel )
-	g_free (bank -> bank_tel);
-
-    /* and copy the new one */
-    bank -> bank_tel = my_strdup (bank_tel);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_tel, bank_tel);
     return TRUE;
 }
 
 
 /**
- * return the bank_mail of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_mail of the bank or NULL if problem
- * */
+ * Getter for the bank_mail
+ */
 const gchar *gsb_data_bank_get_bank_mail ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_mail;
 }
-
-
 /**
- * set the bank_mail of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param bank_mail the bank_mail of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_mail
+ */
 gboolean gsb_data_bank_set_bank_mail ( gint bank_number,
 				       const gchar *bank_mail )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_mail )
-	g_free (bank -> bank_mail);
-
-    /* and copy the new one */
-    bank -> bank_mail = my_strdup (bank_mail);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_mail, bank_mail);
     return TRUE;
 }
 
 
 /**
- * return the bank_web of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_web of the bank or NULL if problem
- * */
+ * Getter for the bank_web
+ */
 const gchar *gsb_data_bank_get_bank_web ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_web;
 }
-
-
 /**
- * set the bank_web of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param bank_web the bank_web of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_web
+ */
 gboolean gsb_data_bank_set_bank_web ( gint bank_number,
 				      const gchar *bank_web )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_web )
-	g_free (bank -> bank_web);
-
-    /* and copy the new one */
-    bank -> bank_web = my_strdup (bank_web);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_web, bank_web);
     return TRUE;
 }
 
 
 /**
- * return the bank_note of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_note of the bank or NULL if problem
- * */
+ * Getter for the bank_note
+ */
 const gchar *gsb_data_bank_get_bank_note ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_note;
 }
-
-
 /**
- * set the bank_note of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param bank_note the bank_note of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the bank_note
+ */
 gboolean gsb_data_bank_set_bank_note ( gint bank_number,
 				       const gchar *bank_note )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> bank_note )
-	g_free (bank -> bank_note);
-
-    /* and copy the new one */
-    bank -> bank_note = my_strdup (bank_note);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_note, bank_note);
     return TRUE;
 }
 
 
 /**
- * return the correspondent_name of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the correspondent_name of the bank or NULL if problem
- * */
+ * Getter for the correspondent_name
+ */
 const gchar *gsb_data_bank_get_correspondent_name ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_name;
 }
-
-
 /**
- * set the correspondent_name of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param correspondent_name the correspondent_name of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the correspondent_name
+ */
 gboolean gsb_data_bank_set_correspondent_name ( gint bank_number,
 						const gchar *correspondent_name )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> correspondent_name )
-	g_free (bank -> correspondent_name);
-
-    /* and copy the new one */
-    bank -> correspondent_name = my_strdup (correspondent_name);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, correspondent_name, correspondent_name);
     return TRUE;
 }
 
 
 /**
- * return the correspondent_tel of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the correspondent_tel of the bank or NULL if problem
- * */
+ * Getter for the correspondent_tel
+ */
 const gchar *gsb_data_bank_get_correspondent_tel ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_tel;
 }
-
-
 /**
- * set the correspondent_tel of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param correspondent_tel the correspondent_tel of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the correspondent_tel
+ */
 gboolean gsb_data_bank_set_correspondent_tel ( gint bank_number,
 					       const gchar *correspondent_tel )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> correspondent_tel )
-	g_free (bank -> correspondent_tel);
-
-    /* and copy the new one */
-    bank -> correspondent_tel = my_strdup (correspondent_tel);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, correspondent_tel, correspondent_tel);
     return TRUE;
 }
 
 
 /**
- * return the correspondent_mail of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the correspondent_mail of the bank or NULL if problem
- * */
+ * Getter for the correspondent_mail
+ */
 const gchar *gsb_data_bank_get_correspondent_mail ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_mail;
 }
-
-
 /**
- * set the correspondent_mail of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param correspondent_mail the correspondent_mail of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the correspondent_mail
+ */
 gboolean gsb_data_bank_set_correspondent_mail ( gint bank_number,
 						const gchar *correspondent_mail )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> correspondent_mail )
-	g_free (bank -> correspondent_mail);
-
-    /* and copy the new one */
-    bank -> correspondent_mail = my_strdup (correspondent_mail);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, correspondent_mail, correspondent_mail);
     return TRUE;
 }
 
 
 /**
- * return the correspondent_fax of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the correspondent_fax of the bank or NULL if problem
- * */
+ * Getter for the correspondent_fax
+ */
 const gchar *gsb_data_bank_get_correspondent_fax ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> correspondent_fax;
 }
-
-
 /**
- * set the correspondent_fax of the bank
- * the value is dupplicate in memory (so parameter can be freed after)
- *
- * \param bank_number the number of the bank
- * \param correspondent_fax the correspondent_fax of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for the correspondent_fax
+ */
 gboolean gsb_data_bank_set_correspondent_fax ( gint bank_number,
 					       const gchar *correspondent_fax )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last name */
-    if ( bank -> correspondent_fax )
-	g_free (bank -> correspondent_fax);
-
-    /* and copy the new one */
-    bank -> correspondent_fax = my_strdup (correspondent_fax);
-
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, correspondent_fax, correspondent_fax);
     return TRUE;
 }
 
 
 /**
- * return the  BIC code of the bank
- *
- * \param bank_number the number of the bank
- *
- * \return the bank_BIC of the bank or NULL if problem
- * */
+ * Getter for BIC code
+ */
 const gchar *gsb_data_bank_get_bic ( gint bank_number )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return NULL;
-
+    BANK_GET_OR_RETURN(bank, bank_number, NULL);
     return bank -> bank_BIC;
 }
-
-
 /**
- * set the  BIC code of the bank
- * the value is dupplicate in memory
- *
- * \param bank_number the number of the bank
- * \param  the  BIC of the bank
- *
- * \return TRUE if ok or FALSE if problem
- * */
+ * Setter for BIC code
+ */
 gboolean gsb_data_bank_set_bic ( gint bank_number, const gchar *bank_BIC )
 {
     struct_bank *bank;
-
-    bank = gsb_data_bank_get_structure ( bank_number );
-
-    if (!bank)
-	return FALSE;
-
-    /* we free the last  */
-    if ( bank -> bank_BIC )
-	g_free (bank -> bank_BIC);
-
-    /* and copy the new one */
-    bank -> bank_BIC = my_strdup (bank_BIC);
-    
+    BANK_GET_OR_RETURN(bank, bank_number, FALSE);
+    BANK_SET_FIELD(bank, bank_BIC, bank_BIC);
     return TRUE;
 }
 
