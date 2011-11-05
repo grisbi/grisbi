@@ -66,6 +66,9 @@ static gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTree
 static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number );
 
+static GtkWidget *etats_config_ui_onglet_affichage_generalites_create_page ( gint page );
+static GtkWidget *etats_config_ui_onglet_affichage_titles_create_page ( gint page );
+
 static GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page );
 static void etats_config_ui_onglet_categ_budget_init_buttons_select_unselect ( gchar *name,
                         GtkWidget *tree_view,
@@ -423,16 +426,14 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
 
     /* append page Generalities */
-/*     widget = gsb_etats_config_affichage_etat_generalites ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_affichage_generalites_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
+    page++;
 
-    /* append page Titles */
-/*     widget = gsb_etats_config_affichage_etat_titres ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
- *     page++;
- */
+    /* append page divers */
+    widget = etats_config_ui_onglet_affichage_titles_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
+    page++;
 
     /* append page Transactions */
 /*     widget = gsb_etats_config_affichage_etat_operations ( page );
@@ -2063,7 +2064,6 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkLabel *label;
     GtkWidget *button;
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_divers" ) );
@@ -2072,10 +2072,6 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    /* on crée la vbax pour sélectionner les opérations marquées */
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_etat_divers1" ) );
-    gtk_label_set_text ( label, _("Selecting Transactions") );
 
     /* on met la connection pour changer le style de la ligne du panneau de gauche */
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "radiobutton_marked" ) );
@@ -2097,11 +2093,7 @@ GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page )
                         G_CALLBACK ( etats_config_ui_onglet_divers_update_style_left_panel ),
                         GINT_TO_POINTER ( page ) );
 
-    /* on crée la vbox pour le bouton bouton_pas_detailler_ventilation */
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_etat_divers2" ) );
-    gtk_label_set_text ( label, _("Split of transactions detail") );
-
-     /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
     button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_pas_detailler_ventilation" ) );
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
@@ -2159,7 +2151,6 @@ GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkLabel *label;
     GtkWidget *button;
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_grouping" ) );
@@ -2168,14 +2159,6 @@ GtkWidget *etats_config_ui_onglet_data_grouping_create_page ( gint page )
 
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    /* choix de ce qu'on utilise dans le classement */
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_grouping1" ) );
-    gtk_label_set_text ( label, _("Group transactions") );
-
-    /* choix du type de classement */
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_grouping2" ) );
-    gtk_label_set_text ( label, _("Group level organisation") );
 
     etats_config_ui_onglet_data_grouping_init_tree_view ( );
 
@@ -2531,12 +2514,9 @@ GtkWidget *etats_config_ui_onglet_data_separation_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkLabel *label;
     GtkComboBox *combo_1;
     GtkComboBox *combo_2;
     GtkTreeModel *model;
-
-    devel_debug_int ( page );
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "page_data_separation" ) );
 
@@ -2545,19 +2525,11 @@ GtkWidget *etats_config_ui_onglet_data_separation_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    /* choix de ce qu'on utilise dans le classement */
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_separation1" ) );
-    gtk_label_set_text ( label, _("Group transactions") );
-
     /* on met la connexion pour la séparation par exercice avec le bouton radio_button_utilise_exo */
     g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etat_config_builder, "radio_button_utilise_exo" ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object ( etat_config_builder, "bouton_separe_exo_etat" ) );
-
-    label = GTK_LABEL ( gtk_builder_get_object ( etat_config_builder, "title_data_separation2" ) );
-    gtk_label_set_text ( label, _("Separation by period") );
-
 
     /* on met la connexion pour rendre sensible la boite avec le bouton bouton_type_separe_plages_etat */
     g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etat_config_builder, "bouton_separe_plages_etat" ) ),
@@ -2591,6 +2563,133 @@ GtkWidget *etats_config_ui_onglet_data_separation_create_page ( gint page )
     return vbox_onglet;
 }
 
+
+/*RIGHT_PANEL : ONGLET_AFFICHAGE_GENERALITES*/
+/**
+ * Création de l'onglet affichage des generalites
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_affichage_generalites_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_generalites" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* return */
+    return vbox_onglet;
+}
+
+
+/*RIGHT_PANEL : ONGLET_AFFICHAGE_TITLES*/
+/**
+ * Création de l'onglet affichage de diverses données
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_affichage_titles_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *button;
+
+devel_debug_int (page);
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_titles" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* on met les connexions pour sensibiliser désensibiliser les données associées */
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etat_config_builder, "bouton_regroupe_ope_compte_etat" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_compte" ) );
+
+    /* affichage possible des tiers */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_tiers_etat" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_noms_tiers" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_tiers" ) );
+
+    /* affichage possible des categories */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_group_by_categ" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_noms_categ" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_categ" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_sous_categ" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_sous_categ" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_pas_de_sous_categ" ) );
+
+    /* affichage possible des ib */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_ib_etat" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_noms_ib" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_ib" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_sous_ib" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_affiche_sous_total_sous_ib" ) );
+
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "bouton_afficher_pas_de_sous_ib" ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* return */
+    return vbox_onglet;
+}
 
 
 
