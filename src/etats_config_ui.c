@@ -2819,7 +2819,7 @@ gboolean etats_config_ui_toggle_button_get_actif ( const gchar *button_name )
  *
  * \return TRUE if success FALSE otherwise
  */
-gboolean etats_config_ui_widget_set_actif ( const gchar *button_name,
+gboolean etats_config_ui_toggle_button_set_actif ( const gchar *button_name,
                         gboolean actif )
 {
     GtkWidget *button = NULL;

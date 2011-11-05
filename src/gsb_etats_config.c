@@ -396,7 +396,7 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
     {
         gint financial_year_type;
 
-        etats_config_ui_widget_set_actif ( "radio_button_utilise_exo", TRUE );
+        etats_config_ui_toggle_button_set_actif ( "radio_button_utilise_exo", TRUE );
 
         financial_year_type = gsb_data_report_get_financial_year_type ( report_number );
         etats_config_ui_buttons_radio_set_active_index ( "bouton_exo_tous", financial_year_type );
@@ -409,7 +409,7 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
     }
     else
     {
-        etats_config_ui_widget_set_actif ( "radio_button_utilise_dates", TRUE );
+        etats_config_ui_toggle_button_set_actif ( "radio_button_utilise_dates", TRUE );
         etats_config_ui_tree_view_select_single_row ( "treeview_dates",
                         gsb_data_report_get_date_type ( report_number ) );
 
@@ -422,7 +422,7 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
             etats_config_ui_onglet_periode_date_interval_sensitive ( TRUE );
 
             /* on initialise le type de date à sélectionner */
-            etats_config_ui_widget_set_actif ( "button_sel_value_date",
+            etats_config_ui_toggle_button_set_actif ( "button_sel_value_date",
                                 gsb_data_report_get_date_select_value ( report_number ) );
 
             /* on remplit les dates perso si elles existent */
@@ -579,7 +579,7 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
                                 "faster without the \"Detail financial years\" option activated.") );
 
                 dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
-                etats_config_ui_widget_set_actif ( "bouton_exo_tous", FALSE );
+                etats_config_ui_toggle_button_set_actif ( "bouton_exo_tous", FALSE );
                 gsb_data_report_set_financial_year_type ( report_number, 0 );
 
                 g_free ( text );
@@ -625,7 +625,7 @@ void gsb_etats_config_initialise_onglet_virements ( gint report_number )
     {
         gtk_widget_set_sensitive ( etats_config_ui_widget_get_widget_by_name (
                                 "bouton_exclure_non_virements_etat", NULL ), TRUE );
-        etats_config_ui_widget_set_actif ( "bouton_exclure_non_virements_etat",
+        etats_config_ui_toggle_button_set_actif ( "bouton_exclure_non_virements_etat",
                                 gsb_data_report_get_transfer_reports_only ( report_number ) );
     }
     else
@@ -673,7 +673,7 @@ void gsb_etats_config_initialise_onglet_comptes ( gint report_number )
     gint active;
 
     active = gsb_data_report_get_account_use_chosen ( report_number );
-    etats_config_ui_widget_set_actif ( "bouton_detaille_comptes_etat", active );
+    etats_config_ui_toggle_button_set_actif ( "bouton_detaille_comptes_etat", active );
 
     if ( active )
     {
@@ -721,7 +721,7 @@ void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number )
                             "faster without the \"Detail accounts used\" option activated") );
 
             dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
-            etats_config_ui_widget_set_actif ( "gsb_data_report_set_account_use_chosen", FALSE );
+            etats_config_ui_toggle_button_set_actif ( "gsb_data_report_set_account_use_chosen", FALSE );
             gsb_data_report_set_account_use_chosen ( report_number, FALSE );
 
             g_free ( text );
@@ -814,7 +814,7 @@ void gsb_etats_config_initialise_onglet_tiers ( gint report_number )
     gint active;
 
     active = gsb_data_report_get_payee_detail_used ( report_number );
-    etats_config_ui_widget_set_actif ( "bouton_detaille_tiers_etat", active );
+    etats_config_ui_toggle_button_set_actif ( "bouton_detaille_tiers_etat", active );
 
     if ( active )
     {
@@ -902,7 +902,7 @@ void gsb_etats_config_recupere_info_onglet_tiers ( gint report_number )
                             "faster without the \"Detail payees used\" option activated.") );
 
             dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
-            etats_config_ui_widget_set_actif ( "togglebutton_select_all_tiers", FALSE );
+            etats_config_ui_toggle_button_set_actif ( "togglebutton_select_all_tiers", FALSE );
             gsb_data_report_set_payee_detail_used ( report_number, FALSE );
 
             g_free ( text );
@@ -950,7 +950,7 @@ void gsb_etats_config_initialise_onglet_categ_budget ( gint report_number,
         tmp_list = gsb_data_report_get_budget_struct_list ( report_number );
     }
 
-    etats_config_ui_widget_set_actif ( checkbutton_name, active );
+    etats_config_ui_toggle_button_set_actif ( checkbutton_name, active );
 
     if ( active )
     {
@@ -1626,7 +1626,7 @@ void gsb_etats_config_initialise_onglet_mode_paiement ( gint report_number )
     gint active;
 
     active = gsb_data_report_get_method_of_payment_used ( report_number );
-    etats_config_ui_widget_set_actif ( "bouton_detaille_mode_paiement_etat", active );
+    etats_config_ui_toggle_button_set_actif ( "bouton_detaille_mode_paiement_etat", active );
 
     if ( active )
     {
@@ -1672,7 +1672,7 @@ void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number )
                             "faster without the \"Detail methods of payment used\" option activated.") );
 
             dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
-            etats_config_ui_widget_set_actif ( "togglebutton_select_all_mode_paiement", FALSE );
+            etats_config_ui_toggle_button_set_actif ( "togglebutton_select_all_mode_paiement", FALSE );
             gsb_data_report_set_method_of_payment_used ( report_number, 0 );
 
             g_free ( text );
@@ -1754,14 +1754,14 @@ void gsb_etats_config_initialise_onglet_divers ( gint report_number )
     index = gsb_data_report_get_show_m ( report_number );
     etats_config_ui_buttons_radio_set_active_index ( "radiobutton_marked_all", index );
 
-    etats_config_ui_widget_set_actif ( "checkbutton_marked_P",
+    etats_config_ui_toggle_button_set_actif ( "checkbutton_marked_P",
                         gsb_data_report_get_show_p ( report_number ) );
-    etats_config_ui_widget_set_actif ( "checkbutton_marked_R",
+    etats_config_ui_toggle_button_set_actif ( "checkbutton_marked_R",
                         gsb_data_report_get_show_r ( report_number ) );
-    etats_config_ui_widget_set_actif ( "checkbutton_marked_T",
+    etats_config_ui_toggle_button_set_actif ( "checkbutton_marked_T",
                         gsb_data_report_get_show_t ( report_number ) );
 
-    etats_config_ui_widget_set_actif ( "bouton_pas_detailler_ventilation",
+    etats_config_ui_toggle_button_set_actif ( "bouton_pas_detailler_ventilation",
                         gsb_data_report_get_not_detail_split ( report_number ) );
 }
 
@@ -1802,13 +1802,13 @@ void gsb_etats_config_recupere_info_onglet_divers ( gint report_number )
  */
 void gsb_etats_config_initialise_onglet_data_grouping ( gint report_number )
 {
-    etats_config_ui_widget_set_actif ( "bouton_regroupe_ope_compte_etat",
+    etats_config_ui_toggle_button_set_actif ( "bouton_regroupe_ope_compte_etat",
                         gsb_data_report_get_account_group_reports ( report_number ) );
-    etats_config_ui_widget_set_actif ( "bouton_utilise_tiers_etat",
+    etats_config_ui_toggle_button_set_actif ( "bouton_utilise_tiers_etat",
                         gsb_data_report_get_payee_used ( report_number ) );
-    etats_config_ui_widget_set_actif ( "bouton_group_by_categ",
+    etats_config_ui_toggle_button_set_actif ( "bouton_group_by_categ",
                         gsb_data_report_get_category_used ( report_number ) );
-    etats_config_ui_widget_set_actif ( "bouton_utilise_ib_etat",
+    etats_config_ui_toggle_button_set_actif ( "bouton_utilise_ib_etat",
                         gsb_data_report_get_budget_used ( report_number ) );
 
     gsb_etats_config_onglet_data_grouping_update_model ( report_number );
@@ -2069,9 +2069,9 @@ void gsb_etats_config_initialise_onglet_data_separation ( gint report_number )
     GtkWidget *combo_1;
     GtkWidget *combo_2;
 
-    etats_config_ui_widget_set_actif ( "bouton_separer_revenus_depenses",
+    etats_config_ui_toggle_button_set_actif ( "bouton_separer_revenus_depenses",
                         gsb_data_report_get_split_credit_debit ( report_number ) );
-    etats_config_ui_widget_set_actif ( "bouton_separe_exo_etat",
+    etats_config_ui_toggle_button_set_actif ( "bouton_separe_exo_etat",
                         gsb_data_report_get_financial_year_split ( report_number ) );
 
     /* on initialise le combo bouton_type_separe_plages_etat */
@@ -2089,7 +2089,7 @@ void gsb_etats_config_initialise_onglet_data_separation ( gint report_number )
         GtkWidget *button;
 
         button = etats_config_ui_widget_get_widget_by_name ( "bouton_separe_plages_etat", NULL );
-        etats_config_ui_widget_set_actif ( "bouton_separe_plages_etat", TRUE );
+        etats_config_ui_toggle_button_set_actif ( "bouton_separe_plages_etat", TRUE );
         sens_desensitive_pointeur ( button,
                         etats_config_ui_widget_get_widget_by_name ( "paddingbox_data_separation2", NULL ) );
 
@@ -2163,9 +2163,9 @@ void gsb_etats_config_initialise_onglet_affichage_generalites ( gint report_numb
     gtk_entry_set_text ( GTK_ENTRY ( etats_config_ui_widget_get_widget_by_name ( "entree_nom_etat", NULL ) ),
                         gsb_data_report_get_report_name ( report_number ) );
 
-    etats_config_ui_widget_set_actif ( "bouton_afficher_nb_opes",
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_nb_opes",
                         gsb_data_report_get_show_report_transaction_amount ( report_number ) );
-    etats_config_ui_widget_set_actif ( "bouton_inclure_dans_tiers",
+    etats_config_ui_toggle_button_set_actif ( "bouton_inclure_dans_tiers",
                         gsb_data_report_get_append_in_payee ( report_number ) );
 }
 
@@ -2214,7 +2214,7 @@ void gsb_etats_config_initialise_onglet_affichage_titres ( gint report_number )
     GtkWidget *widget;
 
     /* données des comptes */
-    etats_config_ui_widget_set_actif ( "bouton_afficher_noms_comptes",
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_noms_comptes",
                         gsb_data_report_get_account_show_name ( report_number ) );
 
     button = etats_config_ui_widget_get_widget_by_name ( "bouton_regroupe_ope_compte_etat", NULL );
