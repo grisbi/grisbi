@@ -380,7 +380,8 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     GtkWidget *box_pie;
     GtkWidget *button_grid;
     gchar *title;
-    gint result;
+    gint result_credit = FALSE;
+    gint result_debit = FALSE;
     gint account_number;
     gint currency_number;
     struct_bet_graph_data *self_credit;
@@ -440,13 +441,10 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     /* populate the data for debit */
     if ( self_debit->valid_data == FALSE )
         self_debit->valid_data = bet_graph_populate_sectors_by_hist_data ( self_debit );
-    if ( !self_debit->valid_data )
-        return;
 
     /* show the data for debit */
-    result = bet_graph_affiche_camemberts ( self_debit );
-    if ( !result )
-        return;
+    if ( self_debit->valid_data )
+        result_debit = bet_graph_affiche_camemberts ( self_debit );
 
     /* Set the graph for credit */
     self_credit = struct_initialise_bet_graph_data ( );
@@ -464,18 +462,20 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     /* populate the data for credit */
     if ( self_credit->valid_data == FALSE )
         self_credit->valid_data = bet_graph_populate_sectors_by_hist_data ( self_credit );
-    if ( !self_credit->valid_data )
-        return;
 
     /* show the data for credit */
-    result = bet_graph_affiche_camemberts ( self_credit );
-    if ( !result )
-        return;
+    if ( self_credit->valid_data )
+        result_credit = bet_graph_affiche_camemberts ( self_credit );
 
+    /* show or hide widgets */
     gtk_widget_show_all ( dialog );
     gtk_widget_hide ( button_grid );
+    if ( !result_credit )
+        gtk_widget_hide ( self_credit->widget );
+    if ( !result_debit )
+        gtk_widget_hide ( self_debit->widget );
 
-    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     /* free the data */
     struct_free_bet_graph_data ( self_debit );
@@ -503,6 +503,7 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
     if ( gtk_tree_model_get_iter_first ( model, &iter ) )
     {
         gint account_number;
+        gint type_compte;
         gchar *libelle_division = self -> tab_libelle[0];
         gchar **tab_libelle_division;
         gdouble *tab_montant_division = self -> tab_Y;
@@ -515,6 +516,8 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
                         -1 );
         if ( account_number != self -> account_number )
             return FALSE;
+
+        type_compte = gsb_data_account_get_kind ( account_number );
         do
         {
             gchar *desc;
@@ -535,17 +538,21 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
                 strncpy ( &libelle_division[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE );
                 tab_montant_division[self -> nbre_elemnts] = utils_str_strtod ( ( amount == NULL) ? "0" : amount, NULL );
 
-                self->montant += tab_montant_division[self -> nbre_elemnts];
+                if ( type_compte ==  GSB_TYPE_CASH && tab_montant_division[self -> nbre_elemnts] < 0 )
+                    self->montant += -tab_montant_division[self -> nbre_elemnts];
+                else
+                    self->montant += tab_montant_division[self -> nbre_elemnts];
+
                 self -> nbre_elemnts++;
             }
 
             if ( self -> nbre_elemnts >= MAX_SEGMENT_CAMEMBERT )
                 break;
-
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
 
-        return TRUE;
+        if ( self -> nbre_elemnts )
+            return TRUE;
     }
 
     return FALSE;
@@ -664,7 +671,6 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
                         "switch-page",
                         G_CALLBACK ( bet_graph_notebook_change_page ),
                         self );
-
 
     /* set the graphique page */
     self->plot = bet_graph_create_graph_page ( self, TRUE );

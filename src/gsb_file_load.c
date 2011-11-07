@@ -453,248 +453,271 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
                         gpointer user_data,
                         GError **error)
 {
+    gint unknown = 0;
+
     /* the first time we come here, we check if it's a grisbi file */
     if ( !download_tmp_values.download_ok )
     {
-    if ( strcmp ( element_name, 
-                        "Grisbi" ))
-    {
-        dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
-        g_markup_parse_context_end_parse (context,
-                        NULL);
+        if ( strcmp ( element_name, 
+                    "Grisbi" ))
+        {
+            dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
+            g_markup_parse_context_end_parse (context,
+                    NULL);
+            return;
+        }
+        download_tmp_values.download_ok = TRUE;
         return;
     }
-    download_tmp_values.download_ok = TRUE;
-    return;
-    }
 
-    if ( !strcmp ( element_name,
-                        "General" ))
+    switch ( element_name[0] )
     {
-    gsb_file_load_general_part ( attribute_names,
+        case 'A':
+            if ( !strcmp ( element_name, "Account" ))
+            {
+                gsb_file_load_account_part ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Color" ))
-    {
-    gsb_file_load_color_part ( attribute_names,
+            else if ( !strcmp ( element_name, "Archive" ))
+            {
+                gsb_file_load_archive ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Print" ))
-    {
-    gsb_file_load_print_part ( attribute_names,
+            else if ( !strcmp ( element_name, "Amount_comparison" ))
+            {
+                gsb_file_load_amount_comparison ( attribute_names,
+                        attribute_values);
+            }
+
+            else if ( !strcmp ( element_name, "Account_icon" ) )
+            {
+                gsb_file_load_account_icon_part ( attribute_names, 
                         attribute_values );
-    return;
-    }
+            }
 
-     if ( !strcmp ( element_name,
-                        "Account" ))
-    {
-    gsb_file_load_account_part ( attribute_names,
+            else
+                unknown = 1;
+            break;
+
+        case 'C':
+            if ( !strcmp ( element_name, "Category" ))
+            {
+                gsb_file_load_category ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Payment" ))
-    {
-    gsb_file_load_payment_part ( attribute_names,
+            else if ( !strcmp ( element_name, "Color" ))
+            {
+                gsb_file_load_color_part ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Transaction" ))
-    {
-    gsb_file_load_transactions ( attribute_names,
+            else if ( !strcmp ( element_name, "Currency" ))
+            {
+                gsb_file_load_currency ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Scheduled" ))
-    {
-    gsb_file_load_scheduled_transactions ( attribute_names,
+            else if ( !strcmp ( element_name, "Currency_link" ))
+            {
+                gsb_file_load_currency_link ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Party" ))
-    {
-    gsb_file_load_party ( attribute_names,
+            else
+                unknown = 1;
+            break;
+
+        case 'B':
+            if ( !strcmp ( element_name, "Bank" ))
+            {
+                gsb_file_load_bank ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Category" ))
-    {
-    gsb_file_load_category ( attribute_names,
+            else if ( !strcmp ( element_name, "Budgetary" ))
+            {
+                gsb_file_load_budgetary ( attribute_names,
                         attribute_values );
-    return;
-    }
+            }
 
-    if ( !strcmp ( element_name,
-                        "Sub_category" ))
-    {
-    gsb_file_load_sub_category ( attribute_names,
+            else if ( !strcmp ( element_name, "Bet" ) )
+            {
+                gsb_file_load_bet_part ( attribute_names, 
                         attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Budgetary" ))
-    {
-    gsb_file_load_budgetary ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Sub_budgetary" ))
-    {
-    gsb_file_load_sub_budgetary ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Currency" ))
-    {
-    gsb_file_load_currency ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Currency_link" ))
-    {
-    gsb_file_load_currency_link ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Bank" ))
-    {
-    gsb_file_load_bank ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Financial_year" ))
-    {
-    gsb_file_load_financial_year ( attribute_names,
-                       attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Archive" ))
-    {
-    gsb_file_load_archive ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Reconcile" ))
-    {
-    gsb_file_load_reconcile ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Import_rule" ))
-    {
-    gsb_file_load_import_rule ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name,
-                        "Partial_balance" ))
-    {
-    gsb_file_load_partial_balance ( attribute_names,
-                        attribute_values );
-    return;
-    }
-
-    if ( !strcmp ( element_name, "Bet" ) )
-    {
-        gsb_file_load_bet_part ( attribute_names, attribute_values );
-        return;
-    }
+            }
 
 #ifdef HAVE_GOFFICE
-    if ( !strcmp ( element_name, "Bet_graph" ) )
-    {
-        gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
-        return;
-    }
+            else if ( !strcmp ( element_name, "Bet_graph" ) )
+            {
+                gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
+            }
 #endif /* HAVE_GOFFICE */
 
-    if ( !strcmp ( element_name, "Bet_historical" ) )
-    {
-        gsb_file_load_bet_historical ( attribute_names, attribute_values );
-        return;
-    }
+            else if ( !strcmp ( element_name, "Bet_historical" ) )
+            {
+                gsb_file_load_bet_historical ( attribute_names, attribute_values );
+            }
 
-    if ( !strcmp ( element_name, "Bet_future" ) )
-    {
-        gsb_file_load_bet_future_data ( attribute_names, attribute_values );
-        return;
-    }
+            else if ( !strcmp ( element_name, "Bet_future" ) )
+            {
+                gsb_file_load_bet_future_data ( attribute_names, attribute_values );
+            }
 
-    if ( !strcmp ( element_name, "Bet_transfert" ) )
-    {
-        gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
-        return;
-    }
+            else if ( !strcmp ( element_name, "Bet_transfert" ) )
+            {
+                gsb_file_load_bet_transfert_part ( attribute_names, attribute_values );
+            }
 
-    if ( !strcmp ( element_name,
-                        "Report" ))
-    {
-    gsb_file_load_report ( attribute_names,
+            else
+                unknown = 1;
+            break;
+
+        case 'G':
+            if ( !strcmp ( element_name, "General" ))
+            {
+                gsb_file_load_general_part ( attribute_names,
                         attribute_values );
-    return;
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'P':
+            if ( !strcmp ( element_name, "Partial_balance" ))
+            {
+                gsb_file_load_partial_balance ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Print" ))
+            {
+                gsb_file_load_print_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Payment" ))
+            {
+                gsb_file_load_payment_part ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Party" ))
+            {
+                gsb_file_load_party ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'T':
+            if ( !strcmp ( element_name, "Transaction" ))
+            {
+                gsb_file_load_transactions ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Text_comparison" ))
+            {
+                gsb_file_load_text_comparison ( attribute_names,
+                        attribute_values);
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'S':
+            if ( !strcmp ( element_name, "Scheduled" ))
+            {
+                gsb_file_load_scheduled_transactions ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Sub_category" ))
+            {
+                gsb_file_load_sub_category ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Sub_budgetary" ))
+            {
+                gsb_file_load_sub_budgetary ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'F':
+            if ( !strcmp ( element_name, "Financial_year" ))
+            {
+                gsb_file_load_financial_year ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'R':
+            if ( !strcmp ( element_name, "Reconcile" ))
+            {
+                gsb_file_load_reconcile ( attribute_names,
+                        attribute_values );
+            }
+
+            else if ( !strcmp ( element_name, "Report" ))
+            {
+                gsb_file_load_report ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'I':
+            if ( !strcmp ( element_name, "Import_rule" ))
+            {
+                gsb_file_load_import_rule ( attribute_names,
+                        attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        case 'L':
+            if ( !strcmp ( element_name, "Logo" ) )
+            {
+                if ( etat.utilise_logo )
+                    gsb_file_load_logo_accueil ( attribute_names, 
+                            attribute_values );
+            }
+
+            else
+                unknown = 1;
+            break;
+
+        default:
+            /* normally, shouldn't come here */
+            unknown = 1;
+            break;
     }
 
-    if ( !strcmp ( element_name,
-                        "Text_comparison" ))
+    if ( unknown == 1 )
     {
-    gsb_file_load_text_comparison ( attribute_names,
-                        attribute_values);
-    return;
+        gchar *tmpstr = g_strdup_printf ( "Unknown element '%s'", element_name );
+        devel_debug ( tmpstr );
+        g_free ( tmpstr );
     }
-
-    if ( !strcmp ( element_name,
-                        "Amount_comparison" ))
-    {
-    gsb_file_load_amount_comparison ( attribute_names,
-                        attribute_values);
-    return;
-    }
-    if ( !strcmp ( element_name, "Logo" ) )
-    {
-        if ( etat.utilise_logo )
-            gsb_file_load_logo_accueil ( attribute_names, attribute_values );
-        return;
-    }
-    if ( !strcmp ( element_name, "Account_icon" ) )
-    {
-        gsb_file_load_account_icon_part ( attribute_names, attribute_values );
-        return;
-    }
-    /* the first time we come here, we check if it's a grisbi file */
 }
 
 
@@ -723,414 +746,389 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 void gsb_file_load_general_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+    gint unknown;
     gint i=0;
 
     if ( !attribute_names[i] )
-    return;
+        return;
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        unknown = 0;
 
-    if ( !strcmp (attribute_values[i],
-                        "(null)"))
-    {
-        /* Nothing */
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "File_version" ))
-    {
-        if ( download_tmp_values.file_version )
-            g_free ( download_tmp_values.file_version );
-        download_tmp_values.file_version = my_strdup (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Grisbi_version" ))
-    {
-        if ( download_tmp_values.grisbi_version )
-            g_free ( download_tmp_values.grisbi_version );
-        download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Crypt_file" ))
-    {
-        etat.crypt_file = utils_str_atoi (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Archive_file" ))
-    {
-        etat.is_archive = utils_str_atoi (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "File_title" ) && strlen (attribute_values[i]))
-    {
-        titre_fichier = my_strdup (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "General_address" ))
-    {
-        if ( adresse_commune )
-            g_free ( adresse_commune );
-        adresse_commune = my_strdup (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Second_general_address" ))
-    {
-        if ( adresse_secondaire )
-            g_free ( adresse_secondaire );
-        adresse_secondaire = my_strdup (attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Date_format" ) )
-    {
-        gsb_date_set_format_date ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Decimal_point" ) )
-    {
-        gsb_locale_set_mon_decimal_point ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Thousands_separator" ) )
-    {
-        if ( !strcmp ( attribute_values[i], "empty" ) )
-            gsb_locale_set_mon_thousands_sep ( NULL );
-        else
-            gsb_locale_set_mon_thousands_sep ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Party_list_currency_number" ))
-    {
-        no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Category_list_currency_number" ))
-    {
-        no_devise_totaux_categ = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Budget_list_currency_number" ))
-    {
-        no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Navigation_list_order" ) )
-    {
-        gsb_gui_navigation_set_page_list_order ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Scheduler_view" ))
-    {
-        affichage_echeances = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Scheduler_custom_number" ))
-    {
-        affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Scheduler_custom_menu" ))
-    {
-        affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Import_interval_search" ))
-    {
-        valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Import_extract_number_for_check" ))
-    {
-        etat.get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Import_fusion_transactions" ))
-    {
-        etat.get_fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Import_categorie_for_payee" ))
-    {
-        etat.get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Import_fyear_by_value_date" ))
-    {
-        etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Export_file_format" ) )
-    {
-        etat.export_file_format = utils_str_atoi ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Export_files_traitement" ) )
-    {
-        etat.export_files_traitement = utils_str_atoi ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
-    {
-        etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Use_logo" ))
-    {
-        etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
-    {
-        GdkPixbuf *pixbuf = NULL;
-
-        etat.name_logo = my_strdup ( attribute_values[i] );
-        if ( etat.is_pixmaps_dir )
+        if ( !strcmp ( attribute_values[i], "(null)" ) )
         {
-            gchar *chemin_logo = NULL;
-
-            if ( etat.name_logo )
-                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
-            else
-                chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
-            if ( chemin_logo )
-                pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-            if ( chemin_logo && strlen ( chemin_logo ) > 0 )
-                g_free ( chemin_logo );
-
+            i ++;
+            continue;
         }
-        if ( pixbuf )
+
+        switch ( attribute_names[i][0] )
         {
-            gtk_window_set_default_icon ( pixbuf );
-            gsb_select_icon_set_logo_pixbuf ( pixbuf );
-        }
-    }
+            case 'A':
+                if ( !strcmp ( attribute_names[i], "Automatic_amount_separator" ))
+                    etat.automatic_separator = utils_str_atoi( attribute_values[i]);
 
-    else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
-    {
-        etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
-        if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
+                else if ( !strcmp ( attribute_names[i], "Archive_file" ))
+                    etat.is_archive = utils_str_atoi (attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Add_archive_in_total_balance" ))
+                    etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'B':
+                if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
+                    etat.bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
+
+                else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
+                    etat.bet_currency = utils_str_atoi ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
+                    etat.bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
+
+                else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
+                    etat.bet_index_duree = utils_str_atoi ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
+                    etat.bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
+
+                else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )
+                    etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Budget_list_currency_number" ))
+                    no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
+                {
+                    gchar **pointeur_char;
+                    gint j;
+
+                    /* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+                    for ( j = 0; j < BET_ARRAY_COLUMNS; j++ )
+                        bet_array_col_width[j] = utils_str_atoi ( pointeur_char[j] );
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'C':
+                if ( !strcmp ( attribute_names[i], "Category_list_currency_number" ))
+                    no_devise_totaux_categ = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Combofix_mixed_sort" ))
+                    etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Combofix_max_item" ))
+                    etat.combofix_max_item = utils_str_atoi( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Combofix_case_sensitive" ))
+                    etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Combofix_force_payee" ))
+                    etat.combofix_force_payee = utils_str_atoi( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Combofix_force_category" ))
+                    etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
+                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "CSV_separator" ))
+                {
+                    if ( etat.csv_separator )
+                        g_free ( etat.csv_separator );
+                    etat.csv_separator = my_strdup ( attribute_values[i] );
+                }
+
+
+                else if ( !strcmp ( attribute_names[i], "CSV_skipped_lines" ))
+                {
+                    if ( attribute_values[i] && strlen ( attribute_values[i] ) )
+                    {
+                        gchar ** pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+                        gint line = 0;
+
+                        while ( pointeur_char[line] )
+                        {
+                            etat.csv_skipped_lines[line] = utils_str_atoi ( pointeur_char[line] );
+                            line ++;
+                        }
+                        g_strfreev ( pointeur_char );
+                    }
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'D':
+                if ( !strcmp ( attribute_names[i], "Date_format" ) )
+                    gsb_date_set_format_date ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Decimal_point" ) )
+                    gsb_locale_set_mon_decimal_point ( attribute_values[i] );
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'E':
+                if ( !strcmp ( attribute_names[i], "Export_file_format" ) )
+                    etat.export_file_format = utils_str_atoi ( attribute_values[i] );
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'F':
+                if ( !strcmp ( attribute_names[i], "File_version" ))
+                {
+                    if ( download_tmp_values.file_version )
+                        g_free ( download_tmp_values.file_version );
+                    download_tmp_values.file_version = my_strdup (attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
+                    titre_fichier = my_strdup (attribute_values[i]);
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'G':
+                if ( !strcmp ( attribute_names[i], "Grisbi_version" ))
+                {
+                    if ( download_tmp_values.grisbi_version )
+                        g_free ( download_tmp_values.grisbi_version );
+                    download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "General_address" ))
+                {
+                    if ( adresse_commune )
+                        g_free ( adresse_commune );
+                    adresse_commune = my_strdup (attribute_values[i]);
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'I':
+                if ( !strcmp ( attribute_names[i], "Import_interval_search" ))
+                    valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Import_extract_number_for_check" ))
+                    etat.get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Import_fusion_transactions" ))
+                    etat.get_fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Import_categorie_for_payee" ))
+                    etat.get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Import_fyear_by_value_date" ))
+                    etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
+                {
+                    etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
+                    if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
+                    {
+                        GdkPixbuf *pixbuf = NULL;
+                        gchar *chemin_logo = NULL;
+
+                        chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+                        pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+                        gtk_window_set_default_icon ( pixbuf );
+                        gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                        g_free ( chemin_logo );
+                    }
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'M':
+                if ( !strcmp ( attribute_names[i], "Metatree_sort_transactions" ))
+                    etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
+                else
+                    unknown = 1;
+                break;
+
+            case 'N':
+                if ( !strcmp ( attribute_names[i], "Navigation_list_order" ) )
+                    gsb_gui_navigation_set_page_list_order ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
+                {
+                    GdkPixbuf *pixbuf = NULL;
+
+                    etat.name_logo = my_strdup ( attribute_values[i] );
+                    if ( etat.is_pixmaps_dir )
+                    {
+                        gchar *chemin_logo = NULL;
+
+                        if ( etat.name_logo )
+                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
+                        else
+                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+                        if ( chemin_logo )
+                            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
+                        if ( chemin_logo && strlen ( chemin_logo ) > 0 )
+                            g_free ( chemin_logo );
+
+                    }
+                    if ( pixbuf )
+                    {
+                        gtk_window_set_default_icon ( pixbuf );
+                        gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                    }
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'O':
+                if ( !strcmp ( attribute_names[i], "One_line_showed" ))
+                    display_one_line = utils_str_atoi ( attribute_values[i]);
+                else
+                    unknown = 1;
+                break;
+
+            case 'P':
+                if ( !strcmp ( attribute_names[i], "Party_list_currency_number" ))
+                    no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
+                else
+                    unknown = 1;
+                break;
+
+            case 'R':
+                if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
+                    etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+                else
+                    unknown = 1;
+                break;
+
+            case 'S':
+                if ( !strcmp ( attribute_names[i], "Second_general_address" ))
+                {
+                    if ( adresse_secondaire )
+                        g_free ( adresse_secondaire );
+                    adresse_secondaire = my_strdup (attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
+                {
+                    /* initialise la réinitialisation des colonnes */
+                    etat.scheduler_column_width = my_strdup ( attribute_values[i] );
+
+                    initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
+                            etat.scheduler_column_width );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Scheduler_view" ))
+                    affichage_echeances = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Scheduler_custom_number" ))
+                    affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Scheduler_custom_menu" ))
+                    affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'T':
+                if ( !strcmp ( attribute_names[i], "Two_lines_showed" ))
+                    display_two_lines = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Thousands_separator" ) )
+                {
+                    if ( !strcmp ( attribute_values[i], "empty" ) )
+                        gsb_locale_set_mon_thousands_sep ( NULL );
+                    else
+                        gsb_locale_set_mon_thousands_sep ( attribute_values[i] );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Transactions_view" ))
+                {
+                    gchar **pointeur_char;
+                    gint j, k;
+
+                    pointeur_char = g_strsplit ( attribute_values[i],
+                            "-",
+                            0 );
+
+                    for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
+                        for ( k = 0 ; k<CUSTOM_MODEL_VISIBLE_COLUMNS ; k++ )
+                            tab_affichage_ope[j][k] = utils_str_atoi ( 
+                                    pointeur_char[k + j*CUSTOM_MODEL_VISIBLE_COLUMNS]);
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Three_lines_showed" ))
+                    display_three_lines = utils_str_atoi ( attribute_values[i]);
+
+                else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
+                {
+                    /* initialise la réinitialisation des colonnes */
+                    etat.transaction_column_width = my_strdup ( attribute_values[i] );
+
+                    initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
+                            etat.transaction_column_width );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
+                {
+                    gchar **pointeur_char;
+                    gint j;
+
+                    /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
+                    pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
+
+                    for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+                        transaction_col_align[j] = utils_str_atoi ( pointeur_char[j] );
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'U':
+                if ( !strcmp ( attribute_names[i], "Use_logo" ))
+                    etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
+                else
+                    unknown = 1;
+                break;
+
+            default:
+                /* normally, shouldn't come here */
+                unknown = 1;
+                break;
+        }
+
+        if ( unknown == 1 )
         {
-            GdkPixbuf *pixbuf = NULL;
-            gchar *chemin_logo = NULL;
-
-            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
-            pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
-            gtk_window_set_default_icon ( pixbuf );
-            gsb_select_icon_set_logo_pixbuf ( pixbuf );
-            g_free ( chemin_logo );
+            gchar *tmpstr = g_strdup_printf ( "Unknown attribute '%s'", attribute_names[i] );
+            devel_debug ( tmpstr );
+            g_free ( tmpstr );
         }
-    }
 
-    else if ( !strcmp ( attribute_names[i],
-                        "Remind_display_per_account" ))
-    {
-        etat.retient_affichage_par_compte = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Transactions_view" ))
-    {
-        gchar **pointeur_char;
-        gint j, k;
-
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
-        for ( k = 0 ; k<CUSTOM_MODEL_VISIBLE_COLUMNS ; k++ )
-            tab_affichage_ope[j][k] = utils_str_atoi ( 
-                        pointeur_char[k + j*CUSTOM_MODEL_VISIBLE_COLUMNS]);
-
-        g_strfreev ( pointeur_char );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "One_line_showed" ))
-    {
-        display_one_line = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Two_lines_showed" ))
-    {
-        display_two_lines = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Three_lines_showed" ))
-    {
-        display_three_lines = utils_str_atoi ( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
-    {
-        /* initialise la réinitialisation des colonnes */
-        etat.transaction_column_width = my_strdup ( attribute_values[i] );
-
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                        etat.transaction_column_width );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
-    {
-        gchar **pointeur_char;
-        gint j;
-
-        /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-
-        for ( j = 0 ; j < CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-            transaction_col_align[j] = utils_str_atoi ( pointeur_char[j] );
-
-        g_strfreev ( pointeur_char );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
-    {
-        /* initialise la réinitialisation des colonnes */
-        etat.scheduler_column_width = my_strdup ( attribute_values[i] );
-
-        initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                        etat.scheduler_column_width );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_mixed_sort" ))
-    {
-        etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_max_item" ))
-    {
-        etat.combofix_max_item = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_case_sensitive" ))
-    {
-        etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_force_payee" ))
-    {
-        etat.combofix_force_payee = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Combofix_force_category" ))
-    {
-        etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "Automatic_amount_separator" ))
-    {
-        etat.automatic_separator = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "CSV_separator" ))
-    {
-        if ( etat.csv_separator )
-            g_free ( etat.csv_separator );
-        etat.csv_separator = my_strdup ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i],
-                        "CSV_skipped_lines" ))
-    {
-        if ( attribute_values[i] && strlen ( attribute_values[i] ) )
-        {
-        gchar ** pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-        gint line = 0;
-
-        while ( pointeur_char[line] )
-        {
-            etat.csv_skipped_lines[line] = utils_str_atoi ( pointeur_char[line] );
-            line ++;
-        }
-        g_strfreev ( pointeur_char );
-        }
-    }
-    else if ( !strcmp ( attribute_names[i],
-                        "Metatree_sort_transactions" ))
-    {
-        etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
-    }
-    else if ( !strcmp ( attribute_names[i],
-                        "Add_archive_in_total_balance" ))
-    {
-        etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
-    {
-        gchar **pointeur_char;
-        gint j;
-
-        /* the bet_array columns are xx-xx-xx-xx-xx and we want to set in bet_array_col_width[1-2-3...] */
-        pointeur_char = g_strsplit ( attribute_values[i], "-", 0 );
-
-        for ( j = 0; j < BET_ARRAY_COLUMNS; j++ )
-            bet_array_col_width[j] = utils_str_atoi ( pointeur_char[j] );
-
-        g_strfreev ( pointeur_char );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
-    {
-        etat.bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
-    {
-        etat.bet_currency = utils_str_atoi ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
-    {
-        etat.bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
-    {
-        etat.bet_index_duree = utils_str_atoi ( attribute_values[i] );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
-    {
-        etat.bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
-    }
-
-    else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )
-    {
-        etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
-    }
-
-    i++;
+        i++;
     }
     while ( attribute_names[i] );
 }
@@ -1499,509 +1497,464 @@ void gsb_file_load_print_part ( const gchar **attribute_names,
 void gsb_file_load_account_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+    gint unknown;
     gint i=0;
     gint account_number = 0;
 
     if ( !attribute_names[i] )
-    return;
+        return;
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        unknown = 0;
 
-    if ( !strcmp (attribute_values[i],
-                        "(null)"))
-    {
-        i++;
-        continue;
-    }
+        /* we test at the beginning if the attribute_value is NULL, 
+         * if yes, go to the next */
 
-    if ( !strcmp ( attribute_names[i],
-                        "Name" ))
-    {
-        account_number = gsb_data_account_new ( GSB_TYPE_BANK );
-        gsb_data_account_set_name ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Id" ))
-    {
-        if ( strlen (attribute_values[i]))
-        gsb_data_account_set_id (account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Number" ))
-    {
-        account_number = gsb_data_account_set_account_number ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Owner" ))
-    {
-        gsb_data_account_set_holder_name ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Kind" ))
-    {
-        gsb_data_account_set_kind (account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Currency" ))
-    {
-        gsb_data_account_set_currency ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Path_icon" ) )
-    {
-        gsb_data_account_set_name_icon ( account_number,
-                        attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Bank" ))
-    {
-        gsb_data_account_set_bank ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Bank_branch_code" ))
-    {
-        gsb_data_account_set_bank_branch_code ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Bank_account_number" ))
-    {
-        gsb_data_account_set_bank_account_number ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Key" ))
-    {
-        gsb_data_account_set_bank_account_key ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Bank_account_IBAN" ))
-    {
-        gsb_data_account_set_bank_account_iban ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Initial_balance" ))
-    {
-        gsb_data_account_set_init_balance ( account_number,
-                        gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Minimum_wanted_balance" ))
-    {
-        gsb_data_account_set_mini_balance_wanted ( account_number, 
-                        gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Minimum_authorised_balance" ))
-    {
-        gsb_data_account_set_mini_balance_authorized ( account_number, 
-                        gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Closed_account" ))
-    {
-        gsb_data_account_set_closed_account ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Show_marked" ))
-    {
-        gsb_data_account_set_r ( account_number,
-                        utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Show_archives_lines" ))
-    {
-        gsb_data_account_set_l ( account_number,
-                        utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Lines_per_transaction" ))
-    {
-        gsb_data_account_set_nb_rows ( account_number, 
-                        utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Comment" ))
-    {
-        gsb_data_account_set_comment ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Owner_address" ))
-    {
-        if ( g_strstr_len ( attribute_values[i], -1, "&#xA;" ) )
+        if ( !strcmp (attribute_values[i], "(null)" ) )
         {
-            gchar **owner_tab;
-            gchar *owner_str;
-
-            owner_tab = g_strsplit ( attribute_values[i], "&#xA;", 0 );
-            owner_str = g_strjoinv ( NEW_LINE, owner_tab );
-            gsb_data_account_set_holder_address ( account_number, owner_str );
-
-            g_free ( owner_str );
-            g_strfreev ( owner_tab );
+            i++;
+            continue;
         }
-        else
-            gsb_data_account_set_holder_address ( account_number,
-                        attribute_values[i]);
-        i++;
-        continue;
-    }
 
-    if ( !strcmp ( attribute_names[i],
-                        "Default_debit_method" ))
-    {
-        gsb_data_account_set_default_debit ( account_number,
-                        utils_str_atoi ( attribute_values[i]) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Default_credit_method" ))
-    {
-        gsb_data_account_set_default_credit ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Sort_by_method" ))
-    {
-        gsb_data_account_set_reconcile_sort_type ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Neutrals_inside_method" ))
-    {
-        gsb_data_account_set_split_neutral_payment ( account_number,
-                        utils_str_atoi ( attribute_values[i]) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Sort_order" ))
-    {
-        if ( strlen (attribute_values[i]))
+        switch ( attribute_names[i][0] )
         {
-        gchar **pointeur_char;
-        gint j;
+            case 'A':
+                if ( !strcmp ( attribute_names[i], "Ascending_sort" ))
+                {
+                    gsb_data_account_set_sort_type ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
 
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "/",
-                        0 );
+                else
+                    unknown = 1;
+                break;
 
-        j = 0;
+            case 'B':
+                if ( !strcmp ( attribute_names[i], "Bank_account_IBAN" ))
+                {
+                    gsb_data_account_set_bank_account_iban ( account_number,
+                            attribute_values[i]);
+                }
 
-        while ( pointeur_char[j] )
+                else if ( !strcmp ( attribute_names[i], "Bank" ))
+                {
+                    gsb_data_account_set_bank ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bank_branch_code" ))
+                {
+                    gsb_data_account_set_bank_branch_code ( account_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bank_account_number" ))
+                {
+                    gsb_data_account_set_bank_account_number ( account_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_use_budget" ))
+                {
+                    gsb_data_account_set_bet_use_budget ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_start_date" ))
+                {
+                    gsb_data_account_set_bet_start_date ( account_number,
+                            gsb_parse_date_string_safe ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_months" ))
+                {
+                    gsb_data_account_set_bet_months ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_UT" ))
+                {
+                    gsb_data_account_set_bet_spin_range ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_auto_inc_month" ))
+                {
+                    gboolean auto_inc_month;
+
+                    auto_inc_month = utils_str_atoi ( attribute_values[i] );
+                    gsb_data_account_set_bet_auto_inc_month ( account_number, auto_inc_month );
+                    if ( auto_inc_month )
+                        gsb_data_account_bet_update_initial_date_if_necessary ( account_number );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_select_transaction_label" ))
+                {
+                    gsb_data_account_set_bet_select_label ( account_number,
+                            SPP_ORIGIN_TRANSACTION,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_select_scheduled_label" ))
+                {
+                    gsb_data_account_set_bet_select_label ( account_number,
+                            SPP_ORIGIN_SCHEDULED,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_select_futur_label" ))
+                {
+                    gsb_data_account_set_bet_select_label ( account_number,
+                            SPP_ORIGIN_FUTURE,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_SD" ))
+                {
+                    gsb_data_account_set_bet_hist_data ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_Fi" ))
+                {
+                    gsb_data_account_set_bet_hist_fyear ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_capital" ))
+                {
+                    gsb_data_account_set_bet_finance_capital ( account_number,
+                            g_ascii_strtod ( attribute_values[i], NULL ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ))
+                {
+                    gsb_data_account_set_bet_finance_taux_annuel ( account_number,
+                            g_ascii_strtod ( attribute_values[i], NULL ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_frais" ))
+                {
+                    gsb_data_account_set_bet_finance_frais ( account_number,
+                            g_ascii_strtod ( attribute_values[i], NULL ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
+                {
+                    gsb_data_account_set_bet_finance_type_taux ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'C':
+                if ( !strcmp ( attribute_names[i], "Currency" ))
+                {
+                    gsb_data_account_set_currency ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Closed_account" ))
+                {
+                    gsb_data_account_set_closed_account ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Comment" ))
+                {
+                    gsb_data_account_set_comment ( account_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Column_sort" ))
+                {
+                    gsb_data_account_set_sort_column ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'D':
+                if ( !strcmp ( attribute_names[i], "Default_debit_method" ))
+                {
+                    gsb_data_account_set_default_debit ( account_number,
+                            utils_str_atoi ( attribute_values[i]) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Default_credit_method" ))
+                {
+                    gsb_data_account_set_default_credit ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'F':
+                if ( !strcmp ( attribute_names[i], "Form_columns_number" ))
+                {
+                    gsb_data_form_new_organization (account_number);
+                    gsb_data_form_set_nb_columns ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Form_lines_number" ))
+                {
+                    gsb_data_form_set_nb_rows ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Form_organization" ))
+                {
+                    gchar **pointeur_char;
+                    gint k, j;
+
+                    pointeur_char = g_strsplit ( attribute_values[i],
+                            "-",
+                            0 );
+
+                    for ( k=0 ; k<MAX_HEIGHT ; k++ )
+                        for ( j=0 ; j<MAX_WIDTH ; j++ )
+                            gsb_data_form_set_value ( account_number,
+                                    j, k,
+                                    utils_str_atoi ( pointeur_char[j + k*MAX_WIDTH]));
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Form_columns_width" ))
+                {
+                    gchar **pointeur_char;
+                    gint j;
+
+                    pointeur_char = g_strsplit ( attribute_values[i],
+                            "-",
+                            0 );
+
+                    for ( j=0 ; j<MAX_WIDTH ; j++ )
+                        gsb_data_form_set_width_column ( account_number,
+                                j,
+                                utils_str_atoi ( pointeur_char[j]));
+
+                    g_strfreev ( pointeur_char );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'I':
+                if ( !strcmp ( attribute_names[i], "Id" ))
+                {
+                    if ( strlen (attribute_values[i]))
+                        gsb_data_account_set_id (account_number,
+                                attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Initial_balance" ))
+                {
+                    gsb_data_account_set_init_balance ( account_number,
+                            gsb_real_safe_real_from_string (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'K':
+                if ( !strcmp ( attribute_names[i], "Kind" ))
+                {
+                    gsb_data_account_set_kind (account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Key" ))
+                {
+                    gsb_data_account_set_bank_account_key ( account_number,
+                            attribute_values[i]);
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'L':
+                if ( !strcmp ( attribute_names[i], "Lines_per_transaction" ))
+                {
+                    gsb_data_account_set_nb_rows ( account_number, 
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'M':
+                if ( !strcmp ( attribute_names[i], "Minimum_wanted_balance" ))
+                {
+                    gsb_data_account_set_mini_balance_wanted ( account_number, 
+                            gsb_real_safe_real_from_string (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Minimum_authorised_balance" ))
+                {
+                    gsb_data_account_set_mini_balance_authorized ( account_number, 
+                            gsb_real_safe_real_from_string (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'N':
+                if ( !strcmp ( attribute_names[i], "Name" ))
+                {
+                    account_number = gsb_data_account_new ( GSB_TYPE_BANK );
+                    gsb_data_account_set_name ( account_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Number" ))
+                {
+                    account_number = gsb_data_account_set_account_number ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Neutrals_inside_method" ))
+                {
+                    gsb_data_account_set_split_neutral_payment ( account_number,
+                            utils_str_atoi ( attribute_values[i]) );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'O':
+                if ( !strcmp ( attribute_names[i], "Owner" ))
+                {
+                    gsb_data_account_set_holder_name ( account_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Owner_address" ))
+                {
+                    if ( g_strstr_len ( attribute_values[i], -1, "&#xA;" ) )
+                    {
+                        gchar **owner_tab;
+                        gchar *owner_str;
+
+                        owner_tab = g_strsplit ( attribute_values[i], "&#xA;", 0 );
+                        owner_str = g_strjoinv ( NEW_LINE, owner_tab );
+                        gsb_data_account_set_holder_address ( account_number, owner_str );
+
+                        g_free ( owner_str );
+                        g_strfreev ( owner_tab );
+                    }
+                    else
+                        gsb_data_account_set_holder_address ( account_number,
+                                attribute_values[i]);
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'P':
+                if ( !strcmp ( attribute_names[i], "Path_icon" ) )
+                {
+                    gsb_data_account_set_name_icon ( account_number,
+                            attribute_values[i] );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'S':
+                if ( !strcmp ( attribute_names[i], "Sort_by_method" ))
+                {
+                    gsb_data_account_set_reconcile_sort_type ( account_number,
+                            utils_str_atoi ( attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Show_marked" ))
+                {
+                    gsb_data_account_set_r ( account_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Show_archives_lines" ))
+                {
+                    gsb_data_account_set_l ( account_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Sort_order" ))
+                {
+                    if ( strlen (attribute_values[i]))
+                    {
+                        gchar **pointeur_char;
+                        gint j;
+
+                        pointeur_char = g_strsplit ( attribute_values[i],
+                                "/",
+                                0 );
+
+                        j = 0;
+
+                        while ( pointeur_char[j] )
+                        {
+                            gsb_data_account_sort_list_add ( account_number,
+                                    utils_str_atoi ( pointeur_char[j] ));
+                            j++;
+                        }
+                        g_strfreev ( pointeur_char );
+                    }
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Sorting_kind_column" ))
+                {
+                    gint j;
+                    gchar **pointeur_char;
+
+                    pointeur_char = g_strsplit ( attribute_values[i],
+                            "-",
+                            0 );
+
+                    for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
+                    {
+                        gsb_data_account_set_element_sort ( account_number,
+                                j,
+                                utils_str_atoi ( pointeur_char[j] ));
+                    }
+                    g_strfreev ( pointeur_char );
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            default:
+                /* normally, shouldn't come here */
+                unknown = 1;
+                break;
+        }
+
+        if ( unknown == 1 )
         {
-            gsb_data_account_sort_list_add ( account_number,
-                        utils_str_atoi ( pointeur_char[j] ));
-            j++;
+            gchar *tmpstr = g_strdup_printf ( "Unknown attribute '%s'", attribute_names[i] );
+            devel_debug ( tmpstr );
+            g_free ( tmpstr );
         }
-        g_strfreev ( pointeur_char );
-        }
+
         i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Ascending_sort" ))
-    {
-        gsb_data_account_set_sort_type ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Column_sort" ))
-    {
-        gsb_data_account_set_sort_column ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Sorting_kind_column" ))
-    {
-        gint j;
-        gchar **pointeur_char;
-
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
-        {
-        gsb_data_account_set_element_sort ( account_number,
-                        j,
-                        utils_str_atoi ( pointeur_char[j] ));
-        }
-        g_strfreev ( pointeur_char );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Form_columns_number" ))
-    {
-        gsb_data_form_new_organization (account_number);
-        gsb_data_form_set_nb_columns ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Form_lines_number" ))
-    {
-        gsb_data_form_set_nb_rows ( account_number,
-                        utils_str_atoi ( attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Form_organization" ))
-    {
-        gchar **pointeur_char;
-        gint k, j;
-
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( k=0 ; k<MAX_HEIGHT ; k++ )
-        for ( j=0 ; j<MAX_WIDTH ; j++ )
-            gsb_data_form_set_value ( account_number,
-                        j, k,
-                        utils_str_atoi ( pointeur_char[j + k*MAX_WIDTH]));
-
-        g_strfreev ( pointeur_char );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                        "Form_columns_width" ))
-    {
-        gchar **pointeur_char;
-        gint j;
-
-        pointeur_char = g_strsplit ( attribute_values[i],
-                        "-",
-                        0 );
-
-        for ( j=0 ; j<MAX_WIDTH ; j++ )
-        gsb_data_form_set_width_column ( account_number,
-                        j,
-                        utils_str_atoi ( pointeur_char[j]));
-
-        g_strfreev ( pointeur_char );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_use_budget" ))
-    {
-        gsb_data_account_set_bet_use_budget ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_start_date" ))
-    {
-        gsb_data_account_set_bet_start_date ( account_number,
-                        gsb_parse_date_string_safe ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_months" ))
-    {
-        gsb_data_account_set_bet_months ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_UT" ))
-    {
-        gsb_data_account_set_bet_spin_range ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_auto_inc_month" ))
-    {
-        gboolean auto_inc_month;
-
-        auto_inc_month = utils_str_atoi ( attribute_values[i] );
-        gsb_data_account_set_bet_auto_inc_month ( account_number, auto_inc_month );
-        if ( auto_inc_month )
-            gsb_data_account_bet_update_initial_date_if_necessary ( account_number );
-            
-        i++;
-        continue;
-    }
-    if ( !strcmp ( attribute_names[i], "Bet_select_transaction_label" ))
-    {
-        gsb_data_account_set_bet_select_label ( account_number,
-                        SPP_ORIGIN_TRANSACTION,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_select_scheduled_label" ))
-    {
-        gsb_data_account_set_bet_select_label ( account_number,
-                        SPP_ORIGIN_SCHEDULED,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_select_futur_label" ))
-    {
-        gsb_data_account_set_bet_select_label ( account_number,
-                        SPP_ORIGIN_FUTURE,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_SD" ))
-    {
-        gsb_data_account_set_bet_hist_data ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_Fi" ))
-    {
-        gsb_data_account_set_bet_hist_fyear ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_capital" ))
-    {
-        gsb_data_account_set_bet_finance_capital ( account_number,
-                        g_ascii_strtod ( attribute_values[i], NULL ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ))
-    {
-        gsb_data_account_set_bet_finance_taux_annuel ( account_number,
-                        g_ascii_strtod ( attribute_values[i], NULL ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_frais" ))
-    {
-        gsb_data_account_set_bet_finance_frais ( account_number,
-                        g_ascii_strtod ( attribute_values[i], NULL ) );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i], "Bet_type_taux" ))
-    {
-        gsb_data_account_set_bet_finance_type_taux ( account_number,
-                        utils_str_atoi ( attribute_values[i] ) );
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
     }
     while ( attribute_names[i] );
 }
@@ -2118,307 +2071,281 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 void gsb_file_load_transactions ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+    gint unknown;
     gint i=0;
     gint transaction_number = 0;
     gint account_number = 0;
 
     if ( !attribute_names[i] )
-    return;
-    
+        return;
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        unknown = 0;
 
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
-        i++;
-        continue;
-    }
+        /* we test at the beginning if the attribute_value is NULL, 
+         * if yes, go to the next */
 
-    if ( !strcmp ( attribute_names[i],
-               "Ac" ))
-    {
-        account_number = utils_str_atoi (attribute_values[i]);
-        i++;
-        continue;
-    }
+        if ( !strcmp (attribute_values[i], "(null)" ) )
+        {
+            i++;
+            continue;
+        }
 
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        transaction_number = gsb_data_transaction_new_transaction_with_number ( account_number,
-                                            utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
+        switch ( attribute_names[i][0] )
+        {
+            case 'A':
+                if ( !strcmp ( attribute_names[i], "Ac" ))
+                {
+                    account_number = utils_str_atoi (attribute_values[i]);
+                }
 
-    if ( !strcmp ( attribute_names[i],
-               "Id" ))
-    {
-        gsb_data_transaction_set_transaction_id ( transaction_number,
-                              attribute_values[i]);
-        i++;
-        continue;
-    }
+                else if ( !strcmp ( attribute_names[i], "Am" ))
+                {
+                    /* get the entire real, even if the floating point of the currency is less deep */
+                    gsb_data_transaction_set_amount ( transaction_number,
+                            gsb_real_safe_real_from_string (attribute_values[i]));
+                            }
 
-
-    if ( !strcmp ( attribute_names[i],
-               "Dt" ))
-    {
-        gsb_data_transaction_set_date ( transaction_number,
-                        gsb_parse_date_string_safe (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Dv" ))
-    {
-        gsb_data_transaction_set_value_date ( transaction_number,
-                          gsb_parse_date_string_safe (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Cu" ))
-    {
-        gsb_data_transaction_set_currency_number ( transaction_number,
-                               utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Am" ))
-    {
-        /* get the entire real, even if the floating point of the currency is less deep */
-        gsb_data_transaction_set_amount ( transaction_number,
-                          gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Exb" ))
-    {
-        gsb_data_transaction_set_change_between ( transaction_number,
-                              utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Exr" ))
-    {
-        gsb_data_transaction_set_exchange_rate ( transaction_number,
-                             gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Exf" ))
-    {
-        gsb_data_transaction_set_exchange_fees ( transaction_number,
-                             gsb_real_safe_real_from_string (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Pa" ))
-    {
-        gsb_data_transaction_set_party_number ( transaction_number,
+                else if ( !strcmp ( attribute_names[i], "Ar" ))
+                {
+                    gsb_data_transaction_set_archive_number ( transaction_number,
                             utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
+                }
 
-
-    if ( !strcmp ( attribute_names[i],
-               "Ca" ))
-    {
-        gsb_data_transaction_set_category_number ( transaction_number,
-                               utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Sca" ))
-    {
-        gsb_data_transaction_set_sub_category_number ( transaction_number,
-                               utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Br" ))
-    {
-        gsb_data_transaction_set_split_of_transaction ( transaction_number,
-                                utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "No" ))
-    {
-        gsb_data_transaction_set_notes ( transaction_number,
-                         attribute_values[i]);
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Pn" ))
-    {
-        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                                utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Pc" ))
-    {
-        gsb_data_transaction_set_method_of_payment_content ( transaction_number,
-                                 attribute_values[i]);
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Ma" ))
-    {
-        gsb_data_transaction_set_marked_transaction ( transaction_number,
-                              utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Ar" ))
-    {
-        gsb_data_transaction_set_archive_number ( transaction_number,
-                              utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Au" ))
-    {
-        gsb_data_transaction_set_automatic_transaction ( transaction_number,
-                                 utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Re" ))
-    {
-        gsb_data_transaction_set_reconcile_number ( transaction_number,
+                else if ( !strcmp ( attribute_names[i], "Au" ))
+                {
+                    gsb_data_transaction_set_automatic_transaction ( transaction_number,
                             utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
+                }
 
+                else
+                    unknown = 1;
+                break;
 
-    if ( !strcmp ( attribute_names[i],
-               "Fi" ))
-    {
-        gsb_data_transaction_set_financial_year_number ( transaction_number,
-                                 utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Bu" ))
-    {
-        gsb_data_transaction_set_budgetary_number ( transaction_number,
-                            utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Sbu" ))
-    {
-        gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+            case 'B':
+                if ( !strcmp ( attribute_names[i], "Br" ))
+                {
+                        gsb_data_transaction_set_split_of_transaction ( transaction_number,
                                 utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Ba" ))
+                {
+                        gsb_data_transaction_set_bank_references ( transaction_number,
+                                attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bu" ))
+                {
+                        gsb_data_transaction_set_budgetary_number ( transaction_number,
+                                utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'C':
+                if ( !strcmp ( attribute_names[i], "Ca" ))
+                {
+                    gsb_data_transaction_set_category_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Cu" ))
+                {
+                    gsb_data_transaction_set_currency_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'D':
+                if ( !strcmp ( attribute_names[i], "Dt" ))
+                {
+                        gsb_data_transaction_set_date ( transaction_number,
+                                gsb_parse_date_string_safe (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Dv" ))
+                {
+                        gsb_data_transaction_set_value_date ( transaction_number,
+                                gsb_parse_date_string_safe (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'E':
+                if ( !strcmp ( attribute_names[i], "Exb" ))
+                {
+                        gsb_data_transaction_set_change_between ( transaction_number,
+                                utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Exr" ))
+                {
+                        gsb_data_transaction_set_exchange_rate ( transaction_number,
+                                gsb_real_safe_real_from_string (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Exf" ))
+                {
+                        gsb_data_transaction_set_exchange_fees ( transaction_number,
+                                gsb_real_safe_real_from_string (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'F':
+                if ( !strcmp ( attribute_names[i], "Fi" ))
+                {
+                    gsb_data_transaction_set_financial_year_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'I':
+                if ( !strcmp ( attribute_names[i], "Id" ))
+                {
+                    gsb_data_transaction_set_transaction_id ( transaction_number,
+                            attribute_values[i]);
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'M':
+                if ( !strcmp ( attribute_names[i], "Ma" ))
+                {
+                    gsb_data_transaction_set_marked_transaction ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Mo" ))
+                {
+                    gsb_data_transaction_set_mother_transaction_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'N':
+                if ( !strcmp ( attribute_names[i], "No" ))
+                {
+                    gsb_data_transaction_set_notes ( transaction_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Nb" ))
+                {
+                    transaction_number = gsb_data_transaction_new_transaction_with_number ( account_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'P':
+                if ( !strcmp ( attribute_names[i], "Pn" ))
+                {
+                    gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Pc" ))
+                {
+                    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
+                            attribute_values[i]);
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Pa" ))
+                {
+                    gsb_data_transaction_set_party_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'R':
+                if ( !strcmp ( attribute_names[i], "Re" ))
+                {
+                    gsb_data_transaction_set_reconcile_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'S':
+                if ( !strcmp ( attribute_names[i], "Sca" ))
+                {
+                    gsb_data_transaction_set_sub_category_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Sbu" ))
+                {
+                    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'V':
+                if ( !strcmp ( attribute_names[i], "Vo" ))
+                {
+                    gsb_data_transaction_set_voucher ( transaction_number,
+                            attribute_values[i]);
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            case 'T':
+                if ( !strcmp ( attribute_names[i], "Trt" ))
+                {
+                    gsb_data_transaction_set_contra_transaction_number ( transaction_number,
+                            utils_str_atoi (attribute_values[i]));
+                }
+
+                else
+                    unknown = 1;
+                break;
+
+            default:
+                /* normally, shouldn't come here */
+                unknown = 1;
+                break;
+        }
+
+        if ( unknown == 1 )
+        {
+            gchar *tmpstr = g_strdup_printf ( "Unknown attribute '%s'", attribute_names[i] );
+            devel_debug ( tmpstr );
+            g_free ( tmpstr );
+        }
+
         i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Vo" ))
-    {
-        gsb_data_transaction_set_voucher ( transaction_number,
-                           attribute_values[i]);
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Ba" ))
-    {
-        gsb_data_transaction_set_bank_references ( transaction_number,
-                               attribute_values[i]);
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Trt" ))
-    {
-        gsb_data_transaction_set_contra_transaction_number ( transaction_number,
-                                   utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-    if ( !strcmp ( attribute_names[i],
-               "Mo" ))
-    {
-        gsb_data_transaction_set_mother_transaction_number ( transaction_number,
-                                 utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-
-
-    /* normally, shouldn't come here */
-    i++;
     }
     while ( attribute_names[i] );
 }

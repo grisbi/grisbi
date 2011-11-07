@@ -126,7 +126,9 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-
+/* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
+static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
+static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
 
 /**
  * initialisation of all the variables of grisbi
@@ -138,9 +140,6 @@ extern gint valeur_echelle_recherche_date_import;
  * */
 void init_variables ( void )
 {
-    /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
-    gint scheduler_col_width_init[SCHEDULER_COL_VISIBLE_COLUMNS] = {10, 12, 36, 12, 12, 12, 12 };
-    gint transaction_col_width_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = {10, 12, 36, 6, 12, 12, 12 };
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
@@ -267,12 +266,10 @@ void init_variables ( void )
     detail_devise_compte = NULL;
 
     /* defaut value for width and align of columns */
-    for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
-        transaction_col_width[i] = transaction_col_width_init[i];
+    initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE, transaction_col_width_init );
+    initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE, scheduler_col_width_init );
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
         transaction_col_align[i] = transaction_col_align_init[i];
-    for ( i = 0 ; i < SCHEDULER_COL_VISIBLE_COLUMNS ; i++ )
-        scheduler_col_width[i] = scheduler_col_width_init[i];
 
     if ( etat.transaction_column_width && strlen ( etat.transaction_column_width ) )
     {
@@ -430,6 +427,13 @@ void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const 
     gchar **pointeur_char;
     gint j;
 
+    if ( description == NULL )
+    {
+        if ( type_operation == GSB_ACCOUNT_PAGE )
+            description = transaction_col_width_init;
+        else if ( type_operation == GSB_SCHEDULER_PAGE )
+            description = scheduler_col_width_init;
+    }
 
     /* the transactions columns are xx-xx-xx-xx and we want to set in transaction_col_width[1-2-3...] */
     pointeur_char = g_strsplit ( description, "-", 0 );
