@@ -44,9 +44,6 @@
 
 
 /*START_STATIC*/
-static void etats_config_ui_toggle_button_init_button_expand ( gchar *name,
-                        GtkWidget *tree_view );
-
 static void etats_config_ui_left_panel_add_line ( GtkTreeStore *tree_model,
                         GtkTreeIter *iter,
                         GtkWidget *notebook,
@@ -54,6 +51,10 @@ static void etats_config_ui_left_panel_add_line ( GtkTreeStore *tree_model,
                         const gchar *title,
                         gint page );
 GtkWidget *etats_config_ui_left_panel_create_tree_view ( void );
+static void etats_config_ui_left_panel_notebook_change_page ( GtkNotebook *notebook,
+                        GtkNotebookPage *npage,
+                        gint page,
+                        gpointer user_data );
 static void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
                         GtkWidget *notebook );
 static gboolean etats_config_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
@@ -67,6 +68,7 @@ static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *b
                         gint *page_number );
 
 static GtkWidget *etats_config_ui_onglet_affichage_generalites_create_page ( gint page );
+static GtkWidget *etats_config_ui_onglet_affichage_operations_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_affichage_titles_create_page ( gint page );
 
 static GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page );
@@ -133,6 +135,9 @@ static gboolean etats_config_ui_onglet_tiers_show_first_row_selected ( GtkWidget
 static void etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( gint show_left,
                         gint show_right );
 static GtkWidget *etats_config_ui_onglet_virements_create_page ( gint page );
+
+static void etats_config_ui_toggle_button_init_button_expand ( gchar *name,
+                        GtkWidget *tree_view );
 
 static void etats_config_ui_tree_view_init ( const gchar *treeview_name,
                         GtkTreeModel *(*function) ( void ),
@@ -202,6 +207,26 @@ static gchar *data_separation_periodes[] =
     NULL,
 };
 
+
+/* données de classement des opérations */
+static gchar *etats_config_ui_classement_operations[] =
+{
+    N_("date"),
+    N_("value date"),
+    N_("transaction number"),
+    N_("payee"),
+    N_("category"),
+    N_("budgetary line"),
+    N_("note"),
+    N_("method of payment"),
+    N_("cheque/transfer number"),
+    N_("voucher"),
+    N_("bank reference"),
+    N_("reconciliation reference"),
+    NULL,
+};
+
+
 /* builder */
 static GtkBuilder *etat_config_builder = NULL;
 
@@ -211,8 +236,10 @@ GtkToggleButton *prev_togglebutton = NULL;
 /* variables utilisées pour la gestion des tiers*/
 GtkTreePath *tiers_selected = NULL;
 
-/*END_GLOBAL_VARIABLES*/
+/* gint last_page */
+static gint last_page;
 
+/*END_GLOBAL_VARIABLES*/
 
 /*GENERAL*/
 /**
@@ -332,8 +359,15 @@ GtkWidget *etats_config_ui_left_panel_create_tree_view ( void )
     /* remplissage du paned gauche */
     etats_config_ui_left_panel_populate_tree_model ( model, notebook );
 
+    /* on met la connexion pour mémoriser la dernière page utilisée */
+    g_signal_connect_after ( notebook,
+                        "switch-page",
+                        G_CALLBACK ( etats_config_ui_left_panel_notebook_change_page ),
+                        NULL );
+
     /* show all widgets */
     gtk_widget_show_all ( tree_view );
+
 
     return tree_view;
 }
@@ -436,10 +470,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Transactions */
-/*     widget = gsb_etats_config_affichage_etat_operations ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_affichage_operations_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
+    page++;
 
     /* append page Currencies */
 /*     widget = gsb_etats_config_affichage_etat_devises ( page );
@@ -563,28 +596,43 @@ gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
     {
         GtkWidget *tree_view;
         GtkTreeModel *model;
-        GtkTreeIter iter;
-        gchar *path_string;
-        gchar *tmp_str;
+        GtkTreeIter parent_iter;
         gint active;
         gboolean italic = 0;
 
         tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_left_panel" ) );
         model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
         active = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) );
-
-        tmp_str = utils_str_itoa ( iter_page_number );
-        path_string = g_strconcat ("0:", tmp_str, NULL );
         italic = active;
 
-        gtk_tree_model_get_iter_from_string ( GTK_TREE_MODEL ( model ), &iter, path_string );
-        gtk_tree_store_set ( GTK_TREE_STORE ( model ),
-                        &iter,
-                        LEFT_PANEL_TREE_ITALIC_COLUMN, italic,
-                        -1 );
+        if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+            return FALSE;
 
-        g_free ( tmp_str );
-        g_free ( path_string );
+        do
+        {
+            GtkTreeIter iter;
+
+            if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
+            {
+                do
+                {
+                    gint page;
+
+                    gtk_tree_model_get (GTK_TREE_MODEL ( model ),
+                                &iter,
+                                LEFT_PANEL_TREE_PAGE_COLUMN, &page,
+                                -1 );
+
+                    if ( page == iter_page_number )
+                        gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                                &iter,
+                                LEFT_PANEL_TREE_ITALIC_COLUMN, italic,
+                                -1 );
+                }
+                while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
 
         return TRUE;
     }
@@ -594,7 +642,69 @@ gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
 }
 
 
+/**
+ * selectionne une page
+ *
+ * \param
+ *
+ * \return
+ */
+gboolean etats_config_ui_left_panel_tree_view_select_last_page ( void )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter parent_iter;
 
+    tree_view = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "treeview_left_panel" ) );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+        return FALSE;
+
+    do
+    {
+        GtkTreeIter iter;
+
+        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
+        {
+            do
+            {
+                gint page;
+
+                gtk_tree_model_get (GTK_TREE_MODEL ( model ),
+                                &iter,
+                                LEFT_PANEL_TREE_PAGE_COLUMN, &page,
+                                -1 );
+
+                if ( page == last_page )
+                {
+                    GtkTreeSelection *sel;
+
+                    sel = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+                    gtk_tree_selection_select_iter ( sel, &iter );
+                    gtk_notebook_set_current_page ( GTK_NOTEBOOK (
+                                gtk_builder_get_object ( etat_config_builder, "notebook_config_etat" ) ),
+                                page );
+                    break;
+                }
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
+
+    /* return */
+    return FALSE;
+}
+
+
+void etats_config_ui_left_panel_notebook_change_page ( GtkNotebook *notebook,
+                        GtkNotebookPage *npage,
+                        gint page,
+                        gpointer user_data )
+{
+    last_page = page;
+}
 /*RIGHT_PANEL : ONGLET_PERIODE*/
 /**
  * Création de la page de détermination de la période de requête
@@ -2605,7 +2715,6 @@ GtkWidget *etats_config_ui_onglet_affichage_titles_create_page ( gint page )
     GtkWidget *vbox;
     GtkWidget *button;
 
-devel_debug_int (page);
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_titles" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
@@ -2692,6 +2801,81 @@ devel_debug_int (page);
 }
 
 
+/*RIGHT_PANEL : ONGLET_AFFICHAGE_OPERATIONS*/
+/**
+ * Création de l'onglet affichage de opérations
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_affichage_operations_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *button;
+    GtkComboBox *combo;
+    GtkTreeModel *model;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_operations" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_afficher_opes" ) );
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on met la connection pour rendre sensitif la vbox_show_transactions */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "vbox_show_transactions" ) );
+
+    /* on crée le bouton avec les types de classement des opérations */
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( etats_config_ui_classement_operations ) );
+    combo = GTK_COMBO_BOX ( gtk_builder_get_object ( etat_config_builder, "bouton_choix_classement_ope_etat" ) );
+    gtk_combo_box_set_model ( combo, model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+
+    /* on met les connexions */
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_categ_opes" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_sous_categ_opes" ) );
+
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_ib_opes" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_sous_ib_opes" ) );
+
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_titres_colonnes" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object (
+                        etat_config_builder, "bouton_titre_changement" ) );
+
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object (
+                        etat_config_builder, "bouton_afficher_titres_colonnes" ) ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object (
+                        etat_config_builder, "bouton_titre_en_haut" ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
 
 
 /*FONCTIONS UTILITAIRES COMMUNES*/

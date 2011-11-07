@@ -61,7 +61,9 @@
 
 /*START_STATIC*/
 static gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number );
+static void gsb_etats_config_initialise_onglet_affichage_devises ( gint report_number );
 static void gsb_etats_config_initialise_onglet_affichage_generalites ( gint report_number );
+static void gsb_etats_config_initialise_onglet_affichage_operations ( gint report_number );
 static void gsb_etats_config_initialise_onglet_affichage_titres ( gint report_number );
 
 static void gsb_etats_config_initialise_onglet_comptes ( gint report_number );
@@ -88,7 +90,9 @@ static GSList *gsb_etats_config_onglet_data_grouping_get_list ( gint report_numb
 static gboolean gsb_etats_config_onglet_data_grouping_update_model ( gint report_number );
 
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_affichage_devises ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_affichage_generalites ( gint report_number );
+static void gsb_etats_config_recupere_info_onglet_affichage_operations ( gint report_number );
 static void gsb_etats_config_recupere_info_onglet_affichage_titres ( gint report_number );
 
 static void gsb_etats_config_recupere_info_onglet_comptes ( gint report_number );
@@ -121,14 +125,15 @@ static void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *comb
 static void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *parent,
                         gboolean button_2_visible );
 static GtkWidget *gsb_etats_config_onglet_etat_texte_new_line ( GtkWidget *parent );
-static GtkWidget *gsb_etats_config_page_data_grouping ( void );
-static GtkWidget *gsb_etats_config_page_data_separation ( void );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+
+/* last_report */
+static gint last_report = -1;
 
 /* the def of the columns in the categ and budget list to filter by categ and budget */
 enum
@@ -246,10 +251,15 @@ void gsb_etats_config_personnalisation_etat ( void )
 
     gtk_widget_show ( dialog );
 
+    /* on se repositionne sur le dernier onglet si on a le même rapport */
+    if ( current_report_number == last_report )
+        etats_config_ui_left_panel_tree_view_select_last_page ( );
+
     switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
         case GTK_RESPONSE_OK:
             gsb_etats_config_recupere_info_to_etat ( current_report_number );
+            last_report = current_report_number;
             break;
 
         default:
@@ -307,7 +317,11 @@ gboolean gsb_etats_config_initialise_dialog_from_etat ( gint report_number )
     /* onglet titres */
     gsb_etats_config_initialise_onglet_affichage_titres ( report_number );
 
+    /* onglet opérations */
+    gsb_etats_config_initialise_onglet_affichage_operations ( report_number );
 
+    /* onglet devises */
+    gsb_etats_config_initialise_onglet_affichage_devises ( report_number );
 
     /* return */
     return TRUE;
@@ -359,8 +373,11 @@ gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number )
     /* onglet titres */
     gsb_etats_config_recupere_info_onglet_affichage_titres ( report_number );
 
+    /* onglet opérations */
+    gsb_etats_config_recupere_info_onglet_affichage_operations ( report_number );
 
-
+    /* onglet devises */
+    gsb_etats_config_recupere_info_onglet_affichage_devises ( report_number );
 
     /* update the payee combofix in the form, to add that report if asked */
     if ( gsb_data_report_get_append_in_payee ( report_number ) )
@@ -2342,6 +2359,163 @@ void gsb_etats_config_recupere_info_onglet_affichage_titres ( gint report_number
 }
 
 
+/*ONGLET_AFFICHAGE_OPERATIONS*/
+/**
+ * Initialise les informations de l'onglet opérations
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_affichage_operations ( gint report_number )
+{
+    GtkWidget *combo;
+
+    /* on affiche ou pas le choix des données des opérations */
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_opes",
+                        gsb_data_report_get_show_report_transactions ( report_number ) );
+
+    /* données des opérations à afficher */
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_no_ope",
+                        gsb_data_report_get_show_report_transaction_number ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_date_opes",
+                        gsb_data_report_get_show_report_date ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_value_date_opes",
+                        gsb_data_report_get_show_report_value_date ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_tiers_opes",
+                        gsb_data_report_get_show_report_payee ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_categ_opes",
+                        gsb_data_report_get_show_report_category ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_sous_categ_opes",
+                        gsb_data_report_get_show_report_sub_category ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_ib_opes",
+                        gsb_data_report_get_show_report_budget ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_sous_ib_opes",
+                        gsb_data_report_get_show_report_sub_budget ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_notes_opes",
+                        gsb_data_report_get_show_report_note ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_type_ope",
+                        gsb_data_report_get_show_report_method_of_payment ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_no_cheque",
+                        gsb_data_report_get_show_report_method_of_payment_content ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_pc_opes",
+                        gsb_data_report_get_show_report_voucher ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_exo_opes",
+                        gsb_data_report_get_show_report_financial_year ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_infobd_opes",
+                        gsb_data_report_get_show_report_bank_references ( report_number ) );
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_no_rappr",
+                        gsb_data_report_get_show_report_marked ( report_number ) );
+
+    /* affichage des titres des colonnes */
+    etats_config_ui_toggle_button_set_actif ( "bouton_afficher_titres_colonnes",
+                        gsb_data_report_get_column_title_show ( report_number ) );
+
+    if ( !gsb_data_report_get_column_title_type ( report_number ) )
+        etats_config_ui_toggle_button_set_actif ( "bouton_titre_en_haut", TRUE );
+
+    /* sélectionner le type de classement des opérations */
+    combo = etats_config_ui_widget_get_widget_by_name ( "bouton_choix_classement_ope_etat", NULL );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ),
+                        gsb_data_report_get_sorting_report ( report_number ) );
+
+    /* rendre les opérations cliquables */
+    etats_config_ui_toggle_button_set_actif ( "bouton_rendre_ope_clickables",
+                        gsb_data_report_get_report_can_click ( report_number ) );
+}
+
+
+/**
+ * Récupère les informations de l'onglet opérations
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_affichage_operations ( gint report_number )
+{
+    GtkWidget *combo;
+
+    gsb_data_report_set_show_report_transactions ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_opes" ) );
+
+    /* données des opérations */
+    gsb_data_report_set_show_report_transaction_number ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_no_ope" ) );
+    gsb_data_report_set_show_report_date ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_date_opes" ) );
+    gsb_data_report_set_show_report_value_date ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_value_date_opes" ) );
+    gsb_data_report_set_show_report_payee ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_tiers_opes" ) );
+    gsb_data_report_set_show_report_category ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_categ_opes" ) );
+    gsb_data_report_set_show_report_sub_category ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_categ_opes" ) );
+    gsb_data_report_set_show_report_budget ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_ib_opes" ) );
+    gsb_data_report_set_show_report_sub_budget ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_ib_opes" ) );
+    gsb_data_report_set_show_report_note ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_notes_opes" ) );
+    gsb_data_report_set_show_report_method_of_payment ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_type_ope" ) );
+    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_no_cheque" ) );
+    gsb_data_report_set_show_report_voucher ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_pc_opes" ) );
+    gsb_data_report_set_show_report_financial_year ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_exo_opes" ) );
+    gsb_data_report_set_show_report_bank_references ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_infobd_opes" ) );
+    gsb_data_report_set_show_report_marked ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_no_rappr" ) );
+
+    /* titres des colonnes */
+    gsb_data_report_set_column_title_show ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_afficher_titres_colonnes" ) );
+
+    gsb_data_report_set_column_title_type ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_titre_changement" ) );
+
+    /* type de classement des opérations */
+    combo = etats_config_ui_widget_get_widget_by_name ( "bouton_choix_classement_ope_etat", NULL );
+    gsb_data_report_set_sorting_report ( report_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) );
+
+    /* opérations cliquables */
+    gsb_data_report_set_report_can_click ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_rendre_ope_clickables" ) );
+}
+
+
+/*ONGLET_AFFICHAGE_DEVISES*/
+/**
+ * Initialise les informations de l'onglet devises
+ *
+ * \param report_number
+ *
+ * \return
+ */
+void gsb_etats_config_initialise_onglet_affichage_devises ( gint report_number )
+{
+
+}
+
+
+/**
+ * Récupère les informations de l'onglet devises
+ *
+ * \param numéro d'état à mettre à jour
+ *
+ * \return
+ */
+void gsb_etats_config_recupere_info_onglet_affichage_devises ( gint report_number )
+{
+
+}
+
+
 /*OLD_FUNCTIONS*/
 
 /**
@@ -2674,69 +2848,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  *
  *
  */
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_affichage_etat_generalites ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_generalites" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    return vbox_onglet;
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_affichage_etat_titres ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_divers" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Titles"), "title.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    return vbox_onglet;
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_affichage_etat_operations ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_operations" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Transactions display"), "transdisplay.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    return vbox_onglet;
-}
-
-
 /**
  *
  *
