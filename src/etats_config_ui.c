@@ -32,7 +32,6 @@
 
 /*START_INCLUDE*/
 #include "etats_config_ui.h"
-#include "gsb_calendar_entry.h"
 #include "gsb_etats_config.h"
 #include "structures.h"
 #include "utils.h"
@@ -66,7 +65,7 @@ static gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTree
                         gpointer data );
 static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number );
-
+static GtkWidget *etats_config_ui_onglet_affichage_devises_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_affichage_generalites_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_affichage_operations_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_affichage_titles_create_page ( gint page );
@@ -475,9 +474,8 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Currencies */
-/*     widget = gsb_etats_config_affichage_etat_devises ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
- */
+    widget = etats_config_ui_onglet_affichage_devises_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
 
     /* fin de fonction */
 }
@@ -717,9 +715,6 @@ GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
-    GtkWidget *hbox;
-    GtkWidget *entree_date_init_etat;
-    GtkWidget *entree_date_finale_etat;
     GtkWidget *button;
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_periode" ) );
@@ -739,23 +734,14 @@ GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page )
                         gtk_builder_get_object ( etat_config_builder, "vbox_utilisation_date" ) ),
                         10 );
 
-    hbox =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_date_init" ) );
-    entree_date_init_etat = gsb_calendar_entry_new ( FALSE );
-    gtk_widget_set_size_request ( entree_date_init_etat, 100, -1 );
-    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_init_etat", entree_date_init_etat );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), entree_date_init_etat, FALSE, FALSE, 0 );
-
-    hbox =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "hbox_date_finale" ) );
-    entree_date_finale_etat = gsb_calendar_entry_new ( FALSE );
-    gtk_widget_set_size_request ( entree_date_finale_etat, 100, -1 );
-    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_finale_etat", entree_date_finale_etat );
-    gtk_box_pack_end ( GTK_BOX ( hbox ), entree_date_finale_etat, FALSE, FALSE, 0 );
+    /* on initialise les entrées pour les dates personnalisées */
+    gsb_etats_config_onglet_periode_make_calendar_entry (  );
 
     etats_config_ui_onglet_periode_date_interval_sensitive ( FALSE );
 
     /* on traite la partie droite de l'onglet dates */
     etats_config_ui_tree_view_init ( "treeview_exer",
-                        gsb_etats_config_onglet_get_liste_exercices,
+                        gsb_etats_config_onglet_periode_get_model_exercices,
                         GTK_SELECTION_MULTIPLE,
                         NULL );
     gtk_container_set_border_width ( GTK_CONTAINER (
@@ -2871,6 +2857,36 @@ GtkWidget *etats_config_ui_onglet_affichage_operations_create_page ( gint page )
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object (
                         etat_config_builder, "bouton_titre_en_haut" ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    return vbox_onglet;
+}
+
+
+/*RIGHT_PANEL : ONGLET_AFFICHAGE_DEVISES*/
+/**
+ * Création de l'onglet affichage des devises
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_config_ui_onglet_affichage_devises_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_devises" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    gsb_etats_config_onglet_affichage_devises_make_combobox ( );
 
     gtk_widget_show_all ( vbox_onglet );
 

@@ -39,6 +39,7 @@
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -462,48 +463,6 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
 
 
 /**
- * retourne la liste des exercices
- *
- * \param
- *
- * \return un GtkTreeModel
- */
-GtkTreeModel *gsb_etats_config_onglet_get_liste_exercices ( void )
-{
-    GtkListStore *list_store;
-    GSList *list_tmp;
-
-    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
-                        0, GTK_SORT_ASCENDING );
-
-    /* on remplit la liste des exercices */
-    list_tmp = gsb_data_fyear_get_fyears_list ();
-
-    while ( list_tmp )
-    {
-        GtkTreeIter iter;
-        gchar *name;
-        gint fyear_number;
-
-        fyear_number = gsb_data_fyear_get_no_fyear ( list_tmp -> data );
-
-        name = my_strdup ( gsb_data_fyear_get_name ( fyear_number ) );
-
-        gtk_list_store_append ( list_store, &iter );
-        gtk_list_store_set ( list_store, &iter, 0, name, 1, fyear_number, -1 );
-
-        if ( name )
-            g_free ( name );
-    
-        list_tmp = list_tmp -> next;
-    }
-
-    return GTK_TREE_MODEL ( list_store );
-}
-
-
-/**
  * Récupère les informations de l'onglet periode
  *
  * \param numéro d'état à mettre à jour
@@ -604,6 +563,74 @@ void gsb_etats_config_recupere_info_onglet_periode ( gint report_number )
             }
         }
     }
+}
+
+
+/**
+ * retourne la liste des exercices
+ *
+ * \param
+ *
+ * \return un GtkTreeModel
+ */
+GtkTreeModel *gsb_etats_config_onglet_periode_get_model_exercices ( void )
+{
+    GtkListStore *list_store;
+    GSList *list_tmp;
+
+    list_store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( list_store ),
+                        0, GTK_SORT_ASCENDING );
+
+    /* on remplit la liste des exercices */
+    list_tmp = gsb_data_fyear_get_fyears_list ();
+
+    while ( list_tmp )
+    {
+        GtkTreeIter iter;
+        gchar *name;
+        gint fyear_number;
+
+        fyear_number = gsb_data_fyear_get_no_fyear ( list_tmp -> data );
+
+        name = my_strdup ( gsb_data_fyear_get_name ( fyear_number ) );
+
+        gtk_list_store_append ( list_store, &iter );
+        gtk_list_store_set ( list_store, &iter, 0, name, 1, fyear_number, -1 );
+
+        if ( name )
+            g_free ( name );
+    
+        list_tmp = list_tmp -> next;
+    }
+
+    return GTK_TREE_MODEL ( list_store );
+}
+
+
+/**
+ * ajoute les entrées pour saisir les dates personnalisées
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_etats_config_onglet_periode_make_calendar_entry ( void )
+{
+    GtkWidget *hbox;
+    GtkWidget *entry;
+
+    hbox =  etats_config_ui_widget_get_widget_by_name ( "hbox_date_init", NULL );
+    entry = gsb_calendar_entry_new ( FALSE );
+    gtk_widget_set_size_request ( entry, 100, -1 );
+    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_init_etat", entry );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), entry, FALSE, FALSE, 0 );
+
+    hbox =  etats_config_ui_widget_get_widget_by_name ( "hbox_date_finale", NULL );
+    entry = gsb_calendar_entry_new ( FALSE );
+    gtk_widget_set_size_request ( entry, 100, -1 );
+    g_object_set_data ( G_OBJECT ( hbox ), "entree_date_finale_etat", entry );
+    gtk_box_pack_end ( GTK_BOX ( hbox ), entry, FALSE, FALSE, 0 );
 }
 
 
@@ -2499,6 +2526,27 @@ void gsb_etats_config_recupere_info_onglet_affichage_operations ( gint report_nu
  */
 void gsb_etats_config_initialise_onglet_affichage_devises ( gint report_number )
 {
+    GtkWidget *button;
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_general_etat", "button" );
+    gsb_currency_set_combobox_history ( button,
+                        gsb_data_report_get_currency_general ( report_number ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_tiers_etat", "button" );
+    gsb_currency_set_combobox_history ( button,
+                        gsb_data_report_get_payee_currency ( report_number ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_categ_etat", "button" );
+    gsb_currency_set_combobox_history ( button,
+                        gsb_data_report_get_category_currency ( report_number ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_ib_etat", "button" );
+    gsb_currency_set_combobox_history ( button,
+                        gsb_data_report_get_budget_currency ( report_number ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_montant_etat", "button" );
+    gsb_currency_set_combobox_history ( button,
+                        gsb_data_report_get_amount_comparison_currency ( report_number ) );
 
 }
 
@@ -2512,10 +2560,68 @@ void gsb_etats_config_initialise_onglet_affichage_devises ( gint report_number )
  */
 void gsb_etats_config_recupere_info_onglet_affichage_devises ( gint report_number )
 {
+    GtkWidget *button;
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_general_etat", "button" );
+    gsb_data_report_set_currency_general ( report_number,
+                        gsb_currency_get_currency_from_combobox ( button ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_tiers_etat", "button" );
+    gsb_data_report_set_payee_currency ( report_number,
+                        gsb_currency_get_currency_from_combobox ( button ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_categ_etat", "button" );
+    gsb_data_report_set_category_currency ( report_number,
+                        gsb_currency_get_currency_from_combobox ( button ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_ib_etat", "button" );
+    gsb_data_report_set_budget_currency ( report_number,
+                        gsb_currency_get_currency_from_combobox ( button ) );
+
+    button = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_montant_etat", "button" );
+    gsb_data_report_set_amount_comparison_currency ( report_number,
+                        gsb_currency_get_currency_from_combobox ( button ) );
 
 }
 
 
+/**
+ * ajoute les combobox pour les devises
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_etats_config_onglet_affichage_devises_make_combobox ( void )
+{
+    GtkWidget *hbox;
+    GtkWidget *button;
+
+    hbox = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_general_etat", NULL );
+    button = gsb_currency_make_combobox (FALSE);
+    g_object_set_data ( G_OBJECT ( hbox ), "button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    hbox = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_tiers_etat", NULL );
+    button = gsb_currency_make_combobox (FALSE);
+    g_object_set_data ( G_OBJECT ( hbox ), "button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    hbox = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_categ_etat", NULL );
+    button = gsb_currency_make_combobox (FALSE);
+    g_object_set_data ( G_OBJECT ( hbox ), "button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    hbox = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_ib_etat", NULL );
+    button = gsb_currency_make_combobox (FALSE);
+    g_object_set_data ( G_OBJECT ( hbox ), "button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    hbox = etats_config_ui_widget_get_widget_by_name ( "hbox_devise_montant_etat", NULL );
+    button = gsb_currency_make_combobox (FALSE);
+    g_object_set_data ( G_OBJECT ( hbox ), "button", button );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+}
 /*OLD_FUNCTIONS*/
 
 /**
@@ -2848,27 +2954,6 @@ GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
  *
  *
  */
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_affichage_etat_devises ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "affichage_etat_devises" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Totals currencies"), "currencies.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    return vbox_onglet;
-}
-
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
