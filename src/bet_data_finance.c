@@ -257,12 +257,9 @@ gdouble bet_data_finance_get_total_cost ( struct_echeance *s_echeance )
  * */
 void bet_data_finance_structure_amortissement_free ( struct_amortissement *s_amortissement )
 {
-    if ( s_amortissement -> str_date )
-        g_free ( s_amortissement -> str_date );
-    if ( s_amortissement -> str_echeance )
-        g_free ( s_amortissement -> str_echeance );
-    if ( s_amortissement -> str_frais )
-        g_free ( s_amortissement -> str_frais );
+    g_free ( s_amortissement -> str_date );
+    g_free ( s_amortissement -> str_echeance );
+    g_free ( s_amortissement -> str_frais );
 
     g_free ( s_amortissement );
 }

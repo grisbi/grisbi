@@ -912,10 +912,8 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
         }
 
         g_free ( str_amount );
-        if ( str_credit )
-            g_free ( str_credit );
-        if ( str_debit )
-            g_free ( str_debit );
+        g_free ( str_credit );
+        g_free ( str_debit );
     }
 }
 
@@ -1059,10 +1057,8 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         g_free ( str_date );
         g_free ( str_amount );
         g_free ( str_description );
-        if ( str_debit )
-            g_free ( str_debit );
-        if ( str_credit )
-            g_free ( str_credit );
+        g_free ( str_debit );
+        g_free ( str_credit );
     }
 }
 
@@ -1168,8 +1164,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     }
 
     g_free ( str_description );
-    if ( str_debit )
-        g_free ( str_debit );
+    g_free ( str_debit );
     g_free ( str_value );
     g_free ( str_amount );
 }
@@ -1282,10 +1277,8 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         g_free ( str_date );
         g_free ( str_description );
         g_free ( str_amount );
-        if ( str_debit )
-            g_free ( str_debit );
-        if ( str_credit )
-            g_free ( str_credit );
+        g_free ( str_debit );
+        g_free ( str_credit );
     }
 
     return TRUE;
@@ -1843,10 +1836,8 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         sign = bet_data_get_div_type ( div_number );
                         number = gsb_real_sub ( number, amount );
 
-                        if ( str_amount )
-                            g_free ( str_amount );
-                        if ( str_desc )
-                            g_free ( str_desc );
+                        g_free ( str_amount );
+                        g_free ( str_desc );
                         if ( sign == 1 )
                         {
                             if ( number.mantissa < 0 )
@@ -2693,10 +2684,8 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
         g_free ( str_date );
         g_free ( str_description );
         g_free ( str_amount );
-        if ( str_debit )
-            g_free ( str_debit );
-        if ( str_credit )
-            g_free ( str_credit );
+        g_free ( str_debit );
+        g_free ( str_credit );
     }
 
     return FALSE;

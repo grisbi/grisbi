@@ -338,12 +338,10 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                 if ( bet_historical_get_full_div ( model, &parent ) )
                 {
                     amount = bet_historical_get_children_amount ( model, &parent );
-                    if ( str_amount )
-                        g_free ( str_amount );
+                    g_free ( str_amount );
                     str_amount = gsb_real_safe_real_to_string ( amount,
                                 gsb_data_account_get_currency_floating_point ( account_number ) );
-                    if ( str_average )
-                        g_free ( str_average );
+                    g_free ( str_average );
                     str_average = utils_real_get_string_with_currency ( amount,
                                 gsb_data_account_get_currency ( account_number ), TRUE );
                     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
@@ -892,8 +890,7 @@ void bet_historical_populate_div_model ( gpointer key,
       g_hash_table_size ( sh -> list_sub_div ) < 1 ) )
     {
         retained = bet_data_hist_get_div_amount ( account_nb, div_number, 0 );
-        if ( str_amount )
-            g_free ( str_amount );
+        g_free ( str_amount );
         str_amount = gsb_real_safe_real_to_string ( retained,
                         gsb_data_currency_get_floating_point ( currency_number ) );
         str_retained = utils_real_get_string_with_currency ( retained, currency_number, TRUE );
@@ -976,8 +973,7 @@ void bet_historical_populate_div_model ( gpointer key,
             {
                 /* printf ("account_nb = %d div_number = %d sub_sh -> div = %d\n", account_nb, div_number, sub_sh -> div ); */
                 retained = bet_data_hist_get_div_amount ( account_nb, div_number, sub_sh -> div );
-                if ( str_amount )
-                    g_free ( str_amount );
+                g_free ( str_amount );
                 str_amount = gsb_real_safe_real_to_string ( retained,
                         gsb_data_currency_get_floating_point ( currency_number ) );
                 str_retained = utils_real_get_string_with_currency ( retained, currency_number, TRUE );
