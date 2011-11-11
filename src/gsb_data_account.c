@@ -2795,21 +2795,26 @@ gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gch
 void gsb_data_account_colorize_current_balance ( gint account_number )
 {
     gchar *string;
+    gchar *tmpstr;
 
-	if (gsb_data_account_get_current_balance (account_number).mantissa < 0)
-	    string = g_strdup_printf ( "<span color=\"red\">%s</span>",
-                        utils_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance (account_number),
-                        gsb_data_account_get_currency (account_number), TRUE ));
-	else
-	    string = utils_real_get_string_with_currency (
-                        gsb_data_account_get_current_balance (account_number),
-                        gsb_data_account_get_currency (account_number), TRUE );
+    tmpstr = utils_real_get_string_with_currency (
+            gsb_data_account_get_current_balance (account_number),
+            gsb_data_account_get_currency (account_number),
+            TRUE
+            );
+    string = tmpstr;
+
+    if ( gsb_data_account_get_current_balance (account_number).mantissa < 0 )
+    {
+        string = g_strdup_printf ( "<span color=\"red\">%s</span>", tmpstr );
+        g_free ( tmpstr );
+    }
+
     if ( !string )
-    	string = g_strdup ( "" );
+        string = g_strdup ( "" );
 
-	gsb_gui_headings_update_suffix ( string );
-	g_free ( string );
+    gsb_gui_headings_update_suffix ( string );
+    g_free ( string );
 }
 
 

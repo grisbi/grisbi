@@ -842,8 +842,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "CSV_separator" ))
                 {
-                    if ( etat.csv_separator )
-                        g_free ( etat.csv_separator );
+                    g_free ( etat.csv_separator );
                     etat.csv_separator = my_strdup ( attribute_values[i] );
                 }
 
@@ -890,8 +889,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'F':
                 if ( !strcmp ( attribute_names[i], "File_version" ))
                 {
-                    if ( download_tmp_values.file_version )
-                        g_free ( download_tmp_values.file_version );
+                    g_free ( download_tmp_values.file_version );
                     download_tmp_values.file_version = my_strdup (attribute_values[i]);
                 }
 
@@ -905,15 +903,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'G':
                 if ( !strcmp ( attribute_names[i], "Grisbi_version" ))
                 {
-                    if ( download_tmp_values.grisbi_version )
-                        g_free ( download_tmp_values.grisbi_version );
+                    g_free ( download_tmp_values.grisbi_version );
                     download_tmp_values.grisbi_version = my_strdup (attribute_values[i]);
                 }
 
                 else if ( !strcmp ( attribute_names[i], "General_address" ))
                 {
-                    if ( adresse_commune )
-                        g_free ( adresse_commune );
+                    g_free ( adresse_commune );
                     adresse_commune = my_strdup (attribute_values[i]);
                 }
 
@@ -1022,8 +1018,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'S':
                 if ( !strcmp ( attribute_names[i], "Second_general_address" ))
                 {
-                    if ( adresse_secondaire )
-                        g_free ( adresse_secondaire );
+                    g_free ( adresse_secondaire );
                     adresse_secondaire = my_strdup (attribute_values[i]);
                 }
 
@@ -2686,8 +2681,7 @@ void gsb_file_load_category ( const gchar **attribute_names,
 {
     gint i=0;
 
-    if ( buffer_new_div_sous_div )
-        g_free ( buffer_new_div_sous_div );
+    g_free ( buffer_new_div_sous_div );
     buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
 
     if ( !attribute_names[i] )
@@ -5638,7 +5632,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
                         number.mantissa, number.exponent); */
             gsb_data_transaction_set_amount ( transaction_number,
                                   utils_real_get_from_string (tmp_string));
-            if (tmp_string) g_free (tmp_string);
+            g_free (tmp_string);
         }
 
         if ( !strcmp ( attribute_names[i],
@@ -5809,7 +5803,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_scheduled_set_amount ( scheduled_number,
                                 utils_real_get_from_string (tmp_string));
-            if (tmp_string) g_free (tmp_string);
+            g_free (tmp_string);
         }
 
         if ( !strcmp ( attribute_names[i],
@@ -6532,7 +6526,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
                                          utils_real_get_from_string (tmp_string));
-            if (tmp_string) g_free (tmp_string);
+            g_free (tmp_string);
         }
 
         if ( !strcmp ( attribute_names[i],
@@ -6545,7 +6539,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             tmp_string = utils_str_reduce_exponant_from_string ( attribute_values[i], 2 );
             gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
                                           utils_real_get_from_string (tmp_string));
-            if (tmp_string) g_free (tmp_string);
+            g_free (tmp_string);
         }
 
         i++;
@@ -6653,7 +6647,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Version_grisbi" ))
     {
-    if ( download_tmp_values.grisbi_version )
         g_free ( download_tmp_values.grisbi_version );
     download_tmp_values.grisbi_version = my_strdup (text);
     return;
@@ -6662,7 +6655,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Titre" ))
     {
-    if ( titre_fichier )
         g_free ( titre_fichier );
     titre_fichier = my_strdup (text);
     return;
@@ -6671,7 +6663,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Adresse_commune" ))
     {
-    if ( adresse_commune )
         g_free ( adresse_commune );
     adresse_commune = my_strdup (text);
     return;
@@ -6680,7 +6671,6 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Adresse_secondaire" ))
     {
-    if ( adresse_secondaire )
         g_free ( adresse_secondaire );
     adresse_secondaire = my_strdup (text);
     return;
@@ -6969,8 +6959,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
                         number.mantissa, number.exponent,
                         utils_real_get_string ( gsb_data_account_get_init_balance ( account_number, 2))); */
 
-    if (tmp_string) 
-        g_free (tmp_string);
+    g_free (tmp_string);
     return;
     }
 
@@ -6989,8 +6978,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     else
         gsb_data_account_set_mini_balance_wanted ( account_number, number );
 
-    if (tmp_string) 
-        g_free (tmp_string);
+    g_free (tmp_string);
     return;
     }
 
@@ -7009,8 +6997,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     else
         gsb_data_account_set_mini_balance_authorized ( account_number, number );
 
-    if (tmp_string)
-        g_free (tmp_string);
+    g_free (tmp_string);
     return;
     }
 
@@ -7045,8 +7032,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     if (buffer_reconcile_conversion)
         buffer_reconcile_conversion -> final_balance = utils_real_get_from_string (tmp_string);
-    if (tmp_string) 
-        g_free (tmp_string);
+    g_free (tmp_string);
     return;
     }
 

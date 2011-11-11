@@ -2352,12 +2352,12 @@ gboolean gsb_form_finish_edition ( void )
 
     /* get the number of the transaction, stored in the form (< 0 if new ) */
     transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
-							      "transaction_number_in_form" ));
+                                "transaction_number_in_form" ));
 
     /* set a debug here, if transaction_number is 0, should look for where it comes */
     if (!transaction_number)
-	notice_debug ("Coming in gsb_form_finish_edition with a 0 number of transaction. "
-                  "This is a bug,\nplease try to do it again and report the bug.");
+        notice_debug ("Coming in gsb_form_finish_edition with a 0 number of transaction. "
+                        "This is a bug,\nplease try to do it again and report the bug.");
 
     account_number = gsb_form_get_account_number ();
 
@@ -2365,26 +2365,26 @@ gboolean gsb_form_finish_edition ( void )
      * we have to decide if it's a transaction or a scheduled transaction,
      * and if it's a scheduled, if we execute it (and create transaction) or work on it*/
     if (gsb_form_get_origin () == ORIGIN_VALUE_SCHEDULED
-	||
-	gsb_form_get_origin () == ORIGIN_VALUE_HOME )
+     ||
+     gsb_form_get_origin () == ORIGIN_VALUE_HOME )
     {
         if (g_object_get_data ( G_OBJECT (transaction_form), "execute_scheduled"))
         {
-	       /* we want to execute the scheduled transaction */
-	       is_transaction = TRUE;
-	       execute_scheduled = TRUE;
+           /* we want to execute the scheduled transaction */
+           is_transaction = TRUE;
+           execute_scheduled = TRUE;
 
-	       /* we need to keep the number of scheduled, to check later if there is
+           /* we need to keep the number of scheduled, to check later if there is
             * some children and modifie the scheduled transaction */
-	       saved_scheduled_number = transaction_number;
-	       /* as it's a new transaction, do the same as a white line */
-	       transaction_number = -1;
+           saved_scheduled_number = transaction_number;
+           /* as it's a new transaction, do the same as a white line */
+           transaction_number = -1;
         }
         else
             is_transaction = FALSE;
     }
     else
-	is_transaction = TRUE;
+        is_transaction = TRUE;
 
     /* a new transaction has a number < 0
      * -1 for the general white line
@@ -2465,16 +2465,16 @@ gboolean gsb_form_finish_edition ( void )
                     gsb_transactions_list_append_new_transaction ( transaction_number, TRUE);
                 }
                 nbre_passage++;
-	        }
+            }
 
             list_tmp = list_tmp -> next;
             if ( list_tmp == NULL )
                 break;
             else if ( nbre_passage > 1 )
                 continue;
-	    }
+        }
 
-	    /* now we create the transaction if necessary and set the mother in case of child of split */
+        /* now we create the transaction if necessary and set the mother in case of child of split */
         if ( new_transaction )
         {
             /* it's a new transaction, we create it, and set the mother if necessary */
@@ -2506,6 +2506,25 @@ gboolean gsb_form_finish_edition ( void )
 
         /* take the datas in the form, except the category */
         gsb_form_take_datas_from_form ( transaction_number, is_transaction );
+
+        /* si l'opération est une opération planifiée exécutée on met en forme TRANSACTION_FORM_CHEQUE */
+        if ( execute_scheduled )
+        {
+            gint payment_number;
+
+            payment_number = gsb_data_transaction_get_method_of_payment_number ( transaction_number );
+
+            if ( gsb_data_payment_get_automatic_numbering ( payment_number ) )
+            {
+                gchar *tmp_str;
+
+                tmp_str = gsb_data_payment_incremente_last_number ( payment_number, 1 );
+                gsb_data_transaction_set_method_of_payment_content (
+                                transaction_number,
+                                tmp_str );
+                g_free ( tmp_str ) ;
+            }
+        }
 
         /* perhaps the currency button is not shown
          * in that case, we give the account currency to that transaction */
@@ -2594,9 +2613,7 @@ gboolean gsb_form_finish_edition ( void )
 
     /* if it's a reconciliation and we modify a transaction, check
      * the amount of marked transactions */
-    if ( is_transaction
-	 &&
-	 run.equilibrage )
+    if ( is_transaction && run.equilibrage )
     {
         if (new_transaction)
             /* we are reconciling and it's a new transaction, so need to show the checkbox */
@@ -2633,36 +2650,34 @@ gboolean gsb_form_finish_edition ( void )
     }
 
     /* if it was a new transaction, do the stuff to do another new transaction */
-    if ( new_transaction
-	 &&
-	 !execute_scheduled)
+    if ( new_transaction && !execute_scheduled )
     {
-	/* we are on a new transaction, if that transaction is a split,
-	 * we give the focus to the new white line created for that and
-	 * edit it, for that we need to open the transaction to select the
-	 * white line, and set it as current transaction */
-	if ( gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
-	{
-	    /* it's a split */
-	    gint white_line_number;
+        /* we are on a new transaction, if that transaction is a split,
+         * we give the focus to the new white line created for that and
+         * edit it, for that we need to open the transaction to select the
+         * white line, and set it as current transaction */
+        if ( gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction))
+        {
+            /* it's a split */
+            gint white_line_number;
 
-	    white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
-	    if ( is_transaction )
-            transaction_list_select ( white_line_number );
-	    else
-            gsb_scheduler_list_select (white_line_number);
-	}
+            white_line_number = gsb_data_mix_get_white_line (transaction_number, is_transaction);
+            if ( is_transaction )
+                transaction_list_select ( white_line_number );
+            else
+                gsb_scheduler_list_select (white_line_number);
+        }
 
-	/* it was a new transaction, we save the last date entry */
-	gsb_date_set_last_date ( gtk_entry_get_text (
+        /* it was a new transaction, we save the last date entry */
+        gsb_date_set_last_date ( gtk_entry_get_text (
                         GTK_ENTRY ( gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE ) ) ) );
 
-	/* we need to use edit_transaction to make a new child split if necessary */
-	if ( is_transaction)
-	    gsb_transactions_list_edit_transaction (
+        /* we need to use edit_transaction to make a new child split if necessary */
+        if ( is_transaction)
+            gsb_transactions_list_edit_transaction (
                         gsb_data_account_get_current_transaction_number ( account_number ) );
-	else
-	    gsb_scheduler_list_edit_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ) );
+        else
+            gsb_scheduler_list_edit_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ) );
     }
     else
         gsb_form_hide ();
