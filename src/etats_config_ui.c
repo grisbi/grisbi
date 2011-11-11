@@ -107,6 +107,7 @@ static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTree
                         GtkWidget *widget );
 static gboolean etats_config_ui_onglet_periode_update_style_left_panel ( GtkWidget *button,
                         gint *page_number );
+static GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page );
 static void etats_config_ui_onglet_tiers_entry_delete_text ( GtkEditable *editable,
                         gint start_pos,
@@ -421,10 +422,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Texts */
-/*     widget = gsb_etats_config_onglet_etat_texte ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_textes_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
+    page++;
 
     /* append page Amounts */
 /*     widget = gsb_etats_config_onglet_etat_montant ( page );
@@ -1993,6 +1993,44 @@ void etats_config_ui_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *to
     gtk_button_set_label ( GTK_BUTTON ( togglebutton ), label );
 }
 
+
+/*RIGHT_PANEL : ONGLET_TEXTES*/
+GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *button;
+
+    devel_debug (NULL);
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_texte" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Transaction content"), "text.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_texte" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "vbox_generale_texte_etat" ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* on retourne la vbox */
+    return vbox_onglet;
+}
+
+
+/*RIGHT_PANEL : ONGLET_MONTANTS*/
 
 /*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/
 /**
