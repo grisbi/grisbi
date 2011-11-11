@@ -747,6 +747,28 @@ void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
 }
 
 
+/**
+ * revoie un combo_box avec une GtkListStore et la colonne 0 en texte
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkComboBox.
+ */
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array )
+{
+    GtkWidget *combo;
+    GtkTreeModel *model;
+
+    combo = gtk_combo_box_new ( );
+
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( array ) );
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+
+    return combo;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

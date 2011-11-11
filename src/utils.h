@@ -9,6 +9,7 @@
 
 /* START_DECLARATION */
 gboolean assert_account_loaded ();
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array );
 gboolean desensitive_widget ( gpointer object,
                         GtkWidget *widget );
 gchar *get_gtk_run_version ( void );
