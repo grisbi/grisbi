@@ -1493,21 +1493,26 @@ GDate *bet_data_array_get_date_max ( gint account_number )
 {
     GDate *date_min;
     GDate *date_max;
+    GDate *date_tmp;
 
     date_min = gsb_data_account_get_bet_start_date ( account_number );
 
     date_max = gsb_date_copy ( date_min );
+    date_tmp = date_max;
 
     if ( g_date_get_day ( date_min ) == 1 )
     {
         g_date_add_months (date_max, gsb_data_account_get_bet_months ( account_number ) - 1 );
-        date_max = gsb_date_get_last_day_of_month ( date_max );
+        date_max = gsb_date_get_last_day_of_month ( date_tmp );
+        g_date_free ( date_tmp );
     }
     else
     {
         g_date_add_months (date_max, gsb_data_account_get_bet_months ( account_number ) );
         g_date_subtract_days ( date_max, 1 );
     }
+
+    g_date_free ( date_min );
 
     return date_max;
 }

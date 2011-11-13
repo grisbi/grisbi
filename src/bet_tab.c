@@ -1076,7 +1076,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
                         GDate *date_max )
 {
     GtkTreeIter tab_iter;
-    GDate *date;
+    GDate *date, *date_tmp;
     GDate *date_jour;
     GValue date_value = {0, };
     gchar *str_date;
@@ -1160,9 +1160,16 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_date_add_months ( date, 1 );
-        date = gsb_date_get_last_day_of_month ( date );
+
+        date_tmp = date;
+        date = gsb_date_get_last_day_of_month ( date_tmp );
+        g_date_free ( date_tmp );
     }
 
+    if ( date )
+        g_date_free ( date );
+    if ( date_jour )
+        g_date_free ( date_jour );
     g_free ( str_description );
     g_free ( str_debit );
     g_free ( str_value );
