@@ -105,6 +105,9 @@ static void gsb_transactions_list_display_contra_transaction ( gint *transaction
 static gboolean gsb_transactions_list_fill_model ( void );
 static gboolean gsb_transactions_list_hide_transactions_in_archive_line ( GtkWidget *button,
                         gpointer null );
+static gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
+                        gint column_number,
+                        gint element_number );
 static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
@@ -3525,8 +3528,21 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 	    sort_type = GTK_SORT_ASCENDING;
     }
     else
-	/* we sort by another column, so sort type by default is descending */
-	sort_type = GTK_SORT_ASCENDING;
+    {
+        gint new_element;
+
+        /* on vérifie que l'élément de tri existe sinon on met le premier élément de la colonne */
+        new_element = gsb_transactions_list_get_valid_element_sort ( account_number,
+                        new_column,
+                        element_number );
+        if ( new_element != element_number )
+        {
+            gsb_data_account_set_element_sort ( account_number, new_column, new_element );
+            element_number = new_element;
+        }
+        /* we sort by another column, so sort type by default is descending */
+        sort_type = GTK_SORT_ASCENDING;
+    }
 
     /* now have to save the new column and sort type in the account
      * or in all account if global conf for all accounts */
@@ -4491,6 +4507,31 @@ gchar *gsb_transaction_list_get_titre_colonne_liste_ope ( gint element )
         return g_strdup ( gettext ( labels_titres_colonnes_liste_ope[element] ) );
 }
 
+
+/**
+ * Renvoie un élément de tri valide si celui passé en paramètre n'est pas une donnée
+ * valide de la colonne
+ *
+ * \param account_number
+ * \param column_number
+ * \param element_number élement à tester
+ *
+ * \return old element or element 0 si non trouvé
+ **/
+gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
+                        gint column_number,
+                        gint element_number )
+{
+    gint i;
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        if ( tab_affichage_ope[i][column_number] == element_number )
+            return element_number;
+    }
+
+    return tab_affichage_ope[0][column_number];
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
