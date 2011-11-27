@@ -95,6 +95,9 @@ static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static void gsb_transactions_list_display_contra_transaction ( gint *transaction_number );
 static gboolean gsb_transactions_list_fill_model ( void );
+static gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
+                        gint column_number,
+                        gint element_number );
 static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
@@ -3217,6 +3220,17 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     }
     else
     {
+        gint new_element;
+
+        /* on vérifie que l'élément de tri existe sinon on met le premier élément de la colonne */
+        new_element = gsb_transactions_list_get_valid_element_sort ( account_number,
+                        new_column,
+                        element_number );
+        if ( new_element != element_number )
+        {
+            gsb_data_account_set_element_sort ( account_number, new_column, new_element );
+            element_number = new_element;
+        }
         /* we sort by another column, so sort type by default is descending */
         sort_type = GTK_SORT_ASCENDING;
     }
@@ -3831,6 +3845,28 @@ gboolean gsb_transactions_list_set_largeur_col ( void )
     }
 
     return FALSE;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
+gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
+                        gint column_number,
+                        gint element_number )
+{
+    gint i;
+
+    for ( i = 0 ; i < 4 ; i++ )
+    {
+        if ( tab_affichage_ope[i][column_number] == element_number )
+            return element_number;
+    }
+
+    return tab_affichage_ope[0][column_number];
 }
 
 
