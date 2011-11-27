@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 18:01+0200\n"
+"POT-Creation-Date: 2011-11-27 17:27+0100\n"
 "PO-Revision-Date: 2011-04-12 22:14+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -186,7 +186,7 @@ msgstr "Soldes partiels de la liste des comptes"
 #: ../src/categories_onglet.c:691 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229 ../src/gsb_fyear_config.c:281
-#: ../src/gsb_transactions_list.c:1800 ../src/imputation_budgetaire.c:725
+#: ../src/gsb_transactions_list.c:1803 ../src/imputation_budgetaire.c:725
 #: ../src/tiers_onglet.c:641
 msgid "Name"
 msgstr "Nom"
@@ -643,7 +643,7 @@ msgstr "Choix de l'exercice ou 12 mois glissants"
 #: ../src/bet_config.c:922 ../src/bet_hist.c:543 ../src/bet_hist.c:1600
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:674 ../src/export_csv.c:811
-#: ../src/gsb_transactions_list.c:164 ../src/import_csv.c:86
+#: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:86
 #: ../src/meta_categories.c:67 ../src/traitement_variables.c:100
 msgid "Category"
 msgstr "Catégorie"
@@ -651,7 +651,7 @@ msgstr "Catégorie"
 #: ../src/bet_config.c:935 ../src/bet_future.c:815 ../src/bet_future.c:2023
 #: ../src/bet_future.c:2499 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:678 ../src/gsb_form.c:1341
-#: ../src/gsb_form_widget.c:441 ../src/gsb_transactions_list.c:156
+#: ../src/gsb_form_widget.c:441 ../src/gsb_transactions_list.c:159
 #: ../src/imputation_budgetaire.c:166 ../src/meta_budgetary.c:64
 msgid "Budgetary line"
 msgstr "Imputation budgétaire"
@@ -863,7 +863,7 @@ msgstr "Montant emprunté : "
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:781
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1296
 #: ../src/gsb_form_widget.c:409 ../src/gsb_reconcile.c:158
-#: ../src/gsb_scheduler_list.c:362 ../src/gsb_transactions_list.c:153
+#: ../src/gsb_scheduler_list.c:362 ../src/gsb_transactions_list.c:156
 #: ../src/import.c:3316 ../src/import_csv.c:81
 #: ../src/traitement_variables.c:89
 msgid "Date"
@@ -1016,7 +1016,7 @@ msgstr "Date limite"
 #: ../src/bet_future.c:348 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1800
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
 msgid "Final date"
 msgstr "Date finale"
 
@@ -1046,7 +1046,7 @@ msgstr "Choix du mode de règlement"
 #: ../src/export_csv.c:796 ../src/fenetre_principale.c:275
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1317
 #: ../src/gsb_form_widget.c:429 ../src/gsb_scheduler_list.c:362
-#: ../src/gsb_transactions_list.c:155 ../src/import.c:3323
+#: ../src/gsb_transactions_list.c:158 ../src/import.c:3323
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
 #: ../src/traitement_variables.c:91
 msgid "Payee"
@@ -1057,7 +1057,7 @@ msgstr "Tiers"
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:413
 #: ../src/gsb_payment_method_config.c:317
 #: ../src/gsb_payment_method_config.c:388
-#: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:157
+#: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:160
 #: ../src/import_csv.c:92 ../src/imputation_budgetaire.c:755
 #: ../src/traitement_variables.c:93
 msgid "Debit"
@@ -1068,7 +1068,7 @@ msgstr "Débit"
 #: ../src/export_csv.c:799 ../src/gsb_form.c:1327 ../src/gsb_form_widget.c:417
 #: ../src/gsb_payment_method_config.c:324
 #: ../src/gsb_payment_method_config.c:401
-#: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:158
+#: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:161
 #: ../src/imputation_budgetaire.c:755 ../src/traitement_variables.c:94
 msgid "Credit"
 msgstr "Crédit"
@@ -1081,7 +1081,7 @@ msgstr "Catégories : Sous-catégories"
 #. Notes
 #: ../src/bet_future.c:822 ../src/etats_affiche.c:2447 ../src/export_csv.c:817
 #: ../src/gsb_bank.c:918 ../src/gsb_form.c:1346 ../src/gsb_form_widget.c:445
-#: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:84
+#: ../src/gsb_transactions_list.c:170 ../src/import_csv.c:84
 #: ../src/traitement_variables.c:103
 msgid "Notes"
 msgstr "Remarques"
@@ -1171,7 +1171,7 @@ msgstr "Sélectionner"
 #: ../src/bet_hist.c:560 ../src/categories_onglet.c:175
 #: ../src/etats_config.c:5240 ../src/export_csv.c:805
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:363
-#: ../src/gsb_transactions_list.c:160 ../src/import.c:3330
+#: ../src/gsb_transactions_list.c:163 ../src/import.c:3330
 #: ../src/imputation_budgetaire.c:184 ../src/tiers_onglet.c:246
 #: ../src/traitement_variables.c:96
 msgid "Amount"
@@ -1237,8 +1237,8 @@ msgid "Description"
 msgstr "Description"
 
 #: ../src/bet_tab.c:744 ../src/export_csv.c:808 ../src/gsb_reconcile.c:161
-#: ../src/gsb_scheduler_list.c:363 ../src/gsb_transactions_list.c:159
-#: ../src/gsb_transactions_list.c:3011 ../src/import_csv.c:90
+#: ../src/gsb_scheduler_list.c:363 ../src/gsb_transactions_list.c:162
+#: ../src/gsb_transactions_list.c:3014 ../src/import_csv.c:90
 #: ../src/traitement_variables.c:95
 msgid "Balance"
 msgstr "Solde"
@@ -1333,7 +1333,7 @@ msgstr "prévisions.csv"
 
 #. New transaction
 #: ../src/barre_outils.c:96 ../src/gsb_scheduler_list.c:2177
-#: ../src/gsb_transactions_list.c:2201
+#: ../src/gsb_transactions_list.c:2204
 msgid "New transaction"
 msgstr "Nouvelle opération"
 
@@ -2153,13 +2153,13 @@ msgid "Result without financial year: "
 msgstr "Resultat sans exercice : "
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1101
-#: ../src/gsb_transactions_list.c:3508
+#: ../src/gsb_transactions_list.c:3521
 #, c-format
 msgid "Transfer to %s"
 msgstr "Virement vers %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:1105
-#: ../src/gsb_transactions_list.c:3511
+#: ../src/gsb_transactions_list.c:3524
 #, c-format
 msgid "Transfer from %s"
 msgstr "Virement de %s"
@@ -2208,8 +2208,8 @@ msgstr "Total général : "
 
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:592
 #: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:733
-#: ../src/gsb_form.c:1759 ../src/gsb_form.c:2894 ../src/gsb_form.c:3297
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3486
+#: ../src/gsb_form.c:1759 ../src/gsb_form.c:2909 ../src/gsb_form.c:3312
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3499
 msgid "Split of transaction"
 msgstr "Opération ventilée"
 
@@ -2236,14 +2236,14 @@ msgstr "Dépenses"
 
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:784 ../src/gsb_form.c:1301
 #: ../src/gsb_form.c:2146 ../src/gsb_form.c:2176 ../src/gsb_form_widget.c:421
-#: ../src/gsb_transactions_list.c:154 ../src/import_csv.c:82
+#: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:82
 #: ../src/traitement_variables.c:90
 msgid "Value date"
 msgstr "Date de valeur"
 
 #: ../src/etats_affiche.c:2419 ../src/export_csv.c:790
 #: ../src/gsb_archive_config.c:100 ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_form_widget.c:425 ../src/gsb_transactions_list.c:163
+#: ../src/gsb_form_widget.c:425 ../src/gsb_transactions_list.c:166
 #: ../src/traitement_variables.c:99
 msgid "Financial year"
 msgstr "Exercice"
@@ -2260,13 +2260,13 @@ msgid "Cheque"
 msgstr "Chèque"
 
 #: ../src/etats_affiche.c:2468 ../src/export_csv.c:826 ../src/gsb_form.c:1393
-#: ../src/gsb_form_widget.c:465 ../src/gsb_transactions_list.c:166
+#: ../src/gsb_form_widget.c:465 ../src/gsb_transactions_list.c:169
 #: ../src/traitement_variables.c:102
 msgid "Voucher"
 msgstr "Pièce comptable"
 
 #: ../src/etats_affiche.c:2475 ../src/export_csv.c:832 ../src/gsb_form.c:1388
-#: ../src/gsb_form_widget.c:469 ../src/gsb_transactions_list.c:168
+#: ../src/gsb_form_widget.c:469 ../src/gsb_transactions_list.c:171
 #: ../src/traitement_variables.c:104
 msgid "Bank references"
 msgstr "Infos banque/guichet"
@@ -3489,7 +3489,6 @@ msgid "Account name"
 msgstr "Nom du compte"
 
 #: ../src/export.c:240
-
 msgid "Select options to export"
 msgstr "Sélectionner les options pour l'export"
 
@@ -3555,7 +3554,7 @@ msgstr "Ventilation"
 msgid "Cheques"
 msgstr "Chèques"
 
-#: ../src/export_csv.c:793 ../src/gsb_transactions_list.c:165
+#: ../src/export_csv.c:793 ../src/gsb_transactions_list.c:168
 #: ../src/import_csv.c:94 ../src/traitement_variables.c:101
 msgid "C/R"
 msgstr "P/R"
@@ -5017,7 +5016,7 @@ msgid "Import data from online bank services or from accounting software"
 msgstr ""
 "A partir de données provenant d'un fichier bancaire ou d'un autre logiciel."
 
-#: ../src/gsb_assistant_file.c:575 ../src/traitement_variables.c:330
+#: ../src/gsb_assistant_file.c:575 ../src/traitement_variables.c:329
 msgid "My accounts"
 msgstr "Mes comptes"
 
@@ -5389,7 +5388,7 @@ msgstr "Toutes les transactions choisies doivent appartenir au même compte !"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1183
-#: ../src/gsb_transactions_list.c:1751
+#: ../src/gsb_transactions_list.c:1754
 msgid "Selection of a reconciliation"
 msgstr "Sélectionner un rapprochement"
 
@@ -7195,7 +7194,7 @@ msgstr "Sélectionnez la devise du solde partiel : "
 msgid "No payee defined"
 msgstr "Aucun tiers défini"
 
-#: ../src/gsb_data_payee.c:541 ../src/gsb_form.c:3007 ../src/gsb_form.c:3008
+#: ../src/gsb_data_payee.c:541 ../src/gsb_form.c:3022 ../src/gsb_form.c:3023
 #: ../src/navigation.c:1256
 msgid "Report"
 msgstr "État"
@@ -7499,20 +7498,21 @@ msgid "Transaction %d has invalid category %d.\n"
 msgstr "L'opération %d a la catégorie %d qui est invalide.\n"
 
 #. sub-budget not found
-#: ../src/gsb_debug.c:713
+#: ../src/gsb_debug.c:719
 #, c-format
 msgid "Transaction %d has budget %d but invalid sub-budget %d.\n"
 msgstr ""
-"L'opération %d a l'imputation budgétaire %d et la sous-imputation %d qui est invalide.\n"
+"L'opération %d a l'imputation budgétaire %d et la sous-imputation %d qui est "
+"invalide.\n"
 
 #. budget not found
-#: ../src/gsb_debug.c:727
+#: ../src/gsb_debug.c:731
 #, c-format
 msgid "Transaction %d has invalid budget %d.\n"
 msgstr "L'opération %d a l'imputation budgétaire %d qui est invalide\n"
 
 #. payee not found
-#: ../src/gsb_debug.c:812
+#: ../src/gsb_debug.c:822
 #, c-format
 msgid "Transaction %d has invalid payee %d.\n"
 msgstr "L'opération %d a le tiers %d qui est invalide.\n"
@@ -7993,39 +7993,39 @@ msgstr "Liquide"
 msgid "No payee selected for this report."
 msgstr "Cet état ne comporte pas de tiers sélectionnés."
 
-#: ../src/gsb_form.c:2756
+#: ../src/gsb_form.c:2771
 msgid "You must enter a date."
 msgstr "Une date est obligatoire."
 
-#: ../src/gsb_form.c:2763
+#: ../src/gsb_form.c:2778
 #, c-format
 msgid "Invalid date %s"
 msgstr "Date invalide %s"
 
-#: ../src/gsb_form.c:2786
+#: ../src/gsb_form.c:2801
 #, c-format
 msgid "Invalid value date %s"
 msgstr "La date est invalide %s"
 
-#: ../src/gsb_form.c:2812
+#: ../src/gsb_form.c:2827
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr "Attention la date doit être comprise entre le %s et le %s"
 
-#: ../src/gsb_form.c:2815 ../src/gsb_form.c:2842
+#: ../src/gsb_form.c:2830 ../src/gsb_form.c:2857
 msgid "Invalid date"
 msgstr "Date invalide"
 
-#: ../src/gsb_form.c:2840
+#: ../src/gsb_form.c:2855
 #, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "La date doit être inférieure ou égale au %s"
 
-#: ../src/gsb_form.c:2876
+#: ../src/gsb_form.c:2891
 msgid "You must enter an amount."
 msgstr "Un montant est obligatoire."
 
-#: ../src/gsb_form.c:2896
+#: ../src/gsb_form.c:2911
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
@@ -8033,28 +8033,28 @@ msgstr ""
 "Vous ne pouvez pas choisir la catégorie « opération ventilée » pour une "
 "opération fille"
 
-#: ../src/gsb_form.c:2930
+#: ../src/gsb_form.c:2945
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr ""
 "Vous ne pouvez pas associer un virement pour un compte supprimé dans une "
 "opération programmée."
 
-#: ../src/gsb_form.c:2937
+#: ../src/gsb_form.c:2952
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "Il n'y a pas de compte associé à ce virement où il est invalide"
 
-#: ../src/gsb_form.c:2945
+#: ../src/gsb_form.c:2960
 msgid "Can't issue a transfer its own account."
 msgstr "Impossible d'effectuer un virement sur son propre compte"
 
-#: ../src/gsb_form.c:2950
+#: ../src/gsb_form.c:2965
 msgid "Can't issue a transfer on a closed account."
 msgstr "Impossible d'effectuer un virement sur un compte clos"
 
-#: ../src/gsb_form.c:2976
+#: ../src/gsb_form.c:2991
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -8064,7 +8064,7 @@ msgstr ""
 "aucun numéro.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:2994
+#: ../src/gsb_form.c:3009
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -8072,30 +8072,30 @@ msgstr ""
 "Attention, le numéro du chèque est déjà utilisé.\n"
 "Souhaitez-vous continuer ?"
 
-#: ../src/gsb_form.c:3015
+#: ../src/gsb_form.c:3030
 msgid "A transaction with a multiple payee must be a new one."
 msgstr ""
 "Une opération dont le tiers est un état doit forcément être une nouvelle "
 "opération."
 
-#: ../src/gsb_form.c:3020
+#: ../src/gsb_form.c:3035
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr ""
 "Une opération dont le tiers est un état ne peut pas être une sous-opération."
 
-#: ../src/gsb_form.c:3031
+#: ../src/gsb_form.c:3046
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr "Le mot « État » est réservé.  Veuillez en utiliser un autre."
 
-#: ../src/gsb_form.c:3038
+#: ../src/gsb_form.c:3053
 msgid "Invalid multiple payee."
 msgstr "Nom de tiers déjà utilisé."
 
-#: ../src/gsb_form.c:3320
+#: ../src/gsb_form.c:3335
 msgid "Modifying a transaction"
 msgstr "Modifier une opération"
 
-#: ../src/gsb_form.c:3321
+#: ../src/gsb_form.c:3336
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8110,7 +8110,7 @@ msgstr ""
 "Etes vous certain ?"
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3624
+#: ../src/gsb_form.c:3639
 msgid "Configure the form"
 msgstr "Configurer le formulaire"
 
@@ -8230,12 +8230,12 @@ msgstr "Mode de règlement de la contre-opération"
 msgid "Free"
 msgstr "Libre"
 
-#: ../src/gsb_form_widget.c:449 ../src/gsb_transactions_list.c:161
+#: ../src/gsb_form_widget.c:449 ../src/gsb_transactions_list.c:164
 #: ../src/traitement_variables.c:97
 msgid "Method of payment"
 msgstr "Moyen de paiement"
 
-#: ../src/gsb_form_widget.c:477 ../src/gsb_transactions_list.c:169
+#: ../src/gsb_form_widget.c:477 ../src/gsb_transactions_list.c:172
 #: ../src/traitement_variables.c:105
 msgid "Transaction number"
 msgstr "N° opération"
@@ -8490,7 +8490,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"
 
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1800
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
 msgid "Init date"
 msgstr "Date initiale"
 
@@ -8686,17 +8686,17 @@ msgid "Show transactions for the next: "
 msgstr "Montrer les opérations pour le : "
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2186
+#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2189
 msgid "Edit transaction"
 msgstr "Éditer l'opération"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2233
+#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2236
 msgid "Clone transaction"
 msgstr "Cloner l'opération"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2209
+#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2212
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
@@ -8729,35 +8729,35 @@ msgstr "Parcourir"
 msgid "Select icon directory"
 msgstr "Sélectionner le répertoire des icônes"
 
-#: ../src/gsb_transactions_list.c:162
+#: ../src/gsb_transactions_list.c:165
 msgid "Reconciliation reference"
 msgstr "N° rapprochement"
 
-#: ../src/gsb_transactions_list.c:170
+#: ../src/gsb_transactions_list.c:173
 msgid "Cheque number"
 msgstr "Numéro de chèque"
 
-#: ../src/gsb_transactions_list.c:191
+#: ../src/gsb_transactions_list.c:194
 msgid "Delete a child transaction."
 msgstr "Supprimer une sous opération."
 
-#: ../src/gsb_transactions_list.c:195
+#: ../src/gsb_transactions_list.c:198
 msgid "Delete a transaction."
 msgstr "Supprimer une opération."
 
-#: ../src/gsb_transactions_list.c:199
+#: ../src/gsb_transactions_list.c:202
 msgid "Delete a child of scheduled transaction."
 msgstr "Supprimer une sous opération planifiée."
 
-#: ../src/gsb_transactions_list.c:203
+#: ../src/gsb_transactions_list.c:206
 msgid "Delete a scheduled transaction."
 msgstr "Supprimer une opération planifiée."
 
-#: ../src/gsb_transactions_list.c:207
+#: ../src/gsb_transactions_list.c:210
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Supprimer cette occurence ou toutes, de l'opération sélectionnée"
 
-#: ../src/gsb_transactions_list.c:576 ../src/gsb_transactions_list.c:3623
+#: ../src/gsb_transactions_list.c:579 ../src/gsb_transactions_list.c:3636
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8769,26 +8769,26 @@ msgstr ""
 "vous plaît contactez les développeurs de Grisbi.\n"
 "Les numéros des sous-opérations concernées sont :\n"
 
-#: ../src/gsb_transactions_list.c:820
+#: ../src/gsb_transactions_list.c:823
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:824
+#: ../src/gsb_transactions_list.c:827
 msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:828 ../src/gsb_transactions_list.c:1670
+#: ../src/gsb_transactions_list.c:831 ../src/gsb_transactions_list.c:1673
 msgid "R"
 msgstr "R"
 
-#: ../src/gsb_transactions_list.c:1202
+#: ../src/gsb_transactions_list.c:1205
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr ""
 "Voulez vous charger les transactions de l'archive « %s » dans la liste ?"
 
-#: ../src/gsb_transactions_list.c:1212
+#: ../src/gsb_transactions_list.c:1215
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
@@ -8798,7 +8798,7 @@ msgstr ""
 "Cela ressemble à un bug.\n"
 "Essayez de le reproduire et contactez les développeurs de Grisbi."
 
-#: ../src/gsb_transactions_list.c:1216
+#: ../src/gsb_transactions_list.c:1219
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
@@ -8808,7 +8808,7 @@ msgstr ""
 "devrait pas arriver.\n"
 "Essayez de le reproduire et contactez les développeurs de Grisbi."
 
-#: ../src/gsb_transactions_list.c:1600
+#: ../src/gsb_transactions_list.c:1603
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -8816,7 +8816,7 @@ msgstr ""
 "Vous ne pouvez pas (dé-)rapprocher une opération pendant un rapprochement.\n"
 "Il faut d'abord finir ou annuler le rapprochement."
 
-#: ../src/gsb_transactions_list.c:1612
+#: ../src/gsb_transactions_list.c:1615
 #, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8837,7 +8837,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1682
+#: ../src/gsb_transactions_list.c:1685
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8850,24 +8850,24 @@ msgstr ""
 "Il vous suffit de faire apparaître (alt+R) pour vérifier ce que  vous avez "
 "fait."
 
-#: ../src/gsb_transactions_list.c:1683
+#: ../src/gsb_transactions_list.c:1686
 msgid "Marking a transaction as R"
 msgstr "Marquer l'opération comme Rapprochée"
 
-#: ../src/gsb_transactions_list.c:1763
+#: ../src/gsb_transactions_list.c:1766
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 "Sélectionnez le rapprochement à associer aux opérations sélectionnées : "
 
-#: ../src/gsb_transactions_list.c:1885
+#: ../src/gsb_transactions_list.c:1888
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi ne trouve pas le rapprochement sélectionné, action annulée..."
 
-#: ../src/gsb_transactions_list.c:1929
+#: ../src/gsb_transactions_list.c:1932
 msgid "Impossible to delete an archived transaction."
 msgstr "Impossible d'effacer une opération archivée"
 
-#: ../src/gsb_transactions_list.c:1938
+#: ../src/gsb_transactions_list.c:1941
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8879,80 +8879,80 @@ msgstr ""
 "ventilation sont marquées comme rapprochées. Vous pouvez supprimer le "
 "rapprochement avec Ctrl-R si c'est vraiment necessaire."
 
-#: ../src/gsb_transactions_list.c:1953
+#: ../src/gsb_transactions_list.c:1956
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 "Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
-#: ../src/gsb_transactions_list.c:1965
+#: ../src/gsb_transactions_list.c:1968
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
-#: ../src/gsb_transactions_list.c:2170
+#: ../src/gsb_transactions_list.c:2173
 msgid "Displays the contra-transaction"
 msgstr "Afficher la contre-opération"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2223
+#: ../src/gsb_transactions_list.c:2226
 msgid "Use selected transaction as a template"
 msgstr "Utiliser l'opération sélectionnée comme modèle"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2246
+#: ../src/gsb_transactions_list.c:2249
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir l'opération en opération planifiée"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2255
+#: ../src/gsb_transactions_list.c:2258
 msgid "Move transaction to another account"
 msgstr "Déplacer l'opération vers un autre compte"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2278
+#: ../src/gsb_transactions_list.c:2281
 msgid "Change cell content"
 msgstr "Modifier le contenu de la cellule"
 
-#: ../src/gsb_transactions_list.c:2325
+#: ../src/gsb_transactions_list.c:2328
 msgid "Clear cell"
 msgstr "Effacer la cellule"
 
-#: ../src/gsb_transactions_list.c:2711
+#: ../src/gsb_transactions_list.c:2714
 msgid "Cannot move a transfer on his contra-account"
 msgstr "Impossible de déplacer un virement vers son compte de destination"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3017
+#: ../src/gsb_transactions_list.c:3020
 msgid "Sort list by: "
 msgstr "Tri par : "
 
-#: ../src/gsb_transactions_list.c:3060
+#: ../src/gsb_transactions_list.c:3063
 msgid "alignment: "
 msgstr "alignement : "
 
-#: ../src/gsb_transactions_list.c:3068
+#: ../src/gsb_transactions_list.c:3071
 msgid "LEFT"
 msgstr "A gauche"
 
-#: ../src/gsb_transactions_list.c:3082
+#: ../src/gsb_transactions_list.c:3085
 msgid "CENTER"
 msgstr "Centré"
 
-#: ../src/gsb_transactions_list.c:3096
+#: ../src/gsb_transactions_list.c:3099
 msgid "RIGHT"
 msgstr "A droite"
 
-#: ../src/gsb_transactions_list.c:3495
+#: ../src/gsb_transactions_list.c:3508
 msgid "Transfer to a deleted account"
 msgstr "Virement vers un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3497
+#: ../src/gsb_transactions_list.c:3510
 msgid "Transfer from a deleted account"
 msgstr "Virement d'un compte supprimé"
 
-#: ../src/gsb_transactions_list.c:3652
+#: ../src/gsb_transactions_list.c:3665
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
