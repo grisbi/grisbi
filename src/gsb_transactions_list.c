@@ -3493,7 +3493,7 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 
     account_number = gsb_gui_navigation_get_current_account ();
     transaction_list_sort_get_column ( &current_column, &sort_type );
-    new_column = GPOINTER_TO_INT (column_ptr);
+    new_column = GPOINTER_TO_INT ( column_ptr );
 
     element_number = gsb_data_account_get_element_sort ( account_number, new_column );
 
@@ -3502,30 +3502,30 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
 
     /* if we come here and the list was user custom sorted for reconcile,
      * we stop the reconcile sort and set what is asked by the user */
-    if (transaction_list_sort_get_reconcile_sort ())
+    if ( transaction_list_sort_get_reconcile_sort () )
     {
-	transaction_list_sort_set_reconcile_sort (FALSE);
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
-				       FALSE );
-	/* if we asked the same last column, we invert the value,
-	 * to come back to the last sort_type before the sort reconciliation */
-	if (new_column == current_column)
-	{
-	    if (sort_type == GTK_SORT_ASCENDING)
-		sort_type = GTK_SORT_DESCENDING;
-	    else
-		sort_type = GTK_SORT_ASCENDING;
-	}
+        transaction_list_sort_set_reconcile_sort ( FALSE );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( reconcile_sort_list_button ),
+                                FALSE );
+        /* if we asked the same last column, we invert the value,
+         * to come back to the last sort_type before the sort reconciliation */
+        if ( new_column == current_column )
+        {
+            if ( sort_type == GTK_SORT_ASCENDING )
+                sort_type = GTK_SORT_DESCENDING;
+            else
+                sort_type = GTK_SORT_ASCENDING;
+        }
     }
 
     /* if the new column is the same as the old one, we change
      * the sort type */
-    if (new_column == current_column)
+    if ( new_column == current_column )
     {
-	if (sort_type == GTK_SORT_ASCENDING)
-	    sort_type = GTK_SORT_DESCENDING;
-	else
-	    sort_type = GTK_SORT_ASCENDING;
+        if ( sort_type == GTK_SORT_ASCENDING )
+            sort_type = GTK_SORT_DESCENDING;
+        else
+            sort_type = GTK_SORT_ASCENDING;
     }
     else
     {
@@ -3547,24 +3547,22 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     /* now have to save the new column and sort type in the account
      * or in all account if global conf for all accounts */
     tmp_list = gsb_data_account_get_list_accounts ();
-    while (tmp_list)
+    while ( tmp_list )
     {
-	gint tmp_account;
+        gint tmp_account;
 
-	tmp_account = gsb_data_account_get_no_account (tmp_list -> data);
+        tmp_account = gsb_data_account_get_no_account ( tmp_list -> data );
 
-	if (tmp_account == account_number
-	    ||
-	    !etat.retient_affichage_par_compte)
-	{
-	    /* set the new column to sort */
-	    gsb_data_account_set_sort_column ( tmp_account,
-					       new_column );
-	    /* save the sort_type */
-	    gsb_data_account_set_sort_type ( tmp_account,
-					     sort_type );
-	}
-	tmp_list = tmp_list -> next;
+        if ( tmp_account == account_number
+            ||
+            !etat.retient_affichage_par_compte )
+        {
+            /* set the new column to sort */
+            gsb_data_account_set_sort_column ( tmp_account, new_column );
+            /* save the sort_type */
+            gsb_data_account_set_sort_type ( tmp_account, sort_type );
+        }
+        tmp_list = tmp_list -> next;
     }
 
     selected_transaction = transaction_list_select_get ();
