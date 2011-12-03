@@ -846,8 +846,7 @@ void etats_config_ui_onglet_periode_date_interval_sensitive ( gboolean show )
     if ( show > 1 )
         show = 0;
 
-        gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
-                        "hbox_select_dates", NULL ), show );
+        etats_config_ui_widget_set_sensitive ( "hbox_select_dates", show );
         gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
                         "hbox_date_init", "entree_date_init_etat" ), show );
         gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name ( etat_config_builder,
@@ -925,8 +924,7 @@ GtkWidget *etats_config_ui_onglet_virements_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
-                        "hbox_liste_comptes_virements" ) ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "hbox_liste_comptes_virements", FALSE );
 
     /* on crée la liste des comptes */
     etats_config_ui_tree_view_init ( "treeview_virements",
@@ -1031,8 +1029,7 @@ GtkWidget *etats_config_ui_onglet_comptes_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
-                        "vbox_generale_comptes_etat" ) ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "vbox_generale_comptes_etat", FALSE );
 
     /* on crée la liste des comptes */
     etats_config_ui_tree_view_init ( "treeview_comptes",
@@ -1213,8 +1210,7 @@ GtkWidget *etats_config_ui_onglet_tiers_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
-                        "vbox_detaille_tiers_etat" ) ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "vbox_detaille_tiers_etat", FALSE );
 
     /* on crée la liste des tiers */
     etats_config_ui_tree_view_init ( "treeview_tiers",
@@ -1604,17 +1600,13 @@ void etats_config_ui_onglet_tiers_show_hide_prev_next_buttons ( gint show_left,
 {
     if ( show_left >= 0 )
     {
-        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
-                        etat_config_builder, "button_tiers_premier" ) ), show_left );
-        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
-                        etat_config_builder, "button_tiers_precedent" ) ), show_left );
+        etats_config_ui_widget_set_sensitive ( "button_tiers_premier", show_left );
+        etats_config_ui_widget_set_sensitive ( "button_tiers_precedent", show_left );
     }
     if ( show_right >= 0 )
     {
-        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
-                        etat_config_builder, "button_tiers_suivant" ) ), show_right );
-        gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object (
-                        etat_config_builder, "button_tiers_dernier" ) ), show_right );
+        etats_config_ui_widget_set_sensitive ( "button_tiers_suivant", show_right );
+        etats_config_ui_widget_set_sensitive ( "button_tiers_dernier", show_right );
     }
 }
 
@@ -1755,8 +1747,7 @@ GtkWidget *etats_config_ui_onglet_categories_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
-                        "vbox_detaille_categ_etat" ) ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "vbox_detaille_categ_etat", FALSE );
 
     /* on crée la liste des catégories */
     tree_view = etats_config_ui_onglet_categ_budget_tree_view_create ( TRUE );
@@ -1808,8 +1799,7 @@ GtkWidget *etats_config_ui_onglet_budgets_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
-                        "vbox_detaille_budget_etat", NULL ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "vbox_detaille_budget_etat", FALSE );
 
     /* on crée la liste des IB */
     tree_view = etats_config_ui_onglet_categ_budget_tree_view_create ( FALSE );
@@ -1995,6 +1985,13 @@ void etats_config_ui_onglet_categ_budget_check_uncheck_all ( GtkToggleButton *to
 
 
 /*RIGHT_PANEL : ONGLET_TEXTES*/
+/**
+ * Création de l'onglet recherche de textes
+ *
+ * \param gint page
+ *
+ * \return
+ */
 GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
 {
     GtkWidget *vbox_onglet;
@@ -2021,7 +2018,7 @@ GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
     g_signal_connect ( G_OBJECT ( button ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
-                        gtk_builder_get_object ( etat_config_builder, "vbox_generale_texte_etat" ) );
+                        gtk_builder_get_object ( etat_config_builder, "vbox_generale_textes_etat" ) );
 
     gtk_widget_show_all ( vbox_onglet );
 
@@ -2031,6 +2028,14 @@ GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
 
 
 /*RIGHT_PANEL : ONGLET_MONTANTS*/
+/**
+ * Création de l'onglet recherche de montants
+ *
+ * \param gint page
+ *
+ * \return
+ */
+
 
 /*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/
 /**
@@ -2054,8 +2059,7 @@ GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page )
     gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
     gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
 
-    gtk_widget_set_sensitive ( GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder,
-                        "vbox_mode_paiement_etat" ) ), FALSE );
+    etats_config_ui_widget_set_sensitive ( "vbox_mode_paiement_etat", FALSE );
 
     /* on crée la liste des moyens de paiement */
     etats_config_ui_tree_view_init ( "treeview_mode_paiement",
@@ -3322,6 +3326,29 @@ void etats_config_ui_tree_view_select_rows_from_list ( GSList *liste,
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
     }
+}
+
+
+/**
+ *  rend sensible le widget demandé par son nom en fonction de sensible
+ *
+ *\param widget name
+ *\param sensitive
+ *
+ * \return TRUE if success FALSE otherwise
+ */
+gboolean etats_config_ui_widget_set_sensitive ( const gchar *widget_name,
+                        gboolean sensitive )
+{
+    GtkWidget *widget = NULL;
+
+    widget = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, widget_name ) );
+    if ( !widget )
+        return FALSE;
+
+    gtk_widget_set_sensitive ( widget, sensitive );
+
+    return TRUE;
 }
 
 

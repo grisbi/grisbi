@@ -34,6 +34,8 @@ gboolean etats_config_ui_toggle_button_set_actif ( const gchar *widget_name,
                         gboolean actif );
 GtkWidget *etats_config_ui_widget_get_widget_by_name ( const gchar *parent_name,
                         const gchar *child_name );
+gboolean etats_config_ui_widget_set_sensitive ( const gchar *widget_name,
+                        gboolean sensitive );
 /* END_DECLARATION */
 
 
