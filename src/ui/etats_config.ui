@@ -1440,56 +1440,6 @@
       <action-widget response="-5">button_OK</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkVBox" id="liste_montant_etat">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkHBox" id="hbox4">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkLabel" id="label12">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Transactions with an amount of</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">False</property>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
-  <object class="GtkVBox" id="liste_texte_etat">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="spacing">5</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
   <object class="GtkVBox" id="onglet_etat_categories">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -2602,7 +2552,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox_generale_montant_etat">
+      <object class="GtkVBox" id="vbox_generale_montants_etat">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
         <property name="can_focus">False</property>
@@ -2615,7 +2565,26 @@
             <property name="vscrollbar_policy">automatic</property>
             <property name="shadow_type">in</property>
             <child>
-              <placeholder/>
+              <object class="GtkViewport" id="viewport2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkVBox" id="liste_montants_etat">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="spacing">5</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                </child>
+              </object>
             </child>
           </object>
           <packing>

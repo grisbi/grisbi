@@ -101,6 +101,7 @@ static GtkWidget *etats_config_ui_onglet_divers_create_page ( gint page );
 static gboolean etats_config_ui_onglet_divers_update_style_left_panel ( GtkWidget *button,
                         gint *page_number );
 static GtkWidget *etats_config_ui_onglet_mode_paiement_create_page ( gint page );
+static GtkWidget *etats_config_ui_onglet_montants_create_page ( gint page );
 static GtkWidget *etats_config_ui_onglet_periode_create_page ( gint page );
 static GtkTreeModel *etats_config_ui_onglet_periode_get_liste_dates ( void );
 static gboolean etats_config_ui_onglet_periode_selection_dates_changed ( GtkTreeSelection *selection,
@@ -427,10 +428,9 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     page++;
 
     /* append page Amounts */
-/*     widget = gsb_etats_config_onglet_etat_montant ( page );
- *     etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
- *     page++;
- */
+    widget = etats_config_ui_onglet_montants_create_page ( page );
+    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
+    page++;
 
     /* append page Payment methods */
     widget = etats_config_ui_onglet_mode_paiement_create_page ( page );
@@ -1998,8 +1998,6 @@ GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
     GtkWidget *vbox;
     GtkWidget *button;
 
-    devel_debug (NULL);
-
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_texte" ) );
 
     vbox = new_vbox_with_title_and_icon ( _("Transaction content"), "text.png" );
@@ -2035,6 +2033,39 @@ GtkWidget *etats_config_ui_onglet_textes_create_page ( gint page )
  *
  * \return
  */
+GtkWidget *etats_config_ui_onglet_montants_create_page ( gint page )
+{
+    GtkWidget *vbox_onglet;
+    GtkWidget *vbox;
+    GtkWidget *button;
+
+    devel_debug (NULL);
+
+    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_montant" ) );
+
+    vbox = new_vbox_with_title_and_icon ( _("Amount"), "amount.png" );
+
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
+
+    /* on met la connection pour changer le style de la ligne du panneau de gauche */
+    button = GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "bouton_utilise_montant" ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( etats_config_ui_left_panel_tree_view_update_style ),
+                        GINT_TO_POINTER ( page ) );
+
+    /* on met la connection pour rendre sensitif la vbox_generale_textes_etat */
+    g_signal_connect ( G_OBJECT ( button ),
+                        "toggled",
+                        G_CALLBACK ( sens_desensitive_pointeur ),
+                        gtk_builder_get_object ( etat_config_builder, "vbox_generale_montants_etat" ) );
+
+    gtk_widget_show_all ( vbox_onglet );
+
+    /* on retourne la vbox */
+    return vbox_onglet;
+}
 
 
 /*RIGHT_PANEL : ONGLET_MODE_PAIEMENT*/

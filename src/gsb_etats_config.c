@@ -47,6 +47,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_report.h"
+#include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
@@ -56,6 +57,7 @@
 #include "utils_buttons.h"
 #include "utils_dates.h"
 #include "utils_gtkbuilder.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -93,17 +95,27 @@ static gint gsb_etats_config_onglet_categ_budget_sort_function ( GtkTreeModel *m
 static GSList *gsb_etats_config_onglet_data_grouping_get_list ( gint report_number );
 static gboolean gsb_etats_config_onglet_data_grouping_update_model ( gint report_number );
 
-
+static void gsb_etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ( gint last_amount_comparison_number );
+static void gsb_etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *parent,
+                        gint text_comparison_number );
+static GtkWidget *gsb_etats_config_onglet_montants_new_comparison_line ( GtkWidget *parent,
+                        gint amount_comparison_number,
+                        gint with_link );
 static void gsb_etats_config_onglet_montants_remplit_liste_comparaisons ( gint report_number );
+static void gsb_etats_config_onglet_montants_retire_ligne_liste_comparaisons ( gint last_amount_comparison_number );
 
 static void gsb_etats_config_onglet_texte_ajoute_ligne_liste_comparaisons ( gint last_text_comparison_number );
-static void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *parent,
+static void gsb_etats_config_combo_lien_nombre_2_changed ( GtkComboBox *combo,
+                        GtkWidget *widget );
+static void gsb_etats_config_onglet_texte_combo_texte_changed ( GtkComboBox *combo,
+                        gpointer data );
+static void gsb_etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number );
 static GtkWidget *gsb_etats_config_onglet_texte_new_comparison_line ( GtkWidget *parent,
                         gint last_text_comparison_number,
                         gint with_link );
 static void gsb_etats_config_onglet_texte_remplit_liste_comparaisons ( gint report_number );
-static void gsb_etats_config_onglet_etat_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number );
+static void gsb_etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number );
 static void gsb_etats_config_onglet_texte_sensitive_hbox_fonction_bouton_txt ( gint text_comparison_number );
 
 static gboolean gsb_etats_config_recupere_info_to_etat ( gint report_number );
@@ -129,8 +141,6 @@ static GtkWidget *gsb_etats_config_onglet_etat_montant ( void );
 
 static void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
                         gchar **tab );
-static void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
-                        gpointer data );
 /*END_STATIC*/
 
 
@@ -223,18 +233,32 @@ static gchar *champs_comparateur_nombre[] =
 };
 
 
-static gchar *champs_comparateur_nombre_2[] =
+static gchar *champs_lien_nombre_2[] =
 {
-    N_("stop"),
     N_("and"),
     N_("or"),
     N_("except"),
+    N_("stop"),
+    NULL
+};
+
+static gchar *champs_comparateur_montant[] =
+{
+    N_("equal"),
+    N_("less than"),
+    N_("less than or equal"),
+    N_("greater than"),
+    N_("greater than or equal"),
+    N_("different from"),
+    N_("null"),
+    N_("not null"),
+    N_("positive"),
+    N_("negative"),
     NULL
 };
 
 
-static GtkBuilder *etat_config_builder = NULL;
-
+/*END*/
 
 /**
  * affiche la fenetre de personnalisation
@@ -2094,7 +2118,7 @@ GtkWidget *gsb_etats_config_onglet_texte_new_comparison_line ( GtkWidget *parent
     /* on définit l'action a faire lorsque l'on change le choix du combobox */
     g_signal_connect ( G_OBJECT ( combo ),
                         "changed",
-                        G_CALLBACK ( gsb_etats_config_onglet_etat_texte_combo_changed ),
+                        G_CALLBACK ( gsb_etats_config_onglet_texte_combo_texte_changed ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
     /* la suite se met dans hbox_txt en 2ème row */
@@ -2172,16 +2196,21 @@ GtkWidget *gsb_etats_config_onglet_texte_new_comparison_line ( GtkWidget *parent
     gsb_data_report_text_comparison_set_entry_first_amount ( text_comparison_number, entry );
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), entry, FALSE, FALSE, 0 );
 
-    /* la fonction cree_bouton_lien_montant va se servir de hbox_partie_2 */
-    /* il faut donc créer celle ci avant l'appel de la fonction */
+    /* on crée et initialise le combobox pour autoriser la seconde comparaison de nombre */
+    combo = utils_combo_box_make_from_string_array ( champs_lien_nombre_2 );
+    gsb_data_report_text_comparison_set_button_link_first_to_second_part ( text_comparison_number, combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_1 ), combo, FALSE, FALSE, 0 );
+
+    /* on crée la hbox pour la deuxième partie de la comparaison*/
     hbox_2 = gtk_hbox_new ( FALSE, 5 );
     gsb_data_report_text_comparison_set_hbox_second_part ( text_comparison_number, hbox_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), hbox_2, FALSE, FALSE, 0 );
 
-    /* on crée et initialise le combobox pour autoriser la seconde comparaison de nombre */
-    combo = utils_combo_box_make_from_string_array ( champs_comparateur_nombre_2 );
-    gsb_data_report_text_comparison_set_button_link_first_to_second_part ( text_comparison_number, combo );
-    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), combo, FALSE, FALSE, 0 );
+    /* maintenant que hbox_2 est définie on met le signal lorsque l'on change le choix du combobox */
+    g_signal_connect ( G_OBJECT ( combo ),
+                        "changed",
+                        G_CALLBACK ( gsb_etats_config_combo_lien_nombre_2_changed ),
+                        hbox_2 );
 
     /* on peut maintenant ajouter dans hbox_partie_2 */
     /* on crée et initialise le combobox pour la seconde comparaison de nombre */
@@ -2199,7 +2228,7 @@ GtkWidget *gsb_etats_config_onglet_texte_new_comparison_line ( GtkWidget *parent
     gtk_box_pack_start ( GTK_BOX ( hbox_2 ), entry, FALSE, FALSE, 0 );
 
     /* on ajoute le bouton ajouter une nouvelle ligne */
-    gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( hbox, text_comparison_number );
+    gsb_etats_config_onglet_texte_get_buttons_add_remove ( hbox, text_comparison_number );
 
     /* on met la ligne complète (vbox) dans son parent */
     gtk_box_pack_start ( GTK_BOX ( parent ), vbox, FALSE, FALSE, 0 );
@@ -2215,7 +2244,7 @@ GtkWidget *gsb_etats_config_onglet_texte_new_comparison_line ( GtkWidget *parent
  *
  *
  */
-void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *parent,
+void gsb_etats_config_onglet_texte_get_buttons_add_remove ( GtkWidget *parent,
                         gint text_comparison_number )
 {
     GtkWidget *alignement;
@@ -2245,7 +2274,7 @@ void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *pare
 
     g_signal_connect_swapped ( G_OBJECT ( button ),
                         "clicked",
-                        G_CALLBACK ( gsb_etats_config_onglet_etat_texte_retire_ligne_liste_comparaisons ),
+                        G_CALLBACK ( gsb_etats_config_onglet_texte_retire_ligne_liste_comparaisons ),
                         GINT_TO_POINTER ( text_comparison_number ) );
 
     gtk_container_add ( GTK_CONTAINER ( alignement ), button );
@@ -2259,7 +2288,7 @@ void gsb_etats_config_onglet_etat_texte_get_buttons_add_remove ( GtkWidget *pare
  *
  * \return
  */
-void gsb_etats_config_onglet_etat_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
+void gsb_etats_config_onglet_texte_retire_ligne_liste_comparaisons ( gint last_text_comparison_number )
 {
     gint current_report_number;
 
@@ -2299,7 +2328,7 @@ void gsb_etats_config_onglet_etat_texte_retire_ligne_liste_comparaisons ( gint l
  *
  * \return
  */
-void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
+void gsb_etats_config_onglet_texte_combo_texte_changed ( GtkComboBox *combo,
                         gpointer data )
 {
     gint index;
@@ -2353,15 +2382,9 @@ void gsb_etats_config_onglet_etat_texte_combo_changed ( GtkComboBox *combo,
  */
 void gsb_etats_config_initialise_onglet_montants ( gint report_number )
 {
-    GtkWidget * button;
-
     /* on affiche ou pas le choix des montants */
-    button = etats_config_ui_widget_get_widget_by_name ( "bouton_utilise_montant", NULL );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ),
+    etats_config_ui_toggle_button_set_actif ( "bouton_utilise_montant",
                         gsb_data_report_get_amount_comparison_used ( report_number ) );
-
-    sens_desensitive_pointeur ( button,
-                        etats_config_ui_widget_get_widget_by_name ( "vbox_generale_montants_etat", NULL ) );
 
     /* on remplit la liste des lignes de recherche */
     gsb_etats_config_onglet_montants_remplit_liste_comparaisons ( report_number );
@@ -2377,11 +2400,86 @@ void gsb_etats_config_initialise_onglet_montants ( gint report_number )
  */
 void gsb_etats_config_recupere_info_onglet_montants ( gint report_number )
 {
-/*     GtkWidget *button;  */
+    gint amount_comparison_number;
 
     /* on récupère le choix des montants */
+    gsb_data_report_set_amount_comparison_used ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_utilise_montant" ) );
 
+    /* récupération de la liste des comparaisons de montant */
+    /*   il y a au moins une structure de créé, si celle si a les 2 montants vides, */
+    /* c'est qu'il n'y a aucune liste */
+    amount_comparison_number = GPOINTER_TO_INT ( gsb_data_report_get_amount_comparison_list (
+                                report_number )-> data );
 
+    if ( g_slist_length ( gsb_data_report_get_amount_comparison_list ( report_number ) ) == 1
+     &&
+     !strlen ( gtk_entry_get_text ( GTK_ENTRY ( gsb_data_report_amount_comparison_get_entry_first_amount (
+     amount_comparison_number ) ) ) )
+     &&
+     !strlen ( gtk_entry_get_text ( GTK_ENTRY ( gsb_data_report_amount_comparison_get_entry_second_amount (
+     amount_comparison_number ) ) ) )
+     &&
+     GTK_WIDGET_SENSITIVE ( gsb_data_report_amount_comparison_get_entry_first_amount (
+     amount_comparison_number ) )
+     &&
+     GTK_WIDGET_SENSITIVE ( gsb_data_report_amount_comparison_get_entry_second_amount (
+     amount_comparison_number ) ) )
+    {
+        g_slist_free ( gsb_data_report_get_amount_comparison_list ( report_number ) );
+        gsb_data_report_set_amount_comparison_list ( report_number, NULL );
+    }
+    else
+    {
+        /* on a rentré au moins une comparaison */
+        /* on rempli les champs de la structure */
+        GSList *comparison_list;
+
+        comparison_list = gsb_data_report_get_amount_comparison_list ( report_number );
+
+        while ( comparison_list )
+        {
+            amount_comparison_number = GPOINTER_TO_INT ( comparison_list -> data );
+
+            if ( gsb_data_report_amount_comparison_get_button_link ( amount_comparison_number ) )
+                gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( amount_comparison_number,
+                                gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                                gsb_data_report_amount_comparison_get_button_link (
+                                amount_comparison_number ) ) ) );
+            else
+                gsb_data_report_amount_comparison_set_link_to_last_amount_comparison (
+                                amount_comparison_number,
+                                -1 );
+
+            gsb_data_report_amount_comparison_set_first_comparison ( amount_comparison_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_first_comparison (
+                        amount_comparison_number ) ) ) );
+
+            gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_link_first_to_second_part (
+                        amount_comparison_number ) ) ) );
+            gsb_data_report_amount_comparison_set_second_comparison ( amount_comparison_number,
+                        gtk_combo_box_get_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_second_comparison (
+                        amount_comparison_number ) ) ) );
+
+            gsb_data_report_amount_comparison_set_first_amount ( amount_comparison_number,
+                        utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (
+                        gsb_data_report_amount_comparison_get_entry_first_amount (
+                        amount_comparison_number ) ) ) ) );
+            gsb_data_report_amount_comparison_set_second_amount ( amount_comparison_number,
+                        utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY (
+                        gsb_data_report_amount_comparison_get_entry_second_amount (
+                        amount_comparison_number ) ) ) ) );
+
+            comparison_list = comparison_list -> next;
+        }
+    }
+
+    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+                        etats_config_ui_toggle_button_get_actif ( "bouton_exclure_ope_nulles_etat" ) );
 }
 
 
@@ -2394,10 +2492,338 @@ void gsb_etats_config_recupere_info_onglet_montants ( gint report_number )
  */
 void gsb_etats_config_onglet_montants_remplit_liste_comparaisons ( gint report_number )
 {
+    GtkWidget *lignes;
+    GSList *list_tmp;
+    gchar* tmp_str;
+    gboolean multi_lignes = FALSE;
+
+    list_tmp = gsb_data_report_get_amount_comparison_list ( report_number );
+
+    /* on commence par effacer l'ancienne liste */
+    lignes = etats_config_ui_widget_get_widget_by_name ( "liste_montants_etat", NULL );
+    while ( GTK_BOX ( lignes ) -> children )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( lignes ),
+                        ( ( GtkBoxChild *) ( GTK_BOX ( lignes ) -> children -> data ) ) -> widget );
+    }
+
+    /*   s'il n'y a rien dans la liste, on met juste une row vide */
+    if ( !list_tmp )
+    {
+        gsb_etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ( 0 );
+        return;
+    }
+
+    /* on fait le tour de la liste des comparaisons de montant, ajoute une row
+     * et la remplit à chaque fois */
+
+    while ( list_tmp )
+    {
+        gint amount_comparison_number;
+        GtkWidget *hbox;
+
+        amount_comparison_number = GPOINTER_TO_INT ( list_tmp -> data );
+        hbox = gsb_etats_config_onglet_montants_new_comparison_line ( lignes, amount_comparison_number, multi_lignes );
+
+        /* on crée la row et remplit les widget de la structure */
+        gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number, hbox );
+
+        /* on remplit maintenant les widget avec les valeurs de la stucture */
+        /* s'il n'y a pas de lien avec la struct précédente, on le vire
+         * on rajoute le && car parfois le bouton de lien se met quand même en 1ère row */
+
+        if ( gsb_data_report_amount_comparison_get_link_to_last_amount_comparison ( amount_comparison_number ) != -1
+         &&
+         list_tmp != gsb_data_report_get_amount_comparison_list ( report_number ) )
+        {
+            gtk_combo_box_set_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_link ( amount_comparison_number ) ),
+                        gsb_data_report_amount_comparison_get_link_to_last_amount_comparison (
+                        amount_comparison_number ) );
+        }
+
+        gtk_combo_box_set_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_first_comparison (
+                        amount_comparison_number ) ),
+                        gsb_data_report_amount_comparison_get_first_comparison ( amount_comparison_number ) );
+        gtk_combo_box_set_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_link_first_to_second_part (
+                        amount_comparison_number ) ),
+                        gsb_data_report_amount_comparison_get_link_first_to_second_part (
+                        amount_comparison_number ) );
+        gtk_combo_box_set_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_second_comparison (
+                        amount_comparison_number ) ),
+                        gsb_data_report_amount_comparison_get_second_comparison (
+                        amount_comparison_number ) );
+
+        tmp_str = utils_real_get_string ( gsb_data_report_amount_comparison_get_first_amount (
+                        amount_comparison_number ) );
+        gtk_entry_set_text ( GTK_ENTRY ( gsb_data_report_amount_comparison_get_entry_first_amount (
+                        amount_comparison_number ) ),
+                        tmp_str );
+        g_free ( tmp_str );
+
+        tmp_str = utils_real_get_string ( gsb_data_report_amount_comparison_get_second_amount (
+                        amount_comparison_number ) );
+        gtk_entry_set_text ( GTK_ENTRY ( gsb_data_report_amount_comparison_get_entry_second_amount (
+                        amount_comparison_number ) ),
+                        tmp_str );
+        g_free ( tmp_str );
+
+        /* on sensitive/désensitive les entrées si nécessaire */
+        if ( gsb_data_report_amount_comparison_get_first_comparison ( amount_comparison_number ) > 5 )
+            desensitive_widget ( NULL, gsb_data_report_amount_comparison_get_entry_first_amount (
+                        amount_comparison_number ) );
+        else
+            sensitive_widget ( NULL, gsb_data_report_amount_comparison_get_entry_first_amount (
+                        amount_comparison_number ) );
+
+        if ( gsb_data_report_amount_comparison_get_second_comparison ( amount_comparison_number ) > 5 )
+            desensitive_widget ( NULL, gsb_data_report_amount_comparison_get_entry_second_amount (
+                        amount_comparison_number ) );
+        else
+            sensitive_widget ( NULL, gsb_data_report_amount_comparison_get_entry_second_amount (
+                        amount_comparison_number ) );
+
+        /* on sensitive/désensitive la hbox_2 si nécessaire */
+        if ( gsb_data_report_amount_comparison_get_link_first_to_second_part ( amount_comparison_number ) == 3 )
+            desensitive_widget ( NULL, gsb_data_report_amount_comparison_get_hbox_second_part (
+                        amount_comparison_number ) );
+        else
+            sensitive_widget ( NULL, gsb_data_report_amount_comparison_get_hbox_second_part (
+                        amount_comparison_number ) );
+
+        list_tmp = list_tmp -> next;
+    }
+    /* return */
+}
 
 
+/**
+ * ajoute une ligne de recherche de montant à la liste des lignes de recherche de montant
+ *
+ *\first_line   première ligne ou ligne supplémentaire
+ *
+ *\return la nouvelle ligne
+ */
+void gsb_etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ( gint last_amount_comparison_number )
+{
+    GtkWidget *lignes;
+    GtkWidget *widget;
+    gint amount_comparison_number;
+    gint position;
+    gint current_report_number;
+
+    lignes = etats_config_ui_widget_get_widget_by_name ( "liste_montants_etat", NULL );
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    /* on récupère tout de suite la position à laquelle il faut insérer la row */
+    if ( last_amount_comparison_number )
+        position = g_slist_index ( gsb_data_report_get_amount_comparison_list ( current_report_number ),
+                                GINT_TO_POINTER ( last_amount_comparison_number ) ) + 1;
+    else
+        position = 0;
+
+    /* on commence par créer une structure vide */
+    amount_comparison_number = gsb_data_report_amount_comparison_new ( 0 );
+    gsb_data_report_amount_comparison_set_report_number ( amount_comparison_number,
+                        current_report_number);
+
+    /* on crée la row et remplit les widget de la structure */
+    widget = gsb_etats_config_onglet_montants_new_comparison_line ( lignes, amount_comparison_number, TRUE );
+    gsb_data_report_amount_comparison_set_hbox_line ( amount_comparison_number, widget );
+
+    /* on vire le lien de la row s'il n'y a pas encore de liste (cad si c'est la 1ère row) */
+    if ( !gsb_data_report_get_amount_comparison_list ( current_report_number ) )
+    {
+        gtk_widget_destroy ( gsb_data_report_amount_comparison_get_button_link ( amount_comparison_number ) );
+        gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number, NULL );
+    }
+
+    /*   par défaut, le bouton bouton_lien_1_2 est sur stop */
+    gtk_combo_box_set_active ( GTK_COMBO_BOX (
+                        gsb_data_report_amount_comparison_get_button_link_first_to_second_part (
+                        amount_comparison_number ) ),
+                        3 );
+    gsb_data_report_amount_comparison_set_link_first_to_second_part ( amount_comparison_number, 3 );
+    gtk_widget_set_sensitive ( gsb_data_report_amount_comparison_get_hbox_second_part (
+                        amount_comparison_number ),
+                        FALSE );
+
+    /* on met la structure dans la liste à la position demandée */
+    gsb_data_report_set_amount_comparison_list ( current_report_number,
+                        g_slist_insert ( gsb_data_report_get_amount_comparison_list ( current_report_number ),
+                        GINT_TO_POINTER ( amount_comparison_number ),
+                        position ) );
 
 
+    /* on met la row à sa place dans la liste */
+    gtk_box_reorder_child ( GTK_BOX ( lignes ),
+                        gsb_data_report_amount_comparison_get_hbox_line ( amount_comparison_number ),
+                        position );
+
+    /* return */
+}
+
+
+/**
+ * crée une ligne de recherche de montant
+ *
+ *\parent       vbox qui contiendra toutes les lignes
+ *\first_line   première ligne ou ligne supplémentaire
+ *
+ *\return la nouvelle ligne
+ */
+GtkWidget *gsb_etats_config_onglet_montants_new_comparison_line ( GtkWidget *parent,
+                        gint amount_comparison_number,
+                        gint with_link )
+{
+    GtkWidget *hbox;
+    GtkWidget *hbox_2;
+    GtkWidget *label;
+    GtkWidget *entry;
+    GtkWidget *combo;
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+
+    /* on crée le premier lien ne sert pas si c'est la première ligne */
+    if ( with_link )
+    {
+        combo = utils_combo_box_make_from_string_array ( champs_lien_lignes_comparaison );
+        gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number, combo );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 5 );
+    }
+
+    label = gtk_label_new ( _("Transactions with an amount of") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+
+    /* on crée et initialise le premier combobox de comparaison de montant */
+    combo = utils_combo_box_make_from_string_array ( champs_comparateur_montant );
+    gsb_data_report_amount_comparison_set_button_first_comparison ( amount_comparison_number, combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("to") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+
+    /* on ajoute l'entry pour la saisie du premier montant */
+    entry = gtk_entry_new ( );
+    gtk_widget_set_size_request ( entry, 100, -1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entry, FALSE, FALSE, 0 );
+    gsb_data_report_amount_comparison_set_entry_first_amount ( amount_comparison_number, entry );
+
+    /* on crée le bouton de lien pour la deuxième partie de la comparaison*/
+    combo = utils_combo_box_make_from_string_array ( champs_lien_nombre_2 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
+    gsb_data_report_amount_comparison_set_button_link_first_to_second_part ( amount_comparison_number, combo );
+
+    /* the hbox is created in hbox_2 and is used later */
+    hbox_2 = gtk_hbox_new ( FALSE, 5 );
+    gsb_data_report_amount_comparison_set_hbox_second_part ( amount_comparison_number, hbox_2 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), hbox_2, FALSE, FALSE, 0 );
+
+    /* maintenant que hbox_2 est définie on met le signal lorsque l'on change le choix du combobox */
+    g_signal_connect ( G_OBJECT ( combo ),
+                        "changed",
+                        G_CALLBACK ( gsb_etats_config_combo_lien_nombre_2_changed ),
+                        hbox_2 );
+
+    /* on peut maintenant ajouter dans comp_montants -> hbox_partie_2 */
+    combo = utils_combo_box_make_from_string_array ( champs_comparateur_montant );
+    gsb_data_report_amount_comparison_set_button_second_comparison ( amount_comparison_number, combo );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), combo, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("to") );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), label, FALSE, FALSE, 0 );
+
+    /* on ajoute l'entry pour la saisie du premier montant */
+    entry = gtk_entry_new ( );
+    gtk_widget_set_size_request ( entry, 100, -1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox_2 ), entry, FALSE, FALSE, 0 );
+    gsb_data_report_amount_comparison_set_entry_second_amount ( amount_comparison_number, entry );
+
+    /* on ajoute le bouton ajouter une nouvelle ligne */
+    gsb_etats_config_onglet_montants_get_buttons_add_remove ( hbox, amount_comparison_number );
+
+    /* on met la ligne complète (vbox) dans son parent */
+    gtk_box_pack_start ( GTK_BOX ( parent ), hbox, FALSE, FALSE, 0 );
+    gtk_widget_show_all ( hbox );
+
+    /* return */
+    return hbox;
+}
+
+
+/**
+ *
+ *
+ *
+ */
+void gsb_etats_config_onglet_montants_get_buttons_add_remove ( GtkWidget *parent,
+                        gint text_comparison_number )
+{
+    GtkWidget *alignement;
+    GtkWidget *button;
+
+    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
+    gtk_widget_show ( alignement );
+    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+
+    button = gtk_button_new_with_label ( _("Add") );
+    gtk_widget_show ( button );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+
+    g_signal_connect_swapped ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ),
+                        GINT_TO_POINTER ( text_comparison_number ) );
+
+    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+
+    alignement = gtk_alignment_new ( 0.3, 0, 0, 0 );
+    gtk_widget_show ( alignement );
+    gtk_box_pack_start ( GTK_BOX ( parent ), alignement, TRUE, TRUE, 0 );
+
+    button = gtk_button_new_with_label ( _("Remove") );
+    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
+
+    g_signal_connect_swapped ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_etats_config_onglet_montants_retire_ligne_liste_comparaisons ),
+                        GINT_TO_POINTER ( text_comparison_number ) );
+
+    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+}
+
+void gsb_etats_config_onglet_montants_retire_ligne_liste_comparaisons ( gint last_amount_comparison_number )
+{
+     gint current_report_number;
+
+    current_report_number = gsb_gui_navigation_get_current_report ();
+
+    /* il faut qu'il y ai plus d'une row affichée */
+    if ( g_slist_length ( gsb_data_report_get_amount_comparison_list ( current_report_number ) ) < 2 )
+        return;
+
+    /* on commence par supprimer la row dans la liste */
+    gtk_widget_destroy ( gsb_data_report_amount_comparison_get_hbox_line ( last_amount_comparison_number ) );
+
+    /* si la structure qu'on retire est la 1ère, on vire le widget de lient */
+    if ( !g_slist_index ( gsb_data_report_get_amount_comparison_list ( current_report_number ),
+     GINT_TO_POINTER ( last_amount_comparison_number ) ) )
+    {
+        gint amount_comparison_number;
+
+        amount_comparison_number = GPOINTER_TO_INT ( gsb_data_report_get_amount_comparison_list (
+                        current_report_number )-> next -> data );
+        gtk_widget_destroy ( gsb_data_report_amount_comparison_get_button_link ( amount_comparison_number ) );
+        gsb_data_report_amount_comparison_set_button_link ( amount_comparison_number, NULL );
+    }
+
+    /* et on retire la struct de la sliste */
+    gsb_data_report_set_amount_comparison_list ( current_report_number,
+                        g_slist_remove ( gsb_data_report_get_amount_comparison_list ( current_report_number ),
+                        GINT_TO_POINTER ( last_amount_comparison_number ) ) );
 }
 
 
@@ -3366,68 +3792,25 @@ void gsb_etats_config_onglet_affichage_devises_make_combobox ( void )
     g_object_set_data ( G_OBJECT ( hbox ), "button", button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 }
-/*OLD_FUNCTIONS*/
-
+/*COMMON_FUNCTIONS*/
 /**
+ * Rend sensitif la suite de la comparaison de numéro
  *
+ * \param combo_box
+ * \param widget widget à rendre sensitif
  *
- *
+ * \return
  */
-void gsb_etats_config_onglet_etat_combo_set_model ( GtkWidget *combo,
-                        gchar **tab )
+void gsb_etats_config_combo_lien_nombre_2_changed ( GtkComboBox *combo,
+                        GtkWidget *widget )
 {
-    GtkTreeModel *model;
+    gint index;
 
-    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( tab ) );
-    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
-    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
-}
-
-
-/**
- *
- *
- *
- */
-GtkWidget *gsb_etats_config_onglet_etat_montant ( void )
-{
-    GtkWidget *vbox_onglet;
-    GtkWidget *vbox;
-
-    devel_debug (NULL);
-
-    vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etat_config_builder, "onglet_etat_montant" ) );
-
-    vbox = new_vbox_with_title_and_icon ( _("Amount"), "amount.png" );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ), vbox, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( vbox_onglet ), vbox, 0 );
-
-    etats_config_ui_widget_set_sensitive ( "vbox_generale_montant_etat", FALSE );
-
-    /* on attache la vbox pour les lignes de recherche à sw_montant */
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW (
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "sw_montant", NULL ) ),
-                        utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "liste_montant_etat", NULL ) );
-
-    /* on remplit le combobox de choix du type de texte dans lequel chercher */
-/*     gsb_etats_config_onglet_etat_combo_set_model (
- *                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "combobox_comparateur_1", NULL ),
- *                         champs_comparateur_montant );
- */
-
-
-    /* on met la connection pour rendre sensitif la vbox_generale_montants_etat */
-/*     g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name (etat_config_builder,
- *                         "bouton_utilise_montant", NULL ) ),
- *                         "toggled",
- *                         G_CALLBACK ( sens_desensitive_pointeur ),
- *                         utils_gtkbuilder_get_widget_by_name ( etat_config_builder, "vbox_generale_montant_etat", NULL ) );
- */
-
-    /* on retourne la vbox */
-    return vbox_onglet;
+    index = gtk_combo_box_get_active ( combo );
+    if ( index == 3 )
+        gtk_widget_set_sensitive ( widget, FALSE );
+    else
+        gtk_widget_set_sensitive ( widget, TRUE );
 }
 
 
