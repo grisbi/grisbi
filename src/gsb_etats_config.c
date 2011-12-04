@@ -509,8 +509,6 @@ void gsb_etats_config_initialise_onglet_periode ( gint report_number )
                                 date );
         }
     }
-
-    /* return */
 }
 
 
@@ -1802,7 +1800,6 @@ void gsb_etats_config_recupere_info_onglet_textes ( gint report_number )
 
         comparison_list = comparison_list -> next;
     }
-    /* return */
 }
 
 
@@ -2051,8 +2048,6 @@ void gsb_etats_config_onglet_texte_ajoute_ligne_liste_comparaisons ( gint last_t
     gtk_box_reorder_child ( GTK_BOX ( lignes ),
                         gsb_data_report_text_comparison_get_vbox_line ( text_comparison_number ),
                         position );
-
-    /* return */
 }
 
 
@@ -2596,7 +2591,6 @@ void gsb_etats_config_onglet_montants_remplit_liste_comparaisons ( gint report_n
 
         list_tmp = list_tmp -> next;
     }
-    /* return */
 }
 
 
@@ -2662,8 +2656,6 @@ void gsb_etats_config_onglet_montants_ajoute_ligne_liste_comparaisons ( gint las
     gtk_box_reorder_child ( GTK_BOX ( lignes ),
                         gsb_data_report_amount_comparison_get_hbox_line ( amount_comparison_number ),
                         position );
-
-    /* return */
 }
 
 
@@ -2898,7 +2890,6 @@ void gsb_etats_config_recupere_info_onglet_mode_paiement ( gint report_number )
                             "treeview_mode_paiement" ) );
 
     }
-    /* return */
 }
 
 

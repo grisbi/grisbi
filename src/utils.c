@@ -720,8 +720,6 @@ GtkListStore *utils_list_store_create_from_string_array ( gchar **array )
     }
 
     /* return */
-
-
     return store;
 }
 

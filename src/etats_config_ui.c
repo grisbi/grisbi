@@ -2615,9 +2615,6 @@ void etats_config_ui_onglet_data_grouping_button_clicked ( GtkWidget *button,
 
         g_free ( string );
     }
-
-    /* return */
-    return;
 }
 
 
