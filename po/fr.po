@@ -2790,7 +2790,7 @@ msgstr "Exclure les opérations dont le montant est nul"
 
 #: ../src/etats_config.c:5532
 msgid "Transactions with an amount of"
-msgstr "Opérations dans lesquelles le montant est"
+msgstr "Opérations dont le montant est"
 
 #: ../src/etats_config.c:5679 ../src/etats_config.c:6036
 msgid "and"
