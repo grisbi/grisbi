@@ -929,7 +929,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         pStyleLabelSoldeCourant->fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur (
                         "couleur_solde_alarme_verte_normal" ) );
         pStyleLabelSoldeCourant->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur (
-                        "couleur_solde_alarme_verte_prelight" ) );;
+                        "couleur_solde_alarme_verte_prelight" ) );
     }
     else
     {
