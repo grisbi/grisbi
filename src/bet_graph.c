@@ -533,7 +533,7 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
                         -1 );
 
             type_infos = bet_data_get_div_type ( div );
-            if ( self -> type_infos == -1 || type_infos == self -> type_infos )
+            if ( desc && ( self -> type_infos == -1 || type_infos == self -> type_infos ) )
             {
                 strncpy ( &libelle_division[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE );
                 tab_montant_division[self -> nbre_elemnts] = utils_str_strtod ( ( amount == NULL) ? "0" : amount, NULL );
