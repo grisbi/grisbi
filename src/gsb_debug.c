@@ -406,7 +406,7 @@ gchar * gsb_debug_reconcile_test ( void )
         reconcilied_amount = gsb_data_account_get_init_balance ( account_nb, -1 );
 
         /* On récupère la liste des opérations */
-        pTransactionList = gsb_data_transaction_get_complete_transactions_list ();;
+        pTransactionList = gsb_data_transaction_get_complete_transactions_list ();
 
         while ( pTransactionList )
         {

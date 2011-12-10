@@ -103,7 +103,7 @@ void gsb_data_print_config_init ( void )
     /* init report config */
     if (report_font_transactions)
 	pango_font_description_free (report_font_transactions);
-    report_font_transactions = pango_font_description_from_string  ("sans 6");;
+    report_font_transactions = pango_font_description_from_string  ("sans 6");
 
     if (report_font_title)
 	pango_font_description_free (report_font_title);

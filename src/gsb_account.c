@@ -380,7 +380,7 @@ gboolean gsb_account_update_combo_list ( GtkWidget *combo_box,
     if (!combo_box)
 	return FALSE;
 
-    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));;
+    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));
     gtk_list_store_clear (store);
 
     list_tmp = gsb_data_account_get_list_accounts ();

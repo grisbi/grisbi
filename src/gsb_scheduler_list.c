@@ -1473,7 +1473,7 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
 							     &iter_mother_sort,
 							     iter_mother );
 	    path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model_sort_scheduler_list),
-					     &iter_mother_sort );;
+					     &iter_mother_sort );
 	    gtk_tree_view_expand_row ( GTK_TREE_VIEW (tree_view_scheduler_list),
 				       path,
 				       TRUE );

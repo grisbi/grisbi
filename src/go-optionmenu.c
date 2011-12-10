@@ -46,7 +46,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void connect_menu_signals (GtkMenu *menu, gpointer data);;
+static void connect_menu_signals (GtkMenu *menu, gpointer data);
 static void connect_menu_signals_to_submenu (GtkMenuItem *item, gpointer data);
 static gint go_option_menu_button_press (GtkWidget      *widget,
 			      GdkEventButton *event);
@@ -83,7 +83,7 @@ static void go_option_menu_position (GtkMenu  *menu,
 			  gint     *y,
 			  gboolean *push_in,
 			  gpointer  user_data);
-static void go_option_menu_remove_contents (GOOptionMenu *option_menu);;
+static void go_option_menu_remove_contents (GOOptionMenu *option_menu);
 static void go_option_menu_remove_menu (GOOptionMenu *option_menu);
 static gint go_option_menu_scroll_event (GtkWidget          *widget,
 			      GdkEventScroll     *event);
@@ -99,7 +99,7 @@ static void go_option_menu_size_allocate (GtkWidget     *widget,
 				    GtkAllocation *allocation);
 static void go_option_menu_size_request (GtkWidget      *widget,
 				   GtkRequisition *requisition);
-static void go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu);;
+static void go_option_menu_update_contents (GOOptionMenu *option_menu, GtkMenu *menu);
 static void go_option_menu_update_contents_real (GOOptionMenu *option_menu, 
 					   GtkMenu *menu, GtkMenuItem *menu_item);
 /*END_STATIC*/
