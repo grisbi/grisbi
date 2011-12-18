@@ -9,6 +9,7 @@
 
 /* START_DECLARATION */
 gboolean assert_account_loaded ();
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array );
 gboolean desensitive_widget ( gpointer object,
                         GtkWidget *widget );
 gchar *get_gtk_run_version ( void );
@@ -33,8 +34,14 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
 void update_gui ( void );
+void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col );
+GtkListStore *utils_list_store_create_from_string_array ( gchar **array );
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path );
 /* END_DECLARATION */
 #endif

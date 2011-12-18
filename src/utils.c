@@ -31,13 +31,14 @@
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
- #include "dialog.h"
+#include "utils.h"
+#include "dialog.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file_config.h"
 #include "structures.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
@@ -514,12 +515,9 @@ gchar *get_gtk_run_version ( void )
  * */
 void lance_mailer ( const gchar *uri )
 {
-    gchar *chaine;
     GError *error = NULL;
 
-    chaine = g_strconcat ( "mailto:", uri, NULL );
-
-    if ( gtk_show_uri ( NULL, chaine, GDK_CURRENT_TIME, &error ) == FALSE )
+    if ( gtk_show_uri ( NULL, uri, GDK_CURRENT_TIME, &error ) == FALSE )
     {
         gchar *tmp_str;
 
@@ -530,7 +528,6 @@ void lance_mailer ( const gchar *uri )
         dialogue_error_hint ( tmp_str, _("Cannot execute mailer") );
         g_free(tmp_str);
     }
-    g_free ( chaine );
 }
 
 
@@ -626,6 +623,144 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
     }
 
     return FALSE;
+}
+
+
+/**
+ *  expand all the tree_view and select le path when the widget is realized
+ *
+ *
+ *
+ * */
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path )
+{
+    GtkTreePath *path;
+
+    gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* selection du premier item sélectionnable */
+    path = gtk_tree_path_new_from_string ( str_path );
+
+    gtk_tree_selection_select_path ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
+                        path );
+
+    gtk_tree_path_free (path);
+
+}
+
+
+/**
+ * Cette fonction retourne TRUE si tous les items sont sélectionnés
+ *
+ * \param le tree_view considéré
+ *
+ * \return TRUE si tous sélectionnés FALSE autrement.
+ */
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeSelection *selection;
+    GList *rows_list;
+    gint index;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    rows_list = gtk_tree_selection_get_selected_rows ( selection, &model );
+    index = g_list_length ( rows_list );
+
+    if ( gtk_tree_model_get_iter_first ( model, &iter ) )
+    {
+        do
+        {
+            index--;
+            if ( index < 0 )
+                break;
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );    }
+
+    g_list_foreach ( rows_list, ( GFunc ) gtk_tree_path_free, NULL );
+    g_list_free ( rows_list );
+
+    if ( index == 0 )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/**
+ * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ */
+GtkListStore *utils_list_store_create_from_string_array ( gchar **array )
+{
+    GtkListStore *store = NULL;
+    gint i = 0;
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    while ( array[i] )
+    {
+        GtkTreeIter iter;
+        gchar *string = gettext ( array[i] );
+
+        gtk_list_store_append ( store, &iter );
+        gtk_list_store_set ( store, &iter, 0, string, 1, i, -1 );
+    
+        i++;
+    }
+
+    /* return */
+    return store;
+}
+
+
+/**
+ * Cette fonction crée la colonne visible d'un GtkComboBox
+ *
+ * \param le combo à initialiser
+ * \param le numéro de la colonne texte
+ *
+ * \return
+ */
+void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col )
+{
+    GtkCellRenderer *renderer;
+
+    renderer = gtk_cell_renderer_text_new ( );
+    gtk_cell_layout_pack_start ( GTK_CELL_LAYOUT ( combo ), renderer, TRUE );
+    gtk_cell_layout_set_attributes ( GTK_CELL_LAYOUT ( combo ), renderer,
+                                    "text", num_col,
+                                    NULL );
+}
+
+
+/**
+ * revoie un combo_box avec une GtkListStore et la colonne 0 en texte
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkComboBox.
+ */
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array )
+{
+    GtkWidget *combo;
+    GtkTreeModel *model;
+
+    combo = gtk_combo_box_new ( );
+
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( array ) );
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+
+    return combo;
 }
 
 

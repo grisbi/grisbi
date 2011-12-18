@@ -4334,9 +4334,27 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "General_sort_type" ))
     {
-        gsb_data_report_set_sorting_type ( report_number,
+        gsb_data_report_set_sorting_type_list ( report_number,
                            gsb_string_get_int_list_from_string (attribute_values[i],
                                                 "/-/" ));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Show_m" ))
+    {
+        gsb_data_report_set_show_m ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Show_p" ))
+    {
+        gsb_data_report_set_show_p ( report_number,
+                     utils_str_atoi (attribute_values[i]));
         i++;
         continue;
     }
@@ -4345,6 +4363,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
                "Show_r" ))
     {
         gsb_data_report_set_show_r ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
+               "Show_t" ))
+    {
+        gsb_data_report_set_show_t ( report_number,
                      utils_str_atoi (attribute_values[i]));
         i++;
         continue;
@@ -4613,6 +4640,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
     }
 
     if ( !strcmp ( attribute_names[i],
+               "Date_select_value" ))
+    {
+        gsb_data_report_set_date_select_value ( report_number,
+                        utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
                "Date_beginning" ))
     {
         gsb_data_report_set_personal_date_start ( report_number,
@@ -4678,7 +4714,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Account_selected" ))
     {
-        gsb_data_report_set_account_numbers ( report_number,
+        gsb_data_report_set_account_numbers_list ( report_number,
                               gsb_string_get_int_list_from_string (attribute_values[i],
                                                    "/-/" ));
         i++;
@@ -4724,7 +4760,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Transfer_selected_accounts" ))
     {
-        gsb_data_report_set_transfer_account_numbers ( report_number,
+        gsb_data_report_set_transfer_account_numbers_list ( report_number,
                                    gsb_string_get_int_list_from_string (attribute_values[i],
                                                         "/-/" ));
         i++;
@@ -4761,7 +4797,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Categ_selected" ))
     {
-        gsb_data_report_set_category_struct ( report_number,
+        gsb_data_report_set_category_struct_list ( report_number,
                               gsb_string_get_categ_budget_struct_list_from_string ((attribute_values[i])));
         i++;
         continue;
@@ -4842,7 +4878,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Budget_selected" ))
     {
-        gsb_data_report_set_budget_struct ( report_number,
+        gsb_data_report_set_budget_struct_list ( report_number,
                             gsb_string_get_categ_budget_struct_list_from_string ((attribute_values[i])));
         i++;
         continue;
@@ -4923,7 +4959,7 @@ void gsb_file_load_report ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Payee_selected" ))
     {
-        gsb_data_report_set_payee_numbers ( report_number,
+        gsb_data_report_set_payee_numbers_list ( report_number,
                             gsb_string_get_int_list_from_string (attribute_values[i],
                                                  "/-/" ));
         i++;
@@ -7261,7 +7297,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Type_classement" ))
     {
-    gsb_data_report_set_sorting_type ( last_report_number,
+    gsb_data_report_set_sorting_type_list ( last_report_number,
                        gsb_string_get_int_list_from_string ( text,
                                              "/" ));
     return;
@@ -7605,8 +7641,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
     while ( pointeur_char[i] )
     {
-        gsb_data_report_set_account_numbers ( last_report_number,
-                              g_slist_append ( gsb_data_report_get_account_numbers (last_report_number),
+        gsb_data_report_set_account_numbers_list ( last_report_number,
+                              g_slist_append ( gsb_data_report_get_account_numbers_list (last_report_number),
                                        GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
         i++;
     }
@@ -7660,8 +7696,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
     while ( pointeur_char[i] )
     {
-        gsb_data_report_set_transfer_account_numbers ( last_report_number,
-                                   g_slist_append ( gsb_data_report_get_transfer_account_numbers (last_report_number),
+        gsb_data_report_set_transfer_account_numbers_list ( last_report_number,
+                                   g_slist_append ( gsb_data_report_get_transfer_account_numbers_list (last_report_number),
                                             GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
         i++;
     }
@@ -7739,7 +7775,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
                                       NULL );
     }
     g_strfreev ( pointeur_char );
-    gsb_data_report_set_category_struct (last_report_number, tmp_list);
+    gsb_data_report_set_category_struct_list (last_report_number, tmp_list);
     return;
     }
 
@@ -7853,7 +7889,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
                                        NULL );
     }
     g_strfreev ( pointeur_char );
-    gsb_data_report_set_budget_struct (last_report_number, tmp_list);
+    gsb_data_report_set_budget_struct_list (last_report_number, tmp_list);
     return;
     }
 
@@ -7934,8 +7970,8 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 
     while ( pointeur_char[i] )
     {
-        gsb_data_report_set_payee_numbers ( last_report_number,
-                            g_slist_append ( gsb_data_report_get_payee_numbers (last_report_number),
+        gsb_data_report_set_payee_numbers_list ( last_report_number,
+                            g_slist_append ( gsb_data_report_get_payee_numbers_list (last_report_number),
                                      GINT_TO_POINTER ( utils_str_atoi ( pointeur_char[i] ))));
         i++;
     }

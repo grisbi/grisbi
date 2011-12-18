@@ -2345,7 +2345,7 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 
     /* on doit partir du bout de la liste pour revenir vers la structure demandée */
     
-    pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type (current_report_number)));
+    pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type_list (current_report_number)));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
     {

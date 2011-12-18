@@ -1,9 +1,8 @@
 /* ************************************************************************** */
-/*                                  utils_buttons.c			                  */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -26,13 +25,15 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "utils_buttons.h"
 #include "gsb_automem.h"
+#include "gsb_dirs.h"
 #include "structures.h"
 #include "utils.h"
-#include "gsb_dirs.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -188,13 +189,140 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
  * \return FALSE
  * */
 gboolean gsb_button_sensitive_by_checkbutton ( GtkWidget *check_button,
-					       GtkWidget *widget )
+                        GtkWidget *widget )
 {
     gtk_widget_set_sensitive ( widget,
-			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_button)));
+                        gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ) ) );
     return FALSE;
 }
 
+
+/**
+ * Cette fonction réduit ou développe toutes les lignes du tree_view.
+ * Le libellé du bouton est modifié en conséquence.
+ *
+ * \param le button de commande
+ * \param le tree_view considéré
+ *
+ * \return
+ */
+void utils_togglebutton_collapse_expand_all_rows ( GtkToggleButton *togglebutton,
+                        GtkWidget *tree_view )
+{
+    GtkWidget *hbox_expand;
+    GtkWidget *hbox_collapse;
+
+    hbox_expand = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_expand" );
+    hbox_collapse = g_object_get_data ( G_OBJECT ( togglebutton ), "hbox_collapse" );
+
+    if ( gtk_toggle_button_get_active ( togglebutton ) )
+    {
+        gtk_widget_hide ( hbox_expand );
+        gtk_widget_show ( hbox_collapse );
+        gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+    else
+    {
+        gtk_widget_show ( hbox_expand );
+        gtk_widget_hide ( hbox_collapse );
+        gtk_tree_view_collapse_all ( GTK_TREE_VIEW ( tree_view ) );
+    }
+}
+
+
+/**
+ * Cette fonction (dé)sélectionne toutes les lignes du tree_view.
+ * Le libellé du bouton est modifié en conséquence.
+ *
+ * \param le button de commande
+ * \param le tree_view considéré
+ *
+ * \return
+ */
+void utils_togglebutton_select_unselect_all_rows ( GtkToggleButton *togglebutton,
+                        GtkWidget *tree_view )
+{
+    gchar *label;
+
+    if ( gtk_toggle_button_get_active ( togglebutton ) )
+    {
+        gtk_tree_selection_select_all ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) );
+        label = g_strdup ( _("Unselect all") );
+    }
+    else
+    {
+        gtk_tree_selection_unselect_all ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) );
+        label = g_strdup ( _("Select all") );
+    }
+
+    gtk_button_set_label ( GTK_BUTTON ( togglebutton ), label );
+
+    g_free ( label );
+}
+
+
+/**
+ * Cette fonction remplace le libellé select par unselect et vice versa
+ * en fonction de l'état du bouton.
+ *
+ * \param le button de commande
+ *
+ * \return
+ */
+void utils_togglebutton_change_label_select_unselect ( GtkToggleButton *togglebutton,
+                        gint toggle )
+{
+    gchar *label;
+    const gchar *string;
+
+    string = gtk_button_get_label ( GTK_BUTTON ( togglebutton ) );
+
+    if ( ( toggle ) )
+        label = gsb_string_remplace_string ( string, _("Select"), _("Unselect") );
+    else
+        label = gsb_string_remplace_string ( string, _("Unselect"), _("Select") );
+
+    gtk_button_set_label ( GTK_BUTTON ( togglebutton ), label );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), toggle );
+
+    g_free ( label );
+}
+
+
+/**
+ * Cette fonction remplace le libellé select par unselect et positionne le bouton sur ON
+ *
+ * \param le button de commande
+ *
+ * \return
+ */
+void utils_togglebutton_set_label_position_unselect ( GtkWidget *togglebutton,
+                        GCallback callback,
+                        GtkWidget *tree_view )
+{
+    if ( callback == NULL )
+    {
+        g_signal_handlers_block_by_func ( G_OBJECT ( togglebutton ),
+                                utils_togglebutton_select_unselect_all_rows,
+                                tree_view );
+
+        utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( togglebutton ),
+                                utils_togglebutton_select_unselect_all_rows,
+                                tree_view );
+    }
+    else
+    {
+        g_signal_handlers_block_by_func ( G_OBJECT ( togglebutton ),
+                                G_CALLBACK ( callback ),
+                                tree_view );
+
+        utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+        g_signal_handlers_unblock_by_func ( G_OBJECT ( togglebutton ),
+                                G_CALLBACK ( callback ),
+                                tree_view );
+    }
+}
 
 
 /* Local Variables: */

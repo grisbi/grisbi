@@ -282,6 +282,13 @@ enum bet_type_maj
     BET_MAJ_ALL,
 };
 
+/* définition du type de mouvement */
+enum direction_move {
+    GSB_LEFT = 0,
+    GSB_RIGHT,
+    GSB_UP,
+    GSB_DOWN
+};
 
 
 #endif

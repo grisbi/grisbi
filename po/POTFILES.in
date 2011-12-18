@@ -18,6 +18,7 @@ src/erreur.c
 src/etats_affiche.c
 src/etats_calculs.c
 src/etats_config.c
+src/etats_config_ui.c
 src/etats_csv.c
 src/etats_gtktable.c
 src/etats_html.c
@@ -142,4 +143,5 @@ src/utils_font.c
 src/utils_operations.c
 src/utils_str.c
 [type: gettext/glade]src/ui/bet_graph.ui
+[type: gettext/glade]src/ui/etats_config.ui
 share/grisbi.desktop.in
