@@ -1,8 +1,6 @@
 #ifndef _BET_GRAPH_H
 #define _BET_GRAPH_H 1
 
-#ifdef HAVE_GOFFICE
-
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
@@ -37,7 +35,5 @@ GtkWidget *bet_graph_sectors_graph_new_new ( void );
 void bet_graph_set_configuration_variables ( const gchar *string );
 void struct_free_bet_graph_prefs ( void );
 /* END_DECLARATION */
-
-#endif /* HAVE_GOFFICE */
 
 #endif /*_BET_GRAPH */

@@ -28,7 +28,6 @@
 #include <glib/gi18n.h>
 #include <strings.h>
 
-#ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
 
 /*START_INCLUDE*/
@@ -1730,8 +1729,6 @@ void bet_graph_free_builder ( void )
     g_object_unref ( G_OBJECT ( bet_graph_builder ) );
 }
 
-
-#endif /* HAVE_GOFFICE */
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

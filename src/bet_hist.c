@@ -1952,7 +1952,6 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
-#ifdef HAVE_GOFFICE
     /* graph button */
     button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
                         _("Data graph"),
@@ -1965,7 +1964,6 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
                         G_CALLBACK ( bet_graph_sectors_graph_new ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-#endif /* HAVE_GOFFICE */
 
     gtk_widget_show_all ( hbox );
 

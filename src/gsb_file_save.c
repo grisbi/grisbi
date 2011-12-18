@@ -213,9 +213,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint logo_part = 65536;
     gint account_icon_part = 4500;
     gint bet_part = 500;
-#ifdef HAVE_GOFFICE
     gint bet_graph_part = 100;
-#endif /* HAVE_GOFFICE */
 
     struct stat buf;
 
@@ -261,12 +259,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     + partial_balance_part * g_slist_length ( gsb_data_partial_balance_get_list ())
     + logo_part
     + account_icon_part * g_slist_length ( gsb_select_icon_list_accounts_icon () )
-#ifdef HAVE_GOFFICE
     + bet_part
     + bet_graph_part;
-#else
-    + bet_part;
-#endif /* HAVE_GOFFICE */
 
     iterator = 0;
     file_content = g_malloc0 ( length_calculated * sizeof ( gchar ) );
@@ -361,11 +355,9 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
                         &length_calculated,
                         &file_content );
 
-#ifdef HAVE_GOFFICE
     iterator = gsb_file_save_bet_graph_part ( iterator,
                         &length_calculated,
                         &file_content );
-#endif /* HAVE_GOFFICE */
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
@@ -2878,7 +2870,6 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content )
 {
-#ifdef HAVE_GOFFICE
     gchar *new_string = NULL;
 
     /* save the preferences */
@@ -2889,7 +2880,6 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         length_calculated,
                         file_content,
                         new_string );
-#endif /* HAVE_GOFFICE */
 
     /* and return the new iterator */
     return iterator;
