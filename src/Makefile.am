@@ -41,8 +41,6 @@ libgrisbi_la_SOURCES = \
 	fenetre_principale.c	\
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
-	go-charmap-sel.c	\
-	go-optionmenu.c		\
 	grisbi_osx.c \
 	gsb_account.c		\
 	gsb_account_property.c	\
@@ -184,8 +182,6 @@ libgrisbi_la_SOURCES = \
 	etats_html.h            \
 	export.h                \
 	export_csv.h            \
-	go-charmap-sel.h        \
-	go-optionmenu.h         \
 	grisbi_osx.h \
 	gsb_account.h		\
 	gsb_account_property.h	\

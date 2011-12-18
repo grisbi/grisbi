@@ -29,11 +29,11 @@
 
 #include "include.h"
 #include <glib/gi18n.h>
+#include <goffice/goffice.h>
 
 /*START_INCLUDE*/
 #include "utils_files.h"
 #include "dialog.h"
-#include "go-charmap-sel.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
