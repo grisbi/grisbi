@@ -1973,7 +1973,7 @@ GtkWidget *onglet_accueil (void)
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     /* pour les francophones ;-) */
-    if ( g_strstr_len ( ( g_ascii_strup ( gdk_set_locale ( ), -1 ) ), -1, "FR" ) )
+    if ( g_strstr_len ( ( g_ascii_strup ( g_getenv ( "LANG"), -1 ) ), -1, "FR" ) )
     {
         paddingbox = new_paddingbox_with_title (vbox, FALSE, "Pluriel de final" );
 
