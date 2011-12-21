@@ -19,9 +19,11 @@ GSList *gsb_string_get_int_list_from_string ( const gchar *string,
 GSList *gsb_string_get_string_list_from_string ( const gchar *string,
                         gchar *delimiter );
 gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle );
-gchar * gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str );
-gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str );
-gchar * gsb_string_truncate ( gchar * string );
+gchar *gsb_string_remplace_joker ( const gchar *chaine, gchar *new_str );
+gchar *gsb_string_remplace_string ( const gchar *str,
+                        gchar *old_str,
+                        gchar *new_str );
+gchar *gsb_string_truncate ( gchar * string );
 gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char );
 G_MODULE_EXPORT gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
