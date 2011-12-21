@@ -512,6 +512,7 @@ GtkWidget *gsb_main_create_main_window ( void )
                         G_CALLBACK (gsb_grisbi_change_state_window),
                         NULL );
     gtk_window_set_policy ( GTK_WINDOW ( main_window ), TRUE, TRUE, FALSE );
+/*     gtk_window_set_resizable ( GTK_WINDOW ( main_window ), TRUE );  */
 
     /* create the main window : a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
