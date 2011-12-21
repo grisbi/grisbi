@@ -1135,40 +1135,40 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         case GSB_TYPE_CASH:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         case GSB_TYPE_LIABILITIES:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_show_all ( widget );
             break;
         case GSB_TYPE_ASSET:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         }
     }
     else
     {
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
     }
 }
 
@@ -1198,11 +1198,11 @@ void bet_config_use_budget_toggle ( GtkToggleButton *button, GtkWidget *combo )
         bet_data_remove_all_bet_data ( account_number );
         gsb_data_account_set_bet_use_budget ( account_number, 0 );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
     }
 
     if ( gsb_gui_navigation_get_current_account ( ) == account_number )

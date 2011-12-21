@@ -357,8 +357,8 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 		                GINT_TO_POINTER ( 1 ) );
 
     gtk_widget_show_all ( vbox );
-    gtk_widget_hide_all ( scheduler_calendar );
-    gtk_widget_hide_all ( reconcile_panel );
+    gtk_widget_hide ( scheduler_calendar );
+    gtk_widget_hide ( reconcile_panel );
 
     return vbox;
 }
@@ -1126,7 +1126,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 
     if ( page_number != GSB_SCHEDULER_PAGE ) 
     {
-	gtk_widget_hide_all ( scheduler_calendar );
+	gtk_widget_hide ( scheduler_calendar );
     }
 
     switch ( page_number )

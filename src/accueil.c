@@ -111,7 +111,7 @@ static GtkSizeGroup * size_group_accueil;
 static gchar *chaine_espace = "                         ";
 
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
-#define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
+#define hide_paddingbox(child) gtk_widget_hide (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 
 
 /* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
