@@ -565,7 +565,7 @@ gboolean gsb_calendar_entry_select_date ( GtkCalendar *pCalendar,
     gtk_entry_set_text ( GTK_ENTRY ( entry ),
 			 gsb_format_date ( day, month + 1, year ));
     gsb_form_widget_set_empty ( entry, FALSE );
-    if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
+    if ( gtk_widget_is_toplevel ( pTopLevelWidget ) )
         gtk_widget_destroy ( pTopLevelWidget );
 
     return FALSE;
@@ -602,7 +602,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
     {
 	case GDK_Escape :
 	    /* just close the calendar if it's a popup */
-	    if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
+	    if ( gtk_widget_is_toplevel ( pTopLevelWidget ) )
 		gtk_widget_destroy ( pTopLevelWidget );
 	    g_date_free (date);
 	    return TRUE;
@@ -613,7 +613,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	    /* get the date an close the calendar */
 	    gtk_entry_set_text ( GTK_ENTRY ( entry ),
 				 gsb_format_date ( day, month, year ));
-	    if ( GTK_WIDGET_TOPLEVEL ( pTopLevelWidget ) )
+	    if ( gtk_widget_is_toplevel ( pTopLevelWidget ) )
 		gtk_widget_destroy ( pTopLevelWidget );
 	    g_date_free (date);
 	    return TRUE;
