@@ -629,7 +629,7 @@ gboolean gsb_form_widget_can_focus ( gint element_number )
     if ( !gtk_widget_get_visible (widget))
 	return FALSE;
 
-    if ( !GTK_WIDGET_SENSITIVE (widget))
+    if ( !gtk_widget_get_sensitive (widget))
 	return FALSE;
 
     if ( !(GTK_IS_COMBOFIX (widget)
@@ -806,7 +806,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
              &&
-             GTK_WIDGET_SENSITIVE ( widget ) )
+             gtk_widget_get_sensitive ( widget ) )
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
@@ -856,7 +856,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
              &&
-             GTK_WIDGET_SENSITIVE (widget))
+             gtk_widget_get_sensitive (widget))
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
