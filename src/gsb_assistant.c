@@ -43,8 +43,10 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
-				     gint page, gpointer assistant );
+static gboolean gsb_assistant_change_page ( GtkNotebook *notebook,
+                        gpointer npage,
+                        gint page,
+                        gpointer assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -316,8 +318,10 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
  * \return		Result from user-defined callback or FALSE if
  *			no callback defined.
  */
-gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
-				     gint page, gpointer assistant )
+gboolean gsb_assistant_change_page ( GtkNotebook *notebook,
+                        gpointer npage,
+                        gint page,
+                        gpointer assistant )
 {
     typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget *, gint );
     gsb_assistant_callback callback;

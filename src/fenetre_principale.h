@@ -40,7 +40,7 @@ gboolean gsb_gui_is_hpaned_general ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
-                        GtkNotebookPage *page,
+                        gpointer page,
                         guint page_number,
                         gpointer null );
 void gsb_gui_sensitive_headings ( gboolean sensitive );
