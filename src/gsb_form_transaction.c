@@ -209,7 +209,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
             gsb_payment_method_create_combo_list ( widget, GSB_PAYMENT_CREDIT, 
                         account_number, 0, FALSE );
 
-        if ( GTK_WIDGET_VISIBLE (widget))
+        if ( gtk_widget_get_visible (widget))
         {
             gint tmp_account;
 
@@ -558,7 +558,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     contra_payment_button = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
     if (contra_payment_button
 	&&
-	GTK_WIDGET_VISIBLE (contra_payment_button))
+	gtk_widget_get_visible (contra_payment_button))
 	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
 							    gsb_payment_method_get_selected_number (contra_payment_button));
 

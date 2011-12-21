@@ -733,7 +733,7 @@ gboolean gsb_payment_method_config_name_changed ( GtkWidget *entry,
 							   GSB_PAYMENT_DEBIT,
 							   account_number, 0, FALSE );
 
-		    if (GTK_WIDGET_VISIBLE (widget))
+		    if (gtk_widget_get_visible (widget))
 		    {
 			gsb_payment_method_set_combobox_history ( widget,
 								  gsb_data_account_get_default_debit (account_number), TRUE );
@@ -1298,7 +1298,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
 	return FALSE;
     }
 
-    if (GTK_WIDGET_VISIBLE (combo_box))
+    if (gtk_widget_get_visible (combo_box))
 	label = gtk_label_new ( _("Some transactions still use that payment method.  As deletion of this method is irreversible, these transactions are to be associated with another payment method."));
     else
 	label = gtk_label_new (_("No target method of payment to switch the transactions to another method of payment. If you continue, the transactions with this method of payment will have no new one."));
@@ -1318,7 +1318,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     /* the combo_box was created before */
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo_box, TRUE, TRUE, 0 );
 
-    if (GTK_WIDGET_VISIBLE (combo_box))
+    if (gtk_widget_get_visible (combo_box))
     gtk_widget_show_all ( hbox );
 
     resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));

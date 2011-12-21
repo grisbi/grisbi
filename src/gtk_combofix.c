@@ -297,7 +297,7 @@ gboolean gtk_combofix_hide_popup ( GtkComboFix *combofix )
     g_return_val_if_fail ( combofix != NULL, FALSE );
     g_return_val_if_fail ( GTK_IS_COMBOFIX ( combofix ), FALSE );
 
-    if ( GTK_WIDGET_VISIBLE ( priv -> popup ))
+    if ( gtk_widget_get_visible ( priv -> popup ))
     {
         gtk_grab_remove ( priv -> popup );
         gdk_pointer_ungrab ( GDK_CURRENT_TIME );
@@ -318,7 +318,7 @@ gboolean gtk_combofix_show_popup ( GtkComboFix *combofix )
 {
     GtkComboFixPrivate *priv = combofix -> priv;
 
-    if ( GTK_WIDGET_VISIBLE ( priv -> popup ) )
+    if ( gtk_widget_get_visible ( priv -> popup ) )
         return FALSE;
 
     g_signal_handlers_block_by_func ( G_OBJECT ( combofix -> entry ),
@@ -1481,7 +1481,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     case GDK_KP_Enter :
     case GDK_Return :
         /* we get the current selection */
-        if ( GTK_WIDGET_VISIBLE ( priv -> popup )
+        if ( gtk_widget_get_visible ( priv -> popup )
          &&
          strlen ( gtk_entry_get_text ( GTK_ENTRY ( combofix -> entry ) ) ) == 0 )
         {
@@ -1498,7 +1498,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         break;
 
     case GDK_Escape:
-        if ( GTK_WIDGET_VISIBLE ( priv -> popup ))
+        if ( gtk_widget_get_visible ( priv -> popup ))
         {
             gtk_combofix_hide_popup ( combofix );
             gtk_combofix_set_text ( combofix, priv -> old_entry );
@@ -1510,7 +1510,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     case GDK_Down :
     case GDK_KP_Down :
         /* show the popup if necessary */
-        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+        if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );
 
         gtk_combofix_move_selection ( combofix, COMBOFIX_DOWN );
@@ -1522,7 +1522,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     case GDK_KP_Up :
         /* move the selection up in the combofix only if the popup is showed,
          * else let the program works with the upper key */
-        if (GTK_WIDGET_VISIBLE ( priv -> popup))
+        if (gtk_widget_get_visible ( priv -> popup))
         {
             gtk_combofix_move_selection ( combofix, COMBOFIX_UP );
             gtk_combofix_choose_selection ( combofix );
@@ -1533,7 +1533,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     case GDK_Page_Up :
     case GDK_KP_Page_Up :
         /* show the popup if necessary */
-        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+        if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );
 
         gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_UP );
@@ -1544,7 +1544,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
     case GDK_Page_Down :
     case GDK_KP_Page_Down :
         /* show the popup if necessary */
-        if ( !GTK_WIDGET_VISIBLE ( priv -> popup ) )
+        if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );
 
         gtk_combofix_move_selection ( combofix, COMBOFIX_PAGE_DOWN );

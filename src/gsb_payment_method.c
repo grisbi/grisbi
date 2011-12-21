@@ -207,7 +207,7 @@ gint gsb_payment_method_get_selected_number ( GtkWidget *combo_box )
 
     if ( !combo_box
 	 ||
-	 !GTK_WIDGET_VISIBLE (combo_box))
+	 !gtk_widget_get_visible (combo_box))
 	return 0;
 
     model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));

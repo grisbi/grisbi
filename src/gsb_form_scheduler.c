@@ -381,7 +381,7 @@ GSList *gsb_form_scheduler_get_content_list ( void )
 
 	element = tmp_list -> data;
 
-	if (GTK_WIDGET_VISIBLE (element -> element_widget))
+	if (gtk_widget_get_visible (element -> element_widget))
 	{
 	    content_element *element_save;
 
@@ -496,7 +496,7 @@ void gsb_form_scheduler_set_content_list ( GSList *content_list )
 
 	    form_element = form_list -> data;
 
-	    if (!GTK_WIDGET_VISIBLE (form_element -> element_widget)
+	    if (!gtk_widget_get_visible (form_element -> element_widget)
 		||
 		form_element -> element_number != element -> element_number)
 	    {
@@ -1067,7 +1067,7 @@ GDate *gsb_form_scheduler_get_limit_date ( void )
 	||
 	gsb_form_widget_check_empty (entry)
 	||
-	!GTK_WIDGET_VISIBLE (entry))
+	!gtk_widget_get_visible (entry))
 	return NULL;
 
     date = gsb_calendar_entry_get_date (entry);
@@ -1089,7 +1089,7 @@ gboolean gsb_form_scheduler_set_limit_date ( GDate *date )
     entry = gsb_form_scheduler_get_element_widget ( SCHEDULED_FORM_LIMIT_DATE );
 
     /* if no entry, go away... */
-    if (!entry || !GTK_WIDGET_VISIBLE ( entry ) )
+    if (!entry || !gtk_widget_get_visible ( entry ) )
         return FALSE;
 
     if ( !date )
@@ -1145,7 +1145,7 @@ gboolean gsb_form_scheduler_set_frequency_user ( gint user_freq )
     /* if no entry, go away... */
     if (!entry
 	||
-	!GTK_WIDGET_VISIBLE (entry))
+	!gtk_widget_get_visible (entry))
 	return FALSE;
 
     string = utils_str_itoa (user_freq);
@@ -1195,7 +1195,7 @@ gboolean gsb_form_scheduler_set_frequency_user_button ( gboolean automatic )
     /* if no automatic button, go away... */
     if (!button
 	||
-	!GTK_WIDGET_VISIBLE (button))
+	!gtk_widget_get_visible (button))
 	return FALSE;
 
     return gsb_combo_box_set_index ( button,

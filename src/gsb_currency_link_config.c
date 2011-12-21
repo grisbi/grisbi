@@ -669,7 +669,7 @@ gboolean gsb_currency_link_config_remove_link ( GtkWidget *tree_view )
     /* hide the warning label */
     label = g_object_get_data (G_OBJECT (model),
 			       "warning_label");
-    if ( GTK_WIDGET_VISIBLE ( label ) )
+    if ( gtk_widget_get_visible ( label ) )
         gtk_widget_hide (label);
 
         gsb_file_set_modified ( TRUE );
