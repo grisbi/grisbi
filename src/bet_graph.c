@@ -396,9 +396,9 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -638,9 +638,9 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* initialise le bouton show_grid avec la préférence "Major_grid" */
