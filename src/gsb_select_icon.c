@@ -41,32 +41,33 @@
 
 /*START_STATIC*/
 static gboolean gsb_select_icon_add_path ( void );
-static GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon );
-static void gsb_select_icon_create_file_chooser ( GtkWidget * button, 
-                                           gpointer user_data );
-static GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon );
-static void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
-                                          gpointer user_data );
-static GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon );
+static GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon );
+static void gsb_select_icon_create_file_chooser ( GtkWidget *button,
+                        gpointer user_data );
+static GtkWidget *gsb_select_icon_create_icon_view ( gchar *name_icon );
+static void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
+                        gpointer user_data );
+static GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon );
 static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf );
 static void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
-                                         gpointer user_data );
-static gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc );
+                        gpointer user_data );
+static gchar *gsb_select_icon_troncate_name_icon ( gchar *name_icon,
+                        gint trunc );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-static GtkWidget * dialog;
-static GtkWidget * bouton_OK;
-static GtkWidget * entry_text;
-static GtkWidget * icon_view;
-static GdkPixbuf * pixbuf_logo = NULL;
+static GtkWidget *dialog;
+static GtkWidget *bouton_OK;
+static GtkWidget *entry_text;
+static GtkWidget *icon_view;
+static GdkPixbuf *pixbuf_logo = NULL;
 
 static GtkListStore *store = NULL;
 
-static gchar * path_icon;
-static gchar * new_icon;
+static gchar *path_icon;
+static gchar *new_icon;
 
 /* variables for account_icon */
 static GSList *list_accounts_icon = NULL;
@@ -149,7 +150,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     GtkWidget *chooser_button;
     GtkWidget *scroll;
     GtkWidget *icon_view;
-	gint result;
+    gint result;
 
     devel_debug ( name_icon );
 
@@ -177,10 +178,10 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
     hbox = gtk_hbox_new ( FALSE, 5);
-	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
 
-    /* création du GtkComboBoxEntry pour la saisie du répertoire */
+    /* création du GtkComboBox pour la saisie du répertoire */
     entry_text = gsb_select_icon_create_entry_text ( name_icon );
     gtk_box_pack_start ( GTK_BOX ( hbox ), entry_text, TRUE, TRUE, 0 );
 
@@ -198,19 +199,19 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     gtk_container_add ( GTK_CONTAINER ( scroll ), icon_view );
 
     /* gestion des signaux */
-    g_signal_connect ( G_OBJECT ( icon_view ), 
-                        "selection-changed", 
-                        G_CALLBACK( gsb_select_icon_selection_changed ), 
+    g_signal_connect ( G_OBJECT ( icon_view ),
+                        "selection-changed",
+                        G_CALLBACK ( gsb_select_icon_selection_changed ),
                         NULL );
 
-    g_signal_connect ( G_OBJECT ( chooser_button ), 
-                        "clicked", 
-                        G_CALLBACK(gsb_select_icon_create_file_chooser), 
+    g_signal_connect ( G_OBJECT ( chooser_button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_select_icon_create_file_chooser ),
                         NULL );
 
-    g_signal_connect ( G_OBJECT( entry_text ), 
-                        "changed", 
-                        G_CALLBACK( gsb_select_icon_entry_text_changed ), 
+    g_signal_connect ( G_OBJECT( entry_text ),
+                        "changed",
+                        G_CALLBACK ( gsb_select_icon_entry_text_changed ),
                         NULL );
 
     gtk_widget_show_all ( dialog );
@@ -242,7 +243,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
  *
  * \return  le GtkComboBox
  * */
-GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
+GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon )
 {
     GtkWidget *combo;
     GtkTreeIter iter;
@@ -277,9 +278,9 @@ GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
  * \param nom de l'icône
  *
  * \return le GtkIconView rempli avec l'icône sélectionnée au premier plan
- * 
+ *
  * */
-GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon )
+GtkWidget *gsb_select_icon_create_icon_view ( gchar *name_icon )
 {
     GtkTreePath * tree_path;
 
@@ -314,7 +315,7 @@ GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon )
  * \return un GtkTreePath qui donne la position de l'icône passée
  * en paramètre
  * */
-GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
+GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon )
 
 {
     GDir *dir;
@@ -389,10 +390,10 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
  * \param bouton appelant
  *
  * \return void
- * 
+ *
  * */
-void gsb_select_icon_create_file_chooser ( GtkWidget * button, 
-                                           gpointer user_data )
+void gsb_select_icon_create_file_chooser ( GtkWidget *button,
+                        gpointer user_data )
 {
     GtkWidget *chooser;
     GtkFileFilter *filter;
@@ -437,27 +438,28 @@ void gsb_select_icon_create_file_chooser ( GtkWidget * button,
  * \param le GtkComboBoxEntry appellant
  *
  * \return void
- * 
+ *
  * */
-void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
-                                          gpointer user_data )
+void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
+                        gpointer user_data )
 {
     GtkTreePath *path;
-    const gchar *tmpstr;
+    const gchar *tmp_str;
     gchar *ptr;
 
-    tmpstr = gtk_entry_get_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ) );
-    devel_debug ( tmpstr );
-    ptr = g_strstr_len ( tmpstr, -1, path_icon );
+    tmp_str = gtk_entry_get_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ) );
+    devel_debug ( tmp_str );
+
+    ptr = g_strstr_len ( tmp_str, -1, path_icon );
     if ( ptr == NULL )
     {
-        if ( g_file_test ( tmpstr, G_FILE_TEST_IS_DIR ) )
+        if ( g_file_test ( tmp_str, G_FILE_TEST_IS_DIR ) )
         {
-            path_icon = g_strdup ( tmpstr );
+            path_icon = g_strdup ( tmp_str );
             path = gsb_select_icon_fill_icon_view ( NULL );
             gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
                             path, TRUE, 0.5, 0 );
-            gtk_widget_set_sensitive (bouton_OK, FALSE );
+            gtk_widget_set_sensitive ( bouton_OK, FALSE );
         }
     }
 }
@@ -468,8 +470,8 @@ void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
  *
  * \param le GtkIconView appellant
  *
- * \return 
- * 
+ * \return void
+ *
  * */
 void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
                                          gpointer user_data )
@@ -512,7 +514,8 @@ void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
  *
  * \return le nom de l'icône sur une ou plusieurs lignes
  * */
-gchar * gsb_select_icon_troncate_name_icon ( gchar *name_icon, gint trunc )
+gchar *gsb_select_icon_troncate_name_icon ( gchar *name_icon,
+                        gint trunc )
 {
     glong size = g_utf8_strlen (name_icon, -1);
 
@@ -597,7 +600,7 @@ gboolean gsb_select_icon_add_path ( void )
  * \param pixbuf
  *
 * */
-gchar * gsb_select_icon_create_chaine_base64_from_pixbuf ( GdkPixbuf *pixbuf )
+gchar *gsb_select_icon_create_chaine_base64_from_pixbuf ( GdkPixbuf *pixbuf )
 {
     GdkPixdata pixdata;
     guint8 *str;
