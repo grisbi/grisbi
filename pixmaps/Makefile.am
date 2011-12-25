@@ -26,6 +26,7 @@ grisbi_pixmaps_DATA = \
 	exec.png \
 	files.png \
 	financial-years.png \
+	folder.png \
 	fonts.png \
 	form.png \
 	generalities.png \
