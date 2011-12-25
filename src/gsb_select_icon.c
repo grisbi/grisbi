@@ -41,13 +41,16 @@
 
 /*START_STATIC*/
 static gboolean gsb_select_icon_add_path ( void );
+static gboolean gsb_select_icon_button_press ( GtkWidget *icon_view,
+                        GdkEventButton *ev,
+                        gpointer null );
 static GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon );
 static void gsb_select_icon_create_file_chooser ( GtkWidget *button,
                         gpointer user_data );
 static GtkWidget *gsb_select_icon_create_icon_view ( gchar *name_icon );
 static void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
                         gpointer user_data );
-static GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon );
+static GtkTreePath *gsb_select_icon_fill_icon_view (  const gchar *name_icon );
 static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf );
 static void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
                         gpointer user_data );
@@ -143,7 +146,7 @@ gboolean gsb_select_icon_init_logo_variables ( void )
  *
  * \return le nouveau nom de l'icône ou NULL
  * */
-gchar * gsb_select_icon_create_window ( gchar *name_icon )
+gchar *gsb_select_icon_create_window ( gchar *name_icon )
 {
     GtkWidget *content_area;
     GtkWidget *hbox;
@@ -204,6 +207,11 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
                         G_CALLBACK ( gsb_select_icon_selection_changed ),
                         NULL );
 
+    g_signal_connect ( G_OBJECT ( icon_view ),
+                        "button-press-event",
+                        G_CALLBACK ( gsb_select_icon_button_press ),
+                        NULL );
+
     g_signal_connect ( G_OBJECT ( chooser_button ),
                         "clicked",
                         G_CALLBACK ( gsb_select_icon_create_file_chooser ),
@@ -216,20 +224,24 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     gtk_widget_show_all ( dialog );
 
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
-    switch (result)
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+    switch ( result )
     {
-      case GTK_RESPONSE_ACCEPT:
-         devel_debug ( "réponse OK" );
-         break;
-      default:
-         devel_debug ( "réponse Non OK" );
-         if ( new_icon && strlen ( new_icon ) > 0 )
-            g_free ( new_icon );
-         new_icon = NULL;
+        case GTK_RESPONSE_ACCEPT:
+            devel_debug ( "réponse OK" );
+            break;
+        case GTK_RESPONSE_NONE:
+            devel_debug ( "réponse NONE" );
+            break;
+        default:
+            devel_debug ( "réponse Non OK" );
+            if ( new_icon && strlen ( new_icon ) > 0 )
+                g_free ( new_icon );
+            new_icon = NULL;
          break;
     }
-    gtk_widget_destroy (dialog);
+    if ( GTK_IS_WIDGET ( dialog ) )
+        gtk_widget_destroy ( dialog );
 
     return new_icon;
 }
@@ -248,13 +260,8 @@ GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon )
     GtkWidget *combo;
     GtkTreeIter iter;
 
-    if ( store )
+    if ( !store )
     {
-        devel_debug ( "combo existe" );
-    }
-    else
-    {
-        devel_debug ( "combo n'existe pas" );
         store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
         gtk_list_store_append (store, &iter);
         if ( g_strcmp0 ( gsb_dirs_get_pixmaps_dir ( ), path_icon ) != 0 )
@@ -265,8 +272,10 @@ GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon )
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
     }
     
-    combo = gtk_combo_box_entry_new_with_model ( GTK_TREE_MODEL ( store ), 0 );
-    gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (combo)->child), name_icon );
+    combo = gtk_combo_box_new_with_model_and_entry ( GTK_TREE_MODEL ( store ) );
+    gtk_combo_box_set_entry_text_column ( GTK_COMBO_BOX ( combo ), 0 );
+
+    gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( combo ) ) ), name_icon );
 
     return combo;
 }
@@ -315,16 +324,15 @@ GtkWidget *gsb_select_icon_create_icon_view ( gchar *name_icon )
  * \return un GtkTreePath qui donne la position de l'icône passée
  * en paramètre
  * */
-GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon )
+GtkTreePath *gsb_select_icon_fill_icon_view (  const gchar *name_icon )
 
 {
     GDir *dir;
     GError *error = NULL;
     GtkTreePath *tree_path = NULL;
 
-
     devel_debug ( path_icon );
-    
+
     dir = g_dir_open ( path_icon, 0, &error );
     if ( dir )
     {
@@ -334,41 +342,53 @@ GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon )
         GSList *liste = NULL;
         gint i = 0;
         const gchar *name = NULL;
-        
-        while ( (name = g_dir_read_name ( dir ) ) )
+
+        while ( ( name = g_dir_read_name ( dir ) ) )
         {
             liste = g_slist_append ( liste, g_strdup ( name ) );
         }
         liste = g_slist_sort ( liste, (GCompareFunc) my_strcasecmp );
+
         store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_POINTER);
+
         while ( liste )
         {
-            gchar *tmpstr = g_strconcat ( path_icon, G_DIR_SEPARATOR_S,
-                            liste -> data, NULL );
-            if ( g_strcmp0 ( tmpstr, name_icon ) == 0 )
+            gchar *tmp_str = NULL;
+
+            tmp_str = g_build_filename ( path_icon, liste -> data, NULL );
+            if ( g_file_test ( tmp_str, G_FILE_TEST_IS_DIR ) )
             {
-                gchar *tmpstr = utils_str_itoa ( i );
-                tree_path = gtk_tree_path_new_from_string ( tmpstr );
-                g_free ( tmpstr );
+                g_free ( tmp_str );
+                tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "folder.png", NULL );
             }
-            pixbuf = gdk_pixbuf_new_from_file_at_size ( tmpstr, 32, 32, NULL);
+            if ( g_strcmp0 ( tmp_str, name_icon ) == 0 )
+            {
+                gchar *index_str;
+
+                index_str = utils_str_itoa ( i );
+                tree_path = gtk_tree_path_new_from_string ( index_str );
+                g_free ( index_str );
+            }
+            pixbuf = gdk_pixbuf_new_from_file_at_size ( tmp_str, 32, 32, NULL );
             if ( pixbuf )
             {
-                gchar *tmpstr;
+                gchar *icon_str;
                 
                 gtk_list_store_append ( store, &iter );
-                tmpstr = gsb_select_icon_troncate_name_icon ( liste -> data, 10 );
-                gtk_list_store_set (store, &iter, PIXBUF_COLUMN, pixbuf, 
-                            TEXT_COLUMN, tmpstr, -1);
-                g_free ( tmpstr );
-                g_object_unref (pixbuf);
+                icon_str = gsb_select_icon_troncate_name_icon ( liste -> data, 10 );
+                gtk_list_store_set (store, &iter,
+                                PIXBUF_COLUMN, pixbuf,
+                                TEXT_COLUMN, icon_str,
+                                -1);
+                g_free ( icon_str );
+                g_object_unref ( pixbuf );
             }
             
-            g_free ( tmpstr );
+            g_free ( tmp_str );
             liste = liste -> next;
             i++;
         }
-        gtk_icon_view_set_model (GTK_ICON_VIEW ( icon_view ), GTK_TREE_MODEL (store));
+        gtk_icon_view_set_model (GTK_ICON_VIEW ( icon_view ), GTK_TREE_MODEL ( store ) );
         g_dir_close ( dir );
     }
     else
@@ -379,6 +399,8 @@ GtkTreePath *gsb_select_icon_fill_icon_view (  gchar *name_icon )
 
     if ( tree_path == NULL )
         tree_path = gtk_tree_path_new_from_string ( "0" );
+
+    /* return */
     return tree_path;
 }
 
@@ -405,12 +427,12 @@ void gsb_select_icon_create_file_chooser ( GtkWidget *button,
                         GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
                         NULL);
 
-	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
+    gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_transient_for (GTK_WINDOW (chooser), GTK_WINDOW (dialog));
-	gtk_window_set_destroy_with_parent (GTK_WINDOW (chooser), TRUE);
+    gtk_window_set_destroy_with_parent (GTK_WINDOW (chooser), TRUE);
     gtk_widget_set_size_request ( chooser, 600, 750 );
     filter = gtk_file_filter_new ();
-	gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (chooser), filter);
+    gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (chooser), filter);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( chooser ), path_icon );
     if (gtk_dialog_run (GTK_DIALOG ( chooser ) ) == GTK_RESPONSE_ACCEPT )
     {
@@ -447,7 +469,7 @@ void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
     const gchar *tmp_str;
     gchar *ptr;
 
-    tmp_str = gtk_entry_get_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ) );
+    tmp_str = gtk_entry_get_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry ) ) ) );
     devel_debug ( tmp_str );
 
     ptr = g_strstr_len ( tmp_str, -1, path_icon );
@@ -457,8 +479,8 @@ void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
         {
             path_icon = g_strdup ( tmp_str );
             path = gsb_select_icon_fill_icon_view ( NULL );
-            gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
-                            path, TRUE, 0.5, 0 );
+            gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ), path, TRUE, 0.5, 0 );
+
             gtk_widget_set_sensitive ( bouton_OK, FALSE );
         }
     }
@@ -476,7 +498,7 @@ void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
 void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
                                          gpointer user_data )
 {
-    GList * liste;
+    GList *liste;
     GtkTreePath *path;
     GtkTreeModel *model;
     GtkTreeIter iter;
@@ -485,8 +507,8 @@ void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
     liste = gtk_icon_view_get_selected_items ( GTK_ICON_VIEW ( icon_view ) );
 
     /* Could happen if selection is unset, exiting then. */
-    if ( ! liste )
-	return;
+    if ( !liste )
+        return;
 
     path = liste -> data;
 
@@ -497,11 +519,12 @@ void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
     devel_debug ( name_icon );
     if ( name_icon && strlen ( name_icon ) > 0 )
     {
-        new_icon = g_strconcat ( path_icon, G_DIR_SEPARATOR_S,
-                                 name_icon, NULL );
-        gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ), 
-                                 new_icon );
+        new_icon = g_build_filename ( path_icon, name_icon, NULL );
+        gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry_text ) ) ), new_icon );
+
         gtk_widget_set_sensitive (bouton_OK, TRUE );
+
+        g_free ( name_icon );
     }
 }
 
@@ -1008,6 +1031,66 @@ gboolean gsb_select_icon_remove_account_pixbuf ( gint account_number )
 
     return FALSE;
 }
+
+
+/**
+ * called when we press a button on the list
+ *
+ * \param tree_view
+ * \param ev
+ *
+ * \return FALSE
+ * */
+gboolean gsb_select_icon_button_press ( GtkWidget *icon_view,
+                        GdkEventButton *ev,
+                        gpointer null )
+{
+    if ( ev -> type == GDK_2BUTTON_PRESS )
+    {
+        GtkTreePath *path = NULL;
+
+        if ( ( path = gtk_icon_view_get_path_at_pos ( GTK_ICON_VIEW ( icon_view ), ev -> x, ev -> y ) ) )
+        {
+            GtkTreeModel *model;
+            GtkTreeIter iter;
+            gchar *name_icon = NULL;
+            gchar *tmp_str;
+
+            model = gtk_icon_view_get_model ( GTK_ICON_VIEW ( icon_view ) );
+            if (gtk_tree_model_get_iter ( GTK_TREE_MODEL (model), &iter, path ))
+                gtk_tree_model_get (model, &iter, TEXT_COLUMN, &name_icon, -1);
+            printf ("name_icon = %s\n", name_icon);
+            tmp_str = my_strdelimit ( name_icon, "\n", "" );
+            devel_debug ( tmp_str );
+            gtk_tree_path_free ( path );
+
+            name_icon = g_build_filename ( path_icon, tmp_str, NULL );
+            g_free ( tmp_str );
+            g_free ( path_icon );
+            path_icon = name_icon;
+
+            if ( g_file_test ( path_icon, G_FILE_TEST_IS_DIR ) )
+            {
+                path = gsb_select_icon_fill_icon_view ( NULL );
+                gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ), path, TRUE, 0.5, 0 );
+                gsb_select_icon_add_path ( );
+                gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry_text ) ) ), path_icon );
+                gtk_widget_set_sensitive (bouton_OK, FALSE );
+                gtk_tree_path_free ( path );
+            }
+            else
+            {
+                new_icon = g_strdup ( path_icon );
+                gtk_widget_destroy ( dialog );
+            }
+
+            return FALSE;
+        }
+    }
+
+    return FALSE;
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
