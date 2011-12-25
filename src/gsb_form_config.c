@@ -828,8 +828,8 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     gint account_number;
     gint i;
 
-    if ( !GTK_WIDGET_REALIZED (tree_view))
-	return FALSE;
+    if ( !gtk_widget_get_realized ( tree_view ) )
+        return FALSE;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
 

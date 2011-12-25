@@ -1303,7 +1303,7 @@ static gboolean gtk_combofix_set_popup_position ( GtkComboFix *combofix )
 			            "horizontal-separator", &horizontal_separator,
 			            NULL );
 
-    if ( GTK_WIDGET_REALIZED ( priv -> tree_view ) )
+    if ( gtk_widget_get_realized ( priv -> tree_view ) )
     {
         gtk_tree_view_get_cell_area ( GTK_TREE_VIEW ( priv -> tree_view),
                           gtk_tree_path_new_first ( ),
