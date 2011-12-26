@@ -189,19 +189,20 @@ GtkWidget *onglet_affichage_operations ( void )
         break;
     }
 
-    button = gtk_combo_box_new_text ();
-    g_signal_connect ( G_OBJECT (button), "changed",
-            G_CALLBACK (display_mode_button_changed),
-            GINT_TO_POINTER (i));
+    button = gtk_combo_box_text_new ( );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "changed",
+                        G_CALLBACK ( display_mode_button_changed ),
+                        GINT_TO_POINTER ( i ) );
     gtk_box_pack_start ( GTK_BOX (vbox_buttons), button, FALSE, FALSE, 0);
 
     j=0;
     while (text_line[j])
     {
-        gtk_combo_box_append_text (GTK_COMBO_BOX (button), text_line[j]);
+        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), text_line[j] );
         j++;
     }
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (button), position);
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), position );
     }
 
     /* pack vboxes in hbox */
@@ -231,7 +232,7 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_hbox_new ( FALSE, 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gtk_combo_box_new_text ();
+    button = gtk_combo_box_text_new ( );
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
@@ -239,7 +240,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     for ( i = 0 ; i < 2 ; i++ )
     {
-        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_primaire[i] );
+        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_primaire[i] );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
@@ -251,7 +252,7 @@ GtkWidget *onglet_affichage_operations ( void )
     hbox = gtk_hbox_new ( FALSE, 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    button = gtk_combo_box_new_text ();
+    button = gtk_combo_box_text_new ( );
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
@@ -259,7 +260,7 @@ GtkWidget *onglet_affichage_operations ( void )
 
     for ( i = 0 ; i < 4 ; i++ )
     {
-        gtk_combo_box_append_text ( GTK_COMBO_BOX ( button ), options_tri_secondaire[i] );
+        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_secondaire[i] );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
