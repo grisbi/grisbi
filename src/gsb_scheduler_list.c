@@ -2180,12 +2180,12 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
 
     /* combobox for userdefined frequency */
-    combobox = gtk_combo_box_new_text ();
+    combobox = gtk_combo_box_text_new ( );
     gtk_box_pack_start ( GTK_BOX(hbox2), combobox, FALSE, FALSE, 0 );
 
     for ( i = 0; names[i]; i++ )
     {
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), names[i] );
+        gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), names[i] );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), affichage_echeances_perso_j_m_a );
 

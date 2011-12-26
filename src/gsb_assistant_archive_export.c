@@ -301,10 +301,10 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
 			 FALSE, FALSE, 0 );
 
     /* Combo box */
-    archive_export_combobox = gtk_combo_box_new_text();
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("Grisbi (GSB) format" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("QIF format" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(archive_export_combobox), _("CSV format" ) );
+    archive_export_combobox = gtk_combo_box_text_new ( );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( archive_export_combobox ), _("Grisbi (GSB) format" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( archive_export_combobox ), _("QIF format" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( archive_export_combobox ), _("CSV format" ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), archive_export_combobox, TRUE, TRUE, 0 );
 
     archive_export_filechooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );

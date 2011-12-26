@@ -458,9 +458,9 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
 			 FALSE, FALSE, 0 );
 
     /* Combo box */
-    combo = gtk_combo_box_new_text();
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("QIF format" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV format" ) );
+    combo = gtk_combo_box_text_new ( );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combo ), _("QIF format" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combo ), _("CSV format" ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
     g_signal_connect ( G_OBJECT(combo), "changed",
 		       G_CALLBACK ( export_account_change_format ),
