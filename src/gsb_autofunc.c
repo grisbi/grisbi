@@ -1201,7 +1201,7 @@ GtkWidget *gsb_autofunc_combobox_new ( GSList *list,
     GtkWidget *combobox;
 
     /* create and fill the combobox */
-    combobox = gsb_combo_box_new_with_index_by_list ( list, NULL, NULL );
+    combobox = gsb_combo_box_new_with_index_from_list ( list, NULL, NULL );
 
     gsb_combo_box_set_index (combobox, index);
 

@@ -1241,7 +1241,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_container_add ( GTK_CONTAINER ( alignement ), label );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), alignement, FALSE, FALSE, 0 );
 
-    compte -> bouton_type_compte = gsb_combo_box_new_with_index_by_list (
+    compte -> bouton_type_compte = gsb_combo_box_new_with_index_from_list (
                         gsb_account_property_create_combobox_list (),
                         NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( compte -> hbox1 ), compte -> bouton_type_compte,
