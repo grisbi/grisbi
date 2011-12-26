@@ -128,7 +128,7 @@ extern gint valeur_echelle_recherche_date_import;
 
 /* the total of % of scheduled columns can be > 100 because all the columns are not showed at the same time */
 static const gchar *scheduler_col_width_init = "10-12-36-12-12-12-12";
-static const gchar *transaction_col_width_init = "10-12-30-12-12-12-12";
+static const gchar *transaction_col_width_init = "10-12-36-6-12-12-12";
 
 /**
  * initialisation of all the variables of grisbi

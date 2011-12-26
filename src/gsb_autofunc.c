@@ -1173,10 +1173,10 @@ static gboolean gsb_autofunc_real_changed ( GtkWidget *entry,
  * 			 gint index )
  * ex : gsb_data_account_set_kind ( account_number, account_kind )
  *
- * basically, that combobox is created with gsb_combo_box_new_with_index_by_list, so can use that functions to get the index
+ * basically, that combobox is created with gsb_combo_box_new_with_index_from_list, so can use that functions to get the index
  * 	if necessary
  *
- * \param list a g_slist to create the combobox (succession of text and number, see gsb_combo_box_new_with_index_by_list)
+ * \param list a g_slist to create the combobox (succession of text and number, see gsb_combo_box_new_with_index_from_list)
  * \param index the index to place the combobox
  * \param hook an optional function to execute as a handler if the
  * 	combobox changed.
