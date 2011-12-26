@@ -36,7 +36,7 @@ void gsb_locale_init ( void )
 
     locale = localeconv ( );
 
-    _locale = g_malloc ( sizeof (*_locale) );
+    _locale = g_malloc0 ( sizeof (*_locale) );
     _locale -> decimal_point     = g_strdup ( locale -> decimal_point );
     _locale -> thousands_sep     = g_strdup ( locale -> thousands_sep );
     _locale -> grouping          = g_strdup ( locale -> grouping );
