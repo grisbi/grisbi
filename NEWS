@@ -1,3 +1,8 @@
+New in version 0.8.9
+- fixes bug 1432
+- fixe a potential crash when closing Grisbi
+- minor changes
+
 New in version 0.8.8
 - update the Russian translation
 - fixes bug 1373: the transaction is not transferred to the new account when use the Edit menu
