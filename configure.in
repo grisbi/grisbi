@@ -172,9 +172,9 @@ dnl Check for libofx
 dnl ================================================================
 
 AC_ARG_WITH(ofx,
-	AS_HELP_STRING([--with-ofx],[build grisbi with ofx support (default=auto)]),
+	AS_HELP_STRING([--without-ofx],[build grisbi without ofx support (default=no)]),
 	[build_ofx=$withval]
-	[build_ofx=auto])
+	[build_ofx=no])
 
 PKG_CHECK_MODULES(LIBOFX, [libofx >= 0.7], have_ofx=yes, have_ofx=no)
 if test "$build_ofx" = yes -a "$with_ofx" = no; then
@@ -376,7 +376,7 @@ This is an unstable version of grisbi. It is for test purposes only.
 Please, DO NOT use it in a production environment. It will probably crash and you will lose your data.
 
 If you are looking for a stable release of grisbi (0.8.x), either download it from:
-http://www.grisbi.org/download.fr.html
+http://sourceforge.net/projects/grisbi/files/grisbi%20stable/
 
 Thanks,
 The grisbi team
