@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 17:27+0100\n"
+"POT-Creation-Date: 2011-12-30 15:23+0100\n"
 "PO-Revision-Date: 2011-02-20 23:28+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -1802,7 +1802,7 @@ msgstr ""
 "Verwenden Sie auf keinen Fall die Produktivdatei von Grisbi.\n"
 "Bitte erstellen Sie jetzt eine Kopie von der Produktivdatei."
 
-#: ../src/dialog.c:115 ../src/main.c:455
+#: ../src/dialog.c:115 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Sie führen Grisbi mit GTK-Version %s aus"
@@ -7635,7 +7635,7 @@ msgstr ""
 "speichern wollen, müssen Sie den Vorgang abbrechen und die Datei unter einem "
 "anderen Namen speichern oder die Option \"%s\" in den Einstellungen setzen."
 
-#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:765
+#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:777
 msgid "unnamed"
 msgstr "Unbenannt"
 
@@ -9718,7 +9718,7 @@ msgstr "Teil-Budgeteintrag verwalten"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Alle Buchungen einem anderen Teil-Budgeteintrag zuordnen"
 
-#: ../src/main.c:458
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9729,7 +9729,7 @@ msgstr ""
 "\n"
 "Es wird eine Aktualisierung auf eine neuere Version empfohlen."
 
-#: ../src/main.c:579
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
@@ -9737,7 +9737,7 @@ msgstr "Fehler bei der Sigaktion. SIGSEGV wird nicht eingeschlossen\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:718 ../src/main.c:758 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:730 ../src/main.c:770 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

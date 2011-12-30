@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 17:27+0100\n"
+"POT-Creation-Date: 2011-12-30 15:23+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1947,7 +1947,7 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:115 ../src/main.c:455
+#: ../src/dialog.c:115 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr ""
@@ -7757,7 +7757,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:765
+#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:777
 msgid "unnamed"
 msgstr "Niet benoemd"
 
@@ -9820,14 +9820,14 @@ msgstr "Geen sub-budgetregel"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transacties overschrijven naar "
 
-#: ../src/main.c:458
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
 "You should upgrade GTK."
 msgstr ""
 
-#: ../src/main.c:579
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
@@ -9835,7 +9835,7 @@ msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:718 ../src/main.c:758 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:730 ../src/main.c:770 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

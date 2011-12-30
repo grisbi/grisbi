@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 17:27+0100\n"
+"POT-Creation-Date: 2011-12-30 15:23+0100\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1839,7 +1839,7 @@ msgstr ""
 "gadījumā nedrīkst strādāt šajā versijā ar sākotnējās uzskaites failiem. "
 "(faila formāts var mainīties un kļūt nesaderīgs ar iepriekšējām versijām)."
 
-#: ../src/dialog.c:115 ../src/main.c:455
+#: ../src/dialog.c:115 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Jūs izmantojat Grisbi ar GTK versiju %s"
@@ -7656,7 +7656,7 @@ msgstr ""
 "jāatceļ izmaiņas un jāsaglabā ar citu nosaukumu vai jāaktivizē \"% s \" "
 "opciju iestatīšana."
 
-#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:765
+#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:777
 msgid "unnamed"
 msgstr "nenosaukts"
 
@@ -9700,7 +9700,7 @@ msgstr "apakšbudžeta pozīcija"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Pārsūtīt darījumus uz %s"
 
-#: ../src/main.c:458
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9710,7 +9710,7 @@ msgstr ""
 "\n"
 "Jāveic GTK atjaunināšana."
 
-#: ../src/main.c:579
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Kļūda par (sig) darbību: SIGSEGV netiek artasts\n"
@@ -9718,7 +9718,7 @@ msgstr "Kļūda par (sig) darbību: SIGSEGV netiek artasts\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:718 ../src/main.c:758 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:730 ../src/main.c:770 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

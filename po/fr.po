@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 17:27+0100\n"
+"POT-Creation-Date: 2011-12-30 15:23+0100\n"
 "PO-Revision-Date: 2011-04-12 22:14+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1816,7 +1816,7 @@ msgstr ""
 "le rendre inutilisable.\n"
 "Faites une copie maintenant."
 
-#: ../src/dialog.c:115 ../src/main.c:455
+#: ../src/dialog.c:115 ../src/main.c:467
 #, c-format
 msgid "You are running Grisbi with GTK version %s"
 msgstr "Vous utilisez Grisbi avec GTK version %s"
@@ -7649,7 +7649,7 @@ msgstr ""
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
 "alors activer l'option « %s » dans les préférences."
 
-#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:765
+#: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:777
 msgid "unnamed"
 msgstr "sans nom"
 
@@ -9718,7 +9718,7 @@ msgstr "Gérer les sous-imputations"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
-#: ../src/main.c:458
+#: ../src/main.c:470
 msgid ""
 "The version of GTK you are using do not benefit from its latest features.\n"
 "\n"
@@ -9729,7 +9729,7 @@ msgstr ""
 "\n"
 " Vous devriez mettre à jour GTK"
 
-#: ../src/main.c:579
+#: ../src/main.c:591
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
@@ -9737,7 +9737,7 @@ msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/main.c:718 ../src/main.c:758 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:730 ../src/main.c:770 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
