@@ -140,11 +140,7 @@ int main ( int argc, char **argv )
     #endif /* GTKOSXAPPLICATION || linux */
 #endif /* _WIN32 */
 
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
-
-    exit ( 0 );
+exit ( 0 );
 }
 
 
@@ -206,6 +202,12 @@ void main_linux ( int argc, char **argv )
 
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
+
+#if GSB_GMEMPROFILE
+    g_mem_profile();
+#endif
+
+    exit ( 0 );
 }
 
 
@@ -314,6 +316,11 @@ void main_mac_osx ( int argc, char **argv )
 
     g_object_unref ( theApp );
 
+#if GSB_GMEMPROFILE
+    g_mem_profile();
+#endif
+
+    exit ( 0 );
 #endif /* GTKOSXAPPLICATION */
 }
 
@@ -383,6 +390,11 @@ void main_win_32 (  int argc, char **argv )
     /* sauvegarde les raccourcis claviers */
     gtk_accel_map_save ( C_PATH_CONFIG_ACCELS );
 
+#if GSB_GMEMPROFILE
+    g_mem_profile();
+#endif
+
+    exit ( 0 );
 #endif /* WIN_32 */
 }
 
