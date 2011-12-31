@@ -229,13 +229,22 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
 {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ), 
-                        GTK_DIALOG_DESTROY_WITH_PARENT,
+    if ( GTK_IS_WINDOW ( run.window ) )
+    {
+        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+                        GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
                         "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    }
+    else
+    {
+        dialog = gtk_message_dialog_new ( NULL,
+                        0,
+                        param, buttons,
+                        "%s", text );
+    }
 
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
 
     return dialog;
 }
