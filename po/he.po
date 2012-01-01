@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 18:09+0100\n"
+"POT-Creation-Date: 2012-01-01 23:21+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -473,7 +473,7 @@ msgstr "העברת העיסקה לחשבון אחר"
 #: ../src/categories_onglet.c:732 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231 ../src/gsb_fyear_config.c:283
-#: ../src/gsb_transactions_list.c:2067 ../src/imputation_budgetaire.c:770
+#: ../src/gsb_transactions_list.c:2069 ../src/imputation_budgetaire.c:770
 #: ../src/tiers_onglet.c:666
 msgid "Name"
 msgstr "שם"
@@ -497,7 +497,7 @@ msgstr "שם חשבון"
 msgid "Currency"
 msgstr "מטבע"
 
-#: ../src/affichage.c:119 ../src/parametres.c:384
+#: ../src/affichage.c:119 ../src/parametres.c:386
 msgid "Fonts & logo"
 msgstr "גופנים ולוגו"
 
@@ -543,13 +543,13 @@ msgstr "בדיקה"
 msgid "Back to default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
-#: ../src/affichage.c:363 ../src/parametres.c:402
+#: ../src/affichage.c:363 ../src/parametres.c:404
 msgid "Addresses & titles"
 msgstr "כתובות וכותרות"
 
 #. Account file title
-#: ../src/affichage.c:367 ../src/etats_config.c:635 ../src/etats_config.c:638
-#: ../src/etats_config.c:6998
+#: ../src/affichage.c:367 ../src/etats_config_ui.c:468
+#: ../src/etats_config_ui.c:2776
 msgid "Titles"
 msgstr "כותרות"
 
@@ -680,141 +680,141 @@ msgstr "תצוגה מוקדמת של רשימת העיסקאות"
 msgid "Display modes"
 msgstr "מצבי תצוגת הטבלאות"
 
-#: ../src/affichage_liste.c:215
+#: ../src/affichage_liste.c:216
 #, fuzzy
 msgid "Use simple click to select transactions"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/affichage_liste.c:222
+#: ../src/affichage_liste.c:223
 msgid "Highlights the transaction that gives the balance today"
 msgstr ""
 
-#: ../src/affichage_liste.c:229
+#: ../src/affichage_liste.c:230
 msgid "Primary sorting option"
 msgstr ""
 
-#: ../src/affichage_liste.c:249
+#: ../src/affichage_liste.c:250
 msgid "Secondary sorting option"
 msgstr ""
 
-#: ../src/affichage_liste.c:269
+#: ../src/affichage_liste.c:270
 #, fuzzy
 msgid "Account differentiation"
 msgstr "עיסקאות בחשבון"
 
-#: ../src/affichage_liste.c:273
+#: ../src/affichage_liste.c:274
 msgid "Remember display settings for each account separately"
 msgstr "שמירת הגדרות תצוגה לכל חשבון בנפרד"
 
-#: ../src/affichage_liste.c:516
+#: ../src/affichage_liste.c:517
 msgid "Form behavior"
 msgstr ""
 
-#: ../src/affichage_liste.c:521
+#: ../src/affichage_liste.c:522
 msgid "Pressing RETURN in transaction form"
 msgstr "לחיצה על Enter בטופס העברה"
 
-#: ../src/affichage_liste.c:522
+#: ../src/affichage_liste.c:523
 msgid "selects next field"
 msgstr "בוחרת בשדה הבא"
 
-#: ../src/affichage_liste.c:523
+#: ../src/affichage_liste.c:524
 msgid "terminates transaction"
 msgstr "מסיימת את העיסקה"
 
-#: ../src/affichage_liste.c:528
+#: ../src/affichage_liste.c:529
 #, fuzzy
 msgid "Automatic financial year is set"
 msgstr "פירוט שנות הכספים"
 
-#: ../src/affichage_liste.c:529
+#: ../src/affichage_liste.c:530
 msgid "according to transaction date"
 msgstr "בהתאם לתאריך העיסקה"
 
-#: ../src/affichage_liste.c:530
+#: ../src/affichage_liste.c:531
 #, fuzzy
 msgid "according to transaction value date"
 msgstr "בהתאם לתאריך העיסקה"
 
-#: ../src/affichage_liste.c:536
+#: ../src/affichage_liste.c:537
 #, fuzzy
 msgid "Automatic amount separator"
 msgstr "שמירת הקובץ אוטומטית עם היציאה"
 
-#: ../src/affichage_liste.c:539
+#: ../src/affichage_liste.c:540
 msgid "Automagically add separator in amounts fields if unspecified"
 msgstr ""
 
-#: ../src/affichage_liste.c:564
+#: ../src/affichage_liste.c:565
 msgid "Form completion"
 msgstr ""
 
-#: ../src/affichage_liste.c:568
+#: ../src/affichage_liste.c:569
 #, fuzzy
 msgid "Automatic filling transactions from payee"
 msgstr "הוכנסו העברות שנקבעו אוטומטית מראש"
 
-#: ../src/affichage_liste.c:578
+#: ../src/affichage_liste.c:579
 msgid "Erase the credit and debit fields"
 msgstr ""
 
-#: ../src/affichage_liste.c:590
+#: ../src/affichage_liste.c:591
 #, fuzzy
 msgid "Automatically recover the children of the associated transaction"
 msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
-#: ../src/affichage_liste.c:602
+#: ../src/affichage_liste.c:603
 msgid "Limit the filling with payees belonging to the current account"
 msgstr ""
 
-#: ../src/affichage_liste.c:610
+#: ../src/affichage_liste.c:611
 #, fuzzy
 msgid "Mix credit/debit categories"
 msgstr "מיזוג קטגוריות"
 
-#: ../src/affichage_liste.c:616
+#: ../src/affichage_liste.c:617
 msgid "Case sensitive completion"
 msgstr ""
 
-#: ../src/affichage_liste.c:622
+#: ../src/affichage_liste.c:623
 msgid "Don't allow new payee creation"
 msgstr ""
 
-#: ../src/affichage_liste.c:628
+#: ../src/affichage_liste.c:629
 msgid "Don't allow new category/budget creation"
 msgstr ""
 
-#: ../src/affichage_liste.c:637
+#: ../src/affichage_liste.c:638
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:803 ../src/parametres.c:448
+#: ../src/affichage_liste.c:804 ../src/parametres.c:450
 msgid "Transactions list cells"
 msgstr "תאי רשימת העיסקאות"
 
 #. partie 1 visualisation de l'arrangement des données
-#: ../src/affichage_liste.c:806
+#: ../src/affichage_liste.c:807
 #, fuzzy
 msgid "Transactions list preview"
 msgstr "קווי רשימת עיסקאות"
 
 #. partie 2 Source des données
-#: ../src/affichage_liste.c:839
+#: ../src/affichage_liste.c:840
 #, fuzzy
 msgid "Transactions list contents"
 msgstr "תאי רשימת העיסקאות"
 
-#: ../src/bet_config.c:95 ../src/etats_config.c:6381
+#: ../src/bet_config.c:95 ../src/etats_config_ui.c:206
 #, fuzzy
 msgid "Month"
 msgstr "חודשים"
 
-#: ../src/bet_config.c:96 ../src/etats_config.c:6385
+#: ../src/bet_config.c:96 ../src/etats_config_ui.c:207
 msgid "Year"
 msgstr "שנה"
 
-#: ../src/bet_config.c:116 ../src/parametres.c:589
+#: ../src/bet_config.c:116 ../src/parametres.c:591
 #, fuzzy
 msgid "General Options"
 msgstr "כללי"
@@ -854,7 +854,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:258 ../src/parametres.c:598
+#: ../src/bet_config.c:258 ../src/parametres.c:600
 #, fuzzy
 msgid "Accounts data"
 msgstr "פרטי חשבון"
@@ -904,24 +904,21 @@ msgstr "כל העיסקאות"
 msgid "By default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
-#. mise en place de la paddingbox des catégories
 #: ../src/bet_config.c:583 ../src/bet_config.c:602 ../src/bet_config.c:620
-#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2092
-#: ../src/bet_hist.c:2098 ../src/categories_onglet.c:347
-#: ../src/etats_config.c:537 ../src/etats_config.c:540
-#: ../src/etats_config.c:3001 ../src/etats_config.c:7067
+#: ../src/bet_config.c:684 ../src/bet_hist.c:183 ../src/bet_hist.c:2090
+#: ../src/bet_hist.c:2096 ../src/categories_onglet.c:347
+#: ../src/etats_config_ui.c:417 ../src/etats_config_ui.c:1745
 #: ../src/fenetre_principale.c:296 ../src/navigation.c:1960
+#: ../src/ui/etats_config.ui.h:11
 msgid "Categories"
 msgstr "קטגוריות"
 
-#. mise en place de la paddingbox des ib
 #: ../src/bet_config.c:584 ../src/bet_config.c:603 ../src/bet_config.c:621
-#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2096
-#: ../src/etats_config.c:546 ../src/etats_config.c:549
-#: ../src/etats_config.c:3807 ../src/etats_config.c:7144
+#: ../src/bet_config.c:693 ../src/bet_hist.c:192 ../src/bet_hist.c:2094
+#: ../src/etats_config_ui.c:422 ../src/etats_config_ui.c:1797
 #: ../src/export_csv.c:823 ../src/fenetre_principale.c:301
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
-#: ../src/navigation.c:1964
+#: ../src/navigation.c:1964 ../src/ui/etats_config.ui.h:9
 msgid "Budgetary lines"
 msgstr "קווי תקציב"
 
@@ -948,7 +945,7 @@ msgstr "בחירת שנת הכספים"
 #. name of the div sous-div column
 #: ../src/bet_config.c:920 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
-#: ../src/etats_config.c:684 ../src/export_csv.c:814
+#: ../src/etats_config.c:3104 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:179 ../src/import_csv.c:86
 #: ../src/meta_categories.c:67
 msgid "Category"
@@ -956,7 +953,7 @@ msgstr "קטגוריה"
 
 #: ../src/bet_config.c:933 ../src/bet_future.c:817 ../src/bet_future.c:2025
 #: ../src/bet_future.c:2501 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
-#: ../src/etats_config.c:688 ../src/gsb_form.c:1343
+#: ../src/etats_config.c:3108 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:171
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:65
 msgid "Budgetary line"
@@ -1187,7 +1184,7 @@ msgstr "טעינת קובץ חשבונות:"
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:162
 #: ../src/gsb_scheduler_list.c:512 ../src/gsb_transactions_list.c:168
-#: ../src/import.c:3326 ../src/import_csv.c:81
+#: ../src/import.c:3326 ../src/import_csv.c:81 ../src/ui/etats_config.ui.h:19
 msgid "Date"
 msgstr "תאריך"
 
@@ -1248,7 +1245,7 @@ msgstr "ייצוא"
 msgid "credit.csv"
 msgstr "זכות"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3021
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2040 ../src/bet_tab.c:3019
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "לא ניתן לשמור את הקובץ."
@@ -1308,8 +1305,9 @@ msgstr ""
 msgid "Yearly"
 msgstr "שנתית"
 
-#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:194
-#: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
+#: ../src/bet_future.c:315 ../src/bet_future.c:870
+#: ../src/etats_config_ui.c:173 ../src/gsb_form_scheduler.c:154
+#: ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "מותאמת אישית"
 
@@ -1344,7 +1342,7 @@ msgstr "הגבלת תאריך"
 #: ../src/bet_future.c:350 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231
-#: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2067
+#: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2069
 msgid "Final date"
 msgstr "תאריך סיום"
 
@@ -1368,35 +1366,32 @@ msgstr "בחירת שנת הכספים"
 msgid "Choose the method of payment"
 msgstr "בחירת דרך התשלום"
 
-#. mise en place de la paddingbox des tiers
 #: ../src/bet_future.c:789 ../src/etats_affiche.c:2430
-#: ../src/etats_config.c:528 ../src/etats_config.c:531
-#: ../src/etats_config.c:696 ../src/etats_config.c:7032
+#: ../src/etats_config.c:3116 ../src/etats_config_ui.c:412
 #: ../src/export_csv.c:799 ../src/fenetre_principale.c:286
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1319
 #: ../src/gsb_form_widget.c:436 ../src/gsb_scheduler_list.c:512
 #: ../src/gsb_transactions_list.c:170 ../src/import.c:3333
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
+#: ../src/ui/etats_config.ui.h:70
 #, fuzzy
 msgid "Payee"
 msgstr "משלם/מקבל"
 
-#. Debit method_ptr
 #: ../src/bet_future.c:796 ../src/bet_tab.c:691 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:805 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
-#: ../src/gsb_payment_method_config.c:319
-#: ../src/gsb_payment_method_config.c:390
-#: ../src/gsb_payment_method_config.c:1084 ../src/gsb_transactions_list.c:172
+#: ../src/gsb_payment_method_config.c:108
+#: ../src/gsb_payment_method_config.c:381
+#: ../src/gsb_payment_method_config.c:1089 ../src/gsb_transactions_list.c:172
 #: ../src/import_csv.c:92 ../src/imputation_budgetaire.c:800
 msgid "Debit"
 msgstr "חיוב"
 
-#. Credit method_ptr
 #: ../src/bet_future.c:803 ../src/bet_tab.c:709 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
-#: ../src/gsb_payment_method_config.c:326
-#: ../src/gsb_payment_method_config.c:403
-#: ../src/gsb_payment_method_config.c:1080 ../src/gsb_transactions_list.c:173
+#: ../src/gsb_payment_method_config.c:109
+#: ../src/gsb_payment_method_config.c:394
+#: ../src/gsb_payment_method_config.c:1085 ../src/gsb_transactions_list.c:173
 #: ../src/imputation_budgetaire.c:800
 msgid "Credit"
 msgstr "זכות"
@@ -1494,59 +1489,60 @@ msgid ""
 "You need to fix it and start over."
 msgstr ""
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:422
+#: ../src/bet_graph.c:304 ../src/bet_graph.c:421
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:361 ../src/tiers_onglet.c:1064
 #, fuzzy
 msgid "Options"
 msgstr "הוצאות"
 
-#: ../src/bet_graph.c:435
+#: ../src/bet_graph.c:434
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:456 ../src/etats_affiche.c:2299
+#: ../src/bet_graph.c:455 ../src/etats_affiche.c:2299
 msgid "Incomes"
 msgstr "הכנסות"
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:816
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:816
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:974
+#: ../src/bet_graph.c:973
 #, fuzzy
 msgid "Column"
 msgstr "הערות"
 
-#: ../src/bet_graph.c:1001
+#: ../src/bet_graph.c:1000
 #, fuzzy
 msgid "Line"
 msgstr "רישיון"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1461 ../src/bet_graph.c:1495
+#: ../src/bet_graph.c:1460 ../src/bet_graph.c:1494
 #, fuzzy
 msgid "Hide grid"
 msgstr "הפעלה"
 
-#: ../src/bet_graph.c:1463 ../src/bet_graph.c:1497 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1462 ../src/bet_graph.c:1496 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "התאמה"
 
-#: ../src/bet_hist.c:558 ../src/tiers_onglet.c:1151
+#: ../src/bet_hist.c:558 ../src/tiers_onglet.c:1151 ../src/utils_buttons.c:281
+#: ../src/utils_buttons.c:283
 #, fuzzy
 msgid "Select"
 msgstr "לסמן הכל"
 
 #: ../src/bet_hist.c:589 ../src/categories_onglet.c:180
-#: ../src/etats_config.c:5249 ../src/export_csv.c:808
+#: ../src/etats_config_ui.c:2046 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:175 ../src/import.c:3340
 #: ../src/imputation_budgetaire.c:185 ../src/tiers_onglet.c:232
@@ -1599,15 +1595,15 @@ msgstr ""
 "מטבע %s לא נמצא.\n"
 ":"
 
-#: ../src/bet_hist.c:1958
+#: ../src/bet_hist.c:1957
 msgid "Data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:1962
+#: ../src/bet_hist.c:1961
 msgid "display the data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:2018
+#: ../src/bet_hist.c:2016
 #, fuzzy
 msgid "Export the historical data"
 msgstr "תאריך התחלה"
@@ -1638,7 +1634,7 @@ msgstr "תיאור"
 
 #: ../src/bet_tab.c:727 ../src/export_csv.c:811 ../src/gsb_reconcile.c:165
 #: ../src/gsb_scheduler_list.c:513 ../src/gsb_transactions_list.c:174
-#: ../src/gsb_transactions_list.c:3319 ../src/import_csv.c:90
+#: ../src/gsb_transactions_list.c:3321 ../src/import_csv.c:90
 msgid "Balance"
 msgstr "מאזן"
 
@@ -1715,33 +1711,35 @@ msgid "No data by default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
 #: ../src/bet_tab.c:2428 ../src/bet_tab.c:2478 ../src/bet_tab.c:2536
-#: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
+#: ../src/etats_affiche.c:1864 ../src/etats_config.c:1340
+#: ../src/etats_config.c:1475 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "אין קטגוריה"
 
 #: ../src/bet_tab.c:2436 ../src/bet_tab.c:2486 ../src/bet_tab.c:2542
-#: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
+#: ../src/etats_affiche.c:2034 ../src/etats_config.c:1348
+#: ../src/etats_config.c:1480 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "ללא קו תקציב"
 
-#: ../src/bet_tab.c:2898 ../src/bet_tab.c:2997
+#: ../src/bet_tab.c:2898 ../src/bet_tab.c:2995
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "ייצוא קווי התקציב"
 
-#: ../src/bet_tab.c:2955
+#: ../src/bet_tab.c:2953
 #, fuzzy
 msgid "Balance at "
 msgstr "מאזן"
 
-#: ../src/bet_tab.c:3004
+#: ../src/bet_tab.c:3002
 msgid "forecast.csv"
 msgstr ""
 
-#: ../src/categories_onglet.c:170 ../src/etats_config.c:692
+#: ../src/categories_onglet.c:170 ../src/etats_config.c:3112
 #: ../src/gsb_assistant_reconcile_config.c:598
-#: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:105
+#: ../src/gsb_payment_method_config.c:174 ../src/gsb_reconcile_config.c:105
 #: ../src/gsb_scheduler_list.c:512 ../src/imputation_budgetaire.c:175
 #: ../src/navigation.c:1065 ../src/tiers_onglet.c:222
 msgid "Account"
@@ -1822,7 +1820,7 @@ msgstr "נא להזין שם עבור תת-הקטגוריה החדשה"
 
 #: ../src/categories_onglet.c:552 ../src/etats_onglet.c:158
 #: ../src/import.c:442 ../src/import.c:3644 ../src/imputation_budgetaire.c:587
-#: ../src/parametres.c:320 ../src/utils_files.c:576
+#: ../src/parametres.c:322 ../src/utils_files.c:542
 msgid "Import"
 msgstr "ייבוא"
 
@@ -2070,110 +2068,106 @@ msgid ""
 msgstr ""
 
 #: ../src/dialog.c:109
-#, c-format
-msgid "You are running Grisbi version %s"
+msgid "You are using a development version of Grisbi"
 msgstr ""
 
 #: ../src/dialog.c:110
+#, c-format
 msgid ""
-"Warning, please be aware that the version you run is a DEVELOPMENT version. "
-"Never use your original file grisbi: you could make it unusable.\n"
+"Warning, please be aware that the version %s you run is a DEVELOPMENT "
+"version. Never use your original file grisbi: you could make it unusable.\n"
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:326 ../src/dialog.c:525 ../src/gsb_scheduler_list.c:2060
+#: ../src/dialog.c:335 ../src/dialog.c:534 ../src/gsb_scheduler_list.c:2060
 msgid "Do not show this message again"
 msgstr "נא לא להציג הודעה זו שוב"
 
-#: ../src/dialog.c:658
+#: ../src/dialog.c:667
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: ../src/dialog.c:660
+#: ../src/dialog.c:669
 msgid "Serious brain damage expected."
 msgstr "טוב... זה לא היה אמור לקרות... אח, כאב הראש שמחכה לנו..."
 
-#: ../src/dialog.c:671
+#: ../src/dialog.c:680
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: ../src/dialog.c:673
+#: ../src/dialog.c:682
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr "לא ניתן להקציב זכרון; מעכשיו, היכונו לדברים רעים..."
 
-#: ../src/erreur.c:97
+#: ../src/erreur.c:103
 msgid "File is corrupted."
 msgstr "הקובץ פגום."
 
-#: ../src/erreur.c:104
+#: ../src/erreur.c:110
 msgid "Error occured saving file."
 msgstr "התרחשה שגיאה בעת שמירת קובץ."
 
-#: ../src/erreur.c:125
+#: ../src/erreur.c:131
 msgid "Save file"
 msgstr "שמירת קובץ"
 
-#: ../src/erreur.c:135
+#: ../src/erreur.c:141
 #, c-format
 msgid "Grisbi made a backup file at '%s'."
 msgstr "גריסבי יצר קובץ גיבוי ב '%s'."
 
-#: ../src/erreur.c:144
+#: ../src/erreur.c:150
 #, fuzzy
 msgid ""
 "Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "
 msgstr "נא דווחו על בעיה זו בכתובת הבאה http://www.grisbi.org/bugtracking/"
 
-#: ../src/erreur.c:150
+#: ../src/erreur.c:156
 msgid "Copy and paste the following backtrace with your bug report."
 msgstr ""
 
-#: ../src/erreur.c:157
+#: ../src/erreur.c:163
 msgid "Grisbi terminated due to a segmentation fault."
 msgstr "Grisbi terminated due to a segmentation fault."
 
-#: ../src/erreur.c:162
+#: ../src/erreur.c:168
 #, fuzzy
 msgid "Backtrace"
 msgstr "מאזן"
 
 #. on affiche un message de debug pour indiquer que le debug est actif
-#: ../src/erreur.c:212 ../src/erreur.c:224
+#: ../src/erreur.c:215
 #, c-format
 msgid "GRISBI %s Debug"
 msgstr ""
 
-#: ../src/erreur.c:213
+#: ../src/erreur.c:216
 #, c-format
 msgid "Debug enabled, level is '%s'"
 msgstr ""
 
-#: ../src/erreur.c:227
-msgid "Wrong debug level, please check DEBUG_GRISBI environnement variable"
-msgstr ""
-
-#: ../src/erreur.c:292 ../src/erreur.c:592
+#: ../src/erreur.c:285 ../src/erreur.c:585
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %s\n"
 msgstr ""
 
-#: ../src/erreur.c:296
+#: ../src/erreur.c:289
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s\n"
 msgstr ""
 
 #. on affiche dans la console le message
-#: ../src/erreur.c:341
+#: ../src/erreur.c:334
 #, c-format
 msgid "%s, %2f : %s - %s:%d:%s - %d\n"
 msgstr ""
 
-#: ../src/erreur.c:477
+#: ../src/erreur.c:470
 #, c-format
 msgid ""
 "The debug-mode is starting. Grisbi will write a log into %s. Please send "
@@ -2181,14 +2175,14 @@ msgid ""
 msgstr ""
 
 #. début du mode débogage
-#: ../src/erreur.c:502
+#: ../src/erreur.c:495
 #, c-format
 msgid ""
 "%s, %2f : Debug - %s:%d:%s\n"
 "\n"
 msgstr ""
 
-#: ../src/erreur.c:554
+#: ../src/erreur.c:547
 msgid "Grisbi failed to create the log file..."
 msgstr ""
 
@@ -2399,13 +2393,13 @@ msgid "Result without financial year: "
 msgstr "תוצאה ללא שנת כספים:"
 
 #: ../src/etats_affiche.c:1403 ../src/gsb_scheduler_list.c:1260
-#: ../src/gsb_transactions_list.c:3830
+#: ../src/gsb_transactions_list.c:3832
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
 #: ../src/etats_affiche.c:1405 ../src/gsb_scheduler_list.c:1264
-#: ../src/gsb_transactions_list.c:3833
+#: ../src/gsb_transactions_list.c:3835
 #, c-format
 msgid "Transfer from %s"
 msgstr "העברה מאת %s"
@@ -2458,15 +2452,17 @@ msgstr "סך הכל הכללי:"
 #: ../src/etats_affiche.c:1857 ../src/export_csv.c:595
 #: ../src/gsb_data_category.c:1058 ../src/gsb_form.c:735
 #: ../src/gsb_form.c:1761 ../src/gsb_form.c:2920 ../src/gsb_form.c:3323
-#: ../src/gsb_form_scheduler.c:317 ../src/gsb_transactions_list.c:3808
+#: ../src/gsb_form_scheduler.c:317 ../src/gsb_transactions_list.c:3810
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
-#: ../src/etats_affiche.c:1950
+#: ../src/etats_affiche.c:1950 ../src/etats_config.c:1341
+#: ../src/etats_config.c:1476
 msgid "No subcategory"
 msgstr "ללא תת-קטגוריה"
 
-#: ../src/etats_affiche.c:2119 ../src/meta_budgetary.c:69
+#: ../src/etats_affiche.c:2119 ../src/etats_config.c:1349
+#: ../src/etats_config.c:1481 ../src/meta_budgetary.c:69
 msgid "No sub-budgetary line"
 msgstr "ללא תת-קו תקציב"
 
@@ -2483,6 +2479,7 @@ msgstr "הוצאות"
 #: ../src/etats_affiche.c:2416 ../src/export_csv.c:787 ../src/gsb_form.c:1303
 #: ../src/gsb_form.c:2148 ../src/gsb_form.c:2178 ../src/gsb_form_widget.c:428
 #: ../src/gsb_transactions_list.c:169 ../src/import_csv.c:82
+#: ../src/ui/etats_config.ui.h:104
 msgid "Value date"
 msgstr "ערך תאריך"
 
@@ -2493,9 +2490,9 @@ msgid "Financial year"
 msgstr "שנת הכספים"
 
 #. Now we have a model, create view
-#: ../src/etats_affiche.c:2458 ../src/etats_config.c:573
-#: ../src/etats_config.c:576 ../src/etats_config.c:7231
-#: ../src/gsb_payment_method_config.c:120 ../src/parametres.c:566
+#: ../src/etats_affiche.c:2458 ../src/etats_config_ui.c:437
+#: ../src/etats_config_ui.c:2088 ../src/gsb_payment_method_config.c:132
+#: ../src/parametres.c:568
 msgid "Payment methods"
 msgstr "דרכי תשלום"
 
@@ -2517,185 +2514,170 @@ msgstr "הפניות בנק"
 msgid "Statement"
 msgstr "הצהרה"
 
-#: ../src/etats_config.c:193
-msgid "All"
-msgstr "הכל"
-
-#: ../src/etats_config.c:195
-msgid "Total to now"
-msgstr "סך הכל עד עתה"
-
-#: ../src/etats_config.c:196
-msgid "Current month"
-msgstr "חודש נוכחי"
-
-#: ../src/etats_config.c:197
-msgid "Current year"
-msgstr "שנה נוכחית"
-
-#: ../src/etats_config.c:198
-msgid "Current month to now"
-msgstr "חודש נוכחי עד עתה"
-
-#: ../src/etats_config.c:199
-msgid "Current year to now"
-msgstr "שנה נוכחית עד עתה"
-
-#: ../src/etats_config.c:200
-msgid "Previous month"
-msgstr "חודש קודם"
-
-#: ../src/etats_config.c:201
-msgid "Previous year"
-msgstr "שנה קודמת"
-
-#: ../src/etats_config.c:202
-msgid "Last 30 days"
-msgstr "30 הימים האחרונים"
-
-#: ../src/etats_config.c:203
-msgid "Last 3 months"
-msgstr "3 החודשים האחרונים"
-
-#: ../src/etats_config.c:204
-msgid "Last 6 months"
-msgstr "6 החודשים האחרונים"
-
-#: ../src/etats_config.c:205
-msgid "Last 12 months"
-msgstr "12 החודשים האחרונים"
-
-#: ../src/etats_config.c:209
-msgid "Monday"
-msgstr "שני"
-
-#: ../src/etats_config.c:210
-msgid "Tuesday"
-msgstr "שלישי"
-
-#: ../src/etats_config.c:211
-msgid "Wednesday"
-msgstr "רביעי"
-
-#: ../src/etats_config.c:212
-msgid "Thursday"
-msgstr "חמישי"
-
-#: ../src/etats_config.c:213
-msgid "Friday"
-msgstr "שישי"
-
-#: ../src/etats_config.c:214
-msgid "Saturday"
-msgstr "שבת"
-
-#: ../src/etats_config.c:215
-msgid "Sunday"
-msgstr "ראשון"
-
-#: ../src/etats_config.c:410
+#: ../src/etats_config.c:169 ../src/etats_config_ui.c:218
+#: ../src/meta_payee.c:80 ../src/ui/etats_config.ui.h:115
 #, fuzzy
-msgid "Report properties"
-msgstr "מאפייני המטבע"
+msgid "payee"
+msgstr "משלם/מקבל"
 
-#: ../src/etats_config.c:494
-msgid "Data selection"
-msgstr "בחירת מידע"
-
-#: ../src/etats_config.c:501 ../src/etats_config.c:504
-msgid "Dates"
-msgstr "תאריכים"
-
-#: ../src/etats_config.c:510 ../src/etats_config.c:513
-#: ../src/etats_config.c:2716
-msgid "Transfers"
-msgstr "העברות"
-
-#. mise en place de la paddingbox des comptes
-#: ../src/etats_config.c:519 ../src/etats_config.c:522
-#: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
-#: ../src/navigation.c:1944
-msgid "Accounts"
-msgstr "חשבונות"
-
-#: ../src/etats_config.c:555 ../src/etats_config.c:558
-msgid "Texts"
-msgstr "טקסטים"
-
-#: ../src/etats_config.c:564 ../src/etats_config.c:567
-msgid "Amounts"
-msgstr "סכומים"
-
-#: ../src/etats_config.c:582
-msgid "Misc."
-msgstr "שונות"
-
-#: ../src/etats_config.c:585 ../src/etats_config.c:6148
+#: ../src/etats_config.c:170
 #, fuzzy
-msgid "Miscellaneous"
-msgstr "שונות : מתנות"
+msgid "payee information"
+msgstr "מידע תקציבי"
 
-#: ../src/etats_config.c:593
+#: ../src/etats_config.c:171 ../src/etats_config_ui.c:219
+#: ../src/meta_categories.c:68 ../src/ui/etats_config.ui.h:108
+msgid "category"
+msgstr "קטגוריה"
+
+#: ../src/etats_config.c:172 ../src/meta_categories.c:69
+#: ../src/ui/etats_config.ui.h:118
 #, fuzzy
-msgid "Data organization"
-msgstr "ארגון מידע"
+msgid "sub-category"
+msgstr "אין תת-קטגוריה"
 
-#: ../src/etats_config.c:600 ../src/etats_config.c:605
-#: ../src/etats_config.c:6219
-msgid "Data grouping"
-msgstr ""
+#: ../src/etats_config.c:173 ../src/etats_config_ui.c:220
+#: ../src/meta_budgetary.c:66 ../src/ui/etats_config.ui.h:107
+msgid "budgetary line"
+msgstr "קו תקציב"
 
-#. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:610 ../src/etats_config.c:615
-#: ../src/etats_config.c:6327 ../src/etats_config.c:6331
+#: ../src/etats_config.c:174 ../src/meta_budgetary.c:67
+#: ../src/ui/etats_config.ui.h:117
 #, fuzzy
-msgid "Data separation"
-msgstr "בחירת מידע"
+msgid "sub-budgetary line"
+msgstr "ללא תת-קו תקציב"
 
-#: ../src/etats_config.c:620
-msgid "Data display"
-msgstr "הצגת מידע"
+#: ../src/etats_config.c:175 ../src/etats_config_ui.c:221
+msgid "note"
+msgstr "הערה"
 
-#: ../src/etats_config.c:626 ../src/etats_config.c:629
-#: ../src/etats_config.c:6534
-msgid "Generalities"
-msgstr "כללי"
+#: ../src/etats_config.c:176 ../src/etats_config_ui.c:225
+#: ../src/ui/etats_config.ui.h:106
+msgid "bank reference"
+msgstr "הפניית בנק"
 
-#: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:775
-#: ../src/fenetre_principale.c:253 ../src/parametres.c:430
-msgid "Transactions"
-msgstr "עיסקאות"
+#: ../src/etats_config.c:177 ../src/etats_config_ui.c:224
+#: ../src/ui/etats_config.ui.h:122
+msgid "voucher"
+msgstr "שובר"
 
-#. echange line label
-#: ../src/etats_config.c:653 ../src/etats_config.c:656
-#: ../src/gsb_currency.c:555 ../src/gsb_currency_config.c:300
-#: ../src/parametres.c:530
-msgid "Currencies"
-msgstr "מטבעות"
+#: ../src/etats_config.c:178
+#, fuzzy
+msgid "cheque number"
+msgstr "מספר ההמחאה"
 
-#: ../src/etats_config.c:1328 ../src/etats_config.c:1337
+#: ../src/etats_config.c:179 ../src/etats_config_ui.c:226
+#: ../src/ui/etats_config.ui.h:116
+msgid "reconciliation reference"
+msgstr "הפניית התאמה"
+
+#: ../src/etats_config.c:186
+msgid "contains"
+msgstr "מכיל/ה"
+
+#: ../src/etats_config.c:187
+msgid "doesn't contain"
+msgstr "לא מכיל/ה"
+
+#: ../src/etats_config.c:188
+msgid "begins with"
+msgstr "מתחיל/ה ב"
+
+#: ../src/etats_config.c:189
+msgid "ends with"
+msgstr "נגמר/ת ב"
+
+#: ../src/etats_config.c:190
+msgid "is empty"
+msgstr "ריק/ה"
+
+#: ../src/etats_config.c:191
+msgid "isn't empty"
+msgstr "אינו/ה ריק/ה"
+
+#: ../src/etats_config.c:198 ../src/etats_config.c:238
+msgid "and"
+msgstr "וגם"
+
+#: ../src/etats_config.c:199 ../src/etats_config.c:239
+msgid "or"
+msgstr "או"
+
+#: ../src/etats_config.c:200 ../src/etats_config.c:240
+msgid "except"
+msgstr "חוץ מאשר"
+
+#: ../src/etats_config.c:225 ../src/etats_config.c:247
+msgid "equal"
+msgstr "שווה"
+
+#: ../src/etats_config.c:226 ../src/etats_config.c:248
+msgid "less than"
+msgstr "פחות מ"
+
+#: ../src/etats_config.c:227 ../src/etats_config.c:249
+msgid "less than or equal"
+msgstr "קטן או שווה ל"
+
+#: ../src/etats_config.c:228 ../src/etats_config.c:250
+msgid "greater than"
+msgstr "יותר מ"
+
+#: ../src/etats_config.c:229 ../src/etats_config.c:251
+msgid "greater than or equal"
+msgstr "גדול או שווה ל"
+
+#: ../src/etats_config.c:230 ../src/etats_config.c:252
+msgid "different from"
+msgstr "שונה מ"
+
+#: ../src/etats_config.c:231
+msgid "the biggest"
+msgstr "הגדול ביותר"
+
+#: ../src/etats_config.c:241
+msgid "stop"
+msgstr "להפסיק"
+
+#: ../src/etats_config.c:253
+msgid "null"
+msgstr "ללא ערך"
+
+#: ../src/etats_config.c:254
+msgid "not null"
+msgstr "עם ערך"
+
+#: ../src/etats_config.c:255
+msgid "positive"
+msgstr "חיובי"
+
+#: ../src/etats_config.c:256
+msgid "negative"
+msgstr "שלילי"
+
+#: ../src/etats_config.c:548 ../src/etats_config.c:568
 msgid ""
 "Grisbi can't parse date.  For a list of date formats that Grisbi can use, "
 "refer to Grisbi manual."
 msgstr ""
 
-#: ../src/etats_config.c:1329
+#: ../src/etats_config.c:550
 #, fuzzy, c-format
 msgid "Invalid initial date '%s'"
 msgstr "תאריך ההתחלה המותאם אישית שגוי"
 
-#: ../src/etats_config.c:1338
+#: ../src/etats_config.c:570
 #, fuzzy, c-format
 msgid "Invalid final date '%s'"
 msgstr "תאריך הסיום המותאם אישית שגוי"
 
-#: ../src/etats_config.c:1514 ../src/etats_config.c:1573
-#: ../src/etats_config.c:1722 ../src/etats_config.c:1901
-#: ../src/etats_config.c:3684 ../src/etats_config.c:3688
+#: ../src/etats_config.c:603 ../src/etats_config.c:811
+#: ../src/etats_config.c:992 ../src/etats_config.c:1610
+#: ../src/etats_config.c:1615 ../src/etats_config.c:2863
 msgid "Performance issue."
 msgstr ""
 
-#: ../src/etats_config.c:1515
+#: ../src/etats_config.c:604
 #, fuzzy
 msgid ""
 "All financial years have been selected.  Grisbi will run faster without the "
@@ -2704,16 +2686,16 @@ msgstr ""
 "כל שנות הכספים נבחרו. גריסבי ירוץ מהר יותר \n"
 "ללא האפשרות של \"פירוט שנים פיננסיות\""
 
-#: ../src/etats_config.c:1574
+#: ../src/etats_config.c:812
 #, fuzzy
 msgid ""
 "All accounts have been selected.  Grisbi will run faster without the "
-"\"Detail accounts used\" option activated."
+"\"Detail accounts used\" option activated"
 msgstr ""
 "כל החשבונות נבחרו. גריסבי ירוץ מהר יותר \n"
 "ללא האפשרות של \"פירוט חשבונות בשימוש\""
 
-#: ../src/etats_config.c:1723
+#: ../src/etats_config.c:993
 #, fuzzy
 msgid ""
 "All payees have been selected.  Grisbi will run faster without the \"Detail "
@@ -2722,167 +2704,7 @@ msgstr ""
 "כל הקטגוריות נבחרו. גריסבי ירוץ מהר יותר \n"
 "ללא האפשרות של \"פירוט קטגוריות בשימוש\""
 
-#: ../src/etats_config.c:1902
-#, fuzzy
-msgid ""
-"All methods of payment have been selected.  Grisbi will run faster without "
-"the \"Detail methods of payment used\" option activated."
-msgstr ""
-"כל דרכי התשלום נבחרו. גריסבי ירוץ מהר יותר \n"
-"ללא האפשרות של \"בחירת העיסקאות בהתבסס על דרך התשלום\""
-
-#: ../src/etats_config.c:2063
-#, fuzzy
-msgid "Date selection"
-msgstr "בחירת מידע"
-
-#: ../src/etats_config.c:2088
-msgid "Use dates ranges"
-msgstr "להתשמש בטווחי תאריכים"
-
-#: ../src/etats_config.c:2184
-msgid "Use financial years"
-msgstr "להשתמש בשנות כספים"
-
-#: ../src/etats_config.c:2221
-msgid "All financial years"
-msgstr "כל שנות הכספים"
-
-#: ../src/etats_config.c:2230
-msgid "Current financial year"
-msgstr "שנת הכספים הנוכחית"
-
-#: ../src/etats_config.c:2239
-msgid "Former financial year"
-msgstr "שנת הכספים הקודמת"
-
-#: ../src/etats_config.c:2250
-msgid "Detail financial years"
-msgstr "פירוט שנות הכספים"
-
-#. set the initial date
-#: ../src/etats_config.c:2309 ../src/gsb_assistant_archive.c:235
-#: ../src/gsb_assistant_reconcile_config.c:415
-#: ../src/gsb_reconcile_config.c:214
-#, fuzzy
-msgid "Initial date: "
-msgstr "תאריך התחלה"
-
-#. set the final date
-#: ../src/etats_config.c:2339 ../src/gsb_assistant_archive.c:247
-#: ../src/gsb_assistant_reconcile_config.c:426
-#: ../src/gsb_reconcile_config.c:228
-#, fuzzy
-msgid "Final date: "
-msgstr "תאריך סיום"
-
-#: ../src/etats_config.c:2466
-#, fuzzy
-msgid "Account selection"
-msgstr "עיסקאות בחשבון"
-
-#. on met dans la partie de gauche une liste contenant les comptes à
-#. sélectionner
-#: ../src/etats_config.c:2472
-msgid "Select transactions only for given accounts"
-msgstr "בחירת העיסקאות רק עבור החשבונות הנבחרים"
-
-#: ../src/etats_config.c:2499
-#, fuzzy
-msgid "Select the accounts included in the report: "
-msgstr "בחירת החשבונות הכלולים בדו\"ח:"
-
-#: ../src/etats_config.c:2557 ../src/etats_config.c:2812
-#: ../src/etats_config.c:3094 ../src/etats_config.c:3901
-#: ../src/etats_config.c:4091 ../src/etats_config.c:7322 ../src/export.c:613
-#: ../src/gsb_assistant.c:91 ../src/tiers_onglet.c:1428
-#: ../src/tiers_onglet.c:1448
-msgid "Select all"
-msgstr "לסמן הכל"
-
-#. ajoute le bouton (dé)sélectionne tout
-#: ../src/etats_config.c:2572 ../src/etats_config.c:2827
-#: ../src/etats_config.c:3109 ../src/etats_config.c:3916
-#: ../src/etats_config.c:4106 ../src/etats_config.c:7337 ../src/export.c:608
-#: ../src/import.c:2270 ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
-msgid "Unselect all"
-msgstr "לסמן כלום"
-
-#: ../src/etats_config.c:2587 ../src/etats_config.c:2842
-msgid "Select bank accounts"
-msgstr "בחירת חשבונות בנק"
-
-#: ../src/etats_config.c:2602 ../src/etats_config.c:2857
-msgid "Select cash accounts"
-msgstr "בחירת חשבונות מזומן"
-
-#: ../src/etats_config.c:2617 ../src/etats_config.c:2872
-msgid "Select liabilities accounts"
-msgstr "בחירת חשבונות התחייבויות"
-
-#: ../src/etats_config.c:2632 ../src/etats_config.c:2887
-msgid "Select assets accounts"
-msgstr "בחירת חשבונות נכסים"
-
-#: ../src/etats_config.c:2722
-msgid "Do not include transfers"
-msgstr "לא לכלול העברות"
-
-#: ../src/etats_config.c:2731
-msgid "Include transfers from or to assets or liabilities accounts"
-msgstr "לכלול העברות מאת או אל חשבונות נכסים או התחייבויות"
-
-#: ../src/etats_config.c:2744
-msgid "Include transfers from or to accounts not in this report"
-msgstr "לכלול העברות מאת או אל חשבונות שאינם בדו\"ח זה"
-
-#: ../src/etats_config.c:2757
-msgid "Include transfers from or to these accounts"
-msgstr "לכלול העברות מאת או אל חשבונות אלו"
-
-#. on rajoute le bouton exclure les opé non virement
-#: ../src/etats_config.c:2910
-msgid "Exclude the transactions which are not transfers"
-msgstr "לא לכלול עיסקאות שאינן העברות"
-
-#: ../src/etats_config.c:3014
-msgid "Detail categories"
-msgstr "פירוט קטגוריות"
-
-#: ../src/etats_config.c:3050
-#, fuzzy
-msgid "Select categories to include: "
-msgstr "בחירת הקטגוריות אשר יש לכלול:"
-
-#: ../src/etats_config.c:3124
-msgid "Income categories"
-msgstr "קטגוריות הכנסות"
-
-#: ../src/etats_config.c:3139
-msgid "Outgoing categories"
-msgstr "קטגוריות הוצאות"
-
-#: ../src/etats_config.c:3245
-#, fuzzy
-msgid "Empty category"
-msgstr "קטגוריה"
-
-#: ../src/etats_config.c:3246
-#, fuzzy
-msgid "Empty sub-category"
-msgstr "תת-הקטגוריה"
-
-#: ../src/etats_config.c:3252
-#, fuzzy
-msgid "Empty budget"
-msgstr "קו תקציב חדש"
-
-#: ../src/etats_config.c:3253
-#, fuzzy
-msgid "Empty sub-budget"
-msgstr "תת-קו תקציב חדש"
-
-#: ../src/etats_config.c:3685
+#: ../src/etats_config.c:1611
 #, fuzzy
 msgid ""
 "All categories have been selected.  Grisbi will run faster without the "
@@ -2891,7 +2713,7 @@ msgstr ""
 "כל הקטגוריות נבחרו. גריסבי ירוץ מהר יותר \n"
 "ללא האפשרות של \"פירוט קטגוריות בשימוש\""
 
-#: ../src/etats_config.c:3689
+#: ../src/etats_config.c:1616
 #, fuzzy
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
@@ -2900,528 +2722,263 @@ msgstr ""
 "כל קוי התקציב נבחרו. גריסבי ירוץ מהר יותר \n"
 "ללא האפשרות של \"פירוט קוי תקציב בשימוש\""
 
-#: ../src/etats_config.c:3820
-msgid "Detail budgetary lines"
-msgstr "פירוט קווי תקציב"
-
-#: ../src/etats_config.c:3857
+#: ../src/etats_config.c:2085
 #, fuzzy
-msgid "Select the budgetary lines to include in the report: "
-msgstr "בחירת קווי התקציב שיש לבחור בדו\"ח:"
+msgid "Transactions whose "
+msgstr "עיסקאות בהן"
 
-#: ../src/etats_config.c:3931
-msgid "Income budget lines"
-msgstr "קווי תקציב של הכנסות"
+#: ../src/etats_config.c:2170
+#, fuzzy
+msgid "is "
+msgstr "הוא"
 
-#: ../src/etats_config.c:3946
-msgid "Outgoing budget lines"
-msgstr "קווי תקציב של הוצאות"
+#: ../src/etats_config.c:2178 ../src/etats_config.c:2685
+#: ../src/etats_config.c:2715
+msgid "to"
+msgstr "אל"
+
+#: ../src/etats_config.c:2210 ../src/help.c:183
+#, fuzzy
+msgid "at"
+msgstr "תאריך"
+
+#: ../src/etats_config.c:2245 ../src/etats_config.c:2751
+msgid "Add"
+msgstr "הוספה"
+
+#: ../src/etats_config.c:2260 ../src/etats_config.c:2766
+msgid "Remove"
+msgstr "הסרה"
+
+#: ../src/etats_config.c:2677
+msgid "Transactions with an amount of"
+msgstr "עיסקאות עם סכום של"
+
+#: ../src/etats_config.c:2864
+#, fuzzy
+msgid ""
+"All methods of payment have been selected.  Grisbi will run faster without "
+"the \"Detail methods of payment used\" option activated."
+msgstr ""
+"כל דרכי התשלום נבחרו. גריסבי ירוץ מהר יותר \n"
+"ללא האפשרות של \"בחירת העיסקאות בהתבסס על דרך התשלום\""
+
+#: ../src/etats_config_ui.c:172
+msgid "All"
+msgstr "הכל"
+
+#: ../src/etats_config_ui.c:174
+msgid "Total to now"
+msgstr "סך הכל עד עתה"
+
+#: ../src/etats_config_ui.c:175
+msgid "Current month"
+msgstr "חודש נוכחי"
+
+#: ../src/etats_config_ui.c:176
+msgid "Current year"
+msgstr "שנה נוכחית"
+
+#: ../src/etats_config_ui.c:177
+msgid "Current month to now"
+msgstr "חודש נוכחי עד עתה"
+
+#: ../src/etats_config_ui.c:178
+msgid "Current year to now"
+msgstr "שנה נוכחית עד עתה"
+
+#: ../src/etats_config_ui.c:179
+msgid "Previous month"
+msgstr "חודש קודם"
+
+#: ../src/etats_config_ui.c:180
+msgid "Previous year"
+msgstr "שנה קודמת"
+
+#: ../src/etats_config_ui.c:181
+msgid "Last 30 days"
+msgstr "30 הימים האחרונים"
+
+#: ../src/etats_config_ui.c:182
+msgid "Last 3 months"
+msgstr "3 החודשים האחרונים"
+
+#: ../src/etats_config_ui.c:183
+msgid "Last 6 months"
+msgstr "6 החודשים האחרונים"
+
+#: ../src/etats_config_ui.c:184
+msgid "Last 12 months"
+msgstr "12 החודשים האחרונים"
+
+#: ../src/etats_config_ui.c:191
+msgid "Monday"
+msgstr "שני"
+
+#: ../src/etats_config_ui.c:192
+msgid "Tuesday"
+msgstr "שלישי"
+
+#: ../src/etats_config_ui.c:193
+msgid "Wednesday"
+msgstr "רביעי"
+
+#: ../src/etats_config_ui.c:194
+msgid "Thursday"
+msgstr "חמישי"
+
+#: ../src/etats_config_ui.c:195
+msgid "Friday"
+msgstr "שישי"
+
+#: ../src/etats_config_ui.c:196
+msgid "Saturday"
+msgstr "שבת"
+
+#: ../src/etats_config_ui.c:197
+msgid "Sunday"
+msgstr "ראשון"
+
+#: ../src/etats_config_ui.c:204
+#, fuzzy
+msgid "Day"
+msgstr "ימים"
+
+#: ../src/etats_config_ui.c:205
+msgid "Week"
+msgstr "שבוע"
+
+#: ../src/etats_config_ui.c:215 ../src/ui/etats_config.ui.h:110
+msgid "date"
+msgstr "תאריך"
+
+#: ../src/etats_config_ui.c:216 ../src/ui/etats_config.ui.h:121
+#, fuzzy
+msgid "value date"
+msgstr "ערך תאריך"
+
+#: ../src/etats_config_ui.c:217 ../src/ui/etats_config.ui.h:120
+msgid "transaction number"
+msgstr "מספר עיסקה"
+
+#: ../src/etats_config_ui.c:222 ../src/ui/etats_config.ui.h:113
+msgid "method of payment"
+msgstr "דרך התשלום"
+
+#: ../src/etats_config_ui.c:223 ../src/ui/etats_config.ui.h:109
+msgid "cheque/transfer number"
+msgstr "מספר ההמחאה/העברה"
+
+#. append group page
+#: ../src/etats_config_ui.c:393
+msgid "Data selection"
+msgstr "בחירת מידע"
+
+#: ../src/etats_config_ui.c:397
+msgid "Dates"
+msgstr "תאריכים"
+
+#: ../src/etats_config_ui.c:402 ../src/etats_config_ui.c:922
+msgid "Transfers"
+msgstr "העברות"
+
+#: ../src/etats_config_ui.c:407 ../src/fenetre_principale.c:249
+#: ../src/navigation.c:1944 ../src/ui/etats_config.ui.h:4
+msgid "Accounts"
+msgstr "חשבונות"
+
+#: ../src/etats_config_ui.c:427
+msgid "Texts"
+msgstr "טקסטים"
+
+#: ../src/etats_config_ui.c:432
+msgid "Amounts"
+msgstr "סכומים"
+
+#: ../src/etats_config_ui.c:442 ../src/etats_config_ui.c:2240
+#, fuzzy
+msgid "Miscellaneous"
+msgstr "שונות : מתנות"
+
+#. remplissage de l'onglet d'organisation
+#: ../src/etats_config_ui.c:446
+#, fuzzy
+msgid "Data organization"
+msgstr "ארגון מידע"
+
+#: ../src/etats_config_ui.c:450 ../src/etats_config_ui.c:2327
+msgid "Data grouping"
+msgstr ""
+
+#: ../src/etats_config_ui.c:455 ../src/etats_config_ui.c:2689
+#: ../src/ui/etats_config.ui.h:18
+#, fuzzy
+msgid "Data separation"
+msgstr "בחירת מידע"
+
+#. remplissage de l'onglet d'affichage
+#: ../src/etats_config_ui.c:459
+msgid "Data display"
+msgstr "הצגת מידע"
+
+#: ../src/etats_config_ui.c:463 ../src/etats_config_ui.c:2748
+msgid "Generalities"
+msgstr "כללי"
+
+#: ../src/etats_config_ui.c:473 ../src/export_csv.c:775
+#: ../src/fenetre_principale.c:253 ../src/parametres.c:432
+msgid "Transactions"
+msgstr "עיסקאות"
+
+#. echange line label
+#: ../src/etats_config_ui.c:478 ../src/gsb_currency.c:555
+#: ../src/gsb_currency_config.c:300 ../src/parametres.c:532
+msgid "Currencies"
+msgstr "מטבעות"
+
+#: ../src/etats_config_ui.c:722
+#, fuzzy
+msgid "Date selection"
+msgstr "בחירת מידע"
+
+#: ../src/etats_config_ui.c:1027
+#, fuzzy
+msgid "Account selection"
+msgstr "עיסקאות בחשבון"
 
 #. on fixe le titre et le suffixe de la barre d'information
-#: ../src/etats_config.c:3991 ../src/navigation.c:1952
+#: ../src/etats_config_ui.c:1208 ../src/navigation.c:1952
 #: ../src/tiers_onglet.c:212 ../src/tiers_onglet.c:571
 #, fuzzy
 msgid "Payees"
 msgstr "ימים"
 
-#: ../src/etats_config.c:4003
-#, fuzzy
-msgid "Detail payees"
-msgstr "פירוט קטגוריות"
+#. ajoute le bouton (dé)sélectionne tout
+#: ../src/etats_config_ui.c:1979 ../src/export.c:608 ../src/import.c:2270
+#: ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
+#: ../src/utils_buttons.c:250
+msgid "Unselect all"
+msgstr "לסמן כלום"
 
-#: ../src/etats_config.c:4040
-#, fuzzy
-msgid "Select payees to include in this report: "
-msgstr "בחירת הצדדים השלישיים שיש לכלול בדו\"ח זה:"
+#: ../src/etats_config_ui.c:1981 ../src/export.c:613 ../src/gsb_assistant.c:93
+#: ../src/tiers_onglet.c:1428 ../src/tiers_onglet.c:1448
+#: ../src/utils_buttons.c:255 ../src/ui/etats_config.ui.h:78
+msgid "Select all"
+msgstr "לסמן הכל"
 
-#: ../src/etats_config.c:4173
+#: ../src/etats_config_ui.c:2003
 #, fuzzy
 msgid "Transaction content"
 msgstr "תכולת רשימת העיסקאות"
 
-#: ../src/etats_config.c:4188
-#, fuzzy
-msgid "Select transactions according to content"
-msgstr "בחירת עיסקאות בהתאם לטקסט"
-
-#: ../src/etats_config.c:4506
-#, fuzzy
-msgid "Transactions whose "
-msgstr "עיסקאות בהן"
-
-#: ../src/etats_config.c:4654
-#, fuzzy
-msgid "is "
-msgstr "הוא"
-
-#: ../src/etats_config.c:4670 ../src/etats_config.c:4727
-#: ../src/etats_config.c:5558 ../src/etats_config.c:5619
-msgid "to"
-msgstr "אל"
-
-#. on met les bouton ajouter et supprimer
-#: ../src/etats_config.c:4749 ../src/etats_config.c:5642
-msgid "Add"
-msgstr "הוספה"
-
-#: ../src/etats_config.c:4763 ../src/etats_config.c:5656
-msgid "Remove"
-msgstr "הסרה"
-
-#: ../src/etats_config.c:4841 ../src/etats_config.c:6652
-#: ../src/etats_config.c:6732 ../src/meta_payee.c:80
-#, fuzzy
-msgid "payee"
-msgstr "משלם/מקבל"
-
-#: ../src/etats_config.c:4869
-#, fuzzy
-msgid "payee information"
-msgstr "מידע תקציבי"
-
-#: ../src/etats_config.c:4897 ../src/etats_config.c:6655
-#: ../src/etats_config.c:6739 ../src/meta_categories.c:68
-msgid "category"
-msgstr "קטגוריה"
-
-#: ../src/etats_config.c:4925 ../src/etats_config.c:6658
-#: ../src/meta_categories.c:69
-#, fuzzy
-msgid "sub-category"
-msgstr "אין תת-קטגוריה"
-
-#: ../src/etats_config.c:4953 ../src/etats_config.c:6661
-#: ../src/etats_config.c:6746 ../src/meta_budgetary.c:66
-msgid "budgetary line"
-msgstr "קו תקציב"
-
-#: ../src/etats_config.c:4981 ../src/etats_config.c:6664
-#: ../src/meta_budgetary.c:67
-#, fuzzy
-msgid "sub-budgetary line"
-msgstr "ללא תת-קו תקציב"
-
-#: ../src/etats_config.c:5009 ../src/etats_config.c:6753
-msgid "note"
-msgstr "הערה"
-
-#: ../src/etats_config.c:5037 ../src/etats_config.c:6682
-#: ../src/etats_config.c:6781
-msgid "bank reference"
-msgstr "הפניית בנק"
-
-#: ../src/etats_config.c:5065 ../src/etats_config.c:6676
-#: ../src/etats_config.c:6774
-msgid "voucher"
-msgstr "שובר"
-
-#: ../src/etats_config.c:5086
-#, fuzzy
-msgid "cheque number"
-msgstr "מספר ההמחאה"
-
-#: ../src/etats_config.c:5106 ../src/etats_config.c:6685
-#: ../src/etats_config.c:6788
-msgid "reconciliation reference"
-msgstr "הפניית התאמה"
-
-#: ../src/etats_config.c:5161
-msgid "contains"
-msgstr "מכיל/ה"
-
-#: ../src/etats_config.c:5173
-msgid "doesn't contain"
-msgstr "לא מכיל/ה"
-
-#: ../src/etats_config.c:5185
-msgid "begins with"
-msgstr "מתחיל/ה ב"
-
-#: ../src/etats_config.c:5197
-msgid "ends with"
-msgstr "נגמר/ת ב"
-
-#: ../src/etats_config.c:5209
-msgid "is empty"
-msgstr "ריק/ה"
-
-#: ../src/etats_config.c:5221
-msgid "isn't empty"
-msgstr "אינו/ה ריק/ה"
-
-#: ../src/etats_config.c:5264
-msgid "Select the transactions by amount"
-msgstr "בחירת העיסקאות לפי סכום"
-
-#. on rajoute le bouton exclure les opé dont le montant est nul
-#: ../src/etats_config.c:5314
-msgid "Exclude the transactions with a null amount"
-msgstr "לא לכלול עיסקאות ללא כל סכום"
-
-#: ../src/etats_config.c:5541
-msgid "Transactions with an amount of"
-msgstr "עיסקאות עם סכום של"
-
-#: ../src/etats_config.c:5688 ../src/etats_config.c:6045
-msgid "and"
-msgstr "וגם"
-
-#: ../src/etats_config.c:5696 ../src/etats_config.c:6057
-msgid "or"
-msgstr "או"
-
-#: ../src/etats_config.c:5704 ../src/etats_config.c:6069
-msgid "except"
-msgstr "חוץ מאשר"
-
-#: ../src/etats_config.c:5734 ../src/etats_config.c:5912
-msgid "equal"
-msgstr "שווה"
-
-#: ../src/etats_config.c:5746 ../src/etats_config.c:5924
-msgid "less than"
-msgstr "פחות מ"
-
-#: ../src/etats_config.c:5758 ../src/etats_config.c:5936
-msgid "less than or equal"
-msgstr "קטן או שווה ל"
-
-#: ../src/etats_config.c:5770 ../src/etats_config.c:5948
-msgid "greater than"
-msgstr "יותר מ"
-
-#: ../src/etats_config.c:5782 ../src/etats_config.c:5960
-msgid "greater than or equal"
-msgstr "גדול או שווה ל"
-
-#: ../src/etats_config.c:5794 ../src/etats_config.c:5972
-msgid "different from"
-msgstr "שונה מ"
-
-#: ../src/etats_config.c:5806
-msgid "null"
-msgstr "ללא ערך"
-
-#: ../src/etats_config.c:5818
-msgid "not null"
-msgstr "עם ערך"
-
-#: ../src/etats_config.c:5830
-msgid "positive"
-msgstr "חיובי"
-
-#: ../src/etats_config.c:5842
-msgid "negative"
-msgstr "שלילי"
-
-#: ../src/etats_config.c:5984
-msgid "the biggest"
-msgstr "הגדול ביותר"
-
-#: ../src/etats_config.c:6081
-msgid "stop"
-msgstr "להפסיק"
-
-#. on peut sélectionner les opé R ou non R
-#: ../src/etats_config.c:6154
-msgid "Reconciled transactions"
-msgstr "עיסקאות מתואמות"
-
-#: ../src/etats_config.c:6157
-#, fuzzy
-msgid "Select all transactions"
-msgstr "מחיקת עיסקה"
-
-#: ../src/etats_config.c:6166
-#, fuzzy
-msgid "Select unreconciled transactions"
-msgstr "העיסקאות המתואמות"
-
-#: ../src/etats_config.c:6179
-#, fuzzy
-msgid "Select reconciled transactions"
-msgstr "העיסקאות המתואמות"
-
-#: ../src/etats_config.c:6191
-#, fuzzy
-msgid "Split of transactions detail"
-msgstr "שבירת עיסקה"
-
-#: ../src/etats_config.c:6193
-#, fuzzy
-msgid "Do not detail split of transactions"
-msgstr "לא לפרט עיסקאות מתואמות"
-
-#. choix de ce qu'on utilise dans le classement
-#: ../src/etats_config.c:6224
-#, fuzzy
-msgid "Group transactions"
-msgstr "סימון העיסקאות"
-
-#: ../src/etats_config.c:6226
-msgid "Group transactions by account"
-msgstr "קיבוץ עיסקאות לפי חשבון"
-
-#: ../src/etats_config.c:6229
-#, fuzzy
-msgid "Group transactions by payee"
-msgstr "קיבוץ עיסקאות לפי קטגוריה"
-
-#: ../src/etats_config.c:6232
-msgid "Group transactions by category"
-msgstr "קיבוץ עיסקאות לפי קטגוריה"
-
-#: ../src/etats_config.c:6235
-msgid "Group transactions by budgetary line"
-msgstr "קיבוץ עיסקאות לפי קו תקציבי"
-
-#. choix du type de classement
-#: ../src/etats_config.c:6240
-msgid "Group level organisation"
-msgstr "אירגון ברמת הקבוצה"
-
-#. on permet la séparation des revenus et des dépenses
-#: ../src/etats_config.c:6334
-msgid "Split incomes and outgoings"
-msgstr "פיצול הכנסות והוצאות"
-
-#. on permet la séparation par exercice
-#: ../src/etats_config.c:6338
-msgid "Split by financial year"
-msgstr "פיצול לפי שנת כספים"
-
-#: ../src/etats_config.c:6345
-msgid "Split by period"
-msgstr "פיצול לפי תקופה"
-
-#. on permet ensuite la séparation des résultats par période
-#: ../src/etats_config.c:6349
-#, fuzzy
-msgid "Separation by period"
-msgstr "פיצול לפי תקופה"
-
-#: ../src/etats_config.c:6356
-#, fuzzy
-msgid "Separation by time period: "
-msgstr "פיצול לפי תקופה:"
-
-#: ../src/etats_config.c:6373
-#, fuzzy
-msgid "Day"
-msgstr "ימים"
-
-#: ../src/etats_config.c:6377
-msgid "Week"
-msgstr "שבוע"
-
-#. add beginning day of the week
-#: ../src/etats_config.c:6392
-#, fuzzy
-msgid "Beginning of week: "
-msgstr "יתרת פתיחה:"
-
-#: ../src/etats_config.c:6548
-#, fuzzy
-msgid "Report name: "
-msgstr "שם דו\"ח:"
-
-#: ../src/etats_config.c:6577
-#, fuzzy
-msgid "Display the number of transactions with the totals"
-msgstr "להציג את מספר העיסקאות עם הסיכומים"
-
-#: ../src/etats_config.c:6596
-#, fuzzy
-msgid "Consider the payees of this report as a multiple payee."
-msgstr "להחשיב את הצדדים השלישיים של דו\"ח זה בתור צד שלישי מרובה חלקים."
-
-#: ../src/etats_config.c:6619
+#: ../src/etats_config_ui.c:2878
 #, fuzzy
 msgid "Transactions display"
 msgstr "רשימת העיסקאות"
 
-#. afficher ou non les opés
-#: ../src/etats_config.c:6624
-msgid "Display transactions"
-msgstr "הצגת עיסקאות"
-
-#: ../src/etats_config.c:6638
-msgid "Include following information"
-msgstr ""
-
-#: ../src/etats_config.c:6643 ../src/etats_config.c:6725
-msgid "transaction number"
-msgstr "מספר עיסקה"
-
-#: ../src/etats_config.c:6646 ../src/etats_config.c:6711
-msgid "date"
-msgstr "תאריך"
-
-#: ../src/etats_config.c:6649 ../src/etats_config.c:6718
-#, fuzzy
-msgid "value date"
-msgstr "ערך תאריך"
-
-#: ../src/etats_config.c:6667
-#, fuzzy
-msgid "notes"
-msgstr "הערה"
-
-#: ../src/etats_config.c:6670 ../src/etats_config.c:6760
-msgid "method of payment"
-msgstr "דרך התשלום"
-
-#: ../src/etats_config.c:6673 ../src/etats_config.c:6767
-msgid "cheque/transfer number"
-msgstr "מספר ההמחאה/העברה"
-
-#: ../src/etats_config.c:6679 ../src/etats_support.c:141
-msgid "financial year"
-msgstr "שנת כספים"
-
-#. on propose d'afficher le titre des colonnes
-#: ../src/etats_config.c:6690
-#, fuzzy
-msgid "Columns"
-msgstr "הערות"
-
-#: ../src/etats_config.c:6692
-#, fuzzy
-msgid "Display column titles"
-msgstr "הצגת כותרות העמודות"
-
-#: ../src/etats_config.c:6695
-msgid "every section"
-msgstr "כל חלק"
-
-#: ../src/etats_config.c:6699
-msgid "at the top of the report"
-msgstr "בראש הדו\"ח"
-
-#. mise en place du type de classement des opés
-#: ../src/etats_config.c:6704
-#, fuzzy
-msgid "Sort transactions by"
-msgstr "מיון העיסקאות על פי"
-
-#. on propose de rendre clickable le détails des opérations
-#: ../src/etats_config.c:6800
-#, fuzzy
-msgid "Clickable transactions"
-msgstr "כל העיסקאות"
-
-#: ../src/etats_config.c:6802
-msgid "Make transactions clickable"
-msgstr "לאפשר לחיצה על עיסקאות"
-
-#: ../src/etats_config.c:6838 ../src/parametres.c:1150
+#: ../src/etats_config_ui.c:2952 ../src/parametres.c:1152
 msgid "Totals currencies"
 msgstr "סך כל המטבעות"
-
-#: ../src/etats_config.c:6851
-#, fuzzy
-msgid "General totals currency: "
-msgstr "מטבע של סך הכל הכללי:"
-
-#: ../src/etats_config.c:6880
-#, fuzzy
-msgid "Payees currency: "
-msgstr "מטבע של קטגוריות:"
-
-#: ../src/etats_config.c:6909
-#, fuzzy
-msgid "Categories currency: "
-msgstr "מטבע של קטגוריות:"
-
-#: ../src/etats_config.c:6939
-#, fuzzy
-msgid "Budgetary lines currency: "
-msgstr "מטבע של קווי תקציב:"
-
-#: ../src/etats_config.c:6968
-#, fuzzy
-msgid "Amount comparison currency: "
-msgstr "מטבע השוואת סכום:"
-
-#. on permet d'afficher le name du compte
-#: ../src/etats_config.c:7005
-msgid "Display account name"
-msgstr "הצגת שם החשבון"
-
-#. on permet d'afficher un ss total lors de chgt de compte
-#. activé uniquement si on a regroupé les opés par compte
-#: ../src/etats_config.c:7017
-msgid "Display a sub-total for each account"
-msgstr "הצגת סיכום לכל חשבון"
-
-#. permet d'afficher le name du tiers, activé uniquement si on utilise les tiers
-#: ../src/etats_config.c:7035
-#, fuzzy
-msgid "Display payee's name"
-msgstr "הצגת שמות צדדים שלישיים"
-
-#: ../src/etats_config.c:7052
-#, fuzzy
-msgid "Display a sub-total for each payee"
-msgstr "הצגת סיכום לכל צד שלישי"
-
-#. affichage possible du name de la categ
-#: ../src/etats_config.c:7070
-msgid "Display the (sub)category's name"
-msgstr "הצגת שמות (תתי) הקטגוריות"
-
-#. permet d'afficher un sous total lors de chgt de categ
-#. activé uniquement si on utilise les categ
-#: ../src/etats_config.c:7086
-msgid "Display a sub-total for each category"
-msgstr "הצגת סיכום לכל קטגוריה"
-
-#. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7101
-msgid "Display sub-categories"
-msgstr "הצגת תתי-קטגוריות"
-
-#: ../src/etats_config.c:7115
-msgid "Display a sub-total for each sub-category"
-msgstr "הצגת סיכום עבור כל תת-קטגוריה"
-
-#: ../src/etats_config.c:7129
-msgid "Display \" No sub-category\" if none"
-msgstr "הצגת \"אין תת-קטגוריה\" אם אין"
-
-#: ../src/etats_config.c:7146
-msgid "Display the (sub-)budget line name"
-msgstr "הצגת השם של (תת-) קו תקציב"
-
-#. permet d'afficher un sous total lors de chgt d'ib
-#. activé uniquement si on utilise les ib
-#: ../src/etats_config.c:7162
-msgid "Display a sub-total for each budgetary line"
-msgstr "הצגת סיכום עבור כל קו תקציב"
-
-#. mise en place du bouton pour afficher les sous categ
-#: ../src/etats_config.c:7177
-msgid "Display sub-budget lines"
-msgstr "הצגת תת-קווי תקציב"
-
-#: ../src/etats_config.c:7190
-msgid "Display a sub-total for each sub-budget line"
-msgstr "הצגת סיכום עבור כל קו תקציבי"
-
-#: ../src/etats_config.c:7204
-msgid "Display \"No sub-budgetary line\" if none"
-msgstr "הצגת \"אין תת-קו תקציב\" אם אין"
-
-#. on met dans la partie de gauche une liste contenant les modes de paiement à
-#. sélectionner
-#: ../src/etats_config.c:7237
-msgid "Select the transactions by method of payment"
-msgstr "בחירת העיסקאות על פי דרך התשלום"
-
-#: ../src/etats_config.c:7263
-#, fuzzy
-msgid "Select methods of payment to include: "
-msgstr "בחירת דרכי התשלום שיש לכלול:"
 
 #: ../src/etats_csv.c:175 ../src/export_csv.c:418
 #, fuzzy, c-format
@@ -3542,6 +3099,7 @@ msgstr "הוצאות חודשיות לפי צדדים שלישיים"
 
 #. Search
 #: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/ui/etats_config.ui.h:77
 msgid "Search"
 msgstr "חיפוש"
 
@@ -3684,6 +3242,10 @@ msgstr "שנת הכספים הקודמת"
 #: ../src/etats_support.c:137
 msgid "financial years"
 msgstr "שנות כספים"
+
+#: ../src/etats_support.c:141 ../src/ui/etats_config.ui.h:112
+msgid "financial year"
+msgstr "שנת כספים"
 
 #: ../src/etats_support.c:179
 msgid "all dates"
@@ -3838,7 +3400,7 @@ msgstr "תתי-קוי תקציב"
 msgid "Reconciliation number"
 msgstr "מספר תיאום"
 
-#: ../src/fenetre_principale.c:239 ../src/parametres.c:366
+#: ../src/fenetre_principale.c:239 ../src/parametres.c:368
 msgid "Main page"
 msgstr "עמוד ראשי"
 
@@ -3856,7 +3418,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:281 ../src/navigation.c:1948
-#: ../src/parametres.c:348 ../src/parametres.c:1108
+#: ../src/parametres.c:350 ../src/parametres.c:1110
 msgid "Scheduler"
 msgstr "תיזמון עיסקאות"
 
@@ -4047,444 +3609,6 @@ msgstr ""
 msgid "File '%s' could not be saved"
 msgstr "לא ניתן לייבא את הקובץ \"%s\" "
 
-#: ../src/go-charmap-sel.c:181
-#, fuzzy
-msgid "Arabic"
-msgstr "אפריקה"
-
-#: ../src/go-charmap-sel.c:182
-#, fuzzy
-msgid "Baltic"
-msgstr "מאזן"
-
-#: ../src/go-charmap-sel.c:183
-#, fuzzy
-msgid "Central European"
-msgstr "מרכז אמריקה"
-
-#: ../src/go-charmap-sel.c:184
-#, fuzzy
-msgid "Chinese"
-msgstr "סין"
-
-#: ../src/go-charmap-sel.c:185
-msgid "Cyrillic"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:186 ../src/help.c:134
-#, fuzzy
-msgid "Greek"
-msgstr "יוון"
-
-#: ../src/go-charmap-sel.c:187
-msgid "Hebrew"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:188
-#, fuzzy
-msgid "Indian"
-msgstr "הודו"
-
-#: ../src/go-charmap-sel.c:189
-#, fuzzy
-msgid "Japanese"
-msgstr "ין יפני"
-
-#: ../src/go-charmap-sel.c:190
-#, fuzzy
-msgid "Korean"
-msgstr "ירדן"
-
-#: ../src/go-charmap-sel.c:191
-#, fuzzy
-msgid "Turkish"
-msgstr "לירה טורקית"
-
-#: ../src/go-charmap-sel.c:192
-msgid "Unicode"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:193
-#, fuzzy
-msgid "Vietnamese"
-msgstr "ויאטנם"
-
-#: ../src/go-charmap-sel.c:194
-#, fuzzy
-msgid "Western"
-msgstr "אתר אינטרנט"
-
-#: ../src/go-charmap-sel.c:195 ../src/help.c:117 ../src/import_csv.c:110
-msgid "Other"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:225
-msgid "Arabic (IBM-864)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:226
-msgid "Arabic (IBM-864-I)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:227
-msgid "Arabic (ISO-8859-6)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:228
-msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:230
-msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:231
-msgid "Arabic (MacArabic)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:232
-msgid "Arabic (Windows-1256)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:233
-msgid "Armenian (ARMSCII-8)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:234
-msgid "Baltic (ISO-8859-13)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:235
-msgid "Baltic (ISO-8859-4)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:236
-msgid "Baltic (Windows-1257)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:237
-msgid "Celtic (ISO-8859-14)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:238
-msgid "Central European (IBM-852)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:239
-msgid "Central European (ISO-8859-2)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:240
-msgid "Central European (MacCE)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:241
-msgid "Central European (Windows-1250)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:242
-msgid "Chinese Simplified (GB18030)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:243
-msgid "Chinese Simplified (GB2312)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:244
-msgid "Chinese Simplified (GBK)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:245
-msgid "Chinese Simplified (HZ)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:246
-msgid "Chinese Simplified (Windows-936)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:247
-msgid "Chinese Traditional (Big5)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:248
-msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:249
-msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:250
-msgid "Croatian (MacCroatian)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:251
-msgid "Cyrillic (IBM-855)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:252
-msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:253
-msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:254
-msgid "Cyrillic (KOI8-R)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:255
-msgid "Cyrillic (MacCyrillic)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:256
-msgid "Cyrillic (Windows-1251)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:257
-msgid "Russian (CP-866)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:258
-msgid "Ukrainian (KOI8-U)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:259
-msgid "Ukrainian (MacUkrainian)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:260
-msgid "English (ASCII)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:261
-msgid "Farsi (MacFarsi)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:262
-msgid "Georgian (GEOSTD8)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:263
-msgid "Greek (ISO-8859-7)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:264
-msgid "Greek (MacGreek)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:265
-msgid "Greek (Windows-1253)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:266
-msgid "Gujarati (MacGujarati)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:267
-msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:268
-msgid "Hebrew (IBM-862)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:269
-msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:270
-msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:271
-msgid "Hebrew (MacHebrew)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:272
-msgid "Hebrew (Windows-1255)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:273
-msgid "Hindi (MacDevanagari)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:274
-msgid "Icelandic (MacIcelandic)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:275
-#, fuzzy
-msgid "Japanese (EUC-JP)"
-msgstr "ין יפני"
-
-#: ../src/go-charmap-sel.c:276
-msgid "Japanese (ISO-2022-JP)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:277
-msgid "Japanese (Shift_JIS)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:278
-msgid "Korean (EUC-KR)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:279
-msgid "Korean (ISO-2022-KR)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:280
-msgid "Korean (JOHAB)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:281
-msgid "Korean (UHC)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:282
-msgid "Nordic (ISO-8859-10)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:283
-msgid "Romanian (MacRomanian)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:284
-msgid "Romanian (ISO-8859-16)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:285
-msgid "South European (ISO-8859-3)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:286
-msgid "Thai (TIS-620)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:287
-msgid "Turkish (IBM-857)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:288
-msgid "Turkish (ISO-8859-9)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:289
-msgid "Turkish (MacTurkish)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:290
-msgid "Turkish (Windows-1254)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:291
-msgid "Unicode (UTF-7)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:292
-msgid "Unicode (UTF-8)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:293
-msgid "Unicode (UTF-16BE)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:294
-msgid "Unicode (UTF-16LE)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:295
-msgid "Unicode (UTF-32BE)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:296
-msgid "Unicode (UTF-32LE)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:297
-msgid "User Defined"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:298
-msgid "Vietnamese (TCVN)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:299
-msgid "Vietnamese (VISCII)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:300
-msgid "Vietnamese (VPS)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:301
-msgid "Vietnamese (Windows-1258)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:302
-msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:303
-msgid "Western (IBM-850)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:304
-msgid "Western (ISO-8859-1)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:305
-msgid "Western (ISO-8859-15)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:306
-msgid "Western (MacRoman)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:307
-msgid "Western (Windows-1252)"
-msgstr ""
-
-#: ../src/go-charmap-sel.c:484
-msgid "Locale: "
-msgstr ""
-
-#: ../src/go-charmap-sel.c:523
-#, fuzzy
-msgid "Conversion Direction"
-msgstr "כל חלק"
-
-#: ../src/go-charmap-sel.c:524
-msgid "This value determines which iconv test to perform."
-msgstr ""
-
-#: ../src/go-optionmenu.c:248
-#, fuzzy
-msgid "Menu"
-msgstr "ידני"
-
-#: ../src/go-optionmenu.c:249
-msgid "The menu of options"
-msgstr ""
-
-#: ../src/go-optionmenu.c:255
-msgid "Indicator Size"
-msgstr ""
-
-#: ../src/go-optionmenu.c:256
-msgid "Size of dropdown indicator"
-msgstr ""
-
-#: ../src/go-optionmenu.c:261
-msgid "Indicator Spacing"
-msgstr ""
-
-#: ../src/go-optionmenu.c:262
-msgid "Spacing around indicator"
-msgstr ""
-
 #: ../src/gsb_account.c:168
 #, c-format
 msgid "Delete account \"%s\"?"
@@ -4654,7 +3778,7 @@ msgid "Report name"
 msgstr "שם דו\"ח"
 
 #. create the page
-#: ../src/gsb_archive_config.c:115 ../src/parametres.c:311
+#: ../src/gsb_archive_config.c:115 ../src/parametres.c:313
 #, fuzzy
 msgid "Archives"
 msgstr "הפעלה"
@@ -4679,7 +3803,7 @@ msgstr "שינוי"
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
 #: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
-#: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
+#: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:254
 #: ../src/gsb_reconcile_config.c:200
 #, fuzzy
 msgid "Name: "
@@ -4913,6 +4037,22 @@ msgstr "מיון על פי תאריך"
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr ""
 
+#. set the initial date
+#: ../src/gsb_assistant_archive.c:235
+#: ../src/gsb_assistant_reconcile_config.c:415
+#: ../src/gsb_reconcile_config.c:214 ../src/ui/etats_config.ui.h:63
+#, fuzzy
+msgid "Initial date: "
+msgstr "תאריך התחלה"
+
+#. set the final date
+#: ../src/gsb_assistant_archive.c:247
+#: ../src/gsb_assistant_reconcile_config.c:426
+#: ../src/gsb_reconcile_config.c:228 ../src/ui/etats_config.ui.h:46
+#, fuzzy
+msgid "Final date: "
+msgstr "תאריך סיום"
+
 #: ../src/gsb_assistant_archive.c:262
 #, fuzzy
 msgid "Archive by financial year"
@@ -5092,7 +4232,7 @@ msgid ""
 "or the close button to cancel the action."
 msgstr ""
 
-#: ../src/gsb_assistant.c:243
+#: ../src/gsb_assistant.c:245
 #, c-format
 msgid "%s (%d of %d)"
 msgstr ""
@@ -5168,7 +4308,7 @@ msgstr "שם המיקום:"
 
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:328 ../src/gsb_assistant_first.c:256
-#: ../src/parametres.c:888
+#: ../src/parametres.c:890
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -5256,12 +4396,12 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:214 ../src/parametres.c:1056
+#: ../src/gsb_assistant_first.c:214 ../src/parametres.c:1058
 #, fuzzy
 msgid "Web"
 msgstr "אתר אינטרנט"
 
-#: ../src/gsb_assistant_first.c:221 ../src/parametres.c:1063
+#: ../src/gsb_assistant_first.c:221 ../src/parametres.c:1065
 #, fuzzy
 msgid "Web browser command: "
 msgstr "דפדפן:"
@@ -5271,46 +4411,46 @@ msgstr "דפדפן:"
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:239 ../src/parametres.c:871
+#: ../src/gsb_assistant_first.c:239 ../src/parametres.c:873
 msgid "Account files handling"
 msgstr "טיפול בקבצי חשבונות"
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:874
+#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:876
 msgid "Automatically load last file on startup"
 msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:248 ../src/parametres.c:878
+#: ../src/gsb_assistant_first.c:248 ../src/parametres.c:880
 msgid "Automatically save on exit"
 msgstr "שמירת הקובץ אוטומטית עם היציאה"
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:270 ../src/parametres.c:928
+#: ../src/gsb_assistant_first.c:270 ../src/parametres.c:930
 msgid "Make a backup copy before saving files"
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: ../src/gsb_assistant_first.c:280 ../src/parametres.c:936
+#: ../src/gsb_assistant_first.c:280 ../src/parametres.c:938
 #, fuzzy
 msgid "Make a backup copy every "
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
-#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:946
+#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:948
 #, fuzzy
 msgid " minutes"
 msgstr "הערה"
 
-#: ../src/gsb_assistant_first.c:300 ../src/parametres.c:953
+#: ../src/gsb_assistant_first.c:300 ../src/parametres.c:955
 #, fuzzy
 msgid "Backup directory: "
 msgstr "קובץ גיבוי:"
 
-#: ../src/gsb_assistant_first.c:305 ../src/parametres.c:960
+#: ../src/gsb_assistant_first.c:305 ../src/parametres.c:962
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:344 ../src/gsb_reconcile_config.c:112
-#: ../src/parametres.c:467
+#: ../src/parametres.c:469
 msgid "Reconciliation"
 msgstr "התאמה"
 
@@ -5528,7 +4668,7 @@ msgstr "בחירת עיסקאות בהתאם לטקסט"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1185
-#: ../src/gsb_transactions_list.c:2018
+#: ../src/gsb_transactions_list.c:2020
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
@@ -5556,7 +4696,7 @@ msgstr "בנק חדש"
 msgid "Contact name"
 msgstr "שם הקשר"
 
-#: ../src/gsb_bank.c:461 ../src/parametres.c:548
+#: ../src/gsb_bank.c:461 ../src/parametres.c:550
 msgid "Banks"
 msgstr "בנקים"
 
@@ -7824,7 +6964,7 @@ msgstr ""
 "\"%s\" אשר נמצאת מתחת."
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:561 ../src/gsb_file.c:814 ../src/parametres.c:883
+#: ../src/gsb_file.c:561 ../src/gsb_file.c:814 ../src/parametres.c:885
 msgid "Force saving of locked files"
 msgstr "שמירה בכוח של קבצים נעולים"
 
@@ -7856,7 +6996,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:854
 msgid "unnamed"
 msgstr "ללא שם"
 
@@ -7974,7 +7114,7 @@ msgstr ""
 "נראה כי%s אינו קובץ רגיל.\n"
 "נא לבדוק זאת ולנסות שנית."
 
-#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:408
+#: ../src/gsb_file_load.c:362 ../src/gsb_file_save.c:400
 msgid ""
 "Grisbi was unable to load required plugin to handle that file.\n"
 "\n"
@@ -7982,17 +7122,17 @@ msgid ""
 "installed) and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:413
+#: ../src/gsb_file_load.c:367 ../src/gsb_file_save.c:405
 #, fuzzy
 msgid "Encryption plugin not found."
 msgstr "חשבון %s אינו נמצא.\n"
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5420
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5452
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "קובץ זה אינו דו\"ח של גריסבי"
 
-#: ../src/gsb_file_load.c:730
+#: ../src/gsb_file_load.c:728
 #, c-format
 msgid ""
 "An error occured while parsing the file :\n"
@@ -8001,14 +7141,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8812
+#: ../src/gsb_file_load.c:8844
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "גריסבי מגירסה %s אינו מסוגל לפתוח קובץ זה"
 
-#: ../src/gsb_file_load.c:8837
+#: ../src/gsb_file_load.c:8869
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -8016,7 +7156,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8841
+#: ../src/gsb_file_load.c:8873
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -8025,8 +7165,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:434
-#: ../src/gsb_file_save.c:453
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:426
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "לא ניתן לשמור את הקובץ '%s': %s"
@@ -8296,7 +7436,7 @@ msgstr ""
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:116 ../src/parametres.c:486
+#: ../src/gsb_form_config.c:116 ../src/parametres.c:488
 msgid "Transaction form"
 msgstr "טופס העברה"
 
@@ -8427,7 +7567,7 @@ msgstr "מספר עיסקה"
 msgid "Automatic/Manual"
 msgstr "אוטומטי"
 
-#: ../src/gsb_fyear_config.c:104 ../src/parametres.c:557
+#: ../src/gsb_fyear_config.c:104 ../src/parametres.c:559
 msgid "Financial years"
 msgstr "שנות כספים"
 
@@ -8515,71 +7655,70 @@ msgstr "לאפשר לחיצה על עיסקאות"
 msgid "no transaction to associate"
 msgstr "להעביר את העיסקאות לקטגוריה"
 
-#: ../src/gsb_payment_method_config.c:125
+#: ../src/gsb_payment_method_config.c:107
+msgid "Neutral"
+msgstr "ניטראלי"
+
+#: ../src/gsb_payment_method_config.c:137
 msgid "Known payment methods"
 msgstr "דרכי תשלום ידועות"
 
-#: ../src/gsb_payment_method_config.c:176
+#: ../src/gsb_payment_method_config.c:188
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: ../src/gsb_payment_method_config.c:188
+#: ../src/gsb_payment_method_config.c:200
 msgid "Numbering"
 msgstr "מספור"
 
-#: ../src/gsb_payment_method_config.c:232
+#: ../src/gsb_payment_method_config.c:244
 msgid "Payment method details"
 msgstr "פרטי דרך תשלום"
 
 #. button show entry, automatic numbering button will be shown only if entry is showed
-#: ../src/gsb_payment_method_config.c:260
+#: ../src/gsb_payment_method_config.c:272
 #, fuzzy
 msgid "Need entry field"
 msgstr "בוחרת בשדה הבא"
 
 #. Automatic numbering
-#: ../src/gsb_payment_method_config.c:271
+#: ../src/gsb_payment_method_config.c:283
 #, fuzzy
 msgid "Automatic numbering: "
 msgstr "מספור אוטומטי:"
 
 #. button automatic numbering, activate it sensitive the automatic numbering entry
-#: ../src/gsb_payment_method_config.c:290
+#: ../src/gsb_payment_method_config.c:302
 msgid "Activate"
 msgstr "הפעלה"
 
 #. Payment method method_ptr
-#: ../src/gsb_payment_method_config.c:300
+#: ../src/gsb_payment_method_config.c:312
 #, fuzzy
 msgid "Type: "
 msgstr "סוג:"
 
-#. Neutral method_ptr
-#: ../src/gsb_payment_method_config.c:312
-msgid "Neutral"
-msgstr "ניטראלי"
-
 #. create the new method of payment
-#: ../src/gsb_payment_method_config.c:1124
+#: ../src/gsb_payment_method_config.c:1129
 msgid "New payment method"
 msgstr "דרך תשלום חדשה"
 
-#: ../src/gsb_payment_method_config.c:1270
+#: ../src/gsb_payment_method_config.c:1280
 msgid "Delete a payment method"
 msgstr "מחיקת דרך תשלום"
 
-#: ../src/gsb_payment_method_config.c:1283
+#: ../src/gsb_payment_method_config.c:1293
 #, fuzzy
 msgid "Payment method is used by transactions"
 msgstr "פרטי דרך תשלום"
 
-#: ../src/gsb_payment_method_config.c:1297
+#: ../src/gsb_payment_method_config.c:1307
 msgid ""
 "Problem while filling the target method of payment to delete it.\n"
 "This is not normal, please contact the grisbi team."
 msgstr ""
 
-#: ../src/gsb_payment_method_config.c:1302
+#: ../src/gsb_payment_method_config.c:1312
 msgid ""
 "Some transactions still use that payment method.  As deletion of this method "
 "is irreversible, these transactions are to be associated with another "
@@ -8588,14 +7727,14 @@ msgstr ""
 "ישנן עדיין עיסקאות אשר משתמשות בדרך תשלום זו. הואיל ולא ניתן לבטל מחיקה מסוג "
 "זה, הרי שעיסקאות אלו תקושרנה אל דרך תשלום אחרת."
 
-#: ../src/gsb_payment_method_config.c:1304
+#: ../src/gsb_payment_method_config.c:1314
 msgid ""
 "No target method of payment to switch the transactions to another method of "
 "payment. If you continue, the transactions with this method of payment will "
 "have no new one."
 msgstr ""
 
-#: ../src/gsb_payment_method_config.c:1314
+#: ../src/gsb_payment_method_config.c:1324
 #, fuzzy
 msgid "Associate transactions with: "
 msgstr "קישור העיסקאות עם:"
@@ -8674,7 +7813,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "הצהרה אחרונה"
 
-#: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2067
+#: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2069
 #, fuzzy
 msgid "Init date"
 msgstr "תאריך התחלה"
@@ -8740,7 +7879,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr "יצירת חשבון חדש"
 
-#: ../src/gsb_reconcile_sort_config.c:92 ../src/parametres.c:476
+#: ../src/gsb_reconcile_sort_config.c:92 ../src/parametres.c:478
 #, fuzzy
 msgid "Sort for reconciliation"
 msgstr "התאמה"
@@ -8941,23 +8080,23 @@ msgid "Show transactions for the next: "
 msgstr "בחירת עיסקאות בהתאם לטקסט:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2317 ../src/gsb_transactions_list.c:2481
+#: ../src/gsb_scheduler_list.c:2317 ../src/gsb_transactions_list.c:2483
 msgid "Edit transaction"
 msgstr "עריכת עיסקה"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2329 ../src/gsb_transactions_list.c:2528
+#: ../src/gsb_scheduler_list.c:2329 ../src/gsb_transactions_list.c:2530
 msgid "Clone transaction"
 msgstr "שכפול עיסקה"
 
 #. New transaction
 #: ../src/gsb_scheduler_list.c:2344 ../src/gsb_transactions_list.c:337
-#: ../src/gsb_transactions_list.c:2496
+#: ../src/gsb_transactions_list.c:2498
 msgid "New transaction"
 msgstr "עיסקה חדשה"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2355 ../src/gsb_transactions_list.c:2504
+#: ../src/gsb_scheduler_list.c:2355 ../src/gsb_transactions_list.c:2506
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
@@ -8979,17 +8118,17 @@ msgstr "מחיקת עיסקה"
 msgid "Total : %s (variance : %s)"
 msgstr "סך הכל %s: %s (%d עיסקאות)"
 
-#: ../src/gsb_select_icon.c:162
+#: ../src/gsb_select_icon.c:166
 #, fuzzy
 msgid "Browse icons"
 msgstr "עיון"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:188
+#: ../src/gsb_select_icon.c:192
 msgid "Browse"
 msgstr "עיון"
 
-#: ../src/gsb_select_icon.c:400
+#: ../src/gsb_select_icon.c:423
 #, fuzzy
 msgid "Select icon directory"
 msgstr "לסמן הכל"
@@ -9109,8 +8248,8 @@ msgstr "עיסקאות מתואמות"
 msgid "Show lines archives"
 msgstr "מטבעות ידועים"
 
-#: ../src/gsb_transactions_list.c:838 ../src/gsb_transactions_list.c:3947
-#: ../src/gsb_transactions_list.c:4063
+#: ../src/gsb_transactions_list.c:838 ../src/gsb_transactions_list.c:3949
+#: ../src/gsb_transactions_list.c:4065
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -9127,36 +8266,36 @@ msgid "T"
 msgstr ""
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:1090 ../src/gsb_transactions_list.c:1938
+#: ../src/gsb_transactions_list.c:1090 ../src/gsb_transactions_list.c:1940
 msgid "R"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1469
+#: ../src/gsb_transactions_list.c:1471
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_transactions_list.c:1482
+#: ../src/gsb_transactions_list.c:1484
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1486
+#: ../src/gsb_transactions_list.c:1488
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1869
+#: ../src/gsb_transactions_list.c:1871
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1881
+#: ../src/gsb_transactions_list.c:1883
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -9174,7 +8313,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1950
+#: ../src/gsb_transactions_list.c:1952
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -9182,26 +8321,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1951
+#: ../src/gsb_transactions_list.c:1953
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "סימון העיסקאות"
 
-#: ../src/gsb_transactions_list.c:2030
+#: ../src/gsb_transactions_list.c:2032
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "העיסקאות שלא תואמו וגם לא נבדקו:"
 
-#: ../src/gsb_transactions_list.c:2182
+#: ../src/gsb_transactions_list.c:2184
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2226
+#: ../src/gsb_transactions_list.c:2228
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "לא ניתן למחוק עיסקה מתואמת."
 
-#: ../src/gsb_transactions_list.c:2235
+#: ../src/gsb_transactions_list.c:2237
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -9209,82 +8348,82 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2250
+#: ../src/gsb_transactions_list.c:2252
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2262
+#: ../src/gsb_transactions_list.c:2264
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2465
+#: ../src/gsb_transactions_list.c:2467
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "הצגת עיסקאות"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2518 ../src/menu.c:221
+#: ../src/gsb_transactions_list.c:2520 ../src/menu.c:221
 msgid "Use selected transaction as a template"
 msgstr "שימוש בעיסקה הנבחרת בתור תבנית"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2541
+#: ../src/gsb_transactions_list.c:2543
 msgid "Convert transaction to scheduled transaction"
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2550
+#: ../src/gsb_transactions_list.c:2552
 msgid "Move transaction to another account"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2573
+#: ../src/gsb_transactions_list.c:2575
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2624
+#: ../src/gsb_transactions_list.c:2626
 #, fuzzy
 msgid "Clear cell"
 msgstr "ביטול"
 
-#: ../src/gsb_transactions_list.c:3021
+#: ../src/gsb_transactions_list.c:3023
 msgid "Cannot move a transfer on his contra-account"
 msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3325
+#: ../src/gsb_transactions_list.c:3327
 #, fuzzy
 msgid "Sort list by: "
 msgstr "מיון על פי תאריך:"
 
-#: ../src/gsb_transactions_list.c:3372
+#: ../src/gsb_transactions_list.c:3374
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3380
+#: ../src/gsb_transactions_list.c:3382
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3394
+#: ../src/gsb_transactions_list.c:3396
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3408
+#: ../src/gsb_transactions_list.c:3410
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3817
+#: ../src/gsb_transactions_list.c:3819
 msgid "Transfer to a deleted account"
 msgstr "העברה לחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3819
+#: ../src/gsb_transactions_list.c:3821
 msgid "Transfer from a deleted account"
 msgstr "העברה מחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3979 ../src/gsb_transactions_list.c:4089
+#: ../src/gsb_transactions_list.c:3981 ../src/gsb_transactions_list.c:4091
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9308,60 +8447,64 @@ msgstr ""
 msgid "Warning you cannot create payee or category"
 msgstr ""
 
-#: ../src/help.c:94
+#: ../src/help.c:96
 #, fuzzy
 msgid "Programming"
 msgstr "תוכנות"
 
-#: ../src/help.c:103
+#: ../src/help.c:105
 msgid "Packaging"
 msgstr ""
 
-#: ../src/help.c:124 ../src/help.c:125 ../src/help.c:127
+#: ../src/help.c:119 ../src/import_csv.c:110
+msgid "Other"
+msgstr ""
+
+#: ../src/help.c:126 ../src/help.c:127 ../src/help.c:129
 msgid "English"
 msgstr ""
 
-#: ../src/help.c:126
+#: ../src/help.c:128
 #, fuzzy
 msgid "Spanish"
 msgstr "פזטה ספרדית"
 
-#: ../src/help.c:128
+#: ../src/help.c:130
 msgid "Dutch"
 msgstr ""
 
-#: ../src/help.c:129 ../src/help.c:131
+#: ../src/help.c:131 ../src/help.c:133
 #, fuzzy
 msgid "Italian"
 msgstr "לירטה איטלקית"
 
-#: ../src/help.c:130
+#: ../src/help.c:132
 #, fuzzy
 msgid "Brazilian Portuguese"
 msgstr "ריאל ברזילאי"
 
-#: ../src/help.c:132
+#: ../src/help.c:134
 #, fuzzy
 msgid "German"
 msgstr "גרמניה"
 
-#: ../src/help.c:133
+#: ../src/help.c:135
 #, fuzzy
 msgid "Polish"
 msgstr "זלוטי פולני"
 
-#: ../src/help.c:173 ../src/help.c:189
+#: ../src/help.c:136
+#, fuzzy
+msgid "Greek"
+msgstr "יוון"
+
+#: ../src/help.c:175 ../src/help.c:191
 msgid "Personal finance manager for everyone\n"
 msgstr ""
 
-#: ../src/help.c:178
+#: ../src/help.c:180
 msgid "This instance of Grisbi was compiled on\n"
 msgstr ""
-
-#: ../src/help.c:181
-#, fuzzy
-msgid "at"
-msgstr "תאריך"
 
 #: ../src/import.c:209
 msgid "Comma Separated Values"
@@ -9408,7 +8551,7 @@ msgid "File name"
 msgstr "שם המיקום"
 
 #: ../src/import.c:542 ../src/import.c:697 ../src/import.c:4410
-#: ../src/import_csv.c:1083 ../src/import_csv.c:1109
+#: ../src/import_csv.c:1082 ../src/import_csv.c:1108
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
@@ -9695,7 +8838,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr "פירוט קטגוריות"
 
-#: ../src/import.c:3738 ../src/parametres.c:329
+#: ../src/import.c:3738 ../src/parametres.c:331
 #, fuzzy
 msgid "Import associations"
 msgstr "פעולה"
@@ -9851,41 +8994,41 @@ msgstr "תרגום"
 msgid "Choose CSV separator"
 msgstr ""
 
-#: ../src/import_csv.c:164
+#: ../src/import_csv.c:163
 #, fuzzy
 msgid "Select CSV fields"
 msgstr "בוחרת בשדה הבא"
 
-#: ../src/import_csv.c:236
+#: ../src/import_csv.c:235
 msgid "Skip"
 msgstr ""
 
-#: ../src/import_csv.c:935 ../src/import_csv.c:939
+#: ../src/import_csv.c:934 ../src/import_csv.c:938
 #, fuzzy
 msgid "transaction amount"
 msgstr "קיבוץ עיסקאות לפי חשבון"
 
-#: ../src/import_csv.c:949
+#: ../src/import_csv.c:948
 #, c-format
 msgid "<b>The following fields are missing or inconsistent:</b> %s"
 msgstr ""
 
-#: ../src/import_csv.c:958
+#: ../src/import_csv.c:957
 #, fuzzy
 msgid "All mandatory fields are filed in."
 msgstr "כל השדות אינם ממולאים!"
 
-#: ../src/import_csv.c:1101
+#: ../src/import_csv.c:1100
 msgid "The conversion to utf8 went wrong."
 msgstr ""
 
-#: ../src/import_csv.c:1102
+#: ../src/import_csv.c:1101
 msgid ""
 "If the result does not suit you, try again by selecting the correct "
 "character set in the window for selecting files."
 msgstr ""
 
-#: ../src/import_csv.c:1156
+#: ../src/import_csv.c:1155
 #, fuzzy
 msgid "Imported CSV account"
 msgstr "חשבון מיובא"
@@ -10042,14 +9185,42 @@ msgstr "ללא תת-קו תקציב"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "להעביר את העיסקאות אל"
 
-#: ../src/main.c:609
+#: ../src/main.c:122
+#, fuzzy
+msgid "Show the application's version"
+msgstr "3 שורות לכל עיסקה"
+
+#: ../src/main.c:124
+#, fuzzy
+msgid "Debug mode: level 0-5"
+msgstr "Debug file"
+
+#: ../src/main.c:126
+msgid "[FILE]"
+msgstr ""
+
+#. Setup command line options
+#: ../src/main.c:193
+msgid "- Personnal finances manager"
+msgstr ""
+
+#: ../src/main.c:196
+msgid "Grisbi can manage the accounts of a family or a small association."
+msgstr ""
+
+#: ../src/main.c:674
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error on sigaction: SIGSEGV won't be trapped\n"
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:807 ../src/main.c:847 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "גריסבי"
+
+#: ../src/main.c:978
+#, c-format
+msgid "Grisbi version %s, %s\n"
+msgstr ""
 
 #. File menu
 #: ../src/menu.c:169
@@ -10534,308 +9705,236 @@ msgid "Remove this report"
 msgstr "הסרת דו\"ח"
 
 #. Create dialog
-#: ../src/parametres.c:262
+#: ../src/parametres.c:264
 #, fuzzy
 msgid "Grisbi preferences"
 msgstr "העדפות"
 
-#: ../src/parametres.c:292
+#: ../src/parametres.c:294
 #, fuzzy
 msgid "Main"
 msgstr "ספרד"
 
-#: ../src/parametres.c:301 ../src/parametres.c:867
+#: ../src/parametres.c:303 ../src/parametres.c:869
 msgid "Files"
 msgstr "קבצים"
 
-#: ../src/parametres.c:339 ../src/parametres.c:1054
+#: ../src/parametres.c:341 ../src/parametres.c:1056
 msgid "Programs"
 msgstr "תוכנות"
 
-#: ../src/parametres.c:357 ../src/parametres.c:1265
+#: ../src/parametres.c:359 ../src/parametres.c:1267
 #, fuzzy
 msgid "Localization"
 msgstr "התאמה"
 
-#: ../src/parametres.c:376
+#: ../src/parametres.c:378
 msgid "Display"
 msgstr "תצוגה"
 
-#: ../src/parametres.c:393 ../src/parametres.c:660
+#: ../src/parametres.c:395 ../src/parametres.c:662
 msgid "Messages & warnings"
 msgstr "הודעות ואזהרות"
 
-#: ../src/parametres.c:411 ../src/parametres.c:1147
+#: ../src/parametres.c:413 ../src/parametres.c:1149
 #, fuzzy
 msgid "Payees, categories and budgetaries"
 msgstr "נא להזין קו תקציב!"
 
-#: ../src/parametres.c:420
+#: ../src/parametres.c:422
 msgid "Toolbars - Navigation pane"
 msgstr ""
 
-#: ../src/parametres.c:438
+#: ../src/parametres.c:440
 msgid "List behavior"
 msgstr ""
 
-#: ../src/parametres.c:458 ../src/parametres.c:745
+#: ../src/parametres.c:460 ../src/parametres.c:747
 #, fuzzy
 msgid "Messages before deleting"
 msgstr "הודעות ואזהרות"
 
-#: ../src/parametres.c:494
+#: ../src/parametres.c:496
 #, fuzzy
 msgid "Content"
 msgstr "קשר"
 
-#: ../src/parametres.c:503
+#: ../src/parametres.c:505
 msgid "Behavior"
 msgstr ""
 
-#: ../src/parametres.c:512
+#: ../src/parametres.c:514
 msgid "Completion"
 msgstr ""
 
-#: ../src/parametres.c:522
+#: ../src/parametres.c:524
 msgid "Resources"
 msgstr "מקורות"
 
-#: ../src/parametres.c:539
+#: ../src/parametres.c:541
 #, fuzzy
 msgid "Currencies links"
 msgstr "מטבעות"
 
-#: ../src/parametres.c:581
+#: ../src/parametres.c:583
 #, fuzzy
 msgid "Balance estimate"
 msgstr "יתרות"
 
 #. Tip of the day
-#: ../src/parametres.c:663
+#: ../src/parametres.c:665
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: ../src/parametres.c:666
+#: ../src/parametres.c:668
 msgid "Display tip of the day"
 msgstr ""
 
-#: ../src/parametres.c:673
+#: ../src/parametres.c:675
 #, fuzzy
 msgid "Display following warnings messages"
 msgstr "הודעות אזהרה"
 
-#: ../src/parametres.c:694 ../src/parametres.c:773
+#: ../src/parametres.c:696 ../src/parametres.c:775
 #, fuzzy
 msgid "Message"
 msgstr "רישום ההודעה ליומן"
 
-#: ../src/parametres.c:749
+#: ../src/parametres.c:751
 #, fuzzy
 msgid "Display following messages"
 msgstr "הודעות אזהרה"
 
 #. Compression level of files
-#: ../src/parametres.c:893
+#: ../src/parametres.c:895
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: ../src/parametres.c:901
+#: ../src/parametres.c:903
 #, fuzzy
 msgid "Memorise last opened files: "
 msgstr "זכירת הקבצים האחרונים שנפתחו:"
 
 #. Backups
-#: ../src/parametres.c:910
+#: ../src/parametres.c:912
 msgid "Backups"
 msgstr "גיבויים"
 
 #. Single backup file
-#: ../src/parametres.c:913
+#: ../src/parametres.c:915
 #, fuzzy
 msgid "Make a single backup file"
 msgstr "יצירת עותק גיבוי לפני שמירת קבצים"
 
 #. Compression level of backups
-#: ../src/parametres.c:918
+#: ../src/parametres.c:920
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: ../src/parametres.c:923
+#: ../src/parametres.c:925
 msgid "Make a backup copy after opening files"
 msgstr "יצירת עותק גיבוי לאחר פתיחת קבצים"
 
-#: ../src/parametres.c:977
+#: ../src/parametres.c:979
 #, fuzzy
 msgid "Config file"
 msgstr "שמירת קובץ"
 
-#: ../src/parametres.c:982
+#: ../src/parametres.c:984
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1072
+#: ../src/parametres.c:1074
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: ../src/parametres.c:1113
+#: ../src/parametres.c:1115
 #, fuzzy
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "התראות המתזמן"
 
-#: ../src/parametres.c:1114
+#: ../src/parametres.c:1116
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: ../src/parametres.c:1115
+#: ../src/parametres.c:1117
 #, fuzzy
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr "העברות שנקבעו ידנית בתאריך יעד"
 
-#: ../src/parametres.c:1123
+#: ../src/parametres.c:1125
 #, fuzzy
 msgid "Number of days before the warning or the execution: "
 msgstr "מספר הימים להודיע לפני עיסקה מתוזמנת:"
 
-#: ../src/parametres.c:1156
+#: ../src/parametres.c:1158
 #, fuzzy
 msgid "Sort option for transactions"
 msgstr "פורמט עיסקאות"
 
-#: ../src/parametres.c:1157
+#: ../src/parametres.c:1159
 #, fuzzy
 msgid "by number"
 msgstr "מספר ההמחאה"
 
-#: ../src/parametres.c:1158
+#: ../src/parametres.c:1160
 msgid "by increasing date"
 msgstr ""
 
-#: ../src/parametres.c:1159
+#: ../src/parametres.c:1161
 msgid "by date descending"
 msgstr ""
 
-#: ../src/parametres.c:1166
+#: ../src/parametres.c:1168
 msgid "Choice of the action for double click of the mouse: "
 msgstr ""
 
-#: ../src/parametres.c:1167
+#: ../src/parametres.c:1169
 #, fuzzy
 msgid "Expand the line"
 msgstr "בחירת מידע"
 
-#: ../src/parametres.c:1168
+#: ../src/parametres.c:1170
 #, fuzzy
 msgid "Edit the line"
 msgstr "יתרת פתיחה"
 
-#: ../src/parametres.c:1169
+#: ../src/parametres.c:1171
 #, fuzzy
 msgid "Manage the line"
 msgstr "בחירת מידע"
 
-#: ../src/parametres.c:1307
+#: ../src/parametres.c:1309
 #, fuzzy
 msgid "Choose the date format"
 msgstr "בחירת החשבון"
 
-#: ../src/parametres.c:1313
+#: ../src/parametres.c:1315
 #, fuzzy
 msgid "Date format"
 msgstr "ייצוא דו\"ח"
 
-#: ../src/parametres.c:1379
+#: ../src/parametres.c:1381
 #, fuzzy
 msgid "Decimal point: "
 msgstr "בחירת מידע:"
 
-#: ../src/parametres.c:1392
+#: ../src/parametres.c:1394
 msgid "Thousands separator: "
 msgstr ""
 
-#: ../src/parametres.c:1409
+#: ../src/parametres.c:1411
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1415
+#: ../src/parametres.c:1417
 msgid "Decimal and thousands separator"
-msgstr ""
-
-#. Please make sure to keep consistency between short_options/long_options and USAGE_STRING/HELP_STRING definition
-#: ../src/parse_cmdline.c:56
-msgid ""
-"Try grisbi --help for details\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:57
-msgid "Usage: grisbi [--version | -v] | [--help | -?]\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:60
-msgid ""
-"grisbi [options] [file]\n"
-"  --help                    Show this help message and exit\n"
-"  -v, --version             Show version number and exit\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:178
-#, c-format
-msgid "Grisbi version %s, %s\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:227
-#, c-format
-msgid ""
-"Missing parameter for option %s\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:230
-#, c-format
-msgid ""
-"Syntax error (%s)\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:233
-#, c-format
-msgid ""
-"Unknown option (%s)\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:236
-#, c-format
-msgid ""
-"Too many parameters (%s)\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:239
-#, c-format
-msgid ""
-"Tab is is out of range (%s)\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:242
-#, c-format
-msgid ""
-"Something strange happend (%s)\n"
-"\n"
-msgstr ""
-
-#: ../src/parse_cmdline.c:245
-#, c-format
-msgid ""
-"Syntax error!\n"
-"\n"
 msgstr ""
 
 #: ../src/plugins/gnucash/gnucash.c:167
@@ -11560,7 +10659,12 @@ msgid ""
 "Asked to sort by column %d, wich is bigger than the visible columns (%d)"
 msgstr ""
 
-#: ../src/utils.c:191
+#: ../src/utils_buttons.c:281 ../src/utils_buttons.c:283
+#, fuzzy
+msgid "Unselect"
+msgstr "לסמן כלום"
+
+#: ../src/utils.c:192
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url:\n"
@@ -11571,12 +10675,12 @@ msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: ../src/utils.c:194 ../src/utils.c:233
+#: ../src/utils.c:195 ../src/utils.c:234
 #, fuzzy
 msgid "Cannot execute web browser"
 msgstr "לא ניתן להריץ דפדפן אינטרנט"
 
-#: ../src/utils.c:229
+#: ../src/utils.c:230
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
@@ -11586,7 +10690,7 @@ msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: ../src/utils.c:526
+#: ../src/utils.c:524
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to execute a mailer to write at <tt>%s</tt>.\n"
@@ -11595,62 +10699,58 @@ msgstr ""
 "גריסבי לא הצליח להפעיל דפדפן, כדי לגלוש לכתובת <tt>%s</tt>.  נא לשנות את "
 "ההגדרות, כך שיופיע שם המיקום הנכון של הדפדפן."
 
-#: ../src/utils.c:530
+#: ../src/utils.c:528
 #, fuzzy
 msgid "Cannot execute mailer"
 msgstr "לא ניתן להריץ דפדפן אינטרנט"
 
-#: ../src/utils_files.c:186
-msgid "Print to file"
-msgstr "הדפסה לקובץ"
-
 #. ouch, not enough memory
-#: ../src/utils_files.c:235 ../src/utils_files.c:252
+#: ../src/utils_files.c:201 ../src/utils_files.c:218
 msgid "Memory allocation error"
 msgstr "Memory allocation error"
 
-#: ../src/utils_files.c:281
+#: ../src/utils_files.c:247
 msgid "Convert to utf8 failed."
 msgstr ""
 
-#: ../src/utils_files.c:282
+#: ../src/utils_files.c:248
 msgid ""
 "If the result is not correct, try again by selecting the correct character "
 "set in the window for selecting files."
 msgstr ""
 
-#: ../src/utils_files.c:521
+#: ../src/utils_files.c:487
 #, fuzzy
 msgid "Select a charmap"
 msgstr "בחירת חשבונות בנק"
 
-#: ../src/utils_files.c:543
+#: ../src/utils_files.c:509
 #, c-format
 msgid ""
 "You are here because your file can't be imported directly into grisbi.\n"
 "%s"
 msgstr ""
 
-#: ../src/utils_files.c:583
+#: ../src/utils_files.c:549
 msgid "Encoding"
 msgstr ""
 
-#: ../src/utils_files.c:590
+#: ../src/utils_files.c:556
 #, fuzzy
 msgid "Result"
 msgstr "תוצאה של %s"
 
 #. select an other encoding
-#: ../src/utils_files.c:596
+#: ../src/utils_files.c:562
 msgid "If no proposals above are correct you can choose a different charset"
 msgstr ""
 
-#: ../src/utils_files.c:613 ../src/utils_files.c:731
+#: ../src/utils_files.c:579 ../src/utils_files.c:697
 #, fuzzy
 msgid "Select a charset"
 msgstr "בחירת חשבונות בנק"
 
-#: ../src/utils_files.c:748
+#: ../src/utils_files.c:714
 msgid "The conversion failed try another set of characters"
 msgstr ""
 
@@ -11748,9 +10848,521 @@ msgstr "בחירת חשבונות בנק"
 msgid "Show Labels"
 msgstr ""
 
+#: ../src/ui/etats_config.ui.h:1
+msgid ""
+"<Ctrl> + left click of mouse\n"
+"to add at the selection"
+msgstr ""
+
+#: ../src/ui/etats_config.ui.h:3
+msgid "<Ctrl> + left click of mouse to add to the selection"
+msgstr ""
+
+#: ../src/ui/etats_config.ui.h:5
+msgid "All financial years"
+msgstr "כל שנות הכספים"
+
+#: ../src/ui/etats_config.ui.h:6
+#, fuzzy
+msgid "All transactions"
+msgstr "כל העיסקאות"
+
+#: ../src/ui/etats_config.ui.h:7
+#, fuzzy
+msgid "Amount comparison currency: "
+msgstr "מטבע השוואת סכום:"
+
+#: ../src/ui/etats_config.ui.h:8
+#, fuzzy
+msgid "Beginning of week: "
+msgstr "יתרת פתיחה:"
+
+#: ../src/ui/etats_config.ui.h:10
+#, fuzzy
+msgid "Budgetary lines currency: "
+msgstr "מטבע של קווי תקציב:"
+
+#: ../src/ui/etats_config.ui.h:12
+#, fuzzy
+msgid "Categories currency: "
+msgstr "מטבע של קטגוריות:"
+
+#: ../src/ui/etats_config.ui.h:13
+#, fuzzy
+msgid "Clickable transactions"
+msgstr "כל העיסקאות"
+
+#: ../src/ui/etats_config.ui.h:14
+msgid "Collapse all"
+msgstr ""
+
+#: ../src/ui/etats_config.ui.h:15
+#, fuzzy
+msgid "Columns"
+msgstr "הערות"
+
+#: ../src/ui/etats_config.ui.h:16
+#, fuzzy
+msgid "Consider the payees of this report as a multiple payee"
+msgstr "להחשיב את הצדדים השלישיים של דו\"ח זה בתור צד שלישי מרובה חלקים."
+
+#: ../src/ui/etats_config.ui.h:17
+msgid "Current financial year"
+msgstr "שנת הכספים הנוכחית"
+
+#: ../src/ui/etats_config.ui.h:20
+msgid "Detail budgetary lines"
+msgstr "פירוט קווי תקציב"
+
+#: ../src/ui/etats_config.ui.h:21
+msgid "Detail categories"
+msgstr "פירוט קטגוריות"
+
+#: ../src/ui/etats_config.ui.h:22
+msgid "Detail financial years"
+msgstr "פירוט שנות הכספים"
+
+#: ../src/ui/etats_config.ui.h:23
+#, fuzzy
+msgid "Detail payees"
+msgstr "פירוט קטגוריות"
+
+#: ../src/ui/etats_config.ui.h:24
+msgid "Display a sub-total for each account"
+msgstr "הצגת סיכום לכל חשבון"
+
+#: ../src/ui/etats_config.ui.h:25
+msgid "Display a sub-total for each budgetary line"
+msgstr "הצגת סיכום עבור כל קו תקציב"
+
+#: ../src/ui/etats_config.ui.h:26
+msgid "Display a sub-total for each category"
+msgstr "הצגת סיכום לכל קטגוריה"
+
+#: ../src/ui/etats_config.ui.h:27
+#, fuzzy
+msgid "Display a sub-total for each payee"
+msgstr "הצגת סיכום לכל צד שלישי"
+
+#: ../src/ui/etats_config.ui.h:28
+msgid "Display a sub-total for each sub-budget line"
+msgstr "הצגת סיכום עבור כל קו תקציבי"
+
+#: ../src/ui/etats_config.ui.h:29
+msgid "Display a sub-total for each sub-category"
+msgstr "הצגת סיכום עבור כל תת-קטגוריה"
+
+#: ../src/ui/etats_config.ui.h:30
+msgid "Display account name"
+msgstr "הצגת שם החשבון"
+
+#: ../src/ui/etats_config.ui.h:31
+#, fuzzy
+msgid "Display column titles"
+msgstr "הצגת כותרות העמודות"
+
+#: ../src/ui/etats_config.ui.h:32
+#, fuzzy
+msgid "Display payee's name"
+msgstr "הצגת שמות צדדים שלישיים"
+
+#: ../src/ui/etats_config.ui.h:33
+msgid "Display sub-budget lines"
+msgstr "הצגת תת-קווי תקציב"
+
+#: ../src/ui/etats_config.ui.h:34
+msgid "Display sub-categories"
+msgstr "הצגת תתי-קטגוריות"
+
+#: ../src/ui/etats_config.ui.h:35
+msgid "Display the (sub)category's name"
+msgstr "הצגת שמות (תתי) הקטגוריות"
+
+#: ../src/ui/etats_config.ui.h:36
+msgid "Display the (sub-)budget line name"
+msgstr "הצגת השם של (תת-) קו תקציב"
+
+#: ../src/ui/etats_config.ui.h:37
+#, fuzzy
+msgid "Display the number of transactions with the totals"
+msgstr "להציג את מספר העיסקאות עם הסיכומים"
+
+#: ../src/ui/etats_config.ui.h:38
+msgid "Display transactions"
+msgstr "הצגת עיסקאות"
+
+#: ../src/ui/etats_config.ui.h:39
+#, fuzzy
+msgid "Display «No sub-budgetary line» if none"
+msgstr "הצגת \"אין תת-קו תקציב\" אם אין"
+
+#: ../src/ui/etats_config.ui.h:40
+#, fuzzy
+msgid "Display «No sub-category» if none"
+msgstr "הצגת \"אין תת-קטגוריה\" אם אין"
+
+#: ../src/ui/etats_config.ui.h:41
+#, fuzzy
+msgid "Do not detail split of transactions"
+msgstr "לא לפרט עיסקאות מתואמות"
+
+#: ../src/ui/etats_config.ui.h:42
+msgid "Do not include transfers"
+msgstr "לא לכלול העברות"
+
+#: ../src/ui/etats_config.ui.h:43
+msgid "Exclude the transactions which are not transfers"
+msgstr "לא לכלול עיסקאות שאינן העברות"
+
+#: ../src/ui/etats_config.ui.h:44
+msgid "Exclude the transactions with a null amount"
+msgstr "לא לכלול עיסקאות ללא כל סכום"
+
+#: ../src/ui/etats_config.ui.h:45
+#, fuzzy
+msgid "Expand all"
+msgstr "בחירת מידע"
+
+#: ../src/ui/etats_config.ui.h:47
+#, fuzzy
+msgid "First item"
+msgstr "שורה ראשונה"
+
+#: ../src/ui/etats_config.ui.h:48
+msgid "Following"
+msgstr ""
+
+#: ../src/ui/etats_config.ui.h:49
+msgid "Former financial year"
+msgstr "שנת הכספים הקודמת"
+
+#: ../src/ui/etats_config.ui.h:50
+#, fuzzy
+msgid "General totals currency: "
+msgstr "מטבע של סך הכל הכללי:"
+
+#: ../src/ui/etats_config.ui.h:51
+msgid "Group level organisation"
+msgstr "אירגון ברמת הקבוצה"
+
+#: ../src/ui/etats_config.ui.h:52
+#, fuzzy
+msgid "Group transactions"
+msgstr "סימון העיסקאות"
+
+#: ../src/ui/etats_config.ui.h:53
+msgid "Group transactions by account"
+msgstr "קיבוץ עיסקאות לפי חשבון"
+
+#: ../src/ui/etats_config.ui.h:54
+msgid "Group transactions by budgetary line"
+msgstr "קיבוץ עיסקאות לפי קו תקציבי"
+
+#: ../src/ui/etats_config.ui.h:55
+msgid "Group transactions by category"
+msgstr "קיבוץ עיסקאות לפי קטגוריה"
+
+#: ../src/ui/etats_config.ui.h:56
+#, fuzzy
+msgid "Group transactions by payee"
+msgstr "קיבוץ עיסקאות לפי קטגוריה"
+
+#: ../src/ui/etats_config.ui.h:57
+msgid "Include following information"
+msgstr ""
+
+#: ../src/ui/etats_config.ui.h:58
+msgid "Include transfers from or to accounts not in this report"
+msgstr "לכלול העברות מאת או אל חשבונות שאינם בדו\"ח זה"
+
+#: ../src/ui/etats_config.ui.h:59
+msgid "Include transfers from or to assets or liabilities accounts"
+msgstr "לכלול העברות מאת או אל חשבונות נכסים או התחייבויות"
+
+#: ../src/ui/etats_config.ui.h:60
+msgid "Include transfers from or to these accounts"
+msgstr "לכלול העברות מאת או אל חשבונות אלו"
+
+#: ../src/ui/etats_config.ui.h:61
+msgid "Income budget lines"
+msgstr "קווי תקציב של הכנסות"
+
+#: ../src/ui/etats_config.ui.h:62
+msgid "Income categories"
+msgstr "קטגוריות הכנסות"
+
+#: ../src/ui/etats_config.ui.h:64
+#, fuzzy
+msgid "Last item"
+msgstr "הצהרה אחרונה"
+
+#: ../src/ui/etats_config.ui.h:65
+msgid "Make transactions clickable"
+msgstr "לאפשר לחיצה על עיסקאות"
+
+#: ../src/ui/etats_config.ui.h:66
+#, fuzzy
+msgid "Marked transactions"
+msgstr "הוספת העיסקאות"
+
+#: ../src/ui/etats_config.ui.h:67
+#, fuzzy
+msgid "Navigation"
+msgstr "התאמה"
+
+#: ../src/ui/etats_config.ui.h:68
+msgid "Outgoing budget lines"
+msgstr "קווי תקציב של הוצאות"
+
+#: ../src/ui/etats_config.ui.h:69
+msgid "Outgoing categories"
+msgstr "קטגוריות הוצאות"
+
+#: ../src/ui/etats_config.ui.h:71
+#, fuzzy
+msgid "Payees currency: "
+msgstr "מטבע של קטגוריות:"
+
+#: ../src/ui/etats_config.ui.h:72
+#, fuzzy
+msgid "Pointing transactions"
+msgstr "עיסקאות בחשבון"
+
+#: ../src/ui/etats_config.ui.h:73
+#, fuzzy
+msgid "Prévious"
+msgstr "שנה קודמת"
+
+#: ../src/ui/etats_config.ui.h:74
+msgid "Reconciled transactions"
+msgstr "עיסקאות מתואמות"
+
+#: ../src/ui/etats_config.ui.h:75
+#, fuzzy
+msgid "Report name: "
+msgstr "שם דו\"ח:"
+
+#: ../src/ui/etats_config.ui.h:76
+#, fuzzy
+msgid "Report properties"
+msgstr "מאפייני המטבע"
+
+#: ../src/ui/etats_config.ui.h:79
+msgid "Select assets accounts"
+msgstr "בחירת חשבונות נכסים"
+
+#: ../src/ui/etats_config.ui.h:80
+msgid "Select bank accounts"
+msgstr "בחירת חשבונות בנק"
+
+#: ../src/ui/etats_config.ui.h:81
+msgid "Select cash accounts"
+msgstr "בחירת חשבונות מזומן"
+
+#: ../src/ui/etats_config.ui.h:82
+#, fuzzy
+msgid "Select categories to include: "
+msgstr "בחירת הקטגוריות אשר יש לכלול:"
+
+#: ../src/ui/etats_config.ui.h:83
+msgid "Select liabilities accounts"
+msgstr "בחירת חשבונות התחייבויות"
+
+#: ../src/ui/etats_config.ui.h:84
+#, fuzzy
+msgid "Select methods of payment to include: "
+msgstr "בחירת דרכי התשלום שיש לכלול:"
+
+#: ../src/ui/etats_config.ui.h:85
+#, fuzzy
+msgid "Select payees to include in this report: "
+msgstr "בחירת הצדדים השלישיים שיש לכלול בדו\"ח זה:"
+
+#: ../src/ui/etats_config.ui.h:86
+#, fuzzy
+msgid "Select the accounts included in the report: "
+msgstr "בחירת החשבונות הכלולים בדו\"ח:"
+
+#: ../src/ui/etats_config.ui.h:87
+#, fuzzy
+msgid "Select the budgetary lines to include in the report: "
+msgstr "בחירת קווי התקציב שיש לבחור בדו\"ח:"
+
+#: ../src/ui/etats_config.ui.h:88
+msgid "Select the transactions by amount"
+msgstr "בחירת העיסקאות לפי סכום"
+
+#: ../src/ui/etats_config.ui.h:89
+#, fuzzy
+msgid "Select transactions according to content"
+msgstr "בחירת עיסקאות בהתאם לטקסט"
+
+#: ../src/ui/etats_config.ui.h:90
+msgid "Select transactions only for given accounts"
+msgstr "בחירת העיסקאות רק עבור החשבונות הנבחרים"
+
+#: ../src/ui/etats_config.ui.h:91
+#, fuzzy
+msgid "Selecting Transactions"
+msgstr "מחיקת עיסקה"
+
+#: ../src/ui/etats_config.ui.h:92
+#, fuzzy
+msgid "Selection of transactions by:"
+msgstr "מחיקת עיסקה"
+
+#: ../src/ui/etats_config.ui.h:93
+#, fuzzy
+msgid "Separation by period"
+msgstr "פיצול לפי תקופה"
+
+#: ../src/ui/etats_config.ui.h:94
+#, fuzzy
+msgid "Separation by time period: "
+msgstr "פיצול לפי תקופה:"
+
+#: ../src/ui/etats_config.ui.h:95
+#, fuzzy
+msgid "Sort transactions by"
+msgstr "מיון העיסקאות על פי"
+
+#: ../src/ui/etats_config.ui.h:96
+msgid "Split by financial year"
+msgstr "פיצול לפי שנת כספים"
+
+#: ../src/ui/etats_config.ui.h:97
+msgid "Split by period"
+msgstr "פיצול לפי תקופה"
+
+#: ../src/ui/etats_config.ui.h:98
+msgid "Split incomes and outgoings"
+msgstr "פיצול הכנסות והוצאות"
+
+#: ../src/ui/etats_config.ui.h:99
+#, fuzzy
+msgid "Split of transactions detail"
+msgstr "שבירת עיסקה"
+
+#: ../src/ui/etats_config.ui.h:100
+#, fuzzy
+msgid "Tele-transmitted transactions"
+msgstr "העיסקאות המתואמות"
+
+#: ../src/ui/etats_config.ui.h:101
+#, fuzzy
+msgid "Unreconciled transactions"
+msgstr "עיסקאות מתואמות"
+
+#: ../src/ui/etats_config.ui.h:102
+msgid "Use dates ranges"
+msgstr "להתשמש בטווחי תאריכים"
+
+#: ../src/ui/etats_config.ui.h:103
+msgid "Use financial years"
+msgstr "להשתמש בשנות כספים"
+
+#: ../src/ui/etats_config.ui.h:105
+msgid "at the top of the report"
+msgstr "בראש הדו\"ח"
+
+#: ../src/ui/etats_config.ui.h:111
+msgid "every section"
+msgstr "כל חלק"
+
+#: ../src/ui/etats_config.ui.h:114
+#, fuzzy
+msgid "notes"
+msgstr "הערה"
+
+#: ../src/ui/etats_config.ui.h:119
+#, fuzzy
+msgid "title"
+msgstr "כותרות"
+
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#~ msgid "Misc."
+#~ msgstr "שונות"
+
+#, fuzzy
+#~ msgid "Empty category"
+#~ msgstr "קטגוריה"
+
+#, fuzzy
+#~ msgid "Empty sub-category"
+#~ msgstr "תת-הקטגוריה"
+
+#, fuzzy
+#~ msgid "Empty budget"
+#~ msgstr "קו תקציב חדש"
+
+#, fuzzy
+#~ msgid "Empty sub-budget"
+#~ msgstr "תת-קו תקציב חדש"
+
+#, fuzzy
+#~ msgid "Select unreconciled transactions"
+#~ msgstr "העיסקאות המתואמות"
+
+#~ msgid "Select the transactions by method of payment"
+#~ msgstr "בחירת העיסקאות על פי דרך התשלום"
+
+#, fuzzy
+#~ msgid "Arabic"
+#~ msgstr "אפריקה"
+
+#, fuzzy
+#~ msgid "Baltic"
+#~ msgstr "מאזן"
+
+#, fuzzy
+#~ msgid "Central European"
+#~ msgstr "מרכז אמריקה"
+
+#, fuzzy
+#~ msgid "Chinese"
+#~ msgstr "סין"
+
+#, fuzzy
+#~ msgid "Indian"
+#~ msgstr "הודו"
+
+#, fuzzy
+#~ msgid "Japanese"
+#~ msgstr "ין יפני"
+
+#, fuzzy
+#~ msgid "Korean"
+#~ msgstr "ירדן"
+
+#, fuzzy
+#~ msgid "Turkish"
+#~ msgstr "לירה טורקית"
+
+#, fuzzy
+#~ msgid "Vietnamese"
+#~ msgstr "ויאטנם"
+
+#, fuzzy
+#~ msgid "Western"
+#~ msgstr "אתר אינטרנט"
+
+#, fuzzy
+#~ msgid "Japanese (EUC-JP)"
+#~ msgstr "ין יפני"
+
+#, fuzzy
+#~ msgid "Conversion Direction"
+#~ msgstr "כל חלק"
+
+#, fuzzy
+#~ msgid "Menu"
+#~ msgstr "ידני"
+
+#~ msgid "Print to file"
+#~ msgstr "הדפסה לקובץ"
 
 #, fuzzy
 #~ msgid "Please select the data source for the account: \"%s\""
@@ -11774,9 +11386,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Hide archived transactions"
 #~ msgstr "הוספת העיסקאות"
-
-#~ msgid "Account transactions"
-#~ msgstr "עיסקאות בחשבון"
 
 #, fuzzy
 #~ msgid "Import terminated"
@@ -12080,9 +11689,6 @@ msgstr ""
 
 #~ msgid "Three lines mode"
 #~ msgstr "מצב של 3 שורות"
-
-#~ msgid "first line"
-#~ msgstr "שורה ראשונה"
 
 #~ msgid "second line"
 #~ msgstr "שורה שנייה"
