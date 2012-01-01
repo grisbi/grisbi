@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 18:09+0100\n"
+"POT-Creation-Date: 2012-01-01 10:40+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1825,27 +1825,27 @@ msgid ""
 "Make a copy now."
 msgstr ""
 
-#: ../src/dialog.c:326 ../src/dialog.c:525 ../src/gsb_scheduler_list.c:2060
+#: ../src/dialog.c:335 ../src/dialog.c:534 ../src/gsb_scheduler_list.c:2060
 msgid "Do not show this message again"
 msgstr "Laat dit bericht niet meer zien"
 
-#: ../src/dialog.c:658
+#: ../src/dialog.c:667
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
 msgstr ""
 
-#: ../src/dialog.c:660
+#: ../src/dialog.c:669
 msgid "Serious brain damage expected."
 msgstr "Serieus hersenletsel verwacht."
 
-#: ../src/dialog.c:671
+#: ../src/dialog.c:680
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
 msgstr ""
 
-#: ../src/dialog.c:673
+#: ../src/dialog.c:682
 #, fuzzy
 msgid "Cannot allocate memory"
 msgstr ""
@@ -7649,7 +7649,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:830
 msgid "unnamed"
 msgstr "Niet benoemd"
 
@@ -9882,12 +9882,12 @@ msgstr "Geen sub-budgetregel"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transacties overschrijven naar "
 
-#: ../src/main.c:609
+#: ../src/main.c:646
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Er is een sigaction fout: het programma sluit zich af\n"
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:783 ../src/main.c:823 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

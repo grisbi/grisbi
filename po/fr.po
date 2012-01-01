@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 18:09+0100\n"
+"POT-Creation-Date: 2012-01-01 10:40+0100\n"
 "PO-Revision-Date: 2011-10-04 22:30+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1718,11 +1718,11 @@ msgstr ""
 "le rendre inutilisable.\n"
 "Faites une copie maintenant."
 
-#: ../src/dialog.c:326 ../src/dialog.c:525 ../src/gsb_scheduler_list.c:2060
+#: ../src/dialog.c:335 ../src/dialog.c:534 ../src/gsb_scheduler_list.c:2060
 msgid "Do not show this message again"
 msgstr "Ne plus montrer ce message"
 
-#: ../src/dialog.c:658
+#: ../src/dialog.c:667
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -1730,11 +1730,11 @@ msgstr ""
 "Salut ! Vous êtes au milieu de nulle part, entre deux lignes de code. Grisbi "
 "va très bientôt planter ! Passez une bonne journée."
 
-#: ../src/dialog.c:660
+#: ../src/dialog.c:669
 msgid "Serious brain damage expected."
 msgstr "De gros problèmes en perspective."
 
-#: ../src/dialog.c:671
+#: ../src/dialog.c:680
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1742,7 +1742,7 @@ msgstr ""
 "Des problèmes vont survenir. Prenez la précaution de sauvegarder vos "
 "modifications dans un fichier séparé au cas où un problème surviendrait."
 
-#: ../src/dialog.c:673
+#: ../src/dialog.c:682
 msgid "Cannot allocate memory"
 msgstr "Erreur dans l'allocation de mémoire"
 
@@ -7549,7 +7549,7 @@ msgstr ""
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
 "alors activer l'option « %s » dans les préférences."
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:830
 msgid "unnamed"
 msgstr "sans nom"
 
@@ -9760,12 +9760,12 @@ msgstr "Gérer les sous-imputations"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transférer les opérations dans une autre sous-catégorie"
 
-#: ../src/main.c:609
+#: ../src/main.c:646
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Erreur sur sigaction, le signal SIGSEGV ne sera pas détourné\n"
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:783 ../src/main.c:823 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 

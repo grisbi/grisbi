@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 18:09+0100\n"
+"POT-Creation-Date: 2012-01-01 10:40+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1758,11 +1758,11 @@ msgstr ""
 "puede cambiar y originar ficheros incompatibles con cualquier versión "
 "anterior)."
 
-#: ../src/dialog.c:326 ../src/dialog.c:525 ../src/gsb_scheduler_list.c:2060
+#: ../src/dialog.c:335 ../src/dialog.c:534 ../src/gsb_scheduler_list.c:2060
 msgid "Do not show this message again"
 msgstr "No volver a mostrar este mensaje"
 
-#: ../src/dialog.c:658
+#: ../src/dialog.c:667
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -1771,11 +1771,11 @@ msgstr ""
 "Probablemente Grisbi se cerrará debido a un fallo muy pronto.  Que tenga un "
 "buen día."
 
-#: ../src/dialog.c:660
+#: ../src/dialog.c:669
 msgid "Serious brain damage expected."
 msgstr "Se esperan daños cerebrales severos."
 
-#: ../src/dialog.c:671
+#: ../src/dialog.c:680
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1783,7 +1783,7 @@ msgstr ""
 "Cosas malas ocurrirán pronto.  Asegúrese de guardar cualquier modificación "
 "en otro archivo por que es posible que Grisbi corrompa los archivos."
 
-#: ../src/dialog.c:673
+#: ../src/dialog.c:682
 msgid "Cannot allocate memory"
 msgstr "No se puede reservar memoria"
 
@@ -7610,7 +7610,7 @@ msgstr ""
 "debe cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la "
 "configuración."
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:830
 msgid "unnamed"
 msgstr "Sin nombre"
 
@@ -9841,12 +9841,12 @@ msgstr "línea subpresupuestaria"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Transferir las transacciones a %s"
 
-#: ../src/main.c:609
+#: ../src/main.c:646
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Error en sigaction: SIGSEGV no será interrumpido\n"
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:783 ../src/main.c:823 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
