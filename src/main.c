@@ -165,6 +165,9 @@ void main_linux ( int argc, char **argv )
     cmdline_options  opt;
     gint status = CMDLINE_SYNTAX_OK;
 
+    /* initialisation des différents répertoires */
+    gsb_dirs_init ( );
+
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
@@ -185,9 +188,6 @@ void main_linux ( int argc, char **argv )
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif /* HAVE_GOFFICE */
-
-    /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -274,6 +274,9 @@ void main_mac_osx ( int argc, char **argv )
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
+    /* initialisation des différents répertoires */
+    gsb_dirs_init ( );
+
     bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
@@ -281,9 +284,6 @@ void main_mac_osx ( int argc, char **argv )
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
     gsb_locale_init ( );
-
-    /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -395,6 +395,9 @@ void main_win_32 (  int argc, char **argv )
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
+    /* initialisation des différents répertoires */
+    gsb_dirs_init ( );
+
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
@@ -414,9 +417,6 @@ void main_win_32 (  int argc, char **argv )
     gtk_init ( &argc, &argv );
 
     win32_parse_gtkrc ( "gtkrc" );
-
-    /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
 
     /* parse command line parameter, exit with correct error code when needed */
     if ( !parse_options (argc, argv, &opt, &status ) )
