@@ -21,7 +21,7 @@ m4
 .anjuta*
 depcomp
 grisbi.anjuta
-grisbi.spec.mageia
+grisbi.spec.mageia*
 TODO*
 NEWS.new
 doxygen/
