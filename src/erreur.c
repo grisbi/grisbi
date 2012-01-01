@@ -56,7 +56,7 @@
 
 /*START_STATIC*/
 static gchar *get_debug_time ( void );
-static GtkWidget * print_backtrace ( void );
+static GtkWidget *print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -69,14 +69,20 @@ static gint debugging_grisbi;
  * this values should not be freed when begin a new file to continue the log */
 static FILE *debug_file = NULL;
 
-/*************************************************************************************************************/
+/**
+ * Traitement des erreurs de segmentation
+ *
+ * \param gint numéro de signal
+ *
+ * \return
+ */
 void traitement_sigsegv ( gint signal_nb )
 {
     gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
-	gchar *old_errmsg;
+    gchar *old_errmsg;
     gchar *tmpstr;
-    GtkWidget * dialog;
+    GtkWidget *dialog;
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
 #endif
@@ -178,56 +184,43 @@ void traitement_sigsegv ( gint signal_nb )
     exit(1);
 }
 
-/*************************************************************************************************************/
-/* initialise show_grisbi_debug a TRUE si on souhaite le debug																							 */
-/*************************************************************************************************************/
+/**
+ * initialise show_grisbi_debug a TRUE si on souhaite le debug
+ *
+ * \param
+ *
+ * \return
+ */
 void initialize_debugging ( void )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
-    gint debug_variable=0;
-    gchar *debug_level="";
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+    gchar *debug_level = "";
+    gchar *tmpstr1;
+    gchar *tmpstr2;
 
-    if (getenv ("DEBUG_GRISBI"))
+    
+    if ( ( debugging_grisbi = gsb_main_get_debug_level ( ) ) )
     {
-	/* on choppe la variable d'environnement */
-	debug_variable=utils_str_atoi (getenv ("DEBUG_GRISBI"));
+        /* on renseigne le texte du level de debug */
+        switch ( debugging_grisbi )
+        {
+            case DEBUG_LEVEL_ALERT: { debug_level = "Alert"; break; }
+            case DEBUG_LEVEL_IMPORTANT: { debug_level = "Important"; break; }
+            case DEBUG_LEVEL_NOTICE: { debug_level = "Notice"; break; }
+            case DEBUG_LEVEL_INFO: { debug_level = "Info"; break; }
+            case DEBUG_LEVEL_DEBUG: { debug_level = "Debug"; break; }
+        }
 
-	/* on verifie que la variable est cohérente */
-	if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL) 
-	{
-	    /* on renseigne le texte du level de debug */
-	    debugging_grisbi = debug_variable;
-	    switch(debug_variable)
-	    {
-		case DEBUG_LEVEL_ALERT: { debug_level="Alert"; break; }
-		case DEBUG_LEVEL_IMPORTANT: { debug_level="Important"; break; }
-		case DEBUG_LEVEL_NOTICE: { debug_level="Notice"; break; }
-		case DEBUG_LEVEL_INFO: { debug_level="Info"; break; }
-		case DEBUG_LEVEL_DEBUG: { debug_level="Debug"; break; }
-	    }
-
-	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
-	    debug_message_string ( tmpstr1 , 
-				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
-				   tmpstr2,
-				   DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr1 );
-	    g_free ( tmpstr2 );
-	}
-	else
-	{
-	    /* on affiche un message de debug pour indiquer que le debug est actif */
-	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    debug_message_string (tmpstr , 
-				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
-				  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
-				  DEBUG_LEVEL_INFO, TRUE);
-	    g_free ( tmpstr );
-	}
+        /* on affiche un message de debug pour indiquer que le debug est actif */
+        tmpstr1 = g_strdup_printf ( _("GRISBI %s Debug"),VERSION );
+        tmpstr2 = g_strdup_printf ( _("Debug enabled, level is '%s'"), debug_level );
+        debug_message_string ( tmpstr1,
+                        __FILE__, __LINE__, __PRETTY_FUNCTION__,
+                        tmpstr2,
+                        DEBUG_LEVEL_INFO,
+                        TRUE );
+        g_free ( tmpstr1 );
+        g_free ( tmpstr2 );
     }
 }
 

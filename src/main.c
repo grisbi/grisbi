@@ -5,7 +5,7 @@
 /*                                                                               */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)               */
 /*                      2003-2008 Benjamin Drieu (bdrieu@april.org)              */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                    */
+/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                    */
 /*          http://www.grisbi.org                                                */
 /*                                                                               */
 /*     This program is free software; you can redistribute it and/or modify      */
@@ -50,11 +50,11 @@
 #include "gsb_status.h"
 #include "import.h"
 #include "menu.h"
-#include "parse_cmdline.h"
 #include "structures.h"
 #include "tip.h"
 #include "traitement_variables.h"
 #include "utils.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -94,8 +94,10 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
                         gpointer null );
 static GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox );
 static GtkWidget *gsb_main_create_main_window ( void );
+static gint gsb_main_set_debug_level ( void );
+static void gsb_main_show_version ( void );
 static gboolean gsb_grisbi_init_app ( void );
-static void gsb_grisbi_load_file_if_necessary ( cmdline_options *opt );
+static void gsb_main_load_file_if_necessary ( gchar *filename );
 static gboolean gsb_grisbi_print_environment_var ( void );
 static void gsb_grisbi_trappe_signal_sigsegv ( void );
 static void main_mac_osx ( int argc, char **argv );
@@ -108,6 +110,23 @@ static void main_window_set_size_and_position ( void );
 
 /* Fenetre principale de grisbi */
 static GtkWidget *main_window = NULL;
+
+/* Options pour grisbi */
+static gint debug_level = -1;
+static gchar *file = NULL;
+
+
+static const GOptionEntry options [] =
+{
+    { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
+     gsb_main_show_version, N_("Show the application's version"), NULL },
+
+    { "debug", 'd', 0, G_OPTION_ARG_INT, &debug_level, N_("Debug mode: level 0-5"), NULL },
+
+    { "file", 'f', 0, G_OPTION_ARG_FILENAME, &file, N_("[FILE]"), NULL },
+
+    {NULL}
+};
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
@@ -127,10 +146,6 @@ struct gsb_run_t run;
  */
 int main ( int argc, char **argv )
 {
-#if IS_DEVELOPMENT_VERSION == 1
-        initialize_debugging ( );
-#endif
-
 #if GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
@@ -157,39 +172,67 @@ int main ( int argc, char **argv )
  * */
 void main_linux ( int argc, char **argv )
 {
+    GOptionContext *context;
     GtkWidget *vbox;
     gboolean first_use = FALSE;
-    cmdline_options  opt;
-    gint status = CMDLINE_SYNTAX_OK;
+    GError *error = NULL;
 
-    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
-    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
-    textdomain ( PACKAGE );
-
-    /* Setup locale/gettext */
-    setlocale (LC_ALL, "");
-    gsb_locale_init ( );
-
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
-
-    gtk_init ( &argc, &argv );
-
-    /* initialisation libgoffice */
-    libgoffice_init ( );
-    /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    /* Init type system */
+    g_type_init ();
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
 
+    /* Setup locale/gettext */
+    setlocale (LC_ALL, "");
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
+    bind_textdomain_codeset ( PACKAGE, "UTF-8" );
+    textdomain ( PACKAGE );
+
+    /* Setup command line options */
+    context = g_option_context_new ( _("- Personnal finances manager") );
+
+    g_option_context_set_summary ( context,
+                        N_("Grisbi can manage the accounts of a family or a small association.") );
+    g_option_context_set_translation_domain ( context, PACKAGE );
+
+    g_option_context_add_main_entries ( context, options, PACKAGE );
+    g_option_context_add_group ( context, gtk_get_option_group ( FALSE ));
+    g_option_context_set_translation_domain ( context, PACKAGE );
+
+    if ( !g_option_context_parse ( context, &argc, &argv, &error ) )
+    {
+        g_option_context_free ( context );
+        if (error)
+        {
+            g_print ("option parsing failed: %s\n", error->message);
+            g_error_free ( error );
+        }
+
+      exit (1);
+    }
+
+    /* initialisation de la variable locale pour les devises */
+    gsb_locale_init ( );
+
+    /* initialisation du mode de débogage */
+    if ( gsb_main_set_debug_level ( ) )
+    {
+        initialize_debugging ( );
+        gsb_grisbi_print_environment_var ( );
+    }
+
+    /* initialisation de gtk. arguments à NULL car traités au dessus */
+    gtk_init ( NULL, NULL );
+
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+    /* Initialize plugins manager pour goffice */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
 
-    /* parse command line parameter, exit with correct error code when needed */
-    if ( !parse_options (argc, argv, &opt, &status ) )
-        exit ( status );
     /* initialise les données de l'application */
     first_use = gsb_grisbi_init_app ( );
 
@@ -200,12 +243,11 @@ void main_linux ( int argc, char **argv )
 
     gtk_widget_show ( main_window );
 
-#if IS_DEVELOPMENT_VERSION == 1
-    dialog_message ( "development-version", VERSION );
-#endif
+    if ( IS_DEVELOPMENT_VERSION )
+        dialog_message ( "development-version", VERSION );
 
     /* check the command line, if there is something to open */
-    gsb_grisbi_load_file_if_necessary ( &opt );
+    gsb_main_load_file_if_necessary ( file );
 
     if ( first_use && !nom_fichier_comptes )
         gsb_assistant_first_run ();
@@ -265,6 +307,9 @@ void main_mac_osx ( int argc, char **argv )
     /* init the app */
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
+    /* initialisation des différents répertoires */
+    gsb_dirs_init ( );
+
     bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
@@ -272,9 +317,6 @@ void main_mac_osx ( int argc, char **argv )
     /* Setup locale/gettext */
     setlocale (LC_ALL, "");
     gsb_locale_init ( );
-
-    /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -384,6 +426,9 @@ void main_win_32 (  int argc, char **argv )
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
+    /* initialisation des différents répertoires */
+    gsb_dirs_init ( );
+
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
@@ -401,9 +446,6 @@ void main_win_32 (  int argc, char **argv )
     gtk_init ( &argc, &argv );
 
     win32_parse_gtkrc ( "gtkrc" );
-
-    /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
 
     /* parse command line parameter, exit with correct error code when needed */
     if ( !parse_options (argc, argv, &opt, &status ) )
@@ -640,20 +682,16 @@ void gsb_grisbi_trappe_signal_sigsegv ( void )
  *
  *
  * */
-void gsb_grisbi_load_file_if_necessary ( cmdline_options  *opt )
+void gsb_main_load_file_if_necessary ( gchar *filename )
 {
-    gchar *tmp_str = NULL;
-
     /* check the command line, if there is something to open */
-    if ( opt -> fichier )
+    if ( filename )
     {
-        tmp_str = opt -> fichier;
-
-        if ( gsb_file_open_file ( tmp_str ) )
+        if ( gsb_file_open_file ( filename ) )
         {
             if ( nom_fichier_comptes )
                 g_free ( nom_fichier_comptes );
-            nom_fichier_comptes = tmp_str;
+            nom_fichier_comptes = g_strdup ( filename );
         }
         else
         {
@@ -922,6 +960,71 @@ gchar *gsb_main_get_print_dir_var ( void )
 GtkWidget *gsb_main_get_main_window ( void )
 {
     return main_window;
+}
+
+/**
+ * renvoie la version de Grisbi
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_main_show_version ( void )
+{
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
+#endif
+
+g_print ( N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list ( ) );
+
+    exit ( 0 );
+}
+
+
+/**
+ * renvoie la version mineure de Grisbi
+ *
+ * \param
+ *
+ * \return TRUE if minor number is an odd number
+ */
+gint gsb_main_get_debug_level ( void )
+{
+    return debug_level;
+}
+
+
+/**
+ * positionne la variable debug_mode à 0 si version stable et
+ * à DEBUG_GRISBI ou une valeur passée en paramètre
+ *
+ * \param
+ *
+ * \return debug_mode
+ */
+gint gsb_main_set_debug_level ( void )
+{
+    gchar **tab;
+    gint number = 0;
+    gint number_1;
+
+    tab = g_strsplit ( VERSION, ".", 3 );
+    number_1 = utils_str_atoi ( tab[1] );
+
+    number = number_1 % 2;
+    /* on garde le niveau mini de débogage si $DEBUG_GRISBI n'existe pas */
+    if ( number )
+    {
+        if ( getenv ( "DEBUG_GRISBI" ) )
+            number = utils_str_atoi ( getenv ( "DEBUG_GRISBI" ) );
+    }
+    if ( debug_level == -1 )
+        debug_level = number;
+
+    if ( debug_level > MAX_DEBUG_LEVEL )
+        debug_level = MAX_DEBUG_LEVEL;
+
+    return debug_level;
 }
 
 
