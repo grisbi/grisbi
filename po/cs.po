@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-27 18:09+0100\n"
+"POT-Creation-Date: 2012-01-01 10:40+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1706,11 +1706,11 @@ msgstr ""
 "souborech - můžete je poškodit.\n"
 "Vytvořte si záložní kopii."
 
-#: ../src/dialog.c:326 ../src/dialog.c:525 ../src/gsb_scheduler_list.c:2060
+#: ../src/dialog.c:335 ../src/dialog.c:534 ../src/gsb_scheduler_list.c:2060
 msgid "Do not show this message again"
 msgstr "Příště tuto zprávu nezobrazovat"
 
-#: ../src/dialog.c:658
+#: ../src/dialog.c:667
 msgid ""
 "Hi, you are in the middle of nowhere, between two lines of code. Grisbi is "
 "expected to crash very soon. Have a nice day."
@@ -1718,11 +1718,11 @@ msgstr ""
 "Nyní se nacházíte zde, uprostřed ničeho, mezi dvěma řádkami kódu. Očekává "
 "se, že Grisbi brzo spadne. Hezký den."
 
-#: ../src/dialog.c:660
+#: ../src/dialog.c:669
 msgid "Serious brain damage expected."
 msgstr "POZOR! Vážná chyba!"
 
-#: ../src/dialog.c:671
+#: ../src/dialog.c:680
 msgid ""
 "Bad things will happen soon.  Be sure to save any modification in a separate "
 "file in case Grisbi would corrupt files."
@@ -1730,7 +1730,7 @@ msgstr ""
 "Brzy dojde k chybě. Pro jistotu si uložte soubor účtů do jiného souboru pro "
 "případ, že by došlo k jeno poškození při ukládání."
 
-#: ../src/dialog.c:673
+#: ../src/dialog.c:682
 msgid "Cannot allocate memory"
 msgstr "Nelze alokovat paměť"
 
@@ -7479,7 +7479,7 @@ msgstr ""
 "zrušit tuto akci a uložit jej pod jiným jménem, nebo v Možnostech aktivovat "
 "volbu \"%s\"."
 
-#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:793
+#: ../src/gsb_file.c:813 ../src/gsb_file.c:824 ../src/main.c:830
 msgid "unnamed"
 msgstr "nepojmenovaný"
 
@@ -9664,12 +9664,12 @@ msgstr "Spravovat podrozpočet"
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr "Přesunout všechny transakce do jiného podrozpočtu"
 
-#: ../src/main.c:609
+#: ../src/main.c:646
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr "Chyba sigaction: SIGSEGV nebude zachycen\n"
 
-#: ../src/main.c:746 ../src/main.c:786 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:783 ../src/main.c:823 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr "Grisbi"
 
