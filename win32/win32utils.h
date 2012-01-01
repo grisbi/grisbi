@@ -71,6 +71,7 @@ extern void    win32_parse_gtkrc                  (const gchar* basename);
 #define LOGO_PATH   win32_app_subdir_folder_path("pixmaps/grisbi-logo.png")
 #define DATA_PATH   win32_app_subdir_folder_path("help/tips")
 #define PLUGINS_DIR win32_app_subdir_folder_path("plugins")
+#define UI_DIR      win32_app_subdir_folder_path("share/ui")
 
 // -------------------------------------------------------------------------
 // Windows(c) Version ID and Technology                               PART_3 

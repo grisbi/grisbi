@@ -20,7 +20,7 @@
 !define PRODUCT "Grisbi" ;Name of the project
 !define MAJOR "0"        ;Major version number
 !define MINOR "9"        ;Minor version number
-!define PATCH "2"        ;Patch version number
+!define PATCH "5"        ;Patch version number
 !define STAGE "win32 mingw"     ;Developement stage id (RC, beta, alpha)
 !define SMALL_STAGE "win32_mingw" ;Small dev stage id without spaces
 !define EXE_PATH "target\Win32" ;Path to the exe file you want to pack
@@ -132,7 +132,7 @@ Section $(ProgFiles)
 
   SetOutPath "$INSTDIR"
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\help"
-  File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\pixmaps"
+  File /r /x Makefile.am /x Makefile.in /x *.lib /x libgoffice "${EXE_PATH}\pixmaps"
   File "${EXE_PATH}\grisbi.exe"
   File "${EXE_PATH}\*.dll"
   File ..\win32\grisbi.ico
@@ -142,6 +142,10 @@ Section $(ProgFiles)
   File /r /x Makefile.am /x Makefile.in /x *.lib "${EXE_PATH}\lib\*.*"
   SetOutPath "$INSTDIR\share"
   File /r ..\share\*.*
+  SetOutPath "$INSTDIR\share\ui"
+  File /r "${EXE_PATH}\share\ui\*.*"
+  SetOutPath "$INSTDIR\share\goffice"
+  File /r "${EXE_PATH}\share\goffice\*.*"
 
   ;Store installation folder
   WriteRegStr HKLM "Software\${FULLNAME}" "" $INSTDIR

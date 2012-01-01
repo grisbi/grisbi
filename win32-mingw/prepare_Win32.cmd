@@ -6,10 +6,11 @@
 ::    Specify the BUNDLE file
 ::    Don't include the extension
 SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
+:: gtk+-bundle_2.24.5-20110713_win32.zip
 SET ZLIB_DEV_FILE_BASENAME%=zlib_1.2.5-2_win32
-SET LIBXML_FILE_BASENAME=libxml2-2.7.7.win32
+SET LIBXML_FILE_BASENAME=libxml2-2.7.8.win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0d
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0e
 
 :: The rest of the script should do the rest
 ::on met chcp 1252 qpour les wget car ils affiche en francais
@@ -89,6 +90,7 @@ echo ofx ok
 
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
+:: http://www.optionexplicit.be/projects/gnome-windows/20111020/gtk+-bundle_test_gtk-2-24-win32_branch3.zip
 chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/%ZLIB_DEV_FILE_BASENAME%.zip
 
 :: Checking if already unzipped
