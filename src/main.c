@@ -65,7 +65,7 @@
 #endif  /* GTKOSXAPPLICATION */
 
 /* including resources so that the exe generated with MSVC has the right icon. */
-#ifdef _MSC_VER
+#ifdef G_OS_WIN32
 #include "resource.h"
 
 int APIENTRY wWinMain(HINSTANCE hInstance,
@@ -86,7 +86,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 	}
 	return main(argc, argv);
 }
-#endif /* _MSC_VER */
+#endif /* G_OS_WIN32 */
 
 /*START_STATIC*/
 static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
@@ -151,7 +151,7 @@ int main ( int argc, char **argv )
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
-#ifdef _WIN32
+#ifdef G_OS_WIN32
     main_win_32 (  argc, argv );
 #else
     #ifdef GTKOSXAPPLICATION
@@ -159,7 +159,7 @@ int main ( int argc, char **argv )
     #else
         main_linux ( argc, argv );
     #endif /* GTKOSXAPPLICATION || linux */
-#endif /* _WIN32 */
+#endif /* G_OS_WIN32 */
 
     exit ( 0 );
 }
@@ -385,7 +385,7 @@ void main_mac_osx ( int argc, char **argv )
  * */
 void main_win_32 (  int argc, char **argv )
 {
-#ifdef _WIN32
+#ifdef G_OS_WIN32
     GtkWidget *vbox;
     gboolean first_use = FALSE;
 
@@ -459,7 +459,7 @@ void main_win_32 (  int argc, char **argv )
 
     exit ( 0 );
 
-#endif /* WIN_32 */
+#endif /* G_OS_WIN32 */
 }
 
 
@@ -637,7 +637,7 @@ void main_window_set_size_and_position ( void )
  * */
 void gsb_grisbi_trappe_signal_sigsegv ( void )
 {
-#ifndef _WIN32
+#ifndef G_OS_WIN32
     struct sigaction sig_sev;
 
     memset ( &sig_sev, 0, sizeof ( struct sigaction ) );
@@ -647,7 +647,7 @@ void gsb_grisbi_trappe_signal_sigsegv ( void )
 
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
         g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
-#endif /* not WIN_32 */
+#endif /* G_OS_WIN32 */
 }
 
 
