@@ -212,8 +212,14 @@ void main_linux ( int argc, char **argv )
       exit (1);
     }
 
+    g_option_context_free ( context );
+    context = NULL;
+
     /* initialisation de la variable locale pour les devises */
     gsb_locale_init ( );
+
+    /* initialisation du nom du fichier de configuration */
+    gsb_config_initialise_conf_filename ( );
 
     /* initialisation du mode de débogage */
     if ( gsb_main_set_debug_level ( ) )
@@ -921,6 +927,9 @@ gchar *gsb_main_get_print_locale_var ( void )
 gchar *gsb_main_get_print_dir_var ( void )
 {
     gchar *path_str = NULL;
+    const gchar *conf_filename;
+
+    conf_filename = gsb_config_get_conf_filename ( );
 
     path_str = g_strdup_printf ( "Paths\n"
                         "\tXDG_DATA_HOME                    = %s\n"
@@ -937,7 +946,7 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tgsb_dirs_get_ui_dir ( )          = %s\n\n",
                         g_get_user_data_dir ( ),
                         g_get_user_config_dir ( ),
-                        C_GRISBIRC ( ),
+                        conf_filename,
                         C_PATH_CONFIG ( ),
                         C_PATH_CONFIG_ACCELS ( ),
                         C_PATH_DATA_FILES ( ),
@@ -982,11 +991,11 @@ g_print ( N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list ( ) );
 
 
 /**
- * renvoie la version mineure de Grisbi
+ * renvoie le niveau de débug
  *
  * \param
  *
- * \return TRUE if minor number is an odd number
+ * \return debug_level
  */
 gint gsb_main_get_debug_level ( void )
 {
