@@ -94,7 +94,9 @@ static gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
                         gpointer null );
 static GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox );
 static GtkWidget *gsb_main_create_main_window ( void );
+static void gsb_main_grisbi_shutdown ( void );
 static gint gsb_main_set_debug_level ( void );
+static gint gsb_main_setup_command_line_options ( int argc, char **argv );
 static void gsb_main_show_version ( void );
 static gboolean gsb_grisbi_init_app ( void );
 static void gsb_main_load_file_if_necessary ( gchar *filename );
@@ -114,7 +116,6 @@ static GtkWidget *main_window = NULL;
 /* Options pour grisbi */
 static gint debug_level = -1;
 static gchar *file = NULL;
-
 
 static const GOptionEntry options [] =
 {
@@ -172,10 +173,9 @@ int main ( int argc, char **argv )
  * */
 void main_linux ( int argc, char **argv )
 {
-    GOptionContext *context;
     GtkWidget *vbox;
+    gint return_value;
     gboolean first_use = FALSE;
-    GError *error = NULL;
 
     /* Init type system */
     g_type_init ();
@@ -184,36 +184,15 @@ void main_linux ( int argc, char **argv )
     gsb_dirs_init ( );
 
     /* Setup locale/gettext */
-    setlocale (LC_ALL, "");
+    setlocale ( LC_ALL, "" );
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
     /* Setup command line options */
-    context = g_option_context_new ( _("- Personnal finances manager") );
-
-    g_option_context_set_summary ( context,
-                        N_("Grisbi can manage the accounts of a family or a small association.") );
-    g_option_context_set_translation_domain ( context, PACKAGE );
-
-    g_option_context_add_main_entries ( context, options, PACKAGE );
-    g_option_context_add_group ( context, gtk_get_option_group ( FALSE ));
-    g_option_context_set_translation_domain ( context, PACKAGE );
-
-    if ( !g_option_context_parse ( context, &argc, &argv, &error ) )
-    {
-        g_option_context_free ( context );
-        if (error)
-        {
-            g_print ("option parsing failed: %s\n", error->message);
-            g_error_free ( error );
-        }
-
-      exit (1);
-    }
-
-    g_option_context_free ( context );
-    context = NULL;
+    return_value = gsb_main_setup_command_line_options ( argc, argv );
+    if ( return_value )
+        exit ( return_value );
 
     /* initialisation de la variable locale pour les devises */
     gsb_locale_init ( );
@@ -262,19 +241,7 @@ void main_linux ( int argc, char **argv )
 
     gtk_main ();
 
-    /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
-
-    /* libération de mémoire */
-    gsb_locale_shutdown ( );
-    gsb_dirs_shutdown ( );
-
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
+    gsb_main_grisbi_shutdown ( );
 
     exit ( 0 );
 }
@@ -387,20 +354,9 @@ void main_mac_osx ( int argc, char **argv )
 
     gtk_main ();
 
-    /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
-
     g_object_unref ( theApp );
 
-    gsb_locale_shutdown ( );
-    gsb_dirs_shutdown ( );
-
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
+    gsb_main_grisbi_shutdown ( );
 
     exit ( 0 );
 
@@ -419,43 +375,48 @@ void main_win_32 (  int argc, char **argv )
 #ifdef _WIN32
     GtkWidget *vbox;
     gboolean first_use = FALSE;
-    cmdline_options  opt;
-    gint status = CMDLINE_SYNTAX_OK;    /* be optimistic ;-) */
 
     /* Retrieve exception information and store them under grisbi.rpt file!
      * see http://jrfonseca.dyndns.org/projects/gnu-win32/software/drmingw/index.html for more information */
     LoadLibrary("exchndl.dll");
 
     /* we store the path of the running file to use it for pixmaps, help and locales .... */
-    win32_set_app_path(argv[0]);
+/*     win32_set_app_path ( argv[0] );  */
 
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
+    /* Init type system */
+    g_type_init ();
+
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
 
+    /* Setup locale/gettext */
+    setlocale ( LC_ALL, "" );
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
-    /* Setup locale/gettext */
-    setlocale( LC_ALL, NULL );
+    /* Setup command line options */
+    return_value = gsb_main_setup_command_line_options ( argc, argv );
+    if ( return_value )
+        exit ( return_value );
 
+    /* initialisation de la variable locale pour les devises */
     gsb_locale_init ( );
+
+    /* initialisation du nom du fichier de configuration */
+    gsb_config_initialise_conf_filename ( );
+
+    /* initialisation de gtk. arguments à NULL car traités au dessus */
+    gtk_init ( NULL, NULL );
+/*     win32_parse_gtkrc ( "gtkrc" );  */
 
     /* initialisation libgoffice */
     libgoffice_init ( );
-    /* Initialize plugins manager */
+    /* Initialize plugins manager pour goffice */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-
-    gtk_init ( &argc, &argv );
-
-    win32_parse_gtkrc ( "gtkrc" );
-
-    /* parse command line parameter, exit with correct error code when needed */
-    if ( !parse_options (argc, argv, &opt, &status ) )
-        exit ( status );
 
     /* initialise les données de l'application */
     first_use = gsb_grisbi_init_app ( );
@@ -471,7 +432,8 @@ void main_win_32 (  int argc, char **argv )
     dialog_message ( "development-version", VERSION );
 #endif
 
-    gsb_grisbi_load_file_if_necessary ( &opt );
+    /* check the command line, if there is something to open */
+    gsb_main_load_file_if_necessary ( file );
 
     if ( first_use && !nom_fichier_comptes )
         gsb_assistant_first_run ();
@@ -480,18 +442,7 @@ void main_win_32 (  int argc, char **argv )
 
     gtk_main ();
 
-    /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
-
-    gsb_locale_shutdown ( );
-    gsb_dirs_shutdown ( );
-
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
-
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
+    gsb_main_grisbi_shutdown ( );
 
     exit ( 0 );
 
@@ -510,7 +461,9 @@ gboolean gsb_grisbi_print_environment_var ( void )
 {
     gchar *tmp_str;
 
-    g_printf ("Variables d'environnement :\n\n" );
+    g_print ("\nGrisbi version %s\n\n", VERSION );
+
+    g_printf ("Variables d'environnement :\n" );
 
     tmp_str = gsb_main_get_print_locale_var ( );
     g_printf ("%s", tmp_str);
@@ -621,6 +574,7 @@ GtkWidget *gsb_main_create_main_window ( void )
 GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
 {
     GtkWidget *menu_bar;
+    gchar *accel_filename;
 
     /* create the menus */
     menu_bar = init_menus ( vbox );
@@ -629,7 +583,9 @@ GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
     menus_sensitifs ( FALSE );
 
     /* charge les raccourcis claviers */
-    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS ( ) );
+    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
+    gtk_accel_map_load ( accel_filename );
+    g_free ( accel_filename );
 
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ( );
@@ -881,37 +837,32 @@ gchar *gsb_main_get_print_locale_var ( void )
 {
     struct lconv *conv;
     gchar *locale_str = NULL;
-    gchar *mon_thousands_sep;
-    gchar *mon_decimal_point;
     gchar *positive_sign;
     gchar *negative_sign;
 
     /* test local pour les nombres */
-    conv = localeconv();
+    conv = gsb_locale_get_locale ( );
+    positive_sign = g_strdup ( conv->positive_sign );
+    negative_sign = g_strdup ( conv->negative_sign );
 
-    mon_thousands_sep = g_locale_to_utf8 ( conv->mon_thousands_sep, -1, NULL, NULL, NULL );
-    mon_decimal_point = g_locale_to_utf8 ( conv->mon_decimal_point, -1, NULL, NULL, NULL );
-    positive_sign = g_locale_to_utf8 ( conv->positive_sign, -1, NULL, NULL, NULL );
-    negative_sign = g_locale_to_utf8 ( conv->negative_sign, -1, NULL, NULL, NULL );
-
-    locale_str = g_strdup_printf ( "LANG = %s\n\n"
+    locale_str = g_strdup_printf ( "LANG = %s\n"
                         "Currency\n"
                         "\tcurrency_symbol   = %s\n"
                         "\tmon_thousands_sep = \"%s\"\n"
                         "\tmon_decimal_point = %s\n"
                         "\tpositive_sign     = \"%s\"\n"
                         "\tnegative_sign     = \"%s\"\n"
+                        "\tp_cs_precedes     = \"%d\"\n"
                         "\tfrac_digits       = \"%d\"\n\n",
                         g_getenv ( "LANG"),
                         conv->currency_symbol,
-                        mon_thousands_sep,
-                        mon_decimal_point,
+                        gsb_locale_get_mon_thousands_sep ( ),
+                        gsb_locale_get_mon_decimal_point ( ),
                         positive_sign,
                         negative_sign,
+                        conv->p_cs_precedes,
                         conv->frac_digits );
 
-    g_free ( mon_thousands_sep );
-    g_free ( mon_decimal_point );
     g_free ( positive_sign );
     g_free ( negative_sign );
 
@@ -928,34 +879,36 @@ gchar *gsb_main_get_print_dir_var ( void )
 {
     gchar *path_str = NULL;
     const gchar *conf_filename;
+    gchar *accel_filename;
 
     conf_filename = gsb_config_get_conf_filename ( );
+    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
 
     path_str = g_strdup_printf ( "Paths\n"
-                        "\tXDG_DATA_HOME                    = %s\n"
-                        "\tXDG_CONFIG_HOME                  = %s\n\n"
-                        "\tC_GRISBIRC                       = %s\n"
-                        "\tC_PATH_CONFIG                    = %s\n"
-                        "\tC_PATH_CONFIG_ACCELS             = %s\n"
-                        "\tC_PATH_DATA_FILES                = %s\n\n"
-                        "\tDATA_PATH                        = %s\n\n"
+                        "\thome_dir                         = %s\n"
+                        "\tuser_config_dir                  = %s\n"
+                        "\tuser_config_filename             = %s\n"
+                        "\tuser_accels_filename             = %s\n"
+                        "\tuser_data_pathname               = %s\n\n"
+                        "\tsys_data_pathname                = %s\n\n"
                         "\tgsb_dirs_get_categories_dir ( )  = %s\n"
                         "\tgsb_dirs_get_locale_dir ( )      = %s\n"
                         "\tgsb_dirs_get_plugins_dir ( )     = %s\n"
                         "\tgsb_dirs_get_pixmaps_dir ( )     = %s\n"
                         "\tgsb_dirs_get_ui_dir ( )          = %s\n\n",
-                        g_get_user_data_dir ( ),
-                        g_get_user_config_dir ( ),
+                        gsb_dirs_get_home_dir ( ),
+                        gsb_dirs_get_user_config_dir ( ),
                         conf_filename,
-                        C_PATH_CONFIG ( ),
-                        C_PATH_CONFIG_ACCELS ( ),
-                        C_PATH_DATA_FILES ( ),
+                        accel_filename,
+                        gsb_dirs_get_user_data_dir ( ),
                         DATA_PATH,
                         gsb_dirs_get_categories_dir ( ),
                         gsb_dirs_get_locale_dir ( ),
                         gsb_dirs_get_plugins_dir ( ),
                         gsb_dirs_get_pixmaps_dir ( ),
                         gsb_dirs_get_ui_dir ( ) );
+
+    g_free ( accel_filename );
 
     return path_str;
 }
@@ -1035,6 +988,87 @@ gint gsb_main_set_debug_level ( void )
 
     return debug_level;
 }
+
+
+/**
+ * traite les arguments de la ligne de commande
+ *
+ * \param
+ *
+ * \return code de sortie 1 si erreur de traitement
+ */
+gint gsb_main_setup_command_line_options ( int argc, char **argv )
+{
+    GOptionContext *context;
+    gint return_value = 0;
+    GError *error = NULL;
+
+    context = g_option_context_new ( _("- Personnal finances manager") );
+
+    g_option_context_set_summary ( context,
+                        N_("Grisbi can manage the accounts of a family or a small association.") );
+    g_option_context_set_translation_domain ( context, PACKAGE );
+
+    g_option_context_add_main_entries ( context, options, PACKAGE );
+    g_option_context_add_group ( context, gtk_get_option_group ( FALSE ));
+    g_option_context_set_translation_domain ( context, PACKAGE );
+
+    if ( !g_option_context_parse ( context, &argc, &argv, &error ) )
+    {
+        g_option_context_free ( context );
+        if (error)
+        {
+            g_print ("option parsing failed: %s\n", error->message);
+            g_error_free ( error );
+        }
+
+      return_value = 1;
+    }
+
+    g_option_context_free ( context );
+
+    return return_value;
+}
+
+
+/**
+ *  procédure appelée après gtk_main_quit termine Grisbi
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_main_grisbi_shutdown ( void )
+{
+    gchar *filename;
+
+    /* sauvegarde les raccourcis claviers */
+    filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
+    gtk_accel_map_save ( filename );
+    g_free ( filename );
+
+    /* libération de mémoire */
+    gsb_locale_shutdown ( );
+    gsb_dirs_shutdown ( );
+
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+
+#if GSB_GMEMPROFILE
+    g_mem_profile();
+#endif
+
+
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
 
 
 /* Local Variables: */
