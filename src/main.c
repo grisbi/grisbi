@@ -259,37 +259,49 @@ void main_mac_osx ( int argc, char **argv )
     GtkWidget *vbox;
     GtkWidget *menubar;
     GdkPixbuf *pixbuf;
-    cmdline_options  opt;
     gboolean first_use = FALSE;
-    gint status = CMDLINE_SYNTAX_OK;
     GtkOSXApplication *theApp;
 
-    devel_debug ("main_mac_osx");
-
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
-
-    gtk_init ( &argc, &argv );
-
-    /* initialisation libgoffice */
-    libgoffice_init ( );
-    /* Initialize plugins manager */
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
-
-    /* init the app */
-    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+    /* Init type system */
+    g_type_init ();
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
 
-    bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
+    /* Setup locale/gettext */
+    setlocale ( LC_ALL, "" );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
-    /* Setup locale/gettext */
-    setlocale (LC_ALL, "");
+    /* Setup command line options */
+    return_value = gsb_main_setup_command_line_options ( argc, argv );
+    if ( return_value )
+        exit ( return_value );
+
+    /* initialisation de la variable locale pour les devises */
     gsb_locale_init ( );
+
+    /* initialisation du nom du fichier de configuration */
+    gsb_config_initialise_conf_filename ( );
+
+    /* initialisation du mode de débogage */
+    if ( gsb_main_set_debug_level ( ) )
+    {
+        initialize_debugging ( );
+        gsb_grisbi_print_environment_var ( );
+    }
+
+    /* initialisation de gtk. arguments à NULL car traités au dessus */
+    gtk_init ( NULL, NULL );
+
+    /* initialisation libgoffice */
+    libgoffice_init ( );
+    /* Initialize plugins manager pour goffice */
+    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+
+    /* init the app */
+    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
     /* on commence par détourner le signal SIGSEGV */
     gsb_grisbi_trappe_signal_sigsegv ( );
@@ -333,7 +345,8 @@ void main_mac_osx ( int argc, char **argv )
     dialog_message ( "development-version", VERSION );
 #endif
     
-    gsb_grisbi_load_file_if_necessary ( &opt );
+    /* check the command line, if there is something to open */
+    gsb_main_load_file_if_necessary ( file );
 
     if ( first_use && !nom_fichier_comptes )
         gsb_assistant_first_run ();
@@ -1057,8 +1070,6 @@ void gsb_main_grisbi_shutdown ( void )
 #if GSB_GMEMPROFILE
     g_mem_profile();
 #endif
-
-
 }
 
 
