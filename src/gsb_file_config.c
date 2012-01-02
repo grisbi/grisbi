@@ -43,7 +43,6 @@
 #include "fenetre_principale.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "main.h"
 #include "structures.h"
 #include "utils_buttons.h"
 #include "utils_files.h"
@@ -52,15 +51,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gchar *gsb_config_get_old_conf_name ( void );
 static void gsb_file_config_clean_config ( void );
-static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
-                        const gchar *text,
-                        gsize text_len,  
-                        gpointer user_data,
-                        GError **error);
-static gboolean gsb_file_config_load_last_xml_config ( gchar *filename );
-static void gsb_file_config_remove_old_config_file ( gchar *filename );
 /*END_STATIC*/
 
 
@@ -75,14 +66,20 @@ extern gchar *nom_fichier_comptes;
 /* global variable, see structures.h */
 struct gsb_conf_t conf;
 
-
+/* liste des derniers fichiers ouverts */
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
-#if IS_DEVELOPMENT_VERSION == 1
-/* flag de chargement du fichier modèle */
-static gboolean used_model = FALSE;
-#endif
+/* nom du fichier de configuration */
+static gchar *conf_filename;
 
+#if IS_DEVELOPMENT_VERSION == 1
+    /* flag de chargement du fichier modèle */
+    static gboolean used_model = FALSE;
+    /* partie variable du nom du fichier de configuration */
+    #define GRISBIRC "dev.conf"
+#else
+    #define GRISBIRC  ".conf"
+#endif
 
 /**
  * load the config file
@@ -97,7 +94,6 @@ gboolean gsb_file_config_load_config ( void )
 {
     GKeyFile *config;
     gboolean result;
-    gchar *filename;
     gchar *name;
     gint i;
     gint int_ret;
@@ -105,58 +101,18 @@ gboolean gsb_file_config_load_config ( void )
 
     gsb_file_config_clean_config ();
 
-    filename = g_build_filename ( my_get_XDG_grisbirc_dir(), C_GRISBIRC ( ), NULL );
-#if IS_DEVELOPMENT_VERSION == 1
-    if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
-    {
-        g_free ( filename );
-        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
-                                 PACKAGE, ".conf", NULL );
-        used_model = FALSE;
-    }
-#endif
+    if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
+        return FALSE;
 
     config = g_key_file_new ();
     
     result = g_key_file_load_from_file ( config,
-                        filename,
+                        conf_filename,
                         G_KEY_FILE_KEEP_COMMENTS,
                         NULL );
-    /* if key_file couldn't load the conf, it's because it's the last
-     * conf (HOME or xml) or no conf... try the HOME conf and the xml conf */
-    if (!result)
+    if ( !result )
     {
-        /* On recherche le fichier dans HOME */
-        g_free ( filename );
-#ifndef _WIN32
-        /* On recherche les fichiers possibles seulement sous linux */
-        filename = gsb_config_get_old_conf_name ( );
-        devel_debug (filename);
-        if ( ! filename || strlen ( filename ) == 0 )
-            return FALSE;
-#else
-        filename = g_build_filename ( my_get_grisbirc_dir(), C_OLD_GRISBIRC ( ), NULL );
-#endif
-        
-        g_key_file_free ( config );
-        config = g_key_file_new ();
-        
-        result = g_key_file_load_from_file ( config,
-                        filename,
-                        G_KEY_FILE_KEEP_COMMENTS,
-                        NULL );
-        /* si on ne le trouve pas on recherche le fichier au format xml */
-        if (!result)
-        {
-            result = gsb_file_config_load_last_xml_config ( filename );
-            if ( result )
-                gsb_file_config_remove_old_config_file ( filename );
-            g_free (filename);
-            g_key_file_free ( config );
-            return result;
-        }
-        else
-            g_unlink ( filename );
+        return FALSE;
     }
 
 #if IS_DEVELOPMENT_VERSION == 1
@@ -168,19 +124,18 @@ gboolean gsb_file_config_load_config ( void )
     if ( conf.stable_config_file_model )
     {
         used_model = TRUE;
-        g_free ( filename );
-        filename = g_strconcat ( my_get_XDG_grisbirc_dir(), G_DIR_SEPARATOR_S,
-                                 PACKAGE, ".conf", NULL );
-        if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
+        g_free ( conf_filename );
+        conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir (), PACKAGE, ".conf", NULL );
+        if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
         {
             g_key_file_free ( config );
             return FALSE;
         }
 
-        g_key_file_free (config);
-        config = g_key_file_new ();
+        g_key_file_free ( config );
+        config = g_key_file_new ( );
         result = g_key_file_load_from_file ( config,
-                        filename,
+                        conf_filename,
                         G_KEY_FILE_KEEP_COMMENTS,
                         NULL );
     }
@@ -294,8 +249,8 @@ gboolean gsb_file_config_load_config ( void )
 
     /* exec gsb_file_automatic_backup_start ( ) if necessary */
     if ( conf.make_backup_every_minutes
-	&&
-	conf.make_backup_nb_minutes )
+     &&
+     conf.make_backup_nb_minutes )
         gsb_file_automatic_backup_start ( NULL, NULL );
 
     conf.compress_backup = g_key_file_get_integer ( config,
@@ -495,8 +450,8 @@ gboolean gsb_file_config_load_config ( void )
                         "Show tip",
                         NULL );
 
-    g_free (filename);
-    g_key_file_free (config);
+    g_key_file_free ( config );
+
     return TRUE;
 }
 
@@ -516,6 +471,7 @@ gboolean gsb_file_config_save_config ( void )
     gchar *filename;
     gchar *file_content;
     gchar *name;
+    gchar *tmp_str;
     gsize length;
     FILE *conf_file;
     gint i;
@@ -523,7 +479,10 @@ gboolean gsb_file_config_save_config ( void )
     
     devel_debug (NULL);
 
-    filename = g_build_filename ( my_get_XDG_grisbirc_dir(), C_GRISBIRC ( ), NULL );
+    tmp_str = g_strconcat ( PACKAGE, GRISBIRC, NULL );
+    filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
+    g_free ( tmp_str );
+
     config = g_key_file_new ();
 
 #if IS_DEVELOPMENT_VERSION == 1
@@ -881,334 +840,13 @@ gboolean gsb_file_config_save_config ( void )
 
 
 /**
- * load the xml file config for grisbi before 0.6.0
- * try to find it, if not, return FALSE
- * */
-gboolean gsb_file_config_load_last_xml_config ( gchar *filename )
-{
-    gchar *file_content;
-    gsize length;
-
-    devel_debug (filename);
-
-    /* check if the file exists */
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_EXISTS ))
-	return FALSE;
-
-    /* check here if it's not a regular file */
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_IS_REGULAR ))
-    {
-        gchar* tmpstr = g_strdup_printf ( _("%s doesn't seem to be a regular config file,\nplease check it."),
-					   filename );
-	dialogue_error ( tmpstr);
-        g_free ( tmpstr );
-	return ( FALSE );
-    }
-
-    /* load the file */
-
-    if ( g_file_get_contents ( filename,
-			       &file_content,
-			       &length,
-			       NULL ))
-    {
-	GMarkupParser *markup_parser = g_malloc0 (sizeof (GMarkupParser));
-	GMarkupParseContext *context;
-
-	/* fill the GMarkupParser for the xml structure */
-	
-	markup_parser -> text = (void *) gsb_file_config_get_xml_text_element;
-
-	context = g_markup_parse_context_new ( markup_parser,
-					       0,
-					       NULL,
-					       NULL );
-
-	g_markup_parse_context_parse ( context,
-				       file_content,
-				       strlen (file_content),
-				       NULL );
-
-	g_markup_parse_context_free (context);
-	g_free (markup_parser);
-	g_free (file_content);
-    }
-    else
-    {
-	gchar* tmpstr = g_strdup_printf (_("Cannot open config file '%s': %s"),
-					 filename,
-					 g_strerror(errno));
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return FALSE;
-    }
-
-    return TRUE;
-}
-
-
-/**
- * called for each new element in the last xml config file
- * see the g_lib doc for the description of param
- *
- * \param context
- * \param text
- * \param text_len
- * \param user_data
- * \param error
- *
- * \return
- * */
-void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
-                        const gchar *text,
-                        gsize text_len,  
-                        gpointer user_data,
-                        GError **error)
-{
-    const gchar *element_name;
-    gint i;
-
-    element_name = g_markup_parse_context_get_element ( context );
-
-    if ( !strcmp ( element_name,
-		   "Width" ))
-    {
-	conf.main_width = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Height" ))
-    {
-	conf.main_height = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Modification_operations_rapprochees" ))
-    {
-	conf.r_modifiable = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Dernier_chemin_de_travail" ))
-    {
-	gsb_file_update_last_path (text);
-
-	if ( !gsb_file_get_last_path ()
-	     ||
-	     !strlen (gsb_file_get_last_path ()))
-	    gsb_file_update_last_path (g_get_home_dir ());
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Affichage_alerte_permission" ))
-    {
-	 conf.alerte_permission = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Force_enregistrement" ))
-    {
-	conf.force_enregistrement = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Fonction_touche_entree" ))
-    {
-	conf.entree = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Affichage_messages_alertes" ))
-    {
-	conf.alerte_mini = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Utilise_fonte_des_listes" ))
-    {
-	conf.utilise_fonte_listes = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Fonte_des_listes" ))
-    {
-	conf.font_string = my_strdup (text);
-	return;
-    }
-     if ( !strcmp ( element_name,
-		   "Navigateur_web" ))
-    {
-        if ( conf.browser_command )
-            g_free ( conf.browser_command );
-	conf.browser_command = my_strdelimit (text,
-					      "\\e",
-					      "&" );
-	return;
-    }
- 
-    if ( !strcmp ( element_name,
-		   "Largeur_colonne_echeancier" ))
-    {
-	etat.largeur_colonne_echeancier = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Largeur_colonne_comptes_comptes" ))
-    {
-	etat.largeur_colonne_comptes_comptes = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Largeur_colonne_etats" ))
-    {
-	etat.largeur_colonne_etat = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Chargement_auto_dernier_fichier" ))
-    {
-	conf.dernier_fichier_auto = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Nom_dernier_fichier" ))
-    {
-	nom_fichier_comptes = my_strdup (text);
-	return;
-    }
-  
-    if ( !strcmp ( element_name,
-		   "Enregistrement_automatique" ))
-    {
-	conf.sauvegarde_auto = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Enregistrement_au_demarrage" ))
-    {
-	conf.sauvegarde_demarrage = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Nb_max_derniers_fichiers_ouverts" ))
-    {
-	conf.nb_max_derniers_fichiers_ouverts = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Compression_fichier" ))
-    {
-	conf.compress_file = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Compression_backup" ))
-    {
-	conf.compress_backup = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "fichier" ))
-    {
-	if (!tab_noms_derniers_fichiers_ouverts)
-	    tab_noms_derniers_fichiers_ouverts = g_malloc0 ( conf.nb_max_derniers_fichiers_ouverts * sizeof(gchar *) );
-
-	tab_noms_derniers_fichiers_ouverts[conf.nb_derniers_fichiers_ouverts] = my_strdup (text);
-	conf.nb_derniers_fichiers_ouverts++;
-	return;
-    }
- 
-    if ( !strcmp ( element_name,
-		   "Delai_rappel_echeances" ))
-    {
-	nb_days_before_scheduled = utils_str_atoi (text);
-	execute_scheduled_of_month = FALSE;
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Affichage_formulaire" ))
-    {
-	etat.formulaire_toujours_affiche = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Largeur_auto_colonnes" ))
-    {
-	etat.largeur_auto_colonnes = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "Affichage_exercice_automatique" ))
-    {
-	etat.affichage_exercice_automatique = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "display_toolbar" ))
-    {
-	etat.display_toolbar = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "show_closed_accounts" ))
-    {
-	etat.show_closed_accounts = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "show_tip" ))
-    {
-	etat.show_tip = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
-		   "last_tip" ))
-    {
-	etat.last_tip = utils_str_atoi (text);
-	return;
-    }
-
-    for ( i = 0; messages[i].name; i++ )
-    {
-	if ( !strcmp ( element_name, messages[i].name ) )
-	{
-	    messages[i].hidden = utils_str_atoi (text);
-	}
-    }
-}
-
-
-/**
  * Set all the config variables to their default values.
  * called before loading the config
  * or for a new opening
+ *
+ * \param
+ *
+ * \return
  */
 void gsb_file_config_clean_config ( void )
 {
@@ -1253,7 +891,7 @@ void gsb_file_config_clean_config ( void )
     
     conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
-    gsb_file_set_backup_path (my_get_XDG_grisbi_data_dir ());
+    gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir ( ) );
     conf.make_backup = 1;
     conf.make_backup_every_minutes = FALSE;
     conf.make_backup_nb_minutes = 0;
@@ -1291,178 +929,60 @@ void gsb_file_config_clean_config ( void )
 }
 
 
-static void gsb_file_config_remove_old_config_file ( gchar *filename )
+/**
+ * renvoie le nom du fichier de configuration
+ *
+ * \param
+ *
+ * \return conf_filename
+ */
+const gchar *gsb_config_get_conf_filename ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *content_area;
-    GtkWidget *hbox;
-    GtkWidget *image;
-    GtkWidget *label;
-    gint resultat;
-	gchar *tmpstr;
-
-    dialog = gtk_dialog_new_with_buttons ( _("Delete config file from a previous version"),
-                        GTK_WINDOW ( run.window ),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_YES, GTK_RESPONSE_OK,
-                        NULL );
-
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
-
-    content_area = GTK_DIALOG(dialog) -> vbox;
-    hbox = gtk_hbox_new ( FALSE, 5);
-	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
-
-    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
-                        GTK_ICON_SIZE_DIALOG );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
-
-    tmpstr = g_strconcat ( 
-                        _("Caution, you are about to delete the\n"
-                        "configuration file of a previous version of Grisbi.\n"
-                        "\n<b>Do you want to delete this file?</b>"),
-                        NULL );
-
-    label = gtk_label_new ( tmpstr );
-    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-    g_free ( tmpstr );
-
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-
-    if ( resultat == GTK_RESPONSE_OK )
-        g_unlink ( filename );
-    if ( GTK_IS_DIALOG ( dialog ) )
-        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+    return conf_filename;
 }
 
 
-gchar *gsb_config_get_old_conf_name ( void )
+/**
+ * initialise le nom du fichier de configuration
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_config_initialise_conf_filename ( void )
 {
-    GtkWidget *dialog;
-    GtkWidget *hbox;
-    GtkWidget *image;
-    GtkWidget *label;
-    GtkWidget *combo;
-    GtkWidget *content_area;
-    GDir *dir;
-    gchar *filename = NULL;
-    GSList *liste = NULL;
-    GtkListStore *store;
-    GtkTreeIter iter;
-    GtkCellRenderer *renderer;
-    GError *error = NULL;
-    gint resultat;
-    gint i = 0, j = 0;
-	gchar *tmpstr;
-    
-    dir = g_dir_open ( my_get_grisbirc_dir ( ), 0, &error );
-    if ( dir )
+    gchar *tmp_str;
+
+    tmp_str = g_strconcat ( PACKAGE, GRISBIRC, NULL );
+    conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
+    g_free ( tmp_str );
+
+#if IS_DEVELOPMENT_VERSION == 1
+    if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
     {
-        const gchar *name = NULL;
-        
-        while ( (name = g_dir_read_name ( dir ) ) )
-        {
-            if ( g_strstr_len ( name, -1, ".grisbi" ) &&
-                        g_str_has_suffix ( name, "rc" ) )
-                liste = g_slist_append ( liste, g_strdup ( name ) );
-        }
+        g_free ( conf_filename );
+        tmp_str = g_strconcat ( PACKAGE, ".conf", NULL );
+        conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
+        g_free ( tmp_str );
     }
-    else
-    {
-        dialogue_error ( error -> message );
-        g_error_free ( error );
-    }
-
-    if ( g_slist_length ( liste ) == 0 )
-        return NULL;
-
-    if ( g_slist_length ( liste ) == 1 )
-        return g_strconcat ( my_get_grisbirc_dir ( ),
-                            G_DIR_SEPARATOR_S,
-                            g_slist_nth_data ( liste, 0 ), 
-                            NULL );
-
-    dialog = gtk_dialog_new_with_buttons ( _("Choose a file"),
-                        GTK_WINDOW ( run.window ),
-                        GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OK, GTK_RESPONSE_OK,
-                        NULL );
-
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), 
-                        GTK_WIN_POS_CENTER_ON_PARENT );
-
-    content_area = GTK_DIALOG(dialog) -> vbox;
-
-    hbox = gtk_hbox_new ( FALSE, 5);
-	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
-
-    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, 
-                        GTK_ICON_SIZE_DIALOG );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
-
-    tmpstr = g_strconcat ( 
-                        _("Please Choose the name of file\n"
-                        "of configuration.\n\n"
-                        "and press the 'OK' button."),
-                        NULL );
-
-    label = gtk_label_new ( tmpstr );
-    gtk_label_set_use_markup ( GTK_LABEL( label ), TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
-    g_free ( tmpstr );
-
-    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
-    while ( liste )
-    {
-        gtk_list_store_append ( store, &iter );
-        gtk_list_store_set (store, &iter, 
-                        0, (gchar *) liste -> data,
-                        -1);
-        if ( g_strcmp0 ( (gchar *) liste -> data, C_OLD_GRISBIRC ( ) ) == 0 )
-            j = i;
-        liste = liste -> next;
-        i++;
-    }
-
-    combo = gtk_combo_box_new_with_model ( GTK_TREE_MODEL ( store ) );
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
-                                "text", 0,
-                                NULL);
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), j );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), combo, FALSE, FALSE, 5 );
-
-    gtk_widget_show_all ( dialog );
-
-    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ));
-    if ( resultat == GTK_RESPONSE_OK )
-    {
-        gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo ), &iter );
-        gtk_tree_model_get ( GTK_TREE_MODEL ( store ),
-                        &iter,
-                        0, &filename,
-                        -1 );
-        filename = g_strconcat ( my_get_grisbirc_dir ( ),
-                            G_DIR_SEPARATOR_S,
-                            filename, 
-                            NULL );
-    }
-    if ( GTK_IS_DIALOG ( dialog ) )
-        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
-
-    return filename;
+#endif
 }
+
+
+/**
+ * libère la mémoire occupée par le nom du fichier de configuration
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_config_free_conf_filename ( void )
+{
+    if ( conf_filename )
+        g_free ( conf_filename );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
