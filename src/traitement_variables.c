@@ -64,6 +64,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_file_config.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
@@ -327,6 +328,7 @@ void free_variables ( void )
     gsb_gui_navigation_free_pages_list ( );
     gsb_regex_destroy ( );
     struct_free_bet_graph_prefs ( );
+    gsb_config_free_conf_filename ( );
 }
 
 

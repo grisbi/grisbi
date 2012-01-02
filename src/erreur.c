@@ -78,7 +78,7 @@ static FILE *debug_file = NULL;
  */
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar *gsb_file_default_dir;
+    const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
     gchar *old_errmsg;
     gchar *tmpstr;
@@ -92,56 +92,48 @@ void traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.is_loading || 
-	 run.is_saving || 
-	 !gsb_file_get_modified ( ) )
+    if ( run.is_loading || run.is_saving || !gsb_file_get_modified ( ) )
     {
+        if ( run.is_loading )
+        {
+            old_errmsg = errmsg;
+            errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
+            g_free ( old_errmsg );
+        }
 
-	if ( run.is_loading )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
-	    g_free ( old_errmsg );
-	}
-
-	if ( run.is_saving )
-	{
-	    old_errmsg = errmsg;
-	    errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
-	    g_free ( old_errmsg );
-	}
+        if ( run.is_saving )
+        {
+            old_errmsg = errmsg;
+            errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
+            g_free ( old_errmsg );
+        }
     }
-    else 
+    else
     {
-	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
-	   pas de nom de fichier, on le crée, sinon on rajoute #
-	   autour */
+        /* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
+           pas de nom de fichier, on le crée, sinon on rajoute #
+           autour */
+        gsb_file_default_dir = gsb_dirs_get_home_dir ( );
 
-        gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
+        if ( nom_fichier_comptes )
+            /* set # around the filename */
+            nom_fichier_comptes = g_path_get_basename ( nom_fichier_comptes );
+        else
+            /* no name for the file, create it */
+            nom_fichier_comptes = g_build_filename ( gsb_file_default_dir, "#grisbi_crash_no_name#", NULL );
 
-	if ( nom_fichier_comptes )
-	    /* set # around the filename */
-	    nom_fichier_comptes = g_path_get_basename (nom_fichier_comptes);
-	else
-	    /* no name for the file, create it */
-	    nom_fichier_comptes = g_strconcat ( gsb_file_default_dir,
-						"/#grisbi_crash_no_name#",
-						NULL );
+        gsb_status_message ( _("Save file") );
 
-	gsb_status_message ( _("Save file") );
+        gsb_file_save_save_file ( nom_fichier_comptes, conf.compress_file, FALSE );
 
-	gsb_file_save_save_file ( nom_fichier_comptes,
-				  conf.compress_file,
-				  FALSE );
+        gsb_status_clear ( );
 
-	gsb_status_clear();
-
-    old_errmsg = errmsg;
-	errmsg = g_strconcat ( errmsg, 
-			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-						 nom_fichier_comptes ),
-			       NULL );
-	g_free ( old_errmsg );
+        old_errmsg = errmsg;
+        errmsg = g_strconcat ( errmsg,
+                        g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
+                        nom_fichier_comptes ),
+                        NULL );
+        g_free ( old_errmsg );
     }
 
     old_errmsg = errmsg;
@@ -455,7 +447,7 @@ gboolean gsb_debug_start_log ( void )
         complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
         basename = g_path_get_basename ( complete_filename );
 
-        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), basename, NULL);
+        debug_filename = g_build_filename ( gsb_dirs_get_home_dir (), basename, NULL);
 
         g_free ( basename);
         g_free ( complete_filename );
@@ -463,7 +455,7 @@ gboolean gsb_debug_start_log ( void )
     }
     else
     {
-        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), "No_name-log.txt", NULL);
+        debug_filename = g_build_filename ( gsb_dirs_get_home_dir (), "No_name-log.txt", NULL);
     }
 
 

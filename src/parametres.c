@@ -967,7 +967,7 @@ GtkWidget *onglet_fichier ( void )
                         gsb_file_get_backup_path ());
     else
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        my_get_XDG_grisbi_data_dir () );
+                        gsb_dirs_get_user_data_dir ( ) );
     g_signal_connect ( G_OBJECT (button),
                         "selection-changed",
                         G_CALLBACK ( gsb_config_backup_dir_chosen ),

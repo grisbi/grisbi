@@ -305,7 +305,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
                         _("Select/Create backup directory") );
     button = gtk_file_chooser_button_new_with_dialog (dialog);
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        my_get_XDG_grisbi_data_dir () );
+                        gsb_dirs_get_user_data_dir () );
     g_signal_connect ( G_OBJECT (button),
                         "selection-changed",
                         G_CALLBACK (gsb_config_backup_dir_chosen),

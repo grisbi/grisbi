@@ -291,11 +291,16 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* need to declare filename_entry first for the next callback,
 	 * if no filename, set the title.gsb as default name */
-	if (!nom_fichier_comptes)
-	nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir (),
-			G_DIR_SEPARATOR_S, titre_fichier, ".gsb", NULL );
-	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
-			NULL, NULL);
+    if ( !nom_fichier_comptes )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strconcat ( titre_fichier, ".gsb", NULL );
+        nom_fichier_comptes = g_build_filename ( gsb_dirs_get_home_dir ( ), tmp_str, NULL );
+        g_free ( tmp_str );
+    }
+
+    filename_entry = gsb_automem_entry_new ( &nom_fichier_comptes, NULL, NULL);
 
 	entry = gsb_automem_entry_new (&titre_fichier,
 			((GCallback)gsb_assistant_file_change_title), filename_entry);
@@ -531,62 +536,53 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
  * \return FALSE
  * */
 static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
-						  GtkWidget *filename_entry )
+                        GtkWidget *filename_entry )
 {
     gchar *new_filename;
     gchar *last_filename;
     gchar *last_title;
+    gchar *tmp_str;
 
     update_homepage_title (GTK_ENTRY (title_entry), NULL, 0, 0);
 
     /* first get the last content of the title to see if the filename
      * was automatically created, and in that case, we continue the automatic mode,
      * else we don't touch the filename entry */
-    last_title = g_object_get_data ( G_OBJECT (title_entry),
-				     "last_title");
-    last_filename = g_strconcat ( my_get_gsb_file_default_dir (),
-				  G_DIR_SEPARATOR_S,
-				  last_title,
-				  ".gsb",
-				  NULL );
+    last_title = g_object_get_data ( G_OBJECT (title_entry), "last_title");
+    tmp_str = g_strconcat ( last_title, ".gsb", NULL );
+
+    last_filename = g_build_filename ( gsb_dirs_get_home_dir ( ), tmp_str, NULL );
+    g_free ( tmp_str );
+
     /* set the new -last title- */
     g_free (last_title);
-    g_object_set_data ( G_OBJECT (title_entry),
-			"last_title", g_strdup (gtk_entry_get_text (GTK_ENTRY (title_entry))));
+    tmp_str = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( title_entry ) ) );
+    g_object_set_data ( G_OBJECT ( title_entry ), "last_title", tmp_str );
+    g_free ( tmp_str );
 
-    if ( strcmp ( last_filename,
-		  gtk_entry_get_text (GTK_ENTRY (filename_entry))))
+    if ( strcmp ( last_filename, gtk_entry_get_text ( GTK_ENTRY ( filename_entry ) ) ) )
     {
-	/* there is a difference between the last title and the filename,
-	 * so juste free the memory and do nothing */
-	g_free (last_filename);
-	return FALSE;
+        /* there is a difference between the last title and the filename,
+         * so juste free the memory and do nothing */
+        g_free ( last_filename );
+
+        return FALSE;
     }
 
-    /* ok, the filename is an automatic creation,
-     * so we change it */
-    g_free (last_filename);
+    /* ok, the filename is an automatic creation, so we change it */
+    g_free ( last_filename );
 
-    if ( strlen ( gtk_entry_get_text (GTK_ENTRY (title_entry) ) ) )
-    {
-	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
-				     G_DIR_SEPARATOR_S,
-				     gtk_entry_get_text (GTK_ENTRY (title_entry)),
-				     ".gsb",
-				     NULL );
-    }
+    if ( strlen ( gtk_entry_get_text (GTK_ENTRY ( title_entry ) ) ) )
+        tmp_str = g_strconcat ( gtk_entry_get_text ( GTK_ENTRY ( title_entry ) ), ".gsb", NULL );
     else
-    {
-	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
-				     G_DIR_SEPARATOR_S,
-				     _("My accounts"),
-				     ".gsb",
-				     NULL );
-    }
+        tmp_str = g_strconcat ( _("My accounts"), ".gsb", NULL );
+    new_filename = g_build_filename ( gsb_dirs_get_home_dir ( ), tmp_str, NULL );
 
-    gtk_entry_set_text ( GTK_ENTRY (filename_entry),
-			 new_filename );
-    g_free (new_filename);
+    g_free ( tmp_str );
+
+    gtk_entry_set_text ( GTK_ENTRY ( filename_entry ), new_filename );
+
+    g_free ( new_filename );
 
     return FALSE;
 }

@@ -316,7 +316,7 @@ const gchar *gsb_file_get_backup_path ( void )
 void gsb_file_set_backup_path ( const gchar *path )
 {
     if ( path == NULL || strlen ( path ) == 0 )
-        backup_path = my_strdup ( C_PATH_DATA_FILES ( ) );
+        backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
     else
         backup_path = my_strdup ( path );
 
