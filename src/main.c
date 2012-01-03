@@ -147,10 +147,6 @@ struct gsb_run_t run;
  */
 int main ( int argc, char **argv )
 {
-#if GSB_GMEMPROFILE
-    g_mem_set_vtable(glib_mem_profiler_table);
-#endif
-
 #ifdef G_OS_WIN32
     main_win_32 (  argc, argv );
 #else
@@ -1066,10 +1062,6 @@ void gsb_main_grisbi_shutdown ( void )
 
     /* liberation libgoffice */
     libgoffice_shutdown ( );
-
-#if GSB_GMEMPROFILE
-    g_mem_profile();
-#endif
 }
 
 
