@@ -19,8 +19,11 @@ grisbi*.tar.*
 m4
 *.exe
 .anjuta*
-gisbi.anjuta
+depcomp
+grisbi.anjuta
+grisbi.spec.mageia*
 TODO*
+NEWS.new
 doxygen/
 *.o
 *.ho
