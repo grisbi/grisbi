@@ -4467,6 +4467,13 @@ gboolean gsb_import_by_rule ( gint rule )
             account = liste_comptes_importes -> data;
             account -> invert_transaction_amount = gsb_data_import_rule_get_invert ( rule );
 
+            /* on fixe la devise pour les fichiers QIF */
+            if ( strcmp ( type, "QIF" ) == 0 )
+            {
+                account -> devise = g_strdup ( gsb_data_currency_get_code_iso4217 (
+                        gsb_data_import_rule_get_currency ( rule ) ) );
+            }
+
             switch (gsb_data_import_rule_get_action (rule))
             {
                 case IMPORT_ADD_TRANSACTIONS:
