@@ -392,9 +392,6 @@ void main_win_32 (  int argc, char **argv )
      * see http://jrfonseca.dyndns.org/projects/gnu-win32/software/drmingw/index.html for more information */
     LoadLibrary("exchndl.dll");
 
-    /* we store the path of the running file to use it for pixmaps, help and locales .... */
-/*     win32_set_app_path ( argv[0] );  */
-
      /* needed to be able to use the "common" installation of GTK libraries */
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
