@@ -101,6 +101,7 @@ static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_delete_archived_transactions ( gint account_number,
                         gint archive_number );
+static gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number );
 static void gsb_transactions_list_display_contra_transaction ( gint *transaction_number );
 static gboolean gsb_transactions_list_fill_model ( void );
 static gboolean gsb_transactions_list_hide_transactions_in_archive_line ( GtkWidget *button,
@@ -200,7 +201,7 @@ extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COL
 struct conditional_message delete_msg[] =
 {
     { "delete-child-transaction", N_("Delete a child transaction."),
-      NULL, 
+      NULL,
       FALSE, FALSE, },
 
     { "delete-transaction",  N_("Delete a transaction."),
@@ -220,9 +221,13 @@ struct conditional_message delete_msg[] =
       NULL,
       FALSE, FALSE, },
 
+    { "delete-rule",  N_("Delete a rule file import."),
+      NULL,
+      FALSE, FALSE, },
+
 /*
     { "", N_(),
-      N_(), 
+      N_(),
       FALSE, FALSE, },
 */
     { NULL },
@@ -459,43 +464,48 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 {
     GtkWidget *menu, *menu_item;
     GSList *tmp_list;
-    gint current_account = gsb_gui_navigation_get_current_account ();
+    gint current_account = gsb_gui_navigation_get_current_account ( );
     gint i = 0;
 
-    menu = gtk_menu_new ();
+    menu = gtk_menu_new ( );
 
-    tmp_list = gsb_data_import_rule_get_from_account (current_account);
+    tmp_list = gsb_data_import_rule_get_from_account ( current_account );
     
-    while (tmp_list)
+    while ( tmp_list )
     {
-	gint rule;
+        gint rule;
 
-	rule = gsb_data_import_rule_get_number (tmp_list -> data);
- 
-	if (i > 0)
-	{ 
-	    menu_item = gtk_separator_menu_item_new ( );
-	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-	}
-  
-	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
-	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
-	menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
-	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-				   G_CALLBACK (gsb_data_import_rule_remove), GINT_TO_POINTER (rule) );
+        rule = gsb_data_import_rule_get_number ( tmp_list -> data );
+     
+        if ( i > 0 )
+        {
+            menu_item = gtk_separator_menu_item_new ( );
+            gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        }
+      
+        menu_item = gtk_menu_item_new_with_label ( gsb_data_import_rule_get_name ( rule ) );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_import_by_rule ),
+                        GINT_TO_POINTER ( rule ) );
 
-	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+        menu_item = gtk_menu_item_new_with_label ( _("Remove the rule") );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_transactions_list_delete_import_rule ),
+                        GINT_TO_POINTER ( rule ) );
 
-    i++;
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-	tmp_list = tmp_list -> next;
+        i++;
+
+        tmp_list = tmp_list -> next;
     }
 
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
-		     gtk_get_current_event_time());
+    gtk_menu_popup ( GTK_MENU ( menu) , NULL, button, set_popup_position, button, 1,
+                        gtk_get_current_event_time ( ) );
 
     return FALSE;
 }
@@ -4529,6 +4539,38 @@ gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
     }
 
     return tab_affichage_ope[0][column_number];
+}
+
+
+/**
+ * delete an import_rule
+ *
+ * \param import_rule_number the import_rule we want to delete
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number )
+{
+    gint msg_no = 0;
+    gchar *tmp_str;
+
+    msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0], "delete-rule" );
+    tmp_str = g_strdup ( _("Do you really want to delete this file import rule ?") );
+    delete_msg[msg_no].message = tmp_str;
+
+    if ( !question_conditional_yes_no_with_struct ( &delete_msg[msg_no] ) )
+    {
+        g_free(tmp_str);
+        return FALSE;
+    }
+    g_free(tmp_str);
+
+    gsb_data_import_rule_remove ( import_rule_number );
+
+    /* on met à jour la barre de menu */
+    gsb_gui_update_transaction_toolbar ( );
+
+    return TRUE;
 }
 
 /* Local Variables: */
