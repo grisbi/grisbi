@@ -24,8 +24,13 @@
 #endif
 
 #ifdef GTKOSXAPPLICATION
-#include <gtkosxapplication.h>
+    #include <gtkosxapplication.h>
 #endif
+
+#ifdef G_OS_WIN32
+    #include <shlobj.h>
+    #include <tchar.h>
+#endif /* !G_OS_WIN32 */
 
 #include "include.h"
 #include "gsb_dirs.h"
@@ -52,6 +57,7 @@ void gsb_dirs_init ( void )
 {
 #ifdef G_OS_WIN32
     gchar *win32_dir;
+    TCHAR tcHomePath[MAX_PATH];
 
     win32_dir = g_win32_get_package_installation_directory_of_module (NULL);
 
@@ -61,7 +67,9 @@ void gsb_dirs_init ( void )
     plugins_dir = g_build_filename ( win32_dir, "lib/grisbi", NULL );
     ui_dir = g_build_filename ( win32_dir, "share/ui", NULL );
 
-    home_dir = g_strdup ( g_getenv ( CSIDL_MYDOCUMENTS ) );
+    SHGetSpecialFolderPath(0, tcHomePath, CSIDL_PROFILE, FALSE);
+
+    home_dir = g_strdup ( ( gchar *) tcHomePath );
 
     user_config_dir = g_build_filename ( g_get_user_config_dir ( ),  "grisbi", NULL );
     user_data_dir = g_build_filename ( g_get_user_data_dir ( ),  "grisbi", NULL );
