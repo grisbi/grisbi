@@ -192,7 +192,7 @@ extern GtkWidget *window;
 struct conditional_message delete_msg[] =
 {
     { "delete-child-transaction", N_("Delete a child transaction."),
-      NULL, 
+      NULL,
       FALSE, FALSE, },
 
     { "delete-transaction",  N_("Delete a transaction."),
@@ -209,6 +209,10 @@ struct conditional_message delete_msg[] =
 
     { "delete-scheduled-occurences", N_("Delete one or all occurences of scheduled "
       "transaction."),
+      NULL,
+      FALSE, FALSE, },
+
+   { "delete-rule",  N_("Delete a rule file import."),
       NULL,
       FALSE, FALSE, },
 
@@ -3867,6 +3871,38 @@ gint gsb_transactions_list_get_valid_element_sort ( gint account_number,
     }
 
     return tab_affichage_ope[0][column_number];
+}
+
+
+/**
+ * delete an import_rule
+ *
+ * \param import_rule_number the import_rule we want to delete
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number )
+{
+    gint msg_no = 0;
+    gchar *tmp_str;
+
+    msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0], "delete-rule" );
+    tmp_str = g_strdup ( _("Do you really want to delete this file import rule ?") );
+    delete_msg[msg_no].message = tmp_str;
+
+    if ( !question_conditional_yes_no_with_struct ( &delete_msg[msg_no] ) )
+    {
+        g_free(tmp_str);
+        return FALSE;
+    }
+    g_free(tmp_str);
+
+    gsb_data_import_rule_remove ( import_rule_number );
+
+    /* on met à jour la barre de menu */
+    gsb_gui_update_transaction_toolbar ( );
+
+    return TRUE;
 }
 
 

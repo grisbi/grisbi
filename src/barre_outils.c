@@ -292,11 +292,11 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
   
 	menu_item = gtk_menu_item_new_with_label (gsb_data_import_rule_get_name (rule));
 	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate",
 				   G_CALLBACK (gsb_import_by_rule), GINT_TO_POINTER (rule) );
 	menu_item = gtk_menu_item_new_with_label (_("Remove the rule"));
-	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-				   G_CALLBACK (gsb_data_import_rule_remove), GINT_TO_POINTER (rule) );
+	g_signal_connect_swapped ( G_OBJECT(menu_item), "activate",
+				   G_CALLBACK ( gsb_transactions_list_delete_import_rule ), GINT_TO_POINTER (rule) );
 
 	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
