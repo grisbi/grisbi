@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-30 15:23+0100\n"
+"POT-Creation-Date: 2012-01-03 14:49+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -462,7 +462,7 @@ msgstr "העברת העיסקה לחשבון אחר"
 #: ../src/categories_onglet.c:691 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229 ../src/gsb_fyear_config.c:281
-#: ../src/gsb_transactions_list.c:1803 ../src/imputation_budgetaire.c:725
+#: ../src/gsb_transactions_list.c:1807 ../src/imputation_budgetaire.c:725
 #: ../src/tiers_onglet.c:641
 msgid "Name"
 msgstr "שם"
@@ -1367,7 +1367,7 @@ msgstr "הגבלת תאריך"
 #: ../src/bet_future.c:348 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
 msgid "Final date"
 msgstr "תאריך סיום"
 
@@ -1599,7 +1599,7 @@ msgstr "תיאור"
 
 #: ../src/bet_tab.c:744 ../src/export_csv.c:808 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:363 ../src/gsb_transactions_list.c:162
-#: ../src/gsb_transactions_list.c:3014 ../src/import_csv.c:90
+#: ../src/gsb_transactions_list.c:3018 ../src/import_csv.c:90
 #: ../src/traitement_variables.c:95
 msgid "Balance"
 msgstr "מאזן"
@@ -1703,7 +1703,7 @@ msgstr ""
 
 #. New transaction
 #: ../src/barre_outils.c:96 ../src/gsb_scheduler_list.c:2177
-#: ../src/gsb_transactions_list.c:2204
+#: ../src/gsb_transactions_list.c:2208
 msgid "New transaction"
 msgstr "עיסקה חדשה"
 
@@ -2532,13 +2532,13 @@ msgid "Result without financial year: "
 msgstr "תוצאה ללא שנת כספים:"
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1101
-#: ../src/gsb_transactions_list.c:3521
+#: ../src/gsb_transactions_list.c:3525
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:1105
-#: ../src/gsb_transactions_list.c:3524
+#: ../src/gsb_transactions_list.c:3528
 #, c-format
 msgid "Transfer from %s"
 msgstr "העברה מאת %s"
@@ -2591,7 +2591,7 @@ msgstr "סך הכל הכללי:"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:592
 #: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:733
 #: ../src/gsb_form.c:1759 ../src/gsb_form.c:2909 ../src/gsb_form.c:3312
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3499
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3503
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
@@ -5699,7 +5699,7 @@ msgstr "בחירת עיסקאות בהתאם לטקסט"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1183
-#: ../src/gsb_transactions_list.c:1754
+#: ../src/gsb_transactions_list.c:1758
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
@@ -8766,7 +8766,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "הצהרה אחרונה"
 
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
 #, fuzzy
 msgid "Init date"
 msgstr "תאריך התחלה"
@@ -8963,17 +8963,17 @@ msgid "Show transactions for the next: "
 msgstr "בחירת עיסקאות בהתאם לטקסט:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2189
+#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2193
 msgid "Edit transaction"
 msgstr "עריכת עיסקה"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2236
+#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2240
 msgid "Clone transaction"
 msgstr "שכפול עיסקה"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2212
+#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2216
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
@@ -9044,7 +9044,12 @@ msgstr "מחיקת עיסקה מתוכננת"
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_transactions_list.c:579 ../src/gsb_transactions_list.c:3636
+#: ../src/gsb_transactions_list.c:215
+#, fuzzy
+msgid "Delete a rule file import."
+msgstr "מחיקת דו\"ח"
+
+#: ../src/gsb_transactions_list.c:583 ../src/gsb_transactions_list.c:3640
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -9052,45 +9057,45 @@ msgid ""
 "The concerned children number are :\n"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:823
+#: ../src/gsb_transactions_list.c:827
 msgid "P"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:827
+#: ../src/gsb_transactions_list.c:831
 msgid "T"
 msgstr ""
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:831 ../src/gsb_transactions_list.c:1673
+#: ../src/gsb_transactions_list.c:835 ../src/gsb_transactions_list.c:1677
 msgid "R"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1205
+#: ../src/gsb_transactions_list.c:1209
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_transactions_list.c:1215
+#: ../src/gsb_transactions_list.c:1219
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1219
+#: ../src/gsb_transactions_list.c:1223
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1603
+#: ../src/gsb_transactions_list.c:1607
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1615
+#: ../src/gsb_transactions_list.c:1619
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -9108,7 +9113,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1685
+#: ../src/gsb_transactions_list.c:1689
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -9116,26 +9121,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1686
+#: ../src/gsb_transactions_list.c:1690
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "סימון העיסקאות"
 
-#: ../src/gsb_transactions_list.c:1766
+#: ../src/gsb_transactions_list.c:1770
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "העיסקאות שלא תואמו וגם לא נבדקו:"
 
-#: ../src/gsb_transactions_list.c:1888
+#: ../src/gsb_transactions_list.c:1892
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1932
+#: ../src/gsb_transactions_list.c:1936
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "לא ניתן למחוק עיסקה מתואמת."
 
-#: ../src/gsb_transactions_list.c:1941
+#: ../src/gsb_transactions_list.c:1945
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -9143,82 +9148,82 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1956
+#: ../src/gsb_transactions_list.c:1960
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1968
+#: ../src/gsb_transactions_list.c:1972
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2173
+#: ../src/gsb_transactions_list.c:2177
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "הצגת עיסקאות"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2226
+#: ../src/gsb_transactions_list.c:2230
 msgid "Use selected transaction as a template"
 msgstr "שימוש בעיסקה הנבחרת בתור תבנית"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2249
+#: ../src/gsb_transactions_list.c:2253
 msgid "Convert transaction to scheduled transaction"
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2258
+#: ../src/gsb_transactions_list.c:2262
 msgid "Move transaction to another account"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2281
+#: ../src/gsb_transactions_list.c:2285
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2328
+#: ../src/gsb_transactions_list.c:2332
 #, fuzzy
 msgid "Clear cell"
 msgstr "ביטול"
 
-#: ../src/gsb_transactions_list.c:2714
+#: ../src/gsb_transactions_list.c:2718
 msgid "Cannot move a transfer on his contra-account"
 msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3020
+#: ../src/gsb_transactions_list.c:3024
 #, fuzzy
 msgid "Sort list by: "
 msgstr "מיון על פי תאריך:"
 
-#: ../src/gsb_transactions_list.c:3063
+#: ../src/gsb_transactions_list.c:3067
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3071
+#: ../src/gsb_transactions_list.c:3075
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3085
+#: ../src/gsb_transactions_list.c:3089
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3099
+#: ../src/gsb_transactions_list.c:3103
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3508
+#: ../src/gsb_transactions_list.c:3512
 msgid "Transfer to a deleted account"
 msgstr "העברה לחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3510
+#: ../src/gsb_transactions_list.c:3514
 msgid "Transfer from a deleted account"
 msgstr "העברה מחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3665
+#: ../src/gsb_transactions_list.c:3669
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9226,6 +9231,11 @@ msgid ""
 "\n"
 "Show the R transactions to make them visible."
 msgstr ""
+
+#: ../src/gsb_transactions_list.c:3890
+#, fuzzy
+msgid "Do you really want to delete this file import rule ?"
+msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
 #: ../src/gsb_transactions_list_sort.c:357
 #, c-format
@@ -9690,49 +9700,49 @@ msgid ""
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4537
+#: ../src/import.c:4544
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4548
+#: ../src/import.c:4555
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "תוצאה עבור %s"
 
-#: ../src/import.c:4567
+#: ../src/import.c:4574
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "כל העיסקאות יומרו למטבע של החשבון שלהן."
 
-#: ../src/import.c:4570
+#: ../src/import.c:4577
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr "שבירת עיסקה היא העברה אל חשבון זה. \n"
 
 #. textstring 2
-#: ../src/import.c:4575
+#: ../src/import.c:4582
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "מאפייני המטבע"
 
-#: ../src/import.c:4582
+#: ../src/import.c:4589
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "הוכנסו העברות שנקבעו אוטומטית מראש"
 
 #. label filename
-#: ../src/import.c:4593
+#: ../src/import.c:4600
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "שם קובץ החשבונות:"
 
-#: ../src/import.c:4694
+#: ../src/import.c:4701
 #, fuzzy, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"
 
-#: ../src/import.c:4723
+#: ../src/import.c:4730
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "לא ניתן לפתוח את הקובץ '%s': %s"

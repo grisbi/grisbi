@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-30 15:23+0100\n"
+"POT-Creation-Date: 2012-01-03 14:49+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -180,7 +180,7 @@ msgstr "Balances parciales de la lista de cuentas"
 #: ../src/categories_onglet.c:691 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229 ../src/gsb_fyear_config.c:281
-#: ../src/gsb_transactions_list.c:1803 ../src/imputation_budgetaire.c:725
+#: ../src/gsb_transactions_list.c:1807 ../src/imputation_budgetaire.c:725
 #: ../src/tiers_onglet.c:641
 msgid "Name"
 msgstr "Nombre"
@@ -1037,7 +1037,7 @@ msgstr "Fecha límite"
 #: ../src/bet_future.c:348 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
 msgid "Final date"
 msgstr "Fecha final"
 
@@ -1261,7 +1261,7 @@ msgstr "Descripción"
 
 #: ../src/bet_tab.c:744 ../src/export_csv.c:808 ../src/gsb_reconcile.c:161
 #: ../src/gsb_scheduler_list.c:363 ../src/gsb_transactions_list.c:162
-#: ../src/gsb_transactions_list.c:3014 ../src/import_csv.c:90
+#: ../src/gsb_transactions_list.c:3018 ../src/import_csv.c:90
 #: ../src/traitement_variables.c:95
 msgid "Balance"
 msgstr "Balance"
@@ -1359,7 +1359,7 @@ msgstr "Predicción"
 
 #. New transaction
 #: ../src/barre_outils.c:96 ../src/gsb_scheduler_list.c:2177
-#: ../src/gsb_transactions_list.c:2204
+#: ../src/gsb_transactions_list.c:2208
 msgid "New transaction"
 msgstr "Nueva transacción"
 
@@ -2186,13 +2186,13 @@ msgid "Result without financial year: "
 msgstr "Resultado sin el año financiero: "
 
 #: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1101
-#: ../src/gsb_transactions_list.c:3521
+#: ../src/gsb_transactions_list.c:3525
 #, c-format
 msgid "Transfer to %s"
 msgstr "Transferido a %s"
 
 #: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:1105
-#: ../src/gsb_transactions_list.c:3524
+#: ../src/gsb_transactions_list.c:3528
 #, c-format
 msgid "Transfer from %s"
 msgstr "Transferido desde %s"
@@ -2242,7 +2242,7 @@ msgstr "Total general: "
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:592
 #: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:733
 #: ../src/gsb_form.c:1759 ../src/gsb_form.c:2909 ../src/gsb_form.c:3312
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3499
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3503
 msgid "Split of transaction"
 msgstr "Anotación en la transacción"
 
@@ -5427,7 +5427,7 @@ msgstr ""
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1183
-#: ../src/gsb_transactions_list.c:1754
+#: ../src/gsb_transactions_list.c:1758
 msgid "Selection of a reconciliation"
 msgstr "Selección de una reconciliación"
 
@@ -8528,7 +8528,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "Última operación: %s"
 
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1803
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
 msgid "Init date"
 msgstr "Fecha inicial"
 
@@ -8732,17 +8732,17 @@ msgid "Show transactions for the next: "
 msgstr "Seleccionar transacciones para las siguientes: "
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2189
+#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2193
 msgid "Edit transaction"
 msgstr "Editar la transacción"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2236
+#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2240
 msgid "Clone transaction"
 msgstr "Clonar la transacción"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2212
+#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2216
 msgid "Delete transaction"
 msgstr "Borrar transacción"
 
@@ -8803,7 +8803,12 @@ msgstr "Borrar una transacción programada."
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "Borrar un o todas las ocurrencias de la transacción programada."
 
-#: ../src/gsb_transactions_list.c:579 ../src/gsb_transactions_list.c:3636
+#: ../src/gsb_transactions_list.c:215
+#, fuzzy
+msgid "Delete a rule file import."
+msgstr "Borrar el informe seleccionado"
+
+#: ../src/gsb_transactions_list.c:583 ../src/gsb_transactions_list.c:3640
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -8816,25 +8821,25 @@ msgstr ""
 "\n"
 "Los números de hijos implicados son : \n"
 
-#: ../src/gsb_transactions_list.c:823
+#: ../src/gsb_transactions_list.c:827
 msgid "P"
 msgstr "P"
 
-#: ../src/gsb_transactions_list.c:827
+#: ../src/gsb_transactions_list.c:831
 msgid "T"
 msgstr "T"
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:831 ../src/gsb_transactions_list.c:1673
+#: ../src/gsb_transactions_list.c:835 ../src/gsb_transactions_list.c:1677
 msgid "R"
 msgstr "R"
 
-#: ../src/gsb_transactions_list.c:1205
+#: ../src/gsb_transactions_list.c:1209
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr "¿ quiere añadir las transacciones del archivo %s en la lista ?"
 
-#: ../src/gsb_transactions_list.c:1215
+#: ../src/gsb_transactions_list.c:1219
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
@@ -8844,7 +8849,7 @@ msgstr ""
 "que es un fallo.\n"
 "Por favor, intente reproducir el fallo y contacte con el equipo de Grisbi."
 
-#: ../src/gsb_transactions_list.c:1219
+#: ../src/gsb_transactions_list.c:1223
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
@@ -8854,7 +8859,7 @@ msgstr ""
 "debería suceder.\n"
 "Por favor, intente reproducir el fallo y contacte con el equipo de Grisbi."
 
-#: ../src/gsb_transactions_list.c:1603
+#: ../src/gsb_transactions_list.c:1607
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
@@ -8863,7 +8868,7 @@ msgstr ""
 "el balance.\n"
 "Por favor, primero termine o cancele la reconciliación."
 
-#: ../src/gsb_transactions_list.c:1615
+#: ../src/gsb_transactions_list.c:1619
 #, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -8885,7 +8890,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1685
+#: ../src/gsb_transactions_list.c:1689
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -8897,24 +8902,24 @@ msgstr ""
 "lastransacciones R en la lista; Eliga mostrarlas si quiere comprobar lo que "
 "hizo."
 
-#: ../src/gsb_transactions_list.c:1686
+#: ../src/gsb_transactions_list.c:1690
 msgid "Marking a transaction as R"
 msgstr "Marcar las transacciones como R"
 
-#: ../src/gsb_transactions_list.c:1766
+#: ../src/gsb_transactions_list.c:1770
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr ""
 "Elija la reconciliación para asociar con las transacciones seleccionadas: "
 
-#: ../src/gsb_transactions_list.c:1888
+#: ../src/gsb_transactions_list.c:1892
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr "Grisbi no puedo obtener la selección, se ha cancelado la operación..."
 
-#: ../src/gsb_transactions_list.c:1932
+#: ../src/gsb_transactions_list.c:1936
 msgid "Impossible to delete an archived transaction."
 msgstr "Es imposible borrar una transacción archivada."
 
-#: ../src/gsb_transactions_list.c:1941
+#: ../src/gsb_transactions_list.c:1945
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -8926,7 +8931,7 @@ msgstr ""
 "reconciliados. Puede eliminar la reconciliación con Ctrl R si es realmente "
 "necesario."
 
-#: ../src/gsb_transactions_list.c:1956
+#: ../src/gsb_transactions_list.c:1960
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
@@ -8934,77 +8939,77 @@ msgstr ""
 "¿Está seguro de que quiere borrar el hijo de la transacción con la tercera "
 "parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:1968
+#: ../src/gsb_transactions_list.c:1972
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 "¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
-#: ../src/gsb_transactions_list.c:2173
+#: ../src/gsb_transactions_list.c:2177
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "Mostrar transacciones"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2226
+#: ../src/gsb_transactions_list.c:2230
 msgid "Use selected transaction as a template"
 msgstr "Usar las transacciones seleccionadas como una plantilla"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2249
+#: ../src/gsb_transactions_list.c:2253
 msgid "Convert transaction to scheduled transaction"
 msgstr "Convertir la transacción en un transacción programada"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2258
+#: ../src/gsb_transactions_list.c:2262
 msgid "Move transaction to another account"
 msgstr "Mover la transacción a otra cuenta"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2281
+#: ../src/gsb_transactions_list.c:2285
 msgid "Change cell content"
 msgstr "Cambiar el contenido de la celda"
 
-#: ../src/gsb_transactions_list.c:2328
+#: ../src/gsb_transactions_list.c:2332
 msgid "Clear cell"
 msgstr "Borrar celda"
 
-#: ../src/gsb_transactions_list.c:2714
+#: ../src/gsb_transactions_list.c:2718
 msgid "Cannot move a transfer on his contra-account"
 msgstr "No se puedo mover una transferencia en su contracuenta"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3020
+#: ../src/gsb_transactions_list.c:3024
 #, fuzzy
 msgid "Sort list by: "
 msgstr "Ordenar la lista por :"
 
-#: ../src/gsb_transactions_list.c:3063
+#: ../src/gsb_transactions_list.c:3067
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3071
+#: ../src/gsb_transactions_list.c:3075
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3085
+#: ../src/gsb_transactions_list.c:3089
 #, fuzzy
 msgid "CENTER"
 msgstr "CEE"
 
-#: ../src/gsb_transactions_list.c:3099
+#: ../src/gsb_transactions_list.c:3103
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3508
+#: ../src/gsb_transactions_list.c:3512
 msgid "Transfer to a deleted account"
 msgstr "Transferir a una cuenta borrada"
 
-#: ../src/gsb_transactions_list.c:3510
+#: ../src/gsb_transactions_list.c:3514
 msgid "Transfer from a deleted account"
 msgstr "Transferir desde una cuenta borrada"
 
-#: ../src/gsb_transactions_list.c:3665
+#: ../src/gsb_transactions_list.c:3669
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9017,6 +9022,12 @@ msgstr ""
 "archivadas están ciertamente ocultas...\n"
 "\n"
 "Muestre las transacciones R para hacerlas visibles."
+
+#: ../src/gsb_transactions_list.c:3890
+#, fuzzy
+msgid "Do you really want to delete this file import rule ?"
+msgstr ""
+"¿ Está seguro de que quiere borrar la transacción con la tercera parte '%s' ?"
 
 #: ../src/gsb_transactions_list_sort.c:357
 #, c-format
@@ -9497,49 +9508,49 @@ msgstr ""
 "%s no se importó con éxito. Un error ocurrió mientras que se tomaban las "
 "transacciones."
 
-#: ../src/import.c:4537
+#: ../src/import.c:4544
 msgid "Import a file with a rule"
 msgstr "Importar un fichero con una regla"
 
 #. text for paddingbox
-#: ../src/import.c:4548
+#: ../src/import.c:4555
 #, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Propiedades de la regla: %s\n"
 
-#: ../src/import.c:4567
+#: ../src/import.c:4574
 #, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr "Las transacciones importadas se añadirán a la cuenta %s.\n"
 
-#: ../src/import.c:4570
+#: ../src/import.c:4577
 #, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Las transacciones importadas marcarán las transacciones en la cuenta %s.\n"
 
 #. textstring 2
-#: ../src/import.c:4575
+#: ../src/import.c:4582
 #, c-format
 msgid "Currency to import is %s.\n"
 msgstr "La moneda a importar es %s.\n"
 
-#: ../src/import.c:4582
+#: ../src/import.c:4589
 #, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Se invertirán las cantidades de las transacciones.\n"
 
 #. label filename
-#: ../src/import.c:4593
+#: ../src/import.c:4600
 msgid "Name of the file to import: "
 msgstr "Nombre del fichero a importar: "
 
-#: ../src/import.c:4694
+#: ../src/import.c:4701
 #, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "No se ha podido crear el fichero tmp: %s\n"
 
-#: ../src/import.c:4723
+#: ../src/import.c:4730
 #, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "No se puede descomprimir el fichero '%s': %s"
