@@ -7896,7 +7896,7 @@ msgstr "Transferir: conta apagada."
 #: ../src/gsb_form.c:767 ../src/gsb_form.c:1904 ../src/gsb_form.c:1905
 #: ../src/gsb_form_widget.c:1110
 msgid "Transfer : "
-msgstr "Transferir"
+msgstr "Transferir : "
 
 #: ../src/gsb_form.c:936
 msgid "Auto"
