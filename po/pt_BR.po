@@ -1173,7 +1173,7 @@ msgstr "Notas"
 #: ../src/gsb_data_payment.c:755 ../src/gsb_form.c:2312 ../src/import.c:2755
 #: ../src/import.c:2773 ../src/plugins/ofx/ofx.c:465
 msgid "Transfer"
-msgstr "Transferir"
+msgstr "Transferir : "
 
 #: ../src/bet_future.c:1862 ../src/bet_future.c:2408
 #, fuzzy
