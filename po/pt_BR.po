@@ -1173,7 +1173,7 @@ msgstr "Notas"
 #: ../src/gsb_data_payment.c:755 ../src/gsb_form.c:2312 ../src/import.c:2755
 #: ../src/import.c:2773 ../src/plugins/ofx/ofx.c:465
 msgid "Transfer"
-msgstr "Transferir : "
+msgstr "Transferir"
 
 #: ../src/bet_future.c:1862 ../src/bet_future.c:2408
 #, fuzzy
@@ -7988,7 +7988,7 @@ msgstr "Transferir: conta apagada."
 #: ../src/gsb_form.c:765 ../src/gsb_form.c:1902 ../src/gsb_form.c:1903
 #: ../src/gsb_form_widget.c:1103
 msgid "Transfer : "
-msgstr "Transferir"
+msgstr "Transferir : "
 
 #: ../src/gsb_form.c:934
 msgid "Auto"
@@ -11454,56 +11454,3 @@ msgstr "Nenhum orçamento"
 msgid "Personnal finances manager"
 msgstr ""
 
-#, fuzzy
-#~ msgid "Unable to open file '%s'"
-#~ msgstr "Não posso abrir arquivo '%s': %s"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error opening file \"%s\" :\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erro para o arquivo \"%s\" :\n"
-#~ "%s"
-
-#~ msgid "Initial date:"
-#~ msgstr "Data inicial:"
-
-#~ msgid "Final date:"
-#~ msgstr "Data final:"
-
-#~ msgid "Report:"
-#~ msgstr "Relatório:"
-
-#~ msgid "by date"
-#~ msgstr "por data"
-
-#~ msgid "Choose a %s"
-#~ msgstr "Selecionar  arquivo para importar"
-
-#~ msgid "Transfer the transactions"
-#~ msgstr "Transferir os lançamentos para"
-
-#~ msgid "Sort by date and transaction amount"
-#~ msgstr "Selecionar os lançamentos por valor"
-
-#~ msgid "Initial period"
-#~ msgstr "Data inicial"
-
-#~ msgid "month"
-#~ msgstr "Meses"
-
-#~ msgid "Period"
-#~ msgstr "Papel"
-
-#~ msgid "Print amortization table"
-#~ msgstr "Imprimir para arquivo"
-
-#~ msgid "_Open"
-#~ msgstr "_Abrir"
-
-#~ msgid "Montly"
-#~ msgstr "Mensal"
-
-#~ msgid "Transfert"
-#~ msgstr "Transferir"

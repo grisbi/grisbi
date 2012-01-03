@@ -11469,21 +11469,3 @@ msgstr "Sélectionnez un jeu de caractères"
 #: ../src/utils_files.c:841
 msgid "The conversion failed try another set of characters"
 msgstr "La conversion à échoué essayez un autre jeu de caractères"
-
-#: ../src/utils_font.c:202
-msgid "No font defined"
-msgstr "Aucune police définie"
-
-#: ../share/grisbi.desktop.in.h:2
-msgid "Personnal finances manager"
-msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Unable to open file '%s'"
-#~ msgstr "Impossible d'ouvrir le fichier '%s'."
-
-#~ msgid ""
-#~ "Error opening file \"%s\" :\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur à l'ouverture du fichier « %s » :\n"
-#~ "%s"
