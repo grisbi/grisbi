@@ -172,9 +172,9 @@ dnl Check for libofx
 dnl ================================================================
 
 AC_ARG_WITH(ofx,
-	AS_HELP_STRING([--without-ofx],[build grisbi without ofx support (default=no)]),
-	[build_ofx=$withval]
-	[build_ofx=no])
+	AS_HELP_STRING([--with-ofx],[build grisbi with ofx support (default=auto)]),
+	[build_ofx=$withval],
+	[build_ofx=auto])
 
 PKG_CHECK_MODULES(LIBOFX, [libofx >= 0.7], have_ofx=yes, have_ofx=no)
 if test "$build_ofx" = yes -a "$with_ofx" = no; then
