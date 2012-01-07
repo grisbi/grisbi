@@ -582,7 +582,6 @@ gboolean bet_graph_affiche_camemberts ( struct_bet_graph_data *self )
     gog_series_set_dim ( series, 0, data, &error );
     if ( error != NULL )
     {
-        printf ("tab_vue_libelle_division : erreur = %s\n", error -> message);
         g_error_free ( error );
         error = NULL;
         return FALSE;
@@ -592,7 +591,6 @@ gboolean bet_graph_affiche_camemberts ( struct_bet_graph_data *self )
     gog_series_set_dim (series, 1, data, &error);
     if ( error != NULL )
     {
-        printf ("tab_montant_division : erreur = %s\n", error -> message);
         g_error_free ( error );
         error = NULL;
         return FALSE;
@@ -929,12 +927,26 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     }
 
     /* on met à jour les données à afficher */
+    gog_plot_clear_series ( GOG_PLOT ( cur_plot ) );
     series = GOG_SERIES ( gog_plot_new_series ( GOG_PLOT ( cur_plot ) ) );
 
     data = go_data_vector_str_new ( (const char * const*) self -> tab_vue_libelle, self -> nbre_elemnts, NULL );
     gog_series_set_dim (series, 0, data, &error);
+    if ( error != NULL )
+    {
+        g_error_free ( error );
+        error = NULL;
+        return FALSE;
+    }
+
     data = go_data_vector_val_new ( self->tab_Y, self->nbre_elemnts, NULL);
     gog_series_set_dim (series, 1, data, &error);
+    if ( error != NULL )
+    {
+        g_error_free ( error );
+        error = NULL;
+        return FALSE;
+    }
 
     return TRUE;
 }
