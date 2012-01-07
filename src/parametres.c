@@ -1163,13 +1163,13 @@ GtkWidget *onglet_metatree ( void )
                         GTK_ORIENTATION_VERTICAL );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
-						_("Choice of the action for double click of the mouse: "),
+                        _("Action associated with a double click on a subdivision: "),
                         _("Expand the line"),
                         _("Edit the line"),
                         _("Manage the line"),
-					    &conf.metatree_action_2button_press,
-					    G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
-					    &conf.metatree_action_2button_press,
+                        &conf.metatree_action_2button_press,
+                        G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
+                        &conf.metatree_action_2button_press,
                         GTK_ORIENTATION_VERTICAL );
 
     return vbox_pref;
