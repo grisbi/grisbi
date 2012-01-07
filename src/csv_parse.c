@@ -43,7 +43,7 @@
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gchar * sanitize_field ( gchar * begin, gchar * end  );
+static gchar * sanitize_field ( gchar *begin, gchar *end  );
 /*END_STATIC*/
 
 
@@ -52,68 +52,72 @@ static gchar * sanitize_field ( gchar * begin, gchar * end  );
  *
  *
  */
-GSList * csv_parse_line ( gchar ** contents, gchar * separator )
+GSList * csv_parse_line ( gchar **contents, gchar *separator )
 {
-    gchar * tmp = (* contents), * begin = tmp;
-    gint is_unquoted = FALSE, len = strlen ( separator );
-    GSList * list = NULL;
+    gchar *tmp = (*contents);
+    gchar *begin = tmp;
+    gint is_unquoted = FALSE;
+    gint len;
+    GSList *list = NULL;
+
+    len = strlen ( separator );
 
     if ( *tmp == '\n' )
     {
-	*contents = tmp+1;
-	return GINT_TO_POINTER(-1);
+        *contents = tmp + 1;
+        return GINT_TO_POINTER ( -1 );
     }
     
     if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
     {
-	*contents = strchr ( tmp, '\n' ) + 1;
-	return GINT_TO_POINTER(-1);
+        *contents = strchr ( tmp, '\n' ) + 1;
+        return GINT_TO_POINTER(-1);
     }
 
     while ( *tmp )
     {
-	switch ( *tmp )
-	{
-	    case '\n':
-		list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
-		*contents = tmp+1;
-		return list;
+        switch ( *tmp )
+        {
+            case '\n':
+            list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+            *contents = tmp+1;
+            return list;
 
-	    case '"':
-		if ( ! is_unquoted )
-		{
-		    tmp++;
-		    while ( *tmp )
-		    {
-			/* This is lame escaping but we need to
-			 * support it. */
-			if ( *tmp == '\\' && *(tmp+1) == '"' )
-			{
-			    tmp += 2;
-			}
+            case '"':
+            if ( ! is_unquoted )
+            {
+                tmp++;
+                while ( *tmp )
+                {
+                /* This is lame escaping but we need to
+                 * support it. */
+                if ( *tmp == '\\' && *(tmp+1) == '"' )
+                {
+                    tmp += 2;
+                }
 
-			/* End of quoted string. */
-			if ( *tmp == '"' && *(tmp+1) != '"' )
-			{
-			    break;
-			}
-			
-			tmp++;
-		    }
-		}
+                /* End of quoted string. */
+                if ( *tmp == '"' && *(tmp+1) != '"' )
+                {
+                    break;
+                }
+                
+                tmp++;
+                }
+            }
 
-	    default:
-		is_unquoted = TRUE;
-		if ( !strncmp ( tmp, separator, len ) )
-		{
-		    list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
-		    begin = tmp + len;
-		    is_unquoted = FALSE;
-		}
-		break;
-	}
+            default:
+            is_unquoted = TRUE;
+            if ( !strncmp ( tmp, separator, len ) )
+            {
+                list = g_slist_append ( list, sanitize_field ( begin, tmp ) );
+                begin = tmp + len;
+                is_unquoted = FALSE;
+            }
+            break;
+        }
 
-	tmp++;
+        tmp++;
     }
 
     return NULL;
@@ -125,51 +129,48 @@ GSList * csv_parse_line ( gchar ** contents, gchar * separator )
  * TODO
  *
  */
-gchar * sanitize_field ( gchar * begin, gchar * end  )
+gchar *sanitize_field ( gchar *begin, gchar *end  )
 {
-    gchar * field, * iter;
+    gchar *field;
+    gchar *iter;
 
     g_return_val_if_fail ( begin <= end, NULL );
 
     if ( end <= begin )
-	return "";
+        return "";
 
     iter = field = g_malloc0 ( end - begin + 1 );
 
     /* Strip out intial white spaces. */
     while ( *begin == ' ' )
-	begin++;
+        begin++;
 
     if ( *begin == '"' )
     {
-	begin++;
-	while ( *end != '"' && end >= begin )
-	    end--;
+        begin++;
+        while ( *end != '"' && end >= begin )
+            end--;
     }
 
     while ( begin < end )
     {
-	if ( *begin == '"' && *(begin+1) == '"' )
-	    begin++;
+        if ( *begin == '"' && *(begin+1) == '"' )
+            begin++;
 
-	if ( *begin == '\\' && *(begin+1) == '"' )
-	    begin++;
-	
-	*iter++ = *begin++;
+        if ( *begin == '\\' && *(begin+1) == '"' )
+            begin++;
+        
+        *iter++ = *begin++;
     }
 
     /* Strip out remaining white spaces. */
     while ( *(iter-1) == ' ' || *(iter-1) == '\n' )
-	iter--;
+        iter--;
 
     *iter = '\0';
 
     return field;
 }
-
-
-
-
 
 
 /**
@@ -254,7 +255,6 @@ gboolean csv_import_validate_amount ( gchar * string )
 
     return TRUE;
 }
-
 
 
 /**
@@ -444,12 +444,11 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
     g_return_val_if_fail ( string, FALSE );
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant = gsb_real_add ( ope -> montant,
-					utils_real_get_from_string (string));
+        ope -> montant = gsb_real_add ( ope -> montant,
+                        utils_real_get_from_string (string));
     }
     return TRUE;
 }
-
 
 
 /**
@@ -462,12 +461,11 @@ gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * s
 
     if ( strlen ( string ) > 0 )
     {
-	ope -> montant = gsb_real_sub ( ope -> montant,
-					utils_real_get_from_string (string));
+        ope -> montant = gsb_real_sub ( ope -> montant,
+                        utils_real_get_from_string (string));
     }
     return TRUE;
 }
-
 
 
 /**
