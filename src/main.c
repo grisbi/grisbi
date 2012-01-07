@@ -304,10 +304,6 @@ void main_mac_osx ( int argc, char **argv )
     /* on commence par détourner le signal SIGSEGV */
     gsb_main_trappe_signal_sigsegv ( );
 
-    /* parse command line parameter, exit with correct error code when needed */
-    if ( !parse_options (argc, argv, &opt, &status ) )
-        exit ( status );
-
     /* initialise les données de l'application */
     first_use = gsb_main_init_app ( );
 
