@@ -111,7 +111,14 @@ void gsb_dirs_init ( void )
 
         home_dir = g_strdup ( g_getenv ( "HOME" ) );
 
-        user_config_dir = g_build_filename ( g_get_user_config_dir ( ),  "grisbi", NULL );
+        #ifdef OS_OSX
+            user_config_dir = g_build_filename ( g_get_home_dir ( ),
+                        "Library/Application Support/Grisbi/config",
+                        NULL);
+        #else
+            user_config_dir = g_build_filename ( g_get_user_config_dir ( ),  "grisbi", NULL );
+        #endif /* !OS_OSX */
+
         user_data_dir = g_build_filename ( g_get_user_data_dir ( ),  "grisbi", NULL );
     }
 #endif /* !G_OS_WIN32 */
