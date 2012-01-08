@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*     Copyright (C)    2005-2006 Benjamin Drieu (bdrieu@april.org)           */
-/*          2008-2009 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -43,7 +43,7 @@
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gchar * sanitize_field ( gchar *begin, gchar *end  );
+static gchar *sanitize_field ( gchar *begin, gchar *end  );
 /*END_STATIC*/
 
 
@@ -54,13 +54,15 @@ static gchar * sanitize_field ( gchar *begin, gchar *end  );
  */
 GSList * csv_parse_line ( gchar **contents, gchar *separator )
 {
-    gchar *tmp = (*contents);
-    gchar *begin = tmp;
+    gchar *tmp;
+    gchar *begin;
     gint is_unquoted = FALSE;
     gint len;
     GSList *list = NULL;
 
     len = strlen ( separator );
+    tmp = (*contents);
+    begin = tmp;
 
     if ( *tmp == '\n' )
     {
@@ -124,7 +126,6 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
 }
 
 
-
 /**
  * TODO
  *
@@ -164,7 +165,7 @@ gchar *sanitize_field ( gchar *begin, gchar *end  )
     }
 
     /* Strip out remaining white spaces. */
-    while ( *(iter-1) == ' ' || *(iter-1) == '\n' )
+    while ( *(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n' )
         iter--;
 
     *iter = '\0';
@@ -424,7 +425,8 @@ gboolean csv_import_parse_sub_budget ( struct struct_ope_importation * ope, gcha
  */
 gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar * string )
 {
-    g_return_val_if_fail ( string, FALSE );
+    if ( !string )
+        return FALSE;
 
     if ( strlen ( string ) > 0 )
     {
@@ -441,12 +443,15 @@ gboolean csv_import_parse_balance ( struct struct_ope_importation * ope, gchar *
  */
 gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * string )
 {
-    g_return_val_if_fail ( string, FALSE );
+    if ( !string )
+        return FALSE;
+
     if ( strlen ( string ) > 0 )
     {
         ope -> montant = gsb_real_add ( ope -> montant,
                         utils_real_get_from_string (string));
     }
+
     return TRUE;
 }
 
@@ -457,13 +462,15 @@ gboolean csv_import_parse_credit ( struct struct_ope_importation * ope, gchar * 
  */
 gboolean csv_import_parse_debit ( struct struct_ope_importation * ope, gchar * string )
 {
-    g_return_val_if_fail ( string, FALSE );
+    if ( !string )
+        return FALSE;
 
     if ( strlen ( string ) > 0 )
     {
         ope -> montant = gsb_real_sub ( ope -> montant,
-                        utils_real_get_from_string (string));
+                        utils_real_get_from_string ( string ) );
     }
+
     return TRUE;
 }
 
