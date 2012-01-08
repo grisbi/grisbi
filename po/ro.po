@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-03 14:49+0100\n"
+"POT-Creation-Date: 2012-01-08 16:49+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -10445,7 +10445,7 @@ msgid "by date descending"
 msgstr ""
 
 #: ../src/parametres.c:1186
-msgid "Choice of the action for double click of the mouse: "
+msgid "Action associated with a double click on a subdivision: "
 msgstr ""
 
 #: ../src/parametres.c:1187

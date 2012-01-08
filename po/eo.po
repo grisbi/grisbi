@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-03 14:49+0100\n"
+"POT-Creation-Date: 2012-01-08 16:49+0100\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -9562,7 +9562,7 @@ msgid "by date descending"
 msgstr ""
 
 #: ../src/parametres.c:1186
-msgid "Choice of the action for double click of the mouse: "
+msgid "Action associated with a double click on a subdivision: "
 msgstr ""
 
 #: ../src/parametres.c:1187
