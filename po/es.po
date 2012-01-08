@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-03 18:02+0100\n"
+"POT-Creation-Date: 2012-01-08 17:04+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -632,7 +632,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Elija el año financiero o 12 meses naturales"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:920 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
+#: ../src/bet_config.c:921 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:180 ../src/import_csv.c:86
@@ -640,7 +640,7 @@ msgstr "Elija el año financiero o 12 meses naturales"
 msgid "Category"
 msgstr "Categoría"
 
-#: ../src/bet_config.c:933 ../src/bet_future.c:817 ../src/bet_future.c:2025
+#: ../src/bet_config.c:934 ../src/bet_future.c:817 ../src/bet_future.c:2025
 #: ../src/bet_future.c:2501 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:172
@@ -648,31 +648,31 @@ msgstr "Categoría"
 msgid "Budgetary line"
 msgstr "Línea presupuestaria"
 
-#: ../src/bet_config.c:1260
+#: ../src/bet_config.c:1261
 #, fuzzy
 msgid "Loan Capital: "
 msgstr "Préstamo/Hipoteca : Capital:"
 
 #. Duration
-#: ../src/bet_config.c:1280 ../src/bet_finance_ui.c:288
+#: ../src/bet_config.c:1281 ../src/bet_finance_ui.c:288
 #: ../src/bet_finance_ui.c:1114 ../src/bet_finance_ui.c:1556
 #, fuzzy
 msgid "Duration: "
 msgstr "Tabulación:"
 
-#: ../src/bet_config.c:1289 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:763
 #, fuzzy
 msgid "year"
 msgstr "años"
 
-#: ../src/bet_config.c:1298
+#: ../src/bet_config.c:1299
 #, fuzzy
 msgid "Date of first Repayment: "
 msgstr "la forma de pago: "
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:1100
+#: ../src/bet_config.c:1312 ../src/bet_finance_ui.c:1100
 #: ../src/bet_finance_ui.c:1542
 #, fuzzy
 msgid "Annuel rate interest: "
@@ -681,44 +681,44 @@ msgstr "Presupuesto anual: "
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:283
+#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
 #: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1329
+#: ../src/bet_config.c:1330
 msgid "Fees per month: "
 msgstr "Tres meses: "
 
-#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:409
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:409
 msgid "Rate Type: "
 msgstr "Tipo: "
 
-#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:413
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1360 ../src/bet_finance_ui.c:416
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:416
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1371
+#: ../src/bet_config.c:1372
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1426 ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1427 ../src/bet_finance_ui.c:1666
 #, fuzzy
 msgid " year "
 msgstr "año %d"
 
-#: ../src/bet_config.c:1428 ../src/bet_finance_ui.c:1668
+#: ../src/bet_config.c:1429 ../src/bet_finance_ui.c:1668
 #, fuzzy
 msgid " years "
 msgstr "años"
 
-#: ../src/bet_config.c:1478 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1479 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -1185,30 +1185,30 @@ msgstr ""
 msgid "Incomes"
 msgstr "Ingresos"
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:815
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:815
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:974
+#: ../src/bet_graph.c:986
 #, fuzzy
 msgid "Column"
 msgstr "Columnas"
 
-#: ../src/bet_graph.c:1001
+#: ../src/bet_graph.c:1013
 msgid "Line"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1461 ../src/bet_graph.c:1495
+#: ../src/bet_graph.c:1473 ../src/bet_graph.c:1507
 #, fuzzy
 msgid "Hide grid"
 msgstr "Archivos"
 
-#: ../src/bet_graph.c:1463 ../src/bet_graph.c:1497 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1475 ../src/bet_graph.c:1509 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Mostrar _reconciliados"
@@ -10477,7 +10477,7 @@ msgid "by date descending"
 msgstr ""
 
 #: ../src/parametres.c:1166
-msgid "Choice of the action for double click of the mouse: "
+msgid "Action associated with a double click on a subdivision: "
 msgstr ""
 
 #: ../src/parametres.c:1167

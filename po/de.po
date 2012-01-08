@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-03 18:02+0100\n"
+"POT-Creation-Date: 2012-01-08 17:04+0100\n"
 "PO-Revision-Date: 2011-12-25 18:16+0100\n"
 "Last-Translator: Martin Stromberger <mstromberger@aon.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -619,7 +619,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "Geschäftsjahr oder Zeitspanne von 12 Monaten"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:920 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
+#: ../src/bet_config.c:921 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:180 ../src/import_csv.c:86
@@ -627,7 +627,7 @@ msgstr "Geschäftsjahr oder Zeitspanne von 12 Monaten"
 msgid "Category"
 msgstr "Kategorie"
 
-#: ../src/bet_config.c:933 ../src/bet_future.c:817 ../src/bet_future.c:2025
+#: ../src/bet_config.c:934 ../src/bet_future.c:817 ../src/bet_future.c:2025
 #: ../src/bet_future.c:2501 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:172
@@ -635,27 +635,27 @@ msgstr "Kategorie"
 msgid "Budgetary line"
 msgstr "Budgeteintrag"
 
-#: ../src/bet_config.c:1260
+#: ../src/bet_config.c:1261
 msgid "Loan Capital: "
 msgstr "Kredit Betrag: "
 
 #. Duration
-#: ../src/bet_config.c:1280 ../src/bet_finance_ui.c:288
+#: ../src/bet_config.c:1281 ../src/bet_finance_ui.c:288
 #: ../src/bet_finance_ui.c:1114 ../src/bet_finance_ui.c:1556
 msgid "Duration: "
 msgstr "Zeitspanne: "
 
-#: ../src/bet_config.c:1289 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:763
 msgid "year"
 msgstr "Jahr"
 
-#: ../src/bet_config.c:1298
+#: ../src/bet_config.c:1299
 msgid "Date of first Repayment: "
 msgstr "Datum erste Rückzahlung: "
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:1100
+#: ../src/bet_config.c:1312 ../src/bet_finance_ui.c:1100
 #: ../src/bet_finance_ui.c:1542
 msgid "Annuel rate interest: "
 msgstr "Zinssatz jährlich: "
@@ -663,42 +663,42 @@ msgstr "Zinssatz jährlich: "
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:283
+#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
 #: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: ../src/bet_config.c:1329
+#: ../src/bet_config.c:1330
 msgid "Fees per month: "
 msgstr "Gebühren pro Monat: "
 
-#: ../src/bet_config.c:1352 ../src/bet_finance_ui.c:409
+#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:409
 msgid "Rate Type: "
 msgstr "Ratenart: "
 
-#: ../src/bet_config.c:1356 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:413
 msgid "CAGR"
 msgstr "kumulierte jährliche Wachstumsrate"
 
-#: ../src/bet_config.c:1360 ../src/bet_finance_ui.c:416
+#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:416
 msgid "Proportional rate"
 msgstr "anteilsmäßige Rate"
 
-#: ../src/bet_config.c:1371
+#: ../src/bet_config.c:1372
 msgid "Apply"
 msgstr "Anwenden"
 
-#: ../src/bet_config.c:1426 ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1427 ../src/bet_finance_ui.c:1666
 msgid " year "
 msgstr " Jahr "
 
-#: ../src/bet_config.c:1428 ../src/bet_finance_ui.c:1668
+#: ../src/bet_config.c:1429 ../src/bet_finance_ui.c:1668
 msgid " years "
 msgstr " Jahre "
 
-#: ../src/bet_config.c:1478 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1479 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr "Es muss zumindest ein Wert für den Betrag erfasst werden"
 
@@ -1153,30 +1153,30 @@ msgstr "Ausgaben"
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:815
 msgid "You can not exceed one year of visualization"
 msgstr ""
 "Die Zeitspanne von einem Jahr kann bei der Datenvisualisierung nicht "
 "überschritten werden"
 
-#: ../src/bet_graph.c:817
+#: ../src/bet_graph.c:815
 msgid "Overflow"
 msgstr "Überlauf"
 
-#: ../src/bet_graph.c:974
+#: ../src/bet_graph.c:986
 msgid "Column"
 msgstr "Balken"
 
-#: ../src/bet_graph.c:1001
+#: ../src/bet_graph.c:1013
 msgid "Line"
 msgstr "Linie"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1461 ../src/bet_graph.c:1495
+#: ../src/bet_graph.c:1473 ../src/bet_graph.c:1507
 msgid "Hide grid"
 msgstr "Gitter verbergen"
 
-#: ../src/bet_graph.c:1463 ../src/bet_graph.c:1497 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1475 ../src/bet_graph.c:1509 ../src/ui/bet_graph.ui.h:23
 msgid "Show grid"
 msgstr "Gitter anzeigen"
 
@@ -10393,8 +10393,8 @@ msgid "by date descending"
 msgstr "nach Datum absteigend"
 
 #: ../src/parametres.c:1166
-msgid "Choice of the action for double click of the mouse: "
-msgstr "Aktion für Doppelklick festlegen"
+msgid "Action associated with a double click on a subdivision: "
+msgstr ""
 
 #: ../src/parametres.c:1167
 msgid "Expand the line"
@@ -11548,3 +11548,6 @@ msgstr "Beschriftung anzeigen"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#~ msgid "Choice of the action for double click of the mouse: "
+#~ msgstr "Aktion für Doppelklick festlegen"
