@@ -157,7 +157,7 @@ gchar * sanitize_field ( gchar * begin, gchar * end  )
     }
 
     /* Strip out remaining white spaces. */
-    while ( *(iter-1) == ' ' || *(iter-1) == '\n' )
+    while ( *(iter-1) == ' ' || *(iter-1) == '\r' || *(iter-1) == '\n' )
 	iter--;
 
     *iter = '\0';
