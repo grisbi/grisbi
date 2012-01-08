@@ -768,6 +768,7 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event,
                         G_CALLBACK ( bet_config_period_clicked ),
                         button );
 
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
 
     if ( g_strcmp0 ( name, "bet_period_button_1" ) == 0 )
