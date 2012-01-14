@@ -245,10 +245,10 @@ gint gtktable_initialise ( GSList * opes_selectionnees, gchar * filename )
     /* pas besoin d'indiquer la hauteur, elle grandit automatiquement */
 
     if ( table_etat && GTK_IS_TABLE(table_etat) )
-	gtk_widget_destroy (table_etat);
+        gtk_widget_destroy (table_etat);
 
-    if ( scrolled_window_etat && GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
+    if ( scrolled_window_etat && gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
+        gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 
     /* just update screen so that the user does not see the previous report anymore
      * while we are processing the new report */
@@ -271,8 +271,8 @@ gint gtktable_finish ()
     gtk_container_set_border_width ( GTK_CONTAINER ( table_etat ), 6 );
     gtk_widget_show_all ( table_etat );
 
-    if ( GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_widget_show ( GTK_BIN ( scrolled_window_etat ) -> child );
+    if ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
+        gtk_widget_show ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 
     return 1;
 }
