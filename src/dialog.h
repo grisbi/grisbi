@@ -25,6 +25,8 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text );
 void dialogue_error_brain_damage ();
 G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint );
 void dialogue_error_memory ();
+GtkWidget *dialog_get_action_area ( GtkWidget *dialog );
+GtkWidget *dialog_get_content_area ( GtkWidget *dialog );
 void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
 void dialogue_special ( GtkMessageType param, gchar *text );

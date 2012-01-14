@@ -76,7 +76,7 @@ struct conditional_message messages[] =
       FALSE, FALSE, },
      
     { "minimum-balance-alert", N_("Account under desired balance."),
-      N_("Grisbi detected that an account is under a desired balance: %s"), 
+      N_("Grisbi detected that an account is under a desired balance: %s"),
       FALSE, FALSE, },
     
     { "no-budgetary-line", N_("No budgetary line was entered"),
@@ -203,11 +203,11 @@ void dialogue_special ( GtkMessageType param, gchar *text )
 {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ), 
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
-                        "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG (dialog)->label ), text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
@@ -234,17 +234,17 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
         dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
-                        "%s", text );
+                        NULL );
     }
     else
     {
         dialog = gtk_message_dialog_new ( NULL,
                         0,
                         param, buttons,
-                        "%s", text );
+                        NULL );
     }
 
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
     return dialog;
 }
@@ -326,14 +326,14 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         type, buttons,
-                        "%s", text );
+                        NULL );
     gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_CLOSE );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+   gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
-    vbox = GTK_DIALOG(dialog) -> vbox;
+    vbox = gtk_message_dialog_get_message_area ( GTK_MESSAGE_DIALOG ( dialog ) );
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
-    g_signal_connect ( G_OBJECT ( checkbox ), "toggled", 
+    g_signal_connect ( G_OBJECT ( checkbox ), "toggled",
                         G_CALLBACK ( dialogue_update_var ), GINT_TO_POINTER ( i ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
     gtk_widget_show_all ( checkbox );
@@ -440,9 +440,8 @@ gboolean question_yes_no ( gchar *text, gint default_answer )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
-                        "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
-
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), default_answer );
 
     response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -525,11 +524,11 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
-                        "%s", text );
+                        NULL );
     gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_NO );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog )->label ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
-    vbox = GTK_DIALOG ( dialog ) -> vbox;
+    vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
     g_signal_connect ( G_OBJECT ( checkbox ),
@@ -665,7 +664,7 @@ gchar *make_blue ( const gchar *text )
 void dialogue_error_brain_damage ()
 {
     dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code."
-                        " Grisbi is expected to crash very soon. Have a nice day."), 
+                        " Grisbi is expected to crash very soon. Have a nice day."),
                         _("Serious brain damage expected.") );
 }
 
@@ -735,15 +734,15 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     format_text = make_hint ( hint, text );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ), 
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_INFO, 
+                        GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,
-                        "%s", format_text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), format_text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), format_text );
 
     hbox = gtk_hbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
                         hbox,
                         FALSE, FALSE, 0);
 
@@ -762,6 +761,34 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     return string;
 }
+
+
+/**
+ * return the content_area of dialog
+ *
+ * \param dialog
+ *
+ * \return the content_area
+ */
+GtkWidget *dialog_get_content_area ( GtkWidget *dialog )
+{
+    return gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
+}
+
+
+/**
+ * return the action_area of dialog
+ *
+ * \param dialog
+ *
+ * \return the action_area
+ */
+GtkWidget *dialog_get_action_area ( GtkWidget *dialog )
+{
+    return gtk_dialog_get_action_area ( GTK_DIALOG ( dialog ) );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
