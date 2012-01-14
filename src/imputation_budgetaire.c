@@ -756,7 +756,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
