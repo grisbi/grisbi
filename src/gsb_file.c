@@ -783,85 +783,88 @@ static gint gsb_file_dialog_save ( void )
     GtkWidget *dialog;
     gint difference = (gint) difftime ( now, run.file_modification );
     gchar* message;
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+    gchar* tmpstr1;
+    gchar* tmpstr2;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
+    if ( !gsb_file_get_modified ( ) )
+        return GTK_RESPONSE_NO;
 
-    if ( ! gsb_file_get_modified ( ) )
-	return GTK_RESPONSE_NO;
-
-    if ( conf.sauvegarde_auto &&
-	 ( !etat.fichier_deja_ouvert || conf.force_enregistrement ) &&
-	 nom_fichier_comptes )
+    if ( conf.sauvegarde_auto
+     &&
+     ( !etat.fichier_deja_ouvert || conf.force_enregistrement )
+     &&
+     nom_fichier_comptes )
       return GTK_RESPONSE_OK;
 
     /*     si le fichier était déjà locké et que force enregistrement n'est pas mis, */
     /*     on prévient ici */
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
-				      GTK_DIALOG_DESTROY_WITH_PARENT,
-				      GTK_MESSAGE_WARNING,
-				      GTK_BUTTONS_NONE,
-				      " " );
-    if ( etat.fichier_deja_ouvert
-	 &&
-	 !conf.force_enregistrement )
+                        GTK_DIALOG_DESTROY_WITH_PARENT,
+                        GTK_MESSAGE_WARNING,
+                        GTK_BUTTONS_NONE,
+                        NULL );
+    if ( etat.fichier_deja_ouvert && !conf.force_enregistrement )
     {
-	hint = g_strdup(_("Save locked files?"));
-	message = g_strdup_printf ( _("The document '%s' is locked but modified. If you want to save it, you must cancel and save it with another name or activate the \"%s\" option in setup."),
-				    (nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")),
-				    _("Force saving of locked files"));
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				 NULL );
-	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL );
+        hint = g_strdup ( _("Save locked files?") );
+        message = g_strdup_printf ( _("The document '%s' is locked but modified. "
+                        "If you want to save it, you must cancel and save it with "
+                        "another name or activate the \"%s\" option in setup."),
+                        ( nom_fichier_comptes ? g_path_get_basename ( nom_fichier_comptes ) : _("unnamed") ),
+                        _("Force saving of locked files") );
+
+        gtk_dialog_add_buttons ( GTK_DIALOG ( dialog ),
+                        _("Close without saving"), GTK_RESPONSE_NO,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        NULL );
+        gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_CANCEL );
     }
     else
     {
-	hint = g_strdup_printf (_("Save changes to document '%s' before closing?"),
-				(nom_fichier_comptes ? g_path_get_basename(nom_fichier_comptes) : _("unnamed")));
+        hint = g_strdup_printf ( _("Save changes to document '%s' before closing?"),
+                        ( nom_fichier_comptes ? g_path_get_basename ( nom_fichier_comptes ) : _("unnamed") ) );
+
         message = g_strdup("");
-	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
-				 NULL );
-	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK );
+        gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
+                        _("Close without saving"), GTK_RESPONSE_NO,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+                        NULL );
+        gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
     }
 
     if ( difference >= 120 )
     {
-	time_elapsed = g_strdup_printf ( _( "%d minutes and %d seconds" ),
-					 difference / 60, difference % 60 );
+        time_elapsed = g_strdup_printf ( _( "%d minutes and %d seconds" ),
+                        difference / 60, difference % 60 );
     }
     else if ( difference >= 60 )
     {
-	time_elapsed = g_strdup_printf ( _( "1 minute and %d seconds" ),
-					 difference % 60 );
+        time_elapsed = g_strdup_printf ( _( "1 minute and %d seconds" ), difference % 60 );
     }
     else
     {
-	time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
+        time_elapsed = g_strdup_printf ( _( "%d seconds" ), difference );
     }
+
     tmpstr1 = message;
     tmpstr2 = g_strdup_printf ( _("If you close without saving, all of your changes "
-						"since %s will be discarded."),
-					      time_elapsed );
+                        "since %s will be discarded."),
+                        time_elapsed );
+
     message = g_strconcat ( tmpstr1, tmpstr2 , NULL );
     g_free ( tmpstr1 );
     g_free ( tmpstr2 );
     g_free ( time_elapsed );
 
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ),
-			   make_hint ( hint, message ) );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ), make_hint ( hint, message ) );
 
     g_free ( message );
     g_free ( hint );
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
-    result = gtk_dialog_run (GTK_DIALOG (dialog));
+    result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
     gtk_widget_destroy ( dialog );
 
     return result;
@@ -1127,7 +1130,6 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 void gsb_file_save_remove_old_file ( gchar *filename )
 {
     GtkWidget *dialog;
-    GtkWidget *content_area;
     GtkWidget *hbox;
     GtkWidget *image;
     GtkWidget *label;
@@ -1145,16 +1147,14 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
-    content_area = GTK_DIALOG(dialog) -> vbox;
     hbox = gtk_hbox_new ( FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 
-    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
-                        GTK_ICON_SIZE_DIALOG );
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
-    tmpstr = g_strdup_printf ( 
+    tmpstr = g_strdup_printf (
                         _("Caution, you are about to delete a file copy\n"
                         "from a previous version of grisbi.\n"
                         "\n<b>Do you want to delete this file:\n%s ?</b>"),
