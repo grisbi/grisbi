@@ -1546,7 +1546,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), main_vbox, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
     vbox = gtk_vbox_new ( FALSE, 12 );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
@@ -1633,7 +1633,7 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, TRUE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area( dialog ) ), hbox, TRUE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the currency of the partial balance: ") );
     gtk_misc_set_alignment ( GTK_MISC  ( label ), 0, 1 );
