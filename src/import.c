@@ -1425,12 +1425,12 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
-                        "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ->label ), text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
-    vbox = GTK_DIALOG(dialog) -> vbox;
+    vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
-    checkbox = gtk_check_button_new_with_label ( 
+    checkbox = gtk_check_button_new_with_label (
                         _("Use this currency for totals for the payees categories\n"
                         "and budgetary lines") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
@@ -1438,7 +1438,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
     gtk_widget_show_all ( checkbox );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
 
-    response = gtk_dialog_run (GTK_DIALOG (dialog));
+    response = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
     if ( response == GTK_RESPONSE_YES
      &&
@@ -2292,7 +2292,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     }
     label = gtk_label_new ( tmpstr );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
 			 label,
 			 FALSE,
 			 FALSE,
@@ -2302,7 +2302,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
     /* set the decoration */
     frame = gtk_frame_new (NULL);
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )-> vbox ), frame, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), frame, TRUE, TRUE, 0 );
     gtk_widget_show ( frame );
 
     vbox = gtk_vbox_new ( FALSE, 0 );
@@ -3253,7 +3253,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
 	label = gtk_label_new ( _("Mark transactions you want to add to the list and click the "
                               "OK button"));
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
                         label,
                         FALSE,
                         FALSE,
@@ -3297,7 +3297,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
 
 	scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
 	gtk_widget_set_size_request ( scrolled_window, -1, 300 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ),
+	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ),
                         scrolled_window,
                         TRUE,
                         TRUE,
@@ -4564,7 +4564,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
