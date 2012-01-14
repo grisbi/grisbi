@@ -103,49 +103,54 @@ gboolean gsb_calendar_update ( void )
 {
     time_t temps;
     GSList *tmp_list;
-    gint calendar_month;
-	gint calendar_year;
+    guint calendar_day;
+    guint calendar_month;
+    guint calendar_year;
 
-    gtk_calendar_clear_marks ( GTK_CALENDAR ( scheduled_calendar ));
+    gtk_calendar_clear_marks ( GTK_CALENDAR ( scheduled_calendar ) );
+    gtk_calendar_get_date ( GTK_CALENDAR ( scheduled_calendar ),
+                        &calendar_day,
+                        &calendar_month,
+                        &calendar_year );
 
     /* select the current day */
     time ( &temps );
 
-    if ( ( localtime ( &temps ) -> tm_mon == GTK_CALENDAR ( scheduled_calendar ) -> month )
-	 &&
-	 ( ( localtime ( &temps ) -> tm_year + 1900 ) == GTK_CALENDAR ( scheduled_calendar ) -> year ) )
-	gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ),
-				  localtime ( &temps ) -> tm_mday );
+    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+     &&
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+        gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
-	gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ),
-				  FALSE );
+        gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );
 
-    calendar_month = GTK_CALENDAR ( scheduled_calendar ) -> month + 1;
-	calendar_year = GTK_CALENDAR ( scheduled_calendar ) -> year + 25;
+    calendar_month = calendar_month + 1;
+    calendar_year = calendar_year + 25;
 
     /* check the scheduled transactions and bold them in the calendar */
     tmp_list = gsb_data_scheduled_get_scheduled_list ();
 
     while ( tmp_list )
     {
-	GDate *tmp_date;
-	gint scheduled_number;
+        GDate *tmp_date;
+        gint scheduled_number;
 
-	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
+        scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
 
-	tmp_date = gsb_date_copy (gsb_data_scheduled_get_date (scheduled_number));
+        tmp_date = gsb_date_copy ( gsb_data_scheduled_get_date ( scheduled_number ) );
 
-	while (tmp_date && g_date_get_month (tmp_date) == calendar_month && g_date_get_year (tmp_date) < calendar_year)
-	{
-	    GDate *new_date;
+        while ( tmp_date 
+         && g_date_get_month ( tmp_date ) == calendar_month
+         && g_date_get_year ( tmp_date ) < calendar_year )
+        {
+            GDate *new_date;
 
-	    gtk_calendar_mark_day ( GTK_CALENDAR ( scheduled_calendar ),
-				    g_date_get_day (tmp_date));
-	    new_date = gsb_scheduler_get_next_date (scheduled_number, tmp_date);
-	    g_free (tmp_date);
-	    tmp_date = new_date;
-	}
-	tmp_list = tmp_list -> next;
+            gtk_calendar_mark_day ( GTK_CALENDAR ( scheduled_calendar ), g_date_get_day ( tmp_date ) );
+            new_date = gsb_scheduler_get_next_date ( scheduled_number, tmp_date );
+
+            g_free ( tmp_date );
+            tmp_date = new_date;
+        }
+        tmp_list = tmp_list -> next;
     }
     return FALSE;
 }
@@ -153,31 +158,35 @@ gboolean gsb_calendar_update ( void )
 
 
 void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
-					  gpointer null )
+                        gpointer null )
 {
     time_t temps;
+    guint calendar_day;
+    guint calendar_month;
+    guint calendar_year;
 
     time ( &temps );
+    gtk_calendar_get_date ( GTK_CALENDAR ( scheduled_calendar ),
+                        &calendar_day,
+                        &calendar_month,
+                        &calendar_year );
 
     g_signal_handlers_block_by_func ( G_OBJECT ( calendrier ),
-				       G_CALLBACK ( click_sur_jour_calendrier_echeance ),
-				       NULL );
+                        G_CALLBACK ( click_sur_jour_calendrier_echeance ),
+                        NULL );
 
-    if ( ( localtime ( &temps ) -> tm_mon == GTK_CALENDAR ( scheduled_calendar ) -> month )
-	 &&
-	 ( ( localtime ( &temps ) -> tm_year + 1900 ) == GTK_CALENDAR ( scheduled_calendar ) -> year ) )
-	gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ),
-				  localtime ( &temps ) -> tm_mday );
+    if ( ( localtime ( &temps ) -> tm_mon == calendar_month )
+     &&
+     ( ( localtime ( &temps ) -> tm_year + 1900 ) == calendar_year ) )
+        gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), localtime ( &temps ) -> tm_mday );
     else
-	gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ),
-				  FALSE );
+        gtk_calendar_select_day ( GTK_CALENDAR ( scheduled_calendar ), FALSE );
 
     g_signal_handlers_unblock_by_func ( G_OBJECT ( calendrier ),
-					 G_CALLBACK ( click_sur_jour_calendrier_echeance ),
-					 NULL );
+                        G_CALLBACK ( click_sur_jour_calendrier_echeance ),
+                        NULL );
 
 }
-
 
 
 /* Local Variables: */
