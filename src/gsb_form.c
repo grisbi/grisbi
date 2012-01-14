@@ -208,7 +208,7 @@ GtkWidget *gsb_form_get_scheduler_part ( void )
 void gsb_form_create_widgets ( void )
 {
     GtkWidget * hbox, * label, * separator, * hbox_buttons, * hbox_buttons_inner;
-    GtkWidget * child = gtk_bin_get_child ( GTK_BIN(form_expander) );
+    GtkWidget * child = gtk_bin_get_child ( GTK_BIN ( form_expander ) );
     GtkWidget *event_box;
 	gchar* tmpstr;
 
