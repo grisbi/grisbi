@@ -65,7 +65,7 @@ static gint timer_id;
 */
 
 /** Window under cursor at the time the cursor animation changed. */
-static GdkWindow * tracked_window;
+static GdkWindow *tracked_window;
 
 
 /**
@@ -77,7 +77,7 @@ static GdkWindow * tracked_window;
 GtkWidget * gsb_new_statusbar ()
 {
     main_statusbar = gtk_statusbar_new ();
-    context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR (main_statusbar), "Grisbi" );
+    context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR ( main_statusbar ), "Grisbi" );
     message_id = -1;
 
     gtk_widget_show_all ( main_statusbar );
@@ -95,10 +95,10 @@ GtkWidget * gsb_new_statusbar ()
 void gsb_status_message ( gchar * message )
 {
     if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-	return;
+        return;
 
     gsb_status_clear ();
-    message_id = gtk_statusbar_push ( GTK_STATUSBAR (main_statusbar), context_id, message );
+    message_id = gtk_statusbar_push ( GTK_STATUSBAR ( main_statusbar ), context_id, message );
 
     /* force status message to be displayed NOW */
     update_gui ( );
@@ -112,12 +112,12 @@ void gsb_status_message ( gchar * message )
 void gsb_status_clear (  )
 {
     if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-	return;
+        return;
 
     if ( message_id >= 0 )
     {
-	gtk_statusbar_remove ( GTK_STATUSBAR (main_statusbar), context_id, message_id );
-	message_id = -1;
+        gtk_statusbar_remove ( GTK_STATUSBAR ( main_statusbar ), context_id, message_id );
+        message_id = -1;
     }
 
     /* force status message to be displayed NOW */
@@ -135,35 +135,37 @@ void gsb_status_clear (  )
  */
 void gsb_status_wait ( gboolean force_update )
 {
-    GdkWindow * current_window;
+    GdkWindow *current_window;
+    GdkWindow *run_window;
 
-    gdk_window_set_cursor ( run.window -> window, 
-			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
-							 GDK_WATCH ) );
+    run_window = gtk_widget_get_window ( run.window );
 
-    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ),
-							 NULL, NULL );
+    gdk_window_set_cursor ( run_window,
+                        gdk_cursor_new_for_display ( gdk_display_get_default ( ),
+                        GDK_WATCH ) );
+
+    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ), NULL, NULL );
 
     if ( current_window && GDK_IS_WINDOW ( current_window )
      &&
-	 current_window != run.window -> window )
+     current_window != run_window )
     {
-	GdkWindow * parent = gdk_window_get_toplevel ( current_window );
-	
-	if ( parent && parent != current_window )
-	{
-	    current_window = parent;
-	}	    
+        GdkWindow *parent = gdk_window_get_toplevel ( current_window );
+        
+        if ( parent && parent != current_window )
+        {
+            current_window = parent;
+        }
 
-	gdk_window_set_cursor ( current_window, 
-				gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
-							     GDK_WATCH ) );
+        gdk_window_set_cursor ( current_window,
+                        gdk_cursor_new_for_display ( gdk_display_get_default ( ),
+                        GDK_WATCH ) );
 
-	tracked_window = current_window;
+        tracked_window = current_window;
     }
 
     if ( force_update )
-	update_gui ( );
+        update_gui ( );
 }
 
 
@@ -176,19 +178,19 @@ void gsb_status_wait ( gboolean force_update )
  */
 void gsb_status_stop_wait ( gboolean force_update )
 {
-    if ( ! run.window )
-	return;
+    if ( !run.window )
+        return;
 
-    gdk_window_set_cursor ( run.window -> window, NULL );
+    gdk_window_set_cursor ( gtk_widget_get_window ( run.window ), NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
     {
-	gdk_window_set_cursor ( tracked_window, NULL );
-	tracked_window = NULL;
+        gdk_window_set_cursor ( tracked_window, NULL );
+        tracked_window = NULL;
     }
 
     if ( force_update )
-	update_gui ( );
+        update_gui ( );
 }
 
 
