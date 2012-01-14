@@ -230,7 +230,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     vbox = gtk_vbox_new ( FALSE, 5 );
 
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
                         GTK_SHADOW_NONE );
 
     /* création de la ligne des détails du compte */
