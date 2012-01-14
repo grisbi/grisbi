@@ -494,10 +494,10 @@ gboolean gsb_file_config_save_config ( void )
 #endif
 
     /* get the geometry */
-    if ( GTK_WIDGET ( run.window ) -> window ) 
+    if ( gtk_widget_get_window ( GTK_WIDGET ( run.window ) ) )
         gtk_window_get_size ( GTK_WINDOW ( run.window ),
                         &conf.main_width, &conf.main_height);
-    else 
+    else
     {
         conf.main_width = 0;
         conf.main_height = 0;
