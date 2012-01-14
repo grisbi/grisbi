@@ -1743,7 +1743,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     g_free ( tmpstr2 );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
     if ( iface -> content == 0 )
@@ -1843,7 +1843,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 
     /* other choice, just remove the division */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox,
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
     if ( iface -> content == 0 )
@@ -2855,11 +2855,11 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         g_free ( tmp_str_2 );
         g_free ( tmp_str_3 );
 
-        gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), button, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), button, FALSE, FALSE, 0 );
 
         /* create the list containing division and sub-division without the current division */
         hbox = gtk_hbox_new ( FALSE, 6 );
-        gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
         gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
@@ -2880,7 +2880,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         button_action_selected = 0;
 
         hbox = gtk_hbox_new ( FALSE, 6 );
-        gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
         gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
