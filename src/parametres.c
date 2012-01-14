@@ -573,7 +573,7 @@ gboolean preferences ( gint page )
 
     gtk_widget_show_all ( hpaned );
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX (  dialog_get_content_area ( fenetre_preferences ) ),
                         hpaned, TRUE, TRUE, 0);
 
     /* balance estimate subtree */
