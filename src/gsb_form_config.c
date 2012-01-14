@@ -53,26 +53,26 @@
 static gboolean gsb_form_config_add_column ( void );
 static gboolean gsb_form_config_add_line ( void );
 static gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
-						 gpointer null );
+                        gpointer null );
 static gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation,
-					      gpointer null );
+                        GtkAllocation *allocation,
+                        gpointer null );
 static gboolean gsb_form_config_check_for_removing ( gint account_number,
-					      gint removing_row );
+                        gint removing_row );
 static GtkWidget *gsb_form_config_create_buttons_table ( void );
 static GtkWidget *gsb_form_config_create_sizing_buttons_line ( void );
 static GtkListStore *gsb_form_config_create_store ( void );
 static GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store );
 static gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
-				      GdkDragContext *drag_context,
-				      gpointer null );
+                        GdkDragContext *drag_context,
+                        gpointer null );
 static gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
-				    GdkDragContext *drag_context,
-				    gpointer null );
+                        GdkDragContext *drag_context,
+                        gpointer null );
 static gboolean gsb_form_config_fill_store ( gint account_number );
 static void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent );
 static gboolean gsb_form_config_realized ( GtkWidget *tree_view,
-				    gpointer null );
+                        gpointer null );
 static gboolean gsb_form_config_remove_column ( void );
 static gboolean gsb_form_config_remove_line ( void );
 static gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button );
@@ -530,7 +530,7 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
  * \return FALSE
  * */
 gboolean gsb_form_config_change_account_choice ( GtkWidget *combobox,
-						 gpointer null )
+                        gpointer null )
 {
     gint account_number;
 
@@ -780,31 +780,30 @@ gboolean gsb_form_config_fill_store ( gint account_number )
  * \return FALSE
  * */
 gboolean gsb_form_config_realized ( GtkWidget *tree_view,
-				    gpointer null )
+                        gpointer null )
 {
     gint column;
     gint account_number;
-    gint width;
+    GtkAllocation allocation;
 
     if ( !assert_account_loaded())
       return FALSE;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    width = tree_view -> allocation.width;
+
+    gtk_widget_get_allocation ( tree_view, &allocation );
 
     /* fill and update the form list and buttons */
-    gsb_form_config_update_form_config(account_number);
+    gsb_form_config_update_form_config ( account_number );
 
-    for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
+    for ( column=0 ; column < gsb_data_form_get_nb_columns ( account_number ) ; column++ )
     {
-	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-									  column ),
-					       gsb_data_form_get_width_column ( account_number,
-										column ) * width / 100 );
+        gtk_tree_view_column_set_fixed_width (
+                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
+                        gsb_data_form_get_width_column ( account_number, column ) * allocation.width / 100 );
     }
 
-    gdk_window_set_cursor ( tree_view -> window, 
-			    gdk_cursor_new ( GDK_FLEUR ) );
+    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_FLEUR ) );
 
     return FALSE;
 }
@@ -821,12 +820,13 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
  * \return FALSE
  * */
 gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
-					      GtkAllocation *allocation,
-					      gpointer null )
+                        GtkAllocation *allocation,
+                        gpointer null )
 {
     gint column;
     gint account_number;
     gint i;
+    GtkAllocation *tmp_allocation = NULL;
 
     if ( !gtk_widget_get_realized ( tree_view ) )
         return FALSE;
@@ -835,24 +835,26 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
 
     for (i=0 ; i<gsb_data_account_get_accounts_amount () ; i++)
     {
-	    for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
-	    {
-		gint size_column;
+        for ( column=0 ; column < gsb_data_form_get_nb_columns (i) ; column++ )
+        {
+            gint size_column;
 
-		size_column = gtk_tree_view_column_get_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-											  column ));
-		gsb_data_form_set_width_column ( i,
-						 column,
-						 size_column * 100 / allocation -> width );
-	    }
+            size_column = gtk_tree_view_column_get_width (
+                                gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ) );
+            gsb_data_form_set_width_column ( i,
+                                column,
+                                size_column * 100 / allocation -> width );
+        }
     }
 
     gsb_file_set_modified ( TRUE );
 
     /* update the form if needed */
-	saved_allocation_size = 0;
-	gsb_form_allocate_size ( NULL, &(form_transaction_part -> allocation), NULL );
-    gsb_form_create_widgets ();
+        saved_allocation_size = 0;
+        gtk_widget_get_allocation ( form_transaction_part, tmp_allocation );
+        gsb_form_allocate_size ( NULL, tmp_allocation, NULL );
+
+        gsb_form_create_widgets ();
 
     return FALSE;
 }
@@ -1137,8 +1139,8 @@ gboolean gsb_form_config_check_for_removing ( gint account_number,
  * \return FALSE
  * */
 gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
-				      GdkDragContext *drag_context,
-				      gpointer null )
+                        GdkDragContext *drag_context,
+                        gpointer null )
 {
     gint x, y;
     GtkTreePath *path;
@@ -1199,8 +1201,8 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
  * \return FALSE
  * */
 gboolean gsb_form_config_drag_end ( GtkWidget *tree_view,
-				    GdkDragContext *drag_context,
-				    gpointer null )
+                        GdkDragContext *drag_context,
+                        gpointer null )
 {
     gint x, y;
     GtkTreePath *path;
