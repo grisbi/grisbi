@@ -137,9 +137,9 @@ void display_tip ( gboolean force )
                         g_dgettext(NULL, tips[etat.last_tip]) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
-    checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"), 
+    checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"),
                         &(etat.show_tip), NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
     btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, 1);
@@ -167,8 +167,8 @@ void display_tip ( gboolean force )
                         g_dgettext (NULL, tips[etat.last_tip] ),
                         NULL );
 
-        gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
-                        tmpstr );
+        gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), tmpstr );
+
         g_free ( tmpstr );
         break;
 
@@ -178,13 +178,13 @@ void display_tip ( gboolean force )
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
-                        g_dgettext (NULL, tips[etat.last_tip] ),
+                        g_dgettext ( NULL, tips[etat.last_tip] ),
                         NULL );
 
-        gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
-                        tmpstr );
+        gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), tmpstr );
+
         g_free ( tmpstr );
-        gtk_widget_set_sensitive (btn_back, TRUE);
+            gtk_widget_set_sensitive ( btn_back, TRUE );
         break;
 
         default:
