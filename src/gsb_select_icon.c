@@ -148,7 +148,6 @@ gboolean gsb_select_icon_init_logo_variables ( void )
  * */
 gchar *gsb_select_icon_create_window ( gchar *name_icon )
 {
-    GtkWidget *content_area;
     GtkWidget *hbox;
     GtkWidget *chooser_button;
     GtkWidget *scroll;
@@ -177,12 +176,11 @@ gchar *gsb_select_icon_create_window ( gchar *name_icon )
                                 GTK_STOCK_OK,
                                 GTK_RESPONSE_ACCEPT);
     gtk_widget_set_size_request ( dialog, 400, 450 );
-    content_area = GTK_DIALOG ( dialog ) -> vbox;
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
     hbox = gtk_hbox_new ( FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 
     /* création du GtkComboBox pour la saisie du répertoire */
     entry_text = gsb_select_icon_create_entry_text ( name_icon );
@@ -196,7 +194,7 @@ gchar *gsb_select_icon_create_window ( gchar *name_icon )
     scroll = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scroll ),
                              GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_box_pack_start ( GTK_BOX ( content_area ), scroll, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), scroll, TRUE, TRUE, 0 );
     icon_view = gsb_select_icon_create_icon_view ( name_icon );
     gtk_container_set_border_width ( GTK_CONTAINER( scroll ), 6 );
     gtk_container_add ( GTK_CONTAINER ( scroll ), icon_view );
@@ -444,7 +442,7 @@ void gsb_select_icon_create_file_chooser ( GtkWidget *button,
         gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
                             path, TRUE, 0.5, 0 );
         gsb_select_icon_add_path ( );
-        gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ), 
+        gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry_text ) ) ),
                                  path_icon );
         gtk_widget_set_sensitive (bouton_OK, FALSE );
     }
