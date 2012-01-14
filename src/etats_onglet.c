@@ -265,16 +265,14 @@ gboolean ajout_etat ( void )
 				       make_hint ( _("Choose template for new report"),
 						   _("You are about to create a new report.  For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
 
-    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
-					_("Report type"));
+    frame = new_paddingbox_with_title ( dialog_get_content_area ( dialog ), FALSE, _("Report type") );
 
     /* combobox for predefined reports */
     combobox = gtk_combo_box_text_new ( );
     gtk_box_pack_start ( GTK_BOX(frame), combobox, FALSE, FALSE, 0 );
 
     /* on ajoute maintenant la frame */
-    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, TRUE,
-					_("Description"));
+    frame = new_paddingbox_with_title ( dialog_get_content_area ( dialog ), TRUE, _("Description"));
 
     /* on met le label dans une scrolled window */
     scrolled_window = gtk_scrolled_window_new ( FALSE, FALSE );
@@ -287,10 +285,10 @@ gboolean ajout_etat ( void )
     gtk_misc_set_alignment ( GTK_MISC ( label_description ), 0, 0 );
     gtk_label_set_line_wrap ( GTK_LABEL ( label_description ), TRUE );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-					    label_description );
+                        label_description );
 
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( label_description -> parent ),
-				   GTK_SHADOW_NONE );
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
+                        GTK_SHADOW_NONE );
 
 	/* fill combobox */
 	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Last month incomes and outgoings") );
@@ -311,7 +309,7 @@ gboolean ajout_etat ( void )
 			G_CALLBACK ( change_choix_nouvel_etat ),
 			G_OBJECT ( label_description ));
 
-    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
+    gtk_box_set_spacing ( GTK_BOX ( dialog_get_content_area ( dialog ) ), 6 );
     gtk_widget_show_all ( dialog );
 
     /* on attend le choix de l'utilisateur */
@@ -978,9 +976,12 @@ void efface_etat ( void )
  */
 void gsb_gui_unsensitive_report_widgets ()
 {
-    if ( scrolled_window_etat && GTK_IS_WIDGET ( scrolled_window_etat ) &&
-	 GTK_BIN ( scrolled_window_etat ) -> child )
-	gtk_widget_hide ( GTK_BIN ( scrolled_window_etat ) -> child );
+    if ( scrolled_window_etat
+     &&
+     GTK_IS_WIDGET ( scrolled_window_etat )
+     &&
+     gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) )
+        gtk_widget_hide ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 
     gtk_widget_set_sensitive ( bouton_personnaliser_etat, FALSE );
     gtk_widget_set_sensitive ( bouton_imprimer_etat, FALSE );
@@ -1010,7 +1011,7 @@ void gsb_gui_update_gui_to_report ( gint report_number )
 	gsb_report_set_current (report_number);
     }
     else
-        gtk_widget_show ( GTK_BIN ( scrolled_window_etat ) -> child );
+        gtk_widget_show ( gtk_bin_get_child ( GTK_BIN ( scrolled_window_etat ) ) );
 }
 
 
