@@ -209,6 +209,8 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     GtkTreeDragSourceIface * navigation_src_iface;
     GtkTreeViewColumn * column;
 	gint i;
+    gint xpad;
+    gint ypad;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
 
@@ -299,25 +301,27 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* Pixbuf renderer. */
     renderer = gtk_cell_renderer_pixbuf_new ();
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, FALSE);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
-				       "pixbuf", NAVIGATION_PIX);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
-				       "visible", NAVIGATION_PIX_VISIBLE);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
+                        "pixbuf", NAVIGATION_PIX);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
+                        "visible", NAVIGATION_PIX_VISIBLE);
     gtk_tree_view_column_set_expand ( column, FALSE );
 
     /* Text renderer. */
-    renderer = gtk_cell_renderer_text_new();
-    renderer -> xpad = 6;
-    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
-				       "text", NAVIGATION_TEXT);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
-				       "weight", NAVIGATION_FONT);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
-				       "sensitive", NAVIGATION_SENSITIVE);
+    renderer = gtk_cell_renderer_text_new ( );
 
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
-				  GTK_TREE_VIEW_COLUMN ( column ) );
+    gtk_cell_renderer_get_padding ( GTK_CELL_RENDERER ( renderer ), &xpad, &ypad );
+    gtk_cell_renderer_set_padding ( GTK_CELL_RENDERER ( renderer ), 6, ypad );
+
+    gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
+                        "text", NAVIGATION_TEXT );
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
+                        "weight", NAVIGATION_FONT);
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
+                        "sensitive", NAVIGATION_SENSITIVE);
+
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* crée les pages dans le panneau de gauche */
     tmp_queue = gsb_gui_navigation_get_pages_list ( );
