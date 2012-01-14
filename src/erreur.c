@@ -157,15 +157,18 @@ void traitement_sigsegv ( gint signal_nb )
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE
-    tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
-    expander = gtk_expander_new ( tmpstr );
-    g_free ( tmpstr );
+    {
 
-    gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
-    gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6 );
+        tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+        expander = gtk_expander_new ( tmpstr );
+        g_free ( tmpstr );
 
-    gtk_widget_show_all ( dialog );
+        gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
+        gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
+        gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), expander, FALSE, FALSE, 6 );
+
+        gtk_widget_show_all ( dialog );
+    }
 #endif
     gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 
