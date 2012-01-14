@@ -624,6 +624,10 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
                         NULL);
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
                         GTK_TREE_VIEW_COLUMN ( column ) );
+/*     for gtk3
+ *     gtk_widget_set_tooltip_text ( gtk_tree_view_column_get_button  ( GTK_TREE_VIEW_COLUMN ( column ) ),
+ *                         _("Approximate cost") );
+ */
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( GTK_TREE_VIEW_COLUMN ( column )->button ),
                         _("Approximate cost") );
     gtk_tree_view_column_set_expand ( GTK_TREE_VIEW_COLUMN ( column ), TRUE );
@@ -647,6 +651,7 @@ GtkWidget *bet_finance_create_data_tree_view ( GtkWidget *container )
 
     gtk_widget_show_all ( scrolled_window );
 
+    /* return */
     return tree_view;
 }
 
