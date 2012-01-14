@@ -67,7 +67,7 @@ void gsb_dirs_init ( void )
     plugins_dir = g_build_filename ( win32_dir, "lib/grisbi", NULL );
     ui_dir = g_build_filename ( win32_dir, "share/ui", NULL );
 
-    SHGetSpecialFolderPath(0, tcHomePath, CSIDL_PROFILE, FALSE);
+    SHGetSpecialFolderPath ( 0, tcHomePath, CSIDL_PERSONAL, FALSE );
 
     home_dir = g_strdup ( ( gchar *) tcHomePath );
 
