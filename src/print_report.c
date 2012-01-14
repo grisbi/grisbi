@@ -44,26 +44,26 @@
 
 
 /*START_STATIC*/
-static GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
-				       gpointer null );
-static gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
-					  GtkWidget * widget,
-					  gpointer null );
+static GtkWidget * print_config_show_config ( GtkPrintOperation *operation,
+                        gpointer null );
+static gboolean print_config_show_config_apply ( GtkPrintOperation *operation,
+                        GtkWidget * widget,
+                        gpointer null );
 static gboolean print_report_begin ( GtkPrintOperation *operation,
-			      GtkPrintContext *context,
-			      gpointer null );
+                        GtkPrintContext *context,
+                        gpointer null );
 static void print_report_draw_column ( GtkTableChild *child,
-				       gint line_position  );
+                        gint line_position  );
 static void print_report_draw_line ( GtkTableChild *child,
-				     gint line_position  );
+                        gint line_position  );
 static gboolean print_report_draw_page ( GtkPrintOperation *operation,
-				  GtkPrintContext *context,
-				  gint page,
-				  gpointer null );
+                        GtkPrintContext *context,
+                        gint page,
+                        gpointer null );
 static void print_report_draw_row ( GtkPrintContext *context,
-				    GtkTableChild *child,
-				    gint line_position,
-				    gint is_title );
+                        GtkTableChild *child,
+                        gint line_position,
+                        gint is_title );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -95,7 +95,7 @@ static gint current_child_line = 0;
  * \return FALSE
  * */
 gboolean print_report ( GtkWidget *button,
-			gpointer null )
+                        gpointer null )
 {
     if (!table_etat)
     {
@@ -124,35 +124,41 @@ gboolean print_report ( GtkWidget *button,
  * \return FALSE
  * */
 gboolean print_report_begin ( GtkPrintOperation *operation,
-			      GtkPrintContext *context,
-			      gpointer null )
+                        GtkPrintContext *context,
+                        gpointer null )
 {
     gint nb_pages;
     gint i;
     gint table_size = 0;
+    guint nrows;
+    guint ncols;
 
     devel_debug (NULL);
 
     /* initialize globals variables */
+    gtk_table_get_size ( GTK_TABLE ( table_etat ), &nrows, &ncols );
+
     cr = gtk_print_context_get_cairo_context (context);
     size_row = pango_font_description_get_size (gsb_data_print_config_get_report_font_transactions ())/PANGO_SCALE;
     size_title = pango_font_description_get_size (gsb_data_print_config_get_report_font_title ())/PANGO_SCALE;
 
     /* get the size of a complete transaction and an archive */
     /* the heigh of a page decrease of 1 line if we use the columns titles */
-    page_height = gtk_print_context_get_height (context);
-    page_width = gtk_print_context_get_width (context);
+    page_height = gtk_print_context_get_height ( context );
+    page_width = gtk_print_context_get_width ( context );
 
     /* get the width of each columns */
-    if (columns_width)
-	g_free (columns_width);
-    columns_width = g_malloc0 (GTK_TABLE (table_etat) -> ncols * sizeof (gdouble));
+    if ( columns_width )
+        g_free ( columns_width );
+
+    columns_width = g_malloc0 ( ncols * sizeof ( gdouble ) );
 
     /* get first the size of the table */
-    for (i=0 ; i<GTK_TABLE (table_etat) -> ncols ; i++)
-	table_size = table_size + (GTK_TABLE (table_etat) -> cols)[i].allocation;
-    for (i=0 ; i<GTK_TABLE (table_etat) -> ncols ; i++)
-	columns_width[i] = (page_width * (GTK_TABLE (table_etat) -> cols)[i].allocation) / table_size;
+    for ( i = 0; i < ncols ; i++ )
+        table_size = table_size + ( GTK_TABLE ( table_etat ) -> cols)[i].allocation;
+
+    for ( i = 0; i < ncols ; i++ )
+        columns_width[i] = ( page_width * ( GTK_TABLE ( table_etat ) -> cols)[i].allocation ) / table_size;
 
     /* calculate the nb of rows in 1 page and in the first page */
     nb_rows_per_page = page_height / size_row;
@@ -161,10 +167,9 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
     /* calculate the number of pages,
      * it's not too difficult because each line has the same size
      * except the title */
-    nb_pages = ceil (((GTK_TABLE (table_etat) -> nrows - 1)*size_row + size_title) / page_height);
+    nb_pages = ceil ( ( ( nrows - 1 ) * size_row + size_title ) / page_height );
 
-    gtk_print_operation_set_n_pages ( GTK_PRINT_OPERATION (operation),
-				      nb_pages );
+    gtk_print_operation_set_n_pages ( GTK_PRINT_OPERATION ( operation ), nb_pages );
 
     current_child_table = NULL;
     current_child_line = 0;
@@ -187,75 +192,74 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
  * \return FALSE
  * */
 gboolean print_report_draw_page ( GtkPrintOperation *operation,
-				  GtkPrintContext *context,
-				  gint page,
-				  gpointer null )
+                        GtkPrintContext *context,
+                        gint page,
+                        gpointer null )
 {
     GList *children;
-    gint nb_columns;
-    gint nb_lines;
+    guint nb_columns;
+    guint nb_lines;
     gint rows_drawed = 0;
     gint previous_line = -1;
     gboolean is_title = FALSE;
 
     devel_debug_int (page);
 
-    nb_columns = GTK_TABLE (table_etat) -> ncols;
-    nb_lines = GTK_TABLE (table_etat) -> nrows;
+    gtk_table_get_size ( GTK_TABLE ( table_etat ), &nb_lines, &nb_columns );
 
     /* children begins with the last GtkTableChild added, so we need to inverse */
     if (page)
-	children = current_child_table;
+        children = current_child_table;
     else
     {
-	children = g_list_last (GTK_TABLE (table_etat) -> children);
-	is_title = TRUE;
+        children = g_list_last ( GTK_TABLE ( table_etat ) -> children );
+        is_title = TRUE;
     }
 
-    while (children)
+    while ( children )
     {
-	GtkTableChild *child;
-	gint line_position;
+        GtkTableChild *child;
+        gint line_position;
 
-	child = children -> data;
+        child = children -> data;
 
-	/* if at the to of the page, set previous_line to the first line
-	 * else we check if the page is not finished */
-	if (previous_line == -1)
-	    previous_line = child -> top_attach;
-	else
-	    if (child -> top_attach != previous_line)
-	    {
-		if ((rows_drawed == nb_rows_per_page && page)
-		    ||
-		    (rows_drawed == nb_rows_first_page && !page))
-		{
-		    current_child_table = children;
-		    current_child_line = child -> top_attach;
-		    break;
-		}
-		rows_drawed++;
-		previous_line = child -> top_attach;
-	    }
+        /* if at the to of the page, set previous_line to the first line
+         * else we check if the page is not finished */
+        if (previous_line == -1)
+            previous_line = child -> top_attach;
+        else
+            if (child -> top_attach != previous_line)
+            {
+            if ((rows_drawed == nb_rows_per_page && page)
+                ||
+                (rows_drawed == nb_rows_first_page && !page))
+            {
+                current_child_table = children;
+                current_child_line = child -> top_attach;
+                break;
+            }
+            rows_drawed++;
+            previous_line = child -> top_attach;
+            }
 
-	/* calculate the line position, if first page, add the size title except for the title itself */
-	line_position = (child -> top_attach - current_child_line) * size_row + (!page * !is_title * size_title);
+        /* calculate the line position, if first page, add the size title except for the title itself */
+        line_position = ( child -> top_attach - current_child_line) * size_row + (!page * !is_title * size_title);
 
-	if (GTK_IS_LABEL (child -> widget) || GTK_IS_EVENT_BOX (child -> widget))
-	    /* we are on a label, draw the text */
-	    print_report_draw_row (context, child, line_position, is_title);
-	else
-	{
-	    /* we are on a separator, draw it */
-	    if (GTK_IS_VSEPARATOR (child->widget))
-		print_report_draw_column (child, line_position);
-	    else
-		print_report_draw_line (child, line_position);
-	}
-	if (is_title)
-	    is_title = FALSE;
+        if (GTK_IS_LABEL (child -> widget) || GTK_IS_EVENT_BOX (child -> widget))
+            /* we are on a label, draw the text */
+            print_report_draw_row (context, child, line_position, is_title);
+        else
+        {
+            /* we are on a separator, draw it */
+            if ( GTK_IS_VSEPARATOR ( child->widget))
+                print_report_draw_column ( child, line_position );
+            else
+            print_report_draw_line (child, line_position);
+        }
+        if (is_title)
+            is_title = FALSE;
 
-	children = children -> prev;
+        children = children -> prev;
     }
     return FALSE;
 }
@@ -272,7 +276,7 @@ gboolean print_report_draw_page ( GtkPrintOperation *operation,
  * \return the new line position
  * */
 static void print_report_draw_line ( GtkTableChild *child,
-				     gint line_position  )
+                        gint line_position  )
 {
     /* add +1 is to avoid to have the line sticked with the text )*/
     line_position = line_position + 1;
@@ -292,7 +296,7 @@ static void print_report_draw_line ( GtkTableChild *child,
  * \return the new column position
  * */
 static void print_report_draw_column ( GtkTableChild *child,
-				       gint line_position  )
+                        gint line_position  )
 {
     gint column_position = 0;
     gint i;
@@ -316,9 +320,9 @@ static void print_report_draw_column ( GtkTableChild *child,
  * \return the new line_position
  * */
 static void print_report_draw_row ( GtkPrintContext *context,
-				    GtkTableChild *child,
-				    gint line_position,
-				    gint is_title )
+                        GtkTableChild *child,
+                        gint line_position,
+                        gint is_title )
 {
     PangoLayout *layout;
     gint column_position = 0;
@@ -398,7 +402,7 @@ static void print_report_draw_row ( GtkPrintContext *context,
  * \return		A newly allocated widget.
  */
 GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
-				       gpointer null )
+                        gpointer null )
 {
     GtkWidget * hbox, * label, * paddingbox;
     GtkWidget * font_button_transactions, * vbox, * font_button_title;
@@ -473,8 +477,8 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
  * \return NULL
  */
 gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
-					  GtkWidget * widget,
-					  gpointer null )
+                        GtkWidget * widget,
+                        gpointer null )
 {
     GtkFontButton * font_button_transactions, * font_button_title;
 
