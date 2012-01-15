@@ -238,41 +238,41 @@ gboolean gsb_calendar_entry_key_press ( GtkWidget *entry,
 {
     switch ( ev -> keyval )
     {
-	case GDK_KP_Enter :
-	case GDK_Return :
+	case GDK_KEY_KP_Enter :
+	case GDK_KEY_Return :
 
 	    /* CONTROL ENTER opens the calendar */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK)
 		gsb_calendar_entry_popup (entry);
 	    break;
 
-	case GDK_KP_Add:
-	case GDK_plus:
-	case GDK_equal:		/* This should make all our US users happy */
+	case GDK_KEY_KP_Add:
+	case GDK_KEY_plus:
+	case GDK_KEY_equal:		/* This should make all our US users happy */
 
 	    /* increase the date of 1 day/week */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
-		 ev -> keyval != GDK_KP_Add )
+		 ev -> keyval != GDK_KEY_KP_Add )
 		gsb_calendar_entry_step_date ( entry, ONE_DAY );
 	    else
 		gsb_calendar_entry_step_date ( entry, ONE_WEEK );
 	    return TRUE;
 	    break;
 
-	case GDK_KP_Subtract:
-	case GDK_minus:
+	case GDK_KEY_KP_Subtract:
+	case GDK_KEY_minus:
 
 	    /* decrease the date of 1 day/week, or the check of 1 */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK ||
-		 ev -> keyval != GDK_KP_Subtract  )
+		 ev -> keyval != GDK_KEY_KP_Subtract  )
 		gsb_calendar_entry_step_date ( entry, -ONE_DAY );
 	    else
 		gsb_calendar_entry_step_date ( entry, -ONE_WEEK );
 	    return TRUE;
 	    break;
 
-	case GDK_Page_Up :
-	case GDK_KP_Page_Up :
+	case GDK_KEY_Page_Up :
+	case GDK_KEY_KP_Page_Up :
 
 	    /* increase the date of 1 month/year */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
@@ -285,8 +285,8 @@ gboolean gsb_calendar_entry_key_press ( GtkWidget *entry,
 	    return TRUE;
 	    break;
 
-	case GDK_Page_Down :
-	case GDK_KP_Page_Down :
+	case GDK_KEY_Page_Down :
+	case GDK_KEY_KP_Page_Down :
 
 	    /* decrease the date of 1 month/year */
 	    if ( ( ev -> state & GDK_CONTROL_MASK ) != GDK_CONTROL_MASK )
@@ -598,7 +598,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 
     switch ( ev -> keyval )
     {
-	case GDK_Escape :
+	case GDK_KEY_Escape :
 	    /* just close the calendar if it's a popup */
 	    if ( gtk_widget_is_toplevel ( pTopLevelWidget ) )
 		gtk_widget_destroy ( pTopLevelWidget );
@@ -606,8 +606,8 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	    return TRUE;
 	    break ;
 
-	case GDK_Return :
-	case GDK_KP_Enter :
+	case GDK_KEY_Return :
+	case GDK_KEY_KP_Enter :
 	    /* get the date an close the calendar */
 	    gtk_entry_set_text ( GTK_ENTRY ( entry ),
 				 gsb_format_date ( day, month, year ));
@@ -620,55 +620,55 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	    /* from now, it will change date so just use date, modify it and fill day, month, year
 	     * we will set the calendar at the end of that function
 	     * so after now, only keys which change the date */
-	case GDK_Left :
-	case GDK_KP_Left:
-	case GDK_minus:
-	case GDK_KP_Subtract:
+	case GDK_KEY_Left :
+	case GDK_KEY_KP_Left:
+	case GDK_KEY_minus:
+	case GDK_KEY_KP_Subtract:
 	    /* day before */
 	    g_date_subtract_days (date, 1);
 	    break ;
 
-	case GDK_Right :
-	case GDK_KP_Right:
-	case GDK_plus:
-	case GDK_KP_Add:
+	case GDK_KEY_Right :
+	case GDK_KEY_KP_Right:
+	case GDK_KEY_plus:
+	case GDK_KEY_KP_Add:
 	    /* day after */
 	    g_date_add_days (date, 1);
 	    break ;
 
-	case GDK_Up :
-	case GDK_KP_Up :
+	case GDK_KEY_Up :
+	case GDK_KEY_KP_Up :
 	    /* prev week */
 	    g_date_subtract_days (date, 7);
 	    break ;
 
-	case GDK_Down :
-	case GDK_KP_Down :
+	case GDK_KEY_Down :
+	case GDK_KEY_KP_Down :
 	    /* next week */
 	    g_date_add_days (date, 7);
 	    break ;
 
-	case GDK_Home :
-	case GDK_KP_Home :
+	case GDK_KEY_Home :
+	case GDK_KEY_KP_Home :
 	    /* go to first day of the month */
 	    g_date_set_day (date, 1);
 	    break ;
 
-	case GDK_End :
-	case GDK_KP_End :
+	case GDK_KEY_End :
+	case GDK_KEY_KP_End :
 	    /* go to last day of the month */
 	    g_date_set_day (date,
 			    g_date_get_days_in_month (month, year));
 	    break ;
 
-	case GDK_Page_Up :
-	case GDK_KP_Page_Up :
+	case GDK_KEY_Page_Up :
+	case GDK_KEY_KP_Page_Up :
 	    /* prev month */
 	    g_date_subtract_months (date, 1);
 	    break ;
 
-	case GDK_Page_Down :
-	case GDK_KP_Page_Down :
+	case GDK_KEY_Page_Down :
+	case GDK_KEY_KP_Page_Down :
 	    /* next month */
 	    g_date_add_months (date, 1);
 	    break ;

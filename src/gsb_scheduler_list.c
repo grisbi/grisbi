@@ -1790,26 +1790,26 @@ gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
 
     switch ( ev->keyval )
     {
-	case GDK_Return :		/* touches entrée */
-	case GDK_KP_Enter :
+	case GDK_KEY_Return :		/* touches entrée */
+	case GDK_KEY_KP_Enter :
 
 	    if ( scheduled_number )
 		gsb_scheduler_list_edit_transaction (scheduled_number);
 	    break;
 
 
-	case GDK_Delete :               /*  del  */
+	case GDK_KEY_Delete :               /*  del  */
 
 	    if ( scheduled_number > 0 )
 		gsb_scheduler_list_delete_scheduled_transaction (scheduled_number, TRUE);
 	    break;
 
-	case GDK_Left:
+	case GDK_KEY_Left:
 	    /* if we press left, give back the focus to the tree at left */
 	    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 	    break;
 
-	case GDK_space:
+	case GDK_KEY_space:
 	    /* space open/close a split */
 	    gsb_scheduler_list_switch_expander (scheduled_number);
 	    break;

@@ -1578,39 +1578,39 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-    case GDK_Return :   /* entrée */
-    case GDK_KP_Enter :
-    case GDK_Tab :
+    case GDK_KEY_Return :   /* entrée */
+    case GDK_KEY_KP_Enter :
+    case GDK_KEY_Tab :
 
         gsb_transactions_list_edit_transaction (
                         gsb_data_account_get_current_transaction_number ( account_number ) );
         break;
 
-    case GDK_Up :       /* touches flèche haut */
-    case GDK_KP_Up :
+    case GDK_KEY_Up :       /* touches flèche haut */
+    case GDK_KEY_KP_Up :
 
         transaction_list_select_up (FALSE);
         break;
 
-    case GDK_Down :     /* touches flèche bas */
-    case GDK_KP_Down :
+    case GDK_KEY_Down :     /* touches flèche bas */
+    case GDK_KEY_KP_Down :
 
         transaction_list_select_down (FALSE);
         break;
 
-    case GDK_Delete:    /*  del  */
+    case GDK_KEY_Delete:    /*  del  */
         gsb_transactions_list_delete_transaction (
                         gsb_data_account_get_current_transaction_number ( account_number ),
                         TRUE );
         break;
 
-    case GDK_P:         /* touche P */
-    case GDK_p:         /* touche p */
-    case GDK_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/ 
+    case GDK_KEY_P:         /* touche P */
+    case GDK_KEY_p:         /* touche p */
+    case GDK_KEY_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/ 
 
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
             ||
-            ev -> keyval == GDK_F12 )
+            ev -> keyval == GDK_KEY_F12 )
         {
             gsb_transactions_list_switch_mark (
                         gsb_data_account_get_current_transaction_number ( account_number ) );
@@ -1618,8 +1618,8 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         }
         break;
 
-    case GDK_r:         /* touche r */
-    case GDK_R:         /* touche R */
+    case GDK_KEY_r:         /* touche r */
+    case GDK_KEY_R:         /* touche R */
 
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK )
         {
@@ -1629,12 +1629,12 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         }
         break;
 
-    case GDK_t:         /* touche t */
-    case GDK_T:         /* touche T */
+    case GDK_KEY_t:         /* touche t */
+    case GDK_KEY_T:         /* touche T */
         transaction_list_select ( -1 );
         break;
 
-    case GDK_space:
+    case GDK_KEY_space:
         transaction_number = gsb_data_account_get_current_transaction_number ( account_number );
         if ( transaction_number > 0 )
         {
@@ -1650,18 +1650,18 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         }
         break;
 
-    case GDK_Left:
+    case GDK_KEY_Left:
         /* if we press left, give back the focus to the tree at left */
         gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
         break;
 
-    case GDK_Home:
-    case GDK_KP_Home:
+    case GDK_KEY_Home:
+    case GDK_KEY_KP_Home:
         gtk_tree_view_scroll_to_point ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view ( ) ), 0, 0 );
         break;
 
-    case GDK_End:
-    case GDK_KP_End:
+    case GDK_KEY_End:
+    case GDK_KEY_KP_End:
         gtk_tree_view_scroll_to_point ( GTK_TREE_VIEW ( gsb_transactions_list_get_tree_view ( ) ), -1, 1024 );
         break;
 

@@ -1962,14 +1962,14 @@ gboolean bet_array_entry_key_press ( GtkWidget *entry,
 
     switch ( ev -> keyval )
     {
-    case GDK_Escape :
+    case GDK_KEY_Escape :
         account_nb = gsb_gui_navigation_get_current_account ( );
 	    date = gsb_data_account_get_bet_start_date ( account_nb );
         gtk_entry_set_text ( GTK_ENTRY ( entry ),
                         gsb_format_gdate ( date ) );
 	    break;
-    case GDK_KP_Enter :
-    case GDK_Return :
+    case GDK_KEY_KP_Enter :
+    case GDK_KEY_Return :
         bet_array_start_date_focus_out ( entry, NULL, data );
         break;
     }

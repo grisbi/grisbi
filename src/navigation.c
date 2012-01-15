@@ -1515,15 +1515,15 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 	case GSB_HOME_PAGE:
 	case GSB_REPORTS_PAGE:
             /* expand or collapse subtree */
-	    if (ev -> keyval == GDK_Right)
+	    if (ev -> keyval == GDK_KEY_Right)
                 gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view ), path, FALSE );
-	    if (ev -> keyval == GDK_Left)
+	    if (ev -> keyval == GDK_KEY_Left)
                 gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
 	    break;
 
 	case GSB_ACCOUNT_PAGE:
 	    /* when come here, if we press the right key, give the focus to the list */
-	    if (ev -> keyval == GDK_Right)
+	    if (ev -> keyval == GDK_KEY_Right)
 		gtk_widget_grab_focus (gsb_transactions_list_get_tree_view ());
 	    break;
 
@@ -1541,7 +1541,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 
 	case GSB_SCHEDULER_PAGE:
 	    /* when come here, if we press the right key, give the focus to the list */
-	    if (ev -> keyval == GDK_Right)
+	    if (ev -> keyval == GDK_KEY_Right)
 		gtk_widget_grab_focus (gsb_scheduler_list_get_tree_view ());
 	    break;
     }

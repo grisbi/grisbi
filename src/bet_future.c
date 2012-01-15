@@ -1201,24 +1201,24 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
 
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
-	 &&
-	 ( ev -> keyval == GDK_Return 
-	   ||
-	   ev -> keyval == GDK_KP_Enter ))
-	ev->keyval = GDK_Tab ;
+     &&
+     ( ev -> keyval == GDK_KEY_Return
+     ||
+     ev -> keyval == GDK_KEY_KP_Enter ) )
+        ev->keyval = GDK_KEY_Tab ;
 
     switch ( ev -> keyval )
     {
-    case GDK_1:
-    case GDK_2:
-    case GDK_3:
-    case GDK_4:
-    case GDK_5:
-    case GDK_6:
-    case GDK_7:
-    case GDK_8:
-    case GDK_9:
-    case GDK_0:
+    case GDK_KEY_1:
+    case GDK_KEY_2:
+    case GDK_KEY_3:
+    case GDK_KEY_4:
+    case GDK_KEY_5:
+    case GDK_KEY_6:
+    case GDK_KEY_7:
+    case GDK_KEY_8:
+    case GDK_KEY_9:
+    case GDK_KEY_0:
         switch ( element_number )
         {
         case TRANSACTION_FORM_DEBIT:
@@ -1241,18 +1241,18 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
             break;
         }
         break;
-	case GDK_Escape :
+	case GDK_KEY_Escape :
 	    gsb_form_escape_form ();
 	    break;
 
-	case GDK_KP_Enter :
-	case GDK_Return :
+	case GDK_KEY_KP_Enter :
+	case GDK_KEY_Return :
 
 	    break;
 
-	case GDK_KP_Add:
-	case GDK_plus:
-	case GDK_equal:		/* This should make all our US users happy */
+	case GDK_KEY_KP_Add:
+	case GDK_KEY_plus:
+	case GDK_KEY_equal:		/* This should make all our US users happy */
 
 	    /* increase the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
@@ -1263,8 +1263,8 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-	case GDK_KP_Subtract:
-	case GDK_minus:
+	case GDK_KEY_KP_Subtract:
+	case GDK_KEY_minus:
 
 	    /* decrease the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)

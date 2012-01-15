@@ -2089,19 +2089,19 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-        case GDK_1:
-        case GDK_2:
-        case GDK_3:
-        case GDK_4:
-        case GDK_5:
-        case GDK_6:
-        case GDK_7:
-        case GDK_8:
-        case GDK_9:
-        case GDK_0:
+        case GDK_KEY_1:
+        case GDK_KEY_2:
+        case GDK_KEY_3:
+        case GDK_KEY_4:
+        case GDK_KEY_5:
+        case GDK_KEY_6:
+        case GDK_KEY_7:
+        case GDK_KEY_8:
+        case GDK_KEY_9:
+        case GDK_KEY_0:
             break;
 
-        case GDK_Escape :
+        case GDK_KEY_Escape :
             str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
                                     etat.bet_capital ),
                                     etat.bet_currency,
@@ -2112,20 +2112,20 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
             return TRUE;
             break;
 
-        case GDK_ISO_Left_Tab:
+        case GDK_KEY_ISO_Left_Tab:
             etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
             break;
 
-        case GDK_Tab :
+        case GDK_KEY_Tab :
             etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
             break;
 
-        case GDK_KP_Enter :
-        case GDK_Return :
+        case GDK_KEY_KP_Enter :
+        case GDK_KEY_Return :
             etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
