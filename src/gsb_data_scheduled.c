@@ -39,6 +39,7 @@
 #include "gsb_currency.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -1615,34 +1616,35 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
     scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
 
     if ( !scheduled )
-	return FALSE;
+        return FALSE;
 
     if ( scheduled -> split_of_scheduled )
     {
-	GSList *list_tmp;
+        GSList *list_tmp;
 
-	list_tmp = gsb_data_scheduled_get_children (scheduled_number, FALSE);
+        list_tmp = gsb_data_scheduled_get_children ( scheduled_number, FALSE );
 
-	while ( list_tmp )
-	{
-	    struct_scheduled *scheduled_child;
+        while ( list_tmp )
+        {
+            struct_scheduled *scheduled_child;
 
-	    scheduled_child = list_tmp -> data;
+            scheduled_child = list_tmp -> data;
 
-	    if ( scheduled_child )
-	    {
-		scheduled_list = g_slist_remove ( scheduled_list,
-						  scheduled_child );
-		_gsb_data_scheduled_free ( scheduled_child );
-	    }
-	    list_tmp = list_tmp -> next;
-	}
+            if ( scheduled_child )
+            {
+                scheduled_list = g_slist_remove ( scheduled_list, scheduled_child );
+                _gsb_data_scheduled_free ( scheduled_child );
+            }
+            list_tmp = list_tmp -> next;
+        }
     }
 
-    scheduled_list = g_slist_remove ( scheduled_list,
-				      scheduled );
+    scheduled_list = g_slist_remove ( scheduled_list, scheduled );
 
     _gsb_data_scheduled_free ( scheduled );
+
+    gsb_file_set_modified ( TRUE );
+
     return TRUE;
 }
 
