@@ -43,8 +43,6 @@
 static gboolean url_clicked ( GtkAboutDialog *label,
                         gchar *uri,
                         gpointer user_data );
-
-static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data);
 /*END_STATIC*/
 
 

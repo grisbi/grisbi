@@ -14,7 +14,7 @@ gboolean desensitive_widget ( gpointer object,
                         GtkWidget *widget );
 gchar *get_gtk_run_version ( void );
 void lance_mailer ( const gchar *uri );
-gboolean lance_navigateur_web ( const gchar *url );
+gboolean lance_navigateur_web ( const gchar *uri );
 gboolean met_en_normal ( GtkWidget *event_box,
                         GdkEventMotion *event,
                         gpointer pointeur );
