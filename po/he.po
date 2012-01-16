@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-08 16:49+0100\n"
+"POT-Creation-Date: 2012-01-16 23:07+0100\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -462,7 +462,7 @@ msgstr "העברת העיסקה לחשבון אחר"
 #: ../src/categories_onglet.c:691 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229 ../src/gsb_fyear_config.c:281
-#: ../src/gsb_transactions_list.c:1807 ../src/imputation_budgetaire.c:725
+#: ../src/gsb_transactions_list.c:1772 ../src/imputation_budgetaire.c:725
 #: ../src/tiers_onglet.c:641
 msgid "Name"
 msgstr "שם"
@@ -968,91 +968,91 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "בחירת שנת הכספים"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:922 ../src/bet_hist.c:543 ../src/bet_hist.c:1600
+#: ../src/bet_config.c:923 ../src/bet_hist.c:543 ../src/bet_hist.c:1600
 #: ../src/categories_onglet.c:157 ../src/etats_affiche.c:2433
 #: ../src/etats_config.c:674 ../src/export_csv.c:811
-#: ../src/gsb_transactions_list.c:167 ../src/import_csv.c:86
+#: ../src/gsb_transactions_list.c:169 ../src/import_csv.c:86
 #: ../src/meta_categories.c:67 ../src/traitement_variables.c:100
 msgid "Category"
 msgstr "קטגוריה"
 
-#: ../src/bet_config.c:935 ../src/bet_future.c:815 ../src/bet_future.c:2023
+#: ../src/bet_config.c:936 ../src/bet_future.c:815 ../src/bet_future.c:2023
 #: ../src/bet_future.c:2499 ../src/bet_hist.c:1593 ../src/etats_affiche.c:2440
 #: ../src/etats_config.c:678 ../src/gsb_form.c:1341
-#: ../src/gsb_form_widget.c:441 ../src/gsb_transactions_list.c:159
+#: ../src/gsb_form_widget.c:441 ../src/gsb_transactions_list.c:161
 #: ../src/imputation_budgetaire.c:166 ../src/meta_budgetary.c:64
 msgid "Budgetary line"
 msgstr "קו תקציבי"
 
-#: ../src/bet_config.c:1261
+#: ../src/bet_config.c:1262
 #, fuzzy
 msgid "Loan Capital: "
 msgstr "הלוואה/משכנתה : הון:"
 
 #. Duration
-#: ../src/bet_config.c:1281 ../src/bet_finance_ui.c:281
+#: ../src/bet_config.c:1282 ../src/bet_finance_ui.c:281
 #: ../src/bet_finance_ui.c:1151 ../src/bet_finance_ui.c:1591
 #, fuzzy
 msgid "Duration: "
 msgstr "תרגום:"
 
-#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:754
+#: ../src/bet_config.c:1291 ../src/bet_finance_ui.c:754
 #, fuzzy
 msgid "year"
 msgstr "שנים"
 
-#: ../src/bet_config.c:1299
+#: ../src/bet_config.c:1300
 #, fuzzy
 msgid "Date of first Repayment: "
 msgstr "דרך התשלום:"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1312 ../src/bet_finance_ui.c:1137
+#: ../src/bet_config.c:1313 ../src/bet_finance_ui.c:1137
 #: ../src/bet_finance_ui.c:1577
 #, fuzzy
 msgid "Annuel rate interest: "
 msgstr "תקציב שנתי:"
 
-#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:276
+#: ../src/bet_config.c:1323 ../src/bet_finance_ui.c:276
 #: ../src/bet_finance_ui.c:387 ../src/bet_finance_ui.c:1146
 #: ../src/bet_finance_ui.c:1586
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1330
+#: ../src/bet_config.c:1331
 #, fuzzy
 msgid "Fees per month: "
 msgstr "%d חודשים:"
 
-#: ../src/bet_config.c:1353 ../src/bet_finance_ui.c:400
+#: ../src/bet_config.c:1354 ../src/bet_finance_ui.c:400
 #, fuzzy
 msgid "Rate Type: "
 msgstr "סוג:"
 
-#: ../src/bet_config.c:1357 ../src/bet_finance_ui.c:404
+#: ../src/bet_config.c:1358 ../src/bet_finance_ui.c:404
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1361 ../src/bet_finance_ui.c:407
+#: ../src/bet_config.c:1362 ../src/bet_finance_ui.c:407
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1372
+#: ../src/bet_config.c:1373
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1427 ../src/bet_finance_ui.c:1698
+#: ../src/bet_config.c:1428 ../src/bet_finance_ui.c:1698
 #, fuzzy
 msgid " year "
 msgstr "שנה %d"
 
-#: ../src/bet_config.c:1429 ../src/bet_finance_ui.c:1700
+#: ../src/bet_config.c:1430 ../src/bet_finance_ui.c:1700
 #, fuzzy
 msgid " years "
 msgstr "שנים"
 
-#: ../src/bet_config.c:1479 ../src/bet_finance_ui.c:682
+#: ../src/bet_config.c:1480 ../src/bet_finance_ui.c:682
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
@@ -1154,7 +1154,7 @@ msgstr "סך הכל %s"
 msgid "Approximate cost"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:756 ../src/gsb_scheduler_list.c:1986
+#: ../src/bet_finance_ui.c:756 ../src/gsb_scheduler_list.c:1952
 #, fuzzy
 msgid "years"
 msgstr "שנים"
@@ -1205,7 +1205,7 @@ msgstr "טעינת קובץ חשבונות:"
 #: ../src/etats_affiche.c:2405 ../src/export_csv.c:781
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1296
 #: ../src/gsb_form_widget.c:409 ../src/gsb_reconcile.c:158
-#: ../src/gsb_scheduler_list.c:362 ../src/gsb_transactions_list.c:156
+#: ../src/gsb_scheduler_list.c:364 ../src/gsb_transactions_list.c:158
 #: ../src/import.c:3316 ../src/import_csv.c:81
 #: ../src/traitement_variables.c:89
 msgid "Date"
@@ -1276,7 +1276,7 @@ msgstr "זכות"
 msgid "Cannot save file."
 msgstr "לא ניתן לשמור את הקובץ."
 
-#: ../src/bet_finance_ui.c:2029 ../src/gsb_scheduler_list.c:1986
+#: ../src/bet_finance_ui.c:2029 ../src/gsb_scheduler_list.c:1952
 #, fuzzy
 msgid "months"
 msgstr "חודשים"
@@ -1301,33 +1301,33 @@ msgstr "הוספת קו תקציב"
 
 #: ../src/bet_future.c:312 ../src/bet_future.c:854
 #: ../src/gsb_form_scheduler.c:152 ../src/gsb_form_scheduler.c:876
-#: ../src/gsb_scheduler_list.c:1151
+#: ../src/gsb_scheduler_list.c:1117
 msgid "Once"
 msgstr "פעם אחת"
 
 #: ../src/bet_future.c:312 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1151
+#: ../src/gsb_scheduler_list.c:1117
 msgid "Weekly"
 msgstr "שבועית"
 
 #: ../src/bet_future.c:312 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1151
+#: ../src/gsb_scheduler_list.c:1117
 msgid "Monthly"
 msgstr "חודשית"
 
 #: ../src/bet_future.c:312 ../src/gsb_form_scheduler.c:152
-#: ../src/gsb_scheduler_list.c:1152
+#: ../src/gsb_scheduler_list.c:1118
 #, fuzzy
 msgid "Bimonthly"
 msgstr "חודשית"
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1152
+#: ../src/gsb_scheduler_list.c:1118
 msgid "Quarterly"
 msgstr ""
 
 #: ../src/bet_future.c:313 ../src/gsb_form_scheduler.c:153
-#: ../src/gsb_scheduler_list.c:1152
+#: ../src/gsb_scheduler_list.c:1118
 msgid "Yearly"
 msgstr "שנתית"
 
@@ -1354,7 +1354,7 @@ msgid "Years"
 msgstr "שנים"
 
 #: ../src/bet_future.c:327 ../src/gsb_form_scheduler.c:175
-#: ../src/gsb_form_scheduler.c:192 ../src/gsb_scheduler_list.c:362
+#: ../src/gsb_form_scheduler.c:192 ../src/gsb_scheduler_list.c:364
 msgid "Frequency"
 msgstr "תדירות"
 
@@ -1367,7 +1367,7 @@ msgstr "הגבלת תאריך"
 #: ../src/bet_future.c:348 ../src/gsb_archive_config.c:100
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1229
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1772
 msgid "Final date"
 msgstr "תאריך סיום"
 
@@ -1397,8 +1397,8 @@ msgstr "בחירת דרך התשלום"
 #: ../src/etats_config.c:686 ../src/etats_config.c:7023
 #: ../src/export_csv.c:796 ../src/fenetre_principale.c:275
 #: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_form.c:1317
-#: ../src/gsb_form_widget.c:429 ../src/gsb_scheduler_list.c:362
-#: ../src/gsb_transactions_list.c:158 ../src/import.c:3323
+#: ../src/gsb_form_widget.c:429 ../src/gsb_scheduler_list.c:364
+#: ../src/gsb_transactions_list.c:160 ../src/import.c:3323
 #: ../src/import_csv.c:83 ../src/meta_payee.c:79
 #: ../src/traitement_variables.c:91
 #, fuzzy
@@ -1410,7 +1410,7 @@ msgstr "משלם/מקבל"
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1322 ../src/gsb_form_widget.c:413
 #: ../src/gsb_payment_method_config.c:317
 #: ../src/gsb_payment_method_config.c:388
-#: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:160
+#: ../src/gsb_payment_method_config.c:1083 ../src/gsb_transactions_list.c:162
 #: ../src/import_csv.c:92 ../src/imputation_budgetaire.c:755
 #: ../src/traitement_variables.c:93
 msgid "Debit"
@@ -1421,7 +1421,7 @@ msgstr "חיוב"
 #: ../src/export_csv.c:799 ../src/gsb_form.c:1327 ../src/gsb_form_widget.c:417
 #: ../src/gsb_payment_method_config.c:324
 #: ../src/gsb_payment_method_config.c:401
-#: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:161
+#: ../src/gsb_payment_method_config.c:1079 ../src/gsb_transactions_list.c:163
 #: ../src/imputation_budgetaire.c:755 ../src/traitement_variables.c:94
 msgid "Credit"
 msgstr "זכות"
@@ -1434,7 +1434,7 @@ msgstr "קטגוריות : תתי-קטגוריות"
 #. Notes
 #: ../src/bet_future.c:822 ../src/etats_affiche.c:2447 ../src/export_csv.c:817
 #: ../src/gsb_bank.c:918 ../src/gsb_form.c:1346 ../src/gsb_form_widget.c:445
-#: ../src/gsb_transactions_list.c:170 ../src/import_csv.c:84
+#: ../src/gsb_transactions_list.c:172 ../src/import_csv.c:84
 #: ../src/traitement_variables.c:103
 msgid "Notes"
 msgstr "הערות"
@@ -1514,7 +1514,7 @@ msgstr "יתרת פתיחה"
 msgid "Type"
 msgstr "סוג"
 
-#: ../src/bet_future.c:2355 ../src/gsb_data_scheduled.c:1825
+#: ../src/bet_future.c:2355 ../src/gsb_data_scheduled.c:1830
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
@@ -1527,8 +1527,8 @@ msgstr "לסמן הכל"
 
 #: ../src/bet_hist.c:560 ../src/categories_onglet.c:175
 #: ../src/etats_config.c:5240 ../src/export_csv.c:805
-#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:363
-#: ../src/gsb_transactions_list.c:163 ../src/import.c:3330
+#: ../src/gsb_assistant_reconcile_config.c:596 ../src/gsb_scheduler_list.c:365
+#: ../src/gsb_transactions_list.c:165 ../src/import.c:3330
 #: ../src/imputation_budgetaire.c:184 ../src/tiers_onglet.c:246
 #: ../src/traitement_variables.c:96
 msgid "Amount"
@@ -1598,8 +1598,8 @@ msgid "Description"
 msgstr "תיאור"
 
 #: ../src/bet_tab.c:744 ../src/export_csv.c:808 ../src/gsb_reconcile.c:161
-#: ../src/gsb_scheduler_list.c:363 ../src/gsb_transactions_list.c:162
-#: ../src/gsb_transactions_list.c:3018 ../src/import_csv.c:90
+#: ../src/gsb_scheduler_list.c:365 ../src/gsb_transactions_list.c:164
+#: ../src/gsb_transactions_list.c:2983 ../src/import_csv.c:90
 #: ../src/traitement_variables.c:95
 msgid "Balance"
 msgstr "מאזן"
@@ -1702,8 +1702,8 @@ msgid "forecast.csv"
 msgstr ""
 
 #. New transaction
-#: ../src/barre_outils.c:96 ../src/gsb_scheduler_list.c:2177
-#: ../src/gsb_transactions_list.c:2208
+#: ../src/barre_outils.c:96 ../src/gsb_scheduler_list.c:2143
+#: ../src/gsb_transactions_list.c:2173
 msgid "New transaction"
 msgstr "עיסקה חדשה"
 
@@ -1801,34 +1801,34 @@ msgstr "מטבעות ידועים"
 msgid "Remove the rule"
 msgstr "שם קובץ החשבונות"
 
-#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1947
+#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1913
 msgid "Unique view"
 msgstr ""
 
-#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1947
+#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1913
 #, fuzzy
 msgid "Week view"
 msgstr "שבוע"
 
-#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1947
+#: ../src/barre_outils.c:447 ../src/gsb_scheduler_list.c:1913
 #, fuzzy
 msgid "Month view"
 msgstr "חודשים"
 
-#: ../src/barre_outils.c:448 ../src/gsb_scheduler_list.c:1948
+#: ../src/barre_outils.c:448 ../src/gsb_scheduler_list.c:1914
 msgid "Two months view"
 msgstr ""
 
-#: ../src/barre_outils.c:448 ../src/gsb_scheduler_list.c:1948
+#: ../src/barre_outils.c:448 ../src/gsb_scheduler_list.c:1914
 msgid "Quarter view"
 msgstr ""
 
-#: ../src/barre_outils.c:449 ../src/gsb_scheduler_list.c:1949
+#: ../src/barre_outils.c:449 ../src/gsb_scheduler_list.c:1915
 #, fuzzy
 msgid "Year view"
 msgstr "שנה"
 
-#: ../src/barre_outils.c:449 ../src/gsb_scheduler_list.c:1949
+#: ../src/barre_outils.c:449 ../src/gsb_scheduler_list.c:1915
 #, fuzzy
 msgid "Custom view"
 msgstr "מותאמת אישית"
@@ -1855,7 +1855,7 @@ msgstr "מחיקת עיסקה"
 
 #. comments line
 #: ../src/barre_outils.c:522 ../src/gsb_account_property.c:563
-#: ../src/gsb_scheduler_list.c:363
+#: ../src/gsb_scheduler_list.c:365
 msgid "Comments"
 msgstr "הערות"
 
@@ -1881,7 +1881,7 @@ msgstr "הצגת עיסקאות מתוכננות"
 #: ../src/categories_onglet.c:166 ../src/etats_config.c:682
 #: ../src/gsb_assistant_reconcile_config.c:596
 #: ../src/gsb_payment_method_config.c:160 ../src/gsb_reconcile_config.c:102
-#: ../src/gsb_scheduler_list.c:362 ../src/imputation_budgetaire.c:175
+#: ../src/gsb_scheduler_list.c:364 ../src/imputation_budgetaire.c:175
 #: ../src/navigation.c:1159 ../src/tiers_onglet.c:237
 msgid "Account"
 msgstr "חשבון"
@@ -2214,7 +2214,7 @@ msgid ""
 "versions)."
 msgstr ""
 
-#: ../src/dialog.c:332 ../src/dialog.c:531 ../src/gsb_scheduler_list.c:1891
+#: ../src/dialog.c:332 ../src/dialog.c:531 ../src/gsb_scheduler_list.c:1857
 msgid "Do not show this message again"
 msgstr "נא לא להציג הודעה זו שוב"
 
@@ -2531,14 +2531,14 @@ msgstr "תוצאה ללא שנת כספים (%d העברות):"
 msgid "Result without financial year: "
 msgstr "תוצאה ללא שנת כספים:"
 
-#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1101
-#: ../src/gsb_transactions_list.c:3525
+#: ../src/etats_affiche.c:1399 ../src/gsb_scheduler_list.c:1067
+#: ../src/gsb_transactions_list.c:3490
 #, c-format
 msgid "Transfer to %s"
 msgstr "העברה אל %s"
 
-#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:1105
-#: ../src/gsb_transactions_list.c:3528
+#: ../src/etats_affiche.c:1401 ../src/gsb_scheduler_list.c:1071
+#: ../src/gsb_transactions_list.c:3493
 #, c-format
 msgid "Transfer from %s"
 msgstr "העברה מאת %s"
@@ -2591,7 +2591,7 @@ msgstr "סך הכל הכללי:"
 #: ../src/etats_affiche.c:1853 ../src/export_csv.c:592
 #: ../src/gsb_data_category.c:1057 ../src/gsb_form.c:733
 #: ../src/gsb_form.c:1759 ../src/gsb_form.c:2909 ../src/gsb_form.c:3312
-#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3503
+#: ../src/gsb_form_scheduler.c:316 ../src/gsb_transactions_list.c:3468
 msgid "Split of transaction"
 msgstr "שבירת עיסקה"
 
@@ -2619,14 +2619,14 @@ msgstr "הוצאות"
 
 #: ../src/etats_affiche.c:2412 ../src/export_csv.c:784 ../src/gsb_form.c:1301
 #: ../src/gsb_form.c:2146 ../src/gsb_form.c:2176 ../src/gsb_form_widget.c:421
-#: ../src/gsb_transactions_list.c:157 ../src/import_csv.c:82
+#: ../src/gsb_transactions_list.c:159 ../src/import_csv.c:82
 #: ../src/traitement_variables.c:90
 msgid "Value date"
 msgstr "ערך תאריך"
 
 #: ../src/etats_affiche.c:2419 ../src/export_csv.c:790
 #: ../src/gsb_archive_config.c:100 ../src/gsb_assistant_archive_export.c:153
-#: ../src/gsb_form_widget.c:425 ../src/gsb_transactions_list.c:166
+#: ../src/gsb_form_widget.c:425 ../src/gsb_transactions_list.c:168
 #: ../src/traitement_variables.c:99
 msgid "Financial year"
 msgstr "שנת הכספים"
@@ -2643,13 +2643,13 @@ msgid "Cheque"
 msgstr "המחאה"
 
 #: ../src/etats_affiche.c:2468 ../src/export_csv.c:826 ../src/gsb_form.c:1393
-#: ../src/gsb_form_widget.c:465 ../src/gsb_transactions_list.c:169
+#: ../src/gsb_form_widget.c:465 ../src/gsb_transactions_list.c:171
 #: ../src/traitement_variables.c:102
 msgid "Voucher"
 msgstr "שובר"
 
 #: ../src/etats_affiche.c:2475 ../src/export_csv.c:832 ../src/gsb_form.c:1388
-#: ../src/gsb_form_widget.c:469 ../src/gsb_transactions_list.c:171
+#: ../src/gsb_form_widget.c:469 ../src/gsb_transactions_list.c:173
 #: ../src/traitement_variables.c:104
 msgid "Bank references"
 msgstr "הפניות בנק"
@@ -3995,7 +3995,7 @@ msgstr "שבירה"
 msgid "Cheques"
 msgstr "המחאות"
 
-#: ../src/export_csv.c:793 ../src/gsb_transactions_list.c:168
+#: ../src/export_csv.c:793 ../src/gsb_transactions_list.c:170
 #: ../src/import_csv.c:94 ../src/traitement_variables.c:101
 msgid "C/R"
 msgstr ""
@@ -5699,7 +5699,7 @@ msgstr "בחירת עיסקאות בהתאם לטקסט"
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
 #: ../src/gsb_assistant_reconcile_config.c:1183
-#: ../src/gsb_transactions_list.c:1758
+#: ../src/gsb_transactions_list.c:1723
 #, fuzzy
 msgid "Selection of a reconciliation"
 msgstr "אישור הסרת תיאום ידנית"
@@ -7575,8 +7575,8 @@ msgstr "כרטיס אשראי"
 msgid "Direct debit"
 msgstr "חיוב ישיר"
 
-#: ../src/gsb_data_scheduled.c:1549 ../src/gsb_data_transaction.c:2028
-#: ../src/gsb_data_transaction.c:2090
+#: ../src/gsb_data_scheduled.c:1551 ../src/gsb_data_transaction.c:2029
+#: ../src/gsb_data_transaction.c:2091
 msgid "Cannot allocate memory, bad things will happen soon"
 msgstr "לא ניתן להקציב זכרון; מעכשיו, היכונו לדברים רעים..."
 
@@ -8241,7 +8241,7 @@ msgid "Auto"
 msgstr "אוטומטי"
 
 #: ../src/gsb_form.c:937 ../src/gsb_form_scheduler.c:151
-#: ../src/gsb_scheduler_list.c:1162
+#: ../src/gsb_scheduler_list.c:1128
 msgid "Manual"
 msgstr "ידני"
 
@@ -8465,7 +8465,7 @@ msgid ""
 "that warning."
 msgstr ""
 
-#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1160
+#: ../src/gsb_form_scheduler.c:151 ../src/gsb_scheduler_list.c:1126
 msgid "Automatic"
 msgstr "אוטומטי"
 
@@ -8504,12 +8504,12 @@ msgstr "דרך התשלום של עיסקה-נגדית"
 msgid "Free"
 msgstr "תשלום"
 
-#: ../src/gsb_form_widget.c:449 ../src/gsb_transactions_list.c:164
+#: ../src/gsb_form_widget.c:449 ../src/gsb_transactions_list.c:166
 #: ../src/traitement_variables.c:97
 msgid "Method of payment"
 msgstr "דרך התשלום"
 
-#: ../src/gsb_form_widget.c:477 ../src/gsb_transactions_list.c:172
+#: ../src/gsb_form_widget.c:477 ../src/gsb_transactions_list.c:174
 #: ../src/traitement_variables.c:105
 msgid "Transaction number"
 msgstr "מספר עיסקה"
@@ -8766,7 +8766,7 @@ msgstr ""
 msgid "Last statement: %s"
 msgstr "הצהרה אחרונה"
 
-#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1807
+#: ../src/gsb_reconcile_config.c:102 ../src/gsb_transactions_list.c:1772
 #, fuzzy
 msgid "Init date"
 msgstr "תאריך התחלה"
@@ -8854,20 +8854,11 @@ msgstr "מחיקת דרך תשלום"
 msgid "Split neutral payment methods"
 msgstr "פיצול דרכי תשלום ניטרליות"
 
-#: ../src/gsb_scheduler_list.c:363
+#: ../src/gsb_scheduler_list.c:365
 msgid "Mode"
 msgstr "מצב"
 
-#: ../src/gsb_scheduler_list.c:746
-msgid ""
-"Some scheduled children didn't find their mother in the list, this shouldn't "
-"happen and there is probably a bug behind that. Please contact the Grisbi "
-"team.\n"
-"\n"
-"The concerned children number are :\n"
-msgstr ""
-
-#: ../src/gsb_scheduler_list.c:970
+#: ../src/gsb_scheduler_list.c:936
 #, c-format
 msgid ""
 "in gsb_scheduler_list_remove_transaction_from_list, ask to remove the "
@@ -8876,40 +8867,40 @@ msgid ""
 "It's normal if appending a new scheduled transaction, but abnormal else..."
 msgstr ""
 
-#: ../src/gsb_scheduler_list.c:1127
+#: ../src/gsb_scheduler_list.c:1093
 #, c-format
 msgid "%d days"
 msgstr "%d ימים"
 
-#: ../src/gsb_scheduler_list.c:1132
+#: ../src/gsb_scheduler_list.c:1098
 #, fuzzy, c-format
 msgid "%d weeks"
 msgstr "שבוע"
 
-#: ../src/gsb_scheduler_list.c:1137
+#: ../src/gsb_scheduler_list.c:1103
 #, c-format
 msgid "%d months"
 msgstr "%d חודשים"
 
-#: ../src/gsb_scheduler_list.c:1142
+#: ../src/gsb_scheduler_list.c:1108
 #, c-format
 msgid "%d years"
 msgstr "%d שנים"
 
-#: ../src/gsb_scheduler_list.c:1805
+#: ../src/gsb_scheduler_list.c:1771
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1824
+#: ../src/gsb_scheduler_list.c:1790
 #, fuzzy, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1869
+#: ../src/gsb_scheduler_list.c:1835
 #, fuzzy, c-format
 msgid ""
 "Do you want to delete just this occurrence or the whole scheduled "
@@ -8918,82 +8909,99 @@ msgid ""
 "%s : %s [%s %s]"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_scheduler_list.c:1880
+#: ../src/gsb_scheduler_list.c:1846
 #, fuzzy
 msgid "Delete this scheduled transaction?"
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_scheduler_list.c:1885
+#: ../src/gsb_scheduler_list.c:1851
 msgid "All the occurences"
 msgstr "את כל העיסקאות המתוכננות של עיסקה זו"
 
-#: ../src/gsb_scheduler_list.c:1886
+#: ../src/gsb_scheduler_list.c:1852
 msgid "Only this one"
 msgstr "רק עיסקה זו"
 
 #. set the title
-#: ../src/gsb_scheduler_list.c:1958 ../src/navigation.c:1182
+#: ../src/gsb_scheduler_list.c:1924 ../src/navigation.c:1182
 #, fuzzy
 msgid "Scheduled transactions"
 msgstr "העברות סגורות שנקבעו מראש"
 
-#: ../src/gsb_scheduler_list.c:1986
+#: ../src/gsb_scheduler_list.c:1952
 #, fuzzy
 msgid "days"
 msgstr "יום"
 
-#: ../src/gsb_scheduler_list.c:1986
+#: ../src/gsb_scheduler_list.c:1952
 #, fuzzy
 msgid "weeks"
 msgstr "שבוע"
 
-#: ../src/gsb_scheduler_list.c:1989
+#: ../src/gsb_scheduler_list.c:1955
 #, fuzzy
 msgid "Show scheduled transactions"
 msgstr "העברות סגורות שנקבעו מראש"
 
-#: ../src/gsb_scheduler_list.c:2002
+#: ../src/gsb_scheduler_list.c:1968
 #, fuzzy
 msgid "Scheduler frequency"
 msgstr "התראות המתזמן"
 
-#: ../src/gsb_scheduler_list.c:2009
+#: ../src/gsb_scheduler_list.c:1975
 #, fuzzy
 msgid "Show transactions for the next: "
 msgstr "בחירת עיסקאות בהתאם לטקסט:"
 
 #. Edit transaction
-#: ../src/gsb_scheduler_list.c:2150 ../src/gsb_transactions_list.c:2193
+#: ../src/gsb_scheduler_list.c:2116 ../src/gsb_transactions_list.c:2158
 msgid "Edit transaction"
 msgstr "עריכת עיסקה"
 
 #. Clone transaction
-#: ../src/gsb_scheduler_list.c:2162 ../src/gsb_transactions_list.c:2240
+#: ../src/gsb_scheduler_list.c:2128 ../src/gsb_transactions_list.c:2205
 msgid "Clone transaction"
 msgstr "שכפול עיסקה"
 
 #. Delete transaction
-#: ../src/gsb_scheduler_list.c:2188 ../src/gsb_transactions_list.c:2216
+#: ../src/gsb_scheduler_list.c:2154 ../src/gsb_transactions_list.c:2181
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
 #. Display/hide comments
-#: ../src/gsb_scheduler_list.c:2202
+#: ../src/gsb_scheduler_list.c:2168
 #, fuzzy
 msgid "Displays/Cache comments"
 msgstr "הצגת/הסתרת הערות"
 
 #. Execute transaction
-#: ../src/gsb_scheduler_list.c:2216
+#: ../src/gsb_scheduler_list.c:2182
 #, fuzzy
 msgid "Execute transaction"
 msgstr "מחיקת עיסקה"
 
-#: ../src/gsb_scheduler_list.c:2587 ../src/transaction_list.c:167
+#: ../src/gsb_scheduler_list.c:2553 ../src/transaction_list.c:167
 #: ../src/transaction_list.c:1060 ../src/transaction_list.c:1970
 #, fuzzy, c-format
 msgid "Total : %s (variance : %s)"
 msgstr "סך הכל %s: %s (%d עיסקאות)"
+
+#: ../src/gsb_scheduler_list.c:2613
+#, c-format
+msgid ""
+"Some scheduled children didn't find their mother in the list, this shouldn't "
+"happen and there is probably a bug behind that.\n"
+"\n"
+"The concerned children number are :\n"
+" %s\n"
+"\n"
+"Do you want to delete it"
+msgstr ""
+
+#: ../src/gsb_scheduler_list.c:2619 ../src/gsb_transactions_list.c:3919
+#, fuzzy
+msgid "Remove orphan children"
+msgstr "שם קובץ החשבונות"
 
 #: ../src/gsb_select_icon.c:160
 #, fuzzy
@@ -9010,92 +9018,84 @@ msgstr "עיון"
 msgid "Select icon directory"
 msgstr "לסמן הכל"
 
-#: ../src/gsb_transactions_list.c:165
+#: ../src/gsb_transactions_list.c:167
 msgid "Reconciliation reference"
 msgstr "הפנייה להתאמה"
 
-#: ../src/gsb_transactions_list.c:173
+#: ../src/gsb_transactions_list.c:175
 #, fuzzy
 msgid "Cheque number"
 msgstr "מספר ההמחאה"
 
-#: ../src/gsb_transactions_list.c:194
+#: ../src/gsb_transactions_list.c:196
 #, fuzzy
 msgid "Delete a child transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_transactions_list.c:198
+#: ../src/gsb_transactions_list.c:200
 #, fuzzy
 msgid "Delete a transaction."
 msgstr "מחיקת עיסקה"
 
-#: ../src/gsb_transactions_list.c:202
+#: ../src/gsb_transactions_list.c:204
 #, fuzzy
 msgid "Delete a child of scheduled transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_transactions_list.c:206
+#: ../src/gsb_transactions_list.c:208
 #, fuzzy
 msgid "Delete a scheduled transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_transactions_list.c:210
+#: ../src/gsb_transactions_list.c:212
 #, fuzzy
 msgid "Delete one or all occurences of scheduled transaction."
 msgstr "מחיקת עיסקה מתוכננת"
 
-#: ../src/gsb_transactions_list.c:215
+#: ../src/gsb_transactions_list.c:217
 #, fuzzy
 msgid "Delete a rule file import."
 msgstr "מחיקת דו\"ח"
 
-#: ../src/gsb_transactions_list.c:583 ../src/gsb_transactions_list.c:3640
-msgid ""
-"Some children didn't find their mother in the list, this shouldn't happen "
-"and there is probably a bug behind that. Please contact the Grisbi team.\n"
-"\n"
-"The concerned children number are :\n"
-msgstr ""
-
-#: ../src/gsb_transactions_list.c:827
+#: ../src/gsb_transactions_list.c:792
 msgid "P"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:831
+#: ../src/gsb_transactions_list.c:796
 msgid "T"
 msgstr ""
 
 #. set the R on the transaction
-#: ../src/gsb_transactions_list.c:835 ../src/gsb_transactions_list.c:1677
+#: ../src/gsb_transactions_list.c:800 ../src/gsb_transactions_list.c:1642
 msgid "R"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1209
+#: ../src/gsb_transactions_list.c:1174
 #, fuzzy, c-format
 msgid "Do you want to add the transactions of the archive %s into the list ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
 
-#: ../src/gsb_transactions_list.c:1219
+#: ../src/gsb_transactions_list.c:1184
 msgid ""
 "An archive was clicked but Grisbi is unable to get the name. It seems like a "
 "bug.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1223
+#: ../src/gsb_transactions_list.c:1188
 msgid ""
 "An archive was clicked but it seems to have the number 0, wich should not "
 "happen.\n"
 "Please try to reproduce and contact the Grisbi team."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1607
+#: ../src/gsb_transactions_list.c:1572
 msgid ""
 "You cannot switch a transaction between R and non R while reconciling.\n"
 "Please finish or cancel the reconciliation first."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1619
+#: ../src/gsb_transactions_list.c:1584
 #, fuzzy, c-format
 msgid ""
 "You are trying to reconcile or unreconcile a transaction manually, which is "
@@ -9113,7 +9113,7 @@ msgstr ""
 
 #. we warn the user the transaction disappear
 #. * don't laugh ! there were several bugs reports about a transaction wich disappear :-)
-#: ../src/gsb_transactions_list.c:1689
+#: ../src/gsb_transactions_list.c:1654
 msgid ""
 "The transaction has disappear from the list...\n"
 "Don't worry, it's because you marked it as R, and you choosed not to show "
@@ -9121,26 +9121,26 @@ msgid ""
 "did."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1690
+#: ../src/gsb_transactions_list.c:1655
 #, fuzzy
 msgid "Marking a transaction as R"
 msgstr "סימון העיסקאות"
 
-#: ../src/gsb_transactions_list.c:1770
+#: ../src/gsb_transactions_list.c:1735
 #, fuzzy
 msgid "Select the reconciliation to associate to the selected transaction: "
 msgstr "העיסקאות שלא תואמו וגם לא נבדקו:"
 
-#: ../src/gsb_transactions_list.c:1892
+#: ../src/gsb_transactions_list.c:1857
 msgid "Grisbi couldn't get the selection, operation canceled..."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1936
+#: ../src/gsb_transactions_list.c:1901
 #, fuzzy
 msgid "Impossible to delete an archived transaction."
 msgstr "לא ניתן למחוק עיסקה מתואמת."
 
-#: ../src/gsb_transactions_list.c:1945
+#: ../src/gsb_transactions_list.c:1910
 msgid ""
 "Impossible to delete a reconciled transaction.\n"
 "The transaction, the contra-transaction or the children if it is a split are "
@@ -9148,82 +9148,90 @@ msgid ""
 "necessary."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1960
+#: ../src/gsb_transactions_list.c:1925
 #, c-format
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:1972
+#: ../src/gsb_transactions_list.c:1937
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2177
+#: ../src/gsb_transactions_list.c:2142
 #, fuzzy
 msgid "Displays the contra-transaction"
 msgstr "הצגת עיסקאות"
 
 #. use transaction as template
-#: ../src/gsb_transactions_list.c:2230
+#: ../src/gsb_transactions_list.c:2195
 msgid "Use selected transaction as a template"
 msgstr "שימוש בעיסקה הנבחרת בתור תבנית"
 
 #. Convert to scheduled transaction
-#: ../src/gsb_transactions_list.c:2253
+#: ../src/gsb_transactions_list.c:2218
 msgid "Convert transaction to scheduled transaction"
 msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
 #. Move to another account
-#: ../src/gsb_transactions_list.c:2262
+#: ../src/gsb_transactions_list.c:2227
 msgid "Move transaction to another account"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Change cell content.
-#: ../src/gsb_transactions_list.c:2285
+#: ../src/gsb_transactions_list.c:2250
 msgid "Change cell content"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:2332
+#: ../src/gsb_transactions_list.c:2297
 #, fuzzy
 msgid "Clear cell"
 msgstr "ביטול"
 
-#: ../src/gsb_transactions_list.c:2718
+#: ../src/gsb_transactions_list.c:2683
 msgid "Cannot move a transfer on his contra-account"
 msgstr "לא ניתן להעביר העברה אל עיסקה נגדית זו"
 
 #. sort by line
-#: ../src/gsb_transactions_list.c:3024
+#: ../src/gsb_transactions_list.c:2989
 #, fuzzy
 msgid "Sort list by: "
 msgstr "מיון על פי תאריך:"
 
-#: ../src/gsb_transactions_list.c:3067
+#: ../src/gsb_transactions_list.c:3032
 msgid "alignment: "
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3075
+#: ../src/gsb_transactions_list.c:3040
 msgid "LEFT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3089
+#: ../src/gsb_transactions_list.c:3054
 msgid "CENTER"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3103
+#: ../src/gsb_transactions_list.c:3068
 msgid "RIGHT"
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3512
+#: ../src/gsb_transactions_list.c:3477
 msgid "Transfer to a deleted account"
 msgstr "העברה לחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3514
+#: ../src/gsb_transactions_list.c:3479
 msgid "Transfer from a deleted account"
 msgstr "העברה מחשבון שנמחק"
 
-#: ../src/gsb_transactions_list.c:3669
+#: ../src/gsb_transactions_list.c:3605
+msgid ""
+"Some children didn't find their mother in the list, this shouldn't happen "
+"and there is probably a bug behind that. Please contact the Grisbi team.\n"
+"\n"
+"The concerned children number are :\n"
+msgstr ""
+
+#: ../src/gsb_transactions_list.c:3634
 msgid ""
 "You have just recovered an archive, if you don't see any new transaction, "
 "remember that the R transactions are not showed so the archived transactions "
@@ -9232,10 +9240,22 @@ msgid ""
 "Show the R transactions to make them visible."
 msgstr ""
 
-#: ../src/gsb_transactions_list.c:3890
+#: ../src/gsb_transactions_list.c:3855
 #, fuzzy
 msgid "Do you really want to delete this file import rule ?"
 msgstr "האם רק למחוק עיסקה ספציפית זו, או את כל שרשרת העיסקאות המתוכננות?"
+
+#: ../src/gsb_transactions_list.c:3913
+#, c-format
+msgid ""
+"Some children didn't find their mother in the list, this shouldn't happen "
+"and there is probably a bug behind that.\n"
+"\n"
+"The concerned children number are :\n"
+" %s\n"
+"\n"
+"Do you want to delete it"
+msgstr ""
 
 #: ../src/gsb_transactions_list_sort.c:357
 #, c-format
