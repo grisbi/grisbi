@@ -85,6 +85,8 @@ static GtkTreeModel *gsb_scheduler_list_get_model ( void );
 static gboolean gsb_scheduler_list_key_press ( GtkWidget *tree_view,
                         GdkEventKey *ev );
 static gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void);
+static void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
+                        GDate *end_date );
 static gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
                         gpointer null );
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
@@ -715,44 +717,8 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
     /* if there are some orphan sheduler (children of breakdonw wich didn't find their mother */
     if ( orphan_scheduled )
     {
-        gchar *string = NULL;
-
-        tmp_list = orphan_scheduled;
-        while (tmp_list)
-        {
-            gint scheduled_number;
-
-            scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
-
-            if (!gsb_scheduler_list_append_new_scheduled ( scheduled_number,
-                                   end_date ))
-            {
-                if ( string == NULL )
-                    string = utils_str_itoa ( scheduled_number );
-                else
-                    string = g_strconcat ( string, " - ",
-                        utils_str_itoa ( scheduled_number ), NULL );
-            }
-
-            tmp_list = tmp_list -> next;
-        }
-
-        /* if string is not null, there is still some children
-         * wich didn't find their mother. show them now */
-        if ( string )
-        {
-            gchar *message;
-
-            message = _("Some scheduled children didn't find their mother in the list, "
-            "this shouldn't happen and there is probably a bug behind that. Please contact "
-            "the Grisbi team.\n\nThe concerned children number are :\n");
-
-            message = g_strconcat (message, string, NULL);
-            dialogue_warning ( message );
-            g_free ( message );
-            g_free ( string );
-        }
-        g_slist_free (orphan_scheduled);
+        gsb_scheduler_list_process_orphan_list ( orphan_scheduled, end_date );
+        g_slist_free ( orphan_scheduled );
     }
 
     /* create and append the white line */
@@ -2600,6 +2566,72 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
     return TRUE;
 }
 
+
+/**
+ * remove the orphan transactions
+ *
+ * \param orphan list
+ *
+ * \return void
+ */
+void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
+                        GDate *end_date )
+{
+    GSList *tmp_list;
+    gchar *string = NULL;
+    GArray *garray;
+
+    garray = g_array_new ( FALSE, FALSE, sizeof ( gint ) );
+    tmp_list = orphan_scheduled;
+    while (tmp_list)
+    {
+        gint scheduled_number;
+
+        scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
+
+        if ( !gsb_scheduler_list_append_new_scheduled ( scheduled_number, end_date ) )
+        {
+            /* on sauvegarde le numéro de l'opération */
+            g_array_append_val ( garray, scheduled_number );
+            if ( string == NULL )
+                string = utils_str_itoa ( scheduled_number );
+            else
+                string = g_strconcat ( string, " - ",
+                    utils_str_itoa ( scheduled_number ), NULL );
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    /* if string is not null, there is still some children
+     * wich didn't find their mother. show them now */
+    if ( string )
+    {
+        gchar *message;
+        gint result;
+
+        message = g_strdup_printf ( _("Some scheduled children didn't find their mother in the list, "
+                        "this shouldn't happen and there is probably a bug behind that.\n\n"
+                        "The concerned children number are :\n %s\n\n"
+                        "Do you want to delete it"),
+                        string );
+
+        result = question_yes_no_hint (_("Remove orphan children"), message, GTK_RESPONSE_CANCEL );
+
+        if (result == TRUE)
+        {
+            gint i;
+
+            for ( i = 0; i < garray->len; i++ )
+                gsb_data_scheduled_remove_scheduled ( g_array_index ( garray, gint, i ) );
+
+        }
+
+        g_free ( message );
+        g_free ( string );
+        g_array_free ( garray, TRUE );
+    }
+}
 
 
 /* Local Variables: */

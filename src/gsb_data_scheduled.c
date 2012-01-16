@@ -40,6 +40,8 @@
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
 #include "gsb_real.h"
+#include "structures.h"
+#include "traitement_variables.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -1637,6 +1639,9 @@ gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
 
     scheduled_list = g_slist_remove ( scheduled_list,
 				      scheduled );
+
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     _gsb_data_scheduled_free ( scheduled );
     return TRUE;

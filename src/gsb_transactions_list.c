@@ -48,6 +48,7 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
+#include "gsb_data_import_rule.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
@@ -102,6 +103,7 @@ static gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev );
 static gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_number,
                         gint target_account );
+static void gsb_transactions_list_process_orphan_list ( GSList *orphan_list );
 static void gsb_transactions_list_set_tree_view (GtkWidget *tree_view);
 static gboolean gsb_transactions_list_size_allocate ( GtkWidget *tree_view,
                         GtkAllocation *allocation,
@@ -559,49 +561,12 @@ gboolean gsb_transactions_list_fill_model ( void )
 
     /* if orphan_child_transactions if filled, there are some children wich didn't fing their
      * mother, we try again now that all the mothers are in the model */
-    if (orphan_child_transactions)
+    if ( orphan_child_transactions )
     {
-	GSList *orphan_list_copy;
+        gsb_transactions_list_process_orphan_list ( orphan_child_transactions );
 
-	orphan_list_copy = g_slist_copy (orphan_child_transactions);
-	g_slist_free (orphan_child_transactions);
-	orphan_child_transactions = NULL;
-
-	tmp_list = orphan_list_copy;
-	while (tmp_list)
-	{
-	    transaction_number = GPOINTER_TO_INT (tmp_list -> data);
-	    transaction_list_append_transaction (transaction_number);
-	    tmp_list = tmp_list -> next;
-	}
-	g_slist_free (orphan_list_copy);
-
-	/* if orphan_child_transactions is not null, there is still some children
-	 * wich didn't find their mother. show them now */
-	if (orphan_child_transactions)
-	{
-	    gchar *message = _("Some children didn't find their mother in the list, this "
-                           "shouldn't happen and there is probably a bug behind that. "
-                           "Please contact the Grisbi team.\n\nThe concerned children "
-                           "number are :\n");
-	    gchar *string_1;
-	    gchar *string_2;
-
-	    string_1 = g_strconcat (message, NULL);
-	    tmp_list = orphan_child_transactions;
-	    while (tmp_list)
-	    {
-		string_2 = g_strconcat ( string_1,
-					 utils_str_itoa (GPOINTER_TO_INT (tmp_list -> data)),
-					 " - ",
-					 NULL);
-		g_free (string_1);
-		string_1 = string_2;
-		tmp_list = tmp_list -> next;
-	    }
-	    dialogue_warning (string_1);
-	    g_free (string_1);
-	}
+        g_slist_free ( orphan_child_transactions );
+        orphan_child_transactions = NULL;
     }
     return FALSE;
 }
@@ -3903,6 +3868,68 @@ gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number )
     gsb_gui_update_transaction_toolbar ( );
 
     return TRUE;
+}
+
+
+/**
+ * remove the orphan transactions
+ *
+ * \param orphan list
+ *
+ * \return void
+ */
+void gsb_transactions_list_process_orphan_list ( GSList *orphan_list )
+{
+    GSList *tmp_list;
+    gchar *string = NULL;
+    GArray *garray;
+
+    garray = g_array_new ( FALSE, FALSE, sizeof ( gint ) );
+    tmp_list = orphan_list;
+    while (tmp_list)
+    {
+        gint transaction_number;
+
+        transaction_number = GPOINTER_TO_INT ( tmp_list -> data );
+
+        /* on sauvegarde le numéro de l'opération */
+        g_array_append_val ( garray, transaction_number );
+        if ( string == NULL )
+            string = utils_str_itoa ( transaction_number );
+        else
+            string = g_strconcat ( string, " - ",
+                utils_str_itoa ( transaction_number ), NULL );
+
+        tmp_list = tmp_list -> next;
+    }
+
+    /* if string is not null, there is still some children
+     * wich didn't find their mother. show them now */
+    if ( string )
+    {
+        gchar *message;
+        gint result;
+
+        message = g_strdup_printf ( _("Some children didn't find their mother in the list, "
+                        "this shouldn't happen and there is probably a bug behind that.\n\n"
+                        "The concerned children number are :\n %s\n\n"
+                        "Do you want to delete it"),
+                        string );
+
+        result = question_yes_no_hint (_("Remove orphan children"), message, GTK_RESPONSE_CANCEL );
+
+        if (result == TRUE)
+        {
+            gint i;
+
+            for ( i = 0; i < garray->len; i++ )
+                gsb_data_transaction_remove_transaction ( g_array_index ( garray, gint, i ) );
+        }
+
+        g_free ( message );
+        g_free ( string );
+        g_array_free ( garray, TRUE );
+    }
 }
 
 

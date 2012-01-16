@@ -46,6 +46,7 @@
 #include "gsb_data_currency_link.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
+#include "traitement_variables.h"
 #include "utils_dates.h"
 #include "gsb_real.h"
 #include "utils_str.h"
@@ -2313,6 +2314,8 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
 
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( transaction -> account_number, BET_MAJ_ALL );
+    if ( etat.modification_fichier == 0 )
+        modification_fichier ( TRUE );
 
     return TRUE;
 }
