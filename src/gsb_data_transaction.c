@@ -47,10 +47,11 @@
 #include "gsb_data_currency_link.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
-#include "utils_dates.h"
+#include "gsb_file.h"
 #include "gsb_real.h"
-#include "utils_str.h"
 #include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -2304,13 +2305,12 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
     gsb_data_budget_remove_transaction_from_budget (transaction_number);
 
     /* now can remove safely the transaction */
-    transactions_list = g_slist_remove ( transactions_list,
-					 transaction );
-    complete_transactions_list = g_slist_remove ( complete_transactions_list,
-						  transaction );
+    transactions_list = g_slist_remove ( transactions_list, transaction );
+    complete_transactions_list = g_slist_remove ( complete_transactions_list, transaction );
 
     /* force the update module budget */
     gsb_data_account_set_bet_maj ( transaction -> account_number, BET_MAJ_ALL );
+    gsb_file_set_modified ( TRUE );
 
     gsb_data_transaction_free (transaction);
 
