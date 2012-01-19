@@ -47,6 +47,7 @@
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -826,7 +827,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     gint column;
     gint account_number;
     gint i;
-    GtkAllocation *tmp_allocation = NULL;
+    GtkAllocation tmp_allocation;
 
     if ( !gtk_widget_get_realized ( tree_view ) )
         return FALSE;
@@ -848,13 +849,11 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     }
 
     gsb_file_set_modified ( TRUE );
-
     /* update the form if needed */
-        saved_allocation_size = 0;
-        gtk_widget_get_allocation ( form_transaction_part, tmp_allocation );
-        gsb_form_allocate_size ( NULL, tmp_allocation, NULL );
-
-        gsb_form_create_widgets ();
+    saved_allocation_size = 0;
+    gtk_widget_get_allocation ( form_transaction_part, &tmp_allocation );
+    gsb_form_allocate_size ( NULL, &tmp_allocation, NULL );
+    gsb_form_create_widgets ();
 
     return FALSE;
 }

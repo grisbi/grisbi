@@ -3551,16 +3551,19 @@ gboolean gsb_form_allocate_size ( GtkWidget *table,
     GtkWidget *widget;
 
     if (! gsb_form_is_visible ( ) )
-	return FALSE;
+        return FALSE;
+
+    if ( allocation == NULL )
+        return FALSE;
 
     account_number = gsb_form_get_account_number ();
     if ( account_number == -2 )
-	return FALSE;
+        return FALSE;
 
     if (saved_allocation_size == allocation -> width)
     {
-	saved_allocation_size = 0;
-	return FALSE;
+        saved_allocation_size = 0;
+        return FALSE;
     }
     saved_allocation_size = allocation -> width;
 
