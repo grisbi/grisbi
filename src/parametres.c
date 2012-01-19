@@ -78,6 +78,9 @@
 
 /*START_STATIC*/
 static GtkWidget *create_preferences_tree ( );
+static gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gint *pointeur );
 static gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
@@ -1177,24 +1180,19 @@ GtkWidget *onglet_metatree ( void )
 
 
 /**
+ * Cette fonction est appellée suite au changement de l'ordre de tri des opérations
+ * dans les divisions.
  *
+ * \param
+ * \param
+ * \param
  *
- *
- *
+ * \return FALSE
  * */
 gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur )
 {
-    GtkWidget *payee_tree;
-    GtkWidget *category_tree;
-    GtkWidget *budgetary_tree;
-    GtkTreeSelection *selection;
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    GtkTreePath *path = NULL;
-    gint page_number;
-
     if ( pointeur )
     {
         gint value = 0;
@@ -1203,51 +1201,82 @@ gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
         *pointeur = value;
     }
 
+    gsb_config_metatree_re_sort_divisions ( checkbutton, event, pointeur );
+
+    /* return */
+    return FALSE;
+}
+
+
+/**
+ * Cette fonction retrie la division affichée après un changement
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return TRUE if OK else FALSE
+ * */
+gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
+                        GdkEventButton *event,
+                        gpointer data )
+{
+    GtkWidget *division_tree;
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreePath *path = NULL;
+    gint page_number;
+
     page_number = gsb_gui_navigation_get_current_page ( );
-    payee_tree = payees_get_tree_view ( );
-    category_tree = categories_get_tree_view ( );
-    budgetary_tree = budgetary_lines_get_tree_view ( );
 
     switch ( page_number )
     {
-	case GSB_PAYEES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( payee_tree ) );
-        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
-            path = gtk_tree_model_get_path ( model, &iter );
-	    payees_fill_list ();
-        gtk_tree_path_up ( path );
-        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
-        gtk_tree_path_free ( path );
-	    break;
+        case GSB_PAYEES_PAGE:
+            division_tree = payees_get_tree_view ( );
 
-	case GSB_CATEGORIES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( category_tree ) );
-        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
-            path = gtk_tree_model_get_path ( model, &iter );
-        categories_fill_list ();
-        gtk_tree_path_up ( path );
-        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
-        gtk_tree_path_free ( path );
-	    break;
+            selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( division_tree ) );
+            if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+                path = gtk_tree_model_get_path ( model, &iter );
+            payees_fill_list ();
+            break;
 
-	case GSB_BUDGETARY_LINES_PAGE:
-        selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( budgetary_tree ) );
-        if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
-            path = gtk_tree_model_get_path ( model, &iter );
-		budgetary_lines_fill_list ();
-        gtk_tree_path_up ( path );
-        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( payee_tree ), path );
-        gtk_tree_path_free ( path );
-	    break;
+        case GSB_CATEGORIES_PAGE:
+            division_tree = categories_get_tree_view ( );
 
-	default:
-	    notice_debug ("B0rk page selected");
-	    break;
+            selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( division_tree ) );
+            if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+                path = gtk_tree_model_get_path ( model, &iter );
+            categories_fill_list ();
+            break;
+
+        case GSB_BUDGETARY_LINES_PAGE:
+            division_tree = budgetary_lines_get_tree_view ( );
+
+            selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( division_tree ) );
+            if ( gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+                path = gtk_tree_model_get_path ( model, &iter );
+            budgetary_lines_fill_list ();
+            break;
+
+        default:
+            notice_debug ("Not page selected");
+
+            return FALSE;
+            break;
+    }
+
+    if ( path )
+    {
+        gtk_tree_path_up ( path );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( division_tree ), path );
+        gtk_tree_path_free ( path );
     }
 
     gsb_file_set_modified ( TRUE );
 
-    return FALSE;
+    /* return */
+    return TRUE;
 }
 
 
