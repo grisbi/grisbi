@@ -42,9 +42,9 @@ enum preference_page  {
 gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
                         GtkWidget *dialog );
 GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens );
-gboolean gsb_config_metatree_sort_transactions_changed ( GtkWidget *checkbutton,
+gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
                         GdkEventButton *event,
-                        gint *pointeur );
+                        gpointer data );
 GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,

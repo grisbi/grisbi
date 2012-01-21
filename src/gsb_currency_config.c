@@ -852,7 +852,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
     check_button = gsb_automem_checkbutton_new (
                         _("Add transactions archived in the totals"),
                         &(etat.add_archive_in_total_balance),
-                        G_CALLBACK ( gsb_config_metatree_sort_transactions_changed ),
+                        G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
                         NULL);
     gtk_table_attach ( GTK_TABLE ( table ), check_button,
                         0, 1, 3, 4, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
