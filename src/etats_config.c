@@ -3506,7 +3506,7 @@ void etats_config_recupere_info_onglet_affichage_titres ( gint report_number )
     gsb_data_report_set_payee_show_name ( report_number,
 					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_noms_tiers" ) );
     gsb_data_report_set_payee_show_payee_amount ( report_number,
-					  etats_config_ui_toggle_button_get_actif ( "bouton_afficher_sous_total_tiers" ) );
+					  etats_config_ui_toggle_button_get_actif ( "bouton_affiche_sous_total_tiers" ) );
 
     /* données des catégories */
     gsb_data_report_set_category_show_name ( report_number,
