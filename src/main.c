@@ -39,6 +39,7 @@
 #include "main.h"
 #include "accueil.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_assistant_first.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
@@ -170,12 +171,17 @@ int main ( int argc, char **argv )
  * */
 void main_linux ( int argc, char **argv )
 {
+    GrisbiApp *app;
+    GrisbiWindow *window;
     GtkWidget *vbox;
     gint return_value;
     gboolean first_use = FALSE;
 
     /* Init type system */
     g_type_init ();
+
+    /* Init glib threads asap */
+    g_thread_init ( NULL );
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
@@ -215,31 +221,35 @@ void main_linux ( int argc, char **argv )
     /* on commence par détourner le signal SIGSEGV */
     gsb_main_trappe_signal_sigsegv ( );
 
-    /* initialise les données de l'application */
-    first_use = gsb_main_init_app ( );
+    /* création de l'application */
+    app = grisbi_app_get_default ( );
 
     /* create the toplevel window and the main menu */
-    vbox = gsb_main_create_main_window ( );
-    gsb_main_create_main_menu ( vbox );
-    gsb_main_window_set_size_and_position ( );
+    window = grisbi_app_create_window ( app, NULL );
+/*     vbox = gsb_main_create_main_window ( );
+ *     gsb_main_create_main_menu ( vbox );
+ *     gsb_main_window_set_size_and_position ( );
+ */
 
-    gtk_widget_show ( main_window );
+    gtk_widget_show ( GTK_WIDGET ( window ) );
 
     if ( IS_DEVELOPMENT_VERSION )
         dialog_message ( "development-version", VERSION );
 
     /* check the command line, if there is something to open */
-    gsb_main_load_file_if_necessary ( file );
+/*     gsb_main_load_file_if_necessary ( file );  */
 
-    if ( first_use && !nom_fichier_comptes )
-        gsb_assistant_first_run ();
-    else
-        display_tip ( FALSE );
+/*     if ( first_use && !nom_fichier_comptes )
+ *         gsb_assistant_first_run ();
+ *     else
+ *         display_tip ( FALSE );
+ */
 
     gtk_main ();
 
     gsb_main_grisbi_shutdown ( );
 
+    /* return */
     exit ( 0 );
 }
 
