@@ -44,6 +44,7 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.c	\
 	grisbi_app.c \
 	grisbi_osx.c \
+	grisbi_ui.h \
 	grisbi_window.c \
 	gsb_account.c		\
 	gsb_account_property.c	\

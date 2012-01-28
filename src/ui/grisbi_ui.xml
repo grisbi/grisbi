@@ -1,0 +1,95 @@
+<!--
+ *     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)
+ *          2004-2009 Benjamin Drieu (bdrieu@april.org)
+ *          2009-2012 Pierre Biava (grisbi@pierre.biava.name)
+ *          http://www.grisbi.org
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+-->
+
+<!-- Ce fichier contient les définitions de tous les menus et barres d"outils -->
+
+<ui>
+    <menubar>
+        <menu name="FileMenu" action="FileMenuAction">
+            <menuitem name="New" action="NewAction"/>
+            <menuitem name="Open" action="OpenAction"/>
+            <menu name="RecentFiles" action="RecentFilesAction">
+            </menu>
+            <separator/>
+            <menuitem name="Save" action="SaveAction"/>
+            <menuitem name="SaveAs" action="SaveAsAction"/>
+            <separator/>
+            <menuitem name="ImportFile" action="ImportFileAction"/>
+<!--             <menuitem name="ExportFile" action="ExportFileAction"/>
+            <separator/>
+            <menuitem name="CreateArchive" action="CreateArchiveAction"/>
+            <menuitem name="ExportArchive" action="ExportArchiveAction"/>
+            <separator/>
+            <menuitem name="DebugFile" action="DebugFileAction"/>
+            <menuitem name="Obfuscate" action="ObfuscateAction"/>
+            <menuitem name="ObfuscateQif" action="ObfuscateQifAction"/>
+            <menuitem name="DebugMode" action="DebugModeAction"/>
+            <separator/>
+            <menuitem name="Close" action="CloseAction"/>
+            <menuitem name="Quit" action="QuitAction"/>
+        </menu>
+
+        <menu name="EditMenu" action="EditMenuAction">
+            <menuitem name="EditTransaction" action="EditTransactionAction"/>
+            <separator/>
+            <menuitem name="NewTransaction" action="NewTransactionAction"/>
+            <menuitem name="RemoveTransaction" action="RemoveTransactionAction"/>
+            <menuitem name="TemplateTransaction" action="TemplateTransactionAction"/>
+            <menuitem name="CloneTransaction" action="CloneTransactionAction"/>
+            <separator/>
+            <menuitem name="ConvertToScheduled" action="ConvertToScheduledAction"/>
+            <menu name="MoveToAnotherAccount" action="MoveToAnotherAccountAction">
+            </menu>
+            <separator/>
+            <menuitem name="NewAccount" action="NewAccountAction"/>
+            <menuitem name="RemoveAccount" action="RemoveAccountAction"/>
+            <separator/>
+            <menuitem name="Preferences" action="PrefsAction"/>
+        </menu>
+
+        <menu name="ViewMenu" action="ViewMenuAction">
+            <menuitem name="ShowTransactionForm" action="ShowTransactionFormAction"/>
+            <menuitem name="ShowReconciled" action="ShowReconciledAction"/>
+            <menuitem name="ShowArchived" action="ShowArchivedAction"/>
+            <menuitem name="ShowClosed" action="ShowClosedAction"/>
+            <separator/>
+            <menuitem name="ShowOneLine" action="ShowOneLineAction"/>
+            <menuitem name="ShowTwoLines" action="ShowTwoLinesAction"/>
+            <menuitem name="ShowThreeLines" action="ShowThreeLinesAction"/>
+            <menuitem name="ShowFourLines" action="ShowFourLinesAction"/>
+            <separator/>
+            <menuitem name="InitwidthCol" action="InitwidthColAction"/>
+        </menu>
+
+        <menu name="Help" action="HelpMenuAction">
+            <menuitem name="Manual" action="ManualAction"/>
+            <menuitem name="QuickStart" action="QuickStartAction"/>
+            <menuitem name="Translation" action="TranslationAction"/>
+            <menuitem name="About" action="AboutAction"/>
+            <separator/>
+            <menuitem name="GrisbiWebsite" action="GrisbiWebsiteAction"/>
+            <menuitem name="ReportBug" action="ReportBugAction"/>
+            <separator/>
+            <menuitem name="Tip" action="TipAction"/> -->
+        </menu>
+    </menubar>
+</ui>
