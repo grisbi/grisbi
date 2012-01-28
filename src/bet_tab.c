@@ -573,7 +573,7 @@ GtkWidget *bet_array_create_page ( void )
     g_object_set_data ( G_OBJECT ( account_page ), "bet_initial_date", initial_date );
     gtk_box_pack_start ( GTK_BOX (hbox), initial_date, FALSE, FALSE, 0 );
 
-    widget = gtk_check_button_new ( );
+    widget = gtk_check_button_new_with_label ( _("Automatic") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( widget ),
                         _("Check the box to automatically change start date") );
