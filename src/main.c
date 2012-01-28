@@ -173,9 +173,9 @@ void main_linux ( int argc, char **argv )
 {
     GrisbiApp *app;
     GrisbiWindow *window;
-    GtkWidget *vbox;
+/*     GtkWidget *vbox;  */
     gint return_value;
-    gboolean first_use = FALSE;
+/*     gboolean first_use = FALSE;  */
 
     /* Init type system */
     g_type_init ();

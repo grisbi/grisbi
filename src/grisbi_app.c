@@ -54,6 +54,9 @@ static void grisbi_app_set_active_window (GrisbiApp *app,
                    GrisbiWindow *window);
 static void grisbi_app_weak_notify ( gpointer data,
                         GObject *where_the_app_was );
+static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
+                        GdkEventFocus *event,
+                        GrisbiApp *app );
 /*END_STATIC*/
 
 
@@ -219,9 +222,42 @@ GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
 
     app->priv->windows = g_list_prepend ( app->priv->windows, window );
 
+    g_signal_connect ( window,
+                        "focus_in_event",
+                        G_CALLBACK ( grisbi_app_window_focus_in_event ),
+                        app );
+
+/*     g_signal_connect ( window,
+ *                         "delete_event",
+ *                         G_CALLBACK ( grisbi_app_window_delete_event ),
+ *                         app );
+ */
+
+/*     g_signal_connect ( window,
+ *                         "destroy",
+ *                         G_CALLBACK ( grisbi_app_window_destroy ),
+ *                         app );
+ */
+
+    if ( screen != NULL )
+        gtk_window_set_screen ( GTK_WINDOW ( window ), screen );
+
     return window;
 }
 
+
+static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
+                        GdkEventFocus *event,
+                        GrisbiApp *app )
+{
+    /* updates active_view and active_child when a new toplevel receives focus */
+    if ( !GRISBI_IS_WINDOW ( window ) )
+        return FALSE;
+
+    grisbi_app_set_active_window ( app, window );
+
+    return FALSE;
+}
 
 
 /**
