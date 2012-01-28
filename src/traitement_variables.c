@@ -245,7 +245,6 @@ void init_variables ( void )
     adresse_commune = NULL;
     adresse_secondaire = NULL;
 
-    etat.largeur_auto_colonnes = 1;
     current_tree_view_width = 0;
     scheduler_current_tree_view_width = 0;
 

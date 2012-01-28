@@ -360,11 +360,6 @@ gboolean gsb_file_config_load_config ( void )
                         "Transactions_list_secondary_sorting",
                         NULL );
 
-    etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
-                        "Display",
-                        "Columns width auto",
-                        NULL );
-
     etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
                         "Display",
                         "Show automatic financial year",
@@ -912,7 +907,6 @@ void gsb_file_config_clean_config ( void )
     conf.check_for_archival = TRUE;
     conf.max_non_archived_transactions_for_check = 3000;
 
-    etat.largeur_auto_colonnes = 0;
     etat.retient_affichage_par_compte = 0;
 
     etat.last_tip = -1;
