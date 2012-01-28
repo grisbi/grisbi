@@ -340,7 +340,8 @@ void transaction_list_append_archive ( gint archive_store_number )
     else
         amount_col = find_element_col (ELEMENT_CREDIT);
 
-    newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
+    if ( amount_col > 0 )
+        newrecord -> visible_col[amount_col] = utils_real_get_string_with_currency (
                         gsb_data_archive_store_get_balance (archive_store_number),
                         gsb_data_account_get_currency (
                         gsb_data_archive_store_get_account_number ( archive_store_number ) ),
