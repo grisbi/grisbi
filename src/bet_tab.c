@@ -1401,13 +1401,12 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     switch ( origine )
     {
         case SPP_ORIGIN_TRANSACTION:
-        case SPP_ORIGIN_SCHEDULED:
             if ( g_date_compare ( date, date_jour ) > 0 )
             {
                 menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
                 gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
                 g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1415,11 +1414,13 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
                 gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
             }
             break;
+        case SPP_ORIGIN_SCHEDULED:
+            break;
         case SPP_ORIGIN_HISTORICAL:
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1430,7 +1431,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             menu_item = gtk_image_menu_item_new_with_label ( _("Change selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_EDIT,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_change_menu ),
@@ -1440,7 +1441,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1451,7 +1452,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
                         _("Delete all occurences of the selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
@@ -1499,7 +1500,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
             menu_item = gtk_image_menu_item_new_with_label ( _("Delete selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
             g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_delete_menu ),
@@ -1515,7 +1516,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     menu_item = gtk_image_menu_item_new_with_label ( _("Reset data") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_REFRESH,
-						GTK_ICON_SIZE_MENU ) );
+                        GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_array_list_redo_menu ),
