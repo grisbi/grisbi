@@ -9744,7 +9744,7 @@ msgstr "Nouvelle sous-imputation"
 
 #: ../src/imputation_budgetaire.c:1067
 msgid "Edit selected sub-budgetary line"
-msgstr "Éditer l'imputation sélectionnée"
+msgstr "Éditer la sous-imputation sélectionnée"
 
 #: ../src/imputation_budgetaire.c:1089
 msgid "Manage sub-budgetary line"
@@ -9752,7 +9752,7 @@ msgstr "Gérer les sous-imputations"
 
 #: ../src/imputation_budgetaire.c:1092
 msgid "Transfer all transactions in another sub-budgetary line"
-msgstr "Transférer les opérations dans une autre sous-catégorie"
+msgstr "Transférer les opérations dans une autre sous-imputation"
 
 #: ../src/main.c:470
 msgid ""
