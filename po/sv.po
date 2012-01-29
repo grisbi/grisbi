@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-16 23:22+0100\n"
+"POT-Creation-Date: 2012-01-29 12:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: ../src/affichage.c:119 ../src/parametres.c:386
+#: ../src/affichage.c:119 ../src/parametres.c:389
 msgid "Fonts & logo"
 msgstr ""
 
@@ -244,7 +244,7 @@ msgstr ""
 msgid "Back to default"
 msgstr ""
 
-#: ../src/affichage.c:363 ../src/parametres.c:404
+#: ../src/affichage.c:363 ../src/parametres.c:407
 msgid "Addresses & titles"
 msgstr ""
 
@@ -468,7 +468,7 @@ msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
 
 #. à la base, on met une vbox
-#: ../src/affichage_liste.c:804 ../src/parametres.c:450
+#: ../src/affichage_liste.c:804 ../src/parametres.c:453
 msgid "Transactions list cells"
 msgstr ""
 
@@ -490,7 +490,7 @@ msgstr ""
 msgid "Year"
 msgstr ""
 
-#: ../src/bet_config.c:116 ../src/parametres.c:591
+#: ../src/bet_config.c:116 ../src/parametres.c:594
 msgid "General Options"
 msgstr ""
 
@@ -524,7 +524,7 @@ msgstr ""
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:258 ../src/parametres.c:600
+#: ../src/bet_config.c:258 ../src/parametres.c:603
 msgid "Accounts data"
 msgstr ""
 
@@ -796,13 +796,13 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1035 ../src/bet_finance_ui.c:1850
-#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1529 ../src/bet_tab.c:2885
+#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1530 ../src/bet_tab.c:2886
 msgid "Print the array"
 msgstr ""
 
 #. Export list
 #: ../src/bet_finance_ui.c:1045 ../src/bet_finance_ui.c:1863
-#: ../src/bet_finance_ui.c:1889 ../src/bet_hist.c:1948 ../src/bet_tab.c:1539
+#: ../src/bet_finance_ui.c:1889 ../src/bet_hist.c:1948 ../src/bet_tab.c:1540
 msgid "Export the array"
 msgstr ""
 
@@ -861,12 +861,12 @@ msgstr ""
 msgid "Credits"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1847 ../src/bet_hist.c:1932 ../src/bet_tab.c:2882
+#: ../src/bet_finance_ui.c:1847 ../src/bet_hist.c:1932 ../src/bet_tab.c:2883
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:381
 msgid "Print"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1860 ../src/bet_hist.c:1945 ../src/bet_tab.c:2895
+#: ../src/bet_finance_ui.c:1860 ../src/bet_hist.c:1945 ../src/bet_tab.c:2896
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:204 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -876,7 +876,7 @@ msgstr ""
 msgid "credit.csv"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1913 ../src/bet_hist.c:2040 ../src/bet_tab.c:3019
+#: ../src/bet_finance_ui.c:1913 ../src/bet_hist.c:2040 ../src/bet_tab.c:3020
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr ""
@@ -1227,6 +1227,11 @@ msgstr ""
 msgid "Start date: "
 msgstr ""
 
+#: ../src/bet_tab.c:556 ../src/gsb_form_scheduler.c:152
+#: ../src/gsb_scheduler_list.c:1285
+msgid "Automatic"
+msgstr ""
+
 #: ../src/bet_tab.c:559
 msgid "Check the box to automatically change start date"
 msgstr ""
@@ -1244,7 +1249,7 @@ msgid "Balance"
 msgstr ""
 
 #: ../src/bet_tab.c:823 ../src/bet_tab.c:836 ../src/bet_tab.c:1028
-#: ../src/bet_tab.c:2497 ../src/bet_tab.c:2502
+#: ../src/bet_tab.c:2498 ../src/bet_tab.c:2503
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1264,70 +1269,70 @@ msgstr ""
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1407 ../src/bet_tab.c:1419 ../src/bet_tab.c:1440
-#: ../src/bet_tab.c:1499
+#: ../src/bet_tab.c:1406 ../src/bet_tab.c:1420 ../src/bet_tab.c:1441
+#: ../src/bet_tab.c:1500
 msgid "Delete selection"
 msgstr ""
 
-#: ../src/bet_tab.c:1430
+#: ../src/bet_tab.c:1431
 msgid "Change selection"
 msgstr ""
 
-#: ../src/bet_tab.c:1451
+#: ../src/bet_tab.c:1452
 msgid "Delete all occurences of the selection"
 msgstr ""
 
-#: ../src/bet_tab.c:1466
+#: ../src/bet_tab.c:1467
 msgid "Convert selection to scheduled transaction"
 msgstr ""
 
-#: ../src/bet_tab.c:1489
+#: ../src/bet_tab.c:1490
 msgid "Insert the balance of a cash account"
 msgstr ""
 
 #. redo item
-#: ../src/bet_tab.c:1515
+#: ../src/bet_tab.c:1516
 msgid "Reset data"
 msgstr ""
 
-#: ../src/bet_tab.c:1858
+#: ../src/bet_tab.c:1859
 msgid " (still available)"
 msgstr ""
 
-#: ../src/bet_tab.c:1867 ../src/bet_tab.c:1889
+#: ../src/bet_tab.c:1868 ../src/bet_tab.c:1890
 msgid " (budget exceeded)"
 msgstr ""
 
-#: ../src/bet_tab.c:1880
+#: ../src/bet_tab.c:1881
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2420 ../src/bet_tab.c:2470 ../src/bet_tab.c:2530
+#: ../src/bet_tab.c:2421 ../src/bet_tab.c:2471 ../src/bet_tab.c:2531
 msgid "No data by default"
 msgstr ""
 
-#: ../src/bet_tab.c:2428 ../src/bet_tab.c:2478 ../src/bet_tab.c:2536
+#: ../src/bet_tab.c:2429 ../src/bet_tab.c:2479 ../src/bet_tab.c:2537
 #: ../src/etats_affiche.c:1864 ../src/etats_config.c:1340
 #: ../src/etats_config.c:1475 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr ""
 
-#: ../src/bet_tab.c:2436 ../src/bet_tab.c:2486 ../src/bet_tab.c:2542
+#: ../src/bet_tab.c:2437 ../src/bet_tab.c:2487 ../src/bet_tab.c:2543
 #: ../src/etats_affiche.c:2034 ../src/etats_config.c:1348
 #: ../src/etats_config.c:1480 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr ""
 
-#: ../src/bet_tab.c:2898 ../src/bet_tab.c:2995
+#: ../src/bet_tab.c:2899 ../src/bet_tab.c:2996
 msgid "Export the array of forecast"
 msgstr ""
 
-#: ../src/bet_tab.c:2953
+#: ../src/bet_tab.c:2954
 msgid "Balance at "
 msgstr ""
 
-#: ../src/bet_tab.c:3002
+#: ../src/bet_tab.c:3003
 msgid "forecast.csv"
 msgstr ""
 
@@ -1405,7 +1410,7 @@ msgstr ""
 
 #: ../src/categories_onglet.c:552 ../src/etats_onglet.c:158
 #: ../src/import.c:442 ../src/import.c:3644 ../src/imputation_budgetaire.c:587
-#: ../src/parametres.c:322 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542
 msgid "Import"
 msgstr ""
 
@@ -2029,7 +2034,7 @@ msgstr ""
 #. Now we have a model, create view
 #: ../src/etats_affiche.c:2458 ../src/etats_config_ui.c:437
 #: ../src/etats_config_ui.c:2088 ../src/gsb_payment_method_config.c:132
-#: ../src/parametres.c:568
+#: ../src/parametres.c:571
 msgid "Payment methods"
 msgstr ""
 
@@ -2432,13 +2437,13 @@ msgid "Generalities"
 msgstr ""
 
 #: ../src/etats_config_ui.c:473 ../src/export_csv.c:775
-#: ../src/fenetre_principale.c:253 ../src/parametres.c:432
+#: ../src/fenetre_principale.c:253 ../src/parametres.c:435
 msgid "Transactions"
 msgstr ""
 
 #. echange line label
 #: ../src/etats_config_ui.c:478 ../src/gsb_currency.c:560
-#: ../src/gsb_currency_config.c:300 ../src/parametres.c:532
+#: ../src/gsb_currency_config.c:300 ../src/parametres.c:535
 msgid "Currencies"
 msgstr ""
 
@@ -2477,7 +2482,7 @@ msgstr ""
 msgid "Transactions display"
 msgstr ""
 
-#: ../src/etats_config_ui.c:2952 ../src/parametres.c:1152
+#: ../src/etats_config_ui.c:2952 ../src/parametres.c:1155
 msgid "Totals currencies"
 msgstr ""
 
@@ -2866,7 +2871,7 @@ msgstr ""
 msgid "Reconciliation number"
 msgstr ""
 
-#: ../src/fenetre_principale.c:239 ../src/parametres.c:368
+#: ../src/fenetre_principale.c:239 ../src/parametres.c:371
 msgid "Main page"
 msgstr ""
 
@@ -2883,7 +2888,7 @@ msgid "Amortization array"
 msgstr ""
 
 #: ../src/fenetre_principale.c:281 ../src/navigation.c:1952
-#: ../src/parametres.c:350 ../src/parametres.c:1110
+#: ../src/parametres.c:353 ../src/parametres.c:1113
 msgid "Scheduler"
 msgstr ""
 
@@ -3052,6 +3057,39 @@ msgstr ""
 msgid "File '%s' could not be saved"
 msgstr ""
 
+#. File menu
+#: ../src/grisbi_ui.h:21 ../src/menu.c:169
+msgid "_File"
+msgstr ""
+
+#: ../src/grisbi_ui.h:23 ../src/grisbi_ui.h:30 ../src/menu.c:171
+#: ../src/menu.c:179
+msgid "_New account file..."
+msgstr ""
+
+#: ../src/grisbi_ui.h:25 ../src/grisbi_ui.h:32 ../src/menu.c:173
+#: ../src/menu.c:181
+msgid "_Open..."
+msgstr ""
+
+#: ../src/grisbi_ui.h:27 ../src/grisbi_ui.h:34 ../src/menu.c:175
+#: ../src/menu.c:183
+msgid "_Recently opened files"
+msgstr ""
+
+#: ../src/grisbi_ui.h:36 ../src/menu.c:189
+msgid "_Import file..."
+msgstr ""
+
+#: ../src/grisbi_ui.h:134 ../src/grisbi_ui.h:137 ../src/menu.c:176
+#: ../src/menu.c:184
+msgid "_Save"
+msgstr ""
+
+#: ../src/grisbi_ui.h:140 ../src/menu.c:187
+msgid "_Save as..."
+msgstr ""
+
 #: ../src/gsb_account.c:168
 #, c-format
 msgid "Delete account \"%s\"?"
@@ -3203,7 +3241,7 @@ msgid "Report name"
 msgstr ""
 
 #. create the page
-#: ../src/gsb_archive_config.c:115 ../src/parametres.c:313
+#: ../src/gsb_archive_config.c:115 ../src/parametres.c:316
 msgid "Archives"
 msgstr ""
 
@@ -3692,7 +3730,7 @@ msgstr ""
 
 #. crypt the grisbi file
 #: ../src/gsb_assistant_file.c:333 ../src/gsb_assistant_first.c:256
-#: ../src/parametres.c:890
+#: ../src/parametres.c:893
 msgid "Encrypt Grisbi file"
 msgstr ""
 
@@ -3774,11 +3812,11 @@ msgid "General configuration of Grisbi"
 msgstr ""
 
 #. configure the browser
-#: ../src/gsb_assistant_first.c:214 ../src/parametres.c:1058
+#: ../src/gsb_assistant_first.c:214 ../src/parametres.c:1061
 msgid "Web"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:221 ../src/parametres.c:1065
+#: ../src/gsb_assistant_first.c:221 ../src/parametres.c:1068
 msgid "Web browser command: "
 msgstr ""
 
@@ -3787,43 +3825,43 @@ msgstr ""
 msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:239 ../src/parametres.c:873
+#: ../src/gsb_assistant_first.c:239 ../src/parametres.c:876
 msgid "Account files handling"
 msgstr ""
 
 #. Automatically load last file on startup?
-#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:876
+#: ../src/gsb_assistant_first.c:242 ../src/parametres.c:879
 msgid "Automatically load last file on startup"
 msgstr ""
 
 #. automatically save file at closing
-#: ../src/gsb_assistant_first.c:248 ../src/parametres.c:880
+#: ../src/gsb_assistant_first.c:248 ../src/parametres.c:883
 msgid "Automatically save on exit"
 msgstr ""
 
 #. Automatic backup ?
-#: ../src/gsb_assistant_first.c:270 ../src/parametres.c:930
+#: ../src/gsb_assistant_first.c:270 ../src/parametres.c:933
 msgid "Make a backup copy before saving files"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:280 ../src/parametres.c:938
+#: ../src/gsb_assistant_first.c:280 ../src/parametres.c:941
 msgid "Make a backup copy every "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:948
+#: ../src/gsb_assistant_first.c:291 ../src/parametres.c:951
 msgid " minutes"
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:300 ../src/parametres.c:955
+#: ../src/gsb_assistant_first.c:300 ../src/parametres.c:958
 msgid "Backup directory: "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:305 ../src/parametres.c:962
+#: ../src/gsb_assistant_first.c:305 ../src/parametres.c:965
 msgid "Select/Create backup directory"
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:344 ../src/gsb_reconcile_config.c:112
-#: ../src/parametres.c:469
+#: ../src/parametres.c:472
 msgid "Reconciliation"
 msgstr ""
 
@@ -4054,7 +4092,7 @@ msgstr ""
 msgid "Contact name"
 msgstr ""
 
-#: ../src/gsb_bank.c:461 ../src/parametres.c:550
+#: ../src/gsb_bank.c:461 ../src/parametres.c:553
 msgid "Banks"
 msgstr ""
 
@@ -6212,7 +6250,7 @@ msgid ""
 msgstr ""
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:561 ../src/gsb_file.c:815 ../src/parametres.c:885
+#: ../src/gsb_file.c:561 ../src/gsb_file.c:815 ../src/parametres.c:888
 msgid "Force saving of locked files"
 msgstr ""
 
@@ -6242,7 +6280,7 @@ msgid ""
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:814 ../src/gsb_file.c:826 ../src/main.c:821
+#: ../src/gsb_file.c:814 ../src/gsb_file.c:826 ../src/main.c:831
 msgid "unnamed"
 msgstr ""
 
@@ -6294,7 +6332,7 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:821
+#: ../src/gsb_file_config.c:816
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr ""
@@ -6612,67 +6650,67 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3650
+#: ../src/gsb_form.c:3653
 msgid "Configure the form"
 msgstr ""
 
-#: ../src/gsb_form_config.c:116 ../src/parametres.c:488
+#: ../src/gsb_form_config.c:117 ../src/parametres.c:491
 msgid "Transaction form"
 msgstr ""
 
 #. create the paddingbox into the parent
-#: ../src/gsb_form_config.c:147
+#: ../src/gsb_form_config.c:148
 msgid "Form structure preview"
 msgstr ""
 
 #. set the box with the buttons
-#: ../src/gsb_form_config.c:177
+#: ../src/gsb_form_config.c:178
 msgid "Form structure content"
 msgstr ""
 
-#: ../src/gsb_form_config.c:224
+#: ../src/gsb_form_config.c:225
 msgid "Col 1"
 msgstr ""
 
-#: ../src/gsb_form_config.c:225
+#: ../src/gsb_form_config.c:226
 msgid "Col 2"
 msgstr ""
 
-#: ../src/gsb_form_config.c:226
+#: ../src/gsb_form_config.c:227
 msgid "Col 3"
 msgstr ""
 
-#: ../src/gsb_form_config.c:227
+#: ../src/gsb_form_config.c:228
 msgid "Col 4"
 msgstr ""
 
-#: ../src/gsb_form_config.c:228
+#: ../src/gsb_form_config.c:229
 msgid "Col 5"
 msgstr ""
 
-#: ../src/gsb_form_config.c:229
+#: ../src/gsb_form_config.c:230
 msgid "Col 6"
 msgstr ""
 
-#: ../src/gsb_form_config.c:341
+#: ../src/gsb_form_config.c:342
 msgid "rows"
 msgstr ""
 
-#: ../src/gsb_form_config.c:388
+#: ../src/gsb_form_config.c:389
 msgid "columns"
 msgstr ""
 
-#: ../src/gsb_form_config.c:671
+#: ../src/gsb_form_config.c:672
 msgid ""
 "There is no place enough to put the element. You need to increase the number "
 "of rows or columns to add an element."
 msgstr ""
 
-#: ../src/gsb_form_config.c:673 ../src/gsb_form_config.c:678
+#: ../src/gsb_form_config.c:674 ../src/gsb_form_config.c:679
 msgid "The table is full"
 msgstr ""
 
-#: ../src/gsb_form_config.c:675
+#: ../src/gsb_form_config.c:676
 msgid ""
 "There is no place enough to put the two elements (you have clicked on an "
 "element which contains two). You need to increase the number of rows or "
@@ -6685,10 +6723,6 @@ msgid ""
 "the number of rows or columns is not good.\n"
 "The function will resize the table to the correct values but should check "
 "that warning."
-msgstr ""
-
-#: ../src/gsb_form_scheduler.c:152 ../src/gsb_scheduler_list.c:1285
-msgid "Automatic"
 msgstr ""
 
 #: ../src/gsb_form_scheduler.c:165
@@ -6735,7 +6769,7 @@ msgstr ""
 msgid "Automatic/Manual"
 msgstr ""
 
-#: ../src/gsb_fyear_config.c:104 ../src/parametres.c:559
+#: ../src/gsb_fyear_config.c:104 ../src/parametres.c:562
 msgid "Financial years"
 msgstr ""
 
@@ -7011,7 +7045,7 @@ msgstr ""
 msgid "Delete reconciliation"
 msgstr ""
 
-#: ../src/gsb_reconcile_sort_config.c:92 ../src/parametres.c:478
+#: ../src/gsb_reconcile_sort_config.c:92 ../src/parametres.c:481
 msgid "Sort for reconciliation"
 msgstr ""
 
@@ -7214,7 +7248,7 @@ msgid "Execute transaction"
 msgstr ""
 
 #: ../src/gsb_scheduler_list.c:2719 ../src/transaction_list.c:164
-#: ../src/transaction_list.c:1058 ../src/transaction_list.c:1968
+#: ../src/transaction_list.c:1059 ../src/transaction_list.c:1969
 #, c-format
 msgid "Total : %s (variance : %s)"
 msgstr ""
@@ -7910,7 +7944,7 @@ msgstr ""
 msgid "Manage import associations"
 msgstr ""
 
-#: ../src/import.c:3738 ../src/parametres.c:331
+#: ../src/import.c:3738 ../src/parametres.c:334
 msgid "Import associations"
 msgstr ""
 
@@ -8216,67 +8250,38 @@ msgstr ""
 msgid "Transfer all transactions in another sub-budgetary line"
 msgstr ""
 
-#: ../src/main.c:124
+#: ../src/main.c:125
 msgid "Show the application's version"
 msgstr ""
 
-#: ../src/main.c:126
+#: ../src/main.c:127
 msgid "Debug mode: level 0-5"
 msgstr ""
 
-#: ../src/main.c:128
+#: ../src/main.c:129
 msgid "[FILE]"
 msgstr ""
 
-#: ../src/main.c:641
+#: ../src/main.c:651
 #, c-format
 msgid "Error on sigaction: SIGSEGV won't be trapped\n"
 msgstr ""
 
-#: ../src/main.c:774 ../src/main.c:814 ../share/grisbi.desktop.in.h:1
+#: ../src/main.c:784 ../src/main.c:824 ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
 msgstr ""
 
-#: ../src/main.c:945
+#: ../src/main.c:955
 #, c-format
 msgid "Grisbi version %s, %s\n"
 msgstr ""
 
-#: ../src/main.c:1011
+#: ../src/main.c:1021
 msgid "- Personnal finances manager"
 msgstr ""
 
-#: ../src/main.c:1014
+#: ../src/main.c:1024
 msgid "Grisbi can manage the accounts of a family or a small association."
-msgstr ""
-
-#. File menu
-#: ../src/menu.c:169
-msgid "_File"
-msgstr ""
-
-#: ../src/menu.c:171 ../src/menu.c:179
-msgid "_New account file..."
-msgstr ""
-
-#: ../src/menu.c:173 ../src/menu.c:181
-msgid "_Open..."
-msgstr ""
-
-#: ../src/menu.c:175 ../src/menu.c:183
-msgid "_Recently opened files"
-msgstr ""
-
-#: ../src/menu.c:176 ../src/menu.c:184
-msgid "_Save"
-msgstr ""
-
-#: ../src/menu.c:187
-msgid "_Save as..."
-msgstr ""
-
-#: ../src/menu.c:189
-msgid "_Import file..."
 msgstr ""
 
 #: ../src/menu.c:191
@@ -8671,209 +8676,209 @@ msgid "Remove this report"
 msgstr ""
 
 #. Create dialog
-#: ../src/parametres.c:264
+#: ../src/parametres.c:267
 msgid "Grisbi preferences"
 msgstr ""
 
-#: ../src/parametres.c:294
+#: ../src/parametres.c:297
 msgid "Main"
 msgstr ""
 
-#: ../src/parametres.c:303 ../src/parametres.c:869
+#: ../src/parametres.c:306 ../src/parametres.c:872
 msgid "Files"
 msgstr ""
 
-#: ../src/parametres.c:341 ../src/parametres.c:1056
+#: ../src/parametres.c:344 ../src/parametres.c:1059
 msgid "Programs"
 msgstr ""
 
-#: ../src/parametres.c:359 ../src/parametres.c:1267
+#: ../src/parametres.c:362 ../src/parametres.c:1296
 msgid "Localization"
 msgstr ""
 
-#: ../src/parametres.c:378
+#: ../src/parametres.c:381
 msgid "Display"
 msgstr ""
 
-#: ../src/parametres.c:395 ../src/parametres.c:662
+#: ../src/parametres.c:398 ../src/parametres.c:665
 msgid "Messages & warnings"
 msgstr ""
 
-#: ../src/parametres.c:413 ../src/parametres.c:1149
+#: ../src/parametres.c:416 ../src/parametres.c:1152
 msgid "Payees, categories and budgetaries"
 msgstr ""
 
-#: ../src/parametres.c:422
+#: ../src/parametres.c:425
 msgid "Toolbars - Navigation pane"
 msgstr ""
 
-#: ../src/parametres.c:440
+#: ../src/parametres.c:443
 msgid "List behavior"
 msgstr ""
 
-#: ../src/parametres.c:460 ../src/parametres.c:747
+#: ../src/parametres.c:463 ../src/parametres.c:750
 msgid "Messages before deleting"
 msgstr ""
 
-#: ../src/parametres.c:496
+#: ../src/parametres.c:499
 msgid "Content"
 msgstr ""
 
-#: ../src/parametres.c:505
+#: ../src/parametres.c:508
 msgid "Behavior"
 msgstr ""
 
-#: ../src/parametres.c:514
+#: ../src/parametres.c:517
 msgid "Completion"
 msgstr ""
 
-#: ../src/parametres.c:524
+#: ../src/parametres.c:527
 msgid "Resources"
 msgstr ""
 
-#: ../src/parametres.c:541
+#: ../src/parametres.c:544
 msgid "Currencies links"
 msgstr ""
 
-#: ../src/parametres.c:583
+#: ../src/parametres.c:586
 msgid "Balance estimate"
 msgstr ""
 
 #. Tip of the day
-#: ../src/parametres.c:665
+#: ../src/parametres.c:668
 msgid "Tip of the day"
 msgstr ""
 
 #. Display or not tips
-#: ../src/parametres.c:668
+#: ../src/parametres.c:671
 msgid "Display tip of the day"
 msgstr ""
 
-#: ../src/parametres.c:675
+#: ../src/parametres.c:678
 msgid "Display following warnings messages"
 msgstr ""
 
-#: ../src/parametres.c:696 ../src/parametres.c:775
+#: ../src/parametres.c:699 ../src/parametres.c:778
 msgid "Message"
 msgstr ""
 
-#: ../src/parametres.c:751
+#: ../src/parametres.c:754
 msgid "Display following messages"
 msgstr ""
 
 #. Compression level of files
-#: ../src/parametres.c:895
+#: ../src/parametres.c:898
 msgid "Compress Grisbi file"
 msgstr ""
 
-#: ../src/parametres.c:903
+#: ../src/parametres.c:906
 msgid "Memorise last opened files: "
 msgstr ""
 
 #. Backups
-#: ../src/parametres.c:912
+#: ../src/parametres.c:915
 msgid "Backups"
 msgstr ""
 
 #. Single backup file
-#: ../src/parametres.c:915
+#: ../src/parametres.c:918
 msgid "Make a single backup file"
 msgstr ""
 
 #. Compression level of backups
-#: ../src/parametres.c:920
+#: ../src/parametres.c:923
 msgid "Compress Grisbi backup"
 msgstr ""
 
 #. Backup at each opening?
-#: ../src/parametres.c:925
+#: ../src/parametres.c:928
 msgid "Make a backup copy after opening files"
 msgstr ""
 
-#: ../src/parametres.c:979
+#: ../src/parametres.c:982
 msgid "Config file"
 msgstr ""
 
-#: ../src/parametres.c:984
+#: ../src/parametres.c:987
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1074
+#: ../src/parametres.c:1077
 #, c-format
 msgid ""
 "You may use %s to expand the URL I.e:\n"
 "'firefox -remote %s'"
 msgstr ""
 
-#: ../src/parametres.c:1115
+#: ../src/parametres.c:1118
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr ""
 
-#: ../src/parametres.c:1116
+#: ../src/parametres.c:1119
 msgid "Warn/Execute the scheduled transactions arriving at expiration date"
 msgstr ""
 
-#: ../src/parametres.c:1117
+#: ../src/parametres.c:1120
 msgid "Warn/Execute the scheduled transactions of the month"
 msgstr ""
 
-#: ../src/parametres.c:1125
+#: ../src/parametres.c:1128
 msgid "Number of days before the warning or the execution: "
 msgstr ""
 
-#: ../src/parametres.c:1158
+#: ../src/parametres.c:1161
 msgid "Sort option for transactions"
 msgstr ""
 
-#: ../src/parametres.c:1159
+#: ../src/parametres.c:1162
 msgid "by number"
 msgstr ""
 
-#: ../src/parametres.c:1160
+#: ../src/parametres.c:1163
 msgid "by increasing date"
 msgstr ""
 
-#: ../src/parametres.c:1161
+#: ../src/parametres.c:1164
 msgid "by date descending"
 msgstr ""
 
-#: ../src/parametres.c:1168
+#: ../src/parametres.c:1171
 msgid "Action associated with a double click on a subdivision: "
 msgstr ""
 
-#: ../src/parametres.c:1169
+#: ../src/parametres.c:1172
 msgid "Expand the line"
 msgstr ""
 
-#: ../src/parametres.c:1170
+#: ../src/parametres.c:1173
 msgid "Edit the line"
 msgstr ""
 
-#: ../src/parametres.c:1171
+#: ../src/parametres.c:1174
 msgid "Manage the line"
 msgstr ""
 
-#: ../src/parametres.c:1309
+#: ../src/parametres.c:1338
 msgid "Choose the date format"
 msgstr ""
 
-#: ../src/parametres.c:1315
+#: ../src/parametres.c:1344
 msgid "Date format"
 msgstr ""
 
-#: ../src/parametres.c:1381
+#: ../src/parametres.c:1410
 msgid "Decimal point: "
 msgstr ""
 
-#: ../src/parametres.c:1394
+#: ../src/parametres.c:1423
 msgid "Thousands separator: "
 msgstr ""
 
-#: ../src/parametres.c:1411
+#: ../src/parametres.c:1440
 msgid "Choose the decimal and thousands separator"
 msgstr ""
 
-#: ../src/parametres.c:1417
+#: ../src/parametres.c:1446
 msgid "Decimal and thousands separator"
 msgstr ""
 
@@ -9523,13 +9528,13 @@ msgstr ""
 
 #. this value should not be changed here, check later if i'm right,
 #. * for now just show a message
-#: ../src/transaction_list.c:1599
+#: ../src/transaction_list.c:1600
 msgid ""
 "Try to change a visible line by transaction_list_set. It shouldn't append ! "
 "Check that."
 msgstr ""
 
-#: ../src/transaction_list.c:1794
+#: ../src/transaction_list.c:1795
 #, c-format
 msgid ""
 "Trying to append the child number %d to the mother %d in the model, but no "
