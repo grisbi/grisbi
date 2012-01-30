@@ -3280,7 +3280,7 @@ msgstr "_Enregistrer"
 
 #: ../src/grisbi_ui.h:140 ../src/menu.c:187
 msgid "_Save as..."
-msgstr "Enregistrer _sous"
+msgstr "Enregistrer _sous..."
 
 #: ../src/gsb_account.c:168
 #, c-format
