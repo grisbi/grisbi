@@ -294,52 +294,61 @@ gboolean lance_navigateur_web ( const gchar *uri )
  */
 GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gchar *title)
 {
-    GtkWidget *vbox, *hbox, *paddingbox, *label;
-	gchar* tmp_str;
+	GtkWidget *vbox = NULL, *hbox = NULL, *paddingbox = NULL, *label = NULL;
+	static GtkBuilder *widget_builder = NULL;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    if ( GTK_IS_BOX(parent) )
-    {
-	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
-			     fill, fill, 0);
-    }
 
-    /* Creating label */
-    label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free(tmp_str);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			 FALSE, FALSE, 0);
-    gtk_widget_show ( label );
+	/* New GtkBuilder Creation*/
+	widget_builder = gtk_builder_new ( );
 
-    /* Creating horizontal box */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-			 fill, fill, 0);
+	if ( widget_builder == NULL )
+		return NULL;
 
-    /* Some padding.  ugly but the HiG advises it this way ;-) */
-    label = gtk_label_new ( "    " );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
+	/* widget paddingbox XML loading */
+	if ( !utils_gtkbuilder_merge_ui_data_in_builder ( widget_builder, "wdg_paddingbox_with_title.ui" ) )
+		return NULL;
 
-    /* Then make the vbox itself */
-    paddingbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
-			 TRUE, TRUE, 0);
+	/* Get the needed widgets*/
+	vbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "vbox" ) );
+	paddingbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "paddingbox" ));
+	label = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "label" ) );
+	hbox = GTK_WIDGET ( gtk_builder_get_object (widget_builder, "hbox"));
 
-    /* Put a label at the end to feed a new line */
-    /*   label = gtk_label_new ( "    " ); */
-    /*   gtk_box_pack_end ( GTK_BOX ( paddingbox ), label, */
-    /* 		     FALSE, FALSE, 0 ); */
+	/*Check Validity of Parent for robustness case*/
+	if (parent != NULL && GTK_IS_BOX(parent) )
+	{
+		if (vbox != NULL)
+		{
+			gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
+					fill, fill, 0);
+		}
+		else
+		{
+			/*Nothing to do
+			 * Cosmetic error : Minor
+			 */
 
-    if ( GTK_IS_BOX(parent) )
-    {
-	gtk_box_set_spacing ( GTK_BOX(parent), 18 );
-    }
+		}
+	}
 
-    return paddingbox;
+	if (label != NULL)
+	{
+		gtk_label_set_label(label,title);
+	}
+	else
+	{
+		return NULL; //TODO Manage error
+	}
+
+	gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
+			fill, fill, 0);
+
+	if ( parent != NULL && GTK_IS_BOX(parent) )
+	{
+		gtk_box_set_spacing ( GTK_BOX(parent), 18 );
+	}
+
+	return paddingbox;
 }
 
 /**
