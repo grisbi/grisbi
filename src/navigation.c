@@ -37,6 +37,7 @@
 #include "categories_onglet.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -211,6 +212,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 	gint i;
     gint xpad;
     gint ypad;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox = gtk_vbox_new ( FALSE, 6 );
 
@@ -285,7 +289,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
 
-    if ( conf.active_scrolling_left_pane == 0 )
+    if ( conf->active_scrolling_left_pane == 0 )
         g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
@@ -942,6 +946,9 @@ gboolean navigation_change_account ( gint new_account )
 {
     gint current_account;
     gchar *tmp_menu_path;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     devel_debug_int (new_account);
 
@@ -995,7 +1002,7 @@ gboolean navigation_change_account ( gint new_account )
         gtk_widget_hide ( menu_import_rules );
 
     /* Update the title of the file if needed */
-    if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
+    if ( conf->display_grisbi_title == GSB_ACCOUNT_HOLDER )
         gsb_main_set_grisbi_title ( new_account );
 
     bet_data_select_bet_pages ( new_account );
