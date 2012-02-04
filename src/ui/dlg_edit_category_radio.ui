@@ -10,7 +10,7 @@
     <property name="type_hint">dialog</property>
     <property name="has_resize_grip">False</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -110,6 +110,7 @@
                           <object class="GtkTable" id="table">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="n_rows">2</property>
                             <property name="n_columns">2</property>
                             <property name="column_spacing">6</property>
                             <property name="row_spacing">6</property>
@@ -136,6 +137,68 @@
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
                                 <property name="y_options"></property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label3">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Type</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                                <property name="x_options">GTK_SHRINK | GTK_FILL</property>
+                                <property name="y_options">GTK_SHRINK | GTK_FILL</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkVBox" id="box2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkRadioButton" id="Credit_radiobutton">
+                                    <property name="label" translatable="yes">Credit</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkRadioButton" id="Debit_radiobutton">
+                                    <property name="label" translatable="yes">Debit</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <property name="group">Credit_radiobutton</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
                               </packing>
                             </child>
                           </object>
