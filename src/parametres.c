@@ -43,6 +43,7 @@
 #include "categories_onglet.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_archive_config.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -257,8 +258,10 @@ gboolean preferences ( gint page )
     GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
     GtkWidget *hpaned;
+    GrisbiAppConf *conf;
 
     devel_debug_int (page);
+    conf = grisbi_app_get_conf ( );
 
     if ( gsb_gui_navigation_get_current_page ( ) == - 1 )
         return FALSE;
@@ -270,9 +273,9 @@ gboolean preferences ( gint page )
                         GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                         NULL );
 
-    if ( conf.prefs_width )
+    if ( conf->prefs_width )
         gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ),
-                        conf.prefs_width, -1 );
+                        conf->prefs_width, -1 );
     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
 
@@ -616,7 +619,7 @@ gboolean preferences ( gint page )
         /* Hook some help function */
         break;
         default:
-        gtk_window_get_size ( GTK_WINDOW ( fenetre_preferences ), &conf.prefs_width, NULL );
+/*         gtk_window_get_size ( GTK_WINDOW ( fenetre_preferences ), &conf->prefs_width, NULL );  */
         gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
         return FALSE;
     }
@@ -868,6 +871,9 @@ GtkWidget *onglet_fichier ( void )
     GtkWidget *label;
     GtkWidget *button;
     GtkWidget *dialog;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Files"), "files.png" );
 
@@ -877,16 +883,16 @@ GtkWidget *onglet_fichier ( void )
 
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-                        &conf.dernier_fichier_auto, NULL, NULL );
+                        &conf->dernier_fichier_auto, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-                        &conf.sauvegarde_auto, NULL, NULL);
+                        &conf->sauvegarde_auto, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Warn if file is used by someone else? */
     button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
-                        &conf.force_enregistrement, NULL, NULL );
+                        &conf->force_enregistrement, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
@@ -896,7 +902,7 @@ GtkWidget *onglet_fichier ( void )
 
     /* Compression level of files */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-                        &conf.compress_file, NULL, NULL );
+                        &conf->compress_file, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
@@ -906,7 +912,7 @@ GtkWidget *onglet_fichier ( void )
     label = gtk_label_new ( _("Memorise last opened files: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &conf.nb_max_derniers_fichiers_ouverts,
+    button = gsb_automem_spin_button_new ( &conf->nb_max_derniers_fichiers_ouverts,
                         G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
@@ -916,22 +922,22 @@ GtkWidget *onglet_fichier ( void )
 
     /* Single backup file */
     button = gsb_automem_checkbutton_new ( _("Make a single backup file"),
-                        &conf.make_bakup_single_file, NULL, NULL );
+                        &conf->make_bakup_single_file, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Compression level of backups */
     button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-                        &conf.compress_backup, NULL, NULL );
+                        &conf->compress_backup, NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Backup at each opening? */
     button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-                        &conf.sauvegarde_demarrage, NULL, NULL);
+                        &conf->sauvegarde_demarrage, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-                        &conf.make_backup, NULL, NULL);
+                        &conf->make_backup, NULL, NULL);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
@@ -939,11 +945,11 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-                        &conf.make_backup_every_minutes,
+                        &conf->make_backup_every_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_start), NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_spin_button_new ( &conf.make_backup_nb_minutes,
+    button = gsb_automem_spin_button_new ( &conf->make_backup_nb_minutes,
                         G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
     gtk_widget_set_size_request ( button, width_spin_button, -1 );
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
@@ -985,7 +991,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
-                        &conf.stable_config_file_model,
+                        &conf->stable_config_file_model,
                         NULL, NULL);
     gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
 #endif
@@ -1053,6 +1059,9 @@ GtkWidget *onglet_programmes (void)
     GtkWidget *vbox_pref, *label, *entry, *paddingbox, *table;
     GtkSizeGroup *size_group;
     gchar * text;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
@@ -1070,10 +1079,10 @@ GtkWidget *onglet_programmes (void)
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
     gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
                         GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-    entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
+    entry = gsb_automem_entry_new ( &conf->browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = make_blue ( g_strconcat ( 
+    text = make_blue ( g_strconcat (
                         _("You may use %s to expand the URL I.e:\n'firefox -remote %s'"),
                         NULL ) );
     label = gtk_label_new ( text );
@@ -1090,6 +1099,7 @@ GtkWidget *onglet_programmes (void)
     if ( ! assert_account_loaded() )
       gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
+    /* return */
     return ( vbox_pref );
 }
 
@@ -1147,8 +1157,11 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 GtkWidget *onglet_metatree ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *total_currencies;
+    GrisbiAppConf *conf;
 
-    vbox_pref = new_vbox_with_title_and_icon ( 
+    conf = grisbi_app_get_conf ( );
+
+    vbox_pref = new_vbox_with_title_and_icon (
                         _("Payees, categories and budgetaries"),
                         "organization.png" );
 
@@ -1172,9 +1185,9 @@ GtkWidget *onglet_metatree ( void )
                         _("Expand the line"),
                         _("Edit the line"),
                         _("Manage the line"),
-                        &conf.metatree_action_2button_press,
+                        &conf->metatree_action_2button_press,
                         G_CALLBACK ( gsb_config_onglet_metatree_action_changed ),
-                        &conf.metatree_action_2button_press,
+                        &conf->metatree_action_2button_press,
                         GTK_ORIENTATION_VERTICAL );
 
     return vbox_pref;
