@@ -36,6 +36,7 @@
 
 /*START_INCLUDE*/
 #include "gsb_form_widget.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_color.h"
 #include "gsb_currency.h"
@@ -513,92 +514,94 @@ gint gsb_form_widget_next_element ( gint account_number,
     gint form_column_number;
     gint form_row_number;
     
-    if ( !gsb_data_form_look_for_value ( account_number,
-					 element_number,
-					 &row,
-					 &column ))
-	return -1;
+    if ( !gsb_data_form_look_for_value ( account_number, element_number, &row, &column ) )
+        return -1;
 
     form_column_number = gsb_data_form_get_nb_columns (account_number);
     form_row_number = gsb_data_form_get_nb_rows (account_number);
 
-    while ( !gsb_form_widget_can_focus (return_value_number)) 
+    while ( !gsb_form_widget_can_focus (return_value_number))
     {
-	switch ( direction )
-	{
-	    case GSB_LEFT:
-		if ( !column && !row )
-		{
-		    /* we are at the upper left, go on the bottom right */
-		    column = form_column_number;
-		    row = form_row_number -1; 
-		}
+        switch ( direction )
+        {
+            case GSB_LEFT:
+            if ( !column && !row )
+            {
+                /* we are at the upper left, go on the bottom right */
+                column = form_column_number;
+                row = form_row_number -1;
+            }
 
-		if ( --column == -1 )
-		{
-		    column = form_column_number - 1;
-		    row--;
-		}
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
-		break;
+            if ( --column == -1 )
+            {
+                column = form_column_number - 1;
+                row--;
+            }
+            return_value_number = gsb_data_form_get_value ( account_number,
+                                    column,
+                                    row );
+            break;
 
-	    case GSB_RIGHT:
-		if ( column == (form_column_number - 1)
-		     &&
-		     row == (form_row_number - 1))
-		{
-		    /* we are on the bottom right, we finish the edition or
-		     * go to the upper left */
-		    if ( !conf.entree )
-		    {
-			return_value_number = -2;
-			continue;
-		    }
-		    column = -1;
-		    row = 0; 
-		}
+            case GSB_RIGHT:
+            if ( column == (form_column_number - 1)
+                 &&
+                 row == (form_row_number - 1))
+            {
+                GrisbiAppConf *conf;
 
-		if ( ++column == form_column_number )
-		{
-		    column = 0;
-		    row++;
-		}
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
-		break;
+                conf = grisbi_app_get_conf ( );
 
-	    case GSB_UP:
-		if ( !row )
-		{
-		    return_value_number = -1;
-		    continue;
-		}
+                /* we are on the bottom right, we finish the edition or
+                 * go to the upper left */
+                if ( !conf->entree )
+                {
+                    return_value_number = -2;
+                    continue;
+                }
+                column = -1;
+                row = 0;
+            }
 
-		row--;
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
-		break;
+            if ( ++column == form_column_number )
+            {
+                column = 0;
+                row++;
+            }
+            return_value_number = gsb_data_form_get_value ( account_number,
+                                    column,
+                                    row );
+            break;
 
-	    case GSB_DOWN:
-		if ( row == (form_row_number - 1))
-		{
-		    return_value_number = -1;
-		    continue;
-		}
-		row++;
-		return_value_number = gsb_data_form_get_value ( account_number,
-								column,
-								row );
-		break;
+            case GSB_UP:
+            if ( !row )
+            {
+                return_value_number = -1;
+                continue;
+            }
 
-	    default:
-		return_value_number = -1;
-	}
+            row--;
+            return_value_number = gsb_data_form_get_value ( account_number,
+                                    column,
+                                    row );
+            break;
+
+            case GSB_DOWN:
+            if ( row == (form_row_number - 1))
+            {
+                return_value_number = -1;
+                continue;
+            }
+            row++;
+            return_value_number = gsb_data_form_get_value ( account_number,
+                                    column,
+                                    row );
+            break;
+
+            default:
+            return_value_number = -1;
+        }
     }
+
     return return_value_number;
 }
 
