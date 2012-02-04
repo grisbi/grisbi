@@ -35,6 +35,8 @@
 /*START_INCLUDE*/
 #include "erreur.h"
 #include "dialog.h"
+#include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"
@@ -86,6 +88,9 @@ void traitement_sigsegv ( gint signal_nb )
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
 #endif
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     /*   il y a 3 possibilités : */
     /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
@@ -124,7 +129,7 @@ void traitement_sigsegv ( gint signal_nb )
 
         gsb_status_message ( _("Save file") );
 
-        gsb_file_save_save_file ( nom_fichier_comptes, conf.compress_file, FALSE );
+        gsb_file_save_save_file ( nom_fichier_comptes, conf->compress_file, FALSE );
 
         gsb_status_clear ( );
 
@@ -477,7 +482,10 @@ gboolean gsb_debug_start_log ( void )
     {
         GtkWidget *widget;
         gchar *tmp_str_2;
-        GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+        GtkUIManager *ui_manager;
+
+        ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
+                        grisbi_app_get_default ( ) ) );
 
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
         etat.debug_mode = TRUE;
