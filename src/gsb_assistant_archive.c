@@ -36,7 +36,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_archive.h"
+#include "dialog.h"
+#include "etats_calculs.h"
 #include "etats_support.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_archive.h"
@@ -45,17 +48,15 @@
 #include "gsb_data_report.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
-#include "utils_dates.h"
 #include "gsb_fyear.h"
-#include "navigation.h"
 #include "gsb_report.h"
 #include "gsb_transactions_list.h"
-#include "dialog.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "etats_calculs.h"
-#include "utils.h"
+#include "navigation.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -127,58 +128,63 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
     GtkResponseType return_value;
     GtkWidget *assistant;
     gchar *tmpstr;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     if (origin)
-	/* come from check while opening file */
-	tmpstr = g_strdup_printf ( _("There are a lot of transactions in your file (%d) and it is advised not to keep more than about %d transactions unarchived.\n"
-				     "To increase speed, you should archive them "
-				     "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
-				     "This assistant will guide you through the process of archiving transactions "
-				     "By default, Grisbi does not export any archive into separate files, "
-				     "it just mark transactions as archted and do not use them.\n\n"
-				     "You can still export them into a separate archive file if necessary.\n\n" 
-				     "Press Cancel if you don't want make an archive now\n"),
-				   g_slist_length (gsb_data_transaction_get_transactions_list ()),
-				   conf.max_non_archived_transactions_for_check );
+        /* come from check while opening file */
+        tmpstr = g_strdup_printf ( _("There are a lot of transactions in your file (%d) and it is "
+                        "advised not to keep more than about %d transactions unarchived.\n"
+                        "To increase speed, you should archive them "
+                        "(the current limit and the opening check-up can be changed in the Preferences)\n\n"
+                        "This assistant will guide you through the process of archiving transactions "
+                        "By default, Grisbi does not export any archive into separate files, "
+                        "it just mark transactions as archted and do not use them.\n\n"
+                        "You can still export them into a separate archive file if necessary.\n\n"
+                        "Press Cancel if you don't want make an archive now\n"),
+                        g_slist_length (gsb_data_transaction_get_transactions_list ()),
+                        conf->max_non_archived_transactions_for_check );
     else
-	/* come by menu action */
-	tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "
-			      "to increase the speed of grisbi.\n\n"
-			      "By default, Grisbi does not export any archive into separate files, "
-			      "it just mark transactions as archted and do not use them.\n\n"
-			      "You can still export them into a separate archive file if necessary.\n"));
+        /* come by menu action */
+        tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "
+                        "to increase the speed of grisbi.\n\n"
+                        "By default, Grisbi does not export any archive into separate files, "
+                        "it just mark transactions as archted and do not use them.\n\n"
+                        "You can still export them into a separate archive file if necessary.\n"));
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Archive transactions"),
-				    tmpstr,
-				    "archive.png",
-				    G_CALLBACK (gsb_assistant_archive_switch_to_intro));
+                        tmpstr,
+                        "archive.png",
+                        G_CALLBACK ( gsb_assistant_archive_switch_to_intro ) );
     g_free (tmpstr);
 
     gsb_assistant_add_page ( assistant,
-			     gsb_assistant_archive_page_menu (assistant),
-			     ARCHIVE_ASSISTANT_MENU,
-			     ARCHIVE_ASSISTANT_INTRO,
-			     ARCHIVE_ASSISTANT_ARCHIVE_NAME,
-			     G_CALLBACK (gsb_assistant_archive_switch_to_menu));
+                        gsb_assistant_archive_page_menu (assistant),
+                        ARCHIVE_ASSISTANT_MENU,
+                        ARCHIVE_ASSISTANT_INTRO,
+                        ARCHIVE_ASSISTANT_ARCHIVE_NAME,
+                        G_CALLBACK ( gsb_assistant_archive_switch_to_menu ) );
     gsb_assistant_add_page ( assistant,
-			     gsb_assistant_archive_page_archive_name (assistant),
-			     ARCHIVE_ASSISTANT_ARCHIVE_NAME,
-			     ARCHIVE_ASSISTANT_MENU,
-			     ARCHIVE_ASSISTANT_SUCCESS,
-			     G_CALLBACK (gsb_assistant_archive_switch_to_archive_name));
+                        gsb_assistant_archive_page_archive_name ( assistant ),
+                        ARCHIVE_ASSISTANT_ARCHIVE_NAME,
+                        ARCHIVE_ASSISTANT_MENU,
+                        ARCHIVE_ASSISTANT_SUCCESS,
+                        G_CALLBACK ( gsb_assistant_archive_switch_to_archive_name ) );
     gsb_assistant_add_page ( assistant,
-			     gsb_assistant_archive_page_success (),
-			     ARCHIVE_ASSISTANT_SUCCESS,
-			     ARCHIVE_ASSISTANT_MENU,
-			     0,
-			     G_CALLBACK (gsb_assistant_archive_switch_to_success));
-    return_value = gsb_assistant_run (assistant);
-    gtk_widget_destroy (assistant);
+                        gsb_assistant_archive_page_success (),
+                        ARCHIVE_ASSISTANT_SUCCESS,
+                        ARCHIVE_ASSISTANT_MENU,
+                        0,
+                        G_CALLBACK ( gsb_assistant_archive_switch_to_success ) );
+    return_value = gsb_assistant_run ( assistant );
+    gtk_widget_destroy ( assistant );
 
     /* the fyear combobox in grisbi are used with the "Automatic" line,
      * so show it again */
-    gsb_fyear_set_automatic (TRUE);
+    gsb_fyear_set_automatic ( TRUE );
+
     return return_value;
 }
 
