@@ -32,6 +32,7 @@
 #include "classement_echeances.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
@@ -367,13 +368,16 @@ void update_liste_comptes_accueil ( gboolean force )
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
     gint new_comptes_bancaires=0, new_comptes_passif=0, new_comptes_actif=0;
     gint soldes_mixtes = 0;
+    GrisbiAppConf *conf;
 
     if ( !force
-	 &&
-	 !( mise_a_jour_liste_comptes_accueil
-	   &&
-	   gsb_data_account_get_accounts_amount ( ) ) )
-	return;
+     &&
+     !( mise_a_jour_liste_comptes_accueil
+     &&
+     gsb_data_account_get_accounts_amount ( ) ) )
+        return;
+
+    conf = grisbi_app_get_conf ( );
 
     mise_a_jour_liste_comptes_accueil = 0;
 
@@ -459,7 +463,7 @@ void update_liste_comptes_accueil ( gboolean force )
 
 
         /* Creating the table which will store accounts with their balances. */
-        if ( conf.balances_with_scheduled == FALSE )
+        if ( conf->balances_with_scheduled == FALSE )
             tmpstr = g_strdup_printf ( _("Account balances in %s at %s"),
                         gsb_data_currency_get_name ( currency_number ),
                         gsb_date_today ( ) );
@@ -540,7 +544,7 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances   */
-        if ( conf.balances_with_scheduled == FALSE )
+        if ( conf->balances_with_scheduled == FALSE )
             tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s at %s"),
                         gsb_data_currency_get_name (currency_number),
                         gsb_date_today ( ) );
@@ -612,7 +616,7 @@ void update_liste_comptes_accueil ( gboolean force )
     {
         GSList *list_tmp;
         gint currency_number;
-		gchar* tmpstr;
+        gchar* tmpstr;
 
         currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
@@ -620,7 +624,7 @@ void update_liste_comptes_accueil ( gboolean force )
             continue;
 
         /* Creating the table which will store accounts with their balances    */
-        if ( conf.balances_with_scheduled == FALSE )
+        if ( conf->balances_with_scheduled == FALSE )
             tmpstr = g_strdup_printf (_("Assets accounts balances in %s at %s"),
                         gsb_data_currency_get_name (currency_number),
                         gsb_date_today ( ) );
@@ -696,7 +700,7 @@ void update_liste_comptes_accueil ( gboolean force )
             tmp_str_2 = g_strdup ( _("Additional balance") );
         else
             tmp_str_2 = g_strdup ( _("Additional balances") );
-        if ( conf.balances_with_scheduled == FALSE )
+        if ( conf->balances_with_scheduled == FALSE )
         {
             tmpstr = g_strconcat ( tmp_str_2, _(" at "), gsb_date_today (), NULL );
             g_free ( tmp_str_2 );
@@ -1087,19 +1091,22 @@ void affiche_solde_des_comptes ( GtkWidget *table,
 {
     GtkWidget *label;
     gchar *tmpstr;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     /* on commence par une ligne vide */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
     i ++;
 
-	/* Première colonne */
+    /* Première colonne */
     if ( nb_comptes == 1 )
         label = gtk_label_new ( _("Global balance: ") );
-    else if ( conf.pluriel_final )
+    else if ( conf->pluriel_final )
         label = gtk_label_new ( ("Soldes finaux: ") );
     else
         label = gtk_label_new ( _("Global balances: ") );
@@ -1965,6 +1972,9 @@ GtkWidget *onglet_accueil (void)
     static GtkTargetEntry row_targets[] = {
     { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
@@ -1981,7 +1991,7 @@ GtkWidget *onglet_accueil (void)
         gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_radiobutton_new ( "Soldes finals",
                         "Soldes finaux",
-                        &conf.pluriel_final,
+                        &conf->pluriel_final,
                         G_CALLBACK (gsb_gui_navigation_update_home_page), NULL ),
                         FALSE, FALSE, 0 );
     }
@@ -1995,7 +2005,7 @@ GtkWidget *onglet_accueil (void)
     button = gsb_automem_checkbutton_new (
                         _("Take into account the scheduled operations "
                           "in the calculation of balances"),
-                        &conf.balances_with_scheduled,
+                        &conf->balances_with_scheduled,
                         G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
                         NULL );
 
