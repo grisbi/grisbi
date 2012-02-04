@@ -40,6 +40,8 @@
 #include "gsb_reconcile.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_color.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_data_account.h"
@@ -670,7 +672,9 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
 {
     GtkUIManager *ui_manager;
 
-    ui_manager = gsb_menu_get_ui_manager ( );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
+                        grisbi_app_get_default ( ) ) );
+
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */
