@@ -33,6 +33,7 @@
 #include "accueil.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
@@ -115,6 +116,9 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *button;
     GtkWidget *color_combobox;
     GtkWidget *color_button;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
 
@@ -127,8 +131,7 @@ GtkWidget * onglet_display_fonts ( void )
     check_button = gtk_check_button_new_with_label ( _("Display a logo"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
 
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				   etat.utilise_logo );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ), etat.utilise_logo );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
@@ -143,7 +146,7 @@ GtkWidget * onglet_display_fonts ( void )
     logo_button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON ( logo_button ), GTK_RELIEF_NONE );
 
-	pixbuf = gsb_select_icon_get_logo_pixbuf ( );
+    pixbuf = gsb_select_icon_get_logo_pixbuf ( );
 
     if (!pixbuf)
     {
@@ -168,8 +171,10 @@ GtkWidget * onglet_display_fonts ( void )
     }
 
     gtk_container_add (GTK_CONTAINER(logo_button), preview);
-    g_signal_connect_swapped ( G_OBJECT ( logo_button ), "clicked",
-			       G_CALLBACK ( modification_logo_accueil ), NULL );
+    g_signal_connect_swapped ( G_OBJECT ( logo_button ),
+                        "clicked",
+                        G_CALLBACK ( modification_logo_accueil ),
+                        NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), logo_button, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Click on preview to change logo") );
@@ -185,25 +190,26 @@ GtkWidget * onglet_display_fonts ( void )
                         _("Use a custom font for the transactions: "));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
-				        conf.utilise_fonte_listes );
+                        conf->utilise_fonte_listes );
 
     /*     on crée la vbox qui contiendra la font button et le raz */
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
-    gtk_widget_set_sensitive ( vbox, conf.utilise_fonte_listes );
-    g_signal_connect ( G_OBJECT ( check_button ), "toggled",
-		       G_CALLBACK ( change_choix_utilise_fonte_liste ), vbox );
-
+    gtk_widget_set_sensitive ( vbox, conf->utilise_fonte_listes );
+    g_signal_connect ( G_OBJECT ( check_button ),
+                        "toggled",
+                        G_CALLBACK ( change_choix_utilise_fonte_liste ),
+                        vbox );
 
     /* Create font button */
-    font_button = utils_font_create_button ( &conf.font_string,
-					    G_CALLBACK (update_fonte_listes), NULL);
+    font_button = utils_font_create_button ( &conf->font_string,
+                        G_CALLBACK (update_fonte_listes), NULL );
     gtk_box_pack_start ( GTK_BOX (vbox), font_button, FALSE, FALSE, 0 );
 
-    if ( !gsb_data_account_get_accounts_amount () )
+    if ( !gsb_data_account_get_accounts_amount ( ) )
     {
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
     /* change colors */
@@ -216,36 +222,30 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
 
     color_combobox = gsb_color_create_color_combobox ( );
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 color_combobox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), color_combobox, FALSE, FALSE, 0 );
 
     color_button = gtk_color_button_new ();
-    gtk_color_button_set_title ( GTK_COLOR_BUTTON(color_button), _("Choosing color") );
-    g_signal_connect ( G_OBJECT (color_button),
-		       "color-set",
-		       G_CALLBACK (preferences_view_color_changed),
-		       G_OBJECT (color_combobox));
-    gtk_box_pack_start ( GTK_BOX (hbox),
-			 color_button,
-			 FALSE, FALSE, 0);
+    gtk_color_button_set_title ( GTK_COLOR_BUTTON ( color_button ), _("Choosing color") );
+    g_signal_connect ( G_OBJECT ( color_button ),
+                        "color-set",
+                        G_CALLBACK ( preferences_view_color_changed ),
+                        G_OBJECT ( color_combobox ) );
+    gtk_box_pack_start ( GTK_BOX (hbox), color_button, FALSE, FALSE, 0) ;
 
     /* connect the color button to the combobox if changed */
-    g_signal_connect ( G_OBJECT (color_combobox),
-		       "changed",
-		       G_CALLBACK (preferences_view_color_combobox_changed),
-		       G_OBJECT (color_button));
+    g_signal_connect ( G_OBJECT ( color_combobox ),
+                        "changed",
+                        G_CALLBACK ( preferences_view_color_combobox_changed ),
+                        G_OBJECT ( color_button ) );
 
-    button = gtk_button_new_with_label (_("Back to default"));
-    g_signal_connect ( G_OBJECT (button),
-		       "clicked",
-		       G_CALLBACK (preferences_view_color_default),
-		       G_OBJECT (color_combobox));
-    gtk_box_pack_start ( GTK_BOX (vbox),
-			 button,
-			 FALSE, FALSE, 0);
+    button = gtk_button_new_with_label ( _("Back to default") );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( preferences_view_color_default ),
+                        G_OBJECT ( color_combobox ) );
+    gtk_box_pack_start ( GTK_BOX (vbox), button, FALSE, FALSE, 0 );
 
-    gtk_combo_box_set_active ( GTK_COMBO_BOX (color_combobox), 0);
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( color_combobox ), 0 );
 
     return vbox_pref;
 }
@@ -309,11 +309,14 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
 gboolean change_choix_utilise_fonte_liste ( GtkWidget *check_button,
                         GtkWidget *vbox )
 {
-    conf.utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ));
-    gtk_widget_set_sensitive ( vbox,
-			       conf.utilise_fonte_listes );
+    GrisbiAppConf *conf;
 
-    update_fonte_listes ( conf.font_string, NULL );
+    conf = grisbi_app_get_conf ( );
+
+    conf->utilise_fonte_listes = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( check_button ) );
+    gtk_widget_set_sensitive ( vbox, conf->utilise_fonte_listes );
+
+    update_fonte_listes ( conf->font_string, NULL );
 
     return ( FALSE );
 }
@@ -332,17 +335,20 @@ void update_fonte_listes ( gchar *fontname,
 {
     GValue value = {0,};
     gchar *font;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     devel_debug (NULL);
 
-    if ( conf.utilise_fonte_listes )
-	font = fontname;
+    if ( conf->utilise_fonte_listes )
+        font = fontname;
     else
-	font = NULL;
+        font = NULL;
 
-    g_value_init (&value, G_TYPE_STRING);
-    g_value_set_string (&value, font);
-    transaction_list_update_column (CUSTOM_MODEL_FONT, &value);
+    g_value_init ( &value, G_TYPE_STRING );
+    g_value_set_string ( &value, font );
+    transaction_list_update_column ( CUSTOM_MODEL_FONT, &value );
 }
 
 
@@ -359,9 +365,11 @@ GtkWidget *onglet_display_addresses ( void )
     GtkWidget *paddingbox;
     GtkWidget *entry;
     GtkWidget *radio, *radiogroup;
+    GrisbiAppConf *conf;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"),
-					       "addresses.png" );
+    conf = grisbi_app_get_conf ( );
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Addresses & titles"), "addresses.png" );
 
     /* Account file title */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Titles") );
@@ -372,100 +380,91 @@ GtkWidget *onglet_display_addresses ( void )
 
     /* Choice of title type */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounts file title") );
     g_object_set_data ( G_OBJECT ( radiogroup ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_TITLE ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
+    if ( conf->display_grisbi_title == GSB_ACCOUNTS_TITLE )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radiogroup ), TRUE );
-    g_signal_connect ( G_OBJECT ( radiogroup ), 
+    g_signal_connect ( G_OBJECT ( radiogroup ),
                         "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ), 
+                        G_CALLBACK ( change_grisbi_title_type ),
                         entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radiogroup, FALSE, FALSE, 0 );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( 
+    radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
                         _("Account owner name") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNT_HOLDER ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
+    if ( conf->display_grisbi_title == GSB_ACCOUNT_HOLDER )
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ), 
-                    "toggled",
-                    G_CALLBACK ( change_grisbi_title_type ), 
-                    entry );
+    g_signal_connect ( G_OBJECT ( radio ),
+                        "toggled",
+                        G_CALLBACK ( change_grisbi_title_type ),
+                        entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( 
+    radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
                         _("Filename") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_FILE ) );
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_FILE )
+    if ( conf->display_grisbi_title == GSB_ACCOUNTS_FILE )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ), 
+    g_signal_connect ( G_OBJECT ( radio ),
                         "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ), 
+                        G_CALLBACK ( change_grisbi_title_type ),
                         entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
 
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Accounts file title: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
+    if ( conf->display_grisbi_title == GSB_ACCOUNTS_TITLE )
         gtk_widget_set_sensitive ( entry, TRUE);
     else
         gtk_widget_set_sensitive ( entry, FALSE);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), entry,
-			 TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), entry, TRUE, TRUE, 0 );
 
     /* Addresses */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Addresses") );
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Addresses") );
 
     /* Common address */
     label = gtk_label_new ( _("Common address: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-			 TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label, TRUE, TRUE, 0 );
+
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window, FALSE, FALSE, 0 );
+
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_IN );
     entry = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entry );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
 
     /* Secondary address */
-    /** \note This is not implemented yet */
     label = gtk_label_new ( _("Secondary address: ") );
     gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
     gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label,
-			 TRUE, TRUE, 0);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), label, TRUE, TRUE, 0 );
+
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_IN );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window, FALSE, FALSE, 0 );
+
     entry = gsb_automem_textview_new ( &adresse_secondaire, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			entry );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), entry );
 
     if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     return ( vbox_pref );
 }
@@ -700,54 +699,61 @@ GtkWidget *tab_display_toolbar ( void )
     GtkWidget * vbox_pref, * paddingbox, * radio, * radiogroup;
     GtkWidget *vbox;
     GtkWidget *button;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
 
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Display toolbar buttons as") );
+                        _("Display toolbar buttons as") );
 
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_TEXT )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
+    g_signal_connect ( G_OBJECT(radio),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
-							  _("Icons") );
-    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Icons") );
+    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER ( GSB_BUTTON_ICON ) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_ICON )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
+    g_signal_connect ( G_OBJECT(radio),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
-							  _("Both") );
-    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Both") );
+    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER ( GSB_BUTTON_BOTH ) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_BOTH )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
+    g_signal_connect ( G_OBJECT(radio),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
 
     gtk_widget_show_all ( vbox_pref );
 
     if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 gsb_automem_checkbutton_new ( _("Display headings bar"),
-						       &(etat.show_headings_bar),
-						       G_CALLBACK (preferences_switch_headings_bar), NULL ),
-			 FALSE, FALSE, 0 );
+    button = gsb_automem_checkbutton_new ( _("Display headings bar"),
+                        &(etat.show_headings_bar),
+                        G_CALLBACK (preferences_switch_headings_bar),
+                        NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );
 
     vbox = new_vbox_with_title_and_icon ( _("Navigation pane"), "organization.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Add mouse scrolling support on the navigation pane"),
-                        &conf.active_scrolling_left_pane,
+                        &conf->active_scrolling_left_pane,
                         G_CALLBACK ( preferences_active_mouse_scrolling_left_pane ),
                         NULL);
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
@@ -786,7 +792,11 @@ gboolean preferences_switch_headings_bar ( GtkWidget *toggle_button,
 gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button,
                         gpointer null )
 {
-    if ( conf.active_scrolling_left_pane )
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
+    if ( conf->active_scrolling_left_pane )
         g_signal_handlers_unblock_by_func ( gsb_gui_navigation_get_tree_view ( ),
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
@@ -929,13 +939,17 @@ static gboolean preferences_view_color_default ( GtkWidget *button,
  */
 gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
 {
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
     {
-        conf.display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data 
+        conf->display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data
                         ( G_OBJECT ( button ), "display" ) );
     }
 
-    switch ( conf.display_grisbi_title )
+    switch ( conf->display_grisbi_title )
     {
         case GSB_ACCOUNTS_TITLE:
             gtk_widget_set_sensitive ( entry, TRUE );
