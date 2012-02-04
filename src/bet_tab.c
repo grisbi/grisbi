@@ -39,6 +39,7 @@
 #include "dialog.h"
 #include "export_csv.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_color.h"
@@ -2052,7 +2053,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
     gboolean absent = TRUE;
 
     if ( !tree_view )
-	    return FALSE;
+        return FALSE;
 
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -2061,13 +2062,14 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
         GtkTreeIter *prev = NULL;
         gint origine;
         gint current_color = 0;
+        GrisbiAppConf *conf;
 
         do
         {
             gtk_tree_model_get ( GTK_TREE_MODEL ( model ),
-			            &iter,
-			            SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
-			            -1 );
+                        &iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        -1 );
 
             switch ( origine )
             {
@@ -2111,7 +2113,9 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
             }
 
             /* gestion de la date du jour */
-            if ( conf.show_transaction_gives_balance && absent )
+
+            conf = grisbi_app_get_conf ( );
+            if ( conf->show_transaction_gives_balance && absent )
             {
                 GValue date_value = {0,};
                 GDate* date;
