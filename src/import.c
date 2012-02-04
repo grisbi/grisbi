@@ -33,20 +33,18 @@
 
 /*START_INCLUDE*/
 #include "import.h"
-#include "utils.h"
+#include "accueil.h"
 #include "bet_data.h"
-#include "import_csv.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant.h"
 #include "gsb_assistant_file.h"
 #include "gsb_automem.h"
-#include "utils_buttons.h"
 #include "gsb_combo_box.h"
-#include "gsb_currency_config.h"
 #include "gsb_currency.h"
+#include "gsb_currency_config.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
@@ -57,31 +55,34 @@
 #include "gsb_data_payee.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"
-#include "navigation.h"
-#include "menu.h"
-#include "tiers_onglet.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
-#include "utils_str.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
-#include "traitement_variables.h"
+#include "import_csv.h"
 #include "main.h"
-#include "accueil.h"
+#include "menu.h"
+#include "navigation.h"
 #include "parametres.h"
 #include "qif.h"
-#include "transaction_list.h"
-#include "utils_files.h"
-#include "utils_real.h"
 #include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_dates.h"
+#include "utils_files.h"
+#include "utils_file_selection.h"
+#include "utils_real.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -1498,6 +1499,9 @@ void traitement_operations_importees ( void )
 {
     GSList *list_tmp;
     gint new_file;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     /* when come here, all the currencies are already created
      * and init_variables is already called
@@ -1572,7 +1576,7 @@ void traitement_operations_importees ( void )
     }
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if ( conf.balances_with_scheduled == FALSE )
+    if ( conf->balances_with_scheduled == FALSE )
         gsb_data_account_set_balances_are_dirty ( account_number );
     /* MAJ des données du module bet */
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ALL );
@@ -4370,6 +4374,9 @@ gboolean gsb_import_by_rule ( gint rule )
     gint account_number;
     gchar **array;
     gint i=0;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     charmap_imported = my_strdup ( gsb_data_import_rule_get_charmap ( rule ));
     array = gsb_import_by_rule_ask_filename (rule);
@@ -4515,7 +4522,7 @@ gboolean gsb_import_by_rule ( gint rule )
     mise_a_jour_accueil (FALSE);
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
-    if ( conf.balances_with_scheduled == FALSE )
+    if ( conf->balances_with_scheduled == FALSE )
         gsb_data_account_set_balances_are_dirty ( account_number );
 
     /* force the update module budget */
