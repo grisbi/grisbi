@@ -35,19 +35,20 @@
 
 /*START_INCLUDE*/
 #include "gsb_assistant_archive_export.h"
-#include "gsb_assistant.h"
 #include "export_csv.h"
+#include "grisbi_app.h"
+#include "gsb_assistant.h"
 #include "gsb_data_archive.h"
 #include "gsb_data_fyear.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "utils_dates.h"
-#include "qif.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
+#include "qif.h"
+#include "structures.h"
+#include "utils.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 
@@ -351,98 +352,102 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
  * \return FALSE
  * */
 static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
-					       gint new_page )
+                        gint new_page )
 {
     gint archive_number;
     GtkTreeModel *model;
     const gchar *export_name;
     gboolean success = FALSE;
     gchar* tmpstr;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_export_treeview));
     archive_number = gsb_assistant_archive_export_get_selected_archive (model);
 
     switch (new_page)
     {
-	case ARCHIVE_EXPORT_ASSISTANT_INTRO:
-	    break;
+        case ARCHIVE_EXPORT_ASSISTANT_INTRO:
+            break;
 
-	case ARCHIVE_EXPORT_ASSISTANT_CHOOSE:
-	    if (archive_number)
-		gsb_assistant_sensitive_button_next (assistant, TRUE);
-	    else
-		gsb_assistant_sensitive_button_next (assistant, FALSE);
-	    break;
+        case ARCHIVE_EXPORT_ASSISTANT_CHOOSE:
+            if (archive_number)
+            gsb_assistant_sensitive_button_next (assistant, TRUE);
+            else
+            gsb_assistant_sensitive_button_next (assistant, FALSE);
+            break;
 
-	case ARCHIVE_EXPORT_ASSISTANT_NAME:
-	    /* if we come here, an archive must have been selected,
-	     * so needn't to check */
-	    tmpstr = g_markup_printf_escaped ( 
-                        _("<span size=\"x-large\">Exporting the archive: %s</span>"),
-                        gsb_data_archive_get_name (archive_number));
-	    gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
-	    g_free ( tmpstr );
-        /* on remplace les slash des dates par des points
-         * avant de fixer le nom du fichier par défaut */
-        tmpstr = ( gchar * )gsb_data_archive_get_name ( archive_number );
-        tmpstr = my_strdelimit (tmpstr, "/", "." );
-	    gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER (archive_export_filechooser), tmpstr );
-	    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (archive_export_filechooser), gsb_file_get_last_path () );
-	    g_free ( tmpstr );
-	    /* need to set the next button to the next function,
-	     * because if the export failed and the user did previous button,
-	     * the next button stay in the close state */
-	    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
-					       GTK_RESPONSE_YES );
+        case ARCHIVE_EXPORT_ASSISTANT_NAME:
+            /* if we come here, an archive must have been selected,
+             * so needn't to check */
+            tmpstr = g_markup_printf_escaped (
+                            _("<span size=\"x-large\">Exporting the archive: %s</span>"),
+                            gsb_data_archive_get_name (archive_number));
+            gtk_label_set_markup ( GTK_LABEL ( archive_export_label ), tmpstr);
+            g_free ( tmpstr );
+            /* on remplace les slash des dates par des points
+             * avant de fixer le nom du fichier par défaut */
+            tmpstr = ( gchar * )gsb_data_archive_get_name ( archive_number );
+            tmpstr = my_strdelimit (tmpstr, "/", "." );
+            gtk_file_chooser_set_current_name ( GTK_FILE_CHOOSER (archive_export_filechooser), tmpstr );
+            gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (archive_export_filechooser),
+                        gsb_file_get_last_path () );
+            g_free ( tmpstr );
+            /* need to set the next button to the next function,
+             * because if the export failed and the user did previous button,
+             * the next button stay in the close state */
+            gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+                               GTK_RESPONSE_YES );
 
-	    break;
+            break;
 
-	case ARCHIVE_EXPORT_ASSISTANT_SUCCESS:
-	    export_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (archive_export_filechooser));
-	    switch (gtk_combo_box_get_active (GTK_COMBO_BOX(archive_export_combobox)))
-	    {
-		case 0:
-		    /* GSB format */
-		    /* the gsb_file_save_save_file function write directly, so we need to check before
-		     * if the file exists */
-            /* on vérifie juste que l'extension existe */
-            if ( ! g_strrstr ( export_name, ".gsb" ) )
+        case ARCHIVE_EXPORT_ASSISTANT_SUCCESS:
+            export_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (archive_export_filechooser));
+            switch (gtk_combo_box_get_active (GTK_COMBO_BOX(archive_export_combobox)))
             {
-               export_name = g_strconcat ( export_name, ".gsb", NULL );
-            }
-		    success = gsb_file_util_test_overwrite (export_name)
-			&&
-			gsb_file_save_save_file ( export_name, conf.compress_backup, archive_number);
-		    break;
+                case 0:
+                    /* GSB format */
+                    /* the gsb_file_save_save_file function write directly, so we need to check before
+                     * if the file exists */
+                    /* on vérifie juste que l'extension existe */
+                    if ( ! g_strrstr ( export_name, ".gsb" ) )
+                    {
+                       export_name = g_strconcat ( export_name, ".gsb", NULL );
+                    }
+                    success = gsb_file_util_test_overwrite ( export_name )
+                    &&
+                    gsb_file_save_save_file ( export_name, conf->compress_backup, archive_number );
+                    break;
 
-		case 1:
-		    /* QIF format */
-            if ( ! g_strrstr ( export_name, ".qif" ) )
-            {
-               export_name = g_strconcat ( export_name, ".qif", NULL );
-            }
-		    success = gsb_qif_export_archive ( export_name, archive_number);
-		    break;
+                case 1:
+                    /* QIF format */
+                    if ( ! g_strrstr ( export_name, ".qif" ) )
+                    {
+                       export_name = g_strconcat ( export_name, ".qif", NULL );
+                    }
+                    success = gsb_qif_export_archive ( export_name, archive_number);
+                    break;
 
-		case 2:
-		    /* CSV format */
-            if ( ! g_strrstr ( export_name, ".csv" ) )
-            {
-               export_name = g_strconcat ( export_name, ".csv", NULL );
+                case 2:
+                    /* CSV format */
+                    if ( ! g_strrstr ( export_name, ".csv" ) )
+                    {
+                       export_name = g_strconcat ( export_name, ".csv", NULL );
+                    }
+                    success = gsb_csv_export_archive ( export_name, archive_number);
+                    break;
             }
-		    success = gsb_csv_export_archive ( export_name, archive_number);
-		    break;
-	    }
-	    /* now success = TRUE or FALSE, show the good final page of assistant */
-	    if (success)
-		gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
-				     _("Success !\nThe export of the archive finished successfully.\n\nYou can now close the assistant."));
-	    else
-	    {
-		gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
-				     _("Error !\nAn error occured while saving the archive.\n\nPlease press the Previous button to correct the problem,\nor the close button to cancel the action."));
-		gsb_assistant_sensitive_button_prev ( assistant, TRUE );
-	    }
+            /* now success = TRUE or FALSE, show the good final page of assistant */
+            if (success)
+            gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
+                         _("Success !\nThe export of the archive finished successfully.\n\nYou can now close the assistant."));
+            else
+            {
+                gtk_label_set_text ( GTK_LABEL (archive_export_label_success),
+                             _("Error !\nAn error occured while saving the archive.\n\nPlease press the Previous button to correct the problem,\nor the close button to cancel the action."));
+                gsb_assistant_sensitive_button_prev ( assistant, TRUE );
+            }
     }
     return FALSE;
 }
