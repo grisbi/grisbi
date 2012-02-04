@@ -42,6 +42,7 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -1895,6 +1896,9 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
     gint column;
     CustomRecord *newrecord;
     CustomList *custom_list;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     custom_list = transaction_model_get_model ();
 
@@ -1906,8 +1910,8 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 	newrecord -> visible_col[column] = gsb_transactions_list_grep_cell_content ( transaction_number,
 										     tab_affichage_ope[line_in_transaction][column]);
 
-    if ( conf.utilise_fonte_listes )
-	    newrecord -> font = conf.font_string;
+    if ( conf->utilise_fonte_listes )
+        newrecord -> font = conf->font_string;
     newrecord -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (transaction_number);
     newrecord -> what_is_line = IS_TRANSACTION;
     newrecord -> line_in_transaction = line_in_transaction;
