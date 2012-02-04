@@ -37,30 +37,31 @@
 #include "bet_tab.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
-#include "utils_dates.h"
+#include "grisbi_app.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_form.h"
 #include "gsb_data_partial_balance.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
-#include "navigation.h"
 #include "gsb_payment_method.h"
 #include "gsb_real.h"
-#include "utils_editables.h"
 #include "gtk_combofix.h"
+#include "navigation.h"
+#include "structures.h"
 #include "utils.h"
+#include "utils_dates.h"
+#include "utils_editables.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "structures.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_form.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1195,12 +1196,15 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
     gint element_number;
     gint account_number;
     GtkWidget *widget_prov;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
-    /* if conf.entree = 1, entry finish the transaction, else does as tab */
-    if ( !conf.entree
+    /* if conf->entree = 1, entry finish the transaction, else does as tab */
+    if ( !conf->entree
      &&
      ( ev -> keyval == GDK_KEY_Return
      ||
