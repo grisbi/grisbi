@@ -41,6 +41,7 @@
 #include "gsb_scheduler_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_calendar.h"
 #include "gsb_color.h"
@@ -1701,6 +1702,9 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
 {
     gint tmp_number = 0;
     gint account_number;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     /* wanted to set that function in gsb_scheduler_list_button_press but g_signal_connect_after
      * seems not to work in that case... */
@@ -1711,8 +1715,8 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
     if (tmp_number)
         last_scheduled_number = tmp_number;
 
-    /* if conf.show_transaction_selected_in_form => edit the scheduled transaction */
-    if ( tmp_number != 0 && conf.show_transaction_selected_in_form )
+    /* if conf->show_transaction_selected_in_form => edit the scheduled transaction */
+    if ( tmp_number != 0 && conf->show_transaction_selected_in_form )
             gsb_scheduler_list_edit_transaction (tmp_number);
     else if ( tmp_number == 0 )
     {
