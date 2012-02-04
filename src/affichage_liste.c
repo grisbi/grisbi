@@ -32,6 +32,7 @@
 #include "affichage_liste.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
@@ -148,6 +149,9 @@ GtkWidget *onglet_affichage_operations ( void )
     _("Sort by date and then by transaction number"),
     };
     gint i;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
                         "transaction-list.png" );
@@ -214,14 +218,14 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_new (
                         _("Use simple click to select transactions"),
-                        &conf.show_transaction_selected_in_form,
+                        &conf->show_transaction_selected_in_form,
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_new (
                         _("Highlights the transaction that gives the balance today"),
-                        &conf.show_transaction_gives_balance,
+                        &conf->show_transaction_gives_balance,
                         G_CALLBACK ( gsb_transactions_list_display_show_gives_balance ), NULL ),
                         FALSE, FALSE, 0 );
 
@@ -236,13 +240,13 @@ GtkWidget *onglet_affichage_operations ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_primary_sorting );
+                        &conf->transactions_list_primary_sorting );
 
     for ( i = 0 ; i < 2 ; i++ )
     {
         gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_primaire[i] );
     }
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_primary_sorting );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf->transactions_list_primary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Secondary sorting option for the transactions */
@@ -256,13 +260,13 @@ GtkWidget *onglet_affichage_operations ( void )
     g_signal_connect ( G_OBJECT ( button ),
                         "changed",
                         G_CALLBACK ( gsb_transactions_list_display_sort_changed ),
-                        &conf.transactions_list_secondary_sorting );
+                        &conf->transactions_list_secondary_sorting );
 
     for ( i = 0 ; i < 4 ; i++ )
     {
         gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( button ), options_tri_secondaire[i] );
     }
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf.transactions_list_secondary_sorting );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( button ), conf->transactions_list_secondary_sorting );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* Account distinction */
@@ -513,16 +517,18 @@ void recuperation_noms_colonnes_et_tips ( void )
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *radiogroup;
+    GrisbiAppConf *conf;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
-					       "form.png" );
+    conf = grisbi_app_get_conf ( );
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"), "form.png" );
 
     /* What to do if RETURN is pressed into transaction form */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("Pressing RETURN in transaction form"),
 							 _("selects next field"),
 							 _("terminates transaction"),
-							 &conf.entree, NULL, NULL);
+							 &conf->entree, NULL, NULL);
 
     /* How to display financial year */
     radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
@@ -560,14 +566,17 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *vbox_pref;
     GtkWidget *hbox, *label, *entry;
     GtkWidget *button;
-	gchar* tmpstr;
+    gchar* tmpstr;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
 
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
                         gsb_automem_checkbutton_new (
                         _("Automatic filling transactions from payee"),
-                        &conf.automatic_completion_payee,
+                        &conf->automatic_completion_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_auto_checkbutton ),
                         vbox_pref ),
                         FALSE, FALSE, 0 );
@@ -577,11 +586,11 @@ GtkWidget *onglet_form_completion ( void )
 
     button = gsb_automem_checkbutton_new (
                         _("Erase the credit and debit fields"),
-                        &conf.automatic_erase_credit_debit,
+                        &conf->automatic_erase_credit_debit,
                         NULL,
                         NULL );
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_3", button );
-    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_widget_set_sensitive ( button, conf->automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -589,11 +598,11 @@ GtkWidget *onglet_form_completion ( void )
 
     button = gsb_automem_checkbutton_new (
                         _("Automatically recover the children of the associated transaction"),
-                        &conf.automatic_recover_splits,
+                        &conf->automatic_recover_splits,
                         NULL,
                         NULL );
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_1", button );
-    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_widget_set_sensitive ( button, conf->automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -601,10 +610,10 @@ GtkWidget *onglet_form_completion ( void )
 
     button = gsb_automem_checkbutton_new (
                         _("Limit the filling with payees belonging to the current account"),
-                        &conf.limit_completion_to_current_account,
+                        &conf->limit_completion_to_current_account,
                         NULL, NULL);
     g_object_set_data ( G_OBJECT ( vbox_pref ), "button_2", button );
-    gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
+    gtk_widget_set_sensitive ( button, conf->automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
@@ -654,8 +663,8 @@ GtkWidget *onglet_form_completion ( void )
         gtk_widget_set_sensitive ( vbox_pref, FALSE );
     }
 
+    /* return */
     return vbox_pref;
-
 }
 
 
