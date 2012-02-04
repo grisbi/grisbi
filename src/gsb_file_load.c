@@ -40,6 +40,7 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_first.h"
 #include "gsb_calendar.h"
@@ -65,6 +66,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_util.h"
 #include "gsb_locale.h"
@@ -82,7 +84,6 @@
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -8072,6 +8073,9 @@ gboolean gsb_file_load_update_previous_version ( void )
     gint account_number;
     GList *dlist_tmp;
     gchar** strarray;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
     tmpstr = g_strjoinv ( "", strarray );
@@ -8817,8 +8821,8 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*
          * untill 0.6, no archive, so by default we let grisbi check at opening and set
          * the transactions limit to 3000 */
-        conf.check_for_archival = TRUE;
-        conf.max_non_archived_transactions_for_check = 3000;
+        conf->check_for_archival = TRUE;
+        conf->max_non_archived_transactions_for_check = 3000;
 
         /**
          * new in 0.6, there is no name for saving file but a directory
@@ -8842,7 +8846,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         gsb_data_account_reorder (sort_accounts);
 
     case 60:
-        if ( conf.sauvegarde_demarrage )
+        if ( conf->sauvegarde_demarrage )
             gsb_file_set_modified ( TRUE );
         break;
 
@@ -8865,11 +8869,11 @@ gboolean gsb_file_load_update_previous_version ( void )
     /* check now if a lot of transactions,
      * if yes, we propose to file the transactions
      * by default take the 3000 transactions as limit */
-    if ( conf.check_for_archival
+    if ( conf->check_for_archival
      &&
-     g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
-     conf.max_non_archived_transactions_for_check )
-    gsb_assistant_archive_run (TRUE);
+     g_slist_length (gsb_data_transaction_get_transactions_list ()) >
+     conf->max_non_archived_transactions_for_check )
+        gsb_assistant_archive_run (TRUE);
 
     /* if we opened an archive, we say it here */
     if (etat.is_archive)
