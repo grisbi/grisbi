@@ -34,6 +34,7 @@
 #include "imputation_budgetaire.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
 #include "gsb_data_budget.h"
@@ -1035,6 +1036,9 @@ gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
         GtkTreeIter iter;
         GtkTreePath *path = NULL;
         enum meta_tree_row_type type_division;
+        GrisbiAppConf *conf;
+
+        conf = grisbi_app_get_conf ( );
 
         type_division = metatree_get_row_type_from_tree_view ( tree_view );
         if ( type_division == META_TREE_TRANSACTION )
@@ -1044,7 +1048,7 @@ gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
         if ( selection && gtk_tree_selection_get_selected (selection, &model, &iter ) )
             path = gtk_tree_model_get_path  ( model, &iter);
 
-        if ( conf.metatree_action_2button_press == 0 || type_division == META_TREE_DIV )
+        if ( conf->metatree_action_2button_press == 0 || type_division == META_TREE_DIV )
         {
             if ( gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( tree_view ), path ) )
                 gtk_tree_view_collapse_row ( GTK_TREE_VIEW ( tree_view ), path );
@@ -1054,7 +1058,7 @@ gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
             gtk_tree_path_free ( path );
             return FALSE;
         }
-        else if ( conf.metatree_action_2button_press == 1 )
+        else if ( conf->metatree_action_2button_press == 1 )
         {
             edit_budgetary_line ( GTK_TREE_VIEW ( tree_view ) );
 
