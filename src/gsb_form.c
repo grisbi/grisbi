@@ -40,8 +40,10 @@
 #include "accueil.h"
 #include "bet_data.h"
 #include "dialog.h"
-#include "gsb_calendar_entry.h"
+#include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -55,35 +57,34 @@
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_file.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "gsb_locale.h"
-#include "navigation.h"
-#include "menu.h"
-#include "tiers_onglet.h"
 #include "gsb_payment_method.h"
-#include "parametres.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_report.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "utils_editables.h"
 #include "gtk_combofix.h"
+#include "menu.h"
+#include "mouse.h"
+#include "navigation.h"
+#include "parametres.h"
+#include "structures.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "utils_real.h"
-#include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
+#include "utils_dates.h"
+#include "utils_editables.h"
 #include "utils_operations.h"
-#include "fenetre_principale.h"
-#include "mouse.h"
-#include "structures.h"
+#include "utils_real.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -2053,12 +2054,15 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint account_number;
     gint element_suivant;
     GtkWidget *widget_prov;
-    
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
-    /* if conf.entree = 1, entry finish the transaction, else does as tab */
-    if ( !conf.entree
+    /* if conf->entree = 1, entry finish the transaction, else does as tab */
+    if ( !conf->entree
      &&
      ( ev -> keyval == GDK_KEY_Return
      ||
@@ -2066,7 +2070,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
         ev->keyval = GDK_KEY_Tab ;
 
     if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
-	/* set the new transaction number */
+        /* set the new transaction number */
         g_object_set_data ( G_OBJECT ( transaction_form ),
                         "transaction_number_in_form",
                         GINT_TO_POINTER ( -1 ) );
