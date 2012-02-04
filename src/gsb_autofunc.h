@@ -91,5 +91,8 @@ GtkWidget *gsb_autofunc_textview_new ( const gchar *value,
 void gsb_autofunc_textview_set_value ( GtkWidget *text_view,
 				       const gchar *value,
 				       gint number_for_func );
+
+gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
+						   gboolean default_func (gint, gboolean));
 /* END_DECLARATION */
 #endif

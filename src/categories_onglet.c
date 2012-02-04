@@ -495,15 +495,17 @@ void categories_importer_list ( void )
 	    if ( !last_transaction_number )
 		gsb_data_category_init_variables ();
 
-        case 1 :
-	    if ( !gsb_file_others_load_category ( category_name ))
-	    {
-		return;
-	    }
-	    break;
+	case 1 :
+		if ( !gsb_file_others_load_category ( category_name ))
+		{
+			return;
+		}
+		break;
+
 
 	default :
 	    return;
+	    break;
     }
 }
 
@@ -673,7 +675,7 @@ gboolean popup_category_view_mode_menu ( GtkWidget *button )
  */
 gboolean edit_category ( GtkTreeView *tree_view )
 {
-    GtkWidget * dialog, *paddingbox, *table, *label, *entry, *hbox, *radiogroup;
+    GtkWidget * dialog,*label,*entry;
     gint category_number = -1, sub_category_number = -1;
     GtkTreeSelection * selection;
     GtkTreeModel * model;
@@ -681,6 +683,8 @@ gboolean edit_category ( GtkTreeView *tree_view )
     gchar * title;
     GtkTreeIter *div_iter;
     MetatreeInterface *category_interface;
+
+    static GtkBuilder *widget_builder = NULL;
 
     /* fill category_number and sub_category_number */
 
@@ -705,68 +709,58 @@ gboolean edit_category ( GtkTreeView *tree_view )
 										       0,
 										       _("No category defined") ));
 
-    dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( run.window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
-					   NULL );
+    /* New GtkBuilder Creation*/
+    widget_builder = gtk_builder_new ( );
 
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
+    if ( widget_builder == NULL )
+    	return NULL;
 
 
-    /* Ugly dance to avoid side effects on dialog's vbox. */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
-    paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
-    gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
-    gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
-    g_free ( title );
-
-    table = gtk_table_new ( 0, 2, FALSE );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), table, FALSE, FALSE, 6 );
-    gtk_table_set_col_spacings ( GTK_TABLE(table), 6 );
-    gtk_table_set_row_spacings ( GTK_TABLE(table), 6 );
-
-    /* Name entry */
-    label = gtk_label_new ( _("Name"));
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 0, 1,
-		       GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
-
-    entry = gtk_entry_new ( );
     if ( sub_category_number > 0 )
     {
-	gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			     gsb_data_category_get_sub_category_name ( category_number,
-								       sub_category_number,
-								       NULL ) );
+    	/* widget paddingbox XML loading */
+    	if ( !utils_gtkbuilder_merge_ui_data_in_builder ( widget_builder, "dlg_edit_without_radio.ui" ) )
+    		return NULL;
+
+    	entry = GTK_WIDGET (gtk_builder_get_object ( widget_builder, "entry" ));
+
+    	gtk_entry_set_text ( GTK_ENTRY ( entry ),
+    				     gsb_data_category_get_sub_category_name ( category_number,
+    									       sub_category_number,
+    									       NULL ) );
     }
     else
     {
-	gtk_entry_set_text ( GTK_ENTRY ( entry ),
-			     gsb_data_category_get_name ( category_number, 0, NULL ) );
-    }
+    	/* widget paddingbox XML loading */
+    	if ( !utils_gtkbuilder_merge_ui_data_in_builder ( widget_builder, "dlg_edit_with_radio.ui" ) )
+    		return NULL;
 
-    gtk_widget_set_size_request ( entry, 400, -1 );
-    gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
+    	entry = GTK_WIDGET (gtk_builder_get_object ( widget_builder, "entry" ));
 
-    if ( sub_category_number <= 0 )
-    {
-	/* Description entry */
-	label = gtk_label_new ( _("Type"));
-	gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-	gtk_table_attach ( GTK_TABLE(table), label, 0, 1, 1, 2,
-			   GTK_SHRINK | GTK_FILL, GTK_SHRINK | GTK_FILL, 0, 0 );
+    	gtk_entry_set_text ( GTK_ENTRY ( entry ),
+    				     gsb_data_category_get_name ( category_number, 0, NULL ) );
 
-	radiogroup = gsb_autofunc_radiobutton_new (  _("Credit"), _("Debit"),
-						     gsb_data_category_get_type (category_number),
-						     NULL, NULL,
-						     G_CALLBACK (gsb_data_category_set_type), category_number );
-	gtk_table_attach ( GTK_TABLE(table), radiogroup,
-			   1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-    }
+    	if (gsb_data_category_get_type (category_number))
+    		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( gtk_builder_get_object ( widget_builder, "Debit_radiobutton" ) ), TRUE );
+    	else
+    		gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( gtk_builder_get_object ( widget_builder, "Credit_radiobutton" ) ), TRUE );
+
+    	g_object_set_data (G_OBJECT (gtk_builder_get_object ( widget_builder, "Debit_radiobutton" )),
+    			       "number_for_func", GINT_TO_POINTER (category_number));
+
+    	g_signal_connect ( G_OBJECT (gtk_builder_get_object ( widget_builder, "Debit_radiobutton" )), "toggled",
+    			G_CALLBACK (gsb_autofunc_checkbutton_changed), G_CALLBACK (gsb_data_category_set_type));
+	}
+
+    /* Get the needed widgets*/
+    dialog = GTK_WIDGET (gtk_builder_get_object ( widget_builder, "dialog_edit_category" ));
+    label = GTK_WIDGET (gtk_builder_get_object ( widget_builder, "label" ));
+
+
+
+    //Set Title
+    gtk_label_set_label(GTK_LABEL(label),title);
+    g_free ( title );
 
     gtk_widget_show_all ( dialog );
 
