@@ -37,6 +37,8 @@
 #include "custom_list.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -279,11 +281,14 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
                         gboolean keep_selected_transaction )
 {
     gint selected_transaction = 0;
+    GrisbiAppConf *conf;
 
-    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are 
+    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are
      * on an account */
     if ( account_number == -1 )
         return;
+
+    conf = grisbi_app_get_conf ( );
 
     if ( keep_selected_transaction )
         selected_transaction = transaction_list_select_get ( );
@@ -291,12 +296,14 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
     transaction_list_set_balances ( );
     transaction_list_sort ();
     transaction_list_colorize ();
-    if ( conf.show_transaction_gives_balance )
+    if ( conf->show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
     if ( keep_selected_transaction )
         transaction_list_select ( selected_transaction );
     else
         transaction_list_select ( -1 );
+
+    /* return */
 }
 
 
@@ -1647,8 +1654,10 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 {
     gint account_number;
+    GrisbiAppConf *conf;
 
     devel_debug_int (new_selected_transaction);
+    conf = grisbi_app_get_conf ( );
 
     /* the white number has no account number, so we take the current account */
     if ( new_selected_transaction != -1 )
@@ -1668,7 +1677,7 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
 
     /* show the content of the transaction in the form,
      * only if the form is shown */
-    if ( conf.show_transaction_selected_in_form
+    if ( conf->show_transaction_selected_in_form
     &&
     gsb_form_is_visible () )
         gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
@@ -2191,28 +2200,30 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     gchar *tmpstr;
     gint account_number;
     gint msg_no = 0;
+    GrisbiAppConf *conf;
 
     devel_debug_int (transaction_number);
+    conf = grisbi_app_get_conf ( );
 
     /* we cannot delete the general white line (-1), but all the others white lines are possibles
      * if show_warning it FALSE (ie this is automatic, and not done by user action */
     if ( !transaction_number
-	 ||
-	 transaction_number == -1 )
-	return FALSE;
+     ||
+     transaction_number == -1 )
+        return FALSE;
 
     /* if we cannot ask for a white line, so this shouldn't append,
      * if we want to delete a child white line, show_warning must be FALSE (force) */
     if ( show_warning
-	 &&
-	 transaction_number < 0 )
-	return FALSE;
+     &&
+     transaction_number < 0 )
+        return FALSE;
 
     /* if the transaction is archived, cannot delete it */
     if (gsb_data_transaction_get_archive_number (transaction_number))
     {
-	dialogue_error ( _("Impossible to delete an archived transaction.") );
-	return FALSE;
+        dialogue_error ( _("Impossible to delete an archived transaction.") );
+        return FALSE;
     }
 
     account_number = gsb_data_transaction_get_account_number (transaction_number);
@@ -2220,11 +2231,11 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     /* check if the transaction is not reconciled */
     if ( gsb_transactions_list_check_mark (transaction_number))
     {
-	dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, "
-                        "the contra-transaction or the children if it is a split are "
-                        "reconciled. You can remove the reconciliation with Ctrl R if "
-                        "it is really necessary.") );
-	return FALSE;
+        dialogue_error ( _("Impossible to delete a reconciled transaction.\nThe transaction, "
+                            "the contra-transaction or the children if it is a split are "
+                            "reconciled. You can remove the reconciliation with Ctrl R if "
+                            "it is really necessary.") );
+        return FALSE;
     }
 
     /* show a warning */
@@ -2262,11 +2273,11 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     }
 
     /* move the selection */
-    if (transaction_list_select_get () == transaction_number)
+    if ( transaction_list_select_get ( ) == transaction_number )
     {
-	transaction_list_select_down (FALSE);
-	gsb_data_account_set_current_transaction_number ( account_number,
-							  transaction_list_select_get ());
+        transaction_list_select_down ( FALSE );
+        gsb_data_account_set_current_transaction_number ( account_number,
+                        transaction_list_select_get ( ) );
     }
 
     /* delete the transaction from the tree view,
@@ -2282,14 +2293,15 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* update the tree view */
     transaction_list_colorize ();
-    if ( conf.show_transaction_gives_balance )
+    if ( conf->show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
+
     transaction_list_set_balances ();
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
     /* if we are reconciling, update the amounts */
     if ( run.equilibrage )
-	gsb_reconcile_update_amounts (NULL, NULL);
+        gsb_reconcile_update_amounts (NULL, NULL);
 
     /* we will update the home page */
     mise_a_jour_liste_comptes_accueil = 1;
@@ -2298,7 +2310,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 
     /* We blank form. */
     if (show_warning)
-	gsb_form_escape_form ();
+        gsb_form_escape_form ();
 
     gsb_file_set_modified ( TRUE );
     return TRUE;
@@ -3476,8 +3488,10 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     GSList *tmp_list;
     gint selected_transaction;
     gint element_number;
+    GrisbiAppConf *conf;
 
     devel_debug (NULL);
+    conf = grisbi_app_get_conf ( );
 
     account_number = gsb_gui_navigation_get_current_account ();
     transaction_list_sort_get_column ( &current_column, &sort_type );
@@ -3561,11 +3575,13 @@ gboolean gsb_transactions_list_change_sort_column ( GtkTreeViewColumn *tree_view
     transaction_list_set_balances ();
     transaction_list_sort ();
     transaction_list_colorize ();
-    if ( conf.show_transaction_gives_balance )
+    if ( conf->show_transaction_gives_balance )
         transaction_list_set_color_jour ( account_number );
     transaction_list_select (selected_transaction);
 
     gsb_file_set_modified ( TRUE );
+
+    /* return */
     return FALSE;
 }
 
@@ -4279,8 +4295,10 @@ GtkWidget *gsb_transactions_list_get_toolbar ( void )
  */
 gboolean change_aspect_liste ( gint demande )
 {
-    GtkUIManager *ui_manager = gsb_menu_get_ui_manager ( );
+    GtkUIManager *ui_manager;
 
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
+                        grisbi_app_get_default ( ) ) );
     switch ( demande )
     {
 	case 0:
