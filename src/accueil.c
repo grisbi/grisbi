@@ -295,29 +295,24 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     GtkWidget *parent_save, *dialog, *hbox;
     GtkWidget *button;
     gint result;
+    static GtkBuilder *dialog_builder = NULL;
 
     parent_save = gtk_widget_get_parent ( form_transaction_part );
 
-    /* Create the dialog */
-    dialog = gtk_dialog_new_with_buttons ( _("Enter a scheduled transaction"),
-					   GTK_WINDOW ( run.window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
+    /* New GtkBuilder Creation*/
+    dialog_builder = gtk_builder_new ( );
 
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_widget_set_size_request ( dialog, 700, -1 );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
+    if ( dialog_builder == NULL )
+    	return FALSE;
 
+    /* Chargement du XML dans etats_config_builder */
+    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( dialog_builder, "dlg_schdler_trans.ui" ) )
+    	return FALSE;
 
-	/* first we reparent the form in the dialog */
-	hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
+    dialog = GTK_WIDGET ( gtk_builder_get_object ( dialog_builder, "dialog_scheduler_transaction" ) );
+    hbox = GTK_WIDGET ( gtk_builder_get_object ( dialog_builder, "hbox" ) );
+
 	gtk_widget_reparent ( form_transaction_part, hbox );
-    gtk_widget_show_all ( hbox );
 
     /* next we fill the form,
      * don't use gsb_form_show because we are neither on transactions list, neither scheduled list */
@@ -334,6 +329,8 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
                         G_CALLBACK (gsb_form_scheduler_change_account),
                         NULL );
+
+    gtk_widget_show ( dialog );
 
 	result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 

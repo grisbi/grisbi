@@ -600,155 +600,155 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
-    g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
-    g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
+       g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
+       g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
+       g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_COLOR_STRING ) );
 
-    /* set the color of selected row */
-    utils_set_tree_view_selection_and_text_color ( tree_view );
+       /* set the color of selected row */
+       utils_set_tree_view_selection_and_text_color ( tree_view );
 
-    /* create the model */
-    tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
-                    G_TYPE_BOOLEAN,     /* SPP_ESTIMATE_TREE_SELECT_COLUMN */
-                    G_TYPE_INT,         /* SPP_ESTIMATE_TREE_ORIGIN_DATA */
-                    G_TYPE_INT,         /* SPP_ESTIMATE_TREE_DIVISION_COLUMN */
-                    G_TYPE_INT,         /* SPP_ESTIMATE_TREE_SUB_DIV_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DATE_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DESC_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
-                    G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
-                    G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
-                    GDK_TYPE_COLOR,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
-                    G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
+       /* create the model */
+       tree_model = gtk_tree_store_new ( SPP_ESTIMATE_TREE_NUM_COLUMNS,
+                       G_TYPE_BOOLEAN,     /* SPP_ESTIMATE_TREE_SELECT_COLUMN */
+                       G_TYPE_INT,         /* SPP_ESTIMATE_TREE_ORIGIN_DATA */
+                       G_TYPE_INT,         /* SPP_ESTIMATE_TREE_DIVISION_COLUMN */
+                       G_TYPE_INT,         /* SPP_ESTIMATE_TREE_SUB_DIV_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DATE_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DESC_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_DEBIT_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_CREDIT_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLUMN */
+                       G_TYPE_DATE,        /* SPP_ESTIMATE_TREE_SORT_DATE_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_AMOUNT_COLUMN */
+                       G_TYPE_STRING,      /* SPP_ESTIMATE_TREE_BALANCE_COLOR */
+                       GDK_TYPE_COLOR,     /* SPP_ESTIMATE_TREE_BACKGROUND_COLOR */
+                       G_TYPE_STRING );    /* SPP_ESTIMATE_TREE_COLOR_STRING */
 
-    gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
-    g_object_unref ( G_OBJECT ( tree_model ) );
+       gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( tree_model ) );
+       g_object_unref ( G_OBJECT ( tree_model ) );
 
-    /* sort by date */
-    sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
-                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                        (GtkTreeIterCompareFunc) bet_array_date_sort_function,
-                        NULL,
-                        NULL );
-    gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( tree_model ),
-                        SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
-                        GTK_SORT_DESCENDING );
+       /* sort by date */
+       sortable = gtk_tree_model_sort_new_with_model ( GTK_TREE_MODEL ( tree_model ) );
+       gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( tree_model ),
+                           SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                           (GtkTreeIterCompareFunc) bet_array_date_sort_function,
+                           NULL,
+                           NULL );
+       gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( tree_model ),
+                           SPP_ESTIMATE_TREE_SORT_DATE_COLUMN,
+                           GTK_SORT_DESCENDING );
 
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_widget_show ( scrolled_window );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
-    gtk_box_pack_start ( GTK_BOX ( container ), scrolled_window, TRUE, TRUE, 5 );
+       scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
+       gtk_widget_show ( scrolled_window );
+       gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
+                           GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
+       gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
+       gtk_box_pack_start ( GTK_BOX ( container ), scrolled_window, TRUE, TRUE, 5 );
 
-    /* create columns */
-    i = 0;
-    /* Date column */
-    cell = gtk_cell_renderer_text_new ();
-    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 0.5, NULL );
+       /* create columns */
+       i = 0;
+       /* Date column */
+       cell = gtk_cell_renderer_text_new ();
+       g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 0.5, NULL );
 
-    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
-                        _("Date"), cell,
-                        "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-                        NULL);
+       bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
+                           _("Date"), cell,
+                           "text", SPP_ESTIMATE_TREE_DATE_COLUMN,
+                           "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+                           NULL);
 
-    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 0.5 );
-    gtk_tree_view_append_column( GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
-    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
-    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DATE_COLUMN ) );
+       gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 0.5 );
+       gtk_tree_view_append_column( GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+       gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+       gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+       g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DATE_COLUMN ) );
 
-    i++;
-    /* Description column */
-    cell = gtk_cell_renderer_text_new ();
+       i++;
+       /* Description column */
+       cell = gtk_cell_renderer_text_new ();
 
-    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
-					    _("Description"), cell,
-					    "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-					    NULL);
+       bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
+   					    _("Description"), cell,
+   					    "text", SPP_ESTIMATE_TREE_DESC_COLUMN,
+                           "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+   					    NULL);
 
-    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
-    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
-    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DESC_COLUMN ) );
+       gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+       gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_FIXED );
+       gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+       g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DESC_COLUMN ) );
 
-    i++;
-    /* Debit column */
-    cell = gtk_cell_renderer_text_new ();
-    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+       i++;
+       /* Debit column */
+       cell = gtk_cell_renderer_text_new ();
+       g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
 
-    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
-						_("Debit"), cell,
-					    "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-					    NULL);
+       bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
+   						_("Debit"), cell,
+   					    "text", SPP_ESTIMATE_TREE_DEBIT_COLUMN,
+                           "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+   					    NULL);
 
-    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
-    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
-    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
-    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
+       gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+       gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+       gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+       gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+       g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_DEBIT_COLUMN ) );
 
-    i++;
-    /* Credit column */
-    cell = gtk_cell_renderer_text_new ();
-    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+       i++;
+       /* Credit column */
+       cell = gtk_cell_renderer_text_new ();
+       g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
 
-    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
-					    _("Credit"), cell,
-					    "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-						NULL);
+       bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
+   					    _("Credit"), cell,
+   					    "text", SPP_ESTIMATE_TREE_CREDIT_COLUMN,
+                           "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+   						NULL);
 
-    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
-    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
-    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
-    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
+       gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+       gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+       gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+       gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+       g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_CREDIT_COLUMN ) );
 
-    i++;
-    /* Balance column */
-    cell = gtk_cell_renderer_text_new ();
-    g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
+       i++;
+       /* Balance column */
+       cell = gtk_cell_renderer_text_new ();
+       g_object_set ( G_OBJECT ( GTK_CELL_RENDERER ( cell ) ), "xalign", 1.0, NULL );
 
-    bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
-					    _("Balance"), cell,
-					    "text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
-                        "foreground", SPP_ESTIMATE_TREE_BALANCE_COLOR,
-                        "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
-					    NULL);
+       bet_array_tree_view_columns[i] = gtk_tree_view_column_new_with_attributes (
+   					    _("Balance"), cell,
+   					    "text", SPP_ESTIMATE_TREE_BALANCE_COLUMN,
+                           "foreground", SPP_ESTIMATE_TREE_BALANCE_COLOR,
+                           "cell-background-gdk", SPP_ESTIMATE_TREE_BACKGROUND_COLOR,
+   					    NULL);
 
-    gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
-    gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
-    gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
-    gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
-    g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
-                        GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
+       gtk_tree_view_column_set_alignment ( bet_array_tree_view_columns[i], 1 );
+       gtk_tree_view_append_column (GTK_TREE_VIEW ( tree_view ), bet_array_tree_view_columns[i] );
+       gtk_tree_view_column_set_sizing ( bet_array_tree_view_columns[i], GTK_TREE_VIEW_COLUMN_GROW_ONLY );
+       gtk_tree_view_column_set_resizable ( bet_array_tree_view_columns[i], TRUE );
+       g_object_set_data ( G_OBJECT ( bet_array_tree_view_columns[i] ), "num_col_model",
+                           GINT_TO_POINTER ( SPP_ESTIMATE_TREE_BALANCE_COLUMN ) );
 
-    /* signals of tree_view */
-    g_signal_connect ( G_OBJECT ( tree_view ),
-		                "button-press-event",
-		                G_CALLBACK ( bet_array_list_button_press ),
-		                NULL );
+       /* signals of tree_view */
+       g_signal_connect ( G_OBJECT ( tree_view ),
+   		                "button-press-event",
+   		                G_CALLBACK ( bet_array_list_button_press ),
+   		                NULL );
 
-    g_signal_connect ( G_OBJECT ( tree_view ),
-		                "size_allocate",
-		                G_CALLBACK ( bet_array_list_size_allocate ),
-		                NULL );
+       g_signal_connect ( G_OBJECT ( tree_view ),
+   		                "size_allocate",
+   		                G_CALLBACK ( bet_array_list_size_allocate ),
+   		                NULL );
 
-    gtk_widget_show_all ( scrolled_window );
+       gtk_widget_show_all ( scrolled_window );
 
     return tree_view;
 }
@@ -2107,6 +2107,7 @@ gboolean bet_array_list_set_background_color ( GtkWidget *tree_view )
                         SPP_ESTIMATE_TREE_BACKGROUND_COLOR, gsb_color_get_couleur ( "couleur_bet_solde" ),
                         SPP_ESTIMATE_TREE_COLOR_STRING, gsb_color_get_couleur_to_string ( "couleur_bet_solde" ),
                         -1 );
+                break;
             }
 
             /* gestion de la date du jour */
