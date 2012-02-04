@@ -37,6 +37,7 @@
 /*START_INCLUDE*/
 #include "gsb_form_transaction.h"
 #include "etats_calculs.h"
+#include "grisbi_app.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency_link.h"
@@ -80,8 +81,10 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
     gint transaction_number = 0;
     gint account_number;
     GSList *tmp_list;
+    GrisbiAppConf *conf;
 
     devel_debug (payee_name);
+    conf = grisbi_app_get_conf ( );
 
     if ( !strlen (payee_name))
     return FALSE;
@@ -127,7 +130,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         return TRUE;
 
     /* find the last transaction with that payee */
-    if ( conf.automatic_completion_payee )
+    if ( conf->automatic_completion_payee )
     transaction_number = gsb_form_transactions_look_for_last_party ( payee_number,
                         0,
                         account_number );
@@ -175,13 +178,13 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
         gsb_data_transaction_get_split_of_transaction (transaction_number))
         {
             gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON ( form_button_recover_split ),
-                        conf.automatic_recover_splits );
+                        conf->automatic_recover_splits );
             gtk_widget_show ( form_button_recover_split );
         }
     }
-    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !conf.automatic_erase_credit_debit )
+    else if ( ( element -> element_number == TRANSACTION_FORM_CREDIT && !conf->automatic_erase_credit_debit )
          ||
-         ( element -> element_number == TRANSACTION_FORM_DEBIT && !conf.automatic_erase_credit_debit ) )
+         ( element -> element_number == TRANSACTION_FORM_DEBIT && !conf->automatic_erase_credit_debit ) )
     {
         gsb_form_fill_element ( element -> element_number,
                         account_number,
@@ -263,36 +266,39 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
     GSList *list_tmp_transactions;
     gint last_transaction_with_party_in_account = 0;
     gint last_transaction_with_party_not_in_account = 0;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
     while ( list_tmp_transactions )
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+        gint transaction_number_tmp;
+        transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
 
-	if ( gsb_data_transaction_get_party_number (transaction_number_tmp) == no_party
-	     &&
-	     transaction_number_tmp != no_new_transaction
-	     &&
-	     !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
-	{
-	    /* we are on a transaction with the same party, it's also a split, so we keep it */
-	    if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
-		last_transaction_with_party_in_account = transaction_number_tmp;
-	    else
-		last_transaction_with_party_not_in_account = transaction_number_tmp;
-	}
-	list_tmp_transactions = list_tmp_transactions -> next;
+        if ( gsb_data_transaction_get_party_number (transaction_number_tmp) == no_party
+             &&
+             transaction_number_tmp != no_new_transaction
+             &&
+             !gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp))
+        {
+            /* we are on a transaction with the same party, it's also a split, so we keep it */
+            if ( gsb_data_transaction_get_account_number (transaction_number_tmp) == account_number)
+            last_transaction_with_party_in_account = transaction_number_tmp;
+            else
+            last_transaction_with_party_not_in_account = transaction_number_tmp;
+        }
+        list_tmp_transactions = list_tmp_transactions -> next;
     }
 
     if ( last_transaction_with_party_in_account )
-	return last_transaction_with_party_in_account;
+        return last_transaction_with_party_in_account;
 
     /* if we don't want to complete with a transaction in another account,
      * go away here */
-    if ( conf.limit_completion_to_current_account )
-	return 0;
+    if ( conf->limit_completion_to_current_account )
+        return 0;
 
     return last_transaction_with_party_not_in_account;
 }
