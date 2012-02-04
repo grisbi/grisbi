@@ -56,8 +56,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
-						   gboolean default_func (gint, gboolean));
+/*static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
+						   gboolean default_func (gint, gboolean));*/
 static gboolean gsb_autofunc_combobox_changed ( GtkWidget *combobox,
 						gboolean default_func (gint, gint));
 static gboolean gsb_autofunc_currency_changed ( GtkWidget *combobox,
@@ -756,7 +756,7 @@ void gsb_autofunc_checkbutton_set_value ( GtkWidget *button,
  *
  * \return FALSE
  */
-static gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
+gboolean gsb_autofunc_checkbutton_changed ( GtkWidget *button,
 						   gboolean default_func (gint, gboolean))
 {
     gint number_for_func;
