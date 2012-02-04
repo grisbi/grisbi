@@ -36,6 +36,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_transactions_list_sort.h"
+#include "custom_list.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive_store.h"
 #include "gsb_data_budget.h"
@@ -47,7 +49,6 @@
 #include "navigation.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
-#include "custom_list.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -510,10 +511,14 @@ gint gsb_transactions_list_sort_by_no ( gint transaction_number_1,
 gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
-    if ( conf.transactions_list_secondary_sorting == 1 )
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
+    if ( conf->transactions_list_secondary_sorting == 1 )
         return gsb_transactions_list_sort_by_date_and_amount (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 2 )
+    else if ( conf->transactions_list_secondary_sorting == 2 )
         return gsb_transactions_list_sort_by_date_and_party (
                         transaction_number_1, transaction_number_2 );
     else
@@ -537,15 +542,18 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
     gint return_value;
     const GDate *value_date_1 = NULL;
     const GDate *value_date_2 = NULL;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
    /* need to work a little more here because value date is not obligatory filled,
      * if we compare 2 transactions and 1 has no value date, set the value date before */
     value_date_1 = gsb_data_transaction_get_value_date ( transaction_number_1 );
-    if ( !value_date_1 && !conf.transactions_list_primary_sorting )
+    if ( !value_date_1 && !conf->transactions_list_primary_sorting )
         value_date_1 = gsb_data_transaction_get_date ( transaction_number_1 );
 
     value_date_2 = gsb_data_transaction_get_value_date ( transaction_number_2 );
-    if ( !value_date_2 && !conf.transactions_list_primary_sorting )
+    if ( !value_date_2 && !conf->transactions_list_primary_sorting )
         value_date_2 = gsb_data_transaction_get_date ( transaction_number_2 );
 
     if ( value_date_1 )
@@ -1173,13 +1181,17 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
 gint gsb_transactions_list_sort_initial_by_secondary_key ( gint transaction_number_1,
                         gint transaction_number_2 )
 {
-    if ( conf.transactions_list_secondary_sorting == 1 )
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
+    if ( conf->transactions_list_secondary_sorting == 1 )
         return gsb_transactions_list_sort_by_amount (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 2 )
+    else if ( conf->transactions_list_secondary_sorting == 2 )
         return gsb_transactions_list_sort_by_party (
                         transaction_number_1, transaction_number_2 );
-    else if ( conf.transactions_list_secondary_sorting == 3 )
+    else if ( conf->transactions_list_secondary_sorting == 3 )
         return gsb_transactions_list_sort_by_date_and_no (
                         transaction_number_1, transaction_number_2 );
     else
