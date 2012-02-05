@@ -92,12 +92,55 @@ void traitement_sigsegv ( gint signal_nb )
 
     conf = grisbi_app_get_conf ( );
 
-    /*   il y a 3 possibilités : */
-    /*     soit on était en train de charger un fichier, c'est que celui-ci est corrompu */
-    /* soit on était en train de sauver un fichier, et là on peut rien faire */
-    /* sinon on essaie de sauver le fichier sous le nom entouré de # */
+    /* il y a 4 possibilités :
+     *  - Demande de fermeture de la part du système
+     *  - Chargement d'un fichier -> celui-ci est corrompu
+     *  - Sauvegarde d'un fichier -> on peut rien faire
+     *  - Erreur de mémoire -> tentative de sauver le fichier sous le nom entouré de #
+     */
+    if ( ( signal_nb == SIGINT || signal_nb == SIGTERM ) && gsb_file_get_modified ( ) )
+    {
+        gint res;
 
-    if ( run.is_loading || run.is_saving || !gsb_file_get_modified ( ) )
+        gsb_file_default_dir = gsb_dirs_get_home_dir ( );
+
+        if ( nom_fichier_comptes )
+            /* set # around the filename */
+            nom_fichier_comptes = g_path_get_basename ( nom_fichier_comptes );
+        else
+            /* no name for the file, create it */
+            nom_fichier_comptes = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
+
+        old_errmsg = g_strdup ( _("Request for forced shutdown of  Grisbi \n") );
+        errmsg = g_markup_printf_escaped ( _("The file \"%s has been modified. Do you want to save it?\n"),
+                                    nom_fichier_comptes );
+
+        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+                                    GTK_DIALOG_DESTROY_WITH_PARENT,
+                                    GTK_MESSAGE_ERROR,
+                                    GTK_BUTTONS_YES_NO,
+                                    old_errmsg );
+        gtk_dialog_set_default_response     ( GTK_DIALOG ( dialog ), GTK_RESPONSE_YES );
+        gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG ( dialog ), "%s", errmsg );
+
+        g_free ( old_errmsg );
+        g_free ( errmsg );
+
+        res = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
+        if ( res == GTK_RESPONSE_YES )
+        {
+            gsb_status_message ( _("Save file") );
+            gsb_file_save_save_file ( nom_fichier_comptes, conf->compress_file, FALSE );
+            gsb_status_clear ( );
+        }
+
+        gtk_widget_destroy ( dialog );
+        gsb_file_util_modify_lock ( FALSE );
+
+        exit ( 0 );
+    }
+    else if ( run.is_loading || run.is_saving || !gsb_file_get_modified ( ) )
     {
         if ( run.is_loading )
         {
@@ -142,23 +185,24 @@ void traitement_sigsegv ( gint signal_nb )
     }
 
     old_errmsg = errmsg;
-    errmsg = g_strconcat ( errmsg, 
-			   "\n\n",
-			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
-			   NULL );
+    errmsg = g_strconcat ( errmsg,
+                        "\n\n",
+                        _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
+                        NULL );
      g_free ( old_errmsg );
 
 #ifdef HAVE_BACKTRACE
     old_errmsg = errmsg;
-    errmsg = g_strconcat ( errmsg, _("Copy and paste the following backtrace with your bug "
+    errmsg = g_strconcat ( errmsg,
+                        _("Copy and paste the following backtrace with your bug "
                         "report."),
-			   NULL );
+                        NULL );
      g_free ( old_errmsg );
 #endif
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-				       make_hint ( _("Grisbi terminated due to a segmentation fault."),
-						   errmsg ));
+                        make_hint ( _("Grisbi terminated due to a segmentation fault."),
+                        errmsg ) );
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE
