@@ -27,14 +27,18 @@
         <menu name="FileMenu" action="FileMenuAction">
             <menuitem name="New" action="NewAction"/>
             <menuitem name="Open" action="OpenAction"/>
+            <separator/>
             <menu name="RecentFiles" action="RecentFilesAction">
+                <placeholder name="FileRecentsPlaceholder">
+                </placeholder>
             </menu>
             <separator/>
             <menuitem name="Save" action="SaveAction"/>
             <menuitem name="SaveAs" action="SaveAsAction"/>
+            <menuitem name="FileRevert" action="FileRevertAction"/>
             <separator/>
             <menuitem name="ImportFile" action="ImportFileAction"/>
-<!--             <menuitem name="ExportFile" action="ExportFileAction"/>
+             <menuitem name="ExportFile" action="ExportFileAction"/>
             <separator/>
             <menuitem name="CreateArchive" action="CreateArchiveAction"/>
             <menuitem name="ExportArchive" action="ExportArchiveAction"/>
@@ -58,6 +62,8 @@
             <separator/>
             <menuitem name="ConvertToScheduled" action="ConvertToScheduledAction"/>
             <menu name="MoveToAnotherAccount" action="MoveToAnotherAccountAction">
+                <placeholder name="FileRecentsPlaceholder">
+                </placeholder>
             </menu>
             <separator/>
             <menuitem name="NewAccount" action="NewAccountAction"/>
@@ -89,7 +95,7 @@
             <menuitem name="GrisbiWebsite" action="GrisbiWebsiteAction"/>
             <menuitem name="ReportBug" action="ReportBugAction"/>
             <separator/>
-            <menuitem name="Tip" action="TipAction"/> -->
+            <menuitem name="Tip" action="TipAction"/>
         </menu>
     </menubar>
 </ui>
