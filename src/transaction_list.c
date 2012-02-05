@@ -2085,8 +2085,7 @@ void transaction_list_set_color_jour ( gint account_number )
     g_return_if_fail ( custom_list != NULL );
 
     date_jour = gdate_today ( );
-    element_sort = gsb_data_account_get_element_sort ( account_number,
-							     custom_list -> sort_col);
+    element_sort = gsb_data_account_get_element_sort ( account_number, custom_list -> sort_col);
 
     for ( i = custom_list -> num_visibles_rows -1; i >= 0  ; i-- )
     {
@@ -2125,7 +2124,7 @@ void transaction_list_set_color_jour ( gint account_number )
             }
         }
     }
-    g_date_free ( date_jour ); 
+    g_date_free ( date_jour );
 }
 
 

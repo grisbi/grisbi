@@ -36,18 +36,19 @@
 #include "bet_finance_ui.h"
 #include "bet_hist.h"
 #include "bet_tab.h"
-#include "navigation.h"
-#include "gsb_transactions_list.h"
+#include "categories_onglet.h"
 #include "etats_onglet.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_account_property.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
-#include "categories_onglet.h"
+#include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
+#include "main.h"
+#include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -427,13 +428,16 @@ void gsb_gui_headings_update_suffix ( gchar * suffix )
  */
 gboolean gsb_gui_update_show_headings ( void )
 {
-    if ( etat.show_headings_bar )
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+    if ( conf->show_headings_bar )
     {
-	gtk_widget_show_all ( headings_eb );
+        gtk_widget_show_all ( headings_eb );
     }
     else
     {
-	gtk_widget_hide ( headings_eb );
+        gtk_widget_hide ( headings_eb );
     }
     return FALSE;
 }

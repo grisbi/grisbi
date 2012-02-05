@@ -192,7 +192,8 @@ void init_variables ( void )
     gsb_report_init_variables ();
     gsb_regex_init_variables ();
 
-    gsb_data_print_config_init ();
+    /* WARNING BUG */
+/*     gsb_data_print_config_init ();  */
 
     /* no bank in memory for now */
     bank_list_model = NULL;
@@ -294,6 +295,8 @@ void init_variables ( void )
     /* divers */
     etat.add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
     etat.get_fyear_by_value_date = 0;           /* By default use transaction-date */
+    etat.retient_affichage_par_compte = 0;
+    memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 
     /* remove the timeout if necessary */
     if (id_timeout)

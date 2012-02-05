@@ -41,9 +41,9 @@
 #include "gsb_file_config.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "structures.h"
 #include "utils_buttons.h"
 #include "utils_files.h"
 #include "utils_str.h"
@@ -51,20 +51,15 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_config_clean_config ( void );
+static void gsb_file_config_clean_config ( GrisbiAppConf *conf );
 /*END_STATIC*/
 
 
 /*START_EXTERN*/
 extern struct conditional_message delete_msg[];
-extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
-extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
-
-/* global variable, see structures.h */
-struct gsb_conf_t conf;
 
 /* liste des derniers fichiers ouverts */
 gchar **tab_noms_derniers_fichiers_ouverts = NULL;
@@ -90,7 +85,7 @@ static gchar *conf_filename;
  *
  * \return TRUE if ok, FALSE if not found, usually for a new opening
  * */
-gboolean gsb_file_config_load_config ( void )
+gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
 {
     GKeyFile *config;
     gboolean result;
@@ -99,7 +94,7 @@ gboolean gsb_file_config_load_config ( void )
     gint int_ret;
     GError* err = NULL;
 
-    gsb_file_config_clean_config ();
+    gsb_file_config_clean_config ( conf );
 
     if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
         return FALSE;
@@ -117,11 +112,11 @@ gboolean gsb_file_config_load_config ( void )
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* get config model */
-    conf.stable_config_file_model = g_key_file_get_integer ( config,
+    conf->stable_config_file_model = g_key_file_get_integer ( config,
                         "Model",
                         "Stable_config_file_model",
                         NULL );
-    if ( conf.stable_config_file_model )
+    if ( conf->stable_config_file_model )
     {
         used_model = TRUE;
         g_free ( conf_filename );
@@ -142,27 +137,27 @@ gboolean gsb_file_config_load_config ( void )
 #endif
 
     /* get the geometry */
-    conf.root_x = g_key_file_get_integer ( config,
+    conf->root_x = g_key_file_get_integer ( config,
                         "Geometry",
                         "Root_x",
                         NULL );
 
-    conf.root_y = g_key_file_get_integer ( config,
+    conf->root_y = g_key_file_get_integer ( config,
                         "Geometry",
                         "Root_y",
                         NULL );
 
-    conf.main_width = g_key_file_get_integer ( config,
+    conf->main_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Width",
                         NULL );
 
-    conf.main_height = g_key_file_get_integer ( config,
+    conf->main_height = g_key_file_get_integer ( config,
                         "Geometry",
                         "Height",
                         NULL );
 
-    conf.full_screen = g_key_file_get_integer ( config,
+    conf->full_screen = g_key_file_get_integer ( config,
                         "Geometry",
                         "Full screen",
                         NULL );
@@ -170,16 +165,19 @@ gboolean gsb_file_config_load_config ( void )
     int_ret = g_key_file_get_integer ( config,
                         "Geometry",
                         "Panel_width",
-                        NULL );
-    gsb_gui_set_hpaned_left_width ( int_ret );
+                        &err );
+    if ( err == NULL )
+        gsb_gui_set_hpaned_left_width ( int_ret );
+    else
+        err = NULL;
 
-    conf.prefs_width = g_key_file_get_integer ( config,
+    conf->prefs_width = g_key_file_get_integer ( config,
                         "Geometry",
                         "Prefs width",
                         NULL );
 
     /* get general */
-    conf.r_modifiable = g_key_file_get_integer ( config,
+    conf->r_modifiable = g_key_file_get_integer ( config,
                         "General",
                         "Can modify R",
                         NULL );
@@ -189,71 +187,71 @@ gboolean gsb_file_config_load_config ( void )
                         "Path",
                         NULL ));
 
-    conf.alerte_permission = g_key_file_get_integer ( config,
+    conf->alerte_permission = g_key_file_get_integer ( config,
                         "General",
                         "Show permission alert",
                         NULL );
 
-    conf.entree = g_key_file_get_integer ( config,
+    conf->entree = g_key_file_get_integer ( config,
                         "General",
                         "Function of enter",
                         NULL );
 
-    conf.alerte_mini = g_key_file_get_integer ( config,
+    conf->alerte_mini = g_key_file_get_integer ( config,
                         "General",
                         "Show alert messages",
                         NULL );
 
-    conf.utilise_fonte_listes = g_key_file_get_integer ( config,
+    conf->utilise_fonte_listes = g_key_file_get_integer ( config,
                         "General",
                         "Use user font",
                         NULL );
     
-    conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
+    conf->font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
     
-    conf.browser_command = g_key_file_get_string ( config,
+    conf->browser_command = g_key_file_get_string ( config,
                         "General",
                         "Web",
                         NULL );
 
-    conf.pluriel_final = g_key_file_get_integer ( config,
+    conf->pluriel_final = g_key_file_get_integer ( config,
                         "General",
                         "Pluriel_final",
                         NULL );
                         
-    conf.metatree_action_2button_press = g_key_file_get_integer ( config,
+    conf->metatree_action_2button_press = g_key_file_get_integer ( config,
                         "General",
                         "Metatree_action_2button_press",
                         NULL );
 
     /* get backup part */
-    conf.make_backup = g_key_file_get_integer ( config,
+    conf->make_backup = g_key_file_get_integer ( config,
                         "Backup",
                         "Make backup",
                         NULL );
 
-    conf.make_bakup_single_file = g_key_file_get_integer ( config,
+    conf->make_bakup_single_file = g_key_file_get_integer ( config,
                         "Backup",
                         "Make backup single file",
                         NULL );
 
-    conf.make_backup_every_minutes = g_key_file_get_integer ( config,
+    conf->make_backup_every_minutes = g_key_file_get_integer ( config,
                         "Backup",
                         "Make backup every x minutes",
                         NULL );
 
-    conf.make_backup_nb_minutes = g_key_file_get_integer ( config,
+    conf->make_backup_nb_minutes = g_key_file_get_integer ( config,
                         "Backup",
                         "Make backup nb minutes",
                         NULL );
 
     /* exec gsb_file_automatic_backup_start ( ) if necessary */
-    if ( conf.make_backup_every_minutes
+    if ( conf->make_backup_every_minutes
      &&
-     conf.make_backup_nb_minutes )
+     conf->make_backup_nb_minutes )
         gsb_file_automatic_backup_start ( NULL, NULL );
 
-    conf.compress_backup = g_key_file_get_integer ( config,
+    conf->compress_backup = g_key_file_get_integer ( config,
                         "Backup",
                         "Compress backup",
                         NULL );
@@ -264,63 +262,63 @@ gboolean gsb_file_config_load_config ( void )
                         NULL ));
 
     /* get input/output */
-    conf.dernier_fichier_auto = g_key_file_get_integer ( config,
+    conf->dernier_fichier_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Load last file",
                         NULL );
 
-    conf.sauvegarde_auto = g_key_file_get_integer ( config,
+    conf->sauvegarde_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Save at closing",
                         NULL );
 
-    conf.sauvegarde_demarrage = g_key_file_get_integer ( config,
+    conf->sauvegarde_demarrage = g_key_file_get_integer ( config,
                         "IO",
                         "Save at opening",
                         NULL );
 
-    conf.nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
+    conf->nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
                         "IO",
                         "Nb last opened files",
                         NULL );
 
-    conf.compress_file = g_key_file_get_integer ( config,
+    conf->compress_file = g_key_file_get_integer ( config,
                         "IO",
                         "Compress file",
                         NULL );
 
-    conf.force_enregistrement = g_key_file_get_integer ( config,
+    conf->force_enregistrement = g_key_file_get_integer ( config,
                         "IO",
                         "Force saving",
                         NULL );
 
-    tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
+    conf->tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
                         "IO",
                         "Names last files",
-                        &conf.nb_derniers_fichiers_ouverts,
+                        &conf->nb_derniers_fichiers_ouverts,
                         NULL );
     if (tab_noms_derniers_fichiers_ouverts)
-        nom_fichier_comptes = my_strdup (tab_noms_derniers_fichiers_ouverts [ 0 ]);
+        nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts [ 0 ]);
     else
         nom_fichier_comptes = NULL;
 
-    conf.check_for_archival = g_key_file_get_integer ( config, 
+    conf->check_for_archival = g_key_file_get_integer ( config, 
                         "IO",
                         "Check_archival_at_opening",
                         NULL );
 
-    conf.max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
+    conf->max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
                         "IO",
                         "Max_transactions_before_warn_archival",
                         NULL );
     
     /* get scheduled section */
-    nb_days_before_scheduled = g_key_file_get_integer ( config,
+    conf->nb_days_before_scheduled = g_key_file_get_integer ( config,
                         "Scheduled",
                         "Days before remind",
                         NULL );
 
-    execute_scheduled_of_month = g_key_file_get_integer ( config,
+    conf->execute_scheduled_of_month = g_key_file_get_integer ( config,
                         "Scheduled",
                         "Execute scheduled of month",
                         NULL );
@@ -330,37 +328,37 @@ gboolean gsb_file_config_load_config ( void )
                         "Balances with scheduled",
                         &err );
     if ( err == NULL )
-        conf.balances_with_scheduled = int_ret;
+        conf->balances_with_scheduled = int_ret;
     else
         err = NULL;
 
     /* get shown section */
-    etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
+    conf->formulaire_toujours_affiche = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction form",
                         NULL );
 
-    conf.show_transaction_selected_in_form = g_key_file_get_integer ( config,
+    conf->show_transaction_selected_in_form = g_key_file_get_integer ( config,
                         "Display",
                         "Show selected transaction in form",
                         NULL );
 
-    conf.show_transaction_gives_balance = g_key_file_get_integer ( config,
+    conf->show_transaction_gives_balance = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction gives balance",
                         NULL );
 
-    conf.transactions_list_primary_sorting = g_key_file_get_integer ( config,
+    conf->transactions_list_primary_sorting = g_key_file_get_integer ( config,
                         "Display",
                         "Transactions_list_primary_sorting",
                         NULL );
 
-    conf.transactions_list_secondary_sorting = g_key_file_get_integer ( config,
+    conf->transactions_list_secondary_sorting = g_key_file_get_integer ( config,
                         "Display",
                         "Transactions_list_secondary_sorting",
                         NULL );
 
-    etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
+    conf->affichage_exercice_automatique = g_key_file_get_integer ( config,
                         "Display",
                         "Show automatic financial year",
                         NULL );
@@ -370,46 +368,46 @@ gboolean gsb_file_config_load_config ( void )
                         "Automatic completion payee",
                         &err );
     if ( err == NULL )
-        conf.automatic_completion_payee = int_ret;
+        conf->automatic_completion_payee = int_ret;
     else
         err = NULL;
 
-    conf.limit_completion_to_current_account = g_key_file_get_integer ( config,
+    conf->limit_completion_to_current_account = g_key_file_get_integer ( config,
                         "Display",
                         "Limit payee completion",
                         NULL );
 
-    conf.automatic_recover_splits = g_key_file_get_integer ( config,
+    conf->automatic_recover_splits = g_key_file_get_integer ( config,
                         "Display",
                         "Automatic_recover_splits",
                         NULL );
 
-    conf.automatic_erase_credit_debit = g_key_file_get_integer ( config,
+    conf->automatic_erase_credit_debit = g_key_file_get_integer ( config,
                         "Display",
                         "Automatic_erase_credit_debit",
                         NULL );
 
-    etat.display_toolbar = g_key_file_get_integer ( config,
+    conf->display_toolbar = g_key_file_get_integer ( config,
                         "Display",
                         "Display toolbar",
                         NULL );
 
-    conf.active_scrolling_left_pane = g_key_file_get_integer ( config,
+    conf->active_scrolling_left_pane = g_key_file_get_integer ( config,
                         "Display",
                         "Active_scrolling_left_pane",
                         NULL );
 
-    etat.show_headings_bar = g_key_file_get_integer ( config,
+    conf->show_headings_bar = g_key_file_get_integer ( config,
                         "Display",
                         "Show headings bar",
                         NULL );
 
-    etat.show_closed_accounts = g_key_file_get_integer ( config,
+    conf->show_closed_accounts = g_key_file_get_integer ( config,
                         "Display",
                         "Show closed accounts",
                         NULL );
 
-    conf.display_grisbi_title = g_key_file_get_integer ( config,
+    conf->display_grisbi_title = g_key_file_get_integer ( config,
                         "Display",
                         "Display grisbi title",
                         NULL );
@@ -435,12 +433,12 @@ gboolean gsb_file_config_load_config ( void )
         g_free ( name );
     }
 
-    etat.last_tip = g_key_file_get_integer ( config,
+    conf->last_tip = g_key_file_get_integer ( config,
                         "Messages",
                         "Last tip",
                         NULL );
 
-    etat.show_tip = g_key_file_get_integer ( config,
+    conf->show_tip = g_key_file_get_integer ( config,
                         "Messages",
                         "Show tip",
                         NULL );
@@ -460,7 +458,7 @@ gboolean gsb_file_config_load_config ( void )
  *
  * \return TRUE if ok
  * */
-gboolean gsb_file_config_save_config ( void )
+gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 {
     GKeyFile *config;
     gchar *filename;
@@ -485,48 +483,38 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Model",
                         "Stable_config_file_model",
-                        conf.stable_config_file_model );
+                        conf->stable_config_file_model );
 #endif
-
-    /* get the geometry */
-    if ( gtk_widget_get_window ( GTK_WIDGET ( run.window ) ) )
-        gtk_window_get_size ( GTK_WINDOW ( run.window ),
-                        &conf.main_width, &conf.main_height);
-    else
-    {
-        conf.main_width = 0;
-        conf.main_height = 0;
-    }
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Root_x",
-                        conf.root_x );
+                        conf->root_x );
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Root_y",
-                        conf.root_y );
+                        conf->root_y );
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Width",
-                        conf.main_width );
+                        conf->main_width );
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Height",
-                        conf.main_height );
+                        conf->main_height );
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Full screen",
-                        conf.full_screen );
+                        conf->full_screen );
 
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Prefs width",
-                        conf.prefs_width );
+                        conf->prefs_width );
 
     /* Remember size of main panel */
     if ( gsb_gui_is_hpaned_general ( ) )
@@ -540,7 +528,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "General",
                         "Can modify R",
-                        conf.r_modifiable );
+                        conf->r_modifiable );
 
     g_key_file_set_string ( config,
                         "General",
@@ -550,34 +538,34 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "General",
                         "Show permission alert",
-                        conf.alerte_permission );
+                        conf->alerte_permission );
 
     g_key_file_set_integer ( config,
                         "General",
                         "Function of enter",
-                        conf.entree );
+                        conf->entree );
 
     g_key_file_set_integer ( config,
                         "General",
                         "Show alert messages",
-                        conf.alerte_mini );
+                        conf->alerte_mini );
 
     g_key_file_set_integer ( config,
                         "General",
                         "Use user font",
-                        conf.utilise_fonte_listes );
+                        conf->utilise_fonte_listes );
 
-    if ( conf.font_string )
+    if ( conf->font_string )
         g_key_file_set_string ( config,
                         "General",
                         "Font name",
-                        conf.font_string );
+                        conf->font_string );
 
-    if ( conf.browser_command )
+    if ( conf->browser_command )
     {
         gchar *string;
 
-        string = my_strdelimit ( conf.browser_command, "&", "\\e" );
+        string = my_strdelimit ( conf->browser_command, "&", "\\e" );
         if ( string )
             g_key_file_set_string ( config,
                         "General",
@@ -589,38 +577,38 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "General",
                         "Pluriel_final",
-                        conf.pluriel_final );
+                        conf->pluriel_final );
 
     g_key_file_set_integer ( config,
                         "General",
                         "Metatree_action_2button_press",
-                        conf.metatree_action_2button_press );
+                        conf->metatree_action_2button_press );
 
      /* save backup part */
     g_key_file_set_integer ( config,
                         "Backup",
                         "Make backup",
-                        conf.make_backup );
+                        conf->make_backup );
 
     g_key_file_set_integer ( config,
                         "Backup",
                         "Make backup single file",
-                        conf.make_bakup_single_file );
+                        conf->make_bakup_single_file );
 
     g_key_file_set_integer ( config,
                         "Backup",
                         "Make backup every x minutes",
-                        conf.make_backup_every_minutes );
+                        conf->make_backup_every_minutes );
 
     g_key_file_set_integer ( config,
                         "Backup",
                         "Compress backup",
-                        conf.compress_backup );
+                        conf->compress_backup );
 
     g_key_file_set_integer ( config,
                         "Backup",
                         "Make backup nb minutes",
-                        conf.make_backup_nb_minutes );
+                        conf->make_backup_nb_minutes );
 
     if (gsb_file_get_backup_path ())
         g_key_file_set_string ( config,
@@ -632,143 +620,143 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "IO",
                         "Load last file",
-                        conf.dernier_fichier_auto );
+                        conf->dernier_fichier_auto );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Save at closing",
-                        conf.sauvegarde_auto );
+                        conf->sauvegarde_auto );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Save at opening",
-                        conf.sauvegarde_demarrage );
+                        conf->sauvegarde_demarrage );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Nb last opened files",
-                        conf.nb_max_derniers_fichiers_ouverts );
+                        conf->nb_max_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Compress file",
-                        conf.compress_file );
+                        conf->compress_file );
 
     g_key_file_set_integer ( config,
                         "IO",
                         "Force saving",
-                        conf.force_enregistrement );
+                        conf->force_enregistrement );
 
-    if ( conf.nb_derniers_fichiers_ouverts > 0
+    if ( conf->nb_derniers_fichiers_ouverts > 0
      &&
-     tab_noms_derniers_fichiers_ouverts)
+     conf->tab_noms_derniers_fichiers_ouverts )
         g_key_file_set_string_list ( config,
                         "IO",
                         "Names last files",
-                        (const gchar **) tab_noms_derniers_fichiers_ouverts,
-                        conf.nb_derniers_fichiers_ouverts);
+                        (const gchar **) conf->tab_noms_derniers_fichiers_ouverts,
+                        conf->nb_derniers_fichiers_ouverts);
 
     g_key_file_set_integer ( config, 
                         "IO",
                         "Check_archival_at_opening",
-                        conf.check_for_archival );
+                        conf->check_for_archival );
 
     g_key_file_set_integer ( config, 
                         "IO",
                         "Max_transactions_before_warn_archival",
-                        conf.max_non_archived_transactions_for_check );
+                        conf->max_non_archived_transactions_for_check );
 
     /* save scheduled section */
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Days before remind",
-                        nb_days_before_scheduled );
+                        conf->nb_days_before_scheduled );
 
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Execute scheduled of month",
-                        execute_scheduled_of_month );
+                        conf->execute_scheduled_of_month );
 
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Balances with scheduled",
-                        conf.balances_with_scheduled );
+                        conf->balances_with_scheduled );
 
     /* save shown section */
     g_key_file_set_integer ( config,
                         "Display",
                         "Show transaction form",
-                        etat.formulaire_toujours_affiche );
+                        conf->formulaire_toujours_affiche );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show selected transaction in form",
-                        conf.show_transaction_selected_in_form );
+                        conf->show_transaction_selected_in_form );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show transaction gives balance",
-                        conf.show_transaction_gives_balance );
+                        conf->show_transaction_gives_balance );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Transactions_list_primary_sorting",
-                        conf.transactions_list_primary_sorting );
+                        conf->transactions_list_primary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Transactions_list_secondary_sorting",
-                        conf.transactions_list_secondary_sorting );
+                        conf->transactions_list_secondary_sorting );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show automatic financial year",
-                        etat.affichage_exercice_automatique );
+                        conf->affichage_exercice_automatique );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Automatic completion payee",
-                        conf.automatic_completion_payee );
+                        conf->automatic_completion_payee );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Limit payee completion",
-                        conf.limit_completion_to_current_account );
+                        conf->limit_completion_to_current_account );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Automatic_recover_splits",
-                        conf.automatic_recover_splits );
+                        conf->automatic_recover_splits );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Automatic_erase_credit_debit",
-                        conf.automatic_erase_credit_debit );
+                        conf->automatic_erase_credit_debit );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Display toolbar",
-                        etat.display_toolbar );
+                        conf->display_toolbar );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Active_scrolling_left_pane",
-                        conf.active_scrolling_left_pane );
+                        conf->active_scrolling_left_pane );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show headings bar",
-                        etat.show_headings_bar );
+                        conf->show_headings_bar );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Show closed accounts",
-                        etat.show_closed_accounts );
+                        conf->show_closed_accounts );
 
     g_key_file_set_integer ( config,
                         "Display",
                         "Display grisbi title",
-                        conf.display_grisbi_title );
+                        conf->display_grisbi_title );
 
     /* save messages */
     for ( i = 0; messages[i].name; i ++ )
@@ -789,12 +777,12 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Messages",
                         "Last tip",
-                        etat.last_tip );
+                        conf->last_tip );
 
     g_key_file_set_integer ( config,
                         "Messages",
                         "Show tip",
-                        etat.show_tip );
+                        conf->show_tip );
 
     /* save into a file */
     file_content = g_key_file_to_data ( config, &length, NULL );
@@ -843,83 +831,78 @@ gboolean gsb_file_config_save_config ( void )
  *
  * \return
  */
-void gsb_file_config_clean_config ( void )
+void gsb_file_config_clean_config ( GrisbiAppConf *conf )
 {
     devel_debug (NULL);
 
-    conf.main_width = 0;
-    conf.main_height = 0;
-    gsb_gui_set_hpaned_left_width ( -1 );
-    conf.prefs_width = 600;
+    conf->main_width = 0;
+    conf->main_height = 0;
+    gsb_gui_set_hpaned_left_width ( 250 );
+    conf->prefs_width = 600;
 
-    conf.force_enregistrement = 1;
+    conf->force_enregistrement = 1;
 
-    conf.r_modifiable = 0;       /* we can not change the reconciled transaction */
-    conf.dernier_fichier_auto = 1;   /*  on n'ouvre pas directement le dernier fichier */
-    conf.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
-    conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
-    nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
-    execute_scheduled_of_month = FALSE;
-    conf.balances_with_scheduled = TRUE;
-    etat.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    conf.automatic_completion_payee = 1;            /* by default automatic completion */
-    conf.limit_completion_to_current_account = 0;   /* By default, do full search */
-    conf.automatic_recover_splits = 1;
-    conf.automatic_erase_credit_debit = 0;
+    conf->r_modifiable = 0;                         /* we can not change the reconciled transaction */
+    conf->dernier_fichier_auto = 1;                 /* on n'ouvre pas directement le dernier fichier */
+    conf->sauvegarde_auto = 1;                      /* on sauvegarde automatiquement par défaut */
+    conf->entree = 1;                               /* la touche entree provoque l'enregistrement de l'opération */
+    conf->nb_days_before_scheduled = 0;             /* nb de jours avant l'échéance pour prévenir */
+    conf->execute_scheduled_of_month = FALSE;       /* exécution automatique à l'échéance. */
+    conf->balances_with_scheduled = TRUE;
+    conf->formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    conf->affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
+    conf->automatic_completion_payee = 1;            /* by default automatic completion */
+    conf->limit_completion_to_current_account = 0;   /* By default, do full search */
+    conf->automatic_recover_splits = 1;
+    conf->automatic_erase_credit_debit = 0;
 
-    conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
-    etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
-    conf.active_scrolling_left_pane = FALSE;        /* Active_scrolling_left_pane or not. */
-    etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
-    conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
-    conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
-    conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
-    conf.transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
-    etat.show_closed_accounts = FALSE;
+    conf->display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
+    conf->display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
+    conf->active_scrolling_left_pane = FALSE;        /* Active_scrolling_left_pane or not. */
+    conf->show_headings_bar = TRUE;                  /* Show toolbar or not. */
+    conf->show_transaction_selected_in_form = 1;     /* show selected transaction in form */
+    conf->show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
+    conf->transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
+    conf->transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
+    conf->show_closed_accounts = FALSE;
 
-    if ( conf.font_string )
+    if ( conf->font_string )
     {
-    g_free ( conf.font_string );
-    conf.font_string = NULL;
+        g_free ( conf->font_string );
+        conf->font_string = NULL;
     }
     
-    conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
-    gsb_file_update_last_path (g_get_home_dir ());
+    conf->force_enregistrement = 1;                     /* par défaut, on force l'enregistrement */
+    gsb_file_update_last_path ( g_get_home_dir ( ) );
     gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir ( ) );
-    conf.make_backup = 1;
-    conf.make_backup_every_minutes = FALSE;
-    conf.make_backup_nb_minutes = 0;
+    conf->make_backup = 1;
+    conf->make_backup_every_minutes = FALSE;
+    conf->make_backup_nb_minutes = 0;
 
 #if IS_DEVELOPMENT_VERSION == 1
-    conf.stable_config_file_model = 0;
+    conf->stable_config_file_model = 0;
 #endif
 
-    conf.nb_derniers_fichiers_ouverts = 0;
-    conf.nb_max_derniers_fichiers_ouverts = 3;
-    tab_noms_derniers_fichiers_ouverts = NULL;
+    conf->nb_derniers_fichiers_ouverts = 0;
+    conf->nb_max_derniers_fichiers_ouverts = 3;
 
     /* no compress by default */
-    conf.compress_file = 0;
-    conf.compress_backup = 0;
+    conf->compress_file = 0;
+    conf->compress_backup = 0;
 
     /* archive data */
-    conf.check_for_archival = TRUE;
-    conf.max_non_archived_transactions_for_check = 3000;
+    conf->check_for_archival = TRUE;
+    conf->max_non_archived_transactions_for_check = 3000;
 
-    etat.retient_affichage_par_compte = 0;
-
-    etat.last_tip = -1;
-    etat.show_tip = FALSE;
+    conf->last_tip = -1;
+    conf->show_tip = FALSE;
 
     /* mise en conformité avec les recommandations FreeDesktop. */
-    if ( conf.browser_command )
-        g_free ( conf.browser_command );
-    conf.browser_command = g_strdup ( ETAT_WWW_BROWSER );
+    if ( conf->browser_command )
+        g_free ( conf->browser_command );
+    conf->browser_command = g_strdup ( ETAT_WWW_BROWSER );
 
-    conf.metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
-
-    memset ( etat.csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
+    conf->metatree_action_2button_press = 0;     /* action par défaut pour le double clic sur division */
 }
 
 

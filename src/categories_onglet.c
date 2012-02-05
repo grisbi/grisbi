@@ -520,11 +520,15 @@ void categories_importer_list ( void )
 GtkWidget *creation_barre_outils_categ ( void )
 {
     GtkWidget *hbox, *button;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
     /* hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* New category button */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf->display_toolbar,
                                                 _("New\ncategory"),
                                                 "new-categ.png",
                                                 G_CALLBACK ( appui_sur_ajout_category ),
@@ -535,7 +539,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (1) );
 
     /* New sub category button */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf->display_toolbar,
                                                 _("New sub\ncategory"),
                                                 "new-sub-categ.png",
                                                 G_CALLBACK (appui_sur_ajout_category),
@@ -548,7 +552,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (2) );
 
     /* Import button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                             GTK_STOCK_OPEN,
                                             _("Import"),
                                             G_CALLBACK ( categories_importer_list ),
@@ -558,7 +562,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                             GTK_STOCK_SAVE,
                                             _("Export"),
                                             G_CALLBACK ( categories_exporter_list ),
@@ -568,7 +572,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Delete button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                             GTK_STOCK_DELETE, _("Delete"),
                                             G_CALLBACK ( supprimer_division ), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "selection" );
@@ -577,7 +581,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                             GTK_STOCK_EDIT, _("Edit"),
                                             G_CALLBACK ( edit_category ), arbre_categ );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "selection" );
@@ -586,7 +590,7 @@ GtkWidget *creation_barre_outils_categ ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* View button */
-    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( conf->display_toolbar,
                                                  GTK_STOCK_SELECT_COLOR,
                                                  _("View"),
                                                  G_CALLBACK ( popup_category_view_mode_menu ),

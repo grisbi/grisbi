@@ -671,6 +671,9 @@ gboolean update_homepage_title (GtkEntry *entry, gchar *value,
  */
 gboolean change_toolbar_display_mode ( GtkRadioButton *button )
 {
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
     /* Do not execute this callback twice,
      * as it is triggered for both unselected button and newly selected one.
      * We keep the call for the newly selected radio button */
@@ -678,7 +681,7 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
         return FALSE;
 
     /* save the new parameter */
-    etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+    conf->display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
 
     /* update toolbars */
     gsb_gui_update_all_toolbars ( );
@@ -711,7 +714,7 @@ GtkWidget *tab_display_toolbar ( void )
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_TEXT )
+    if ( conf->display_toolbar == GSB_BUTTON_TEXT )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
     g_signal_connect ( G_OBJECT(radio),
                         "toggled",
@@ -721,7 +724,7 @@ GtkWidget *tab_display_toolbar ( void )
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Icons") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER ( GSB_BUTTON_ICON ) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_ICON )
+    if ( conf->display_toolbar == GSB_BUTTON_ICON )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
     g_signal_connect ( G_OBJECT(radio),
                         "toggled",
@@ -731,7 +734,7 @@ GtkWidget *tab_display_toolbar ( void )
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Both") );
     g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER ( GSB_BUTTON_BOTH ) );
     gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_BOTH )
+    if ( conf->display_toolbar == GSB_BUTTON_BOTH )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
     g_signal_connect ( G_OBJECT(radio),
                         "toggled",
@@ -744,7 +747,7 @@ GtkWidget *tab_display_toolbar ( void )
         gtk_widget_set_sensitive ( vbox_pref, FALSE );
 
     button = gsb_automem_checkbutton_new ( _("Display headings bar"),
-                        &(etat.show_headings_bar),
+                        &conf->show_headings_bar,
                         G_CALLBACK (preferences_switch_headings_bar),
                         NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), button, FALSE, FALSE, 0 );

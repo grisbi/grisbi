@@ -35,6 +35,7 @@
 /*START_INCLUDE*/
 #include "gsb_scheduler.h"
 #include "accueil.h"
+#include "grisbi_app.h"
 #include "gsb_currency.h"
 #include "gsb_data_fyear.h"
 #include "gsb_data_payment.h"
@@ -65,11 +66,6 @@ extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
 
-/** number of days before the scheduled to execute it */
-gint nb_days_before_scheduled;
-
-/** warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
-gboolean execute_scheduled_of_month;
 
 /**
  * set the next date in the scheduled transaction
@@ -454,32 +450,34 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     GDate *date;
     GSList *tmp_list;
     gboolean automatic_transactions_taken = FALSE;
+    GrisbiAppConf *conf;
 
     devel_debug (NULL);
+
+    conf = grisbi_app_get_conf ( );
 
     /* the scheduled transactions to take will be check here,
      * but the scheduled transactions taken will be add to the already appended ones */
 
     scheduled_transactions_to_take = NULL;
 
-    /* get the date today + nb_days_before_scheduled */
+    /* get the date today + conf->nb_days_before_scheduled */
 
     /* the date untill we execute the scheduled transactions is :
      * - either today + nb_days_before_scheduled if warn n days before the scheduled
      * - either the end of the month in nb_days_before_scheduled days (so current month or next month)
      *   */
     date = gdate_today ();
-    g_date_add_days ( date,
-		      nb_days_before_scheduled );
+    g_date_add_days ( date, conf->nb_days_before_scheduled );
     /* now date is in nb_days_before_scheduled, if we want the transactions of the month,
      * we change date to the end of its month */
-    if (execute_scheduled_of_month)
+    if ( conf->execute_scheduled_of_month )
     {
-	gint last_day;
-	
-	last_day = g_date_get_days_in_month ( g_date_get_month (date),
-					      g_date_get_year (date));
-	g_date_set_day (date, last_day);
+        gint last_day;
+        
+        last_day = g_date_get_days_in_month ( g_date_get_month ( date ),
+                        g_date_get_year ( date ) );
+        g_date_set_day ( date, last_day );
     }
 
     /* check all the scheduled transactions,

@@ -22,6 +22,11 @@
 
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
+typedef struct gsb_conf_t GrisbiAppConf;
+typedef struct gsb_etat_t GrisbiWindowConf;
+typedef struct gsb_run_t  GrisbiAppRun;
+
+
 /** structure etat
  * variables contenant juste 0 ou 1
  * FIXME : scinder cette structure en 3 parties :
@@ -43,8 +48,6 @@ struct gsb_etat_t
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
 
     /* formulaire */
-    gint formulaire_toujours_affiche;
-    gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint affiche_nb_ecritures_listes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 
@@ -53,9 +56,6 @@ struct gsb_etat_t
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
     
-    gint display_toolbar;           /** Display mode of toolbar. */
-    gboolean show_headings_bar;     /** Show headings bar or not. */
-    gboolean show_closed_accounts;
     gboolean automatic_separator;   /* TRUE if do automatic separator */
 
     /* Various display message stuff    */
@@ -95,10 +95,6 @@ struct gsb_etat_t
     /* variables sur l'échéancier */
     gint affichage_commentaire_echeancier;      /* à 1 si le commentaire est affiché */
 
-    /* Tips */
-    gint last_tip; 
-    gint show_tip; 
-
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
@@ -131,13 +127,25 @@ extern struct gsb_etat_t etat;
  */
 struct gsb_conf_t
 {
-    /* geometry */
+    /* IHM */
+    /* main window */
     gint root_x;                                    /* main_window x position */
     gint root_y;                                    /* main_window y position */
     gint main_width;                                /* main_window width */
     gint main_height;                               /* main_window height */
     gint full_screen;                               /* 1 to full screen, 0 else */
+    gint display_toolbar;                           /* Display mode of toolbar. */
+    gboolean show_headings_bar;                     /* Show headings bar or not. */
+
+    /* preferences */
     gint prefs_width;                               /* preferences width */
+
+    /* left_panel */
+    gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left panel. */
+
+    /* Tips */
+    gint last_tip; 
+    gint show_tip; 
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
@@ -147,9 +155,9 @@ struct gsb_conf_t
     gchar *font_string;                             /* contain the description of the font, or NULL */
     gchar *browser_command;
     gint pluriel_final;                             /* 0 = finals 1 = finaux */
+    gboolean show_closed_accounts;
 
     gint display_grisbi_title;                      /* selection du titre principal de grisbi */
-    gboolean active_scrolling_left_pane;            /** active mouse scrolling in the left_pane. */
 
     /* files part */
     gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
@@ -160,6 +168,7 @@ struct gsb_conf_t
     gint force_enregistrement;                      /* à un si on force l'enregistrement */
     gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
     gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
+    gchar **tab_noms_derniers_fichiers_ouverts;     /* RecentFiles */
 
     /* backup part */
     gint make_backup;                               /* TRUE for create a backup when save file */
@@ -169,7 +178,9 @@ struct gsb_conf_t
     gint compress_backup;                           /* TRUE if we want to compress the backup */
 
     /* formulaire */
+    gint formulaire_toujours_affiche;
     gint automatic_completion_payee;                /* 1 pour autoriser la completion automatique des opérations */
+    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 2 according to value date */
     gboolean limit_completion_to_current_account;   /* Limit payee completion to current account or do a full search. */
     gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
     gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
@@ -188,7 +199,11 @@ struct gsb_conf_t
     gboolean transactions_list_primary_sorting;     /* Primary sorting option for the transactions */
     gboolean transactions_list_secondary_sorting;   /* Secondary sorting option for the transactions */
 
-    /* variables for the list of transactions */
+    /* variables for the list of scheduled */
+    gint nb_days_before_scheduled;                  /* number of days before the scheduled to execute it */
+    gboolean execute_scheduled_of_month;            /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
+
+    /* variables for the list of divisions */
     gint metatree_action_2button_press;             /* 0 default gtk, 1 edit_function, 1 manage division if possible */
 
     /* archive stuff */

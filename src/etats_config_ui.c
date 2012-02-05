@@ -1172,17 +1172,14 @@ void etats_config_ui_onglet_comptes_select_unselect ( GtkToggleButton *togglebut
     switch ( type_compte )
     {
     case -9:
-        {
-            utils_togglebutton_select_unselect_all_rows ( togglebutton, tree_view );
-            break;
-        }
+    	utils_togglebutton_select_unselect_all_rows ( togglebutton, tree_view );
+    	break;
     default:
-        {
-            gtk_tree_selection_unselect_all ( selection );
-            if ( toggle )
-                etats_config_onglet_select_partie_liste_comptes ( tree_view, type_compte );
-            utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), toggle );
-        }
+    	gtk_tree_selection_unselect_all ( selection );
+    	if ( toggle )
+    		etats_config_onglet_select_partie_liste_comptes ( tree_view, type_compte );
+    	utils_togglebutton_change_label_select_unselect ( GTK_TOGGLE_BUTTON ( togglebutton ), toggle );
+    	break;
     }
 }
 

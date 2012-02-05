@@ -128,11 +128,9 @@ static gint width_spin_button = 50;
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern struct conditional_message delete_msg[];
-extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
-extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
 
 
@@ -664,6 +662,9 @@ GtkWidget *onglet_messages_and_warnings ( void )
     GtkTreeViewColumn * column;
     gchar *tmpstr;
     int i;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages & warnings"), "warnings.png" );
 
@@ -672,7 +673,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     /* Display or not tips */
     tip_checkbox = gsb_automem_checkbutton_new ( _("Display tip of the day"),
-                        &(etat.show_tip),
+                        &conf->show_tip,
                         NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
@@ -1119,6 +1120,9 @@ static GtkWidget *gsb_config_scheduler_page ( void )
     GtkWidget *label;
     GtkWidget *entry;
     GtkWidget *button;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Scheduler"), "scheduler.png" );
 
@@ -1128,7 +1132,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         _("Scheduler warnings at Grisbi's opening"),
                         _("Warn/Execute the scheduled transactions arriving at expiration date"),
                         _("Warn/Execute the scheduled transactions of the month"),
-                        &execute_scheduled_of_month,
+                        &conf->execute_scheduled_of_month,
                         NULL, NULL );
 
     hbox = gtk_hbox_new ( FALSE, 0);
@@ -1138,7 +1142,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         _("Number of days before the warning or the execution: ") );
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
-    entry = gsb_automem_spin_button_new ( &nb_days_before_scheduled, NULL, NULL );
+    entry = gsb_automem_spin_button_new ( &conf->nb_days_before_scheduled, NULL, NULL );
     gtk_widget_set_size_request ( entry, width_spin_button, -1 );
 
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );

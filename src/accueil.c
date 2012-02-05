@@ -1509,14 +1509,16 @@ void update_soldes_minimaux ( gboolean force )
     GSList *liste_voulu;
     GSList *liste_autorise_et_voulu;
     GSList *list_tmp;
-
+    GrisbiAppConf *conf;
 
     if ( !force
-	 &&
-	 !mise_a_jour_soldes_minimaux  )
-	return;
+     &&
+     !mise_a_jour_soldes_minimaux  )
+        return;
 
     devel_debug ( "update_soldes_minimaux" );
+
+    conf = grisbi_app_get_conf ( );
 
     mise_a_jour_soldes_minimaux = 0;
 
@@ -1543,7 +1545,7 @@ void update_soldes_minimaux ( gboolean force )
 
         i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-        if ( gsb_data_account_get_closed_account ( i ) && !etat.show_closed_accounts )
+        if ( gsb_data_account_get_closed_account ( i ) && !conf->show_closed_accounts )
         {
             list_tmp = list_tmp -> next;
             continue;
@@ -1811,20 +1813,23 @@ void update_fin_comptes_passifs ( gboolean force )
     GSList *liste_tmp;
     GSList *pointeur;
     GSList *list_tmp;
+    GrisbiAppConf *conf;
 
     if ( !force
-	 &&
-	 !mise_a_jour_fin_comptes_passifs )
-	return;
+     &&
+     !mise_a_jour_fin_comptes_passifs )
+        return;
 
     devel_debug (NULL);
+
+    conf = grisbi_app_get_conf ( );
 
     mise_a_jour_fin_comptes_passifs = 0;
 
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
-    if ( !etat.show_closed_accounts )
+    if ( !conf->show_closed_accounts )
         return;
 
     list_tmp = gsb_data_account_get_list_accounts ();

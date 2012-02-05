@@ -35,6 +35,7 @@
 #include "bet_data.h"
 #include "bet_hist.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
 #include "gsb_data_fyear.h"
@@ -1112,6 +1113,9 @@ void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
 {
     GtkWidget *parent;
     GList *tmp_list;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     parent = gtk_widget_get_parent ( self->box );
     tmp_list = g_object_get_data ( G_OBJECT ( parent ), "button_list" );
@@ -1134,7 +1138,7 @@ void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
     gtk_container_foreach ( GTK_CONTAINER ( self->box ), ( GtkCallback ) gtk_widget_destroy, NULL );
 
     self->is_visible = TRUE;
-    self->button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    self->button = gsb_automem_imagefile_button_new ( conf->display_toolbar,
                         self->name,
                         self->filename,
                         NULL,

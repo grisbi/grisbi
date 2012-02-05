@@ -555,12 +555,15 @@ void budgetary_lines_importer_list ( void )
 GtkWidget *creation_barre_outils_ib ( void )
 {
     GtkWidget *hbox, *button;
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
 
     /* Hbox */
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* New budgetary line button */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf->display_toolbar,
                                 _("New\nbudgetary line"), "new-ib.png",
                                 G_CALLBACK ( appui_sur_ajout_imputation ),
                                 budgetary_line_tree_model );
@@ -570,7 +573,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (1) );
 
     /* New sub budgetary line button */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf->display_toolbar,
                                 _("New sub\nbudgetary line"),
                                 "new-sub-ib.png",
                                 G_CALLBACK ( appui_sur_ajout_imputation ),
@@ -583,7 +586,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (2) );
 
     /* Import button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                 GTK_STOCK_OPEN,
                                 _("Import"),
                                 G_CALLBACK ( budgetary_lines_importer_list ),
@@ -595,7 +598,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                 GTK_STOCK_SAVE,
                                 _("Export"),
                                 G_CALLBACK ( budgetary_lines_exporter_list ),
@@ -606,7 +609,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Delete button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                 GTK_STOCK_DELETE, _("Delete"),
                                 G_CALLBACK ( supprimer_division ),
                                 budgetary_line_tree );
@@ -616,7 +619,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* Properties button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf->display_toolbar,
                                 GTK_STOCK_EDIT, _("Edit"),
                                 G_CALLBACK ( edit_budgetary_line ),
                                 budgetary_line_tree );
@@ -626,7 +629,7 @@ GtkWidget *creation_barre_outils_ib ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
     /* View button */
-    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( conf->display_toolbar,
                                 GTK_STOCK_SELECT_COLOR,
                                 _("View"),
                                 G_CALLBACK(popup_budgetary_line_view_mode_menu),

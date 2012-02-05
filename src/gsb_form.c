@@ -173,14 +173,16 @@ GtkWidget *gsb_form_get_form_widget ( void )
  * */
 GtkWidget *gsb_form_new ( void )
 {
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
     /* Create the expander */
     form_expander = gtk_expander_new ( "" );
-    gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ),
-				etat.formulaire_toujours_affiche );
-    g_signal_connect_after( G_OBJECT(form_expander),
-			    "activate",
-			    G_CALLBACK (gsb_form_activate_expander),
-			    NULL );
+    gtk_expander_set_expanded ( GTK_EXPANDER ( form_expander ), conf->formulaire_toujours_affiche );
+    g_signal_connect_after ( G_OBJECT ( form_expander ),
+                        "activate",
+                        G_CALLBACK ( gsb_form_activate_expander ),
+                        NULL );
 
     gsb_form_create_widgets ();
 
@@ -1000,14 +1002,17 @@ gboolean gsb_form_switch_expander ( void )
 gboolean gsb_form_activate_expander ( GtkWidget *expander,
                         gpointer null )
 {
-    devel_debug (NULL);
+    GrisbiAppConf *conf;
 
-    if ( gtk_expander_get_expanded (GTK_EXPANDER (expander)))
+    devel_debug (NULL);
+    conf = grisbi_app_get_conf ( );
+
+    if ( gtk_expander_get_expanded ( GTK_EXPANDER ( expander ) ) )
     {
         GtkWidget *date_entry;
 
         gsb_form_show ( TRUE );
-        etat.formulaire_toujours_affiche = TRUE;
+        conf->formulaire_toujours_affiche = TRUE;
         gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
         date_entry = gsb_form_widget_get_widget ( TRANSACTION_FORM_DATE );
         gsb_form_widget_set_empty ( date_entry, TRUE );
@@ -1019,8 +1024,8 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
     }
     else
     {
-	gsb_form_show ( FALSE );
-	etat.formulaire_toujours_affiche = FALSE;
+        gsb_form_show ( FALSE );
+        conf->formulaire_toujours_affiche = FALSE;
     }
     gsb_menu_update_view_menu ( gsb_gui_navigation_get_current_account () );
 
@@ -1087,7 +1092,7 @@ gboolean gsb_form_is_visible ( void )
 
 
 /**
- * hide the form, depending to the variable etat.formulaire_toujours_affiche
+ * hide the form, depending to the variable conf->formulaire_toujours_affiche
  * if the user wants the form always showed, that function does nothing
  * else, destroy the form and hide the expander
  *
@@ -3090,6 +3095,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
     GSList *tmp_list;
     GDate *date;
     GDate *value_date;
+    GrisbiAppConf *conf;
 
     devel_debug_int (transaction_number);
 
@@ -3128,8 +3134,9 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 						  is_transaction );
 		break;
 
-	    case TRANSACTION_FORM_EXERCICE:
-		if (etat.affichage_exercice_automatique && value_date)
+        case TRANSACTION_FORM_EXERCICE:
+        conf = grisbi_app_get_conf ( );
+        if (conf->affichage_exercice_automatique && value_date)
         {
             if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (
              TRANSACTION_FORM_VALUE_DATE) ) )
@@ -3141,15 +3148,15 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
                         gsb_fyear_get_fyear_from_combobox (
                         element -> element_widget, value_date ), is_transaction );
         }
-		else
-		    gsb_data_mix_set_financial_year_number ( transaction_number,
+        else
+            gsb_data_mix_set_financial_year_number ( transaction_number,
                         gsb_fyear_get_fyear_from_combobox (
-                        element -> element_widget, date ), is_transaction);
+                        element -> element_widget, date ), is_transaction) ;
 
-            break;
+        break;
 
 	    case TRANSACTION_FORM_PARTY:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if ( gsb_form_widget_check_empty ( element -> element_widget ) )
 		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
 		else
 		{
@@ -3500,7 +3507,10 @@ gboolean gsb_form_get_categories ( gint transaction_number,
  * */
 gboolean gsb_form_escape_form ( void )
 {
+    GrisbiAppConf *conf;
+
     devel_debug (NULL);
+    conf = grisbi_app_get_conf ( );
 
     switch ( gsb_form_get_origin ())
     {
@@ -3524,7 +3534,7 @@ gboolean gsb_form_escape_form ( void )
     /* in all case clean the scheduler part of the form */
     gsb_form_scheduler_clean ();
 
-    if ( etat.formulaire_toujours_affiche )
+    if ( conf->formulaire_toujours_affiche )
     {
         gsb_form_clean ( gsb_form_get_account_number ( ) );
     }
