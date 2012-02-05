@@ -3,6 +3,11 @@
 
 #include <gtk/gtk.h>
 
+/*START_INCLUDE*/
+/*END_INCLUDE*/
+
+
+
 G_BEGIN_DECLS
 
 /*
@@ -44,7 +49,8 @@ struct _GrisbiWindowClass
 /* construction */
 GType grisbi_window_get_type ( void ) G_GNUC_CONST;
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
-
+GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
+                        const gchar *action_group_name );
 G_END_DECLS
 
 #endif  /* __GRISBI_APP_H__ */
