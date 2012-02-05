@@ -5,6 +5,7 @@
 
 /*START_INCLUDE*/
 #include "grisbi_window.h"
+#include "structures.h"
 /*END_INCLUDE*/
 
 G_BEGIN_DECLS
@@ -44,16 +45,16 @@ struct _GrisbiAppClass
 
 
 /* Public methods */
-
-/* construction */
 GType grisbi_app_get_type ( void ) G_GNUC_CONST;
-GrisbiApp *grisbi_app_get_default ( void );
-gboolean grisbi_app_get_first_use ( GrisbiApp *app );
+gboolean grisbi_app_close_file ( void );
 GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
                         GdkScreen *screen );
+GrisbiAppConf *grisbi_app_get_conf ( void );
+GrisbiApp *grisbi_app_get_default ( void );
+gboolean grisbi_app_get_first_use ( GrisbiApp *app );
 GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app );
 const GList	*grisbi_app_get_windows ( GrisbiApp *app );
-
+gboolean grisbi_app_quit ( void );
 G_END_DECLS
 
 #endif  /* __GRISBI_APP_H__ */

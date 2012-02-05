@@ -34,6 +34,7 @@
 #include "grisbi_app.h"
 #include "gsb_color.h"
 #include "gsb_dirs.h"
+#include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_plugins.h"
 #include "import.h"
@@ -54,9 +55,16 @@ static void grisbi_app_set_active_window (GrisbiApp *app,
                    GrisbiWindow *window);
 static void grisbi_app_weak_notify ( gpointer data,
                         GObject *where_the_app_was );
+static gboolean grisbi_app_window_delete_event ( GrisbiWindow *window,
+                        GdkEvent *event,
+                        GrisbiApp *app );
+static void grisbi_app_window_destroy ( GrisbiWindow *window,
+                        GrisbiApp *app );
 static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
                         GdkEventFocus *event,
                         GrisbiApp *app );
+static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window );
+
 /*END_STATIC*/
 
 
@@ -68,9 +76,8 @@ struct _GrisbiAppPrivate
     GList               *windows;
     GrisbiWindow        *active_window;
 
+    GrisbiAppConf       *conf;
     gint                first_use;
-    GtkPageSetup        *page_setup;
-    GtkPrintSettings    *print_settings;
 };
 
 
@@ -87,13 +94,19 @@ G_DEFINE_TYPE(GrisbiApp, grisbi_app, G_TYPE_OBJECT)
 static void grisbi_app_finalize ( GObject *object )
 {
     GrisbiApp *app = GRISBI_APP ( object );
+    GrisbiAppConf *conf;
+devel_debug (NULL);
 
+    /* libération mémoire de la liste des fenêtres */
     g_list_free ( app->priv->windows );
 
-    if ( app->priv->page_setup )
-        g_object_unref ( app->priv->page_setup );
-    if ( app->priv->print_settings )
-        g_object_unref ( app->priv->print_settings );
+    /* libération mémoire de la configuration de grisbi */
+    conf = app->priv->conf;
+
+    g_free ( conf->font_string );
+    g_free ( conf->browser_command );
+    g_strfreev ( conf->tab_noms_derniers_fichiers_ouverts );
+    g_free ( app->priv->conf );
 
     G_OBJECT_CLASS ( grisbi_app_parent_class )->finalize ( object );
 }
@@ -158,6 +171,7 @@ static void grisbi_app_init ( GrisbiApp *app )
 static void grisbi_app_weak_notify ( gpointer data,
                         GObject *where_the_app_was )
 {
+devel_debug (NULL);
     gtk_main_quit ();
 }
 
@@ -222,22 +236,22 @@ GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
 
     app->priv->windows = g_list_prepend ( app->priv->windows, window );
 
+    grisbi_app_window_set_size_and_position ( window );
+
     g_signal_connect ( window,
                         "focus_in_event",
                         G_CALLBACK ( grisbi_app_window_focus_in_event ),
                         app );
 
-/*     g_signal_connect ( window,
- *                         "delete_event",
- *                         G_CALLBACK ( grisbi_app_window_delete_event ),
- *                         app );
- */
+    g_signal_connect ( window,
+                        "delete_event",
+                        G_CALLBACK ( grisbi_app_window_delete_event ),
+                        app );
 
-/*     g_signal_connect ( window,
- *                         "destroy",
- *                         G_CALLBACK ( grisbi_app_window_destroy ),
- *                         app );
- */
+    g_signal_connect ( window,
+                        "destroy",
+                        G_CALLBACK ( grisbi_app_window_destroy ),
+                        app );
 
     if ( screen != NULL )
         gtk_window_set_screen ( GTK_WINDOW ( window ), screen );
@@ -246,17 +260,79 @@ GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
 }
 
 
+/**
+ * updates active_window when a new toplevel receives focus.
+ *
+ * \param window
+ * \param event
+ * \param app
+ *
+ * \return TRUE
+ * */
 static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
                         GdkEventFocus *event,
                         GrisbiApp *app )
 {
-    /* updates active_view and active_child when a new toplevel receives focus */
+    devel_debug (NULL);
+
     if ( !GRISBI_IS_WINDOW ( window ) )
         return FALSE;
 
     grisbi_app_set_active_window ( app, window );
 
     return FALSE;
+}
+
+
+/**
+ * exit the gtk main loop when the main window is destroyed.
+ *
+ * \param window
+ * \param event
+ * \param app
+ *
+ * \return TRUE
+ * */
+static gboolean grisbi_app_window_delete_event ( GrisbiWindow *window,
+                        GdkEvent *event,
+                        GrisbiApp *app )
+{
+    devel_debug (NULL);
+
+    gtk_widget_destroy ( GTK_WIDGET  (window ) );
+
+    return TRUE;
+}
+
+
+/**
+ * exit the gtk main loop when the main window is destroyed.
+ *
+ * \param window
+ * \param app
+ *
+ * \return TRUE
+ * */
+static void grisbi_app_window_destroy ( GrisbiWindow *window,
+                        GrisbiApp *app )
+{
+    devel_debug (NULL);
+
+    app->priv->windows = g_list_remove ( app->priv->windows, window );
+
+    if ( window == app->priv->active_window )
+    {
+        if ( app->priv->windows != NULL )
+            app->priv->active_window = app->priv->windows->data ;
+        else
+            app->priv->active_window = NULL;
+    }
+
+    if ( app->priv->windows == NULL )
+    {
+        grisbi_app_save_accels ( );
+        g_object_unref ( app );
+    }
 }
 
 
@@ -300,7 +376,7 @@ static void grisbi_app_save_accels ( void )
     gchar *msg;
 
     accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
-    if (accel_filename )
+    if ( accel_filename )
     {
         msg = g_strdup_printf ( "Saving keybindings in %s\n", accel_filename);
         gtk_accel_map_save ( accel_filename );
@@ -352,14 +428,18 @@ gboolean grisbi_app_get_first_use ( GrisbiApp *app )
  */
 static void grisbi_app_load_config_var ( GrisbiApp *app )
 {
+    /* initialisation de la variable conf */
+    app->priv->conf = g_malloc0 ( sizeof ( GrisbiAppConf ) );
+
     /* initialisation des couleurs par défaut */
     gsb_color_initialise_couleurs_par_defaut ( );
+
+    /* chargement des paramètres communs */
+    app->priv->first_use = !gsb_file_config_load_config ( app->priv->conf );
 
     /* à reprendre autrement */
     init_variables ();
 
-    /* chargement des paramètres communs */
-    app->priv->first_use = !gsb_file_config_load_config ( );
 }
 
  
@@ -380,6 +460,122 @@ static void grisbi_app_load_import_formats ( GrisbiApp *app )
 }
 
  
+/**
+ * set size and position of the main window of grisbi.
+ *
+ * \param window
+ *
+ * \return
+ *
+ * */
+static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window )
+{
+    GrisbiApp *app;
+    GrisbiAppConf *conf;
+
+    app = grisbi_app_get_default ( );
+    conf = app->priv->conf;
+
+    /* set the size of the window */
+    if ( conf->main_width && conf->main_height )
+        gtk_window_set_default_size ( GTK_WINDOW ( window ), conf->main_width, conf->main_height );
+    else
+        gtk_window_set_default_size ( GTK_WINDOW ( window ), 900, 600 );
+
+    /* display window at position */
+    gtk_window_move ( GTK_WINDOW ( window ), conf->root_x, conf->root_y );
+
+    /* set the full screen if necessary */
+    if ( conf->full_screen )
+        gtk_window_maximize ( GTK_WINDOW ( window ) );
+}
+
+
+/**
+ * retourne la structure de configuration de Grisbi
+ *
+ * \param app
+ *
+ * \return conf
+ *
+ **/
+GrisbiAppConf *grisbi_app_get_conf ( void )
+{
+    GrisbiApp *app;
+
+    app = grisbi_app_get_default ( );
+    return app->priv->conf;
+}
+
+
+/**
+ * close grisbi by destroying the main window
+ * This function is called by the Quit menu option.
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean grisbi_app_quit ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *main_window;
+    GrisbiAppConf *conf;
+
+    devel_debug (NULL);
+
+    app = grisbi_app_get_default ( );
+    conf = grisbi_app_get_conf ( );
+
+    /* on récupère la fenetre active */
+    main_window = grisbi_app_get_active_window ( app );
+
+    /* sauvegarde la position de la fenetre principale */
+    gtk_window_get_position ( GTK_WINDOW ( main_window ), &conf->root_x, &conf->root_y );
+    gtk_window_get_size ( GTK_WINDOW ( run.window ), &conf->main_width, &conf->main_height );
+
+    gsb_file_config_save_config ( conf );
+
+    if ( gsb_file_close ( ) )
+        gtk_widget_destroy ( GTK_WIDGET ( main_window ) );
+
+    /* clean finish of the debug file */
+    if ( etat.debug_mode )
+        gsb_debug_finish_log ( );
+
+    return FALSE;
+}
+
+
+/**
+ * close the file
+ * if no file loaded or no change, directly return TRUE
+ *
+ * \param
+ *
+ * \return FALSE if problem, TRUE if ok
+ * */
+gboolean grisbi_app_close_file ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *main_window;
+    GrisbiAppConf *conf;
+
+    devel_debug (NULL);
+
+    app = grisbi_app_get_default ( );
+    conf = grisbi_app_get_conf ( );
+
+    /* on récupère la fenetre active */
+    main_window = grisbi_app_get_active_window ( app );
+
+
+
+
+
+    return TRUE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
