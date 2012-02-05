@@ -239,7 +239,8 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
 
     theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
-    ui_manager = gsb_menu_get_ui_manager ( );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
+                        grisbi_app_get_default ( ) ) );
     items = menu_items_new ( );
 
     items->open_item = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/Open" );
