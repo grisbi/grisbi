@@ -30,6 +30,7 @@
 #include <unistd.h>
 
 #include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
 
 /*START_INCLUDE*/
 #include "grisbi_window.h"
@@ -49,6 +50,7 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
                         gint nb_derniers_fichiers_ouverts );
 static void grisbi_window_init_menus ( GrisbiWindow *window );
 static gboolean grisbi_window_initialise_builder ( void );
+static GtkWidget *grisbi_window_new_statusbar ( GrisbiWindow *window );
 /*END_STATIC*/
 
 
@@ -61,6 +63,9 @@ struct _GrisbiWindowPrivate
     /* Vbox générale */
     GtkWidget       *main_box;
 
+    /* nom du fichier associé à la fenêtre */
+    gchar *filename;
+
     /* titre de la fenêtre */
     gchar           *title;
 
@@ -68,12 +73,18 @@ struct _GrisbiWindowPrivate
     GtkWidget       *menu_bar;
     GtkUIManager    *ui_manager;
     GtkActionGroup  *always_sensitive_action_group;
-    GtkActionGroup  *file_sensitive_action_group;
+    GtkActionGroup  *division_sensitive_action_group;
+    GtkActionGroup  *file_save_action_group;
     GtkActionGroup  *file_recent_files_action_group;
     GtkActionGroup  *file_debug_toggle_action_group;
     GtkActionGroup  *edit_sensitive_action_group;
     GtkActionGroup  *edit_transactions_action_group;
     GtkActionGroup  *view_sensitive_action_group;
+
+    /* statusbar */
+    GtkWidget *statusbar;
+    guint context_id;
+    guint message_id;
 };
 
 
@@ -91,22 +102,74 @@ static void grisbi_window_realized ( GtkWidget *window,
 static void grisbi_window_finalize ( GObject *object )
 {
     GrisbiWindow *window;
-devel_debug (NULL);
+
+    devel_debug (NULL);
 
     window = GRISBI_WINDOW ( object );
 
     g_free ( window->priv->title );
+    g_free ( window->priv->filename );
 
     G_OBJECT_CLASS ( grisbi_window_parent_class )->finalize ( object );
+}
+
+
+static gboolean grisbi_window_key_press_event ( GtkWidget *widget,
+                        GdkEventKey *event,
+                        gpointer data )
+{
+    GrisbiAppConf *conf;
+
+    switch ( event -> keyval )
+    {
+        case GDK_KEY_F11 :
+            conf = grisbi_app_get_conf ( );
+            if ( conf->full_screen )
+                gtk_window_unfullscreen ( GTK_WINDOW ( widget ) );
+            else
+                gtk_window_fullscreen ( GTK_WINDOW ( widget ) );
+        break;
+    }
+
+    return FALSE;
+}
+
+
+static gboolean grisbi_window_state_event ( GtkWidget *widget,
+                        GdkEventWindowState *event )
+{
+    GrisbiWindow *window = GRISBI_WINDOW ( widget );
+    GrisbiAppConf *conf;
+    gboolean show;
+
+    if ( event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED )
+    {
+        show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
+
+        gtk_statusbar_set_has_resize_grip ( GTK_STATUSBAR ( window->priv->statusbar ), show );
+        conf = grisbi_app_get_conf ( );
+        conf->maximize_screen = !show;
+    }
+    else if ( event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN )
+    {
+        show = !( event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN );
+
+        gtk_statusbar_set_has_resize_grip ( GTK_STATUSBAR ( window->priv->statusbar ), show );
+        conf = grisbi_app_get_conf ( );
+        conf->full_screen = !show;
+    }
+
+    return FALSE;
 }
 
 
 static void grisbi_window_class_init ( GrisbiWindowClass *klass )
 {
     GObjectClass *object_class = G_OBJECT_CLASS ( klass );
-/*     GtkWidgetClass *widget_class = GTK_WIDGET_CLASS ( klass );  */
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS ( klass );
 
     object_class->finalize = grisbi_window_finalize;
+    widget_class->window_state_event = grisbi_window_state_event;
 
     g_type_class_add_private ( object_class, sizeof ( GrisbiWindowPrivate ) );
 }
@@ -115,6 +178,7 @@ static void grisbi_window_class_init ( GrisbiWindowClass *klass )
 static void grisbi_window_init ( GrisbiWindow *window )
 {
     GtkWidget *main_box;
+    GtkWidget *statusbar;
 
     window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
 
@@ -132,10 +196,19 @@ static void grisbi_window_init ( GrisbiWindow *window )
     /* create the menus */
     grisbi_window_init_menus ( window );
 
+    /* create the statusbar */
+    statusbar = grisbi_window_new_statusbar ( window );
+    gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
+
     /* set the signals */
-    g_signal_connect ( window,
+    g_signal_connect ( G_OBJECT ( window ),
                         "realize",
                         G_CALLBACK ( grisbi_window_realized ),
+                        NULL );
+
+    g_signal_connect ( G_OBJECT ( window ),
+                        "key-press-event",
+                        G_CALLBACK ( grisbi_window_key_press_event ),
                         NULL );
 }
 
@@ -161,21 +234,40 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
                         G_N_ELEMENTS ( always_sensitive_entries ),
                         window );
 
+    /* ShowFullScreenAction sensitive */
+    gtk_action_group_add_toggle_actions ( actions,
+                        show_full_screen_entrie,
+                        G_N_ELEMENTS ( show_full_screen_entrie ),
+                        NULL );
+
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
     window->priv->always_sensitive_action_group = actions;
 
     /* Actions pour la gestion des fichiers sensitives */
-    actions = gtk_action_group_new ( "FileSensitiveActions" );
+    actions = gtk_action_group_new ( "DivisionSensitiveActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_actions (actions,
-                        file_sensitive_entries,
-                        G_N_ELEMENTS ( file_sensitive_entries ),
+                        division_sensitive_entries,
+                        G_N_ELEMENTS ( division_sensitive_entries ),
                         window );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
-    window->priv->file_sensitive_action_group = actions;
+    window->priv->division_sensitive_action_group = actions;
+    gtk_action_group_set_sensitive ( actions, FALSE );
+
+    /* Actions pour la gestion des fichiers sensitives */
+    actions = gtk_action_group_new ( "FileSaveAction" );
+    gtk_action_group_set_translation_domain ( actions, NULL );
+    gtk_action_group_add_actions (actions,
+                        file_save_entries,
+                        G_N_ELEMENTS ( file_save_entries ),
+                        window );
+
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( actions );
+    window->priv->file_save_action_group = actions;
     gtk_action_group_set_sensitive ( actions, FALSE );
 
     /* Actions pour la gestion des fichiers récents */
@@ -301,8 +393,8 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
 {
     if ( strcmp ( action_group_name, "AlwaysSensitiveActions" ) == 0 )
         return window->priv->edit_sensitive_action_group;
-    else if ( strcmp ( action_group_name, "FileSensitiveActions" ) == 0 )
-        return window->priv->file_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "DivisionSensitiveActions" ) == 0 )
+        return window->priv->division_sensitive_action_group;
     else if ( strcmp ( action_group_name, "FileRecentFilesAction" ) == 0 )
         return window->priv->file_recent_files_action_group;
     else if ( strcmp ( action_group_name, "FileDebugToggleAction" ) == 0 )
@@ -441,12 +533,101 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
 
 
 /**
+ * retourne le nom du fichier associé à la fenêtre
  *
+ * \param GrisbiWindow
  *
- *
- *
+ * \return filename
  **/
+const gchar *grisbi_window_get_filename ( GrisbiWindow *window )
+{
+    return window->priv->filename;
+}
 
+/**
+ * définit le nom du fichier associé à la fenêtre
+ *
+ * \param GrisbiWindow
+ * \param filename
+ *
+ * \return TRUE
+ **/
+gboolean grisbi_window_set_filename ( GrisbiWindow *window,
+                        const gchar *filename )
+{
+    devel_debug ( filename );
+
+    g_free ( window->priv->filename );
+
+    window->priv->filename = g_strdup ( filename );
+
+    return TRUE;
+}
+
+
+/**
+ * Create and return a new GtkStatusBar to hold various status
+ * information.
+ *
+ * \param
+ *
+ * \return  A newly allocated GtkStatusBar.
+ */
+static GtkWidget *grisbi_window_new_statusbar ( GrisbiWindow *window )
+{
+    GtkWidget *statusbar;
+
+    statusbar = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_statusbar" ) );
+    window->priv->statusbar = statusbar;
+    window->priv->context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR ( statusbar ), "Grisbi" );
+    window->priv->message_id = -1;
+
+    return statusbar;
+}
+
+
+/**
+ * supprime le message de la liste
+ *
+ * \param GrisbiWindow
+ *
+ * \return
+ **/
+void grisbi_window_statusbar_remove ( GrisbiWindow *window )
+{
+    if ( window->priv->message_id >= 0 )
+    {
+        gtk_statusbar_remove ( GTK_STATUSBAR ( window->priv->statusbar ),
+                        window->priv->context_id,
+                        window->priv->message_id );
+        window->priv->message_id = -1;
+    }
+
+}
+
+
+/**
+ * met un message dans la barre d'état de la fenêtre
+ *
+ * \param GrisbiWindow
+ * \param msg
+ *
+ * \return
+ **/
+void grisbi_window_statusbar_push ( GrisbiWindow *window,
+                        const gchar *msg )
+{
+    window->priv->message_id = gtk_statusbar_push ( GTK_STATUSBAR ( window->priv->statusbar ),
+                        window->priv->context_id, msg );
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

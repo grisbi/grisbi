@@ -159,7 +159,12 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
 
     conf->full_screen = g_key_file_get_integer ( config,
                         "Geometry",
-                        "Full screen",
+                        "Full_screen",
+                        NULL );
+
+    conf->maximize_screen = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Maximize_screen",
                         NULL );
 
     int_ret = g_key_file_get_integer ( config,
@@ -508,8 +513,13 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 
     g_key_file_set_integer ( config,
                         "Geometry",
-                        "Full screen",
+                        "Full_screen",
                         conf->full_screen );
+
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Maximize_screen",
+                        conf->maximize_screen );
 
     g_key_file_set_integer ( config,
                         "Geometry",

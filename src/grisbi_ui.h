@@ -85,15 +85,15 @@ static const GtkActionEntry always_sensitive_entries[] =
      G_CALLBACK ( force_display_tip ) },
 };
 
-static const GtkActionEntry file_sensitive_entries[] =
+static GtkToggleActionEntry show_full_screen_entrie[] =
 {
-#ifdef GTKOSXAPPLICATION
-    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), "<Meta>S", NULL,
-     G_CALLBACK ( gsb_file_save ) },
-#else
-    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), NULL, NULL,
-     G_CALLBACK ( gsb_file_save ) },
-#endif
+/* Name, stock_id, label, accelerator, tooltip, callback, is_active */
+    {"ShowFullScreenAction", NULL, N_("Full screen mode"), NULL, NULL,
+     G_CALLBACK ( gsb_menu_full_screen_mode ), 0 },
+};
+
+static const GtkActionEntry division_sensitive_entries[] =
+{
     {"SaveAsAction", GTK_STOCK_SAVE_AS,  N_("_Save as..."), NULL, NULL,
      G_CALLBACK ( gsb_file_save_as ) },
     {"FileRevertAction", GTK_STOCK_REVERT_TO_SAVED, NULL, NULL,
@@ -116,6 +116,21 @@ static const GtkActionEntry file_sensitive_entries[] =
     {"CloseAction", GTK_STOCK_CLOSE, NULL, NULL, NULL,
      G_CALLBACK ( grisbi_app_close_file ) },
 #endif
+    {"NewAccountAction", GTK_STOCK_NEW, N_("_New account"), "", NULL,
+     G_CALLBACK ( gsb_assistant_account_run ) },
+    {"PrefsAction", GTK_STOCK_PREFERENCES, N_("_Preferences"), NULL, NULL,
+     G_CALLBACK ( preferences ) },
+};
+
+static const GtkActionEntry file_save_entries[] =
+{
+#ifdef GTKOSXAPPLICATION
+    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), "<Meta>S", NULL,
+     G_CALLBACK ( gsb_file_save ) },
+#else
+    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), NULL, NULL,
+     G_CALLBACK ( gsb_file_save ) },
+#endif
 };
 
 static const GtkActionEntry file_recent_files_entrie[] =
@@ -137,12 +152,14 @@ static const GtkActionEntry edit_sensitive_entries[] =
     {"NewTransactionAction", GTK_STOCK_NEW, N_("_New transaction"), "", NULL,
      G_CALLBACK ( new_transaction ) },
     {"MoveToAnotherAccountAction", NULL, N_("_Move transaction to another account"), NULL, NULL, NULL },
-    {"NewAccountAction", GTK_STOCK_NEW, N_("_New account"), "", NULL,
-     G_CALLBACK ( gsb_assistant_account_run ) },
     {"RemoveAccountAction", GTK_STOCK_DELETE, N_("_Remove current account"), "", NULL,
      G_CALLBACK ( gsb_account_delete ) },
-    {"PrefsAction", GTK_STOCK_PREFERENCES, N_("_Preferences"), NULL, NULL,
-     G_CALLBACK ( preferences ) },
+};
+
+static const GtkActionEntry edit_transaction_entrie[] =
+{
+     {"EditTransactionAction", GTK_STOCK_EDIT, N_("_Edit transaction"), "", NULL,
+     G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
 };
 
 static const GtkActionEntry edit_transactions_entries[] =

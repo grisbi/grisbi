@@ -84,6 +84,8 @@
             <menuitem name="ShowFourLines" action="ShowFourLinesAction"/>
             <separator/>
             <menuitem name="InitwidthCol" action="InitwidthColAction"/>
+            <separator/>
+            <menuitem name="ShowFullScreen" action="ShowFullScreenAction"/>
         </menu>
 
         <menu name="Help" action="HelpMenuAction">

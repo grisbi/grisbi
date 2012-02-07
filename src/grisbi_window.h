@@ -44,13 +44,20 @@ struct _GrisbiWindowClass
 };
 
 
-/* Public methods */
-
-/* construction */
+/* START_DECLARATION */
 GType grisbi_window_get_type ( void ) G_GNUC_CONST;
-GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
+
 GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
+const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
+GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
+gboolean grisbi_window_set_filename ( GrisbiWindow *window,
+                        const gchar *filename );
+void grisbi_window_statusbar_remove ( GrisbiWindow *window );
+void grisbi_window_statusbar_push ( GrisbiWindow *window,
+                        const gchar *msg );
+/* END_DECLARATION */
+
 G_END_DECLS
 
 #endif  /* __GRISBI_APP_H__ */

@@ -64,7 +64,6 @@ static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
                         GdkEventFocus *event,
                         GrisbiApp *app );
 static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window );
-
 /*END_STATIC*/
 
 
@@ -95,19 +94,19 @@ static void grisbi_app_finalize ( GObject *object )
 {
     GrisbiApp *app = GRISBI_APP ( object );
     GrisbiAppConf *conf;
-devel_debug (NULL);
+    devel_debug (NULL);
 
     /* libération mémoire de la liste des fenêtres */
     g_list_free ( app->priv->windows );
 
     /* libération mémoire de la configuration de grisbi */
     conf = app->priv->conf;
-
     g_free ( conf->font_string );
     g_free ( conf->browser_command );
     g_strfreev ( conf->tab_noms_derniers_fichiers_ouverts );
     g_free ( app->priv->conf );
 
+    /* libération de l'objet app */
     G_OBJECT_CLASS ( grisbi_app_parent_class )->finalize ( object );
 }
 
@@ -171,7 +170,8 @@ static void grisbi_app_init ( GrisbiApp *app )
 static void grisbi_app_weak_notify ( gpointer data,
                         GObject *where_the_app_was )
 {
-devel_debug (NULL);
+    devel_debug (NULL);
+
     gtk_main_quit ();
 }
 
@@ -487,6 +487,10 @@ static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window )
 
     /* set the full screen if necessary */
     if ( conf->full_screen )
+        gtk_window_fullscreen ( GTK_WINDOW ( window ) );
+
+    /* put up the screen if necessary */
+    if ( conf->maximize_screen )
         gtk_window_maximize ( GTK_WINDOW ( window ) );
 }
 
@@ -531,8 +535,12 @@ gboolean grisbi_app_quit ( void )
     main_window = grisbi_app_get_active_window ( app );
 
     /* sauvegarde la position de la fenetre principale */
-    gtk_window_get_position ( GTK_WINDOW ( main_window ), &conf->root_x, &conf->root_y );
-    gtk_window_get_size ( GTK_WINDOW ( run.window ), &conf->main_width, &conf->main_height );
+    if ( conf->full_screen == 0 && conf->maximize_screen == 0 )
+        gtk_window_get_position ( GTK_WINDOW ( main_window ), &conf->root_x, &conf->root_y );
+
+    /* sauvegarde de la taille de la fenêtre si nécessaire */
+    if ( conf->full_screen == 0 && conf->maximize_screen == 0 )
+        gtk_window_get_size ( GTK_WINDOW ( run.window ), &conf->main_width, &conf->main_height );
 
     gsb_file_config_save_config ( conf );
 
@@ -576,6 +584,84 @@ gboolean grisbi_app_close_file ( void )
     return TRUE;
 }
 
+
+/**
+ * retourne le nom du fichier de la fenêtre active
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *grisbi_app_get_active_filename ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    return grisbi_window_get_filename ( window );
+}
+
+
+/**
+ * définit le nom du fichier associé à la fenêtre
+ *
+ * \param GrisbiWindow
+ * \param filename
+ *
+ * \return TRUE
+ **/
+gboolean grisbi_app_set_active_filename ( const gchar *filename )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    grisbi_window_set_filename ( window, filename );
+
+    return TRUE;
+}
+
+
+/**
+ * retourne le ui_manager pour la gestion des menus et barres d'outils
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkUIManager *grisbi_app_get_active_ui_manager ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+    GtkUIManager *ui_manager;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    ui_manager = grisbi_window_get_ui_manager ( window );
+
+    return ui_manager;
+}
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

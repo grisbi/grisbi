@@ -268,7 +268,7 @@ gboolean help_bugreport ( void )
  */
 gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
 {
-    GtkWidget * widget;
+    GtkWidget *widget;
     GtkUIManager *ui_manager;
 
     ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
@@ -607,6 +607,53 @@ gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
     return FALSE;
 }
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_menu_sensitive ( gboolean sensitif )
+{
+    GrisbiWindow *window;
+    GtkUIManager *ui_manager;
+    GtkActionGroup *actions;
+
+    devel_debug_int (sensitif);
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    ui_manager = grisbi_app_get_active_ui_manager ( );
+
+
+    actions = grisbi_window_get_action_group ( window, "DivisionSensitiveActions" );
+    gtk_action_group_set_sensitive ( actions, sensitif );
+    actions = grisbi_window_get_action_group ( window, "FileDebugToggleAction" );
+    gtk_action_group_set_sensitive ( actions, sensitif );
+
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_menu_full_screen_mode ( void )
+{
+    GrisbiWindow *window;
+    GrisbiAppConf *conf;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    conf = grisbi_app_get_conf ( );
+    if ( conf->full_screen )
+        gtk_window_unfullscreen ( GTK_WINDOW ( window ) );
+    else
+        gtk_window_fullscreen ( GTK_WINDOW ( window ) );
+}
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
