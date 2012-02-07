@@ -183,7 +183,7 @@ gint main ( int argc, char **argv )
     else
         display_tip ( FALSE );
 
-    run.file_modification = time ( NULL );
+/*     run.file_modification = time ( NULL );  */
 
     gtk_main ();
 
