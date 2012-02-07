@@ -33,6 +33,8 @@
 
 /*START_INCLUDE*/
 #include "gsb_status.h"
+#include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "main.h"
 #include "structures.h"
 #include "utils.h"
@@ -44,61 +46,25 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/** Status bar displayed in the bottom of Grisbi window.  */
-static GtkWidget *main_statusbar = NULL;
-
-/** Context ID from the GtkStatusBar. */
-static guint context_id;
-
-/** Message ID from the GtkStatusBar.  */
-static guint message_id = -1;
-
-/** Optional progress bar in main status bar.  */
-/*
-static GtkWidget * progress_bar = NULL;
-*/
-
-/** Timer ID of the timeout responsible for updating the
- * GtkProgressBar.  */
-/*
-static gint timer_id;
-*/
-
 /** Window under cursor at the time the cursor animation changed. */
 static GdkWindow *tracked_window;
 
 
 /**
- * Create and return a new GtkStatusBar to hold various status
- * information.
- *
- * \return	A newly allocated GtkStatusBar.
- */
-GtkWidget * gsb_new_statusbar ()
-{
-    main_statusbar = gtk_statusbar_new ();
-    context_id = gtk_statusbar_get_context_id ( GTK_STATUSBAR ( main_statusbar ), "Grisbi" );
-    message_id = -1;
-
-    gtk_widget_show_all ( main_statusbar );
-
-    return main_statusbar;
-}
-
-
-
-/**
  * Display a message in the status bar.
  *
- * \param message	Message to display.
+ * \param message   Message to display.
  */
-void gsb_status_message ( gchar * message )
+void gsb_status_message ( gchar *message )
 {
-    if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-        return;
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
 
     gsb_status_clear ();
-    message_id = gtk_statusbar_push ( GTK_STATUSBAR ( main_statusbar ), context_id, message );
+    grisbi_window_statusbar_push ( window, message );
 
     /* force status message to be displayed NOW */
     update_gui ( );
@@ -111,14 +77,12 @@ void gsb_status_message ( gchar * message )
  */
 void gsb_status_clear (  )
 {
-    if ( ! main_statusbar || ! GTK_IS_STATUSBAR ( main_statusbar ) )
-        return;
+    GrisbiApp *app;
+    GrisbiWindow *window;
 
-    if ( message_id >= 0 )
-    {
-        gtk_statusbar_remove ( GTK_STATUSBAR ( main_statusbar ), context_id, message_id );
-        message_id = -1;
-    }
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+    grisbi_window_statusbar_remove ( window );
 
     /* force status message to be displayed NOW */
     update_gui ( );
