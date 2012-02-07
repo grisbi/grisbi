@@ -3520,7 +3520,7 @@ gboolean gsb_form_escape_form ( void )
 	    break;
 
 	case ORIGIN_VALUE_HOME:
-	    gtk_widget_grab_focus ( run.window );
+	    gtk_widget_grab_focus ( GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ) );
 	    break;
 
 	case ORIGIN_VALUE_SCHEDULED:

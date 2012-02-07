@@ -39,6 +39,7 @@
 /*START_INCLUDE*/
 #include "gsb_bank.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account_property.h"
 #include "gsb_autofunc.h"
 #include "gsb_data_account.h"
@@ -1025,7 +1026,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     gint result;
 
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,

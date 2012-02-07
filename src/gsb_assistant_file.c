@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant_file.h"
 #include "affichage.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_bank.h"
@@ -603,7 +604,7 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     gchar *tmpstr;
 
     dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,

@@ -168,7 +168,6 @@ gint main ( int argc, char **argv )
 
     /* create the toplevel window and the main menu */
     window = grisbi_app_create_window ( app, NULL );
-    run.window = GTK_WIDGET ( window );
 
     gtk_widget_show ( GTK_WIDGET ( window ) );
 

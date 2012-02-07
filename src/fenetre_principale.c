@@ -155,7 +155,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     {
         gint width, height;
 
-        gtk_window_get_size ( GTK_WINDOW ( run.window ), &width, &height );
+        gtk_window_get_size ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ), &width, &height );
         gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
     }
     else

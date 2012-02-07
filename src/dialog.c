@@ -30,6 +30,7 @@
 
 /*START_INCLUDE*/
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "parametres.h"
 #include "structures.h"
 /*END_INCLUDE*/
@@ -203,7 +204,7 @@ void dialogue_special ( GtkMessageType param, gchar *text )
 {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         NULL );
@@ -229,9 +230,9 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
 {
     GtkWidget *dialog;
 
-    if ( GTK_IS_WINDOW ( run.window ) )
+    if ( GTK_IS_WINDOW ( grisbi_app_get_active_window ( NULL ) ) )
     {
-        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+        dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
                         NULL );
@@ -323,7 +324,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
         }
     }
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         type, buttons,
                         NULL );
@@ -436,7 +437,7 @@ gboolean question_yes_no ( gchar *text, gint default_answer )
     GtkWidget *dialog;
     gint response;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -520,7 +521,7 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
         return message -> default_answer;
 
     text = make_hint ( _(message -> hint), message -> message );
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
@@ -734,7 +735,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     format_text = make_hint ( hint, text );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,

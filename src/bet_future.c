@@ -259,7 +259,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -1914,7 +1914,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,

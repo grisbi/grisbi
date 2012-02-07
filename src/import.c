@@ -1422,7 +1422,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
     g_free ( tmpstr );
     g_free ( tmpstr2 );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
@@ -2268,7 +2268,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
                         _("Confirmation of importation of transactions in: %s"),
                         gsb_data_account_get_name ( account_number ) );
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_SELECT_ALL, -12,
                         _("Unselect all"), -13,
@@ -3240,7 +3240,7 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
                         gsb_data_account_get_name ( account_number ) );
 
     dialog = gtk_dialog_new_with_buttons ( tmp_str,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_SELECT_ALL, GTK_RESPONSE_ACCEPT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -4556,7 +4556,7 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     return NULL;
 
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
                         GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
@@ -4670,7 +4670,8 @@ gboolean gsb_import_by_rule_get_file ( GtkWidget *button,
 
     rule = GPOINTER_TO_INT ( g_object_get_data (G_OBJECT (entry), "rule"));
     enc = gsb_data_import_rule_get_charmap ( rule );
-    filenames = gsb_import_create_file_chooser ( enc, run.window );
+    filenames = gsb_import_create_file_chooser ( enc, 
+                        GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ) );
     if (!filenames)
     return FALSE;
 
@@ -4927,7 +4928,7 @@ GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *i
     progress = gtk_window_new ( GTK_WINDOW_TOPLEVEL );
     gtk_window_set_decorated ( GTK_WINDOW ( progress ), FALSE );
 
-    assistant = g_object_get_data ( G_OBJECT ( run.window ), "assistant" );
+    assistant = g_object_get_data ( G_OBJECT ( grisbi_app_get_active_window ( NULL ) ), "assistant" );
     gtk_window_set_modal ( GTK_WINDOW ( assistant ), FALSE );
     gtk_window_set_transient_for ( GTK_WINDOW ( progress ), GTK_WINDOW ( assistant ) );
     gtk_window_set_modal ( GTK_WINDOW ( progress ), TRUE );

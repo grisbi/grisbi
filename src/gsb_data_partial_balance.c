@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_partial_balance.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -1531,14 +1532,14 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
     if ( action == 1 )
         dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
-                            GTK_WINDOW ( run.window ),
+                            GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                             GTK_DIALOG_MODAL,
                             GTK_STOCK_CANCEL, 0,
                             GTK_STOCK_OK, 1,
                             NULL );
     else
         dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
-                            GTK_WINDOW ( run.window ),
+                            GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                             GTK_DIALOG_MODAL,
                             GTK_STOCK_CANCEL, 0,
                             GTK_STOCK_OK, 1,

@@ -34,28 +34,29 @@
 
 /*START_INCLUDE*/
 #include "gsb_currency_config.h"
+#include "categories_onglet.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_autofunc.h"
 #include "gsb_automem.h"
-#include "parametres.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_locale.h"
+#include "imputation_budgetaire.h"
 #include "main.h"
+#include "parametres.h"
+#include "structures.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
 #include "utils.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "utils_str.h"
-#include "structures.h"
 #include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -943,7 +944,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
     GtkTreeModel *model;
 
     dialog = gtk_dialog_new_with_buttons ( _("Add a currency"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CLOSE, 1,
 					   NULL );

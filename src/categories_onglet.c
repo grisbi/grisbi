@@ -389,7 +389,7 @@ void categories_exporter_list ( void )
     gchar *nom_categ;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export categories"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -430,7 +430,7 @@ void categories_importer_list ( void )
     GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import categories"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -711,7 +711,7 @@ gboolean edit_category ( GtkTreeView *tree_view )
 										       _("No category defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title,
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,

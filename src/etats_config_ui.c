@@ -33,6 +33,7 @@
 /*START_INCLUDE*/
 #include "etats_config_ui.h"
 #include "etats_config.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_buttons.h"
@@ -269,7 +270,8 @@ GtkWidget *etats_config_ui_create_dialog ( void )
 
     /* Recuparation d'un pointeur sur la fenetre. */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, "config_etats_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ) );
 
     /* Recupération d'un pointeur sur le gtk_tree_view. */
     tree_view = etats_config_ui_left_panel_create_tree_view ( );

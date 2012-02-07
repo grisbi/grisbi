@@ -645,7 +645,7 @@ gboolean edit_payee ( GtkTreeView * view )
     title = g_strdup_printf ( _("Properties for %s"), old_payee );
 
     dialog = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
                         GTK_STOCK_APPLY, GTK_RESPONSE_OK,

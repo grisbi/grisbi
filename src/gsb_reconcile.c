@@ -672,8 +672,7 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
 {
     GtkUIManager *ui_manager;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     gsb_gui_sensitive_headings (sensitive);

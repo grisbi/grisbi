@@ -115,7 +115,7 @@ void traitement_sigsegv ( gint signal_nb )
         errmsg = g_markup_printf_escaped ( _("The file \"%s has been modified. Do you want to save it?\n"),
                                     nom_fichier_comptes );
 
-        dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
+        dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
                                     GTK_MESSAGE_ERROR,
                                     GTK_BUTTONS_YES_NO,
@@ -528,8 +528,7 @@ gboolean gsb_debug_start_log ( void )
         gchar *tmp_str_2;
         GtkUIManager *ui_manager;
 
-        ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+        ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
         etat.debug_mode = TRUE;

@@ -34,6 +34,7 @@
 
 /*START_INCLUDE*/
 #include "print_dialog_config.h"
+#include "grisbi_app.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -86,11 +87,11 @@ void print_dialog_config ( GCallback begin_callback,
 
 
     res = gtk_print_operation_run (print, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG,
-				   GTK_WINDOW ( run.window ), NULL);
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ), NULL);
 
     if (res == GTK_PRINT_OPERATION_RESULT_APPLY)
     {
-	settings = gtk_print_operation_get_print_settings (print);
+        settings = gtk_print_operation_get_print_settings (print);
     }
 
 }

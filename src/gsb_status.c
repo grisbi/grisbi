@@ -102,7 +102,7 @@ void gsb_status_wait ( gboolean force_update )
     GdkWindow *current_window;
     GdkWindow *run_window;
 
-    run_window = gtk_widget_get_window ( run.window );
+    run_window = gtk_widget_get_window ( GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ) );
 
     gdk_window_set_cursor ( run_window,
                         gdk_cursor_new_for_display ( gdk_display_get_default ( ),
@@ -142,10 +142,10 @@ void gsb_status_wait ( gboolean force_update )
  */
 void gsb_status_stop_wait ( gboolean force_update )
 {
-    if ( !run.window )
+    if ( !grisbi_app_get_active_window ( NULL ) )
         return;
 
-    gdk_window_set_cursor ( gtk_widget_get_window ( run.window ), NULL );
+    gdk_window_set_cursor ( gtk_widget_get_window ( GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ) ), NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
     {

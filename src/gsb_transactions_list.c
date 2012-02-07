@@ -2016,7 +2016,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gint reconcile_number;
 
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -4300,8 +4300,7 @@ gboolean change_aspect_liste ( gint demande )
 {
     GtkUIManager *ui_manager;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
     switch ( demande )
     {
 	case 0:

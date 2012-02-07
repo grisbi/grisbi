@@ -2018,7 +2018,7 @@ void bet_historical_export_tab ( GtkWidget *menu_item,
     gchar *filename;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the historical data"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,

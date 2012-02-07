@@ -395,7 +395,9 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ) );
+
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
@@ -635,7 +637,8 @@ void bet_graph_line_graph_new ( GtkWidget *button, GtkTreeView *tree_view )
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
-    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
+    gtk_window_set_transient_for ( GTK_WINDOW ( dialog ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
     g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",

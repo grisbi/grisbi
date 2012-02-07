@@ -413,7 +413,7 @@ void budgetary_lines_exporter_list ( void )
     gchar *nom_ib;
 
     dialog = gtk_file_chooser_dialog_new ( _("Export the budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
@@ -462,7 +462,7 @@ void budgetary_lines_importer_list ( void )
     GtkFileFilter * filter;
 
     dialog = gtk_file_chooser_dialog_new ( _("Import budgetary lines"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
@@ -749,7 +749,7 @@ gboolean edit_budgetary_line ( GtkTreeView * view )
 							     _("No budget defined") ));
 
     dialog = gtk_dialog_new_with_buttons ( title ,
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,

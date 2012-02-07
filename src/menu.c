@@ -66,8 +66,7 @@ void efface_derniers_fichiers_ouverts ( void )
 {
     GtkUIManager *ui_manager;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     gtk_ui_manager_remove_ui ( ui_manager, recent_files_merge_id );
 }
@@ -99,8 +98,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         return FALSE;
     }
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     action_group = gtk_action_group_new ( "Group2" );
 
@@ -271,8 +269,7 @@ gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
     GtkWidget *widget;
     GtkUIManager *ui_manager;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     widget = gtk_ui_manager_get_widget ( ui_manager, item_name );
     
@@ -423,8 +420,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 
     devel_debug_int (account_number);
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     block_menu_cb = TRUE;
 
@@ -485,8 +481,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     GtkActionGroup *action_group;
     GtkUIManager *ui_manager;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window (
-                        grisbi_app_get_default ( ) ) );
+    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
     if ( move_to_account_merge_id != -1 )
         gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
@@ -623,7 +618,7 @@ void gsb_menu_sensitive ( gboolean sensitif )
 
     devel_debug_int (sensitif);
 
-    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    window = grisbi_app_get_active_window ( NULL );
     ui_manager = grisbi_app_get_active_ui_manager ( );
 
 
@@ -647,7 +642,7 @@ void gsb_menu_full_screen_mode ( void )
     GrisbiWindow *window;
     GrisbiAppConf *conf;
 
-    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    window = grisbi_app_get_active_window ( NULL );
     conf = grisbi_app_get_conf ( );
     if ( conf->full_screen )
         gtk_window_unfullscreen ( GTK_WINDOW ( window ) );

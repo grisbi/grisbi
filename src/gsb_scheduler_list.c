@@ -2127,7 +2127,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     int i;
 
     dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"),
-					   GTK_WINDOW ( run.window ),
+					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
 					   GTK_DIALOG_MODAL,
 					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,

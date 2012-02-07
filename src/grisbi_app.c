@@ -201,13 +201,21 @@ GrisbiApp *grisbi_app_get_default ( void )
 
 GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app )
 {
-    if ( !GRISBI_IS_APP ( app ) )
+    GrisbiApp *tmp_app;
+
+    if ( app == NULL )
+
+        tmp_app = grisbi_app_get_default ( );
+    else
+        tmp_app = app;
+
+    if ( !GRISBI_IS_APP ( tmp_app ) )
         return NULL;
 
-    if ( !GTK_WIDGET_REALIZED ( GTK_WIDGET ( app->priv->active_window ) ) )
-        gtk_widget_realize ( GTK_WIDGET ( app->priv->active_window ) );
+    if ( !GTK_WIDGET_REALIZED ( GTK_WIDGET ( tmp_app->priv->active_window ) ) )
+        gtk_widget_realize ( GTK_WIDGET ( tmp_app->priv->active_window ) );
 
-    return app->priv->active_window;
+    return tmp_app->priv->active_window;
 }
 
 
@@ -523,7 +531,7 @@ GrisbiAppConf *grisbi_app_get_conf ( void )
 gboolean grisbi_app_quit ( void )
 {
     GrisbiApp *app;
-    GrisbiWindow *main_window;
+    GrisbiWindow *window;
     GrisbiAppConf *conf;
 
     devel_debug (NULL);
@@ -532,20 +540,20 @@ gboolean grisbi_app_quit ( void )
     conf = grisbi_app_get_conf ( );
 
     /* on récupère la fenetre active */
-    main_window = grisbi_app_get_active_window ( app );
+    window = grisbi_app_get_active_window ( app );
 
     /* sauvegarde la position de la fenetre principale */
     if ( conf->full_screen == 0 && conf->maximize_screen == 0 )
-        gtk_window_get_position ( GTK_WINDOW ( main_window ), &conf->root_x, &conf->root_y );
+        gtk_window_get_position ( GTK_WINDOW ( window ), &conf->root_x, &conf->root_y );
 
     /* sauvegarde de la taille de la fenêtre si nécessaire */
     if ( conf->full_screen == 0 && conf->maximize_screen == 0 )
-        gtk_window_get_size ( GTK_WINDOW ( run.window ), &conf->main_width, &conf->main_height );
+        gtk_window_get_size ( GTK_WINDOW ( window ), &conf->main_width, &conf->main_height );
 
     gsb_file_config_save_config ( conf );
 
     if ( gsb_file_close ( ) )
-        gtk_widget_destroy ( GTK_WIDGET ( main_window ) );
+        gtk_widget_destroy ( GTK_WIDGET ( window ) );
 
     /* clean finish of the debug file */
     if ( etat.debug_mode )

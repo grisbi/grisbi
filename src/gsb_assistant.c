@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_assistant.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_dirs.h"
 #include "structures.h"
 #include "utils.h"
@@ -82,14 +83,14 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     gint width = 140;
 
     assistant = gtk_dialog_new_with_buttons ( title,
-                        GTK_WINDOW ( run.window ),
+                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_NO_SEPARATOR,
                         NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( assistant ), 800, 500 );
     gtk_window_set_position ( GTK_WINDOW ( assistant ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( assistant ), TRUE );
-    g_object_set_data ( G_OBJECT ( run.window ), "assistant", assistant );
+    g_object_set_data ( G_OBJECT ( grisbi_app_get_active_window ( NULL ) ), "assistant", assistant );
 
     button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );

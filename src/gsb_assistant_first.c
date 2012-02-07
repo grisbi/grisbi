@@ -294,7 +294,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     label = gtk_label_new ( _("Backup directory: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
-    dialog = utils_files_create_file_chooser ( run.window,
+    dialog = utils_files_create_file_chooser ( GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ),
                         _("Select/Create backup directory") );
 
     button = gtk_file_chooser_button_new_with_dialog ( dialog );
