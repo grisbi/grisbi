@@ -51,6 +51,7 @@ gboolean grisbi_app_close_file ( void );
 GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
                         GdkScreen *screen );
 const gchar *grisbi_app_get_active_filename ( void );
+GtkWidget *grisbi_app_get_active_main_box ( void );
 GtkUIManager *grisbi_app_get_active_ui_manager ( void );
 GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app );
 GrisbiAppConf *grisbi_app_get_conf ( void );

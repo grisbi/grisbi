@@ -38,6 +38,7 @@
 #include "grisbi_ui.h"
 #include "gsb_dirs.h"
 #include "menu.h"
+#include "navigation.h"
 #include "structures.h"
 #include "utils_gtkbuilder.h"
 /*END_INCLUDE*/
@@ -50,6 +51,7 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
                         gint nb_derniers_fichiers_ouverts );
 static void grisbi_window_init_menus ( GrisbiWindow *window );
 static gboolean grisbi_window_initialise_builder ( void );
+static GtkWidget *grisbi_window_new_headings_eb ( GrisbiWindow *window );
 static GtkWidget *grisbi_window_new_statusbar ( GrisbiWindow *window );
 /*END_STATIC*/
 
@@ -64,7 +66,7 @@ struct _GrisbiWindowPrivate
     GtkWidget       *main_box;
 
     /* nom du fichier associé à la fenêtre */
-    gchar *filename;
+    gchar           *filename;
 
     /* titre de la fenêtre */
     gchar           *title;
@@ -82,9 +84,13 @@ struct _GrisbiWindowPrivate
     GtkActionGroup  *view_sensitive_action_group;
 
     /* statusbar */
-    GtkWidget *statusbar;
-    guint context_id;
-    guint message_id;
+    GtkWidget       *statusbar;
+    guint           context_id;
+    guint           message_id;
+
+    /* headings_bar */
+    GtkWidget       *headings_eb;
+    
 };
 
 
@@ -179,6 +185,7 @@ static void grisbi_window_init ( GrisbiWindow *window )
 {
     GtkWidget *main_box;
     GtkWidget *statusbar;
+    GtkWidget *headings_eb;
 
     window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
 
@@ -195,6 +202,10 @@ static void grisbi_window_init ( GrisbiWindow *window )
 
     /* create the menus */
     grisbi_window_init_menus ( window );
+
+    /* create the headings eb */
+    headings_eb = grisbi_window_new_headings_eb ( window );
+    gtk_box_pack_start ( GTK_BOX ( main_box ), headings_eb, FALSE, FALSE, 0 );
 
     /* create the statusbar */
     statusbar = grisbi_window_new_statusbar ( window );
@@ -213,6 +224,7 @@ static void grisbi_window_init ( GrisbiWindow *window )
 }
 
 
+/* MENUS */
 static void grisbi_window_init_menus ( GrisbiWindow *window )
 {
     GrisbiAppConf *conf;
@@ -410,6 +422,7 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
 }
 
 
+/* TITLE OF MAIN WINDOW */
 /**
  * set window title
  *
@@ -430,6 +443,7 @@ void grisbi_window_set_title ( GrisbiApp *app,
 }
 
 
+/* GTK_BUILDER */
 /**
  * Crée un builder et récupère les widgets du fichier grisbi.ui
  *
@@ -564,7 +578,20 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
     return TRUE;
 }
 
+/**
+ * return main_box of window
+ *
+ * \param GrisbiWindow
+ *
+ * \return main_box
+ **/
+GtkWidget *grisbi_window_get_main_box ( GrisbiWindow *window )
+{
+    return window->priv->main_box;
+}
 
+
+/* STATUS_BAR */
 /**
  * Create and return a new GtkStatusBar to hold various status
  * information.
@@ -620,6 +647,111 @@ void grisbi_window_statusbar_push ( GrisbiWindow *window,
     window->priv->message_id = gtk_statusbar_push ( GTK_STATUSBAR ( window->priv->statusbar ),
                         window->priv->context_id, msg );
 }
+
+
+/* HEADINGS_EB */
+/**
+ * Trigger a callback functions only if button event that triggered it
+ * was a simple click.
+ *
+ * \param button
+ * \param event
+ * \param callback function
+ *
+ * \return  TRUE.
+ */
+static gboolean grisbi_window_headings_simpleclick_event_run ( GtkWidget *button,
+                        GdkEvent *button_event,
+                        GCallback callback )
+{
+    if ( button_event -> type == GDK_BUTTON_PRESS )
+    {
+        callback ( );
+    }
+
+    return TRUE;
+}
+
+
+/**
+ * Create and return a new headings_bar
+ * information.
+ *
+ * \param
+ *
+ * \return  A newly allocated headings_eb.
+ */
+static GtkWidget *grisbi_window_new_headings_eb ( GrisbiWindow *window )
+{
+    GtkWidget *headings_eb;
+    GtkWidget *arrow_eb;
+    GtkStyle *style;
+
+    headings_eb = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "headings_eb" ) );
+    window->priv->headings_eb = headings_eb;
+    style = gtk_widget_get_style ( headings_eb );
+
+    arrow_eb = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "arrow_eb_left" ) );
+    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    g_signal_connect ( G_OBJECT ( arrow_eb ),
+                        "button-press-event",
+                        G_CALLBACK ( grisbi_window_headings_simpleclick_event_run ),
+                        gsb_gui_navigation_select_prev );
+
+
+    arrow_eb = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "arrow_eb_right" ) );
+    gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
+                        G_CALLBACK ( grisbi_window_headings_simpleclick_event_run ),
+                        gsb_gui_navigation_select_next );
+
+    gtk_widget_modify_bg ( headings_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
+
+
+    return headings_eb;
+}
+
+
+/**
+ * retourne headings_eb
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window )
+{
+    return window->priv->headings_eb;
+}
+
+
+/**
+ * Update one of the heading bar label with a new text.
+ *
+ * \param label Label to update.
+ * \param text  String to display in headings bar.
+ *
+ */
+void grisbi_window_headings_update_label_markup ( gchar *label_name,
+                        const gchar *text,
+                        gboolean escape_text )
+{
+    GtkWidget *label;
+    gchar* tmpstr;
+
+    if ( escape_text )
+        tmpstr = g_markup_printf_escaped ("<b>%s</b>", text );
+    else
+        tmpstr = g_strconcat ( "<b>", text, "</b>", NULL );
+
+    label = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, label_name ) );
+
+    if ( GTK_IS_LABEL ( label ) )
+        gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
+
+    g_free ( tmpstr );
+}
+
 
 /**
  *

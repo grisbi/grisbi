@@ -169,20 +169,23 @@ void gsb_file_new_gui ( void )
     /* dégrise les menus nécessaire */
     gsb_menu_sensitive ( TRUE );
 
-    /*     récupère l'organisation des colonnes  */
+    /* récupère l'organisation des colonnes  */
     recuperation_noms_colonnes_et_tips ();
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );
-    main_vbox = g_object_get_data ( G_OBJECT ( grisbi_app_get_active_window ( NULL ) ), "main_vbox" );
+    main_vbox = grisbi_app_get_active_main_box ( );
+
+    /* affiche headings_bar si nécessaire */
+    gsb_gui_update_show_headings ( );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), gsb_gui_create_general_widgets ( ), TRUE, TRUE, 0 );
 
     /* create the model */
     if (!transaction_list_create ())
     {
-    dialogue_error (_("The model of the list couldn't be created... "
+        dialogue_error (_("The model of the list couldn't be created... "
                         "Bad things will happen very soon..."));
-    return;
+        return;
     }
 
     /* Create transaction list. */
@@ -463,7 +466,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* create all the gui */
     gsb_file_new_gui ();
-return FALSE;
+
     /* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts") );
     list_tmp = gsb_data_account_get_list_accounts ( );
