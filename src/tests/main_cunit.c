@@ -99,29 +99,9 @@ int gsb_cunit_run_tests()
 }
 
 
-#ifdef _MSC_VER
-int APIENTRY wWinMain(HINSTANCE hInstance,
-                      HINSTANCE hPrevInstance,
-                      LPWSTR    lpCmdLine,
-                      int       nCmdShow)
-{
-	int argc, nLen;
-	LPWSTR * argvP;
-	char ** argv = malloc(sizeof(char**));
-	argvP = CommandLineToArgvW(GetCommandLineW(), &(argc));
-	nLen = WideCharToMultiByte(CP_UTF8, 0,argvP[0], -1, NULL, 0, NULL, NULL);
-	*argv = malloc((nLen + 1) * sizeof(char));
-	WideCharToMultiByte(CP_UTF8, 0, argvP[0], -1, *argv, nLen, NULL, NULL);
-	int result = main(argc, argv);
-	free(*argv);
-	free(argv);
-	return result;
-}
-#endif /* _MSC_VER */
-
 int main(int argc, char** argv)
 {
-	return gsb_cunit_run_tests() ;
+    return gsb_cunit_run_tests() ;
 }
 
 /* Local Variables: */
