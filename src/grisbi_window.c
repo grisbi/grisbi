@@ -90,7 +90,12 @@ struct _GrisbiWindowPrivate
 
     /* headings_bar */
     GtkWidget       *headings_eb;
-    
+
+    /* vbox_geneal */
+    GtkWidget       *vbox_general;
+
+    /* hpaned */
+    GtkWidget       *hpaned_general;
 };
 
 
@@ -210,6 +215,13 @@ static void grisbi_window_init ( GrisbiWindow *window )
     /* create the statusbar */
     statusbar = grisbi_window_new_statusbar ( window );
     gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
+
+    /* initialisation de vbox_general */
+    window->priv->vbox_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "vbox_general" ) );
+
+    /* initialisation du hpaned */
+    window->priv->hpaned_general = GTK_WIDGET (
+                        gtk_builder_get_object ( grisbi_window_builder, "hpaned_general" ) );
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( window ),
@@ -730,6 +742,7 @@ GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window )
  *
  * \param label Label to update.
  * \param text  String to display in headings bar.
+ * \param text  escape string to display in headings bar.
  *
  */
 void grisbi_window_headings_update_label_markup ( gchar *label_name,
@@ -750,6 +763,80 @@ void grisbi_window_headings_update_label_markup ( gchar *label_name,
         gtk_label_set_markup ( GTK_LABEL ( label ), tmpstr );
 
     g_free ( tmpstr );
+}
+
+
+/* HPANED */
+/**
+ * met à jour la taille du panneau de gauche
+ *
+ * \param hpaned
+ * \param allocation
+ * \param null
+ *
+ * \return
+ **/
+static gboolean grisbi_window_hpaned_size_allocate ( GtkWidget *hpaned,
+                        GtkAllocation *allocation,
+                        gpointer null )
+{
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+    conf->panel_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
+    
+    return FALSE;
+
+}
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window )
+{
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ( );
+
+    g_signal_connect ( G_OBJECT ( window->priv->hpaned_general ),
+                        "size_allocate",
+                        G_CALLBACK ( grisbi_window_hpaned_size_allocate ),
+                        NULL );
+    gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
+
+    if ( conf->panel_width == -1 )
+    {
+        gint width, height;
+
+        gtk_window_get_size ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ), &width, &height );
+        gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), (gint) width / 4 );
+    }
+    else
+    {
+        if ( conf->panel_width )
+            gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), conf->panel_width );
+        else
+            gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), 1 );
+    }
+
+    return window->priv->hpaned_general;
+}
+
+
+/**
+ * retourne vbox_general
+ *
+ * \param GrisbiWindow
+ *
+ * \return vbox_general
+ **/
+GtkWidget *grisbi_window_get_vbox_general ( GrisbiWindow *window )
+{
+    return window->priv->vbox_general;
 }
 
 

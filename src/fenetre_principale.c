@@ -39,6 +39,7 @@
 #include "categories_onglet.h"
 #include "etats_onglet.h"
 #include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_data_account.h"
 #include "gsb_account_property.h"
 #include "gsb_form.h"
@@ -58,9 +59,6 @@ static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
                         const gchar *text,
                         gboolean escape_text );
-static gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
-                        GtkAllocation *allocation,
-                        gpointer null );
 static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button_event,
                         GCallback cb );
 /*END_STATIC*/
@@ -70,10 +68,7 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 
 
 /* données des widgets généraux */
-static GtkWidget *vbox_general = NULL;
-static GtkWidget *hpaned_general = NULL;
 static GtkWidget *notebook_general = NULL;
-static gint hpaned_left_width;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page = NULL;
@@ -86,87 +81,24 @@ GtkWidget *account_page = NULL;
  */
 GtkWidget *gsb_gui_create_general_widgets ( void )
 {
-    /* All stuff will be put in a huge vbox, with an hbox containing
-     * quick summary. */
-    vbox_general = gtk_vbox_new ( FALSE, 0 );
+    GtkWidget *vbox_general;
+    GtkWidget *hpaned_general;
+    GrisbiWindow *window;
 
-/*     headings_eb = gtk_event_box_new ();
- *     style = gtk_widget_get_style ( headings_eb );
- * 
- *     hbox = gtk_hbox_new ( FALSE, 0 );
- */
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
 
-    /* Create two arrows. */
-/*     arrow_left = gtk_arrow_new ( GTK_ARROW_LEFT, GTK_SHADOW_OUT );
- *     arrow_eb = gtk_event_box_new ();
- *     gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
- *     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
- */
-/*     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
- * 		       G_CALLBACK ( on_simpleclick_event_run ), 
- * 		       gsb_gui_navigation_select_prev );
- */
-/*     gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );  */
-
-/*     arrow_right = gtk_arrow_new ( GTK_ARROW_RIGHT, GTK_SHADOW_OUT );
- *     arrow_eb = gtk_event_box_new ();
- *     gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
- *     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
- */
-/*     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
- * 		       G_CALLBACK ( on_simpleclick_event_run ), 
- * 		       gsb_gui_navigation_select_next );
- */
-/*     gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );  */
-
-    /* Define labels. */
-/*     headings_title = gtk_label_new ( NULL );
- *     gtk_label_set_justify ( GTK_LABEL(headings_title), GTK_JUSTIFY_LEFT );
- *     gtk_misc_set_alignment (GTK_MISC (headings_title), 0.0, 0.5);
- *     gtk_box_pack_start ( GTK_BOX(hbox), headings_title, TRUE, TRUE, 3 );
- *     headings_suffix = gtk_label_new (NULL);
- *     gtk_box_pack_start ( GTK_BOX(hbox), headings_suffix, FALSE, FALSE, 0 );
- */
-
-    /* Change color with an event box trick. */
-/*     gtk_container_add ( GTK_CONTAINER ( headings_eb ), hbox );
- *     gtk_widget_modify_bg ( headings_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
- *     gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 6 );
- * 
- *     gtk_box_pack_start ( GTK_BOX( vbox_general ), headings_eb, FALSE, FALSE, 0 );
- */
-/*     gsb_gui_update_show_headings ();  */
+    vbox_general = grisbi_window_get_vbox_general ( window );
 
     /* Then create and fill the main hpaned. */
-    hpaned_general = gtk_hpaned_new ();
-    g_signal_connect ( G_OBJECT ( hpaned_general ),
-		       "size_allocate",
-		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),
-		       NULL );
-    gtk_box_pack_start ( GTK_BOX ( vbox_general ), hpaned_general, TRUE, TRUE, 0 );
+    hpaned_general = grisbi_window_new_hpaned ( window );
     gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
-    if ( hpaned_left_width == -1 )
-    {
-        gint width, height;
-
-        gtk_window_get_size ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ), &width, &height );
-        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
-    }
-    else
-    {
-        if ( hpaned_left_width )
-            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), hpaned_left_width );
-        else
-            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), 1 );
-    }
 
     gtk_widget_show ( hpaned_general );
 
     gtk_widget_show ( vbox_general );
 
-    
     return vbox_general;
 }
 
@@ -182,7 +114,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
  */
 GtkWidget *gsb_gui_create_general_notebook (void )
 {
-    GtkWidget * vbox, * form;
+    GtkWidget *vbox, *form;
 
     devel_debug ( "create_main_notebook" );
 
@@ -208,6 +140,7 @@ GtkWidget *gsb_gui_create_general_notebook (void )
 
     gtk_widget_show ( vbox );
 
+    /* return */
     return vbox;
 }
 
@@ -449,36 +382,6 @@ void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 
 
 /**
- *
- *
- *
- */
-gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
-                        GtkAllocation *allocation,
-                        gpointer null )
-{
-    hpaned_left_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
-    
-    return FALSE;
-}
-
-
-/**
- * initialise notebook_general, hpaned_general et vbox_general
- *
- *
- */
-void gsb_gui_init_general_vbox ( void )
-{
-    if ( vbox_general )
-    {
-        gtk_widget_destroy ( vbox_general );
-        vbox_general = NULL;
-    }
-}
-
-
-/**
  * initialise notebook_general, hpaned_general et vbox_general
  *
  *
@@ -486,44 +389,6 @@ void gsb_gui_init_general_vbox ( void )
 void gsb_gui_init_general_notebook ( void )
 {
         notebook_general = NULL;
-}
-
-
-/**
- * test l'existence de hpaned_general
- *
- *
- */
-gboolean gsb_gui_is_hpaned_general ( void )
-{
-    if ( hpaned_general && GTK_IS_WIDGET ( hpaned_general ) )
-        return TRUE;
-    else
-        return FALSE;
-}
-
-
-/**
- * renvoie la largeur de la partie gauche du hpaned
- *
- *
- */
-gint gsb_gui_get_hpaned_left_width ( void )
-{
-    return hpaned_left_width;
-}
-
-
-/**
- * fixe la largeur de la partie gauche du hpaned
- *
- *
- */
-gboolean gsb_gui_set_hpaned_left_width ( gint width )
-{
-    hpaned_left_width = width;
-
-    return TRUE;
 }
 
 

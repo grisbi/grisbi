@@ -172,9 +172,12 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Panel_width",
                         &err );
     if ( err == NULL )
-        gsb_gui_set_hpaned_left_width ( int_ret );
+        conf->panel_width = int_ret;
     else
+    {
+        conf->panel_width = -1;
         err = NULL;
+    }
 
     conf->prefs_width = g_key_file_get_integer ( config,
                         "Geometry",
@@ -473,7 +476,6 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
     gsize length;
     FILE *conf_file;
     gint i;
-    gint tmp_int = 0;
     
     devel_debug (NULL);
 
@@ -527,12 +529,10 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         conf->prefs_width );
 
     /* Remember size of main panel */
-    if ( gsb_gui_is_hpaned_general ( ) )
-        tmp_int = gsb_gui_get_hpaned_left_width ( );
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Panel_width",
-                        tmp_int );
+                        conf->panel_width );
 
     /* save general */
     g_key_file_set_integer ( config,
@@ -847,7 +847,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
 
     conf->main_width = 0;
     conf->main_height = 0;
-    gsb_gui_set_hpaned_left_width ( 250 );
+    conf->panel_width = 250;
     conf->prefs_width = 600;
 
     conf->force_enregistrement = 1;

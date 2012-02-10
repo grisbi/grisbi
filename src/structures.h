@@ -133,6 +133,7 @@ struct gsb_conf_t
     gint root_y;                                    /* main_window y position */
     gint main_width;                                /* main_window width */
     gint main_height;                               /* main_window height */
+    gint panel_width;                               /* left hpanel width */
     gint full_screen;                               /* 1 to full screen, 0 else */
     gint maximize_screen;                           /* 1 when window is maximized */
     gint display_toolbar;                           /* Display mode of toolbar. */
