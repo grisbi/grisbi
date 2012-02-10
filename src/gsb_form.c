@@ -186,6 +186,7 @@ GtkWidget *gsb_form_new ( void )
 
     gsb_form_create_widgets ();
 
+    /* return */
     return form_expander;
 }
 
@@ -343,7 +344,7 @@ void gsb_form_create_widgets ( void )
 
     /* Kludge : otherwise, GtkExpander won't give us as many space
        as we need. */
-    gtk_widget_set_size_request ( hbox, 2048, -1 );
+/*     gtk_widget_set_size_request ( hbox, 2048, -1 );  */
 
     gtk_widget_show_all ( hbox );
     gtk_widget_show_all ( transaction_form );
@@ -352,6 +353,7 @@ void gsb_form_create_widgets ( void )
     gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_valid ), FALSE );
     gtk_widget_set_sensitive ( GTK_WIDGET ( form_button_cancel ), FALSE );
 
+    /* return */
     gsb_form_show ( FALSE );
 }
 
