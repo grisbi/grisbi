@@ -54,7 +54,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static GtkWidget *gsb_gui_create_general_notebook (void );
+static void gsb_gui_create_general_notebook ( GrisbiWindow *window );
 static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
                         const gchar *text,
@@ -66,9 +66,6 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-
-/* données des widgets généraux */
-static GtkWidget *notebook_general = NULL;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page = NULL;
@@ -87,18 +84,19 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
 
-    vbox_general = grisbi_window_get_vbox_general ( window );
+    vbox_general = grisbi_window_get_widget_by_name ( "vbox_general" );
 
     /* Then create and fill the main hpaned. */
     hpaned_general = grisbi_window_new_hpaned ( window );
     gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
-    gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
+    gsb_gui_create_general_notebook ( window );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
 
     gtk_widget_show ( hpaned_general );
 
     gtk_widget_show ( vbox_general );
 
+    /* return */
     return vbox_general;
 }
 
@@ -112,23 +110,20 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
  *
  * \return the notebook
  */
-GtkWidget *gsb_gui_create_general_notebook (void )
+void gsb_gui_create_general_notebook ( GrisbiWindow *window )
 {
-    GtkWidget *vbox, *form;
+    GtkWidget *vbox;
+    GtkWidget *form;
+    GtkWidget *notebook_general;
 
     devel_debug ( "create_main_notebook" );
 
     /* the main right page is a vbox with a notebook on the top
      * and the form on the bottom */
-
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = grisbi_window_get_widget_by_name ( "vbox_transactions_list" );
 
     /* append the notebook */
-    notebook_general = gtk_notebook_new ( );
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook_general ), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook_general ), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), notebook_general, TRUE, TRUE, 0 );
-    gtk_widget_show ( notebook_general );
+    notebook_general = grisbi_window_get_widget_by_name ( "notebook_general" );
 
     /* append the form */
     form = gsb_form_new ( );
@@ -138,10 +133,7 @@ GtkWidget *gsb_gui_create_general_notebook (void )
     /* fill the notebook */
     gsb_gui_fill_general_notebook ( notebook_general );
 
-    gtk_widget_show ( vbox );
-
     /* return */
-    return vbox;
 }
 
 
@@ -151,6 +143,10 @@ GtkWidget *gsb_gui_create_general_notebook (void )
  */
 GtkWidget *gsb_gui_get_general_notebook (void )
 {
+    GtkWidget *notebook_general;
+
+    notebook_general = grisbi_window_get_widget_by_name ( "notebook_general" );
+
     return notebook_general;
 }
 
@@ -377,18 +373,10 @@ void gsb_gui_sensitive_headings ( gboolean sensitive )
  */
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
 {
+    GtkWidget *notebook_general;
+
+    notebook_general = gsb_gui_get_general_notebook ( );
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page );
-}
-
-
-/**
- * initialise notebook_general, hpaned_general et vbox_general
- *
- *
- */
-void gsb_gui_init_general_notebook ( void )
-{
-        notebook_general = NULL;
 }
 
 

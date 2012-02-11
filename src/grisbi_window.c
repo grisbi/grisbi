@@ -90,12 +90,6 @@ struct _GrisbiWindowPrivate
 
     /* headings_bar */
     GtkWidget       *headings_eb;
-
-    /* vbox_geneal */
-    GtkWidget       *vbox_general;
-
-    /* hpaned */
-    GtkWidget       *hpaned_general;
 };
 
 
@@ -215,13 +209,6 @@ static void grisbi_window_init ( GrisbiWindow *window )
     /* create the statusbar */
     statusbar = grisbi_window_new_statusbar ( window );
     gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
-
-    /* initialisation de vbox_general */
-    window->priv->vbox_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "vbox_general" ) );
-
-    /* initialisation du hpaned */
-    window->priv->hpaned_general = GTK_WIDGET (
-                        gtk_builder_get_object ( grisbi_window_builder, "hpaned_general" ) );
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( window ),
@@ -477,6 +464,7 @@ gboolean grisbi_window_initialise_builder ( void )
 }
 
 
+/* MENUS */
 /**
  * Add menu items to the action_group "FileRecentFilesGroupAction"
  *
@@ -558,6 +546,7 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
 }
 
 
+/* FILENAME */
 /**
  * retourne le nom du fichier associé à la fenêtre
  *
@@ -589,19 +578,6 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
 
     return TRUE;
 }
-
-/**
- * return main_box of window
- *
- * \param GrisbiWindow
- *
- * \return main_box
- **/
-GtkWidget *grisbi_window_get_main_box ( GrisbiWindow *window )
-{
-    return window->priv->main_box;
-}
-
 
 /* STATUS_BAR */
 /**
@@ -798,45 +774,54 @@ static gboolean grisbi_window_hpaned_size_allocate ( GtkWidget *hpaned,
  **/
 GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window )
 {
+    GtkWidget *hpaned_general;
     GrisbiAppConf *conf;
 
     conf = grisbi_app_get_conf ( );
 
-    g_signal_connect ( G_OBJECT ( window->priv->hpaned_general ),
+    /* initialisation du hpaned */
+    hpaned_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "hpaned_general" ) );
+
+    g_signal_connect ( G_OBJECT ( hpaned_general ),
                         "size_allocate",
                         G_CALLBACK ( grisbi_window_hpaned_size_allocate ),
                         NULL );
-    gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
 
     if ( conf->panel_width == -1 )
     {
         gint width, height;
 
         gtk_window_get_size ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ), &width, &height );
-        gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), (gint) width / 4 );
+        gtk_paned_set_position ( GTK_PANED ( hpaned_general ), (gint) width / 4 );
     }
     else
     {
         if ( conf->panel_width )
-            gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), conf->panel_width );
+            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf->panel_width );
         else
-            gtk_paned_set_position ( GTK_PANED ( window->priv->hpaned_general ), 1 );
+            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), 1 );
     }
 
-    return window->priv->hpaned_general;
+    return hpaned_general;
 }
 
 
+/* FONCTIONS UTILITAIRES */
 /**
- * retourne vbox_general
+ * retourne le widget nommé
  *
- * \param GrisbiWindow
+ * \param nom du widget recherché
  *
- * \return vbox_general
+ * \return
  **/
-GtkWidget *grisbi_window_get_vbox_general ( GrisbiWindow *window )
+GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name )
 {
-    return window->priv->vbox_general;
+    GtkWidget *widget;
+
+    widget = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, name ) );
+
+    return widget;
 }
 
 

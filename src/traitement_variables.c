@@ -206,11 +206,6 @@ void init_variables ( void )
 
     orphan_child_transactions = NULL;
     
-    /* the main notebook is set to NULL,
-     * important because it's the checked variable in a new file
-     * to know if the widgets are created or not */
-    gsb_gui_init_general_notebook ( );
-
     if ( nom_fichier_comptes )
         g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;

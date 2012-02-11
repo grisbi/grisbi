@@ -51,8 +51,7 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
-GtkWidget *grisbi_window_get_main_box ( GrisbiWindow *window );
-GtkWidget *grisbi_window_get_vbox_general ( GrisbiWindow *window );
+GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
 GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window );
 void grisbi_window_headings_update_label_markup ( gchar *label_name,
