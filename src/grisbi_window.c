@@ -388,11 +388,12 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 
 
 /**
+ * return ui_manager
  *
+ * \param GrisbiWindow
  *
- *
- *
- **/
+ * \return ui_manager
+**/
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window )
 {
     return window->priv->ui_manager;
@@ -421,50 +422,6 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
 }
 
 
-/* TITLE OF MAIN WINDOW */
-/**
- * set window title
- *
- *
- *
- * */
-void grisbi_window_set_title ( GrisbiApp *app,
-                        const gchar *title )
-{
-    GrisbiWindow *window;
-
-    window = grisbi_app_get_active_window ( app );
-
-    if ( window->priv->title )
-        g_free ( window->priv->title );
-
-    gtk_window_set_title ( GTK_WINDOW ( window ), title );
-}
-
-
-/* GTK_BUILDER */
-/**
- * Crée un builder et récupère les widgets du fichier grisbi.ui
- *
- *
- *
- * */
-gboolean grisbi_window_initialise_builder ( void )
-{
-    /* Creation d'un nouveau GtkBuilder */
-    grisbi_window_builder = gtk_builder_new ( );
-    if ( grisbi_window_builder == NULL )
-        return FALSE;
-
-    /* récupère les widgets */
-    if ( utils_gtkbuilder_merge_ui_data_in_builder ( grisbi_window_builder, "grisbi.ui" ) )
-        return TRUE;
-    else
-        return FALSE;
-}
-
-
-/* MENUS */
 /**
  * Add menu items to the action_group "FileRecentFilesGroupAction"
  *
@@ -543,6 +500,50 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
         g_free ( tmp_name );
         g_free ( tmp_label );
     }
+}
+
+
+/* TITLE OF MAIN WINDOW */
+/**
+ * set window title
+ *
+ *
+ *
+ * */
+void grisbi_window_set_title ( GrisbiApp *app,
+                        const gchar *title )
+{
+    GrisbiWindow *window;
+
+    window = grisbi_app_get_active_window ( app );
+
+    if ( window->priv->title )
+        g_free ( window->priv->title );
+
+    gtk_window_set_title ( GTK_WINDOW ( window ), title );
+}
+
+
+/* GTK_BUILDER */
+/**
+ * Crée un builder et récupère les widgets du fichier grisbi.ui
+ *
+ * \param
+ *
+ * \rerurn
+ * */
+gboolean grisbi_window_initialise_builder ( void )
+{
+    /* Creation d'un nouveau GtkBuilder */
+    grisbi_window_builder = gtk_builder_new ( );
+    if ( grisbi_window_builder == NULL )
+        return FALSE;
+
+    /* récupère les widgets */
+    if ( utils_gtkbuilder_merge_ui_data_in_builder ( grisbi_window_builder, "grisbi.ui" ) )
+        return TRUE;
+    else
+        return FALSE;
 }
 
 
