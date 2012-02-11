@@ -654,26 +654,7 @@ GtkUIManager *grisbi_app_get_active_ui_manager ( void )
 
     return ui_manager;
 }
-/**
- * Retourne la Vbox principale de Grisbi
- *
- * \param
- *
- * \return main_box
- **/
-GtkWidget *grisbi_app_get_active_main_box ( void )
-{
-    GtkWidget *vbox;
-    GrisbiApp *app;
-    GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
-    window = grisbi_app_get_active_window ( app );
-
-    vbox = grisbi_window_get_main_box ( window );
-
-    return vbox;
-}
 
 /**
  *

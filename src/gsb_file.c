@@ -39,6 +39,7 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_file.h"
@@ -166,7 +167,7 @@ void gsb_file_new_gui ( void )
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );
-    main_vbox = grisbi_app_get_active_main_box ( );
+    main_vbox = grisbi_window_get_widget_by_name ( "main_vbox" );
 
     /* affiche headings_bar si nécessaire */
     gsb_gui_update_show_headings ( );
