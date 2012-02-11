@@ -36,6 +36,7 @@
 #include "bet_hist.h"
 #include "bet_tab.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
@@ -86,7 +87,6 @@ static void bet_config_initialise_select_historical_data ( gint account_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 extern GtkTreeModel *bet_fyear_model;
 extern GtkTreeModel *bet_fyear_model_filter;
 /*END_EXTERN*/
@@ -224,7 +224,7 @@ gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton
 {
     GtkWidget *combo;
     
-    combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+    combo = g_object_get_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "account_combo" );
     if ( combo )
     {
         gint account_number;
@@ -268,7 +268,7 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_notebook_set_show_tabs  ( GTK_NOTEBOOK ( notebook ), FALSE );
     gtk_notebook_set_scrollable ( GTK_NOTEBOOK ( notebook ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), notebook, FALSE, FALSE, 0 );
-    g_object_set_data ( G_OBJECT ( account_page ), "config_notebook", notebook );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "config_notebook", notebook );
     gtk_widget_show ( notebook );
 
     /* Data for the account of type GSB_TYPE_BANK, GSB_TYPE_CASH */
@@ -278,12 +278,12 @@ GtkWidget *bet_config_account_create_account_page ( void )
 
     /* Data for the forecast */
     widget = bet_config_account_get_forecast_data ( _("Data for the forecast") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_forecast", widget );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "Data_for_forecast", widget );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* Sources of historical data */
     widget = bet_config_account_get_select_historical_data ( _("Sources of historical data") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_historical", widget );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "Data_for_historical", widget );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */
@@ -293,11 +293,11 @@ GtkWidget *bet_config_account_create_account_page ( void )
 
     /* Data for the credit */
     widget = bet_config_account_get_finance_data ( _("Credit Data") );
-    g_object_set_data ( G_OBJECT ( account_page ), "Data_for_credit", widget );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "Data_for_credit", widget );
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* mettre à jour les données du compte */
-    widget = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+    widget = g_object_get_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "account_combo" );
     bet_config_change_account ( widget );
 
     return vbox_pref;
@@ -335,7 +335,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
 
 	combo = gsb_account_create_combo_list ( G_CALLBACK ( bet_config_change_account ),
                         NULL, FALSE );
-    g_object_set_data ( G_OBJECT ( account_page ), "account_combo", combo );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "account_combo", combo );
     if ( ( account_number = gsb_gui_navigation_get_current_account ( ) ) == -1 )
 	    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
     else
@@ -396,6 +396,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     GtkWidget *widget = NULL;
     GtkWidget *hbox;
     GtkWidget *previous = NULL;
+    GtkWidget *account_page;
     gpointer pointeur = NULL;
     gint iduration;
 
@@ -445,9 +446,10 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
                         spin_button );
     }
 
+    account_page = gsb_gui_on_account_get_notebook ( );
+
     if ( origin == SPP_ORIGIN_CONFIG )
     {
-
         g_object_set_data ( G_OBJECT ( spin_button ), "bet_origin_signal", pointeur );
         g_object_set_data ( G_OBJECT ( account_page ), "bet_config_account_previous",
                         previous );
@@ -489,9 +491,12 @@ void bet_config_initialise_duration_widget ( gint account_number,
 {
     GtkWidget *widget = NULL;
     GtkWidget *button = NULL;
+    GtkWidget *account_page;
     gpointer ptr = NULL;
     gint param;
     gint months;
+
+    account_page = gsb_gui_on_account_get_notebook ( );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );
     months = gsb_data_account_get_bet_months ( account_number );
@@ -655,7 +660,7 @@ GtkWidget *bet_config_account_get_select_historical_data ( gchar *title )
     vbox = gtk_vbox_new ( FALSE, 0 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
-    hbox = bet_config_get_select_historical_data ( paddingbox, account_page );
+    hbox = bet_config_get_select_historical_data ( paddingbox, gsb_gui_on_account_get_notebook ( ) );
 
     return vbox;
 }
@@ -899,6 +904,7 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
  * */
 void bet_config_origin_data_clicked ( GtkWidget *togglebutton, GdkEventButton *event, gpointer data )
 {
+    GtkWidget *account_page;
     GtkTreeViewColumn *column;
     const gchar *name;
     gchar *title;
@@ -911,6 +917,8 @@ void bet_config_origin_data_clicked ( GtkWidget *togglebutton, GdkEventButton *e
         account_number = bet_config_get_account_from_combo ( );
     else
         account_number = gsb_gui_navigation_get_current_account ( );
+
+    account_page = gsb_gui_on_account_get_notebook ( );
 
     name = gtk_widget_get_name ( GTK_WIDGET ( togglebutton ) );
 
@@ -989,6 +997,7 @@ void bet_config_fyear_clicked ( GtkWidget *combo, gpointer data )
  * */
 gboolean bet_config_change_account ( GtkWidget *combo )
 {
+    GtkWidget *account_page;
     GtkWidget *notebook;
     GtkWidget *widget = NULL;
     gint account_number;
@@ -1029,6 +1038,8 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
         kind = GSB_TYPE_BANK;
 
+    account_page = gsb_gui_on_account_get_notebook ( );
+
     notebook = g_object_get_data ( G_OBJECT ( account_page ), "config_notebook" );
     switch ( kind )
     {
@@ -1067,7 +1078,7 @@ gint bet_config_get_account_from_combo ( void )
     GtkWidget *combo;
     gint account_number = -1;
 
-    combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
+    combo = g_object_get_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ), "account_combo" );
     account_number = gsb_account_get_combo_account_number ( combo );
 
     return account_number;
@@ -1117,6 +1128,9 @@ gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
 void bet_config_sensitive_account_parameters ( gint account_number, gboolean sensitive )
 {
     GtkWidget *widget = NULL;
+    GtkWidget *account_page;
+
+    account_page = gsb_gui_on_account_get_notebook ( );
 
     if ( sensitive )
     {
@@ -1196,6 +1210,9 @@ void bet_config_use_budget_toggle ( GtkToggleButton *button, GtkWidget *combo )
     }
     else
     {
+        GtkWidget *account_page;
+
+        account_page = gsb_gui_on_account_get_notebook ( );
         bet_data_remove_all_bet_data ( account_number );
         gsb_data_account_set_bet_use_budget ( account_number, 0 );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );

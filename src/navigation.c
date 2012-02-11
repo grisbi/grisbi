@@ -222,7 +222,6 @@ void gsb_gui_navigation_create_navigation_pane ( void )
     /* Create the view */
     navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
-    gtk_container_add ( GTK_CONTAINER (sw ), navigation_tree_view );
 
     navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL,
                         GDK_TYPE_PIXBUF,        /* NAVIGATION_PIX */
@@ -1198,9 +1197,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
         gsb_menu_update_view_menu ( account_number );
 
         /* set the form */
-        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( account_page ),
+        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_on_account_get_notebook ( ) ),
                         NULL,
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) ),
+                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_on_account_get_notebook ( ) ) ),
                         NULL );
         /* gsb_form_show ( FALSE ); */
 

@@ -34,6 +34,7 @@ void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_init_general_notebook ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page );
+GtkWidget *gsb_gui_on_account_get_notebook ( void );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         gpointer page,
                         guint page_number,

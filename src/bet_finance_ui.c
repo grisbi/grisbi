@@ -101,7 +101,6 @@ static void bet_finance_update_simulator_toolbar ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 /*END_EXTERN*/
 
 /* notebook pour la simulation de crédits */
@@ -1514,8 +1513,11 @@ GtkWidget *bet_finance_create_account_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
+    GtkWidget *account_page;
 
     devel_debug (NULL);
+
+    account_page = gsb_gui_on_account_get_notebook ( );
 
     page = gtk_vbox_new ( FALSE, 5 );
 
@@ -1524,7 +1526,9 @@ GtkWidget *bet_finance_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
  
     label_title = gtk_label_new ( _("Amortization Table") );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_amortization_title", label_title );
+    g_object_set_data ( G_OBJECT ( gsb_gui_on_account_get_notebook ( ) ),
+                        "bet_finance_amortization_title",
+                        label_title );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
 
     /* Choix des données sources */
@@ -1601,6 +1605,7 @@ GtkWidget *bet_finance_create_account_page ( void )
  * */
 void bet_finance_ui_update_amortization_tab ( gint account_number )
 {
+    GtkWidget *account_page;
     GtkWidget *label;
     GtkWidget *tree_view;
     GtkTreeModel *store;
@@ -1626,6 +1631,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     s_amortissement -> origin = SPP_ORIGIN_FINANCE;
 
     /* récupère le tableau d'amortissement */
+    account_page = gsb_gui_on_account_get_notebook ( );
     tree_view = g_object_get_data ( G_OBJECT ( account_page ), "bet_finance_tree_view" );
     amortization_initial_date = GPOINTER_TO_INT ( g_object_get_data (
                         G_OBJECT ( tree_view ), "amortization_initial_date" ) );

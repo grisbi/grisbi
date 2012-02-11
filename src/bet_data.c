@@ -72,7 +72,6 @@ static SH *struct_initialise_bet_historical ( void );
 
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -102,6 +101,7 @@ static gint transfert_number;
  */
 void bet_data_select_bet_pages ( gint account_number )
 {
+    GtkWidget *account_page;
     GtkWidget *page;
     kind_account kind;
     gint current_page;
@@ -110,7 +110,10 @@ void bet_data_select_bet_pages ( gint account_number )
     devel_debug_int ( account_number );
 
     kind = gsb_data_account_get_kind ( account_number );
+
+    account_page = gsb_gui_on_account_get_notebook ( );
     current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+
     bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
     if ( bet_use_budget <= 0 )
         kind = GSB_TYPE_ASSET;
@@ -197,7 +200,7 @@ void bet_data_update_bet_module ( gint account_number, guint page )
 
 
     if ( page == -1 && gsb_gui_navigation_get_current_page ( ) == GSB_ACCOUNT_PAGE )
-        page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+        page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_on_account_get_notebook ( ) ) );
 
     switch ( page )
     {

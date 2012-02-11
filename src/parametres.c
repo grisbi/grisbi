@@ -1660,7 +1660,8 @@ void gsb_localisation_update_affichage ( gint type_maj )
         kind_account kind;
 
         account_number = gsb_gui_navigation_get_current_account ( );
-        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+        account_current_page = gtk_notebook_get_current_page (
+                        GTK_NOTEBOOK ( gsb_gui_on_account_get_notebook ( ) ) );
 
         kind = gsb_data_account_get_kind ( account_number );
         switch ( kind )

@@ -67,9 +67,6 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 /*END_EXTERN*/
 
 
-/** Notebook of the account pane. */
-GtkWidget *account_page = NULL;
-
 /**
  * Create the main widget that holds all the user interface save the
  * menus.
@@ -160,6 +157,8 @@ GtkWidget *gsb_gui_get_general_notebook (void )
  * */
 gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 {
+    GtkWidget *account_page;
+
     /* append the main page */
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         creation_onglet_accueil(),
@@ -167,9 +166,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
 
     /* append the account page : a notebook with the account configuration
      * the bet pages and transactions page */
-    account_page = gtk_notebook_new ();
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(account_page), FALSE );
-    gtk_widget_show ( account_page );
+    account_page = grisbi_window_get_widget_by_name ( "account_page" );
 
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         account_page,
@@ -290,12 +287,32 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 
 
 /**
+ * Get the account notebook.
+ *
+ * \param page
+ *
+ * \return 
+ */
+GtkWidget *gsb_gui_on_account_get_notebook ( void )
+{
+    GtkWidget *account_page;
+
+    account_page = grisbi_window_get_widget_by_name ( "account_page" );
+
+    return account_page;
+}
+
+
+/**
  * Set the account notebook page.
  * 
  * \param page		Page to set.
  */
 void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page )
 {
+    GtkWidget *account_page;
+
+    account_page = grisbi_window_get_widget_by_name ( "account_page" );
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), page );
 }
 

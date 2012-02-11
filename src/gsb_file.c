@@ -67,7 +67,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_file_append_name_to_opened_list ( gchar * path_fichier );
+static void gsb_file_append_name_to_opened_list ( gchar *path_fichier );
 static gboolean gsb_file_automatic_backup ( gpointer null );
 static gchar *gsb_file_dialog_ask_name ( void );
 static gint gsb_file_dialog_save ( void );
@@ -349,7 +349,6 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
 
     file_number = GPOINTER_TO_INT ( file_number_ptr );
     nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts[file_number] );
-    grisbi_app_set_active_filename ( nom_fichier_comptes );
 
     gsb_file_open_file ( nom_fichier_comptes );
 
@@ -446,6 +445,9 @@ gboolean gsb_file_open_file ( gchar *filename )
             return FALSE;
         }
     }
+
+    /* on fixe le nom de fichier associé à la fenêtre active */
+    grisbi_app_set_active_filename ( nom_fichier_comptes );
 
     /* ok, here the file or backup is loaded */
     gsb_status_message ( _("Checking schedulers") );
@@ -1029,7 +1031,7 @@ gboolean gsb_file_close ( void )
  *
  * \return
  * */
-void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
+void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
 {
     gint i, position;
     gchar *dernier, *real_name;
@@ -1048,7 +1050,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
     if ( conf->nb_derniers_fichiers_ouverts < 0 )
         conf->nb_derniers_fichiers_ouverts = 0;
 
-    if ( !g_path_is_absolute ( nom_fichier_comptes ) )
+    if ( nom_fichier_comptes && !g_path_is_absolute ( nom_fichier_comptes ) )
     {
         real_name = g_strdup( (gchar*)realpath ( nom_fichier_comptes, NULL ));
         if ( ! real_name )
@@ -1073,7 +1075,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
         {
             if ( !strcmp ( real_name, conf->tab_noms_derniers_fichiers_ouverts[i] ) )
             {
-                /* 	si ce fichier est déjà le dernier ouvert, on laisse tomber */
+                /* si ce fichier est déjà le dernier ouvert, on laisse tomber */
                 if ( !i )
                 {
                     g_free ( real_name );
@@ -1104,7 +1106,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
         /* le fichier est nouveau, on décale tout d'un cran et on met le nouveau à 0 */
 
         /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
-        /* on garde le ptit dernier dans le cas contraire */
+        /* on garde le petit dernier dans le cas contraire */
         dernier = tab_noms_derniers_fichiers_ouverts[conf->nb_derniers_fichiers_ouverts-1];
         for ( i = conf->nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
             tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
