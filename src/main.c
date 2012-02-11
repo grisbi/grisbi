@@ -177,12 +177,10 @@ gint main ( int argc, char **argv )
     /* check the command line, if there is something to open */
     gsb_main_load_file_if_necessary ( file );
 
-    if ( grisbi_app_get_first_use ( app ) && !nom_fichier_comptes )
+    if ( grisbi_app_get_first_use ( app ) )
         gsb_assistant_first_run ();
     else
         display_tip ( FALSE );
-
-/*     run.file_modification = time ( NULL );  */
 
     gtk_main ();
 
@@ -269,26 +267,14 @@ void gsb_main_load_file_if_necessary ( gchar *filename )
     /* check the command line, if there is something to open */
     if ( filename )
     {
-        if ( gsb_file_open_file ( filename ) )
-        {
-            if ( nom_fichier_comptes )
-                g_free ( nom_fichier_comptes );
-            nom_fichier_comptes = g_strdup ( filename );
-        }
-        else
-        {
-            if ( nom_fichier_comptes )
-                g_free ( nom_fichier_comptes );
-            nom_fichier_comptes = NULL;
-        }
+        gsb_file_open_file ( filename );
     }
     else
     {
         /* open the last file if needed, nom_fichier_comptes was filled while loading the configuration */
-        if ( conf->dernier_fichier_auto && nom_fichier_comptes )
+        if ( conf->dernier_fichier_auto && conf->tab_noms_derniers_fichiers_ouverts[0] )
         {
-            if ( !gsb_file_open_file ( nom_fichier_comptes ) )
-                g_free ( nom_fichier_comptes );
+            gsb_file_open_file ( conf->tab_noms_derniers_fichiers_ouverts[0] );
         }
     }
 
