@@ -278,8 +278,6 @@ void init_variables ( void )
         etat.scheduler_column_width = NULL;
     }
     
-    gsb_gui_navigation_init_tree_view ( );
-
     /* free the form */
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();

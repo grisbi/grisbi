@@ -23,7 +23,7 @@ void gsb_gui_navigation_add_report ( gint report_number );
 gboolean gsb_gui_navigation_check_scroll ( GtkWidget *tree_view,
                         GdkEventScroll *ev );
 void gsb_gui_navigation_create_account_list ( GtkTreeModel *model );
-GtkWidget *gsb_gui_navigation_create_navigation_pane ( void );
+void gsb_gui_navigation_create_navigation_pane ( void );
 void gsb_gui_navigation_free_pages_list ( void );
 gint gsb_gui_navigation_get_current_account ( void );
 gint gsb_gui_navigation_get_current_page ( void );
@@ -33,7 +33,6 @@ GtkTreeModel *gsb_gui_navigation_get_model ( void );
 GQueue *gsb_gui_navigation_get_pages_list ( void );
 GtkWidget *gsb_gui_navigation_get_tree_view ( void );
 void gsb_gui_navigation_init_pages_list ( void );
-void gsb_gui_navigation_init_tree_view ( void );
 void gsb_gui_navigation_remove_account ( gint account_number );
 void gsb_gui_navigation_remove_report ( gint report_number );
 gboolean gsb_gui_navigation_select_next ( void );
@@ -51,7 +50,7 @@ gboolean navigation_change_account ( gint new_account );
 gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );
-gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest, 
+gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );
 /* END_DECLARATION */

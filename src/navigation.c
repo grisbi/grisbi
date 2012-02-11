@@ -38,6 +38,7 @@
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
+#include "grisbi_window.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -103,15 +104,15 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *model,
 static gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
                         GtkTreeModel *model );
 static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
-					    GtkTreeIter * iter, gint page,
-					    gint account_number, gpointer report );
+                        GtkTreeIter * iter, gint page,
+                        gint account_number, gpointer report );
 static void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         gint type_page,
                         gint ordre );
-static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection, 
-					    GtkTreeIter *iter,
+static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
+                        GtkTreeIter *iter,
                         gint page,
-					    gint account_number,
+                        gint account_number,
                         gpointer report );
 static void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         GtkTreeIter * account_iter,
@@ -159,9 +160,6 @@ enum navigation_cols {
     NAVIGATION_TOTAL,
 };
 
-/** Navigation tree view. */
-static GtkWidget *navigation_tree_view = NULL;
-
 /** Model of the navigation tree. */
 static GtkTreeModel *navigation_model = NULL;
 
@@ -191,7 +189,7 @@ static gboolean report_expander = FALSE;
 
 static GtkTargetEntry row_targets[] =
 {
-	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
 };
 
 
@@ -201,43 +199,41 @@ static GtkTargetEntry row_targets[] =
  *
  * \return The newly allocated pane.
  */
-GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
+void gsb_gui_navigation_create_navigation_pane ( void )
 {
-    GtkWidget * sw, *vbox;
+    GtkWidget *vbox;
+    GtkWidget *sw;
+    GtkWidget *navigation_tree_view;
     GQueue *tmp_queue;
-    GtkCellRenderer * renderer;
-    GtkTreeDragDestIface * navigation_dst_iface;
-    GtkTreeDragSourceIface * navigation_src_iface;
-    GtkTreeViewColumn * column;
-	gint i;
+    GtkCellRenderer *renderer;
+    GtkTreeDragDestIface *navigation_dst_iface;
+    GtkTreeDragSourceIface *navigation_src_iface;
+    GtkTreeViewColumn *column;
+    gint i;
     gint xpad;
     gint ypad;
     GrisbiAppConf *conf;
 
     conf = grisbi_app_get_conf ( );
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
-
-    sw = gtk_scrolled_window_new (NULL, NULL);
-    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_ETCHED_IN);
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_NEVER,
-				    GTK_POLICY_AUTOMATIC);
+    vbox = grisbi_window_get_widget_by_name ( "vbox_left_panel" );
+    sw = grisbi_window_get_widget_by_name ( "sw_left_panel" );
 
     /* Create the view */
-    navigation_tree_view = gtk_tree_view_new ();
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
-    gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
+    gtk_container_add ( GTK_CONTAINER (sw ), navigation_tree_view );
 
-    navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL, 
-							    GDK_TYPE_PIXBUF,        /* NAVIGATION_PIX */
-							    G_TYPE_BOOLEAN,         /* NAVIGATION_PIX_VISIBLE */
-                                G_TYPE_STRING,          /* NAVIGATION_TEXT */ 
-							    G_TYPE_INT,             /* NAVIGATION_FONT */
-                                G_TYPE_INT,             /* NAVIGATION_PAGE */
-							    G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
-                                G_TYPE_INT,             /* NAVIGATION_REPORT */
-							    G_TYPE_INT,             /* NAVIGATION_SENSITIVE */
-                                G_TYPE_INT ) );         /* NAVIGATION_ORDRE */
+    navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL,
+                        GDK_TYPE_PIXBUF,        /* NAVIGATION_PIX */
+                        G_TYPE_BOOLEAN,         /* NAVIGATION_PIX_VISIBLE */
+                        G_TYPE_STRING,          /* NAVIGATION_TEXT */
+                        G_TYPE_INT,             /* NAVIGATION_FONT */
+                        G_TYPE_INT,             /* NAVIGATION_PAGE */
+                        G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
+                        G_TYPE_INT,             /* NAVIGATION_REPORT */
+                        G_TYPE_INT,             /* NAVIGATION_SENSITIVE */
+                        G_TYPE_INT ) );         /* NAVIGATION_ORDRE */
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
                         NAVIGATION_ORDRE, GTK_SORT_ASCENDING );
@@ -247,9 +243,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 
     /* Enable drag & drop */
     gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW ( navigation_tree_view ),
-					    GDK_BUTTON1_MASK,
+                        GDK_BUTTON1_MASK,
                         row_targets, 1,
-					    GDK_ACTION_MOVE | GDK_ACTION_COPY );
+                        GDK_ACTION_MOVE | GDK_ACTION_COPY );
     gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW ( navigation_tree_view ),
                         row_targets,
                         1,
@@ -284,7 +280,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
                         G_CALLBACK ( gsb_gui_navigation_check_key_press ),
                         navigation_model );
 
-        g_signal_connect ( navigation_tree_view,
+    g_signal_connect ( navigation_tree_view,
                         "scroll-event",
                         G_CALLBACK ( gsb_gui_navigation_check_scroll ),
                         NULL );
@@ -338,9 +334,6 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
         gsb_gui_navigation_set_navigation_pages ( navigation_model, page -> type_page, i );
     }
 
-    /* Finish tree. */
-    gtk_box_pack_start ( GTK_BOX(vbox), sw, TRUE, TRUE, 0 );
-
     /* Create calendar (hidden for now). */
     scheduler_calendar = gsb_calendar_new ();
     gtk_box_pack_end ( GTK_BOX(vbox), scheduler_calendar, FALSE, FALSE, 0 );
@@ -351,24 +344,23 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 
     /* signals of tree_view */
     g_signal_connect ( G_OBJECT ( navigation_tree_view ),
-		                "button-press-event",
-		                G_CALLBACK ( gsb_gui_navigation_button_press ),
-		                NULL );
+                        "button-press-event",
+                        G_CALLBACK ( gsb_gui_navigation_button_press ),
+                        NULL );
 
     g_signal_connect ( G_OBJECT ( navigation_tree_view ),
-		                "row-collapsed",
-		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
-		                GINT_TO_POINTER ( 0 ) );
+                        "row-collapsed",
+                        G_CALLBACK ( gsb_gui_navigation_activate_expander ),
+                        GINT_TO_POINTER ( 0 ) );
     g_signal_connect ( G_OBJECT ( navigation_tree_view ),
-		                "row-expanded",
-		                G_CALLBACK ( gsb_gui_navigation_activate_expander ),
-		                GINT_TO_POINTER ( 1 ) );
+                        "row-expanded",
+                        G_CALLBACK ( gsb_gui_navigation_activate_expander ),
+                        GINT_TO_POINTER ( 1 ) );
 
-    gtk_widget_show_all ( vbox );
     gtk_widget_hide ( scheduler_calendar );
     gtk_widget_hide ( reconcile_panel );
 
-    return vbox;
+    /* return */
 }
 
 
@@ -384,22 +376,24 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
  * */
 gint gsb_gui_navigation_get_current_page ( void )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
 
-    if (!navigation_tree_view)
-	return -1;
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
+    if ( !navigation_tree_view )
+        return -1;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW ( navigation_tree_view ) );
 
-    if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return GSB_HOME_PAGE;
+    if ( !gtk_tree_selection_get_selected ( selection, NULL, &iter ) )
+        return GSB_HOME_PAGE;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
-			 &iter,
-			 NAVIGATION_PAGE, &page,
-			 -1);
+    gtk_tree_model_get ( GTK_TREE_MODEL ( navigation_model ),
+                        &iter,
+                        NAVIGATION_PAGE, &page,
+                        -1 );
     return page;
 }
 
@@ -417,27 +411,29 @@ gint gsb_gui_navigation_get_current_page ( void )
  * */
 gint gsb_gui_navigation_get_current_account ( void )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
     gint account_number;
 
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     if ( !navigation_tree_view )
-	return -1;
+        return -1;
 
-    selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) );
 
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return -1;
+    if (! gtk_tree_selection_get_selected ( selection, NULL, &iter ) )
+        return -1;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
-			 &iter,
-			 NAVIGATION_PAGE, &page,
-			 NAVIGATION_ACCOUNT, &account_number,
-			 -1);
+    gtk_tree_model_get ( GTK_TREE_MODEL ( navigation_model ),
+                        &iter,
+                        NAVIGATION_PAGE, &page,
+                        NAVIGATION_ACCOUNT, &account_number,
+                        -1 );
     
     if ( page == GSB_ACCOUNT_PAGE )
-	return account_number;
+        return account_number;
 
     return -1;
 }
@@ -469,31 +465,35 @@ gint gsb_gui_navigation_get_last_account ( void )
  * */
 gint gsb_gui_navigation_get_current_report ( void )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeSelection *selection;
     GtkTreeIter iter;
     gint page;
 
-    if ( ! navigation_tree_view )
-    {
-	return 0;
-    }
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
+    if ( !navigation_tree_view )
+        return 0;
 
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (navigation_tree_view));
 
-    if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-	return 0;
+    if (! gtk_tree_selection_get_selected ( selection, NULL, &iter ) )
+        return 0;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (navigation_model),
-			 &iter,
-			 NAVIGATION_PAGE, &page,
-			 -1);
+    gtk_tree_model_get ( GTK_TREE_MODEL ( navigation_model ),
+                        &iter,
+                        NAVIGATION_PAGE, &page,
+                        -1 );
     
-    if ( page == GSB_REPORTS_PAGE)
+    if ( page == GSB_REPORTS_PAGE )
     {
-	gint report_number;
-	gtk_tree_model_get (GTK_TREE_MODEL(navigation_model), &iter, NAVIGATION_REPORT, &report_number, -1);
+        gint report_number;
 
-	return report_number;
+        gtk_tree_model_get ( GTK_TREE_MODEL ( navigation_model ),
+                        &iter,
+                        NAVIGATION_REPORT, &report_number,
+                        -1 );
+
+        return report_number;
     }
 
     return -1;
@@ -544,6 +544,9 @@ void gsb_gui_navigation_create_account_list ( GtkTreeModel *model )
     /* Expand stuff */
     if ( account_expander )
     {
+        GtkWidget *navigation_tree_view;
+
+        navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
         path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &parent );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
         gtk_tree_path_free ( path );
@@ -592,13 +595,16 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         NAVIGATION_SENSITIVE, 1,
                         NAVIGATION_REPORT, report_number,
                         -1 );
-	
+
         tmp_list = tmp_list -> next;
     }
 
     /* Expand stuff */
     if ( report_expander )
     {
+        GtkWidget *navigation_tree_view;
+
+        navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
         path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( model ), &parent );
         gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
         gtk_tree_path_free ( path );
@@ -780,13 +786,13 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_m
     gint report;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_REPORT, &report, 
-			 -1 );
+                        NAVIGATION_REPORT, &report,
+                        -1 );
 
     if ( report == GPOINTER_TO_INT (data))
     {
-	gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
-	return TRUE;
+        gtk_tree_store_remove ( GTK_TREE_STORE ( tree_model ), iter );
+        return TRUE;
     }
 
     return FALSE;
@@ -801,10 +807,12 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_m
  */
 void gsb_gui_navigation_add_report ( gint report_number )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeIter parent, iter;
     GtkTreeSelection *selection;
     GtkTreePath *path;
 
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     path = gsb_gui_navigation_get_page_path ( navigation_model, GSB_REPORTS_PAGE );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( navigation_model ), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE ( navigation_model ), &iter, &parent );
@@ -825,9 +833,9 @@ void gsb_gui_navigation_add_report ( gint report_number )
  */
 void gsb_gui_navigation_remove_report ( gint report_number )
 {
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
-			     GINT_TO_POINTER ( report_number ) );
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
+                        (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator,
+                        GINT_TO_POINTER ( report_number ) );
 }
 
 
@@ -839,9 +847,9 @@ void gsb_gui_navigation_remove_report ( gint report_number )
  */
 void gsb_gui_navigation_update_account ( gint account_number )
 {
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator, 
-			     GINT_TO_POINTER ( account_number ) );
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
+                        (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator,
+                        GINT_TO_POINTER ( account_number ) );
 }
 
 
@@ -929,8 +937,10 @@ void gsb_gui_navigation_add_account ( gint account_number,
 
     if ( switch_to_account )
     {
+        GtkWidget *navigation_tree_view;
         GtkTreeSelection * selection;
 
+        navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) );
         gtk_tree_selection_select_iter ( selection, &iter );
     }
@@ -1310,9 +1320,11 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
                         gint account_number,
                         gpointer report )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeIter iter;
     GtkTreeSelection *selection;
 
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) );
     g_return_val_if_fail ( selection, FALSE );
 
@@ -1347,10 +1359,10 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
  * 
  * \return		TRUE on success.
  */
-void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection, 
-					    GtkTreeIter *iter,
-                        gint page, 
-					    gint account_number,
+void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
+                        GtkTreeIter *iter,
+                        gint page,
+                        gint account_number,
                         gpointer report )
 {
     do 
@@ -1396,11 +1408,13 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
  */
 gboolean gsb_gui_navigation_select_prev ( void )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeSelection * selection;
     GtkTreePath * path;
     GtkTreeModel * model;
     GtkTreeIter iter;
 
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
     
@@ -1444,11 +1458,13 @@ gboolean gsb_gui_navigation_select_prev ( void )
  */
 gboolean gsb_gui_navigation_select_next ( void )
 {
+    GtkWidget *navigation_tree_view;
     GtkTreeSelection *selection;
     GtkTreePath *path;
     GtkTreeModel *model;
     GtkTreeIter iter;
 
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
     
@@ -1767,6 +1783,9 @@ void gsb_gui_navigation_update_home_page ( void )
  */
 GtkWidget *gsb_gui_navigation_get_tree_view ( void )
 {
+    GtkWidget *navigation_tree_view;
+
+    navigation_tree_view = grisbi_window_get_widget_by_name ( "treeview_left_panel" );
     return navigation_tree_view;
 }
 
@@ -1816,17 +1835,6 @@ gboolean gsb_gui_navigation_move_ordre ( gint src_ordre,
     }
 
     return FALSE;
-}
-
-
-/**
- *
- *
- *
- */
-void gsb_gui_navigation_init_tree_view ( void )
-{
-    navigation_tree_view = NULL;
 }
 
 
