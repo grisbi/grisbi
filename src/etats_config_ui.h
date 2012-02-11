@@ -1,5 +1,5 @@
-#ifndef GSB_ETATS_CONFIG_UI_H
-#define GSB_ETATS_CONFIG_UI_H (1)
+#ifndef _ETATS_CONFIG_UI_H
+#define _ETATS_CONFIG_UI_H (1)
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
@@ -39,4 +39,4 @@ gboolean etats_config_ui_widget_set_sensitive ( const gchar *widget_name,
 /* END_DECLARATION */
 
 
-#endif /* GSB_ETATS_CONFIG_UI_H */
+#endif /* ETATS_CONFIG_UI_H */
