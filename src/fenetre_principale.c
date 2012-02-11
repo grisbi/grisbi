@@ -88,7 +88,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     /* Then create and fill the main hpaned. */
     hpaned_general = grisbi_window_new_hpaned ( window );
-    gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
+    gsb_gui_navigation_create_navigation_pane ( );
     gsb_gui_create_general_notebook ( window );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
 
