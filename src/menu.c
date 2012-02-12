@@ -51,7 +51,6 @@
 
 
 /*START_EXTERN*/
-extern gchar **tab_noms_derniers_fichiers_ouverts;
 /*END_EXTERN*/
 
 /* variables globales */

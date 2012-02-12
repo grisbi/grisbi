@@ -89,7 +89,6 @@ gint id_timeout = 0;
 /*START_EXTERN*/
 extern gchar *copy_old_filename;
 extern gchar *nom_fichier_comptes;
-extern gchar **tab_noms_derniers_fichiers_ouverts;
 extern GtkWidget *table_etat;
 extern gchar *titre_fichier;
 extern GtkWidget *tree_view_vbox;
@@ -1107,23 +1106,25 @@ void gsb_file_append_name_to_opened_list ( gchar *path_fichier )
 
         /* si on est déjà au max, c'est juste un décalage avec perte du dernier */
         /* on garde le petit dernier dans le cas contraire */
-        dernier = tab_noms_derniers_fichiers_ouverts[conf->nb_derniers_fichiers_ouverts-1];
+        dernier = conf->tab_noms_derniers_fichiers_ouverts[conf->nb_derniers_fichiers_ouverts-1];
         for ( i = conf->nb_derniers_fichiers_ouverts - 1 ; i > 0 ; i-- )
-            tab_noms_derniers_fichiers_ouverts[i] = tab_noms_derniers_fichiers_ouverts[i-1];
+            conf->tab_noms_derniers_fichiers_ouverts[i] = conf->tab_noms_derniers_fichiers_ouverts[i-1];
     }
     else
         dernier = NULL;
 
     if ( conf->nb_derniers_fichiers_ouverts < conf->nb_max_derniers_fichiers_ouverts )
     {
-        tab_noms_derniers_fichiers_ouverts = g_realloc ( tab_noms_derniers_fichiers_ouverts,
+        conf->tab_noms_derniers_fichiers_ouverts = g_realloc ( conf->tab_noms_derniers_fichiers_ouverts,
                                             ( ++conf->nb_derniers_fichiers_ouverts ) * sizeof ( gpointer ) );
-        tab_noms_derniers_fichiers_ouverts[conf->nb_derniers_fichiers_ouverts-1] = dernier;
+
+        conf->tab_noms_derniers_fichiers_ouverts[conf->nb_derniers_fichiers_ouverts-1] = dernier;
     }
 
-    tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
+    conf->tab_noms_derniers_fichiers_ouverts[0] = my_strdup ( real_name );
 
     affiche_derniers_fichiers_ouverts();
+
     g_free ( real_name );
 
     /* return */
@@ -1147,15 +1148,14 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
     conf = grisbi_app_get_conf ( );
 
     efface_derniers_fichiers_ouverts();
-    devel_debug_int ( conf->nb_derniers_fichiers_ouverts );
 
-    for ( i = 0 ; i < conf->nb_derniers_fichiers_ouverts; i++ )
+    for ( i = 0; i < conf->nb_derniers_fichiers_ouverts; i++ )
     {
-        if ( strcmp (filename, tab_noms_derniers_fichiers_ouverts[i]) == 0 )
+        if ( strcmp (filename, conf->tab_noms_derniers_fichiers_ouverts[i]) == 0 )
         {
             for ( j = i; ( j + 1 ) < conf->nb_derniers_fichiers_ouverts; j++ )
             {
-                tab_noms_derniers_fichiers_ouverts[j] = tab_noms_derniers_fichiers_ouverts[j+1];
+                conf->tab_noms_derniers_fichiers_ouverts[j] = conf->tab_noms_derniers_fichiers_ouverts[j+1];
             }
             conf->nb_derniers_fichiers_ouverts--;
         }
