@@ -615,7 +615,6 @@ const gchar *grisbi_app_get_active_filename ( void )
 /**
  * définit le nom du fichier associé à la fenêtre
  *
- * \param GrisbiWindow
  * \param filename
  *
  * \return TRUE

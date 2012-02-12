@@ -242,7 +242,6 @@ void initialize_debugging ( void )
     gchar *tmpstr1;
     gchar *tmpstr2;
 
-    
     if ( ( debugging_grisbi = gsb_main_get_debug_level ( ) ) )
     {
         /* on renseigne le texte du level de debug */

@@ -29,6 +29,8 @@
 
 
 /*START_INCLUDE*/
+#include "parametres_ui.h"
+#include "parametres.h"
 #include "utils_gtkbuilder.h"
 /*END_INCLUDE*/
 
