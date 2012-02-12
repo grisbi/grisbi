@@ -54,6 +54,7 @@
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_file_selection.h"
+#include "utils_gtkbuilder.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/

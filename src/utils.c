@@ -39,6 +39,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file_config.h"
 #include "structures.h"
+#include "utils_gtkbuilder.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -298,49 +299,58 @@ gboolean lance_navigateur_web ( const gchar *uri )
  */
 GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gchar *title)
 {
-    GtkWidget *vbox, *hbox, *paddingbox, *label;
-	gchar* tmp_str;
+    GtkWidget *vbox = NULL, *hbox = NULL, *paddingbox = NULL, *label = NULL;
+    static GtkBuilder *widget_builder = NULL;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
-    if ( GTK_IS_BOX(parent) )
+
+    /* New GtkBuilder Creation*/
+    widget_builder = gtk_builder_new ( );
+
+    if ( widget_builder == NULL )
+        return NULL;
+
+    /* widget paddingbox XML loading */
+    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( widget_builder, "wdg_paddingbox_with_title.ui" ) )
+        return NULL;
+
+    /* Get the needed widgets*/
+    vbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "vbox" ) );
+    paddingbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "paddingbox" ));
+    label = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "label" ) );
+    hbox = GTK_WIDGET ( gtk_builder_get_object (widget_builder, "hbox"));
+
+    /*Check Validity of Parent for robustness case*/
+    if (parent != NULL && GTK_IS_BOX(parent) )
     {
-	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
-			     fill, fill, 0);
+        if (vbox != NULL)
+        {
+            gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
+                    fill, fill, 0);
+        }
+        else
+        {
+            /*Nothing to do
+             * Cosmetic error : Minor
+             */
+
+        }
     }
 
-    /* Creating label */
-    label = gtk_label_new ( NULL );
-    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 1 );
-    tmp_str = g_markup_printf_escaped ("<span weight=\"bold\">%s</span>", title );
-    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
-    g_free(tmp_str);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), label,
-			 FALSE, FALSE, 0);
-    gtk_widget_show ( label );
-
-    /* Creating horizontal box */
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-			 fill, fill, 0);
-
-    /* Some padding.  ugly but the HiG advises it this way ;-) */
-    label = gtk_label_new ( "    " );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label,
-			 FALSE, FALSE, 0 );
-
-    /* Then make the vbox itself */
-    paddingbox = gtk_vbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
-			 TRUE, TRUE, 0);
-
-    /* Put a label at the end to feed a new line */
-    /*   label = gtk_label_new ( "    " ); */
-    /*   gtk_box_pack_end ( GTK_BOX ( paddingbox ), label, */
-    /* 		     FALSE, FALSE, 0 ); */
-
-    if ( GTK_IS_BOX(parent) )
+    if (label != NULL)
     {
-	gtk_box_set_spacing ( GTK_BOX(parent), 18 );
+        gtk_label_set_label ( GTK_LABEL ( label ),title );
+    }
+    else
+    {
+        return NULL; /* TODO Manage error */
+    }
+
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
+            fill, fill, 0);
+
+    if ( parent != NULL && GTK_IS_BOX(parent) )
+    {
+        gtk_box_set_spacing ( GTK_BOX(parent), 18 );
     }
 
     return paddingbox;
@@ -363,8 +373,8 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 {
     GtkWidget *vbox_pref, *hbox, *label, *image, *eb;
     GtkStyle * style;
-	gchar* tmpstr1;
-	gchar* tmpstr2;
+    gchar* tmpstr1;
+    gchar* tmpstr2;
 
     vbox_pref = gtk_vbox_new ( FALSE, 6 );
     gtk_widget_show ( vbox_pref );
@@ -384,21 +394,21 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
     /* Icon */
     if ( image_filename )
     {
-	gchar* tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
-					  image_filename, NULL);
-	image = gtk_image_new_from_file (tmpstr);
-	g_free(tmpstr);
-	gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
-	gtk_widget_show ( image );
+    gchar* tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
+                      image_filename, NULL);
+    image = gtk_image_new_from_file (tmpstr);
+    g_free(tmpstr);
+    gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
+    gtk_widget_show ( image );
     }
 
     /* Nice huge title */
     label = gtk_label_new ( title );
     tmpstr1 = g_markup_escape_text (title, strlen(title));
     tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-					tmpstr1,
-					"</span>",
-					NULL );
+                    tmpstr1,
+                    "</span>",
+                    NULL );
     gtk_label_set_markup ( GTK_LABEL(label), tmpstr2);
     g_free(tmpstr1);
     g_free(tmpstr2);
@@ -407,64 +417,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 
     return vbox_pref;
 }
-
-
-/**
- * Function that makes a nice title with an optional icon.  It is
- * mainly used to automate preference tabs with titles.
- * 
- * \param title Title that will be displayed in window
- * \param image.  Use NULL if you don't want an image to be displayed
- * 
- * 
- * \returns A pointer to a vbox widget that will contain all created
- * widgets and user defined widgets
- */
-/*GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
-{
-    GtkWidget *vbox_pref, *hbox, *label, *eb;
-    GtkStyle * style;
-	gchar* tmpstr1;
-	gchar* tmpstr2;
-
-    vbox_pref = gtk_vbox_new ( FALSE, 6 );
-    gtk_widget_show ( vbox_pref );
-
-    eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
-
-
-    !* Title hbox *!
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_widget_show ( hbox );
-    gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 3 );
-
-    !* Icon *!
-    if ( image )
-    {
-        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), 128 );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
-        gtk_widget_show ( image );
-    }
-
-    !* Nice huge title *!
-    label = gtk_label_new ( title );
-    tmpstr1 = g_markup_escape_text (title, strlen(title));
-    tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-					tmpstr1,
-					"</span>",
-					NULL );
-    gtk_label_set_markup ( GTK_LABEL(label), tmpstr2);
-    g_free(tmpstr1);
-    g_free(tmpstr2);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
-    gtk_widget_show ( label );
-
-    return vbox_pref;
-}*/
 
 
 /**
@@ -518,9 +470,9 @@ gboolean radio_set_active_linked_widgets ( GtkWidget *widget )
 
     while ( links )
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(links -> data), 
-				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) ) );
-	links = links -> next;
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(links -> data),
+                       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) ) );
+    links = links -> next;
     }
 
     return FALSE;

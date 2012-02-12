@@ -876,6 +876,7 @@ gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
         break;
     default :
         position = "cross";
+        break;
     }
     g_object_set ( G_OBJECT ( axis ),
                         "pos-str", position,

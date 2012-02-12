@@ -60,6 +60,7 @@
 #include "utils.h"
 #include "utils_dates.h"
 #include "utils_editables.h"
+#include "utils_gtkbuilder.h"
 #include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -254,35 +255,25 @@ dialog_return:
 GtkWidget *bet_future_create_dialog ( gint account_number )
 {
     GtkWidget *dialog;
-    GtkWidget *vbox;
     GtkWidget *table;
 
-    /* Create the dialog */
-    dialog = gtk_dialog_new_with_buttons ( _("Enter a budget line"),
-					   GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
+    static GtkBuilder *dialog_builder = NULL;
 
-    gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
-    gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
+    /* New GtkBuilder Creation*/
+    dialog_builder = gtk_builder_new ( );
 
-	vbox = gtk_vbox_new ( FALSE, 0 );
-	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), vbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    if ( dialog_builder == NULL )
+        return FALSE;
 
-    /* next we fill the bet_form */
-    table = gtk_table_new ( BET_SCHEDULED_HEIGHT, BET_SCHEDULED_WIDTH, FALSE );
-    gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
-    gtk_widget_show ( table );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 5 );
+    /* Chargement du XML dans etats_config_builder */
+    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( dialog_builder, "dlg_bet_future.ui" ) )
+        return FALSE;
+
+    dialog = GTK_WIDGET ( gtk_builder_get_object ( dialog_builder, "dialog_bet_future_create" ) );
+    table = GTK_WIDGET ( gtk_builder_get_object ( dialog_builder, "table" ) );
 
     bet_form_create_scheduler_part ( dialog, table );
     bet_form_create_current_form ( dialog, table, account_number );
-
-	gtk_widget_show ( vbox );
 
     return dialog;
  }
@@ -1502,6 +1493,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
             }
             else
                 return FALSE;
+            break;
     }
 
     /* On traite les données de transaction */

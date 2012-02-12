@@ -585,6 +585,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 
 	default:
 	    no_second_element = -1;
+	    break;
     }
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
