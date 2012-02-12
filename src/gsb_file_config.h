@@ -14,7 +14,7 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf );
 gboolean gsb_file_config_save_config ( GrisbiAppConf *conf );
 const gchar *gsb_config_get_conf_filename ( void );
 void gsb_config_free_conf_filename ( void );
-void gsb_config_initialise_conf_filename ( void );
+void gsb_config_initialise_conf_filename ( const gchar *config_file );
 /* END_DECLARATION */
 
 #endif

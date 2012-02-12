@@ -29,7 +29,6 @@
 #include <config.h>
 #endif
 
-#include "include.h"
 #include <stdlib.h>
 #include <glib/gi18n.h>
 #include <glib/gprintf.h>
@@ -51,6 +50,7 @@
 #include "gsb_status.h"
 #include "import.h"
 #include "menu.h"
+#include "parse_cmdline.h"
 #include "structures.h"
 #include "tip.h"
 #include "traitement_variables.h"
@@ -64,39 +64,17 @@
 static gboolean gsb_main_change_state_window ( GtkWidget *window,
                         GdkEventWindowState *event,
                         gpointer null );
-static void gsb_main_grisbi_shutdown ( void );
+static void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line );
 static gboolean gsb_main_init_app ( void );
 static void gsb_main_load_file_if_necessary ( gchar *filename );
 static gboolean gsb_main_print_environment_var ( void );
-static gint gsb_main_set_debug_level ( void );
-static gint gsb_main_setup_command_line_options ( int argc, char **argv );
-static void gsb_main_show_version ( void );
+static gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line );
 static void gsb_main_trappe_signal_sigsegv ( void );
 static gboolean gsb_main_window_delete_event (GtkWidget *window, gpointer data);
 static void gsb_main_window_destroy_event ( GObject* obj, gpointer data);
 static void gsb_main_window_set_size_and_position ( void );
-
-static void main_mac_osx ( int argc, char **argv );
-static void main_linux ( int argc, char **argv );
-static void main_win_32 (  int argc, char **argv );
 /*END_STATIC*/
 
-
-/* Options pour grisbi */
-static gint debug_level = -1;
-static gchar *file = NULL;
-
-static const GOptionEntry options [] =
-{
-    { "version", 'v', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK,
-     gsb_main_show_version, N_("Show the application's version"), NULL },
-
-    { "debug", 'd', 0, G_OPTION_ARG_INT, &debug_level, N_("Debug mode: level 0-5"), NULL },
-
-    { "file", 'f', 0, G_OPTION_ARG_FILENAME, &file, N_("[FILE]"), NULL },
-
-    {NULL}
-};
 
 /*START_EXTERN*/
 extern gchar *nom_fichier_comptes;
@@ -105,6 +83,9 @@ extern gchar *titre_fichier;
 
 /* variables initialisées lors de l'exécution de grisbi */
 struct gsb_run_t run;
+
+/* Options pour grisbi */
+static gint debug_level = -1;
 
 /**
  * Main function
@@ -118,53 +99,56 @@ gint main ( int argc, char **argv )
 {
     GrisbiApp *app;
     GrisbiWindow *window;
+    GrisbiCommandLine *command_line;
     gint return_value;
 
     /* Init type system */
     g_type_init ();
 
     /* Init glib threads asap */
-    g_thread_init ( NULL );
+    if ( g_thread_get_initialized () )
+        g_thread_init ( NULL );
 
     /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
+    gsb_dirs_init ();
 
     /* Setup locale/gettext */
     setlocale ( LC_ALL, "" );
-    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
+    bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir () );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
     textdomain ( PACKAGE );
 
     /* Setup command line options */
-    return_value = gsb_main_setup_command_line_options ( argc, argv );
-    if ( return_value )
+    command_line = grisbi_command_line_get_default ();
+
+    return_value = grisbi_command_line_parse ( command_line, argc, argv );
+    if ( return_value == 1 )
         exit ( return_value );
 
-    /* initialisation de la variable locale pour les devises */
+    /* initialisation du mode de débogage */
+    debug_level = gsb_main_set_debug_level ( command_line );
+    initialize_debugging ();
+
+    /* initialisation et sortie si nécessaire de la variable locale pour les devises */
     gsb_locale_init ( );
+    if ( debug_level > 0 )
+        gsb_main_print_environment_var ();
 
     /* initialisation du nom du fichier de configuration */
-    gsb_config_initialise_conf_filename ( );
-
-    /* initialisation du mode de débogage */
-    if ( gsb_main_set_debug_level ( ) )
-    {
-        initialize_debugging ( );
-        gsb_main_print_environment_var ( );
-    }
+    gsb_config_initialise_conf_filename ( grisbi_command_line_get_config_file ( command_line ) );
 
     /* initialisation de gtk. arguments à NULL car traités au dessus */
     gtk_init ( NULL, NULL );
 
     /* initialisation de libgoffice et des plugins pour goffice*/
-    libgoffice_init ( );
-    go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
+    libgoffice_init ();
+    go_plugins_init ( NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE );
 
     /* on commence par détourner le signal SIGSEGV */
-    gsb_main_trappe_signal_sigsegv ( );
+    gsb_main_trappe_signal_sigsegv ();
 
     /* création de l'application */
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ();
 
     /* create the toplevel window and the main menu */
     window = grisbi_app_create_window ( app, NULL );
@@ -175,7 +159,7 @@ gint main ( int argc, char **argv )
         dialog_message ( "development-version", VERSION );
 
     /* check the command line, if there is something to open */
-    gsb_main_load_file_if_necessary ( file );
+/*     gsb_main_load_file_if_necessary ( file );  */
 
     if ( grisbi_app_get_first_use ( app ) )
         gsb_assistant_first_run ();
@@ -184,7 +168,7 @@ gint main ( int argc, char **argv )
 
     gtk_main ();
 
-/*     gsb_main_grisbi_shutdown ( );  */
+    gsb_main_grisbi_shutdown ( command_line );
 
     /* return */
     exit ( 0 );
@@ -203,20 +187,20 @@ gboolean gsb_main_print_environment_var ( void )
 
     g_print ("\nGrisbi version %s\n\n", VERSION );
 
-    g_printf ("Variables d'environnement :\n" );
+    g_print ("Variables d'environnement :\n" );
 
     tmp_str = gsb_main_get_print_locale_var ( );
-    g_printf ("%s", tmp_str);
+    g_print ("%s", tmp_str);
 
     g_free ( tmp_str );
 
-    g_printf ( "gint64\n\tG_GINT64_MODIFIER = \"%s\"\n"
+    g_print ( "gint64\n\tG_GINT64_MODIFIER = \"%s\"\n"
                         "\t%"G_GINT64_MODIFIER"d\n\n",
                         G_GINT64_MODIFIER,
                         G_MAXINT64 );
 
     tmp_str = gsb_main_get_print_dir_var ( );
-    g_printf ("%s", tmp_str);
+    g_print ("%s", tmp_str);
 
     g_free ( tmp_str );
 
@@ -579,11 +563,14 @@ gint gsb_main_get_debug_level ( void )
  *
  * \return debug_mode
  */
-gint gsb_main_set_debug_level ( void )
+gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line )
 {
     gchar **tab;
     gint number = 0;
     gint number_1;
+    gint debug_level;
+
+    debug_level = grisbi_command_line_get_debug_level ( command_line );
 
     tab = g_strsplit ( VERSION, ".", 3 );
     number_1 = utils_str_atoi ( tab[1] );
@@ -606,63 +593,20 @@ gint gsb_main_set_debug_level ( void )
 
 
 /**
- * traite les arguments de la ligne de commande
- *
- * \param
- *
- * \return code de sortie 1 si erreur de traitement
- */
-gint gsb_main_setup_command_line_options ( int argc, char **argv )
-{
-    GOptionContext *context;
-    gint return_value = 0;
-    GError *error = NULL;
-
-    context = g_option_context_new ( _("- Personnal finances manager") );
-
-    g_option_context_set_summary ( context,
-                        N_("Grisbi can manage the accounts of a family or a small association.") );
-    g_option_context_set_translation_domain ( context, PACKAGE );
-
-    g_option_context_add_main_entries ( context, options, PACKAGE );
-    g_option_context_add_group ( context, gtk_get_option_group ( FALSE ));
-    g_option_context_set_translation_domain ( context, PACKAGE );
-
-    if ( !g_option_context_parse ( context, &argc, &argv, &error ) )
-    {
-        g_option_context_free ( context );
-        if (error)
-        {
-            g_print ("option parsing failed: %s\n", error->message);
-            g_error_free ( error );
-        }
-
-      return_value = 1;
-    }
-
-    g_option_context_free ( context );
-
-    return return_value;
-}
-
-
-/**
  *  procédure appelée après gtk_main_quit termine Grisbi
  *
  * \param
  *
  * \return
  */
-void gsb_main_grisbi_shutdown ( void )
+void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line )
 {
-    gchar *filename;
+    devel_debug (NULL);
 
-    /* sauvegarde les raccourcis claviers */
-    filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
-    gtk_accel_map_save ( filename );
-    g_free ( filename );
+    g_object_unref ( command_line );
 
     /* libération de mémoire */
+    gsb_config_free_conf_filename ( );
     gsb_locale_shutdown ( );
     gsb_dirs_shutdown ( );
 

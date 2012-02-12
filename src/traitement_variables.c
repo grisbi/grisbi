@@ -323,7 +323,6 @@ void free_variables ( void )
     gsb_gui_navigation_free_pages_list ( );
     gsb_regex_destroy ( );
     struct_free_bet_graph_prefs ( );
-    gsb_config_free_conf_filename ( );
 }
 
 

@@ -133,6 +133,7 @@ libgrisbi_la_SOURCES = \
 	metatree.c		\
 	navigation.c		\
 	parametres.c		\
+	parse_cmdline.c		\
 	parametres_ui.c		\
 	print_dialog_config.c		\
 	print_report.c		\
@@ -289,6 +290,7 @@ libgrisbi_la_SOURCES = \
 	mouse.h                 \
 	navigation.h		\
 	parametres.h		\
+	parse_cmdline.h		\
 	parametres_ui.h		\
 	print_dialog_config.h	\
 	print_report.h		\

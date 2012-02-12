@@ -61,8 +61,6 @@ extern struct conditional_message messages[];
 extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
-/* liste des derniers fichiers ouverts */
-gchar **tab_noms_derniers_fichiers_ouverts = NULL;
 
 /* nom du fichier de configuration */
 static gchar *conf_filename;
@@ -305,8 +303,8 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Names last files",
                         &conf->nb_derniers_fichiers_ouverts,
                         NULL );
-    if (tab_noms_derniers_fichiers_ouverts)
-        nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts [ 0 ]);
+    if ( conf->tab_noms_derniers_fichiers_ouverts )
+        nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts [0]);
     else
         nom_fichier_comptes = NULL;
 
@@ -469,19 +467,13 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
 gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 {
     GKeyFile *config;
-    gchar *filename;
     gchar *file_content;
     gchar *name;
-    gchar *tmp_str;
     gsize length;
     FILE *conf_file;
     gint i;
     
-    devel_debug (NULL);
-
-    tmp_str = g_strconcat ( PACKAGE, GRISBIRC, NULL );
-    filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
-    g_free ( tmp_str );
+    devel_debug ( conf_filename );
 
     config = g_key_file_new ();
 
@@ -797,13 +789,13 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
     /* save into a file */
     file_content = g_key_file_to_data ( config, &length, NULL );
 
-    conf_file = fopen ( filename, "w" );
+    conf_file = fopen ( conf_filename, "w" );
 
     #ifndef _WIN32
     if ( !conf_file )
     {
         utils_files_create_XDG_dir ( );
-        conf_file = fopen ( filename, "w" );
+        conf_file = fopen ( conf_filename, "w" );
     }
     #endif
 
@@ -812,19 +804,17 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
      !fwrite ( file_content, sizeof ( gchar ), length, conf_file ) )
     {
         gchar* tmpstr = g_strdup_printf ( _("Cannot save configuration file '%s': %s"),
-                        filename,
+                        conf_filename,
                         g_strerror ( errno ) );
         dialogue_error ( tmpstr );
         g_free ( tmpstr );
         g_free ( file_content);
-        g_free (filename);
         g_key_file_free (config);
         return ( FALSE );
     }
     
     fclose (conf_file);
     g_free ( file_content);
-    g_free (filename);
     g_key_file_free (config);
 
     return TRUE;
@@ -936,9 +926,17 @@ const gchar *gsb_config_get_conf_filename ( void )
  *
  * \return
  */
-void gsb_config_initialise_conf_filename ( void )
+void gsb_config_initialise_conf_filename ( const gchar *config_file )
 {
     gchar *tmp_str;
+
+    devel_debug ( config_file );
+
+    if ( config_file )
+    {
+        conf_filename = g_strdup ( config_file );
+        return;
+    }
 
     tmp_str = g_strconcat ( PACKAGE, GRISBIRC, NULL );
     conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
@@ -970,6 +968,13 @@ void gsb_config_free_conf_filename ( void )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
