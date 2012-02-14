@@ -302,7 +302,6 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
     GtkWidget *vbox = NULL, *hbox = NULL, *paddingbox = NULL, *label = NULL;
     static GtkBuilder *widget_builder = NULL;
 
-
     /* New GtkBuilder Creation*/
     widget_builder = gtk_builder_new ( );
 
@@ -313,46 +312,30 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
     if ( !utils_gtkbuilder_merge_ui_data_in_builder ( widget_builder, "wdg_paddingbox_with_title.ui" ) )
         return NULL;
 
-    /* Get the needed widgets*/
     vbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "vbox" ) );
-    paddingbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "paddingbox" ));
-    label = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "label" ) );
-    hbox = GTK_WIDGET ( gtk_builder_get_object (widget_builder, "hbox"));
-
-    /*Check Validity of Parent for robustness case*/
-    if (parent != NULL && GTK_IS_BOX(parent) )
+    if ( parent != NULL && GTK_IS_BOX ( parent ) )
     {
-        if (vbox != NULL)
+        if ( vbox != NULL )
         {
-            gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
-                    fill, fill, 0);
-        }
-        else
-        {
-            /*Nothing to do
-             * Cosmetic error : Minor
-             */
-
+            gtk_box_pack_start ( GTK_BOX ( parent ), vbox, fill, fill, 0 );
+            gtk_box_set_spacing ( GTK_BOX ( parent ), 15 );
         }
     }
 
-    if (label != NULL)
+    /* Creating label */
+    label = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "label" ) );
+    if ( label != NULL )
     {
         gtk_label_set_label ( GTK_LABEL ( label ),title );
     }
-    else
-    {
-        return NULL; /* TODO Manage error */
-    }
 
-    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox,
-            fill, fill, 0);
+    /* Creating horizontal box */
+    hbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "hbox" ) );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, fill, fill, 0);
 
-    if ( parent != NULL && GTK_IS_BOX(parent) )
-    {
-        gtk_box_set_spacing ( GTK_BOX(parent), 18 );
-    }
+    paddingbox = GTK_WIDGET ( gtk_builder_get_object ( widget_builder, "paddingbox" ) );
 
+    /* return */
     return paddingbox;
 }
 
