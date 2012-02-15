@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-01-29 12:03+0100\n"
+"POT-Creation-Date: 2012-02-15 22:29+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -194,7 +194,7 @@ msgid "Balances partials of the list of accounts"
 msgstr "Mover lançamento para outra conta"
 
 #. Name entry
-#: ../src/accueil.c:2096 ../src/bet_future.c:2136
+#: ../src/accueil.c:2096 ../src/bet_future.c:2142
 #: ../src/categories_onglet.c:732 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231 ../src/gsb_fyear_config.c:283
@@ -680,8 +680,8 @@ msgstr "Alterar o ano contábil"
 msgid "Category"
 msgstr "Categoria"
 
-#: ../src/bet_config.c:934 ../src/bet_future.c:817 ../src/bet_future.c:2025
-#: ../src/bet_future.c:2501 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
+#: ../src/bet_config.c:934 ../src/bet_future.c:817 ../src/bet_future.c:2031
+#: ../src/bet_future.c:2507 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:173
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:65
@@ -988,8 +988,8 @@ msgid ""
 "the date is invalid."
 msgstr ""
 
-#: ../src/bet_future.c:230 ../src/bet_future.c:1776 ../src/bet_future.c:1875
-#: ../src/bet_future.c:2421 ../src/gsb_currency.c:744
+#: ../src/bet_future.c:230 ../src/bet_future.c:1776 ../src/bet_future.c:1877
+#: ../src/bet_future.c:2427 ../src/gsb_currency.c:744
 #, fuzzy
 msgid "One field is not filled in"
 msgstr "Nenhum campo foi preenchido!"
@@ -1125,7 +1125,7 @@ msgstr "Débito"
 msgid "Credit"
 msgstr "Crédito"
 
-#: ../src/bet_future.c:810 ../src/bet_future.c:1998 ../src/bet_future.c:2483
+#: ../src/bet_future.c:810 ../src/bet_future.c:2004 ../src/bet_future.c:2489
 #: ../src/gsb_form.c:1335 ../src/gsb_form_widget.c:440
 msgid "Categories : Sub-categories"
 msgstr "Categorias : sub-categorias"
@@ -1150,69 +1150,74 @@ msgstr "Notas"
 msgid "Transfer"
 msgstr "Transferir"
 
-#: ../src/bet_future.c:1864 ../src/bet_future.c:2410
+#: ../src/bet_future.c:1822
+#, fuzzy
+msgid "You must create at least one cash account"
+msgstr "Selecionar contas de bens"
+
+#: ../src/bet_future.c:1866 ../src/bet_future.c:2416
 #, fuzzy
 msgid "Error: You must select an account."
 msgstr "Selecionar contas de bens"
 
-#: ../src/bet_future.c:1865 ../src/bet_future.c:2411
+#: ../src/bet_future.c:1867 ../src/bet_future.c:2417
 msgid "Missing data"
 msgstr ""
 
-#: ../src/bet_future.c:1873 ../src/bet_future.c:2419
+#: ../src/bet_future.c:1875 ../src/bet_future.c:2425
 msgid ""
 "Error:  the category or the budgetary line is not specified or the date is "
 "invalid."
 msgstr ""
 
 #. Create the dialog
-#: ../src/bet_future.c:1912
+#: ../src/bet_future.c:1914
 #, fuzzy
 msgid "Select an account"
 msgstr "Selecionar contas bancárias"
 
 #. list of accounts
-#: ../src/bet_future.c:1928
+#: ../src/bet_future.c:1930
 #, fuzzy
 msgid "List of accounts"
 msgstr "Conta de caixa"
 
-#: ../src/bet_future.c:1948
+#: ../src/bet_future.c:1954
 msgid "Effective date and data for the replacement of a planned operation"
 msgstr ""
 
-#: ../src/bet_future.c:1954
+#: ../src/bet_future.c:1960
 #, fuzzy
 msgid "Effective date: "
 msgstr "Ativado:"
 
-#: ../src/bet_future.c:1961
+#: ../src/bet_future.c:1967
 #, fuzzy
 msgid "Monthly auto-increment"
 msgstr "Despesas mensais por terceiros"
 
-#: ../src/bet_future.c:1972
+#: ../src/bet_future.c:1978
 #, fuzzy
 msgid "Check the box to replace a planned operation"
 msgstr "Total da Categoria (%d lançamentos)"
 
-#: ../src/bet_future.c:2087 ../src/gsb_account_property.c:694
+#: ../src/bet_future.c:2093 ../src/gsb_account_property.c:694
 #: ../src/gsb_data_partial_balance.c:217
 msgid "Cash account"
 msgstr "Conta de caixa"
 
-#: ../src/bet_future.c:2113
+#: ../src/bet_future.c:2119
 #, fuzzy
 msgid "Partial balance"
 msgstr "Saldo inicial"
 
 #. Description entry
-#: ../src/bet_future.c:2145 ../src/categories_onglet.c:757 ../src/import.c:474
+#: ../src/bet_future.c:2151 ../src/categories_onglet.c:757 ../src/import.c:474
 #: ../src/imputation_budgetaire.c:795
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/bet_future.c:2357 ../src/gsb_data_scheduled.c:1831
+#: ../src/bet_future.c:2363 ../src/gsb_data_scheduled.c:1831
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
