@@ -66,7 +66,7 @@ static gboolean gsb_main_change_state_window ( GtkWidget *window,
                         gpointer null );
 static void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line );
 static gboolean gsb_main_init_app ( void );
-static void gsb_main_load_file_if_necessary ( gchar *filename );
+static void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line );
 static gboolean gsb_main_print_environment_var ( void );
 static gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line );
 static void gsb_main_trappe_signal_sigsegv ( void );
@@ -159,7 +159,7 @@ gint main ( int argc, char **argv )
         dialog_message ( "development-version", VERSION );
 
     /* check the command line, if there is something to open */
-/*     gsb_main_load_file_if_necessary ( file );  */
+    gsb_main_load_file_if_necessary ( command_line );
 
     if ( grisbi_app_get_first_use ( app ) )
         gsb_assistant_first_run ();
@@ -242,16 +242,19 @@ void gsb_main_trappe_signal_sigsegv ( void )
  *
  *
  * */
-void gsb_main_load_file_if_necessary ( gchar *filename )
+void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
 {
     GrisbiAppConf *conf;
+    GSList *file_liste;
 
     conf = grisbi_app_get_conf ( );
 
     /* check the command line, if there is something to open */
-    if ( filename )
+    file_liste = grisbi_command_line_get_file_list ( command_line );
+
+    if ( file_liste )
     {
-        gsb_file_open_file ( filename );
+        gsb_file_open_from_commandline ( file_liste );
     }
     else
     {

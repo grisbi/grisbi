@@ -1264,6 +1264,58 @@ gboolean gsb_file_get_modified ( void )
 }
 
 
+/**
+ * essaie de trouver le fichier dans le répertoire home de l'utilisateur
+ * si le nom passé en option n'est pas un nom de fichier correct.
+ *
+ * \param liste de noms WARNING : seul le premier nom est utilisé
+ *
+ * \return TRUE if OK else FALSE
+ **/
+gboolean gsb_file_open_from_commandline ( GSList *file_list )
+{
+    gchar *filename;
+    gchar *tmp_str_1;
+    gchar *tmp_str_2;
+
+    filename = (gchar *) file_list->data;
+
+    if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        gsb_file_open_file ( filename );
+
+        return TRUE;
+    }
+    else
+    {
+        gchar *tmp_name = NULL;
+
+        tmp_name = g_build_filename ( gsb_dirs_get_home_dir (), filename, NULL );
+        printf ("tmp_name = %s\n", tmp_name );
+
+        if ( g_file_test ( tmp_name, G_FILE_TEST_EXISTS ) )
+        {
+            gsb_file_open_file ( tmp_name );
+            g_free ( tmp_name );
+
+            return TRUE;
+        }
+    }
+
+    tmp_str_1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                    filename,
+                    _("File does not exist") );
+
+    tmp_str_2 = g_strdup_printf ( _("Error loading file '%s'"), filename );
+
+    dialogue_error_hint ( tmp_str_1, tmp_str_2 );
+
+    g_free ( tmp_str_1 );
+    g_free ( tmp_str_2 );
+
+    return FALSE;
+}
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

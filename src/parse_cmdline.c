@@ -138,6 +138,7 @@ static gchar *grisbi_command_line_make_conf_filename ( gchar *config_file )
             }
         }
     }
+
     return NULL;
 }
 
@@ -153,11 +154,11 @@ static void grisbi_command_line_init_file_list ( GrisbiCommandLine *command_line
 
     for (i = 0; command_line->priv->files_args[i]; i++)
     {
-        GFile *file;
+        gchar *filename;
 
-        file = g_file_new_for_commandline_arg ( command_line->priv->files_args[i] );
+        filename = g_strdup ( command_line->priv->files_args[i] );
 
-        command_line->priv->file_list = g_slist_prepend ( command_line->priv->file_list, file );
+        command_line->priv->file_list = g_slist_prepend ( command_line->priv->file_list, filename );
     }
 
     command_line->priv->file_list = g_slist_reverse ( command_line->priv->file_list );
