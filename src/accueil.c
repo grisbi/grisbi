@@ -144,9 +144,9 @@ GtkWidget *creation_onglet_accueil ( void )
 
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+                        GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
-					  GTK_SHADOW_NONE );
+                        GTK_SHADOW_NONE );
 
     base = gtk_vbox_new ( FALSE, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
@@ -205,23 +205,23 @@ GtkWidget *creation_onglet_accueil ( void )
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
     /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Run out manual scheduled transactions") );
+                        _("Run out manual scheduled transactions") );
     frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
-				 FALSE );
+                        FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
-				   FALSE );
+                        FALSE );
     gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil),
-				     0 );
+                        0 );
     gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil,
-			 FALSE, FALSE, 6 );
+                        FALSE, FALSE, 6 );
 
 
     /* mise en place de la partie des échéances auto  ( non affiché )*/
     /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Automatic scheduled transactions entered") );
+                        _("Automatic scheduled transactions entered") );
     frame_etat_echeances_auto_accueil = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
@@ -232,7 +232,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* partie des fin d'échéances */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Closed scheduled transactions") );
+                        _("Closed scheduled transactions") );
     main_page_finished_scheduled_transactions_part = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
@@ -243,7 +243,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* partie des soldes minimaux autorisés */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Accounts under authorized balance") );
+                        _("Accounts under authorized balance") );
     frame_etat_soldes_minimaux_autorises = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
@@ -254,7 +254,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* partie des soldes minimaux voulus */
     paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Accounts under desired balance") );
+                        _("Accounts under desired balance") );
     frame_etat_soldes_minimaux_voulus = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
