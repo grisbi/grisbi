@@ -156,6 +156,12 @@ static void grisbi_app_init ( GrisbiApp *app )
     /* importation des formats de fichiers */
     grisbi_app_load_import_formats ( app );
 
+    /* initialisation des couleurs par défaut */
+    gsb_color_initialise_couleurs_par_defaut ( );
+
+    /* à reprendre autrement */
+    init_variables ();
+
     /* return */
 }
 
@@ -212,7 +218,9 @@ GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app )
     if ( !GRISBI_IS_APP ( tmp_app ) )
         return NULL;
 
-    if ( !GTK_WIDGET_REALIZED ( GTK_WIDGET ( tmp_app->priv->active_window ) ) )
+    if ( tmp_app->priv->active_window != 0
+     &&
+     !GTK_WIDGET_REALIZED ( GTK_WIDGET ( tmp_app->priv->active_window ) ) )
         gtk_widget_realize ( GTK_WIDGET ( tmp_app->priv->active_window ) );
 
     return tmp_app->priv->active_window;
@@ -439,15 +447,8 @@ static void grisbi_app_load_config_var ( GrisbiApp *app )
     /* initialisation de la variable conf */
     app->priv->conf = g_malloc0 ( sizeof ( GrisbiAppConf ) );
 
-    /* initialisation des couleurs par défaut */
-    gsb_color_initialise_couleurs_par_defaut ( );
-
     /* chargement des paramètres communs */
     app->priv->first_use = !gsb_file_config_load_config ( app->priv->conf );
-
-    /* à reprendre autrement */
-    init_variables ();
-
 }
 
  

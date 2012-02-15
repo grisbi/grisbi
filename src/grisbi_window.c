@@ -28,6 +28,7 @@
 
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
@@ -189,9 +190,9 @@ static void grisbi_window_init ( GrisbiWindow *window )
     window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
 
     if ( !grisbi_window_initialise_builder ( ) )
-        return;
+        exit ( 1 );
 
-    /* Création de la fenêtre de dialogue pour le graph */
+    /* Création de la fenêtre principale de Grisbi */
     main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
 
     window->priv->main_box = main_box;
