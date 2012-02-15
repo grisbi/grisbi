@@ -129,7 +129,7 @@ NULL };
 "Fabio Erculiani (<fabio.erculiani@tiscali.it>): ", _("Italian"), CSUFFIX,
 "Flavio Henrique Somensi (<flavio@opens.com.br>): ", _("Brazilian Portuguese"), CSUFFIX,
 "Giorgio Mandolfo (<giorgio@pollycoke.org>): ", _("Italian"), CSUFFIX,
-"Martin Stromberger (<Fabiolla@aon.at>): ", _("German"), CSUFFIX,
+"Martin Stromberger (<ma.stromberger@gmx.at>): ", _("German"), CSUFFIX,
 "Ryszard Jeziorski (<rjeziorski@eagleW): ", _("Polish"), CSUFFIX,
 "Achilleas Kaskamanidis (<alterna55@users.sourceforge.net>): ", _("Greek"), CSUFFIX,
 NULL);
