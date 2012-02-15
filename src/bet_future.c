@@ -1815,6 +1815,11 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     if ( bet_transfert_dialog == NULL )
     {
         bet_transfert_dialog = bet_transfert_create_dialog ( account_number );
+        if ( bet_transfert_dialog == NULL )
+        {
+            dialogue_warning ( _("You must create at least one cash account.") );
+            return FALSE;
+        }
     }
     else
     {
@@ -1832,11 +1837,8 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     gsb_form_widget_set_empty ( widget, FALSE );
     gsb_calendar_entry_set_date ( widget, date );
 
-    gtk_dialog_set_response_sensitive ( GTK_DIALOG ( bet_transfert_dialog ),
-                        GTK_RESPONSE_OK, FALSE );
-
 dialog_return:
-	result = gtk_dialog_run ( GTK_DIALOG ( bet_transfert_dialog ) );
+    result = gtk_dialog_run ( GTK_DIALOG ( bet_transfert_dialog ) );
 
     if ( result == GTK_RESPONSE_OK )
     {
@@ -1908,19 +1910,19 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
-					   GTK_WINDOW ( window ),
-					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
-					   NULL );
+                        GTK_WINDOW ( window ),
+                        GTK_DIALOG_MODAL,
+                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
-	vbox = gtk_vbox_new ( FALSE, 0 );
-	gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )->vbox ), vbox, TRUE, TRUE, 0 );
-	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog )->vbox ), vbox, TRUE, TRUE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     /* list of accounts */
     paddingbox = new_paddingbox_with_title (vbox, FALSE,  _("List of accounts") );
@@ -1938,6 +1940,10 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* create the account list */
     tree_view = bet_transfert_create_account_list_part ( dialog, account_number );
+
+    if ( tree_view == NULL )
+        return NULL;
+
     gtk_container_add (GTK_CONTAINER ( sw ), tree_view );
     gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
 
@@ -2090,7 +2096,7 @@ GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint acco
             }
         }
 
-	    tmp_list = tmp_list -> next;
+        tmp_list = tmp_list -> next;
     }
 
     tmp_list = gsb_data_partial_balance_get_list ( );
