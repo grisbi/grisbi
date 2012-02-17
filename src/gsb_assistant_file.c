@@ -57,15 +57,15 @@
 
 /*START_STATIC*/
 static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
-						  GtkWidget *filename_entry );
+                        GtkWidget *filename_entry );
 static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
-						     GtkWidget *entry );
+                        GtkWidget *entry );
 static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant );
 static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
-						   gboolean import );
+                        gboolean import );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -104,7 +104,7 @@ static GtkWidget *button_create_account_next;
  * \return a GtkResponseType containing the return value at the end of the assistant
  * */
 GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
-					 gboolean import )
+                        gboolean import )
 {
     GtkResponseType return_value;
     GtkWidget *assistant;
@@ -478,7 +478,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
  * \return a GtkWidget containing the page
  * */
 static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
-						   gboolean import )
+                        gboolean import )
 {
     GtkWidget *page;
     GtkWidget *vbox;
@@ -598,7 +598,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
  * \return FALSE
  * */
 static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
-						     GtkWidget *entry )
+                        GtkWidget *entry )
 {
     GtkWidget *dialog;
     gchar *tmpstr;
