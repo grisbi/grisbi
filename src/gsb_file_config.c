@@ -58,7 +58,6 @@ static void gsb_file_config_clean_config ( GrisbiAppConf *conf );
 /*START_EXTERN*/
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -303,10 +302,6 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Names last files",
                         &conf->nb_derniers_fichiers_ouverts,
                         NULL );
-    if ( conf->tab_noms_derniers_fichiers_ouverts )
-        nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts [0]);
-    else
-        nom_fichier_comptes = NULL;
 
     conf->check_for_archival = g_key_file_get_integer ( config, 
                         "IO",

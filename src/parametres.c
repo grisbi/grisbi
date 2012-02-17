@@ -130,7 +130,6 @@ extern GtkWidget *account_page;
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
 extern gint mise_a_jour_liste_comptes_accueil;
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -708,8 +707,15 @@ GtkWidget *onglet_messages_and_warnings ( void )
         GtkTreeIter iter;
 
         if ( g_utf8_collate ( messages[i].name, "account-already-opened" ) == 0 )
+        {
+            gchar *nom_fichier_comptes;
+
+            nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
             tmpstr = g_strdup_printf ( _(messages[i] . hint),
                         g_path_get_basename ( nom_fichier_comptes ) );
+
+            g_free ( nom_fichier_comptes );
+        }
         else if ( g_utf8_collate ( messages[i].name, "development-version" ) == 0 )
             tmpstr = g_strdup_printf ( _(messages[i] . message), VERSION );
         else

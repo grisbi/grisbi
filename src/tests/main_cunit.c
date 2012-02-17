@@ -53,14 +53,13 @@
  */
 GtkWidget *window = NULL;
 struct gsb_run_t run;
-extern gchar *nom_fichier_comptes;
 gboolean gsb_main_grisbi_close( void )
 {
 	return FALSE;
 }
 gboolean gsb_main_set_grisbi_title ( gint account_number )
 {
-	return FALSE;
+    return FALSE;
 }
 gchar *gsb_main_get_print_locale_var(void) { return NULL; }
 gchar *gsb_main_get_print_dir_var(void) { return NULL; }

@@ -92,8 +92,6 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-gchar *nom_fichier_comptes = NULL;
-
 gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
 gchar *adresse_secondaire = NULL;
@@ -206,10 +204,6 @@ void init_variables ( void )
 
     orphan_child_transactions = NULL;
     
-    if ( nom_fichier_comptes )
-        g_free ( nom_fichier_comptes );
-    nom_fichier_comptes = NULL;
-
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;

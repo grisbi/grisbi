@@ -70,7 +70,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 
 /*START_EXTERN*/
 extern gchar *adresse_commune;
-extern gchar *nom_fichier_comptes;
 extern gchar *titre_fichier;
 /*END_EXTERN*/
 
@@ -263,16 +262,13 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *table;
     GtkWidget *filename_entry;
+    gchar *nom_fichier_comptes;
 
     page = gtk_hbox_new (FALSE, 15);
-    gtk_container_set_border_width ( GTK_CONTAINER (page),
-				     10 );
+    gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
-    vbox = new_vbox_with_title_and_icon ( _("General configuration"),
-					  "payees.png" );
-    gtk_box_pack_start ( GTK_BOX (page),
-			 vbox,
-			 TRUE, TRUE, 0 );
+    vbox = new_vbox_with_title_and_icon ( _("General configuration"), "payees.png" );
+    gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
 
 	/* table 2x3 for layout */
 	table = gtk_table_new ( 2, 3, FALSE );
@@ -285,13 +281,13 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
 	/* label account name */
 	label = gtk_label_new ( _("Accounts file title: ") );
-	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+	gtk_misc_set_alignment  (GTK_MISC ( label ), 0, 1 );
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	/* need to declare filename_entry first for the next callback,
-	 * if no filename, set the title.gsb as default name */
+    /* need to declare filename_entry first for the next callback,
+     * if no filename, set the title.gsb as default name */
+    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
     if ( !nom_fichier_comptes )
     {
         gchar *tmp_str;
@@ -303,38 +299,37 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 
     filename_entry = gsb_automem_entry_new ( &nom_fichier_comptes, NULL, NULL);
 
-	entry = gsb_automem_entry_new (&titre_fichier,
-			((GCallback)gsb_assistant_file_change_title), filename_entry);
-	g_object_set_data ( G_OBJECT (entry),
-			"last_title", my_strdup (titre_fichier));
-	gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 3, 0, 1,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+    entry = gsb_automem_entry_new ( &titre_fichier,
+                        ( (GCallback) gsb_assistant_file_change_title ),
+                        filename_entry );
+	g_object_set_data ( G_OBJECT (entry), "last_title", my_strdup ( titre_fichier ) );
+	gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 3, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	/* filename */
 	label = gtk_label_new ( _("Filename: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
-	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
-	gtk_table_attach ( GTK_TABLE ( table ), filename_entry, 1, 2, 1, 2,
-			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
+	gtk_table_attach ( GTK_TABLE ( table ), filename_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
 	button = gtk_button_new_with_label ("...");
 	gtk_button_set_relief ( GTK_BUTTON (button), GTK_RELIEF_NONE );
-	g_signal_connect ( G_OBJECT (button), "clicked",
-			G_CALLBACK (gsb_assistant_file_choose_filename), filename_entry );
+	g_signal_connect ( G_OBJECT (button),
+                        "clicked",
+                        G_CALLBACK ( gsb_assistant_file_choose_filename ),
+                        filename_entry );
 
-	gtk_table_attach ( GTK_TABLE ( table ), button, 2, 3, 1, 2,
-			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
+	gtk_table_attach ( GTK_TABLE ( table ), button, 2, 3, 1, 2, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* will we crypt the file ? */
     if ( gsb_plugin_find ( "openssl" ) )
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                                               &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
-                             FALSE, FALSE, 0 );
+                        &(etat.crypt_file),
+                        G_CALLBACK (gsb_gui_encryption_toggled),
+                        NULL );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
         if ( etat.crypt_file )
             run.new_crypted_file = TRUE;
@@ -356,17 +351,15 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     /* Common address */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-				     GTK_POLICY_AUTOMATIC,
-				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window,
-			 FALSE, FALSE, 0);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
-					  GTK_SHADOW_IN );
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), scrolled_window, FALSE, FALSE, 0);
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ), GTK_SHADOW_IN );
     textview = gsb_automem_textview_new ( &adresse_commune, NULL, NULL );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
-			textview );
+    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), textview );
 
     gtk_widget_show_all (page);
+
     return page;
 }
 

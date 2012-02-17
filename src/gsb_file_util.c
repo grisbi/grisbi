@@ -1,21 +1,24 @@
-/* file gsb_file_util.c
- * used to save the gsb files */
-/*     Copyright (C)	2000-2005 Cédric Auger (cedric@grisbi.org) */
-/* 			http://www.grisbi.org */
-
-/*     This program is free software; you can redistribute it and/or modify */
-/*     it under the terms of the GNU General Public License as published by */
-/*     the Free Software Foundation; either version 2 of the License, or */
-/*     (at your option) any later version. */
-
-/*     This program is distributed in the hope that it will be useful, */
-/*     but WITHOUT ANY WARRANTY; without even the implied warranty of */
-/*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the */
-/*     GNU General Public License for more details. */
-
-/*     You should have received a copy of the GNU General Public License */
-/*     along with this program; if not, write to the Free Software */
-/*     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/* ************************************************************************** */
+/*                                                                            */
+/*     Copyright (C)    2001-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2009-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
+/*                                                                            */
+/*  This program is free software; you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation; either version 2 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program; if not, write to the Free Software               */
+/*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #ifdef HAVE_CONFIG_H
@@ -30,6 +33,7 @@
 /*START_INCLUDE*/
 #include "gsb_file_util.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -45,7 +49,6 @@
 
 /*START_EXTERN*/
 extern struct conditional_message messages[];
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 
@@ -108,8 +111,8 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
  * \return TRUE all is ok, FALSE a problem occured
  * */
 gboolean gsb_file_util_get_contents ( gchar *filename,
-				      gchar **file_content,
-				      gulong *length )
+                        gchar **file_content,
+                        gulong *length )
 {
     gzFile file;
     struct stat stat_buf;
@@ -282,21 +285,33 @@ void switch_t_r ( void )
  * */
 gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 {
+    gchar *nom_fichier_comptes;
     gchar *lock_filename;
 
     devel_debug_int ( create_lock );
+
     /* if the file was already opened we do nothing */
+    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
+
     if ( ( etat.fichier_deja_ouvert )
 	 ||
 	 !nom_fichier_comptes
 	 ||
 	 strlen ( nom_fichier_comptes) == 0 )
+    {
+        g_free ( nom_fichier_comptes );
+
         return TRUE;
+    }
 
     /* Check if nom_fichier_comptes exists.  If not, this is a new
      * file so don't try to lock it. */
     if ( !g_file_test ( nom_fichier_comptes, G_FILE_TEST_EXISTS ) )
+    {
+        g_free ( nom_fichier_comptes );
+
         return FALSE;
+    }
 
     /* Create the name of the lock file */
     lock_filename = g_strconcat ( g_get_tmp_dir ( ),
@@ -321,6 +336,8 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 
             /* the lock is already created, return TRUE */
             etat.fichier_deja_ouvert = 1;
+            g_free ( nom_fichier_comptes );
+
             return TRUE;
         }
 
@@ -337,6 +354,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
                                 g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
+            g_free ( nom_fichier_comptes );
 
             return FALSE;
         }
@@ -364,6 +382,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
                                 g_strerror ( errno ) );
             dialogue_error ( tmp_str );
             g_free ( tmp_str );
+            g_free ( nom_fichier_comptes );
 
             return FALSE;
         }
@@ -373,38 +392,11 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
     {
         /* si le fichier est déjà ouvert on ne fait rien */
         etat.fichier_deja_ouvert = 0;
+        g_free ( nom_fichier_comptes );
+
         return TRUE;
     }
 }
-
-/**
- *
- * called when loading a file, if the permissions are not set only for the user
- * propose to change the permissions
- *
- * \param
- *
- * \return
- * */
-void gsb_file_util_change_permissions ( void )
-{
-    /* On Windows, the chmod feature does not work: FAT does not
-     * have right access permission notions , on NTFS it to
-     * complicated to implement => the feature is removed from the
-     * Windows version : for that the corresponding parameter
-     * check box is not displayed and the paramater is forced to
-     * not display msg. */
-    devel_debug (NULL);
-
-#ifndef _WIN32
-    if ( question_conditional_yes_no ( "account-file-readable" ) == TRUE )
-    {
-        chmod ( nom_fichier_comptes, S_IRUSR | S_IWUSR );
-    }
-
-#endif /* _WIN32 */
-}
-
 
 /**
  *

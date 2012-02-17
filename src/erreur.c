@@ -62,7 +62,6 @@ static GtkWidget *print_backtrace ( void );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *nom_fichier_comptes;
 /*END_EXTERN*/
 
 static gint debugging_grisbi;
@@ -83,7 +82,8 @@ void traitement_sigsegv ( gint signal_nb )
     const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
     gchar *old_errmsg;
-    gchar *tmpstr;
+    gchar *tmp_str;
+    gchar *nom_fichier_comptes;
     GtkWidget *dialog;
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
@@ -91,6 +91,7 @@ void traitement_sigsegv ( gint signal_nb )
     GrisbiAppConf *conf;
 
     conf = grisbi_app_get_conf ( );
+    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
 
     /* il y a 4 possibilités :
      *  - Demande de fermeture de la part du système
@@ -106,14 +107,14 @@ void traitement_sigsegv ( gint signal_nb )
 
         if ( nom_fichier_comptes )
             /* set # around the filename */
-            nom_fichier_comptes = g_path_get_basename ( nom_fichier_comptes );
+            tmp_str = g_path_get_basename ( nom_fichier_comptes );
         else
             /* no name for the file, create it */
-            nom_fichier_comptes = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
+            tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
 
         old_errmsg = g_strdup ( _("Request for forced shutdown of  Grisbi \n") );
         errmsg = g_markup_printf_escaped ( _("The file \"%s has been modified. Do you want to save it?\n"),
-                                    nom_fichier_comptes );
+                                    tmp_str );
 
         dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -131,12 +132,14 @@ void traitement_sigsegv ( gint signal_nb )
         if ( res == GTK_RESPONSE_YES )
         {
             gsb_status_message ( _("Save file") );
-            gsb_file_save_save_file ( nom_fichier_comptes, conf->compress_file, FALSE );
+            gsb_file_save_save_file ( tmp_str, conf->compress_file, FALSE );
             gsb_status_clear ( );
         }
 
         gtk_widget_destroy ( dialog );
         gsb_file_util_modify_lock ( FALSE );
+        g_free ( nom_fichier_comptes );
+        g_free ( tmp_str );
 
         exit ( 0 );
     }
@@ -165,23 +168,25 @@ void traitement_sigsegv ( gint signal_nb )
 
         if ( nom_fichier_comptes )
             /* set # around the filename */
-            nom_fichier_comptes = g_path_get_basename ( nom_fichier_comptes );
+            tmp_str = g_path_get_basename ( nom_fichier_comptes );
         else
             /* no name for the file, create it */
-            nom_fichier_comptes = g_build_filename ( gsb_file_default_dir, "#grisbi_crash_no_name#", NULL );
+            tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_crash_no_name#", NULL );
 
         gsb_status_message ( _("Save file") );
 
-        gsb_file_save_save_file ( nom_fichier_comptes, conf->compress_file, FALSE );
+        gsb_file_save_save_file ( tmp_str, conf->compress_file, FALSE );
 
         gsb_status_clear ( );
 
         old_errmsg = errmsg;
         errmsg = g_strconcat ( errmsg,
                         g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-                        nom_fichier_comptes ),
+                        tmp_str ),
                         NULL );
         g_free ( old_errmsg );
+        g_free ( nom_fichier_comptes );
+        g_free ( tmp_str );
     }
 
     old_errmsg = errmsg;
@@ -208,9 +213,9 @@ void traitement_sigsegv ( gint signal_nb )
 #ifdef HAVE_BACKTRACE
     {
 
-        tmpstr = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
-        expander = gtk_expander_new ( tmpstr );
-        g_free ( tmpstr );
+        tmp_str = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
+        expander = gtk_expander_new ( tmp_str );
+        g_free ( tmp_str );
 
         gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
         gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
@@ -485,8 +490,11 @@ gboolean gsb_debug_start_log ( void )
 {
     gchar *tmp_str;
     gchar *debug_filename;
+    gchar *nom_fichier_comptes;
 
     devel_debug ( NULL );
+
+    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
 
     if ( nom_fichier_comptes )
     {
@@ -503,6 +511,7 @@ gboolean gsb_debug_start_log ( void )
         g_free ( basename);
         g_free ( complete_filename );
         g_free ( base_filename );
+        g_free ( nom_fichier_comptes );
     }
     else
     {
@@ -544,7 +553,7 @@ gboolean gsb_debug_start_log ( void )
                         __LINE__,
                         __PRETTY_FUNCTION__ );
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
 
@@ -552,7 +561,7 @@ gboolean gsb_debug_start_log ( void )
         tmp_str = gsb_main_get_print_locale_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
 
@@ -562,20 +571,20 @@ gboolean gsb_debug_start_log ( void )
                         G_GINT64_MODIFIER, G_MAXINT64 );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
 
         tmp_str = gsb_main_get_print_dir_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
 
         tmp_str = g_strdup ( "Formats importés\n" );
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
 
@@ -583,7 +592,7 @@ gboolean gsb_debug_start_log ( void )
         tmp_str_2 = g_strconcat ( tmp_str, "\n", NULL );
 
         fwrite ( tmp_str_2, sizeof (gchar), strlen ( tmp_str_2 ), debug_file );
-	    fflush ( debug_file );
+        fflush ( debug_file );
 
         g_free ( tmp_str );
         g_free ( tmp_str_2 );
