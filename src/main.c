@@ -226,7 +226,7 @@ void gsb_main_trappe_signal_sigsegv ( void )
         g_print ( _("Error on sigaction: SIGINT won't be trapped\n") );
 
     if ( sigaction ( SIGTERM, &sig_sev, NULL ) )
-        g_print ( _("Error on sigaction: SIGINT won't be trapped\n") );
+        g_print ( _("Error on sigaction: SIGTERM won't be trapped\n") );
 
     if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
         g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
