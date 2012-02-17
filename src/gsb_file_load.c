@@ -187,7 +187,6 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
@@ -896,7 +895,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "File_title" ) && strlen (attribute_values[i]))
-                    titre_fichier = my_strdup (attribute_values[i]);
+                    grisbi_app_set_active_file_title ( attribute_values[i] );
 
                 else
                     unknown = 1;
@@ -6659,9 +6658,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Titre" ))
     {
-        g_free ( titre_fichier );
-    titre_fichier = my_strdup (text);
-    return;
+        grisbi_app_set_active_file_title ( text );
+        return;
     }
 
     if ( !strcmp ( element_name,

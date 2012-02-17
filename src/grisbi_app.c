@@ -614,7 +614,7 @@ const gchar *grisbi_app_get_active_filename ( void )
 
 
 /**
- * définit le nom du fichier associé à la fenêtre
+ * définit le nom du fichier associé à la fenêtre active
  *
  * \param filename
  *
@@ -629,6 +629,67 @@ gboolean grisbi_app_set_active_filename ( const gchar *filename )
     window = grisbi_app_get_active_window ( app );
 
     grisbi_window_set_filename ( window, filename );
+
+    return TRUE;
+}
+
+
+/**
+ * retourne le titre du fichier de la fenêtre active
+ *
+ * \param
+ *
+ * \return
+ **/
+const gchar *grisbi_app_get_active_file_title ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    return grisbi_window_get_file_title ( window );
+}
+
+
+/**
+ * définit le titre du fichier associé à la fenêtre active
+ *
+ * \param file_title
+ *
+ * \return TRUE
+ **/
+gboolean grisbi_app_set_active_file_title ( const gchar *file_title )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    grisbi_window_set_file_title ( window, file_title );
+
+    return TRUE;
+}
+
+
+/**
+ * définit le titre de la fenêtre active
+ *
+ * \param title
+ *
+ * \return TRUE
+ **/
+gboolean grisbi_app_set_active_title ( const gchar *title )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    grisbi_window_set_window_title ( window, title );
 
     return TRUE;
 }

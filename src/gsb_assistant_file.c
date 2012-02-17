@@ -70,7 +70,6 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
 
 /*START_EXTERN*/
 extern gchar *adresse_commune;
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 enum file_assistant_page
@@ -263,6 +262,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *table;
     GtkWidget *filename_entry;
     gchar *nom_fichier_comptes;
+    gchar *titre_fichier;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
@@ -292,13 +292,14 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     {
         gchar *tmp_str;
 
-        tmp_str = g_strconcat ( titre_fichier, ".gsb", NULL );
+        tmp_str = g_strconcat ( grisbi_app_get_active_file_title (), ".gsb", NULL );
         nom_fichier_comptes = g_build_filename ( gsb_dirs_get_home_dir ( ), tmp_str, NULL );
         g_free ( tmp_str );
     }
 
     filename_entry = gsb_automem_entry_new ( &nom_fichier_comptes, NULL, NULL);
 
+    titre_fichier = (gchar *) grisbi_app_get_active_file_title ();
     entry = gsb_automem_entry_new ( &titre_fichier,
                         ( (GCallback) gsb_assistant_file_change_title ),
                         filename_entry );

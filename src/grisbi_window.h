@@ -50,6 +50,7 @@ GType grisbi_window_get_type ( void ) G_GNUC_CONST;
 GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
+const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
@@ -59,6 +60,10 @@ void grisbi_window_headings_update_label_markup ( gchar *label_name,
                         gboolean escape_text );
 gboolean grisbi_window_set_filename ( GrisbiWindow *window,
                         const gchar *filename );
+gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
+                        const gchar *file_title );
+void grisbi_window_set_window_title ( GrisbiWindow *window,
+                        const gchar *title );
 void grisbi_window_statusbar_remove ( GrisbiWindow *window );
 void grisbi_window_statusbar_push ( GrisbiWindow *window,
                         const gchar *msg );

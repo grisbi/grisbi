@@ -69,8 +69,11 @@ struct _GrisbiWindowPrivate
     /* nom du fichier associé à la fenêtre */
     gchar           *filename;
 
+    /* titre du fichier */
+    gchar           *file_title;
+
     /* titre de la fenêtre */
-    gchar           *title;
+    gchar           *window_title;
 
     /* Menus et barres d'outils */
     GtkWidget       *menu_bar;
@@ -113,8 +116,9 @@ static void grisbi_window_finalize ( GObject *object )
 
     window = GRISBI_WINDOW ( object );
 
-    g_free ( window->priv->title );
     g_free ( window->priv->filename );
+    g_free ( window->priv->file_title );
+    g_free ( window->priv->window_title );
 
     G_OBJECT_CLASS ( grisbi_window_parent_class )->finalize ( object );
 }
@@ -511,15 +515,13 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
  *
  *
  * */
-void grisbi_window_set_title ( GrisbiApp *app,
+void grisbi_window_set_window_title ( GrisbiWindow *window,
                         const gchar *title )
 {
-    GrisbiWindow *window;
+    if ( window->priv->window_title )
+        g_free ( window->priv->window_title );
 
-    window = grisbi_app_get_active_window ( app );
-
-    if ( window->priv->title )
-        g_free ( window->priv->title );
+    window->priv->window_title = g_strdup ( title );
 
     gtk_window_set_title ( GTK_WINDOW ( window ), title );
 }
@@ -580,6 +582,41 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
 
     return TRUE;
 }
+
+
+/* TITLE OF FILE */
+/**
+ * retourne le titre du fichier associé à la fenêtre
+ *
+ * \param GrisbiWindow
+ *
+ * \return title
+ **/
+const gchar *grisbi_window_get_file_title ( GrisbiWindow *window )
+{
+    return window->priv->file_title;
+}
+
+/**
+ * définit le titre du fichier associé à la fenêtre
+ *
+ * \param GrisbiWindow
+ * \param title
+ *
+ * \return TRUE
+ **/
+gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
+                        const gchar *file_title )
+{
+    devel_debug ( file_title );
+
+    g_free ( window->priv->file_title );
+
+    window->priv->file_title = g_strdup ( file_title );
+
+    return TRUE;
+}
+
 
 /* STATUS_BAR */
 /**

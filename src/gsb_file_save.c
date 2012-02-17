@@ -47,6 +47,7 @@
 #include "bet_data_finance.h"
 #include "bet_graph.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -165,7 +166,6 @@ extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
@@ -782,7 +782,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(VERSION),
 	etat.crypt_file,
 	is_archive,
-	my_safe_null_str ( titre_fichier ),
+	my_safe_null_str ( grisbi_app_get_active_file_title () ),
 	my_safe_null_str(adresse_commune),
 	my_safe_null_str(adresse_secondaire),
 	my_safe_null_str ( date_format ),

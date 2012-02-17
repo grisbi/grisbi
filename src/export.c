@@ -32,6 +32,7 @@
 #include "export.h"
 #include "dialog.h"
 #include "export_csv.h"
+#include "grisbi_app.h"
 #include "gsb_assistant.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -49,13 +50,14 @@ static GtkWidget * create_export_account_resume_page ( struct exported_account *
 static void export_account_all_toggled ( GtkToggleButton *button,
                         GtkTreeView *tree_view );
 static gboolean export_account_change_format ( GtkWidget * combo,
-					struct exported_account * account );
+                        struct exported_account * account );
 static gboolean export_account_radiobutton_format_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gint *pointeur );
 static void expert_account_free_account_structure ( struct exported_account *account );
-static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      GtkTreeModel * model );
+static void export_account_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        GtkTreeModel * model );
 static GtkWidget * export_create_final_page ( GtkWidget * assistant );
 static GtkWidget * export_create_resume_page ( GtkWidget * assistant );
 static GtkWidget * export_create_selection_page ( GtkWidget * assistant );
@@ -65,7 +67,6 @@ static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gchar *titre_fichier;
 /*END_EXTERN*/
 
 
@@ -112,8 +113,10 @@ void export_accounts ( void )
             if ( etat.export_files_traitement )
             {
                 const gchar *title;
+                const gchar *titre_fichier;
                 gchar *tmp_str;
 
+                titre_fichier = grisbi_app_get_active_file_title ();
                 if ( titre_fichier && strlen ( titre_fichier ) )
                     title = titre_fichier;
                 else
@@ -160,7 +163,7 @@ void export_accounts ( void )
  *
  *
  */
-GtkWidget * export_create_selection_page ( GtkWidget * assistant )
+GtkWidget *export_create_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * view, * vbox, * padding_box, * sw;
     GtkWidget *combo;
@@ -261,7 +264,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget * export_create_resume_page ( GtkWidget * assistant )
+GtkWidget *export_create_resume_page ( GtkWidget * assistant )
 {
     GtkWidget *sw;
     GtkWidget * view;
@@ -302,7 +305,7 @@ GtkWidget * export_create_resume_page ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget * export_create_final_page ( GtkWidget * assistant )
+GtkWidget *export_create_final_page ( GtkWidget * assistant )
 {
     GtkWidget * view;
     GtkTextBuffer * buffer;
@@ -433,7 +436,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
  *
  *
  */
-GtkWidget * create_export_account_resume_page ( struct exported_account * account )
+GtkWidget *create_export_account_resume_page ( struct exported_account * account )
 {
     GtkWidget * vbox, * hbox, * label, * combo;
     gchar *tmpstr;
@@ -493,6 +496,7 @@ gboolean export_account_change_format ( GtkWidget *combo,
                         struct exported_account *account )
 {
     gchar *title;
+    const gchar *titre_fichier;
 
     switch ( gtk_combo_box_get_active ( GTK_COMBO_BOX ( combo ) ) )
     {
@@ -507,9 +511,10 @@ gboolean export_account_change_format ( GtkWidget *combo,
         break;
     }
 
+    titre_fichier = grisbi_app_get_active_file_title ();
     if ( titre_fichier && strlen ( titre_fichier ) )
     {
-        title = titre_fichier;
+        title = g_strdup ( titre_fichier );
     }
     else
     {
@@ -522,6 +527,8 @@ gboolean export_account_change_format ( GtkWidget *combo,
                         NULL ) );
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( account->chooser ), gsb_file_get_last_path () );
 
+    g_free ( title );
+
     return FALSE;
 }
 
@@ -531,8 +538,9 @@ gboolean export_account_change_format ( GtkWidget *combo,
  *
  *
  */
-void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
-			      GtkTreeModel * model )
+void export_account_toggled ( GtkCellRendererToggle *cell,
+                        gchar *path_str,
+                        GtkTreeModel * model )
 {
     GtkWidget * assistant;
     GtkTreePath *path = gtk_tree_path_new_from_string (path_str);
