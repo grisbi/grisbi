@@ -443,7 +443,7 @@ gboolean gsb_file_others_load_report ( gchar *filename )
  * \return TRUE if ok
  * */
 gboolean gsb_file_others_load ( gchar *filename,
-				gint origin )
+                    gint origin )
 {
     gchar *file_content;
     GSList *import_list = NULL;
@@ -453,27 +453,18 @@ gboolean gsb_file_others_load ( gchar *filename,
 
     /* general check */
     
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_EXISTS ))
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
-        gchar* tmpstr = g_strdup_printf (_("Cannot open file '%s': %s"),
-					 filename,
-					 g_strerror(errno));
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return FALSE;
+        utils_files_display_dialog_error ( G_FILE_TEST_EXISTS, filename, g_strerror ( errno ) );
+
+        return FALSE;
     }
 
     /* check here if it's not a regular file */
-    if ( !g_file_test ( filename,
-			G_FILE_TEST_IS_REGULAR ))
+    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ))
     {
-        gchar* tmpstr = g_strdup_printf ( 
-                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-					   filename );
-	dialogue_error ( tmpstr );
-	g_free ( tmpstr );
-	return ( FALSE );
+        utils_files_display_dialog_error ( G_FILE_TEST_IS_REGULAR, filename, NULL );
+        return ( FALSE );
     }
 
     /* load the file */

@@ -762,6 +762,94 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
 
       return NULL;
 }
+
+
+/**
+ * Affiche un message d'erreur standard pour les erreus de fichier
+ *
+ * \param error_type
+ * \param filename
+ * \param error_str
+ *
+ * \return
+ **/
+void utils_files_display_dialog_error ( gint error_type,
+                        const gchar *filename,
+                        const gchar *error_str )
+{
+    gchar* tmp_str1 = NULL;
+    gchar* tmp_str2 = NULL;
+
+devel_debug_int (error_type);
+
+    switch ( error_type )
+    {
+        case G_FILE_TEST_EXISTS:
+        if ( error_str == NULL )
+            tmp_str1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        _("File does not exist") );
+        else
+            tmp_str1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
+                        filename,
+                        error_str );
+        tmp_str2 = g_strdup ( _("Error loading file.") );
+        break;
+        
+        case GSB_PLUGIN_SSL_EXIST:
+        tmp_str1 = g_strdup ( _("Grisbi was unable to load required plugin to "
+                        "handle that file.\n\n"
+                        "Please make sure if is installed (i.e. check "
+                        "that 'grisbi-ssl' package is installed) and "
+                        "try again.") );
+        tmp_str2 = g_strdup ( _("Encryption plugin not found." ) );
+        break;
+
+        case GSB_FAILED_LOAD_ACCOUNTS:
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s'.\n"
+                                "You should find the last  backups in '%s', they are saved "
+                                "with date and time into their name so you should find easily "
+                                "the last backup saved.\n"
+                                "Please contact the Grisbi's team on devel@listes.grisbi.org "
+                                "to find what happened to you current file."),
+                                filename,
+                                gsb_file_get_backup_path () );
+        tmp_str2 = g_strdup ( _("Error loading file.") );
+        break;
+
+        case GSB_FAILED_LOAD_WITH_BACKUP:
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s' and the backups seem not to "
+                                "be activated... This is a bad thing.\nYour backup path is '%s', "
+                                "try to find if earlier you had some backups in there ?\n"
+                                "Please contact the Grisbi's team on devel@listes.grisbi.org "
+                                "to find what happened to you current file."),
+                                filename,
+                                gsb_file_get_backup_path () );
+        tmp_str2 = g_strdup ( _("Error loading file.") );
+        break;
+
+        case GSB_FAILED_LOAD_WITHOUT_BACKUP:
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s' and the backups seem not "
+                                "to be activated... This is a bad thing.\n"
+                                "Please contact the Grisbi's team on "
+                                "devel@listes.grisbi.org to find what happened to you "
+                                "current file."),
+                                filename );
+        tmp_str2 = g_strdup ( _("Error loading file.") );
+        break;
+
+        default:
+        break;
+    }
+
+    if ( tmp_str1 && tmp_str2 )
+        dialogue_error_hint ( tmp_str1, tmp_str2 );
+
+    g_free ( tmp_str1 );
+    g_free ( tmp_str2 );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

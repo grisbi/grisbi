@@ -293,37 +293,8 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gulong length;
 
     devel_debug ( filename );
-
-    /* general check */
-    
-    if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
-    {
-        gchar* tmpstr1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                        filename,
-                        _("File does not exist") );
-        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-        dialogue_error_hint ( tmpstr1, tmpstr2 );
-        g_free ( tmpstr1 );
-        g_free ( tmpstr2 );
-        gsb_file_remove_name_from_opened_list (filename);
-        return FALSE;
-    }
-
-    /* check here if it's not a regular file */
-    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ))
-    {
-        gchar* tmpstr1 = g_strdup_printf ( 
-                        _("%s doesn't seem to be a regular file,\nplease check it and try again."),
-                        filename );
-        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-        dialogue_error_hint ( tmpstr1 , tmpstr2);
-        g_free ( tmpstr1 );
-        g_free ( tmpstr2 );
-        gsb_file_remove_name_from_opened_list (filename);
-        return ( FALSE );
-    }
-
-     /* fill the buffer stat to check the permission */
+return TRUE;
+    /* fill the buffer stat to check the permission */
     return_value = g_stat (filename, &buffer_stat);
     /* check the access to the file and display a message */
 #ifndef _WIN32
@@ -332,7 +303,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 #endif /* _WIN32 */
 
     /* load the file */
-    if (gsb_file_util_get_contents (filename, &file_content, &length))
+    if ( gsb_file_util_get_contents ( filename, &file_content, &length ) )
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
@@ -345,35 +316,30 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             plugin = gsb_plugin_find ( "openssl" );
             if ( plugin )
             {
-            gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+                gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
+                
+                crypt_function = (gpointer) plugin -> plugin_run;
+                length = crypt_function ( filename, &file_content, FALSE, length );
             
-            crypt_function = (gpointer) plugin -> plugin_run;
-            length = crypt_function ( filename, &file_content, FALSE, length );
-            
-            if ( ! length )
-            {
-                g_free (file_content);
-                return FALSE;
-            }
+                if ( !length )
+                {
+                    g_free (file_content);
+                    return FALSE;
+                }
             }
             else
             {
                 g_free (file_content);
-                dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
-                        "handle that file.\n\n"
-                        "Please make sure if is installed (i.e. check "
-                        "that 'grisbi-ssl' package is installed) and "
-                        "try again."),
-                        _("Encryption plugin not found." ) );
+                utils_files_display_dialog_error ( GSB_PLUGIN_SSL_EXIST, NULL, NULL );
+
                 return FALSE;
             }
         }
 
         /* we begin to check if we are in a version under 0.6 or 0.6 and above,
          * because the xml structure changes after 0.6 */
-
         markup_parser = g_malloc0 (sizeof (GMarkupParser));
-        if ( gsb_file_load_check_new_structure (file_content))
+        if ( gsb_file_load_check_new_structure ( file_content ) )
         {
             /* fill the GMarkupParser for a new xml structure */
             markup_parser -> start_element = (void *) gsb_file_load_start_element;
@@ -415,17 +381,12 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     }
     else
     {
-        gchar* tmpstr1 = g_strdup_printf (_("Cannot open file '%s': %s"),
-                        filename,
-                        g_strerror(errno));
-        gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
-        dialogue_error_hint (tmpstr1, tmpstr2);
-        g_free ( tmpstr1 );
-        g_free ( tmpstr2 );
         gsb_file_remove_name_from_opened_list (filename);
+
         return FALSE;
     }
-    return gsb_file_load_update_previous_version();
+
+    return gsb_file_load_update_previous_version ();
 }
 
 
