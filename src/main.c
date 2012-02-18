@@ -77,8 +77,6 @@ static void gsb_main_window_set_size_and_position ( void );
 /* variables initialisées lors de l'exécution de grisbi */
 struct gsb_run_t run;
 
-/* Options pour grisbi */
-static gint debug_level = -1;
 
 /**
  * Main function
@@ -119,12 +117,11 @@ gint main ( int argc, char **argv )
         exit ( return_value );
 
     /* initialisation du mode de débogage */
-    debug_level = gsb_main_set_debug_level ( command_line );
-    initialize_debugging ();
+    initialize_debugging ( grisbi_command_line_get_debug_level ( command_line ) );
 
     /* initialisation et sortie si nécessaire de la variable locale pour les devises */
     gsb_locale_init ( );
-    if ( debug_level > 0 )
+    if ( gsb_debug_get_debug_level () > 0 )
         gsb_main_print_environment_var ();
 
     /* initialisation du nom du fichier de configuration */
@@ -182,7 +179,7 @@ gboolean gsb_main_print_environment_var ( void )
 
     g_print ("Variables d'environnement :\n" );
 
-    tmp_str = gsb_main_get_print_locale_var ( );
+    tmp_str = gsb_locale_get_print_locale_var ( );
     g_print ("%s", tmp_str);
 
     g_free ( tmp_str );
@@ -263,48 +260,6 @@ void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
 
 
 /**
- *
- *  \return must be freed
- *
- */
-gchar *gsb_main_get_print_locale_var ( void )
-{
-    struct lconv *conv;
-    gchar *locale_str = NULL;
-    gchar *positive_sign;
-    gchar *negative_sign;
-
-    /* test local pour les nombres */
-    conv = gsb_locale_get_locale ( );
-    positive_sign = g_strdup ( conv->positive_sign );
-    negative_sign = g_strdup ( conv->negative_sign );
-
-    locale_str = g_strdup_printf ( "LANG = %s\n"
-                        "Currency\n"
-                        "\tcurrency_symbol   = %s\n"
-                        "\tmon_thousands_sep = \"%s\"\n"
-                        "\tmon_decimal_point = %s\n"
-                        "\tpositive_sign     = \"%s\"\n"
-                        "\tnegative_sign     = \"%s\"\n"
-                        "\tp_cs_precedes     = \"%d\"\n"
-                        "\tfrac_digits       = \"%d\"\n\n",
-                        g_getenv ( "LANG"),
-                        conv->currency_symbol,
-                        gsb_locale_get_mon_thousands_sep ( ),
-                        gsb_locale_get_mon_decimal_point ( ),
-                        positive_sign,
-                        negative_sign,
-                        conv->p_cs_precedes,
-                        conv->frac_digits );
-
-    g_free ( positive_sign );
-    g_free ( negative_sign );
-
-    return locale_str;
-}
-
-
-/**
  * renvoie la version de Grisbi
  *
  * \param
@@ -320,56 +275,6 @@ void gsb_main_show_version ( void )
 g_print ( N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list ( ) );
 
     exit ( 0 );
-}
-
-
-/**
- * renvoie le niveau de débug
- *
- * \param
- *
- * \return debug_level
- */
-gint gsb_main_get_debug_level ( void )
-{
-    return debug_level;
-}
-
-
-/**
- * positionne la variable debug_mode à 0 si version stable et
- * à DEBUG_GRISBI ou une valeur passée en paramètre
- *
- * \param
- *
- * \return debug_mode
- */
-gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line )
-{
-    gchar **tab;
-    gint number = 0;
-    gint number_1;
-    gint debug_level;
-
-    debug_level = grisbi_command_line_get_debug_level ( command_line );
-
-    tab = g_strsplit ( VERSION, ".", 3 );
-    number_1 = utils_str_atoi ( tab[1] );
-
-    number = number_1 % 2;
-    /* on garde le niveau mini de débogage si $DEBUG_GRISBI n'existe pas */
-    if ( number )
-    {
-        if ( getenv ( "DEBUG_GRISBI" ) )
-            number = utils_str_atoi ( getenv ( "DEBUG_GRISBI" ) );
-    }
-    if ( debug_level == -1 )
-        debug_level = number;
-
-    if ( debug_level > MAX_DEBUG_LEVEL )
-        debug_level = MAX_DEBUG_LEVEL;
-
-    return debug_level;
 }
 
 

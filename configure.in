@@ -64,6 +64,14 @@ PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 gmodule-2.0 >= 2.
 # </hack>
 
 dnl ================================================================
+dnl Defined if Grisbi is a development version
+dnl ================================================================
+
+if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
+	AC_DEFINE(IS_DEVELOPMENT_VERSION,1,[Defined if Grisbi is a developmeent version])
+fi
+
+dnl ================================================================
 dnl Plugin support using glib's GModule
 dnl ================================================================
 

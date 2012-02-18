@@ -36,19 +36,14 @@
 #include "erreur.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_window.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_plugins.h"
-#include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
-#include "main.h"
-#include "utils.h"
+#include "gsb_locale.h"
 #include "utils_str.h"
-#include "menu.h"
 /*END_INCLUDE*/
 
 #ifdef HAVE_BACKTRACE
@@ -234,20 +229,38 @@ void traitement_sigsegv ( gint signal_nb )
 }
 
 /**
- * initialise show_grisbi_debug a TRUE si on souhaite le debug
+ * initialise le niveau de debug de grisbi
  *
- * \param
+ * \param niveau de débug entré en ligne de commande
  *
  * \return
  */
-void initialize_debugging ( void )
+void initialize_debugging ( gint cde_line_debug_level )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
+    gint number = 0;
     gchar *debug_level = "";
     gchar *tmpstr1;
     gchar *tmpstr2;
 
-    if ( ( debugging_grisbi = gsb_main_get_debug_level ( ) ) )
+    if ( IS_DEVELOPMENT_VERSION )
+        number = 1;
+
+    /* on garde le niveau mini de débogage si $DEBUG_GRISBI n'existe pas */
+    if ( number )
+    {
+        if ( getenv ( "DEBUG_GRISBI" ) )
+            number = utils_str_atoi ( getenv ( "DEBUG_GRISBI" ) );
+    }
+    if ( cde_line_debug_level == -1 )
+        debugging_grisbi = number;
+    else
+        debugging_grisbi = cde_line_debug_level;
+
+    if ( debugging_grisbi > MAX_DEBUG_LEVEL )
+        debugging_grisbi = MAX_DEBUG_LEVEL;
+
+    if ( debugging_grisbi )
     {
         /* on renseigne le texte du level de debug */
         switch ( debugging_grisbi )
@@ -271,6 +284,20 @@ void initialize_debugging ( void )
         g_free ( tmpstr2 );
     }
 }
+
+
+/**
+ * renvoie le niveau de débug
+ *
+ * \param
+ *
+ * \return debug_level
+ */
+gint gsb_debug_get_debug_level ( void )
+{
+    return debugging_grisbi;
+}
+
 
 /**
  * return a string with the current time
@@ -446,7 +473,7 @@ void debug_message_real ( gchar *prefixe,
 /**
  * Print the backtrace upon segfault.
  */
-GtkWidget * print_backtrace ( void )
+GtkWidget *print_backtrace ( void )
 {
 #ifdef HAVE_BACKTRACE
     void *backtrace_content[15];
@@ -558,7 +585,7 @@ gboolean gsb_debug_start_log ( void )
         g_free ( tmp_str );
 
         /* write locales */
-        tmp_str = gsb_main_get_print_locale_var ( );
+        tmp_str = gsb_locale_get_print_locale_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
         fflush ( debug_file );
@@ -651,6 +678,7 @@ void debug_print_log_string ( gchar *prefixe,
     g_free ( tmp_str );
     g_free ( message );
 }
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */

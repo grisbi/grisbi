@@ -104,3 +104,39 @@ void gsb_locale_set_mon_thousands_sep ( const gchar *thousands_sep )
     g_free ( _locale -> mon_thousands_sep );
     _locale -> mon_thousands_sep = g_strdup ( thousands_sep );
 }
+
+
+/**
+ *
+ *  \return must be freed
+ *
+ */
+gchar *gsb_locale_get_print_locale_var ( void )
+{
+    gchar *locale_str = NULL;
+
+    locale_str = g_strdup_printf ( "LANG = %s\n"
+                        "Currency\n"
+                        "\tcurrency_symbol   = %s\n"
+                        "\tmon_thousands_sep = \"%s\"\n"
+                        "\tmon_decimal_point = %s\n"
+                        "\tpositive_sign     = \"%s\"\n"
+                        "\tnegative_sign     = \"%s\"\n"
+                        "\tp_cs_precedes     = \"%d\"\n"
+                        "\tfrac_digits       = \"%d\"\n\n",
+                        g_getenv ( "LANG"),
+                        _locale->currency_symbol,
+                        _locale -> mon_thousands_sep,
+                        _locale -> mon_decimal_point,
+                        _locale -> positive_sign,
+                        _locale -> negative_sign,
+                        _locale -> p_cs_precedes,
+                        _locale -> frac_digits );
+
+    return locale_str;
+}
+
+
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */
