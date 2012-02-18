@@ -106,6 +106,9 @@ gint main ( int argc, char **argv )
     if ( return_value == 1 )
         exit ( return_value );
 
+    /* initialisation du nom du fichier de configuration */
+    gsb_config_initialise_conf_filename ( grisbi_command_line_get_config_file ( command_line ) );
+
     /* initialisation du mode de débogage */
     initialize_debugging ( grisbi_command_line_get_debug_level ( command_line ) );
 
@@ -113,9 +116,6 @@ gint main ( int argc, char **argv )
     gsb_locale_init ( );
     if ( gsb_debug_get_debug_level () > 0 )
         gsb_main_print_environment_var ();
-
-    /* initialisation du nom du fichier de configuration */
-    gsb_config_initialise_conf_filename ( grisbi_command_line_get_config_file ( command_line ) );
 
     /* initialisation de gtk. arguments à NULL car traités au dessus */
     gtk_init ( NULL, NULL );
