@@ -62,7 +62,7 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
     return FALSE;
 }
 gchar *gsb_main_get_print_locale_var(void) { return NULL; }
-gchar *gsb_main_get_print_dir_var(void) { return NULL; }
+gchar *gsb_dirs_get_print_dir_var(void) { return NULL; }
 
 /* End of unnecessary things */
 

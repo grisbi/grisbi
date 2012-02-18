@@ -9,7 +9,6 @@
 
 /* START_DECLARATION */
 gboolean gsb_main_get_debug_level ( void );
-gchar *gsb_main_get_print_dir_var ( void );
 gchar *gsb_main_get_print_locale_var ( void );
 void gsb_main_show_version ( void );
 gint main ( gint argc, gchar **argv );

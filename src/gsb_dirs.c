@@ -33,6 +33,7 @@
 #endif /* !G_OS_WIN32 */
 
 #include "include.h"
+#include "gsb_file_config.h"
 #include "gsb_dirs.h"
 #include "structures.h"
 
@@ -253,6 +254,52 @@ const gchar *gsb_dirs_get_user_data_dir ( void )
 const gchar *gsb_dirs_get_home_dir ( void )
 {
     return home_dir;
+}
+
+
+/**
+ * retourne une chaine avec les principaux répertoires
+ *
+ * \param
+ *
+ * \return must be freed
+ */
+gchar *gsb_dirs_get_print_dir_var ( void )
+{
+    gchar *path_str = NULL;
+    const gchar *conf_filename;
+    gchar *accel_filename;
+
+    conf_filename = gsb_config_get_conf_filename ( );
+    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
+
+    path_str = g_strdup_printf ( "Paths\n"
+                        "\thome_dir                         = %s\n"
+                        "\tuser_config_dir                  = %s\n"
+                        "\tuser_config_filename             = %s\n"
+                        "\tuser_accels_filename             = %s\n"
+                        "\tuser_data_pathname               = %s\n\n"
+                        "\tsys_data_pathname                = %s\n\n"
+                        "\tgsb_dirs_get_categories_dir ( )  = %s\n"
+                        "\tgsb_dirs_get_locale_dir ( )      = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ( )     = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ( )     = %s\n"
+                        "\tgsb_dirs_get_ui_dir ( )          = %s\n\n",
+                        home_dir,
+                        user_config_dir,
+                        conf_filename,
+                        accel_filename,
+                        user_data_dir,
+                        DATA_PATH,
+                        categories_dir,
+                        locale_dir,
+                        plugins_dir,
+                        pixmaps_dir,
+                        ui_dir );
+
+    g_free ( accel_filename );
+
+    return path_str;
 }
 
 

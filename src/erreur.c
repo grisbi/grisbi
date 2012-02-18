@@ -575,7 +575,7 @@ gboolean gsb_debug_start_log ( void )
 
         g_free ( tmp_str );
 
-        tmp_str = gsb_main_get_print_dir_var ( );
+        tmp_str = gsb_dirs_get_print_dir_var ( );
 
         fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
         fflush ( debug_file );

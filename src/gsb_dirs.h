@@ -15,6 +15,7 @@ const gchar *gsb_dirs_get_home_dir ( void );
 const gchar *gsb_dirs_get_locale_dir ( void );
 const gchar *gsb_dirs_get_pixmaps_dir ( void );
 const gchar *gsb_dirs_get_plugins_dir ( void );
+gchar *gsb_dirs_get_print_dir_var ( void );
 const gchar *gsb_dirs_get_ui_dir ( void );
 const gchar *gsb_dirs_get_user_config_dir ( void );
 const gchar *gsb_dirs_get_user_data_dir ( void );
