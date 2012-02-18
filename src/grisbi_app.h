@@ -61,7 +61,7 @@ const GList	*grisbi_app_get_windows ( GrisbiApp *app );
 gboolean grisbi_app_quit ( void );
 gboolean grisbi_app_set_active_filename ( const gchar *filename );
 gboolean grisbi_app_set_active_file_title ( const gchar *filename );
-gboolean grisbi_app_set_active_title ( const gchar *title );
+gboolean grisbi_app_set_active_title ( gint account_number );
 /* END_DECLARATION */
 
 G_END_DECLS

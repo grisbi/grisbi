@@ -52,7 +52,6 @@
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "parametres.h"
@@ -487,7 +486,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     }
 
     /* set Grisbi title */
-    gsb_main_set_grisbi_title ( -1 );
+    grisbi_app_set_active_title ( -1 );
 
     /* update the main page */
     mise_a_jour_accueil (TRUE);
@@ -628,7 +627,7 @@ gboolean gsb_file_save_file ( gint origine )
         /* update variables */
         etat.fichier_deja_ouvert = 0;
             gsb_file_set_modified ( FALSE );
-        gsb_main_set_grisbi_title ( gsb_gui_navigation_get_current_account ( ) );
+        grisbi_app_set_active_title ( gsb_gui_navigation_get_current_account ( ) );
         gsb_file_append_name_to_opened_list ( nouveau_nom_enregistrement );
 
         g_free ( nouveau_nom_enregistrement );
@@ -1038,7 +1037,7 @@ gboolean gsb_file_close ( void )
 /*        init_variables ();
         gsb_account_property_clear_config ( );
 */
-        gsb_main_set_grisbi_title ( -1 );
+        grisbi_app_set_active_title ( -1 );
 
         menus_sensitifs ( FALSE );
 

@@ -35,7 +35,6 @@
 #include "gsb_status.h"
 #include "grisbi_app.h"
 #include "grisbi_window.h"
-#include "main.h"
 #include "structures.h"
 #include "utils.h"
 /*END_INCLUDE*/

@@ -46,7 +46,6 @@
 #include "file_obfuscate.h"
 #include "file_obfuscate_qif.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "parametres.h"
 #include "structures.h"

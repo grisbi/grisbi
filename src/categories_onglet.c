@@ -40,7 +40,6 @@
 #include "gsb_file.h"
 #include "gsb_file_others.h"
 #include "gsb_transactions_list.h"
-#include "main.h"
 #include "meta_categories.h"
 #include "metatree.h"
 #include "mouse.h"

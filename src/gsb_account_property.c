@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2009 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2009 Pierre Biava (grisbi@pierre.biava.name)          */
+/*                      2009_2012 Pierre Biava (grisbi@pierre.biava.name)     */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -39,34 +39,34 @@
 
 /*START_INCLUDE*/
 #include "gsb_account_property.h"
+#include "accueil.h"
+#include "categories_onglet.h"
 #include "dialog.h"
+#include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_autofunc.h"
 #include "gsb_bank.h"
-#include "utils_buttons.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_transaction.h"
-#include "utils_editables.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
-#include "navigation.h"
-#include "accueil.h"
-#include "menu.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
-#include "traitement_variables.h"
-#include "utils_str.h"
-#include "utils.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "transaction_list.h"
-#include "structures.h"
 #include "gsb_transactions_list.h"
+#include "imputation_budgetaire.h"
+#include "menu.h"
+#include "navigation.h"
+#include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_buttons.h"
+#include "utils_editables.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1537,7 +1537,7 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
         payees_fill_list ();
         break;
     case PROPERTY_HOLDER_NAME:
-        gsb_main_set_grisbi_title ( account_number );
+        grisbi_app_set_active_title ( account_number );
         break;
     }
 

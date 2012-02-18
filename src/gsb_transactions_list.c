@@ -62,7 +62,6 @@
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "mouse.h"
 #include "navigation.h"

@@ -202,7 +202,7 @@ gboolean gsb_main_print_environment_var ( void )
 
 
 /**
- * detourne le signal SIGSEGV
+ * On detourne les signaaux SIGINT, SIGTERM, SIGSEGV
  *
  *
  *
@@ -259,96 +259,6 @@ void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
     }
 
     return;
-}
-
-
-/**
- * set Grisbi title
- *
- *
- *
- * */
-gboolean gsb_main_set_grisbi_title ( gint account_number )
-{
-    gchar *nom_fichier_comptes;
-    const gchar *titre_fichier;
-    gchar *titre_grisbi = NULL;
-    gchar *titre = NULL;
-    gint tmp_number;
-    gboolean return_value;
-    GrisbiAppConf *conf;
-
-    devel_debug_int ( account_number );
-    conf = grisbi_app_get_conf ( );
-
-    titre_fichier = grisbi_app_get_active_file_title ();
-    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
-    if ( nom_fichier_comptes == NULL )
-    {
-        titre_grisbi = g_strdup ( _("Grisbi") );
-        return_value = TRUE;
-    }
-    else
-    {
-        switch ( conf->display_grisbi_title )
-        {
-            case GSB_ACCOUNTS_TITLE:
-            {
-                if ( titre_fichier && strlen ( titre_fichier ) )
-                    titre = g_strdup ( titre_fichier );
-            }
-            break;
-            case GSB_ACCOUNT_HOLDER:
-            {
-                if ( account_number == -1 )
-                    tmp_number = gsb_data_account_first_number ( );
-                else
-                    tmp_number = account_number;
-
-                if ( tmp_number == -1 )
-                {
-                    if ( titre_fichier && strlen ( titre_fichier ) )
-                        titre = g_strdup ( titre_fichier );
-                }
-                else
-                {
-                    titre = g_strdup ( gsb_data_account_get_holder_name ( tmp_number ) );
-
-                    if ( titre == NULL )
-                        titre = g_strdup ( gsb_data_account_get_name ( tmp_number ) );
-                }
-            break;
-            }
-            case GSB_ACCOUNTS_FILE:
-                if ( nom_fichier_comptes && strlen ( nom_fichier_comptes ) )
-                    titre = g_path_get_basename ( nom_fichier_comptes );
-            break;
-        }
-
-        g_free ( nom_fichier_comptes );
-
-        if ( titre && strlen ( titre ) > 0 )
-        {
-            titre_grisbi = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
-            g_free ( titre );
-
-            return_value = TRUE;
-        }
-        else
-        {
-            titre_grisbi = g_strconcat ( "<", _("unnamed"), ">", NULL );
-            return_value = FALSE;
-        }
-    }
-    grisbi_app_set_active_title ( titre_grisbi );
-
-    gsb_main_page_update_homepage_title ( titre_grisbi );
-
-    if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
-        g_free ( titre_grisbi );
-
-    /* return */
-    return return_value;
 }
 
 

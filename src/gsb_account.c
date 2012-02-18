@@ -44,7 +44,6 @@
 #include "menu.h"
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
 #include "traitement_variables.h"
 #include "tiers_onglet.h"
 #include "categories_onglet.h"

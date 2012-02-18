@@ -48,7 +48,6 @@
 #include "gsb_file.h"
 #include "gsb_locale.h"
 #include "imputation_budgetaire.h"
-#include "main.h"
 #include "parametres.h"
 #include "structures.h"
 #include "tiers_onglet.h"

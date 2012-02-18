@@ -22,7 +22,6 @@
 #include "gsb_transactions_list.h"
 #include "help.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "parametres.h"
 #include "tip.h"

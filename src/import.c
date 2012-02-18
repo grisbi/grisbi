@@ -66,7 +66,6 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "import_csv.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "parametres.h"

@@ -37,7 +37,6 @@
 #include "openssl.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "main.h"
 #include "structures.h"
 #include "erreur.h"
 /*END_INCLUDE*/

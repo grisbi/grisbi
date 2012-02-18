@@ -76,7 +76,6 @@
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "import.h"
-#include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"

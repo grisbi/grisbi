@@ -508,25 +508,6 @@ static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
 }
 
 
-/* TITLE OF MAIN WINDOW */
-/**
- * set window title
- *
- *
- *
- * */
-void grisbi_window_set_window_title ( GrisbiWindow *window,
-                        const gchar *title )
-{
-    if ( window->priv->window_title )
-        g_free ( window->priv->window_title );
-
-    window->priv->window_title = g_strdup ( title );
-
-    gtk_window_set_title ( GTK_WINDOW ( window ), title );
-}
-
-
 /* GTK_BUILDER */
 /**
  * Crée un builder et récupère les widgets du fichier grisbi.ui
@@ -584,7 +565,7 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
 }
 
 
-/* TITLE OF FILE */
+/* TITLES */
 /**
  * retourne le titre du fichier associé à la fenêtre
  *
@@ -615,6 +596,26 @@ gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
     window->priv->file_title = g_strdup ( file_title );
 
     return TRUE;
+}
+
+
+/**
+ * set window title
+ *
+ * \param GrisbiWindow
+ * \param title
+ *
+ * \return
+ * */
+void grisbi_window_set_window_title ( GrisbiWindow *window,
+                        const gchar *title )
+{
+    if ( window->priv->window_title )
+        g_free ( window->priv->window_title );
+
+    window->priv->window_title = g_strdup ( title );
+
+    gtk_window_set_title ( GTK_WINDOW ( window ), title );
 }
 
 
