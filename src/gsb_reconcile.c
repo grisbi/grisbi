@@ -34,6 +34,7 @@
 #include "include.h"
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
@@ -73,6 +74,7 @@ static gboolean gsb_reconcile_entry_lose_focus ( GtkWidget *entry,
 static gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 					    gpointer null );
 static void gsb_reconcile_sensitive ( gboolean sensitive );
+static gchar *gsb_reconcile_build_label ( int reconcile_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
@@ -287,6 +289,87 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
 
 /**
+ * Build the new label for the reconciliation, given the old one.
+ * The expected format is NAME+NUMBER, so this function returns 
+ * a newly allocated string whose format is NAME+(NUMBER+1). It
+ * preserves leading '0' for the NUMBER string.
+ *
+ * If this is the first label building (first reconciliation for 
+ * this account), then the function returns a standard string 
+ * of the account name (lower case) + '-1'.
+ *
+ * \param reconcile_number
+ *
+ * \return the new string label
+ */
+gchar *gsb_reconcile_build_label ( int reconcile_number )
+{
+    gchar *tmp;
+    gchar *old_label;
+    gchar *new_label;
+    gchar format[6] = "%s%0d";
+    int __reconcile_number;
+    int __size;
+    int __expand;
+
+    /* old_label = NAME + NUMBER */
+    old_label = g_strdup ( gsb_data_reconcile_get_name ( reconcile_number ) );
+    /* return account NAME + '1' */
+    if ( !old_label )
+    {
+        tmp = gsb_data_account_get_name ( gsb_gui_navigation_get_current_account () );
+        new_label = g_strconcat ( tmp, "-1", NULL );
+        tmp = new_label;
+        while ( *tmp != '\0' )
+        {
+            if ( *tmp == ' ' )
+                *tmp = '-';
+            else
+                *tmp = tolower ( *tmp );
+            tmp ++;
+        }
+        return new_label;
+    }
+
+    /* we try to find some digits at the end of the name,
+     * if found, get the biggest number until we find a non digit character */
+    __expand = 1;
+    tmp = old_label + ( strlen ( old_label ) - 1 ) * sizeof ( gchar );
+    while ( isdigit ( *tmp ) && tmp >= old_label )
+    {
+        if ( *tmp != '9' )
+            __expand = 0;
+        tmp--;
+    }
+    tmp ++; /* step forward to the first digit */
+
+    __reconcile_number = utils_str_atoi ( tmp ) + 1;
+
+    /* if stage 99 -> 100 for example,
+     * then we have to allocate one more byte */
+    __size = strlen ( tmp ) + __expand;
+    /* format string for the output (according NUMBER string length) */
+    format[3] = 48 + __size;
+
+    /* close the NAME string */
+    *tmp = 0;
+    /* NAME + NUMBER + '\0' */
+    __size += strlen ( old_label ) * sizeof ( gchar ) + 1;
+    new_label = g_malloc0 ( __size * sizeof ( gchar ) );
+    sprintf ( new_label, format, old_label, __reconcile_number );
+
+    /* replace ' ' by '0' in number */
+    tmp = new_label + strlen ( old_label ) * sizeof ( gchar );
+    while ( *tmp == ' ' )
+        *tmp++ = '0';
+
+    g_free ( old_label );
+
+    return new_label;
+}
+
+
+/**
  * start the reconciliation, called by a click on the
  * reconcile button
  *
@@ -301,91 +384,16 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     GDate *date;
     gint account_number;
     gint reconcile_number;
-    gchar *last_name;
+    gchar *label;
     gchar *string;
-	gchar* tmpstr;
+    gchar* tmpstr;
 
     account_number = gsb_gui_navigation_get_current_account ();
-
     reconcile_number = gsb_data_reconcile_get_account_last_number (account_number);
 
-    /* get the last reconcile number and try to increase the number in the name */
-
-    last_name = my_strdup (gsb_data_reconcile_get_name (reconcile_number));
-
-    if (last_name)
-    {
-	gchar *tmp_pointer;
-	gchar *end_pointer;
-
-	/* we try to find some digits at the end of the name,
-	 * if found, get the biggest number untill we find a non digit character */
-	end_pointer = last_name + (strlen ( last_name ) - 1) * sizeof (gchar);
-	tmp_pointer = end_pointer;
-
-	while ( isdigit ( tmp_pointer[0] ) && tmp_pointer >= last_name )
-	    tmp_pointer--;
-
-	if ( tmp_pointer != end_pointer )
-	{
-	    /* ok we have some digits at the end of the name */
-	    gchar *zero_string;
-	    gint digit_size;
-	    gint new_digit_size;
-	    gchar *new_string;
-	    gchar *digit_string;
-		gchar* oldstr;
-
-	    /* tmp_pointer is on the first non digit from the end of the last_name,
-	     * so go to the first digit */
-	    tmp_pointer++;
-
-	    digit_string = my_strdup ( tmp_pointer );
-	    tmp_pointer[0] = 0;
-
-	    /* increase the number */
-	    digit_size = strlen ( digit_string );
-	    oldstr =  digit_string;
-	    digit_string = utils_str_itoa ( utils_str_atoi ( digit_string ) + 1 );
-	    g_free ( oldstr );
-	    new_digit_size = strlen ( digit_string );
-
-	    /* if new_digit_size is < of digit_size, it's because some 0 diseappear
-	     * while the atoi and utils_str_itoa, so we set again that 0
-	     * ie if we had 0007, we want 0008 and no 8 */
-	    if ( new_digit_size < digit_size )
-	    {
-		gint i;
-
-		zero_string = g_malloc ((digit_size-new_digit_size+1)*sizeof (gchar));
-
-		for ( i=0 ; i<digit_size-new_digit_size ; i++ )
-		    zero_string[i]='0';
-
-		zero_string[digit_size-new_digit_size] = 0;
-	    }
-	    else
-		zero_string = g_strdup ("");
-
-	    /* create the new string */
-	    new_string = g_strconcat ( last_name,
-				       zero_string,
-				       digit_string,
-				       NULL );
-	    g_free (last_name);
-	    g_free (zero_string);
-	    g_free (digit_string);
-	    last_name = new_string;
-	}
-	gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ),
-			     last_name );
-	g_free (last_name);
-    }
-    else
-    {
-        tmpstr = utils_str_itoa ( gsb_data_reconcile_max_number ( ) + 1 );
-        gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), tmpstr );
-    }
+    label = gsb_reconcile_build_label ( reconcile_number );
+    gtk_entry_set_text ( GTK_ENTRY ( reconcile_number_entry ), label );
+    g_free ( label );
 
     /* reset records in run structure if user has changed of account */
     if (run.reconcile_account_number != account_number)
