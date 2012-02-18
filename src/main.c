@@ -61,17 +61,12 @@
 
 
 /*START_STATIC*/
-static gboolean gsb_main_change_state_window ( GtkWidget *window,
-                        GdkEventWindowState *event,
-                        gpointer null );
 static void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line );
 static gboolean gsb_main_init_app ( void );
 static void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line );
 static gboolean gsb_main_print_environment_var ( void );
 static gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line );
 static void gsb_main_trappe_signal_sigsegv ( void );
-static gboolean gsb_main_window_delete_event (GtkWidget *window, gpointer data);
-static void gsb_main_window_destroy_event ( GObject* obj, gpointer data);
 static void gsb_main_window_set_size_and_position ( void );
 /*END_STATIC*/
 
@@ -264,95 +259,6 @@ void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
     }
 
     return;
-}
-
-
-/**
- * check on any change on the main window
- * for now, only to check if we set/unset the full-screen
- *
- * \param window
- * \param event
- * \param null
- *
- * \return FALSE
- * */
-gboolean gsb_main_change_state_window ( GtkWidget *window,
-                        GdkEventWindowState *event,
-                        gpointer null )
-{
-    if (event->changed_mask & GDK_WINDOW_STATE_MAXIMIZED)
-    {
-        GrisbiAppConf *conf;
-
-        conf = grisbi_app_get_conf ( );
-
-        if (event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED)
-            conf->full_screen = TRUE;
-        else
-            conf->full_screen = FALSE;
-    }
-    return FALSE;
-}
-
-/**
- * close grisbi by destroying the main window
- * This function is called by the Quit menu option.
- *
- * \param
- *
- * \return FALSE
- * */
-gboolean gsb_main_grisbi_close ( void )
-{
-    GrisbiApp *app;
-    GrisbiWindow *main_window;
-    GrisbiAppConf *conf;
-
-    app = grisbi_app_get_default ( );
-    conf = grisbi_app_get_conf ( );
-
-    /* on récupère la fenetre active */
-    main_window = grisbi_app_get_active_window ( app );
-
-    /* sauvegarde la position de la fenetre principale */
-    gtk_window_get_position ( GTK_WINDOW ( main_window ), &conf->root_x, &conf->root_y );
-
-    if ( !gsb_main_window_delete_event ( GTK_WIDGET ( main_window ), NULL ) )
-        gtk_widget_destroy ( GTK_WIDGET ( main_window ) );
-
-    /* clean finish of the debug file */
-    if ( etat.debug_mode )
-        gsb_debug_finish_log ( );
-
-    return FALSE;
-}
-
-/**
- * This function is called when the main window is deleted.
- * It proposes to save the file if necessary.
- */
-static gboolean gsb_main_window_delete_event (GtkWidget *window, gpointer data)
-{
-    devel_debug (NULL);
-
-    /* need to save the config before gsb_file_close */
-/*    gsb_file_config_save_config (); */
-
-    if (!gsb_file_close ())
-        return TRUE;
-    return FALSE;
-}
-
-/**
- * exit the gtk main loop when the main window is destroyed.
- */
-static void gsb_main_window_destroy_event ( GObject* obj, gpointer data)
-{
-/*    free_variables();
-    main_window = NULL;
-    gtk_main_quit();
-*/
 }
 
 
