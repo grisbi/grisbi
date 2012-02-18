@@ -36,26 +36,16 @@
 
 /*START_INCLUDE*/
 #include "main.h"
-#include "accueil.h"
 #include "dialog.h"
 #include "grisbi_app.h"
 #include "gsb_assistant_first.h"
-#include "gsb_color.h"
-#include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
 #include "gsb_plugins.h"
-#include "gsb_status.h"
-#include "import.h"
-#include "menu.h"
 #include "parse_cmdline.h"
-#include "structures.h"
 #include "tip.h"
-#include "traitement_variables.h"
-#include "utils.h"
-#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
