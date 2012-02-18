@@ -165,7 +165,7 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text )
  */
 G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
 {
-    dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
+    dialogue_special ( GTK_MESSAGE_ERROR, make_hint ( hint, text ) );
 }
 
 

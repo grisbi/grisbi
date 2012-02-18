@@ -107,8 +107,8 @@ void traitement_sigsegv ( gint signal_nb )
             /* no name for the file, create it */
             tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
 
-        old_errmsg = g_strdup ( _("Request for forced shutdown of  Grisbi \n") );
-        errmsg = g_markup_printf_escaped ( _("The file \"%s has been modified. Do you want to save it?\n"),
+        old_errmsg = g_strdup ( _("Request for forced shutdown of  Grisbi\n") );
+        errmsg = g_markup_printf_escaped ( _("The file '%s' has been modified. Do you want to save it?\n"),
                                     tmp_str );
 
         dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),

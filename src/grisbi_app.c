@@ -161,9 +161,6 @@ static void grisbi_app_init ( GrisbiApp *app )
     /* initialisation des couleurs par défaut */
     gsb_color_initialise_couleurs_par_defaut ( );
 
-    /* à reprendre autrement */
-    init_variables ();
-
     /* return */
 }
 
