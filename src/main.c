@@ -112,8 +112,10 @@ gint main ( int argc, char **argv )
     /* initialisation du mode de débogage */
     initialize_debugging ( grisbi_command_line_get_debug_level ( command_line ) );
 
-    /* initialisation et sortie si nécessaire de la variable locale pour les devises */
+    /* initialisation de la variable locale pour les devises */
     gsb_locale_init ( );
+
+    /* lancement des information de débogage si nécessaire */
     if ( gsb_debug_get_debug_level () > 0 )
         gsb_main_print_environment_var ();
 
