@@ -20,16 +20,12 @@
 #define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
 
 typedef struct gsb_conf_t GrisbiAppConf;
-typedef struct gsb_etat_t GrisbiWindowConf;
+typedef struct gsb_etat_t GrisbiWindowEtat;
 typedef struct gsb_run_t  GrisbiAppRun;
 
 
 /** structure etat
  * variables contenant juste 0 ou 1
- * FIXME : scinder cette structure en 3 parties :
- * la partie configurée par le fichier
- * la partie configurée par la conf
- * la partie configurée pendant le fonctionnement de grisbi
  * */
 struct gsb_etat_t
 {
@@ -184,10 +180,8 @@ struct gsb_conf_t
     gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
     gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
 
-#if IS_DEVELOPMENT_VERSION == 1
     /* config file */
     gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
-#endif
 
     /* variables pour le calcul des soldes */
     gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
@@ -298,5 +292,13 @@ enum direction_move {
     GSB_DOWN
 };
 
+
+typedef enum GSB_FILE_ERROR
+{
+    GSB_PLUGIN_SSL_EXIST            = 1 << 6,
+    GSB_FAILED_LOAD_ACCOUNTS        = 1 << 7,
+    GSB_FAILED_LOAD_WITH_BACKUP     = 1 << 8,
+    GSB_FAILED_LOAD_WITHOUT_BACKUP  = 1 << 9
+} GsbFileErrorType;
 
 #endif
