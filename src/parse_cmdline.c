@@ -110,6 +110,9 @@ static gchar *grisbi_command_line_make_conf_filename ( gchar *config_file )
 {
     gchar *tmp_name = NULL;
 
+    if ( config_file == NULL )
+        return NULL;
+
     if ( g_file_test ( config_file, G_FILE_TEST_EXISTS ) )
     {
         tmp_name = g_strdup ( config_file );
@@ -241,13 +244,6 @@ gint grisbi_command_line_parse ( GrisbiCommandLine *command_line,
 
     /* test de la validité du fichier de configuration */
     conf_filename = grisbi_command_line_make_conf_filename ( command_line->priv->config_file );
-    if ( conf_filename == NULL )
-    {
-        g_print ( _("Error loading file '%s'"), command_line->priv->config_file );
-
-        return_value = 1;
-    }
-
     command_line->priv->conf_filename = conf_filename;
 
     /* Constitution de la liste des fichiers */

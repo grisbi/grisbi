@@ -991,17 +991,18 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
 
     /* Config file */
-#if IS_DEVELOPMENT_VERSION == 1
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
+    if ( IS_DEVELOPMENT_VERSION )
+    {
+        paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
 
-    hbox = gtk_hbox_new ( FALSE, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
+        hbox = gtk_hbox_new ( FALSE, 6);
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
-    button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
+        button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
                         &conf->stable_config_file_model,
                         NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-#endif
+        gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
+    }
 
     gtk_widget_show_all ( vbox_pref );
 

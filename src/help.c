@@ -166,7 +166,7 @@ NULL};
     plugins = gsb_plugin_get_list ( );
     version_to_string = get_gtk_run_version ( );
 
-    if ( IS_DEVELOPMENT_VERSION == 1 )
+    if ( IS_DEVELOPMENT_VERSION )
     {
         gchar *compiled_time;
 

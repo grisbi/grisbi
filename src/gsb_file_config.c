@@ -64,15 +64,6 @@ extern struct conditional_message messages[];
 /* nom du fichier de configuration */
 static gchar *conf_filename;
 
-#if IS_DEVELOPMENT_VERSION == 1
-    /* flag de chargement du fichier modèle */
-    static gboolean used_model = FALSE;
-    /* partie variable du nom du fichier de configuration */
-    #define GRISBIRC "dev.conf"
-#else
-    #define GRISBIRC  ".conf"
-#endif
-
 /**
  * load the config file
  * it uses the glib config utils after 0.6.0
@@ -91,6 +82,8 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     gint int_ret;
     GError* err = NULL;
 
+    devel_debug ( conf_filename );
+
     gsb_file_config_clean_config ( conf );
 
     if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
@@ -107,31 +100,36 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
         return FALSE;
     }
 
-#if IS_DEVELOPMENT_VERSION == 1
-    /* get config model */
-    conf->stable_config_file_model = g_key_file_get_integer ( config,
+    if ( IS_DEVELOPMENT_VERSION )
+    {
+        gchar *tmp_filename;
+
+        /* get config model */
+        conf->stable_config_file_model = g_key_file_get_integer ( config,
                         "Model",
                         "Stable_config_file_model",
                         NULL );
-    if ( conf->stable_config_file_model )
-    {
-        used_model = TRUE;
-        g_free ( conf_filename );
-        conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir (), PACKAGE, ".conf", NULL );
-        if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
-        {
-            g_key_file_free ( config );
-            return FALSE;
-        }
 
-        g_key_file_free ( config );
-        config = g_key_file_new ( );
-        result = g_key_file_load_from_file ( config,
-                        conf_filename,
+        if ( conf->stable_config_file_model )
+        {
+            gchar *tmp_str;
+
+            tmp_str = g_strconcat ( PACKAGE, ".conf", NULL );
+            tmp_filename = g_build_filename ( gsb_dirs_get_user_config_dir (), tmp_str, NULL );
+
+            if ( g_file_test ( tmp_filename, G_FILE_TEST_EXISTS ) )
+            {
+                g_key_file_free ( config );
+                config = g_key_file_new ( );
+                result = g_key_file_load_from_file ( config,
+                        tmp_filename,
                         G_KEY_FILE_KEEP_COMMENTS,
                         NULL );
+            }
+            g_free ( tmp_str );
+            g_free ( tmp_filename );
+        }
     }
-#endif
 
     /* get the geometry */
     conf->root_x = g_key_file_get_integer ( config,
@@ -472,13 +470,14 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 
     config = g_key_file_new ();
 
-#if IS_DEVELOPMENT_VERSION == 1
-    /* set config model */
-    g_key_file_set_integer ( config,
+    if ( IS_DEVELOPMENT_VERSION )
+    {
+        /* set config model */
+        g_key_file_set_integer ( config,
                         "Model",
                         "Stable_config_file_model",
                         conf->stable_config_file_model );
-#endif
+    }
 
     g_key_file_set_integer ( config,
                         "Geometry",
@@ -830,15 +829,15 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
 {
     devel_debug (NULL);
 
-    conf->main_width = 0;
-    conf->main_height = 0;
+    conf->main_width = 800;
+    conf->main_height = 600;
     conf->panel_width = 250;
     conf->prefs_width = 600;
 
     conf->force_enregistrement = 1;
 
     conf->r_modifiable = 0;                         /* we can not change the reconciled transaction */
-    conf->dernier_fichier_auto = 1;                 /* on n'ouvre pas directement le dernier fichier */
+    conf->dernier_fichier_auto = 0;                 /* on n'ouvre pas directement le dernier fichier */
     conf->sauvegarde_auto = 1;                      /* on sauvegarde automatiquement par défaut */
     conf->entree = 1;                               /* la touche entree provoque l'enregistrement de l'opération */
     conf->nb_days_before_scheduled = 0;             /* nb de jours avant l'échéance pour prévenir */
@@ -846,7 +845,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->balances_with_scheduled = TRUE;
     conf->formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     conf->affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    conf->automatic_completion_payee = 1;            /* by default automatic completion */
+    conf->automatic_completion_payee = 0;            /* by default automatic completion */
     conf->limit_completion_to_current_account = 0;   /* By default, do full search */
     conf->automatic_recover_splits = 1;
     conf->automatic_erase_credit_debit = 0;
@@ -874,9 +873,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->make_backup_every_minutes = FALSE;
     conf->make_backup_nb_minutes = 0;
 
-#if IS_DEVELOPMENT_VERSION == 1
     conf->stable_config_file_model = 0;
-#endif
 
     conf->nb_derniers_fichiers_ouverts = 0;
     conf->nb_max_derniers_fichiers_ouverts = 3;
@@ -925,27 +922,24 @@ void gsb_config_initialise_conf_filename ( const gchar *config_file )
 {
     gchar *tmp_str;
 
-    devel_debug ( config_file );
-
     if ( config_file )
     {
         conf_filename = g_strdup ( config_file );
         return;
     }
 
-    tmp_str = g_strconcat ( PACKAGE, GRISBIRC, NULL );
-    conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
-    g_free ( tmp_str );
-
-#if IS_DEVELOPMENT_VERSION == 1
-    if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
+    if ( IS_DEVELOPMENT_VERSION )
     {
-        g_free ( conf_filename );
+        tmp_str = g_strconcat ( PACKAGE, "dev.conf", NULL );
+        conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
+        g_free ( tmp_str );
+    }
+    else
+    {
         tmp_str = g_strconcat ( PACKAGE, ".conf", NULL );
         conf_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), tmp_str, NULL );
         g_free ( tmp_str );
     }
-#endif
 }
 
 
