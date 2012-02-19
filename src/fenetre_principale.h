@@ -27,11 +27,13 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
 
 
 /* START_DECLARATION */
-GtkWidget *gsb_gui_create_general_widgets ( void );
+GtkWidget *gsb_gui_create_general_widget ( void );
 GtkWidget *gsb_gui_get_general_notebook (void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_init_general_notebook ( void );
+void gsb_gui_new_general_notebook ( void );
+void gsb_gui_new_gui ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page );
 GtkWidget *gsb_gui_on_account_get_notebook ( void );

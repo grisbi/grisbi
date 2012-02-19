@@ -44,8 +44,10 @@
 #include "gsb_account_property.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
+#include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
+#include "menu.h"
 #include "navigation.h"
 #include "structures.h"
 #include "tiers_onglet.h"
@@ -53,6 +55,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static GtkWidget *creation_fenetre_operations ( void );
 static void gsb_gui_create_general_notebook ( GrisbiWindow *window );
 static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
@@ -67,33 +70,58 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 
 
 /**
- * Create the main widget that holds all the user interface save the
- * menus.
+ * Initialize user interface part.
  *
- * \return A newly-allocated vbox holding all elements.
+ * \param
+ *
+ * \return
  */
-GtkWidget *gsb_gui_create_general_widgets ( void )
+void gsb_gui_new_gui ( void )
 {
-    GtkWidget *vbox_general;
-    GtkWidget *hpaned_general;
+    GtkWidget *main_vbox;
+    GtkWidget *general_widget;
+    GtkWidget *notebook_general;
+
+    /* dégrise les menus nécessaire */
+    gsb_menu_sensitive ( TRUE );
+
+    /* Create main widget. */
+    gsb_status_message ( _("Creating main window") );
+    main_vbox = grisbi_window_get_widget_by_name ( "main_vbox" );
+
+    /* affiche headings_bar si nécessaire */
+    gsb_gui_update_show_headings ( );
+
+    /* récupération du widget general */
+    general_widget = grisbi_window_new_general_widget ();
+    gtk_box_pack_start ( GTK_BOX ( main_vbox ), general_widget, TRUE, TRUE, 0 );
+
+    navigation_change_account ( gsb_gui_navigation_get_current_account () );
+
+    /* Display accounts in menus */
+    gsb_menu_update_accounts_in_menus ();
+
+    notebook_general = grisbi_window_get_widget_by_name ( "notebook_general" );
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
+
+    /* return */
+}
+
+
+/**
+ * Create a new general notebook
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_gui_new_general_notebook ( void )
+{
     GrisbiWindow *window;
 
     window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
 
-    vbox_general = grisbi_window_get_widget_by_name ( "vbox_general" );
-
-    /* Then create and fill the main hpaned. */
-    hpaned_general = grisbi_window_new_hpaned ( window );
-    gsb_gui_navigation_create_navigation_pane ( );
     gsb_gui_create_general_notebook ( window );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
-
-    gtk_widget_show ( hpaned_general );
-
-    gtk_widget_show ( vbox_general );
-
-    /* return */
-    return vbox_general;
 }
 
 
@@ -109,7 +137,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 void gsb_gui_create_general_notebook ( GrisbiWindow *window )
 {
     GtkWidget *vbox;
-    GtkWidget *form;
+/*     GtkWidget *form;  */
     GtkWidget *notebook_general;
 
     devel_debug ( "create_main_notebook" );
@@ -122,9 +150,10 @@ void gsb_gui_create_general_notebook ( GrisbiWindow *window )
     notebook_general = grisbi_window_get_widget_by_name ( "notebook_general" );
 
     /* append the form */
-    form = gsb_form_new ( );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
-    gtk_widget_hide ( form );
+/*     form = gsb_form_new ( );
+ *     gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+ *     gtk_widget_hide ( form );
+ */
 
     /* fill the notebook */
     gsb_gui_fill_general_notebook ( notebook_general );
@@ -229,8 +258,9 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
                         gtk_label_new ( _("Reports") ) );
 
     /* update toolbars */
-    gsb_gui_update_all_toolbars ( );
+/*     gsb_gui_update_all_toolbars ( );  */
 
+    /* return */
     return FALSE;
 }
 
@@ -412,6 +442,23 @@ void gsb_gui_update_all_toolbars ( void )
     bet_array_update_toolbar ( );
     bet_historical_update_toolbar ( );
     bet_finance_update_all_finance_toolbars ( );
+}
+
+
+/**
+ * Create the transaction window with all components needed.
+ *
+ *
+ */
+GtkWidget *creation_fenetre_operations ( void )
+{
+    GtkWidget *win_operations;
+
+    /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
+    /*     des boutons de conf au milieu, le transaction_form en bas */
+    win_operations = grisbi_window_get_widget_by_name ( "win_operations" );
+
+    return ( win_operations );
 }
 
 

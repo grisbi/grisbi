@@ -36,6 +36,7 @@
 #include "accueil.h"
 #include "bet_data.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
@@ -1551,7 +1552,7 @@ void traitement_operations_importees ( void )
         {
             /* this should be the same as the end of gsb_file_new */
             /* init the gui */
-            gsb_file_new_gui ();
+            gsb_gui_new_gui ();
 
             new_file = 0;
         }

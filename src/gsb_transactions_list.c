@@ -38,7 +38,6 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
-#include "grisbi_window.h"
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_data_account.h"
@@ -98,7 +97,8 @@ static gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint transaction_number );
 static gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number );
-static GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model );
+static gboolean gsb_transactions_list_create_tree_view ( GtkWidget *tree_view,
+                        GtkTreeModel *model );
 static void gsb_transactions_list_create_tree_view_columns ( void );
 static gboolean gsb_transactions_list_delete_archived_transactions ( gint account_number,
                         gint archive_number );
@@ -303,35 +303,6 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
         transaction_list_select ( -1 );
 
     /* return */
-}
-
-
-/**
- * Create the transaction window with all components needed.
- *
- *
- */
-GtkWidget *creation_fenetre_operations ( void )
-{
-    GtkWidget *win_operations;
-
-    /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
-    /*     des boutons de conf au milieu, le transaction_form en bas */
-    win_operations = gtk_vbox_new ( FALSE, 6 );
-
-    /* création de la barre d'outils */
-    transaction_toolbar = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), transaction_toolbar, FALSE, FALSE, 0);
-
-    /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
-    tree_view_vbox = gtk_vbox_new ( FALSE, 0 );
-
-
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), tree_view_vbox, TRUE, TRUE, 0);
-
-    gtk_widget_show_all ( win_operations );
-
-    return ( win_operations );
 }
 
 
@@ -600,35 +571,30 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 /**
  * create fully the gui list and fill it
  *
- * \param
+ * \param tree_view
  *
- * \return the widget which contains the list, to set at the right place
+ * \return TRUE if OK FALSE if not OK
  * */
-GtkWidget *gsb_transactions_list_make_gui_list ( void )
+gboolean gsb_transactions_list_make_gui_list ( GtkWidget *tree_view )
 {
-    GtkWidget *tree_view;
-    GtkWidget *scrolled_window;
+    /* create the model */
+    if ( !transaction_list_create () )
+    {
+        dialogue_error (_("The model of the list couldn't be created... "
+                        "Bad things will happen very soon..."));
+        return FALSE;
+    }
 
     /* we have first to create and fill the model */
     gsb_transactions_list_fill_model ();
 
-    /* we add the tree view in a scrolled window which will be returned */
-    scrolled_window = gtk_scrolled_window_new ( NULL, NULL );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
-                        GTK_SHADOW_IN );
-
     /* and now we can create the tree_view */
-    tree_view = gsb_transactions_list_create_tree_view ( GTK_TREE_MODEL (
-                        transaction_model_get_model ()) );
-    gtk_container_add ( GTK_CONTAINER ( scrolled_window ), tree_view );
+    gsb_transactions_list_create_tree_view ( tree_view, GTK_TREE_MODEL ( transaction_model_get_model () ) );
 
     /* we save the values */
-    gsb_transactions_list_set_tree_view (tree_view);
+    gsb_transactions_list_set_tree_view ( tree_view );
 
-    gtk_widget_show_all (scrolled_window);
-    return scrolled_window;
+    return TRUE;
 }
 
 
@@ -743,9 +709,9 @@ void update_titres_tree_view ( void )
  *
  * \return the tree_view
  * */
-GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
+gboolean gsb_transactions_list_create_tree_view ( GtkWidget *tree_view,
+                        GtkTreeModel *model )
 {
-    GtkWidget *tree_view;
     gint i;
 
     tree_view = gtk_tree_view_new ();
@@ -753,26 +719,26 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     /*  we cannot do a selection */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (
                         GTK_TREE_VIEW( tree_view ))),
-				        GTK_SELECTION_NONE );
+                        GTK_SELECTION_NONE );
 
     gtk_tree_view_set_fixed_height_mode ( GTK_TREE_VIEW ( tree_view ), TRUE );
 
     /* check the buttons on the list */
     g_signal_connect ( G_OBJECT ( tree_view ),
-		                "button_press_event",
-		                G_CALLBACK ( gsb_transactions_list_button_press ),
-		                NULL );
+                        "button_press_event",
+                        G_CALLBACK ( gsb_transactions_list_button_press ),
+                        NULL );
 
     /* check the keys on the list */
     g_signal_connect ( G_OBJECT ( tree_view ),
-		                "key_press_event",
-		                G_CALLBACK ( gsb_transactions_list_key_press ),
-		                NULL );
+                        "key_press_event",
+                        G_CALLBACK ( gsb_transactions_list_key_press ),
+                        NULL );
 
     g_signal_connect ( G_OBJECT ( tree_view ),
-		                "size_allocate",
-		                G_CALLBACK (gsb_transactions_list_size_allocate),
-		                NULL );
+                        "size_allocate",
+                        G_CALLBACK (gsb_transactions_list_size_allocate),
+                        NULL );
 
     /* we create the columns of the tree view */
     gsb_transactions_list_create_tree_view_columns ();
@@ -809,7 +775,7 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
 
     /* return */
-    return tree_view;
+    return TRUE;
 }
 
 

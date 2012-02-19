@@ -35,12 +35,14 @@
 
 /*START_INCLUDE*/
 #include "grisbi_window.h"
+#include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_ui.h"
 #include "gsb_dirs.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
+#include "traitement_variables.h"
 #include "utils_gtkbuilder.h"
 /*END_INCLUDE*/
 
@@ -64,36 +66,39 @@ static GtkBuilder *grisbi_window_builder = NULL;
 struct _GrisbiWindowPrivate
 {
     /* Vbox générale */
-    GtkWidget       *main_box;
+    GtkWidget           *main_box;
 
     /* nom du fichier associé à la fenêtre */
-    gchar           *filename;
+    gchar               *filename;
 
     /* titre du fichier */
-    gchar           *file_title;
+    gchar               *file_title;
 
     /* titre de la fenêtre */
-    gchar           *window_title;
+    gchar               *window_title;
 
     /* Menus et barres d'outils */
-    GtkWidget       *menu_bar;
-    GtkUIManager    *ui_manager;
-    GtkActionGroup  *always_sensitive_action_group;
-    GtkActionGroup  *division_sensitive_action_group;
-    GtkActionGroup  *file_save_action_group;
-    GtkActionGroup  *file_recent_files_action_group;
-    GtkActionGroup  *file_debug_toggle_action_group;
-    GtkActionGroup  *edit_sensitive_action_group;
-    GtkActionGroup  *edit_transactions_action_group;
-    GtkActionGroup  *view_sensitive_action_group;
+    GtkWidget           *menu_bar;
+    GtkUIManager        *ui_manager;
+    GtkActionGroup      *always_sensitive_action_group;
+    GtkActionGroup      *division_sensitive_action_group;
+    GtkActionGroup      *file_save_action_group;
+    GtkActionGroup      *file_recent_files_action_group;
+    GtkActionGroup      *file_debug_toggle_action_group;
+    GtkActionGroup      *edit_sensitive_action_group;
+    GtkActionGroup      *edit_transactions_action_group;
+    GtkActionGroup      *view_sensitive_action_group;
 
     /* statusbar */
-    GtkWidget       *statusbar;
-    guint           context_id;
-    guint           message_id;
+    GtkWidget           *statusbar;
+    guint               context_id;
+    guint               message_id;
 
     /* headings_bar */
-    GtkWidget       *headings_eb;
+    GtkWidget           *headings_eb;
+
+    /* variables de configuration de la fenêtre */
+    GrisbiWindowEtat    *etat;
 };
 
 
@@ -225,8 +230,14 @@ static void grisbi_window_init ( GrisbiWindow *window )
                         "key-press-event",
                         G_CALLBACK ( grisbi_window_key_press_event ),
                         NULL );
-}
 
+    /* initialisation de la variable etat */
+    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+
+    /* initialisation des variables de la fenêtre */
+/*     init_variables ();  */
+}
+/* commentaire_a_supprimer */
 
 /* MENUS */
 static void grisbi_window_init_menus ( GrisbiWindow *window )
@@ -782,6 +793,38 @@ void grisbi_window_headings_update_label_markup ( gchar *label_name,
 }
 
 
+/* GENERAL_WIDGET */
+/**
+ * Create the main widget that holds all the user interface save the
+ * menus.
+ *
+ * \return A newly-allocated vbox holding all elements.
+ */
+GtkWidget *grisbi_window_new_general_widget ( void )
+{
+    GtkWidget *vbox_general;
+    GtkWidget *hpaned_general;
+    GrisbiWindow *window;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+
+    vbox_general = grisbi_window_get_widget_by_name ( "vbox_general" );
+
+    /* Then create and fill the main hpaned. */
+    hpaned_general = grisbi_window_new_hpaned ( window );
+/*     gsb_gui_navigation_create_navigation_pane ( );  */
+    gsb_gui_new_general_notebook ();
+    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
+
+    gtk_widget_show ( hpaned_general );
+
+    gtk_widget_show ( vbox_general );
+
+    /* return */
+    return vbox_general;
+}
+
+
 /* HPANED */
 /**
  * met à jour la taille du panneau de gauche
@@ -862,6 +905,25 @@ GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name )
     widget = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, name ) );
 
     return widget;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
+GrisbiWindowEtat *grisbi_window_get_window_etat ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( );
+    window = grisbi_app_get_active_window ( app );
+
+    return window->priv->etat;
 }
 
 

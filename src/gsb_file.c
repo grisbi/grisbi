@@ -25,7 +25,7 @@
 #include <config.h>
 #endif
 
-#include "include.h"
+#include <errno.h>
 #include <time.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -136,65 +136,13 @@ gboolean gsb_file_new_finish ( void )
     }
 
     /* init the gui */
-    gsb_file_new_gui ();
+    gsb_gui_new_gui ();
 
     mise_a_jour_accueil ( TRUE );
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     gsb_file_set_modified ( TRUE );
     return FALSE;
-}
-
-
-/**
- * Initialize user interface part when a new accounts file is created.
- */
-void gsb_file_new_gui ( void )
-{
-    GtkWidget *main_vbox;
-    GtkWidget *tree_view_widget;
-    GtkWidget *notebook_general;
-
-    /* dégrise les menus nécessaire */
-    gsb_menu_sensitive ( TRUE );
-
-    /* récupère l'organisation des colonnes  */
-    recuperation_noms_colonnes_et_tips ();
-
-    /* Create main widget. */
-    gsb_status_message ( _("Creating main window") );
-    main_vbox = grisbi_window_get_widget_by_name ( "main_vbox" );
-
-    /* affiche headings_bar si nécessaire */
-    gsb_gui_update_show_headings ( );
-    gtk_box_pack_start ( GTK_BOX ( main_vbox ), gsb_gui_create_general_widgets ( ), TRUE, TRUE, 0 );
-
-    /* create the model */
-    if (!transaction_list_create ())
-    {
-        dialogue_error (_("The model of the list couldn't be created... "
-                        "Bad things will happen very soon..."));
-        return;
-    }
-
-    /* Create transaction list. */
-    tree_view_widget = gsb_transactions_list_make_gui_list ();
-    gtk_box_pack_start ( GTK_BOX ( tree_view_vbox ),
-                tree_view_widget,
-                TRUE,
-                TRUE,
-                0 );
-    gtk_widget_show ( tree_view_widget );
-
-    navigation_change_account ( gsb_gui_navigation_get_current_account () );
-
-    /* Display accounts in menus */
-    gsb_menu_update_accounts_in_menus ();
-
-    notebook_general = gsb_gui_get_general_notebook ( );
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK( notebook_general ), GSB_HOME_PAGE );
-
-    gtk_widget_show ( notebook_general );
 }
 
 
@@ -358,7 +306,6 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
 }
 
 
-
 /**
  * open a new grisbi file, don't check anything about another opened file that must
  * have been done before
@@ -369,14 +316,13 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
  * */
 gboolean gsb_file_open_file ( gchar *filename )
 {
+    GtkWidget *tree_view;
     GSList *list_tmp;
     GrisbiAppConf *conf;
 
     devel_debug (filename);
 
-    if ( !filename
-     ||
-     !strlen (filename))
+    if ( !filename || strlen ( filename ) == 0 )
         return FALSE;
 
     conf = grisbi_app_get_conf ( );
@@ -384,14 +330,27 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
-    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared 
-     * when returning from gsb_file_load_open_file!
-     * making application crashes! */
+    if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
+    {
+        utils_files_display_dialog_error ( G_FILE_TEST_EXISTS, filename, g_strerror ( errno ) );
+        gsb_file_remove_name_from_opened_list (filename);
 
+        return FALSE;
+    }
+
+    /* check here if it's not a regular file */
+    if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ))
+    {
+        utils_files_display_dialog_error ( G_FILE_TEST_IS_REGULAR, filename, NULL );
+        gsb_file_remove_name_from_opened_list ( filename );
+
+        return ( FALSE );
+    }
+
+    /* le fichier existe et est un fichier "normal" on l'ouvre */
     if ( gsb_file_load_open_file ( filename ) )
     {
-        /* the file has been opened succesfully */
-        /* we make a backup if necessary */
+        /* the file has been opened succesfully we make a backup if necessary */
         if ( conf->sauvegarde_demarrage )
         {
             gsb_file_save_backup ();
@@ -405,45 +364,19 @@ gboolean gsb_file_open_file ( gchar *filename )
 
         if ( conf->sauvegarde_demarrage || conf->make_backup || conf->make_backup_every_minutes )
         {
-            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-            gchar *tmpstr2 = g_strdup_printf (
-                                _("Grisbi was unable to load file. You should find the last "
-                                  "backups in '%s', they are saved with date and time into "
-                                  "their name so you should find easily the last backup "
-                                  "saved.\n"
-                                  "Please contact the Grisbi's team on devel@listes.grisbi.org "
-                                  "to find what happened to you current file."),
-                                gsb_file_get_backup_path ());
-            dialogue_error_hint ( tmpstr2, tmpstr );
-            g_free ( tmpstr );
-            g_free ( tmpstr2 );
+            utils_files_display_dialog_error ( GSB_FAILED_LOAD_ACCOUNTS, filename, NULL );
             gsb_status_stop_wait ( TRUE );
+
             return FALSE;
         }
         else
         {
-            gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-            gchar *tmpstr2;
-
             if ( gsb_file_get_backup_path ( ) )
-                tmpstr2 = g_strdup_printf (
-                            _("Grisbi was unable to load file and the backups seem not to "
-                              "be activated... This is a bad thing.\nYour backup path is '%s', "
-                              "try to find if earlier you had some backups in there ?\n"
-                              "Please contact the Grisbi's team on devel@listes.grisbi.org "
-                              "to find what happened to you current file."),
-                            gsb_file_get_backup_path ());
+                utils_files_display_dialog_error ( GSB_FAILED_LOAD_WITH_BACKUP, filename, NULL );
             else
-                tmpstr2 = my_strdup ( _("Grisbi was unable to load file and the backups seem not "
-                                    "to be activated... This is a bad thing.\n"
-                                    "Please contact the Grisbi's team on "
-                                    "devel@listes.grisbi.org to find what happened to you "
-                                    "current file."));
-
-            dialogue_error_hint ( tmpstr2, tmpstr );
-            g_free ( tmpstr );
-            g_free ( tmpstr2 );
+                utils_files_display_dialog_error ( GSB_FAILED_LOAD_WITHOUT_BACKUP, filename, NULL );
             gsb_status_stop_wait ( TRUE );
+
             return FALSE;
         }
     }
@@ -457,12 +390,13 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* the the name in the last opened files */
     gsb_file_append_name_to_opened_list ( filename );
 
-    /* create the archives store data, ie the transaction wich will replace the archive in
-     * the list of transactions */
-    gsb_data_archive_store_create_list ();
-
     /* create all the gui */
-    gsb_file_new_gui ();
+    gsb_gui_new_gui ();
+
+    /* Create transaction list. */
+    tree_view = grisbi_window_get_widget_by_name ( "treeview_transactions" );
+    if ( !gsb_transactions_list_make_gui_list ( tree_view ) )
+        return FALSE;
 
     /* check the amounts of all the accounts */
     gsb_status_message ( _("Checking amounts") );
@@ -499,11 +433,12 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_stop_wait ( TRUE );
 
     /* go to the home page */
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
+/*     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );  */
 
     /* set the focus to the selection tree at left */
-    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
+/*     gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );  */
 
+    /* return */
     return TRUE;
 }
 
@@ -1290,8 +1225,6 @@ gboolean gsb_file_get_modified ( void )
 gboolean gsb_file_open_from_commandline ( GSList *file_list )
 {
     gchar *filename;
-    gchar *tmp_str_1;
-    gchar *tmp_str_2;
 
     filename = (gchar *) file_list->data;
 
@@ -1306,7 +1239,6 @@ gboolean gsb_file_open_from_commandline ( GSList *file_list )
         gchar *tmp_name = NULL;
 
         tmp_name = g_build_filename ( gsb_dirs_get_home_dir (), filename, NULL );
-        printf ("tmp_name = %s\n", tmp_name );
 
         if ( g_file_test ( tmp_name, G_FILE_TEST_EXISTS ) )
         {
@@ -1317,16 +1249,7 @@ gboolean gsb_file_open_from_commandline ( GSList *file_list )
         }
     }
 
-    tmp_str_1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                    filename,
-                    _("File does not exist") );
-
-    tmp_str_2 = g_strdup_printf ( _("Error loading file '%s'"), filename );
-
-    dialogue_error_hint ( tmp_str_1, tmp_str_2 );
-
-    g_free ( tmp_str_1 );
-    g_free ( tmp_str_2 );
+    utils_files_display_dialog_error ( G_FILE_TEST_EXISTS, filename, NULL );
 
     return FALSE;
 }

@@ -41,7 +41,6 @@ enum
 gboolean change_aspect_liste ( gint demande );
 gboolean clone_selected_transaction ( GtkWidget *menu_item,
                         gpointer null );
-GtkWidget *creation_fenetre_operations ( void );
 gint find_element_col ( gint element_number );
 gint find_element_col_for_archive ( void );
 gint find_element_col_split ( gint element_number );
@@ -68,7 +67,7 @@ gchar *gsb_transaction_list_get_titre_colonne_liste_ope ( gint element );
 GtkWidget *gsb_transactions_list_get_tree_view (void);
 gchar *gsb_transactions_list_grep_cell_content ( gint transaction_number,
                         gint cell_content_number );
-GtkWidget *gsb_transactions_list_make_gui_list ( void );
+gboolean gsb_transactions_list_make_gui_list ( GtkWidget *tree_view );
 gboolean gsb_transactions_list_restore_archive ( gint archive_number,
                         gboolean show_warning );
 void gsb_transactions_list_selection_changed ( gint new_selected_transaction );
