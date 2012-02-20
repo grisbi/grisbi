@@ -34,7 +34,6 @@
 #include "include.h"
 #include <string.h>
 #include <ctype.h>
-#include <math.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
