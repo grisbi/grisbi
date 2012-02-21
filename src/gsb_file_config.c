@@ -265,7 +265,7 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         NULL ));
 
     /* get input/output */
-    conf->dernier_fichier_auto = g_key_file_get_integer ( config,
+    conf->load_last_file = g_key_file_get_integer ( config,
                         "IO",
                         "Load last file",
                         NULL );
@@ -616,7 +616,7 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
     g_key_file_set_integer ( config,
                         "IO",
                         "Load last file",
-                        conf->dernier_fichier_auto );
+                        conf->load_last_file );
 
     g_key_file_set_integer ( config,
                         "IO",
@@ -837,7 +837,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->force_enregistrement = 1;
 
     conf->r_modifiable = 0;                         /* we can not change the reconciled transaction */
-    conf->dernier_fichier_auto = 0;                 /* on n'ouvre pas directement le dernier fichier */
+    conf->load_last_file = 0;                       /* on n'ouvre pas directement le dernier fichier */
     conf->sauvegarde_auto = 1;                      /* on sauvegarde automatiquement par défaut */
     conf->entree = 1;                               /* la touche entree provoque l'enregistrement de l'opération */
     conf->nb_days_before_scheduled = 0;             /* nb de jours avant l'échéance pour prévenir */
