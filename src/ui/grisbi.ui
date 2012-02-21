@@ -10,6 +10,100 @@
     <property name="tab_hborder">0</property>
     <property name="tab_vborder">0</property>
   </object>
+  <object class="GtkVBox" id="accueil_page">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkAlignment" id="alignment2">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xscale">0</property>
+        <property name="yscale">0</property>
+        <child>
+          <object class="GtkTable" id="table_accueil">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="n_rows">3</property>
+            <property name="n_columns">3</property>
+            <property name="column_spacing">6</property>
+            <property name="row_spacing">6</property>
+            <child>
+              <object class="GtkButton" id="bouton_nouveau">
+                <property name="label" translatable="yes">Nouveau</property>
+                <property name="width_request">150</property>
+                <property name="height_request">150</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="image">image_nouveau</property>
+                <property name="image_position">top</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="bouton_ouvrir">
+                <property name="label" translatable="yes">Ouvrir</property>
+                <property name="width_request">150</property>
+                <property name="height_request">150</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="image">image_ouvrir</property>
+                <property name="image_position">top</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="bouton_importer">
+                <property name="label" translatable="yes">Importer</property>
+                <property name="width_request">150</property>
+                <property name="height_request">150</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_action_appearance">False</property>
+                <property name="image">image_importer</property>
+                <property name="image_position">top</property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">False</property>
+        <property name="padding">101</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkEventBox" id="headings_eb">
     <property name="can_focus">False</property>
     <child>
@@ -79,6 +173,27 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkImage" id="image_importer">
+    <property name="width_request">50</property>
+    <property name="height_request">50</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-convert</property>
+  </object>
+  <object class="GtkImage" id="image_nouveau">
+    <property name="width_request">50</property>
+    <property name="height_request">50</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-new</property>
+  </object>
+  <object class="GtkImage" id="image_ouvrir">
+    <property name="width_request">50</property>
+    <property name="height_request">50</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-open</property>
   </object>
   <object class="GtkStatusbar" id="main_statusbar">
     <property name="visible">True</property>
