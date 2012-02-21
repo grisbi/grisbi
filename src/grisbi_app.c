@@ -288,8 +288,6 @@ static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
                         GdkEventFocus *event,
                         GrisbiApp *app )
 {
-    devel_debug (NULL);
-
     if ( !GRISBI_IS_WINDOW ( window ) )
         return FALSE;
 
