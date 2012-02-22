@@ -44,6 +44,7 @@ libgrisbi_la_SOURCES = \
 	file_obfuscate_qif.c	\
 	grisbi_app.c \
 	grisbi_osx.c \
+	grisbi_prefs.c \
 	grisbi_ui.h \
 	grisbi_window.c \
 	gsb_account.c		\
@@ -189,6 +190,7 @@ libgrisbi_la_SOURCES = \
 	export_csv.h            \
 	grisbi_app.h \
 	grisbi_osx.h \
+	grisbi_prefs.h \
 	grisbi_window.h \
 	gsb_account.h		\
 	gsb_account_property.h	\
