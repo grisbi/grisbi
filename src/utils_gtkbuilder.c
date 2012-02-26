@@ -26,12 +26,14 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "utils_gtkbuilder.h"
 #include "dialog.h"
 #include "gsb_dirs.h"
+#include "utils_files.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -102,14 +104,9 @@ gint utils_gtkbuilder_merge_ui_data_in_builder ( GtkBuilder *builder,
     filename = utils_gtkbuilder_get_full_path ( ui_name );
     if ( !g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
-        gchar* tmpstr;
-
-        tmpstr = g_strdup_printf ( _("Cannot open file '%s': %s"),
-                        filename,
-                        _("File does not exist") );
-        dialogue_error ( tmpstr );
-        g_free ( tmpstr );
+        utils_files_display_dialog_error ( G_FILE_TEST_EXISTS, filename, g_strerror ( errno ) );
         g_free ( filename );
+
         return 0;
     }
 

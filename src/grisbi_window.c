@@ -254,7 +254,6 @@ static void grisbi_window_init ( GrisbiWindow *window )
                         G_CALLBACK ( grisbi_window_key_press_event ),
                         NULL );
 }
-/* commentaire_a_supprimer */
 
 /* MENUS */
 static void grisbi_window_init_menus ( GrisbiWindow *window )
