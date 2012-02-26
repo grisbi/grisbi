@@ -788,6 +788,33 @@ void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
 }
 
 
+/**
+ * indique si la ligne choisie peut être sélectionnée
+ *
+ * \param selection
+ * \param model
+ * \param chemin de la ligne à tester
+ * \param TRUE si la ligne est déja sélectionnée
+ * \param data transmise à la fonction
+ *
+ * \return selectable
+ */
+gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data )
+{
+    GtkTreeIter iter;
+    gint selectable;
+
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
+
+    return ( selectable != -1 );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

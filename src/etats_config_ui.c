@@ -51,11 +51,6 @@ static void etats_config_ui_left_panel_notebook_change_page ( GtkNotebook *noteb
                         gpointer user_data );
 static void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
                         GtkWidget *notebook );
-static gboolean etats_config_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data);
 static gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
                         gpointer data );
 static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
@@ -329,7 +324,7 @@ GtkWidget *etats_config_ui_left_panel_create_tree_view ( void )
 
     /* Choose which entries will be selectable */
     gtk_tree_selection_set_select_function ( selection,
-                        etats_config_ui_left_panel_tree_view_selectable_func, NULL, NULL );
+                        utils_ui_left_panel_tree_view_selectable_func, NULL, NULL );
 
     /* expand all rows after the treeview widget has been realized */
     g_signal_connect ( tree_view,
@@ -492,29 +487,6 @@ gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTreeSelecti
 
     /* return */
     return FALSE;
-}
-
-
-/**
- *
- *
- * \param
- *
- * \return
- */
-gboolean etats_config_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
-                        GtkTreeModel *model,
-                        GtkTreePath *path,
-                        gboolean path_currently_selected,
-                        gpointer data )
-{
-    GtkTreeIter iter;
-    gint selectable;
-
-    gtk_tree_model_get_iter ( model, &iter, path );
-    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
-
-    return ( selectable != -1 );
 }
 
 
