@@ -287,7 +287,6 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
     GrisbiApp *app;
     GrisbiAppConf *conf;
     gint file_number;
-    gchar *nom_fichier_comptes;
 
     /* continue only if can close the current file */
     if ( !gsb_file_close ( ) )
@@ -297,10 +296,7 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
     conf = grisbi_app_get_conf ( );
 
     file_number = GPOINTER_TO_INT ( file_number_ptr );
-    nom_fichier_comptes = my_strdup ( conf->tab_noms_derniers_fichiers_ouverts[file_number] );
-
-    gsb_file_open_file ( nom_fichier_comptes );
-    g_free ( nom_fichier_comptes );
+    gsb_file_open_file ( conf->tab_noms_derniers_fichiers_ouverts[file_number] );
 
     return FALSE;
 }
