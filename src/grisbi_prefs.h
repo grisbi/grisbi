@@ -41,13 +41,13 @@ typedef struct _GrisbiPrefsClass GrisbiPrefsClass;
 
 struct _GrisbiPrefsClass
 {
-    GObjectClass parent_class;
+    GtkDialogClass parent_class;
 };
 
 
 /* START_DECLARATION */
 GType grisbi_prefs_get_type ( void ) G_GNUC_CONST;
-
+void grisb_show_prefs_dialog ( GrisbiWindow *parent );
 /* END_DECLARATION */
 
 G_END_DECLS

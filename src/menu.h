@@ -15,6 +15,7 @@ enum view_menu_action {
 };
 
 /* START_INCLUDE_H */
+#include "grisbi_window.h"
 /* END_INCLUDE_H */
 
 
@@ -34,6 +35,8 @@ GtkUIManager *gsb_menu_get_ui_manager ( void );
 gboolean gsb_menu_reinit_largeur_col_menu ( void );
 void gsb_menu_sensitive ( gboolean sensitif );
 gboolean gsb_menu_set_block_menu_cb ( gboolean etat );
+void gsb_menu_preferences ( GtkAction *action,
+                        GrisbiWindow *window );
 gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive );
 gboolean gsb_menu_update_accounts_in_menus ( void );
 gboolean gsb_menu_update_view_menu ( gint account_number );

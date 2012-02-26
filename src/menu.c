@@ -34,6 +34,7 @@
 #include "menu.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
+#include "grisbi_prefs.h"
 #include "gsb_account.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
@@ -649,6 +650,27 @@ void gsb_menu_full_screen_mode ( void )
         gtk_window_fullscreen ( GTK_WINDOW ( window ) );
 }
 
+/**
+ * show the preferences
+ *
+ * \param
+ *
+ * \return
+ **/
+void gsb_menu_preferences ( GtkAction *action,
+                        GrisbiWindow *window )
+{
+    grisb_show_prefs_dialog ( window );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

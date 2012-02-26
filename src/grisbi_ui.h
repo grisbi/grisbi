@@ -118,7 +118,7 @@ static const GtkActionEntry division_sensitive_entries[] =
     {"NewAccountAction", GTK_STOCK_NEW, N_("_New account"), "", NULL,
      G_CALLBACK ( gsb_assistant_account_run ) },
     {"PrefsAction", GTK_STOCK_PREFERENCES, N_("_Preferences"), NULL, NULL,
-     G_CALLBACK ( preferences ) },
+     G_CALLBACK ( gsb_menu_preferences ) },
 };
 
 static const GtkActionEntry file_save_entries[] =
