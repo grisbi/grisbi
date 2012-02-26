@@ -234,7 +234,7 @@ static void grisbi_window_init ( GrisbiWindow *window )
     window->priv->accueil_page = grisbi_window_new_accueil_page ( window );
     gtk_box_pack_start ( GTK_BOX ( main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
 
-    if ( conf->load_last_file )
+    if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
         gtk_widget_hide ( window->priv->accueil_page );
 
     /* initialisation de la variable etat */
