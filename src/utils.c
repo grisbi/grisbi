@@ -815,6 +815,32 @@ gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *select
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
+gboolean utils_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *notebook )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint selected;
+
+    if (! gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        return(FALSE);
+
+    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), selected );
+
+    /* return */
+    return FALSE;
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

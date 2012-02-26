@@ -54,5 +54,7 @@ gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *select
                         GtkTreePath *path,
                         gboolean path_currently_selected,
                         gpointer data );
+gboolean utils_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *notebook );
 /* END_DECLARATION */
 #endif

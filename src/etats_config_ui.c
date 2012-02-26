@@ -51,8 +51,6 @@ static void etats_config_ui_left_panel_notebook_change_page ( GtkNotebook *noteb
                         gpointer user_data );
 static void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
                         GtkWidget *notebook );
-static gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
-                        gpointer data );
 static gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
                         gint *page_number );
 static GtkWidget *etats_config_ui_onglet_affichage_devises_create_page ( gint page );
@@ -315,12 +313,18 @@ GtkWidget *etats_config_ui_left_panel_create_tree_view ( void )
     gtk_tree_view_column_set_sizing ( GTK_TREE_VIEW_COLUMN ( column ), GTK_TREE_VIEW_COLUMN_FIXED );
     gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_COLUMN ( column ) );
 
+    /* initialisation du notebook pour les pages de la configuration */
+    notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, "notebook_config_etat" ) );
+    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook ), FALSE );
+    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
+    gtk_container_set_border_width ( GTK_CONTAINER ( notebook ), 0 );
+
     /* Handle select */
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     g_signal_connect ( selection,
                         "changed",
-                        G_CALLBACK ( etats_config_ui_left_panel_tree_view_selection_changed ),
-                        NULL );
+                        G_CALLBACK ( utils_ui_left_panel_tree_view_selection_changed ),
+                        notebook );
 
     /* Choose which entries will be selectable */
     gtk_tree_selection_set_select_function ( selection,
@@ -331,12 +335,6 @@ GtkWidget *etats_config_ui_left_panel_create_tree_view ( void )
                         "realize",
                         G_CALLBACK ( utils_tree_view_set_expand_all_and_select_path_realize ),
                         "0:0" );
-
-    /* initialisation du notebook pour les pages de la configuration */
-    notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, "notebook_config_etat" ) );
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook ), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK ( notebook ), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER ( notebook ), 0 );
 
     /* remplissage du paned gauche */
     etats_config_ui_left_panel_populate_tree_model ( model, notebook );
@@ -459,34 +457,6 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
 
     /* fin de fonction */
-}
-
-
-/**
- *
- *
- * \param
- *
- * \return
- */
-gboolean etats_config_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
-                        gpointer data )
-{
-    GtkTreeModel *model;
-    GtkTreeIter iter;
-    gint selected;
-
-    if (! gtk_tree_selection_get_selected ( selection, &model, &iter ) )
-        return(FALSE);
-
-    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
-
-    gtk_notebook_set_current_page ( GTK_NOTEBOOK (
-                        gtk_builder_get_object ( etats_config_builder, "notebook_config_etat" ) ),
-                        selected );
-
-    /* return */
-    return FALSE;
 }
 
 
