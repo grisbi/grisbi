@@ -44,12 +44,6 @@
 
 
 /*START_STATIC*/
-static void etats_config_ui_left_panel_add_line ( GtkTreeStore *tree_model,
-                        GtkTreeIter *iter,
-                        GtkWidget *notebook,
-                        GtkWidget *child,
-                        const gchar *title,
-                        gint page );
 GtkWidget *etats_config_ui_left_panel_create_tree_view ( void );
 static void etats_config_ui_left_panel_notebook_change_page ( GtkNotebook *notebook,
                         gpointer npage,
@@ -157,16 +151,6 @@ static GtkWidget *etats_config_ui_tree_view_new_with_model ( const gchar *treevi
 
 
 /*START_GLOBAL_VARIABLES*/
-/* definition of the columns of model for the left panel  */
-enum left_panel_tree_columns
-{
-    LEFT_PANEL_TREE_TEXT_COLUMN,
-    LEFT_PANEL_TREE_PAGE_COLUMN,
-    LEFT_PANEL_TREE_BOLD_COLUMN,
-    LEFT_PANEL_TREE_ITALIC_COLUMN,
-    LEFT_PANEL_TREE_NUM_COLUMNS,
-};
-
 /* liste des plages de date possibles */
 static gchar *etats_config_liste_plages_dates[] =
 {
@@ -392,92 +376,92 @@ void etats_config_ui_left_panel_populate_tree_model ( GtkTreeStore *tree_model,
     gint page = 0;
 
     /* append group page */
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
+    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data selection"), -1 );
 
     /* append page Dates */
     widget = etats_config_ui_onglet_periode_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Dates"), page );
     page++;
 
     /* append page Transferts */
     widget = etats_config_ui_onglet_virements_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transfers"), page );
     page++;
 
     /* append page Accounts */
     widget = etats_config_ui_onglet_comptes_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Accounts"), page );
     page++;
 
     /* append page Payee */
     widget = etats_config_ui_onglet_tiers_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payee"), page );
     page++;
 
     /* append page Categories */
     widget = etats_config_ui_onglet_categories_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Categories"), page );
     page++;
 
     /* append page Budgetary lines */
     widget = etats_config_ui_onglet_budgets_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Budgetary lines"), page );
     page++;
 
     /* append page Texts */
     widget = etats_config_ui_onglet_textes_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Texts"), page );
     page++;
 
     /* append page Amounts */
     widget = etats_config_ui_onglet_montants_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Amounts"), page );
     page++;
 
     /* append page Payment methods */
     widget = etats_config_ui_onglet_mode_paiement_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Payment methods"), page );
     page++;
 
     /* append page Misc. */
     widget = etats_config_ui_onglet_divers_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Miscellaneous"), page );
     page++;
 
     /* remplissage de l'onglet d'organisation */
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
+    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data organization"), -1 );
 
     /* Data grouping */
     widget = etats_config_ui_onglet_data_grouping_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data grouping"), page );
     page++;
 
     /* Data separation */
     widget = etats_config_ui_onglet_data_separation_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Data separation"), page );
     page++;
 
     /* remplissage de l'onglet d'affichage */
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
+    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Data display"), -1 );
 
     /* append page Generalities */
     widget = etats_config_ui_onglet_affichage_generalites_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Generalities"), page );
     page++;
 
     /* append page divers */
     widget = etats_config_ui_onglet_affichage_titles_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Titles"), page );
     page++;
 
     /* append page Transactions */
     widget = etats_config_ui_onglet_affichage_operations_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Transactions"), page );
     page++;
 
     /* append page Currencies */
     widget = etats_config_ui_onglet_affichage_devises_create_page ( page );
-    etats_config_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
+    utils_ui_left_panel_add_line ( tree_model, &iter, notebook, widget, _("Currencies"), page );
 
     /* fin de fonction */
 }
@@ -531,48 +515,6 @@ gboolean etats_config_ui_left_panel_tree_view_selectable_func (GtkTreeSelection 
     gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
 
     return ( selectable != -1 );
-}
-
-
-/**
- * ajoute une ligne dans le tree_model du panel de gauche
- *
- *
- *
- * */
-void etats_config_ui_left_panel_add_line ( GtkTreeStore *tree_model,
-                        GtkTreeIter *iter,
-                        GtkWidget *notebook,
-                        GtkWidget *child,
-                        const gchar *title,
-                        gint page )
-{
-    GtkTreeIter iter2;
-
-    if ( page == -1 )
-    {
-        /* append page groupe */
-        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
-        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
-                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
-                        LEFT_PANEL_TREE_PAGE_COLUMN, -1,
-                        LEFT_PANEL_TREE_BOLD_COLUMN, 800,
-                        -1 );
-    }
-    else
-    {
-        /* append page onglet*/
-        gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
-                        child,
-                        gtk_label_new ( title ) );
-
-        gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
-        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
-                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
-                        LEFT_PANEL_TREE_PAGE_COLUMN, page,
-                        LEFT_PANEL_TREE_BOLD_COLUMN, 400,
-                        -1);
-    }
 }
 
 

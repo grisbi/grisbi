@@ -258,6 +258,17 @@ enum alignement
 };
 
 
+/* definition of the columns of model for the left panel  */
+enum left_panel_tree_columns
+{
+    LEFT_PANEL_TREE_TEXT_COLUMN,
+    LEFT_PANEL_TREE_PAGE_COLUMN,
+    LEFT_PANEL_TREE_BOLD_COLUMN,
+    LEFT_PANEL_TREE_ITALIC_COLUMN,
+    LEFT_PANEL_TREE_NUM_COLUMNS,
+};
+
+
 /* définition du type d'origine pour les données du module budgétaire */
 enum bet_array_origin_data
 {

@@ -43,5 +43,11 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
 void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
                         const gchar *str_path );
+void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page );
 /* END_DECLARATION */
 #endif

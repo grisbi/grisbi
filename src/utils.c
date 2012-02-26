@@ -627,7 +627,7 @@ void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_vi
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
                         path );
 
-    gtk_tree_path_free (path);
+    gtk_tree_path_free ( path );
 
 }
 
@@ -742,6 +742,49 @@ GtkWidget *utils_combo_box_make_from_string_array ( gchar **array )
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
 
     return combo;
+}
+
+
+/**
+ * ajoute une ligne dans le tree_model du panel de gauche de la fenêtre
+ * des préférences de grisbi ou des états
+ *
+ *
+ *
+ * */
+void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page )
+{
+    GtkTreeIter iter2;
+
+    if ( page == -1 )
+    {
+        /* append page groupe */
+        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
+                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
+                        LEFT_PANEL_TREE_PAGE_COLUMN, -1,
+                        LEFT_PANEL_TREE_BOLD_COLUMN, 800,
+                        -1 );
+    }
+    else
+    {
+        /* append page onglet*/
+        gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+                        child,
+                        gtk_label_new ( title ) );
+
+        gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
+                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
+                        LEFT_PANEL_TREE_PAGE_COLUMN, page,
+                        LEFT_PANEL_TREE_BOLD_COLUMN, 400,
+                        -1);
+    }
 }
 
 
