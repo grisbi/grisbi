@@ -49,6 +49,9 @@ void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
                         GtkWidget *child,
                         const gchar *title,
                         gint page );
+gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
+                        GtkWidget *notebook,
+                        gint page );
 gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
                         GtkTreeModel *model,
                         GtkTreePath *path,

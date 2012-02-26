@@ -536,46 +536,12 @@ gboolean etats_config_ui_left_panel_tree_view_update_style ( GtkWidget *button,
 gboolean etats_config_ui_left_panel_tree_view_select_last_page ( void )
 {
     GtkWidget *tree_view;
-    GtkTreeModel *model;
-    GtkTreeIter parent_iter;
+    GtkWidget *notebook;
 
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, "treeview_left_panel" ) );
-    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    notebook = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, "notebook_config_etat" ) ),
 
-    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
-        return FALSE;
-
-    do
-    {
-        GtkTreeIter iter;
-
-        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
-        {
-            do
-            {
-                gint page;
-
-                gtk_tree_model_get (GTK_TREE_MODEL ( model ),
-                                &iter,
-                                LEFT_PANEL_TREE_PAGE_COLUMN, &page,
-                                -1 );
-
-                if ( page == last_page )
-                {
-                    GtkTreeSelection *sel;
-
-                    sel = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-                    gtk_tree_selection_select_iter ( sel, &iter );
-                    gtk_notebook_set_current_page ( GTK_NOTEBOOK (
-                                gtk_builder_get_object ( etats_config_builder, "notebook_config_etat" ) ),
-                                page );
-                    break;
-                }
-            }
-            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
-        }
-    }
-    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
+    utils_ui_left_panel_tree_view_select_page ( tree_view, notebook, last_page );
 
     /* return */
     return FALSE;

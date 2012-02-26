@@ -774,7 +774,8 @@ void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
     else
     {
         /* append page onglet*/
-        gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+        if ( child )
+            gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         child,
                         gtk_label_new ( title ) );
 
@@ -835,6 +836,60 @@ gboolean utils_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *sel
     gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
 
     gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), selected );
+
+    /* return */
+    return FALSE;
+}
+
+
+/**
+ * selectionne une page
+ *
+ * \param
+ *
+ * \return
+ */
+gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
+                        GtkWidget *notebook,
+                        gint page )
+{
+    GtkTreeModel *model;
+    GtkTreeIter parent_iter;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+        return FALSE;
+
+    do
+    {
+        GtkTreeIter iter;
+
+        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
+        {
+            do
+            {
+                gint tmp_page;
+
+                gtk_tree_model_get (GTK_TREE_MODEL ( model ),
+                                &iter,
+                                LEFT_PANEL_TREE_PAGE_COLUMN, &tmp_page,
+                                -1 );
+
+                if ( tmp_page == page )
+                {
+                    GtkTreeSelection *sel;
+
+                    sel = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+                    gtk_tree_selection_select_iter ( sel, &iter );
+                    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), page );
+                    break;
+                }
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
 
     /* return */
     return FALSE;
