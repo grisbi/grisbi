@@ -82,8 +82,6 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     gint int_ret;
     GError* err = NULL;
 
-    devel_debug ( conf_filename );
-
     gsb_file_config_clean_config ( conf );
 
     if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
@@ -174,10 +172,23 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
         err = NULL;
     }
 
-    conf->prefs_width = g_key_file_get_integer ( config,
+    int_ret = g_key_file_get_integer ( config,
                         "Geometry",
-                        "Prefs width",
-                        NULL );
+                        "Prefs_width",
+                        &err );
+    if ( err == NULL )
+        conf->prefs_width = int_ret;
+    else
+        err = NULL;
+
+    int_ret = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Prefs_height",
+                        &err );
+    if ( err == NULL )
+        conf->prefs_height = int_ret;
+    else
+        err = NULL;
 
     /* get general */
     conf->r_modifiable = g_key_file_get_integer ( config,
@@ -259,10 +270,11 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Compress backup",
                         NULL );
 
-    gsb_file_set_backup_path ( g_key_file_get_string ( config,
-                        "Backup",
-                        "Backup path",
-                        NULL ));
+/*     gsb_file_set_backup_path ( g_key_file_get_string ( config,
+ *                         "Backup",
+ *                         "Backup path",
+ *                         NULL ));
+ */
 
     /* get input/output */
     conf->load_last_file = g_key_file_get_integer ( config,
@@ -282,7 +294,7 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
 
     conf->nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
                         "IO",
-                        "Nb last opened files",
+                        "Nb_max_derniers_fichiers_ouverts",
                         NULL );
 
     conf->compress_file = g_key_file_get_integer ( config,
@@ -298,15 +310,21 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     conf->tab_noms_derniers_fichiers_ouverts = g_key_file_get_string_list ( config,
                         "IO",
                         "Names last files",
-                        &conf->nb_derniers_fichiers_ouverts,
+                        ( gsize *) &conf->nb_derniers_fichiers_ouverts,
                         NULL );
 
-    conf->check_for_archival = g_key_file_get_integer ( config, 
+    gsb_file_set_account_files_path ( g_key_file_get_string ( config,
+                        "IO",
+                        "Account_files_path",
+                        NULL ), conf );
+
+    /* archival part */
+    conf->check_for_archival = g_key_file_get_integer ( config,
                         "IO",
                         "Check_archival_at_opening",
                         NULL );
 
-    conf->max_non_archived_transactions_for_check = g_key_file_get_integer ( config, 
+    conf->max_non_archived_transactions_for_check = g_key_file_get_integer ( config,
                         "IO",
                         "Max_transactions_before_warn_archival",
                         NULL );
@@ -511,8 +529,13 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 
     g_key_file_set_integer ( config,
                         "Geometry",
-                        "Prefs width",
+                        "Prefs_width",
                         conf->prefs_width );
+
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Prefs_height",
+                        conf->prefs_height );
 
     /* Remember size of main panel */
     g_key_file_set_integer ( config,
@@ -630,7 +653,7 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
 
     g_key_file_set_integer ( config,
                         "IO",
-                        "Nb last opened files",
+                        "Nb_max_derniers_fichiers_ouverts",
                         conf->nb_max_derniers_fichiers_ouverts );
 
     g_key_file_set_integer ( config,
@@ -652,12 +675,18 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         (const gchar **) conf->tab_noms_derniers_fichiers_ouverts,
                         conf->nb_derniers_fichiers_ouverts);
 
-    g_key_file_set_integer ( config, 
+    g_key_file_set_string ( config,
+                        "IO",
+                        "Account_files_path",
+                        gsb_file_get_account_files_path () );
+
+    /* archival part */
+    g_key_file_set_integer ( config,
                         "IO",
                         "Check_archival_at_opening",
                         conf->check_for_archival );
 
-    g_key_file_set_integer ( config, 
+    g_key_file_set_integer ( config,
                         "IO",
                         "Max_transactions_before_warn_archival",
                         conf->max_non_archived_transactions_for_check );
@@ -832,7 +861,8 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->main_width = 800;
     conf->main_height = 600;
     conf->panel_width = 250;
-    conf->prefs_width = 600;
+    conf->prefs_width = 720;
+    conf->main_height = 450;
 
     conf->force_enregistrement = 1;
 
@@ -845,7 +875,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->balances_with_scheduled = TRUE;
     conf->formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     conf->affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
-    conf->automatic_completion_payee = 0;            /* by default automatic completion */
+    conf->automatic_completion_payee = 1;            /* by default automatic completion */
     conf->limit_completion_to_current_account = 0;   /* By default, do full search */
     conf->automatic_recover_splits = 1;
     conf->automatic_erase_credit_debit = 0;
@@ -865,10 +895,11 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
         g_free ( conf->font_string );
         conf->font_string = NULL;
     }
-    
+
     conf->force_enregistrement = 1;                     /* par défaut, on force l'enregistrement */
-    gsb_file_update_last_path ( g_get_home_dir ( ) );
-    gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir ( ) );
+    gsb_file_update_last_path ( g_get_home_dir () );
+    gsb_file_set_account_files_path ( g_get_home_dir (), conf );
+/*     gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir () );  */
     conf->make_backup = 1;
     conf->make_backup_every_minutes = FALSE;
     conf->make_backup_nb_minutes = 0;

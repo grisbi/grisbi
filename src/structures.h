@@ -17,7 +17,7 @@
 #define VERSION_FICHIER_CATEG "0.6.0"
 #define VERSION_FICHIER_IB "0.6.0"
 
-#define CSV_MAX_TOP_LINES 10	/** How many lines to show in CSV preview.  */
+#define CSV_MAX_TOP_LINES 10    /** How many lines to show in CSV preview.  */
 
 typedef struct gsb_conf_t GrisbiAppConf;
 typedef struct gsb_etat_t GrisbiWindowEtat;
@@ -133,6 +133,7 @@ struct gsb_conf_t
 
     /* preferences */
     gint prefs_width;                               /* preferences width */
+    gint prefs_height;                              /* preferences height */
 
     /* left_panel */
     gint panel_width;                               /* left hpanel width */
@@ -162,8 +163,9 @@ struct gsb_conf_t
     gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
     gint force_enregistrement;                      /* à un si on force l'enregistrement */
     gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */
-    gsize nb_derniers_fichiers_ouverts;             /* contient le nb de derniers fichiers ouverts */
+    gint nb_derniers_fichiers_ouverts;              /* contient le nb de derniers fichiers ouverts */
     gchar **tab_noms_derniers_fichiers_ouverts;     /* RecentFiles */
+    gchar *account_files_path;                      /* localisation des fichiers de compte */
 
     /* backup part */
     gint make_backup;                               /* TRUE for create a backup when save file */
@@ -171,6 +173,7 @@ struct gsb_conf_t
     gint make_backup_nb_minutes;                    /* the number of minutes we want to make a backup */
     gint make_bakup_single_file;                    /* TRUE if a single backup file */
     gint compress_backup;                           /* TRUE if we want to compress the backup */
+    gchar *backup_path;                             /* localisation des fichiers de sauvegarde */
 
     /* formulaire */
     gint formulaire_toujours_affiche;
@@ -214,7 +217,10 @@ struct gsb_conf_t
 
 struct gsb_run_t
 {
-    /* initialisation variables */
+    /* répertoire des fichiers de comptes etde backup */
+    gchar *backup_path;                             /* localisation des fichiers de sauvegarde */
+
+    /* crypted files */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 
     /* file stuff */

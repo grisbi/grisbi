@@ -38,7 +38,6 @@
 #include "affichage_liste.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
-#include "grisbi_app.h"
 #include "grisbi_window.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -79,8 +78,6 @@ static void gsb_file_save_remove_old_file ( gchar *filename );
 /**
  * keep the last path used in grisbi, save in the configuration at the end */
 static gchar *last_path_used;
-
-static gchar *backup_path;
 
 /** the timeout used to save a backup every x minutes */
 gint id_timeout = 0;
@@ -249,8 +246,13 @@ const gchar *gsb_file_get_last_path ( void )
  * */
 const gchar *gsb_file_get_backup_path ( void )
 {
-    return backup_path;
+    GrisbiAppRun *run;
+
+    run = grisbi_app_get_run ();
+
+    return run->backup_path;
 }
+
 
 /**
  * set the backup path
@@ -261,10 +263,14 @@ const gchar *gsb_file_get_backup_path ( void )
  * */
 void gsb_file_set_backup_path ( const gchar *path )
 {
+    GrisbiAppRun *run;
+
+    run = grisbi_app_get_run ();
+
     if ( path == NULL || strlen ( path ) == 0 )
-        backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
+        run->backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
     else
-        backup_path = my_strdup ( path );
+        run->backup_path = my_strdup ( path );
 
     if ( !g_file_test ( path, G_FILE_TEST_EXISTS ) )
     {
@@ -1249,6 +1255,52 @@ gboolean gsb_file_open_from_commandline ( GSList *file_list )
 
     return FALSE;
 }
+
+
+/**
+ * get the account files path
+ *
+ * \param
+ *
+ * \return a const gchar with the backup path
+ * */
+const gchar *gsb_file_get_account_files_path ( void )
+{
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ();
+    return conf->account_files_path;
+}
+
+
+/**
+ * set the account files path
+ *
+ * \param le nom du répertoire ou NULL
+ *
+ * \return a const gchar with the backup path
+ * */
+void gsb_file_set_account_files_path ( const gchar *path,
+                        GrisbiAppConf *conf )
+{
+devel_debug ( path );
+    if ( path == NULL || strlen ( path ) == 0 )
+        conf->account_files_path = my_strdup ( gsb_dirs_get_home_dir ( ) );
+    else
+        conf->account_files_path = my_strdup ( path );
+
+    if ( !g_file_test ( conf->account_files_path, G_FILE_TEST_EXISTS ) )
+    {
+#ifdef _MSC_VER
+        int mode = 0;
+#else
+        int mode = S_IRUSR | S_IWUSR | S_IXUSR;
+#endif /*_MSC_VER */
+
+        g_mkdir_with_parents ( conf->account_files_path, mode );
+    }
+}
+
 
 /* Local Variables: */
 /* c-basic-offset: 4 */
