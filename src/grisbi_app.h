@@ -57,6 +57,7 @@ GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app );
 GrisbiAppConf *grisbi_app_get_conf ( void );
 GrisbiApp *grisbi_app_get_default ( void );
 gboolean grisbi_app_get_first_use ( GrisbiApp *app );
+GrisbiAppRun *grisbi_app_get_run ( void );
 const GList	*grisbi_app_get_windows ( GrisbiApp *app );
 gboolean grisbi_app_quit ( void );
 gboolean grisbi_app_set_active_filename ( const gchar *filename );

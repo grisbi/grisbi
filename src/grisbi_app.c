@@ -68,9 +68,10 @@ static gboolean grisbi_app_window_focus_in_event ( GrisbiWindow *window,
 static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window );
 /*END_STATIC*/
 
+/* structure run */
+static GrisbiAppRun *app_run;
 
 #define GRISBI_APP_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), GRISBI_TYPE_APP, GrisbiAppPrivate))
-
 
 struct _GrisbiAppPrivate
 {
@@ -101,12 +102,20 @@ static void grisbi_app_finalize ( GObject *object )
     /* libération mémoire de la liste des fenêtres */
     g_list_free ( app->priv->windows );
 
-    /* libération mémoire de la configuration de grisbi */
+    /* libération mémoire de la structure conf */
     conf = app->priv->conf;
+    g_free ( conf->account_files_path );
+    g_free ( conf->backup_path );
     g_free ( conf->font_string );
     g_free ( conf->browser_command );
     g_strfreev ( conf->tab_noms_derniers_fichiers_ouverts );
     g_free ( app->priv->conf );
+
+    /* libération mémoire de la structure run */
+    g_free ( app_run->reconcile_final_balance );
+    if ( app_run->reconcile_new_date )
+        g_date_free ( app_run->reconcile_new_date );
+    g_free ( app_run );
 
     /* libération de l'objet app */
     G_OBJECT_CLASS ( grisbi_app_parent_class )->finalize ( object );
@@ -151,6 +160,9 @@ static void grisbi_app_init ( GrisbiApp *app )
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
+
+    /* creation de la structure run */
+    app_run = g_malloc0 ( sizeof ( GrisbiAppRun ) );
 
     /* initialisation des paramètres de l'application */
     grisbi_app_load_config_var ( app );
@@ -786,6 +798,19 @@ GtkUIManager *grisbi_app_get_active_ui_manager ( void )
     ui_manager = grisbi_window_get_ui_manager ( window );
 
     return ui_manager;
+}
+
+
+/**
+ * retourne la structure run
+ *
+ * \param
+ *
+ * \return
+ **/
+GrisbiAppRun *grisbi_app_get_run ( void )
+{
+    return app_run;
 }
 
 
