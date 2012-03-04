@@ -47,7 +47,8 @@ struct _GrisbiPrefsClass
 
 /* START_DECLARATION */
 GType grisbi_prefs_get_type ( void ) G_GNUC_CONST;
-void grisb_show_prefs_dialog ( GrisbiWindow *parent );
+void grisb_prefs_show_dialog ( GrisbiWindow *parent );
+GtkWidget *grisbi_prefs_widget_get_widget_by_name ( const gchar *name );
 /* END_DECLARATION */
 
 G_END_DECLS

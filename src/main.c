@@ -241,7 +241,7 @@ void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
     else
     {
         /* open the last file if needed */
-        if ( conf->load_last_file && 
+        if ( conf->load_last_file &&
              conf->nb_derniers_fichiers_ouverts > 0 &&
              conf->tab_noms_derniers_fichiers_ouverts[0] )
         {

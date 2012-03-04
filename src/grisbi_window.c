@@ -1017,7 +1017,7 @@ GrisbiWindowEtat *grisbi_window_get_window_etat ( void )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ();
     window = grisbi_app_get_active_window ( app );
 
     return window->priv->etat;

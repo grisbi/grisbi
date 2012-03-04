@@ -660,7 +660,7 @@ void gsb_menu_full_screen_mode ( void )
 void gsb_menu_preferences ( GtkAction *action,
                         GrisbiWindow *window )
 {
-    grisb_show_prefs_dialog ( window );
+    grisb_prefs_show_dialog ( window );
 }
 
 
