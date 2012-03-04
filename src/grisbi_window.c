@@ -49,15 +49,6 @@
 
 
 /*START_STATIC*/
-static GtkActionGroup *grisbi_window_add_recents_action_group ( GtkUIManager *ui_manager,
-                        GrisbiAppConf *conf );
-static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
-                        gint nb_derniers_fichiers_ouverts );
-static void grisbi_window_init_menus ( GrisbiWindow *window );
-static gboolean grisbi_window_initialise_builder ( void );
-static GtkWidget *grisbi_window_new_accueil_page ( GrisbiWindow *window );
-static GtkWidget *grisbi_window_new_headings_eb ( GrisbiWindow *window );
-static GtkWidget *grisbi_window_new_statusbar ( GrisbiWindow *window );
 /*END_STATIC*/
 
 #define GSB_NBRE_CHAR 15
@@ -95,6 +86,8 @@ struct _GrisbiWindowPrivate
     GtkActionGroup      *edit_sensitive_action_group;
     GtkActionGroup      *edit_transactions_action_group;
     GtkActionGroup      *view_sensitive_action_group;
+    guint                recent_files_merge_id;             /* utile pour la mise à jour du menu recent file */
+    guint                move_to_account_merge_id;          /* utile pour la mise à jour du menu move_to_account */
 
     /* statusbar */
     GtkWidget           *statusbar;
@@ -112,6 +105,13 @@ struct _GrisbiWindowPrivate
 G_DEFINE_TYPE(GrisbiWindow, grisbi_window, GTK_TYPE_WINDOW)
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_window_realized ( GtkWidget *window,
                         gpointer  *data )
 {
@@ -120,6 +120,13 @@ static void grisbi_window_realized ( GtkWidget *window,
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_window_finalize ( GObject *object )
 {
     GrisbiWindow *window;
@@ -136,6 +143,13 @@ static void grisbi_window_finalize ( GObject *object )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static gboolean grisbi_window_key_press_event ( GtkWidget *widget,
                         GdkEventKey *event,
                         gpointer data )
@@ -157,6 +171,13 @@ static gboolean grisbi_window_key_press_event ( GtkWidget *widget,
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static gboolean grisbi_window_state_event ( GtkWidget *widget,
                         GdkEventWindowState *event )
 {
@@ -185,6 +206,13 @@ static gboolean grisbi_window_state_event ( GtkWidget *widget,
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_window_class_init ( GrisbiWindowClass *klass )
 {
     GObjectClass *object_class = G_OBJECT_CLASS ( klass );
@@ -197,65 +225,97 @@ static void grisbi_window_class_init ( GrisbiWindowClass *klass )
 }
 
 
-static void grisbi_window_init ( GrisbiWindow *window )
+/* MENUS */
+/**
+ * Add menu items to the action_group "FileRecentFilesGroupAction"
+ *
+ * \param
+ *
+ * \return
+ **/
+static GtkActionGroup *grisbi_window_add_recents_action_group ( GtkUIManager *ui_manager,
+                        GrisbiAppConf *conf )
 {
-    GtkWidget *main_box;
-    GtkWidget *statusbar;
-    GtkWidget *headings_eb;
-    GrisbiAppConf *conf;
+    GtkActionGroup *actions;
+    gint i;
 
-    window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
+    devel_debug (NULL);
 
-    if ( !grisbi_window_initialise_builder ( ) )
-        exit ( 1 );
+    actions = gtk_action_group_new ( "FileRecentFilesGroupAction" );
+    for ( i = 0 ; i < conf->nb_derniers_fichiers_ouverts ; i++ )
+    {
+        gchar *tmp_name;
+        GtkAction *action;
 
-    /* Création de la fenêtre principale de Grisbi */
-    main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
+        tmp_name = g_strdup_printf ( "LastFile%d", i );
 
-    window->priv->main_box = main_box;
+        action = gtk_action_new ( tmp_name,
+                        conf->tab_noms_derniers_fichiers_ouverts[i],
+                        "",
+                        "gtk-open" );
+        g_free ( tmp_name );
+        g_signal_connect ( action,
+                        "activate",
+                        G_CALLBACK ( gsb_file_open_direct_menu ),
+                        GINT_TO_POINTER ( i ) );
+        gtk_action_group_add_action ( actions, action );
+    }
 
-    gtk_container_add ( GTK_CONTAINER ( window ), main_box );
-    gtk_widget_show ( main_box );
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 1 );
+    g_object_unref ( actions );
 
-    /* create the menus */
-    grisbi_window_init_menus ( window );
-
-    /* create the headings eb */
-    headings_eb = grisbi_window_new_headings_eb ( window );
-    gtk_box_pack_start ( GTK_BOX ( main_box ), headings_eb, FALSE, FALSE, 0 );
-
-    /* create the statusbar */
-    statusbar = grisbi_window_new_statusbar ( window );
-    gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
-
-    /* on initialise une page d'accueil si on ne charge pas de fichier */
-    conf = grisbi_app_get_conf ();
-
-    window->priv->accueil_page = grisbi_window_new_accueil_page ( window );
-    gtk_box_pack_start ( GTK_BOX ( main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
-
-    if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
-        gtk_widget_hide ( window->priv->accueil_page );
-
-    /* initialisation de la variable etat */
-    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
-
-    /* initialisation des variables de la fenêtre */
-/*     init_variables ();  */
-
-    /* set the signals */
-    g_signal_connect ( G_OBJECT ( window ),
-                        "realize",
-                        G_CALLBACK ( grisbi_window_realized ),
-                        NULL );
-
-    g_signal_connect ( G_OBJECT ( window ),
-                        "key-press-event",
-                        G_CALLBACK ( grisbi_window_key_press_event ),
-                        NULL );
+    return actions;
 }
 
-/* MENUS */
+
+/**
+ * Add menu items to the action_group "FileRecentFilesGroupAction".
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_window_add_recents_sub_menu ( GrisbiWindow *window,
+                        gint nb_derniers_fichiers_ouverts )
+{
+    GtkUIManager *ui_manager;
+    gint i;
+
+    devel_debug (NULL);
+
+    ui_manager = window->priv->ui_manager;
+
+    window->priv->recent_files_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
+
+    for ( i=0 ; i < nb_derniers_fichiers_ouverts ; i++ )
+    {
+        gchar *tmp_name;
+        gchar *tmp_label;
+
+        tmp_name = g_strdup_printf ( "LastFile%d", i );
+        tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
+
+        gtk_ui_manager_add_ui ( ui_manager,
+                    window->priv->recent_files_merge_id,
+                    "/menubar/FileMenu/RecentFiles/FileRecentsPlaceholder",
+                    tmp_label,
+                    tmp_name,
+                    GTK_UI_MANAGER_MENUITEM,
+                    FALSE );
+
+        g_free ( tmp_name );
+        g_free ( tmp_label );
+    }
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 static void grisbi_window_init_menus ( GrisbiWindow *window )
 {
     GrisbiAppConf *conf;
@@ -266,6 +326,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 
     ui_manager = gtk_ui_manager_new ( );
     window->priv->ui_manager = ui_manager;
+    window->priv->recent_files_merge_id = -1;
 
     conf = grisbi_app_get_conf ( );
 
@@ -403,7 +464,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
     if ( conf->nb_derniers_fichiers_ouverts && conf->nb_max_derniers_fichiers_ouverts )
     {
         actions = grisbi_window_add_recents_action_group ( ui_manager, conf );
-        grisbi_window_add_recents_sub_menu ( ui_manager, conf->nb_derniers_fichiers_ouverts );
+        grisbi_window_add_recents_sub_menu ( window, conf->nb_derniers_fichiers_ouverts );
         window->priv->file_recent_files_action_group = actions;
     }
 
@@ -432,6 +493,13 @@ GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name )
 {
@@ -453,85 +521,45 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
         return NULL;
 }
 
-
 /**
- * Add menu items to the action_group "FileRecentFilesGroupAction"
+ * retourne merge_id utile pour efface_derniers_fichiers_ouverts ()
  *
- * \param
+ * \param window
+ * \param nom du sous menu concerné
  *
- * \return
+ * \return recent_files_merge_id
  **/
-static GtkActionGroup *grisbi_window_add_recents_action_group ( GtkUIManager *ui_manager,
-                        GrisbiAppConf *conf )
+guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
+                        const gchar *sub_menu )
 {
-    GtkActionGroup *actions;
-    gint i;
-
-    devel_debug (NULL);
-
-    actions = gtk_action_group_new ( "FileRecentFilesGroupAction" );
-    for ( i = 0 ; i < conf->nb_derniers_fichiers_ouverts ; i++ )
-    {
-        gchar *tmp_name;
-        GtkAction *action;
-
-        tmp_name = g_strdup_printf ( "LastFile%d", i );
-
-        action = gtk_action_new ( tmp_name, 
-                        conf->tab_noms_derniers_fichiers_ouverts[i],
-                        "",
-                        "" );
-        g_free ( tmp_name );
-        g_signal_connect ( action,
-                        "activate",
-                        G_CALLBACK ( gsb_file_open_direct_menu ), 
-                        GINT_TO_POINTER ( i ) );
-        gtk_action_group_add_action ( actions, action );
-    }
-
-    gtk_ui_manager_insert_action_group ( ui_manager, actions, 1 );
-    g_object_unref ( actions );
-
-    return actions;
+    if ( strcmp ( sub_menu, "recent_file" ) == 0 )
+        return window->priv->recent_files_merge_id;
+    else if ( strcmp ( sub_menu, "move_to_account" ) == 0 )
+        return window->priv->move_to_account_merge_id;
+    else
+        return 0;
 }
 
 
 /**
- * Add menu items to the action_group "FileRecentFilesGroupAction".
+ * set the merge_id for the submenu given in parameter
  *
- * \param
+ * \param window
+ * \param merge_id
+ * \param name of the submenu
  *
- * \return
+ * \return recent_files_merge_id
  **/
-static void grisbi_window_add_recents_sub_menu ( GtkUIManager *ui_manager,
-                        gint nb_derniers_fichiers_ouverts )
+void grisbi_window_set_sub_menu_merge_id ( GrisbiWindow *window,
+                        guint merge_id,
+                        const gchar *sub_menu )
 {
-    gint recent_files_merge_id = -1;
-    gint i;
-
-    devel_debug (NULL);
-
-    recent_files_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
-
-    for ( i=0 ; i < nb_derniers_fichiers_ouverts ; i++ )
-    {
-        gchar *tmp_name;
-        gchar *tmp_label;
-
-        tmp_name = g_strdup_printf ( "LastFile%d", i );
-        tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
-
-        gtk_ui_manager_add_ui ( ui_manager,
-                    recent_files_merge_id, 
-                    "/menubar/FileMenu/RecentFiles/FileRecentsPlaceholder",
-                    tmp_label,
-                    tmp_name,
-                    GTK_UI_MANAGER_MENUITEM,
-                    FALSE );
-
-        g_free ( tmp_name );
-        g_free ( tmp_label );
-    }
+    if ( strcmp ( sub_menu, "recent_file" ) == 0 )
+        window->priv->recent_files_merge_id = merge_id;
+    else if ( strcmp ( sub_menu, "move_to_account" ) == 0 )
+        window->priv->move_to_account_merge_id = merge_id;
+    else
+        window->priv->recent_files_merge_id = 0;
 }
 
 
@@ -559,6 +587,13 @@ gboolean grisbi_window_initialise_builder ( void )
 
 
 /* BLANK_PAGE */
+/**
+ * page d'accueil si on ne charge pas un fichier automatiquement
+ *
+ * \param
+ *
+ * \return
+ **/
 static GtkWidget *grisbi_window_new_accueil_page ( GrisbiWindow *window )
 {
     GtkWidget *accueil_page;
@@ -986,6 +1021,72 @@ GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window )
     return hpaned_general;
 }
 
+
+/* CREATE OBJECT */
+/**
+ * Initialise GrisbiWindow
+ *
+ * \param window
+ *
+ * \return
+ */
+static void grisbi_window_init ( GrisbiWindow *window )
+{
+    GtkWidget *main_box;
+    GtkWidget *statusbar;
+    GtkWidget *headings_eb;
+    GrisbiAppConf *conf;
+
+    window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
+
+    if ( !grisbi_window_initialise_builder ( ) )
+        exit ( 1 );
+
+    /* Création de la fenêtre principale de Grisbi */
+    main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
+
+    window->priv->main_box = main_box;
+
+    gtk_container_add ( GTK_CONTAINER ( window ), main_box );
+    gtk_widget_show ( main_box );
+
+    /* create the menus */
+    grisbi_window_init_menus ( window );
+
+    /* create the headings eb */
+    headings_eb = grisbi_window_new_headings_eb ( window );
+    gtk_box_pack_start ( GTK_BOX ( main_box ), headings_eb, FALSE, FALSE, 0 );
+
+    /* create the statusbar */
+    statusbar = grisbi_window_new_statusbar ( window );
+    gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
+
+    /* on initialise une page d'accueil si on ne charge pas de fichier */
+    conf = grisbi_app_get_conf ();
+
+    window->priv->accueil_page = grisbi_window_new_accueil_page ( window );
+    gtk_box_pack_start ( GTK_BOX ( main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
+
+    if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
+        gtk_widget_hide ( window->priv->accueil_page );
+
+    /* initialisation de la variable etat */
+    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+
+    /* initialisation des variables de la fenêtre */
+/*     init_variables ();  */
+
+    /* set the signals */
+    g_signal_connect ( G_OBJECT ( window ),
+                        "realize",
+                        G_CALLBACK ( grisbi_window_realized ),
+                        NULL );
+
+    g_signal_connect ( G_OBJECT ( window ),
+                        "key-press-event",
+                        G_CALLBACK ( grisbi_window_key_press_event ),
+                        NULL );
+}
 
 /* FONCTIONS UTILITAIRES */
 /**

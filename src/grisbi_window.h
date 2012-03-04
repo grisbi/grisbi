@@ -54,6 +54,8 @@ GrisbiWindowEtat *grisbi_window_get_window_etat ( void );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
+guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
+                        const gchar *sub_menu );
 GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
 GtkWidget *grisbi_window_new_general_widget ( void );
@@ -65,6 +67,9 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
                         const gchar *filename );
 gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
                         const gchar *file_title );
+void grisbi_window_set_sub_menu_merge_id ( GrisbiWindow *window,
+                        guint merge_id,
+                        const gchar *sub_menu );
 void grisbi_window_set_window_title ( GrisbiWindow *window,
                         const gchar *title );
 void grisbi_window_statusbar_remove ( GrisbiWindow *window );

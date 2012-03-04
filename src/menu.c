@@ -50,23 +50,24 @@
 /*END_STATIC*/
 
 
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
 /* variables globales */
 static gboolean block_menu_cb = FALSE;
-static gint recent_files_merge_id = -1;
-static gint move_to_account_merge_id = -1;
 
 /**
  * Blank the "Recent files submenu".
  */
 void efface_derniers_fichiers_ouverts ( void )
 {
+    GrisbiWindow *window;
     GtkUIManager *ui_manager;
+    guint recent_files_merge_id;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
+    window = grisbi_app_get_active_window ( NULL );
+    ui_manager = grisbi_window_get_ui_manager ( window );
+    recent_files_merge_id = grisbi_window_get_sub_menu_merge_id  ( window, "recent_file" );
 
     gtk_ui_manager_remove_ui ( ui_manager, recent_files_merge_id );
 }
@@ -77,25 +78,28 @@ void efface_derniers_fichiers_ouverts ( void )
  */
 gboolean affiche_derniers_fichiers_ouverts ( void )
 {
+    GrisbiWindow *window;
     GtkActionGroup *action_group;
     GrisbiAppConf *conf;
     GtkUIManager *ui_manager;
-    gint recent_files_merge_id = -1;
+    guint recent_files_merge_id;
     gint i;
 
-    devel_debug (NULL);
+    window = grisbi_app_get_active_window ( NULL );
+    ui_manager = grisbi_window_get_ui_manager ( window );
+
     conf = grisbi_app_get_conf ( );
 
     efface_derniers_fichiers_ouverts ();
 
-    if ( conf->nb_derniers_fichiers_ouverts > conf->nb_max_derniers_fichiers_ouverts )
-    {
-        conf->nb_derniers_fichiers_ouverts = conf->nb_max_derniers_fichiers_ouverts;
-    }
-
     if ( !conf->nb_derniers_fichiers_ouverts || !conf->nb_max_derniers_fichiers_ouverts )
     {
         return FALSE;
+    }
+
+    if ( conf->nb_derniers_fichiers_ouverts > conf->nb_max_derniers_fichiers_ouverts )
+    {
+        conf->nb_derniers_fichiers_ouverts = conf->nb_max_derniers_fichiers_ouverts;
     }
 
     ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
@@ -145,6 +149,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         g_free ( tmp_label );
     }
 
+    grisbi_window_set_sub_menu_merge_id ( window, recent_files_merge_id, "recent_file" );
     gtk_ui_manager_ensure_update ( ui_manager );
 
 #ifdef GTKOSXAPPLICATION
@@ -477,11 +482,15 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
  * */
 gboolean gsb_menu_update_accounts_in_menus ( void )
 {
+    GrisbiWindow *window;
     GSList *list_tmp;
     GtkActionGroup *action_group;
     GtkUIManager *ui_manager;
+    guint move_to_account_merge_id;
 
-    ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
+    window = grisbi_app_get_active_window ( NULL );
+    ui_manager = grisbi_window_get_ui_manager ( window );
+    move_to_account_merge_id = grisbi_window_get_sub_menu_merge_id ( window, "move_to_account" );
 
     if ( move_to_account_merge_id != -1 )
         gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
@@ -520,7 +529,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
                         G_CALLBACK ( move_selected_operation_to_account_nb ),
                         GINT_TO_POINTER ( i ) );
 
-            gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id,
+            gtk_ui_manager_add_ui ( ui_manager, move_to_account_merge_id,
                         "/menubar/EditMenu/MoveToAnotherAccount/",
                         tmp_name, tmp_name,
                         GTK_UI_MANAGER_MENUITEM, FALSE );
@@ -531,8 +540,10 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     }
 
     gtk_ui_manager_insert_action_group ( ui_manager, action_group, 2 );
+    grisbi_window_set_sub_menu_merge_id ( window, move_to_account_merge_id, "move_to_account" );
     gtk_ui_manager_ensure_update ( ui_manager );
 
+    /* return */
     return FALSE;
 }
 
