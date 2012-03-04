@@ -227,12 +227,15 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 {
 #ifdef HAVE_SSL
     gchar * key, * message = "";
+    GrisbiAppRun *run;
 
-    if ( run.new_crypted_file )
+    run = grisbi_app_get_run ();
+
+    if ( run->new_crypted_file )
     {
         if ( saved_crypt_key )
             g_free ( saved_crypt_key );
-	    saved_crypt_key = NULL;
+        saved_crypt_key = NULL;
     }
 
     if ( crypt )
@@ -292,7 +295,7 @@ return_bad_password:
     dialogue_error_hint ( _("This build of Grisbi does not support encryption.\n"
                         "Please recompile Grisbi with OpenSSL encryption enabled."),
                         g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-					    file_name ) );
+                        file_name ) );
 #endif
 
     return 0;
@@ -315,6 +318,9 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gchar *key = NULL;
     GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
     gint result;
+    GrisbiAppRun *run;
+
+    run = grisbi_app_get_run ();
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
                         GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
@@ -370,7 +376,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gtk_entry_set_visibility ( GTK_ENTRY ( entry ), FALSE );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ), entry, TRUE, TRUE, 0 );
 
-    if ( run.new_crypted_file )
+    if ( run->new_crypted_file )
     {
         button = gtk_check_button_new_with_label ( _("View password") );
         gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
@@ -417,7 +423,7 @@ return_bad_password:
         else
             saved_crypt_key = NULL;
 
-        run.new_crypted_file = FALSE;
+        run->new_crypted_file = FALSE;
 
         break;
 

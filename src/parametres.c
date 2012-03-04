@@ -1026,8 +1026,12 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
+        GrisbiAppRun *run;
+
+        run = grisbi_app_get_run ();
+
         dialog_message ( "encryption-is-irreversible" );
-        run.new_crypted_file = TRUE;
+        run->new_crypted_file = TRUE;
     }
 
     return FALSE;
@@ -1048,7 +1052,7 @@ gboolean gsb_config_backup_dir_chosen ( GtkWidget *button,
 
     path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
     devel_debug ( path );
-    gsb_file_set_backup_path ( path );
+/*     gsb_file_set_backup_path ( path );  */
     if ( path && strlen ( path ) > 0 )
         g_free ( path );
 

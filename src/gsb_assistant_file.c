@@ -263,6 +263,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *filename_entry;
     gchar *nom_fichier_comptes;
     gchar *titre_fichier;
+    GrisbiAppRun *run;
+
+    run = grisbi_app_get_run ();
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
@@ -333,11 +336,11 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
         if ( etat.crypt_file )
-            run.new_crypted_file = TRUE;
+            run->new_crypted_file = TRUE;
     }
     else
     {
-        run.new_crypted_file = FALSE;
+        run->new_crypted_file = FALSE;
     }
 
     /* date format */
