@@ -792,8 +792,8 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
 
         tmp_list = tmp_list->next;
 
-        /* ignore children scheduled operations */
-        if (gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number ) )
+         /* ignore splitted transactions */
+        if ( gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ) == TRUE )
             continue;
 
         /* ignores transactions replaced with historical data */
@@ -881,14 +881,13 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                 date = gsb_scheduler_get_next_date ( scheduled_number, date );
                 continue;
             }
-            if ( g_date_valid ( date ) == FALSE )
+            if ( date == NULL || g_date_valid ( date ) == FALSE )
                 return;
+
             str_date = gsb_format_gdate ( date );
 
-            if ( date == NULL )
-                return;
             g_value_init ( &date_value, G_TYPE_DATE );
-            g_value_set_boxed ( &date_value, date ); 
+            g_value_set_boxed ( &date_value, date );
 
             /* add a line in the estimate array */
             gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &iter, NULL );
