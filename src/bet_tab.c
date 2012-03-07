@@ -809,8 +809,8 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
 
         tmp_list = tmp_list->next;
 
-        /* ignore children scheduled operations */
-        if (gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number ) )
+         /* ignore splitted transactions */
+        if ( gsb_data_scheduled_get_split_of_scheduled ( scheduled_number ) == TRUE )
             continue;
 
         /* ignores transactions replaced with historical data */
@@ -898,14 +898,13 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                 date = gsb_scheduler_get_next_date ( scheduled_number, date );
                 continue;
             }
-            if ( g_date_valid ( date ) == FALSE )
+            if ( date == NULL || g_date_valid ( date ) == FALSE )
                 return;
+
             str_date = gsb_format_gdate ( date );
 
-            if ( date == NULL )
-                return;
             g_value_init ( &date_value, G_TYPE_DATE );
-            g_value_set_boxed ( &date_value, date ); 
+            g_value_set_boxed ( &date_value, date );
 
             /* add a line in the estimate array */
             gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &iter, NULL );
@@ -991,15 +990,14 @@ void bet_array_refresh_transactions_data ( GtkTreeModel *tab_model,
         if ( account_number != selected_account )
             continue;
 
-        date = gsb_data_transaction_get_date ( transaction_number );
+        date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
 
         /* ignore transaction which are after date_max */
         if ( g_date_compare (date, date_max ) > 0 )
             continue;
 
         /* ignore splitted transactions */
-        if ( gsb_data_transaction_get_mother_transaction_number (
-         transaction_number ) != 0 )
+        if ( gsb_data_transaction_get_split_of_transaction ( transaction_number ) == TRUE )
             continue;
 
         /* Ignore transactions that are before date_com */
@@ -1182,12 +1180,15 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_date_add_months ( date, 1 );
-        date = gsb_date_get_last_day_of_month ( date );
+date = gsb_date_get_last_day_of_month ( date );
     }
 
+    if ( date )
+        g_date_free ( date );
+    if ( date_jour )
+        g_date_free ( date_jour );
     g_free ( str_description );
-    if ( str_debit )
-        g_free ( str_debit );
+    g_free ( str_debit );
     g_free ( str_value );
     g_free ( str_amount );
 }
