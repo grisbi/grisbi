@@ -1074,9 +1074,8 @@ msgid "Transfer"
 msgstr "Umbuchung"
 
 #: ../src/bet_future.c:1822
-#, fuzzy
 msgid "You must create at least one cash account"
-msgstr "Es müssen mindestens 2 Konten ausgewählt werden."
+msgstr "Es muss mindestens in Bargeldkonto erstellt werden"
 
 #: ../src/bet_future.c:1866 ../src/bet_future.c:2416
 msgid "Error: You must select an account."
