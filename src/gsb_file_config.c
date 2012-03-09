@@ -190,6 +190,15 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     else
         err = NULL;
 
+    int_ret = g_key_file_get_integer ( config,
+                        "Geometry",
+                        "Prefs_panel_width",
+                        &err );
+    if ( err == NULL )
+        conf->prefs_panel_width = int_ret;
+    else
+        err = NULL;
+
     /* get general */
     conf->r_modifiable = g_key_file_get_integer ( config,
                         "General",
@@ -270,11 +279,16 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Compress backup",
                         NULL );
 
-/*     gsb_file_set_backup_path ( g_key_file_get_string ( config,
- *                         "Backup",
- *                         "Backup path",
- *                         NULL ));
- */
+    conf->sauvegarde_demarrage = g_key_file_get_integer ( config,
+                        "Backup",
+                        "Save_at_opening",
+                        NULL );
+
+    gsb_file_set_backup_path ( g_key_file_get_string ( config,
+                        "Backup",
+                        "Backup path",
+                        NULL ),
+                        conf );
 
     /* get input/output */
     conf->load_last_file = g_key_file_get_integer ( config,
@@ -285,11 +299,6 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     conf->sauvegarde_auto = g_key_file_get_integer ( config,
                         "IO",
                         "Save at closing",
-                        NULL );
-
-    conf->sauvegarde_demarrage = g_key_file_get_integer ( config,
-                        "IO",
-                        "Save at opening",
                         NULL );
 
     conf->nb_max_derniers_fichiers_ouverts = g_key_file_get_integer ( config,
@@ -527,6 +536,13 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "Maximize_screen",
                         conf->maximize_screen );
 
+    /* Remember size of main panel */
+    g_key_file_set_integer ( config,
+                        "Geometry",
+                        "Panel_width",
+                        conf->panel_width );
+
+    /* prefs */
     g_key_file_set_integer ( config,
                         "Geometry",
                         "Prefs_width",
@@ -540,8 +556,8 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
     /* Remember size of main panel */
     g_key_file_set_integer ( config,
                         "Geometry",
-                        "Panel_width",
-                        conf->panel_width );
+                        "Prefs_panel_width",
+                        conf->prefs_panel_width );
 
     /* save general */
     g_key_file_set_integer ( config,
@@ -629,11 +645,15 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "Make backup nb minutes",
                         conf->make_backup_nb_minutes );
 
-    if (gsb_file_get_backup_path ())
-        g_key_file_set_string ( config,
+    g_key_file_set_string ( config,
                         "Backup",
                         "Backup path",
-                        gsb_file_get_backup_path ());
+                        gsb_file_get_backup_path () );
+
+    g_key_file_set_integer ( config,
+                        "Backup",
+                        "Save_at_opening",
+                        conf->sauvegarde_demarrage );
 
     /* save input/output */
     g_key_file_set_integer ( config,
@@ -645,11 +665,6 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "IO",
                         "Save at closing",
                         conf->sauvegarde_auto );
-
-    g_key_file_set_integer ( config,
-                        "IO",
-                        "Save at opening",
-                        conf->sauvegarde_demarrage );
 
     g_key_file_set_integer ( config,
                         "IO",
@@ -899,7 +914,7 @@ void gsb_file_config_clean_config ( GrisbiAppConf *conf )
     conf->force_enregistrement = 1;                     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path ( g_get_home_dir () );
     gsb_file_set_account_files_path ( g_get_home_dir (), conf );
-/*     gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir () );  */
+    gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir (), conf );
     conf->make_backup = 1;
     conf->make_backup_every_minutes = FALSE;
     conf->make_backup_nb_minutes = 0;

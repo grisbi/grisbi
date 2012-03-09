@@ -134,6 +134,7 @@ struct gsb_conf_t
     /* preferences */
     gint prefs_width;                               /* preferences width */
     gint prefs_height;                              /* preferences height */
+    gint prefs_panel_width;                         /* prefs hpaned width */
 
     /* left_panel */
     gint panel_width;                               /* left hpanel width */
