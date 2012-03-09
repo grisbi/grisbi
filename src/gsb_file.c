@@ -246,11 +246,11 @@ const gchar *gsb_file_get_last_path ( void )
  * */
 const gchar *gsb_file_get_backup_path ( void )
 {
-    GrisbiAppRun *run;
+    GrisbiAppConf *conf;
 
-    run = grisbi_app_get_run ();
+    conf = grisbi_app_get_conf ();
 
-    return run->backup_path;
+    return conf->backup_path;
 }
 
 
@@ -261,20 +261,23 @@ const gchar *gsb_file_get_backup_path ( void )
  *
  * \return
  * */
-void gsb_file_set_backup_path ( const gchar *path )
+void gsb_file_set_backup_path ( const gchar *path,
+                        GrisbiAppConf *conf )
 {
-    GrisbiAppRun *run;
-
-    run = grisbi_app_get_run ();
-
     if ( path == NULL || strlen ( path ) == 0 )
-        run->backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
+        conf->backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
     else
-        run->backup_path = my_strdup ( path );
+        conf->backup_path = my_strdup ( path );
 
-    if ( !g_file_test ( path, G_FILE_TEST_EXISTS ) )
+    if ( !g_file_test ( conf->backup_path, G_FILE_TEST_EXISTS ) )
     {
-        utils_files_create_XDG_dir ( );
+#ifdef _MSC_VER
+        int mode = 0;
+#else
+        int mode = S_IRUSR | S_IWUSR | S_IXUSR;
+#endif /*_MSC_VER */
+
+        g_mkdir_with_parents ( conf->backup_path, mode );
     }
 }
 
@@ -1283,7 +1286,7 @@ const gchar *gsb_file_get_account_files_path ( void )
 void gsb_file_set_account_files_path ( const gchar *path,
                         GrisbiAppConf *conf )
 {
-devel_debug ( path );
+
     if ( path == NULL || strlen ( path ) == 0 )
         conf->account_files_path = my_strdup ( gsb_dirs_get_home_dir ( ) );
     else
