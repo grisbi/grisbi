@@ -258,8 +258,9 @@ static void grisbi_prefs_checkbutton_changed ( GtkToggleButton *checkbutton,
 
     if ( value )
     {
+        grisbi_app_conf_mutex_lock ();
         *value = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) );
-        gsb_file_set_modified ( TRUE );
+        grisbi_app_conf_mutex_unlock ();
     }
 }
 
@@ -330,9 +331,11 @@ static void grisbi_prefs_spinbutton_changed ( GtkSpinButton *spinbutton,
     {
         GtkWidget *button = NULL;
 
+        grisbi_app_conf_mutex_lock ();
         *value = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spinbutton ) );
+        grisbi_app_conf_mutex_unlock ();
+
         affiche_derniers_fichiers_ouverts ();
-        gsb_file_set_modified ( TRUE );
 
         button = g_object_get_data ( G_OBJECT ( spinbutton ), "button" );
         if ( button && GTK_IS_TOGGLE_BUTTON ( button ) )
@@ -365,10 +368,12 @@ static void grisbi_prefs_dir_chosen ( GtkWidget *button,
 
     tmp_dir = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER ( button ) );
 
+    grisbi_app_conf_mutex_lock ();
     if ( strcmp ( dirname, "account_files_path" ) == 0 )
         gsb_file_set_account_files_path ( tmp_dir, grisbi_app_get_conf () );
     else
         gsb_file_set_backup_path ( tmp_dir, grisbi_app_get_conf () );
+    grisbi_app_conf_mutex_unlock ();
 
     g_signal_handlers_unblock_by_func ( button,
                         G_CALLBACK ( grisbi_prefs_dir_chosen ),

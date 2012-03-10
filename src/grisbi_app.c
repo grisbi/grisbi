@@ -51,6 +51,9 @@
 /* structure run */
 static GrisbiAppRun *app_run;
 
+/* mutex for GrisbiAppConf */
+static GMutex *grisbi_app_conf_mutex = NULL;
+
 #define GRISBI_APP_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), GRISBI_TYPE_APP, GrisbiAppPrivate))
 
 struct _GrisbiAppPrivate
@@ -96,6 +99,11 @@ static void grisbi_app_finalize ( GObject *object )
     if ( app_run->reconcile_new_date )
         g_date_free ( app_run->reconcile_new_date );
     g_free ( app_run );
+
+    /* libération mémoire de grisbi_app_conf_mutex */
+    g_mutex_trylock ( grisbi_app_conf_mutex );
+    g_mutex_unlock ( grisbi_app_conf_mutex );
+    g_mutex_free ( grisbi_app_conf_mutex );
 
     /* libération de l'objet app */
     G_OBJECT_CLASS ( grisbi_app_parent_class )->finalize ( object );
@@ -347,6 +355,20 @@ static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window )
 }
 
 
+/**
+ * Init conf mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_init_conf_mutex ( void )
+{
+  g_assert ( grisbi_app_conf_mutex == NULL );
+  grisbi_app_conf_mutex = g_mutex_new ();
+}
+
+
 /* CREATE OBJECT */
 /**
  * Initialise GrisbiApp
@@ -374,7 +396,10 @@ static void grisbi_app_init ( GrisbiApp *app )
     app_run = g_malloc0 ( sizeof ( GrisbiAppRun ) );
 
     /* initialisation des paramètres de l'application */
+    grisbi_app_init_conf_mutex ();
+    g_mutex_lock ( grisbi_app_conf_mutex );
     grisbi_app_load_config_var ( app );
+    g_mutex_unlock ( grisbi_app_conf_mutex );
 
     /* importation des formats de fichiers */
     grisbi_app_load_import_formats ( app );
@@ -384,9 +409,6 @@ static void grisbi_app_init ( GrisbiApp *app )
 
     /* return */
 }
-
-
-
 
 
 /* PUBLIC FUNCTIONS */
@@ -793,7 +815,9 @@ gboolean grisbi_app_quit ( void )
     if ( conf->full_screen == 0 && conf->maximize_screen == 0 )
         gtk_window_get_size ( GTK_WINDOW ( window ), &conf->main_width, &conf->main_height );
 
+    g_mutex_lock ( grisbi_app_conf_mutex );
     gsb_file_config_save_config ( conf );
+    g_mutex_unlock ( grisbi_app_conf_mutex );
 
     if ( gsb_file_close ( ) )
         gtk_widget_destroy ( GTK_WIDGET ( window ) );
@@ -803,6 +827,32 @@ gboolean grisbi_app_quit ( void )
         gsb_debug_finish_log ( );
 
     return FALSE;
+}
+
+
+/**
+ * lock conf_mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_conf_mutex_lock ( void )
+{
+    g_mutex_lock ( grisbi_app_conf_mutex );
+}
+
+
+/**
+ * unlock conf_mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_app_conf_mutex_unlock ( void )
+{
+    g_mutex_unlock ( grisbi_app_conf_mutex );
 }
 
 

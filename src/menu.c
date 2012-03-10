@@ -671,7 +671,11 @@ void gsb_menu_full_screen_mode ( void )
 void gsb_menu_preferences ( GtkAction *action,
                         GrisbiWindow *window )
 {
-    grisb_prefs_show_dialog ( window );
+    GThread *thread;
+
+    thread = g_thread_create ( (GThreadFunc) grisb_prefs_show_dialog, window, TRUE, NULL );
+
+    g_thread_join ( thread );
 }
 
 

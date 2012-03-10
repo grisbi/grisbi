@@ -48,6 +48,8 @@ struct _GrisbiAppClass
 GType grisbi_app_get_type ( void ) G_GNUC_CONST;
 
 gboolean grisbi_app_close_file ( void );
+void grisbi_app_conf_mutex_lock ( void );
+void grisbi_app_conf_mutex_unlock ( void );
 GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
                         GdkScreen *screen );
 const gchar *grisbi_app_get_active_filename ( void );
