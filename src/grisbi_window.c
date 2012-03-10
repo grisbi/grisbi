@@ -980,6 +980,7 @@ static gboolean grisbi_window_hpaned_size_allocate ( GtkWidget *hpaned,
 
 }
 
+
 /**
  *
  *

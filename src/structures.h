@@ -218,9 +218,6 @@ struct gsb_conf_t
 
 struct gsb_run_t
 {
-    /* répertoire des fichiers de comptes etde backup */
-    gchar *backup_path;                             /* localisation des fichiers de sauvegarde */
-
     /* crypted files */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
 

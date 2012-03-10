@@ -264,6 +264,9 @@ const gchar *gsb_file_get_backup_path ( void )
 void gsb_file_set_backup_path ( const gchar *path,
                         GrisbiAppConf *conf )
 {
+    if ( conf->backup_path )
+        g_free ( conf->backup_path );
+
     if ( path == NULL || strlen ( path ) == 0 )
         conf->backup_path = my_strdup ( gsb_dirs_get_user_config_dir ( ) );
     else
@@ -1286,6 +1289,8 @@ const gchar *gsb_file_get_account_files_path ( void )
 void gsb_file_set_account_files_path ( const gchar *path,
                         GrisbiAppConf *conf )
 {
+    if ( conf->account_files_path )
+        g_free ( conf->account_files_path );
 
     if ( path == NULL || strlen ( path ) == 0 )
         conf->account_files_path = my_strdup ( gsb_dirs_get_home_dir ( ) );

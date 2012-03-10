@@ -82,10 +82,14 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     gint int_ret;
     GError* err = NULL;
 
-    gsb_file_config_clean_config ( conf );
+    
 
     if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
+    {
+        gsb_file_config_clean_config ( conf );
+
         return FALSE;
+    }
 
     config = g_key_file_new ();
     
