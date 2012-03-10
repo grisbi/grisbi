@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 22:47+0100\n"
+"POT-Creation-Date: 2012-03-10 21:18+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -1567,7 +1567,7 @@ msgstr "Intraţi numele noii sub-categorii."
 
 #: ../src/categories_onglet.c:558 ../src/etats_onglet.c:162
 #: ../src/import.c:443 ../src/import.c:3648 ../src/imputation_budgetaire.c:591
-#: ../src/parametres.c:325 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542 ../src/ui/grisbi.ui.h:1
 msgid "Import"
 msgstr "Importare"
 
@@ -2976,8 +2976,8 @@ msgstr "Înregistraţi fişierul."
 msgid "Exporting report ..."
 msgstr "Exportaţi o stare în CSV"
 
-#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:438
-#: ../src/gsb_file.c:577 ../src/gsb_file.c:654
+#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:440
+#: ../src/gsb_file.c:579 ../src/gsb_file.c:656
 #, fuzzy
 msgid "Done"
 msgstr "Nici un"
@@ -6913,29 +6913,29 @@ msgstr "Deschiderea unui fişier de conturi"
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:336
+#: ../src/gsb_file.c:338
 #, fuzzy
 msgid "Loading accounts"
 msgstr "Încărcarea fişierului"
 
 #. Loading failed.
-#: ../src/gsb_file.c:369
+#: ../src/gsb_file.c:371
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Selecţionaţi conturile bancare"
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:396
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:408
+#: ../src/gsb_file.c:410
 #, fuzzy
 msgid "Checking amounts"
 msgstr "Pontare"
 
-#: ../src/gsb_file.c:526
+#: ../src/gsb_file.c:528
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked. Please save it "
@@ -6945,69 +6945,69 @@ msgstr ""
 "il sub un alt nume s'au activaţi opţiunea \"%s\" în configuraţie. "
 "Alternativ, alegeţi opţiunea \"%s\"dedesupt. "
 
-#: ../src/gsb_file.c:529
+#: ../src/gsb_file.c:531
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Impsibil de a înregistra fişierul \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:552
+#: ../src/gsb_file.c:554
 #, fuzzy
 msgid "Saving file"
 msgstr "Înregistraţi fişierul."
 
-#: ../src/gsb_file.c:607
+#: ../src/gsb_file.c:609
 msgid "Saving backup"
 msgstr "Înregistrarea salvării"
 
-#: ../src/gsb_file.c:800
+#: ../src/gsb_file.c:802
 #, fuzzy
 msgid "Save locked files?"
 msgstr "Înregistraţi fişierul."
 
-#: ../src/gsb_file.c:801
+#: ../src/gsb_file.c:803
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:804 ../src/gsb_file.c:816
+#: ../src/gsb_file.c:806 ../src/gsb_file.c:818
 msgid "unnamed"
 msgstr "făra nume"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:805 ../src/parametres.c:901
+#: ../src/gsb_file.c:807 ../src/parametres.c:901
 #: ../src/ui/grisbi_prefs.ui.h:16
 msgid "Force saving of locked files"
 msgstr "Forţaţi înregistrarea fişierilor zăvorite"
 
-#: ../src/gsb_file.c:808 ../src/gsb_file.c:820
+#: ../src/gsb_file.c:810 ../src/gsb_file.c:822
 msgid "Close without saving"
 msgstr "Închide fără salvare"
 
-#: ../src/gsb_file.c:815
+#: ../src/gsb_file.c:817
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Salvaţi modificaţiile în document '%s' înainte de al părăsi ?"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:831
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:836
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:838
+#: ../src/gsb_file.c:840
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d lună"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:844
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
@@ -7015,15 +7015,15 @@ msgstr ""
 "Dacă închideţi fără să salvaţi fişierul toate modificaţiile făcute vor fi "
 "ignorate."
 
-#: ../src/gsb_file.c:879
+#: ../src/gsb_file.c:881
 msgid "Name the accounts file"
 msgstr "Creaţia unui nume de fişier de conturi"
 
-#: ../src/gsb_file.c:1139
+#: ../src/gsb_file.c:1141
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1157
+#: ../src/gsb_file.c:1159
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7033,7 +7033,7 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:828
+#: ../src/gsb_file_config.c:848
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Imposibil de a salva fişierul '%s': %s"
@@ -11114,18 +11114,14 @@ msgstr ""
 msgid "label"
 msgstr ""
 
-#: ../src/ui/grisbi.ui.h:1
-#, fuzzy
-msgid "Importer"
-msgstr "Importare"
-
 #: ../src/ui/grisbi.ui.h:2
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: ../src/ui/grisbi.ui.h:3
-msgid "Ouvrir"
-msgstr ""
+#, fuzzy
+msgid "Open"
+msgstr "Deschide"
 
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
@@ -11134,6 +11130,10 @@ msgstr "Grisbi"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Importer"
+#~ msgstr "Importare"
 
 #, fuzzy
 #~ msgid "Error loading file '%s'"
@@ -11420,9 +11420,6 @@ msgstr ""
 
 #~ msgid "Print amortization table"
 #~ msgstr "Imprima într'un fişier"
-
-#~ msgid "_Open"
-#~ msgstr "Deschide"
 
 #~ msgid "Montly"
 #~ msgstr "Lunar"

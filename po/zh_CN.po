@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 22:47+0100\n"
+"POT-Creation-Date: 2012-03-10 21:18+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1531,7 +1531,7 @@ msgstr "请输入新增子类的名称"
 
 #: ../src/categories_onglet.c:558 ../src/etats_onglet.c:162
 #: ../src/import.c:443 ../src/import.c:3648 ../src/imputation_budgetaire.c:591
-#: ../src/parametres.c:325 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542 ../src/ui/grisbi.ui.h:1
 msgid "Import"
 msgstr "导入"
 
@@ -2924,8 +2924,8 @@ msgstr "保存文件"
 msgid "Exporting report ..."
 msgstr "导出报表为CSV..."
 
-#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:438
-#: ../src/gsb_file.c:577 ../src/gsb_file.c:654
+#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:440
+#: ../src/gsb_file.c:579 ../src/gsb_file.c:656
 #, fuzzy
 msgid "Done"
 msgstr "无"
@@ -6824,29 +6824,29 @@ msgstr "打开账户文件"
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:336
+#: ../src/gsb_file.c:338
 #, fuzzy
 msgid "Loading accounts"
 msgstr "载入账户文件"
 
 #. Loading failed.
-#: ../src/gsb_file.c:369
+#: ../src/gsb_file.c:371
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "选择银行账户"
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:396
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:408
+#: ../src/gsb_file.c:410
 #, fuzzy
 msgid "Checking amounts"
 msgstr "支票"
 
-#: ../src/gsb_file.c:526
+#: ../src/gsb_file.c:528
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked. Please save it "
@@ -6855,83 +6855,83 @@ msgstr ""
 "Grisbi不能保存文件，因为它被锁住了。请用另一个名字保存或者激活 \"%s\" 选项。"
 "或者选择下面的 \"%s\" 选项。"
 
-#: ../src/gsb_file.c:529
+#: ../src/gsb_file.c:531
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "不能保存文件 \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:552
+#: ../src/gsb_file.c:554
 #, fuzzy
 msgid "Saving file"
 msgstr "保存文件"
 
-#: ../src/gsb_file.c:607
+#: ../src/gsb_file.c:609
 msgid "Saving backup"
 msgstr "保存备份"
 
-#: ../src/gsb_file.c:800
+#: ../src/gsb_file.c:802
 #, fuzzy
 msgid "Save locked files?"
 msgstr "保存文件"
 
-#: ../src/gsb_file.c:801
+#: ../src/gsb_file.c:803
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:804 ../src/gsb_file.c:816
+#: ../src/gsb_file.c:806 ../src/gsb_file.c:818
 msgid "unnamed"
 msgstr "未命名"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:805 ../src/parametres.c:901
+#: ../src/gsb_file.c:807 ../src/parametres.c:901
 #: ../src/ui/grisbi_prefs.ui.h:16
 msgid "Force saving of locked files"
 msgstr "强制保存加锁的文件"
 
-#: ../src/gsb_file.c:808 ../src/gsb_file.c:820
+#: ../src/gsb_file.c:810 ../src/gsb_file.c:822
 msgid "Close without saving"
 msgstr "不保存关闭"
 
-#: ../src/gsb_file.c:815
+#: ../src/gsb_file.c:817
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "关闭前保存更新到文件 '%s' 吗？"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:831
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:836
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:838
+#: ../src/gsb_file.c:840
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d 月"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:844
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "如果您不保存就关闭文件，将丢失更新的数据"
 
-#: ../src/gsb_file.c:879
+#: ../src/gsb_file.c:881
 msgid "Name the accounts file"
 msgstr "命名账户文件"
 
-#: ../src/gsb_file.c:1139
+#: ../src/gsb_file.c:1141
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1157
+#: ../src/gsb_file.c:1159
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -6941,7 +6941,7 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:828
+#: ../src/gsb_file_config.c:848
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "不能保存文件 '%s': %s"
@@ -10993,18 +10993,14 @@ msgstr ""
 msgid "label"
 msgstr ""
 
-#: ../src/ui/grisbi.ui.h:1
-#, fuzzy
-msgid "Importer"
-msgstr "导入"
-
 #: ../src/ui/grisbi.ui.h:2
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: ../src/ui/grisbi.ui.h:3
-msgid "Ouvrir"
-msgstr ""
+#, fuzzy
+msgid "Open"
+msgstr "_打开"
 
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
@@ -11013,6 +11009,10 @@ msgstr "Grisbi"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Importer"
+#~ msgstr "导入"
 
 #, fuzzy
 #~ msgid "Error loading file '%s'"
@@ -11290,9 +11290,6 @@ msgstr ""
 
 #~ msgid "Print amortization table"
 #~ msgstr "打印到文件"
-
-#~ msgid "_Open"
-#~ msgstr "_打开"
 
 #~ msgid "Montly"
 #~ msgstr "每月"

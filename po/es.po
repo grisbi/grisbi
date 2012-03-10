@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 22:47+0100\n"
+"POT-Creation-Date: 2012-03-10 21:18+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1476,7 +1476,7 @@ msgstr "Crear una nueva subcategoría"
 
 #: ../src/categories_onglet.c:558 ../src/etats_onglet.c:162
 #: ../src/import.c:443 ../src/import.c:3648 ../src/imputation_budgetaire.c:591
-#: ../src/parametres.c:325 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542 ../src/ui/grisbi.ui.h:1
 msgid "Import"
 msgstr "Importar"
 
@@ -2858,8 +2858,8 @@ msgstr "Archivo CSV"
 msgid "Exporting report ..."
 msgstr "Exportando el informe ..."
 
-#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:438
-#: ../src/gsb_file.c:577 ../src/gsb_file.c:654
+#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:440
+#: ../src/gsb_file.c:579 ../src/gsb_file.c:656
 msgid "Done"
 msgstr "Hecho"
 
@@ -6880,26 +6880,26 @@ msgstr "Abrir un fichero de cuentas"
 msgid "Grisbi files (*.gsb)"
 msgstr "Archivos de Grisbi (*.gsb)"
 
-#: ../src/gsb_file.c:336
+#: ../src/gsb_file.c:338
 msgid "Loading accounts"
 msgstr "Cargando cuentas"
 
 #. Loading failed.
-#: ../src/gsb_file.c:369
+#: ../src/gsb_file.c:371
 msgid "Failed to load accounts"
 msgstr "Fallo al cargar las cuentas"
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:396
 msgid "Checking schedulers"
 msgstr "Comprobando los planificadores"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:408
+#: ../src/gsb_file.c:410
 msgid "Checking amounts"
 msgstr "Comprobando cantidades"
 
-#: ../src/gsb_file.c:526
+#: ../src/gsb_file.c:528
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked. Please save it "
@@ -6908,26 +6908,26 @@ msgstr ""
 "Grisbi no pudo guardar este fichero porque está bloqueado.  Por favor "
 "guárdelo con otro nombre o active la opción \"%s\" en la configuración."
 
-#: ../src/gsb_file.c:529
+#: ../src/gsb_file.c:531
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "No se puede guardar el archivo \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:552
+#: ../src/gsb_file.c:554
 msgid "Saving file"
 msgstr "Guardando archivo"
 
-#: ../src/gsb_file.c:607
+#: ../src/gsb_file.c:609
 msgid "Saving backup"
 msgstr "Guardando la copia de seguridad"
 
-#: ../src/gsb_file.c:800
+#: ../src/gsb_file.c:802
 msgid "Save locked files?"
 msgstr "¿Guardar archivos bloqueados?"
 
-#: ../src/gsb_file.c:801
+#: ../src/gsb_file.c:803
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6937,55 +6937,55 @@ msgstr ""
 "debe cancelar y guardarlo con otro nombre o activar la  opción \"%s\" en la "
 "configuración."
 
-#: ../src/gsb_file.c:804 ../src/gsb_file.c:816
+#: ../src/gsb_file.c:806 ../src/gsb_file.c:818
 msgid "unnamed"
 msgstr "Sin nombre"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:805 ../src/parametres.c:901
+#: ../src/gsb_file.c:807 ../src/parametres.c:901
 #: ../src/ui/grisbi_prefs.ui.h:16
 msgid "Force saving of locked files"
 msgstr "Forzar guardar en los fichero bloqueados"
 
-#: ../src/gsb_file.c:808 ../src/gsb_file.c:820
+#: ../src/gsb_file.c:810 ../src/gsb_file.c:822
 msgid "Close without saving"
 msgstr "Cerrar sin guardar"
 
-#: ../src/gsb_file.c:815
+#: ../src/gsb_file.c:817
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "¿Guardar los cambios al documento '%s' antes de cerrar?"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:831
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d minutos y %d segundos"
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:836
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 minuto y %d segundos"
 
-#: ../src/gsb_file.c:838
+#: ../src/gsb_file.c:840
 #, c-format
 msgid "%d seconds"
 msgstr "%d segundos"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:844
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Si cierra sin guardar, todos los cambios desde %s se perderán."
 
-#: ../src/gsb_file.c:879
+#: ../src/gsb_file.c:881
 msgid "Name the accounts file"
 msgstr "Nombre de los ficheros de cuentas"
 
-#: ../src/gsb_file.c:1139
+#: ../src/gsb_file.c:1141
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Borrar una copia del fichero de la versión antigua de Grisbi"
 
-#: ../src/gsb_file.c:1157
+#: ../src/gsb_file.c:1159
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7000,7 +7000,7 @@ msgstr ""
 "<b>¿ Quiere borrar este fichero:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:828
+#: ../src/gsb_file_config.c:848
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "No se puede guardar el fichero de configuración '%s': %s"
@@ -11159,18 +11159,14 @@ msgstr "Borrar el fichero de configuración de una versión anterior"
 msgid "label"
 msgstr ""
 
-#: ../src/ui/grisbi.ui.h:1
-#, fuzzy
-msgid "Importer"
-msgstr "Importar"
-
 #: ../src/ui/grisbi.ui.h:2
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: ../src/ui/grisbi.ui.h:3
-msgid "Ouvrir"
-msgstr ""
+#, fuzzy
+msgid "Open"
+msgstr "_Abrir..."
 
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
@@ -11180,6 +11176,10 @@ msgstr "Grisbi"
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#, fuzzy
+#~ msgid "Importer"
+#~ msgstr "Importar"
 
 #~ msgid "Error loading file '%s'"
 #~ msgstr "Error abriendo el archivo '%s'"

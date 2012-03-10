@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 22:47+0100\n"
+"POT-Creation-Date: 2012-03-10 21:18+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1550,7 +1550,7 @@ msgstr "Vul een naam in voor de sub-categorie"
 
 #: ../src/categories_onglet.c:558 ../src/etats_onglet.c:162
 #: ../src/import.c:443 ../src/import.c:3648 ../src/imputation_budgetaire.c:591
-#: ../src/parametres.c:325 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542 ../src/ui/grisbi.ui.h:1
 msgid "Import"
 msgstr "Importeren"
 
@@ -2967,8 +2967,8 @@ msgstr "Bestand opslaan"
 msgid "Exporting report ..."
 msgstr "Exporteer naar CSV ..."
 
-#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:438
-#: ../src/gsb_file.c:577 ../src/gsb_file.c:654
+#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:440
+#: ../src/gsb_file.c:579 ../src/gsb_file.c:656
 #, fuzzy
 msgid "Done"
 msgstr "Geen"
@@ -6922,29 +6922,29 @@ msgstr "Bestand openen"
 msgid "Grisbi files (*.gsb)"
 msgstr ""
 
-#: ../src/gsb_file.c:336
+#: ../src/gsb_file.c:338
 #, fuzzy
 msgid "Loading accounts"
 msgstr "Bestand aan het laden"
 
 #. Loading failed.
-#: ../src/gsb_file.c:369
+#: ../src/gsb_file.c:371
 #, fuzzy
 msgid "Failed to load accounts"
 msgstr "Selecteer bankrekeningen"
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:396
 msgid "Checking schedulers"
 msgstr ""
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:408
+#: ../src/gsb_file.c:410
 #, fuzzy
 msgid "Checking amounts"
 msgstr "Controleren"
 
-#: ../src/gsb_file.c:526
+#: ../src/gsb_file.c:528
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked. Please save it "
@@ -6954,69 +6954,69 @@ msgstr ""
 "slot. Bewaar het bestand met een andere naam of activeer de \"%s\" optie in "
 "het voorkeuren menu.  Een alternatief is de \"%s\" optie hier onder."
 
-#: ../src/gsb_file.c:529
+#: ../src/gsb_file.c:531
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Kan het bestand \"%s\" niet opslaan."
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:552
+#: ../src/gsb_file.c:554
 #, fuzzy
 msgid "Saving file"
 msgstr "Bestand opslaan"
 
-#: ../src/gsb_file.c:607
+#: ../src/gsb_file.c:609
 msgid "Saving backup"
 msgstr "Bezig met opslaan van reserve-bestand"
 
-#: ../src/gsb_file.c:800
+#: ../src/gsb_file.c:802
 #, fuzzy
 msgid "Save locked files?"
 msgstr "Bestand opslaan"
 
-#: ../src/gsb_file.c:801
+#: ../src/gsb_file.c:803
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
 "cancel and save it with another name or activate the \"%s\" option in setup."
 msgstr ""
 
-#: ../src/gsb_file.c:804 ../src/gsb_file.c:816
+#: ../src/gsb_file.c:806 ../src/gsb_file.c:818
 msgid "unnamed"
 msgstr "Niet benoemd"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:805 ../src/parametres.c:901
+#: ../src/gsb_file.c:807 ../src/parametres.c:901
 #: ../src/ui/grisbi_prefs.ui.h:16
 msgid "Force saving of locked files"
 msgstr "Forceren om geblokkeerde bestanden op te slaan"
 
-#: ../src/gsb_file.c:808 ../src/gsb_file.c:820
+#: ../src/gsb_file.c:810 ../src/gsb_file.c:822
 msgid "Close without saving"
 msgstr "Afsluiten zonder te bewaren"
 
-#: ../src/gsb_file.c:815
+#: ../src/gsb_file.c:817
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Veranderingen aan het bestand '%s' voor het afsluiten bewaren?"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:831
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:836
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr ""
 
-#: ../src/gsb_file.c:838
+#: ../src/gsb_file.c:840
 #, fuzzy, c-format
 msgid "%d seconds"
 msgstr "%d maanden"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:844
 #, fuzzy, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
@@ -7025,15 +7025,15 @@ msgstr ""
 
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste
 # keer)
-#: ../src/gsb_file.c:879
+#: ../src/gsb_file.c:881
 msgid "Name the accounts file"
 msgstr "Bestand opslaan als"
 
-#: ../src/gsb_file.c:1139
+#: ../src/gsb_file.c:1141
 msgid "Delete file copy from a previous version of grisbi"
 msgstr ""
 
-#: ../src/gsb_file.c:1157
+#: ../src/gsb_file.c:1159
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -7043,7 +7043,7 @@ msgid ""
 "%s ?</b>"
 msgstr ""
 
-#: ../src/gsb_file_config.c:828
+#: ../src/gsb_file_config.c:848
 #, fuzzy, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Kan het bestand '%s': %s niet opslaan."
@@ -11162,18 +11162,14 @@ msgstr ""
 msgid "label"
 msgstr ""
 
-#: ../src/ui/grisbi.ui.h:1
-#, fuzzy
-msgid "Importer"
-msgstr "Importeren"
-
 #: ../src/ui/grisbi.ui.h:2
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: ../src/ui/grisbi.ui.h:3
-msgid "Ouvrir"
-msgstr ""
+#, fuzzy
+msgid "Open"
+msgstr "_Open"
 
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
@@ -11182,6 +11178,10 @@ msgstr "Grisbi"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Importer"
+#~ msgstr "Importeren"
 
 #, fuzzy
 #~ msgid "Error loading file '%s'"
@@ -11469,9 +11469,6 @@ msgstr ""
 
 #~ msgid "Print amortization table"
 #~ msgstr "Print naar bestand"
-
-#~ msgid "_Open"
-#~ msgstr "_Open"
 
 #~ msgid "Montly"
 #~ msgstr "Maandelijks"

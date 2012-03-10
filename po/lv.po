@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-08 22:47+0100\n"
+"POT-Creation-Date: 2012-03-10 21:18+0100\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1483,7 +1483,7 @@ msgstr "Izveidot jaunu apakškategoriju"
 
 #: ../src/categories_onglet.c:558 ../src/etats_onglet.c:162
 #: ../src/import.c:443 ../src/import.c:3648 ../src/imputation_budgetaire.c:591
-#: ../src/parametres.c:325 ../src/utils_files.c:542
+#: ../src/parametres.c:325 ../src/utils_files.c:542 ../src/ui/grisbi.ui.h:1
 msgid "Import"
 msgstr "Imports"
 
@@ -2852,8 +2852,8 @@ msgstr "CSV fails"
 msgid "Exporting report ..."
 msgstr "Eksportēt pārskatu..."
 
-#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:438
-#: ../src/gsb_file.c:577 ../src/gsb_file.c:654
+#: ../src/etats_onglet.c:1190 ../src/gsb_debug.c:248 ../src/gsb_file.c:440
+#: ../src/gsb_file.c:579 ../src/gsb_file.c:656
 msgid "Done"
 msgstr "Izdarīt"
 
@@ -6840,26 +6840,26 @@ msgstr "Atvērt kontu failu"
 msgid "Grisbi files (*.gsb)"
 msgstr "Grisbi faili (*.gsb)"
 
-#: ../src/gsb_file.c:336
+#: ../src/gsb_file.c:338
 msgid "Loading accounts"
 msgstr "Kontu ielādēšana"
 
 #. Loading failed.
-#: ../src/gsb_file.c:369
+#: ../src/gsb_file.c:371
 msgid "Failed to load accounts"
 msgstr "Neizdevās ielādēt kontu"
 
 #. ok, here the file or backup is loaded
-#: ../src/gsb_file.c:394
+#: ../src/gsb_file.c:396
 msgid "Checking schedulers"
 msgstr "Plānotāja pārbaude"
 
 #. check the amounts of all the accounts
-#: ../src/gsb_file.c:408
+#: ../src/gsb_file.c:410
 msgid "Checking amounts"
 msgstr "Summas pārbaude"
 
-#: ../src/gsb_file.c:526
+#: ../src/gsb_file.c:528
 #, fuzzy, c-format
 msgid ""
 "Grisbi was unable to save this file because it is locked. Please save it "
@@ -6868,26 +6868,26 @@ msgstr ""
 "Grisbi nespēja saglabāt šo failu, jo tas ir slēgts. Lūdzu, saglabājiet to ar "
 "citu nosaukumu vai aktivizējiet \"%s \" opciju preferencēs."
 
-#: ../src/gsb_file.c:529
+#: ../src/gsb_file.c:531
 #, c-format
 msgid "Can not save file \"%s\""
 msgstr "Nevar saglabāt failu \"%s\""
 
 #. on a maintenant un nom de fichier
 #. et on sait qu'on peut sauvegarder
-#: ../src/gsb_file.c:552
+#: ../src/gsb_file.c:554
 msgid "Saving file"
 msgstr "Faila saglabāšana"
 
-#: ../src/gsb_file.c:607
+#: ../src/gsb_file.c:609
 msgid "Saving backup"
 msgstr "Dublējuma kopiju saglabāšana"
 
-#: ../src/gsb_file.c:800
+#: ../src/gsb_file.c:802
 msgid "Save locked files?"
 msgstr "Saglabāt bloķētos failus?"
 
-#: ../src/gsb_file.c:801
+#: ../src/gsb_file.c:803
 #, c-format
 msgid ""
 "The document '%s' is locked but modified. If you want to save it, you must "
@@ -6897,55 +6897,55 @@ msgstr ""
 "jāatceļ izmaiņas un jāsaglabā ar citu nosaukumu vai jāaktivizē \"% s \" "
 "opciju iestatīšana."
 
-#: ../src/gsb_file.c:804 ../src/gsb_file.c:816
+#: ../src/gsb_file.c:806 ../src/gsb_file.c:818
 msgid "unnamed"
 msgstr "nenosaukts"
 
 #. Warn if file is used by someone else?
-#: ../src/gsb_file.c:805 ../src/parametres.c:901
+#: ../src/gsb_file.c:807 ../src/parametres.c:901
 #: ../src/ui/grisbi_prefs.ui.h:16
 msgid "Force saving of locked files"
 msgstr "Spēkā bloķēto failu saglabāšana"
 
-#: ../src/gsb_file.c:808 ../src/gsb_file.c:820
+#: ../src/gsb_file.c:810 ../src/gsb_file.c:822
 msgid "Close without saving"
 msgstr "Aizvērt nesaglabājot"
 
-#: ../src/gsb_file.c:815
+#: ../src/gsb_file.c:817
 #, c-format
 msgid "Save changes to document '%s' before closing?"
 msgstr "Saglabāt izmaiņas dokumentam '%s' pirms aizvēršanas?"
 
-#: ../src/gsb_file.c:829
+#: ../src/gsb_file.c:831
 #, c-format
 msgid "%d minutes and %d seconds"
 msgstr "%d minūtes un %d sekundes"
 
-#: ../src/gsb_file.c:834
+#: ../src/gsb_file.c:836
 #, c-format
 msgid "1 minute and %d seconds"
 msgstr "1 minūte un %d sekundes"
 
-#: ../src/gsb_file.c:838
+#: ../src/gsb_file.c:840
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekundes"
 
-#: ../src/gsb_file.c:842
+#: ../src/gsb_file.c:844
 #, c-format
 msgid ""
 "If you close without saving, all of your changes since %s will be discarded."
 msgstr "Ja aizverat to nesaglabājot, visas izmaiņas kopš %s tiks iznīcinātas."
 
-#: ../src/gsb_file.c:879
+#: ../src/gsb_file.c:881
 msgid "Name the accounts file"
 msgstr "Kontu failu nosaukums"
 
-#: ../src/gsb_file.c:1139
+#: ../src/gsb_file.c:1141
 msgid "Delete file copy from a previous version of grisbi"
 msgstr "Dzēst failu kopiju no iepriekšējās Grisbi versijas"
 
-#: ../src/gsb_file.c:1157
+#: ../src/gsb_file.c:1159
 #, c-format
 msgid ""
 "Caution, you are about to delete a file copy\n"
@@ -6960,7 +6960,7 @@ msgstr ""
 "<b>Vai vēlaties dzēst šo failu:\n"
 "%s ?</b>"
 
-#: ../src/gsb_file_config.c:828
+#: ../src/gsb_file_config.c:848
 #, c-format
 msgid "Cannot save configuration file '%s': %s"
 msgstr "Nevar saglabāt konfigurācijas failu '%s': %s"
@@ -11007,18 +11007,14 @@ msgstr "Dzēst konfigurācijas failu no iepriekšējās versijas"
 msgid "label"
 msgstr ""
 
-#: ../src/ui/grisbi.ui.h:1
-#, fuzzy
-msgid "Importer"
-msgstr "Imports"
-
 #: ../src/ui/grisbi.ui.h:2
-msgid "Nouveau"
+msgid "New"
 msgstr ""
 
 #: ../src/ui/grisbi.ui.h:3
-msgid "Ouvrir"
-msgstr ""
+#, fuzzy
+msgid "Open"
+msgstr "_Atvērt..."
 
 #: ../share/grisbi.desktop.in.h:1
 msgid "Grisbi"
@@ -11028,6 +11024,10 @@ msgstr "Grisbi"
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Personālais finanšu vadītājs\n"
+
+#, fuzzy
+#~ msgid "Importer"
+#~ msgstr "Imports"
 
 #~ msgid "Error loading file '%s'"
 #~ msgstr "Kļūda ielādējot failu '%s'"
