@@ -1181,7 +1181,7 @@
               <placeholder/>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox3">
+              <object class="GtkVBox" id="vbox_archives">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -1202,17 +1202,106 @@
               <placeholder/>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox4">
+              <object class="GtkVBox" id="vbox_import">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkNotebook" id="notebook_import">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="show_border">False</property>
+                    <child>
+                      <object class="GtkVBox" id="vbox3">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkHBox" id="hbox18">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label2">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Import settings</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkVBox" id="vbox4">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkHBox" id="hbox19">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="label3">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">Import associations</property>
+                          </object>
+                          <packing>
+                            <property name="expand">True</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">1</property>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child type="tab">
+                      <placeholder/>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="padding">5</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
               </object>
               <packing>

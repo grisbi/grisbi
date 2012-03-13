@@ -386,14 +386,13 @@ static void grisbi_prefs_dir_chosen ( GtkWidget *button,
 
 /* RIGHT_PANEL : FILES - BACKUP */
 /**
- * Création de la page de détermination de la période de requête
+ * Création de la page de gestion des fichiers
  *
- * \param
+ * \param prefs
  *
- * \return la page
+ * \return
  */
-static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs,
-                        gint page )
+static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 {
     GrisbiAppConf *conf;
     GrisbiWindowEtat *etat;
@@ -588,6 +587,42 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs,
 }
 
 
+/**
+ * Création de la page de gestion des archives
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_setup_archives_page ( GrisbiPrefs *prefs )
+{
+    GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
+
+    conf = grisbi_app_get_conf ();
+    etat = grisbi_window_get_window_etat ();
+
+}
+
+
+/**
+ * Création de la page de gestion de l'importation des fichiers
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_setup_import_page ( GrisbiPrefs *prefs )
+{
+    GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
+
+    conf = grisbi_app_get_conf ();
+    etat = grisbi_window_get_window_etat ();
+
+}
+
+
 /* LEFT_PANEL */
 /**
  * met à jour la taille du panneau de gauche
@@ -630,11 +665,21 @@ static void grisbi_prefs_left_panel_populate_tree_model ( GtkTreeStore *tree_mod
     utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Main"), -1 );
 
     /* append page Fichiers */
-    grisbi_prefs_setup_files_page ( prefs, page );
+    grisbi_prefs_setup_files_page ( prefs );
     utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Files"), page );
     page++;
 
-    /* append group page "Display" */
+     /* append page Archives */
+    grisbi_prefs_setup_archives_page ( prefs );
+    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Archives"), page );
+    page++;
+
+     /* append page Import */
+    grisbi_prefs_setup_import_page ( prefs );
+    utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Import"), page );
+    page++;
+
+   /* append group page "Display" */
     utils_ui_left_panel_add_line ( tree_model, &iter, NULL, NULL, _("Display"), -1 );
     page++;
 
