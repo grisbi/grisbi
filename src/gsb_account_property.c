@@ -574,6 +574,8 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_comment),
                         0);
+
+    gtk_widget_set_size_request ( detail_commentaire, -1, 70 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window_text ), detail_commentaire );
 
     gtk_widget_show_all ( onglet );
