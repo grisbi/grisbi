@@ -839,7 +839,6 @@ static void grisbi_prefs_init ( GrisbiPrefs *prefs )
                         NULL );
 
     gtk_window_set_title ( GTK_WINDOW ( prefs ), _("Grisbi preferences") );
-    gtk_dialog_set_has_separator ( GTK_DIALOG ( prefs ), FALSE );
     gtk_window_set_destroy_with_parent ( GTK_WINDOW ( prefs ), TRUE );
 
     gtk_container_set_border_width ( GTK_CONTAINER ( prefs ), 5 );

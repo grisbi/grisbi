@@ -711,7 +711,7 @@ GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app )
 
     if ( tmp_app->priv->active_window != 0
      &&
-     !GTK_WIDGET_REALIZED ( GTK_WIDGET ( tmp_app->priv->active_window ) ) )
+     !gtk_widget_get_realized ( ( GTK_WIDGET ( tmp_app->priv->active_window ) ) ) )
         gtk_widget_realize ( GTK_WIDGET ( tmp_app->priv->active_window ) );
 
     return tmp_app->priv->active_window;
