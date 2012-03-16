@@ -327,6 +327,63 @@ void utils_togglebutton_set_label_position_unselect ( GtkWidget *togglebutton,
 }
 
 
+/**
+ * retourne l'index du radiobutton actif.
+ *
+ * \param radio_button
+ *
+ * \return index bouton actif
+ */
+gint utils_radiobutton_get_active_index ( GtkWidget *radiobutton )
+{
+    GSList *liste;
+    GSList *tmp_list;
+    gint index = 0;
+
+    liste = g_slist_copy ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( radiobutton ) ) );
+    tmp_list = g_slist_reverse ( liste );
+
+    while ( tmp_list )
+    {
+        GtkWidget *button;
+
+        button = tmp_list->data;
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
+            break;
+
+        index++;
+        tmp_list = tmp_list->next;
+    }
+
+    g_slist_free ( liste );
+
+    return index;
+}
+
+
+/**
+ * rend actif le button qui correspond à l'index passé en paramètre.
+ *
+ * \param radio_button
+ * \param index du bouton à rendre actif
+ *
+ * \return
+ */
+void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
+                        gint index )
+{
+    GSList *liste;
+    GSList *tmp_list;
+
+    liste = g_slist_copy ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( radiobutton ) ) );
+    tmp_list = g_slist_reverse ( liste );
+
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( g_slist_nth_data ( tmp_list, index ) ), TRUE );
+
+    g_slist_free ( liste );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

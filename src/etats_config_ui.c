@@ -2823,32 +2823,16 @@ GtkWidget *etats_config_ui_onglet_affichage_devises_create_page ( gint page )
  */
 gint etats_config_ui_buttons_radio_get_active_index ( const gchar *button_name )
 {
-    GtkWidget *radio_button;
-    GSList *liste;
-    GSList *tmp_list;
+    GtkWidget *radiobutton;
     gint index = 0;
 
-    radio_button = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, button_name ) );
+    radiobutton = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, button_name ) );
 
-    liste = g_slist_copy ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( radio_button ) ) );
-    tmp_list = g_slist_reverse ( liste );
-
-    while ( tmp_list )
-    {
-        GtkWidget *button;
-
-        button = tmp_list->data;
-        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
-            break;
-
-        index++;
-        tmp_list = tmp_list->next;
-    }
-
-    g_slist_free ( liste );
+    index = utils_radiobutton_get_active_index ( radiobutton );
 
     return index;
 }
+
 
 /**
  * rend actif le button qui correspond à l'index passé en paramètre.
@@ -2861,18 +2845,11 @@ gint etats_config_ui_buttons_radio_get_active_index ( const gchar *button_name )
 void etats_config_ui_buttons_radio_set_active_index ( const gchar *button_name,
                         gint index )
 {
-    GtkWidget *radio_button;
-    GSList *liste;
-    GSList *tmp_list;
+    GtkWidget *radiobutton;
 
-    radio_button = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, button_name ) );
+    radiobutton = GTK_WIDGET ( gtk_builder_get_object ( etats_config_builder, button_name ) );
 
-    liste = g_slist_copy ( gtk_radio_button_get_group ( GTK_RADIO_BUTTON ( radio_button ) ) );
-    tmp_list = g_slist_reverse ( liste );
-
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( g_slist_nth_data ( tmp_list, index ) ), TRUE );
-
-    g_slist_free ( liste );
+    utils_radiobutton_set_active_index ( radiobutton, index );
 }
 
 
