@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-15 22:29+0100\n"
+"POT-Creation-Date: 2012-03-19 19:56+0100\n"
 "PO-Revision-Date: 2012-02-15 21:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -52,40 +52,40 @@ msgstr "Geplante Buchung ausführen - Grisbi"
 #: ../src/accueil.c:462
 #, c-format
 msgid "Account balances in %s at %s"
-msgstr "Salden der Konten in %s am %s"
+msgstr "Bargeld-/Bankkonten in %s am %s"
 
 #: ../src/accueil.c:466
 #, c-format
 msgid "Account balances in %s"
-msgstr "Salden der Konten in %s"
+msgstr "Bargeld-/Bankkonten in %s"
 
 #: ../src/accueil.c:543
 #, c-format
 msgid "Liabilities accounts balances in %s at %s"
-msgstr "Salden der Kreditkonten in %s am %s"
+msgstr "Kreditkonten in %s am %s"
 
 #: ../src/accueil.c:547
 #, c-format
 msgid "Liabilities accounts balances in %s"
-msgstr "Salden der Kreditkonten in %s"
+msgstr "Kreditkonten in %s"
 
 #: ../src/accueil.c:623
 #, c-format
 msgid "Assets accounts balances in %s at %s"
-msgstr "Salden der Anlagekonten in %s am %s"
+msgstr "Anlagekonten in %s am %s"
 
 #: ../src/accueil.c:627
 #, c-format
 msgid "Assets accounts balances in %s"
-msgstr "Salden der Anlagekonten in %s"
+msgstr "Anlagekonten in %s"
 
 #: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
 msgid "Additional balance"
-msgstr "Zusätzlicher Saldo"
+msgstr "Virtuelles Konto"
 
 #: ../src/accueil.c:697
 msgid "Additional balances"
-msgstr "Zusätzliche Salden"
+msgstr "Virtuelle Konten"
 
 #: ../src/accueil.c:700 ../src/bet_finance_ui.c:1639
 msgid " at "
@@ -101,19 +101,19 @@ msgstr "aktueller Saldo"
 
 #: ../src/accueil.c:1019
 msgid "Partial balance: "
-msgstr "Partieller Saldo: "
+msgstr "Teilsaldo: "
 
 #: ../src/accueil.c:1021
 msgid "Partial balances: "
-msgstr "Partielle Salden: "
+msgstr "Teilsaldo: "
 
 #: ../src/accueil.c:1100
 msgid "Global balance: "
-msgstr "Alle Salden: "
+msgstr "Gesamtsaldo: "
 
 #: ../src/accueil.c:1104
 msgid "Global balances: "
-msgstr "Alle Salden: "
+msgstr "Gesamtsaldo: "
 
 #: ../src/accueil.c:1161
 #, c-format
@@ -182,11 +182,11 @@ msgstr "Berechnung der Salden"
 #: ../src/accueil.c:1995
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
-msgstr "Geplante Buchungen vom Konto in die Berechnung miteinbeziehen"
+msgstr "Zukünftige Buchungen in die Berechnung miteinbeziehen"
 
 #: ../src/accueil.c:2005
 msgid "Balances partials of the list of accounts"
-msgstr "Partielle Salden der Konten"
+msgstr "Teilsalden"
 
 #. Name entry
 #: ../src/accueil.c:2096 ../src/bet_future.c:2142
@@ -200,11 +200,11 @@ msgstr "Name"
 
 #: ../src/accueil.c:2105
 msgid "Accounts list"
-msgstr "Kontoliste"
+msgstr "Konten"
 
 #: ../src/accueil.c:2121
 msgid "Colorize"
-msgstr "Farben"
+msgstr "Färbig"
 
 #: ../src/accueil.c:2129
 msgid "Account kind"
@@ -822,13 +822,13 @@ msgstr "Tilgungen geplant vom Anfang anzeigen"
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1530 ../src/bet_tab.c:2886
+#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1529 ../src/bet_tab.c:2885
 msgid "Print the array"
 msgstr "Auflistung Drucken"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1948 ../src/bet_tab.c:1540
+#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1948 ../src/bet_tab.c:1539
 msgid "Export the array"
 msgstr "Auflistung Exportieren"
 
@@ -845,7 +845,7 @@ msgstr "Kredit Betrag: "
 #: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:771 ../src/bet_tab.c:657
 #: ../src/etats_affiche.c:2409 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
-#: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:162
+#: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:163
 #: ../src/gsb_scheduler_list.c:514 ../src/gsb_transactions_list.c:170
 #: ../src/import.c:3326 ../src/import_csv.c:81
 msgid "Date"
@@ -887,12 +887,12 @@ msgstr "Rückzahlung"
 msgid "Credits"
 msgstr "Einnahmen"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2883
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2882
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:381
 msgid "Print"
 msgstr "Drucken"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2896
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2895
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:204 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -902,7 +902,7 @@ msgstr "Export"
 msgid "credit.csv"
 msgstr "credit.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3022
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3021
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
@@ -1119,14 +1119,14 @@ msgstr "Automatische Erhöhung pro Monat"
 msgid "Check the box to replace a planned operation"
 msgstr "Die 'Checkbox' auswählen um die geplante Buchung zu ersetzen"
 
-#: ../src/bet_future.c:2093 ../src/gsb_account_property.c:694
+#: ../src/bet_future.c:2093 ../src/gsb_account_property.c:696
 #: ../src/gsb_data_partial_balance.c:217
 msgid "Cash account"
 msgstr "Bargeldkonto"
 
 #: ../src/bet_future.c:2119
 msgid "Partial balance"
-msgstr "Partieller Saldo"
+msgstr "Teilsaldo"
 
 #. Description entry
 #: ../src/bet_future.c:2151 ../src/categories_onglet.c:757 ../src/import.c:474
@@ -1280,95 +1280,95 @@ msgstr ""
 msgid "Description"
 msgstr "Beschreibung"
 
-#: ../src/bet_tab.c:727 ../src/export_csv.c:811 ../src/gsb_reconcile.c:165
+#: ../src/bet_tab.c:727 ../src/export_csv.c:811 ../src/gsb_reconcile.c:166
 #: ../src/gsb_scheduler_list.c:515 ../src/gsb_transactions_list.c:176
 #: ../src/gsb_transactions_list.c:3293 ../src/import_csv.c:90
 msgid "Balance"
 msgstr "Saldo"
 
-#: ../src/bet_tab.c:823 ../src/bet_tab.c:836 ../src/bet_tab.c:1028
-#: ../src/bet_tab.c:2498 ../src/bet_tab.c:2503
+#: ../src/bet_tab.c:823 ../src/bet_tab.c:836 ../src/bet_tab.c:1027
+#: ../src/bet_tab.c:2497 ../src/bet_tab.c:2502
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "Umbuchung: %s <-> %s"
 
-#: ../src/bet_tab.c:1366
+#: ../src/bet_tab.c:1365
 msgid "Subtract to the balance"
 msgstr "Vom Saldo abziehen"
 
-#: ../src/bet_tab.c:1373
+#: ../src/bet_tab.c:1372
 msgid "Adding to the balance"
 msgstr "Zum Saldo hinzufügen"
 
 #. Insert Row
-#: ../src/bet_tab.c:1390
+#: ../src/bet_tab.c:1389
 msgid "Insert Row"
 msgstr "Zeile einfügen"
 
-#: ../src/bet_tab.c:1406 ../src/bet_tab.c:1420 ../src/bet_tab.c:1441
-#: ../src/bet_tab.c:1500
+#: ../src/bet_tab.c:1405 ../src/bet_tab.c:1419 ../src/bet_tab.c:1440
+#: ../src/bet_tab.c:1499
 msgid "Delete selection"
 msgstr "Auswahl löschen"
 
-#: ../src/bet_tab.c:1431
+#: ../src/bet_tab.c:1430
 msgid "Change selection"
 msgstr "Auswahl ändern"
 
-#: ../src/bet_tab.c:1452
+#: ../src/bet_tab.c:1451
 msgid "Delete all occurences of the selection"
 msgstr "Ein oder alle Vorkommen von der Auswahl löschen"
 
-#: ../src/bet_tab.c:1467
+#: ../src/bet_tab.c:1466
 msgid "Convert selection to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
-#: ../src/bet_tab.c:1490
+#: ../src/bet_tab.c:1489
 msgid "Insert the balance of a cash account"
 msgstr "Den Saldo von einem Bargeldkonto eingeben"
 
 #. redo item
-#: ../src/bet_tab.c:1516
+#: ../src/bet_tab.c:1515
 msgid "Reset data"
 msgstr "Daten zurücksetzen"
 
-#: ../src/bet_tab.c:1859
+#: ../src/bet_tab.c:1858
 msgid " (still available)"
 msgstr " (weiterhin verfügbar)"
 
-#: ../src/bet_tab.c:1868 ../src/bet_tab.c:1890
+#: ../src/bet_tab.c:1867 ../src/bet_tab.c:1889
 msgid " (budget exceeded)"
 msgstr " (Budget überschritten)"
 
-#: ../src/bet_tab.c:1881
+#: ../src/bet_tab.c:1880
 msgid " (yet to receive)"
 msgstr " (noch nicht verfügbar)"
 
-#: ../src/bet_tab.c:2421 ../src/bet_tab.c:2471 ../src/bet_tab.c:2531
+#: ../src/bet_tab.c:2420 ../src/bet_tab.c:2470 ../src/bet_tab.c:2530
 msgid "No data by default"
 msgstr "Keine Daten per Voreinstellung"
 
-#: ../src/bet_tab.c:2429 ../src/bet_tab.c:2479 ../src/bet_tab.c:2537
+#: ../src/bet_tab.c:2428 ../src/bet_tab.c:2478 ../src/bet_tab.c:2536
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Keine Kategorie"
 
-#: ../src/bet_tab.c:2437 ../src/bet_tab.c:2487 ../src/bet_tab.c:2543
+#: ../src/bet_tab.c:2436 ../src/bet_tab.c:2486 ../src/bet_tab.c:2542
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "Kein Budgeteintrag"
 
-#: ../src/bet_tab.c:2899 ../src/bet_tab.c:2998
+#: ../src/bet_tab.c:2898 ../src/bet_tab.c:2997
 msgid "Export the array of forecast"
 msgstr "Prognose exportieren - Grisbi"
 
-#: ../src/bet_tab.c:2956
+#: ../src/bet_tab.c:2955
 msgid "Balance at "
 msgstr "Bilanz am "
 
-#: ../src/bet_tab.c:3005
+#: ../src/bet_tab.c:3004
 msgid "forecast.csv"
 msgstr "forecast.csv"
 
@@ -4154,7 +4154,7 @@ msgstr "Saldoinformationen"
 
 #. set the initial balance
 #: ../src/gsb_account_property.c:522
-#: ../src/gsb_assistant_reconcile_config.c:437 ../src/gsb_reconcile.c:216
+#: ../src/gsb_assistant_reconcile_config.c:437 ../src/gsb_reconcile.c:217
 #: ../src/gsb_reconcile_config.c:252
 msgid "Initial balance: "
 msgstr "Saldo Anfang: "
@@ -4173,25 +4173,25 @@ msgstr "Mindestsaldo festgelegt: "
 msgid "Comments"
 msgstr "Notizen"
 
-#: ../src/gsb_account_property.c:694 ../src/gsb_assistant_account.c:431
+#: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:431
 #: ../src/gsb_data_partial_balance.c:229
 msgid "Bank account"
 msgstr "Bankkonto"
 
-#: ../src/gsb_account_property.c:694 ../src/gsb_assistant_account.c:444
+#: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:444
 #: ../src/gsb_data_partial_balance.c:221
 #, c-format
 msgid "Liabilities account"
 msgstr "Kreditkonto"
 
-#: ../src/gsb_account_property.c:694 ../src/gsb_assistant_account.c:440
+#: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
 #: ../src/gsb_data_partial_balance.c:225
 #, c-format
 msgid "Assets account"
 msgstr "Anlagekonto"
 
 #. ask for the currency of the transactions
-#: ../src/gsb_account_property.c:814
+#: ../src/gsb_account_property.c:816
 #, c-format
 msgid ""
 "You are changing the currency of the account, do you want to change the "
@@ -4208,11 +4208,11 @@ msgstr ""
 "\n"
 "Archivierte und abgestimmte Buchungen werden dadurch nicht verändert."
 
-#: ../src/gsb_account_property.c:817
+#: ../src/gsb_account_property.c:819
 msgid "Change the transactions currency"
 msgstr "Die Währung der Buchungen ändern"
 
-#: ../src/gsb_account_property.c:1032
+#: ../src/gsb_account_property.c:1034
 #, c-format
 msgid "Your IBAN number is not correct. Please check your entry."
 msgstr "Die IBAN Nummer ist ungültig. Bitte Dateneingabe prüfen."
@@ -5129,7 +5129,7 @@ msgid "Fill the fields and click the button \"Create the new reconcile\""
 msgstr "Daten eingeben und danach \"Eine neue Abstimmung erstellen\" aufrufen"
 
 #. set the final balance
-#: ../src/gsb_assistant_reconcile_config.c:448 ../src/gsb_reconcile.c:224
+#: ../src/gsb_assistant_reconcile_config.c:448 ../src/gsb_reconcile.c:225
 #: ../src/gsb_reconcile_config.c:266
 msgid "Final balance: "
 msgstr "Saldo Ende: "
@@ -5249,7 +5249,7 @@ msgid "No selection found, the transactions are not modified."
 msgstr ""
 "Es wurde keine Auswahl getroffen, die Buchungen werden nicht zugeordnet."
 
-#: ../src/gsb_bank.c:326 ../src/gsb_reconcile.c:442
+#: ../src/gsb_bank.c:326 ../src/gsb_reconcile.c:449
 msgid "None"
 msgstr "Kein"
 
@@ -7042,7 +7042,7 @@ msgstr "Es wurde nur ein Konto ausgewählt."
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
-"Der Name des partiellen Saldo und die Liste der Konten müssen vollständig "
+"Der Name vom Teilsaldo und die Liste der Konten müssen vollständig "
 "eingegeben werden."
 
 #: ../src/gsb_data_partial_balance.c:1296
@@ -7057,15 +7057,15 @@ msgstr "Achtung - fehlende Verknüpfung zwischen den Währungen"
 
 #: ../src/gsb_data_partial_balance.c:1533
 msgid "Add a partial balance"
-msgstr "Partiellen Saldo hinzufügen"
+msgstr "Teilsaldo hinzufügen"
 
 #: ../src/gsb_data_partial_balance.c:1540
 msgid "Modify a partial balance"
-msgstr "Partiellen Saldo bearbeiten"
+msgstr "Teilsaldo bearbeiten"
 
 #: ../src/gsb_data_partial_balance.c:1548
 msgid "Partial balance details"
-msgstr "Partieller Saldo Details"
+msgstr "Teilsaldo Details"
 
 #: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
 msgid "Details"
@@ -7088,11 +7088,11 @@ msgstr "Negative Salden in Rot darstellen"
 
 #: ../src/gsb_data_partial_balance.c:1626
 msgid "Enter the currency of the balance part"
-msgstr "Den Namen vom partiellen Saldo eingeben"
+msgstr "Den Namen vom Teilsaldo eingeben"
 
 #: ../src/gsb_data_partial_balance.c:1638
 msgid "Select the currency of the partial balance: "
-msgstr "Basiswährung für den partiellen Saldo auswählen: "
+msgstr "Basiswährung für den Teilsaldo auswählen: "
 
 #: ../src/gsb_data_payee.c:420
 msgid "No payee defined"
@@ -8326,11 +8326,11 @@ msgstr "Zahlungsweise für Neuzuordnung: "
 msgid "with plugins"
 msgstr "mit den Modulen"
 
-#: ../src/gsb_reconcile.c:134
+#: ../src/gsb_reconcile.c:135
 msgid "Reconciliation reference: "
 msgstr "Abstimmung Nr.: "
 
-#: ../src/gsb_reconcile.c:139
+#: ../src/gsb_reconcile.c:140
 msgid ""
 "If reconciliation reference ends in a digit, it is automatically incremented "
 "at each reconciliation.\n"
@@ -8341,36 +8341,36 @@ msgstr ""
 "Wenn Sie die Abstimmungen nicht nachverfolgen wollen können Sie diese "
 "Eingabe leer lassen."
 
-#: ../src/gsb_reconcile.c:232
+#: ../src/gsb_reconcile.c:233
 msgid "Checking: "
 msgstr "Überprüfen: "
 
-#: ../src/gsb_reconcile.c:243
+#: ../src/gsb_reconcile.c:244
 msgid "Variance: "
 msgstr "Abweichung: "
 
-#: ../src/gsb_reconcile.c:258
+#: ../src/gsb_reconcile.c:259
 msgid "Sort by method of payment"
 msgstr "Nach Zahlungsweise sortieren"
 
 #. set the title
-#: ../src/gsb_reconcile.c:467
+#: ../src/gsb_reconcile.c:474
 #, c-format
 msgid " <b>%s reconciliation</b> "
 msgstr " <b>%s Abstimmung</b> "
 
-#: ../src/gsb_reconcile.c:540
+#: ../src/gsb_reconcile.c:547
 msgid ""
 "There is a variance in balances, check that both final balance and initial "
 "balance minus marked transactions are equal."
 msgstr "Es ist eine Abweichung zur errechneten Prüfsumme aufgetreten."
 
-#: ../src/gsb_reconcile.c:541 ../src/gsb_reconcile.c:550
-#: ../src/gsb_reconcile.c:562 ../src/gsb_reconcile.c:570
+#: ../src/gsb_reconcile.c:548 ../src/gsb_reconcile.c:557
+#: ../src/gsb_reconcile.c:569 ../src/gsb_reconcile.c:577
 msgid "Reconciliation can't be completed."
 msgstr "Die Abstimmung kann nicht fertiggestellt werden."
 
-#: ../src/gsb_reconcile.c:549
+#: ../src/gsb_reconcile.c:556
 msgid ""
 "There is already a reconcile with that name, you must use another name or "
 "let it free.\n"
@@ -8382,12 +8382,12 @@ msgstr ""
 "Wenn die Abstimmung mit einer Nummer endet,\n"
 "wird diese automatisch inkrementiert."
 
-#: ../src/gsb_reconcile.c:559
+#: ../src/gsb_reconcile.c:566
 #, c-format
 msgid "Invalid date: '%s'"
 msgstr "Ungültiges Datum: '%s'"
 
-#: ../src/gsb_reconcile.c:569
+#: ../src/gsb_reconcile.c:576
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8396,7 +8396,7 @@ msgstr ""
 "erfassen.\n"
 "Die Nummer wird bei der nächsten Abstimmung automatisch inkrementiert"
 
-#: ../src/gsb_reconcile.c:582
+#: ../src/gsb_reconcile.c:589
 #, c-format
 msgid "Last statement: %s"
 msgstr "Letzte Abstimmung: %s"
