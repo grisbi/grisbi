@@ -35,8 +35,9 @@
 #include "grisbi_prefs.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "gsb_file.h"
-#include "menu.h"
+#include "grisbi_window.h"
+#include "gsb_dirs.h"
+#include "parametres.h"
 #include "utils.h"
 #include "utils_buttons.h"
 #include "utils_gtkbuilder.h"
@@ -84,6 +85,20 @@ struct _GrisbiPrefsPrivate
     GtkWidget           *checkbutton_make_backup_every_minutes;
     GtkWidget           *spinbutton_make_backup_nb_minutes;
     GtkWidget           *filechooserbutton_backup;
+
+    /* notebook import */
+    GtkWidget           *notebook_import;
+    GtkWidget           *spinbutton_valeur_echelle_recherche_date_import;
+    GtkWidget           *checkbutton_get_fusion_import_transactions;
+    GtkWidget           *checkbutton_get_categorie_for_payee;
+    GtkWidget           *checkbutton_get_extract_number_for_check;
+    GtkWidget           *radiobutton_get_fyear_by_value_date;
+    GtkWidget           *treeview_associations;
+    GtkWidget           *button_associations_add;
+    GtkWidget           *button_associations_remove;
+    GtkWidget           *hbox_associations_combo_payees;
+    GtkWidget           *combo_associations_payees;
+    GtkWidget           *entry_associations_search_str;
 };
 
 
@@ -175,7 +190,7 @@ static void grisbi_prefs_sensitive_etat_widgets ( GrisbiPrefs *prefs,
                         gboolean sensitive )
 {
     gtk_widget_set_sensitive ( prefs->priv->checkbutton_crypt_file, sensitive );
-
+    gtk_widget_set_sensitive ( prefs->priv->notebook_import, sensitive );
 
 }
 
@@ -239,6 +254,30 @@ static gboolean grisbi_prefs_initialise_builder ( GrisbiPrefs *prefs )
     prefs->priv->filechooserbutton_backup = GTK_WIDGET ( gtk_builder_get_object (
                         grisbi_prefs_builder, "filechooserbutton_backup" ) );
 
+    /* notebook import - onglet settings */
+    prefs->priv->notebook_import = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "notebook_import" ) );
+    prefs->priv->spinbutton_valeur_echelle_recherche_date_import = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "spinbutton_valeur_echelle_recherche_date_import" ) );
+    prefs->priv->checkbutton_get_fusion_import_transactions = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "checkbutton_get_fusion_import_transactions" ) );
+    prefs->priv->checkbutton_get_categorie_for_payee = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "checkbutton_get_categorie_for_payee" ) );
+    prefs->priv->checkbutton_get_extract_number_for_check = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "checkbutton_get_extract_number_for_check" ) );
+    prefs->priv->radiobutton_get_fyear_by_value_date = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "radiobutton_get_fyear_by_value_date" ) );
+
+    /* notebook import - onglet associations */
+    prefs->priv->treeview_associations = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "treeview_associations" ) );
+    prefs->priv->button_associations_add = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "button_associations_add" ) );
+    prefs->priv->button_associations_remove = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "button_associations_remove" ) );
+    prefs->priv->hbox_associations_combo_payees = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "hbox_associations_combo_payees" ) );
+    prefs->priv->entry_associations_search_str = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "entry_associations_search_str" ) );
 
     return TRUE;
 }
@@ -248,11 +287,11 @@ static gboolean grisbi_prefs_initialise_builder ( GrisbiPrefs *prefs )
 /**
  * Set a boolean integer to the value of a checkbutton.  Normally called
  * via a GTK "toggled" signal handler.
- * 
+ *
  * \param checkbutton a pointer to a checkbutton widget.
  * \param value to change
  */
-static void grisbi_prefs_checkbutton_changed ( GtkToggleButton *checkbutton,
+static void grisbi_prefs_conf_checkbutton_changed ( GtkToggleButton *checkbutton,
                         gboolean *value )
 {
 
@@ -261,6 +300,26 @@ static void grisbi_prefs_checkbutton_changed ( GtkToggleButton *checkbutton,
         grisbi_app_conf_mutex_lock ();
         *value = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) );
         grisbi_app_conf_mutex_unlock ();
+    }
+}
+
+
+/**
+ * Set a boolean integer to the value of a checkbutton.  Normally called
+ * via a GTK "toggled" signal handler.
+ *
+ * \param checkbutton a pointer to a checkbutton widget.
+ * \param value to change
+ */
+static void grisbi_prefs_etat_checkbutton_changed ( GtkToggleButton *checkbutton,
+                        gboolean *value )
+{
+
+    if ( value )
+    {
+        grisbi_window_etat_mutex_lock ();
+        *value = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbutton ) );
+        grisbi_window_etat_mutex_unlock ();
     }
 }
 
@@ -303,7 +362,7 @@ static void grisbi_prefs_encryption_toggled ( GtkToggleButton *checkbutton,
     if ( value )
     {
         *value = state;
-        gsb_file_set_modified ( TRUE );
+        parametres_files_set_modified ( TRUE );
     }
 
     if ( state )
@@ -335,7 +394,7 @@ static void grisbi_prefs_spinbutton_changed ( GtkSpinButton *spinbutton,
         *value = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spinbutton ) );
         grisbi_app_conf_mutex_unlock ();
 
-        affiche_derniers_fichiers_ouverts ();
+        parametres_affiche_derniers_fichiers_ouverts ();
 
         button = g_object_get_data ( G_OBJECT ( spinbutton ), "button" );
         if ( button && GTK_IS_TOGGLE_BUTTON ( button ) )
@@ -370,9 +429,9 @@ static void grisbi_prefs_dir_chosen ( GtkWidget *button,
 
     grisbi_app_conf_mutex_lock ();
     if ( strcmp ( dirname, "account_files_path" ) == 0 )
-        gsb_file_set_account_files_path ( tmp_dir, grisbi_app_get_conf () );
+        parametres_files_set_account_file_path ( tmp_dir, grisbi_app_get_conf () );
     else
-        gsb_file_set_backup_path ( tmp_dir, grisbi_app_get_conf () );
+        parametres_files_set_backup_path ( tmp_dir, grisbi_app_get_conf () );
     grisbi_app_conf_mutex_unlock ();
 
     g_signal_handlers_unblock_by_func ( button,
@@ -384,7 +443,7 @@ static void grisbi_prefs_dir_chosen ( GtkWidget *button,
 }
 
 
-/* RIGHT_PANEL : FILES - BACKUP */
+/* RIGHT_PANEL : FILES - BACKUP PAGE */
 /**
  * Création de la page de gestion des fichiers
  *
@@ -428,7 +487,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_load_last_file,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->load_last_file );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_sauvegarde_auto" ),
@@ -438,7 +497,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_sauvegarde_auto,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->sauvegarde_auto );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_force_enregistrement" ),
@@ -448,7 +507,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_force_enregistrement,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->force_enregistrement );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_compress_file" ),
@@ -458,7 +517,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_compress_file,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->compress_file );
 
     if ( IS_DEVELOPMENT_VERSION )
@@ -472,7 +531,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
         g_signal_connect ( prefs->priv->checkbutton_stable_config_file_model,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->stable_config_file_model );
     }
     else
@@ -525,7 +584,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_make_bakup_single_file,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->make_bakup_single_file );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_compress_backup" ),
@@ -535,7 +594,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_compress_backup,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->compress_backup );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_sauvegarde_demarrage" ),
@@ -545,7 +604,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_sauvegarde_demarrage,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->sauvegarde_demarrage );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_make_backup" ),
@@ -555,7 +614,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_make_backup,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->make_backup );
 
     g_signal_connect ( gtk_builder_get_object ( grisbi_prefs_builder, "eventbox_make_backup_every_minutes" ),
@@ -565,7 +624,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
     g_signal_connect ( prefs->priv->checkbutton_make_backup_every_minutes,
                         "toggled",
-                        G_CALLBACK ( grisbi_prefs_checkbutton_changed ),
+                        G_CALLBACK ( grisbi_prefs_conf_checkbutton_changed ),
                         &conf->make_backup_every_minutes );
 
     /* callback for spinbutton_make_backup_nb_minutes */
@@ -588,6 +647,30 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
 
 
 /**
+ * raffraichissement de la page de gestion des fichiers
+ *
+ * \param prefs
+ *
+ * \return
+ */
+static void grisbi_prefs_refresh_files_page ( GrisbiPrefs *prefs )
+{
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_window_etat ();
+
+    g_signal_handlers_block_by_func ( prefs->priv->checkbutton_crypt_file,
+                        G_CALLBACK ( grisbi_prefs_encryption_toggled ),
+                        NULL );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_crypt_file ),
+                        etat->crypt_file );
+    g_signal_handlers_unblock_by_func ( prefs->priv->checkbutton_crypt_file,
+                        G_CALLBACK ( grisbi_prefs_encryption_toggled ),
+                        NULL );
+}
+
+/* RIGHT_PANEL : ARCHIVES PAGE */
+/**
  * Création de la page de gestion des archives
  *
  * \param prefs
@@ -605,6 +688,7 @@ static void grisbi_prefs_setup_archives_page ( GrisbiPrefs *prefs )
 }
 
 
+/* RIGHT_PANEL : IMPORT PAGE */
 /**
  * Création de la page de gestion de l'importation des fichiers
  *
@@ -616,10 +700,84 @@ static void grisbi_prefs_setup_import_page ( GrisbiPrefs *prefs )
 {
     GrisbiAppConf *conf;
     GrisbiWindowEtat *etat;
+    GtkWidget *box;
+    GtkWidget *child;
+    GdkPixbuf *pixbuf;
 
     conf = grisbi_app_get_conf ();
     etat = grisbi_window_get_window_etat ();
 
+    /* set the icon for settings tab */
+    box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "hbox_import_settings" ) );
+    child = gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
+                        "import.png", NULL ) );
+    gtk_box_pack_start ( GTK_BOX ( box ), child, FALSE, FALSE, 0 );
+    gtk_box_reorder_child ( GTK_BOX ( box ), child, 0 );
+    gtk_widget_show ( child );
+
+    /* set the variables for settings tab */
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( prefs->priv->spinbutton_valeur_echelle_recherche_date_import ),
+                        (gdouble) etat->valeur_echelle_recherche_date_import );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_get_fusion_import_transactions ),
+                        etat->get_fusion_import_transactions );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_get_categorie_for_payee ),
+                        etat->get_categorie_for_payee );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_get_extract_number_for_check ),
+                        etat->get_extract_number_for_check );
+    utils_radiobutton_set_active_index ( prefs->priv->radiobutton_get_fyear_by_value_date,
+                        etat->get_fyear_by_value_date );
+
+    /* Connect signal */
+    g_signal_connect ( G_OBJECT ( prefs->priv->spinbutton_valeur_echelle_recherche_date_import ),
+                        "value-changed",
+                        G_CALLBACK ( grisbi_prefs_spinbutton_changed ),
+                        &etat->valeur_echelle_recherche_date_import );
+
+    g_signal_connect ( prefs->priv->checkbutton_get_fusion_import_transactions,
+                        "toggled",
+                        G_CALLBACK ( grisbi_prefs_etat_checkbutton_changed ),
+                        &etat->get_fusion_import_transactions );
+
+    g_signal_connect ( prefs->priv->checkbutton_get_categorie_for_payee,
+                        "toggled",
+                        G_CALLBACK ( grisbi_prefs_etat_checkbutton_changed ),
+                        &etat->get_categorie_for_payee );
+
+    g_signal_connect ( prefs->priv->checkbutton_get_extract_number_for_check,
+                        "toggled",
+                        G_CALLBACK ( grisbi_prefs_etat_checkbutton_changed ),
+                        &etat->get_extract_number_for_check );
+
+    g_signal_connect ( prefs->priv->radiobutton_get_fyear_by_value_date,
+                        "toggled",
+                        G_CALLBACK ( grisbi_prefs_etat_checkbutton_changed ),
+                        &etat->get_fyear_by_value_date );
+
+
+    /* set the icon for import_associations tab */
+    box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "hbox_import_associations" ) );
+    pixbuf = gdk_pixbuf_new_from_file_at_size ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
+                        "payees.png", NULL ),
+                        24,
+                        24,
+                        NULL );
+    if ( pixbuf )
+    {
+        child = gtk_image_new_from_pixbuf ( pixbuf );
+        gtk_box_pack_start ( GTK_BOX ( box ), child, FALSE, FALSE, 0 );
+        gtk_box_reorder_child ( GTK_BOX ( box ), child, 0 );
+        gtk_widget_show ( child );
+    }
+
+    /* set the variables for import_associations tab */
+    parametres_import_associations_init_treeview ( prefs->priv->treeview_associations );
+    prefs->priv->combo_associations_payees = parametres_import_associations_get_combo_payees ( etat );
+    gtk_box_pack_start ( GTK_BOX ( prefs->priv->hbox_associations_combo_payees ),
+                        prefs->priv->combo_associations_payees,
+                        TRUE,
+                        TRUE,
+                        0 );
+    parametres_import_associations_init_callback ();
 }
 
 
@@ -831,6 +989,9 @@ static void grisbi_prefs_init ( GrisbiPrefs *prefs )
     if ( !grisbi_prefs_initialise_builder ( prefs ) )
         exit ( 1 );
 
+    /* Attache prefs au gtk_builder permet de retrouver les widgets créés en interne */
+    g_object_set_data ( G_OBJECT ( grisbi_prefs_builder ), "prefs", prefs );
+
     gtk_dialog_add_buttons ( GTK_DIALOG ( prefs ),
                         GTK_STOCK_CLOSE,
                         GTK_RESPONSE_CLOSE,
@@ -909,26 +1070,51 @@ void grisb_prefs_show_dialog ( GrisbiWindow *parent )
 }
 
 
+/* FONCTIONS UTILITAIRES */
 /**
  * retourne le widget demandé
  *
- * \param
+ * \param nom du widget
  *
- * \return
+ * \return le widget demandé
  */
-GtkWidget *grisbi_prefs_widget_get_widget_by_name ( const gchar *name )
+GtkWidget *grisbi_prefs_get_widget_by_name ( const gchar *name )
 {
-    return utils_gtkbuilder_get_widget_by_name ( grisbi_prefs_builder, name, NULL);
+    GrisbiPrefs *prefs = g_object_get_data ( G_OBJECT ( grisbi_prefs_builder ), "prefs" );
+
+    if ( strcmp ( name, "combo_associations_payees" ) == 0 )
+        return prefs->priv->combo_associations_payees;
+    else
+        return utils_gtkbuilder_get_widget_by_name ( grisbi_prefs_builder, name, NULL);
 }
 
 
 /**
+ * remet à jour les préférences suite à chargement fichier
  *
- *
- * \param parent
+ * \param
  *
  * \return
  **/
+void grisbi_prefs_refresh_preferences ( gboolean new_file )
+{
+    GrisbiPrefs *prefs;
+
+    if ( grisbi_prefs_dialog == NULL )
+        return;
+
+    prefs = g_object_get_data ( G_OBJECT ( grisbi_prefs_builder ), "prefs" );
+
+    if ( new_file )
+        grisbi_prefs_sensitive_etat_widgets ( prefs, TRUE );
+    else
+        grisbi_prefs_sensitive_etat_widgets ( prefs, FALSE );
+
+    grisbi_prefs_refresh_files_page ( prefs );
+    grisbi_prefs_setup_import_page ( prefs );
+}
+
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

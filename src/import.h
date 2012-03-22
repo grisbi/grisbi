@@ -119,20 +119,22 @@ struct import_format
 /* START_DECLARATION */
 gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
                                         struct struct_payee_asso *assoc_2);
-GtkWidget *gsb_import_associations_gere_tiers ( void );
+GtkWidget *gsb_import_associations_get_combo_payees ( GrisbiWindowEtat *etat );
+void gsb_import_associations_init_callback ( void );
+void gsb_import_associations_init_treeview ( GtkTreeView *tree_view );
 void gsb_import_associations_init_variables ( void );
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str );
 gboolean gsb_import_by_rule ( gint rule );
 gchar *gsb_import_formats_get_list_formats_to_string ( void );
-G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation * account );
-G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation * account );
-GSList *import_selected_files ( GtkWidget * assistant );
+G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation *account );
+G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation *account );
+GSList *import_selected_files ( GtkWidget *assistant );
 void importer_fichier ( void );
 GtkWidget *onglet_importation ( void );
 G_MODULE_EXPORT void register_import_format ( struct import_format *format );
 void register_import_formats ( void );
-G_MODULE_EXPORT gchar * unique_imported_name ( gchar * account_name );
+G_MODULE_EXPORT gchar * unique_imported_name ( gchar *account_name );
 /* END_DECLARATION */
 
 

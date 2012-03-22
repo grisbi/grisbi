@@ -41,6 +41,7 @@
 #include "bet_graph.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
+#include "grisbi_app.h"
 #include "gsb_calendar.h"
 #include "gsb_color.h"
 #include "gsb_currency.h"

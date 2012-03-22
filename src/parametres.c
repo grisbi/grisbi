@@ -50,6 +50,7 @@
 #include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
+#include "gsb_data_payee.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_config.h"
@@ -61,6 +62,7 @@
 #include "gsb_reconcile_sort_config.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
+#include "gtk_combofix.h"
 #include "import.h"
 #include "imputation_budgetaire.h"
 #include "menu.h"
@@ -252,62 +254,66 @@ gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
  */
 gboolean preferences ( gint page )
 {
-    GtkWidget *hbox, *tree;
     GtkTreeIter iter, iter2;
-    GtkWidget *hpaned;
     GrisbiAppConf *conf;
 
     devel_debug_int (page);
     conf = grisbi_app_get_conf ( );
 
-    if ( gsb_gui_navigation_get_current_page ( ) == - 1 )
-        return FALSE;
+/*     if ( gsb_gui_navigation_get_current_page ( ) == - 1 )
+ *         return FALSE;
+ */
 
     /* Create dialog */
-    fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
-                        GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
-                        GTK_DIALOG_MODAL,
-                        GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-                        NULL );
-
-    if ( conf->prefs_width )
-        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ),
-                        conf->prefs_width, -1 );
-    gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
-    gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
-
+/*     fenetre_preferences = gtk_dialog_new_with_buttons (_("Grisbi preferences"),
+ *                         GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
+ *                         GTK_DIALOG_MODAL,
+ *                         GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
+ *                         NULL );
+ * 
+ *     if ( conf->prefs_width )
+ *         gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ),
+ *                         conf->prefs_width, -1 );
+ *     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
+ *     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
+ * 
+ */
     /* Create List & Tree for topics */
-    tree = create_preferences_tree();
-    hpaned = gtk_hpaned_new();
-    gtk_paned_add1 ( GTK_PANED(hpaned), tree );
-    hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
+/*     tree = create_preferences_tree();
+ *     hpaned = gtk_hpaned_new();
+ *     gtk_paned_add1 ( GTK_PANED(hpaned), tree );
+ *     hbox = gtk_hbox_new ( FALSE, 0 );
+ *     gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
+ */
 
     /* Frame for preferences */
-    preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
-    gtk_notebook_set_show_border ( preference_frame, FALSE );
-    gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
-    gtk_notebook_set_scrollable ( preference_frame, TRUE );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame), TRUE, TRUE, 0 );
+/*     preference_frame = GTK_NOTEBOOK ( gtk_notebook_new () );
+ *     gtk_notebook_set_show_border ( preference_frame, FALSE );
+ *     gtk_notebook_set_show_tabs  ( preference_frame, FALSE );
+ *     gtk_notebook_set_scrollable ( preference_frame, TRUE );
+ *     gtk_box_pack_start ( GTK_BOX ( hbox ), GTK_WIDGET(preference_frame), TRUE, TRUE, 0 );
+ */
 
     /* Main subtree */
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter,
-                        0, _("Main"),
-                        1, NOT_A_PAGE,
-                        2, 800,
-                        -1);
-
+/*     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
+ *     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+ *                         &iter,
+ *                         0, _("Main"),
+ *                         1, NOT_A_PAGE,
+ *                         2, 800,
+ *                         -1);
+ * 
+ */
     /* File tab */
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Files"),
-                        1, FILES_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
+/*     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+ *     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+ *                         &iter2,
+ *                         0, _("Files"),
+ *                         1, FILES_PAGE,
+ *                         2, 400,
+ *                         -1);
+ *     gtk_notebook_append_page (preference_frame, onglet_fichier(), NULL);
+ */
     /* by default, we select that first page */
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -319,25 +325,27 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, gsb_archive_config_create (), NULL);
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Import"),
-                        1, IMPORT_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
+/*     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+ *     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+ *                         &iter2,
+ *                         0, _("Import"),
+ *                         1, IMPORT_PAGE,
+ *                         2, 400,
+ *                         -1);
+ *     gtk_notebook_append_page (preference_frame, onglet_importation(), NULL);
+ */
 
-    gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
-    gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
-                        &iter2,
-                        0, _("Import associations"),
-                        1, IMPORT_ASSOCIATION_PAGE,
-                        2, 400,
-                        -1);
-    gtk_notebook_append_page (preference_frame, 
-                        gsb_import_associations_gere_tiers (), NULL);
-
+/*     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
+ *     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
+ *                         &iter2,
+ *                         0, _("Import associations"),
+ *                         1, IMPORT_ASSOCIATION_PAGE,
+ *                         2, 400,
+ *                         -1);
+ *     gtk_notebook_append_page (preference_frame, 
+ *                         gsb_import_associations_gere_tiers (), NULL);
+ * 
+ */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
@@ -574,10 +582,11 @@ gboolean preferences ( gint page )
                         -1);
     gtk_notebook_append_page (preference_frame, gsb_payment_method_config_create (), NULL);
 
-    gtk_widget_show_all ( hpaned );
-    gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX (  dialog_get_content_area ( fenetre_preferences ) ),
-                        hpaned, TRUE, TRUE, 0);
+/*     gtk_widget_show_all ( hpaned );
+ *     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
+ *     gtk_box_pack_start ( GTK_BOX (  dialog_get_content_area ( fenetre_preferences ) ),
+ *                         hpaned, TRUE, TRUE, 0);
+ */
 
     /* balance estimate subtree */
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter, NULL);
@@ -607,19 +616,21 @@ gboolean preferences ( gint page )
     gtk_notebook_append_page (preference_frame, bet_config_account_create_account_page (), NULL);
 
     /* select the page */
-    if ( page >= 0 && page < NUM_PREFERENCES_PAGES )
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame), page );
-
-    switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
-    {
-        case GTK_RESPONSE_HELP:
+/*     if ( page >= 0 && page < NUM_PREFERENCES_PAGES )
+ *         gtk_notebook_set_current_page ( GTK_NOTEBOOK (preference_frame), page );
+ * 
+ *     switch (gtk_dialog_run ( GTK_DIALOG ( fenetre_preferences ) ))
+ *     {
+ *         case GTK_RESPONSE_HELP:
+ */
         /* Hook some help function */
-        break;
-        default:
-/*         gtk_window_get_size ( GTK_WINDOW ( fenetre_preferences ), &conf->prefs_width, NULL );  */
-        gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
-        return FALSE;
-    }
+/*         break;
+ *         default:
+ *         gtk_window_get_size ( GTK_WINDOW ( fenetre_preferences ), &conf->prefs_width, NULL );
+ *         gtk_widget_destroy ( GTK_WIDGET ( fenetre_preferences ));
+ *         return FALSE;
+ *     }
+ */
     return FALSE;
 }
 
@@ -863,153 +874,6 @@ gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar *path_s
     gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, !delete_msg[position].hidden, -1);
 
     return TRUE;
-}
-
-
-/**
- * Creates the "Files" tab.
- *
- * \returns A newly allocated vbox
- */
-GtkWidget *onglet_fichier ( void )
-{
-    GtkWidget *vbox_pref, *paddingbox;
-    GtkWidget *hbox;
-    GtkWidget *label;
-    GtkWidget *button;
-    GtkWidget *dialog;
-    GrisbiAppConf *conf;
-
-    conf = grisbi_app_get_conf ( );
-
-    vbox_pref = new_vbox_with_title_and_icon ( _("Files"), "files.png" );
-
-    /* Account file handling */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
-                        _("Account files handling"));
-
-    /* Automatically load last file on startup? */
-    button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
-                        &conf->load_last_file, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
-                        &conf->sauvegarde_auto, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Warn if file is used by someone else? */
-    button = gsb_automem_checkbutton_new ( _("Force saving of locked files"),
-                        &conf->force_enregistrement, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* crypt the grisbi file */
-    button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                        &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Compression level of files */
-    button = gsb_automem_checkbutton_new ( _("Compress Grisbi file"),
-                        &conf->compress_file, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Memorize last opened files in menu */
-    hbox = gtk_hbox_new ( FALSE, 5 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
-
-    label = gtk_label_new ( _("Memorise last opened files: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
-
-    button = gsb_automem_spin_button_new ( &conf->nb_max_derniers_fichiers_ouverts,
-                        G_CALLBACK ( affiche_derniers_fichiers_ouverts ), NULL );
-    gtk_widget_set_size_request ( button, width_spin_button, -1 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
-
-    /* Backups */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Backups"));
-
-    /* Single backup file */
-    button = gsb_automem_checkbutton_new ( _("Make a single backup file"),
-                        &conf->make_bakup_single_file, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Compression level of backups */
-    button = gsb_automem_checkbutton_new ( _("Compress Grisbi backup"),
-                        &conf->compress_backup, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Backup at each opening? */
-    button = gsb_automem_checkbutton_new ( _("Make a backup copy after opening files"),
-                        &conf->sauvegarde_demarrage, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Automatic backup ? */
-    button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
-                        &conf->make_backup, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
-
-    /* Automatic backup every x minutes */
-    hbox = gtk_hbox_new ( FALSE, 6);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
-                        &conf->make_backup_every_minutes,
-                        G_CALLBACK (gsb_file_automatic_backup_start), NULL);
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-
-    button = gsb_automem_spin_button_new ( &conf->make_backup_nb_minutes,
-                        G_CALLBACK (gsb_file_automatic_backup_change_time), NULL );
-    gtk_widget_set_size_request ( button, width_spin_button, -1 );
-    gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-
-    label = gtk_label_new (_(" minutes"));
-    gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
-
-    /* if automatic backup, choose a dir */
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-    label = gtk_label_new ( _("Backup directory: ") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
-
-    /* on passe par une fonction intermédiaire pour pallier à un bug
-     * du gtk_file_chooser_button_new qui donne le répertoire home
-     * lorsque l'on annule le choix du nouveau répertoire */
-    dialog = utils_files_create_file_chooser ( GTK_WIDGET ( grisbi_app_get_active_window ( NULL ) ),
-                        _("Select/Create backup directory") );
-
-    button = gtk_file_chooser_button_new_with_dialog ( dialog );
-    if ( gsb_file_get_backup_path ( ) )
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        gsb_file_get_backup_path ());
-    else
-        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (button),
-                        gsb_dirs_get_user_data_dir ( ) );
-    g_signal_connect ( G_OBJECT (button),
-                        "selection-changed",
-                        G_CALLBACK ( gsb_config_backup_dir_chosen ),
-                        dialog );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0);
-
-    /* Config file */
-    if ( IS_DEVELOPMENT_VERSION )
-    {
-        paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
-
-        hbox = gtk_hbox_new ( FALSE, 6);
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
-
-        button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
-                        &conf->stable_config_file_model,
-                        NULL, NULL);
-        gtk_box_pack_start ( GTK_BOX (hbox), button, FALSE, FALSE, 0 );
-    }
-
-    gtk_widget_show_all ( vbox_pref );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-        gtk_widget_set_sensitive ( vbox_pref, FALSE );
-
-    return ( vbox_pref );
 }
 
 
@@ -1732,6 +1596,113 @@ gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
 }
 
 
+/* ONGLET IMPORT */
+/**
+ *
+ *
+ * \param parent
+ *
+ * \return
+ **/
+void parametres_affiche_derniers_fichiers_ouverts ( void )
+{
+    affiche_derniers_fichiers_ouverts ();
+}
+
+
+/**
+ *
+ *
+ * \param modif TRUE to set the modified flag, FALSE to unset
+ *
+ * \return
+ */
+void parametres_files_set_modified ( gboolean modified )
+{
+    gsb_file_set_modified ( modified );
+}
+
+
+/**
+ * set the account files path
+ *
+ * \param le nom du répertoire ou NULL
+ *
+ * \return a const gchar with the account files path
+ * */
+void parametres_files_set_account_file_path ( const gchar *path,
+                        GrisbiAppConf *conf )
+{
+    gsb_file_set_account_files_path ( path, conf );
+}
+
+
+/**
+ * set the backup path
+ *
+ * \param le nom du répertoire ou NULL
+ *
+ * \return a const gchar with the backup path
+ * */
+void parametres_files_set_backup_path ( const gchar *path,
+                        GrisbiAppConf *conf )
+{
+    gsb_file_set_backup_path ( path, conf );
+}
+
+
+/**
+ *
+ *
+ * \param parent
+ *
+ * \return
+ **/
+void parametres_import_associations_init_treeview ( GtkWidget *tree_view )
+{
+    gsb_import_associations_init_treeview ( GTK_TREE_VIEW ( tree_view ) );
+}
+
+
+/**
+ * retourne un combofix avec la liste des tiers
+ *
+ * \param structure etat
+ *
+ * \return un combofix initialisé
+ **/
+GtkWidget *parametres_import_associations_get_combo_payees ( GrisbiWindowEtat *etat )
+{
+    GtkWidget *combo;
+
+    /* Create combo liste des tiers */
+    combo = gsb_import_associations_get_combo_payees ( etat );
+
+    /* return */
+    return combo;
+}
+
+
+/**
+ * Initialise les fonctions de callback pour les associations
+ *
+ * \param
+ *
+ * \return
+ **/
+void parametres_import_associations_init_callback ( void )
+{
+    gsb_import_associations_init_callback ();
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

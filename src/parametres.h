@@ -3,6 +3,11 @@
 
 #include <gtk/gtk.h>
 
+/*START_INCLUDE*/
+#include "structures.h"
+/*END_INCLUDE*/
+
+
 /* Preference pages */
 enum preference_page  {
     NOT_A_PAGE = -1,
@@ -52,6 +57,16 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens );
 gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data );
 gboolean gsb_preferences_menu_open ( GtkWidget *menu_item,
                         gpointer page_ptr );
+void parametres_affiche_derniers_fichiers_ouverts ( void );
+void parametres_files_set_account_file_path ( const gchar *path,
+                        GrisbiAppConf *conf );
+void parametres_files_set_backup_path ( const gchar *path,
+                        GrisbiAppConf *conf );
+void parametres_files_set_modified ( gboolean modified );
+void parametres_import_associations_check_add_button ( void );
+GtkWidget *parametres_import_associations_get_combo_payees ( GrisbiWindowEtat *etat );
+void parametres_import_associations_init_callback ( void );
+void parametres_import_associations_init_treeview ( GtkWidget *tree_view );
 gboolean preferences ( gint page );
 /*END_DECLARATION*/
 
