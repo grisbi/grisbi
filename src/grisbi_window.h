@@ -51,6 +51,8 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
 void grisbi_window_etat_mutex_lock ( void );
 void grisbi_window_etat_mutex_unlock ( void );
+void grisbi_window_free_priv ( GrisbiWindow *window,
+                            GrisbiWindowEtat *etat );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
@@ -60,7 +62,6 @@ GrisbiWindowEtat *grisbi_window_get_struct_etat ( void );
 GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
 GtkWidget *grisbi_window_new_general_widget ( void );
-GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window );
 void grisbi_window_headings_update_label_markup ( gchar *label_name,
                         const gchar *text,
                         gboolean escape_text );

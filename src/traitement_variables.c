@@ -135,7 +135,7 @@ static const gchar *transaction_col_width_init = "10-12-36-6-12-12-12";
  *
  * \return
  * */
-void init_variables ( GrisbiWindowEtat *etat )
+void init_variables ( void )
 {
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
@@ -213,11 +213,6 @@ void init_variables ( GrisbiWindowEtat *etat )
         g_free ( titre_fichier );
     titre_fichier = g_strdup( _("My accounts") );
 
-    etat->is_pixmaps_dir = TRUE;
-    if ( etat->name_logo && strlen ( etat->name_logo ) )
-        g_free ( etat->name_logo );
-    etat->name_logo = NULL;
-    etat->utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
 
     /* reconcile (etat) */
@@ -236,17 +231,6 @@ void init_variables ( GrisbiWindowEtat *etat )
 
     initialise_tab_affichage_ope();
 
-    etat->valeur_echelle_recherche_date_import = 2;
-    etat->get_fyear_by_value_date = FALSE;
-
-    /* init default combofix values */
-    etat->combofix_mixed_sort = FALSE;
-    etat->combofix_max_item = 0;
-    etat->combofix_case_sensitive = FALSE;
-    etat->combofix_enter_select_completion = FALSE;
-    etat->combofix_force_payee = FALSE;
-    etat->combofix_force_category = FALSE;
-
     /* mis à NULL prévient un plantage aléatoire dans
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
@@ -257,29 +241,12 @@ void init_variables ( GrisbiWindowEtat *etat )
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
         transaction_col_align[i] = transaction_col_align_init[i];
 
-    if ( etat->transaction_column_width && strlen ( etat->transaction_column_width ) )
-    {
-        g_free ( etat->transaction_column_width );
-        etat->transaction_column_width = NULL;
-    }
-    if ( etat->scheduler_column_width && strlen ( etat->scheduler_column_width ) )
-    {
-        g_free ( etat->scheduler_column_width );
-        etat->scheduler_column_width = NULL;
-    }
-    
     /* free the form */
     gsb_form_widget_free_list ();
     gsb_form_scheduler_free_list ();
 
     /* set colors to default */
     gsb_color_set_colors_to_default ( );
-
-    /* divers */
-    etat->add_archive_in_total_balance = TRUE;   /* add the archived transactions by default */
-    etat->get_fyear_by_value_date = 0;           /* By default use transaction-date */
-    etat->retient_affichage_par_compte = 0;
-    memset ( etat->csv_skipped_lines, '\0', sizeof(gboolean) * CSV_MAX_TOP_LINES );
 
     /* remove the timeout if necessary */
     if (id_timeout)
@@ -293,7 +260,6 @@ void init_variables ( GrisbiWindowEtat *etat )
     bet_data_init_variables ( );
     /* initialisation des boites de dialogue */
     bet_future_initialise_dialog ( );
-    etat->bet_deb_period = 1;
     /* defaut value for width of columns */
     for ( i = 0 ; i < BET_ARRAY_COLUMNS ; i++ )
         bet_array_col_width[i] = bet_array_col_width_init[i];
