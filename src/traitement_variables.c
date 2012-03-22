@@ -187,7 +187,7 @@ void init_variables ( GrisbiWindowEtat *etat )
     gsb_regex_init_variables ();
 
     /* WARNING BUG */
-/*     gsb_data_print_config_init ();  */
+    gsb_data_print_config_init ();
 
     /* no bank in memory for now */
     bank_list_model = NULL;

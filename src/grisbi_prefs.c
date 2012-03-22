@@ -457,7 +457,7 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
     GrisbiWindowEtat *etat;
 
     conf = grisbi_app_get_conf ();
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     /* set the variables for account tab */
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_load_last_file ),
@@ -657,7 +657,7 @@ static void grisbi_prefs_refresh_files_page ( GrisbiPrefs *prefs )
 {
     GrisbiWindowEtat *etat;
 
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     g_signal_handlers_block_by_func ( prefs->priv->checkbutton_crypt_file,
                         G_CALLBACK ( grisbi_prefs_encryption_toggled ),
@@ -683,7 +683,7 @@ static void grisbi_prefs_setup_archives_page ( GrisbiPrefs *prefs )
     GrisbiWindowEtat *etat;
 
     conf = grisbi_app_get_conf ();
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
 }
 
@@ -705,7 +705,7 @@ static void grisbi_prefs_setup_import_page ( GrisbiPrefs *prefs )
     GdkPixbuf *pixbuf;
 
     conf = grisbi_app_get_conf ();
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     /* set the icon for settings tab */
     box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "hbox_import_settings" ) );

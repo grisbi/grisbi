@@ -416,7 +416,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     gint unknown = 0;
     GrisbiWindowEtat *etat;
 
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     /* the first time we come here, we check if it's a grisbi file */
     if ( !download_tmp_values.download_ok )
@@ -711,7 +711,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     gint i=0;
     GrisbiWindowEtat *etat;
 
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     if ( !attribute_names[i] )
         return;
@@ -8043,7 +8043,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     GrisbiWindowEtat *etat;
 
     conf = grisbi_app_get_conf ( );
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
     tmpstr = g_strjoinv ( "", strarray );

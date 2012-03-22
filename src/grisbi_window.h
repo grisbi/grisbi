@@ -51,12 +51,12 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
 void grisbi_window_etat_mutex_lock ( void );
 void grisbi_window_etat_mutex_unlock ( void );
-GrisbiWindowEtat *grisbi_window_get_window_etat ( void );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
 guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
                         const gchar *sub_menu );
+GrisbiWindowEtat *grisbi_window_get_struct_etat ( void );
 GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
 GtkWidget *grisbi_window_new_general_widget ( void );

@@ -587,7 +587,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gboolean is_archive = FALSE;
     GrisbiWindowEtat *etat;
 
-    etat = grisbi_window_get_window_etat ();
+    etat = grisbi_window_get_struct_etat ();
 
     /* prepare stuff to save general information */
 

@@ -133,14 +133,24 @@ static void grisbi_window_realized ( GtkWidget *window,
 static void grisbi_window_finalize ( GObject *object )
 {
     GrisbiWindow *window;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
 
     window = GRISBI_WINDOW ( object );
+    etat = window->priv->etat;
 
+    /* libération de la mémoire des titres et fichier */
     g_free ( window->priv->filename );
     g_free ( window->priv->file_title );
     g_free ( window->priv->window_title );
+
+    /* libération de la mémoiré utilisée par etat */
+    g_free ( etat->name_logo );
+    g_free ( etat->csv_separator );
+    g_free ( etat->transaction_column_width );
+    g_free ( etat->scheduler_column_width );
+    g_free ( etat );
 
     G_OBJECT_CLASS ( grisbi_window_parent_class )->finalize ( object );
 }
@@ -1135,7 +1145,7 @@ GtkWidget *grisbi_window_get_widget_by_name ( const gchar *name )
  *
  * \return
  **/
-GrisbiWindowEtat *grisbi_window_get_window_etat ( void )
+GrisbiWindowEtat *grisbi_window_get_struct_etat ( void )
 {
     GrisbiApp *app;
     GrisbiWindow *window;
