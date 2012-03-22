@@ -58,6 +58,9 @@
 
 static GtkBuilder *grisbi_window_builder = NULL;
 
+/* mutex for GrisbiAppConf */
+static GMutex *grisbi_window_etat_mutex = NULL;
+
 struct _GrisbiWindowPrivate
 {
     /* Vbox générale */
@@ -1023,6 +1026,21 @@ GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window )
 }
 
 
+/* MUTEX */
+/**
+ * Init etat mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+static void grisbi_window_init_etat_mutex ( void )
+{
+  g_assert ( grisbi_window_etat_mutex == NULL );
+  grisbi_window_etat_mutex = g_mutex_new ();
+}
+
+
 /* CREATE OBJECT */
 /**
  * Initialise GrisbiWindow
@@ -1075,7 +1093,10 @@ static void grisbi_window_init ( GrisbiWindow *window )
     window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
 
     /* initialisation des variables de la fenêtre */
-/*     init_variables ();  */
+    grisbi_window_init_etat_mutex ();
+    g_mutex_lock ( grisbi_window_etat_mutex );
+    init_variables ( window->priv->etat );
+    g_mutex_unlock ( grisbi_window_etat_mutex );
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( window ),
@@ -1123,6 +1144,32 @@ GrisbiWindowEtat *grisbi_window_get_window_etat ( void )
     window = grisbi_app_get_active_window ( app );
 
     return window->priv->etat;
+}
+
+
+/**
+ * lock etat_mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_window_etat_mutex_lock ( void )
+{
+    g_mutex_lock ( grisbi_window_etat_mutex );
+}
+
+
+/**
+ * unlock etat_mutex
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_window_etat_mutex_unlock ( void )
+{
+    g_mutex_unlock ( grisbi_window_etat_mutex );
 }
 
 

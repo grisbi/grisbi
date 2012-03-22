@@ -8,7 +8,6 @@
 /*END_INCLUDE*/
 
 
-
 G_BEGIN_DECLS
 
 /*
@@ -50,6 +49,8 @@ GType grisbi_window_get_type ( void ) G_GNUC_CONST;
 
 GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
                         const gchar *action_group_name );
+void grisbi_window_etat_mutex_lock ( void );
+void grisbi_window_etat_mutex_unlock ( void );
 GrisbiWindowEtat *grisbi_window_get_window_etat ( void );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
