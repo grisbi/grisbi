@@ -38,6 +38,7 @@
 #include "affichage_liste.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
+#include "grisbi_prefs.h"
 #include "grisbi_window.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
@@ -105,7 +106,7 @@ gboolean gsb_file_new ( void )
         return FALSE;
 
     /* set up all the default variables */
-    init_variables ();
+/* 	init_variables ();  */
 
     gsb_assistant_file_run (FALSE, FALSE);
 
@@ -128,7 +129,7 @@ gboolean gsb_file_new_finish ( void )
     /* create the first account */
     if (! gsb_assistant_account_run ())
     {
-        init_variables ();
+/*         init_variables ();  */
         return FALSE;
     }
 
@@ -445,6 +446,9 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     /* set the focus to the selection tree at left */
 /*     gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );  */
+
+    /* refresh prefs if necessary */
+    grisbi_prefs_refresh_preferences ( TRUE );
 
     /* return */
     return TRUE;
@@ -1284,7 +1288,7 @@ const gchar *gsb_file_get_account_files_path ( void )
  *
  * \param le nom du répertoire ou NULL
  *
- * \return a const gchar with the backup path
+ * \return a const gchar with the account files path
  * */
 void gsb_file_set_account_files_path ( const gchar *path,
                         GrisbiAppConf *conf )

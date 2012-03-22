@@ -100,7 +100,7 @@ GtkResponseType gsb_assistant_first_run ( void )
 			     G_CALLBACK (gsb_assistant_first_enter_page_2) );
 
     /* set up all the default variables */
-    init_variables ();
+/*     init_variables ();  */
 
     /* set up the XDG Environment variables for linux*/
     #ifndef _WIN32
@@ -114,7 +114,7 @@ GtkResponseType gsb_assistant_first_run ( void )
     if (return_value == GTK_RESPONSE_CANCEL)
     {
 	/* the user stopped the assistant, we delete all the configured data */
-	init_variables ();
+/*         init_variables ();  */
 	return return_value;
     }
 

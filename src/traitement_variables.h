@@ -4,12 +4,13 @@
 #include <glib.h>
 
 /* START_INCLUDE_H */
+#include "structures.h"
 /* END_INCLUDE_H */
 
 
 /*START_DECLARATION*/
 void free_variables ( void );
-void init_variables ( void );
+void init_variables ( GrisbiWindowEtat *etat );
 void initialise_largeur_colonnes_tab_affichage_ope ( gint type_operation, const gchar *description );
 void menus_sensitifs ( gboolean sensitif );
 void menus_view_sensitifs ( gboolean sensitif );

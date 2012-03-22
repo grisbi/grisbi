@@ -189,7 +189,6 @@ extern gsb_real null_real;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 static struct
@@ -293,7 +292,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     gulong length;
 
     devel_debug ( filename );
-return TRUE;
+
     /* fill the buffer stat to check the permission */
     return_value = g_stat (filename, &buffer_stat);
     /* check the access to the file and display a message */
@@ -415,6 +414,9 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
                         GError **error)
 {
     gint unknown = 0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_window_etat ();
 
     /* the first time we come here, we check if it's a grisbi file */
     if ( !download_tmp_values.download_ok )
@@ -656,8 +658,8 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
         case 'L':
             if ( !strcmp ( element_name, "Logo" ) )
             {
-                if ( etat.utilise_logo )
-                    gsb_file_load_logo_accueil ( attribute_names, 
+                if ( etat->utilise_logo )
+                    gsb_file_load_logo_accueil ( attribute_names,
                             attribute_values );
             }
 
@@ -707,6 +709,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 {
     gint unknown;
     gint i=0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_window_etat ();
 
     if ( !attribute_names[i] )
         return;
@@ -725,13 +730,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
         {
             case 'A':
                 if ( !strcmp ( attribute_names[i], "Automatic_amount_separator" ))
-                    etat.automatic_separator = utils_str_atoi( attribute_values[i]);
+                    etat->automatic_separator = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Archive_file" ))
-                    etat.is_archive = utils_str_atoi (attribute_values[i]);
+                    etat->is_archive = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Add_archive_in_total_balance" ))
-                    etat.add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
+                    etat->add_archive_in_total_balance = utils_str_atoi( attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -739,22 +744,22 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'B':
                 if ( !strcmp ( attribute_names[i], "Bet_capital" ) )
-                    etat.bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
+                    etat->bet_capital = utils_str_safe_strtod ( attribute_values[i], NULL );
 
                 else if ( !strcmp ( attribute_names[i], "Bet_currency" ) )
-                    etat.bet_currency = utils_str_atoi ( attribute_values[i] );
+                    etat->bet_currency = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Bet_taux_annuel" ) )
-                    etat.bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
+                    etat->bet_taux_annuel = utils_str_safe_strtod ( attribute_values[i], NULL );
 
                 else if ( !strcmp ( attribute_names[i], "Bet_index_duree" ) )
-                    etat.bet_index_duree = utils_str_atoi ( attribute_values[i] );
+                    etat->bet_index_duree = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Bet_frais" ) )
-                    etat.bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
+                    etat->bet_frais = utils_str_safe_strtod ( attribute_values[i], NULL );
 
                 else if ( !strcmp ( attribute_names[i], "Bet_type_taux" ) )
-                    etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
+                    etat->bet_type_taux = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Budget_list_currency_number" ))
                     no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
@@ -782,27 +787,27 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                     no_devise_totaux_categ = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_mixed_sort" ))
-                    etat.combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
+                    etat->combofix_mixed_sort = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_max_item" ))
-                    etat.combofix_max_item = utils_str_atoi( attribute_values[i]);
+                    etat->combofix_max_item = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_case_sensitive" ))
-                    etat.combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
+                    etat->combofix_case_sensitive = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_force_payee" ))
-                    etat.combofix_force_payee = utils_str_atoi( attribute_values[i]);
+                    etat->combofix_force_payee = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Combofix_force_category" ))
-                    etat.combofix_force_category = utils_str_atoi( attribute_values[i]);
+                    etat->combofix_force_category = utils_str_atoi( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Crypt_file" ))
-                    etat.crypt_file = utils_str_atoi (attribute_values[i]);
+                    etat->crypt_file = utils_str_atoi (attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "CSV_separator" ))
                 {
-                    g_free ( etat.csv_separator );
-                    etat.csv_separator = my_strdup ( attribute_values[i] );
+                    g_free ( etat->csv_separator );
+                    etat->csv_separator = my_strdup ( attribute_values[i] );
                 }
 
 
@@ -815,7 +820,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
                         while ( pointeur_char[line] )
                         {
-                            etat.csv_skipped_lines[line] = utils_str_atoi ( pointeur_char[line] );
+                            etat->csv_skipped_lines[line] = utils_str_atoi ( pointeur_char[line] );
                             line ++;
                         }
                         g_strfreev ( pointeur_char );
@@ -839,10 +844,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'E':
                 if ( !strcmp ( attribute_names[i], "Export_file_format" ) )
-                    etat.export_file_format = utils_str_atoi ( attribute_values[i] );
+                    etat->export_file_format = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Export_files_traitement" ) )
-                    etat.export_files_traitement = utils_str_atoi ( attribute_values[i] );
+                    etat->export_files_traitement = utils_str_atoi ( attribute_values[i] );
 
                 else
                     unknown = 1;
@@ -881,24 +886,26 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'I':
                 if ( !strcmp ( attribute_names[i], "Import_interval_search" ))
-                    valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
+                {
+                    etat->valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
 
+                }
                 else if ( !strcmp ( attribute_names[i], "Import_extract_number_for_check" ))
-                    etat.get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
+                    etat->get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_fusion_transactions" ))
-                    etat.get_fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
+                    etat->get_fusion_import_transactions = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_categorie_for_payee" ))
-                    etat.get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
+                    etat->get_categorie_for_payee = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Import_fyear_by_value_date" ))
-                    etat.get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
+                    etat->get_fyear_by_value_date = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Is_pixmaps_dir" ) )
                 {
-                    etat.is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
-                    if ( etat.is_pixmaps_dir && etat.name_logo == NULL )
+                    etat->is_pixmaps_dir = utils_str_atoi ( attribute_values[i] );
+                    if ( etat->is_pixmaps_dir && etat->name_logo == NULL )
                     {
                         GdkPixbuf *pixbuf = NULL;
                         gchar *chemin_logo = NULL;
@@ -917,7 +924,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'M':
                 if ( !strcmp ( attribute_names[i], "Metatree_sort_transactions" ))
-                    etat.metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
+                    etat->metatree_sort_transactions = utils_str_atoi( attribute_values[i]);
                 else
                     unknown = 1;
                 break;
@@ -930,13 +937,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 {
                     GdkPixbuf *pixbuf = NULL;
 
-                    etat.name_logo = my_strdup ( attribute_values[i] );
-                    if ( etat.is_pixmaps_dir )
+                    etat->name_logo = my_strdup ( attribute_values[i] );
+                    if ( etat->is_pixmaps_dir )
                     {
                         gchar *chemin_logo = NULL;
 
-                        if ( etat.name_logo )
-                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat.name_logo, NULL );
+                        if ( etat->name_logo )
+                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat->name_logo, NULL );
                         else
                             chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
                         if ( chemin_logo )
@@ -972,10 +979,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'R':
                 if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
-                    etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+                    etat->reconcile_end_date = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Remind_display_per_account" ) )
-                    etat.retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
+                    etat->retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
 
                 else
                     unknown = 1;
@@ -991,10 +998,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Scheduler_column_width" ) )
                 {
                     /* initialise la réinitialisation des colonnes */
-                    etat.scheduler_column_width = my_strdup ( attribute_values[i] );
+                    etat->scheduler_column_width = my_strdup ( attribute_values[i] );
 
                     initialise_largeur_colonnes_tab_affichage_ope ( GSB_SCHEDULER_PAGE,
-                            etat.scheduler_column_width );
+                            etat->scheduler_column_width );
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_view" ))
@@ -1045,10 +1052,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Transaction_column_width" ) )
                 {
                     /* initialise la réinitialisation des colonnes */
-                    etat.transaction_column_width = my_strdup ( attribute_values[i] );
+                    etat->transaction_column_width = my_strdup ( attribute_values[i] );
 
                     initialise_largeur_colonnes_tab_affichage_ope ( GSB_ACCOUNT_PAGE,
-                            etat.transaction_column_width );
+                            etat->transaction_column_width );
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Transaction_column_align" ) )
@@ -1071,7 +1078,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'U':
                 if ( !strcmp ( attribute_names[i], "Use_logo" ))
-                    etat.utilise_logo = utils_str_atoi ( attribute_values[i]);
+                    etat->utilise_logo = utils_str_atoi ( attribute_values[i]);
                 else
                     unknown = 1;
                 break;
@@ -6681,7 +6688,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Echelle_date_import" ))
     {
-    valeur_echelle_recherche_date_import = utils_str_atoi ( text);
+    etat.valeur_echelle_recherche_date_import = utils_str_atoi ( text);
     return;
     }
 
@@ -8033,8 +8040,10 @@ gboolean gsb_file_load_update_previous_version ( void )
     GList *dlist_tmp;
     gchar** strarray;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
     conf = grisbi_app_get_conf ( );
+    etat = grisbi_window_get_window_etat ();
 
     strarray = g_strsplit ( download_tmp_values.file_version, ".", 0 );
     tmpstr = g_strjoinv ( "", strarray );
@@ -8099,7 +8108,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
         /*     ajout de la 0.5 -> valeur_echelle_recherche_date_import qu'on me à 2 */
 
-        valeur_echelle_recherche_date_import = 2;
+        etat->valeur_echelle_recherche_date_import = 2;
 
         /*         passage à l'utf8 : on fait le tour des devises pour retrouver l'euro */
         /* Handle Euro nicely */
@@ -8166,7 +8175,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         /*         un bug dans la 0.5.0 permettait à des comptes d'avoir un affichage différent, */
         /*         même si celui ci devait être identique pour tous, on vérifie ici */
 
-        if ( !etat.retient_affichage_par_compte )
+        if ( !etat->retient_affichage_par_compte )
         {
             gint affichage_r;
             gint nb_lignes_ope;
@@ -8835,7 +8844,7 @@ gboolean gsb_file_load_update_previous_version ( void )
         gsb_assistant_archive_run (TRUE);
 
     /* if we opened an archive, we say it here */
-    if (etat.is_archive)
+    if (etat->is_archive)
     dialogue_hint (_("You have opened an archive.\nThere is no limit in Grisbi, "
                         "you can do whatever you want and save it later (new reports...) "
                         "but remember it's an archive before modifying some transactions "

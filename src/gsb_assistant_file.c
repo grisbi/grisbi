@@ -188,7 +188,7 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     if (return_value == GTK_RESPONSE_CANCEL)
     {
 	/* the user stopped the assistant, we delete all the configured data */
-	init_variables ();
+/*         init_variables ();  */
 	gtk_widget_destroy (assistant);
 	return return_value;
     }

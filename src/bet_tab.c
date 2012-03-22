@@ -156,7 +156,6 @@ extern GtkWidget *account_page;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
 /* gestion de la largeur des colonnes du tableau */
@@ -2737,13 +2736,13 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_subtract_days ( date_debut_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.valeur_echelle_recherche_date_import );
 
         date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_add_days ( date_fin_comparaison,
-                    valeur_echelle_recherche_date_import );
+                    etat.valeur_echelle_recherche_date_import );
 
         do
         {

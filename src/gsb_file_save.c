@@ -168,10 +168,9 @@ extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
-extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-/** 
+/**
  * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write
  * the file and set the permissions
@@ -586,6 +585,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
     gchar *mon_thousands_sep;
     gchar *navigation_order_list = NULL;
     gboolean is_archive = FALSE;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_window_etat ();
 
     /* prepare stuff to save general information */
 
@@ -679,13 +681,13 @@ gulong gsb_file_save_general_part ( gulong iterator,
     }
     
     /* CSV skipped lines */
-    skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
+    skipped_lines_string = utils_str_itoa ( etat->csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
     {
         skipped_lines_string = g_strconcat (
                         first_string_to_free =  skipped_lines_string ,
-					    "-", 
-					    second_string_to_free = utils_str_itoa ( etat.csv_skipped_lines[i] ),
+					    "-",
+					    second_string_to_free = utils_str_itoa ( etat->csv_skipped_lines[i] ),
 					    NULL );
 
         g_free ( first_string_to_free );
@@ -718,10 +720,8 @@ gulong gsb_file_save_general_part ( gulong iterator,
         mon_thousands_sep = g_strdup ( "empty" );
 
     /* if we save an archive, we save it here */
-    if (archive_number
-	||
-	etat.is_archive )
-	is_archive = TRUE;
+    if (archive_number || etat->is_archive )
+        is_archive = TRUE;
 
     /* save the general information */
     new_string = g_markup_printf_escaped ( "\t<General\n"
@@ -780,7 +780,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
                        "\t\tBet_type_taux=\"%d\" />\n",
 	my_safe_null_str(VERSION_FICHIER),
 	my_safe_null_str(VERSION),
-	etat.crypt_file,
+	etat->crypt_file,
 	is_archive,
 	my_safe_null_str ( grisbi_app_get_active_file_title () ),
 	my_safe_null_str(adresse_commune),
@@ -795,18 +795,18 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	affichage_echeances,
 	affichage_echeances_perso_nb_libre,
 	affichage_echeances_perso_j_m_a,
-	valeur_echelle_recherche_date_import,
-	etat.get_extract_number_for_check,
-	etat.get_fusion_import_transactions,
-	etat.get_categorie_for_payee,
-	etat.get_fyear_by_value_date,
-    etat.export_file_format,
-    etat.export_files_traitement,
-    etat.reconcile_end_date,
-	etat.utilise_logo,
-    my_safe_null_str( etat.name_logo ),
-    etat.is_pixmaps_dir,
-	etat.retient_affichage_par_compte,
+    etat->valeur_echelle_recherche_date_import,
+	etat->get_extract_number_for_check,
+	etat->get_fusion_import_transactions,
+	etat->get_categorie_for_payee,
+	etat->get_fyear_by_value_date,
+    etat->export_file_format,
+    etat->export_files_traitement,
+    etat->reconcile_end_date,
+	etat->utilise_logo,
+    my_safe_null_str( etat->name_logo ),
+    etat->is_pixmaps_dir,
+	etat->retient_affichage_par_compte,
 	my_safe_null_str(transactions_view),
 	display_one_line,
 	display_two_lines,
@@ -814,24 +814,24 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str(transaction_column_width_write),
 	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),
-	etat.combofix_mixed_sort,
-	etat.combofix_max_item,
-	etat.combofix_case_sensitive,
-	etat.combofix_force_payee,
-	etat.combofix_force_category,
-	etat.automatic_separator,
-	my_safe_null_str(etat.csv_separator),
+	etat->combofix_mixed_sort,
+	etat->combofix_max_item,
+	etat->combofix_case_sensitive,
+	etat->combofix_force_payee,
+	etat->combofix_force_category,
+	etat->automatic_separator,
+	my_safe_null_str(etat->csv_separator),
 	my_safe_null_str(skipped_lines_string),
-    etat.metatree_sort_transactions,
-    etat.add_archive_in_total_balance,
+    etat->metatree_sort_transactions,
+    etat->add_archive_in_total_balance,
     my_safe_null_str ( bet_array_column_width_write ),
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_capital,
-    gsb_data_currency_get_floating_point ( etat.bet_currency ), TRUE ) ),
-    etat.bet_currency,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
-    etat.bet_index_duree,
-    my_safe_null_str ( utils_str_dtostr ( etat.bet_frais, BET_TAUX_DIGITS, TRUE ) ),
-    etat.bet_type_taux );
+    my_safe_null_str ( utils_str_dtostr ( etat->bet_capital,
+    gsb_data_currency_get_floating_point ( etat->bet_currency ), TRUE ) ),
+    etat->bet_currency,
+    my_safe_null_str ( utils_str_dtostr ( etat->bet_taux_annuel, BET_TAUX_DIGITS, TRUE ) ),
+    etat->bet_index_duree,
+    my_safe_null_str ( utils_str_dtostr ( etat->bet_frais, BET_TAUX_DIGITS, TRUE ) ),
+    etat->bet_type_taux );
 
     g_free (transactions_view);
     g_free (scheduler_column_width_write);
