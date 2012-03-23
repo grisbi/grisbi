@@ -35,7 +35,6 @@
 #include "grisbi_prefs.h"
 #include "dialog.h"
 #include "grisbi_app.h"
-#include "grisbi_window.h"
 #include "gsb_dirs.h"
 #include "parametres.h"
 #include "utils.h"
@@ -895,12 +894,11 @@ static GtkWidget *grisbi_prefs_left_panel_setup_tree_view ( GrisbiPrefs *prefs )
 
     /* Create container + TreeView */
     tree_view = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "treeview_left_panel" ) );
-    prefs->priv->treeview_left_panel = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "treeview_left_panel" ) );
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
     g_object_unref ( G_OBJECT ( model ) );
 
     /* set the color of selected row */
-/*     utils_set_tree_view_selection_and_text_color ( tree_view );  */
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 
     /* make column */
     cell = gtk_cell_renderer_text_new ( );
@@ -979,7 +977,6 @@ static void grisbi_prefs_left_panel_init_button_expand ( GtkWidget *tree_view )
 static void grisbi_prefs_init ( GrisbiPrefs *prefs )
 {
     GrisbiAppConf *conf;
-    GtkWidget *tree_view;
 
     devel_debug (NULL);
     conf = grisbi_app_get_conf ( );
@@ -1013,10 +1010,10 @@ static void grisbi_prefs_init ( GrisbiPrefs *prefs )
                         conf->prefs_width, conf->prefs_height );
 
     /* create the tree_view */
-    tree_view = grisbi_prefs_left_panel_setup_tree_view ( prefs );
+    prefs->priv->treeview_left_panel = grisbi_prefs_left_panel_setup_tree_view ( prefs );
 
     /* initialise le bouton expand all */
-    grisbi_prefs_left_panel_init_button_expand ( tree_view );
+    grisbi_prefs_left_panel_init_button_expand ( prefs->priv->treeview_left_panel );
 
     /* connect the signals */
     g_signal_connect ( G_OBJECT ( prefs->priv->hpaned ),
@@ -1066,7 +1063,6 @@ void grisb_prefs_show_dialog ( GrisbiWindow *parent )
     }
 
     gtk_window_present ( GTK_WINDOW ( grisbi_prefs_dialog ) );
-
 }
 
 
