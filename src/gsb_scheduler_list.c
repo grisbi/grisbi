@@ -197,8 +197,11 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     GtkWidget *vbox, *scrolled_window;
     GtkWidget *tree_view;
 	GtkTreeModel *tree_model;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
+
+    etat = grisbi_window_get_struct_etat ();
 
     /* first, a vbox */
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -236,7 +239,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gsb_scheduler_list_create_list_columns (tree_view);
 
     /* begin by hiding the notes (set to 1 because !1 in the function */
-    etat.affichage_commentaire_echeancier = 1;
+    etat->affichage_commentaire_echeancier = 1;
     gsb_scheduler_list_show_notes ();
 
     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
@@ -791,14 +794,19 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
  */
 gboolean gsb_scheduler_list_show_notes ( void )
 {
-    etat.affichage_commentaire_echeancier = !etat.affichage_commentaire_echeancier;
+    GrisbiWindowEtat *etat;
+
+    devel_debug (NULL);
+    etat = grisbi_window_get_struct_etat ();
+
+    etat->affichage_commentaire_echeancier = !etat->affichage_commentaire_echeancier;
 
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
-				       !etat.affichage_commentaire_echeancier );
+				       !etat->affichage_commentaire_echeancier );
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_MODE] ),
-				       !etat.affichage_commentaire_echeancier );
+				       !etat->affichage_commentaire_echeancier );
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_NOTES] ),
-				       etat.affichage_commentaire_echeancier );
+				       etat->affichage_commentaire_echeancier );
     return FALSE;
 }
 

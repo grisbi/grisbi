@@ -106,8 +106,11 @@ void bet_data_select_bet_pages ( gint account_number )
     kind_account kind;
     gint current_page;
     gint bet_use_budget;
+    GrisbiWindowEtat *etat;
 
     devel_debug_int ( account_number );
+
+    etat = grisbi_window_get_struct_etat ();
 
     kind = gsb_data_account_get_kind ( account_number );
 
@@ -117,7 +120,7 @@ void bet_data_select_bet_pages ( gint account_number )
     bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
     if ( bet_use_budget <= 0 )
         kind = GSB_TYPE_ASSET;
-    else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+    else if ( etat->bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
         kind = GSB_TYPE_BANK;
 
     switch ( kind )

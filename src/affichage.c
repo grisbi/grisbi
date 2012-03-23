@@ -115,7 +115,9 @@ GtkWidget * onglet_display_fonts ( void )
     GtkWidget *color_combobox;
     GtkWidget *color_button;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Fonts & logo"), "fonts.png" );
@@ -129,13 +131,13 @@ GtkWidget * onglet_display_fonts ( void )
     check_button = gtk_check_button_new_with_label ( _("Display a logo"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
 
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ), etat.utilise_logo );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ), etat->utilise_logo );
 
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
-    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
+    gtk_widget_set_sensitive ( hbox, etat->utilise_logo );
     g_signal_connect ( G_OBJECT ( check_button ),
                         "toggled",
                         G_CALLBACK ( change_choix_utilise_logo ),
@@ -255,12 +257,15 @@ GtkWidget * onglet_display_fonts ( void )
 gboolean change_choix_utilise_logo ( GtkWidget *check_button,
                         GtkWidget *hbox )
 {
+    GrisbiWindowEtat *etat;
 
-    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON 
+    etat = grisbi_window_get_struct_etat ();
+
+    etat->utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON
                             ( check_button ));
-    gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
+    gtk_widget_set_sensitive ( hbox, etat->utilise_logo );
 
-    if ( etat.utilise_logo )
+    if ( etat->utilise_logo )
     {
         /* 	on recharge l'ancien logo */
 
@@ -275,7 +280,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
             if ( pixbuf == NULL )
             {
                 pixbuf = gsb_select_icon_get_default_logo_pixbuf ( );
-                etat.is_pixmaps_dir = TRUE;
+                etat->is_pixmaps_dir = TRUE;
             }
             logo_accueil =  gtk_image_new_from_pixbuf ( pixbuf );
             if ( logo_accueil )
@@ -290,10 +295,10 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
     {
         gtk_widget_destroy ( logo_accueil );
         gtk_widget_set_size_request ( hbox_title, -1, -1 );
-        if ( etat.name_logo && strlen ( etat.name_logo ) )
-            g_free ( etat.name_logo );
-        etat.name_logo = NULL;
-        etat.is_pixmaps_dir = 0;
+        if ( etat->name_logo && strlen ( etat->name_logo ) )
+            g_free ( etat->name_logo );
+        etat->name_logo = NULL;
+        etat->is_pixmaps_dir = 0;
     }
 
     gsb_file_set_modified ( TRUE );
@@ -471,10 +476,9 @@ GtkWidget *onglet_display_addresses ( void )
 
 
 /* **************************************************************************************************************************** */
-void change_logo_accueil ( GtkWidget * file_selector )
+void change_logo_accueil ( GtkWidget *file_selector )
 {
     GdkPixbuf * pixbuf;
-
     const gchar *selected_filename;
 
     selected_filename = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selector ) );
@@ -483,6 +487,9 @@ void change_logo_accueil ( GtkWidget * file_selector )
     {
         /* on change le logo */
         gchar * chemin_logo;
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
 
         gtk_container_remove ( GTK_CONTAINER ( logo_button ), preview );
         chemin_logo = g_strstrip ( g_strdup ( selected_filename ) );
@@ -510,20 +517,20 @@ void change_logo_accueil ( GtkWidget * file_selector )
                 {
                     gchar *name_logo;
 
-                    etat.is_pixmaps_dir = TRUE;
+                    etat->is_pixmaps_dir = TRUE;
 
                     name_logo = g_path_get_basename ( chemin_logo );
                     if ( g_strcmp0 ( name_logo, "grisbi-logo.png" ) != 0 )
-                        etat.name_logo = name_logo;
+                        etat->name_logo = name_logo;
                     else
-                        etat.name_logo = NULL;
+                        etat->name_logo = NULL;
                 }
                 else
                 {
-                    etat.is_pixmaps_dir = FALSE;
-                    if ( etat.name_logo && strlen ( etat.name_logo ) )
-                        g_free ( etat.name_logo );
-                    etat.name_logo = NULL;
+                    etat->is_pixmaps_dir = FALSE;
+                    if ( etat->name_logo && strlen ( etat->name_logo ) )
+                        g_free ( etat->name_logo );
+                    etat->name_logo = NULL;
                 }
 
                 gsb_select_icon_set_logo_pixbuf ( pixbuf );
@@ -559,6 +566,9 @@ gboolean modification_logo_accueil ( )
 {
     GtkWidget *file_selector;
     GtkWidget *preview;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     file_selector = gtk_file_chooser_dialog_new ( _("Select a new logo"),
 					   GTK_WINDOW ( fenetre_preferences ),
@@ -567,7 +577,7 @@ gboolean modification_logo_accueil ( )
 					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					   NULL);
 
-    if ( etat.is_pixmaps_dir )
+    if ( etat->is_pixmaps_dir )
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
                         file_selector ), gsb_dirs_get_pixmaps_dir ( ) );
     else

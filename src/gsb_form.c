@@ -1830,11 +1830,12 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
     gchar *mon_decimal_point;
     gunichar decimal_point;
     gint i;
+    GrisbiWindowEtat *etat;
 
-    if (!etat.automatic_separator
-	||
-	!entry )
-	return;
+    etat = grisbi_window_get_struct_etat ();
+
+    if ( !etat->automatic_separator || !entry )
+        return;
     
     /* we need a my_strdup to permit to do the g_free later
      * because if strlen < floating point we need to

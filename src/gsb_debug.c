@@ -889,7 +889,7 @@ gboolean gsb_debug_payee_test_fix ()
 /*     return FALSE; */
 
 /*   /\* Si on n'utilise pas les exercices, on quitte *\/ */
-/*   if ( !etat.utilise_exercice ) */
+/*   if ( !etat->utilise_exercice ) */
 /*     return FALSE; */
     
 /*   /\* On fera la vérification des comptes dans l'ordre préféré */

@@ -135,7 +135,7 @@ static const gchar *transaction_col_width_init = "10-12-36-6-12-12-12";
  *
  * \return
  * */
-void init_variables ( void )
+void init_variables ( GrisbiWindowEtat *etat )
 {
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
@@ -180,7 +180,6 @@ void init_variables ( void )
     gsb_data_import_rule_init_variables ();
     gsb_import_associations_init_variables ( );
     gsb_data_partial_balance_init_variables ( );
-
     gsb_currency_init_variables ();
     gsb_fyear_init_variables ();
     gsb_report_init_variables ();
@@ -199,7 +198,7 @@ void init_variables ( void )
     mise_a_jour_fin_comptes_passifs = 0;
 
     orphan_child_transactions = NULL;
-    
+
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
@@ -264,9 +263,11 @@ void init_variables ( void )
     for ( i = 0 ; i < BET_ARRAY_COLUMNS ; i++ )
         bet_array_col_width[i] = bet_array_col_width_init[i];
 
-    bet_data_finance_data_simulator_init ( );
+    bet_data_finance_data_simulator_init ( etat );
 
     bet_graph_set_configuration_variables ( NULL );
+
+    /* return */
 }
 
 /**

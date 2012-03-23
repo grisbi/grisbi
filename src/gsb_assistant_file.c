@@ -264,7 +264,9 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     gchar *nom_fichier_comptes;
     gchar *titre_fichier;
     GrisbiAppRun *run;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     run = grisbi_app_get_run ();
 
     page = gtk_hbox_new (FALSE, 15);
@@ -330,12 +332,12 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     if ( gsb_plugin_find ( "openssl" ) )
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
-                        &(etat.crypt_file),
+                        &(etat->crypt_file),
                         G_CALLBACK (gsb_gui_encryption_toggled),
                         NULL );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
-        if ( etat.crypt_file )
+        if ( etat->crypt_file )
             run->new_crypted_file = TRUE;
     }
     else

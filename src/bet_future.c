@@ -417,13 +417,16 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                         GtkWidget *table,
                         gint account_number )
 {
-	GtkWidget *widget;
+    GtkWidget *widget;
     GtkWidget *credit;
     gint element_number;
     gint row = 2;
     gint column = 0;
     struct_element *element;
     GSList *tmp_list;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     account_number = gsb_gui_navigation_get_current_account ( );
 
@@ -449,11 +452,10 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+                        etat->combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
-    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  FALSE );
+                        etat->combofix_case_sensitive );
+    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget), FALSE );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -538,11 +540,11 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+                        etat->combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
+                        etat->combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
+                        etat->combofix_mixed_sort );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -587,11 +589,11 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     gtk_widget_set_size_request ( widget, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX (widget), TRUE ); /* on ne peut pas créer d'item */
     gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+                        etat->combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
+                        etat->combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
+                        etat->combofix_mixed_sort );
     gtk_widget_show ( widget );
     gtk_table_attach ( GTK_TABLE ( table ),
                         widget,
@@ -1902,7 +1904,10 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *combo;
     GtkWidget *sw;
     GtkWidget *tree_view;
-    GtkWidget *label;    
+    GtkWidget *label;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     /* Create the dialog */
     dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
@@ -1982,13 +1987,13 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_force_category );
+                        etat->combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_max_item );
+                        etat->combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_case_sensitive );
+                        etat->combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_mixed_sort );
+                        etat->combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Categories : Sub-categories") );
@@ -2009,13 +2014,13 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_force_category );
+                        etat->combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_max_item );
+                        etat->combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_case_sensitive );
+                        etat->combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_mixed_sort );
+                        etat->combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Budgetary line") );

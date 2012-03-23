@@ -2731,18 +2731,21 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
         GDate *date;
         gint scheduled_number;
         gint origine;
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
 
         date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_subtract_days ( date_debut_comparaison,
-                    etat.valeur_echelle_recherche_date_import );
+                    etat->valeur_echelle_recherche_date_import );
 
         date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
                     g_date_get_year ( transfert -> date ));
         g_date_add_days ( date_fin_comparaison,
-                    etat.valeur_echelle_recherche_date_import );
+                    etat->valeur_echelle_recherche_date_import );
 
         do
         {

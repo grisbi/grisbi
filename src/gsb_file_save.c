@@ -213,12 +213,13 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint account_icon_part = 4500;
     gint bet_part = 500;
     gint bet_graph_part = 100;
-
     struct stat buf;
-
-    gsb_plugin * plugin;
+    gsb_plugin *plugin;
+    GrisbiWindowEtat *etat;
 
     devel_debug (filename);
+
+    etat = grisbi_window_get_struct_etat ();
 
     if ( g_file_test ( filename, G_FILE_TEST_EXISTS ) )
     {
@@ -363,7 +364,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   &file_content,
 					   FALSE );
 
-    if ( etat.utilise_logo && etat.is_pixmaps_dir == FALSE )
+    if ( etat->utilise_logo && etat->is_pixmaps_dir == FALSE )
         iterator = gsb_file_save_logo_part ( iterator,
 					   &length_calculated,
 					   &file_content );
@@ -380,7 +381,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 					   my_strdup ("</Grisbi>"));
 
     /* crypt the file if asked */
-    if ( etat.crypt_file )
+    if ( etat->crypt_file )
     {
         if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
         {
@@ -2833,16 +2834,19 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     gchar *new_string;
     GPtrArray *tab;
     gint i;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     /* save the general informations */
     new_string = g_markup_printf_escaped ( "\t<Bet Ddte=\"%d\" Bet_deb_cash_account_option=\"%d\"/>\n",
-                        etat.bet_deb_period, etat.bet_deb_cash_account_option );
+                        etat->bet_deb_period, etat->bet_deb_cash_account_option );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,
-				        length_calculated,
-				        file_content,
-				        new_string );
+                        length_calculated,
+                        file_content,
+                        new_string );
 
     tab = bet_data_get_strings_to_save ( );
 
@@ -2853,9 +2857,9 @@ gulong gsb_file_save_bet_part ( gulong iterator,
     {
         new_string = g_ptr_array_index ( tab, i );
         iterator =  gsb_file_save_append_part ( iterator,
-				        length_calculated,
-				        file_content,
-				        new_string );
+                        length_calculated,
+                        file_content,
+                        new_string );
     }
 
     /* and return the new iterator */

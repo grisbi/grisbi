@@ -442,10 +442,10 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_stop_wait ( TRUE );
 
     /* go to the home page */
-/*     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );  */
+    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     /* set the focus to the selection tree at left */
-/*     gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );  */
+    gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );
 
     /* refresh prefs if necessary */
     grisbi_prefs_refresh_preferences ( TRUE );
@@ -490,10 +490,12 @@ gboolean gsb_file_save_file ( gint origine )
     gchar *nouveau_nom_enregistrement;
     gchar *nom_fichier_comptes = NULL;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
     devel_debug_int (origine);
 
     conf = grisbi_app_get_conf ( );
+    etat = grisbi_window_get_struct_etat ();
 
     etat_force = 0;
 
@@ -520,7 +522,7 @@ gboolean gsb_file_save_file ( gint origine )
         return FALSE;
 
     /*     on vérifie que le fichier n'est pas locké */
-    if ( etat.fichier_deja_ouvert
+    if ( etat->fichier_deja_ouvert
      &&
      !conf->force_enregistrement
      &&
@@ -572,7 +574,7 @@ gboolean gsb_file_save_file ( gint origine )
         gsb_file_util_modify_lock ( TRUE );
 
         /* update variables */
-        etat.fichier_deja_ouvert = 0;
+        etat->fichier_deja_ouvert = 0;
             gsb_file_set_modified ( FALSE );
         grisbi_app_set_active_title ( gsb_gui_navigation_get_current_account ( ) );
         gsb_file_append_name_to_opened_list ( nouveau_nom_enregistrement );
@@ -777,16 +779,18 @@ static gint gsb_file_dialog_save ( gchar *filename )
     gchar* tmpstr1;
     gchar* tmpstr2;
     GrisbiAppConf *conf;
-
-    conf = grisbi_app_get_conf ( );
+    GrisbiWindowEtat *etat;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
     if ( !gsb_file_get_modified ( ) )
         return GTK_RESPONSE_NO;
 
+    conf = grisbi_app_get_conf ( );
+    etat = grisbi_window_get_struct_etat ();
+
     if ( conf->sauvegarde_auto
      &&
-     ( !etat.fichier_deja_ouvert || conf->force_enregistrement )
+     ( !etat->fichier_deja_ouvert || conf->force_enregistrement )
      &&
      filename )
     {
@@ -801,7 +805,7 @@ static gint gsb_file_dialog_save ( gchar *filename )
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_NONE,
                         NULL );
-    if ( etat.fichier_deja_ouvert && !conf->force_enregistrement )
+    if ( etat->fichier_deja_ouvert && !conf->force_enregistrement )
     {
         hint = g_strdup ( _("Save locked files?") );
         message = g_strdup_printf ( _("The document '%s' is locked but modified. "
@@ -947,11 +951,14 @@ gboolean gsb_file_close ( void )
 {
     gchar *nom_fichier_comptes = NULL;
     gint result;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
 
     if ( !assert_account_loaded () )
         return ( TRUE );
+
+    etat = grisbi_window_get_struct_etat ();
 
     nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
 
@@ -972,7 +979,7 @@ gboolean gsb_file_close ( void )
 
     case GTK_RESPONSE_NO :
         /* remove the lock */
-        if ( !etat.fichier_deja_ouvert
+        if ( !etat->fichier_deja_ouvert
          &&
          gsb_data_account_get_accounts_amount ()
          &&

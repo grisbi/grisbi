@@ -3772,9 +3772,12 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
+    GrisbiWindowEtat *etat;
 
     if ( !attribute_names[i] )
-    return;
+        return;
+
+    etat = grisbi_window_get_struct_etat ();
 
     do
     {
@@ -3788,14 +3791,14 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Ddte" ) )
     {
-        etat.bet_deb_period = utils_str_atoi ( attribute_values[i] );
+        etat->bet_deb_period = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Bet_deb_cash_account_option" ) )
     {
-        etat.bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
+        etat->bet_deb_cash_account_option = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
@@ -5330,6 +5333,9 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     do
     {
@@ -5346,9 +5352,9 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
         {
             GdkPixbuf *pixbuf = NULL;
 
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 ( 
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
                                 (gchar *) attribute_values[i] );
-            etat.is_pixmaps_dir = FALSE;
+            etat->is_pixmaps_dir = FALSE;
 
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
@@ -5393,7 +5399,7 @@ void gsb_file_load_account_icon_part ( const gchar **attribute_names,
         
         if ( !strcmp ( attribute_names[i], "Image" ) )
         {
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 ( 
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
                                 (gchar *) attribute_values[i] );
             i++;
             continue;
@@ -6595,6 +6601,9 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
                         const gchar *text )
 {
     const gchar *element_name;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     element_name = g_markup_parse_context_get_element ( context );
 
@@ -6688,15 +6697,15 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Echelle_date_import" ))
     {
-    etat.valeur_echelle_recherche_date_import = utils_str_atoi ( text);
-    return;
+        etat->valeur_echelle_recherche_date_import = utils_str_atoi ( text);
+        return;
     }
 
     if ( !strcmp ( element_name,
            "Utilise_logo" ))
     {
-    etat.utilise_logo = utils_str_atoi ( text);
-    return;
+        etat->utilise_logo = utils_str_atoi ( text);
+        return;
     }
 
     if ( !strcmp ( element_name,
@@ -6720,8 +6729,8 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Caracteristiques_par_compte" ))
     {
-    etat.retient_affichage_par_compte = utils_str_atoi(text);
-    return;
+        etat->retient_affichage_par_compte = utils_str_atoi(text);
+        return;
     }
 
     if ( !strcmp ( element_name,

@@ -209,8 +209,11 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     GtkWidget *spin_button = NULL;
     GtkWidget *tree_view;
     gchar *str_capital;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
+
+    etat = grisbi_window_get_struct_etat ();
 
     page = gtk_vbox_new ( FALSE, 5 );
 
@@ -235,8 +238,8 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                        etat.bet_capital ),
-                        etat.bet_currency,
+                        etat->bet_capital ),
+                        etat->bet_currency,
                         FALSE );
 
     widget = gtk_entry_new ( );
@@ -256,7 +259,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     /* Set the devises */
     widget = gsb_currency_make_combobox ( FALSE );
-    gsb_currency_set_combobox_history ( widget, etat.bet_currency );
+    gsb_currency_set_combobox_history ( widget, etat->bet_currency );
     g_object_set_data ( G_OBJECT ( page ), "devise", widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT (  widget ),
@@ -272,7 +275,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     spin_button = gtk_spin_button_new_with_range ( 0.0, 100,
                         bet_data_finance_get_bet_taux_step ( BET_TAUX_DIGITS ) );
-    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), etat.bet_taux_annuel );
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), etat->bet_taux_annuel );
     g_object_set_data ( G_OBJECT ( page ), "taux", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
     g_signal_connect ( spin_button,
@@ -336,6 +339,9 @@ GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent )
     _("Between 1 and 15 years"),
     _("Between 15 and 30 years"),
     NULL};
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     combobox = gsb_combo_box_new_with_index ( text_duration,
                         G_CALLBACK ( bet_finance_duration_button_changed ),
@@ -344,7 +350,7 @@ GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent )
     g_signal_handlers_block_by_func ( G_OBJECT ( combobox ),
                         G_CALLBACK ( bet_finance_duration_button_changed ),
                         parent );
-    gsb_combo_box_set_index ( combobox, etat.bet_index_duree );
+    gsb_combo_box_set_index ( combobox, etat->bet_index_duree );
     g_signal_handlers_unblock_by_func ( G_OBJECT ( combobox ),
                         G_CALLBACK ( bet_finance_duration_button_changed ),
                         parent );
@@ -368,6 +374,9 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
     gchar *tmp_str;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     vbox = gtk_vbox_new ( FALSE, 5 );
 
@@ -385,7 +394,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
 
     spin_button = gtk_spin_button_new_with_range ( 0.0, 100,
                         bet_data_finance_get_bet_taux_step ( BET_TAUX_DIGITS ) );
-    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), etat.bet_frais );
+    gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( spin_button ), etat->bet_frais );
     g_object_set_data ( G_OBJECT ( parent ), "frais", spin_button );
     gtk_box_pack_start ( GTK_BOX ( hbox ), spin_button, FALSE, FALSE, 0 );
     g_signal_connect ( spin_button,
@@ -416,7 +425,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
                         _("Proportional rate") );
     g_object_set_data ( G_OBJECT ( parent ), "type_taux", button_2 );
 
-    if ( etat.bet_type_taux )
+    if ( etat->bet_type_taux )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
     else
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
@@ -813,11 +822,14 @@ gdouble bet_finance_get_number_from_string ( GtkWidget *parent, const gchar *nam
 
         if ( entry && strlen ( entry ) > 0 )
         {
+            GrisbiWindowEtat *etat;
+
+            etat = grisbi_window_get_struct_etat ();
             number = utils_str_strtod ( entry, NULL );
 
             tmp_str = utils_real_get_string_with_currency (
                                 gsb_real_double_to_real ( number ),
-                                etat.bet_currency,
+                                etat->bet_currency,
                                 FALSE );
             gtk_entry_set_text ( GTK_ENTRY ( widget ), tmp_str );
             g_free ( tmp_str );
@@ -925,8 +937,11 @@ gboolean bet_finance_duration_button_changed ( GtkWidget *combobox, GtkWidget *w
  * */
 void bet_finance_type_taux_changed ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *widget )
 {
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
-    etat.bet_type_taux = !etat.bet_type_taux;
+    etat->bet_type_taux = !etat->bet_type_taux;
     bet_finance_calculer_clicked ( NULL, widget );
 }
 
@@ -2013,7 +2028,10 @@ void bet_finance_calcule_show_months_tab ( GtkTreeModel *model,
  * */
 void bet_finance_spin_button_fees_changed ( GtkSpinButton *spinbutton, GtkWidget *page )
 {
-    etat.bet_frais = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( spinbutton ) );
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
+    etat->bet_frais = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( spinbutton ) );
     bet_finance_calculer_clicked ( NULL, page );
 }
 
@@ -2026,7 +2044,10 @@ void bet_finance_spin_button_fees_changed ( GtkSpinButton *spinbutton, GtkWidget
  * */
 void bet_finance_spin_button_taux_changed ( GtkSpinButton *spinbutton, GtkWidget *page )
 {
-    etat.bet_taux_annuel = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( spinbutton ) );
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
+    etat->bet_taux_annuel = gtk_spin_button_get_value ( GTK_SPIN_BUTTON ( spinbutton ) );
     bet_finance_calculer_clicked ( NULL, page );
 }
 
@@ -2039,7 +2060,10 @@ void bet_finance_spin_button_taux_changed ( GtkSpinButton *spinbutton, GtkWidget
  * */
 void bet_finance_currency_changed ( GtkComboBox *combo_box, GtkWidget *page )
 {
-    etat.bet_currency = gsb_currency_get_currency_from_combobox ( GTK_WIDGET ( combo_box ) );
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
+    etat->bet_currency = gsb_currency_get_currency_from_combobox ( GTK_WIDGET ( combo_box ) );
     bet_finance_calculer_clicked ( NULL, page );
 }
 
@@ -2096,6 +2120,9 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
                         GtkWidget *page )
 {
     gchar *str_capital;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     switch ( ev -> keyval )
     {
@@ -2113,8 +2140,8 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
 
         case GDK_KEY_Escape :
             str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                                    etat.bet_capital ),
-                                    etat.bet_currency,
+                                    etat->bet_capital ),
+                                    etat->bet_currency,
                                     FALSE );
             gtk_entry_set_text ( GTK_ENTRY ( widget ), str_capital );
             gtk_editable_set_position ( GTK_EDITABLE ( widget ), -1 );
@@ -2123,20 +2150,20 @@ gboolean bet_finance_capital_entry_key_press_event ( GtkWidget *widget,
             break;
 
         case GDK_KEY_ISO_Left_Tab:
-            etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
+            etat->bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
             break;
 
         case GDK_KEY_Tab :
-            etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
+            etat->bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
             break;
 
         case GDK_KEY_KP_Enter :
         case GDK_KEY_Return :
-            etat.bet_capital = bet_finance_get_number_from_string ( page, "capital" );
+            etat->bet_capital = bet_finance_get_number_from_string ( page, "capital" );
             bet_finance_calculer_clicked ( NULL, page );
             return TRUE;
             break;

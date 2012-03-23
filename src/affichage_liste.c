@@ -150,7 +150,9 @@ GtkWidget *onglet_affichage_operations ( void )
     };
     gint i;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Transaction list behavior"),
@@ -276,7 +278,7 @@ GtkWidget *onglet_affichage_operations ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
                         gsb_automem_checkbutton_new (
                         _("Remember display settings for each account separately"),
-                        &etat.retient_affichage_par_compte,
+                        &etat->retient_affichage_par_compte,
                         NULL, NULL ),
                         FALSE, FALSE, 0 );
 
@@ -518,7 +520,9 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *radiogroup;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"), "form.png" );
@@ -544,7 +548,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 gsb_automem_checkbutton_new (_("Automagically add separator in amounts fields if unspecified"),
-						      &etat.automatic_separator,
+						      &etat->automatic_separator,
 						      NULL, NULL),
 			 FALSE, FALSE, 0 );
 
@@ -568,7 +572,9 @@ GtkWidget *onglet_form_completion ( void )
     GtkWidget *button;
     gchar* tmpstr;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form completion"), "form.png" );
@@ -618,25 +624,25 @@ GtkWidget *onglet_form_completion ( void )
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Mix credit/debit categories"),
-                        &etat.combofix_mixed_sort,
+                        &etat->combofix_mixed_sort,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Case sensitive completion"),
-                        &etat.combofix_case_sensitive,
+                        &etat->combofix_case_sensitive,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new payee creation"),
-                        &etat.combofix_force_payee,
+                        &etat->combofix_force_payee,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
     gtk_box_pack_start ( GTK_BOX (vbox_pref),
                         gsb_automem_checkbutton_new (_("Don't allow new category/budget creation"),
-                        &etat.combofix_force_category,
+                        &etat->combofix_force_category,
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
@@ -649,7 +655,7 @@ GtkWidget *onglet_form_completion ( void )
 
     entry = gtk_entry_new ();
     gtk_widget_set_size_request ( entry, 30, -1 );
-    tmpstr = utils_str_itoa (etat.combofix_max_item);
+    tmpstr = utils_str_itoa (etat->combofix_max_item);
     gtk_entry_set_text ( GTK_ENTRY (entry), tmpstr);
     g_free ( tmpstr );
     g_signal_connect ( G_OBJECT (entry),
@@ -674,7 +680,7 @@ GtkWidget *onglet_form_completion ( void )
  * update the combofix in the form if they exists
  * as we don't know what was changed, update all the parameter (not a problem
  * because very fast)
- * at this level, the etat.___ variable has already been changed
+ * at this level, the etat->___ variable has already been changed
  *
  * \param
  *
@@ -683,42 +689,45 @@ GtkWidget *onglet_form_completion ( void )
 gboolean gsb_transactions_list_display_update_combofix ( void )
 {
     GtkWidget *combofix;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
     if (combofix)
     {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_payee );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
+        gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+                        etat->combofix_force_payee );
+        gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+                        etat->combofix_max_item );
+        gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+                        etat->combofix_case_sensitive );
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_CATEGORY );
     if (combofix)
     {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_category );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
-	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
-				      etat.combofix_mixed_sort );
+        gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+                        etat->combofix_force_category );
+        gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+                        etat->combofix_max_item );
+        gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+                        etat->combofix_case_sensitive );
+        gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
+                        etat->combofix_mixed_sort );
     }
 
     combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_BUDGET );
     if (combofix)
     {
-	gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
-				      etat.combofix_force_category );
-	gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
-				     etat.combofix_max_item );
-	gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
-					  etat.combofix_case_sensitive );
-	gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
-				      etat.combofix_mixed_sort );
+        gtk_combofix_set_force_text ( GTK_COMBOFIX (combofix),
+                        etat->combofix_force_category );
+        gtk_combofix_set_max_items ( GTK_COMBOFIX (combofix),
+                        etat->combofix_max_item );
+        gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (combofix),
+                        etat->combofix_case_sensitive );
+        gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (combofix),
+                        etat->combofix_mixed_sort );
     }
     return FALSE;
 }
@@ -735,7 +744,11 @@ gboolean gsb_transactions_list_display_update_combofix ( void )
 gboolean gsb_transactions_list_display_change_max_items ( GtkWidget *entry,
                         gpointer null )
 {
-    etat.combofix_max_item = utils_str_atoi ( gtk_entry_get_text (GTK_ENTRY (entry)));
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
+
+    etat->combofix_max_item = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
     gsb_transactions_list_display_update_combofix ();
 
     return FALSE;

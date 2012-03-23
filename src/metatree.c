@@ -1047,6 +1047,9 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gchar *name;
     gint no_division, no_sub_division;
     MetatreeInterface * iface;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     /* Get model and metatree interface */
     model = gtk_tree_view_get_model(treeview);
@@ -1066,9 +1069,9 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
-    if ( etat.metatree_sort_transactions )
+    if ( etat->metatree_sort_transactions )
         list_tmp_transactions = gsb_data_transaction_get_transactions_list_by_date ();
-    else if ( etat.add_archive_in_total_balance )
+    else if ( etat->add_archive_in_total_balance )
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();

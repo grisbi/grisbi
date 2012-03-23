@@ -170,9 +170,12 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number )
 {
     GtkWidget *widget;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     if (!element_number)
-	return NULL;
+        return NULL;
 
     widget = NULL;
 
@@ -219,11 +222,11 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    widget = gtk_combofix_new (
                         gsb_data_payee_get_name_and_report_list ( ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_payee );
+					  etat->combofix_force_payee );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+					 etat->combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
+					      etat->combofix_case_sensitive );
 	    /* we never mix the payee because the only case of the complex combofix is
 	     * for the report and there is non sense to mix report with the payee */
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
@@ -234,13 +237,13 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    widget = gtk_combofix_new (
                          gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_category );
+					  etat->combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+					 etat->combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
+					      etat->combofix_case_sensitive );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
+					  etat->combofix_mixed_sort );
 	    break;
 
 	case TRANSACTION_FORM_FREE:
@@ -251,13 +254,13 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    widget = gtk_combofix_new (
                         gsb_data_budget_get_name_list (TRUE, TRUE));
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
-					  etat.combofix_force_category );
+					  etat->combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
-					 etat.combofix_max_item );
+					 etat->combofix_max_item );
 	    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX (widget),
-					      etat.combofix_case_sensitive );
+					      etat->combofix_case_sensitive );
 	    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX (widget),
-					  etat.combofix_mixed_sort );
+					  etat->combofix_mixed_sort );
 	    break;
 
 	case TRANSACTION_FORM_TYPE:

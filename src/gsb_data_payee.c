@@ -36,17 +36,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_payee.h"
+#include "grisbi_window.h"
 #include "gsb_data_form.h"
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_widget.h"
 #include "gtk_combofix.h"
-#include "tiers_onglet.h"
-#include "gsb_real.h"
-#include "utils_str.h"
 #include "meta_payee.h"
 #include "structures.h"
+#include "tiers_onglet.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -693,22 +693,26 @@ void gsb_data_payee_reset_counters ( void )
 void gsb_data_payee_update_counters ( void )
 {
     GSList *list_tmp_transactions;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     gsb_data_payee_reset_counters ();
 
-    if ( etat.add_archive_in_total_balance )
+    if ( etat->add_archive_in_total_balance )
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
-	gint transaction_number_tmp;
-	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-	
-	gsb_data_payee_add_transaction_to_payee ( transaction_number_tmp );
+        gint transaction_number_tmp;
 
-	list_tmp_transactions = list_tmp_transactions -> next;
+        transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
+        
+        gsb_data_payee_add_transaction_to_payee ( transaction_number_tmp );
+
+        list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 

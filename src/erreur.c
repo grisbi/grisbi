@@ -59,7 +59,11 @@ static GtkWidget *print_backtrace ( void );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/* niveau de debug */
 static gint debugging_grisbi;
+
+/* mode debug pour le fichier de compte */
+static gboolean debug_mode = FALSE;
 
 /* path and name of the file containing the log when debug mode is active
  * this values should not be freed when begin a new file to continue the log */
@@ -300,6 +304,19 @@ gint gsb_debug_get_debug_level ( void )
 
 
 /**
+ * renvoie TRUE si le mode de déboguage est actif
+ *
+ * \param
+ *
+ * \return debug_mode
+ */
+gboolean gsb_debug_get_debug_mode ( void )
+{
+    return debug_mode;
+}
+
+
+/**
  * return a string with the current time
  * use to debug lines
  *
@@ -322,7 +339,7 @@ gchar *get_debug_time ( void )
 
     /* on renvoit le temps */
     return str_debug_time;
-}	
+}
 
 
 
@@ -351,7 +368,7 @@ G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
                         gboolean force_debug_display )
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
     {
         gchar* tmp_str;
 
@@ -365,7 +382,7 @@ G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
                         get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function);
 
-        if ( etat.debug_mode )
+        if ( debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -401,7 +418,7 @@ void debug_message_int ( gchar *prefixe,
                         gboolean force_debug_display )
 {
     /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
     {
         gchar* tmp_str;
 
@@ -410,7 +427,7 @@ void debug_message_int ( gchar *prefixe,
                         get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message);
 
-        if (etat.debug_mode)
+        if (debug_mode)
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -446,8 +463,8 @@ void debug_message_real ( gchar *prefixe,
                         gint level,
                         gboolean force_debug_display )
 {
-    /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
-    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || etat.debug_mode )
+   /* il faut bien entendu que le mode debug soit actif ou que l'on force l'affichage */
+    if ( ( debugging_grisbi && level <= debugging_grisbi) || force_debug_display || debug_mode )
     {
         gchar* tmp_str;
 
@@ -456,7 +473,7 @@ void debug_message_real ( gchar *prefixe,
                         get_debug_time (), (double )clock()/ CLOCKS_PER_SEC, prefixe,
                         file, line, function, message.mantissa, message.exponent );
 
-        if ( etat.debug_mode )
+        if ( debug_mode )
         {
             fwrite ( tmp_str, sizeof (gchar), strlen ( tmp_str ), debug_file );
             fflush ( debug_file );
@@ -481,19 +498,21 @@ GtkWidget *print_backtrace ( void )
     size_t i;
     gchar **backtrace_strings, *text = g_strdup("");
     GtkWidget * label;
-		
+
     backtrace_size = backtrace (backtrace_content, 15);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
-		
+
     g_print ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
-		
-    for (i = 0; i < backtrace_size; i++) 
+
+    for ( i = 0; i < backtrace_size; i++ )
     {
-	g_print ("\t%s\n", backtrace_strings[i]);
-	gchar* old_text = text;
-	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ), 
-			     NULL );
-	g_free ( old_text );
+        gchar* old_text;
+
+        g_print ("\t%s\n", backtrace_strings[i]);
+        old_text = text;
+        text = g_strconcat ( text, "\t", backtrace_strings[i], "\n",  NULL );
+
+        g_free ( old_text );
     }
 
     label = gtk_label_new ( text );
@@ -566,7 +585,7 @@ gboolean gsb_debug_start_log ( void )
         ui_manager = grisbi_window_get_ui_manager ( grisbi_app_get_active_window ( NULL ) );
 
         widget = gtk_ui_manager_get_widget ( ui_manager, "/menubar/FileMenu/DebugMode" );
-        etat.debug_mode = TRUE;
+        debug_mode = TRUE;
 
         /* unsensitive the menu, we cannot reverse the debug mode */
         if ( widget && GTK_IS_WIDGET ( widget ) )
@@ -637,7 +656,7 @@ gboolean gsb_debug_start_log ( void )
 void gsb_debug_finish_log ( void )
 {
     if ( debug_file )
-        fclose (debug_file);
+        fclose ( debug_file );
 }
 
 

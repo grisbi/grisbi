@@ -287,17 +287,19 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
 {
     gchar *nom_fichier_comptes;
     gchar *lock_filename;
+    GrisbiWindowEtat *etat;
 
     devel_debug_int ( create_lock );
+    etat = grisbi_window_get_struct_etat ();
 
     /* if the file was already opened we do nothing */
     nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
 
-    if ( ( etat.fichier_deja_ouvert )
-	 ||
-	 !nom_fichier_comptes
-	 ||
-	 strlen ( nom_fichier_comptes) == 0 )
+    if ( ( etat->fichier_deja_ouvert )
+     ||
+     !nom_fichier_comptes
+     ||
+     strlen ( nom_fichier_comptes) == 0 )
     {
         g_free ( nom_fichier_comptes );
 
@@ -335,13 +337,13 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
             dialog_message ( "account-already-opened", nom_fichier_comptes );
 
             /* the lock is already created, return TRUE */
-            etat.fichier_deja_ouvert = 1;
+            etat->fichier_deja_ouvert = 1;
             g_free ( nom_fichier_comptes );
 
             return TRUE;
         }
 
-        etat.fichier_deja_ouvert = 0;
+        etat->fichier_deja_ouvert = 0;
 
         fichier = utf8_fopen ( lock_filename, "w" );
 
@@ -362,7 +364,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         fclose ( fichier );
         return TRUE;
     }
-    else if ( etat.fichier_deja_ouvert == 0 )
+    else if ( etat->fichier_deja_ouvert == 0 )
     {
         /* delete the lock file */
         gint result;
@@ -391,7 +393,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
     else
     {
         /* si le fichier est déjà ouvert on ne fait rien */
-        etat.fichier_deja_ouvert = 0;
+        etat->fichier_deja_ouvert = 0;
         g_free ( nom_fichier_comptes );
 
         return TRUE;

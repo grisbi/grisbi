@@ -111,7 +111,9 @@ GtkWidget *bet_config_general_create_general_page ( void )
     GtkWidget *vbox;
     GtkWidget *paddingbox;
     GtkWidget *widget;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
 
     vbox = new_vbox_with_title_and_icon ( _("General Options"), "balance_estimate.png" );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
@@ -128,13 +130,13 @@ GtkWidget *bet_config_general_create_general_page ( void )
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Option for cash accounts") );
 
     widget = gsb_automem_checkbutton_new ( _("Add the forecast tab for cash accounts"),
-                        &etat.bet_deb_cash_account_option,
+                        &etat->bet_deb_cash_account_option,
                         G_CALLBACK ( bet_config_general_cash_account_option_clicked ),
-                        NULL);
+                        NULL );
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), widget, FALSE, FALSE, 0 );
 
-    if ( etat.bet_deb_cash_account_option == 1 )
+    if ( etat->bet_deb_cash_account_option == 1 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), TRUE );
 
     gtk_widget_show_all ( vbox );
@@ -157,8 +159,11 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     GtkWidget *hbox;
     GtkSizeGroup *size_group;
     gchar *text;
+    GrisbiWindowEtat *etat;
 
     /* devel_debug (NULL); */
+    etat = grisbi_window_get_struct_etat ();
+
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     vbox = gtk_vbox_new ( FALSE, 5 );
@@ -181,7 +186,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("date today") );
 
-    if ( etat.bet_deb_period == 1 )
+    if ( etat->bet_deb_period == 1 )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
     else
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
@@ -768,6 +773,9 @@ void bet_config_initialise_select_historical_data ( gint account_number,
 void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button )
 {
     const gchar *name;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     if ( button )
         g_signal_handlers_block_by_func ( G_OBJECT ( button ),
@@ -779,11 +787,11 @@ void bet_config_period_clicked ( GtkWidget *togglebutton, GdkEventButton *event,
 
     if ( g_strcmp0 ( name, "bet_period_button_1" ) == 0 )
     {
-        etat.bet_deb_period = 1;
+        etat->bet_deb_period = 1;
     }
     else
     {
-        etat.bet_deb_period = 2;
+        etat->bet_deb_period = 2;
     }
     if ( button )
         g_signal_handlers_unblock_by_func ( G_OBJECT ( button ),
@@ -1003,8 +1011,11 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     gint account_number;
     gint bet_use_budget;
     kind_account kind;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
+    etat = grisbi_window_get_struct_etat ();
+
     widget = g_object_get_data ( G_OBJECT ( combo ), "bet_use_budget" );
 
     if ( !GTK_IS_TOGGLE_BUTTON ( widget ) )
@@ -1035,7 +1046,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     }
 
     kind = gsb_data_account_get_kind ( account_number );
-    if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+    if ( etat->bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
         kind = GSB_TYPE_BANK;
 
     account_page = gsb_gui_on_account_get_notebook ( );
@@ -1129,15 +1140,19 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
 {
     GtkWidget *widget = NULL;
     GtkWidget *account_page;
+    devel_debug (NULL);
 
     account_page = gsb_gui_on_account_get_notebook ( );
 
     if ( sensitive )
     {
         kind_account kind;
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
 
         kind = gsb_data_account_get_kind ( account_number );
-        if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
+        if ( etat->bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
             kind = GSB_TYPE_BANK;
 
         switch ( kind )

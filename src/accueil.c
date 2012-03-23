@@ -135,12 +135,14 @@ GtkWidget *creation_onglet_accueil ( void )
     GtkWidget *paddingbox, *base, *base_scroll;
     GtkWidget * eb;
     GtkStyle * style;
+    GrisbiWindowEtat *etat;
 
     devel_debug ( NULL );
 
+    etat = grisbi_window_get_struct_etat ();
+
     /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
        scroller verticalement */
-
     base_scroll = gtk_scrolled_window_new ( NULL, NULL);
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
                         GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
@@ -162,7 +164,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     label_titre_fichier = gtk_label_new ( NULL );
 
-    if ( etat.utilise_logo )
+    if ( etat->utilise_logo )
     {
         logo_accueil =  gtk_image_new_from_pixbuf ( gsb_select_icon_get_logo_pixbuf ( ) );
 

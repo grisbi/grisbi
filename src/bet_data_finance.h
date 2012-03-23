@@ -5,6 +5,7 @@
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 #define BET_TAUX_DIGITS 2
@@ -41,7 +42,7 @@
 
 
 /* START_DECLARATION */
-void bet_data_finance_data_simulator_init ( void );
+void bet_data_finance_data_simulator_init ( GrisbiWindowEtat *etat );
 gdouble bet_data_finance_get_bet_taux_step ( gint nbre_digits );
 GDate *bet_data_finance_get_date_last_installment_paid ( GDate *date_depart );
 gdouble bet_data_finance_get_last_echeance ( gdouble capital_du,

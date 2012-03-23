@@ -29,9 +29,9 @@
 /*START_INCLUDE*/
 #include "bet_data_finance.h"
 #include "bet_finance_ui.h"
+#include "grisbi_window.h"
 #include "gsb_data_currency.h"
 #include "gsb_file_save.h"
-#include "structures.h"
 #include "utils_dates.h"
 #include "utils_str.h"
 #include "erreur.h"
@@ -291,14 +291,14 @@ struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
  *
  *
  * */
-void bet_data_finance_data_simulator_init ( void )
+void bet_data_finance_data_simulator_init ( GrisbiWindowEtat *etat )
 {
-    etat.bet_capital = 1000.0;
-    etat.bet_currency = no_devise_totaux_categ;
-    etat.bet_taux_annuel = 4.0;
-    etat.bet_index_duree = 0;
-    etat.bet_frais = 0;
-    etat.bet_type_taux = 1;
+    etat->bet_capital = 1000.0;
+    etat->bet_currency = no_devise_totaux_categ;
+    etat->bet_taux_annuel = 4.0;
+    etat->bet_index_duree = 0;
+    etat->bet_frais = 0;
+    etat->bet_type_taux = 1;
 }
 
 

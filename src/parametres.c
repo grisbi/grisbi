@@ -116,9 +116,6 @@ static gboolean selectionne_liste_preference ( GtkTreeSelection *selection,
 /*END_STATIC*/
 
 
-/* global "etat" structure shared in the entire program */
-struct gsb_etat_t etat;
-
 GtkWidget *fenetre_preferences = NULL;
 
 static GtkTreeStore *preference_tree_model = NULL;
@@ -1037,7 +1034,9 @@ GtkWidget *onglet_metatree ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *total_currencies;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
+    etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
 
     vbox_pref = new_vbox_with_title_and_icon (
@@ -1054,9 +1053,9 @@ GtkWidget *onglet_metatree ( void )
                         _("by number"),
                         _("by increasing date"),
                         _("by date descending"),
-                        &etat.metatree_sort_transactions,
+                        &etat->metatree_sort_transactions,
                         G_CALLBACK ( gsb_config_metatree_sort_transactions_changed ),
-                        &etat.metatree_sort_transactions,
+                        &etat->metatree_sort_transactions,
                         GTK_ORIENTATION_VERTICAL );
 
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
@@ -1390,6 +1389,9 @@ void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer 
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
@@ -1417,8 +1419,8 @@ void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                    etat.bet_capital ),
-                    etat.bet_currency,
+                    etat->bet_capital ),
+                    etat->bet_currency,
                     FALSE );
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
@@ -1443,6 +1445,9 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer 
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
@@ -1477,8 +1482,8 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer 
     /* reset capital */
     entry = bet_finance_get_capital_entry ( );
     str_capital = utils_real_get_string_with_currency ( gsb_real_double_to_real (
-                    etat.bet_capital ),
-                    etat.bet_currency,
+                    etat->bet_capital ),
+                    etat->bet_currency,
                     FALSE );
 
     gtk_entry_set_text ( GTK_ENTRY ( entry ), str_capital );
@@ -1661,6 +1666,9 @@ void parametres_files_set_backup_path ( const gchar *path,
 void parametres_import_associations_init_treeview ( GtkWidget *tree_view )
 {
     gsb_import_associations_init_treeview ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* set the color of selected row */
+    utils_set_tree_view_selection_and_text_color ( tree_view );
 }
 
 

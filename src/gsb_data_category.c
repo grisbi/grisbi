@@ -35,17 +35,17 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_category.h"
-#include "meta_categories.h"
+#include "grisbi_window.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
 #include "gsb_data_form.h"
 #include "gsb_data_mix.h"
 #include "gsb_data_transaction.h"
 #include "gsb_form_widget.h"
-#include "gsb_real.h"
+#include "meta_categories.h"
+#include "structures.h"
 #include "utils_str.h"
 #include "erreur.h"
-#include "structures.h"
 /*END_INCLUDE*/
 
 /**
@@ -1355,27 +1355,31 @@ void gsb_data_category_reset_counters ( void )
 void gsb_data_category_update_counters ( void )
 {
     GSList *list_tmp_transactions;
+    GrisbiWindowEtat *etat;
 
     devel_debug ( NULL );
+    etat = grisbi_window_get_struct_etat ();
+
     gsb_data_category_reset_counters ();
 
-    if ( etat.add_archive_in_total_balance )
+    if ( etat->add_archive_in_total_balance )
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
     else
         list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
     while ( list_tmp_transactions )
     {
-    gint transaction_number_tmp;
-    transaction_number_tmp = gsb_data_transaction_get_transaction_number (
-                        list_tmp_transactions -> data );
+        gint transaction_number_tmp;
 
-    gsb_data_category_add_transaction_to_category ( transaction_number_tmp,
-                        gsb_data_transaction_get_category_number ( transaction_number_tmp ),
-                        gsb_data_transaction_get_sub_category_number (
-                        transaction_number_tmp ) );
+        transaction_number_tmp = gsb_data_transaction_get_transaction_number (
+                            list_tmp_transactions -> data );
 
-    list_tmp_transactions = list_tmp_transactions -> next;
+        gsb_data_category_add_transaction_to_category ( transaction_number_tmp,
+                            gsb_data_transaction_get_category_number ( transaction_number_tmp ),
+                            gsb_data_transaction_get_sub_category_number (
+                            transaction_number_tmp ) );
+
+        list_tmp_transactions = list_tmp_transactions -> next;
     }
 }
 

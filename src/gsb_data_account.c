@@ -2912,8 +2912,11 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
         return gsb_date_copy ( date );
     else
     {
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
         date = gdate_today ( );
-        if ( etat.bet_deb_period == 1 )
+        if ( etat->bet_deb_period == 1 )
             g_date_set_day ( date, 1 );
 
         return date;
@@ -2933,7 +2936,7 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
     account = gsb_data_account_get_structure ( account_number );
 
     if ( !account )
-	    return FALSE;
+        return FALSE;
 
     if ( date && g_date_valid ( date ) )
     {
@@ -2943,9 +2946,12 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
     else
     {
         GDate *date_new;
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
 
         date_new = gdate_today ( );
-        if ( etat.bet_deb_period == 1 )
+        if ( etat->bet_deb_period == 1 )
             g_date_set_day ( date_new, 1 );
         account -> bet_start_date = date_new;
         return FALSE;

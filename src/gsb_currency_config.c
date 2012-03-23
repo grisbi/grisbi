@@ -815,6 +815,9 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
     GtkWidget *table, *label, *check_button;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -852,7 +855,7 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
 
     check_button = gsb_automem_checkbutton_new (
                         _("Add transactions archived in the totals"),
-                        &etat.add_archive_in_total_balance,
+                        &etat->add_archive_in_total_balance,
                         G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
                         NULL);
     gtk_table_attach ( GTK_TABLE ( table ), check_button,

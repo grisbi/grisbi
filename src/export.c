@@ -104,13 +104,16 @@ void export_accounts ( void )
 
     if ( gsb_assistant_run ( dialog ) == GTK_RESPONSE_APPLY )
     {
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
         while ( exported_accounts )
         {
             struct exported_account *account;
 
             account = (struct exported_account *) exported_accounts->data;
 
-            if ( etat.export_files_traitement )
+            if ( etat->export_files_traitement )
             {
                 const gchar *title;
                 const gchar *titre_fichier;
@@ -173,6 +176,9 @@ GtkWidget *export_create_selection_page ( GtkWidget * assistant )
     GtkCellRenderer *cell;
     GtkListStore * model;
     GSList * tmp_list;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -244,13 +250,13 @@ GtkWidget *export_create_selection_page ( GtkWidget * assistant )
     combo = gsb_automem_radiobutton3_new_with_title ( vbox,
 					    _("Select options to export" ),
 					    _("QIF format" ), _("CSV format" ), NULL,
-					    &etat.export_file_format,
+					    &etat->export_file_format,
 					    G_CALLBACK ( export_account_radiobutton_format_changed ),
-                        &etat.export_file_format,
+                        &etat->export_file_format,
                         GTK_ORIENTATION_HORIZONTAL );
 
     button = gsb_automem_checkbutton_new ( _("Treat all files as the first" ),
-                        &etat.export_files_traitement,
+                        &etat->export_files_traitement,
                         NULL,
                         NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
@@ -352,6 +358,9 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
     GSList *list;
     gint page = 3;
     gint index = 0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     buffer = g_object_get_data ( G_OBJECT ( assistant ), "text-buffer" );
     gtk_text_buffer_set_text (buffer, "\n", -1 );
@@ -397,7 +406,7 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
         account->extension = "";
 	    exported_accounts = g_slist_append ( exported_accounts, account );
 
-        if ( etat.export_files_traitement )
+        if ( etat->export_files_traitement )
         {
             if ( index == 0 )
             {
@@ -421,11 +430,10 @@ gboolean export_enter_resume_page ( GtkWidget * assistant )
 
 	/* And final page */
 	gsb_assistant_add_page ( assistant, export_create_final_page ( assistant ),
-				 page, page - 1, -1, G_CALLBACK ( NULL ) );
+                        page, page - 1, -1, G_CALLBACK ( NULL ) );
 
 	/* Replace the "next" button of resume page */
-	gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
-					   GTK_RESPONSE_YES );
+	gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
     }
 
     return FALSE;
@@ -440,6 +448,9 @@ GtkWidget *create_export_account_resume_page ( struct exported_account * account
 {
     GtkWidget * vbox, * hbox, * label, * combo;
     gchar *tmpstr;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
@@ -457,23 +468,23 @@ GtkWidget *create_export_account_resume_page ( struct exported_account * account
 
     /* Layout */
     hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format: ") ),
-			 FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format: ") ), FALSE, FALSE, 0 );
 
     /* Combo box */
     combo = gtk_combo_box_text_new ( );
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combo ), _("QIF format" ) );
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combo ), _("CSV format" ) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, TRUE, TRUE, 0 );
-    g_signal_connect ( G_OBJECT(combo), "changed",
-		       G_CALLBACK ( export_account_change_format ),
-		       (gpointer) account );
+    g_signal_connect ( G_OBJECT(combo),
+                        "changed",
+                    G_CALLBACK ( export_account_change_format ),
+                    (gpointer) account );
 
     account -> chooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
     gtk_file_chooser_set_extra_widget ( GTK_FILE_CHOOSER(account -> chooser), hbox );
     gtk_box_pack_start ( GTK_BOX ( vbox ), account -> chooser, TRUE, TRUE, 0 );
 
-    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), etat.export_file_format );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), etat->export_file_format );
 
     return vbox;
 }

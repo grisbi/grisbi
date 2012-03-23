@@ -2634,13 +2634,16 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
 {
     GSList *list_tmp;
+    GrisbiWindowEtat *etat;
 
-    if ( etat.add_archive_in_total_balance )
+    etat = grisbi_window_get_struct_etat ();
+
+    if ( etat->add_archive_in_total_balance )
         list_tmp = g_slist_copy ( complete_transactions_list );
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    if ( etat.metatree_sort_transactions == 1 )
+    if ( etat->metatree_sort_transactions == 1 )
         list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date );
     else

@@ -32,12 +32,13 @@
 #include "import_csv.h"
 #include "csv_parse.h"
 #include "dialog.h"
-#include "utils_dates.h"
+#include "grisbi_window.h"
 #include "gsb_automem.h"
-#include "utils_str.h"
 #include "import.h"
-#include "utils.h"
 #include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
+#include "utils.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -308,6 +309,9 @@ void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
     gint * indices;
     GtkTreePath * path = gtk_tree_path_new_from_string (path_str);
     GtkTreeModel * tree_model = gtk_tree_view_get_model ( tree_preview );
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     /* Get toggled iter */
     gtk_tree_model_get_iter ( GTK_TREE_MODEL ( tree_model ), &iter, path );
@@ -315,7 +319,7 @@ void skip_line_toggled ( GtkCellRendererToggle * cell, gchar * path_str,
     gtk_tree_store_set ( GTK_TREE_STORE ( tree_model ), &iter, 0, !toggle_item, -1);
 
     indices = gtk_tree_path_get_indices ( path );
-    etat.csv_skipped_lines [ indices[0] ] = !toggle_item;
+    etat->csv_skipped_lines [ indices[0] ] = !toggle_item;
 }
 
 
@@ -604,14 +608,17 @@ gboolean safe_contains ( gchar * original, gchar * substring )
 gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * separator )
 {
     gchar * string;
-    gint line, i, * default_config;
+    gint line, i, *default_config;
     GSList * list;
+    GrisbiWindowEtat *etat;
 
     default_config = (gint *) g_malloc0 ( ( size + 1 ) * sizeof ( int ) );
 
     list = csv_get_next_line ( &contents, separator );
     if ( ! list )
-	return default_config;
+        return default_config;
+
+    etat = grisbi_window_get_struct_etat ();
 
     /** First, we try to match first line because it might contains of
      * the fields.  */
@@ -636,7 +643,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
                 if ( !default_config [ i ] )
                 {
                     default_config [ i ] = field;
-                    etat.csv_skipped_lines [ 0 ] = 1;
+                    etat->csv_skipped_lines [ 0 ] = 1;
                 }
 
             }
@@ -646,7 +653,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
                 if ( !default_config [ i ] )
                 {
                     default_config [ i ] = field;
-                    etat.csv_skipped_lines [ 0 ] = 1;
+                    etat->csv_skipped_lines [ 0 ] = 1;
                }
             }
         }
@@ -766,6 +773,9 @@ gboolean csv_import_change_separator ( GtkEntry * entry,
     GtkWidget *combobox;
     gchar *separator;
     int i = 0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     combobox = g_object_get_data ( G_OBJECT(entry), "combobox" );
     separator = g_strdup ( gtk_entry_get_text ( GTK_ENTRY (entry) ) );
@@ -773,11 +783,11 @@ gboolean csv_import_change_separator ( GtkEntry * entry,
     {
         g_object_set_data ( G_OBJECT(assistant), "separator", separator );
         csv_import_update_preview ( assistant );
-        etat.csv_separator = my_strdup ( separator );
+        etat->csv_separator = my_strdup ( separator );
     }
     else
     {
-        etat.csv_separator = "";
+        etat->csv_separator = "";
         g_object_set_data ( G_OBJECT(assistant), "separator", NULL );
     }
 
@@ -813,14 +823,16 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
     GtkTreeView * tree_preview;
     GSList * list;
     gint line = 0;
+    GrisbiWindowEtat *etat;
 
     separator = g_object_get_data ( G_OBJECT(assistant), "separator" );
     tree_preview = g_object_get_data ( G_OBJECT(assistant), "tree_preview" );
     contents = g_object_get_data ( G_OBJECT(assistant), "contents" );
 
     if ( ! contents || ! tree_preview || ! separator )
-	return FALSE;
+        return FALSE;
 
+    etat = grisbi_window_get_struct_etat ();
     assistant = g_object_get_data ( G_OBJECT(tree_preview), "assistant" );
     model = csv_import_create_model ( tree_preview, contents, separator );
     if ( model )
@@ -850,7 +862,7 @@ gboolean csv_import_update_preview ( GtkWidget * assistant )
             list = list -> next;
         }
 
-        if ( etat.csv_skipped_lines [ line ] )
+        if ( etat->csv_skipped_lines [ line ] )
         {
             gtk_tree_store_set ( GTK_TREE_STORE ( model ), &iter, 0, TRUE, -1 );
         }
@@ -1117,14 +1129,18 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
     entry = g_object_get_data ( G_OBJECT(assistant), "entry" );
     if ( entry )
     {
-	if ( etat.csv_separator )
-	{
-	    gtk_entry_set_text ( GTK_ENTRY(entry), etat.csv_separator );
-	}
-	else
-	{
-	    gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
-	}
+        GrisbiWindowEtat *etat;
+
+        etat = grisbi_window_get_struct_etat ();
+
+        if ( etat->csv_separator )
+        {
+            gtk_entry_set_text ( GTK_ENTRY(entry), etat->csv_separator );
+        }
+        else
+        {
+            gtk_entry_set_text ( GTK_ENTRY(entry), csv_import_guess_separator ( contents ) );
+        }
     }
 
     csv_import_update_validity_check ( assistant );
@@ -1150,6 +1166,9 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
     gchar * contents, * separator;
     GSList * list;
     int index = 0;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     compte = g_malloc0 ( sizeof ( struct struct_compte_importation ));
     compte -> nom_de_compte = unique_imported_name ( my_strdup ( _("Imported CSV account" ) ) );
@@ -1161,9 +1180,8 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 
     if ( ! csv_fields_config || ! contents )
     {
-	liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error,
-							compte );
-	return FALSE;
+        liste_comptes_importes_error = g_slist_append ( liste_comptes_importes_error, compte );
+        return FALSE;
     }
 
     list = csv_get_next_line ( &contents, separator );
@@ -1175,7 +1193,7 @@ gboolean csv_import_csv_account ( GtkWidget * assistant, struct imported_file * 
 
         /* Check if this line was specified as to be skipped
          * earlier. */
-        if ( index < CSV_MAX_TOP_LINES && etat.csv_skipped_lines [ index ] )
+        if ( index < CSV_MAX_TOP_LINES && etat->csv_skipped_lines [ index ] )
         {
             /* g_print ("Skipping line %d\n", index ); */
             list = csv_get_next_line ( &contents, separator );

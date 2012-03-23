@@ -305,7 +305,10 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gint reconcile_number;
     gchar *last_name;
     gchar *string;
-	gchar* tmpstr;
+    gchar* tmpstr;
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -422,9 +425,9 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
             g_free (string);
             g_date_add_months ( date, 1 );
 
-            /* if etat.reconcile_end_date or the new date is after today, set today */
+            /* if etat->reconcile_end_date or the new date is after today, set today */
             today = gdate_today();
-            if ( etat.reconcile_end_date || g_date_compare ( date, today) > 0 )
+            if ( etat->reconcile_end_date || g_date_compare ( date, today) > 0 )
             {
                 g_date_free (date);
                 date = gdate_today();
@@ -480,8 +483,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
     /* set the transactions list to reconciliation mode */
     /* only change the current account */
-    reconcile_save_account_display = etat.retient_affichage_par_compte;
-    etat.retient_affichage_par_compte = 1;
+    reconcile_save_account_display = etat->retient_affichage_par_compte;
+    etat->retient_affichage_par_compte = 1;
 
     /* hide the marked R transactions */
     reconcile_save_show_marked = gsb_data_account_get_r (account_number);
@@ -710,6 +713,10 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
 gboolean gsb_reconcile_cancel ( GtkWidget *button,
 				        gpointer null )
 {
+    GrisbiWindowEtat *etat;
+
+    etat = grisbi_window_get_struct_etat ();
+
     run.equilibrage = 0;
 
     /* save the final balance/new date for the next time the user will try to reconcile */
@@ -731,7 +738,7 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
     transaction_list_show_toggle_mark (FALSE);
 
     /* restore the saved data */
-    etat.retient_affichage_par_compte = reconcile_save_account_display;
+    etat->retient_affichage_par_compte = reconcile_save_account_display;
 
     gsb_transactions_list_set_visible_rows_number ( reconcile_save_rows_number );
 
