@@ -82,7 +82,7 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
     gint int_ret;
     GError* err = NULL;
 
-    
+    devel_debug ( conf_filename );
 
     if ( !g_file_test ( conf_filename, G_FILE_TEST_EXISTS ) )
     {
