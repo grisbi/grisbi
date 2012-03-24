@@ -59,6 +59,7 @@ GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
 guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
                         const gchar *sub_menu );
 GrisbiWindowEtat *grisbi_window_get_struct_etat ( void );
+GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_widget_by_name (  const gchar *name );
 GtkUIManager *grisbi_window_get_ui_manager ( GrisbiWindow *window );
 GtkWidget *grisbi_window_new_general_widget ( void );

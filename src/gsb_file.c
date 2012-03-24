@@ -214,8 +214,6 @@ gboolean gsb_file_open_menu ( void )
  * */
 void gsb_file_update_last_path ( const gchar *last_path )
 {
-    devel_debug ( last_path );
-
     if ( last_path && strlen ( last_path ) )
     {
         if ( last_path_used )
@@ -328,13 +326,13 @@ gboolean gsb_file_open_file ( gchar *filename )
     GtkWidget *tree_view;
     GSList *list_tmp;
     GrisbiAppConf *conf;
+    GrisbiWindowRun *run;
 
     devel_debug (filename);
 
     if ( !filename || strlen ( filename ) == 0 )
         return FALSE;
 
-    conf = grisbi_app_get_conf ( );
     gsb_status_wait ( TRUE );
     gsb_status_message ( _("Loading accounts") );
 
@@ -356,6 +354,15 @@ gboolean gsb_file_open_file ( gchar *filename )
         return ( FALSE );
     }
 
+    conf = grisbi_app_get_conf ( );
+
+    /* on fixe le nom de fichier associé à la fenêtre active */
+    grisbi_app_set_active_filename ( filename );
+
+    /* on positionne la variable run->is_loading */
+    run = grisbi_window_get_struct_run ( NULL );
+    run->is_loading = TRUE;
+
     /* le fichier existe et est un fichier "normal" on l'ouvre */
     if ( gsb_file_load_open_file ( filename ) )
     {
@@ -375,6 +382,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         {
             utils_files_display_dialog_error ( GSB_FAILED_LOAD_ACCOUNTS, filename, NULL );
             gsb_status_stop_wait ( TRUE );
+            run->is_loading = FALSE;
 
             return FALSE;
         }
@@ -385,13 +393,11 @@ gboolean gsb_file_open_file ( gchar *filename )
             else
                 utils_files_display_dialog_error ( GSB_FAILED_LOAD_WITHOUT_BACKUP, filename, NULL );
             gsb_status_stop_wait ( TRUE );
+            run->is_loading = FALSE;
 
             return FALSE;
         }
     }
-
-    /* on fixe le nom de fichier associé à la fenêtre active */
-    grisbi_app_set_active_filename ( filename );
 
     /* ok, here the file or backup is loaded */
     gsb_status_message ( _("Checking schedulers") );
@@ -440,6 +446,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 
     gsb_status_message ( _("Done") );
     gsb_status_stop_wait ( TRUE );
+    run->is_loading = FALSE;
 
     /* go to the home page */
     gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
@@ -774,12 +781,13 @@ static gint gsb_file_dialog_save ( gchar *filename )
     time_t now = time ( NULL );
     gint result;
     GtkWidget *dialog;
-    gint difference = (gint) difftime ( now, run.file_modification );
+    gint difference;
     gchar* message;
     gchar* tmpstr1;
     gchar* tmpstr2;
     GrisbiAppConf *conf;
     GrisbiWindowEtat *etat;
+    GrisbiWindowRun *run;
 
     /*     si le fichier n'est pas modifié on renvoie qu'on ne veut pas enregistrer */
     if ( !gsb_file_get_modified ( ) )
@@ -833,6 +841,9 @@ static gint gsb_file_dialog_save ( gchar *filename )
                         NULL );
         gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
     }
+
+    run = grisbi_window_get_struct_run ( NULL );
+    difference = (gint) difftime ( now, run->file_modification );
 
     if ( difference >= 120 )
     {
@@ -1197,23 +1208,26 @@ void gsb_file_save_remove_old_file ( gchar *filename )
  */
 void gsb_file_set_modified ( gboolean modified )
 {
+    GrisbiWindowRun *run;
+
     devel_debug_int (modified);
 
     /* If no file is loaded, do not change menu items. */
     if ( ! gsb_data_account_get_accounts_amount () )
         return;
 
+    run = grisbi_window_get_struct_run ( NULL );
     if ( modified )
     {
-        if ( ! run.file_modification )
+        if ( ! run->file_modification )
         {
-            run.file_modification = time ( NULL );
+            run->file_modification = time ( NULL );
             gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", TRUE );
         }
     }
     else
     {
-        run.file_modification = 0;
+        run->file_modification = 0;
         gsb_gui_sensitive_menu_item ( "/menubar/FileMenu/Save", FALSE );
     }
 }
@@ -1226,7 +1240,10 @@ void gsb_file_set_modified ( gboolean modified )
  */
 gboolean gsb_file_get_modified ( void )
 {
-    if ( run.file_modification == 0 )
+    GrisbiWindowRun *run;
+
+    run = grisbi_window_get_struct_run ( NULL );
+    if ( run->file_modification == 0 )
         return FALSE;
     else
         return TRUE;

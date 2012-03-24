@@ -44,6 +44,7 @@
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
 #include "gsb_plugins.h"
+#include "import.h"
 #include "parse_cmdline.h"
 #include "tip.h"
 #include "erreur.h"
@@ -64,10 +65,23 @@ static void gsb_main_window_set_size_and_position ( void );
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-/* variables initialisées lors de l'exécution de grisbi */
-struct gsb_run_t run;
+/**
+ * initialises les formats de fichiers pour l'importation.
+ *
+ * \param
+ *
+ * \return TRUE if first use
+ */
+static void gsb_main_load_import_formats ( void )
+{
+    /* importation des formats de fichiers */
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
+#endif
+    register_import_formats ();
+}
 
-
+ 
 /**
  * Main function
  *
@@ -139,6 +153,9 @@ gint main ( int argc, char **argv )
 
     if ( IS_DEVELOPMENT_VERSION )
         dialog_message ( "development-version", VERSION );
+
+    /* importation des formats de fichiers */
+    gsb_main_load_import_formats ();
 
     /* check the command line, if there is something to open */
     gsb_main_load_file_if_necessary ( command_line );

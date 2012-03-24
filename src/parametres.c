@@ -887,9 +887,9 @@ gboolean gsb_gui_encryption_toggled ( GtkWidget * checkbox, gpointer data )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON (checkbox)))
     {
-        GrisbiAppRun *run;
+        GrisbiWindowRun *run;
 
-        run = grisbi_app_get_run ();
+        run = grisbi_window_get_struct_run ( NULL );
 
         dialog_message ( "encryption-is-irreversible" );
         run->new_crypted_file = TRUE;

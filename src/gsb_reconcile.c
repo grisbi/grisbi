@@ -307,6 +307,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     gchar *string;
     gchar* tmpstr;
     GrisbiWindowEtat *etat;
+    GrisbiWindowRun *run;
 
     etat = grisbi_window_get_struct_etat ();
 
@@ -393,20 +394,21 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     }
 
     /* reset records in run structure if user has changed of account */
-    if (run.reconcile_account_number != account_number)
+    run = grisbi_window_get_struct_run ( NULL );
+    if (run->reconcile_account_number != account_number)
     {
-        g_free (run.reconcile_final_balance);
-        if (run.reconcile_new_date)
-            g_date_free (run.reconcile_new_date);
-        run.reconcile_final_balance = NULL;
-        run.reconcile_new_date = NULL;
-        run.reconcile_account_number = -1;
+        g_free (run->reconcile_final_balance);
+        if (run->reconcile_new_date)
+            g_date_free (run->reconcile_new_date);
+        run->reconcile_final_balance = NULL;
+        run->reconcile_new_date = NULL;
+        run->reconcile_account_number = -1;
     }
 
     /* set last input date/amount if available */
-    if (run.reconcile_new_date)
+    if (run->reconcile_new_date)
     {
-        date = run.reconcile_new_date;
+        date = run->reconcile_new_date;
     }
     else
     {
@@ -465,8 +467,8 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
 
     /* set last input amount if available and if the account is the good one */
     gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), 
-            (run.reconcile_final_balance) ? run.reconcile_final_balance : "");
-    g_free(run.reconcile_final_balance);
+            (run->reconcile_final_balance) ? run->reconcile_final_balance : "");
+    g_free(run->reconcile_final_balance);
 
     /* set the title */
     tmpstr = g_markup_printf_escaped ( _(" <b>%s reconciliation</b> "),
@@ -476,7 +478,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     g_free ( tmpstr );
 
     /* we go to the reconciliation mode */
-    run.equilibrage = 1;
+    run->equilibrage = 1;
 
     /* set all the balances for reconciliation */
     gsb_reconcile_update_amounts (NULL, NULL);
@@ -534,63 +536,71 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gint account_number;
     gint reconcile_number;
     gsb_real real;
-	gchar* tmpstr;
+    gchar *tmpstr;
+    GrisbiWindowRun *run;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
-    if ( gsb_real_sub ( gsb_real_add ( utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ))),
-				       gsb_data_account_calculate_waiting_marked_balance (account_number)),
-			utils_real_get_from_string (gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry )))).mantissa != 0 )
+    if ( gsb_real_sub ( gsb_real_add ( utils_real_get_from_string (
+                        gtk_entry_get_text ( GTK_ENTRY ( reconcile_initial_balance_entry ) ) ),
+                        gsb_data_account_calculate_waiting_marked_balance ( account_number ) ),
+                        utils_real_get_from_string ( gtk_entry_get_text (
+                        GTK_ENTRY ( reconcile_final_balance_entry ) ) ) ).mantissa != 0 )
     {
-	dialogue_warning_hint ( _("There is a variance in balances, check that both final balance and initial balance minus marked transactions are equal."),
-				_("Reconciliation can't be completed.") );
-	return FALSE;
+        dialogue_warning_hint ( _("There is a variance in balances, check that both final balance "
+                        "and initial balance minus marked transactions are equal."),
+                        _("Reconciliation can't be completed.") );
+        return FALSE;
     }
 
+    run = grisbi_window_get_struct_run ( NULL );
+
     /* get and check the reconcile name */
-    reconcile_number = gsb_data_reconcile_get_number_by_name (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry )));
+    reconcile_number = gsb_data_reconcile_get_number_by_name (
+                        gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ) ) );
     if (reconcile_number)
     {
-	dialogue_warning_hint ( _("There is already a reconcile with that name, you must use another name or let it free.\nIf the reconcile name is ending by a number,\nit will be automatically incremented."),
-				_("Reconciliation can't be completed.") );
-	return FALSE;
+        dialogue_warning_hint ( _("There is already a reconcile with that name, you must use another name "
+                        "or let it free.\nIf the reconcile name is ending by a number,\nit will be "
+                        "automatically incremented."),
+                        _("Reconciliation can't be completed.") );
+        return FALSE;
     }
 
 
     /* get and save the date */
-    date = gsb_calendar_entry_get_date (reconcile_new_date_entry);
-    if (!date)
+    date = gsb_calendar_entry_get_date ( reconcile_new_date_entry );
+    if ( !date )
     {
-	gchar* tmpstr = g_strdup_printf ( _("Invalid date: '%s'"),
-						  gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry )));
-	dialogue_warning_hint ( tmpstr,
-				_("Reconciliation can't be completed.") );
-	g_free ( tmpstr );
-	return FALSE;
+        tmpstr = g_strdup_printf ( _("Invalid date: '%s'"),
+                        gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry ) ) );
+        dialogue_warning_hint ( tmpstr, _("Reconciliation can't be completed.") );
+        g_free ( tmpstr );
+
+        return FALSE;
     }
 
-    if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
+    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ) ) ) )
     {
-	dialogue_warning_hint ( _("You need to set a name to the reconciliation ; at least, set a number,\nit will be automatically incremented later"),
-				_("Reconciliation can't be completed.") );
-	return FALSE;
+        dialogue_warning_hint ( _("You need to set a name to the reconciliation ; at least, "
+                    "set a number,\nit will be automatically incremented later"),
+                    _("Reconciliation can't be completed.") );
+        return FALSE;
     }
 
     /* restore the good sort of the list */
-    if (transaction_list_sort_get_reconcile_sort ())
+    if ( transaction_list_sort_get_reconcile_sort () )
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (reconcile_sort_list_button),
-				       FALSE );
-	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( reconcile_sort_list_button ), FALSE );
+        gsb_reconcile_list_button_clicked ( reconcile_sort_list_button, NULL );
     }
 
-    tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
-    gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			 tmpstr);
+    tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate ( date ) );
+    gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmpstr );
     g_free ( tmpstr );
 
     /* create the new reconcile structure */
-    reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
+    reconcile_number = gsb_data_reconcile_new ( gtk_entry_get_text ( GTK_ENTRY (reconcile_number_entry ) ) );
     gsb_data_reconcile_set_account ( reconcile_number, account_number );
 
     /* set the variables of the reconcile */
@@ -607,8 +617,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     real = utils_real_get_from_string ( gtk_entry_get_text (
                         GTK_ENTRY ( reconcile_final_balance_entry ) ) );
-    gsb_data_reconcile_set_final_balance ( reconcile_number,
-					   real );
+    gsb_data_reconcile_set_final_balance ( reconcile_number, real );
 
     /* modify the reconciled transactions */
     list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
@@ -642,12 +651,12 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gsb_reconcile_cancel (NULL, NULL);
 
     /* reset records in run: to do after gsb_reconcile_cancel */
-    g_free (run.reconcile_final_balance);
-    if (run.reconcile_new_date)
-        g_date_free (run.reconcile_new_date);
-    run.reconcile_final_balance = NULL;
-    run.reconcile_new_date = NULL;
-    run.reconcile_account_number = -1;
+    g_free (run->reconcile_final_balance);
+    if (run->reconcile_new_date)
+        g_date_free (run->reconcile_new_date);
+    run->reconcile_final_balance = NULL;
+    run->reconcile_new_date = NULL;
+    run->reconcile_account_number = -1;
 
     gsb_file_set_modified ( TRUE );
 
@@ -714,15 +723,17 @@ gboolean gsb_reconcile_cancel ( GtkWidget *button,
 				        gpointer null )
 {
     GrisbiWindowEtat *etat;
+    GrisbiWindowRun *run;
 
     etat = grisbi_window_get_struct_etat ();
 
-    run.equilibrage = 0;
+    run = grisbi_window_get_struct_run ( NULL );
+    run->equilibrage = 0;
 
     /* save the final balance/new date for the next time the user will try to reconcile */
-    run.reconcile_account_number = gsb_gui_navigation_get_current_account ();
-    run.reconcile_final_balance = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ) ) );
-    run.reconcile_new_date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry ) ) );
+    run->reconcile_account_number = gsb_gui_navigation_get_current_account ();
+    run->reconcile_final_balance = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_final_balance_entry ) ) );
+    run->reconcile_new_date = gsb_parse_date_string ( gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry ) ) );
 
     /* set the normal color to the date entry */
     gsb_calendar_entry_set_color ( reconcile_new_date_entry, TRUE);

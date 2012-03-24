@@ -216,6 +216,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     struct stat buf;
     gsb_plugin *plugin;
     GrisbiWindowEtat *etat;
+    GrisbiWindowRun *run;
 
     devel_debug (filename);
 
@@ -235,7 +236,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         /* the file doesn't exist, so we will set the only user chmod */
         do_chmod = TRUE;
 
-    run.is_saving = TRUE;
+    run = grisbi_window_get_struct_run ( NULL );
+    run->is_saving = TRUE;
 
     /* we begin to try to reserve enough memory to make the entire file
      * if not enough, we will make it growth later
@@ -485,7 +487,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
 #endif /*_MSC_VER */
     }
 
-    run.is_saving = FALSE;
+    run->is_saving = FALSE;
 
     return ( TRUE );
 }

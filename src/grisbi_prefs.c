@@ -366,9 +366,9 @@ static void grisbi_prefs_encryption_toggled ( GtkToggleButton *checkbutton,
 
     if ( state )
     {
-        GrisbiAppRun *run;
+        GrisbiWindowRun *run;
 
-        run = grisbi_app_get_run ();
+        run = grisbi_window_get_struct_run ( NULL );
         dialog_message ( "encryption-is-irreversible" );
         run->new_crypted_file = TRUE;
     }

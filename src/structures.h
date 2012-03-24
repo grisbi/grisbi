@@ -21,7 +21,7 @@
 
 typedef struct gsb_conf_t GrisbiAppConf;
 typedef struct gsb_etat_t GrisbiWindowEtat;
-typedef struct gsb_run_t  GrisbiAppRun;
+typedef struct gsb_run_t  GrisbiWindowRun;
 
 
 /** structure etat
@@ -109,9 +109,6 @@ struct gsb_etat_t
     gchar *transaction_column_width;
     gchar *scheduler_column_width;
 };
-
-/* declared in parametres.c */
-extern struct gsb_etat_t etat;
 
 
 /** structure conf
@@ -234,8 +231,6 @@ struct gsb_run_t
     GDate *reconcile_new_date;      /*                                   new date */
 };
 
-/* declared in main.c */
-extern struct gsb_run_t run;
 
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)

@@ -199,12 +199,12 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *dialog;
     GrisbiAppConf *conf;
-    GrisbiAppRun *run;
+    GrisbiWindowRun *run;
     GrisbiWindowEtat *etat;
 
     etat = grisbi_window_get_struct_etat ();
     conf = grisbi_app_get_conf ( );
-    run = grisbi_app_get_run ();
+    run = grisbi_window_get_struct_run ( NULL );
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );

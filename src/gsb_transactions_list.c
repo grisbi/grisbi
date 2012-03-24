@@ -502,6 +502,9 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 {
     GtkWidget *menu, *menu_item;
     gint current_account;
+    GrisbiWindowRun *run;
+
+    run = grisbi_window_get_struct_run ( NULL );
 
     menu = gtk_menu_new ();
 
@@ -532,7 +535,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_r ( current_account ) );
-    if ( run.equilibrage == 1 )
+    if ( run->equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -546,7 +549,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
     menu_item = gtk_check_menu_item_new_with_label ( _("Show lines archives") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
 				        gsb_data_account_get_l ( current_account ) );
-    if ( run.equilibrage == 1 )
+    if ( run->equilibrage == 1 )
         gtk_widget_set_sensitive ( menu_item, FALSE );
     else
         gtk_widget_set_sensitive ( menu_item, TRUE );
@@ -1377,10 +1380,11 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
     gpointer transaction_pointer;
     gint transaction_number, column, line_in_transaction;
     gint what_is_line;
+    GrisbiWindowRun *run;
 
     /*     if we are not in the list, go away */
     if ( ev -> window != gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )) )
-	return(FALSE);
+        return(FALSE);
 
     /* first, give the focus to the list */
     gtk_widget_grab_focus (tree_view);
@@ -1399,8 +1403,10 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	/* show the partial popup */
 	if ( ev -> button == RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE, -1, -1 );
-	return (TRUE);
+        return (TRUE);
     }
+
+    run = grisbi_window_get_struct_run ( NULL );
 
     /* ok we are on the list, get the transaction */
     model = GTK_TREE_MODEL ( transaction_model_get_model());
@@ -1477,7 +1483,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 	 &&
 	 column == find_element_col (ELEMENT_MARK)
 	 &&
-	 (( run.equilibrage
+	 (( run->equilibrage
 	    &&
 	    line_in_transaction == find_element_line (ELEMENT_MARK))
 	  ||
@@ -1513,8 +1519,10 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 {
     gint account_number;
     gint transaction_number;
+    GrisbiWindowRun *run;
 
     account_number = gsb_gui_navigation_get_current_account ();
+    run = grisbi_window_get_struct_run ( NULL );
 
     switch ( ev -> keyval )
     {
@@ -1578,7 +1586,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
         transaction_number = gsb_data_account_get_current_transaction_number ( account_number );
         if ( transaction_number > 0 )
         {
-        if ( run.equilibrage )
+        if ( run->equilibrage )
         {
             /* we are reconciling, so mark/unmark the transaction */
             gsb_transactions_list_switch_mark ( transaction_number );
@@ -1727,6 +1735,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     gint col;
     gsb_real amount;
     gint account_number;
+    GrisbiWindowRun *run;
 
     devel_debug_int (transaction_number);
 
@@ -1781,7 +1790,8 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     }
 
     /* if we are reconciling, update the amounts label */
-    if ( run.equilibrage )
+    run = grisbi_window_get_struct_run ( NULL );
+    if ( run->equilibrage )
     {
     /* pbiava 02/12/2009 : shows the balance after you mark the transaction */
     transaction_list_set_balances (  );
@@ -1819,17 +1829,19 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     GtkTreeModel *model;
     gint msg_no = 0;
     gchar *tmp_str;
+    GrisbiWindowRun *run;
 
     r_column = find_element_col (ELEMENT_MARK);
     if ( r_column == -1 )
-	return FALSE;
+        return FALSE;
 
     /* if we are on the white line or a child of split, do nothing */
     if ( transaction_number == -1 )
-	return FALSE;
+        return FALSE;
 
     /* if we are reconciling, cancel the action */
-    if (run.equilibrage)
+    run = grisbi_window_get_struct_run ( NULL );
+    if (run->equilibrage)
     {
         dialogue_error ( _("You cannot switch a transaction between R and non R "
                          "while reconciling.\nPlease finish or cancel the "
@@ -2169,6 +2181,7 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     gint account_number;
     gint msg_no = 0;
     GrisbiAppConf *conf;
+    GrisbiWindowRun *run;
 
     devel_debug_int (transaction_number);
     conf = grisbi_app_get_conf ( );
@@ -2268,7 +2281,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
     transaction_list_select (gsb_data_account_get_current_transaction_number (account_number));
 
     /* if we are reconciling, update the amounts */
-    if ( run.equilibrage )
+    run = grisbi_window_get_struct_run ( NULL );
+    if ( run->equilibrage )
         gsb_reconcile_update_amounts (NULL, NULL);
 
     /* we will update the home page */
@@ -2826,6 +2840,7 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
                         gint mother_transaction_number )
 {
     gint new_transaction_number;
+    GrisbiWindowRun *run;
 
     /* dupplicate the transaction */
     new_transaction_number = gsb_data_transaction_new_transaction (
@@ -2882,7 +2897,8 @@ gint gsb_transactions_list_clone_transaction ( gint transaction_number,
             list_tmp_transactions = list_tmp_transactions -> next;
         }
     }
-    if ( run.equilibrage )
+    run = grisbi_window_get_struct_run ( NULL );
+    if ( run->equilibrage )
         transaction_list_show_toggle_mark ( TRUE );
 
     return new_transaction_number;
@@ -3030,6 +3046,7 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
 void schedule_selected_transaction ()
 {
     gint scheduled_number;
+    GrisbiWindowRun *run;
 
     if (!assert_selected_transaction())
         return;
@@ -3039,7 +3056,8 @@ void schedule_selected_transaction ()
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    if ( run.equilibrage == 0 )
+    run = grisbi_window_get_struct_run ( NULL );
+    if ( run->equilibrage == 0 )
     {
         gsb_gui_navigation_set_selection (GSB_SCHEDULER_PAGE, 0, NULL);
         gsb_scheduler_list_select (scheduled_number);

@@ -69,6 +69,10 @@ struct _GrisbiWindowPrivate
     /* page d'accueil affichée si pas de fichier chargé automatiquement */
     GtkWidget           *accueil_page;
 
+    /* widget général si un fichier est chargé */
+    GtkWidget           *vbox_general;
+    GtkWidget           *hpaned_general;
+
     /* nom du fichier associé à la fenêtre */
     gchar               *filename;
 
@@ -102,6 +106,9 @@ struct _GrisbiWindowPrivate
 
     /* variables de configuration de la fenêtre */
     GrisbiWindowEtat    *etat;
+
+    /* structure run */
+    GrisbiWindowRun     *run;
 };
 
 
@@ -134,17 +141,25 @@ static void grisbi_window_finalize ( GObject *object )
 {
     GrisbiWindow *window;
     GrisbiWindowEtat *etat;
+    GrisbiWindowRun *run;
 
     devel_debug (NULL);
 
     window = GRISBI_WINDOW ( object );
     etat = window->priv->etat;
+    run = window->priv->run;
 
     /* libère la mémoire utilisée par les données de priv */
     grisbi_window_free_priv ( window, etat );
 
     /* libération de la mémoiré utilisée par etat */
     g_free ( etat );
+
+    /* libération mémoire de la structure run */
+    g_free ( run->reconcile_final_balance );
+    if ( run->reconcile_new_date )
+        g_date_free ( run->reconcile_new_date );
+    g_free ( run );
 
     G_OBJECT_CLASS ( grisbi_window_parent_class )->finalize ( object );
 }
@@ -246,8 +261,6 @@ static GtkActionGroup *grisbi_window_add_recents_action_group ( GtkUIManager *ui
     GtkActionGroup *actions;
     gint i;
 
-    devel_debug (NULL);
-
     actions = gtk_action_group_new ( "FileRecentFilesGroupAction" );
     for ( i = 0 ; i < conf->nb_derniers_fichiers_ouverts ; i++ )
     {
@@ -287,8 +300,6 @@ static void grisbi_window_add_recents_sub_menu ( GrisbiWindow *window,
 {
     GtkUIManager *ui_manager;
     gint i;
-
-    devel_debug (NULL);
 
     ui_manager = window->priv->ui_manager;
 
@@ -330,6 +341,8 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
     GtkActionGroup *actions;
     GError *error = NULL;
     gchar *ui_file;
+
+    devel_debug (NULL);
 
     ui_manager = gtk_ui_manager_new ( );
     window->priv->ui_manager = ui_manager;
@@ -495,7 +508,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
  *
  * \rerurn
  * */
-static gboolean grisbi_window_initialise_builder ( void )
+static gboolean grisbi_window_initialise_builder ( GrisbiWindow *window )
 {
     /* Creation d'un nouveau GtkBuilder */
     grisbi_window_builder = gtk_builder_new ( );
@@ -503,10 +516,13 @@ static gboolean grisbi_window_initialise_builder ( void )
         return FALSE;
 
     /* récupère les widgets */
-    if ( utils_gtkbuilder_merge_ui_data_in_builder ( grisbi_window_builder, "grisbi.ui" ) )
-        return TRUE;
-    else
+    if ( !utils_gtkbuilder_merge_ui_data_in_builder ( grisbi_window_builder, "grisbi.ui" ) )
         return FALSE;
+
+    window->priv->main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
+    window->priv->accueil_page = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "accueil_page" ) );
+
+    return TRUE;
 }
 
 
@@ -518,9 +534,8 @@ static gboolean grisbi_window_initialise_builder ( void )
  *
  * \return
  **/
-static GtkWidget *grisbi_window_new_accueil_page ( GrisbiWindow *window )
+static void grisbi_window_new_accueil_page ( GrisbiWindow *window )
 {
-    GtkWidget *accueil_page;
     GtkWidget *bouton;
     GtkWidget *table;
     GtkAction *action;
@@ -531,22 +546,21 @@ static GtkWidget *grisbi_window_new_accueil_page ( GrisbiWindow *window )
 
     conf = grisbi_app_get_conf ( );
 
-    accueil_page = grisbi_window_get_widget_by_name ( "accueil_page" );
-    table = grisbi_window_get_widget_by_name ( "table_accueil" );
+    table = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "table_accueil" ) );
 
     /* add buttons "Nouveau" */
     action = gtk_action_group_get_action ( window->priv->always_sensitive_action_group, "NewAction" );
-    bouton = grisbi_window_get_widget_by_name ( "bouton_nouveau" );
+    bouton = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "bouton_nouveau" ) );
     gtk_activatable_set_related_action  ( GTK_ACTIVATABLE ( bouton ), GTK_ACTION ( action ) );
 
     /* add buttons "Ouvrir" */
     action = gtk_action_group_get_action ( window->priv->always_sensitive_action_group, "OpenAction" );
-    bouton = grisbi_window_get_widget_by_name ( "bouton_ouvrir" );
+    bouton =  GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "bouton_ouvrir" ) );
     gtk_activatable_set_related_action  ( GTK_ACTIVATABLE ( bouton ), GTK_ACTION ( action ) );
 
     /* add buttons "Importer" */
     action = gtk_action_group_get_action ( window->priv->always_sensitive_action_group, "ImportFileAction" );
-    bouton = grisbi_window_get_widget_by_name ( "bouton_importer" );
+    bouton = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "bouton_importer" ) );
     gtk_activatable_set_related_action  ( GTK_ACTIVATABLE ( bouton ), GTK_ACTION ( action ) );
 
     for ( i = 0; i < conf->nb_derniers_fichiers_ouverts; i++ )
@@ -589,8 +603,6 @@ static GtkWidget *grisbi_window_new_accueil_page ( GrisbiWindow *window )
 
         g_free ( tmp_str );
     }
-
-    return accueil_page;
 }
 
 
@@ -704,11 +716,11 @@ static gboolean grisbi_window_hpaned_size_allocate ( GtkWidget *hpaned,
 
 
 /**
+ * Initialise le panneau du widget principal
  *
+ * \param window
  *
- * \param
- *
- * \return
+ * \return hpaned
  **/
 static GtkWidget *grisbi_window_new_hpaned ( GrisbiWindow *window )
 {
@@ -769,6 +781,8 @@ static void grisbi_window_init_etat_mutex ( void )
  **/
 static void grisbi_window_init_struct_etat ( GrisbiWindowEtat *etat )
 {
+    devel_debug (NULL);
+
     /* init logo */
     etat->is_pixmaps_dir = TRUE;
     if ( etat->name_logo && strlen ( etat->name_logo ) )
@@ -821,52 +835,52 @@ static void grisbi_window_init_struct_etat ( GrisbiWindowEtat *etat )
  */
 static void grisbi_window_init ( GrisbiWindow *window )
 {
-    GtkWidget *main_box;
     GtkWidget *statusbar;
     GtkWidget *headings_eb;
     GrisbiAppConf *conf;
 
+    devel_debug (NULL);
+
     window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
 
-    if ( !grisbi_window_initialise_builder ( ) )
+    if ( !grisbi_window_initialise_builder ( window ) )
         exit ( 1 );
 
+    /* creation de la structure run */
+    window->priv->run = g_malloc0 ( sizeof ( GrisbiWindowRun ) );
+
+    /* initialisation de la variable etat */
+    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+
     /* Création de la fenêtre principale de Grisbi */
-    main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
-
-    window->priv->main_box = main_box;
-
-    gtk_container_add ( GTK_CONTAINER ( window ), main_box );
-    gtk_widget_show ( main_box );
+    gtk_container_add ( GTK_CONTAINER ( window ), window->priv->main_box );
+    gtk_widget_show ( window->priv->main_box );
 
     /* create the menus */
     grisbi_window_init_menus ( window );
 
     /* create the headings eb */
     headings_eb = grisbi_window_new_headings_eb ( window );
-    gtk_box_pack_start ( GTK_BOX ( main_box ), headings_eb, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( window->priv->main_box ), headings_eb, FALSE, FALSE, 0 );
 
     /* create the statusbar */
     statusbar = grisbi_window_new_statusbar ( window );
-    gtk_box_pack_end ( GTK_BOX ( main_box ), statusbar, FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX ( window->priv->main_box ), statusbar, FALSE, FALSE, 0 );
 
     /* on initialise une page d'accueil si on ne charge pas de fichier */
     conf = grisbi_app_get_conf ();
 
-    window->priv->accueil_page = grisbi_window_new_accueil_page ( window );
-    gtk_box_pack_start ( GTK_BOX ( main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
+    grisbi_window_new_accueil_page ( window );
+    gtk_box_pack_start ( GTK_BOX ( window->priv->main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
 
     if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
         gtk_widget_hide ( window->priv->accueil_page );
-
-    /* initialisation de la variable etat */
-    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
 
     /* initialisation des variables de la fenêtre */
     grisbi_window_init_etat_mutex ();
     g_mutex_lock ( grisbi_window_etat_mutex );
     grisbi_window_init_struct_etat ( window->priv->etat );
-    init_variables ( window->priv->etat );
+    init_variables ( window->priv->etat, window->priv->run );
     g_mutex_unlock ( grisbi_window_etat_mutex );
 
     /* set the signals */
@@ -891,9 +905,8 @@ static void grisbi_window_init ( GrisbiWindow *window )
  */
 GtkWidget *grisbi_window_new_general_widget ( void )
 {
-    GtkWidget *vbox_general;
-    GtkWidget *hpaned_general;
     GrisbiWindow *window;
+devel_debug (NULL);
 
     window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
 
@@ -901,20 +914,23 @@ GtkWidget *grisbi_window_new_general_widget ( void )
     if ( gtk_widget_get_visible ( window->priv->accueil_page ) )
         gtk_widget_hide ( window->priv->accueil_page );
 
-    vbox_general = grisbi_window_get_widget_by_name ( "vbox_general" );
+    if ( window->priv->vbox_general == NULL )
+    {
+        window->priv->vbox_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "vbox_general" ) );
 
-    /* Then create and fill the main hpaned. */
-    hpaned_general = grisbi_window_new_hpaned ( window );
-/*     gsb_gui_navigation_create_navigation_pane ( );  */
-    gsb_gui_new_general_notebook ();
-    gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
+        /* Then create and fill the main hpaned. */
+        window->priv->hpaned_general = grisbi_window_new_hpaned ( window );
+        gsb_gui_navigation_create_navigation_pane ();
+        gsb_gui_new_general_notebook ();
+        gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
+    }
 
-    gtk_widget_show ( hpaned_general );
+    gtk_widget_show ( window->priv->hpaned_general );
 
-    gtk_widget_show ( vbox_general );
+    gtk_widget_show ( window->priv->vbox_general );
 
     /* return */
-    return vbox_general;
+    return window->priv->vbox_general;
 }
 
 
@@ -1169,6 +1185,7 @@ void grisbi_window_headings_update_label_markup ( gchar *label_name,
 }
 
 
+/* FONCTIONS UTILITAIRES */
 /**
  * retourne le widget nommé
  *
@@ -1266,6 +1283,22 @@ void grisbi_window_free_priv ( GrisbiWindow *window,
 
     g_free ( etat->scheduler_column_width );
     etat->scheduler_column_width = NULL;
+}
+
+
+/**
+ * retourne la structure run
+ *
+ * \param GrisbiWindow
+ *
+ * \return struct GrisbiWindowRun
+ **/
+GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window )
+{
+    if ( window == NULL )
+        window = grisbi_app_get_active_window ( grisbi_app_get_default () );
+
+    return window->priv->run;
 }
 
 

@@ -263,11 +263,11 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *filename_entry;
     gchar *nom_fichier_comptes;
     gchar *titre_fichier;
-    GrisbiAppRun *run;
+    GrisbiWindowRun *run;
     GrisbiWindowEtat *etat;
 
     etat = grisbi_window_get_struct_etat ();
-    run = grisbi_app_get_run ();
+    run = grisbi_window_get_struct_run ( NULL );
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );

@@ -227,9 +227,10 @@ gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
 {
 #ifdef HAVE_SSL
     gchar * key, * message = "";
-    GrisbiAppRun *run;
+    GrisbiWindowRun *run;
+devel_debug (NULL);
 
-    run = grisbi_app_get_run ();
+    run = grisbi_window_get_struct_run ( NULL );
 
     if ( run->new_crypted_file )
     {
@@ -318,9 +319,9 @@ gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_m
     gchar *key = NULL;
     GtkWidget *dialog, *button, *label, *entry, *hbox, *hbox2, *vbox, *icon;
     gint result;
-    GrisbiAppRun *run;
-
-    run = grisbi_app_get_run ();
+    GrisbiWindowRun *run;
+devel_debug (NULL);
+    run = grisbi_window_get_struct_run ( NULL );
 
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
                         GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
@@ -458,6 +459,7 @@ G_MODULE_EXPORT extern void openssl_plugin_register ( void )
 G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
+devel_debug (NULL);
     /* The final size is cast from a gulong to a gpointer. This is 'ok' because
      * a gpointer is always the same size. It is quite ugly though, and a proper
      * fix should be found for this. */
@@ -468,6 +470,7 @@ G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **
 void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )
 {
     gint visibility;
+devel_debug (NULL);
 
     visibility = gtk_entry_get_visibility ( GTK_ENTRY ( entry ) );
     if ( visibility )

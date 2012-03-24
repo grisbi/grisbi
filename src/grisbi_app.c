@@ -38,8 +38,6 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
-#include "gsb_plugins.h"
-#include "import.h"
 #include "traitement_variables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -47,9 +45,6 @@
 
 /*START_STATIC*/
 /*END_STATIC*/
-
-/* structure run */
-static GrisbiAppRun *app_run;
 
 /* mutex for GrisbiAppConf */
 static GMutex *grisbi_app_conf_mutex = NULL;
@@ -93,12 +88,6 @@ static void grisbi_app_finalize ( GObject *object )
     g_free ( conf->browser_command );
     g_strfreev ( conf->tab_noms_derniers_fichiers_ouverts );
     g_free ( app->priv->conf );
-
-    /* libération mémoire de la structure run */
-    g_free ( app_run->reconcile_final_balance );
-    if ( app_run->reconcile_new_date )
-        g_date_free ( app_run->reconcile_new_date );
-    g_free ( app_run );
 
     /* libération mémoire de grisbi_app_conf_mutex */
     g_mutex_trylock ( grisbi_app_conf_mutex );
@@ -211,20 +200,22 @@ static gboolean grisbi_app_window_delete_event ( GrisbiWindow *window,
 static void grisbi_app_load_accels ( void )
 {
     gchar *accel_filename = NULL;
-    gchar *msg;
+    gchar *msg = NULL;
 
     accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
     if ( accel_filename )
     {
         gtk_accel_map_load ( accel_filename );
-        msg = g_strdup_printf ( "Loading keybindings from %s\n", accel_filename );
         g_free ( accel_filename );
     }
     else
         msg = g_strdup_printf ( "Error loading keyboard shortcuts\n" );
 
+    if ( msg )
+    {
         notice_debug ( msg );
         g_free ( msg );
+    }
 }
 
 
@@ -238,20 +229,22 @@ static void grisbi_app_load_accels ( void )
 static void grisbi_app_save_accels ( void )
 {
     gchar *accel_filename;
-    gchar *msg;
+    gchar *msg = NULL;
 
     accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
     if ( accel_filename )
     {
-        msg = g_strdup_printf ( "Saving keybindings in %s\n", accel_filename);
         gtk_accel_map_save ( accel_filename );
         g_free ( accel_filename );
     }
     else
         msg = g_strdup_printf ( "Error saving keyboard shortcuts\n" );
 
+    if ( msg )
+    {
         notice_debug ( msg );
         g_free ( msg );
+    }
 }
 
 
@@ -304,23 +297,6 @@ static void grisbi_app_load_config_var ( GrisbiApp *app )
 
  
 /**
- * initialises les formats de fichiers pour l'importation.
- *
- * \param app
- *
- * \return TRUE if first use
- */
-static void grisbi_app_load_import_formats ( GrisbiApp *app )
-{
-    /* importation des formats de fichiers */
-#ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
-#endif
-    register_import_formats ();
-}
-
- 
-/**
  * set size and position of the main window of grisbi.
  *
  * \param window
@@ -362,10 +338,10 @@ static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window )
  *
  * \return
  **/
-void grisbi_app_init_conf_mutex ( void )
+static void grisbi_app_init_conf_mutex ( void )
 {
-  g_assert ( grisbi_app_conf_mutex == NULL );
-  grisbi_app_conf_mutex = g_mutex_new ();
+    g_assert ( grisbi_app_conf_mutex == NULL );
+    grisbi_app_conf_mutex = g_mutex_new ();
 }
 
 
@@ -381,6 +357,8 @@ static void grisbi_app_init ( GrisbiApp *app )
 {
     gchar *string;
 
+    devel_debug (NULL);
+
     app->priv = GRISBI_APP_GET_PRIVATE ( app );
 
     /* charge les raccourcis claviers */
@@ -392,17 +370,11 @@ static void grisbi_app_init ( GrisbiApp *app )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
 
-    /* creation de la structure run */
-    app_run = g_malloc0 ( sizeof ( GrisbiAppRun ) );
-
     /* initialisation des paramètres de l'application */
     grisbi_app_init_conf_mutex ();
     g_mutex_lock ( grisbi_app_conf_mutex );
     grisbi_app_load_config_var ( app );
     g_mutex_unlock ( grisbi_app_conf_mutex );
-
-    /* importation des formats de fichiers */
-    grisbi_app_load_import_formats ( app );
 
     /* initialisation des couleurs par défaut */
     gsb_color_initialise_couleurs_par_defaut ( );
@@ -474,18 +446,24 @@ gboolean grisbi_app_close_file ( void )
     GrisbiApp *app;
     GrisbiWindow *main_window;
     GrisbiAppConf *conf;
+    GrisbiWindowEtat *etat;
 
     devel_debug (NULL);
 
     app = grisbi_app_get_default ( );
     conf = grisbi_app_get_conf ( );
+    etat = grisbi_window_get_struct_etat ();
 
     /* on récupère la fenetre active */
     main_window = grisbi_app_get_active_window ( app );
 
+    /* on libère la mémoire utilisée par la fenêtre active */
+    grisbi_window_free_priv ( main_window, etat );
+    free_variables ();
 
-
-
+    gtk_widget_hide ( grisbi_window_get_widget_by_name ( "vbox_general" ) );
+    gtk_widget_hide ( grisbi_window_get_headings_eb ( main_window ) );
+    gtk_widget_show ( grisbi_window_get_widget_by_name ( "accueil_page" ) );
 
     return TRUE;
 }
@@ -701,7 +679,6 @@ GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app )
     GrisbiApp *tmp_app;
 
     if ( app == NULL )
-
         tmp_app = grisbi_app_get_default ( );
     else
         tmp_app = app;
@@ -751,6 +728,8 @@ GrisbiApp *grisbi_app_get_default ( void )
 
     app = GRISBI_APP ( g_object_new ( GRISBI_TYPE_APP, NULL ) );
 
+    if ( app == NULL );
+
     g_object_add_weak_pointer ( G_OBJECT ( app ), (gpointer) &app );
     g_object_weak_ref ( G_OBJECT ( app ), grisbi_app_weak_notify, NULL );
 
@@ -772,19 +751,6 @@ gboolean grisbi_app_get_first_use ( GrisbiApp *app )
 }
 
  
-/**
- * retourne la structure run
- *
- * \param
- *
- * \return
- **/
-GrisbiAppRun *grisbi_app_get_run ( void )
-{
-    return app_run;
-}
-
-
 /**
  * close grisbi by destroying the main window
  * This function is called by the Quit menu option.
@@ -823,7 +789,7 @@ gboolean grisbi_app_quit ( void )
         gtk_widget_destroy ( GTK_WIDGET ( window ) );
 
     /* clean finish of the debug file */
-    if ( etat.debug_mode )
+    if ( gsb_debug_get_debug_mode () )
         gsb_debug_finish_log ( );
 
     return FALSE;

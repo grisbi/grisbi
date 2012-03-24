@@ -84,13 +84,19 @@ void traitement_sigsegv ( gint signal_nb )
     gchar *tmp_str;
     gchar *nom_fichier_comptes;
     GtkWidget *dialog;
+    gboolean compress_file = FALSE;
+    GrisbiAppConf *conf = NULL;
+    GrisbiWindowRun *run = NULL;
 #ifdef HAVE_BACKTRACE
     GtkWidget * expander;
 #endif
-    GrisbiAppConf *conf;
 
-    conf = grisbi_app_get_conf ( );
     nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
+    if ( nom_fichier_comptes )
+    {
+        conf = grisbi_app_get_conf ( );
+        grisbi_window_get_struct_run ( NULL );
+    }
 
     /* il y a 4 possibilités :
      *  - Demande de fermeture de la part du système
@@ -105,8 +111,11 @@ void traitement_sigsegv ( gint signal_nb )
         gsb_file_default_dir = gsb_dirs_get_home_dir ( );
 
         if ( nom_fichier_comptes )
+        {
             /* set # around the filename */
             tmp_str = g_path_get_basename ( nom_fichier_comptes );
+            compress_file = conf->compress_file;
+        }
         else
             /* no name for the file, create it */
             tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
@@ -131,7 +140,7 @@ void traitement_sigsegv ( gint signal_nb )
         if ( res == GTK_RESPONSE_YES )
         {
             gsb_status_message ( _("Save file") );
-            gsb_file_save_save_file ( tmp_str, conf->compress_file, FALSE );
+            gsb_file_save_save_file ( tmp_str, compress_file, FALSE );
             gsb_status_clear ( );
         }
 
@@ -142,16 +151,16 @@ void traitement_sigsegv ( gint signal_nb )
 
         exit ( 0 );
     }
-    else if ( run.is_loading || run.is_saving || !gsb_file_get_modified ( ) )
+    else if ( nom_fichier_comptes && ( run->is_loading || run->is_saving || !gsb_file_get_modified ( ) ) )
     {
-        if ( run.is_loading )
+        if ( run->is_loading )
         {
             old_errmsg = errmsg;
             errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
             g_free ( old_errmsg );
         }
 
-        if ( run.is_saving )
+        if ( run->is_saving )
         {
             old_errmsg = errmsg;
             errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
@@ -166,15 +175,18 @@ void traitement_sigsegv ( gint signal_nb )
         gsb_file_default_dir = gsb_dirs_get_home_dir ( );
 
         if ( nom_fichier_comptes )
+        {
             /* set # around the filename */
             tmp_str = g_path_get_basename ( nom_fichier_comptes );
+            compress_file = conf->compress_file;
+        }
         else
             /* no name for the file, create it */
             tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_crash_no_name#", NULL );
 
         gsb_status_message ( _("Save file") );
 
-        gsb_file_save_save_file ( tmp_str, conf->compress_file, FALSE );
+        gsb_file_save_save_file ( tmp_str, compress_file, FALSE );
 
         gsb_status_clear ( );
 

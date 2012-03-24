@@ -346,18 +346,20 @@ gboolean gsb_gui_toggle_show_form ( void )
 gboolean gsb_gui_toggle_show_reconciled ( void )
 {
     gint current_account;
+    GrisbiWindowRun *run;
 
     if ( block_menu_cb )
-	    return FALSE;
+        return FALSE;
+    run = grisbi_window_get_struct_run ( NULL );
 
     current_account = gsb_gui_navigation_get_current_account ( );
-    if ( current_account == -1 || run.equilibrage == 1 )
+    if ( current_account == -1 || run->equilibrage == 1 )
         return FALSE;
 
     if ( gsb_data_account_get_r ( current_account ) )
-	    change_aspect_liste ( 6 );
+        change_aspect_liste ( 6 );
     else
-	    change_aspect_liste ( 5 );
+        change_aspect_liste ( 5 );
 
     return FALSE;
 }

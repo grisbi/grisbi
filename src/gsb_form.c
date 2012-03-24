@@ -2359,8 +2359,10 @@ gboolean gsb_form_finish_edition ( void )
     gint source_transaction_number = -1;
     gint nbre_passage = 0;
     gint mother_number;
+    GrisbiWindowRun *run;
 
     devel_debug (NULL);
+    run = grisbi_window_get_struct_run ( NULL );
 
     /* get the number of the transaction, stored in the form (< 0 if new ) */
     transaction_number = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT ( transaction_form ),
@@ -2625,7 +2627,7 @@ gboolean gsb_form_finish_edition ( void )
 
     /* if it's a reconciliation and we modify a transaction, check
      * the amount of marked transactions */
-    if ( is_transaction && run.equilibrage )
+    if ( is_transaction && run->equilibrage )
     {
         if (new_transaction)
             /* we are reconciling and it's a new transaction, so need to show the checkbox */

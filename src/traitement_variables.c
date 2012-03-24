@@ -135,16 +135,14 @@ static const gchar *transaction_col_width_init = "10-12-36-6-12-12-12";
  *
  * \return
  * */
-void init_variables ( GrisbiWindowEtat *etat )
+void init_variables ( GrisbiWindowEtat *etat,
+                        GrisbiWindowRun *run )
 {
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
-    GrisbiAppRun *run;
 
     devel_debug (NULL);
-
-    run = grisbi_app_get_run ();
 
     /* init the format date */
     initialise_format_date ( );
@@ -215,12 +213,13 @@ void init_variables ( GrisbiWindowEtat *etat )
     gsb_select_icon_init_logo_variables ();
 
     /* reconcile (etat) */
-    run->reconcile_account_number = -1;
-    g_free ( run->reconcile_final_balance );
-    if ( run->reconcile_new_date )
-        g_date_free ( run->reconcile_new_date );
-    run->reconcile_final_balance = NULL;
-    run->reconcile_new_date = NULL;
+/*     run->reconcile_account_number = -1;
+ *     g_free ( run->reconcile_final_balance );
+ *     if ( run->reconcile_new_date )
+ *         g_date_free ( run->reconcile_new_date );
+ *     run->reconcile_final_balance = NULL;
+ *     run->reconcile_new_date = NULL;
+ */
 
     adresse_commune = NULL;
     adresse_secondaire = NULL;
