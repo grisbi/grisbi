@@ -52,13 +52,6 @@
 
 
 /*START_STATIC*/
-static void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line );
-static gboolean gsb_main_init_app ( void );
-static void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line );
-static gboolean gsb_main_print_environment_var ( void );
-static gint gsb_main_set_debug_level ( GrisbiCommandLine *command_line );
-static void gsb_main_trappe_signal_sigsegv ( void );
-static void gsb_main_window_set_size_and_position ( void );
 /*END_STATIC*/
 
 
@@ -82,6 +75,144 @@ static void gsb_main_load_import_formats ( void )
 }
 
  
+/**
+ * affiche les variables d'environnement de Grisbi
+ *
+ *
+ *
+ * */
+gboolean gsb_main_print_environment_var ( void )
+{
+    gchar *tmp_str;
+
+    g_print ("\nGrisbi version %s\n\n", VERSION );
+
+    g_print ("Variables d'environnement :\n" );
+
+    tmp_str = gsb_locale_get_print_locale_var ( );
+    g_print ("%s", tmp_str);
+
+    g_free ( tmp_str );
+
+    g_print ( "gint64\n\tG_GINT64_MODIFIER = \"%s\"\n"
+                        "\t%"G_GINT64_MODIFIER"d\n\n",
+                        G_GINT64_MODIFIER,
+                        G_MAXINT64 );
+
+    tmp_str = gsb_dirs_get_print_dir_var ( );
+    g_print ("%s", tmp_str);
+
+    g_free ( tmp_str );
+
+    return FALSE;
+}
+
+
+/**
+ * On detourne les signaaux SIGINT, SIGTERM, SIGSEGV
+ *
+ *
+ *
+ * */
+static void gsb_main_trappe_signal_sigsegv ( void )
+{
+#ifndef G_OS_WIN32
+    struct sigaction sig_sev;
+
+    memset ( &sig_sev, 0, sizeof ( struct sigaction ) );
+    sig_sev.sa_handler = traitement_sigsegv;
+    sig_sev.sa_flags = 0;
+    sigemptyset ( &( sig_sev.sa_mask ) );
+
+    if ( sigaction ( SIGINT, &sig_sev, NULL ) )
+        g_print ( _("Error on sigaction: SIGINT won't be trapped\n") );
+
+    if ( sigaction ( SIGTERM, &sig_sev, NULL ) )
+        g_print ( _("Error on sigaction: SIGTERM won't be trapped\n") );
+
+    if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
+        g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
+#endif /* G_OS_WIN32 */
+}
+
+
+/**
+ * Load file if necessary
+ *
+ *
+ *
+ * */
+static void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
+{
+    GrisbiAppConf *conf;
+    GSList *file_liste;
+
+    conf = grisbi_app_get_conf ( );
+
+    /* check the command line, if there is something to open */
+    file_liste = grisbi_command_line_get_file_list ( command_line );
+
+    if ( file_liste )
+    {
+        gsb_file_open_from_commandline ( file_liste );
+    }
+    else
+    {
+        /* open the last file if needed */
+        if ( conf->load_last_file &&
+             conf->nb_derniers_fichiers_ouverts > 0 &&
+             conf->tab_noms_derniers_fichiers_ouverts[0] )
+        {
+            gsb_file_open_file ( conf->tab_noms_derniers_fichiers_ouverts[0] );
+        }
+    }
+
+    return;
+}
+
+
+/**
+ * renvoie la version de Grisbi
+ *
+ * \param
+ *
+ * \return
+ */
+void gsb_main_show_version ( void )
+{
+#ifdef HAVE_PLUGINS
+    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
+#endif
+
+g_print ( N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list ( ) );
+
+    exit ( 0 );
+}
+
+
+/**
+ *  procédure appelée après gtk_main_quit termine Grisbi
+ *
+ * \param
+ *
+ * \return
+ */
+static void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line )
+{
+    devel_debug (NULL);
+
+    g_object_unref ( command_line );
+
+    /* libération de mémoire */
+    gsb_config_free_conf_filename ( );
+    gsb_locale_shutdown ( );
+    gsb_dirs_shutdown ( );
+
+    /* liberation libgoffice */
+    libgoffice_shutdown ( );
+}
+
+
 /**
  * Main function
  *
@@ -171,144 +302,6 @@ gint main ( int argc, char **argv )
 
     /* return */
     exit ( 0 );
-}
-
-
-/**
- * affiche les variables d'environnement de Grisbi
- *
- *
- *
- * */
-gboolean gsb_main_print_environment_var ( void )
-{
-    gchar *tmp_str;
-
-    g_print ("\nGrisbi version %s\n\n", VERSION );
-
-    g_print ("Variables d'environnement :\n" );
-
-    tmp_str = gsb_locale_get_print_locale_var ( );
-    g_print ("%s", tmp_str);
-
-    g_free ( tmp_str );
-
-    g_print ( "gint64\n\tG_GINT64_MODIFIER = \"%s\"\n"
-                        "\t%"G_GINT64_MODIFIER"d\n\n",
-                        G_GINT64_MODIFIER,
-                        G_MAXINT64 );
-
-    tmp_str = gsb_dirs_get_print_dir_var ( );
-    g_print ("%s", tmp_str);
-
-    g_free ( tmp_str );
-
-    return FALSE;
-}
-
-
-/**
- * On detourne les signaaux SIGINT, SIGTERM, SIGSEGV
- *
- *
- *
- * */
-void gsb_main_trappe_signal_sigsegv ( void )
-{
-#ifndef G_OS_WIN32
-    struct sigaction sig_sev;
-
-    memset ( &sig_sev, 0, sizeof ( struct sigaction ) );
-    sig_sev.sa_handler = traitement_sigsegv;
-    sig_sev.sa_flags = 0;
-    sigemptyset ( &( sig_sev.sa_mask ) );
-
-    if ( sigaction ( SIGINT, &sig_sev, NULL ) )
-        g_print ( _("Error on sigaction: SIGINT won't be trapped\n") );
-
-    if ( sigaction ( SIGTERM, &sig_sev, NULL ) )
-        g_print ( _("Error on sigaction: SIGTERM won't be trapped\n") );
-
-    if ( sigaction ( SIGSEGV, &sig_sev, NULL ) )
-        g_print ( _("Error on sigaction: SIGSEGV won't be trapped\n") );
-#endif /* G_OS_WIN32 */
-}
-
-
-/**
- * Load file if necessary
- *
- *
- *
- * */
-void gsb_main_load_file_if_necessary ( GrisbiCommandLine *command_line )
-{
-    GrisbiAppConf *conf;
-    GSList *file_liste;
-
-    conf = grisbi_app_get_conf ( );
-
-    /* check the command line, if there is something to open */
-    file_liste = grisbi_command_line_get_file_list ( command_line );
-
-    if ( file_liste )
-    {
-        gsb_file_open_from_commandline ( file_liste );
-    }
-    else
-    {
-        /* open the last file if needed */
-        if ( conf->load_last_file &&
-             conf->nb_derniers_fichiers_ouverts > 0 &&
-             conf->tab_noms_derniers_fichiers_ouverts[0] )
-        {
-            gsb_file_open_file ( conf->tab_noms_derniers_fichiers_ouverts[0] );
-        }
-    }
-
-    return;
-}
-
-
-/**
- * renvoie la version de Grisbi
- *
- * \param
- *
- * \return
- */
-void gsb_main_show_version ( void )
-{
-#ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
-#endif
-
-g_print ( N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list ( ) );
-
-    exit ( 0 );
-}
-
-
-/**
- *  procédure appelée après gtk_main_quit termine Grisbi
- *
- * \param
- *
- * \return
- */
-void gsb_main_grisbi_shutdown ( GrisbiCommandLine *command_line )
-{
-    devel_debug (NULL);
-
-    g_object_unref ( command_line );
-
-    /* libération de mémoire */
-    gsb_config_free_conf_filename ( );
-    gsb_locale_shutdown ( );
-    gsb_dirs_shutdown ( );
-
-    /* liberation libgoffice */
-    libgoffice_shutdown ( );
 }
 
 
