@@ -32,9 +32,7 @@
 
 /*START_INCLUDE*/
 #include "grisbi_app.h"
-#include "accueil.h"
 #include "gsb_color.h"
-#include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
@@ -457,6 +455,9 @@ gboolean grisbi_app_close_file ( void )
     /* on récupère la fenetre active */
     main_window = grisbi_app_get_active_window ( app );
 
+    /* On ferme le fichier de la fenêtre active */
+    gsb_file_close ();
+
     /* on libère la mémoire utilisée par la fenêtre active */
     grisbi_window_free_priv ( main_window, etat );
     free_variables ();
@@ -546,102 +547,6 @@ gboolean grisbi_app_set_active_file_title ( const gchar *file_title )
     grisbi_window_set_file_title ( window, file_title );
 
     return TRUE;
-}
-
-
-/**
- * définit le titre de la fenêtre active
- *
- * \param title
- *
- * \return TRUE
- **/
-gboolean grisbi_app_set_active_title ( gint account_number )
-{
-    GrisbiApp *app;
-    GrisbiWindow *window;
-    GrisbiAppConf *conf;
-    gchar *nom_fichier_comptes;
-    const gchar *titre_fichier;
-    gchar *titre_grisbi = NULL;
-    gchar *titre = NULL;
-    gint tmp_number;
-    gboolean return_value;
-
-    devel_debug_int ( account_number );
-
-    app = grisbi_app_get_default ( );
-    window = grisbi_app_get_active_window ( app );
-    conf = app->priv->conf;
-
-    titre_fichier = grisbi_app_get_active_file_title ();
-    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
-    if ( nom_fichier_comptes == NULL )
-    {
-        titre_grisbi = g_strdup ( _("Grisbi") );
-        return_value = TRUE;
-    }
-    else
-    {
-        switch ( conf->display_grisbi_title )
-        {
-            case GSB_ACCOUNTS_TITLE:
-            {
-                if ( titre_fichier && strlen ( titre_fichier ) )
-                    titre = g_strdup ( titre_fichier );
-            }
-            break;
-            case GSB_ACCOUNT_HOLDER:
-            {
-                if ( account_number == -1 )
-                    tmp_number = gsb_data_account_first_number ( );
-                else
-                    tmp_number = account_number;
-
-                if ( tmp_number == -1 )
-                {
-                    if ( titre_fichier && strlen ( titre_fichier ) )
-                        titre = g_strdup ( titre_fichier );
-                }
-                else
-                {
-                    titre = g_strdup ( gsb_data_account_get_holder_name ( tmp_number ) );
-
-                    if ( titre == NULL )
-                        titre = g_strdup ( gsb_data_account_get_name ( tmp_number ) );
-                }
-            break;
-            }
-            case GSB_ACCOUNTS_FILE:
-                if ( nom_fichier_comptes && strlen ( nom_fichier_comptes ) )
-                    titre = g_path_get_basename ( nom_fichier_comptes );
-            break;
-        }
-
-        g_free ( nom_fichier_comptes );
-
-        if ( titre && strlen ( titre ) > 0 )
-        {
-            titre_grisbi = g_strconcat ( titre, " - ", _("Grisbi"), NULL );
-            g_free ( titre );
-
-            return_value = TRUE;
-        }
-        else
-        {
-            titre_grisbi = g_strconcat ( "<", _("unnamed"), ">", NULL );
-            return_value = FALSE;
-        }
-    }
-    grisbi_window_set_window_title ( window, titre_grisbi );
-
-    gsb_main_page_update_homepage_title ( titre_grisbi );
-
-    if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
-        g_free ( titre_grisbi );
-
-    /* return */
-    return return_value;
 }
 
 

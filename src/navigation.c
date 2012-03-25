@@ -1018,7 +1018,7 @@ gboolean navigation_change_account ( gint new_account )
 
     /* Update the title of the file if needed */
     if ( conf->display_grisbi_title == GSB_ACCOUNT_HOLDER )
-        grisbi_app_set_active_title ( new_account );
+        grisbi_window_set_active_title ( new_account );
 
     bet_data_select_bet_pages ( new_account );
 

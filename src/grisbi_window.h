@@ -66,6 +66,7 @@ GtkWidget *grisbi_window_new_general_widget ( void );
 void grisbi_window_headings_update_label_markup ( gchar *label_name,
                         const gchar *text,
                         gboolean escape_text );
+gboolean grisbi_window_set_active_title ( gint account_number );
 gboolean grisbi_window_set_filename ( GrisbiWindow *window,
                         const gchar *filename );
 gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
