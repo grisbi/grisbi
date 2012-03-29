@@ -850,7 +850,7 @@ void bet_historical_populate_div_model ( gpointer key,
     div_name = bet_data_get_div_name ( div_number, 0, NULL );
     account_nb = sh -> account_nb;
     kind = gsb_data_account_get_kind ( account_nb );
-    if ( kind == GSB_TYPE_CASH )
+    if ( kind == GSB_TYPE_CASH && etat.bet_deb_cash_account_option == 0 )
         edited = FALSE;
 
     currency_number = gsb_data_account_get_currency ( account_nb );
