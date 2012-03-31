@@ -335,6 +335,14 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             }
         }
 
+        /* on ajoute un test supplémentaire pour supprimer les fichiers xml qui ne sont pas des fichiers Grisbi */
+        if ( g_strstr_len ( file_content, 32, "<Grisbi>" ) == NULL )
+        {
+            g_free ( file_content );
+
+            return FALSE;
+        }
+
         /* we begin to check if we are in a version under 0.6 or 0.6 and above,
          * because the xml structure changes after 0.6 */
         markup_parser = g_malloc0 (sizeof (GMarkupParser));
