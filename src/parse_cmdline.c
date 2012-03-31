@@ -56,7 +56,7 @@ static void grisbi_command_line_finalize ( GObject *object )
 
     g_free ( priv->config_file );
     g_strfreev ( priv->files_args );
-    g_slist_free_full ( priv->file_list, g_object_unref );
+    g_slist_free_full ( priv->file_list, g_free );
 
     G_OBJECT_CLASS ( grisbi_command_line_parent_class)->finalize ( object );
 }
