@@ -806,8 +806,8 @@ devel_debug_int (error_type);
         break;
 
         case GSB_FAILED_LOAD_ACCOUNTS:
-        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s'.\n"
-                                "You should find the last  backups in '%s', they are saved "
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file:\n'%s'.\n"
+                                "You should find the last backups in '%s', they are saved "
                                 "with date and time into their name so you should find easily "
                                 "the last backup saved.\n"
                                 "Please contact the Grisbi's team on devel@listes.grisbi.org "
@@ -818,7 +818,7 @@ devel_debug_int (error_type);
         break;
 
         case GSB_FAILED_LOAD_WITH_BACKUP:
-        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s' and the backups seem not to "
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file:\n'%s' and the backups seem not to "
                                 "be activated... This is a bad thing.\nYour backup path is '%s', "
                                 "try to find if earlier you had some backups in there ?\n"
                                 "Please contact the Grisbi's team on devel@listes.grisbi.org "
@@ -829,7 +829,7 @@ devel_debug_int (error_type);
         break;
 
         case GSB_FAILED_LOAD_WITHOUT_BACKUP:
-        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file '%s' and the backups seem not "
+        tmp_str1 = g_strdup_printf ( _("Grisbi was unable to use the file:\n'%s' and the backups seem not "
                                 "to be activated... This is a bad thing.\n"
                                 "Please contact the Grisbi's team on "
                                 "devel@listes.grisbi.org to find what happened to you "
