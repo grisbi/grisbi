@@ -60,6 +60,7 @@ struct gsb_etat_t
     gint display_message_ofx_security;
 
     /* import files */
+
     gint valeur_echelle_recherche_date_import;  /* nbre de jours pour la recherche des opérations importées */
     gint get_extract_number_for_check;          /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
     gint get_fusion_import_transactions;        /* TRUE if merge transactions imported with transactions found */
@@ -165,6 +166,7 @@ struct gsb_conf_t
     gint nb_derniers_fichiers_ouverts;              /* contient le nb de derniers fichiers ouverts */
     gchar **tab_noms_derniers_fichiers_ouverts;     /* RecentFiles */
     gchar *account_files_path;                      /* localisation des fichiers de compte */
+    gchar *import_files_path;                       /* répertoire par défaut des fichiers importés */
 
     /* backup part */
     gint make_backup;                               /* TRUE for create a backup when save file */

@@ -1601,7 +1601,6 @@ gboolean gsb_config_onglet_metatree_action_changed ( GtkWidget *checkbutton,
 }
 
 
-/* ONGLET IMPORT */
 /**
  *
  *
@@ -1615,6 +1614,7 @@ void parametres_affiche_derniers_fichiers_ouverts ( void )
 }
 
 
+/* ONGLET FILES */
 /**
  *
  *
@@ -1633,7 +1633,7 @@ void parametres_files_set_modified ( gboolean modified )
  *
  * \param le nom du répertoire ou NULL
  *
- * \return a const gchar with the account files path
+ * \return
  * */
 void parametres_files_set_account_file_path ( const gchar *path,
                         GrisbiAppConf *conf )
@@ -1647,7 +1647,7 @@ void parametres_files_set_account_file_path ( const gchar *path,
  *
  * \param le nom du répertoire ou NULL
  *
- * \return a const gchar with the backup path
+ * \return
  * */
 void parametres_files_set_backup_path ( const gchar *path,
                         GrisbiAppConf *conf )
@@ -1656,6 +1656,7 @@ void parametres_files_set_backup_path ( const gchar *path,
 }
 
 
+/* ONGLET IMPORT */
 /**
  *
  *
@@ -1701,6 +1702,20 @@ GtkWidget *parametres_import_associations_get_combo_payees ( GrisbiWindowEtat *e
 void parametres_import_associations_init_callback ( void )
 {
     gsb_import_associations_init_callback ();
+}
+
+
+/**
+ * set the import files path
+ *
+ * \param le nom du répertoire ou NULL
+ *
+ * \return
+ * */
+void parametres_files_set_import_files_path ( const gchar *path,
+                        GrisbiAppConf *conf )
+{
+    gsb_file_set_import_files_path ( path, conf );
 }
 
 

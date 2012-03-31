@@ -62,6 +62,8 @@ void parametres_files_set_account_file_path ( const gchar *path,
                         GrisbiAppConf *conf );
 void parametres_files_set_backup_path ( const gchar *path,
                         GrisbiAppConf *conf );
+void parametres_files_set_import_files_path ( const gchar *path,
+                        GrisbiAppConf *conf );
 void parametres_files_set_modified ( gboolean modified );
 void parametres_import_associations_check_add_button ( void );
 GtkWidget *parametres_import_associations_get_combo_payees ( GrisbiWindowEtat *etat );

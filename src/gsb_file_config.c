@@ -251,6 +251,12 @@ gboolean gsb_file_config_load_config ( GrisbiAppConf *conf )
                         "Metatree_action_2button_press",
                         NULL );
 
+    gsb_file_set_import_files_path ( g_key_file_get_string ( config,
+                        "General",
+                        "Import_files_path",
+                        NULL ),
+                        conf );
+
     /* get backup part */
     conf->make_backup = g_key_file_get_integer ( config,
                         "Backup",
@@ -622,6 +628,11 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "General",
                         "Metatree_action_2button_press",
                         conf->metatree_action_2button_press );
+
+    g_key_file_set_string ( config,
+                        "General",
+                        "Import_files_path",
+                        gsb_file_get_import_files_path () );
 
      /* save backup part */
     g_key_file_set_integer ( config,

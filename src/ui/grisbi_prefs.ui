@@ -1220,7 +1220,130 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkHBox" id="hbox_paddingbox5">
+                          <object class="GtkHBox" id="hbox_paddingbox9">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkVBox" id="vbox_paddingbox9">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <object class="GtkLabel" id="title9">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="xalign">0</property>
+                                    <property name="yalign">1</property>
+                                    <property name="label" translatable="yes">Files</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="padding">2</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkHBox" id="hbox2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="spacing">6</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label34">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label">    </property>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkVBox" id="paddingbox7">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <object class="GtkHBox" id="hbox13">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label35">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Default directory: </property>
+                                                <attributes>
+                                                  <attribute name="foreground" value="#00000000ffff"/>
+                                                </attributes>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkFileChooserButton" id="filechooserbutton_files_import">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="action">select-folder</property>
+                                                <property name="preview_widget_active">False</property>
+                                                <property name="show_hidden">True</property>
+                                                <property name="use_preview_label">False</property>
+                                                <property name="title" translatable="yes">Select a directory</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="padding">5</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">5</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkHBox" id="hbox_paddingbox_import_transactions">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
@@ -1287,6 +1410,7 @@
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">●</property>
+                                                <property name="invisible_char_set">True</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="primary_icon_sensitive">True</property>
@@ -1378,11 +1502,11 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">5</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkHBox" id="hbox_paddingbox6">
+                          <object class="GtkHBox" id="hbox_paddingbox_import_financial_year">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <child>
@@ -1487,8 +1611,11 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">5</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                       </object>
                       <packing>

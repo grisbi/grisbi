@@ -257,6 +257,7 @@ const gchar *gsb_file_get_backup_path ( void )
  * set the backup path
  *
  * \param bakcup path
+ * \param GrisbiAppConf
  *
  * \return
  * */
@@ -1311,8 +1312,9 @@ const gchar *gsb_file_get_account_files_path ( void )
  * set the account files path
  *
  * \param le nom du répertoire ou NULL
+ * \param GrisbiAppConf
  *
- * \return a const gchar with the account files path
+ * \return
  * */
 void gsb_file_set_account_files_path ( const gchar *path,
                         GrisbiAppConf *conf )
@@ -1334,6 +1336,54 @@ void gsb_file_set_account_files_path ( const gchar *path,
 #endif /*_MSC_VER */
 
         g_mkdir_with_parents ( conf->account_files_path, mode );
+    }
+}
+
+
+/**
+ * get the import files path
+ *
+ * \param
+ *
+ * \return a const gchar with the backup path
+ * */
+const gchar *gsb_file_get_import_files_path ( void )
+{
+    GrisbiAppConf *conf;
+
+    conf = grisbi_app_get_conf ();
+    return conf->import_files_path;
+}
+
+
+/**
+ * set the import files path
+ *
+ * \param le nom du répertoire ou NULL
+ * \param GrisbiAppConf
+ *
+ * \return
+ * */
+void gsb_file_set_import_files_path ( const gchar *path,
+                        GrisbiAppConf *conf )
+{
+    if ( conf->import_files_path )
+        g_free ( conf->import_files_path );
+
+    if ( path == NULL || strlen ( path ) == 0 )
+        conf->import_files_path = my_strdup ( gsb_dirs_get_home_dir ( ) );
+    else
+        conf->import_files_path = my_strdup ( path );
+
+    if ( !g_file_test ( conf->import_files_path, G_FILE_TEST_EXISTS ) )
+    {
+#ifdef _MSC_VER
+        int mode = 0;
+#else
+        int mode = S_IRUSR | S_IWUSR | S_IXUSR;
+#endif /*_MSC_VER */
+
+        g_mkdir_with_parents ( conf->import_files_path, mode );
     }
 }
 

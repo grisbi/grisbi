@@ -87,11 +87,15 @@ struct _GrisbiPrefsPrivate
 
     /* notebook import */
     GtkWidget           *notebook_import;
+    GtkWidget           *filechooserbutton_files_import;
+    GtkWidget           *hbox_paddingbox_import_transactions;
+    GtkWidget           *hbox_paddingbox_import_financial_year;
     GtkWidget           *spinbutton_valeur_echelle_recherche_date_import;
     GtkWidget           *checkbutton_get_fusion_import_transactions;
     GtkWidget           *checkbutton_get_categorie_for_payee;
     GtkWidget           *checkbutton_get_extract_number_for_check;
     GtkWidget           *radiobutton_get_fyear_by_value_date;
+    GtkWidget           *hbox_import_associations;
     GtkWidget           *treeview_associations;
     GtkWidget           *button_associations_add;
     GtkWidget           *button_associations_remove;
@@ -188,8 +192,18 @@ static void grisbi_prefs_dialog_response  ( GtkDialog *prefs,
 static void grisbi_prefs_sensitive_etat_widgets ( GrisbiPrefs *prefs,
                         gboolean sensitive )
 {
+    /* Files pages */
     gtk_widget_set_sensitive ( prefs->priv->checkbutton_crypt_file, sensitive );
-    gtk_widget_set_sensitive ( prefs->priv->notebook_import, sensitive );
+
+    /* Archives page */
+
+
+    /* Import page */
+    gtk_widget_set_sensitive ( prefs->priv->hbox_paddingbox_import_transactions, sensitive );
+    gtk_widget_set_sensitive ( prefs->priv->hbox_paddingbox_import_financial_year, sensitive );
+    gtk_widget_set_sensitive ( gtk_notebook_get_nth_page (
+                        GTK_NOTEBOOK ( prefs->priv->notebook_import ), 1 ), sensitive );
+    gtk_widget_set_sensitive ( prefs->priv->hbox_import_associations, sensitive );
 
 }
 
@@ -255,6 +269,12 @@ static gboolean grisbi_prefs_initialise_builder ( GrisbiPrefs *prefs )
 
     /* notebook import - onglet settings */
     prefs->priv->notebook_import = GTK_WIDGET ( gtk_builder_get_object ( grisbi_prefs_builder, "notebook_import" ) );
+    prefs->priv->filechooserbutton_files_import = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "filechooserbutton_files_import" ) );
+    prefs->priv->hbox_paddingbox_import_transactions = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "hbox_paddingbox_import_transactions" ) );
+    prefs->priv->hbox_paddingbox_import_financial_year = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "hbox_paddingbox_import_financial_year" ) );
     prefs->priv->spinbutton_valeur_echelle_recherche_date_import = GTK_WIDGET ( gtk_builder_get_object (
                         grisbi_prefs_builder, "spinbutton_valeur_echelle_recherche_date_import" ) );
     prefs->priv->checkbutton_get_fusion_import_transactions = GTK_WIDGET ( gtk_builder_get_object (
@@ -267,6 +287,8 @@ static gboolean grisbi_prefs_initialise_builder ( GrisbiPrefs *prefs )
                         grisbi_prefs_builder, "radiobutton_get_fyear_by_value_date" ) );
 
     /* notebook import - onglet associations */
+    prefs->priv->hbox_import_associations = GTK_WIDGET ( gtk_builder_get_object (
+                        grisbi_prefs_builder, "hbox_import_associations" ) );
     prefs->priv->treeview_associations = GTK_WIDGET ( gtk_builder_get_object (
                         grisbi_prefs_builder, "treeview_associations" ) );
     prefs->priv->button_associations_add = GTK_WIDGET ( gtk_builder_get_object (
@@ -429,8 +451,11 @@ static void grisbi_prefs_dir_chosen ( GtkWidget *button,
     grisbi_app_conf_mutex_lock ();
     if ( strcmp ( dirname, "account_files_path" ) == 0 )
         parametres_files_set_account_file_path ( tmp_dir, grisbi_app_get_conf () );
-    else
+    else if ( strcmp ( dirname, "backup_path" ) == 0 )
         parametres_files_set_backup_path ( tmp_dir, grisbi_app_get_conf () );
+    else if ( strcmp ( dirname, "import_files_path" ) == 0 )
+        parametres_files_set_import_files_path ( tmp_dir, grisbi_app_get_conf () );
+
     grisbi_app_conf_mutex_unlock ();
 
     g_signal_handlers_unblock_by_func ( button,
@@ -475,7 +500,8 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
                         conf->nb_max_derniers_fichiers_ouverts );
 
     /* set current folder for account files */
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( prefs->priv->filechooserbutton_accounts ),
+    if ( conf->account_files_path )
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( prefs->priv->filechooserbutton_accounts ),
                         conf->account_files_path );
 
     /* Connect signal */
@@ -572,7 +598,8 @@ static void grisbi_prefs_setup_files_page ( GrisbiPrefs *prefs )
                         conf->make_backup_nb_minutes );
 
     /* set current folder for backup files */
-    gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( prefs->priv->filechooserbutton_backup ),
+    if ( conf->backup_path )
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( prefs->priv->filechooserbutton_backup ),
                         conf->backup_path );
 
     /* Connect signal */
@@ -715,6 +742,11 @@ static void grisbi_prefs_setup_import_page ( GrisbiPrefs *prefs )
     gtk_widget_show ( child );
 
     /* set the variables for settings tab */
+
+    /* set current folder for import files */
+    if ( conf->import_files_path )
+        gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( prefs->priv->filechooserbutton_files_import ),
+                        conf->import_files_path );
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( prefs->priv->spinbutton_valeur_echelle_recherche_date_import ),
                         (gdouble) etat->valeur_echelle_recherche_date_import );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( prefs->priv->checkbutton_get_fusion_import_transactions ),
@@ -727,6 +759,12 @@ static void grisbi_prefs_setup_import_page ( GrisbiPrefs *prefs )
                         etat->get_fyear_by_value_date );
 
     /* Connect signal */
+    /* connect the signal for filechooserbutton_files_import */
+    g_signal_connect ( G_OBJECT ( prefs->priv->filechooserbutton_files_import ),
+                        "selection-changed",
+                        G_CALLBACK ( grisbi_prefs_dir_chosen ),
+                        "import_files_path" );
+
     g_signal_connect ( G_OBJECT ( prefs->priv->spinbutton_valeur_echelle_recherche_date_import ),
                         "value-changed",
                         G_CALLBACK ( grisbi_prefs_spinbutton_changed ),
