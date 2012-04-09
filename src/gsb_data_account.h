@@ -5,6 +5,7 @@
 
 /* START_INCLUDE_H */
 #include "gsb_real.h"
+#include "structures.h"
 /* END_INCLUDE_H */
 
 
@@ -46,6 +47,7 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number );
 gchar *gsb_data_account_get_bank_account_number ( gint account_number );
 gchar *gsb_data_account_get_bank_branch_code ( gint account_number );
 gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number );
+gint gsb_data_account_get_bet_credit_card ( gint account_number );
 gdouble gsb_data_account_get_bet_finance_capital ( gint account_number );
 gdouble gsb_data_account_get_bet_finance_frais ( gint account_number );
 gdouble gsb_data_account_get_bet_finance_taux_annuel ( gint account_number );
@@ -55,6 +57,7 @@ gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
 gint gsb_data_account_get_bet_maj ( gint account_number );
 gint gsb_data_account_get_bet_months ( gint account_number );
 gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine );
+bet_type_onglets gsb_data_account_get_bet_show_onglets ( gint account_number );
 gint gsb_data_account_get_bet_spin_range ( gint account_number );
 GDate *gsb_data_account_get_bet_start_date ( gint account_number );
 gint gsb_data_account_get_bet_use_budget ( gint account_number );
@@ -115,6 +118,8 @@ gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
                         const gchar *bank_branch_code );
 gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
                         gboolean auto_inc_month );
+gboolean gsb_data_account_set_bet_credit_card ( gint account_number,
+                        gint value );
 gboolean gsb_data_account_set_bet_finance_capital ( gint account_number, gdouble capital );
 gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble frais );
 gboolean gsb_data_account_set_bet_finance_taux_annuel ( gint account_number, gdouble taux_annuel );
@@ -126,6 +131,8 @@ gboolean gsb_data_account_set_bet_months ( gint account_number, gint months );
 gboolean gsb_data_account_set_bet_select_label ( gint account_number,
                         gint origine,
                         gint type );
+gboolean gsb_data_account_set_bet_show_onglets ( gint account_number );
+gboolean gsb_data_account_set_bet_show_onglets_all_accounts ( void );
 gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_range );
 gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate *date );
 gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value );

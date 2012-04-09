@@ -32,7 +32,6 @@
 /*START_INCLUDE*/
 #include "bet_tab.h"
 #include "bet_config.h"
-#include "bet_data.h"
 #include "bet_future.h"
 #include "bet_graph.h"
 #include "bet_hist.h"
@@ -152,6 +151,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
+extern gboolean execute_scheduled_of_month;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gsb_real null_real;
 extern const gdouble prev_month_max;
@@ -1486,7 +1486,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
         image = gtk_image_new_from_file ( tmp_str );
         g_free ( tmp_str );
         menu_item = gtk_image_menu_item_new_with_label (
-                        _("Insert the balance of a cash account") );
+                        _("Insert the balance of a deferred debit account") );
         gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), image );
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2700,10 +2700,12 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
 
 
 /**
+ * Remplace l'opération planifiée par la ligne de solde de carte à débit différé
  *
+ * \param model du treeview
+ * \param struct transfert contenant les données de remplacement
  *
- *
- *
+ * \return FALSE
  * */
 gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_model,
                         struct_transfert_data *transfert )
@@ -3031,6 +3033,12 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * */
 void bet_array_update_toolbar ( void )
 {
     GtkWidget *page;
@@ -3051,6 +3059,207 @@ void bet_array_update_toolbar ( void )
     gtk_container_add ( GTK_CONTAINER ( bet_array_toolbar ),
                         bet_array_list_create_toolbar ( page, tree_view ) );
 }
+/**
+ * crée une transacction du montant et à la date du transfert en exécutant
+ * éventuellement la transaction planifiée concernée
+ *
+ * \param struct transfert contenant les données
+ *
+ * \return
+ * */
+void bet_array_create_transaction_from_transfert ( struct_transfert_data *transfert,
+                        gboolean same_month )
+{
+    GSList *tmp_list;
+    gboolean find = FALSE;
+
+    if ( same_month )
+    {
+        GDate *date_jour;
+
+        date_jour = gdate_today ( );
+
+        if ( execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
+        {
+            /* on recherche une transaction */
+            tmp_list = gsb_data_transaction_get_transactions_list ( );
+
+            while ( tmp_list )
+            {
+                gint transaction_number;
+                gint div_number = 0;
+                gint sub_div_number = 0;
+                gint account_number;
+                const GDate *date;
+                gsb_real amount;
+
+                transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+                tmp_list = tmp_list->next;
+
+                account_number =  gsb_data_transaction_get_account_number ( transaction_number );
+                if ( account_number != transfert->account_number )
+                    continue;
+
+                date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
+
+                /* ignore transaction which are different date */
+                if ( g_date_compare ( date, transfert->date ) != 0 )
+                    continue;
+
+                if ( transfert->category_number )
+                {
+                    div_number = gsb_data_transaction_get_category_number ( transaction_number );
+                    if ( transfert -> sub_category_number )
+                    {
+                        sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
+                    }
+                    if ( transfert -> category_number == div_number
+                     &&
+                     transfert -> sub_category_number == sub_div_number )
+                    {
+                        if ( transfert -> type == 0 )
+                        {
+                            amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                        }
+                        else
+                        {
+                            amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                        }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        find = TRUE;
+                        break;
+                    }
+                }
+                else if ( transfert->budgetary_number )
+                {
+                    div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                    if ( transfert -> sub_budgetary_number )
+                    {
+                        sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
+                    }
+                    if ( transfert -> budgetary_number == div_number
+                     &&
+                     transfert -> sub_budgetary_number == sub_div_number )
+                    {
+                        if ( transfert -> type == 0 )
+                        {
+                            amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                        }
+                        else
+                        {
+                            amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                        }
+                        gsb_data_transaction_set_amount ( transaction_number, amount );
+                        find = TRUE;
+                        break;
+                    }
+                }
+            }
+            if ( find == FALSE )
+            {
+                bet_data_transfert_create_new_transaction ( transfert );
+            }
+        }
+        g_date_free ( date_jour );
+    }
+    else
+    {
+        /* on recherche une opération planifiée */
+        tmp_list = gsb_data_scheduled_get_scheduled_list ( );
+
+        while (tmp_list)
+        {
+            gint scheduled_number;
+            gint div_number = 0;
+            gint sub_div_number = 0;
+            gint account_number;
+            const GDate *date;
+            gsb_real amount;
+
+            scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
+            tmp_list = tmp_list->next;
+
+            account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
+            if ( account_number != transfert->account_number )
+                continue;
+
+            date = gsb_data_scheduled_get_date ( scheduled_number );
+
+            /* ignore scheduled which are different date */
+            if ( g_date_compare ( date, transfert->date ) != 0 )
+                continue;
+
+            if ( transfert->category_number )
+            {
+                div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
+                if ( transfert -> sub_category_number )
+                {
+                    sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
+                }
+                if ( transfert -> category_number == div_number
+                 &&
+                 transfert -> sub_category_number == sub_div_number )
+                {
+                    if ( transfert -> type == 0 )
+                    {
+                        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                    }
+                    else
+                    {
+                        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                    }
+                    gsb_data_scheduled_set_amount ( scheduled_number, amount );
+                    find = TRUE;
+                    break;
+                }
+            }
+            else if ( transfert->budgetary_number )
+            {
+                div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
+                if ( transfert -> sub_budgetary_number )
+                {
+                    sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
+                }
+                if ( transfert -> budgetary_number == div_number
+                 &&
+                 transfert -> sub_budgetary_number == sub_div_number )
+                {
+                    if ( transfert -> type == 0 )
+                    {
+                        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                    }
+                    else
+                    {
+                        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                    }
+                    gsb_data_scheduled_set_amount ( scheduled_number, amount );
+                    find = TRUE;
+                    break;
+                }
+            }
+            if ( find )
+            {
+                GDate *tmp_date;
+
+                tmp_date = gsb_date_copy ( transfert -> date );
+                g_date_add_months ( tmp_date, 1 );
+
+                gsb_data_scheduled_set_date ( scheduled_number, tmp_date );
+
+                g_date_free ( tmp_date );
+            }
+            bet_data_transfert_create_new_transaction ( transfert );
+        }
+    }
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

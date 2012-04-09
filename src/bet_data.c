@@ -38,6 +38,7 @@
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_mix.h"
+#include "gsb_data_partial_balance.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
@@ -103,25 +104,16 @@ static gint transfert_number;
 void bet_data_select_bet_pages ( gint account_number )
 {
     GtkWidget *page;
-    kind_account kind;
     gint current_page;
-    gint bet_use_budget;
+    bet_type_onglets bet_show_onglets;
 
     devel_debug_int ( account_number );
-
-    kind = gsb_data_account_get_kind ( account_number );
+    bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
     current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
-    bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
-    if ( bet_use_budget <= 0 )
-        kind = GSB_TYPE_ASSET;
-    else if ( etat.bet_deb_cash_account_option == 1 &&  kind == GSB_TYPE_CASH )
-        kind = GSB_TYPE_BANK;
 
-    switch ( kind )
+    switch ( bet_show_onglets )
     {
-    case GSB_TYPE_BALANCE:
-        break;
-    case GSB_TYPE_BANK:
+    case BET_ONGLETS_PREV:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_show ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
@@ -137,7 +129,7 @@ void bet_data_select_bet_pages ( gint account_number )
         if ( current_page == GSB_FINANCE_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         break;
-    case GSB_TYPE_CASH:
+    case BET_ONGLETS_HIST:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
@@ -149,7 +141,7 @@ void bet_data_select_bet_pages ( gint account_number )
         bet_historical_g_signal_block_tree_view ( );
         gsb_data_account_set_bet_maj ( account_number, BET_MAJ_HISTORICAL );
         break;
-    case GSB_TYPE_LIABILITIES:
+    case BET_ONGLETS_CAP:
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
         gtk_widget_hide ( page );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_HISTORICAL_PAGE );
@@ -159,7 +151,7 @@ void bet_data_select_bet_pages ( gint account_number )
         if ( current_page == GSB_ESTIMATE_PAGE || current_page == GSB_HISTORICAL_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_FINANCE_PAGE );
         break;
-    case GSB_TYPE_ASSET:
+    default:
         if ( current_page < GSB_PROPERTIES_PAGE )
             gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_TRANSACTIONS_PAGE );
         page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( account_page ), GSB_ESTIMATE_PAGE );
@@ -916,24 +908,28 @@ GPtrArray *bet_data_get_strings_to_save ( void )
     {
         struct_transfert_data *transfert = ( struct_transfert_data* ) value;
         gchar *date;
+        gchar *date_bascule;
 
         /* set the dates */
-        date = gsb_format_gdate_safe ( transfert -> date );
+        date = gsb_format_gdate_safe ( transfert->date );
+        date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Aim=\"%d\" Ca=\"%d\" Sca=\"%d\" "
-                        "Bu=\"%d\" Sbu=\"%d\" />\n",
-					    ++index,
-					    my_safe_null_str ( date ),
-					    transfert -> account_number,
-					    transfert -> type,
-                        transfert -> replace_account,
-                        transfert -> replace_transaction,
-                        transfert -> auto_inc_month,
-					    transfert -> category_number,
-					    transfert -> sub_category_number,
-					    transfert -> budgetary_number,
-					    transfert -> sub_budgetary_number );
+                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Aim=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
+                        "Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" />\n",
+                        ++index,
+                        my_safe_null_str ( date ),
+                        transfert->account_number,
+                        transfert->type,
+                        transfert->replace_account,
+                        transfert->replace_transaction,
+                        transfert->auto_inc_month,
+                        transfert->direct_debit,
+                        my_safe_null_str ( date_bascule ),
+                        transfert->category_number,
+                        transfert->sub_category_number,
+                        transfert->budgetary_number,
+                        transfert->sub_budgetary_number );
 
         g_ptr_array_add ( tab, tmp_str );
 
@@ -1570,7 +1566,8 @@ struct_transfert_data *struct_initialise_bet_transfert ( void )
 
     transfert =  g_malloc0 ( sizeof ( struct_transfert_data ) );
 
-    transfert -> date = NULL;
+    transfert->date = NULL;
+    transfert->date_bascule = NULL;
 
     return transfert;
 }
@@ -1584,8 +1581,10 @@ struct_transfert_data *struct_initialise_bet_transfert ( void )
  * */
 void struct_free_bet_transfert ( struct_transfert_data *transfert )
 {
-    if ( transfert -> date )
-        g_date_free ( transfert -> date );
+    if ( transfert->date )
+        g_date_free ( transfert->date );
+    if ( transfert->date_bascule )
+        g_date_free ( transfert->date_bascule );
 
     g_free ( transfert );
 }
@@ -1703,28 +1702,37 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 
 
 /**
+ * update la date de la ligne transfert lorsque la date de bascule est atteinte
  *
+ * \param struct transfert contenant les données
  *
- *
- *
+ * \return
  * */
 void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transfert )
 {
-    GDate *date_jour_1;
+    GDate *date_jour;
     GDate *tmp_date;
 
-    date_jour_1 = gdate_today ( );
-    g_date_set_day ( date_jour_1, 1 );
-    tmp_date = gsb_date_copy ( transfert -> date );
+    date_jour = gdate_today ( );
 
-    if ( g_date_get_month ( date_jour_1 ) == g_date_get_month ( tmp_date ) )
+    if ( g_date_compare ( date_jour, transfert -> date_bascule ) >= 0 )
     {
+        gboolean same_month = FALSE;
+
+        if ( g_date_get_month ( transfert->date ) == g_date_get_month ( transfert->date_bascule ) )
+            same_month = TRUE;
+
+        if ( transfert->direct_debit )
+            bet_array_create_transaction_from_transfert ( transfert, same_month );
+
+        tmp_date = gsb_date_copy ( transfert -> date );
+
         g_date_free ( transfert -> date );
         g_date_add_months ( tmp_date, 1 );
         transfert -> date = tmp_date;
     }
 
-    g_date_free ( date_jour_1 );
+    g_date_free ( date_jour );
 }
 
 
@@ -1892,6 +1900,63 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
     str_amount = gsb_real_safe_real_to_string ( new_amount, floating_point );
 
     return str_amount;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ * */
+void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfert )
+{
+    gint transaction_number;
+    gsb_real amount;
+
+    transaction_number = gsb_data_transaction_new_transaction ( transfert->account_number );
+
+    /* set the date */
+    gsb_data_transaction_set_date ( transaction_number, transfert->date );
+
+    /* set the amount */
+    if ( transfert -> type == 0 )
+    {
+        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+    }
+    else
+    {
+        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+    }
+    gsb_data_transaction_set_amount ( transaction_number, amount );
+
+    /* set the currency */
+    gsb_data_transaction_set_currency_number ( transaction_number,
+                        gsb_data_account_get_currency ( transfert->account_number ) );
+
+    /* set the payement mode */
+    if ( amount.mantissa < 0 )
+        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_debit ( transfert->account_number ) );
+    else
+        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+
+    /* set the category sub_category */
+    if ( transfert->category_number )
+    {
+        gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
+        if ( transfert -> sub_category_number )
+        gsb_data_transaction_set_sub_category_number ( transaction_number, transfert->sub_category_number );
+    }
+
+    /* set the IB sub_IB */
+    if ( transfert->budgetary_number )
+    {
+        gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
+        if ( transfert -> sub_category_number )
+        gsb_data_transaction_set_sub_budgetary_number ( transaction_number, transfert->sub_budgetary_number );
+    }
 }
 
 

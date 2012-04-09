@@ -1754,7 +1754,7 @@ gboolean bet_future_modify_line ( gint account_number,
     bet_future_set_form_data_from_line ( account_number, number  );
 
 dialog_return:
-	result = gtk_dialog_run ( GTK_DIALOG ( bet_futur_dialog ) );
+    result = gtk_dialog_run ( GTK_DIALOG ( bet_futur_dialog ) );
 
     if ( result == GTK_RESPONSE_OK )
     {
@@ -1795,6 +1795,126 @@ dialog_return:
 
 
 /**
+ * retourne une list_store avec la liste des comptes concernés
+ *
+ *
+ *
+ * */
+static GtkListStore *bet_transfert_create_account_list_store ( gint account_number )
+{
+    GtkListStore *list_store;
+    GSList *tmp_list;
+    gint nbre_rows = 0;
+
+    /* create the model */
+    list_store = gtk_list_store_new ( 4,
+                        G_TYPE_STRING,      /* account name */
+                        G_TYPE_STRING,      /* account kind : Cash account or Partial balance */
+                        G_TYPE_INT,         /* account_number or partial_balance_number */
+                        G_TYPE_BOOLEAN );   /* FALSE = account, TRUE = partial balance */
+
+    /* populate the model if necessary */
+    tmp_list = gsb_data_account_get_list_accounts ( );
+    while ( tmp_list )
+    {
+        gint tmp_account_number;
+        gint bet_credit_card;
+        GtkTreeIter iter;
+
+        tmp_account_number = gsb_data_account_get_no_account ( tmp_list -> data );
+        
+        if ( tmp_account_number != account_number )
+        {
+            bet_credit_card = gsb_data_account_get_bet_credit_card ( tmp_account_number );
+            if ( bet_credit_card )
+            {
+                kind_account kind;
+                gchar *tmp_str = NULL;
+
+                kind = gsb_data_account_get_kind ( tmp_account_number );
+                switch ( kind )
+                {
+                case GSB_TYPE_BANK:
+                    tmp_str = g_strdup ( _("Bank account") );
+                    break;
+                case GSB_TYPE_CASH:
+                    tmp_str = g_strdup ( _("Cash account") );
+                    break;
+                case GSB_TYPE_LIABILITIES:
+                    tmp_str = g_strdup ( _("Liabilities account") );
+                    break;
+                case GSB_TYPE_BALANCE:
+                    tmp_str = NULL;
+                    break;
+                case GSB_TYPE_ASSET:
+                    tmp_str = NULL;
+                    break;
+
+                }
+                gtk_list_store_append ( list_store, &iter );
+                gtk_list_store_set ( list_store,
+                        &iter,
+                        0, gsb_data_account_get_name ( tmp_account_number ),
+                        1, tmp_str,
+                        2, tmp_account_number,
+                        3, FALSE,
+                        -1 );
+                nbre_rows ++;
+                g_free ( tmp_str );
+            }
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    tmp_list = gsb_data_partial_balance_get_list ( );
+    while ( tmp_list )
+    {
+        gint tmp_number;
+        GtkTreeIter iter;
+        const gchar *liste_cptes;
+        gchar **tab;
+        gint bet_credit_card = 0;
+        gint i;
+
+        tmp_number = gsb_data_partial_balance_get_number ( tmp_list -> data );
+
+        liste_cptes = gsb_data_partial_balance_get_liste_cptes ( tmp_number );
+        tab = g_strsplit ( liste_cptes, ";", 0 );
+        for ( i = 0; i < g_strv_length ( tab ); i++ )
+        {
+            gint tmp_account_number;
+
+            tmp_account_number = utils_str_atoi ( tab[i] );
+            bet_credit_card = gsb_data_account_get_bet_credit_card ( tmp_account_number );
+        }
+
+        g_strfreev ( tab );
+
+        if ( bet_credit_card )
+        {
+            gtk_list_store_append ( list_store, &iter );
+            gtk_list_store_set ( list_store,
+                        &iter,
+                        0, gsb_data_partial_balance_get_name ( tmp_number ),
+                        1, _("Partial balance"),
+                        2, tmp_number,
+                        3, TRUE,
+                        -1 );
+                nbre_rows ++;
+        }
+
+        tmp_list = tmp_list -> next;
+    }
+
+    if ( nbre_rows == 0 )
+        return NULL;
+    else
+        return list_store;
+}
+
+
+/**
  *
  *
  *
@@ -1812,7 +1932,7 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     account_number = gsb_gui_navigation_get_current_account ( );
     if ( account_number == -1 )
         return FALSE;
-    
+
     /* Create the dialog */
     if ( bet_transfert_dialog == NULL )
     {
@@ -1825,6 +1945,15 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     }
     else
     {
+        GtkWidget *tree_view;
+        GtkListStore *list_store;
+
+        tree_view = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "tree_view" );
+        list_store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) ) );
+        gtk_list_store_clear ( GTK_LIST_STORE ( list_store ) );
+        list_store = bet_transfert_create_account_list_store ( account_number );
+        gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( list_store ) );
+
         gtk_widget_show ( bet_transfert_dialog );
     }
 
@@ -1903,6 +2032,7 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *vbox;
     GtkWidget *paddingbox;
     GtkWidget *hbox;
+    GtkWidget *date_bascule;
     GtkWidget *date_entry;
     GtkWidget *button;
     GtkWidget *combo;
@@ -1950,12 +2080,18 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
 
     /* Others data */
-    paddingbox = new_paddingbox_with_title (vbox, FALSE,
-                        _("Effective date and data for the replacement of a planned operation") );
+    paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account data and actions") );
 
     /* Effective Date */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 5 );
+
+    label = gtk_label_new ( _("Date of change of month: ") );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
+
+    date_bascule = gsb_calendar_entry_new ( FALSE );
+    g_object_set_data ( G_OBJECT ( dialog ), "date_bascule", date_bascule );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), date_bascule, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Effective date: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
@@ -1967,22 +2103,25 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     button = gtk_check_button_new_with_label ( _("Monthly auto-increment") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc", button );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-    /* g_signal_connect ( G_OBJECT ( button ),
-                        "toggled",
-                        G_CALLBACK ( bet_transfert_auto_inc_toggle ),
-                        NULL ); */
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 5 );
 
     /* check button replace planned line */
-    button = gtk_check_button_new_with_label ( 
-                        _("Check the box to replace a planned operation") );
+    button = gtk_check_button_new_with_label (
+                        _("Replacement of the scheduled operation") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data", button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
     g_signal_connect ( G_OBJECT ( button ),
-			            "toggled",
-			            G_CALLBACK ( bet_transfert_replace_data_toggle ),
-			            dialog );
+                        "toggled",
+                        G_CALLBACK ( bet_transfert_replace_data_toggle ),
+                        dialog );
+
+    /* check button replace planned line */
+    button = gtk_check_button_new_with_label (
+                        _("Automatic creation of the direct debit transaction") );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
+    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_direct_debit", button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Line replaced */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -1992,13 +2131,13 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         gsb_data_category_get_name_list ( TRUE, TRUE, FALSE, FALSE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_force_category );
+                        etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_max_item );
+                        etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_case_sensitive );
+                        etat.combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_mixed_sort );
+                        etat.combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Categories : Sub-categories") );
@@ -2019,13 +2158,13 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
     gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_force_category );
+                        etat.combofix_force_category );
     gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_max_item );
+                        etat.combofix_max_item );
     gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_case_sensitive );
+                        etat.combofix_case_sensitive );
     gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
-					    etat.combofix_mixed_sort );
+                        etat.combofix_mixed_sort );
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
     gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
     gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Budgetary line") );
@@ -2054,85 +2193,24 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
  *
  *
  * */
-GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint account_number )
+GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog,
+                        gint account_number )
 {
     GtkWidget *tree_view;
     GtkListStore *list_store;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeSelection *selection;
-    GSList *tmp_list;
-    gint nbre_rows = 0;
 
-    /* create the model */
-    list_store = gtk_list_store_new ( 4,
-                        G_TYPE_STRING,      /* account name */
-                        G_TYPE_STRING,      /* account kind : Cash account or Partial balance */
-                        G_TYPE_INT,         /* account_number or partial_balance_number */
-                        G_TYPE_BOOLEAN );   /* FALSE = account, TRUE = partial balance */
-
-    /* populate the model if necessary */
-    tmp_list = gsb_data_account_get_list_accounts ( );
-    while ( tmp_list )
-    {
-        gint tmp_account_number;
-        kind_account type_compte;
-        GtkTreeIter iter;
-
-        tmp_account_number = gsb_data_account_get_no_account ( tmp_list -> data );
-        
-        if ( tmp_account_number != account_number )
-        {
-            type_compte = gsb_data_account_get_kind ( tmp_account_number );
-            if ( type_compte == GSB_TYPE_CASH )
-            {
-                gtk_list_store_append ( list_store, &iter );
-                gtk_list_store_set ( list_store,
-                        &iter,
-                        0, gsb_data_account_get_name ( tmp_account_number ),
-                        1, _("Cash account"),
-                        2, tmp_account_number,
-                        3, FALSE,
-                        -1 );
-                nbre_rows ++;
-            }
-        }
-
-        tmp_list = tmp_list -> next;
-    }
-
-    tmp_list = gsb_data_partial_balance_get_list ( );
-    while ( tmp_list )
-    {
-        gint tmp_number;
-        kind_account type_compte;
-        GtkTreeIter iter;
-
-        tmp_number = gsb_data_partial_balance_get_number ( tmp_list -> data );
-        type_compte = gsb_data_partial_balance_get_kind ( tmp_number );
-        if ( type_compte == GSB_TYPE_CASH )
-        {
-            gtk_list_store_append ( list_store, &iter );
-            gtk_list_store_set ( list_store,
-                        &iter,
-                        0, gsb_data_partial_balance_get_name ( tmp_number ),
-                        1, _("Partial balance"),
-                        2, tmp_number,
-                        3, TRUE,
-                        -1 );
-                nbre_rows ++;
-        }
-
-	    tmp_list = tmp_list -> next;
-    }
-
-    if ( nbre_rows == 0 )
+    list_store = bet_transfert_create_account_list_store ( account_number );
+    if ( list_store == NULL )
         return NULL;
 
     /* create the treeview */
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( list_store ) );
     g_object_unref ( list_store );
 
+    utils_set_tree_view_selection_and_text_color ( tree_view );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
     gtk_widget_set_size_request ( tree_view, 400, 150 );
     g_object_set_data ( G_OBJECT ( dialog ), "tree_view", tree_view );
@@ -2157,9 +2235,9 @@ GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog, gint acco
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
     g_signal_connect ( G_OBJECT ( selection ),
-		                "changed",
+                        "changed",
                         G_CALLBACK ( bet_transfert_selection_changed ),
-		                dialog );
+                        dialog );
 
     return tree_view;
 }
@@ -2290,6 +2368,16 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     transfert -> replace_account = replace_account;
     transfert -> type = type;
 
+    widget = g_object_get_data ( G_OBJECT ( dialog ), "date_bascule" );
+    if ( gsb_form_widget_check_empty ( widget ) == FALSE )
+    {
+        transfert -> date_bascule = gsb_calendar_entry_get_date ( widget );
+        if ( transfert -> date_bascule == NULL )
+            return FALSE;
+    }
+    else
+        return FALSE;
+
     widget = g_object_get_data ( G_OBJECT ( dialog ), "date_entry" );
     if ( gsb_form_widget_check_empty ( widget ) == FALSE )
     {
@@ -2329,6 +2417,10 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
         if ( empty )
             return FALSE;
     }
+
+    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_direct_debit" );
+    transfert->direct_debit = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) );
+
     return TRUE;
 }
 
@@ -2384,13 +2476,24 @@ gboolean bet_transfert_modify_line ( gint account_number, gint number )
     if ( bet_transfert_dialog == NULL )
         bet_transfert_dialog = bet_transfert_create_dialog ( account_number );
     else
+    {
+        GtkWidget *tree_view;
+        GtkListStore *list_store;
+
+        tree_view = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "tree_view" );
+        list_store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) ) );
+        gtk_list_store_clear ( GTK_LIST_STORE ( list_store ) );
+        list_store = bet_transfert_create_account_list_store ( gsb_gui_navigation_get_current_account () );
+        gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( list_store ) );
+
         gtk_widget_show ( bet_transfert_dialog );
+    }
 
     /* init data */
     bet_transfert_set_form_data_from_line ( account_number, number  );
 
 dialog_return:
-	result = gtk_dialog_run ( GTK_DIALOG ( bet_transfert_dialog ) );
+    result = gtk_dialog_run ( GTK_DIALOG ( bet_transfert_dialog ) );
 
     if ( result == GTK_RESPONSE_OK )
     {
@@ -2445,6 +2548,40 @@ dialog_return:
 
 
 /**
+ * sélectionne le compte concerné par la modification du solde.
+ *
+ * \param struct transfert
+ *
+ * \return
+ * */
+static void bet_transfert_select_account_in_treeview ( struct_transfert_data *transfert )
+{
+    GtkWidget *tree_view;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+
+    tree_view = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "tree_view" );
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+    gtk_tree_model_get_iter_first ( model, &iter );
+    do
+    {
+        gint tmp_number;
+        gint type_de_compte;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 2, &tmp_number, 3, &type_de_compte, -1 );
+
+        if ( transfert->type == type_de_compte && tmp_number == transfert->replace_account )
+        {
+            gtk_tree_selection_select_iter ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ), &iter );
+            break;
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+}
+
+
+/**
  *
  *
  *
@@ -2468,6 +2605,12 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
     transfert = g_hash_table_lookup ( transfert_list, key );
     if ( transfert == NULL )
         return FALSE;
+
+    bet_transfert_select_account_in_treeview ( transfert );
+
+    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_bascule" );
+    gsb_calendar_entry_set_date ( widget, transfert -> date_bascule );
+    gsb_form_widget_set_empty ( widget, FALSE );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_entry" );
     gsb_calendar_entry_set_date ( widget, transfert -> date );
@@ -2512,32 +2655,17 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
                         "bet_transfert_auto_inc" );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ),
-                        transfert -> auto_inc_month );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->auto_inc_month );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
                         "bet_transfert_replace_data" );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ),
-                        transfert -> replace_transaction );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->replace_transaction );
+
+    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_direct_debit" );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->direct_debit );
 
     return TRUE;
 }
-
-
-/**
- *
- *
- *
- *
- * */
-/*void bet_transfert_auto_inc_toggle ( GtkToggleButton *button, gpointer data )
-{
-    gint account_number;
-
-    account_number = gsb_gui_navigation_get_current_account ( );
-    gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
-    bet_data_update_bet_module ( account_number, GSB_ESTIMATE_PAGE );
-}*/
 
 
 /**
@@ -2578,7 +2706,6 @@ void bet_transfert_replace_data_toggle ( GtkToggleButton *button, GtkWidget *dia
  *
  *
  * */
-
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -1553,6 +1553,12 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
                 else if ( !strcmp ( attribute_names[i], "Bet_use_budget" ))
                 {
                     gsb_data_account_set_bet_use_budget ( account_number,
+                            utils_str_atoi ( attribute_values[i] ) );
+                }
+
+                else if ( !strcmp ( attribute_names[i], "Bet_credit_card" ))
+                {
+                    gsb_data_account_set_bet_credit_card ( account_number,
                             utils_str_atoi ( attribute_values[i] ) );
                 }
 
@@ -4244,6 +4250,20 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Aim" ) )
     {
         transfert -> auto_inc_month = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Dd" ) )
+    {
+        transfert->direct_debit = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Dtb" ) )
+    {
+        transfert->date_bascule = gsb_parse_date_string_safe ( attribute_values[i] );
         i++;
         continue;
     }
@@ -8839,6 +8859,10 @@ gboolean gsb_file_load_update_previous_version ( void )
                         "but remember it's an archive before modifying some transactions "
                         "or important information."),
                         _("Grisbi archive opened"));
+
+    /* positionnement de l'option bet_show_onglets pour tous les comptes */
+    gsb_data_account_set_bet_show_onglets_all_accounts ();
+
     return TRUE;
 }
 
