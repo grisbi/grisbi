@@ -729,6 +729,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
                     G_CALLBACK ( bet_config_fyear_clicked ),
                     GINT_TO_POINTER ( 0 ) );
 
+    /* return */
     return hbox;
 }
 
@@ -999,6 +1000,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
 {
     GtkWidget *notebook;
     GtkWidget *widget = NULL;
+    GtkWidget *fyear_combo;
     gint account_number;
     gint bet_use_budget;
     bet_type_onglets bet_show_onglets;
@@ -1011,6 +1013,12 @@ gboolean bet_config_change_account ( GtkWidget *combo )
 
     account_number = gsb_account_get_combo_account_number ( combo );
     bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
+
+    /* on bloque l'appel à la fonction bet_config_fyear_clicked */
+    fyear_combo = g_object_get_data ( G_OBJECT ( account_page ), "bet_config_hist_fyear_combo" );
+    g_signal_handlers_block_by_func ( G_OBJECT ( fyear_combo ),
+                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        GINT_TO_POINTER ( 0 ) );
 
     switch ( bet_use_budget )
     {
@@ -1058,6 +1066,12 @@ gboolean bet_config_change_account ( GtkWidget *combo )
             break;
     }
 
+    /* on débloque l'appel à la fonction bet_config_fyear_clicked */
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( fyear_combo ),
+                        G_CALLBACK ( bet_config_fyear_clicked ),
+                        GINT_TO_POINTER ( 0 ) );
+
+    /* return */
     return FALSE;
 }
 
