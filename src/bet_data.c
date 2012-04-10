@@ -1725,11 +1725,19 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         if ( transfert->direct_debit )
             bet_array_create_transaction_from_transfert ( transfert, same_month );
 
+        /* on incrémente la date de prélèvement */
         tmp_date = gsb_date_copy ( transfert -> date );
 
         g_date_free ( transfert -> date );
         g_date_add_months ( tmp_date, 1 );
         transfert -> date = tmp_date;
+
+        /* on incrémente la date de bascule */
+        tmp_date = gsb_date_copy ( transfert -> date_bascule );
+
+        g_date_free ( transfert -> date_bascule );
+        g_date_add_months ( tmp_date, 1 );
+        transfert -> date_bascule = tmp_date;
     }
 
     g_date_free ( date_jour );
