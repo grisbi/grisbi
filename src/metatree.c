@@ -1168,6 +1168,21 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
         gint archive_number;
 
         account_number = gsb_data_transaction_get_account_number ( transaction_number );
+        if ( gsb_data_account_exists ( account_number ) == FALSE )
+        {
+            gchar *tmp_str;
+
+            tmp_str = g_strdup_printf ( _("The selected operation belongs to the account N°%d\n"
+                        "that no longer exists.\n"
+                        "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
+                        "happened to your current file."),
+                        account_number );
+            dialogue_error_hint ( tmp_str, _("The account no longer exists") );
+            g_free ( tmp_str );
+
+            return FALSE;
+        }
+
         archive_number = gsb_data_transaction_get_archive_number ( transaction_number );
 
         /* If transaction is an archive return */

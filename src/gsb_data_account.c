@@ -3691,6 +3691,25 @@ gboolean gsb_data_account_set_bet_show_onglets_all_accounts ( void )
 
 
 /**
+ * teste l'existence d'un compte
+ *
+ * \param account_number
+ *
+ * \ return TRUE if OK else FALSE
+ * */
+gboolean gsb_data_account_exists ( gint account_number )
+{
+    struct_account *account;
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( account )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/**
  *
  *
  *
