@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 17:53+0200\n"
+"POT-Creation-Date: 2012-04-10 21:13+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -9984,13 +9984,30 @@ msgstr "Toto se teoreticky nemělo stát."
 msgid "Can't remove selected division."
 msgstr "Nelze odebrat zvolené rozdělení."
 
+#: ../src/metatree.c:1175
+#, fuzzy, c-format
+msgid ""
+"The selected operation belongs to the account N°%d\n"
+"that no longer exists.\n"
+"Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
+"happened to your current file."
+msgstr ""
+"Grisbi nemohlo nahrát soubor a zálohování není aktivované... Toto je špatná "
+"situace.\n"
+"Prosím kontaktujte vývojový tým Grisbi na devel@listes.grisbi.org abychom "
+"zjistili, co se stalo s vaším aktuálním souborem."
+
+#: ../src/metatree.c:1180
+msgid "The account no longer exists"
+msgstr ""
+
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:1733
+#: ../src/metatree.c:1748
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "'%s' stále obsahuje transakce nebo archivované transakce."
 
-#: ../src/metatree.c:1737
+#: ../src/metatree.c:1752
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -10001,32 +10018,32 @@ msgstr ""
 "převést na jiný (pod-)%s.  Jinak mohou být transakce odstraněny společně se "
 "svým rozdělením."
 
-#: ../src/metatree.c:1750
+#: ../src/metatree.c:1765
 #, c-format
 msgid "Transfer transactions to payee"
 msgstr "Převést transakce na plátce/příjemce"
 
-#: ../src/metatree.c:1752
+#: ../src/metatree.c:1767
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr "Převést transakce na %s"
 
-#: ../src/metatree.c:1850
+#: ../src/metatree.c:1865
 #, c-format
 msgid "Just remove this payee."
 msgstr "Pouze odstranit plátce/příjemce."
 
-#: ../src/metatree.c:1852
+#: ../src/metatree.c:1867
 #, c-format
 msgid "Just remove this %s."
 msgstr "Pouze odstranit %s."
 
-#: ../src/metatree.c:1854
+#: ../src/metatree.c:1869
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "Pouze odstranit pod%s."
 
-#: ../src/metatree.c:1895
+#: ../src/metatree.c:1910
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -10035,12 +10052,12 @@ msgstr ""
 "Při změně %s je nezbytné zadat %s, kam se má transakce přesunout, ale "
 "hodnota nebyla zadána."
 
-#: ../src/metatree.c:1898 ../src/metatree.c:2920
+#: ../src/metatree.c:1913 ../src/metatree.c:2935
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Prosím zadejte %s!"
 
-#: ../src/metatree.c:2794
+#: ../src/metatree.c:2809
 #, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -10050,12 +10067,12 @@ msgstr ""
 "%s."
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:2802
+#: ../src/metatree.c:2817
 #, c-format
 msgid "Choose action for \"%s\"."
 msgstr "Vyberte akci pro \"%s\"."
 
-#: ../src/metatree.c:2808
+#: ../src/metatree.c:2823
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
@@ -10064,26 +10081,26 @@ msgstr ""
 "Můžete přesunout obsah z \"%s\" do jiné %s nebo %s.\n"
 "Také můžete přesunout \"%s\" do jiné %s nebo transformovat \"%s\" na %s."
 
-#: ../src/metatree.c:2836
+#: ../src/metatree.c:2851
 #, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr "Přesunout transakce v %s nebo %s"
 
-#: ../src/metatree.c:2839
+#: ../src/metatree.c:2854
 #, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr "Přesunout \"%s\" do jiné %s"
 
-#: ../src/metatree.c:2842
+#: ../src/metatree.c:2857
 #, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr "Konvertovat \"%s\" do nové %s"
 
-#: ../src/metatree.c:2864 ../src/metatree.c:2885
+#: ../src/metatree.c:2879 ../src/metatree.c:2900
 msgid "Select the destination: "
 msgstr "Zvolte cíl: "
 
-#: ../src/metatree.c:2916
+#: ../src/metatree.c:2931
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
@@ -10092,7 +10109,7 @@ msgstr ""
 "Při změně %s je nezbytné zadat %s, kam se má transakce přesunout, ale "
 "hodnota nebyla zadána."
 
-#: ../src/metatree.c:2946
+#: ../src/metatree.c:2961
 #, c-format
 msgid "Warning you can not create %s."
 msgstr "Pozor, nemůžete vytvořit %s."

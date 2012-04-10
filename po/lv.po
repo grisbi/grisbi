@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 17:53+0200\n"
+"POT-Creation-Date: 2012-04-10 21:13+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -10088,13 +10088,29 @@ msgstr "Teorētiski tam nevajadzētu notikt."
 msgid "Can't remove selected division."
 msgstr "Nevar noņemt atlasīto nodaļu."
 
+#: ../src/metatree.c:1175
+#, fuzzy, c-format
+msgid ""
+"The selected operation belongs to the account N°%d\n"
+"that no longer exists.\n"
+"Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
+"happened to your current file."
+msgstr ""
+"Grisbi nevarēja ielādēt failu un rezerves kopēšana nav aktivizēta.\n"
+"Lūdzu sazinieties ar Grisbi komandu devel@listes.grisbi.org, lai risinātu "
+"problēmu. "
+
+#: ../src/metatree.c:1180
+msgid "The account no longer exists"
+msgstr ""
+
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:1733
+#: ../src/metatree.c:1748
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "'%s' joprojām satur darījumus, jeb ir arhivēti darījumi."
 
-#: ../src/metatree.c:1737
+#: ../src/metatree.c:1752
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -10105,32 +10121,32 @@ msgstr ""
 "citu (apakš-)%s. Pretējā gadījumā darbības var vienkārši izdzēst, norādot "
 "nodaļu"
 
-#: ../src/metatree.c:1750
+#: ../src/metatree.c:1765
 #, c-format
 msgid "Transfer transactions to payee"
 msgstr "Pārsūtīt darījumus partnerim"
 
-#: ../src/metatree.c:1752
+#: ../src/metatree.c:1767
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr "Pārsūtīt darījumus uz %s"
 
-#: ../src/metatree.c:1850
+#: ../src/metatree.c:1865
 #, c-format
 msgid "Just remove this payee."
 msgstr "Vienkārši noņemt šo partneri"
 
-#: ../src/metatree.c:1852
+#: ../src/metatree.c:1867
 #, c-format
 msgid "Just remove this %s."
 msgstr "Vienkārši noņemt šo %s"
 
-#: ../src/metatree.c:1854
+#: ../src/metatree.c:1869
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr "Vienkārši noņemt šo apakš-%s"
 
-#: ../src/metatree.c:1895
+#: ../src/metatree.c:1910
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
@@ -10139,12 +10155,12 @@ msgstr ""
 "Ir obligāti jānorāda galamērķis %s darījumu pārvietošanai, taču %s netika "
 "ievadīti."
 
-#: ../src/metatree.c:1898 ../src/metatree.c:2920
+#: ../src/metatree.c:1913 ../src/metatree.c:2935
 #, c-format
 msgid "Please enter a %s!"
 msgstr "Lūdzu ievadiet %s!"
 
-#: ../src/metatree.c:2794
+#: ../src/metatree.c:2809
 #, fuzzy, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -10152,39 +10168,39 @@ msgid ""
 msgstr "Pārsūtīt darījumus uz %s"
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:2802
+#: ../src/metatree.c:2817
 #, fuzzy, c-format
 msgid "Choose action for \"%s\"."
 msgstr "Rādīt darījuma _veidlapu"
 
-#: ../src/metatree.c:2808
+#: ../src/metatree.c:2823
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
 
-#: ../src/metatree.c:2836
+#: ../src/metatree.c:2851
 #, fuzzy, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr "Pārsūtīt darījumus uz %s"
 
-#: ../src/metatree.c:2839
+#: ../src/metatree.c:2854
 #, fuzzy, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr "Pārvietot uz %s"
 
-#: ../src/metatree.c:2842
+#: ../src/metatree.c:2857
 #, fuzzy, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr "Izveidot jaunu kategoriju"
 
-#: ../src/metatree.c:2864 ../src/metatree.c:2885
+#: ../src/metatree.c:2879 ../src/metatree.c:2900
 #, fuzzy
 msgid "Select the destination: "
 msgstr "Izvēlēties visus darījumus:"
 
-#: ../src/metatree.c:2916
+#: ../src/metatree.c:2931
 #, fuzzy, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
@@ -10193,7 +10209,7 @@ msgstr ""
 "Ir obligāti jānorāda galamērķis %s darījumu pārvietošanai, taču %s netika "
 "ievadīti."
 
-#: ../src/metatree.c:2946
+#: ../src/metatree.c:2961
 #, fuzzy, c-format
 msgid "Warning you can not create %s."
 msgstr "Brīdinājums, jūs nevarat izveidot darījuma partnerus vai kategorijas"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 17:53+0200\n"
+"POT-Creation-Date: 2012-04-10 21:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -9339,13 +9339,26 @@ msgstr ""
 msgid "Can't remove selected division."
 msgstr ""
 
+#: ../src/metatree.c:1175
+#, c-format
+msgid ""
+"The selected operation belongs to the account N°%d\n"
+"that no longer exists.\n"
+"Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
+"happened to your current file."
+msgstr ""
+
+#: ../src/metatree.c:1180
+msgid "The account no longer exists"
+msgstr ""
+
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:1733
+#: ../src/metatree.c:1748
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr ""
 
-#: ../src/metatree.c:1737
+#: ../src/metatree.c:1752
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9353,44 +9366,44 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: ../src/metatree.c:1750
+#: ../src/metatree.c:1765
 #, c-format
 msgid "Transfer transactions to payee"
 msgstr ""
 
-#: ../src/metatree.c:1752
+#: ../src/metatree.c:1767
 #, c-format
 msgid "Transfer transactions to %s"
 msgstr ""
 
-#: ../src/metatree.c:1850
+#: ../src/metatree.c:1865
 #, c-format
 msgid "Just remove this payee."
 msgstr ""
 
-#: ../src/metatree.c:1852
+#: ../src/metatree.c:1867
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: ../src/metatree.c:1854
+#: ../src/metatree.c:1869
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: ../src/metatree.c:1895
+#: ../src/metatree.c:1910
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: ../src/metatree.c:1898 ../src/metatree.c:2920
+#: ../src/metatree.c:1913 ../src/metatree.c:2935
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
 
-#: ../src/metatree.c:2794
+#: ../src/metatree.c:2809
 #, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -9398,45 +9411,45 @@ msgid ""
 msgstr ""
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:2802
+#: ../src/metatree.c:2817
 #, c-format
 msgid "Choose action for \"%s\"."
 msgstr ""
 
-#: ../src/metatree.c:2808
+#: ../src/metatree.c:2823
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
 
-#: ../src/metatree.c:2836
+#: ../src/metatree.c:2851
 #, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr ""
 
-#: ../src/metatree.c:2839
+#: ../src/metatree.c:2854
 #, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr ""
 
-#: ../src/metatree.c:2842
+#: ../src/metatree.c:2857
 #, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr ""
 
-#: ../src/metatree.c:2864 ../src/metatree.c:2885
+#: ../src/metatree.c:2879 ../src/metatree.c:2900
 msgid "Select the destination: "
 msgstr ""
 
-#: ../src/metatree.c:2916
+#: ../src/metatree.c:2931
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
 "entered."
 msgstr ""
 
-#: ../src/metatree.c:2946
+#: ../src/metatree.c:2961
 #, c-format
 msgid "Warning you can not create %s."
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-09 17:53+0200\n"
+"POT-Creation-Date: 2012-04-10 21:13+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -9717,13 +9717,27 @@ msgstr ""
 msgid "Can't remove selected division."
 msgstr ""
 
+#: ../src/metatree.c:1175
+#, c-format
+msgid ""
+"The selected operation belongs to the account N°%d\n"
+"that no longer exists.\n"
+"Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
+"happened to your current file."
+msgstr ""
+
+#: ../src/metatree.c:1180
+#, fuzzy
+msgid "The account no longer exists"
+msgstr "Счёт под именем  \"%s\" уже существует!"
+
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:1733
+#: ../src/metatree.c:1748
 #, c-format
 msgid "'%s' still contains transactions or archived transactions."
 msgstr "«%s» всё ещё содержит проводки или заархивированные проводки."
 
-#: ../src/metatree.c:1737
+#: ../src/metatree.c:1752
 #, c-format
 msgid ""
 "If you want to remove it but want to keep transactions, you can transfer "
@@ -9731,44 +9745,44 @@ msgid ""
 "along with their division."
 msgstr ""
 
-#: ../src/metatree.c:1750
+#: ../src/metatree.c:1765
 #, fuzzy, c-format
 msgid "Transfer transactions to payee"
 msgstr "Три линии на транзакцию"
 
-#: ../src/metatree.c:1752
+#: ../src/metatree.c:1767
 #, fuzzy, c-format
 msgid "Transfer transactions to %s"
 msgstr "Три линии на транзакцию"
 
-#: ../src/metatree.c:1850
+#: ../src/metatree.c:1865
 #, fuzzy, c-format
 msgid "Just remove this payee."
 msgstr "Удалено получателей платежей: %d."
 
-#: ../src/metatree.c:1852
+#: ../src/metatree.c:1867
 #, c-format
 msgid "Just remove this %s."
 msgstr ""
 
-#: ../src/metatree.c:1854
+#: ../src/metatree.c:1869
 #, c-format
 msgid "Just remove this sub-%s."
 msgstr ""
 
-#: ../src/metatree.c:1895
+#: ../src/metatree.c:1910
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move transactions but no %s "
 "was entered."
 msgstr ""
 
-#: ../src/metatree.c:1898 ../src/metatree.c:2920
+#: ../src/metatree.c:1913 ../src/metatree.c:2935
 #, c-format
 msgid "Please enter a %s!"
 msgstr ""
 
-#: ../src/metatree.c:2794
+#: ../src/metatree.c:2809
 #, fuzzy, c-format
 msgid ""
 "Transfer all transactions in a \n"
@@ -9776,46 +9790,46 @@ msgid ""
 msgstr "Три линии на транзакцию"
 
 #. create the box to move change the division and sub-div of the transactions
-#: ../src/metatree.c:2802
+#: ../src/metatree.c:2817
 #, fuzzy, c-format
 msgid "Choose action for \"%s\"."
 msgstr "Показать _формуляр проводки"
 
-#: ../src/metatree.c:2808
+#: ../src/metatree.c:2823
 #, c-format
 msgid ""
 "You can transfer content from \"%s\" in another %s or %s.\n"
 "Otherwise you can transfer \"%s\" in another %s or transform \"%s\" to %s."
 msgstr ""
 
-#: ../src/metatree.c:2836
+#: ../src/metatree.c:2851
 #, fuzzy, c-format
 msgid "Transfer the transactions in a %s or %s"
 msgstr "Три линии на транзакцию"
 
-#: ../src/metatree.c:2839
+#: ../src/metatree.c:2854
 #, fuzzy, c-format
 msgid "Transfer \"%s\" in other %s"
 msgstr "Передать %s"
 
-#: ../src/metatree.c:2842
+#: ../src/metatree.c:2857
 #, fuzzy, c-format
 msgid "Convert \"%s\" in new %s"
 msgstr "Создать новую категорию"
 
-#: ../src/metatree.c:2864 ../src/metatree.c:2885
+#: ../src/metatree.c:2879 ../src/metatree.c:2900
 #, fuzzy
 msgid "Select the destination: "
 msgstr "Выбрать все проводки:"
 
-#: ../src/metatree.c:2916
+#: ../src/metatree.c:2931
 #, c-format
 msgid ""
 "It is compulsory to specify a destination %s to move content but no %s was "
 "entered."
 msgstr ""
 
-#: ../src/metatree.c:2946
+#: ../src/metatree.c:2961
 #, c-format
 msgid "Warning you can not create %s."
 msgstr ""
@@ -11633,9 +11647,6 @@ msgstr "Общедоступное управление личными фина�
 
 #~ msgid "Loading archived transactions."
 #~ msgstr "Добавить транзакции"
-
-#~ msgid "Account \"%s\" already exists!"
-#~ msgstr "Счёт под именем  \"%s\" уже существует!"
 
 #~ msgid "User"
 #~ msgstr "Пользователь"
