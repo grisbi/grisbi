@@ -76,11 +76,13 @@ struct _transfert_data
 {
     gint number;
     gint account_number;
-    gint type;
+    gint type;                  /* 0 = account 1 = partial balance */
     gint replace_account;       /* Account number or partial balance concerned */
     gint replace_transaction;
     gint auto_inc_month;
+    gint direct_debit;
     GDate *date;
+    GDate *date_bascule;
     gint category_number;
     gint sub_category_number;
     gint budgetary_number;
@@ -178,6 +180,7 @@ gboolean bet_data_set_div_ptr ( gint type_div );
 void bet_data_set_maj ( gint account_number, gint type_maj );
 void bet_data_synchronise_hist_div_list ( GHashTable  *list_div );
 gboolean bet_data_transfert_add_line ( struct_transfert_data *transfert );
+void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfert );
 GHashTable *bet_data_transfert_get_list ( void );
 gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert );
 gboolean bet_data_transfert_remove_line ( gint account_number, gint number );

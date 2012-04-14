@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2008-2009 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2012 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -48,7 +48,6 @@
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "navigation.h"
-#include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "utils_dates.h"
@@ -127,6 +126,8 @@ typedef struct
 
     /** @name bet data */
     gint bet_use_budget;                /* 1 = use the budget module */
+    gint bet_credit_card;               /* 1 = compte type CB à débit différé */
+    bet_type_onglets bet_show_onglets;  /* enum des onglets à afficher pour le module budgetaire */
     GDate *bet_start_date;              /* date de début */
     gint bet_months;                    /* nombre de mois ou d'années */
     gint bet_spin_range;                /* echelle de la période 0 = mois 1 = années */
@@ -3304,6 +3305,8 @@ gboolean gsb_data_account_set_bet_use_budget ( gint account_number, gint value )
 
     return TRUE;
 }
+
+
 /**
  *
  *
@@ -3523,6 +3526,179 @@ gint gsb_data_account_get_currency_floating_point ( gint account_number )
         floating_point = gsb_data_currency_get_floating_point ( account -> currency );
         return floating_point;
     }
+}
+
+
+/**
+ * retourne l'option carte CB à débit différé.
+ *
+ * \param account_number
+ *
+ * \return -1 pas de CB possible 0 non utilisé 1 utilisé
+ * */
+gint gsb_data_account_get_bet_credit_card ( gint account_number )
+{
+    struct_account *account;
+    kind_account kind;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return 0;
+
+    kind = account -> account_kind;
+
+    switch ( kind )
+    {
+        case GSB_TYPE_BANK:
+        case GSB_TYPE_CASH:
+        case GSB_TYPE_LIABILITIES:
+            return account->bet_credit_card;
+            break;
+        case GSB_TYPE_ASSET:
+            return 0;
+            break;
+        default:
+            return 0;
+            break;
+    }
+
+    return -1;
+}
+
+
+/**
+ * positionne l'option bet_credit_card
+ *
+ * \param account_number
+ * \param value
+ *
+ * \ return TRUE if OK
+ * */
+gboolean gsb_data_account_set_bet_credit_card ( gint account_number,
+                        gint value )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    account->bet_credit_card = value;
+
+    return TRUE;
+}
+
+
+/**
+ * retourne le type d'onglet à afficher pour le module budgetaire.
+ *
+ * \param account_number
+ *
+ * \return enum bet_type_onglets
+ * */
+bet_type_onglets gsb_data_account_get_bet_show_onglets ( gint account_number )
+{
+    struct_account *account;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return BET_ONGLETS_SANS;
+
+    return account->bet_show_onglets;
+}
+
+
+/**
+ * positionne l'option bet_show_onglets
+ *
+ * \param account_number
+ *
+ * \ return TRUE if OK
+ * */
+gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
+{
+    struct_account *account;
+    gint bet_use_budget;
+    kind_account kind;
+    GrisbiWindowEtat *etat;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return FALSE;
+
+    etat = grisbi_window_get_struct_etat ();
+    bet_use_budget = gsb_data_account_get_bet_use_budget ( account_number );
+
+    if ( bet_use_budget == 0 )
+    {
+        account->bet_show_onglets = BET_ONGLETS_SANS;
+        return TRUE;
+    }
+
+    kind = gsb_data_account_get_kind ( account_number );
+
+    switch ( kind )
+    {
+    case GSB_TYPE_BALANCE:
+        account->bet_show_onglets = BET_ONGLETS_SANS;
+        break;
+    case GSB_TYPE_BANK:
+        account->bet_show_onglets = BET_ONGLETS_PREV;
+        break;
+    case GSB_TYPE_CASH:
+        if ( etat->bet_deb_cash_account_option == 1 )
+            account->bet_show_onglets = BET_ONGLETS_PREV;
+        else
+            account->bet_show_onglets = BET_ONGLETS_HIST;
+        break;
+    case GSB_TYPE_LIABILITIES:
+        if ( account->bet_credit_card )
+        {
+            if ( etat->bet_deb_cash_account_option == 1 )
+                account->bet_show_onglets = BET_ONGLETS_PREV;
+            else
+                account->bet_show_onglets = BET_ONGLETS_HIST;
+        }
+        else
+            account->bet_show_onglets = BET_ONGLETS_CAP;
+        break;
+    case GSB_TYPE_ASSET:
+        account->bet_show_onglets = BET_ONGLETS_SANS;
+        break;
+    }
+
+    return TRUE;
+}
+
+
+/**
+ * positionne l'option bet_show_onglets pour tous les comptes
+ *
+ * \param
+ *
+ * \return FALSE
+ * */
+gboolean gsb_data_account_set_bet_show_onglets_all_accounts ( void )
+{
+    GSList *list_tmp;
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        gsb_data_account_set_bet_show_onglets ( account_number );
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return FALSE;
 }
 
 

@@ -1156,15 +1156,32 @@ gulong gsb_file_save_account_part ( gulong iterator,
         gsb_data_account_get_bet_use_budget ( account_number ) );
 
     if ( gsb_data_account_get_bet_use_budget ( account_number ) > 0 )
-    switch ( kind )
     {
-        case GSB_TYPE_LIABILITIES:
-            bet_str = g_markup_printf_escaped ( "\t\tBet_start_date=\"%s\"\n"
+        bet_type_onglets bet_show_onglets;
+
+        bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
+
+        switch ( bet_show_onglets )
+        {
+        case BET_ONGLETS_HIST:
+            bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
+                        "\t\tBet_SD=\"%d\"\n"
+                        "\t\tBet_Fi=\"%d\" />\n",
+            gsb_data_account_get_bet_credit_card ( account_number ),
+            gsb_data_account_get_bet_hist_data ( account_number ),
+            gsb_data_account_get_bet_hist_fyear ( account_number ) );
+            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            g_free ( bet_str );
+            break;
+        case BET_ONGLETS_CAP:
+            bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
+                        "\t\tBet_start_date=\"%s\"\n"
                         "\t\tBet_months=\"%d\"\n"
                         "\t\tBet_capital=\"%s\"\n"
                         "\t\tBet_taux_annuel=\"%s\"\n"
                         "\t\tBet_frais=\"%s\"\n"
                         "\t\tBet_type_taux=\"%d\" />\n",
+                gsb_data_account_get_bet_credit_card ( account_number ),
                 my_safe_null_str ( gsb_format_gdate_safe (
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
                 gsb_data_account_get_bet_months ( account_number ),
@@ -1179,19 +1196,22 @@ gulong gsb_file_save_account_part ( gulong iterator,
             new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
             g_free ( bet_str );
             break;
-        case GSB_TYPE_ASSET:
+        case BET_ONGLETS_ASSET:
+        case BET_ONGLETS_SANS:
             new_string = g_strconcat ( new_string, " />\n", NULL );
             break;
         default:
-            bet_str = g_markup_printf_escaped ( "\t\tBet_start_date=\"%s\"\n"
+            bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
+                        "\t\tBet_start_date=\"%s\"\n"
                         "\t\tBet_months=\"%d\"\n"
                         "\t\tBet_UT=\"%d\"\n"
                         "\t\tBet_auto_inc_month=\"%d\"\n"
-                        "\t\tBet_select_transaction_label=\"%d\"\n" 
-                        "\t\tBet_select_scheduled_label=\"%d\"\n" 
+                        "\t\tBet_select_transaction_label=\"%d\"\n"
+                        "\t\tBet_select_scheduled_label=\"%d\"\n"
                         "\t\tBet_select_futur_label=\"%d\"\n"
-                        "\t\tBet_SD=\"%d\"\n" 
+                        "\t\tBet_SD=\"%d\"\n"
                         "\t\tBet_Fi=\"%d\" />\n",
+            gsb_data_account_get_bet_credit_card ( account_number ),
             my_safe_null_str ( gsb_format_gdate_safe (
                         gsb_data_account_get_bet_start_date ( account_number ) ) ),
             gsb_data_account_get_bet_months ( account_number ),
@@ -1205,6 +1225,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
             new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
             g_free ( bet_str );
             break;
+        }
     }
     else
         new_string = g_strconcat ( new_string, " />\n", NULL );

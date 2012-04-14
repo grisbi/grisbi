@@ -23,6 +23,8 @@ typedef struct gsb_conf_t GrisbiAppConf;
 typedef struct gsb_etat_t GrisbiWindowEtat;
 typedef struct gsb_run_t  GrisbiWindowRun;
 
+typedef enum _bet_type_onglets bet_type_onglets;
+
 
 /** structure etat
  * variables contenant juste 0 ou 1
@@ -313,5 +315,16 @@ typedef enum GSB_FILE_ERROR
     GSB_FAILED_LOAD_WITH_BACKUP     = 1 << 8,
     GSB_FAILED_LOAD_WITHOUT_BACKUP  = 1 << 9
 } GsbFileErrorType;
+
+
+/* définition du type d'onglets du module budgétaire affiché */
+enum _bet_type_onglets
+{
+    BET_ONGLETS_SANS = 0,
+    BET_ONGLETS_PREV,
+    BET_ONGLETS_HIST,
+    BET_ONGLETS_ASSET,
+    BET_ONGLETS_CAP,
+};
 
 #endif
