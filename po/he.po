@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-31 20:18+0200\n"
+"POT-Creation-Date: 2012-04-14 08:44+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -464,7 +464,7 @@ msgid "Balances partials of the list of accounts"
 msgstr "העברת העיסקה לחשבון אחר"
 
 #. Name entry
-#: ../src/accueil.c:2111 ../src/bet_future.c:2137
+#: ../src/accueil.c:2111 ../src/bet_future.c:2215
 #: ../src/gsb_archive_config.c:103 ../src/gsb_assistant_archive_export.c:154
 #: ../src/gsb_assistant_reconcile_config.c:1231 ../src/gsb_fyear_config.c:283
 #: ../src/gsb_transactions_list.c:2044 ../src/imputation_budgetaire.c:774
@@ -794,116 +794,116 @@ msgstr "קווי רשימת עיסקאות"
 msgid "Transactions list contents"
 msgstr "תאי רשימת העיסקאות"
 
-#: ../src/bet_config.c:95 ../src/etats_config_ui.c:184
+#: ../src/bet_config.c:97 ../src/etats_config_ui.c:184
 #, fuzzy
 msgid "Month"
 msgstr "חודשים"
 
-#: ../src/bet_config.c:96 ../src/etats_config_ui.c:185
+#: ../src/bet_config.c:98 ../src/etats_config_ui.c:185
 msgid "Year"
 msgstr "שנה"
 
-#: ../src/bet_config.c:118 ../src/parametres.c:600
+#: ../src/bet_config.c:120 ../src/parametres.c:600
 #, fuzzy
 msgid "General Options"
 msgstr "כללי"
 
 #. Calculation of period
-#: ../src/bet_config.c:122
+#: ../src/bet_config.c:124
 #, fuzzy
 msgid "Common data"
 msgstr "כתובת רגילה"
 
 #. option pour les comptes de caisse
-#: ../src/bet_config.c:130
+#: ../src/bet_config.c:132
 #, fuzzy
 msgid "Option for cash accounts"
 msgstr "בחירת חשבונות מזומן"
 
-#: ../src/bet_config.c:132
+#: ../src/bet_config.c:134
 #, fuzzy
 msgid "Add the forecast tab for cash accounts"
 msgstr "העברת העיסקה לחשבון אחר"
 
-#: ../src/bet_config.c:172
+#: ../src/bet_config.c:174
 #, fuzzy
 msgid "Beginning of period"
 msgstr "יתרת פתיחה"
 
-#: ../src/bet_config.c:181
+#: ../src/bet_config.c:183
 #, fuzzy
 msgid "1st day of month"
 msgstr "3 החודשים האחרונים"
 
-#: ../src/bet_config.c:187
+#: ../src/bet_config.c:189
 msgid "date today"
 msgstr ""
 
-#: ../src/bet_config.c:207
+#: ../src/bet_config.c:209
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:263 ../src/parametres.c:609
+#: ../src/bet_config.c:266 ../src/parametres.c:609
 #, fuzzy
 msgid "Accounts data"
 msgstr "פרטי חשבון"
 
 #. Data for the forecast
-#: ../src/bet_config.c:285
+#: ../src/bet_config.c:293
 #, fuzzy
 msgid "Data for the forecast"
 msgstr "בראש הדו\"ח"
 
 #. Sources of historical data
-#: ../src/bet_config.c:290
+#: ../src/bet_config.c:298
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "תאריך התחלה"
 
 #. Data for the credit
-#: ../src/bet_config.c:300
+#: ../src/bet_config.c:308
 #, fuzzy
 msgid "Credit Data"
 msgstr "כרטיס אשראי"
 
 #. set the choice of account
-#: ../src/bet_config.c:336 ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/bet_config.c:344 ../src/gsb_assistant_reconcile_config.c:403
 #, fuzzy
 msgid "Account: "
 msgstr "חשבון:"
 
-#: ../src/bet_config.c:350
+#: ../src/bet_config.c:358
 #, fuzzy
 msgid "Use the budget module"
 msgstr "קו התקציב"
 
 #. partie mensuelle
-#: ../src/bet_config.c:420
+#: ../src/bet_config.c:428
 #, fuzzy
 msgid "Duration estimation"
 msgstr "גופן רשימת ההעברות"
 
-#: ../src/bet_config.c:587
+#: ../src/bet_config.c:595
 #, fuzzy
 msgid "Labels for transactions"
 msgstr "כל העיסקאות"
 
-#: ../src/bet_config.c:592 ../src/bet_config.c:611 ../src/bet_config.c:629
+#: ../src/bet_config.c:600 ../src/bet_config.c:619 ../src/bet_config.c:637
 #, fuzzy
 msgid "By default"
 msgstr "חזרה אל הגדרות ברירת המחדל"
 
-#: ../src/bet_config.c:593 ../src/bet_config.c:612 ../src/bet_config.c:630
-#: ../src/bet_config.c:694 ../src/bet_hist.c:188 ../src/bet_hist.c:2111
-#: ../src/bet_hist.c:2117 ../src/categories_onglet.c:348
+#: ../src/bet_config.c:601 ../src/bet_config.c:620 ../src/bet_config.c:638
+#: ../src/bet_config.c:702 ../src/bet_hist.c:188 ../src/bet_hist.c:2113
+#: ../src/bet_hist.c:2119 ../src/categories_onglet.c:348
 #: ../src/etats_config_ui.c:396 ../src/etats_config_ui.c:1594
 #: ../src/fenetre_principale.c:248 ../src/navigation.c:1987
 #: ../src/ui/etats_config.ui.h:11
 msgid "Categories"
 msgstr "קטגוריות"
 
-#: ../src/bet_config.c:594 ../src/bet_config.c:613 ../src/bet_config.c:631
-#: ../src/bet_config.c:703 ../src/bet_hist.c:197 ../src/bet_hist.c:2115
+#: ../src/bet_config.c:602 ../src/bet_config.c:621 ../src/bet_config.c:639
+#: ../src/bet_config.c:711 ../src/bet_hist.c:197 ../src/bet_hist.c:2117
 #: ../src/etats_config_ui.c:401 ../src/etats_config_ui.c:1646
 #: ../src/export_csv.c:822 ../src/fenetre_principale.c:253
 #: ../src/import_csv.c:89 ../src/imputation_budgetaire.c:354
@@ -911,28 +911,28 @@ msgstr "קטגוריות"
 msgid "Budgetary lines"
 msgstr "קווי תקציב"
 
-#: ../src/bet_config.c:606
+#: ../src/bet_config.c:614
 #, fuzzy
 msgid "Labels for scheduled transactions"
 msgstr "העברות סגורות שנקבעו מראש"
 
-#: ../src/bet_config.c:624
+#: ../src/bet_config.c:632
 msgid "Labels for futur data"
 msgstr ""
 
-#: ../src/bet_config.c:638
+#: ../src/bet_config.c:646
 msgid ""
 "Order by default if the data are not zero: notes, payee, category and "
 "budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:718 ../src/bet_hist.c:217
+#: ../src/bet_config.c:726 ../src/bet_hist.c:217
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "בחירת שנת הכספים"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:937 ../src/bet_hist.c:578 ../src/bet_hist.c:1654
+#: ../src/bet_config.c:945 ../src/bet_hist.c:578 ../src/bet_hist.c:1656
 #: ../src/categories_onglet.c:161 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:3104 ../src/export_csv.c:813
 #: ../src/gsb_transactions_list.c:182 ../src/import_csv.c:87
@@ -940,39 +940,39 @@ msgstr "בחירת שנת הכספים"
 msgid "Category"
 msgstr "קטגוריה"
 
-#: ../src/bet_config.c:950 ../src/bet_future.c:811 ../src/bet_future.c:2026
-#: ../src/bet_future.c:2502 ../src/bet_hist.c:1647 ../src/etats_affiche.c:2444
+#: ../src/bet_config.c:958 ../src/bet_future.c:811 ../src/bet_future.c:2165
+#: ../src/bet_future.c:2645 ../src/bet_hist.c:1649 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:3108 ../src/gsb_form.c:1351
 #: ../src/gsb_form_widget.c:452 ../src/gsb_transactions_list.c:174
 #: ../src/imputation_budgetaire.c:166 ../src/meta_budgetary.c:65
 msgid "Budgetary line"
 msgstr "קו תקציבי"
 
-#: ../src/bet_config.c:1293
+#: ../src/bet_config.c:1303
 #, fuzzy
 msgid "Loan Capital: "
 msgstr "הלוואה/משכנתה : הון:"
 
 #. Duration
-#: ../src/bet_config.c:1313 ../src/bet_finance_ui.c:291
+#: ../src/bet_config.c:1323 ../src/bet_finance_ui.c:291
 #: ../src/bet_finance_ui.c:1134 ../src/bet_finance_ui.c:1581
 #, fuzzy
 msgid "Duration: "
 msgstr "תרגום:"
 
-#: ../src/bet_config.c:1322 ../src/bet_finance_ui.c:777
+#: ../src/bet_config.c:1332 ../src/bet_finance_ui.c:777
 #, fuzzy
 msgid "year"
 msgstr "שנים"
 
-#: ../src/bet_config.c:1331
+#: ../src/bet_config.c:1341
 #, fuzzy
 msgid "Date of first Repayment: "
 msgstr "דרך התשלום:"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1344 ../src/bet_finance_ui.c:1120
+#: ../src/bet_config.c:1354 ../src/bet_finance_ui.c:1120
 #: ../src/bet_finance_ui.c:1567
 #, fuzzy
 msgid "Annuel rate interest: "
@@ -981,47 +981,51 @@ msgstr "תקציב שנתי:"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1354 ../src/bet_finance_ui.c:286
+#: ../src/bet_config.c:1364 ../src/bet_finance_ui.c:286
 #: ../src/bet_finance_ui.c:405 ../src/bet_finance_ui.c:1129
 #: ../src/bet_finance_ui.c:1576 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1362
+#: ../src/bet_config.c:1372
 #, fuzzy
 msgid "Fees per month: "
 msgstr "%d חודשים:"
 
-#: ../src/bet_config.c:1385 ../src/bet_finance_ui.c:418
+#: ../src/bet_config.c:1395 ../src/bet_finance_ui.c:418
 #, fuzzy
 msgid "Rate Type: "
 msgstr "סוג:"
 
-#: ../src/bet_config.c:1389 ../src/bet_finance_ui.c:422
+#: ../src/bet_config.c:1399 ../src/bet_finance_ui.c:422
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1393 ../src/bet_finance_ui.c:425
+#: ../src/bet_config.c:1403 ../src/bet_finance_ui.c:425
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1404
+#: ../src/bet_config.c:1414
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1459 ../src/bet_finance_ui.c:1693
+#: ../src/bet_config.c:1469 ../src/bet_finance_ui.c:1693
 #, fuzzy
 msgid " year "
 msgstr "שנה %d"
 
-#: ../src/bet_config.c:1461 ../src/bet_finance_ui.c:1695
+#: ../src/bet_config.c:1471 ../src/bet_finance_ui.c:1695
 #, fuzzy
 msgid " years "
 msgstr "שנים"
 
-#: ../src/bet_config.c:1511 ../src/bet_finance_ui.c:705
+#: ../src/bet_config.c:1521 ../src/bet_finance_ui.c:705
 msgid "You must enter at least one value for the capital"
+msgstr ""
+
+#: ../src/bet_config.c:1592
+msgid "Account with deferred debit card"
 msgstr ""
 
 #: ../src/bet_finance_ui.c:224 ../src/fenetre_principale.c:243
@@ -1145,14 +1149,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1050 ../src/bet_finance_ui.c:1875
-#: ../src/bet_hist.c:1956 ../src/bet_tab.c:1534 ../src/bet_tab.c:2903
+#: ../src/bet_hist.c:1958 ../src/bet_tab.c:1534 ../src/bet_tab.c:2905
 #, fuzzy
 msgid "Print the array"
 msgstr "מדפסת"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1060 ../src/bet_finance_ui.c:1888
-#: ../src/bet_finance_ui.c:1914 ../src/bet_hist.c:1969 ../src/bet_tab.c:1544
+#: ../src/bet_finance_ui.c:1914 ../src/bet_hist.c:1971 ../src/bet_tab.c:1544
 #, fuzzy
 msgid "Export the array"
 msgstr "מדפסת"
@@ -1218,12 +1222,12 @@ msgstr "פעולה"
 msgid "Credits"
 msgstr "זכות"
 
-#: ../src/bet_finance_ui.c:1872 ../src/bet_hist.c:1953 ../src/bet_tab.c:2900
+#: ../src/bet_finance_ui.c:1872 ../src/bet_hist.c:1955 ../src/bet_tab.c:2902
 #: ../src/etats_onglet.c:181 ../src/gsb_transactions_list.c:361
 msgid "Print"
 msgstr "הדפסה"
 
-#: ../src/bet_finance_ui.c:1885 ../src/bet_hist.c:1966 ../src/bet_tab.c:2913
+#: ../src/bet_finance_ui.c:1885 ../src/bet_hist.c:1968 ../src/bet_tab.c:2915
 #: ../src/categories_onglet.c:568 ../src/etats_onglet.c:171
 #: ../src/export.c:213 ../src/imputation_budgetaire.c:603
 msgid "Export"
@@ -1234,7 +1238,7 @@ msgstr "ייצוא"
 msgid "credit.csv"
 msgstr "זכות"
 
-#: ../src/bet_finance_ui.c:1938 ../src/bet_hist.c:2061 ../src/bet_tab.c:3037
+#: ../src/bet_finance_ui.c:1938 ../src/bet_hist.c:2063 ../src/bet_tab.c:3039
 #: ../src/imputation_budgetaire.c:440
 msgid "Cannot save file."
 msgstr "לא ניתן לשמור את הקובץ."
@@ -1250,8 +1254,8 @@ msgid ""
 "the date is invalid."
 msgstr ""
 
-#: ../src/bet_future.c:232 ../src/bet_future.c:1774 ../src/bet_future.c:1873
-#: ../src/bet_future.c:2422 ../src/gsb_currency.c:750
+#: ../src/bet_future.c:232 ../src/bet_future.c:1774 ../src/bet_future.c:2002
+#: ../src/bet_future.c:2525 ../src/gsb_currency.c:750
 #, fuzzy
 msgid "One field is not filled in"
 msgstr "כל השדות אינם ממולאים!"
@@ -1379,7 +1383,7 @@ msgstr "חיוב"
 msgid "Credit"
 msgstr "זכות"
 
-#: ../src/bet_future.c:804 ../src/bet_future.c:1999 ../src/bet_future.c:2484
+#: ../src/bet_future.c:804 ../src/bet_future.c:2138 ../src/bet_future.c:2627
 #: ../src/gsb_form.c:1343 ../src/gsb_form_widget.c:444
 msgid "Categories : Sub-categories"
 msgstr "קטגוריות : תתי-קטגוריות"
@@ -1404,69 +1408,92 @@ msgstr "הערות"
 msgid "Transfer"
 msgstr "העברה"
 
-#: ../src/bet_future.c:1862 ../src/bet_future.c:2411
+#: ../src/bet_future.c:1836 ../src/gsb_account_property.c:696
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:230
+msgid "Bank account"
+msgstr "חשבון בנק"
+
+#: ../src/bet_future.c:1839 ../src/gsb_account_property.c:696
+#: ../src/gsb_data_partial_balance.c:218
+msgid "Cash account"
+msgstr "חשבון מזומן"
+
+#: ../src/bet_future.c:1842 ../src/gsb_account_property.c:696
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:222
+#, c-format
+msgid "Liabilities account"
+msgstr "חשבון התחייבויות"
+
+#: ../src/bet_future.c:1898
+#, fuzzy
+msgid "Partial balance"
+msgstr "יתרת פתיחה"
+
+#: ../src/bet_future.c:1991 ../src/bet_future.c:2514
 #, fuzzy
 msgid "Error: You must select an account."
 msgstr "בחירת חשבונות נכסים"
 
-#: ../src/bet_future.c:1863 ../src/bet_future.c:2412
+#: ../src/bet_future.c:1992 ../src/bet_future.c:2515
 msgid "Missing data"
 msgstr ""
 
-#: ../src/bet_future.c:1871 ../src/bet_future.c:2420
+#: ../src/bet_future.c:2000 ../src/bet_future.c:2523
 msgid ""
 "Error:  the category or the budgetary line is not specified or the date is "
 "invalid."
 msgstr ""
 
 #. Create the dialog
-#: ../src/bet_future.c:1913
+#: ../src/bet_future.c:2043
 #, fuzzy
 msgid "Select an account"
 msgstr "בחירת חשבונות בנק"
 
 #. list of accounts
-#: ../src/bet_future.c:1929
+#: ../src/bet_future.c:2059
 #, fuzzy
 msgid "List of accounts"
 msgstr "חשבון מזומן"
 
-#: ../src/bet_future.c:1949
-msgid "Effective date and data for the replacement of a planned operation"
-msgstr ""
+#. Others data
+#: ../src/bet_future.c:2078
+#, fuzzy
+msgid "Account data and actions"
+msgstr "סך הכל בחשבון: (%d עיסקאות):"
 
-#: ../src/bet_future.c:1955
+#: ../src/bet_future.c:2084
+#, fuzzy
+msgid "Date of change of month: "
+msgstr "שם קובץ החשבונות:"
+
+#: ../src/bet_future.c:2091
 #, fuzzy
 msgid "Effective date: "
 msgstr "הפעלה:"
 
-#: ../src/bet_future.c:1962
+#: ../src/bet_future.c:2098
 #, fuzzy
 msgid "Monthly auto-increment"
 msgstr "הוצאות חודשיות לפי צדדים שלישיים"
 
-#: ../src/bet_future.c:1973
+#: ../src/bet_future.c:2105
 #, fuzzy
-msgid "Check the box to replace a planned operation"
-msgstr "סך הכל בקטגוריה (%d עיסקה)"
+msgid "Replacement of the scheduled operation"
+msgstr "לא ניתן לבצע עיסקה מתוכננת מראש"
 
-#: ../src/bet_future.c:2088 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:218
-msgid "Cash account"
-msgstr "חשבון מזומן"
-
-#: ../src/bet_future.c:2114
+#: ../src/bet_future.c:2116
 #, fuzzy
-msgid "Partial balance"
-msgstr "יתרת פתיחה"
+msgid "Automatic creation of the direct debit transaction"
+msgstr "לטעון את הקובץ האחרון שהיה בעבודה עם עליית התוכנה"
 
 #. Description entry
-#: ../src/bet_future.c:2146 ../src/import.c:475
+#: ../src/bet_future.c:2224 ../src/import.c:475
 #: ../src/imputation_budgetaire.c:799
 msgid "Type"
 msgstr "סוג"
 
-#: ../src/bet_future.c:2358 ../src/gsb_data_scheduled.c:1831
+#: ../src/bet_future.c:2450 ../src/gsb_data_scheduled.c:1831
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
@@ -1551,42 +1578,42 @@ msgstr "סכום לקו תקציב"
 #. * FYEAR_COL_NAME : the name of the fyear
 #. * FYEAR_COL_NUMBER : the number of the fyear
 #. * FYEAR_COL_VIEW : it the fyear should be showed
-#: ../src/bet_hist.c:1071
+#: ../src/bet_hist.c:1073
 msgid "12 months rolling"
 msgstr ""
 
 #. Add last amount menu
-#: ../src/bet_hist.c:1486
+#: ../src/bet_hist.c:1488
 #, fuzzy
 msgid "Assign the amount of the last operation"
 msgstr "ימים מסביב לתאריך של העיסקה המיובאת."
 
 #. Add average amount menu
-#: ../src/bet_hist.c:1509
+#: ../src/bet_hist.c:1511
 msgid "Copy the average amount"
 msgstr ""
 
-#: ../src/bet_hist.c:1813
+#: ../src/bet_hist.c:1815
 #, c-format
 msgid "Amounts by %s on 12 months rolling for the account: «%s»"
 msgstr ""
 
-#: ../src/bet_hist.c:1818
+#: ../src/bet_hist.c:1820
 #, fuzzy, c-format
 msgid "Amounts by %s in %s for the account: «%s»"
 msgstr ""
 "מטבע %s לא נמצא.\n"
 ":"
 
-#: ../src/bet_hist.c:1978
+#: ../src/bet_hist.c:1980
 msgid "Data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:1982
+#: ../src/bet_hist.c:1984
 msgid "display the data graph"
 msgstr ""
 
-#: ../src/bet_hist.c:2037
+#: ../src/bet_hist.c:2039
 #, fuzzy
 msgid "Export the historical data"
 msgstr "תאריך התחלה"
@@ -1672,7 +1699,7 @@ msgstr "המרת העיסקה לעיסקה מתוזמנת"
 
 #: ../src/bet_tab.c:1494
 #, fuzzy
-msgid "Insert the balance of a cash account"
+msgid "Insert the balance of a deferred debit account"
 msgstr "לא ניתן לבצע העברה בחשבון סגור."
 
 #. redo item
@@ -1712,17 +1739,17 @@ msgstr "אין קטגוריה"
 msgid "No budgetary line"
 msgstr "ללא קו תקציב"
 
-#: ../src/bet_tab.c:2916 ../src/bet_tab.c:3013
+#: ../src/bet_tab.c:2918 ../src/bet_tab.c:3015
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "ייצוא קווי התקציב"
 
-#: ../src/bet_tab.c:2971
+#: ../src/bet_tab.c:2973
 #, fuzzy
 msgid "Balance at "
 msgstr "מאזן"
 
-#: ../src/bet_tab.c:3020
+#: ../src/bet_tab.c:3022
 msgid "forecast.csv"
 msgstr ""
 
@@ -3966,17 +3993,6 @@ msgstr "יתרה מינימלית רצויה:"
 #: ../src/gsb_scheduler_list.c:522
 msgid "Comments"
 msgstr "הערות"
-
-#: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:431
-#: ../src/gsb_data_partial_balance.c:230
-msgid "Bank account"
-msgstr "חשבון בנק"
-
-#: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:444
-#: ../src/gsb_data_partial_balance.c:222
-#, c-format
-msgid "Liabilities account"
-msgstr "חשבון התחייבויות"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
 #: ../src/gsb_data_partial_balance.c:226
@@ -6673,12 +6689,12 @@ msgstr "הגבלת תאריך"
 msgid "Invalid"
 msgstr "תאריך לא תקין"
 
-#: ../src/gsb_data_account.c:249
+#: ../src/gsb_data_account.c:250
 #, c-format
 msgid "No name %d"
 msgstr "%d ללא שם"
 
-#: ../src/gsb_data_account.c:555
+#: ../src/gsb_data_account.c:556
 #, c-format
 msgid ""
 "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
@@ -6686,7 +6702,7 @@ msgstr ""
 
 #. TODO dOm : the return value of g_strdup_printf was not used !
 #. I add the devel_debug to print it. Is it OK to do that ?
-#: ../src/gsb_data_account.c:1224
+#: ../src/gsb_data_account.c:1225
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_get_element_sort () in data_account.c\n"
@@ -6695,7 +6711,7 @@ msgstr ""
 
 #. TODO dOm : the value of g_strdup_printf was not used.
 #. I add the devel_debug function to print it. Is it OK ?
-#: ../src/gsb_data_account.c:1267
+#: ../src/gsb_data_account.c:1268
 #, c-format
 msgid ""
 "Bad no column to gsb_data_account_set_element_sort () in data_account.c\n"
@@ -7246,7 +7262,7 @@ msgstr ""
 msgid "Cannot save configuration file '%s': %s"
 msgstr "לא ניתן לשמור את הקובץ '%s': %s"
 
-#: ../src/gsb_file_load.c:435 ../src/gsb_file_load.c:5441
+#: ../src/gsb_file_load.c:435 ../src/gsb_file_load.c:5461
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "קובץ זה אינו דו\"ח של גריסבי"
@@ -7260,14 +7276,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8840
+#: ../src/gsb_file_load.c:8860
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "גריסבי מגירסה %s אינו מסוגל לפתוח קובץ זה"
 
-#: ../src/gsb_file_load.c:8865
+#: ../src/gsb_file_load.c:8885
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7275,7 +7291,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8869
+#: ../src/gsb_file_load.c:8889
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -11296,6 +11312,10 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Check the box to replace a planned operation"
+#~ msgstr "סך הכל בקטגוריה (%d עיסקה)"
+
+#, fuzzy
 #~ msgid "Manage import associations"
 #~ msgstr "פירוט קטגוריות"
 
@@ -12526,9 +12546,6 @@ msgstr ""
 #~ msgstr ""
 #~ "שבירה זו של עיסקה כוללת העברה עצמית. או שייעשה שינוי לתת-העיסקה כדי "
 #~ "להעביר לחשבון אחר, או שייעשה שינוי בחשבון ההעברה עצמו."
-
-#~ msgid "Can't issue scheduled operation"
-#~ msgstr "לא ניתן לבצע עיסקה מתוכננת מראש"
 
 #~ msgid "Calendar"
 #~ msgstr "יומן"
