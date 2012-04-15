@@ -499,6 +499,7 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
     GKeyFile *config;
     gchar *file_content;
     gchar *name;
+    const gchar *tmp_str;
     gsize length;
     FILE *conf_file;
     gint i;
@@ -575,10 +576,11 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "Can modify R",
                         conf->r_modifiable );
 
+    tmp_str = gsb_file_get_last_path ();
     g_key_file_set_string ( config,
                         "General",
                         "Path",
-                        gsb_file_get_last_path () );
+                        tmp_str );
 
     g_key_file_set_integer ( config,
                         "General",
@@ -629,10 +631,11 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "Metatree_action_2button_press",
                         conf->metatree_action_2button_press );
 
+    tmp_str = gsb_file_get_import_files_path ( conf );
     g_key_file_set_string ( config,
                         "General",
                         "Import_files_path",
-                        gsb_file_get_import_files_path () );
+                        tmp_str );
 
      /* save backup part */
     g_key_file_set_integer ( config,
@@ -660,10 +663,11 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         "Make backup nb minutes",
                         conf->make_backup_nb_minutes );
 
+    tmp_str = gsb_file_get_backup_path ( conf );
     g_key_file_set_string ( config,
                         "Backup",
                         "Backup path",
-                        gsb_file_get_backup_path () );
+                        tmp_str );
 
     g_key_file_set_integer ( config,
                         "Backup",
@@ -705,10 +709,11 @@ gboolean gsb_file_config_save_config ( GrisbiAppConf *conf )
                         (const gchar **) conf->tab_noms_derniers_fichiers_ouverts,
                         conf->nb_derniers_fichiers_ouverts);
 
+    tmp_str = gsb_file_get_account_files_path ( conf );
     g_key_file_set_string ( config,
                         "IO",
                         "Account_files_path",
-                        gsb_file_get_account_files_path () );
+                        tmp_str );
 
     /* archival part */
     g_key_file_set_integer ( config,

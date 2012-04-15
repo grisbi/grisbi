@@ -813,7 +813,7 @@ devel_debug_int (error_type);
                                 "Please contact the Grisbi's team on devel@listes.grisbi.org "
                                 "to find what happened to you current file."),
                                 filename,
-                                gsb_file_get_backup_path () );
+                                gsb_file_get_backup_path ( NULL ) );
         tmp_str2 = g_strdup ( _("Error loading file.") );
         break;
 
@@ -824,7 +824,7 @@ devel_debug_int (error_type);
                                 "Please contact the Grisbi's team on devel@listes.grisbi.org "
                                 "to find what happened to you current file."),
                                 filename,
-                                gsb_file_get_backup_path () );
+                                gsb_file_get_backup_path ( NULL ) );
         tmp_str2 = g_strdup ( _("Error loading file.") );
         break;
 

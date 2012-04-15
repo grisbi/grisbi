@@ -39,7 +39,6 @@
 #include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_prefs.h"
-#include "grisbi_window.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_file.h"
@@ -239,17 +238,20 @@ const gchar *gsb_file_get_last_path ( void )
 /**
  * get the backup path
  *
- * \param
+ * \param conf
  *
  * \return a const gchar with the backup path
  * */
-const gchar *gsb_file_get_backup_path ( void )
+const gchar *gsb_file_get_backup_path ( GrisbiAppConf *conf )
 {
-    GrisbiAppConf *conf;
+    GrisbiAppConf *tmp_conf;
 
-    conf = grisbi_app_get_conf ();
+    if ( conf == NULL )
+        tmp_conf = grisbi_app_get_conf ();
+    else
+        tmp_conf = conf;
 
-    return conf->backup_path;
+    return tmp_conf->backup_path;
 }
 
 
@@ -364,6 +366,9 @@ gboolean gsb_file_open_file ( gchar *filename )
     run = grisbi_window_get_struct_run ( NULL );
     run->is_loading = TRUE;
 
+    /* on initialise la variable etat */
+    grisbi_window_init_struct_etat ();
+
     /* le fichier existe et est un fichier "normal" on l'ouvre */
     if ( gsb_file_load_open_file ( filename ) )
     {
@@ -389,7 +394,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         }
         else
         {
-            if ( gsb_file_get_backup_path ( ) )
+            if ( gsb_file_get_backup_path ( conf ) )
                 utils_files_display_dialog_error ( GSB_FAILED_LOAD_WITH_BACKUP, filename, NULL );
             else
                 utils_files_display_dialog_error ( GSB_FAILED_LOAD_WITHOUT_BACKUP, filename, NULL );
@@ -615,10 +620,8 @@ gboolean gsb_file_save_backup ( void )
 
     conf = grisbi_app_get_conf ( );
 
-    if (!gsb_file_get_backup_path ()
-	||
-	!gsb_file_get_modified ( ) )
-	return FALSE;
+    if (!gsb_file_get_backup_path ( conf ) || !gsb_file_get_modified () )
+        return FALSE;
 
     gsb_status_message ( _("Saving backup") );
 
@@ -641,7 +644,7 @@ gboolean gsb_file_save_backup ( void )
     if ( conf->make_bakup_single_file )
     {
         filename =  g_strdup_printf ( "%s%s%s_backup.gsb",
-                            gsb_file_get_backup_path ( ),
+                            gsb_file_get_backup_path ( conf ),
                             G_DIR_SEPARATOR_S,
                             name );
     }
@@ -650,7 +653,7 @@ gboolean gsb_file_save_backup ( void )
         time ( &temps );
         day_time = localtime (&temps);
         filename =  g_strdup_printf ( "%s%s%s_%d%02d%02dT%02d%02d%02d.gsb",
-                            gsb_file_get_backup_path (),
+                            gsb_file_get_backup_path ( conf ),
                             G_DIR_SEPARATOR_S,
                             name,
                             day_time -> tm_year + 1900,
@@ -1295,15 +1298,12 @@ gboolean gsb_file_open_from_commandline ( GSList *file_list )
 /**
  * get the account files path
  *
- * \param
+ * \param conf
  *
  * \return a const gchar with the backup path
  * */
-const gchar *gsb_file_get_account_files_path ( void )
+const gchar *gsb_file_get_account_files_path ( GrisbiAppConf *conf )
 {
-    GrisbiAppConf *conf;
-
-    conf = grisbi_app_get_conf ();
     return conf->account_files_path;
 }
 
@@ -1343,15 +1343,12 @@ void gsb_file_set_account_files_path ( const gchar *path,
 /**
  * get the import files path
  *
- * \param
+ * \param conf
  *
  * \return a const gchar with the backup path
  * */
-const gchar *gsb_file_get_import_files_path ( void )
+const gchar *gsb_file_get_import_files_path ( GrisbiAppConf *conf )
 {
-    GrisbiAppConf *conf;
-
-    conf = grisbi_app_get_conf ();
     return conf->import_files_path;
 }
 
