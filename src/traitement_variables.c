@@ -91,7 +91,6 @@ static void initialise_number_separators ( void );
 static void initialise_tab_affichage_ope ( void );
 /*END_STATIC*/
 
-gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
 gchar *adresse_secondaire = NULL;
 
@@ -204,11 +203,6 @@ void init_variables ( GrisbiWindowEtat *etat,
     no_devise_totaux_tiers = 1;
     no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
-
-    /* initialization of titles and logo part */
-    if ( titre_fichier && strlen ( titre_fichier ) )
-        g_free ( titre_fichier );
-    titre_fichier = g_strdup( _("My accounts") );
 
     gsb_select_icon_init_logo_variables ();
 
