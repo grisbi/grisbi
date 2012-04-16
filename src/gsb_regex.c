@@ -131,6 +131,7 @@ void gsb_regex_destroy ( void )
 {
     if ( regex_store )
         g_hash_table_destroy ( regex_store );
+        regex_store = NULL;
 }
 
 

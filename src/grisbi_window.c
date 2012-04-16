@@ -151,10 +151,7 @@ static void grisbi_window_finalize ( GObject *object )
     run = window->priv->run;
 
     /* libère la mémoire utilisée par les données de priv */
-    grisbi_window_free_priv ( window, etat );
-
-    /* libération de la mémoiré utilisée par etat */
-    g_free ( etat );
+    grisbi_window_free_priv_file ( window );
 
     /* libération mémoire de la structure run */
     g_free ( run->reconcile_final_balance );
@@ -774,15 +771,44 @@ static void grisbi_window_init_etat_mutex ( void )
 
 
 /**
+ * définit la structure etat
+ *
+ * \param window
+ * \param etat
+ *
+ * \return TRUE if OK or FALSE
+ **/
+static gboolean grisbi_window_set_struct_etat ( GrisbiWindow *window,
+                        GrisbiWindowEtat *etat )
+{
+    if ( !GRISBI_IS_WINDOW ( window ) )
+        return FALSE;
+
+    window->priv->etat = etat;
+
+    return TRUE;
+}
+
+
+/**
  * Init la structure etat
  *
  * \param
  *
  * \return
  **/
-static void grisbi_window_init_struct_etat ( GrisbiWindowEtat *etat )
+void grisbi_window_init_struct_etat ( GrisbiWindow *window )
 {
+    GrisbiWindowEtat *etat;
+
     devel_debug (NULL);
+
+    /* creation de la structure etat */
+    etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+    grisbi_window_set_struct_etat ( window, etat );
+
+    /* blocage du mutex */
+    g_mutex_lock ( grisbi_window_etat_mutex );
 
     /* init logo */
     etat->is_pixmaps_dir = TRUE;
@@ -823,6 +849,43 @@ static void grisbi_window_init_struct_etat ( GrisbiWindowEtat *etat )
     /* initializes the variables for the estimate balance module */
     etat->bet_deb_period = 1;
 
+    /* initialisation des autres variables */
+    init_variables ( window->priv->etat, window->priv->run );
+
+    /* libération du mutex */
+    g_mutex_unlock ( grisbi_window_etat_mutex );
+
+}
+
+
+/**
+ * libère la mémoire utilisée par etat
+ *
+ * \param object
+ *
+ * \return
+ **/
+static void grisbi_window_free_struct_etat ( GrisbiWindowEtat *etat )
+{
+
+    devel_debug (NULL);
+
+    g_free ( etat->name_logo );
+    etat->name_logo = NULL;
+
+    g_free ( etat->csv_separator );
+    etat->csv_separator = NULL;
+
+    g_free ( etat->transaction_column_width );
+    etat->transaction_column_width = NULL;
+
+    g_free ( etat->scheduler_column_width );
+    etat->scheduler_column_width = NULL;
+
+    g_free ( etat );
+
+    /* free others variables */
+    free_variables ();
 }
 
 
@@ -847,11 +910,14 @@ static void grisbi_window_init ( GrisbiWindow *window )
     if ( !grisbi_window_initialise_builder ( window ) )
         exit ( 1 );
 
+    /* initialisation du mutex */
+    grisbi_window_init_etat_mutex ();
+
     /* creation de la structure run */
     window->priv->run = g_malloc0 ( sizeof ( GrisbiWindowRun ) );
 
-    /* initialisation de la variable etat */
-    window->priv->etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+    /* initialisation de la structure etat */
+    grisbi_window_init_struct_etat ( window );
 
     /* Création de la fenêtre principale de Grisbi */
     gtk_container_add ( GTK_CONTAINER ( window ), window->priv->main_box );
@@ -877,13 +943,6 @@ static void grisbi_window_init ( GrisbiWindow *window )
     if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
         gtk_widget_hide ( window->priv->accueil_page );
 
-    /* initialisation des variables de la fenêtre */
-    grisbi_window_init_etat_mutex ();
-    g_mutex_lock ( grisbi_window_etat_mutex );
-    grisbi_window_init_struct_etat ( window->priv->etat );
-    init_variables ( window->priv->etat, window->priv->run );
-    g_mutex_unlock ( grisbi_window_etat_mutex );
-
     /* set the signals */
     g_signal_connect ( G_OBJECT ( window ),
                         "realize",
@@ -897,6 +956,20 @@ static void grisbi_window_init ( GrisbiWindow *window )
 }
 
 /* FONCTIONS PUBLIQUES */
+/* PAGE_ACCUEIL */
+/**
+ * retourne la page d'accueil de grisbi
+ *
+ * \param active window
+ *
+ * \return accueil_page
+ **/
+GtkWidget *grisbi_window_get_accueil_page ( GrisbiWindow *window )
+{
+    return window->priv->accueil_page;
+}
+
+
 /* GENERAL_WIDGET */
 /**
  * Create the main widget that holds all the user interface save the
@@ -907,9 +980,8 @@ static void grisbi_window_init ( GrisbiWindow *window )
 GtkWidget *grisbi_window_new_general_widget ( void )
 {
     GrisbiWindow *window;
-devel_debug (NULL);
 
-    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( FALSE ) );
 
     /* on cache la page d'accueil si elle est visible */
     if ( gtk_widget_get_visible ( window->priv->accueil_page ) )
@@ -1127,7 +1199,7 @@ gboolean grisbi_window_set_active_title ( gint account_number )
 
     devel_debug_int ( account_number );
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     window = grisbi_app_get_active_window ( app );
     conf = grisbi_app_get_conf ();
 
@@ -1282,6 +1354,52 @@ void grisbi_window_headings_update_label_markup ( gchar *label_name,
 }
 
 
+/* STRUCTURE ETAT */
+/**
+ * retourne la structure etat
+ *
+ * \param
+ *
+ * \return etat
+ **/
+GrisbiWindowEtat *grisbi_window_get_struct_etat ( void )
+{
+    GrisbiApp *app;
+    GrisbiWindow *window;
+
+    app = grisbi_app_get_default ( TRUE );
+    
+    window = grisbi_app_get_active_window ( app );
+
+    return window->priv->etat;
+}
+
+
+/* STRUCTURE RUN */
+/**
+ * retourne la structure run
+ *
+ * \param GrisbiWindow
+ *
+ * \return struct GrisbiWindowRun
+ **/
+GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window )
+{
+    if ( window == NULL )
+    {
+        GrisbiApp *app;
+
+        app = grisbi_app_get_default ( TRUE );
+        if ( app )
+            window = grisbi_app_get_active_window ( app );
+    }
+    if ( window )
+        return window->priv->run;
+    else
+        return NULL;
+}
+
+
 /* FONCTIONS UTILITAIRES */
 /**
  * retourne le widget nommé
@@ -1297,25 +1415,6 @@ GtkWidget *grisbi_window_get_widget_by_name ( const gchar *name )
     widget = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, name ) );
 
     return widget;
-}
-
-
-/**
- *
- *
- * \param
- *
- * \return
- **/
-GrisbiWindowEtat *grisbi_window_get_struct_etat ( void )
-{
-    GrisbiApp *app;
-    GrisbiWindow *window;
-
-    app = grisbi_app_get_default ();
-    window = grisbi_app_get_active_window ( app );
-
-    return window->priv->etat;
 }
 
 
@@ -1346,14 +1445,14 @@ void grisbi_window_etat_mutex_unlock ( void )
 
 
 /**
- * libère la mémoire utilisée par priv
+ * libère la mémoire utilisée par la partie de priv propre a un fichier
  *
- * \param object
+ * \param active window
+ * \param struct etat
  *
  * \return
  **/
-void grisbi_window_free_priv ( GrisbiWindow *window,
-                            GrisbiWindowEtat *etat )
+void grisbi_window_free_priv_file ( GrisbiWindow *window )
 {
 
     devel_debug (NULL);
@@ -1369,33 +1468,8 @@ void grisbi_window_free_priv ( GrisbiWindow *window,
     window->priv->window_title = NULL;
 
     /* libération de la mémoiré utilisée par etat */
-    g_free ( etat->name_logo );
-    etat->name_logo = NULL;
-
-    g_free ( etat->csv_separator );
-    etat->csv_separator = NULL;
-
-    g_free ( etat->transaction_column_width );
-    etat->transaction_column_width = NULL;
-
-    g_free ( etat->scheduler_column_width );
-    etat->scheduler_column_width = NULL;
-}
-
-
-/**
- * retourne la structure run
- *
- * \param GrisbiWindow
- *
- * \return struct GrisbiWindowRun
- **/
-GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window )
-{
-    if ( window == NULL )
-        window = grisbi_app_get_active_window ( grisbi_app_get_default () );
-
-    return window->priv->run;
+    grisbi_window_free_struct_etat ( window->priv->etat );
+    window->priv->etat = NULL;
 }
 
 

@@ -57,7 +57,7 @@ const gchar *grisbi_app_get_active_file_title ( void );
 GtkUIManager *grisbi_app_get_active_ui_manager ( void );
 GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app );
 GrisbiAppConf *grisbi_app_get_conf ( void );
-GrisbiApp *grisbi_app_get_default ( void );
+GrisbiApp *grisbi_app_get_default ( gboolean return_null );
 gboolean grisbi_app_get_first_use ( GrisbiApp *app );
 const GList	*grisbi_app_get_windows ( GrisbiApp *app );
 gboolean grisbi_app_quit ( void );

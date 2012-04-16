@@ -119,7 +119,7 @@ void gsb_gui_new_general_notebook ( void )
 {
     GrisbiWindow *window;
 
-    window = grisbi_app_get_active_window ( grisbi_app_get_default ( ) );
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( FALSE ) );
 
     gsb_gui_create_general_notebook ( window );
 }

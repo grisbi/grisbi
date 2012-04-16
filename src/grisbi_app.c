@@ -307,7 +307,7 @@ static void grisbi_app_window_set_size_and_position ( GrisbiWindow *window )
     GrisbiApp *app;
     GrisbiAppConf *conf;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     conf = app->priv->conf;
 
     /* set the size of the window */
@@ -448,8 +448,8 @@ gboolean grisbi_app_close_file ( void )
 
     devel_debug (NULL);
 
-    app = grisbi_app_get_default ( );
-    conf = grisbi_app_get_conf ( );
+    app = grisbi_app_get_default ( FALSE );
+    conf = grisbi_app_get_conf ();
     etat = grisbi_window_get_struct_etat ();
 
     /* on récupère la fenetre active */
@@ -459,12 +459,14 @@ gboolean grisbi_app_close_file ( void )
     gsb_file_close ();
 
     /* on libère la mémoire utilisée par la fenêtre active */
-    grisbi_window_free_priv ( main_window, etat );
-    free_variables ();
+    grisbi_window_free_priv_file ( main_window );
+
+    /* initialisation de la structure etat */
+    grisbi_window_init_struct_etat ( main_window );
 
     gtk_widget_hide ( grisbi_window_get_widget_by_name ( "vbox_general" ) );
     gtk_widget_hide ( grisbi_window_get_headings_eb ( main_window ) );
-    gtk_widget_show ( grisbi_window_get_widget_by_name ( "accueil_page" ) );
+    gtk_widget_show ( grisbi_window_get_accueil_page ( main_window ) );
 
     return TRUE;
 }
@@ -482,10 +484,15 @@ const gchar *grisbi_app_get_active_filename ( void )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
-    window = grisbi_app_get_active_window ( app );
+    app = grisbi_app_get_default ( TRUE );
+    if ( app )
+    {
+        window = grisbi_app_get_active_window ( app );
 
-    return grisbi_window_get_filename ( window );
+        return grisbi_window_get_filename ( window );
+    }
+    else
+        return NULL;
 }
 
 
@@ -501,7 +508,7 @@ gboolean grisbi_app_set_active_filename ( const gchar *filename )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     window = grisbi_app_get_active_window ( app );
 
     grisbi_window_set_filename ( window, filename );
@@ -522,7 +529,7 @@ const gchar *grisbi_app_get_active_file_title ( void )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     window = grisbi_app_get_active_window ( app );
 
     return grisbi_window_get_file_title ( window );
@@ -541,7 +548,7 @@ gboolean grisbi_app_set_active_file_title ( const gchar *file_title )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     window = grisbi_app_get_active_window ( app );
 
     grisbi_window_set_file_title ( window, file_title );
@@ -563,7 +570,7 @@ GtkUIManager *grisbi_app_get_active_ui_manager ( void )
     GrisbiWindow *window;
     GtkUIManager *ui_manager;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     window = grisbi_app_get_active_window ( app );
 
     ui_manager = grisbi_window_get_ui_manager ( window );
@@ -584,11 +591,11 @@ GrisbiWindow *grisbi_app_get_active_window ( GrisbiApp *app )
     GrisbiApp *tmp_app;
 
     if ( app == NULL )
-        tmp_app = grisbi_app_get_default ( );
+        tmp_app = grisbi_app_get_default ( TRUE );
     else
         tmp_app = app;
 
-    if ( !GRISBI_IS_APP ( tmp_app ) )
+    if ( tmp_app == NULL || !GRISBI_IS_APP ( tmp_app ) )
         return NULL;
 
     if ( tmp_app->priv->active_window != 0
@@ -612,8 +619,11 @@ GrisbiAppConf *grisbi_app_get_conf ( void )
 {
     GrisbiApp *app;
 
-    app = grisbi_app_get_default ( );
-    return app->priv->conf;
+    app = grisbi_app_get_default ( TRUE );
+    if ( app )
+        return app->priv->conf;
+    else
+        return NULL;
 }
 
 
@@ -624,16 +634,17 @@ GrisbiAppConf *grisbi_app_get_conf ( void )
  *
  * \return the GrisbiApp pointer
  */
-GrisbiApp *grisbi_app_get_default ( void )
+GrisbiApp *grisbi_app_get_default ( gboolean return_null )
 {
     static GrisbiApp *app = NULL;
 
     if ( app != NULL )
         return app;
 
-    app = GRISBI_APP ( g_object_new ( GRISBI_TYPE_APP, NULL ) );
+    if ( return_null )
+        return NULL;
 
-    if ( app == NULL );
+    app = GRISBI_APP ( g_object_new ( GRISBI_TYPE_APP, NULL ) );
 
     g_object_add_weak_pointer ( G_OBJECT ( app ), (gpointer) &app );
     g_object_weak_ref ( G_OBJECT ( app ), grisbi_app_weak_notify, NULL );
@@ -672,8 +683,8 @@ gboolean grisbi_app_quit ( void )
 
     devel_debug (NULL);
 
-    app = grisbi_app_get_default ( );
-    conf = grisbi_app_get_conf ( );
+    app = grisbi_app_get_default ( FALSE );
+    conf = app->priv->conf;
 
     /* on récupère la fenetre active */
     window = grisbi_app_get_active_window ( app );
@@ -690,7 +701,7 @@ gboolean grisbi_app_quit ( void )
     gsb_file_config_save_config ( conf );
     g_mutex_unlock ( grisbi_app_conf_mutex );
 
-    if ( gsb_file_close ( ) )
+    if ( gsb_file_close () )
         gtk_widget_destroy ( GTK_WIDGET ( window ) );
 
     /* clean finish of the debug file */

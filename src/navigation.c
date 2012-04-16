@@ -1932,6 +1932,9 @@ void gsb_gui_navigation_clear_pages_list ( void )
  */
 void gsb_gui_navigation_free_pages_list ( void )
 {
+    if ( pages_list == NULL )
+        return;
+
     g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
     g_queue_free ( pages_list );
 }

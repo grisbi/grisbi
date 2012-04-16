@@ -78,24 +78,54 @@ static FILE *debug_file = NULL;
  */
 void traitement_sigsegv ( gint signal_nb )
 {
-    const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
     gchar *old_errmsg;
-    gchar *tmp_str;
-    gchar *nom_fichier_comptes;
+    gchar *nom_fichier_comptes = NULL;
+    gchar *long_filename = NULL;
     GtkWidget *dialog;
     gboolean compress_file = FALSE;
-    GrisbiAppConf *conf = NULL;
-    GrisbiWindowRun *run = NULL;
+    gboolean is_loading = FALSE;
+    gboolean is_saving = FALSE;
+    GrisbiApp *app = NULL;
 #ifdef HAVE_BACKTRACE
-    GtkWidget * expander;
+    GtkWidget *expander;
 #endif
+devel_debug (NULL);
 
-    nom_fichier_comptes = g_strdup ( grisbi_app_get_active_filename () );
-    if ( nom_fichier_comptes )
+    app = grisbi_app_get_default ( TRUE );
+    if ( app )
     {
-        conf = grisbi_app_get_conf ( );
-        grisbi_window_get_struct_run ( NULL );
+        GrisbiWindow *window;
+        const gchar *gsb_file_default_dir;
+
+        window = grisbi_app_get_active_window ( app );
+        if ( window )
+            nom_fichier_comptes = g_strdup ( grisbi_window_get_filename ( window ) );
+        gsb_file_default_dir = gsb_dirs_get_home_dir ( );
+
+        if ( nom_fichier_comptes )
+        {
+            gchar *tmp_str2;
+            gchar *tmp_str;
+            GrisbiAppConf *conf = NULL;
+            GrisbiWindowRun *run = NULL;
+
+            conf = grisbi_app_get_conf ( );
+            grisbi_window_get_struct_run ( NULL );
+
+            compress_file = conf->compress_file;
+            is_loading = run->is_loading;
+            is_saving = run->is_saving;
+
+            /* set # around the filename */
+            tmp_str = g_path_get_basename ( nom_fichier_comptes );
+            tmp_str2 = g_strconcat ( "#", tmp_str, "#", NULL );
+            long_filename = g_build_filename ( gsb_file_default_dir, tmp_str2, NULL );
+            g_free ( tmp_str );
+            g_free ( tmp_str2 );
+        }
+        else
+            long_filename = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
     }
 
     /* il y a 4 possibilités :
@@ -104,25 +134,13 @@ void traitement_sigsegv ( gint signal_nb )
      *  - Sauvegarde d'un fichier -> on peut rien faire
      *  - Erreur de mémoire -> tentative de sauver le fichier sous le nom entouré de #
      */
-    if ( ( signal_nb == SIGINT || signal_nb == SIGTERM ) && gsb_file_get_modified ( ) )
+    if ( ( signal_nb == SIGINT || signal_nb == SIGTERM ) && gsb_file_get_modified () )
     {
         gint res;
 
-        gsb_file_default_dir = gsb_dirs_get_home_dir ( );
-
-        if ( nom_fichier_comptes )
-        {
-            /* set # around the filename */
-            tmp_str = g_path_get_basename ( nom_fichier_comptes );
-            compress_file = conf->compress_file;
-        }
-        else
-            /* no name for the file, create it */
-            tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_save_no_name.gsb#", NULL );
-
         old_errmsg = g_strdup ( _("Request for forced shutdown of  Grisbi\n") );
         errmsg = g_markup_printf_escaped ( _("The file '%s' has been modified. Do you want to save it?\n"),
-                                    tmp_str );
+                                    long_filename );
 
         dialog = gtk_message_dialog_new ( GTK_WINDOW ( grisbi_app_get_active_window ( NULL ) ),
                                     GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -140,27 +158,27 @@ void traitement_sigsegv ( gint signal_nb )
         if ( res == GTK_RESPONSE_YES )
         {
             gsb_status_message ( _("Save file") );
-            gsb_file_save_save_file ( tmp_str, compress_file, FALSE );
-            gsb_status_clear ( );
+            gsb_file_save_save_file ( long_filename, compress_file, FALSE );
+            gsb_status_clear ();
         }
 
         gtk_widget_destroy ( dialog );
         gsb_file_util_modify_lock ( FALSE );
         g_free ( nom_fichier_comptes );
-        g_free ( tmp_str );
+        g_free ( long_filename );
 
         exit ( 0 );
     }
-    else if ( nom_fichier_comptes && ( run->is_loading || run->is_saving || !gsb_file_get_modified ( ) ) )
+    else if ( nom_fichier_comptes && ( is_loading || is_saving || !gsb_file_get_modified ( ) ) )
     {
-        if ( run->is_loading )
+        if ( is_loading )
         {
             old_errmsg = errmsg;
             errmsg = g_strconcat ( errmsg, _("File is corrupted."), NULL );
             g_free ( old_errmsg );
         }
 
-        if ( run->is_saving )
+        if ( is_saving )
         {
             old_errmsg = errmsg;
             errmsg = g_strconcat ( errmsg, _("Error occured saving file."), NULL );
@@ -172,32 +190,21 @@ void traitement_sigsegv ( gint signal_nb )
         /* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
            pas de nom de fichier, on le crée, sinon on rajoute #
            autour */
-        gsb_file_default_dir = gsb_dirs_get_home_dir ( );
-
-        if ( nom_fichier_comptes )
+        if ( long_filename )
         {
-            /* set # around the filename */
-            tmp_str = g_path_get_basename ( nom_fichier_comptes );
-            compress_file = conf->compress_file;
-        }
-        else
-            /* no name for the file, create it */
-            tmp_str = g_build_filename ( gsb_file_default_dir, "#grisbi_crash_no_name#", NULL );
+            gsb_status_message ( _("Save file") );
+            gsb_file_save_save_file ( long_filename, compress_file, FALSE );
+            gsb_status_clear ( );
 
-        gsb_status_message ( _("Save file") );
-
-        gsb_file_save_save_file ( tmp_str, compress_file, FALSE );
-
-        gsb_status_clear ( );
-
-        old_errmsg = errmsg;
-        errmsg = g_strconcat ( errmsg,
+            old_errmsg = errmsg;
+            errmsg = g_strconcat ( errmsg,
                         g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
-                        tmp_str ),
+                        long_filename ),
                         NULL );
-        g_free ( old_errmsg );
-        g_free ( nom_fichier_comptes );
-        g_free ( tmp_str );
+            g_free ( old_errmsg );
+            g_free ( nom_fichier_comptes );
+            g_free ( long_filename );
+        }
     }
 
     old_errmsg = errmsg;
@@ -223,6 +230,7 @@ void traitement_sigsegv ( gint signal_nb )
 
 #ifdef HAVE_BACKTRACE
     {
+        gchar *tmp_str;
 
         tmp_str = g_strconcat ( "<b>", _("Backtrace"), "</b>", NULL );
         expander = gtk_expander_new ( tmp_str );

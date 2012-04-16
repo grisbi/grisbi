@@ -59,7 +59,10 @@ void gsb_status_message ( gchar *message )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( TRUE );
+    if ( app == NULL )
+        return;
+
     window = grisbi_app_get_active_window ( app );
 
     gsb_status_clear ();
@@ -79,7 +82,10 @@ void gsb_status_clear (  )
     GrisbiApp *app;
     GrisbiWindow *window;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( TRUE );
+    if ( app == NULL )
+        return;
+
     window = grisbi_app_get_active_window ( app );
     grisbi_window_statusbar_remove ( window );
 

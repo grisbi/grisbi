@@ -306,7 +306,7 @@ gboolean gsb_file_open_direct_menu ( GtkMenuItem *item,
     if ( !gsb_file_close ( ) )
         return FALSE;
 
-    app = grisbi_app_get_default ( );
+    app = grisbi_app_get_default ( FALSE );
     conf = grisbi_app_get_conf ( );
 
     file_number = GPOINTER_TO_INT ( file_number_ptr );
@@ -365,9 +365,6 @@ gboolean gsb_file_open_file ( gchar *filename )
     /* on positionne la variable run->is_loading */
     run = grisbi_window_get_struct_run ( NULL );
     run->is_loading = TRUE;
-
-    /* on initialise la variable etat */
-    grisbi_window_init_struct_etat ();
 
     /* le fichier existe et est un fichier "normal" on l'ouvre */
     if ( gsb_file_load_open_file ( filename ) )

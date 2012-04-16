@@ -275,7 +275,7 @@ gint main ( int argc, char **argv )
     gsb_main_trappe_signal_sigsegv ();
 
     /* création de l'application */
-    app = grisbi_app_get_default ();
+    app = grisbi_app_get_default ( FALSE );
 
     /* create the toplevel window and the main menu */
     window = grisbi_app_create_window ( app, NULL );

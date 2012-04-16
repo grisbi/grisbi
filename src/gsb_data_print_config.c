@@ -81,6 +81,8 @@ void gsb_data_print_config_init ( void )
     GrisbiAppConf *conf;
 
     conf = grisbi_app_get_conf ( );
+    if ( conf == NULL );
+        return;
 
     /* init transactions list config */
     draw_lines = TRUE;
