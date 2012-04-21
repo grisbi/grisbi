@@ -465,6 +465,9 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     /* search data from the futur */
     bet_array_refresh_futur_data ( tree_model, date_min, date_max );
 
+    /* search data from a transfer */
+    bet_array_refresh_transfert_data ( tree_model, date_min, date_max );
+
     /* search transactions of the account which are in the period */
     bet_array_refresh_transactions_data ( tree_model,
                         account_number,
@@ -476,9 +479,6 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         account_number,
                         date_min,
                         date_max );
-
-    /* search data from a transfer */
-    bet_array_refresh_transfert_data ( tree_model, date_min, date_max );
 
     /* shows the balance at beginning of month */
     bet_array_shows_balance_at_beginning_of_month ( tree_model, date_min, date_max );
@@ -2631,8 +2631,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
         if ( account_number != transfert -> account_number )
             continue;
 
-        if ( transfert -> auto_inc_month )
-            bet_data_transfert_update_date_if_necessary ( transfert );
+        bet_data_transfert_update_date_if_necessary ( transfert );
 
         if ( g_date_compare ( transfert -> date, date_max ) > 0 )
             continue;
@@ -3164,17 +3163,17 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     }
     else
     {
+        gint scheduled_number;
+
         /* on recherche une opération planifiée */
         tmp_list = gsb_data_scheduled_get_scheduled_list ( );
 
         while (tmp_list)
         {
-            gint scheduled_number;
             gint div_number = 0;
             gint sub_div_number = 0;
             gint account_number;
             const GDate *date;
-            gsb_real amount;
 
             scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list->data );
             tmp_list = tmp_list->next;
@@ -3200,15 +3199,6 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                  &&
                  transfert -> sub_category_number == sub_div_number )
                 {
-                    if ( transfert -> type == 0 )
-                    {
-                        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
-                    }
-                    else
-                    {
-                        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
-                    }
-                    gsb_data_scheduled_set_amount ( scheduled_number, amount );
                     find = TRUE;
                     break;
                 }
@@ -3224,31 +3214,22 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                  &&
                  transfert -> sub_budgetary_number == sub_div_number )
                 {
-                    if ( transfert -> type == 0 )
-                    {
-                        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
-                    }
-                    else
-                    {
-                        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
-                    }
-                    gsb_data_scheduled_set_amount ( scheduled_number, amount );
                     find = TRUE;
                     break;
                 }
             }
-            if ( find )
-            {
-                GDate *tmp_date;
+        }
+        if ( find )
+        {
+            GDate *tmp_date;
 
-                tmp_date = gsb_date_copy ( transfert -> date );
-                g_date_add_months ( tmp_date, 1 );
+            tmp_date = gsb_date_copy ( transfert -> date );
+            g_date_add_months ( tmp_date, 1 );
 
-                gsb_data_scheduled_set_date ( scheduled_number, tmp_date );
-
-                g_date_free ( tmp_date );
-            }
+            gsb_data_scheduled_set_date ( scheduled_number, tmp_date );
             bet_data_transfert_create_new_transaction ( transfert );
+
+            g_date_free ( tmp_date );
         }
     }
 }

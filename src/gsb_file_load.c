@@ -4247,13 +4247,6 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Aim" ) )
-    {
-        transfert -> auto_inc_month = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
     if ( !strcmp ( attribute_names[i], "Dd" ) )
     {
         transfert->direct_debit = utils_str_atoi ( attribute_values[i] );
@@ -4264,6 +4257,13 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Dtb" ) )
     {
         transfert->date_bascule = gsb_parse_date_string_safe ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pa" ) )
+    {
+        transfert -> payee_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

@@ -29,9 +29,9 @@ struct _bet_range
 struct _historical
 {
     gint div;
-	gint account_nb;
+    gint account_nb;
     SBR	*sbr;
-	GHashTable *list_sub_div;
+    GHashTable *list_sub_div;
 };
 
 /* utilisée pour gérer la liste des données historiques dans le tableau des prévisions */
@@ -77,12 +77,12 @@ struct _transfert_data
     gint number;
     gint account_number;
     gint type;                  /* 0 = account 1 = partial balance */
-    gint replace_account;       /* Account number or partial balance concerned */
+    gint replace_account;       /* Account number or partial balance number */
     gint replace_transaction;
-    gint auto_inc_month;
     gint direct_debit;
     GDate *date;
     GDate *date_bascule;
+    gint payee_number;
     gint category_number;
     gint sub_category_number;
     gint budgetary_number;
