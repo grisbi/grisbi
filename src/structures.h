@@ -19,62 +19,52 @@
 
 #define CSV_MAX_TOP_LINES 10    /** How many lines to show in CSV preview.  */
 
-typedef struct gsb_conf_t GrisbiAppConf;
-typedef struct gsb_etat_t GrisbiWindowEtat;
-typedef struct gsb_run_t  GrisbiWindowRun;
+typedef struct gsb_conf_t       GrisbiAppConf;
+typedef struct gsb_etat_t       GrisbiWindowEtat;
+typedef struct gsb_run_t        GrisbiWindowRun;
 
-typedef enum _bet_type_onglets bet_type_onglets;
+typedef enum _etats_alignement  EtatsAlignment;
+typedef enum _bet_type_onglets  BetTypeOnglets;
 
 
+/* STRUCTURES */
 /** structure etat
- * variables contenant juste 0 ou 1
- * */
+ * variables sauvegardées dans le fichier de comptes
+ **/
 struct gsb_etat_t
 {
-    gint is_archive;                /** TRUE if the file is an archive, FALSE else */
-
-    gboolean debug_mode;            /* TRUE in debug mode, FALSE for normale mode */
-
     /* files and backup part */
+    gint is_archive;                /* TRUE if the file is an archive, FALSE else */
     gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
     /* reconciliation */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
 
-    /* formulaire */
-    gint affiche_nb_ecritures_listes;
-    gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
-
     /* Fonts & logo */
     gint utilise_logo;
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
     
-    gboolean automatic_separator;   /* TRUE if do automatic separator */
-
-    /* Various display message stuff    */
-    gint display_message_lock_active;
-    gint display_message_file_readable;
-    gint display_message_minimum_alert;
-    gint display_message_no_budgetary_line;
-    gint display_message_qif_export_currency;
-    gint display_message_ofx_security;
 
     /* import files */
-
     gint valeur_echelle_recherche_date_import;  /* nbre de jours pour la recherche des opérations importées */
     gint get_extract_number_for_check;          /* TRUE if Extracting a number and save it in the field No Cheque/Virement */
     gint get_fusion_import_transactions;        /* TRUE if merge transactions imported with transactions found */
     gint get_categorie_for_payee;               /* TRUE to automatically retrieve the category of the payee if it exists */
     gint get_fyear_by_value_date;               /* TRUE to get the fyear by value date, FALSE by date */
 
+    /* csv files */
     gchar *csv_separator;                               /* CSV separator to use while parsing a CSV file. */
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
 
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
     gboolean export_files_traitement;       /* 0 = traitement individuel, 1 = traitement automatique */
+
+    /* formulaire */
+    gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
+    gboolean automatic_separator;           /* TRUE if do automatic separator */
 
     /* combofix configuration */
     gint combofix_mixed_sort;               /* TRUE for no separation between the categories */
@@ -84,11 +74,6 @@ struct gsb_etat_t
     gint combofix_force_payee;              /* TRUE if no new item can be appended in the payee combofix */
     gint combofix_force_category;           /* TRUE if no new item can be appended in the category and budget combofix */
     
-    /* width panned */
-    gint largeur_colonne_echeancier;
-    gint largeur_colonne_comptes_comptes;
-    gint largeur_colonne_etat;
-
     /* variables sur l'échéancier */
     gint affichage_commentaire_echeancier;      /* à 1 si le commentaire est affiché */
 
@@ -115,10 +100,8 @@ struct gsb_etat_t
 
 
 /** structure conf
- * variables containing just 0 or 1
- * configured by the file grisbi.conf
- *
- */
+ * variables configured by the file grisbi.conf
+ **/
 struct gsb_conf_t
 {
     /* IHM */
@@ -213,10 +196,8 @@ struct gsb_conf_t
 
 
 /** structure run
- * variables containing just 0 or 1
- * générées pendant l'exécution du programme
- *
- */
+ * variables générées pendant l'exécution du programme
+ **/
 
 struct gsb_run_t
 {
@@ -246,17 +227,18 @@ struct struct_payee_asso
 };
 
 
+/* ENUMERATION */
 /* définition du titre de grisbi */
-typedef enum GSB_TITLE_NAME
+enum _gsb_title_name
 {
     GSB_ACCOUNTS_TITLE,
     GSB_ACCOUNT_HOLDER,
     GSB_ACCOUNTS_FILE,
-} GsbTitleType;
+};
 
 
 /* définition de l'alignement */
-enum alignement
+enum _etats_alignement
 {
     ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT,
 };
@@ -274,7 +256,7 @@ enum left_panel_tree_columns
 
 
 /* définition du type d'origine pour les données du module budgétaire */
-enum bet_array_origin_data
+enum _bet_array_origin_data
 {
     SPP_ORIGIN_TRANSACTION,             /* Ligne issue d'une opération */
     SPP_ORIGIN_SCHEDULED,               /* Ligne issue d'une opération plannifiée */
@@ -290,7 +272,7 @@ enum bet_array_origin_data
 
 
 /* définition du type de mise à jour en fonction des données du module budgétaire */
-enum bet_type_maj 
+enum _bet_type_maj
 {
     BET_MAJ_FALSE = 0,
     BET_MAJ_ESTIMATE,
@@ -300,7 +282,8 @@ enum bet_type_maj
 };
 
 /* définition du type de mouvement */
-enum direction_move {
+enum _direction_move
+{
     GSB_LEFT = 0,
     GSB_RIGHT,
     GSB_UP,
@@ -308,13 +291,14 @@ enum direction_move {
 };
 
 
-typedef enum GSB_FILE_ERROR
+/* définition du type d'erreur lors du chargement d'un fichier */
+enum _gsb_file_error
 {
     GSB_PLUGIN_SSL_EXIST            = 1 << 6,
     GSB_FAILED_LOAD_ACCOUNTS        = 1 << 7,
     GSB_FAILED_LOAD_WITH_BACKUP     = 1 << 8,
     GSB_FAILED_LOAD_WITHOUT_BACKUP  = 1 << 9
-} GsbFileErrorType;
+};
 
 
 /* définition du type d'onglets du module budgétaire affiché */

@@ -39,8 +39,8 @@
 
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
-static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gint transaction_number );
+static void html_attach_label ( gchar *text, gdouble properties, int x, int x2, int y, int y2,
+                        EtatsAlignment align, gint transaction_number );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ();
 static gint html_initialise ( GSList * opes_selectionnees, gchar * filename );
@@ -89,8 +89,8 @@ struct struct_etat_affichage html_affichage = {
  * \param transaction_number the number of a transaction to link to (not used as html
  *            backend is not interactive)
  */
-void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			  enum alignement align, gint transaction_number )
+void html_attach_label ( gchar *text, gdouble properties, int x, int x2, int y, int y2,
+                    EtatsAlignment align, gint transaction_number )
 {
     int pad, realsize, realcolumns;
     gint current_report_number;

@@ -52,8 +52,8 @@
 
 /*START_STATIC*/
 static void gtktable_attach_hsep ( int x, int x2, int y, int y2);
-static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gint transaction_number );
+static void gtktable_attach_label ( gchar *text, gdouble properties, int x, int x2, int y, int y2,
+                        EtatsAlignment align, gint transaction_number );
 static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
 static void gtktable_click_sur_ope_etat ( gint transaction_number );
 static gint gtktable_finish ();
@@ -93,8 +93,8 @@ extern GtkWidget *scrolled_window_etat;
  *				label is part of a transaction.  Make
  *				an hyperlink if applicable
  */
-void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
-			     enum alignement align, gint transaction_number )
+void gtktable_attach_label ( gchar *text, gdouble properties, int x, int x2, int y, int y2,
+                        EtatsAlignment align, gint transaction_number )
 {
     GtkWidget * label;
     GtkStyle * style;

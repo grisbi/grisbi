@@ -1019,7 +1019,7 @@ gboolean bet_config_change_account ( GtkWidget *combo )
     gint account_number;
     gint bet_use_budget;
     GrisbiWindowEtat *etat;
-    bet_type_onglets bet_show_onglets;
+    BetTypeOnglets bet_show_onglets;
 
     devel_debug (NULL);
     etat = grisbi_window_get_struct_etat ();
@@ -1153,10 +1153,9 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
     if ( sensitive )
     {
         GrisbiWindowEtat *etat;
+        BetTypeOnglets bet_show_onglets;
 
         etat = grisbi_window_get_struct_etat ();
-
-        bet_type_onglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
 

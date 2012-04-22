@@ -1157,7 +1157,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 
     if ( gsb_data_account_get_bet_use_budget ( account_number ) > 0 )
     {
-        bet_type_onglets bet_show_onglets;
+        BetTypeOnglets bet_show_onglets;
 
         bet_show_onglets = gsb_data_account_get_bet_show_onglets ( account_number );
 

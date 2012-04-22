@@ -42,7 +42,7 @@
 /*START_STATIC*/
 static void csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
 static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
-                        enum alignement align, gint transaction_number );
+                        EtatsAlignment align, gint transaction_number );
 static void csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
 static gint csv_finish ();
 static gint csv_initialise (GSList * opes_selectionnees, gchar * filename );
@@ -87,7 +87,7 @@ static gint csv_lastline = 1;
  *            backend is not interactive)
  */
 void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
-                        enum alignement align, gint transaction_number )
+                        EtatsAlignment align, gint transaction_number )
 {
     gint pad;
 

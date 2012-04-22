@@ -179,7 +179,7 @@ static gboolean grisbi_window_key_press_event ( GtkWidget *widget,
     switch ( event -> keyval )
     {
         case GDK_KEY_F11 :
-            conf = grisbi_app_get_conf ( );
+            conf = grisbi_app_get_conf ();
             if ( conf->full_screen )
                 gtk_window_unfullscreen ( GTK_WINDOW ( widget ) );
             else
@@ -210,7 +210,7 @@ static gboolean grisbi_window_state_event ( GtkWidget *widget,
         show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
 
         gtk_statusbar_set_has_resize_grip ( GTK_STATUSBAR ( window->priv->statusbar ), show );
-        conf = grisbi_app_get_conf ( );
+        conf = grisbi_app_get_conf ();
         conf->maximize_screen = !show;
     }
     else if ( event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN )
@@ -218,7 +218,7 @@ static gboolean grisbi_window_state_event ( GtkWidget *widget,
         show = !( event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN );
 
         gtk_statusbar_set_has_resize_grip ( GTK_STATUSBAR ( window->priv->statusbar ), show );
-        conf = grisbi_app_get_conf ( );
+        conf = grisbi_app_get_conf ();
         conf->full_screen = !show;
     }
 
@@ -342,11 +342,11 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 
     devel_debug (NULL);
 
-    ui_manager = gtk_ui_manager_new ( );
+    ui_manager = gtk_ui_manager_new ();
     window->priv->ui_manager = ui_manager;
     window->priv->recent_files_merge_id = -1;
 
-    conf = grisbi_app_get_conf ( );
+    conf = grisbi_app_get_conf ();
 
     /* actions toujours accessibles (sensitives) */
     actions = gtk_action_group_new ( "AlwaysSensitiveActions" );
@@ -469,7 +469,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
     gtk_action_group_set_sensitive ( actions, FALSE );
 
     /* now load the UI definition */
-    ui_file = g_build_filename ( gsb_dirs_get_ui_dir ( ), "grisbi_ui.xml", NULL );
+    ui_file = g_build_filename ( gsb_dirs_get_ui_dir (), "grisbi_ui.xml", NULL );
     gtk_ui_manager_add_ui_from_file ( ui_manager, ui_file, &error );
     if ( error != NULL )
     {
@@ -509,7 +509,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 static gboolean grisbi_window_initialise_builder ( GrisbiWindow *window )
 {
     /* Creation d'un nouveau GtkBuilder */
-    grisbi_window_builder = gtk_builder_new ( );
+    grisbi_window_builder = gtk_builder_new ();
     if ( grisbi_window_builder == NULL )
         return FALSE;
 
@@ -542,7 +542,7 @@ static void grisbi_window_new_accueil_page ( GrisbiWindow *window )
     gint row = 1;
     GrisbiAppConf *conf;
 
-    conf = grisbi_app_get_conf ( );
+    conf = grisbi_app_get_conf ();
 
     table = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "table_accueil" ) );
 
@@ -643,7 +643,7 @@ static gboolean grisbi_window_headings_simpleclick_event_run ( GtkWidget *button
 {
     if ( button_event -> type == GDK_BUTTON_PRESS )
     {
-        callback ( );
+        callback ();
     }
 
     return TRUE;
@@ -705,7 +705,7 @@ static gboolean grisbi_window_hpaned_size_allocate ( GtkWidget *hpaned,
 {
     GrisbiAppConf *conf;
 
-    conf = grisbi_app_get_conf ( );
+    conf = grisbi_app_get_conf ();
     conf->panel_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
     
     return FALSE;
@@ -1223,7 +1223,7 @@ gboolean grisbi_window_set_active_title ( gint account_number )
             case GSB_ACCOUNT_HOLDER:
             {
                 if ( account_number == -1 )
-                    tmp_number = gsb_data_account_first_number ( );
+                    tmp_number = gsb_data_account_first_number ();
                 else
                     tmp_number = account_number;
 

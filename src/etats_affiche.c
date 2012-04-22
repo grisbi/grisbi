@@ -54,8 +54,8 @@
 
 /*START_STATIC*/
 static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
-static void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2, 
-				 enum alignement align, gint transaction_number );
+static void etat_affiche_attach_label ( gchar *text, gint properties, int x, int x2, int y, int y2,
+                        EtatsAlignment align, gint transaction_number );
 static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 /*END_STATIC*/
 
@@ -2515,8 +2515,8 @@ void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 
 
 
-void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2, 
-				 enum alignement align, gint transaction_number )
+void etat_affiche_attach_label ( gchar *text, gint properties, int x, int x2, int y, int y2,
+                        EtatsAlignment align, gint transaction_number )
 {
     etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, transaction_number );
 }

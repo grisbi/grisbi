@@ -200,7 +200,7 @@ static void grisbi_app_load_accels ( void )
     gchar *accel_filename = NULL;
     gchar *msg = NULL;
 
-    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
+    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir (), "grisbi-accels", NULL );
     if ( accel_filename )
     {
         gtk_accel_map_load ( accel_filename );
@@ -229,7 +229,7 @@ static void grisbi_app_save_accels ( void )
     gchar *accel_filename;
     gchar *msg = NULL;
 
-    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir ( ), "grisbi-accels", NULL );
+    accel_filename = g_build_filename ( gsb_dirs_get_user_config_dir (), "grisbi-accels", NULL );
     if ( accel_filename )
     {
         gtk_accel_map_save ( accel_filename );
@@ -271,7 +271,7 @@ static void grisbi_app_window_destroy ( GrisbiWindow *window,
 
     if ( app->priv->windows == NULL )
     {
-        grisbi_app_save_accels ( );
+        grisbi_app_save_accels ();
         g_object_unref ( app );
     }
 }
@@ -360,10 +360,10 @@ static void grisbi_app_init ( GrisbiApp *app )
     app->priv = GRISBI_APP_GET_PRIVATE ( app );
 
     /* charge les raccourcis claviers */
-    grisbi_app_load_accels ( );
+    grisbi_app_load_accels ();
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
         gtk_window_set_default_icon_from_file ( string, NULL );
     g_free (string);
@@ -375,7 +375,7 @@ static void grisbi_app_init ( GrisbiApp *app )
     g_mutex_unlock ( grisbi_app_conf_mutex );
 
     /* initialisation des couleurs par défaut */
-    gsb_color_initialise_couleurs_par_defaut ( );
+    gsb_color_initialise_couleurs_par_defaut ();
 
     /* return */
 }
@@ -706,7 +706,7 @@ gboolean grisbi_app_quit ( void )
 
     /* clean finish of the debug file */
     if ( gsb_debug_get_debug_mode () )
-        gsb_debug_finish_log ( );
+        gsb_debug_finish_log ();
 
     return FALSE;
 }
