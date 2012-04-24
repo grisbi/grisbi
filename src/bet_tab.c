@@ -171,6 +171,35 @@ static gint bet_array_current_tree_view_width = 0;
 static GtkWidget *bet_array_toolbar;
 
 
+/**
+ * remplace l'opération planifiée de même date et de même catégorie ou IB
+ *
+ * \param modèle du tableau
+ *
+ * \return
+ * */
+static void bet_array_list_replace_scheduled_by_transfert ( GtkTreeModel *tab_model,
+                        gint account_number )
+{
+    GHashTable *transfert_list;
+    GHashTableIter iter;
+    gpointer key, value;
+
+    transfert_list = bet_data_transfert_get_list ();
+    g_hash_table_iter_init ( &iter, transfert_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_transfert_data *transfert = ( struct_transfert_data *) value;
+
+        if ( account_number != transfert -> account_number )
+            continue;
+
+        if (  transfert -> replace_transaction )
+            bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
+    }
+}
+
+
 /*
  * Met à jour les données à afficher dans les différentes vues du module
  *
@@ -479,6 +508,8 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         account_number,
                         date_min,
                         date_max );
+
+    bet_array_list_replace_scheduled_by_transfert ( tree_model, account_number );
 
     /* shows the balance at beginning of month */
     bet_array_shows_balance_at_beginning_of_month ( tree_model, date_min, date_max );
@@ -2610,8 +2641,8 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
 
     devel_debug (NULL);
 
-    account_number = gsb_gui_navigation_get_current_account ( );
-    transfert_list = bet_data_transfert_get_list ( );
+    account_number = gsb_gui_navigation_get_current_account ();
+    transfert_list = bet_data_transfert_get_list ();
 
     g_hash_table_iter_init ( &iter, transfert_list );
     while ( g_hash_table_iter_next ( &iter, &key, &value ) )
@@ -2684,8 +2715,6 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
                         SPP_ESTIMATE_TREE_AMOUNT_COLUMN, str_amount,
                         -1);
 
-        if (  transfert -> replace_transaction )
-            bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
         g_value_unset ( &date_value );
         g_free ( str_date );
         g_free ( str_description );
