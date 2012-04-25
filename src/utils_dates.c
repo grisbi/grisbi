@@ -266,28 +266,25 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 gboolean gsb_date_check_entry ( GtkWidget *entry )
 {
     const gchar *string;
+    GDate *date;
 
-    if (!entry)
-    return FALSE;
+    if ( !entry )
+        return FALSE;
     
-    string = gtk_entry_get_text ( GTK_ENTRY (entry));
-    if (!string)
-    return FALSE;
+    string = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
 
-    if ( strlen (string))
+    if ( !string || strlen ( string ) == 0 )
+        return FALSE;
+
+    date = gsb_date_get_last_entry_date ( string );
+    if ( !date )
+        return FALSE;
+    else
     {
-        GDate *date;
-
-        date = gsb_date_get_last_entry_date ( string );
-        if (!date)
-            return FALSE;
-        else
-        {
-            if ( buffer_entry_date == NULL )
-                buffer_entry_date = g_malloc0 ( sizeof (struct struct_last_entry_date) );
-            buffer_entry_date -> date_string = g_strdup ( string );
-            buffer_entry_date -> last_entry_date = date;
-        }
+        if ( buffer_entry_date == NULL )
+            buffer_entry_date = g_malloc0 ( sizeof ( struct struct_last_entry_date ) );
+        buffer_entry_date -> date_string = g_strdup ( string );
+        buffer_entry_date -> last_entry_date = date;
     }
     return ( TRUE );
 }

@@ -2793,8 +2793,11 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     /* work with value date */
     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_VALUE_DATE );
-
-    if ( widget && ! gsb_form_widget_check_empty ( widget ) )
+    if ( widget
+     &&
+     !gsb_form_widget_check_empty ( widget )
+     &&
+     strlen ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) > 0 )
     {
         if ( !gsb_date_check_entry ( widget ) )
         {
