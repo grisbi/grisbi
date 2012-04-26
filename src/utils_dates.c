@@ -287,11 +287,11 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
     const gchar *string;
 
     if (!entry)
-    return FALSE;
+        return FALSE;
     
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
     if (!string)
-    return FALSE;
+        return FALSE;
 
     if ( strlen (string))
     {
@@ -307,8 +307,9 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
             buffer_entry_date -> date_string = g_strdup ( string );
             buffer_entry_date -> last_entry_date = date;
         }
+        return ( TRUE );
     }
-    return ( TRUE );
+    return ( FALSE );
 }
 
 
