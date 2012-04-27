@@ -90,12 +90,6 @@ static gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_b
 static GtkWidget *bet_form_scheduler_get_element_widget ( gint element_number );
 static GtkWidget *bet_form_widget_get_widget ( gint element_number );
 static GtkWidget *bet_future_create_dialog ( gint account_number );
-static gboolean bet_future_get_budget_data ( GtkWidget *widget,
-                        gint struct_type,
-                        gpointer *value );
-static gboolean bet_future_get_category_data ( GtkWidget *widget,
-                        gint struct_type,
-                        gpointer *value );
 static gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gint number  );
 static gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled );
@@ -1310,6 +1304,169 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
 
 
 /**
+ * récupère le tiers
+ *
+ *
+ * \return FALSE
+ * */
+static gboolean bet_future_get_payee_data ( GtkWidget *widget,
+                        gpointer *value )
+{
+    const gchar *string;
+    struct_transfert_data *sd = ( struct_transfert_data *) value;
+
+    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
+    if ( string && strlen ( string ) > 0 )
+    {
+        sd->payee_number = gsb_data_payee_get_number_by_name ( string, FALSE );
+    }
+    else
+        sd->payee_number = 0;
+
+    return FALSE;
+}
+
+
+/**
+ * récupère la catégorie et la sous catégorie
+ *
+ *
+ * \return FALSE
+ * */
+static gboolean bet_future_get_category_data ( GtkWidget *widget,
+                        gint struct_type,
+                        gpointer *value )
+{
+    const gchar *string;
+    gchar **tab_char;
+    gint category_number = 0;
+    gint sub_category_number = 0;
+
+    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
+
+    if ( struct_type == 0 )
+    {
+        struct_futur_data *sd = ( struct_futur_data *) value;
+
+        if ( string && strlen ( string ) > 0 )
+        {
+            tab_char = g_strsplit ( string, " : ", 2 );
+            if ( my_strcasecmp ( tab_char[0], _("Transfer") ) == 0 )
+            {
+                sd -> is_transfert = TRUE;
+                sd -> account_transfert =  gsb_data_account_get_no_account_by_name ( tab_char[1] );
+            }
+            else
+            {
+                category_number = gsb_data_category_get_number_by_name (
+                                tab_char[0], FALSE, 0 );
+
+                if ( tab_char[1] && strlen ( tab_char[1] ) )
+                    sub_category_number = gsb_data_category_get_sub_category_number_by_name (
+                                category_number, tab_char[1], FALSE );
+                else
+                    sub_category_number = 0;
+            }
+
+            g_strfreev ( tab_char );
+        }
+        else
+        {
+            category_number = 0;
+            category_number = 0;
+        }
+
+        sd -> category_number = category_number;
+        sd -> sub_category_number = sub_category_number;
+    }
+    else if ( struct_type == 1 )
+    {
+        struct_transfert_data *sd = ( struct_transfert_data *) value;
+
+        if ( string && strlen ( string ) > 0 )
+        {
+            tab_char = g_strsplit ( string, " : ", 2 );
+            category_number = gsb_data_category_get_number_by_name (
+                            tab_char[0], FALSE, 0 );
+
+            if ( tab_char[1] && strlen ( tab_char[1] ) )
+                sub_category_number = gsb_data_category_get_sub_category_number_by_name (
+                            category_number, tab_char[1], FALSE );
+            else
+                sub_category_number = 0;
+
+            g_strfreev ( tab_char );
+        }
+        else
+        {
+            category_number = 0;
+            category_number = 0;
+        }
+
+        sd -> category_number = category_number;
+        sd -> sub_category_number = sub_category_number;
+    }
+        
+    return FALSE;
+}
+
+
+/**
+ * récupère l'imputation et la sous imputation budgétaire
+ *
+ *
+ * \return FALSE
+ * */
+static gboolean bet_future_get_budget_data ( GtkWidget *widget,
+                        gint struct_type,
+                        gpointer *value )
+{
+    const gchar *string;
+    gchar **tab_char;
+    gint budgetary_number;
+    gint sub_budgetary_number;
+
+    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
+    if ( string && strlen ( string ) > 0 )
+    {
+        tab_char = g_strsplit ( string, " : ", 2 );
+        budgetary_number = gsb_data_budget_get_number_by_name (
+                        tab_char[0], FALSE, 0 );
+
+        if ( tab_char[1] && strlen ( tab_char[1] ) )
+            sub_budgetary_number = gsb_data_budget_get_sub_budget_number_by_name (
+                        budgetary_number, tab_char[1], FALSE );
+        else
+            sub_budgetary_number = 0;
+
+        g_strfreev ( tab_char );
+    }
+    else
+    {
+        budgetary_number = 0;
+        sub_budgetary_number = 0;
+    }
+        
+    if ( struct_type == 0 )
+    {
+        struct_futur_data *sd = ( struct_futur_data *) value;
+
+        sd -> budgetary_number = budgetary_number;
+        sd -> sub_budgetary_number = sub_budgetary_number;
+    }
+    else if ( struct_type == 1 )
+    {
+        struct_transfert_data *sd = ( struct_transfert_data *) value;
+
+        sd -> budgetary_number = budgetary_number;
+        sd -> sub_budgetary_number = sub_budgetary_number;
+    }
+
+    return FALSE;
+}
+
+
+/**
  * initialise les données du formulaire
  *
  *
@@ -1587,145 +1744,6 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
 
 
 /**
- * récupère l'imputation et la sous imputation budgétaire 
- *
- *
- * \return FALSE
- * */
-gboolean bet_future_get_budget_data ( GtkWidget *widget,
-                        gint struct_type,
-                        gpointer *value )
-{
-    const gchar *string;
-    gchar **tab_char;
-    gint budgetary_number;
-    gint sub_budgetary_number;
-
-    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
-    if ( string && strlen ( string ) > 0 )
-    {
-        tab_char = g_strsplit ( string, " : ", 2 );
-        budgetary_number = gsb_data_budget_get_number_by_name (
-                        tab_char[0], FALSE, 0 );
-
-        if ( tab_char[1] && strlen ( tab_char[1] ) )
-            sub_budgetary_number = gsb_data_budget_get_sub_budget_number_by_name (
-                        budgetary_number, tab_char[1], FALSE );
-        else
-            sub_budgetary_number = 0;
-
-        g_strfreev ( tab_char );
-    }
-    else
-    {
-        budgetary_number = 0;
-        sub_budgetary_number = 0;
-    }
-        
-    if ( struct_type == 0 )
-    {
-        struct_futur_data *sd = ( struct_futur_data *) value;
-
-        sd -> budgetary_number = budgetary_number;
-        sd -> sub_budgetary_number = sub_budgetary_number;
-    }
-    else if ( struct_type == 0 )
-    {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
-
-        sd -> budgetary_number = budgetary_number;
-        sd -> sub_budgetary_number = sub_budgetary_number;
-    }
-
-    return FALSE;
-}
-
-
-/**
- * récupère la catégorie et la sous catégorie 
- *
- *
- * \return FALSE
- * */
-gboolean bet_future_get_category_data ( GtkWidget *widget,
-                        gint struct_type,
-                        gpointer *value )
-{
-    const gchar *string;
-    gchar **tab_char;
-    gint category_number = 0;
-    gint sub_category_number = 0;
-
-    string = gtk_combofix_get_text ( GTK_COMBOFIX ( widget ) );
-
-    if ( struct_type == 0 )
-    {
-        struct_futur_data *sd = ( struct_futur_data *) value;
-
-        if ( string && strlen ( string ) > 0 )
-        {
-            tab_char = g_strsplit ( string, " : ", 2 );
-            if ( my_strcasecmp ( tab_char[0], _("Transfer") ) == 0 )
-            {
-                sd -> is_transfert = TRUE;
-                sd -> account_transfert =  gsb_data_account_get_no_account_by_name ( tab_char[1] );
-            }
-            else
-            {
-                category_number = gsb_data_category_get_number_by_name (
-                                tab_char[0], FALSE, 0 );
-
-                if ( tab_char[1] && strlen ( tab_char[1] ) )
-                    sub_category_number = gsb_data_category_get_sub_category_number_by_name (
-                                category_number, tab_char[1], FALSE );
-                else
-                    sub_category_number = 0;
-            }
-
-            g_strfreev ( tab_char );
-        }
-        else
-        {
-            category_number = 0;
-            category_number = 0;
-        }
-
-        sd -> category_number = category_number;
-        sd -> sub_category_number = sub_category_number;
-    }
-    else if ( struct_type == 1 )
-    {
-        struct_transfert_data *sd = ( struct_transfert_data *) value;
-
-        if ( string && strlen ( string ) > 0 )
-        {
-            tab_char = g_strsplit ( string, " : ", 2 );
-            category_number = gsb_data_category_get_number_by_name (
-                            tab_char[0], FALSE, 0 );
-
-            if ( tab_char[1] && strlen ( tab_char[1] ) )
-                sub_category_number = gsb_data_category_get_sub_category_number_by_name (
-                            category_number, tab_char[1], FALSE );
-            else
-                sub_category_number = 0;
-
-            g_strfreev ( tab_char );
-        }
-        else
-        {
-            category_number = 0;
-            category_number = 0;
-        }
-
-        sd -> category_number = category_number;
-        sd -> sub_category_number = sub_category_number;
-    }
-        
-    return FALSE;
-}
-
-
-/**
  *
  *
  *
@@ -1935,6 +1953,11 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     if ( bet_transfert_dialog == NULL )
     {
         bet_transfert_dialog = bet_transfert_create_dialog ( account_number );
+        if ( bet_transfert_dialog == NULL )
+        {
+            dialogue_warning ( _("You must create at least one cash account") );
+            return FALSE;
+        }
     }
     else
     {
@@ -1960,9 +1983,6 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
 
     gsb_form_widget_set_empty ( widget, FALSE );
     gsb_calendar_entry_set_date ( widget, date );
-
-    gtk_dialog_set_response_sensitive ( GTK_DIALOG ( bet_transfert_dialog ),
-                        GTK_RESPONSE_OK, FALSE );
 
 dialog_return:
 	result = gtk_dialog_run ( GTK_DIALOG ( bet_transfert_dialog ) );
@@ -2071,6 +2091,10 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* create the account list */
     tree_view = bet_transfert_create_account_list_part ( dialog, account_number );
+
+    if ( tree_view == NULL )
+        return NULL;
+
     gtk_container_add (GTK_CONTAINER ( sw ), tree_view );
     gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
 
@@ -2095,11 +2119,6 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     g_object_set_data ( G_OBJECT ( dialog ), "date_entry", date_entry );
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_entry, FALSE, FALSE, 0 );
 
-    button = gtk_check_button_new_with_label ( _("Monthly auto-increment") );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
-    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc", button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 5 );
-
     /* check button replace planned line */
     button = gtk_check_button_new_with_label (
                         _("Replacement of the scheduled operation") );
@@ -2110,13 +2129,6 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         "toggled",
                         G_CALLBACK ( bet_transfert_replace_data_toggle ),
                         dialog );
-
-    /* check button replace planned line */
-    button = gtk_check_button_new_with_label (
-                        _("Automatic creation of the direct debit transaction") );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
-    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_direct_debit", button );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Line replaced */
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -2175,6 +2187,37 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_BUDGET ) );
     gtk_widget_set_sensitive ( combo, FALSE );
+
+    /* check button Automatic creation of the direct debit transaction */
+    button = gtk_check_button_new_with_label (
+                        _("Automatic creation of the direct debit transaction") );
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
+    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_direct_debit", button );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
+
+    combo = gtk_combofix_new ( gsb_data_payee_get_name_and_report_list () );
+    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combo ),
+                        etat->combofix_force_category );
+    gtk_combofix_set_max_items ( GTK_COMBOFIX ( combo ),
+                        etat->combofix_max_item );
+    gtk_combofix_set_case_sensitive ( GTK_COMBOFIX ( combo ),
+                        etat->combofix_case_sensitive );
+    gtk_combofix_set_mixed_sort ( GTK_COMBOFIX ( combo ),
+                        etat->combofix_mixed_sort );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), combo, FALSE, FALSE, 0 );
+    gsb_form_widget_set_empty ( GTK_COMBOFIX ( combo ) -> entry, TRUE );
+    gtk_combofix_set_text ( GTK_COMBOFIX ( combo ), _("Payee") );
+    g_object_set_data ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ), "combo", combo );
+    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_payee_combo", combo );
+
+    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+                        "focus-in-event",
+                        G_CALLBACK ( bet_form_entry_get_focus ),
+                        NULL );
+    g_signal_connect ( G_OBJECT ( GTK_COMBOFIX ( combo ) -> entry ),
+                        "focus-out-event",
+                        G_CALLBACK ( bet_transfert_entry_lose_focus ),
+                        GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
 
     gtk_widget_show_all ( dialog );
 
@@ -2284,7 +2327,9 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     gtk_editable_select_region ( GTK_EDITABLE ( entry ), 0, 0 );
 
     element_number = GPOINTER_TO_INT ( ptr_origin );
-    if ( element_number != TRANSACTION_FORM_CATEGORY
+    if ( element_number != TRANSACTION_FORM_PARTY
+     &&
+     element_number != TRANSACTION_FORM_CATEGORY
      &&
      element_number != TRANSACTION_FORM_BUDGET )
         return FALSE;
@@ -2299,6 +2344,11 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     string = NULL;
     switch ( element_number )
     {
+    case TRANSACTION_FORM_PARTY :
+        if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+            string = gsb_form_widget_get_name ( TRANSACTION_FORM_PARTY );
+        break;
+
     case TRANSACTION_FORM_CATEGORY :
 	    if ( !strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
 		    string = gsb_form_widget_get_name ( TRANSACTION_FORM_CATEGORY );
@@ -2319,6 +2369,7 @@ gboolean bet_transfert_entry_lose_focus ( GtkWidget *entry,
     {
         switch ( element_number)
         {
+            case TRANSACTION_FORM_PARTY :
             case TRANSACTION_FORM_CATEGORY :
             case TRANSACTION_FORM_BUDGET :
             /* need to work with the combofix to avoid some signals if we work
@@ -2383,10 +2434,6 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
     else
         return FALSE;
 
-    widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_auto_inc" );
-    transfert -> auto_inc_month = gtk_toggle_button_get_active (
-                        GTK_TOGGLE_BUTTON ( widget ) );
-
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data" );
     transfert -> replace_transaction = gtk_toggle_button_get_active (
                         GTK_TOGGLE_BUTTON ( widget ) );
@@ -2415,6 +2462,18 @@ gboolean bet_transfert_take_data (  struct_transfert_data *transfert, GtkWidget 
 
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_direct_debit" );
     transfert->direct_debit = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) );
+
+    if ( transfert->direct_debit )
+    {
+        gboolean empty = TRUE;
+
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_payee_combo" );
+        if ( gsb_form_widget_check_empty( widget ) == FALSE )
+        {
+            bet_future_get_payee_data ( widget, ( gpointer ) transfert );
+            empty = FALSE;
+        }
+    }
 
     return TRUE;
 }
@@ -2649,15 +2708,27 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
     gtk_widget_set_sensitive ( widget, transfert -> replace_transaction );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
-                        "bet_transfert_auto_inc" );
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->auto_inc_month );
-
-    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
                         "bet_transfert_replace_data" );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->replace_transaction );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_direct_debit" );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( widget ), transfert->direct_debit );
+
+    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
+                        "bet_transfert_payee_combo" );
+    if ( transfert -> payee_number > 0 )
+    {
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ),
+                        gsb_data_payee_get_name ( transfert -> payee_number, FALSE ) );
+
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, FALSE );
+        gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry), 0 );
+    }
+    else
+    {
+        gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Payee") );
+        gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
+    }
 
     return TRUE;
 }

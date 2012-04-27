@@ -23,8 +23,9 @@ typedef struct gsb_conf_t       GrisbiAppConf;
 typedef struct gsb_etat_t       GrisbiWindowEtat;
 typedef struct gsb_run_t        GrisbiWindowRun;
 
-typedef enum _etats_alignement  EtatsAlignment;
 typedef enum _bet_type_onglets  BetTypeOnglets;
+typedef enum _etats_alignement  EtatsAlignment;
+typedef enum _kind_account      kind_account;
 
 
 /* STRUCTURES */
@@ -310,5 +311,17 @@ enum _bet_type_onglets
     BET_ONGLETS_ASSET,
     BET_ONGLETS_CAP,
 };
+
+
+/* struct kind of the account */
+enum _kind_account
+{
+    GSB_TYPE_BALANCE        = -1,
+    GSB_TYPE_BANK           = 0,
+    GSB_TYPE_CASH           = 1,
+    GSB_TYPE_LIABILITIES    = 2,
+    GSB_TYPE_ASSET          = 3
+};
+
 
 #endif

@@ -42,14 +42,15 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
-#include "utils_dates.h"
-#include "navigation.h"
-#include "traitement_variables.h"
 #include "gsb_file_save.h"
-#include "utils_str.h"
 #include "gsb_scheduler_list.h"
-#include "erreur.h"
+#include "gsb_transactions_list.h"
+#include "navigation.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "utils_dates.h"
+#include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 
@@ -916,17 +917,17 @@ GPtrArray *bet_data_get_strings_to_save ( void )
         date_bascule = gsb_format_gdate_safe ( transfert->date_bascule );
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
-                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Aim=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
-                        "Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" />\n",
+                        "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
+                        "Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" />\n",
                         ++index,
                         my_safe_null_str ( date ),
                         transfert->account_number,
                         transfert->type,
                         transfert->replace_account,
                         transfert->replace_transaction,
-                        transfert->auto_inc_month,
                         transfert->direct_debit,
                         my_safe_null_str ( date_bascule ),
+                        transfert->payee_number,
                         transfert->category_number,
                         transfert->sub_category_number,
                         transfert->budgetary_number,
@@ -1703,6 +1704,121 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 
 
 /**
+ * crée la ou les transactions de remise à zéro des comptes cartes concernés
+ *
+ * \param struct transfert
+ *
+ * \return
+ * */
+static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data *transfert )
+{
+    gint transaction_number;
+    gsb_real amount;
+
+    /* replace_account is an account */
+    if ( transfert -> type == 0 )
+    {
+        amount = gsb_data_account_get_current_balance ( transfert->replace_account );
+        transaction_number = gsb_data_transaction_new_transaction ( transfert->replace_account );
+        gsb_data_transaction_set_date ( transaction_number, transfert->date_bascule );
+        gsb_data_transaction_set_amount ( transaction_number, gsb_real_opposite ( amount ) );
+
+        /* set the currency */
+        gsb_data_transaction_set_currency_number ( transaction_number,
+                        gsb_data_account_get_currency ( transfert->replace_account ) );
+
+        /* set the payement mode */
+        if ( amount.mantissa < 0 )
+            gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_debit ( transfert->account_number ) );
+        else
+            gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+
+        /* set the payee */
+        gsb_data_transaction_set_party_number ( transaction_number, transfert->payee_number );
+
+        /* set the category sub_category */
+        if ( transfert->category_number )
+        {
+            gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
+            if ( transfert -> sub_category_number )
+                gsb_data_transaction_set_sub_category_number ( transaction_number,
+                        transfert->sub_category_number );
+        }
+
+        /* set the IB sub_IB */
+        if ( transfert->budgetary_number )
+        {
+            gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
+            if ( transfert -> sub_category_number )
+                gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+                        transfert->sub_budgetary_number );
+        }
+
+        /* append the transaction in list */
+        gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
+    }
+    else
+    {
+        gchar **tab;
+        GDate *date;
+        gint i;
+
+        date = gsb_date_copy ( transfert->date_bascule );
+        g_date_subtract_days ( date, 1 );
+        tab = g_strsplit ( gsb_data_partial_balance_get_liste_cptes ( transfert->replace_account ), ";", 0 );
+        for ( i = 0; tab[i]; i++ )
+        {
+            gint account_number;
+
+            account_number = utils_str_atoi ( tab[i] );
+            amount = gsb_data_account_get_current_balance ( account_number );
+            transaction_number = gsb_data_transaction_new_transaction ( account_number );
+            gsb_data_transaction_set_date ( transaction_number, date );
+            gsb_data_transaction_set_amount ( transaction_number, gsb_real_opposite ( amount ) );
+
+            /* set the currency */
+            gsb_data_transaction_set_currency_number ( transaction_number,
+                        gsb_data_account_get_currency ( account_number ) );
+
+            /* set the payement mode */
+            if ( amount.mantissa < 0 )
+                gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_debit ( transfert->account_number ) );
+            else
+                gsb_data_transaction_set_method_of_payment_number ( transaction_number,
+                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+
+            /* set the payee */
+            gsb_data_transaction_set_party_number ( transaction_number, transfert->payee_number );
+
+            /* set the category sub_category */
+            if ( transfert->category_number )
+            {
+                gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
+                if ( transfert -> sub_category_number )
+                gsb_data_transaction_set_sub_category_number ( transaction_number, transfert->sub_category_number );
+            }
+
+            /* set the IB sub_IB */
+            if ( transfert->budgetary_number )
+            {
+                gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
+                if ( transfert -> sub_category_number )
+                gsb_data_transaction_set_sub_budgetary_number ( transaction_number, transfert->sub_budgetary_number );
+            }
+
+            /* append the transaction in list */
+            gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
+        }
+        g_strfreev ( tab );
+        g_date_free ( date );
+    }
+}
+
+
+/**
  * update la date de la ligne transfert lorsque la date de bascule est atteinte
  *
  * \param struct transfert contenant les données
@@ -1723,14 +1839,29 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         if ( g_date_get_month ( transfert->date ) == g_date_get_month ( transfert->date_bascule ) )
             same_month = TRUE;
 
+        /* on crée la transaction dans le compte principal */
         if ( transfert->direct_debit )
             bet_array_create_transaction_from_transfert ( transfert, same_month );
 
+        /* on remet à zéro les comptes cartes */
+        bet_data_transfert_create_reset_credit_card ( transfert );
+
+        /* on incrémente la date de prélèvement */
         tmp_date = gsb_date_copy ( transfert -> date );
 
-        g_date_free ( transfert -> date );
+        g_date_free ( transfert->date );
         g_date_add_months ( tmp_date, 1 );
         transfert -> date = tmp_date;
+
+        /* on incrémente la date de bascule */
+        tmp_date = gsb_date_copy ( transfert->date_bascule );
+
+        g_date_free ( transfert->date_bascule );
+        g_date_add_months ( tmp_date, 1 );
+        transfert->date_bascule = tmp_date;
+
+        gsb_data_account_set_bet_maj ( transfert->account_number, BET_MAJ_ESTIMATE );
+        gsb_file_set_modified ( TRUE );
     }
 
     g_date_free ( date_jour );
@@ -1943,12 +2074,15 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
         gsb_data_transaction_set_method_of_payment_number ( transaction_number,
                         gsb_data_account_get_default_credit ( transfert->account_number ) );
 
+    /* set the payee */
+    gsb_data_transaction_set_party_number ( transaction_number, transfert->payee_number );
+
     /* set the category sub_category */
     if ( transfert->category_number )
     {
         gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
         if ( transfert -> sub_category_number )
-        gsb_data_transaction_set_sub_category_number ( transaction_number, transfert->sub_category_number );
+            gsb_data_transaction_set_sub_category_number ( transaction_number, transfert->sub_category_number );
     }
 
     /* set the IB sub_IB */
@@ -1956,8 +2090,11 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
     {
         gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
         if ( transfert -> sub_category_number )
-        gsb_data_transaction_set_sub_budgetary_number ( transaction_number, transfert->sub_budgetary_number );
+            gsb_data_transaction_set_sub_budgetary_number ( transaction_number, transfert->sub_budgetary_number );
     }
+
+    /* append the transaction in list */
+    gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
 }
 
 

@@ -989,9 +989,6 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
                     etat->reconcile_end_date = utils_str_atoi ( attribute_values[i] );
 
-                else if ( !strcmp ( attribute_names[i], "Remind_display_per_account" ) )
-                    etat->retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
-
                 else
                     unknown = 1;
                 break;
@@ -4229,13 +4226,6 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Aim" ) )
-    {
-        transfert -> auto_inc_month = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
     if ( !strcmp ( attribute_names[i], "Dd" ) )
     {
         transfert->direct_debit = utils_str_atoi ( attribute_values[i] );
@@ -4246,6 +4236,13 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i], "Dtb" ) )
     {
         transfert->date_bascule = gsb_parse_date_string_safe ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "Pa" ) )
+    {
+        transfert -> payee_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
