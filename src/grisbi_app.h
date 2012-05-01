@@ -15,10 +15,10 @@ G_BEGIN_DECLS
  */
 #define GRISBI_TYPE_APP              (grisbi_app_get_type())
 #define GRISBI_APP(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), GRISBI_TYPE_APP, GrisbiApp))
-#define GRISBI_APP_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), GRISBI_TYPE_APP, GrisbiAppClass))
+#define GRISBI_APP_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass),  GRISBI_TYPE_APP, GrisbiAppClass))
 #define GRISBI_IS_APP(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_TYPE_APP))
 #define GRISBI_IS_APP_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GRISBI_TYPE_APP))
-#define GRISBI_APP_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), GRISBI_TYPE_APP, GrisbitAppClass))
+#define GRISBI_APP_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj),  GRISBI_TYPE_APP, GrisbiAppClass))
 
 /* Private structure type */
 typedef struct _GrisbiAppPrivate GrisbiAppPrivate;
