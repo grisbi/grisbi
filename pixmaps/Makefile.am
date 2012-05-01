@@ -35,6 +35,7 @@ grisbi_pixmaps_DATA = \
 	grille.png \
 	grisbi-logo.png \
 	grisbi.png \
+	grisbi.svg \
 	hide_r.png \
 	impexp.png \
 	importlg.png \
