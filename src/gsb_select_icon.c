@@ -98,7 +98,7 @@ enum {
  *
  *
  * */
-gboolean gsb_select_icon_init_account_variables ( void )
+gboolean gsb_select_icon_delete_accounts_icons ( void )
 {
     if ( list_accounts_icon )
     {
