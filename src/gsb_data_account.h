@@ -9,21 +9,6 @@
 /* END_INCLUDE_H */
 
 
-/** \struct
- * kind of the account
- * */
-
-enum _kind_account
-{
-    GSB_TYPE_BALANCE     = -1,
-    GSB_TYPE_BANK        = 0,
-    GSB_TYPE_CASH        = 1,
-    GSB_TYPE_LIABILITIES = 2,
-    GSB_TYPE_ASSET       = 3
-};
-typedef enum _kind_account	kind_account;
-
-
 /* START_DECLARATION */
 gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number );
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
@@ -57,7 +42,7 @@ gint gsb_data_account_get_bet_hist_fyear ( gint account_number );
 gint gsb_data_account_get_bet_maj ( gint account_number );
 gint gsb_data_account_get_bet_months ( gint account_number );
 gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine );
-bet_type_onglets gsb_data_account_get_bet_show_onglets ( gint account_number );
+BetTypeOnglets gsb_data_account_get_bet_show_onglets ( gint account_number );
 gint gsb_data_account_get_bet_spin_range ( gint account_number );
 GDate *gsb_data_account_get_bet_start_date ( gint account_number );
 gint gsb_data_account_get_bet_use_budget ( gint account_number );

@@ -14,11 +14,11 @@ G_BEGIN_DECLS
  * Type checking and casting macros
  */
 #define GRISBI_TYPE_WINDOW              (grisbi_window_get_type())
-#define GRISBI_WINDOW(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj), GRISBI_TYPE_WINDOW, GrisbiWindow))
-#define GRISBI_WINDOW_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass), GRISBI_TYPE_WINDOW, GrisbiWindowClass))
-#define GRISBI_IS_WINDOW(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj), GRISBI_TYPE_WINDOW))
-#define GRISBI_IS_WINDOW_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass), GRISBI_TYPE_WINDOW))
-#define GRISBI_WINDOW_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj), GRISBI_TYPE_WINDOW, GrisbitWindowClass))
+#define GRISBI_WINDOW(obj)              (G_TYPE_CHECK_INSTANCE_CAST((obj),  GRISBI_TYPE_WINDOW, GrisbiWindow))
+#define GRISBI_WINDOW_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST((klass),   GRISBI_TYPE_WINDOW, GrisbiWindowClass))
+#define GRISBI_IS_WINDOW(obj)           (G_TYPE_CHECK_INSTANCE_TYPE((obj),  GRISBI_TYPE_WINDOW))
+#define GRISBI_IS_WINDOW_CLASS(klass)   (G_TYPE_CHECK_CLASS_TYPE ((klass),  GRISBI_TYPE_WINDOW))
+#define GRISBI_WINDOW_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS((obj),   GRISBI_TYPE_WINDOW, GrisbiWindowClass))
 
 /* Private structure type */
 typedef struct _GrisbiWindowPrivate GrisbiWindowPrivate;
@@ -52,10 +52,12 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
 void grisbi_window_etat_mutex_lock ( void );
 void grisbi_window_etat_mutex_unlock ( void );
 void grisbi_window_free_priv_file ( GrisbiWindow *window );
+void grisbi_window_free_list_accounts ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_accueil_page ( GrisbiWindow *window );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
+GSList *grisbi_window_get_list_accounts ( GrisbiWindow *window );
 guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
                         const gchar *sub_menu );
 GrisbiWindowEtat *grisbi_window_get_struct_etat ( void );
@@ -72,6 +74,8 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
                         const gchar *filename );
 gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
                         const gchar *file_title );
+gboolean grisbi_window_set_list_accounts ( GrisbiWindow *window,
+                        GSList *list_accounts );
 void grisbi_window_set_sub_menu_merge_id ( GrisbiWindow *window,
                         guint merge_id,
                         const gchar *sub_menu );

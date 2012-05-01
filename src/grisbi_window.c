@@ -49,9 +49,6 @@
 /*END_INCLUDE*/
 
 
-/*START_STATIC*/
-/*END_STATIC*/
-
 #define GSB_NBRE_CHAR 15
 #define GSB_NAMEFILE_TOO_LONG 45
 
@@ -110,6 +107,10 @@ struct _GrisbiWindowPrivate
 
     /* structure run */
     GrisbiWindowRun     *run;
+
+    /* account list */
+    GSList              *list_accounts;
+    gpointer            account_buffer;
 };
 
 
@@ -519,6 +520,7 @@ static gboolean grisbi_window_initialise_builder ( GrisbiWindow *window )
 
     window->priv->main_box = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "main_vbox" ) );
     window->priv->accueil_page = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "accueil_page" ) );
+    window->priv->vbox_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "vbox_general" ) );
 
     return TRUE;
 }
@@ -791,74 +793,6 @@ static gboolean grisbi_window_set_struct_etat ( GrisbiWindow *window,
 
 
 /**
- * Init la structure etat
- *
- * \param
- *
- * \return
- **/
-void grisbi_window_init_struct_etat ( GrisbiWindow *window )
-{
-    GrisbiWindowEtat *etat;
-
-    devel_debug (NULL);
-
-    /* creation de la structure etat */
-    etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
-    grisbi_window_set_struct_etat ( window, etat );
-
-    /* blocage du mutex */
-    g_mutex_lock ( grisbi_window_etat_mutex );
-
-    /* init logo */
-    etat->is_pixmaps_dir = TRUE;
-    if ( etat->name_logo && strlen ( etat->name_logo ) )
-        g_free ( etat->name_logo );
-    etat->name_logo = NULL;
-    etat->utilise_logo = 1;
-
-    etat->valeur_echelle_recherche_date_import = 2;
-    etat->get_fyear_by_value_date = FALSE;
-
-    /* init default combofix values */
-    etat->combofix_mixed_sort = FALSE;
-    etat->combofix_max_item = 0;
-    etat->combofix_case_sensitive = FALSE;
-    etat->combofix_enter_select_completion = FALSE;
-    etat->combofix_force_payee = FALSE;
-    etat->combofix_force_category = FALSE;
-
-    /* defaut value for width and align of columns */
-    if ( etat->transaction_column_width && strlen ( etat->transaction_column_width ) )
-    {
-        g_free ( etat->transaction_column_width );
-        etat->transaction_column_width = NULL;
-    }
-    if ( etat->scheduler_column_width && strlen ( etat->scheduler_column_width ) )
-    {
-        g_free ( etat->scheduler_column_width );
-        etat->scheduler_column_width = NULL;
-    }
-
-    /* divers */
-    etat->add_archive_in_total_balance = TRUE;  /* add the archived transactions by default */
-    etat->get_fyear_by_value_date = 0;          /* By default use transaction-date */
-    etat->retient_affichage_par_compte = 0;     /* Par défaut affichage identique pour tous les comptes */
-    memset ( etat->csv_skipped_lines, '\0', sizeof(gboolean) *CSV_MAX_TOP_LINES );
-
-    /* initializes the variables for the estimate balance module */
-    etat->bet_deb_period = 1;
-
-    /* initialisation des autres variables */
-    init_variables ( window->priv->etat, window->priv->run );
-
-    /* libération du mutex */
-    g_mutex_unlock ( grisbi_window_etat_mutex );
-
-}
-
-
-/**
  * libère la mémoire utilisée par etat
  *
  * \param object
@@ -883,9 +817,6 @@ static void grisbi_window_free_struct_etat ( GrisbiWindowEtat *etat )
     etat->scheduler_column_width = NULL;
 
     g_free ( etat );
-
-    /* free others variables */
-    free_variables ();
 }
 
 
@@ -902,10 +833,11 @@ static void grisbi_window_init ( GrisbiWindow *window )
     GtkWidget *statusbar;
     GtkWidget *headings_eb;
     GrisbiAppConf *conf;
+    GrisbiWindowPrivate *priv;
 
     devel_debug (NULL);
 
-    window->priv = GRISBI_WINDOW_GET_PRIVATE ( window );
+    window->priv = priv = GRISBI_WINDOW_GET_PRIVATE ( window );
 
     if ( !grisbi_window_initialise_builder ( window ) )
         exit ( 1 );
@@ -914,34 +846,38 @@ static void grisbi_window_init ( GrisbiWindow *window )
     grisbi_window_init_etat_mutex ();
 
     /* creation de la structure run */
-    window->priv->run = g_malloc0 ( sizeof ( GrisbiWindowRun ) );
+    priv->run = g_malloc0 ( sizeof ( GrisbiWindowRun ) );
 
     /* initialisation de la structure etat */
     grisbi_window_init_struct_etat ( window );
 
+    /* initialisation de la liste des comptes */
+    priv->list_accounts = NULL;
+    priv->account_buffer = NULL;
+
     /* Création de la fenêtre principale de Grisbi */
-    gtk_container_add ( GTK_CONTAINER ( window ), window->priv->main_box );
-    gtk_widget_show ( window->priv->main_box );
+    gtk_container_add ( GTK_CONTAINER ( window ), priv->main_box );
+    gtk_widget_show ( priv->main_box );
 
     /* create the menus */
     grisbi_window_init_menus ( window );
 
     /* create the headings eb */
     headings_eb = grisbi_window_new_headings_eb ( window );
-    gtk_box_pack_start ( GTK_BOX ( window->priv->main_box ), headings_eb, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( priv->main_box ), headings_eb, FALSE, FALSE, 0 );
 
     /* create the statusbar */
     statusbar = grisbi_window_new_statusbar ( window );
-    gtk_box_pack_end ( GTK_BOX ( window->priv->main_box ), statusbar, FALSE, FALSE, 0 );
+    gtk_box_pack_end ( GTK_BOX ( priv->main_box ), statusbar, FALSE, FALSE, 0 );
 
     /* on initialise une page d'accueil si on ne charge pas de fichier */
     conf = grisbi_app_get_conf ();
 
     grisbi_window_new_accueil_page ( window );
-    gtk_box_pack_start ( GTK_BOX ( window->priv->main_box ), window->priv->accueil_page, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( priv->main_box ), priv->accueil_page, FALSE, FALSE, 0 );
 
     if ( conf->load_last_file && conf->nb_derniers_fichiers_ouverts > 0 )
-        gtk_widget_hide ( window->priv->accueil_page );
+        gtk_widget_hide ( priv->accueil_page );
 
     /* set the signals */
     g_signal_connect ( G_OBJECT ( window ),
@@ -987,17 +923,18 @@ GtkWidget *grisbi_window_new_general_widget ( void )
     if ( gtk_widget_get_visible ( window->priv->accueil_page ) )
         gtk_widget_hide ( window->priv->accueil_page );
 
-    if ( window->priv->vbox_general == NULL )
-    {
-        window->priv->vbox_general = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "vbox_general" ) );
-
-        /* Then create and fill the main hpaned. */
+    /* Then create and fill the main hpaned if necessary */
+    if ( window->priv->hpaned_general == NULL )
         window->priv->hpaned_general = grisbi_window_new_hpaned ( window );
-        gsb_gui_navigation_create_navigation_pane ();
-        gsb_gui_new_general_notebook ();
-        gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
-    }
-
+    gsb_gui_navigation_create_navigation_pane ();
+    gsb_gui_create_general_notebook ( window );
+    gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
+/*     else
+ *     {
+ *         gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model () );
+ *         gsb_gui_navigation_update_home_page ();
+ *     }
+ */
     gtk_widget_show ( window->priv->hpaned_general );
 
     gtk_widget_show ( window->priv->vbox_general );
@@ -1375,6 +1312,74 @@ GrisbiWindowEtat *grisbi_window_get_struct_etat ( void )
 }
 
 
+/**
+ * Init la structure etat
+ *
+ * \param
+ *
+ * \return
+ **/
+void grisbi_window_init_struct_etat ( GrisbiWindow *window )
+{
+    GrisbiWindowEtat *etat;
+
+    devel_debug (NULL);
+
+    /* creation de la structure etat */
+    etat = g_malloc0 ( sizeof ( GrisbiWindowEtat ) );
+    grisbi_window_set_struct_etat ( window, etat );
+
+    /* blocage du mutex */
+    g_mutex_lock ( grisbi_window_etat_mutex );
+
+    /* init logo */
+    etat->is_pixmaps_dir = TRUE;
+    if ( etat->name_logo && strlen ( etat->name_logo ) )
+        g_free ( etat->name_logo );
+    etat->name_logo = NULL;
+    etat->utilise_logo = 1;
+
+    etat->valeur_echelle_recherche_date_import = 2;
+    etat->get_fyear_by_value_date = FALSE;
+
+    /* init default combofix values */
+    etat->combofix_mixed_sort = FALSE;
+    etat->combofix_max_item = 0;
+    etat->combofix_case_sensitive = FALSE;
+    etat->combofix_enter_select_completion = FALSE;
+    etat->combofix_force_payee = FALSE;
+    etat->combofix_force_category = FALSE;
+
+    /* defaut value for width and align of columns */
+    if ( etat->transaction_column_width && strlen ( etat->transaction_column_width ) )
+    {
+        g_free ( etat->transaction_column_width );
+        etat->transaction_column_width = NULL;
+    }
+    if ( etat->scheduler_column_width && strlen ( etat->scheduler_column_width ) )
+    {
+        g_free ( etat->scheduler_column_width );
+        etat->scheduler_column_width = NULL;
+    }
+
+    /* divers */
+    etat->add_archive_in_total_balance = TRUE;  /* add the archived transactions by default */
+    etat->get_fyear_by_value_date = 0;          /* By default use transaction-date */
+    etat->retient_affichage_par_compte = 0;     /* Par défaut affichage identique pour tous les comptes */
+    memset ( etat->csv_skipped_lines, '\0', sizeof(gboolean) *CSV_MAX_TOP_LINES );
+
+    /* initializes the variables for the estimate balance module */
+    etat->bet_deb_period = 1;
+
+    /* initialisation des autres variables */
+    init_variables ( window->priv->etat, window->priv->run );
+
+    /* libération du mutex */
+    g_mutex_unlock ( grisbi_window_etat_mutex );
+
+}
+
+
 /* STRUCTURE RUN */
 /**
  * retourne la structure run
@@ -1397,6 +1402,56 @@ GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window )
         return window->priv->run;
     else
         return NULL;
+}
+
+
+/* ACCOUNT LIST */
+/**
+ * retourne la liste des comptes
+ *
+ * \param
+ *
+ * \return
+ **/
+GSList *grisbi_window_get_list_accounts ( GrisbiWindow *window )
+{
+    return window->priv->list_accounts;
+}
+
+
+/**
+ * libère t initialise la liste des comptes et le buffer
+ *
+ * \param window
+ *
+ * \return
+ **/
+void grisbi_window_free_list_accounts ( GrisbiWindow *window )
+{
+    if ( window == NULL )
+        return;
+
+    g_slist_free ( window->priv->list_accounts );
+
+    window->priv->list_accounts = NULL;
+    window->priv->account_buffer = NULL;
+}
+
+
+/**
+ * définit la liste des comptes
+ *
+ * \param window
+ * \param nouvelel liste des comptes.
+ *
+ * \return
+ **/
+gboolean grisbi_window_set_list_accounts ( GrisbiWindow *window,
+                        GSList *list_accounts )
+{
+    window->priv->list_accounts = list_accounts;
+
+    return TRUE;
 }
 
 
@@ -1467,9 +1522,17 @@ void grisbi_window_free_priv_file ( GrisbiWindow *window )
     g_free ( window->priv->window_title );
     window->priv->window_title = NULL;
 
+    /* free others variables */
+    free_variables ();
+
     /* libération de la mémoiré utilisée par etat */
     grisbi_window_free_struct_etat ( window->priv->etat );
     window->priv->etat = NULL;
+
+    /* libération de la mémoire utilisée par la liste des comptes */
+    grisbi_window_free_list_accounts ( window );
+
+
 }
 
 

@@ -150,13 +150,12 @@ void init_variables ( GrisbiWindowEtat *etat,
     initialise_number_separators ( );
 
     /* initialise l'ordre des pages du panneau de gauche */
-    gsb_gui_navigation_init_pages_list ( );
+    gsb_gui_navigation_init_pages_list ();
 
     /* if ever there is still something from the previous list,
      * erase now */
     transaction_model_initialize();
 
-    gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
     gsb_data_payee_init_variables ();
     gsb_data_category_init_variables ();
@@ -270,9 +269,10 @@ void init_variables ( GrisbiWindowEtat *etat,
 void free_variables ( void )
 {
     gsb_data_print_config_free ();
-    gsb_gui_navigation_free_pages_list ( );
-    gsb_regex_destroy ( );
-    struct_free_bet_graph_prefs ( );
+    gsb_gui_navigation_free_pages_list ();
+    gsb_data_account_init_variables ();
+    gsb_regex_destroy ();
+    struct_free_bet_graph_prefs ();
 }
 
 
