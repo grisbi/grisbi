@@ -43,8 +43,8 @@ desktop-file-install --vendor mandriva \
     $RPM_BUILD_ROOT%_datadir/applications/%{name}.desktop
 
 mkdir -p $RPM_BUILD_ROOT%_datadir/icons/hicolor/48x48/apps
-cp -f $RPM_BUILD_ROOT%{_datadir}/pixmaps/grisbi/grisbi.png \
-    $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/grisbi.png
+cp -f $RPM_BUILD_ROOT%{_datadir}/pixmaps/grisbi/grisbi.svg \
+    $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/grisbi.svg
 
 %find_lang %{name} %{name}-tips
 

@@ -353,20 +353,11 @@ static void grisbi_app_init_conf_mutex ( void )
  */
 static void grisbi_app_init ( GrisbiApp *app )
 {
-    gchar *string;
-
     devel_debug (NULL);
-
     app->priv = GRISBI_APP_GET_PRIVATE ( app );
 
     /* charge les raccourcis claviers */
     grisbi_app_load_accels ();
-
-    /* create the icon of grisbi (set in the panel of gnome or other) */
-    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi-logo.png", NULL );
-    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
-        gtk_window_set_default_icon_from_file ( string, NULL );
-    g_free (string);
 
     /* initialisation des paramètres de l'application */
     grisbi_app_init_conf_mutex ();
@@ -394,6 +385,7 @@ GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
                         GdkScreen *screen )
 {
     GrisbiWindow *window;
+    gchar *string;
 
     if ( app->priv->windows == NULL )
     {
@@ -408,6 +400,17 @@ GrisbiWindow *grisbi_app_create_window ( GrisbiApp *app,
     app->priv->windows = g_list_prepend ( app->priv->windows, window );
 
     grisbi_app_window_set_size_and_position ( window );
+
+    /* create the icon of grisbi (set in the panel of gnome or other) */
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL );
+    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
+    {
+        GdkPixbuf *pixbuf = NULL;
+
+        pixbuf = gsb_select_icon_get_default_logo_pixbuf ();
+        gtk_window_set_icon ( GTK_WINDOW ( window ), pixbuf );
+    }
+    g_free (string);
 
     g_signal_connect ( window,
                         "focus_in_event",

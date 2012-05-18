@@ -36,11 +36,12 @@ grisbi_pixmaps_DATA = \
 	grille.png \
 	grisbi-logo.png \
 	grisbi.png \
+	grisbi.svg \
 	hide_r.png \
 	impexp.png \
 	importlg.png \
 	import.png \
-    locale.png \
+	locale.png \
 	new-categ.png \
 	new-ib.png \
 	new-payee.png \
@@ -72,5 +73,8 @@ grisbi_pixmaps_DATA = \
 grisbi_iconsdir = $(datadir)/icons/hicolor/48x48/apps
 grisbi_icons_DATA = grisbi.png
 
-EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA)
+grisbi_icons_svgdir = $(datadir)/icons/hicolor/scalable/apps
+grisbi_icons_svg_DATA = grisbi.svg
+
+EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA) $(grisbi_icons_svg_DATA)
 

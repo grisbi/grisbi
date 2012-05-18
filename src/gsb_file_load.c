@@ -918,7 +918,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         GdkPixbuf *pixbuf = NULL;
                         gchar *chemin_logo = NULL;
 
-                        chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+                        chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL );
                         pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
                         gtk_window_set_default_icon ( pixbuf );
                         gsb_select_icon_set_logo_pixbuf ( pixbuf );
@@ -951,9 +951,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         gchar *chemin_logo = NULL;
 
                         if ( etat->name_logo )
-                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), etat->name_logo, NULL );
+                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir (), etat->name_logo, NULL );
                         else
-                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
+                            chemin_logo = g_build_filename  ( gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL );
                         if ( chemin_logo )
                             pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
                         if ( chemin_logo && strlen ( chemin_logo ) > 0 )

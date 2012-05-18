@@ -683,21 +683,27 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
 {
     GdkPixbuf *pixbuf = NULL;
     GError *error = NULL;
+    gchar *string = NULL;
 
-    pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
-                        (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), &error );
+    string = g_build_filename ( gsb_dirs_get_pixmaps_dir (), "grisbi.svg", NULL );
+    if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
+        pixbuf = gdk_pixbuf_new_from_file ( string, &error );
 
-    if ( ! pixbuf )
+    g_free ( string );
+
+    if ( !pixbuf )
     {
         devel_debug ( error -> message );
         g_error_free ( error );
+
+        return NULL;
     }
 
     if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
-	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
+        gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
     {
         return gsb_select_icon_resize_logo_pixbuf ( pixbuf );
-	}
+    }
     else
         return pixbuf;
 }

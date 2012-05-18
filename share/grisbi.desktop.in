@@ -2,7 +2,7 @@
 _Name=Grisbi
 _Comment=Personnal finances manager
 Exec=grisbi
-Icon=grisbi
+Icon=grisbi.svg
 Terminal=false
 Type=Application
 Categories=Office;Finance;
