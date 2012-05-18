@@ -58,6 +58,7 @@ grisbi_pixmaps_DATA = \
 	reconat.png \
 	reconciliationlg.png \
 	reconciliation.png \
+	remboursement.png \
 	reports.png \
 	scheduler.png \
 	show_r.png \
