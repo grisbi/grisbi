@@ -291,7 +291,6 @@ libgrisbi_la_SOURCES = \
 	meta_categories.h       \
 	meta_payee.h            \
 	metatree.h              \
-	mouse.h                 \
 	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\

@@ -57,7 +57,6 @@
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_transactions_list.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -1810,7 +1809,7 @@ gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev )
 {
 	/* show the popup */
-	if ( ev -> button == RIGHT_BUTTON )
+	if ( ev -> button == GSB_RIGHT_BUTTON )
         popup_scheduled_context_menu ( );
     else if ( ev -> type == GDK_2BUTTON_PRESS )
     {

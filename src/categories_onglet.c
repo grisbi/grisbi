@@ -42,7 +42,6 @@
 #include "gsb_transactions_list.h"
 #include "meta_categories.h"
 #include "metatree.h"
-#include "mouse.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -991,7 +990,7 @@ gboolean category_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null )
 {
-    if ( ev -> button == RIGHT_BUTTON )
+    if ( ev -> button == GSB_RIGHT_BUTTON )
     {
         category_list_popup_context_menu ( );
 

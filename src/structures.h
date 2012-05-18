@@ -8,6 +8,7 @@
 /* contient presque toutes les structures du prog */
 
 
+/*DEFINITIONS */
 /* the VERSION_FICHIER is in fact the lowest version which can be used to open the
  * file, so each time we make an incompatibility issue, VERSION_FICHIER must be set
  * to VERSION_GRISBI */
@@ -19,16 +20,16 @@
 
 #define CSV_MAX_TOP_LINES 10    /** How many lines to show in CSV preview.  */
 
-typedef struct gsb_conf_t       GrisbiAppConf;
-typedef struct gsb_etat_t       GrisbiWindowEtat;
-typedef struct gsb_run_t        GrisbiWindowRun;
-
-typedef enum _bet_type_onglets  BetTypeOnglets;
-typedef enum _etats_alignement  EtatsAlignment;
-typedef enum _kind_account      kind_account;
+/* possible values for a GdkEventButton -> button */
+#define GSB_RIGHT_BUTTON 3
 
 
 /* STRUCTURES */
+typedef struct gsb_conf_t                   GrisbiAppConf;
+typedef struct gsb_etat_t                   GrisbiWindowEtat;
+typedef struct gsb_run_t                    GrisbiWindowRun;
+
+
 /** structure etat
  * variables sauvegardées dans le fichier de comptes
  **/
@@ -46,7 +47,10 @@ struct gsb_etat_t
     gint utilise_logo;
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
-    
+
+    /* navigation pane */
+    gint navigation_sorting_accounts;           /* organisation des comptes : 0 classique, 1 par type de compte, 2 par solde partiel */
+    gchar *navigation_list_order;               /* ordre de la liste des comptes */
 
     /* import files */
     gint valeur_echelle_recherche_date_import;  /* nbre de jours pour la recherche des opérations importées */
@@ -121,7 +125,7 @@ struct gsb_conf_t
     gint prefs_height;                              /* preferences height */
     gint prefs_panel_width;                         /* prefs hpaned width */
 
-    /* left_panel */
+    /* navigation pane */
     gint panel_width;                               /* left hpanel width */
     gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left panel. */
 
@@ -228,7 +232,13 @@ struct struct_payee_asso
 };
 
 
-/* ENUMERATION */
+/* ENUMERATIONS */
+typedef enum _bet_type_onglets              BetTypeOnglets;
+typedef enum _etats_alignement              EtatsAlignment;
+typedef enum _gsb_general_notebook_pages    GsbGeneralNotebookPages;
+typedef enum _kind_account                  kind_account;
+
+
 /* définition du titre de grisbi */
 enum _gsb_title_name
 {
@@ -246,7 +256,7 @@ enum _etats_alignement
 
 
 /* definition of the columns of model for the left panel  */
-enum left_panel_tree_columns
+enum _left_panel_tree_columns
 {
     LEFT_PANEL_TREE_TEXT_COLUMN,
     LEFT_PANEL_TREE_PAGE_COLUMN,
@@ -323,5 +333,18 @@ enum _kind_account
     GSB_TYPE_ASSET          = 3
 };
 
+
+enum _gsb_general_notebook_pages
+{
+    GSB_HOME_PAGE,
+    GSB_ACCOUNT_PAGE,
+    GSB_SCHEDULER_PAGE,
+    GSB_PAYEES_PAGE,
+    GSB_SIMULATOR_PAGE,
+    GSB_CATEGORIES_PAGE,
+    GSB_BUDGETARY_LINES_PAGE,
+    GSB_REPORTS_PAGE,
+    GSB_GENERAL_NOTEBOOK_PAGES
+};
 
 #endif

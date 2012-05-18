@@ -47,7 +47,6 @@
 #include "gtk_combofix.h"
 #include "meta_budgetary.h"
 #include "metatree.h"
-#include "mouse.h"
 #include "transaction_list.h"
 #include "structures.h"
 #include "utils.h"
@@ -1026,7 +1025,7 @@ gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null )
 {
-    if ( ev -> button == RIGHT_BUTTON )
+    if ( ev -> button == GSB_RIGHT_BUTTON )
     {
         budgetary_line_list_popup_context_menu ( );
 

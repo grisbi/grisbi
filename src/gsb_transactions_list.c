@@ -62,7 +62,6 @@
 #include "gsb_scheduler_list.h"
 #include "import.h"
 #include "menu.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "print_transactions_list.h"
 #include "structures.h"
@@ -717,8 +716,8 @@ gboolean gsb_transactions_list_create_tree_view ( GtkWidget *tree_view,
 {
     gint i;
 
-    tree_view = gtk_tree_view_new ();
-
+/*     tree_view = gtk_tree_view_new ();  */
+devel_debug (NULL);
     /*  we cannot do a selection */
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (
                         GTK_TREE_VIEW( tree_view ))),
@@ -1401,7 +1400,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 					  NULL ))
     {
 	/* show the partial popup */
-	if ( ev -> button == RIGHT_BUTTON )
+	if ( ev -> button == GSB_RIGHT_BUTTON )
 	    popup_transaction_context_menu ( FALSE, -1, -1 );
         return (TRUE);
     }
@@ -1469,7 +1468,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 			    tree_column );
 
     /*     if it's the right click, show the good popup */
-    if ( ev -> button == RIGHT_BUTTON )
+    if ( ev -> button == GSB_RIGHT_BUTTON )
     {
 	if ( transaction_number == -1)
 	    popup_transaction_context_menu ( FALSE, -1, -1 );

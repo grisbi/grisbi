@@ -72,7 +72,6 @@
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "menu.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "parametres.h"
 #include "structures.h"
@@ -3667,7 +3666,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
 
     devel_debug (NULL);
 
-    if ( ev -> button != RIGHT_BUTTON )
+    if ( ev -> button != GSB_RIGHT_BUTTON )
 	return FALSE;
 
     menu = gtk_menu_new ();

@@ -56,7 +56,6 @@
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
@@ -1339,7 +1338,7 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev )
 {
     /* show the popup */
-    if ( ev -> button == RIGHT_BUTTON )
+    if ( ev -> button == GSB_RIGHT_BUTTON )
     {
         GtkTreePath *path = NULL;
 

@@ -44,7 +44,6 @@
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_real.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
@@ -959,7 +958,7 @@ gboolean bet_finance_data_list_button_press ( GtkWidget *tree_view,
                         GtkWidget *page )
 {
     /* show the popup */
-    if ( ev -> button == RIGHT_BUTTON )
+    if ( ev -> button == GSB_RIGHT_BUTTON )
     {
         gint page_num;
 

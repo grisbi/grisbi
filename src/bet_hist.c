@@ -47,7 +47,6 @@
 #include "gsb_file.h"
 #include "gsb_fyear.h"
 #include "gsb_real.h"
-#include "mouse.h"
 #include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
@@ -1456,7 +1455,7 @@ gboolean bet_historical_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev )
 {
 	/* show the popup */
-	if ( ev -> button == RIGHT_BUTTON )
+	if ( ev -> button == GSB_RIGHT_BUTTON )
         bet_historical_context_menu ( tree_view );
 
     return FALSE;
