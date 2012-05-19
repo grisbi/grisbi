@@ -235,10 +235,7 @@
                     <property name="hscrollbar_policy">automatic</property>
                     <property name="vscrollbar_policy">automatic</property>
                     <child>
-                      <object class="GtkTreeView" id="treeview_left_panel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                      </object>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>

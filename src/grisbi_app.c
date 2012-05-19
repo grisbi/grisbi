@@ -36,6 +36,7 @@
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"
+#include "gsb_select_icon.h"
 #include "traitement_variables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
