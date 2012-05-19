@@ -38,17 +38,15 @@
 #include "bet_tab.h"
 #include "categories_onglet.h"
 #include "etats_onglet.h"
-#include "grisbi_app.h"
-#include "grisbi_window.h"
 #include "gsb_data_account.h"
 #include "gsb_account_property.h"
 #include "gsb_form.h"
+#include "gsb_navigation.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
 #include "menu.h"
-#include "navigation.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "erreur.h"
@@ -56,7 +54,6 @@
 
 /*START_STATIC*/
 static GtkWidget *creation_fenetre_operations ( void );
-static void gsb_gui_create_general_notebook ( GrisbiWindow *window );
 static gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook );
 static void gsb_gui_headings_private_update_label_markup ( GtkLabel *label,
                         const gchar *text,
@@ -109,35 +106,19 @@ void gsb_gui_new_gui ( void )
 
 
 /**
- * Create a new general notebook
- *
- * \param
- *
- * \return
- */
-void gsb_gui_new_general_notebook ( void )
-{
-    GrisbiWindow *window;
-
-    window = grisbi_app_get_active_window ( grisbi_app_get_default ( FALSE ) );
-
-    gsb_gui_create_general_notebook ( window );
-}
-
-
-
-/**
- * Create the main notebook : 
+ * Create the main notebook :
  * a notebook wich contains the pages : main page, accounts, scheduler... and
  * the form on the bottom, the form will be showed only for accounts page and
  * scheduler page
+ *
+ * \param window
  *
  * \return the notebook
  */
 void gsb_gui_create_general_notebook ( GrisbiWindow *window )
 {
     GtkWidget *vbox;
-/*     GtkWidget *form;  */
+    GtkWidget *form;
     GtkWidget *notebook_general;
 
     devel_debug ( "create_main_notebook" );
@@ -150,10 +131,9 @@ void gsb_gui_create_general_notebook ( GrisbiWindow *window )
     notebook_general = grisbi_window_get_widget_by_name ( "notebook_general" );
 
     /* append the form */
-/*     form = gsb_form_new ( );
- *     gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
- *     gtk_widget_hide ( form );
- */
+    form = gsb_form_new ( );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), form, FALSE, FALSE, 0 );
+    gtk_widget_hide ( form );
 
     /* fill the notebook */
     gsb_gui_fill_general_notebook ( notebook_general );
@@ -163,8 +143,11 @@ void gsb_gui_create_general_notebook ( GrisbiWindow *window )
 
 
 /**
+ * retourne le notebook qui contient les pages de droite de grisbi
  *
+ * \param
  *
+ * \return FALSE
  */
 GtkWidget *gsb_gui_get_general_notebook (void )
 {

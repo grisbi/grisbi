@@ -3,17 +3,6 @@
 
 #include <gtk/gtk.h>
 
-typedef enum GSB_GENERAL_NOTEBOOK_PAGES {
-    GSB_HOME_PAGE,
-    GSB_ACCOUNT_PAGE,
-    GSB_SCHEDULER_PAGE,
-    GSB_PAYEES_PAGE,
-    GSB_SIMULATOR_PAGE, 
-    GSB_CATEGORIES_PAGE,
-    GSB_BUDGETARY_LINES_PAGE,
-    GSB_REPORTS_PAGE,
-} GsbGeneralNotebookPages;
-
 typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
     GSB_TRANSACTIONS_PAGE,
     GSB_ESTIMATE_PAGE,
@@ -23,10 +12,12 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
 } GsbaccountNotebookPages;
 
 /* START_INCLUDE_H */
+#include "grisbi_app.h"
 /* END_INCLUDE_H */
 
 
 /* START_DECLARATION */
+void gsb_gui_create_general_notebook ( GrisbiWindow *window );
 GtkWidget *gsb_gui_create_general_widget ( void );
 GtkWidget *gsb_gui_get_general_notebook (void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );

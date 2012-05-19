@@ -58,6 +58,8 @@ const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
 GSList *grisbi_window_get_list_accounts ( GrisbiWindow *window );
+GtkWidget *grisbi_window_get_navigation_tree_view ( void );
+GtkWidget *grisbi_window_get_scheduler_calendar ( GrisbiWindow *window );
 guint grisbi_window_get_sub_menu_merge_id ( GrisbiWindow *window,
                         const gchar *sub_menu );
 GrisbiWindowEtat *grisbi_window_get_struct_etat ( void );
@@ -76,6 +78,9 @@ gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
                         const gchar *file_title );
 gboolean grisbi_window_set_list_accounts ( GrisbiWindow *window,
                         GSList *list_accounts );
+gboolean grisbi_window_set_navigation_tree_view ( GtkWidget *navigation_tree_view  );
+gboolean grisbi_window_set_scheduler_calendar ( GrisbiWindow *window,
+                        GtkWidget *scheduler_calendar );
 void grisbi_window_set_sub_menu_merge_id ( GrisbiWindow *window,
                         guint merge_id,
                         const gchar *sub_menu );

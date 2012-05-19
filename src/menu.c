@@ -38,9 +38,10 @@
 #include "gsb_account.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "navigation.h"
 #include "traitement_variables.h"
 #include "utils.h"
 #include "erreur.h"
@@ -397,12 +398,14 @@ gboolean gsb_gui_toggle_show_archived ( void )
  */
 gboolean gsb_gui_toggle_show_closed_accounts ( void )
 {
+    GsbNavigationView *tree_view;
     GrisbiAppConf *conf;
 
     conf = grisbi_app_get_conf ( );
-    conf->show_closed_accounts = ! conf->show_closed_accounts;
+    conf->show_closed_accounts = !conf->show_closed_accounts;
 
-    gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
+    tree_view = GSB_NAVIGATION_VIEW ( grisbi_window_get_navigation_tree_view () );
+    gsb_navigation_view_create_account_list ( tree_view );
     gsb_gui_navigation_update_home_page ( );
 
     gsb_file_set_modified ( TRUE );

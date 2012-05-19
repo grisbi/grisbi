@@ -42,11 +42,12 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "gtk_combofix.h"
 #include "imputation_budgetaire.h"
-#include "navigation.h"
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
@@ -1189,9 +1190,9 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
 	    navigation_change_account ( account_number );
 	    gsb_account_property_fill_page ();
 	    gsb_gui_notebook_change_page ( GSB_ACCOUNT_PAGE );
-	    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
-					       gsb_data_transaction_get_account_number (transaction_number),
-					       NULL );
+        gsb_navigation_view_set_selection ( GSB_ACCOUNT_PAGE,
+                        gsb_data_transaction_get_account_number ( transaction_number ),
+                        NULL );
 
         /* move selected iter */
         path = gtk_tree_model_get_path ( model, &iter );
@@ -1218,52 +1219,49 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 {
     if ( dest_path && selection_data )
     {
-	enum meta_tree_row_type orig_type, dest_type;
-	GtkTreePath * orig_path;
-	GtkTreeModel * model;
-	gint orig_no_div, no_div;
-	gint current_number;
+        enum meta_tree_row_type orig_type, dest_type;
+        GtkTreePath * orig_path;
+        GtkTreeModel * model;
+        gint orig_no_div, no_div;
+        gint current_number;
 
-	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
+        gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
-	{
-	    return navigation_row_drop_possible ( drag_dest, dest_path, selection_data );
-	}
+        orig_type = metatree_get_row_type ( model, orig_path );
+        dest_type = metatree_get_row_type ( model, dest_path );
 
-	orig_type = metatree_get_row_type ( model, orig_path );
-	dest_type = metatree_get_row_type ( model, dest_path );
+        if ( !metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, &no_div )
+         ||
+         !metatree_get ( model, orig_path, META_TREE_NO_DIV_COLUMN, &orig_no_div )
+         ||
+         !metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, &current_number ) )
+        {
+            return FALSE;
+        }
 
-	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, 
-			      &no_div ) ||
-	     ! metatree_get ( model, orig_path, META_TREE_NO_DIV_COLUMN, 
-			      &orig_no_div ) ||
-	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, 
-			      &current_number ) )
-	{
-	    return FALSE;
-	}
+        switch ( orig_type )
+        {
+            case META_TREE_SUB_DIV:
+            if ( dest_type == META_TREE_DIV
+             &&
+             !gtk_tree_path_is_ancestor ( dest_path, orig_path )
+             &&
+             current_number
+             &&
+             orig_no_div != 0
+             &&
+             no_div != 0 ) /* i.e. ancestor is no "No division" */
+                return TRUE;
+            break;
 
-	switch ( orig_type )
-	{
-	    case META_TREE_SUB_DIV:
-		if ( dest_type == META_TREE_DIV && 
-		     ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) &&
-		     current_number && 
-		     orig_no_div != 0 && 
-		     no_div != 0 ) /* i.e. ancestor is no "No division" */
-		    return TRUE;
-		break;
+            case META_TREE_TRANSACTION:
+            if ( dest_type == META_TREE_DIV || dest_type == META_TREE_SUB_DIV )
+                return TRUE;
+            break;
 
-	    case META_TREE_TRANSACTION:
-		if ( dest_type == META_TREE_DIV || 
-		     dest_type == META_TREE_SUB_DIV )
-		    return TRUE;
-		break;
-
-	    default:
-		break;
-	}
+            default:
+            break;
+        }
     }
 
     return FALSE;
@@ -1303,12 +1301,6 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 
 	/* get the orig_path */
 	gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
-
-	/* if we are on the navigation list, work with it */
-	if ( model == GTK_TREE_MODEL( gsb_gui_navigation_get_model ( ) ) )
-	{
-	    return navigation_drag_data_received ( drag_dest, dest_path, selection_data );
-	}
 
 	/* get metatree interface */
 	iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );

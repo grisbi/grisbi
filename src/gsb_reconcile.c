@@ -50,12 +50,13 @@
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_widget.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_real.h"
 #include "gsb_reconcile_list.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
-#include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "transaction_list.h"
@@ -662,7 +663,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     if ( reconcile_save_last_scheduled_convert )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_navigation_view_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
         gsb_scheduler_list_select ( reconcile_save_last_scheduled_convert );
         gsb_scheduler_list_edit_transaction ( reconcile_save_last_scheduled_convert );
         reconcile_save_last_scheduled_convert = 0;

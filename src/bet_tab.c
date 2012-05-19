@@ -52,11 +52,12 @@
 #include "gsb_data_transaction.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "navigation.h"
 #include "print_tree_view_list.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -1642,7 +1643,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
     }
     else if ( origine == SPP_ORIGIN_SCHEDULED )
     {
-        gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+        gsb_navigation_view_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
         gsb_scheduler_list_select ( number );
         gsb_scheduler_list_edit_transaction ( number );
     }
@@ -2358,7 +2359,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
 
     mise_a_jour_liste_echeances_auto_accueil = 1;
 
-    gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
+    gsb_navigation_view_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
     gsb_scheduler_list_select ( scheduled_number );
     gsb_scheduler_list_edit_transaction ( scheduled_number );
 

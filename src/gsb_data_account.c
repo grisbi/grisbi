@@ -616,7 +616,7 @@ gint gsb_data_account_new ( kind_account account_kind )
     }
 
     last_number = gsb_data_account_max_number ();
-printf ("last_number = %d\n", last_number );
+
     list_accounts = gsb_data_account_get_list_accounts ();
 
     /* we have to append the account first because some functions later will

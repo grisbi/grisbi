@@ -35,18 +35,19 @@
 
 /*START_INCLUDE*/
 #include "etats_gtktable.h"
+#include "etats_affiche.h"
+#include "etats_config.h"
+#include "fenetre_principale.h"
 #include "gsb_data_account.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
-#include "menu.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_transactions_list.h"
-#include "utils.h"
+#include "menu.h"
+#include "structures.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
-#include "structures.h"
-#include "fenetre_principale.h"
-#include "etats_config.h"
-#include "etats_affiche.h"
+#include "utils.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -306,12 +307,12 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	gint mother_transaction;
 
 	/* go on the good account */
-	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
-					   account_number,
-					   GINT_TO_POINTER (-1));
+    gsb_navigation_view_set_selection ( GSB_ACCOUNT_PAGE,
+                        account_number,
+                        GINT_TO_POINTER ( -1 ) );
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
+	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	     &&
 	     !gsb_data_account_get_r ( account_number ) )
     {

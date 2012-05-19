@@ -46,8 +46,10 @@
 #include "bet_data.h"
 #include "bet_data_finance.h"
 #include "bet_graph.h"
+#include "custom_list.h"
 #include "dialog.h"
 #include "grisbi_app.h"
+#include "gsb_calendar.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
 #include "gsb_data_archive.h"
@@ -70,17 +72,16 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
-#include "utils_dates.h"
-#include "navigation.h"
 #include "gsb_locale.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
-#include "gsb_select_icon.h"
-#include "utils_str.h"
-#include "structures.h"
-#include "custom_list.h"
 #include "gsb_scheduler_list.h"
-#include "gsb_calendar.h"
+#include "gsb_select_icon.h"
+#include "structures.h"
+#include "utils_dates.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -660,7 +661,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	    transaction_column_align_write  = utils_str_itoa ( transaction_col_align[i] );
 
     /* prépare l'ordre des pages dans le panneau de gauche */
-    tmp_queue = gsb_gui_navigation_get_pages_list ( );
+    tmp_queue = gsb_navigation_view_get_pages_list ();
 
     for ( i = 0 ; i < tmp_queue -> length ; i++ )
     {

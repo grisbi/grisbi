@@ -39,9 +39,10 @@
 #include "gsb_data_account.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
-#include "navigation.h"
 #include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -810,11 +811,11 @@ gboolean preferences_active_mouse_scrolling_left_pane ( GtkWidget *toggle_button
 
     if ( conf->active_scrolling_left_pane )
         g_signal_handlers_unblock_by_func ( gsb_gui_navigation_get_tree_view ( ),
-                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        G_CALLBACK ( gsb_navigation_view_check_scroll ),
                         NULL );
     else
         g_signal_handlers_block_by_func ( gsb_gui_navigation_get_tree_view ( ),
-                        G_CALLBACK ( gsb_gui_navigation_check_scroll ),
+                        G_CALLBACK ( gsb_navigation_view_check_scroll ),
                         NULL );
 
     return FALSE;

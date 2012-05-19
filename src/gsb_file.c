@@ -48,11 +48,12 @@
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
 #include "menu.h"
-#include "navigation.h"
 #include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -136,7 +137,7 @@ gboolean gsb_file_new_finish ( void )
     gsb_gui_new_gui ();
 
     mise_a_jour_accueil ( TRUE );
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
+    gsb_navigation_view_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     gsb_file_set_modified ( TRUE );
     return FALSE;
@@ -452,7 +453,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     run->is_loading = FALSE;
 
     /* go to the home page */
-    gsb_gui_navigation_set_selection ( GSB_HOME_PAGE, -1, NULL );
+    gsb_navigation_view_set_selection ( GSB_HOME_PAGE, -1, NULL );
 
     /* set the focus to the selection tree at left */
     gtk_widget_grab_focus ( gsb_gui_navigation_get_tree_view ( ) );

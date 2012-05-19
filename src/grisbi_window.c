@@ -40,8 +40,8 @@
 #include "grisbi_app.h"
 #include "grisbi_ui.h"
 #include "gsb_dirs.h"
+#include "gsb_navigation.h"
 #include "menu.h"
-#include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils_gtkbuilder.h"
@@ -109,8 +109,13 @@ struct _GrisbiWindowPrivate
     GrisbiWindowRun     *run;
 
     /* account list */
+    GtkWidget           *navigation_tree_view;
     GSList              *list_accounts;
     gpointer            account_buffer;
+
+    /* Widget that hold the scheduler calendar. */
+    GtkWidget *scheduler_calendar;
+
 };
 
 
@@ -677,7 +682,6 @@ static GtkWidget *grisbi_window_new_headings_eb ( GrisbiWindow *window )
                         G_CALLBACK ( grisbi_window_headings_simpleclick_event_run ),
                         gsb_gui_navigation_select_prev );
 
-
     arrow_eb = GTK_WIDGET ( gtk_builder_get_object ( grisbi_window_builder, "arrow_eb_right" ) );
     gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
@@ -807,6 +811,9 @@ static void grisbi_window_free_struct_etat ( GrisbiWindowEtat *etat )
     g_free ( etat->name_logo );
     etat->name_logo = NULL;
 
+    g_free ( etat->navigation_list_order );
+    etat->navigation_list_order = NULL;
+
     g_free ( etat->csv_separator );
     etat->csv_separator = NULL;
 
@@ -929,12 +936,8 @@ GtkWidget *grisbi_window_new_general_widget ( void )
     gsb_gui_navigation_create_navigation_pane ();
     gsb_gui_create_general_notebook ( window );
     gtk_container_set_border_width ( GTK_CONTAINER ( window->priv->hpaned_general ), 6 );
-/*     else
- *     {
- *         gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model () );
- *         gsb_gui_navigation_update_home_page ();
- *     }
- */
+
+/*         gsb_gui_navigation_update_home_page ();  */
     gtk_widget_show ( window->priv->hpaned_general );
 
     gtk_widget_show ( window->priv->vbox_general );
@@ -1405,11 +1408,57 @@ GrisbiWindowRun *grisbi_window_get_struct_run ( GrisbiWindow *window )
 }
 
 
-/* ACCOUNT LIST */
+/* NAVIGATION PANEL */
+/**
+ * retourne navigation_tree_view
+ *
+ * \param
+ *
+ * \return navigation_tree_view
+ **/
+GtkWidget *grisbi_window_get_navigation_tree_view ( void )
+{
+    GrisbiWindow *window;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( TRUE ) );
+
+    if ( window )
+        return window->priv->navigation_tree_view;
+    else
+        return NULL;
+}
+
+
+/**
+ * retourne navigation_tree_view
+ *
+ * \param
+ *
+ * \return navigation_tree_view
+ **/
+gboolean grisbi_window_set_navigation_tree_view ( GtkWidget *navigation_tree_view )
+{
+    GrisbiWindow *window;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( TRUE ) );
+
+    if ( window )
+    {
+        window->priv->navigation_tree_view = navigation_tree_view;
+        return TRUE;
+    }
+    else
+    {
+        window->priv->navigation_tree_view = NULL;
+        return FALSE;
+    }
+}
+
+
 /**
  * retourne la liste des comptes
  *
- * \param
+ * \param window
  *
  * \return
  **/
@@ -1442,7 +1491,7 @@ void grisbi_window_free_list_accounts ( GrisbiWindow *window )
  * définit la liste des comptes
  *
  * \param window
- * \param nouvelel liste des comptes.
+ * \param nouvelle liste des comptes.
  *
  * \return
  **/
@@ -1450,6 +1499,37 @@ gboolean grisbi_window_set_list_accounts ( GrisbiWindow *window,
                         GSList *list_accounts )
 {
     window->priv->list_accounts = list_accounts;
+
+    return TRUE;
+}
+
+
+/**
+ * retourne scheduler_calendar
+ *
+ * \param               window
+ * \param               GtkWidget *scheduler_calendar
+ *
+ * \return              TRUE
+ **/
+GtkWidget *grisbi_window_get_scheduler_calendar ( GrisbiWindow *window )
+{
+    return window->priv->scheduler_calendar;
+}
+
+
+/**
+ * initialise scheduler_calendar
+ *
+ * \param               window
+ * \param               GtkWidget *scheduler_calendar
+ *
+ * \return              TRUE
+ **/
+gboolean grisbi_window_set_scheduler_calendar ( GrisbiWindow *window,
+                        GtkWidget *scheduler_calendar )
+{
+    window->priv->scheduler_calendar = scheduler_calendar;
 
     return TRUE;
 }
