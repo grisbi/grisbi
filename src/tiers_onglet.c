@@ -892,7 +892,7 @@ void payees_manage_payees ( void )
         gint nb_removed;
         gboolean save_notes = FALSE;
         gboolean extract_num = FALSE;
-        struct struct_payee_asso *assoc;
+        GsbPayeeAsso *assoc;
 
         /* on remplace les anciens tiers par le nouveau et on sauvegarde si nécessaire */
         gsb_status_wait ( TRUE );
@@ -917,7 +917,7 @@ void payees_manage_payees ( void )
                         "check_option_2" ) ) );
 
         /* on ajoute la nouvelle association à la liste des assoc */
-        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
+        assoc = g_malloc ( sizeof ( GsbPayeeAsso ) );
         assoc -> payee_number = new_payee_number;
         assoc -> search_str = g_strdup ( str_cherche );
         if ( !g_slist_find_custom ( liste_associations_tiers,

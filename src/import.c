@@ -3827,9 +3827,9 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
     /* add association in liste_associations_tiers */
     if ( g_slist_length ( liste_associations_tiers ) == 0 )
     {
-        struct struct_payee_asso *assoc;
+        GsbPayeeAsso *assoc;
 
-        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
+        assoc = g_malloc ( sizeof ( GsbPayeeAsso ) );
         assoc -> payee_number = payee_number;
         assoc -> search_str = search_str;
         liste_associations_tiers = g_slist_append ( liste_associations_tiers, assoc );
@@ -3837,9 +3837,9 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
     }
     else
     {
-        struct struct_payee_asso *assoc;
+        GsbPayeeAsso *assoc;
 
-        assoc = g_malloc ( sizeof ( struct struct_payee_asso ) );
+        assoc = g_malloc ( sizeof ( GsbPayeeAsso ) );
         assoc -> payee_number = payee_number;
         assoc -> search_str = search_str;
         if ( g_slist_find_custom ( liste_associations_tiers,
@@ -3868,8 +3868,8 @@ void gsb_import_associations_add_assoc ( GtkWidget *button, GtkWidget *main_widg
 }
 
 
-gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2)
+gint gsb_import_associations_cmp_assoc ( GsbPayeeAsso *assoc_1,
+                                        GsbPayeeAsso *assoc_2)
 {
     gint num_1, num_2;
 
@@ -3907,7 +3907,7 @@ void gsb_import_associations_del_assoc ( GtkWidget *button, GtkWidget *main_widg
         list_tmp = liste_associations_tiers;
         while ( list_tmp )
         {
-            struct struct_payee_asso *assoc;
+            GsbPayeeAsso *assoc;
 
             assoc = list_tmp -> data;
             if ( assoc -> payee_number == payee_number )
@@ -3938,7 +3938,7 @@ void gsb_import_associations_fill_model ( GtkListStore *list_store )
     while ( list_tmp )
     {
         gchar *tmpstr;
-        struct struct_payee_asso *assoc;
+        GsbPayeeAsso *assoc;
 
         assoc = list_tmp -> data;
         tmpstr = g_strdup ( gsb_data_payee_get_name (
@@ -4013,7 +4013,7 @@ static void gsb_import_associations_cell_edited (GtkCellRendererText *cell,
         list_tmp = liste_associations_tiers;
         while ( list_tmp )
         {
-            struct struct_payee_asso *assoc;
+            GsbPayeeAsso *assoc;
 
             assoc = list_tmp -> data;
             if ( assoc -> payee_number == payee_number )
@@ -4081,7 +4081,7 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
     list_tmp = liste_associations_tiers;
     while ( list_tmp )
     {
-        struct struct_payee_asso *assoc;
+        GsbPayeeAsso *assoc;
 
         assoc = list_tmp -> data;
         if ( gsb_string_is_trouve ( imported_tiers, assoc -> search_str ) )
@@ -4098,9 +4098,9 @@ gint gsb_import_associations_find_payee ( gchar *imported_tiers)
 gint gsb_import_associations_list_append_assoc ( gint payee_number,
                         const gchar *search_str )
 {
-    struct struct_payee_asso *assoc;
+    GsbPayeeAsso *assoc;
 
-    assoc = g_malloc ( sizeof (struct struct_payee_asso) );
+    assoc = g_malloc ( sizeof ( GsbPayeeAsso ) );
     assoc -> payee_number = payee_number;
     assoc -> search_str = g_strdup ( search_str );
 

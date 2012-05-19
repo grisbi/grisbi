@@ -117,8 +117,8 @@ struct import_format
 };
 
 /* START_DECLARATION */
-gint gsb_import_associations_cmp_assoc (struct struct_payee_asso *assoc_1,
-                                        struct struct_payee_asso *assoc_2);
+gint gsb_import_associations_cmp_assoc ( GsbPayeeAsso *assoc_1,
+                                        GsbPayeeAsso *assoc_2);
 GtkWidget *gsb_import_associations_get_combo_payees ( GrisbiWindowEtat *etat );
 void gsb_import_associations_init_callback ( void );
 void gsb_import_associations_init_treeview ( GtkTreeView *tree_view );

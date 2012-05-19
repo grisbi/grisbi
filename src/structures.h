@@ -5,7 +5,7 @@
 #include <gtk/gtk.h>
 
 /* fichier d'en tête structures.h */
-/* contient presque toutes les structures du prog */
+/* contient une partie des structures du prog */
 
 
 /*DEFINITIONS */
@@ -25,15 +25,16 @@
 
 
 /* STRUCTURES */
-typedef struct gsb_conf_t                   GrisbiAppConf;
-typedef struct gsb_etat_t                   GrisbiWindowEtat;
-typedef struct gsb_run_t                    GrisbiWindowRun;
+typedef struct _grisbi_conf_t               GrisbiAppConf;
+typedef struct _grisbi_etat_t               GrisbiWindowEtat;
+typedef struct _grisbi_run_t                GrisbiWindowRun;
+typedef struct _gsb_payee_asso              GsbPayeeAsso;
 
 
 /** structure etat
  * variables sauvegardées dans le fichier de comptes
  **/
-struct gsb_etat_t
+struct _grisbi_etat_t
 {
     /* files and backup part */
     gint is_archive;                /* TRUE if the file is an archive, FALSE else */
@@ -107,7 +108,7 @@ struct gsb_etat_t
 /** structure conf
  * variables configured by the file grisbi.conf
  **/
-struct gsb_conf_t
+struct _grisbi_conf_t
 {
     /* IHM */
     /* main window */
@@ -204,7 +205,7 @@ struct gsb_conf_t
  * variables générées pendant l'exécution du programme
  **/
 
-struct gsb_run_t
+struct _grisbi_run_t
 {
     /* crypted files */
     gboolean new_crypted_file;      /* 0 à l'exécution de init_variables () 1 si new crypted file*/
@@ -225,7 +226,7 @@ struct gsb_run_t
 /* structure définissant une association entre un tiers
  * et une chaine de recherche contenant un ou des jokers (%)
  */
-struct struct_payee_asso
+struct _gsb_payee_asso
 {
     gint    payee_number;
     gchar   *search_str;
