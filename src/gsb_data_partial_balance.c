@@ -42,7 +42,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "gsb_real.h"
 #include "utils_real.h"
 #include "utils_str.h"

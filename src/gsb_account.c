@@ -39,7 +39,7 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_form_scheduler.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "fenetre_principale.h"
 #include "menu.h"
 #include "gsb_real.h"

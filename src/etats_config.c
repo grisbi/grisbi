@@ -51,7 +51,7 @@
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_buttons.h"

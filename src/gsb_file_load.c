@@ -70,12 +70,12 @@
 #include "gsb_file.h"
 #include "gsb_file_util.h"
 #include "gsb_locale.h"
+#include "gsb_navigation.h"
 #include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
 #include "import.h"
-#include "navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"
@@ -939,8 +939,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'N':
                 if ( !strcmp ( attribute_names[i], "Navigation_list_order" ) )
-                    gsb_gui_navigation_set_page_list_order ( attribute_values[i] );
-
+                    etat->navigation_list_order = my_strdup ( attribute_values[i] );
                 else if ( !strcmp ( attribute_names[i], "Name_logo" ) )
                 {
                     GdkPixbuf *pixbuf = NULL;

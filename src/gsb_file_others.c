@@ -43,7 +43,7 @@
 #include "gsb_file.h"
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "utils_str.h"
 #include "traitement_variables.h"
 #include "categories_onglet.h"

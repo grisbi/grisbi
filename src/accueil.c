@@ -43,12 +43,13 @@
 #include "gsb_data_transaction.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
+#include "gsb_navigation.h"
+#include "gsb_navigation_view.h"
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
-#include "navigation.h"
 #include "structures.h"
 #include "utils.h"
 #include "utils_dates.h"
@@ -1216,9 +1217,9 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
 gboolean gsb_main_page_click_on_account ( gint *account_number )
 {
     devel_debug_int (GPOINTER_TO_INT (account_number));
-    gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
-				       GPOINTER_TO_INT (account_number),
-				       NULL );
+    gsb_navigation_view_set_selection ( GSB_ACCOUNT_PAGE,
+                        GPOINTER_TO_INT (account_number),
+                        NULL );
     return FALSE;
 }
 

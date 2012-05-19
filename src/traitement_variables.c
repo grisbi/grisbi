@@ -70,6 +70,7 @@
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "gsb_locale.h"
+#include "gsb_navigation.h"
 #include "gsb_real.h"
 #include "gsb_regex.h"
 #include "gsb_report.h"
@@ -78,7 +79,6 @@
 #include "gsb_transactions_list.h"
 #include "import.h"
 #include "menu.h"
-#include "navigation.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -148,9 +148,6 @@ void init_variables ( GrisbiWindowEtat *etat,
 
     /* init the decimal point and the thousands separator. */
     initialise_number_separators ( );
-
-    /* initialise l'ordre des pages du panneau de gauche */
-    gsb_gui_navigation_init_pages_list ();
 
     /* if ever there is still something from the previous list,
      * erase now */
@@ -269,7 +266,6 @@ void init_variables ( GrisbiWindowEtat *etat,
 void free_variables ( void )
 {
     gsb_data_print_config_free ();
-    gsb_gui_navigation_free_pages_list ();
     gsb_data_account_init_variables ();
     gsb_regex_destroy ();
     struct_free_bet_graph_prefs ();

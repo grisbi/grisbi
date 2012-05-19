@@ -46,7 +46,7 @@
 #include "gsb_file.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"

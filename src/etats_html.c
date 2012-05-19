@@ -30,7 +30,7 @@
 #include "dialog.h"
 #include "etats_support.h"
 #include "gsb_data_report.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "utils_files.h"
 #include "structures.h"
 #include "etats_config.h"

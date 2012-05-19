@@ -41,7 +41,7 @@
 #include "gsb_data_fyear.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "structures.h"
 #include "utils_gtkbuilder.h"
 #include "utils_dates.h"

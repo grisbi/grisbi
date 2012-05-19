@@ -43,7 +43,7 @@
 #include "gsb_data_report.h"
 #include "gsb_data_report_text_comparison.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "utils_str.h"

@@ -57,7 +57,7 @@
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_transactions_list.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils.h"

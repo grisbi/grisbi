@@ -46,7 +46,7 @@
 #include "gsb_data_payment.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "gsb_real.h"
 #include "gsb_transactions_list.h"
 #include "structures.h"

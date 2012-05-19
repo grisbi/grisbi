@@ -106,6 +106,7 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear.c		\
 	gsb_fyear_config.c	\
 	gsb_locale.c	\
+	gsb_navigation.c		\
 	gsb_navigation_view.c \
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
@@ -133,7 +134,6 @@ libgrisbi_la_SOURCES = \
 	meta_categories.c	\
 	meta_payee.c		\
 	metatree.c		\
-	navigation.c		\
 	parametres.c		\
 	parse_cmdline.c		\
 	parametres_ui.c		\
@@ -252,6 +252,7 @@ libgrisbi_la_SOURCES = \
 	gsb_fyear.h		\
 	gsb_fyear_config.h	\
 	gsb_locale.h	\
+	gsb_navigation.h		\
 	gsb_navigation_view.h \
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
@@ -291,7 +292,6 @@ libgrisbi_la_SOURCES = \
 	meta_categories.h       \
 	meta_payee.h            \
 	metatree.h              \
-	navigation.h		\
 	parametres.h		\
 	parse_cmdline.h		\
 	parametres_ui.h		\

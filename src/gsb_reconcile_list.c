@@ -37,7 +37,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_payment.h"
 #include "gsb_data_transaction.h"
-#include "navigation.h"
+#include "gsb_navigation.h"
 #include "gsb_transactions_list_sort.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
