@@ -406,7 +406,7 @@ static gint gsb_data_account_max_number ( void )
  * \return filename
  * */
 
-static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind )
+static gchar *gsb_data_account_get_account_standard_pixbuf_filename ( GsbKindAccount account_kind )
 {
     gchar *account_icon;
     gchar *filename;
@@ -601,7 +601,7 @@ GSList *gsb_data_account_get_list_accounts ( void )
  *
  * \return no of account, -1 if problem
  * */
-gint gsb_data_account_new ( kind_account account_kind )
+gint gsb_data_account_new ( GsbKindAccount account_kind )
 {
     GsbDataAccount *account;
     gint last_number;
@@ -1018,7 +1018,7 @@ gint gsb_data_account_get_account_by_id ( const gchar *account_id )
  * \param account_number no of the account
  * \return account type or 0 if the account doesn't exist
  * */
-kind_account gsb_data_account_get_kind ( gint account_number )
+GsbKindAccount gsb_data_account_get_kind ( gint account_number )
 {
     GsbDataAccount *account;
 
@@ -2837,12 +2837,12 @@ gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
 /**
  * get the default pixbuf icon for the kind_account
  *
- * \param kind_account
+ * \param GsbKindAccount
  *
  * \return pixbuf icon
  * */
 
-GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind )
+GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( GsbKindAccount account_kind )
 {
     GdkPixbuf * pixbuf = NULL;
     gchar *filename;
@@ -3425,7 +3425,7 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
 gint gsb_data_account_get_bet_use_budget ( gint account_number )
 {
     GsbDataAccount *account;
-    kind_account kind;
+    GsbKindAccount kind;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3706,7 +3706,7 @@ gint gsb_data_account_get_currency_floating_point ( gint account_number )
 gint gsb_data_account_get_bet_credit_card ( gint account_number )
 {
     GsbDataAccount *account;
-    kind_account kind;
+    GsbKindAccount kind;
 
     account = gsb_data_account_get_structure ( account_number );
 
@@ -3789,7 +3789,7 @@ gboolean gsb_data_account_set_bet_show_onglets ( gint account_number )
 {
     GsbDataAccount *account;
     gint bet_use_budget;
-    kind_account kind;
+    GsbKindAccount kind;
     GrisbiWindowEtat *etat;
 
     account = gsb_data_account_get_structure ( account_number );

@@ -425,7 +425,7 @@ void update_liste_comptes_accueil ( gboolean force )
     {
         while ( list_tmp )
         {
-            kind_account i;
+            GsbKindAccount i;
 
             i = gsb_data_partial_balance_get_number ( list_tmp -> data );
 
@@ -998,7 +998,7 @@ gint affiche_soldes_partiels ( GtkWidget *table,
     while ( liste )
     {
         gint partial_number;
-        kind_account kind;
+        GsbKindAccount kind;
 
         partial_number = gsb_data_partial_balance_get_number ( liste -> data );
         kind = gsb_data_partial_balance_get_kind ( partial_number );
@@ -1157,7 +1157,7 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
     while ( liste )
     {
         gint partial_number;
-        kind_account kind;
+        GsbKindAccount kind;
 
         partial_number = gsb_data_partial_balance_get_number ( liste -> data );
         kind = gsb_data_partial_balance_get_kind ( partial_number );

@@ -18,7 +18,7 @@ gboolean gsb_data_partial_balance_get_colorise ( gint partial_balance_number );
 gint gsb_data_partial_balance_get_currency ( gint partial_balance_number );
 gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_number );
 gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number );
-kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number );
+GsbKindAccount gsb_data_partial_balance_get_kind ( gint partial_balance_number );
 GSList *gsb_data_partial_balance_get_list ( void );
 const gchar *gsb_data_partial_balance_get_liste_cptes ( gint partial_balance_number );
 gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number );
@@ -30,7 +30,7 @@ gboolean gsb_data_partial_balance_set_colorise ( gint partial_balance_number,
 gboolean gsb_data_partial_balance_set_currency ( gint partial_balance_number,
                         gint currency );
 gboolean gsb_data_partial_balance_set_kind ( gint partial_balance_number,
-                        kind_account kind );
+                        GsbKindAccount kind );
 gboolean gsb_data_partial_balance_set_liste_cptes ( gint partial_balance_number,
                         const gchar *liste_cptes );
 gboolean gsb_data_partial_balance_set_name ( gint partial_balance_number,

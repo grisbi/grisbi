@@ -1862,7 +1862,7 @@ gint gsb_import_create_imported_account ( struct struct_compte_importation *impo
 	    kind_account = GSB_TYPE_BANK;
     }
 
-    account_number = gsb_data_account_new (kind_account);
+    account_number = gsb_data_account_new ( kind_account );
 
     if ( account_number == -1 )
 	return -1;

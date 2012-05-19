@@ -80,7 +80,7 @@ extern gint mise_a_jour_soldes_minimaux;
  * \return FALSE if problem, TRUE if ok
  */
 
-gboolean gsb_account_new ( kind_account account_type,
+gboolean gsb_account_new ( GsbKindAccount account_type,
 			   gint currency_number,
 			   gint bank_number,
 			   gsb_real init_amount,

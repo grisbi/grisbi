@@ -24,7 +24,7 @@ gint gsb_data_account_first_number ( void );
 gint gsb_data_account_get_account_by_id ( const gchar *account_id );
 GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number );
 GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number );
-GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind );
+GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( GsbKindAccount account_kind );
 gint gsb_data_account_get_accounts_amount ( void );
 gint gsb_data_account_get_bank ( gint account_number );
 gchar *gsb_data_account_get_bank_account_iban (gint account_number);
@@ -62,7 +62,7 @@ gchar *gsb_data_account_get_holder_name ( gint account_number );
 gchar *gsb_data_account_get_id ( gint account_number );
 gsb_real gsb_data_account_get_init_balance ( gint account_number,
                         gint floating_point );
-kind_account gsb_data_account_get_kind ( gint account_number );
+GsbKindAccount gsb_data_account_get_kind ( gint account_number );
 gboolean gsb_data_account_get_l ( gint account_number );
 GSList *gsb_data_account_get_list_accounts ( void );
 gsb_real gsb_data_account_get_marked_balance ( gint account_number );
@@ -85,7 +85,7 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number );
 gboolean gsb_data_account_init_variables ( void );
 gboolean gsb_data_account_move_account ( gint account_number,
                         gint dest_account_number );
-gint gsb_data_account_new ( kind_account account_kind );
+gint gsb_data_account_new ( GsbKindAccount account_kind );
 gboolean gsb_data_account_reorder ( GSList *new_order );
 gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
                         GdkPixbuf * pixbuf );
@@ -147,7 +147,7 @@ gboolean gsb_data_account_set_id ( gint account_number,
 gboolean gsb_data_account_set_init_balance ( gint account_number,
                         gsb_real balance );
 gboolean gsb_data_account_set_kind ( gint account_number,
-                        kind_account account_kind );
+                        GsbKindAccount account_kind );
 gboolean gsb_data_account_set_l ( gint account_number,
                         gboolean show_l );
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,

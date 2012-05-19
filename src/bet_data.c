@@ -175,7 +175,7 @@ void bet_data_select_bet_pages ( gint account_number )
 void bet_data_update_bet_module ( gint account_number, guint page )
 {
     gint type_maj;
-    kind_account kind;
+    GsbKindAccount kind;
 
     devel_debug_int ( account_number );
 

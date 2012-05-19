@@ -466,7 +466,7 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
 						      GtkWidget *assistant )
 {
     GtkWidget *bouton_icon, *image;
-    kind_account account_kind;
+    GsbKindAccount account_kind;
 
     account_kind = GPOINTER_TO_INT ( g_object_get_data 
                 ( G_OBJECT (button), "account_kind"));

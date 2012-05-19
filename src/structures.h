@@ -236,7 +236,7 @@ struct struct_payee_asso
 typedef enum _bet_type_onglets              BetTypeOnglets;
 typedef enum _etats_alignement              EtatsAlignment;
 typedef enum _gsb_general_notebook_pages    GsbGeneralNotebookPages;
-typedef enum _kind_account                  kind_account;
+typedef enum _gsb_kind_account              GsbKindAccount;
 
 
 /* définition du titre de grisbi */
@@ -324,7 +324,7 @@ enum _bet_type_onglets
 
 
 /* struct kind of the account */
-enum _kind_account
+enum _gsb_kind_account
 {
     GSB_TYPE_BALANCE        = -1,
     GSB_TYPE_BANK           = 0,

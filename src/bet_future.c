@@ -1844,7 +1844,7 @@ static GtkListStore *bet_transfert_create_account_list_store ( gint account_numb
             bet_credit_card = gsb_data_account_get_bet_credit_card ( tmp_account_number );
             if ( bet_credit_card )
             {
-                kind_account kind;
+                GsbKindAccount kind;
                 gchar *tmp_str = NULL;
 
                 kind = gsb_data_account_get_kind ( tmp_account_number );

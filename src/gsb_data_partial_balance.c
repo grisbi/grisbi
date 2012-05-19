@@ -59,7 +59,7 @@ typedef struct
     gint partial_balance_number;
     gchar *balance_name;
     gchar *liste_cptes;
-    kind_account kind;
+    GsbKindAccount kind;
     gint currency;
     gboolean colorise;
 } struct_partial_balance;
@@ -907,7 +907,7 @@ gboolean gsb_data_partial_balance_set_name ( gint partial_balance_number,
  *
  * \return partial_balance type or 0 if the partial_balance doesn't exist
  * */
-kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number )
+GsbKindAccount gsb_data_partial_balance_get_kind ( gint partial_balance_number )
 {
     struct_partial_balance *partial_balance;
 
@@ -928,7 +928,7 @@ kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number )
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_partial_balance_set_kind ( gint partial_balance_number,
-                        kind_account kind )
+                        GsbKindAccount kind )
 {
     struct_partial_balance *partial_balance;
 
@@ -1262,8 +1262,8 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
     gint i;
     gint account_nb;
     gint currency_nb = 0;
-    kind_account kind = -1;
-    kind_account kind_nb = -1;
+    GsbKindAccount kind = -1;
+    GsbKindAccount kind_nb = -1;
     gchar *tmp_str;
     gboolean return_val = TRUE;
     gboolean currency_mixte = FALSE;

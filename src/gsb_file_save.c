@@ -975,7 +975,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     gchar **owner_tab;
     gchar *owner_str;
     gchar *bet_str;
-    kind_account kind;
+    GsbKindAccount kind;
 
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 

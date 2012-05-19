@@ -851,7 +851,7 @@ void bet_historical_populate_div_model ( gpointer key,
     gsb_real average;
     gsb_real retained;
     gsb_real amount;
-    kind_account kind;
+    GsbKindAccount kind;
     GrisbiWindowEtat *etat;
 
     etat = grisbi_window_get_struct_etat ();
