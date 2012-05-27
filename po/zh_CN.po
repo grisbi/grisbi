@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-10 21:13+0200\n"
+"POT-Creation-Date: 2012-05-27 22:36+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgid "Balances partials of the list of accounts"
 msgstr "移动交易到另一个账户"
 
 #. Name entry
-#: ../src/accueil.c:2096 ../src/bet_future.c:2220
+#: ../src/accueil.c:2096 ../src/bet_future.c:2431
 #: ../src/categories_onglet.c:732 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231 ../src/gsb_fyear_config.c:283
@@ -668,7 +668,7 @@ msgid "Choose the financial year or 12 months rolling"
 msgstr "选择财年"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:929 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
+#: ../src/bet_config.c:930 ../src/bet_hist.c:570 ../src/bet_hist.c:1643
 #: ../src/categories_onglet.c:160 ../src/etats_affiche.c:2437
 #: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:181 ../src/import_csv.c:86
@@ -676,39 +676,40 @@ msgstr "选择财年"
 msgid "Category"
 msgstr "种类"
 
-#: ../src/bet_config.c:942 ../src/bet_future.c:817 ../src/bet_future.c:2170
-#: ../src/bet_future.c:2650 ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
+#: ../src/bet_config.c:943 ../src/bet_future.c:810 ../src/bet_future.c:2251
+#: ../src/bet_future.c:2378 ../src/bet_future.c:2910 ../src/bet_future.c:2964
+#: ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:173
 #: ../src/imputation_budgetaire.c:165 ../src/meta_budgetary.c:65
 msgid "Budgetary line"
 msgstr "预算行"
 
-#: ../src/bet_config.c:1270
+#: ../src/bet_config.c:1284
 #, fuzzy
 msgid "Loan Capital: "
 msgstr "贷款/抵押 : 资产:"
 
 #. Duration
-#: ../src/bet_config.c:1290 ../src/bet_finance_ui.c:288
+#: ../src/bet_config.c:1304 ../src/bet_finance_ui.c:288
 #: ../src/bet_finance_ui.c:1114 ../src/bet_finance_ui.c:1556
 #, fuzzy
 msgid "Duration: "
 msgstr "翻译:"
 
-#: ../src/bet_config.c:1299 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1313 ../src/bet_finance_ui.c:763
 #, fuzzy
 msgid "year"
 msgstr "年"
 
-#: ../src/bet_config.c:1308
+#: ../src/bet_config.c:1322
 #, fuzzy
 msgid "Date of first Repayment: "
 msgstr "支付方式:"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1321 ../src/bet_finance_ui.c:1100
+#: ../src/bet_config.c:1335 ../src/bet_finance_ui.c:1100
 #: ../src/bet_finance_ui.c:1542
 #, fuzzy
 msgid "Annuel rate interest: "
@@ -717,50 +718,50 @@ msgstr "年度预算:"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1331 ../src/bet_finance_ui.c:283
+#: ../src/bet_config.c:1345 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
 #: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1339
+#: ../src/bet_config.c:1353
 #, fuzzy
 msgid "Fees per month: "
 msgstr "%d 月:"
 
-#: ../src/bet_config.c:1362 ../src/bet_finance_ui.c:409
+#: ../src/bet_config.c:1376 ../src/bet_finance_ui.c:409
 #, fuzzy
 msgid "Rate Type: "
 msgstr "类型:"
 
-#: ../src/bet_config.c:1366 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1380 ../src/bet_finance_ui.c:413
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1370 ../src/bet_finance_ui.c:416
+#: ../src/bet_config.c:1384 ../src/bet_finance_ui.c:416
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1381
+#: ../src/bet_config.c:1395
 msgid "Apply"
 msgstr ""
 
-#: ../src/bet_config.c:1436 ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1450 ../src/bet_finance_ui.c:1666
 #, fuzzy
 msgid " year "
 msgstr "年 %d"
 
-#: ../src/bet_config.c:1438 ../src/bet_finance_ui.c:1668
+#: ../src/bet_config.c:1452 ../src/bet_finance_ui.c:1668
 #, fuzzy
 msgid " years "
 msgstr "年"
 
-#: ../src/bet_config.c:1488 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1502 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
-#: ../src/bet_config.c:1559
+#: ../src/bet_config.c:1573
 msgid "Account with deferred debit card"
 msgstr ""
 
@@ -885,14 +886,14 @@ msgstr ""
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1529 ../src/bet_tab.c:2887
+#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1560 ../src/bet_tab.c:2915
 #, fuzzy
 msgid "Print the array"
 msgstr "打印机"
 
 #. Export list
 #: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1948 ../src/bet_tab.c:1539
+#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1948 ../src/bet_tab.c:1570
 #, fuzzy
 msgid "Export the array"
 msgstr "打印机"
@@ -908,7 +909,7 @@ msgstr ""
 msgid "Loan amount: "
 msgstr "载入账户文件:"
 
-#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:771 ../src/bet_tab.c:657
+#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:764 ../src/bet_tab.c:688
 #: ../src/etats_affiche.c:2409 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:163
@@ -958,12 +959,12 @@ msgstr "动作"
 msgid "Credits"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2884
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2912
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:381
 msgid "Print"
 msgstr "打印"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2897
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2925
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:204 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -974,7 +975,7 @@ msgstr "导出"
 msgid "credit.csv"
 msgstr "贷方"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3023
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3051
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "不能保存文件"
@@ -984,131 +985,132 @@ msgstr "不能保存文件"
 msgid "months"
 msgstr "月"
 
-#: ../src/bet_future.c:228 ../src/bet_future.c:1774
+#: ../src/bet_future.c:221 ../src/bet_future.c:1827
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
 msgstr ""
 
-#: ../src/bet_future.c:230 ../src/bet_future.c:1776 ../src/bet_future.c:2006
-#: ../src/bet_future.c:2530 ../src/gsb_currency.c:744
+#: ../src/bet_future.c:223 ../src/bet_future.c:1829 ../src/bet_future.c:2089
+#: ../src/bet_future.c:2779 ../src/gsb_currency.c:744
 #, fuzzy
 msgid "One field is not filled in"
 msgstr "所有的栏位都没有填！"
 
 #. Create the dialog
-#: ../src/bet_future.c:260
+#: ../src/bet_future.c:253
 #, fuzzy
 msgid "Enter a budget line"
 msgstr "增加预算行"
 
-#: ../src/bet_future.c:314 ../src/bet_future.c:856
+#: ../src/bet_future.c:307 ../src/bet_future.c:849
 #: ../src/gsb_form_scheduler.c:153 ../src/gsb_form_scheduler.c:877
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Once"
 msgstr "单次"
 
-#: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Weekly"
 msgstr "每周"
 
-#: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Monthly"
 msgstr "每月"
 
-#: ../src/bet_future.c:314 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1277
 #, fuzzy
 msgid "Bimonthly"
 msgstr "每月"
 
-#: ../src/bet_future.c:315 ../src/gsb_form_scheduler.c:154
+#: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:154
 #: ../src/gsb_scheduler_list.c:1277
 msgid "Quarterly"
 msgstr ""
 
-#: ../src/bet_future.c:315 ../src/gsb_form_scheduler.c:154
+#: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:154
 #: ../src/gsb_scheduler_list.c:1277
 msgid "Yearly"
 msgstr "每年"
 
-#: ../src/bet_future.c:315 ../src/bet_future.c:870 ../src/etats_config.c:194
+#: ../src/bet_future.c:308 ../src/bet_future.c:863 ../src/etats_config.c:194
 #: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "自定义"
 
-#: ../src/bet_future.c:316 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
 msgid "Days"
 msgstr "日"
 
-#: ../src/bet_future.c:316 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
 #, fuzzy
 msgid "Weeks"
 msgstr "周"
 
-#: ../src/bet_future.c:316 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
 msgid "Months"
 msgstr "月"
 
-#: ../src/bet_future.c:316 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
 msgid "Years"
 msgstr "年"
 
-#: ../src/bet_future.c:329 ../src/gsb_form_scheduler.c:176
+#: ../src/bet_future.c:322 ../src/gsb_form_scheduler.c:176
 #: ../src/gsb_scheduler_list.c:514
 msgid "Frequency"
 msgstr "频率"
 
-#: ../src/bet_future.c:337 ../src/bet_future.c:732
+#: ../src/bet_future.c:330 ../src/bet_future.c:725
 #: ../src/gsb_form_scheduler.c:193 ../src/gsb_form_scheduler.c:643
 #: ../src/gsb_form_scheduler.c:836 ../src/gsb_form_scheduler.c:1098
 msgid "Limit date"
 msgstr "限制日期"
 
-#: ../src/bet_future.c:350 ../src/gsb_archive_config.c:102
+#: ../src/bet_future.c:343 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231
 #: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2041
 msgid "Final date"
 msgstr "结束日期"
 
-#: ../src/bet_future.c:357 ../src/bet_future.c:736
+#: ../src/bet_future.c:350 ../src/bet_future.c:729
 #: ../src/gsb_form_scheduler.c:206 ../src/gsb_form_scheduler.c:650
 #: ../src/gsb_form_scheduler.c:842
 #, fuzzy
 msgid "Own frequency"
 msgstr "频率"
 
-#: ../src/bet_future.c:367 ../src/bet_future.c:373
+#: ../src/bet_future.c:360 ../src/bet_future.c:366
 #: ../src/gsb_form_scheduler.c:212
 msgid "Custom frequency"
 msgstr "自定义频率"
 
-#: ../src/bet_future.c:528 ../src/gsb_form_widget.c:214
+#: ../src/bet_future.c:521 ../src/gsb_form_widget.c:214
 msgid "Choose the financial year"
 msgstr "选择财年"
 
-#: ../src/bet_future.c:575 ../src/gsb_form_widget.c:269
+#: ../src/bet_future.c:568 ../src/gsb_form_widget.c:269
 msgid "Choose the method of payment"
 msgstr "选择支付方式"
 
 #. mise en place de la paddingbox des tiers
-#: ../src/bet_future.c:789 ../src/etats_affiche.c:2430
-#: ../src/etats_config.c:528 ../src/etats_config.c:531
-#: ../src/etats_config.c:696 ../src/etats_config.c:7032
-#: ../src/export_csv.c:799 ../src/fenetre_principale.c:286
-#: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1319
-#: ../src/gsb_form_widget.c:436 ../src/gsb_scheduler_list.c:514
-#: ../src/gsb_transactions_list.c:172 ../src/import.c:3333
-#: ../src/import_csv.c:83 ../src/meta_payee.c:79
+#: ../src/bet_future.c:782 ../src/bet_future.c:2193 ../src/bet_future.c:2321
+#: ../src/bet_future.c:2877 ../src/bet_future.c:2931
+#: ../src/etats_affiche.c:2430 ../src/etats_config.c:528
+#: ../src/etats_config.c:531 ../src/etats_config.c:696
+#: ../src/etats_config.c:7032 ../src/export_csv.c:799
+#: ../src/fenetre_principale.c:286 ../src/gsb_assistant_reconcile_config.c:598
+#: ../src/gsb_form.c:1319 ../src/gsb_form_widget.c:436
+#: ../src/gsb_scheduler_list.c:514 ../src/gsb_transactions_list.c:172
+#: ../src/import.c:3333 ../src/import_csv.c:83 ../src/meta_payee.c:79
 #, fuzzy
 msgid "Payee"
 msgstr "支付方"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:796 ../src/bet_tab.c:691 ../src/categories_onglet.c:762
+#: ../src/bet_future.c:789 ../src/bet_tab.c:722 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:805 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
 #: ../src/gsb_payment_method_config.c:390
@@ -1118,7 +1120,7 @@ msgid "Debit"
 msgstr "借方"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:803 ../src/bet_tab.c:709 ../src/categories_onglet.c:762
+#: ../src/bet_future.c:796 ../src/bet_tab.c:740 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
 #: ../src/gsb_payment_method_config.c:403
@@ -1127,13 +1129,14 @@ msgstr "借方"
 msgid "Credit"
 msgstr "贷方"
 
-#: ../src/bet_future.c:810 ../src/bet_future.c:2143 ../src/bet_future.c:2632
-#: ../src/gsb_form.c:1335 ../src/gsb_form_widget.c:440
+#: ../src/bet_future.c:803 ../src/bet_future.c:2224 ../src/bet_future.c:2352
+#: ../src/bet_future.c:2894 ../src/bet_future.c:2948 ../src/gsb_form.c:1335
+#: ../src/gsb_form_widget.c:440
 msgid "Categories : Sub-categories"
 msgstr "类别 : 子类别"
 
 #. Notes
-#: ../src/bet_future.c:824 ../src/etats_affiche.c:2451 ../src/export_csv.c:820
+#: ../src/bet_future.c:817 ../src/etats_affiche.c:2451 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1348 ../src/gsb_form_widget.c:452
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
@@ -1143,7 +1146,7 @@ msgstr "备注"
 #. create the method of payment for a liabilities account
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
-#: ../src/bet_future.c:1423 ../src/bet_future.c:1670
+#: ../src/bet_future.c:1365 ../src/bet_future.c:1616
 #: ../src/etats_affiche.c:1848 ../src/export_csv.c:625 ../src/export_csv.c:737
 #: ../src/export_csv.c:749 ../src/gsb_data_category.c:1060
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
@@ -1152,97 +1155,99 @@ msgstr "备注"
 msgid "Transfer"
 msgstr "转帐"
 
-#: ../src/bet_future.c:1838 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
 #: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
 msgid "Bank account"
 msgstr "银行账户"
 
-#: ../src/bet_future.c:1841 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
 #: ../src/gsb_data_partial_balance.c:217
 msgid "Cash account"
 msgstr "现金账户"
 
-#: ../src/bet_future.c:1844 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
 #: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
 #, c-format
 msgid "Liabilities account"
 msgstr "负债账户"
 
-#: ../src/bet_future.c:1900
+#: ../src/bet_future.c:1983
 #, fuzzy
 msgid "Partial balance"
 msgstr "初始余额"
 
-#: ../src/bet_future.c:1942
+#: ../src/bet_future.c:2025
 #, fuzzy
 msgid "You must create at least one cash account"
 msgstr "选择资产账户"
 
-#: ../src/bet_future.c:1995 ../src/bet_future.c:2519
+#: ../src/bet_future.c:2078 ../src/bet_future.c:2768
 #, fuzzy
 msgid "Error: You must select an account."
 msgstr "选择资产账户"
 
-#: ../src/bet_future.c:1996 ../src/bet_future.c:2520
+#: ../src/bet_future.c:2079 ../src/bet_future.c:2769
 msgid "Missing data"
 msgstr ""
 
-#: ../src/bet_future.c:2004 ../src/bet_future.c:2528
+#: ../src/bet_future.c:2087 ../src/bet_future.c:2777
 msgid ""
 "Error:  the category or the budgetary line is not specified or the date is "
 "invalid."
 msgstr ""
 
 #. Create the dialog
-#: ../src/bet_future.c:2044
+#: ../src/bet_future.c:2128
 #, fuzzy
 msgid "Select an account"
 msgstr "选择银行账户"
 
 #. list of accounts
-#: ../src/bet_future.c:2060
+#: ../src/bet_future.c:2144
 #, fuzzy
 msgid "List of accounts"
 msgstr "现金账户"
 
-#. Others data
-#: ../src/bet_future.c:2083
+#. Account with deferred debit card
+#: ../src/bet_future.c:2167
 #, fuzzy
-msgid "Account data and actions"
-msgstr "账户交易"
+msgid "Deferred debit card"
+msgstr "信用卡"
 
-#: ../src/bet_future.c:2089
+#: ../src/bet_future.c:2173
 #, fuzzy
 msgid "Date of change of month: "
 msgstr "选择导入的文件:"
 
-#: ../src/bet_future.c:2096
+#. Main account
+#: ../src/bet_future.c:2265
+#, fuzzy
+msgid "Main account"
+msgstr "银行账户"
+
+#. Effective Date
+#: ../src/bet_future.c:2271
 #, fuzzy
 msgid "Effective date: "
 msgstr "活动:"
 
-#: ../src/bet_future.c:2103
-#, fuzzy
-msgid "Monthly auto-increment"
-msgstr "第三方月度支出"
-
-#: ../src/bet_future.c:2110
-#, fuzzy
-msgid "Replacement of the scheduled operation"
-msgstr "类别总计 (%d 交易)"
-
-#: ../src/bet_future.c:2121
+#: ../src/bet_future.c:2284
 #, fuzzy
 msgid "Automatic creation of the direct debit transaction"
 msgstr "启动时自动载入最后一次使用的文件"
 
+#: ../src/bet_future.c:2296
+#, fuzzy
+msgid "Replacement of the scheduled operation"
+msgstr "类别总计 (%d 交易)"
+
 #. Description entry
-#: ../src/bet_future.c:2229 ../src/categories_onglet.c:757 ../src/import.c:474
+#: ../src/bet_future.c:2440 ../src/categories_onglet.c:757 ../src/import.c:474
 #: ../src/imputation_budgetaire.c:795
 msgid "Type"
 msgstr "类型"
 
-#: ../src/bet_future.c:2455 ../src/gsb_data_scheduled.c:1831
+#: ../src/bet_future.c:2704 ../src/gsb_data_scheduled.c:1831
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
@@ -1366,135 +1371,135 @@ msgstr ""
 msgid "Export the historical data"
 msgstr "初始日期"
 
-#: ../src/bet_tab.c:423
+#: ../src/bet_tab.c:452
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
 msgstr ""
 
-#: ../src/bet_tab.c:440
+#: ../src/bet_tab.c:469
 msgid "balance beginning of period"
 msgstr ""
 
 #. set the start date and the automatic change of month
-#: ../src/bet_tab.c:540
+#: ../src/bet_tab.c:571
 #, fuzzy
 msgid "Start date: "
 msgstr "开始:"
 
-#: ../src/bet_tab.c:556 ../src/gsb_form_scheduler.c:152
+#: ../src/bet_tab.c:587 ../src/gsb_form_scheduler.c:152
 #: ../src/gsb_scheduler_list.c:1285
 msgid "Automatic"
 msgstr "自动"
 
-#: ../src/bet_tab.c:559
+#: ../src/bet_tab.c:590
 msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:674 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
+#: ../src/bet_tab.c:705 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:679
 msgid "Description"
 msgstr "描述"
 
-#: ../src/bet_tab.c:727 ../src/export_csv.c:811 ../src/gsb_reconcile.c:166
+#: ../src/bet_tab.c:758 ../src/export_csv.c:811 ../src/gsb_reconcile.c:166
 #: ../src/gsb_scheduler_list.c:515 ../src/gsb_transactions_list.c:176
 #: ../src/gsb_transactions_list.c:3293 ../src/import_csv.c:90
 msgid "Balance"
 msgstr "余额"
 
-#: ../src/bet_tab.c:823 ../src/bet_tab.c:836 ../src/bet_tab.c:1027
-#: ../src/bet_tab.c:2497 ../src/bet_tab.c:2502
+#: ../src/bet_tab.c:854 ../src/bet_tab.c:867 ../src/bet_tab.c:1058
+#: ../src/bet_tab.c:2528 ../src/bet_tab.c:2533
 #, fuzzy, c-format
 msgid ""
 "Transfer between account: %s\n"
 "and account: %s"
 msgstr "转帐到一个删除的账户"
 
-#: ../src/bet_tab.c:1365
+#: ../src/bet_tab.c:1396
 msgid "Subtract to the balance"
 msgstr ""
 
-#: ../src/bet_tab.c:1372
+#: ../src/bet_tab.c:1403
 #, fuzzy
 msgid "Adding to the balance"
 msgstr "初始余额"
 
 #. Insert Row
-#: ../src/bet_tab.c:1389
+#: ../src/bet_tab.c:1420
 msgid "Insert Row"
 msgstr ""
 
-#: ../src/bet_tab.c:1405 ../src/bet_tab.c:1419 ../src/bet_tab.c:1440
-#: ../src/bet_tab.c:1499
+#: ../src/bet_tab.c:1436 ../src/bet_tab.c:1450 ../src/bet_tab.c:1471
+#: ../src/bet_tab.c:1530
 #, fuzzy
 msgid "Delete selection"
 msgstr "数据选择"
 
-#: ../src/bet_tab.c:1430
+#: ../src/bet_tab.c:1461
 #, fuzzy
 msgid "Change selection"
 msgstr "数据选择"
 
-#: ../src/bet_tab.c:1451
+#: ../src/bet_tab.c:1482
 #, fuzzy
 msgid "Delete all occurences of the selection"
 msgstr "删除一条定期交易"
 
-#: ../src/bet_tab.c:1466
+#: ../src/bet_tab.c:1497
 #, fuzzy
 msgid "Convert selection to scheduled transaction"
 msgstr "转换交易为计划交易"
 
-#: ../src/bet_tab.c:1489
+#: ../src/bet_tab.c:1520
 #, fuzzy
 msgid "Insert the balance of a deferred debit account"
 msgstr "不能在结算账户上产生交易。"
 
 #. redo item
-#: ../src/bet_tab.c:1515
+#: ../src/bet_tab.c:1546
 #, fuzzy
 msgid "Reset data"
 msgstr "最后日期"
 
-#: ../src/bet_tab.c:1858
+#: ../src/bet_tab.c:1889
 msgid " (still available)"
 msgstr ""
 
-#: ../src/bet_tab.c:1867 ../src/bet_tab.c:1889
+#: ../src/bet_tab.c:1898 ../src/bet_tab.c:1920
 #, fuzzy
 msgid " (budget exceeded)"
 msgstr "没有预算行"
 
-#: ../src/bet_tab.c:1880
+#: ../src/bet_tab.c:1911
 msgid " (yet to receive)"
 msgstr ""
 
-#: ../src/bet_tab.c:2420 ../src/bet_tab.c:2470 ../src/bet_tab.c:2530
+#: ../src/bet_tab.c:2451 ../src/bet_tab.c:2501 ../src/bet_tab.c:2561
 #, fuzzy
 msgid "No data by default"
 msgstr "恢复默认值"
 
-#: ../src/bet_tab.c:2428 ../src/bet_tab.c:2478 ../src/bet_tab.c:2536
+#: ../src/bet_tab.c:2459 ../src/bet_tab.c:2509 ../src/bet_tab.c:2567
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "未分类"
 
-#: ../src/bet_tab.c:2436 ../src/bet_tab.c:2486 ../src/bet_tab.c:2542
+#: ../src/bet_tab.c:2467 ../src/bet_tab.c:2517 ../src/bet_tab.c:2573
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "没有预算行"
 
-#: ../src/bet_tab.c:2900 ../src/bet_tab.c:2999
+#: ../src/bet_tab.c:2928 ../src/bet_tab.c:3027
 #, fuzzy
 msgid "Export the array of forecast"
 msgstr "导出预算行"
 
-#: ../src/bet_tab.c:2957
+#: ../src/bet_tab.c:2985
 #, fuzzy
 msgid "Balance at "
 msgstr "余额"
 
-#: ../src/bet_tab.c:3006
+#: ../src/bet_tab.c:3034
 msgid "forecast.csv"
 msgstr ""
 
@@ -2211,7 +2216,7 @@ msgstr "一般总计:"
 
 #: ../src/etats_affiche.c:1857 ../src/export_csv.c:595
 #: ../src/gsb_data_category.c:1058 ../src/gsb_form.c:735
-#: ../src/gsb_form.c:1761 ../src/gsb_form.c:2920 ../src/gsb_form.c:3323
+#: ../src/gsb_form.c:1761 ../src/gsb_form.c:2924 ../src/gsb_form.c:3327
 #: ../src/gsb_form_scheduler.c:317 ../src/gsb_transactions_list.c:3782
 #, fuzzy
 msgid "Split of transaction"
@@ -7170,7 +7175,7 @@ msgstr "选择银行账户:"
 msgid "No payee defined"
 msgstr "没有定义第三方"
 
-#: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3033 ../src/gsb_form.c:3034
+#: ../src/gsb_data_payee.c:542 ../src/gsb_form.c:3037 ../src/gsb_form.c:3038
 #: ../src/navigation.c:1250
 msgid "Report"
 msgstr "报表"
@@ -7705,7 +7710,7 @@ msgstr ""
 msgid "Encryption plugin not found."
 msgstr "账户 %s 未找到\n"
 
-#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5440
+#: ../src/gsb_file_load.c:464 ../src/gsb_file_load.c:5475
 #, fuzzy
 msgid "This is not a Grisbi file... Loading aborted."
 msgstr "该文件不是Grisbi报表"
@@ -7719,14 +7724,14 @@ msgid ""
 msgstr ""
 
 #. we don't know here the release of that file, give the release needed
-#: ../src/gsb_file_load.c:8832
+#: ../src/gsb_file_load.c:8867
 #, fuzzy, c-format
 msgid ""
 "Grisbi version %s is needed to open this file.\n"
 "You are using version %s."
 msgstr "打开此文件需要Grisbi版本 %s "
 
-#: ../src/gsb_file_load.c:8857
+#: ../src/gsb_file_load.c:8892
 msgid ""
 "You have opened an archive.\n"
 "There is no limit in Grisbi, you can do whatever you want and save it later "
@@ -7734,7 +7739,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 
-#: ../src/gsb_file_load.c:8861
+#: ../src/gsb_file_load.c:8896
 msgid "Grisbi archive opened"
 msgstr ""
 
@@ -7906,59 +7911,59 @@ msgstr "您必须输入日期"
 msgid "Invalid date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2812
+#: ../src/gsb_form.c:2816
 #, fuzzy, c-format
 msgid "Invalid value date %s"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2838
+#: ../src/gsb_form.c:2842
 #, c-format
 msgid "Beware the date must be between %s and %s"
 msgstr ""
 
-#: ../src/gsb_form.c:2841 ../src/gsb_form.c:2868
+#: ../src/gsb_form.c:2845 ../src/gsb_form.c:2872
 #, fuzzy
 msgid "Invalid date"
 msgstr "非法日期"
 
-#: ../src/gsb_form.c:2866
+#: ../src/gsb_form.c:2870
 #, fuzzy, c-format
 msgid "The date must be less than or equal to %s"
 msgstr "小于或等于"
 
-#: ../src/gsb_form.c:2902
+#: ../src/gsb_form.c:2906
 #, fuzzy
 msgid "You must enter an amount."
 msgstr "您必须输入日期"
 
-#: ../src/gsb_form.c:2922
+#: ../src/gsb_form.c:2926
 msgid ""
 "You cannot set split of transaction in category for a daughter of a split of "
 "transaction."
 msgstr ""
 
-#: ../src/gsb_form.c:2956
+#: ../src/gsb_form.c:2960
 #, fuzzy
 msgid ""
 "Cannot associate a transfer to a deleted account in a scheduled transaction."
 msgstr "转换交易为计划交易"
 
-#: ../src/gsb_form.c:2963
+#: ../src/gsb_form.c:2967
 #, fuzzy
 msgid ""
 "There is no associated account for this transfer or associated account is "
 "invalid."
 msgstr "本转帐关联的账户不合法"
 
-#: ../src/gsb_form.c:2971
+#: ../src/gsb_form.c:2975
 msgid "Can't issue a transfer its own account."
 msgstr "不能转帐到本账户。"
 
-#: ../src/gsb_form.c:2976
+#: ../src/gsb_form.c:2980
 msgid "Can't issue a transfer on a closed account."
 msgstr "不能在结算账户上产生交易。"
 
-#: ../src/gsb_form.c:3002
+#: ../src/gsb_form.c:3006
 msgid ""
 "Selected method of payment has an automatic incremental number\n"
 "but doesn't contain any number.\n"
@@ -7968,7 +7973,7 @@ msgstr ""
 "但是没有任何编号。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:3020
+#: ../src/gsb_form.c:3024
 msgid ""
 "Warning: this cheque number is already used.\n"
 "Continue anyway?"
@@ -7976,31 +7981,31 @@ msgstr ""
 "警告：该支票的编号已经使用过了。\n"
 "仍然继续？"
 
-#: ../src/gsb_form.c:3041
+#: ../src/gsb_form.c:3045
 #, fuzzy
 msgid "A transaction with a multiple payee must be a new one."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:3046
+#: ../src/gsb_form.c:3050
 #, fuzzy
 msgid "A transaction with a multiple payee cannot be a split child."
 msgstr "有多个第三方的交易必须生成新的交易。"
 
-#: ../src/gsb_form.c:3057
+#: ../src/gsb_form.c:3061
 msgid "The word \"Report\" is reserved. Please use another one."
 msgstr ""
 
-#: ../src/gsb_form.c:3064
+#: ../src/gsb_form.c:3068
 #, fuzzy
 msgid "Invalid multiple payee."
 msgstr "无效的多第三方。"
 
-#: ../src/gsb_form.c:3346
+#: ../src/gsb_form.c:3350
 #, fuzzy
 msgid "Modifying a transaction"
 msgstr "更改交易"
 
-#: ../src/gsb_form.c:3347
+#: ../src/gsb_form.c:3351
 msgid ""
 "You are trying to change a split of transaction to another kind of "
 "transaction.\n"
@@ -8010,7 +8015,7 @@ msgid ""
 msgstr ""
 
 #. propose to configure the form
-#: ../src/gsb_form.c:3650
+#: ../src/gsb_form.c:3654
 msgid "Configure the form"
 msgstr ""
 
@@ -11503,6 +11508,14 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Account data and actions"
+#~ msgstr "账户交易"
+
+#, fuzzy
+#~ msgid "Monthly auto-increment"
+#~ msgstr "第三方月度支出"
 
 #, fuzzy
 #~ msgid "Please select the data source for the account: \"%s\""
