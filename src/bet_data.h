@@ -75,18 +75,23 @@ struct _future_data
 struct _transfert_data
 {
     gint number;
-    gint account_number;
-    gint type;                  /* 0 = account 1 = partial balance */
-    gint replace_account;       /* Account number or partial balance number */
-    gint replace_transaction;
-    gint direct_debit;
-    GDate *date;
-    GDate *date_bascule;
-    gint payee_number;
-    gint category_number;
-    gint sub_category_number;
-    gint budgetary_number;
-    gint sub_budgetary_number;
+    gint account_number;            /* numéro du compte principal concerné */
+    gint type;                      /* type de compte carte : 0 = account 1 = partial balance */
+    gint replace_account;           /* Account number or partial balance number */
+    gint replace_transaction;       /* remplace la transaction plannifiée dans le compte principal */
+    gint direct_debit;              /* si = 1 création de la transaction dans le compte principal */
+    GDate *date;                    /* dare de l'opération du compte principal */
+    GDate *date_bascule;            /* date de début de nouveau de mois dans le compte à débit différé */
+    gint payee_number;              /* tiers de l'opération du compte principal */
+    gint category_number;           /* catégorie de l'opération du compte principal */
+    gint sub_category_number;       /* sous-catégorie de l'opération du compte principal */
+    gint budgetary_number;          /* IB de l'opération du compte principal */
+    gint sub_budgetary_number;      /* sous IB de l'opération du compte principal */
+    gint card_payee_number;         /* tiers de l'opération du compte à débit différé */
+    gint card_category_number;      /* catégorie de l'opération du compte à débit différé */
+    gint card_sub_category_number;  /* sous-catégorie de l'opération du compte à débit différé */
+    gint card_budgetary_number;     /* IB de l'opération du compte à débit différé */
+    gint card_sub_budgetary_number; /* sous IB de l'opération du compte à débit différé */
 };
 
 /* noms des colonnes du tree_view des previsions */

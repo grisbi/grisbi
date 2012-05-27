@@ -4296,6 +4296,41 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "CPa" ) )
+    {
+        transfert->card_payee_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "CCa" ) )
+    {
+        transfert -> card_category_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "CSca" ) )
+    {
+        transfert -> card_sub_category_number =  utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "CBu" ) )
+    {
+        transfert -> card_budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i], "CSbu" ) )
+    {
+        transfert -> card_sub_budgetary_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     /* normally, shouldn't come here */
     i++;
     }

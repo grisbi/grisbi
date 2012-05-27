@@ -1185,7 +1185,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
  */
 void gsb_file_set_modified ( gboolean modified )
 {
-    devel_debug_int (modified);
+/*     devel_debug_int (modified);  */
 
     /* If no file is loaded, do not change menu items. */
     if ( ! gsb_data_account_get_accounts_amount () )

@@ -916,7 +916,8 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
                         "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
-                        "Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" />\n",
+                        "Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
+                        "CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
                         ++index,
                         my_safe_null_str ( date ),
                         transfert->account_number,
@@ -929,7 +930,12 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         transfert->category_number,
                         transfert->sub_category_number,
                         transfert->budgetary_number,
-                        transfert->sub_budgetary_number );
+                        transfert->sub_budgetary_number,
+                        transfert->card_payee_number,
+                        transfert->card_category_number,
+                        transfert->card_sub_category_number,
+                        transfert->card_budgetary_number,
+                        transfert->card_sub_budgetary_number );
 
         g_ptr_array_add ( tab, tmp_str );
 
@@ -1728,30 +1734,30 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
         /* set the payement mode */
         if ( amount.mantissa < 0 )
             gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_debit ( transfert->account_number ) );
+                        gsb_data_account_get_default_debit ( transfert->replace_account ) );
         else
             gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+                        gsb_data_account_get_default_credit ( transfert->replace_account ) );
 
         /* set the payee */
         gsb_data_transaction_set_party_number ( transaction_number, transfert->payee_number );
 
         /* set the category sub_category */
-        if ( transfert->category_number )
+        if ( transfert->card_category_number )
         {
-            gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
-            if ( transfert -> sub_category_number )
+            gsb_data_transaction_set_category_number ( transaction_number, transfert->card_category_number );
+            if ( transfert->card_sub_category_number )
                 gsb_data_transaction_set_sub_category_number ( transaction_number,
-                        transfert->sub_category_number );
+                        transfert->card_sub_category_number );
         }
 
         /* set the IB sub_IB */
-        if ( transfert->budgetary_number )
+        if ( transfert->card_budgetary_number )
         {
-            gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
-            if ( transfert -> sub_category_number )
+            gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->card_budgetary_number );
+            if ( transfert->card_sub_category_number )
                 gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
-                        transfert->sub_budgetary_number );
+                        transfert->card_sub_budgetary_number );
         }
 
         /* append the transaction in list */
@@ -1783,28 +1789,30 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
             /* set the payement mode */
             if ( amount.mantissa < 0 )
                 gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_debit ( transfert->account_number ) );
+                        gsb_data_account_get_default_debit ( account_number ) );
             else
                 gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+                        gsb_data_account_get_default_credit ( account_number ) );
 
             /* set the payee */
             gsb_data_transaction_set_party_number ( transaction_number, transfert->payee_number );
 
             /* set the category sub_category */
-            if ( transfert->category_number )
+            if ( transfert->card_category_number )
             {
-                gsb_data_transaction_set_category_number ( transaction_number, transfert->category_number );
-                if ( transfert -> sub_category_number )
-                gsb_data_transaction_set_sub_category_number ( transaction_number, transfert->sub_category_number );
+                gsb_data_transaction_set_category_number ( transaction_number, transfert->card_category_number );
+                if ( transfert->card_sub_category_number )
+                    gsb_data_transaction_set_sub_category_number ( transaction_number,
+                        transfert->card_sub_category_number );
             }
 
             /* set the IB sub_IB */
-            if ( transfert->budgetary_number )
+            if ( transfert->card_budgetary_number )
             {
-                gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->budgetary_number );
-                if ( transfert -> sub_category_number )
-                gsb_data_transaction_set_sub_budgetary_number ( transaction_number, transfert->sub_budgetary_number );
+                gsb_data_transaction_set_budgetary_number ( transaction_number, transfert->card_budgetary_number );
+                if ( transfert->card_sub_category_number )
+                    gsb_data_transaction_set_sub_budgetary_number ( transaction_number,
+                        transfert->card_sub_budgetary_number );
             }
 
             /* append the transaction in list */
@@ -2033,10 +2041,12 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
 
 
 /**
+ * Création effective de la transaction dans le compte qui comporte le suivi de la carte
+ * à débit différé
  *
+ * \param structure transfert
  *
- *
- *
+ * \return
  * */
 void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfert )
 {
@@ -2048,7 +2058,7 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
     /* set the date */
     gsb_data_transaction_set_date ( transaction_number, transfert->date );
 
-    /* set the amount */
+    /* set the amount soit celui du compte carte soit celui du solde partiel */
     if ( transfert -> type == 0 )
     {
         amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
