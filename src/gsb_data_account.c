@@ -3710,10 +3710,77 @@ gboolean gsb_data_account_exists ( gint account_number )
 
 
 /**
+ * calcule le solde d'un compte à une date donnée
+ *
+ * \param account_number    numéro du compte concerné
+ * \param date              date de calcul du solde
+ *
+ * \return gsb_real         le solde du compte
+ * */
+gsb_real gsb_data_account_calculate_balance_at_date ( gint account_number,
+                        GDate *date )
+{
+    struct_account *account;
+    GSList *tmp_list;
+    gsb_real current_balance;
+    gint floating_point;
+
+    account = gsb_data_account_get_structure ( account_number );
+
+    if ( !account )
+        return null_real;
+
+    floating_point = gsb_data_currency_get_floating_point (account -> currency);
+
+    current_balance = gsb_real_adjust_exponent ( account->init_balance, floating_point );
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (tmp_list)
+    {
+        gint transaction_number;
+
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+
+        if ( gsb_data_transaction_get_account_number ( transaction_number ) != account_number )
+        {
+            tmp_list = tmp_list->next;
+            continue;
+        }
+
+        if ( g_date_compare ( gsb_data_transaction_get_value_date_or_date ( transaction_number ),
+         date ) > 0 )
+        {
+            tmp_list = tmp_list->next;
+            continue;
+        }
+
+        if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
+        {
+            gsb_real adjusted_amout;
+            gsb_real tmp_balance;
+
+            adjusted_amout = gsb_data_transaction_get_adjusted_amount ( transaction_number, floating_point );
+            tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
+
+            if ( tmp_balance.mantissa == error_real.mantissa )
+                return error_real;
+            else
+                current_balance = tmp_balance;
+        }
+        tmp_list = tmp_list->next;
+    }
+
+    return current_balance;
+}
+
+
+/**
  *
  *
+ * \param
  *
- *
+ * \return
  * */
 /* Local Variables: */
 /* c-basic-offset: 4 */

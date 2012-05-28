@@ -1717,14 +1717,19 @@ gboolean bet_data_transfert_modify_line ( struct_transfert_data *transfert )
 static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data *transfert )
 {
     gint transaction_number;
+    GDate *date;
     gsb_real amount;
+
+    date = gsb_date_copy ( transfert->date_bascule );
+    /* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
+    g_date_subtract_days ( date, 1 );
 
     /* replace_account is an account */
     if ( transfert -> type == 0 )
     {
-        amount = gsb_data_account_get_current_balance ( transfert->replace_account );
+        amount = gsb_data_account_calculate_balance_at_date ( transfert->replace_account, date );
         transaction_number = gsb_data_transaction_new_transaction ( transfert->replace_account );
-        gsb_data_transaction_set_date ( transaction_number, transfert->date_bascule );
+        gsb_data_transaction_set_date ( transaction_number, date );
         gsb_data_transaction_set_amount ( transaction_number, gsb_real_opposite ( amount ) );
 
         /* set the currency */
@@ -1765,19 +1770,25 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
     }
     else
     {
+        GPtrArray *balances;
         gchar **tab;
-        GDate *date;
         gint i;
 
-        date = gsb_date_copy ( transfert->date_bascule );
-        g_date_subtract_days ( date, 1 );
         tab = g_strsplit ( gsb_data_partial_balance_get_liste_cptes ( transfert->replace_account ), ";", 0 );
+
+        /* on calcule la balance de tous les comptes du pseudo compte */
+        balances = gsb_data_partial_balance_calculate_balance_at_date ( transfert->replace_account, date );
+
         for ( i = 0; tab[i]; i++ )
         {
             gint account_number;
+            gsb_real *balance;
 
             account_number = utils_str_atoi ( tab[i] );
-            amount = gsb_data_account_get_current_balance ( account_number );
+            balance = (gsb_real *) g_ptr_array_index ( balances, i );
+            amount.mantissa = balance->mantissa;
+            amount.exponent = balance->exponent;
+
             transaction_number = gsb_data_transaction_new_transaction ( account_number );
             gsb_data_transaction_set_date ( transaction_number, date );
             gsb_data_transaction_set_amount ( transaction_number, gsb_real_opposite ( amount ) );
@@ -1819,8 +1830,9 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
             gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
         }
         g_strfreev ( tab );
-        g_date_free ( date );
+        g_ptr_array_free ( balances, TRUE );
     }
+    g_date_free ( date );
 }
 
 

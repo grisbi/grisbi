@@ -41,6 +41,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_transaction.h"
 #include "navigation.h"
 #include "gsb_real.h"
 #include "utils_real.h"
@@ -85,6 +86,7 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 /*END_STATIC*/
 
 /*START_EXTERN*/
+extern gsb_real error_real;
 extern gsb_real null_real;
 /*END_EXTERN*/
 
@@ -1435,6 +1437,140 @@ gboolean gsb_data_partial_balance_move ( gint orig_partial_number, gint dest_pos
 }
 
 
+/**
+ * calcule le solde d'un solde partiel à une date donnée
+ *
+ * \param account_number    numéro du compte concerné
+ * \param date              date de calcul du solde
+ *
+ * \return
+ * */
+GPtrArray *gsb_data_partial_balance_calculate_balance_at_date ( gint partial_balance_number,
+                        GDate *date )
+{
+    GSList *tmp_list;
+    GPtrArray *current_balances;
+    GPtrArray *current_balances_later;
+    GArray *floating_points;
+    GArray *account_numbers;
+    gchar **tab;
+    gint i;
+    gint nbre_comptes;
+    struct_partial_balance *partial_balance;
+
+    partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
+
+    if ( !partial_balance_number )
+        return NULL;
+
+    tab = g_strsplit ( partial_balance->liste_cptes, ";", 0 );
+
+    nbre_comptes = g_strv_length ( tab );
+    if ( nbre_comptes )
+    {
+        floating_points = g_array_new ( FALSE, TRUE, sizeof ( gint ) );
+        account_numbers = g_array_new ( FALSE, TRUE, sizeof ( gint ) );
+        current_balances = g_ptr_array_new ();
+        current_balances_later = g_ptr_array_new ();
+    }
+    else
+        return NULL;
+
+    for ( i = 0; tab[i]; i++ )
+    {
+        gint account_number;
+        gint floating_point;
+        gsb_real *balance;
+        gsb_real tmp_balance;
+
+        /* on remplit le tableau des numeros des comptes */
+        account_number = utils_str_atoi ( tab[i] );
+        g_array_append_val ( account_numbers, account_number );
+
+        /* on remplit le tableau des données des devises */
+        floating_point = gsb_data_account_get_currency_floating_point ( account_number );
+        g_array_append_val ( floating_points, floating_point );
+
+        /* on initialise le tableau des soldes de chaque compte */
+        balance = g_malloc0 ( sizeof ( gsb_real ) );
+        tmp_balance = gsb_data_account_get_init_balance ( account_number, floating_point );
+        balance->mantissa = tmp_balance.mantissa;
+        balance->exponent = tmp_balance.exponent;
+        g_ptr_array_add ( current_balances, balance );
+
+        /* on initialise le tableau des soldes en erreur de chaque compte */
+        balance = g_malloc0 ( sizeof ( gsb_real ) );
+        balance->mantissa = null_real.mantissa;
+        balance->exponent = null_real.exponent;
+        g_ptr_array_add ( current_balances_later, balance );
+    }
+
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+
+    while (tmp_list)
+    {
+        gint transaction_number;
+
+        transaction_number = gsb_data_transaction_get_transaction_number ( tmp_list->data );
+
+        for ( i = 0; i < nbre_comptes; i++ )
+        {
+            gint account_number;
+            gboolean trouve = FALSE;
+
+            account_number = g_array_index ( account_numbers, gint, i );
+
+            if ( gsb_data_transaction_get_account_number ( transaction_number ) == account_number )
+            {
+                if ( g_date_compare ( gsb_data_transaction_get_value_date_or_date ( transaction_number ),
+                 date ) <= 0 )
+                {
+                    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number ) == 0 )
+                    {
+                        trouve = TRUE;
+                    }
+                }
+            }
+            if ( trouve )
+            {
+                gint floating_point;
+                gsb_real adjusted_amout;
+                gsb_real tmp_balance;
+                gsb_real *balance;
+                gsb_real current_balance;
+
+                floating_point = g_array_index ( floating_points, gint, i );
+                balance = (gsb_real *) g_ptr_array_index ( current_balances, i );
+                current_balance.mantissa = balance->mantissa;
+                current_balance.exponent = balance->exponent;
+
+                adjusted_amout = gsb_data_transaction_get_adjusted_amount ( transaction_number, floating_point );
+                tmp_balance = gsb_real_add ( current_balance, adjusted_amout );
+
+                if ( tmp_balance.mantissa != error_real.mantissa )
+                {
+                    balance->mantissa = tmp_balance.mantissa;
+                    balance->exponent = tmp_balance.exponent;
+                }
+                else
+                {
+                    gsb_real *balance_later;
+
+                    balance_later = (gsb_real *) g_ptr_array_index ( current_balances_later, i );
+                    balance_later->mantissa = G_MININT64;
+                    balance_later->exponent = 0;
+                }
+            }
+        }
+        tmp_list = tmp_list->next;
+    }
+    g_array_free ( account_numbers, TRUE );
+    g_array_free ( floating_points, TRUE );
+
+    return current_balances;
+}
+
+
 /*********************************************************************************************/
 /*              Interface                                                                    */
 /*********************************************************************************************/
@@ -1653,6 +1789,13 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     return currency_nb;
 }
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -8,6 +8,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+GPtrArray *gsb_data_partial_balance_calculate_balance_at_date ( gint partial_balance_number,
+                        GDate *date );
 gboolean gsb_data_partial_balance_drag_data_get ( GtkTreeDragSource * drag_source,
                         GtkTreePath * path,
                         GtkSelectionData * selection_data );
