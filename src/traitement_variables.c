@@ -397,7 +397,6 @@ void menus_view_sensitifs ( gboolean sensitif )
         "/menubar/ViewMenu/ShowGrid",
         "/menubar/ViewMenu/ShowReconciled",
         "/menubar/ViewMenu/ShowArchived",
-        "/menubar/ViewMenu/ShowClosed",
         "/menubar/ViewMenu/ShowOneLine",
         "/menubar/ViewMenu/ShowTwoLines",
         "/menubar/ViewMenu/ShowThreeLines",
