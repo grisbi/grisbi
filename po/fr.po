@@ -2884,7 +2884,7 @@ msgstr "toutes les dates"
 #: ../src/etats_support.c:191 ../src/etats_support.c:293
 #, c-format
 msgid "Result from %s to %s"
-msgstr "Résultat de %s pour %s"
+msgstr "Résultat du %s au %s"
 
 #: ../src/etats_support.c:197
 msgid "Custom dates ranges not filled"
