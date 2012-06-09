@@ -35,18 +35,21 @@
 #include "bet_finance_ui.h"
 #include "bet_hist.h"
 #include "bet_tab.h"
-#include "navigation.h"
-#include "gsb_transactions_list.h"
+#include "categories_onglet.h"
 #include "etats_onglet.h"
+#include "gsb_account_property.h"
 #include "gsb_data_account.h"
 #include "gsb_account_property.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
-#include "categories_onglet.h"
+#include "gsb_transactions_list.h"
 #include "imputation_budgetaire.h"
-#include "tiers_onglet.h"
+#include "main.h"
+#include "menu.h"
+#include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -316,11 +319,18 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 {
     gint account_number;
 
-    /* devel_debug_int (page_number); */
+    if ( page_number != GSB_TRANSACTIONS_PAGE )
+    {
+        menus_view_sensitifs ( FALSE );
+        gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, FALSE );
+    }
+
     switch ( page_number )
     {
     case GSB_TRANSACTIONS_PAGE:
         gsb_form_set_expander_visible ( TRUE, TRUE );
+        menus_view_sensitifs ( TRUE );
+        gsb_gui_sensitive_menu_item ( "EditMenu", "NewTransaction", NULL, TRUE );
         break;
     case GSB_ESTIMATE_PAGE:
         gsb_form_set_expander_visible (FALSE, FALSE );
