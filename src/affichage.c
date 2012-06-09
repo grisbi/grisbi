@@ -697,63 +697,81 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
  */
 GtkWidget *tab_display_toolbar ( void )
 {
-    GtkWidget * vbox_pref, * paddingbox, * radio, * radiogroup;
+    GtkWidget *vbox_pref;
+    GtkWidget *paddingbox;
+    GtkWidget *radio;
+    GtkWidget *radiogroup;
     GtkWidget *vbox;
     GtkWidget *button;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
+    vbox_pref = gtk_vbox_new ( FALSE, 10 );
 
-    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
-					     _("Display toolbar buttons as") );
+    /* Headings bar */
+    vbox = new_vbox_with_title_and_icon ( _("Headings bar"), "organization.png" );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
-    radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
-    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_TEXT) );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_TEXT )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
+    button = gsb_automem_checkbutton_new ( _("Display headings bar"),
+                        &(etat.show_headings_bar),
+                        G_CALLBACK ( preferences_switch_headings_bar ),
+                        NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
-							  _("Icons") );
-    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_ICON) );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_ICON )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
-
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON(radiogroup),
-							  _("Both") );
-    g_object_set_data ( G_OBJECT(radio), "display", GINT_TO_POINTER(GSB_BUTTON_BOTH) );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_BOTH )
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON (radio), TRUE );
-    g_signal_connect ( G_OBJECT(radio), "toggled",
-		       G_CALLBACK(change_toolbar_display_mode), NULL );
-
-    gtk_widget_show_all ( vbox_pref );
-
-    if ( !gsb_data_account_get_accounts_amount () )
-	gtk_widget_set_sensitive ( vbox_pref, FALSE );
-
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ),
-			 gsb_automem_checkbutton_new ( _("Display headings bar"),
-						       &(etat.show_headings_bar),
-						       G_CALLBACK (preferences_switch_headings_bar), NULL ),
-			 FALSE, FALSE, 0 );
-
+    /* Navigation pane */
     vbox = new_vbox_with_title_and_icon ( _("Navigation pane"), "organization.png" );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (_("Add mouse scrolling support on the navigation pane"),
                         &conf.active_scrolling_left_pane,
                         G_CALLBACK ( preferences_active_mouse_scrolling_left_pane ),
-                        NULL);
+                        NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );
 
-    return ( vbox_pref );
+    /* Toolbar */
+    vbox = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, ("Display toolbar buttons as") );
+
+    radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
+    g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_TEXT ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
+    if ( etat.display_toolbar == GSB_BUTTON_TEXT )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
+
+    g_signal_connect ( G_OBJECT ( radio ),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
+
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Icons") );
+    g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_ICON ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
+    if ( etat.display_toolbar == GSB_BUTTON_ICON )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
+
+    g_signal_connect ( G_OBJECT ( radio ),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
+
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Both") );
+    g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_BOTH ) );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
+    if ( etat.display_toolbar == GSB_BUTTON_BOTH )
+        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
+
+    g_signal_connect ( G_OBJECT ( radio ),
+                        "toggled",
+                        G_CALLBACK ( change_toolbar_display_mode ),
+                        NULL );
+
+    gtk_widget_show_all ( vbox_pref );
+
+    if ( !gsb_data_account_get_accounts_amount () )
+        gtk_widget_set_sensitive ( vbox_pref, FALSE );
+
+    /* return */
+    return ( vbox_pref );
 }
 
 

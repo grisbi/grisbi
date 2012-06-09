@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 22:36+0200\n"
+"POT-Creation-Date: 2012-06-09 09:22+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -77,7 +77,7 @@ msgstr "Aktīvu kontu atlikums %s"
 msgid "Assets accounts balances in %s"
 msgstr "Aktīvu kontu atlikums %s"
 
-#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
+#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:215
 msgid "Additional balance"
 msgstr "Papildu bilance"
 
@@ -305,37 +305,33 @@ msgstr "Sekundārā adrese:"
 msgid "Select a new logo"
 msgstr "Izvēlēties jaunu logo"
 
-#: ../src/affichage.c:704
-msgid "Toolbars"
-msgstr "Rīkjoslas"
+#. Headings bar
+#: ../src/affichage.c:710
+#, fuzzy
+msgid "Headings bar"
+msgstr "Rādīt pozīcijas joslas"
 
-#: ../src/affichage.c:707
-msgid "Display toolbar buttons as"
-msgstr "Rādīt rīkjoslas pogas, kas"
-
-#: ../src/affichage.c:709
-msgid "Text"
-msgstr "Teksts"
-
-#: ../src/affichage.c:718
-msgid "Icons"
-msgstr "Ikonas"
-
-#: ../src/affichage.c:727
-msgid "Both"
-msgstr "Abi"
-
-#: ../src/affichage.c:741
+#: ../src/affichage.c:713
 msgid "Display headings bar"
 msgstr "Rādīt pozīcijas joslas"
 
-#: ../src/affichage.c:746
+#. Navigation pane
+#: ../src/affichage.c:720
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/affichage.c:749
+#: ../src/affichage.c:723
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
+
+#. Toolbar
+#: ../src/affichage.c:730
+msgid "Toolbars"
+msgstr "Rīkjoslas"
+
+#: ../src/affichage.c:735
+msgid "Text"
+msgstr "Teksts"
 
 #: ../src/affichage_liste.c:127
 #, fuzzy
@@ -1117,17 +1113,17 @@ msgid "Transfer"
 msgstr "Pārvietošana"
 
 #: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Bankas konts"
 
 #: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:217
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Kases konts"
 
 #: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Pasīvu konts"
@@ -3414,7 +3410,7 @@ msgid "Select accounts to export"
 msgstr "Atlasīt kontus uz eksportu"
 
 #: ../src/export.c:213 ../src/export_csv.c:778
-#: ../src/gsb_data_partial_balance.c:1508
+#: ../src/gsb_data_partial_balance.c:1644
 msgid "Account name"
 msgstr "Konta nosaukums"
 
@@ -4268,7 +4264,7 @@ msgid "Comments"
 msgstr "Komentāri"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
-#: ../src/gsb_data_partial_balance.c:225
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Aktīvu konts"
@@ -4330,7 +4326,7 @@ msgstr "Arhīva modifikācija"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
+#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1700
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:200
 #, fuzzy
@@ -6966,8 +6962,8 @@ msgstr ""
 "Valūtas nosaukums un, vai nu starptautiskās valūtas kods vai valūtas "
 "segvārds ir iestatīts."
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
-#: ../src/gsb_data_partial_balance.c:434
+#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:326
+#: ../src/gsb_data_partial_balance.c:436
 msgid "All fields are not filled in"
 msgstr "Visi lauki nav jāaizpilda"
 
@@ -7101,66 +7097,66 @@ msgstr "Brīdinājums : šis finanšu gads krustojas ar citu."
 msgid "Warning : Invalid date."
 msgstr "Brīdinājums : nederīgs datums."
 
-#: ../src/gsb_data_partial_balance.c:316 ../src/gsb_data_partial_balance.c:426
+#: ../src/gsb_data_partial_balance.c:318 ../src/gsb_data_partial_balance.c:428
 msgid "You must select at least two accounts."
 msgstr "Ir jāatlasa vismaz divi konti."
 
-#: ../src/gsb_data_partial_balance.c:317 ../src/gsb_data_partial_balance.c:427
+#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
 msgid "Only one account is selected."
 msgstr "Tikai viens konts ir atlasīts"
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:324 ../src/gsb_data_partial_balance.c:434
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr "Daļējas bilances nosaukums un kontu saraksts ir jāaizpilda."
 
-#: ../src/gsb_data_partial_balance.c:1296
+#: ../src/gsb_data_partial_balance.c:1298
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr "Jums ir nepieciešams izveidot saikni starp valūtu %s un %s."
 
-#: ../src/gsb_data_partial_balance.c:1300
+#: ../src/gsb_data_partial_balance.c:1302
 msgid "Attention missing link between currencies"
 msgstr "Uzmanību, trūkst saites starp valūtām"
 
-#: ../src/gsb_data_partial_balance.c:1533
+#: ../src/gsb_data_partial_balance.c:1669
 msgid "Add a partial balance"
 msgstr "Pievienot daļēju bilanci"
 
-#: ../src/gsb_data_partial_balance.c:1540
+#: ../src/gsb_data_partial_balance.c:1676
 msgid "Modify a partial balance"
 msgstr "Modificēt daļēju bilanci"
 
-#: ../src/gsb_data_partial_balance.c:1548
+#: ../src/gsb_data_partial_balance.c:1684
 msgid "Partial balance details"
 msgstr "Daļējas bilances detaļas"
 
-#: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
+#: ../src/gsb_data_partial_balance.c:1691 ../src/gsb_debug.c:300
 msgid "Details"
 msgstr "Detaļas"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1575
+#: ../src/gsb_data_partial_balance.c:1711
 #, fuzzy
 msgid "Accounts list: "
 msgstr "Kontu saraksts:"
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1590
+#: ../src/gsb_data_partial_balance.c:1726
 #, fuzzy
 msgid "Position in the list of accounts: "
 msgstr "Vieta kontu sarakstā:"
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1603
+#: ../src/gsb_data_partial_balance.c:1739
 msgid "Colorized in red if the balance is negative"
 msgstr "Parādīt sarkanā krāsā, ja bilance ir negatīva"
 
-#: ../src/gsb_data_partial_balance.c:1626
+#: ../src/gsb_data_partial_balance.c:1762
 msgid "Enter the currency of the balance part"
 msgstr "Ievadiet valūtu par bilances daļu"
 
-#: ../src/gsb_data_partial_balance.c:1638
+#: ../src/gsb_data_partial_balance.c:1774
 #, fuzzy
 msgid "Select the currency of the partial balance: "
 msgstr "Izvēlieties valūtu par daļēju bilanci:"
@@ -10328,8 +10324,9 @@ msgid "Payees, categories and budgetaries"
 msgstr "Darījuma partneri, kategorijas un budžeti"
 
 #: ../src/parametres.c:423
-msgid "Toolbars - Navigation pane"
-msgstr ""
+#, fuzzy
+msgid "HMI - Toolbars"
+msgstr "Rīkjoslas"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11528,6 +11525,15 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Personālais finanšu vadītājs\n"
+
+#~ msgid "Display toolbar buttons as"
+#~ msgstr "Rādīt rīkjoslas pogas, kas"
+
+#~ msgid "Icons"
+#~ msgstr "Ikonas"
+
+#~ msgid "Both"
+#~ msgstr "Abi"
 
 #, fuzzy
 #~ msgid "Account data and actions"

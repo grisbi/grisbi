@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 22:36+0200\n"
+"POT-Creation-Date: 2012-06-09 09:22+0200\n"
 "PO-Revision-Date: 2006-05-15 12:44+0200\n"
 "Last-Translator: Ryszard Jeziorski <r.jeziorski@dart.kielce.pl>\n"
 "Language-Team: Polish\n"
@@ -78,7 +78,7 @@ msgstr "Stan kont kont aktywów w %s "
 msgid "Assets accounts balances in %s"
 msgstr "Stan kont kont aktywów w %s "
 
-#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
+#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:215
 #, fuzzy
 msgid "Additional balance"
 msgstr "Saldo początkowe"
@@ -318,42 +318,35 @@ msgstr "Dodatkowe adresy:"
 msgid "Select a new logo"
 msgstr "Wybierz nowe logo"
 
-#: ../src/affichage.c:704
-msgid "Toolbars"
-msgstr ""
-
-#: ../src/affichage.c:707
+#. Headings bar
+#: ../src/affichage.c:710
 #, fuzzy
-msgid "Display toolbar buttons as"
-msgstr "Pokaż transakcje"
+msgid "Headings bar"
+msgstr "Wyświetl informacje o"
 
-#: ../src/affichage.c:709
-#, fuzzy
-msgid "Text"
-msgstr "Opisy"
-
-#: ../src/affichage.c:718
-#, fuzzy
-msgid "Icons"
-msgstr "Dochodzy"
-
-#: ../src/affichage.c:727
-#, fuzzy
-msgid "Both"
-msgstr "data"
-
-#: ../src/affichage.c:741
+#: ../src/affichage.c:713
 #, fuzzy
 msgid "Display headings bar"
 msgstr "Wyświetl informacje o"
 
-#: ../src/affichage.c:746
+#. Navigation pane
+#: ../src/affichage.c:720
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/affichage.c:749
+#: ../src/affichage.c:723
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
+
+#. Toolbar
+#: ../src/affichage.c:730
+msgid "Toolbars"
+msgstr ""
+
+#: ../src/affichage.c:735
+#, fuzzy
+msgid "Text"
+msgstr "Opisy"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -1158,17 +1151,17 @@ msgid "Transfer"
 msgstr "Przelew"
 
 #: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Konto bankowe"
 
 #: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:217
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Gotówka"
 
 #: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Konto pasywów"
@@ -3522,7 +3515,7 @@ msgid "Select accounts to export"
 msgstr "Wybierz konto do eksportu"
 
 #: ../src/export.c:213 ../src/export_csv.c:778
-#: ../src/gsb_data_partial_balance.c:1508
+#: ../src/gsb_data_partial_balance.c:1644
 msgid "Account name"
 msgstr "Nazwa konta"
 
@@ -4373,7 +4366,7 @@ msgid "Comments"
 msgstr "Komentarz"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
-#: ../src/gsb_data_partial_balance.c:225
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Konto aktywów"
@@ -4434,7 +4427,7 @@ msgstr "Modyfikacja"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
+#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1700
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:200
 #, fuzzy
@@ -6981,8 +6974,8 @@ msgid ""
 "should be set."
 msgstr ""
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
-#: ../src/gsb_data_partial_balance.c:434
+#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:326
+#: ../src/gsb_data_partial_balance.c:436
 #, fuzzy
 msgid "All fields are not filled in"
 msgstr "Nie wszystkie pola zostały wypełnione!"
@@ -7120,73 +7113,73 @@ msgstr ""
 msgid "Warning : Invalid date."
 msgstr "Nieprawidłowa data"
 
-#: ../src/gsb_data_partial_balance.c:316 ../src/gsb_data_partial_balance.c:426
+#: ../src/gsb_data_partial_balance.c:318 ../src/gsb_data_partial_balance.c:428
 #, fuzzy
 msgid "You must select at least two accounts."
 msgstr "Zaznacz konta aktywów"
 
-#: ../src/gsb_data_partial_balance.c:317 ../src/gsb_data_partial_balance.c:427
+#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
 #, fuzzy
 msgid "Only one account is selected."
 msgstr "Otwórz plik kont"
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:324 ../src/gsb_data_partial_balance.c:434
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 
-#: ../src/gsb_data_partial_balance.c:1296
+#: ../src/gsb_data_partial_balance.c:1298
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr ""
 
-#: ../src/gsb_data_partial_balance.c:1300
+#: ../src/gsb_data_partial_balance.c:1302
 #, fuzzy
 msgid "Attention missing link between currencies"
 msgstr "Zdefiniowane waluty"
 
-#: ../src/gsb_data_partial_balance.c:1533
+#: ../src/gsb_data_partial_balance.c:1669
 #, fuzzy
 msgid "Add a partial balance"
 msgstr "Saldo początkowe"
 
-#: ../src/gsb_data_partial_balance.c:1540
+#: ../src/gsb_data_partial_balance.c:1676
 #, fuzzy
 msgid "Modify a partial balance"
 msgstr "Saldo początkowe"
 
-#: ../src/gsb_data_partial_balance.c:1548
+#: ../src/gsb_data_partial_balance.c:1684
 #, fuzzy
 msgid "Partial balance details"
 msgstr "Saldo początkowe"
 
-#: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
+#: ../src/gsb_data_partial_balance.c:1691 ../src/gsb_debug.c:300
 msgid "Details"
 msgstr "Szczegóły"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1575
+#: ../src/gsb_data_partial_balance.c:1711
 #, fuzzy
 msgid "Accounts list: "
 msgstr "Transakcja zbiorcza konta:"
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1590
+#: ../src/gsb_data_partial_balance.c:1726
 #, fuzzy
 msgid "Position in the list of accounts: "
 msgstr "Przenieś transakcję do innego konta:"
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1603
+#: ../src/gsb_data_partial_balance.c:1739
 msgid "Colorized in red if the balance is negative"
 msgstr ""
 
-#: ../src/gsb_data_partial_balance.c:1626
+#: ../src/gsb_data_partial_balance.c:1762
 #, fuzzy
 msgid "Enter the currency of the balance part"
 msgstr "Podaj nazwę nowej podgrupy linii budżetowej"
 
-#: ../src/gsb_data_partial_balance.c:1638
+#: ../src/gsb_data_partial_balance.c:1774
 #, fuzzy
 msgid "Select the currency of the partial balance: "
 msgstr "Zaznacz konta bankowe:"
@@ -10376,7 +10369,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Proszę podać nazwę linii budżetowej"
 
 #: ../src/parametres.c:423
-msgid "Toolbars - Navigation pane"
+msgid "HMI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11561,6 +11554,18 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Display toolbar buttons as"
+#~ msgstr "Pokaż transakcje"
+
+#, fuzzy
+#~ msgid "Icons"
+#~ msgstr "Dochodzy"
+
+#, fuzzy
+#~ msgid "Both"
+#~ msgstr "data"
 
 #, fuzzy
 #~ msgid "Account data and actions"

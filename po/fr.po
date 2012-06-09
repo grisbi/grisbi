@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 22:36+0200\n"
+"POT-Creation-Date: 2012-06-09 09:22+0200\n"
 "PO-Revision-Date: 2011-10-04 22:30+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -83,7 +83,7 @@ msgstr "Solde des comptes d'actif en %s au %s"
 msgid "Assets accounts balances in %s"
 msgstr "Solde des comptes d'actif en %s"
 
-#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
+#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:215
 msgid "Additional balance"
 msgstr "Autre solde"
 
@@ -304,37 +304,32 @@ msgstr "Adresse secondaire : "
 msgid "Select a new logo"
 msgstr "Sélectionner un nouveau logo"
 
-#: ../src/affichage.c:704
-msgid "Toolbars"
-msgstr "Barres d'outils"
+#. Headings bar
+#: ../src/affichage.c:710
+msgid "Headings bar"
+msgstr "Barre d'information"
 
-#: ../src/affichage.c:707
-msgid "Display toolbar buttons as"
-msgstr "Afficher les boutons de barres d'outils avec"
-
-#: ../src/affichage.c:709
-msgid "Text"
-msgstr "du texte"
-
-#: ../src/affichage.c:718
-msgid "Icons"
-msgstr "Des icônes"
-
-#: ../src/affichage.c:727
-msgid "Both"
-msgstr "Les deux"
-
-#: ../src/affichage.c:741
+#: ../src/affichage.c:713
 msgid "Display headings bar"
 msgstr "Afficher la barre d'information"
 
-#: ../src/affichage.c:746
+#. Navigation pane
+#: ../src/affichage.c:720
 msgid "Navigation pane"
 msgstr "Panneau de navigation"
 
-#: ../src/affichage.c:749
+#: ../src/affichage.c:723
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr "Ajouter le défilement avec la souris dans le panneau de navigation"
+
+#. Toolbar
+#: ../src/affichage.c:730
+msgid "Toolbars"
+msgstr "Barres d'outils"
+
+#: ../src/affichage.c:735
+msgid "Text"
+msgstr "du texte"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -1088,17 +1083,17 @@ msgid "Transfer"
 msgstr "Virement"
 
 #: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Compte bancaire"
 
 #: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:217
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Compte de caisse"
 
 #: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Compte de passif"
@@ -3366,7 +3361,7 @@ msgid "Select accounts to export"
 msgstr "Sélectionner les comptes à exporter"
 
 #: ../src/export.c:213 ../src/export_csv.c:778
-#: ../src/gsb_data_partial_balance.c:1508
+#: ../src/gsb_data_partial_balance.c:1644
 msgid "Account name"
 msgstr "Nom du compte"
 
@@ -4215,7 +4210,7 @@ msgid "Comments"
 msgstr "Commentaires"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
-#: ../src/gsb_data_partial_balance.c:225
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Compte d'actif"
@@ -4278,7 +4273,7 @@ msgstr "Modifier l'archive"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
+#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1700
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:200
 msgid "Name: "
@@ -6916,8 +6911,8 @@ msgid ""
 msgstr ""
 "Le nom, le code ISO, ou le symbole de la devise doivent être renseignés."
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
-#: ../src/gsb_data_partial_balance.c:434
+#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:326
+#: ../src/gsb_data_partial_balance.c:436
 msgid "All fields are not filled in"
 msgstr "Tous les champs ne sont pas remplis !"
 
@@ -7056,64 +7051,64 @@ msgstr "Attention : cette année financière en chevauche une autre."
 msgid "Warning : Invalid date."
 msgstr "Date invalide."
 
-#: ../src/gsb_data_partial_balance.c:316 ../src/gsb_data_partial_balance.c:426
+#: ../src/gsb_data_partial_balance.c:318 ../src/gsb_data_partial_balance.c:428
 msgid "You must select at least two accounts."
 msgstr "Vous devez sélectionner au moins deux comptes."
 
-#: ../src/gsb_data_partial_balance.c:317 ../src/gsb_data_partial_balance.c:427
+#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
 msgid "Only one account is selected."
 msgstr "Un seul compte est sélectionné."
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:324 ../src/gsb_data_partial_balance.c:434
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr "Le nom du solde partiel et la liste des comptes doivent être remplis."
 
-#: ../src/gsb_data_partial_balance.c:1296
+#: ../src/gsb_data_partial_balance.c:1298
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr "Vous devrez créer un lien entre les devises %s et %s."
 
-#: ../src/gsb_data_partial_balance.c:1300
+#: ../src/gsb_data_partial_balance.c:1302
 msgid "Attention missing link between currencies"
 msgstr "Attention lien manquant entre devises"
 
-#: ../src/gsb_data_partial_balance.c:1533
+#: ../src/gsb_data_partial_balance.c:1669
 msgid "Add a partial balance"
 msgstr "Ajouter un solde partiel"
 
-#: ../src/gsb_data_partial_balance.c:1540
+#: ../src/gsb_data_partial_balance.c:1676
 msgid "Modify a partial balance"
 msgstr "Modifier un solde partiel"
 
-#: ../src/gsb_data_partial_balance.c:1548
+#: ../src/gsb_data_partial_balance.c:1684
 msgid "Partial balance details"
 msgstr "Détails des soldes partiels"
 
-#: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
+#: ../src/gsb_data_partial_balance.c:1691 ../src/gsb_debug.c:300
 msgid "Details"
 msgstr "Détails"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1575
+#: ../src/gsb_data_partial_balance.c:1711
 msgid "Accounts list: "
 msgstr "Liste des comptes : "
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1590
+#: ../src/gsb_data_partial_balance.c:1726
 msgid "Position in the list of accounts: "
 msgstr "Position dans la liste des comptes : "
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1603
+#: ../src/gsb_data_partial_balance.c:1739
 msgid "Colorized in red if the balance is negative"
 msgstr "Colorié en rouge, si le solde est négatif"
 
-#: ../src/gsb_data_partial_balance.c:1626
+#: ../src/gsb_data_partial_balance.c:1762
 msgid "Enter the currency of the balance part"
 msgstr "Entrez la devise du solde partiel"
 
-#: ../src/gsb_data_partial_balance.c:1638
+#: ../src/gsb_data_partial_balance.c:1774
 msgid "Select the currency of the partial balance: "
 msgstr "Sélectionnez la devise du solde partiel : "
 
@@ -10311,8 +10306,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Tiers, catégories imputations budgétaires"
 
 #: ../src/parametres.c:423
-msgid "Toolbars - Navigation pane"
-msgstr "Barres d'outils - Panneau de navigation"
+msgid "HMI - Toolbars"
+msgstr "IHM - Barres d'outils"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11588,16 +11583,3 @@ msgstr "Afficher les étiquettes"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Account data and actions"
-#~ msgstr "Données des comptes et actions"
-
-#~ msgid "Monthly auto-increment"
-#~ msgstr "Incrémentation automatique mensuelle"
-
-#~ msgid "Effective date and data for the replacement of a planned operation"
-#~ msgstr ""
-#~ "Date d'effet et données pour le remplacement de l'opération planifiée"
-
-#~ msgid "Choice of the action for double click of the mouse: "
-#~ msgstr "Action associée au double clic de la souris : "

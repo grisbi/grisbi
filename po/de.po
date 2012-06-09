@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 22:36+0200\n"
+"POT-Creation-Date: 2012-06-09 09:22+0200\n"
 "PO-Revision-Date: 2012-02-15 21:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -79,7 +79,7 @@ msgstr "Anlagekonten in %s am %s"
 msgid "Assets accounts balances in %s"
 msgstr "Anlagekonten in %s"
 
-#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
+#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:215
 msgid "Additional balance"
 msgstr "Virtuelles Konto"
 
@@ -300,37 +300,33 @@ msgstr "Zusatzadresse: "
 msgid "Select a new logo"
 msgstr "Logo auswählen - Grisbi"
 
-#: ../src/affichage.c:704
-msgid "Toolbars"
-msgstr "Werkzeugleisten"
+#. Headings bar
+#: ../src/affichage.c:710
+#, fuzzy
+msgid "Headings bar"
+msgstr "Kopfzeile anzeigen"
 
-#: ../src/affichage.c:707
-msgid "Display toolbar buttons as"
-msgstr "Werkzeugleisten Darstellung"
-
-#: ../src/affichage.c:709
-msgid "Text"
-msgstr "Text"
-
-#: ../src/affichage.c:718
-msgid "Icons"
-msgstr "Symbole"
-
-#: ../src/affichage.c:727
-msgid "Both"
-msgstr "Text und Symbole"
-
-#: ../src/affichage.c:741
+#: ../src/affichage.c:713
 msgid "Display headings bar"
 msgstr "Kopfzeile anzeigen"
 
-#: ../src/affichage.c:746
+#. Navigation pane
+#: ../src/affichage.c:720
 msgid "Navigation pane"
 msgstr "Navigationsbereich"
 
-#: ../src/affichage.c:749
+#: ../src/affichage.c:723
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr "Im Navigationsbereich mit dem Mausrad scrollen"
+
+#. Toolbar
+#: ../src/affichage.c:730
+msgid "Toolbars"
+msgstr "Werkzeugleisten"
+
+#: ../src/affichage.c:735
+msgid "Text"
+msgstr "Text"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -1081,17 +1077,17 @@ msgid "Transfer"
 msgstr "Umbuchung"
 
 #: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Bankkonto"
 
 #: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:217
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Bargeldkonto"
 
 #: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Kreditkonto"
@@ -3360,7 +3356,7 @@ msgid "Select accounts to export"
 msgstr "Die Konten für den Export auswählen"
 
 #: ../src/export.c:213 ../src/export_csv.c:778
-#: ../src/gsb_data_partial_balance.c:1508
+#: ../src/gsb_data_partial_balance.c:1644
 msgid "Account name"
 msgstr "Kontoname"
 
@@ -4209,7 +4205,7 @@ msgid "Comments"
 msgstr "Notizen"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
-#: ../src/gsb_data_partial_balance.c:225
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Anlagekonto"
@@ -4272,7 +4268,7 @@ msgstr "Archiv bearbeiten"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
+#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1700
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:200
 msgid "Name: "
@@ -6915,8 +6911,8 @@ msgid ""
 msgstr ""
 "Es muss entweder der Währungsname oder der 'ISO-Code' eingegeben werden."
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
-#: ../src/gsb_data_partial_balance.c:434
+#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:326
+#: ../src/gsb_data_partial_balance.c:436
 msgid "All fields are not filled in"
 msgstr "Es wurden nicht alle Eingabefelder befüllt"
 
@@ -7054,67 +7050,67 @@ msgstr ""
 msgid "Warning : Invalid date."
 msgstr "Warnung: Ungültiges Datum."
 
-#: ../src/gsb_data_partial_balance.c:316 ../src/gsb_data_partial_balance.c:426
+#: ../src/gsb_data_partial_balance.c:318 ../src/gsb_data_partial_balance.c:428
 msgid "You must select at least two accounts."
 msgstr "Es müssen mindestens 2 Konten ausgewählt werden."
 
-#: ../src/gsb_data_partial_balance.c:317 ../src/gsb_data_partial_balance.c:427
+#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
 msgid "Only one account is selected."
 msgstr "Es wurde nur ein Konto ausgewählt."
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:324 ../src/gsb_data_partial_balance.c:434
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr ""
 "Der Name vom Teilsaldo und die Liste der Konten müssen vollständig "
 "eingegeben werden."
 
-#: ../src/gsb_data_partial_balance.c:1296
+#: ../src/gsb_data_partial_balance.c:1298
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr ""
 "Es muss eine Verknüpfung zwischen den Währungen %s und %s hergestellt werden."
 
-#: ../src/gsb_data_partial_balance.c:1300
+#: ../src/gsb_data_partial_balance.c:1302
 msgid "Attention missing link between currencies"
 msgstr "Achtung - fehlende Verknüpfung zwischen den Währungen"
 
-#: ../src/gsb_data_partial_balance.c:1533
+#: ../src/gsb_data_partial_balance.c:1669
 msgid "Add a partial balance"
 msgstr "Teilsaldo hinzufügen"
 
-#: ../src/gsb_data_partial_balance.c:1540
+#: ../src/gsb_data_partial_balance.c:1676
 msgid "Modify a partial balance"
 msgstr "Teilsaldo bearbeiten"
 
-#: ../src/gsb_data_partial_balance.c:1548
+#: ../src/gsb_data_partial_balance.c:1684
 msgid "Partial balance details"
 msgstr "Teilsaldo Details"
 
-#: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
+#: ../src/gsb_data_partial_balance.c:1691 ../src/gsb_debug.c:300
 msgid "Details"
 msgstr "Details"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1575
+#: ../src/gsb_data_partial_balance.c:1711
 msgid "Accounts list: "
 msgstr "Kontoliste: "
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1590
+#: ../src/gsb_data_partial_balance.c:1726
 msgid "Position in the list of accounts: "
 msgstr "Position in der Kontoliste: "
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1603
+#: ../src/gsb_data_partial_balance.c:1739
 msgid "Colorized in red if the balance is negative"
 msgstr "Negative Salden in Rot darstellen"
 
-#: ../src/gsb_data_partial_balance.c:1626
+#: ../src/gsb_data_partial_balance.c:1762
 msgid "Enter the currency of the balance part"
 msgstr "Den Namen vom Teilsaldo eingeben"
 
-#: ../src/gsb_data_partial_balance.c:1638
+#: ../src/gsb_data_partial_balance.c:1774
 msgid "Select the currency of the partial balance: "
 msgstr "Basiswährung für den Teilsaldo auswählen: "
 
@@ -10324,8 +10320,9 @@ msgid "Payees, categories and budgetaries"
 msgstr "Währungen & Sortierung"
 
 #: ../src/parametres.c:423
-msgid "Toolbars - Navigation pane"
-msgstr "Werkzeugleisten & Navigation"
+#, fuzzy
+msgid "HMI - Toolbars"
+msgstr "Werkzeugleisten"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11618,6 +11615,18 @@ msgstr "Beschriftung anzeigen"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#~ msgid "Display toolbar buttons as"
+#~ msgstr "Werkzeugleisten Darstellung"
+
+#~ msgid "Icons"
+#~ msgstr "Symbole"
+
+#~ msgid "Both"
+#~ msgstr "Text und Symbole"
+
+#~ msgid "Toolbars - Navigation pane"
+#~ msgstr "Werkzeugleisten & Navigation"
 
 #, fuzzy
 #~ msgid "Account data and actions"

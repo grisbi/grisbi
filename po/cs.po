@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-05-27 22:36+0200\n"
+"POT-Creation-Date: 2012-06-09 09:22+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -77,7 +77,7 @@ msgstr "Zůstatky majetkových účtů v měně %s"
 msgid "Assets accounts balances in %s"
 msgstr "Zůstatky majetkových účtů v měně %s"
 
-#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:213
+#: ../src/accueil.c:695 ../src/gsb_data_partial_balance.c:215
 msgid "Additional balance"
 msgstr "Další zůstatek"
 
@@ -297,37 +297,33 @@ msgstr "Druhá adresa: "
 msgid "Select a new logo"
 msgstr "Vyberte nové logo"
 
-#: ../src/affichage.c:704
-msgid "Toolbars"
-msgstr "Panely nástrojů"
+#. Headings bar
+#: ../src/affichage.c:710
+#, fuzzy
+msgid "Headings bar"
+msgstr "Zobrazit panel záhlaví"
 
-#: ../src/affichage.c:707
-msgid "Display toolbar buttons as"
-msgstr "Zobrazit tlačítka panelu nástrojů jako"
-
-#: ../src/affichage.c:709
-msgid "Text"
-msgstr "Text"
-
-#: ../src/affichage.c:718
-msgid "Icons"
-msgstr "Ikony"
-
-#: ../src/affichage.c:727
-msgid "Both"
-msgstr "Obojí"
-
-#: ../src/affichage.c:741
+#: ../src/affichage.c:713
 msgid "Display headings bar"
 msgstr "Zobrazit panel záhlaví"
 
-#: ../src/affichage.c:746
+#. Navigation pane
+#: ../src/affichage.c:720
 msgid "Navigation pane"
 msgstr ""
 
-#: ../src/affichage.c:749
+#: ../src/affichage.c:723
 msgid "Add mouse scrolling support on the navigation pane"
 msgstr ""
+
+#. Toolbar
+#: ../src/affichage.c:730
+msgid "Toolbars"
+msgstr "Panely nástrojů"
+
+#: ../src/affichage.c:735
+msgid "Text"
+msgstr "Text"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -1079,17 +1075,17 @@ msgid "Transfer"
 msgstr "Převod"
 
 #: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:229
+#: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Bankovní účet"
 
 #: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
-#: ../src/gsb_data_partial_balance.c:217
+#: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Hotovostní účet"
 
 #: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
-#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:221
+#: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Účet závazků"
@@ -3348,7 +3344,7 @@ msgid "Select accounts to export"
 msgstr "Vyberte účty pro export"
 
 #: ../src/export.c:213 ../src/export_csv.c:778
-#: ../src/gsb_data_partial_balance.c:1508
+#: ../src/gsb_data_partial_balance.c:1644
 msgid "Account name"
 msgstr "Jméno účtu"
 
@@ -4193,7 +4189,7 @@ msgid "Comments"
 msgstr "Komentář"
 
 #: ../src/gsb_account_property.c:696 ../src/gsb_assistant_account.c:440
-#: ../src/gsb_data_partial_balance.c:225
+#: ../src/gsb_data_partial_balance.c:227
 #, c-format
 msgid "Assets account"
 msgstr "Majetkový účet"
@@ -4255,7 +4251,7 @@ msgstr "Změna archivu"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1564
+#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1700
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:200
 msgid "Name: "
@@ -6871,8 +6867,8 @@ msgid ""
 msgstr ""
 "Měl by být nastaven název měny a buď mezinárodní kód měny nebo zkratka měny."
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:324
-#: ../src/gsb_data_partial_balance.c:434
+#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:326
+#: ../src/gsb_data_partial_balance.c:436
 msgid "All fields are not filled in"
 msgstr "Nejsou vyplněna všechna pole"
 
@@ -7006,64 +7002,64 @@ msgstr "Varování: fiskální rok se překrývá s jiným."
 msgid "Warning : Invalid date."
 msgstr "Varování: neplatné datum."
 
-#: ../src/gsb_data_partial_balance.c:316 ../src/gsb_data_partial_balance.c:426
+#: ../src/gsb_data_partial_balance.c:318 ../src/gsb_data_partial_balance.c:428
 msgid "You must select at least two accounts."
 msgstr "Musíte vybrat nejméně dva účty."
 
-#: ../src/gsb_data_partial_balance.c:317 ../src/gsb_data_partial_balance.c:427
+#: ../src/gsb_data_partial_balance.c:319 ../src/gsb_data_partial_balance.c:429
 msgid "Only one account is selected."
 msgstr "Je vybrán pouze jeden účet."
 
-#: ../src/gsb_data_partial_balance.c:322 ../src/gsb_data_partial_balance.c:432
+#: ../src/gsb_data_partial_balance.c:324 ../src/gsb_data_partial_balance.c:434
 msgid ""
 "The name of the partial balance and the list of accounts must be completed."
 msgstr "Název souhrnného zůstatku a seznamu účtů musí být vyplněn."
 
-#: ../src/gsb_data_partial_balance.c:1296
+#: ../src/gsb_data_partial_balance.c:1298
 #, c-format
 msgid "You need to create a link between currency %s and %s."
 msgstr "Musíte zadat směnný kurz mezi měnami %s a %s."
 
-#: ../src/gsb_data_partial_balance.c:1300
+#: ../src/gsb_data_partial_balance.c:1302
 msgid "Attention missing link between currencies"
 msgstr "Pozor, mezi měnami chybí směnný kurz"
 
-#: ../src/gsb_data_partial_balance.c:1533
+#: ../src/gsb_data_partial_balance.c:1669
 msgid "Add a partial balance"
 msgstr "Přidat souhrnný zůstatek"
 
-#: ../src/gsb_data_partial_balance.c:1540
+#: ../src/gsb_data_partial_balance.c:1676
 msgid "Modify a partial balance"
 msgstr "Upravit souhrnný zůstatek"
 
-#: ../src/gsb_data_partial_balance.c:1548
+#: ../src/gsb_data_partial_balance.c:1684
 msgid "Partial balance details"
 msgstr "Detaily souhrnného zůstatku"
 
-#: ../src/gsb_data_partial_balance.c:1555 ../src/gsb_debug.c:300
+#: ../src/gsb_data_partial_balance.c:1691 ../src/gsb_debug.c:300
 msgid "Details"
 msgstr "Detaily"
 
 #. List of the accounts
-#: ../src/gsb_data_partial_balance.c:1575
+#: ../src/gsb_data_partial_balance.c:1711
 msgid "Accounts list: "
 msgstr "Seznam účtů: "
 
 #. create the position
-#: ../src/gsb_data_partial_balance.c:1590
+#: ../src/gsb_data_partial_balance.c:1726
 msgid "Position in the list of accounts: "
 msgstr "Pozice v seznamu účtů: "
 
 #. create the colorized button
-#: ../src/gsb_data_partial_balance.c:1603
+#: ../src/gsb_data_partial_balance.c:1739
 msgid "Colorized in red if the balance is negative"
 msgstr "Obarvit červeně, pokud je zůstatek záporný"
 
-#: ../src/gsb_data_partial_balance.c:1626
+#: ../src/gsb_data_partial_balance.c:1762
 msgid "Enter the currency of the balance part"
 msgstr "Zadejte měnu souhrnného zůstatku"
 
-#: ../src/gsb_data_partial_balance.c:1638
+#: ../src/gsb_data_partial_balance.c:1774
 msgid "Select the currency of the partial balance: "
 msgstr "Vyberte měnu souhrnného zůstatku: "
 
@@ -10228,8 +10224,9 @@ msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #: ../src/parametres.c:423
-msgid "Toolbars - Navigation pane"
-msgstr ""
+#, fuzzy
+msgid "HMI - Toolbars"
+msgstr "Panely nástrojů"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11489,6 +11486,15 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
+
+#~ msgid "Display toolbar buttons as"
+#~ msgstr "Zobrazit tlačítka panelu nástrojů jako"
+
+#~ msgid "Icons"
+#~ msgstr "Ikony"
+
+#~ msgid "Both"
+#~ msgstr "Obojí"
 
 #, fuzzy
 #~ msgid "Account data and actions"
