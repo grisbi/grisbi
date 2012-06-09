@@ -1848,6 +1848,9 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
     GDate *date_jour;
     GDate *tmp_date;
 
+    if ( transfert->date_bascule == NULL )
+        return;
+
     date_jour = gdate_today ( );
 
     if ( g_date_compare ( date_jour, transfert -> date_bascule ) >= 0 )

@@ -2160,6 +2160,8 @@ GtkWidget *bet_transfert_create_dialog ( gint account_number )
     if ( tree_view == NULL )
         return NULL;
 
+    g_object_set_data ( G_OBJECT ( dialog ), "tree_view", tree_view );
+
     gtk_container_add (GTK_CONTAINER ( sw ), tree_view );
     gtk_container_set_resize_mode (GTK_CONTAINER ( sw ), GTK_RESIZE_PARENT );
 
@@ -2424,7 +2426,6 @@ GtkWidget *bet_transfert_create_account_list_part ( GtkWidget *dialog,
     utils_set_tree_view_selection_and_text_color ( tree_view );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), TRUE );
     gtk_widget_set_size_request ( tree_view, 400, 150 );
-    g_object_set_data ( G_OBJECT ( dialog ), "tree_view", tree_view );
 
     /* Account_name */
     cell = gtk_cell_renderer_text_new ( );
@@ -2723,7 +2724,21 @@ gboolean bet_transfert_modify_line ( gint account_number, gint number )
     gint result;
 
     if ( bet_transfert_dialog == NULL )
+    {
         bet_transfert_dialog = bet_transfert_create_dialog ( account_number );
+        if ( bet_transfert_dialog == NULL )
+        {
+            gchar *tmp_str;
+
+            tmp_str = g_strdup ( _("There is a configuration problem in the balance of "
+                        "a deferred debit account.\n"
+                        "You should delete it and create another") );
+
+            dialogue_error_hint ( tmp_str, _("Error of configuration") );
+
+            return FALSE;
+        }
+    }
     else
     {
         GtkWidget *tree_view;
@@ -2792,7 +2807,7 @@ dialog_return:
 
     gtk_widget_hide ( bet_transfert_dialog );
 
-    return FALSE;
+    return TRUE;
 }
 
 
@@ -2811,6 +2826,7 @@ static void bet_transfert_select_account_in_treeview ( struct_transfert_data *tr
 
     tree_view = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "tree_view" );
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
     gtk_tree_model_get_iter_first ( model, &iter );
     do
     {
@@ -2859,8 +2875,13 @@ gboolean bet_transfert_set_form_data_from_line ( gint account_number, gint numbe
 
     /* Account with deferred debit card */
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_bascule" );
-    gsb_calendar_entry_set_date ( widget, transfert -> date_bascule );
-    gsb_form_widget_set_empty ( widget, FALSE );
+    if ( transfert->date_bascule )
+    {
+        gsb_calendar_entry_set_date ( widget, transfert -> date_bascule );
+        gsb_form_widget_set_empty ( widget, FALSE );
+    }
+    else
+        gsb_form_widget_set_empty ( widget, TRUE );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ),
                         "bet_transfert_card_payee_combo" );
