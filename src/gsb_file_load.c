@@ -4263,35 +4263,35 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "Pa" ) )
     {
-        transfert -> payee_number = utils_str_atoi ( attribute_values[i] );
+        transfert->main_payee_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Ca" ) )
     {
-        transfert -> category_number = utils_str_atoi ( attribute_values[i] );
+        transfert->main_category_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Sca" ) )
     {
-        transfert -> sub_category_number =  utils_str_atoi ( attribute_values[i] );
+        transfert->main_sub_category_number =  utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Bu" ) )
     {
-        transfert -> budgetary_number = utils_str_atoi ( attribute_values[i] );
+        transfert->main_budgetary_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
     if ( !strcmp ( attribute_names[i], "Sbu" ) )
     {
-        transfert -> sub_budgetary_number = utils_str_atoi ( attribute_values[i] );
+        transfert->main_sub_budgetary_number = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }

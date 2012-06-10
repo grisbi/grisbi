@@ -1620,8 +1620,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
     gint number;
     gint mother_row;
 
-    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ),
-     &model, &iter ) )
+    if ( !gtk_tree_selection_get_selected ( GTK_TREE_SELECTION ( tree_selection ), &model, &iter ) )
         return;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
@@ -2785,20 +2784,20 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
                 break;
             }
 
-            if ( transfert -> category_number )
+            if ( transfert->main_category_number )
             {
                 /* on cherche une opération par sa catégorie */
                 gint tmp_category_number = 0;
                 gint tmp_sub_category_number = 0;
 
                 tmp_category_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert -> sub_category_number )
+                if ( transfert->main_sub_category_number )
                     tmp_sub_category_number = gsb_data_scheduled_get_sub_category_number (
                                                     scheduled_number );
 
-                if ( transfert -> category_number == tmp_category_number
+                if ( transfert->main_category_number == tmp_category_number
                  &&
-                    transfert -> sub_category_number == tmp_sub_category_number )
+                    transfert->main_sub_category_number == tmp_sub_category_number )
                 {
                     if ( g_date_compare ( date, transfert -> date ) == 0 )
                     {
@@ -2808,20 +2807,20 @@ gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_mo
                     tmp_iter = gtk_tree_iter_copy ( &iter );
                 }
             }
-            else if ( transfert -> budgetary_number )
+            else if ( transfert->main_budgetary_number )
             {
                 /* on cherche une opération par son IB */
                 gint tmp_budget_number;
                 gint tmp_sub_budget_number = 0;
 
                 tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert -> sub_budgetary_number )
+                if ( transfert->main_sub_budgetary_number )
                     tmp_sub_budget_number = gsb_data_scheduled_get_sub_budgetary_number (
                                                     scheduled_number );
 
-                if ( transfert -> budgetary_number == tmp_budget_number
+                if ( transfert->main_budgetary_number == tmp_budget_number
                  &&
-                    transfert -> sub_budgetary_number == tmp_sub_budget_number )
+                    transfert->main_sub_budgetary_number == tmp_sub_budget_number )
                 {
                     if ( g_date_compare ( date, transfert -> date ) == 0 )
                     {
@@ -3134,18 +3133,18 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                 if ( g_date_compare ( date, transfert->date ) != 0 )
                     continue;
 
-                if ( transfert->category_number )
+                if ( transfert->main_category_number )
                 {
                     div_number = gsb_data_transaction_get_category_number ( transaction_number );
-                    if ( transfert -> sub_category_number )
+                    if ( transfert->main_sub_category_number )
                     {
                         sub_div_number = gsb_data_transaction_get_sub_category_number ( transaction_number );
                     }
-                    if ( transfert -> category_number == div_number
+                    if ( transfert->main_category_number == div_number
                      &&
-                     transfert -> sub_category_number == sub_div_number )
+                     transfert->main_sub_category_number == sub_div_number )
                     {
-                        if ( transfert -> type == 0 )
+                        if ( transfert->type == 0 )
                         {
                             amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
                         }
@@ -3158,16 +3157,16 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                         break;
                     }
                 }
-                else if ( transfert->budgetary_number )
+                else if ( transfert->main_budgetary_number )
                 {
                     div_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
-                    if ( transfert -> sub_budgetary_number )
+                    if ( transfert->main_sub_budgetary_number )
                     {
                         sub_div_number = gsb_data_transaction_get_sub_budgetary_number ( transaction_number );
                     }
-                    if ( transfert -> budgetary_number == div_number
+                    if ( transfert->main_budgetary_number == div_number
                      &&
-                     transfert -> sub_budgetary_number == sub_div_number )
+                     transfert->main_sub_budgetary_number == sub_div_number )
                     {
                         if ( transfert -> type == 0 )
                         {
@@ -3217,31 +3216,31 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
             if ( g_date_compare ( date, transfert->date ) != 0 )
                 continue;
 
-            if ( transfert->category_number )
+            if ( transfert->main_category_number )
             {
                 div_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert -> sub_category_number )
+                if ( transfert->main_sub_category_number )
                 {
                     sub_div_number = gsb_data_scheduled_get_sub_category_number ( scheduled_number );
                 }
-                if ( transfert -> category_number == div_number
+                if ( transfert->main_category_number == div_number
                  &&
-                 transfert -> sub_category_number == sub_div_number )
+                 transfert->main_sub_category_number == sub_div_number )
                 {
                     find = TRUE;
                     break;
                 }
             }
-            else if ( transfert->budgetary_number )
+            else if ( transfert->main_budgetary_number )
             {
                 div_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert -> sub_budgetary_number )
+                if ( transfert->main_sub_budgetary_number )
                 {
                     sub_div_number = gsb_data_scheduled_get_sub_budgetary_number ( scheduled_number );
                 }
-                if ( transfert -> budgetary_number == div_number
+                if ( transfert->main_budgetary_number == div_number
                  &&
-                 transfert -> sub_budgetary_number == sub_div_number )
+                 transfert->main_sub_budgetary_number == sub_div_number )
                 {
                     find = TRUE;
                     break;
