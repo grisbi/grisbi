@@ -447,7 +447,7 @@ msgstr "Remplissage automatique des opérations à partir du tiers"
 
 #: ../src/affichage_liste.c:578
 msgid "Erase the credit and debit fields"
-msgstr "Efface le champs Crédit ou Débit"
+msgstr "Efface le champ Crédit ou Débit"
 
 #: ../src/affichage_liste.c:590
 msgid "Automatically recover the children of the associated transaction"
@@ -927,7 +927,7 @@ msgstr ""
 #: ../src/bet_future.c:223 ../src/bet_future.c:1829 ../src/bet_future.c:2089
 #: ../src/bet_future.c:2779 ../src/gsb_currency.c:744
 msgid "One field is not filled in"
-msgstr "Un champs n'est pas rempli !"
+msgstr "Un champ n'est pas rempli !"
 
 #. Create the dialog
 #: ../src/bet_future.c:253
@@ -9587,7 +9587,7 @@ msgstr "Impossible de décompresser le fichier « %s » : %s"
 
 #: ../src/import_csv.c:79
 msgid "Unknown field"
-msgstr "Champs Inconnu"
+msgstr "Champ Inconnu"
 
 #: ../src/import_csv.c:83
 msgid "Wording"
@@ -11278,7 +11278,7 @@ msgid ""
 "By double cliking on a date field, you can pop up a calendar to select a "
 "date."
 msgstr ""
-"... en double cliquant sur un champs de date, vous faites apparaître un "
+"... en double cliquant sur un champ de date, vous faites apparaître un "
 "calendrier. "
 
 #: ../src/tip.c:86
