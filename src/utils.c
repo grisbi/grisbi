@@ -629,6 +629,110 @@ gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view, gint color
 }
 
 
+/**
+ * crée un une image avec 2 états
+ *
+ * \param etat  0 = Warning 1 = OK
+ *
+ * \return      widget initialisé
+ * */
+GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
+                        gint initial,
+                        const gchar *tooltip_0,
+                        const gchar *tooltip_1 )
+{
+    GtkWidget *hbox;
+    GtkWidget *icon_0;
+    GtkWidget *icon_1;
+    GValue value = {0,};
+
+    g_value_init ( &value, G_TYPE_BOOLEAN );
+    g_value_set_boolean ( &value, TRUE );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    g_object_set_data ( G_OBJECT ( hbox ), "initial", GINT_TO_POINTER ( initial ) );
+
+    if ( msg == GTK_MESSAGE_WARNING )
+        icon_0 = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU );
+    else
+        icon_0 = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU );
+
+    g_object_set_property ( G_OBJECT ( icon_0 ), "no-show-all", &value );
+    if ( tooltip_0 )
+        gtk_widget_set_tooltip_text ( icon_0, tooltip_0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), icon_0, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT ( hbox ), "icon_0", icon_0 );
+
+    icon_1 = gtk_image_new_from_stock ( GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU );
+    g_object_set_property ( G_OBJECT ( icon_1 ), "no-show-all", &value );
+
+    if ( tooltip_1 )
+        gtk_widget_set_tooltip_text ( icon_1, tooltip_1 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), icon_1, FALSE, FALSE, 0 );
+    g_object_set_data ( G_OBJECT ( hbox ), "icon_1", icon_1 );
+
+    if ( initial )
+        gtk_widget_show ( icon_1 );
+    else
+        gtk_widget_show ( icon_0 );
+
+    gtk_widget_show ( hbox );
+
+    /* return */
+    return hbox;
+}
+
+
+/**
+ * change l'icone du widget en fonction de etat
+ *
+ * \param etat  0 = Warning 1 = OK
+ *
+ * \return      TRUE if OK FALSE si rien à faire
+ * */
+gboolean utils_set_image_with_etat ( GtkWidget *widget,
+                        gint etat )
+{
+    GtkWidget *icon_0;
+    GtkWidget *icon_1;
+    GtkWidget *hbox;
+    gint initial;
+
+    hbox = g_object_get_data ( G_OBJECT ( widget ), "icon" );
+
+    initial = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( hbox ), "initial" ) );
+    if ( initial == etat )
+        return FALSE;
+
+    /* on met la nouvelle valeur pour initial */
+    g_object_set_data ( G_OBJECT ( hbox ), "initial", GINT_TO_POINTER ( etat ) );
+
+    icon_0 = g_object_get_data ( G_OBJECT ( hbox ), "icon_0" );
+    icon_1 = g_object_get_data ( G_OBJECT ( hbox ), "icon_1" );
+
+    if ( etat )
+    {
+        gtk_widget_hide ( icon_0 );
+        gtk_widget_show ( icon_1 );
+    }
+    else
+    {
+        gtk_widget_show ( icon_0 );
+        gtk_widget_hide ( icon_1 );
+    }
+
+    /* return */
+    return TRUE;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -33,6 +33,12 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
 void update_gui ( void );
+GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
+                        gint initial,
+                        const gchar *tooltip_0,
+                        const gchar *tooltip_1 );
+gboolean utils_set_image_with_etat ( GtkWidget *widget,
+                        gint etat );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
