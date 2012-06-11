@@ -8,14 +8,14 @@
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006-2007.
 #
 # Please follow the guidelines you'll find here: http://wiki.traduc.org/gnomefr/
-# Pierre Biava <pierre@pierre.biava.name>, 2008-2010, 2011.
+# Pierre Biava <pierre@pierre.biava.name>, 2008-2010, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-09 09:22+0200\n"
-"PO-Revision-Date: 2011-10-04 22:30+0200\n"
+"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: \n"
@@ -193,7 +193,7 @@ msgid "Balances partials of the list of accounts"
 msgstr "Soldes partiels de la liste des comptes"
 
 #. Name entry
-#: ../src/accueil.c:2096 ../src/bet_future.c:2431
+#: ../src/accueil.c:2096 ../src/bet_future.c:2764
 #: ../src/categories_onglet.c:732 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231 ../src/gsb_fyear_config.c:283
@@ -584,7 +584,7 @@ msgstr "Par défaut"
 #: ../src/bet_hist.c:2098 ../src/categories_onglet.c:347
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:3001 ../src/etats_config.c:7067
-#: ../src/fenetre_principale.c:296 ../src/navigation.c:1960
+#: ../src/fenetre_principale.c:298 ../src/navigation.c:1960
 msgid "Categories"
 msgstr "Catégories"
 
@@ -593,7 +593,7 @@ msgstr "Catégories"
 #: ../src/bet_config.c:701 ../src/bet_hist.c:192 ../src/bet_hist.c:2096
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3807 ../src/etats_config.c:7144
-#: ../src/export_csv.c:823 ../src/fenetre_principale.c:301
+#: ../src/export_csv.c:823 ../src/fenetre_principale.c:303
 #: ../src/import_csv.c:88 ../src/imputation_budgetaire.c:353
 #: ../src/navigation.c:1964
 msgid "Budgetary lines"
@@ -628,8 +628,8 @@ msgstr "Choix de l'exercice ou 12 mois glissants"
 msgid "Category"
 msgstr "Catégorie"
 
-#: ../src/bet_config.c:943 ../src/bet_future.c:810 ../src/bet_future.c:2251
-#: ../src/bet_future.c:2378 ../src/bet_future.c:2910 ../src/bet_future.c:2964
+#: ../src/bet_config.c:943 ../src/bet_future.c:805 ../src/bet_future.c:2155
+#: ../src/bet_future.c:2294 ../src/bet_future.c:2558 ../src/bet_future.c:2621
 #: ../src/bet_hist.c:1636 ../src/etats_affiche.c:2444
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1343
 #: ../src/gsb_form_widget.c:448 ../src/gsb_transactions_list.c:173
@@ -708,7 +708,7 @@ msgstr "Vous devez entrer au moins une valeur pour le capital"
 msgid "Account with deferred debit card"
 msgstr "Compte avec carte à débit différé"
 
-#: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:291
+#: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:293
 #: ../src/navigation.c:1219 ../src/navigation.c:1956
 msgid "Credits simulator"
 msgstr "Simulateur de crédits"
@@ -827,7 +827,7 @@ msgstr "Afficher le tableau d'amortissement depuis le début"
 
 #. Print list
 #: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
-#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1560 ../src/bet_tab.c:2915
+#: ../src/bet_hist.c:1935 ../src/bet_tab.c:1560 ../src/bet_tab.c:2914
 msgid "Print the array"
 msgstr "Imprimer le tableau"
 
@@ -847,7 +847,7 @@ msgstr "Tableau d'amortissement"
 msgid "Loan amount: "
 msgstr "Montant emprunté : "
 
-#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:764 ../src/bet_tab.c:688
+#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:759 ../src/bet_tab.c:688
 #: ../src/etats_affiche.c:2409 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1298
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:163
@@ -892,12 +892,12 @@ msgstr "Amortissement"
 msgid "Credits"
 msgstr "Crédits"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2912
+#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1932 ../src/bet_tab.c:2911
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:381
 msgid "Print"
 msgstr "Imprimer"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2925
+#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1945 ../src/bet_tab.c:2924
 #: ../src/categories_onglet.c:562 ../src/etats_onglet.c:167
 #: ../src/export.c:204 ../src/imputation_budgetaire.c:599
 msgid "Export"
@@ -907,7 +907,7 @@ msgstr "Exporter"
 msgid "credit.csv"
 msgstr "crédit.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3051
+#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2042 ../src/bet_tab.c:3050
 #: ../src/imputation_budgetaire.c:439
 msgid "Cannot save file."
 msgstr "Impossible d'enregistrer le fichier."
@@ -916,7 +916,7 @@ msgstr "Impossible d'enregistrer le fichier."
 msgid "months"
 msgstr "mois"
 
-#: ../src/bet_future.c:221 ../src/bet_future.c:1827
+#: ../src/bet_future.c:216 ../src/bet_future.c:1822
 msgid ""
 "Error: the frequency defined by the user or the amount is not specified or "
 "the date is invalid."
@@ -924,112 +924,112 @@ msgstr ""
 "Erreur: la périodicité définie par l'utilisateur ou le montant n'est pas "
 "défini ou la date est invalide."
 
-#: ../src/bet_future.c:223 ../src/bet_future.c:1829 ../src/bet_future.c:2089
-#: ../src/bet_future.c:2779 ../src/gsb_currency.c:744
+#: ../src/bet_future.c:218 ../src/bet_future.c:1824 ../src/bet_future.c:2717
+#: ../src/bet_future.c:2998 ../src/gsb_currency.c:744
 msgid "One field is not filled in"
 msgstr "Un champ n'est pas rempli !"
 
 #. Create the dialog
-#: ../src/bet_future.c:253
+#: ../src/bet_future.c:248
 msgid "Enter a budget line"
 msgstr "Créer une ligne budgétaire"
 
-#: ../src/bet_future.c:307 ../src/bet_future.c:849
+#: ../src/bet_future.c:302 ../src/bet_future.c:844
 #: ../src/gsb_form_scheduler.c:153 ../src/gsb_form_scheduler.c:877
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Once"
 msgstr "Une fois"
 
-#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:302 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Weekly"
 msgstr "Hebdomadaire"
 
-#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:302 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1276
 msgid "Monthly"
 msgstr "Mensuel"
 
-#: ../src/bet_future.c:307 ../src/gsb_form_scheduler.c:153
+#: ../src/bet_future.c:302 ../src/gsb_form_scheduler.c:153
 #: ../src/gsb_scheduler_list.c:1277
 msgid "Bimonthly"
 msgstr "Bimestriel"
 
-#: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:154
+#: ../src/bet_future.c:303 ../src/gsb_form_scheduler.c:154
 #: ../src/gsb_scheduler_list.c:1277
 msgid "Quarterly"
 msgstr "Trimestriel"
 
-#: ../src/bet_future.c:308 ../src/gsb_form_scheduler.c:154
+#: ../src/bet_future.c:303 ../src/gsb_form_scheduler.c:154
 #: ../src/gsb_scheduler_list.c:1277
 msgid "Yearly"
 msgstr "Annuel"
 
-#: ../src/bet_future.c:308 ../src/bet_future.c:863 ../src/etats_config.c:194
+#: ../src/bet_future.c:303 ../src/bet_future.c:858 ../src/etats_config.c:194
 #: ../src/gsb_form_scheduler.c:154 ../src/gsb_form_scheduler.c:887
 msgid "Custom"
 msgstr "Personnalisé"
 
-#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:304 ../src/gsb_form_scheduler.c:155
 msgid "Days"
 msgstr "Jours"
 
-#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:304 ../src/gsb_form_scheduler.c:155
 msgid "Weeks"
 msgstr "Semaines"
 
-#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:304 ../src/gsb_form_scheduler.c:155
 msgid "Months"
 msgstr "Mois"
 
-#: ../src/bet_future.c:309 ../src/gsb_form_scheduler.c:155
+#: ../src/bet_future.c:304 ../src/gsb_form_scheduler.c:155
 msgid "Years"
 msgstr "Années"
 
-#: ../src/bet_future.c:322 ../src/gsb_form_scheduler.c:176
+#: ../src/bet_future.c:317 ../src/gsb_form_scheduler.c:176
 #: ../src/gsb_scheduler_list.c:514
 msgid "Frequency"
 msgstr "Périodicité"
 
-#: ../src/bet_future.c:330 ../src/bet_future.c:725
+#: ../src/bet_future.c:325 ../src/bet_future.c:720
 #: ../src/gsb_form_scheduler.c:193 ../src/gsb_form_scheduler.c:643
 #: ../src/gsb_form_scheduler.c:836 ../src/gsb_form_scheduler.c:1098
 msgid "Limit date"
 msgstr "Date limite"
 
-#: ../src/bet_future.c:343 ../src/gsb_archive_config.c:102
+#: ../src/bet_future.c:338 ../src/gsb_archive_config.c:102
 #: ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_assistant_reconcile_config.c:1231
 #: ../src/gsb_reconcile_config.c:105 ../src/gsb_transactions_list.c:2041
 msgid "Final date"
 msgstr "Date finale"
 
-#: ../src/bet_future.c:350 ../src/bet_future.c:729
+#: ../src/bet_future.c:345 ../src/bet_future.c:724
 #: ../src/gsb_form_scheduler.c:206 ../src/gsb_form_scheduler.c:650
 #: ../src/gsb_form_scheduler.c:842
 msgid "Own frequency"
 msgstr "Périodicité utilisateur"
 
-#: ../src/bet_future.c:360 ../src/bet_future.c:366
+#: ../src/bet_future.c:355 ../src/bet_future.c:361
 #: ../src/gsb_form_scheduler.c:212
 msgid "Custom frequency"
 msgstr "Périodicité personnalisée"
 
-#: ../src/bet_future.c:521 ../src/gsb_form_widget.c:214
+#: ../src/bet_future.c:516 ../src/gsb_form_widget.c:214
 msgid "Choose the financial year"
 msgstr "Choix de l'exercice"
 
-#: ../src/bet_future.c:568 ../src/gsb_form_widget.c:269
+#: ../src/bet_future.c:563 ../src/gsb_form_widget.c:269
 msgid "Choose the method of payment"
 msgstr "Choix du mode de règlement"
 
 #. mise en place de la paddingbox des tiers
-#: ../src/bet_future.c:782 ../src/bet_future.c:2193 ../src/bet_future.c:2321
-#: ../src/bet_future.c:2877 ../src/bet_future.c:2931
+#: ../src/bet_future.c:777 ../src/bet_future.c:2091 ../src/bet_future.c:2232
+#: ../src/bet_future.c:2524 ../src/bet_future.c:2587
 #: ../src/etats_affiche.c:2430 ../src/etats_config.c:528
 #: ../src/etats_config.c:531 ../src/etats_config.c:696
 #: ../src/etats_config.c:7032 ../src/export_csv.c:799
-#: ../src/fenetre_principale.c:286 ../src/gsb_assistant_reconcile_config.c:598
+#: ../src/fenetre_principale.c:288 ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_form.c:1319 ../src/gsb_form_widget.c:436
 #: ../src/gsb_scheduler_list.c:514 ../src/gsb_transactions_list.c:172
 #: ../src/import.c:3333 ../src/import_csv.c:83 ../src/meta_payee.c:79
@@ -1037,7 +1037,7 @@ msgid "Payee"
 msgstr "Tiers"
 
 #. Debit method_ptr
-#: ../src/bet_future.c:789 ../src/bet_tab.c:722 ../src/categories_onglet.c:762
+#: ../src/bet_future.c:784 ../src/bet_tab.c:722 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:805 ../src/gsb_form.c:1324 ../src/gsb_form_widget.c:420
 #: ../src/gsb_payment_method_config.c:319
 #: ../src/gsb_payment_method_config.c:390
@@ -1047,7 +1047,7 @@ msgid "Debit"
 msgstr "Débit"
 
 #. Credit method_ptr
-#: ../src/bet_future.c:796 ../src/bet_tab.c:740 ../src/categories_onglet.c:762
+#: ../src/bet_future.c:791 ../src/bet_tab.c:740 ../src/categories_onglet.c:762
 #: ../src/export_csv.c:802 ../src/gsb_form.c:1329 ../src/gsb_form_widget.c:424
 #: ../src/gsb_payment_method_config.c:326
 #: ../src/gsb_payment_method_config.c:403
@@ -1056,14 +1056,14 @@ msgstr "Débit"
 msgid "Credit"
 msgstr "Crédit"
 
-#: ../src/bet_future.c:803 ../src/bet_future.c:2224 ../src/bet_future.c:2352
-#: ../src/bet_future.c:2894 ../src/bet_future.c:2948 ../src/gsb_form.c:1335
+#: ../src/bet_future.c:798 ../src/bet_future.c:2127 ../src/bet_future.c:2267
+#: ../src/bet_future.c:2543 ../src/bet_future.c:2603 ../src/gsb_form.c:1335
 #: ../src/gsb_form_widget.c:440
 msgid "Categories : Sub-categories"
 msgstr "Catégories : Sous-catégories"
 
 #. Notes
-#: ../src/bet_future.c:817 ../src/etats_affiche.c:2451 ../src/export_csv.c:820
+#: ../src/bet_future.c:812 ../src/etats_affiche.c:2451 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1348 ../src/gsb_form_widget.c:452
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
@@ -1073,7 +1073,7 @@ msgstr "Remarques"
 #. create the method of payment for a liabilities account
 #. Transfer = Virement
 #. Direct deposit remplacé par Transfert = Virement
-#: ../src/bet_future.c:1365 ../src/bet_future.c:1616
+#: ../src/bet_future.c:1360 ../src/bet_future.c:1611
 #: ../src/etats_affiche.c:1848 ../src/export_csv.c:625 ../src/export_csv.c:737
 #: ../src/export_csv.c:749 ../src/gsb_data_category.c:1060
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
@@ -1082,96 +1082,116 @@ msgstr "Remarques"
 msgid "Transfer"
 msgstr "Virement"
 
-#: ../src/bet_future.c:1921 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1916 ../src/gsb_account_property.c:696
 #: ../src/gsb_assistant_account.c:431 ../src/gsb_data_partial_balance.c:231
 msgid "Bank account"
 msgstr "Compte bancaire"
 
-#: ../src/bet_future.c:1924 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1919 ../src/gsb_account_property.c:696
 #: ../src/gsb_data_partial_balance.c:219
 msgid "Cash account"
 msgstr "Compte de caisse"
 
-#: ../src/bet_future.c:1927 ../src/gsb_account_property.c:696
+#: ../src/bet_future.c:1922 ../src/gsb_account_property.c:696
 #: ../src/gsb_assistant_account.c:444 ../src/gsb_data_partial_balance.c:223
 #, c-format
 msgid "Liabilities account"
 msgstr "Compte de passif"
 
-#: ../src/bet_future.c:1983
+#: ../src/bet_future.c:1978
 msgid "Partial balance"
 msgstr "Solde partiel"
 
-#: ../src/bet_future.c:2025
-msgid "You must create at least one cash account"
-msgstr "Vous devez créer au moins un compte de caisse"
-
-#: ../src/bet_future.c:2078 ../src/bet_future.c:2768
-msgid "Error: You must select an account."
-msgstr "Erreur : Vous devez sélectionner un compte."
-
-#: ../src/bet_future.c:2079 ../src/bet_future.c:2769
-msgid "Missing data"
-msgstr "Données manquantes"
-
-#: ../src/bet_future.c:2087 ../src/bet_future.c:2777
-msgid ""
-"Error:  the category or the budgetary line is not specified or the date is "
-"invalid."
-msgstr ""
-"Erreur: la catégorie ou l'imputation budgétaire n'est pas définie ou la date "
-"est invalide."
-
 #. Create the dialog
-#: ../src/bet_future.c:2128
+#: ../src/bet_future.c:2018
 msgid "Select an account"
 msgstr "Sélectionner un compte"
 
 #. list of accounts
-#: ../src/bet_future.c:2144
+#: ../src/bet_future.c:2034
 msgid "List of accounts"
 msgstr "Liste des Comptes"
 
 #. Account with deferred debit card
-#: ../src/bet_future.c:2167
+#: ../src/bet_future.c:2059
 msgid "Deferred debit card"
 msgstr "Compte carte à débit différé"
 
-#: ../src/bet_future.c:2173
+#: ../src/bet_future.c:2065
 msgid "Date of change of month: "
 msgstr "Date de changement de mois : "
 
+#: ../src/bet_future.c:2076 ../src/bet_future.c:2217
+msgid "This field is required"
+msgstr "Ce champ est obligatoire"
+
+#: ../src/bet_future.c:2110
+msgid "One of the two fields is recommended"
+msgstr "Il est recommandé d'utiliser un des deux champs"
+
 #. Main account
-#: ../src/bet_future.c:2265
+#: ../src/bet_future.c:2170
 msgid "Main account"
 msgstr "Compte principal"
 
 #. Effective Date
-#: ../src/bet_future.c:2271
+#: ../src/bet_future.c:2176
 msgid "Effective date: "
 msgstr "Date d'effet : "
 
-#: ../src/bet_future.c:2284
+#: ../src/bet_future.c:2189
 msgid "Automatic creation of the direct debit transaction"
 msgstr "Création automatique de l'opération de débit"
 
-#: ../src/bet_future.c:2296
+#: ../src/bet_future.c:2201
 msgid "Replacement of the scheduled operation"
 msgstr "Remplacement de l'opération planifiée"
 
+#: ../src/bet_future.c:2251
+msgid "One of the two fields is required"
+msgstr "Un des deux champs est obligatoire"
+
+#: ../src/bet_future.c:2668
+msgid "You must create at least one cash account"
+msgstr "Vous devez créer au moins un compte de caisse"
+
+#: ../src/bet_future.c:2707 ../src/bet_future.c:2988
+msgid "Error: You must select an account."
+msgstr "Erreur : Vous devez sélectionner un compte."
+
+#: ../src/bet_future.c:2708 ../src/bet_future.c:2989
+msgid "Missing data"
+msgstr "Données manquantes"
+
+#: ../src/bet_future.c:2716 ../src/bet_future.c:2997
+msgid "Error: a date is not present or a field is in error."
+msgstr "Erreur : une date est absente ou un champ est en erreur"
+
 #. Description entry
-#: ../src/bet_future.c:2440 ../src/categories_onglet.c:757 ../src/import.c:474
+#: ../src/bet_future.c:2773 ../src/categories_onglet.c:757 ../src/import.c:474
 #: ../src/imputation_budgetaire.c:795
 msgid "Type"
 msgstr "Type"
 
-#: ../src/bet_future.c:2704 ../src/gsb_data_scheduled.c:1831
+#: ../src/bet_future.c:2925 ../src/gsb_data_scheduled.c:1831
 msgid ""
 "Error: is missing one or more links between currencies.\n"
 "You need to fix it and start over."
 msgstr ""
 "Erreur : il manque un ou plusieurs liens entre les devises.\n"
 " Vous devez corriger ça et recommencer."
+
+#: ../src/bet_future.c:2952
+msgid ""
+"There is an inconsistency in the balance of a deferred debit account.\n"
+"You should delete it and create another"
+msgstr ""
+"Il ya une incohérence dans le solde d'un compte à débit différé.\n"
+"Vous devriez le supprimer et en créer un autre"
+
+#: ../src/bet_future.c:2956
+msgid "Error of configuration"
+msgstr "Erreur de configuration"
 
 #: ../src/bet_graph.c:305 ../src/bet_graph.c:422
 msgid "Graph"
@@ -1314,7 +1334,7 @@ msgid "Balance"
 msgstr "Solde"
 
 #: ../src/bet_tab.c:854 ../src/bet_tab.c:867 ../src/bet_tab.c:1058
-#: ../src/bet_tab.c:2528 ../src/bet_tab.c:2533
+#: ../src/bet_tab.c:2527 ../src/bet_tab.c:2532
 #, c-format
 msgid ""
 "Transfer between account: %s\n"
@@ -1362,42 +1382,42 @@ msgstr "Insérez le solde d'un compte à débit différé"
 msgid "Reset data"
 msgstr "Réinitialiser les données"
 
-#: ../src/bet_tab.c:1889
+#: ../src/bet_tab.c:1888
 msgid " (still available)"
 msgstr " (reste à utiliser)"
 
-#: ../src/bet_tab.c:1898 ../src/bet_tab.c:1920
+#: ../src/bet_tab.c:1897 ../src/bet_tab.c:1919
 msgid " (budget exceeded)"
 msgstr " (budget dépassé)"
 
-#: ../src/bet_tab.c:1911
+#: ../src/bet_tab.c:1910
 msgid " (yet to receive)"
 msgstr " (reste à recevoir)"
 
-#: ../src/bet_tab.c:2451 ../src/bet_tab.c:2501 ../src/bet_tab.c:2561
+#: ../src/bet_tab.c:2450 ../src/bet_tab.c:2500 ../src/bet_tab.c:2560
 msgid "No data by default"
 msgstr "Pas de donnée disponible par défaut"
 
-#: ../src/bet_tab.c:2459 ../src/bet_tab.c:2509 ../src/bet_tab.c:2567
+#: ../src/bet_tab.c:2458 ../src/bet_tab.c:2508 ../src/bet_tab.c:2566
 #: ../src/etats_affiche.c:1864 ../src/gsb_data_category.c:161
 #: ../src/meta_categories.c:70
 msgid "No category"
 msgstr "Pas de catégorie"
 
-#: ../src/bet_tab.c:2467 ../src/bet_tab.c:2517 ../src/bet_tab.c:2573
+#: ../src/bet_tab.c:2466 ../src/bet_tab.c:2516 ../src/bet_tab.c:2572
 #: ../src/etats_affiche.c:2034 ../src/meta_budgetary.c:68
 msgid "No budgetary line"
 msgstr "Pas d'imputation budgétaire"
 
-#: ../src/bet_tab.c:2928 ../src/bet_tab.c:3027
+#: ../src/bet_tab.c:2927 ../src/bet_tab.c:3026
 msgid "Export the array of forecast"
 msgstr "Exporter les prévisions"
 
-#: ../src/bet_tab.c:2985
+#: ../src/bet_tab.c:2984
 msgid "Balance at "
 msgstr "Solde au "
 
-#: ../src/bet_tab.c:3034
+#: ../src/bet_tab.c:3033
 msgid "forecast.csv"
 msgstr "prévisions.csv"
 
@@ -2280,7 +2300,7 @@ msgstr "Virements"
 
 #. mise en place de la paddingbox des comptes
 #: ../src/etats_config.c:519 ../src/etats_config.c:522
-#: ../src/etats_config.c:7002 ../src/fenetre_principale.c:249
+#: ../src/etats_config.c:7002 ../src/fenetre_principale.c:251
 #: ../src/navigation.c:1944
 msgid "Accounts"
 msgstr "Comptes"
@@ -2326,7 +2346,7 @@ msgid "Generalities"
 msgstr "Généralités"
 
 #: ../src/etats_config.c:644 ../src/etats_config.c:647 ../src/export_csv.c:775
-#: ../src/fenetre_principale.c:253 ../src/parametres.c:433
+#: ../src/fenetre_principale.c:255 ../src/parametres.c:433
 msgid "Transactions"
 msgstr "Opérations"
 
@@ -3053,7 +3073,7 @@ msgstr ""
 msgid "Cannot open file '%s' for writing"
 msgstr "Impossible d'ouvrir le fichier « %s » en écriture"
 
-#: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:306
+#: ../src/etats_onglet.c:119 ../src/fenetre_principale.c:308
 #: ../src/navigation.c:1252 ../src/navigation.c:1968
 msgid "Reports"
 msgstr "États"
@@ -3083,7 +3103,7 @@ msgstr "Imprimer l'état sélectionné"
 msgid "Delete selected report"
 msgstr "Effacer l'état sélectionné"
 
-#: ../src/etats_onglet.c:196 ../src/fenetre_principale.c:271
+#: ../src/etats_onglet.c:196 ../src/fenetre_principale.c:273
 msgid "Properties"
 msgstr "Propriétés"
 
@@ -3444,23 +3464,23 @@ msgstr "Sous-imputations budgétaires"
 msgid "Reconciliation number"
 msgstr "N° de rapprochement"
 
-#: ../src/fenetre_principale.c:239 ../src/parametres.c:369
+#: ../src/fenetre_principale.c:241 ../src/parametres.c:369
 msgid "Main page"
 msgstr "Accueil"
 
-#: ../src/fenetre_principale.c:258
+#: ../src/fenetre_principale.c:260
 msgid "Forecast"
 msgstr "Prévisions"
 
-#: ../src/fenetre_principale.c:262
+#: ../src/fenetre_principale.c:264
 msgid "Historical data"
 msgstr "Données historiques"
 
-#: ../src/fenetre_principale.c:267
+#: ../src/fenetre_principale.c:269
 msgid "Amortization array"
 msgstr "Tableau d'amortissement"
 
-#: ../src/fenetre_principale.c:281 ../src/navigation.c:1948
+#: ../src/fenetre_principale.c:283 ../src/navigation.c:1948
 #: ../src/parametres.c:351 ../src/parametres.c:1111
 msgid "Scheduler"
 msgstr "Échéancier"
