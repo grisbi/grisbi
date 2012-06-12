@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -350,10 +350,25 @@ msgstr ""
 msgid "Toolbars"
 msgstr ""
 
+#: ../src/affichage.c:733
+#, fuzzy
+msgid "Display toolbar buttons as"
+msgstr "Toon transacties"
+
 #: ../src/affichage.c:735
 #, fuzzy
 msgid "Text"
 msgstr "Tekst"
+
+#: ../src/affichage.c:746
+#, fuzzy
+msgid "Icons"
+msgstr "Inkomsten"
+
+#: ../src/affichage.c:757
+#, fuzzy
+msgid "Both"
+msgstr "oth a"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10506,7 +10521,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Vul aub een budgetregel in!"
 
 #: ../src/parametres.c:423
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11693,18 +11708,6 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Toon transacties"
-
-#, fuzzy
-#~ msgid "Icons"
-#~ msgstr "Inkomsten"
-
-#, fuzzy
-#~ msgid "Both"
-#~ msgstr "oth a"
 
 #, fuzzy
 #~ msgid "Account data and actions"

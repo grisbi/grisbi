@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -334,9 +334,21 @@ msgstr ""
 msgid "Toolbars"
 msgstr ""
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr ""
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "متن"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "آیکون"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "هردو"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -9933,7 +9945,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "بخش های درآمد"
 
 #: ../src/parametres.c:423
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11050,12 +11062,6 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#~ msgid "Icons"
-#~ msgstr "آیکون"
-
-#~ msgid "Both"
-#~ msgstr "هردو"
 
 #, fuzzy
 #~ msgid "Account data and actions"

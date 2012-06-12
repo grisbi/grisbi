@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2012-02-15 21:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -324,9 +324,21 @@ msgstr "Im Navigationsbereich mit dem Mausrad scrollen"
 msgid "Toolbars"
 msgstr "Werkzeugleisten"
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr "Werkzeugleisten Darstellung"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "Text"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "Symbole"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "Text und Symbole"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10340,7 +10352,7 @@ msgstr "Währungen & Sortierung"
 
 #: ../src/parametres.c:423
 #, fuzzy
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr "Werkzeugleisten"
 
 #: ../src/parametres.c:441
@@ -11641,15 +11653,6 @@ msgstr "Finanzprogramm für Privatpersonen"
 #~ msgstr ""
 #~ "Fehler: Die Kategorie oder der Budgeteintrag sind nicht festgelegt oder "
 #~ "das Datum ist ungültig."
-
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Werkzeugleisten Darstellung"
-
-#~ msgid "Icons"
-#~ msgstr "Symbole"
-
-#~ msgid "Both"
-#~ msgstr "Text und Symbole"
 
 #~ msgid "Toolbars - Navigation pane"
 #~ msgstr "Werkzeugleisten & Navigation"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -341,9 +341,21 @@ msgstr ""
 msgid "Toolbars"
 msgstr "Ράβδοι εργαλείων"
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr "Εμφάνιση των εργαλείων ράβδου ως"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "Κείμενο"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "Εικονίδια"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "Και οι δύο"
 
 #: ../src/affichage_liste.c:127
 #, fuzzy
@@ -10659,7 +10671,7 @@ msgstr "Απόκρυψη ονομάτων κατηγοριών"
 
 #: ../src/parametres.c:423
 #, fuzzy
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr "Ράβδοι εργαλείων"
 
 #: ../src/parametres.c:441
@@ -11885,15 +11897,6 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
-
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Εμφάνιση των εργαλείων ράβδου ως"
-
-#~ msgid "Icons"
-#~ msgstr "Εικονίδια"
-
-#~ msgid "Both"
-#~ msgstr "Και οι δύο"
 
 #, fuzzy
 #~ msgid "Account data and actions"

@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -619,10 +619,25 @@ msgstr ""
 msgid "Toolbars"
 msgstr ""
 
+#: ../src/affichage.c:733
+#, fuzzy
+msgid "Display toolbar buttons as"
+msgstr "הצגת עיסקאות"
+
 #: ../src/affichage.c:735
 #, fuzzy
 msgid "Text"
 msgstr "טקסטים"
+
+#: ../src/affichage.c:746
+#, fuzzy
+msgid "Icons"
+msgstr "הכנסות"
+
+#: ../src/affichage.c:757
+#, fuzzy
+msgid "Both"
+msgstr "חודשים"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10656,7 +10671,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "נא להזין קו תקציב!"
 
 #: ../src/parametres.c:423
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11836,18 +11851,6 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "הצגת עיסקאות"
-
-#, fuzzy
-#~ msgid "Icons"
-#~ msgstr "הכנסות"
-
-#, fuzzy
-#~ msgid "Both"
-#~ msgstr "חודשים"
 
 #, fuzzy
 #~ msgid "Account data and actions"

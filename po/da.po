@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -337,9 +337,24 @@ msgstr ""
 msgid "Toolbars"
 msgstr ""
 
+#: ../src/affichage.c:733
+#, fuzzy
+msgid "Display toolbar buttons as"
+msgstr "Vis transaktioner"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr ""
+
+#: ../src/affichage.c:746
+#, fuzzy
+msgid "Icons"
+msgstr "kolonner"
+
+#: ../src/affichage.c:757
+#, fuzzy
+msgid "Both"
+msgstr "Måneder"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10117,7 +10132,7 @@ msgid "Payees, categories and budgetaries"
 msgstr ""
 
 #: ../src/parametres.c:423
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11263,18 +11278,6 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Vis transaktioner"
-
-#, fuzzy
-#~ msgid "Icons"
-#~ msgstr "kolonner"
-
-#, fuzzy
-#~ msgid "Both"
-#~ msgstr "Måneder"
 
 #, fuzzy
 #~ msgid "Account data and actions"

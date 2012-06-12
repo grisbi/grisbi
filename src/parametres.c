@@ -420,7 +420,7 @@ gboolean preferences ( gint page )
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
     gtk_tree_store_set (GTK_TREE_STORE (preference_tree_model),
                         &iter2,
-                        0, _("HMI - Toolbars"),
+                        0, _("GUI - Toolbars"),
                         1, TOOLBARS_PAGE,
                         2, 400,
                         -1);

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -342,10 +342,25 @@ msgstr ""
 msgid "Toolbars"
 msgstr ""
 
+#: ../src/affichage.c:733
+#, fuzzy
+msgid "Display toolbar buttons as"
+msgstr "Mostra registrazioni"
+
 #: ../src/affichage.c:735
 #, fuzzy
 msgid "Text"
 msgstr "Testi"
+
+#: ../src/affichage.c:746
+#, fuzzy
+msgid "Icons"
+msgstr "Entrate"
+
+#: ../src/affichage.c:757
+#, fuzzy
+msgid "Both"
+msgstr "la data"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10389,7 +10404,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Inserisci una linea budget!"
 
 #: ../src/parametres.c:423
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr ""
 
 #: ../src/parametres.c:441
@@ -11574,18 +11589,6 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Mostra registrazioni"
-
-#, fuzzy
-#~ msgid "Icons"
-#~ msgstr "Entrate"
-
-#, fuzzy
-#~ msgid "Both"
-#~ msgstr "la data"
 
 #, fuzzy
 #~ msgid "Account data and actions"

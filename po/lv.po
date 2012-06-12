@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -329,9 +329,21 @@ msgstr ""
 msgid "Toolbars"
 msgstr "Rīkjoslas"
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr "Rādīt rīkjoslas pogas, kas"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "Teksts"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "Ikonas"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "Abi"
 
 #: ../src/affichage_liste.c:127
 #, fuzzy
@@ -10344,7 +10356,7 @@ msgstr "Darījuma partneri, kategorijas un budžeti"
 
 #: ../src/parametres.c:423
 #, fuzzy
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr "Rīkjoslas"
 
 #: ../src/parametres.c:441
@@ -11552,15 +11564,6 @@ msgstr "Personālais finanšu vadītājs\n"
 #~ msgstr ""
 #~ "Kļūda: biežumu nosaka lietotājs, apmērs nav precizēts, vai datums ir "
 #~ "nederīgs"
-
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Rādīt rīkjoslas pogas, kas"
-
-#~ msgid "Icons"
-#~ msgstr "Ikonas"
-
-#~ msgid "Both"
-#~ msgstr "Abi"
 
 #, fuzzy
 #~ msgid "Account data and actions"

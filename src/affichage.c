@@ -730,7 +730,7 @@ GtkWidget *tab_display_toolbar ( void )
     vbox = new_vbox_with_title_and_icon ( _("Toolbars"), "toolbar.png" );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE, ("Display toolbar buttons as") );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Display toolbar buttons as") );
 
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_TEXT ) );
@@ -743,7 +743,7 @@ GtkWidget *tab_display_toolbar ( void )
                         G_CALLBACK ( change_toolbar_display_mode ),
                         NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Icons") );
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Icons") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_ICON ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_ICON )
@@ -754,7 +754,7 @@ GtkWidget *tab_display_toolbar ( void )
                         G_CALLBACK ( change_toolbar_display_mode ),
                         NULL );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), ("Both") );
+    radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Both") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_BOTH ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
     if ( etat.display_toolbar == GSB_BUTTON_BOTH )

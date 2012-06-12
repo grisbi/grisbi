@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -321,9 +321,21 @@ msgstr ""
 msgid "Toolbars"
 msgstr "Panely nástrojů"
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr "Zobrazit tlačítka panelu nástrojů jako"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "Text"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "Ikony"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "Obojí"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10243,7 +10255,7 @@ msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #: ../src/parametres.c:423
 #, fuzzy
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr "Panely nástrojů"
 
 #: ../src/parametres.c:441
@@ -11512,15 +11524,6 @@ msgstr "Osobní správce financí"
 #~ msgstr ""
 #~ "Chyba: frekvence není uživatelem definována, nebo není zadána částka, "
 #~ "nebo je neplatné datum."
-
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Zobrazit tlačítka panelu nástrojů jako"
-
-#~ msgid "Icons"
-#~ msgstr "Ikony"
-
-#~ msgid "Both"
-#~ msgstr "Obojí"
 
 #, fuzzy
 #~ msgid "Account data and actions"

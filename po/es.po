@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 20:55+0200\n"
+"POT-Creation-Date: 2012-06-12 20:23+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -323,9 +323,21 @@ msgstr ""
 msgid "Toolbars"
 msgstr "Barra de herramientas"
 
+#: ../src/affichage.c:733
+msgid "Display toolbar buttons as"
+msgstr "Mostrar los botones de la barra de herramientas como"
+
 #: ../src/affichage.c:735
 msgid "Text"
 msgstr "Texto"
+
+#: ../src/affichage.c:746
+msgid "Icons"
+msgstr "Iconos"
+
+#: ../src/affichage.c:757
+msgid "Both"
+msgstr "Ambos"
 
 #: ../src/affichage_liste.c:127
 msgid "In one line visible, show the line: "
@@ -10421,7 +10433,7 @@ msgstr "Terceros, categorías y presupuestos"
 
 #: ../src/parametres.c:423
 #, fuzzy
-msgid "HMI - Toolbars"
+msgid "GUI - Toolbars"
 msgstr "Barra de herramientas"
 
 #: ../src/parametres.c:441
@@ -11709,15 +11721,6 @@ msgstr "Gestor de finanzas personal para todo el mundo\n"
 #~ msgstr ""
 #~ "Error: la periodicidad definida por el usuario o la cantidad no están "
 #~ "especificadas o la fecha no es válida."
-
-#~ msgid "Display toolbar buttons as"
-#~ msgstr "Mostrar los botones de la barra de herramientas como"
-
-#~ msgid "Icons"
-#~ msgstr "Iconos"
-
-#~ msgid "Both"
-#~ msgstr "Ambos"
 
 #, fuzzy
 #~ msgid "Account data and actions"
