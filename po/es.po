@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -10432,9 +10432,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Terceros, categorías y presupuestos"
 
 #: ../src/parametres.c:423
-#, fuzzy
-msgid "GUI - Toolbars"
-msgstr "Barra de herramientas"
+msgid "Elements of interface"
+msgstr ""
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11713,6 +11712,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#, fuzzy
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Barra de herramientas"
 
 #, fuzzy
 #~ msgid ""

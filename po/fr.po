@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -10338,8 +10338,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Tiers, catégories imputations budgétaires"
 
 #: ../src/parametres.c:423
-msgid "GUI - Toolbars"
-msgstr "Interface - Barres d'outils"
+msgid "Elements of interface"
+msgstr "Eléments de l'interface"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11615,3 +11615,6 @@ msgstr "Afficher les étiquettes"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
+
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Interface - Barres d'outils"

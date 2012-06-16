@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2012-02-15 21:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -10351,9 +10351,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Währungen & Sortierung"
 
 #: ../src/parametres.c:423
-#, fuzzy
-msgid "GUI - Toolbars"
-msgstr "Werkzeugleisten"
+msgid "Elements of interface"
+msgstr ""
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11646,6 +11645,10 @@ msgstr "Beschriftung anzeigen"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#, fuzzy
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Werkzeugleisten"
 
 #~ msgid ""
 #~ "Error:  the category or the budgetary line is not specified or the date "

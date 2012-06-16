@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2010-11-08 20:02+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -10355,9 +10355,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Darījuma partneri, kategorijas un budžeti"
 
 #: ../src/parametres.c:423
-#, fuzzy
-msgid "GUI - Toolbars"
-msgstr "Rīkjoslas"
+msgid "Elements of interface"
+msgstr ""
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11556,6 +11555,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Personālais finanšu vadītājs\n"
+
+#, fuzzy
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Rīkjoslas"
 
 #, fuzzy
 #~ msgid ""

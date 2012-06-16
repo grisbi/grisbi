@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2008-10-02 10:07+0330\n"
 "Last-Translator: hadi <hadi60@gmail.com>\n"
 "Language-Team: farsi <en@li.org>\n"
@@ -9945,7 +9945,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "بخش های درآمد"
 
 #: ../src/parametres.c:423
-msgid "GUI - Toolbars"
+msgid "Elements of interface"
 msgstr ""
 
 #: ../src/parametres.c:441

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -10521,7 +10521,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Vul aub een budgetregel in!"
 
 #: ../src/parametres.c:423
-msgid "GUI - Toolbars"
+msgid "Elements of interface"
 msgstr ""
 
 #: ../src/parametres.c:441

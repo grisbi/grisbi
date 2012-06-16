@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -10132,7 +10132,7 @@ msgid "Payees, categories and budgetaries"
 msgstr ""
 
 #: ../src/parametres.c:423
-msgid "GUI - Toolbars"
+msgid "Elements of interface"
 msgstr ""
 
 #: ../src/parametres.c:441

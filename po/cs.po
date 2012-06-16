@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -10254,9 +10254,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Plátci/příjemci, kategorie a rozpočty"
 
 #: ../src/parametres.c:423
-#, fuzzy
-msgid "GUI - Toolbars"
-msgstr "Panely nástrojů"
+msgid "Elements of interface"
+msgstr ""
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11516,6 +11515,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
+
+#, fuzzy
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Panely nástrojů"
 
 #, fuzzy
 #~ msgid ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -10404,7 +10404,7 @@ msgid "Payees, categories and budgetaries"
 msgstr "Inserisci una linea budget!"
 
 #: ../src/parametres.c:423
-msgid "GUI - Toolbars"
+msgid "Elements of interface"
 msgstr ""
 
 #: ../src/parametres.c:441

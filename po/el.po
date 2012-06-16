@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-12 20:23+0200\n"
+"POT-Creation-Date: 2012-06-16 08:46+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -10670,9 +10670,8 @@ msgid "Payees, categories and budgetaries"
 msgstr "Απόκρυψη ονομάτων κατηγοριών"
 
 #: ../src/parametres.c:423
-#, fuzzy
-msgid "GUI - Toolbars"
-msgstr "Ράβδοι εργαλείων"
+msgid "Elements of interface"
+msgstr ""
 
 #: ../src/parametres.c:441
 msgid "List behavior"
@@ -11897,6 +11896,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
+
+#, fuzzy
+#~ msgid "GUI - Toolbars"
+#~ msgstr "Ράβδοι εργαλείων"
 
 #, fuzzy
 #~ msgid "Account data and actions"
