@@ -57,6 +57,7 @@ GtkWidget *grisbi_window_get_accueil_page ( GrisbiWindow *window );
 const gchar *grisbi_window_get_filename ( GrisbiWindow *window );
 const gchar *grisbi_window_get_file_title ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_headings_eb ( GrisbiWindow *window );
+gboolean grisbi_window_get_is_closed_account ( void );
 GSList *grisbi_window_get_list_accounts ( GrisbiWindow *window );
 GtkWidget *grisbi_window_get_navigation_tree_view ( void );
 GtkWidget *grisbi_window_get_scheduler_calendar ( GrisbiWindow *window );
@@ -76,6 +77,7 @@ gboolean grisbi_window_set_filename ( GrisbiWindow *window,
                         const gchar *filename );
 gboolean grisbi_window_set_file_title ( GrisbiWindow *window,
                         const gchar *file_title );
+gboolean grisbi_window_set_is_closed_account ( gint is_closed_account );
 gboolean grisbi_window_set_list_accounts ( GrisbiWindow *window,
                         GSList *list_accounts );
 gboolean grisbi_window_set_navigation_tree_view ( GtkWidget *navigation_tree_view  );

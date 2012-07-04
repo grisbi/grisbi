@@ -83,7 +83,7 @@
             <menuitem name="ShowThreeLines" action="ShowThreeLinesAction"/>
             <menuitem name="ShowFourLines" action="ShowFourLinesAction"/>
             <separator/>
-            <menuitem name="InitwidthCol" action="InitwidthColAction"/>
+            <menuitem name="InitWidthCol" action="InitWidthColAction"/>
             <separator/>
             <menuitem name="ShowFullScreen" action="ShowFullScreenAction"/>
         </menu>

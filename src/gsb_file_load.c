@@ -719,10 +719,10 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
     gint i=0;
     GrisbiWindowEtat *etat;
 
-    etat = grisbi_window_get_struct_etat ();
-
     if ( !attribute_names[i] )
         return;
+
+    etat = grisbi_window_get_struct_etat ();
 
     do
     {
@@ -1640,8 +1640,11 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
 
                 else if ( !strcmp ( attribute_names[i], "Closed_account" ))
                 {
-                    gsb_data_account_set_closed_account ( account_number,
-                            utils_str_atoi ( attribute_values[i]));
+                    gint is_closed_account = 0;
+
+                    is_closed_account = utils_str_atoi ( attribute_values[i] );
+                    gsb_data_account_set_closed_account ( account_number, is_closed_account );
+                    grisbi_window_set_is_closed_account ( is_closed_account );
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Comment" ))

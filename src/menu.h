@@ -22,7 +22,10 @@ enum view_menu_action {
 /* START_DECLARATION */
 gboolean affiche_derniers_fichiers_ouverts ( void );
 void efface_derniers_fichiers_ouverts ( void );
-gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state );
+gboolean gsb_gui_sensitive_menu_account_name ( gint account_number,
+                        gboolean state );
+gboolean gsb_gui_sensitive_menu_item ( gchar *item_name,
+                        gboolean state );
 void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
                         GtkRadioAction *current,
                         gpointer user_data );
@@ -33,7 +36,7 @@ gboolean gsb_gui_toggle_show_reconciled ( void );
 void gsb_menu_full_screen_mode ( void );
 GtkUIManager *gsb_menu_get_ui_manager ( void );
 gboolean gsb_menu_reinit_largeur_col_menu ( void );
-void gsb_menu_sensitive ( gboolean sensitif );
+void gsb_menu_sensitive ( gboolean sensitive );
 gboolean gsb_menu_set_block_menu_cb ( gboolean etat );
 void gsb_menu_preferences ( GtkAction *action,
                         GrisbiWindow *window );

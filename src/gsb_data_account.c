@@ -667,11 +667,11 @@ gint gsb_data_account_new ( GsbKindAccount account_kind )
     }
 
     list_accounts = g_slist_append ( list_accounts, account );
-printf ("nbre de comptes = %d\n", g_slist_length ( list_accounts ));
+/* printf ("nbre de comptes = %d\n", g_slist_length ( list_accounts ));  */
 
     gsb_data_account_set_list_accounts ( list_accounts );
 
-
+    /* return */
     return account -> account_number;
 }
 

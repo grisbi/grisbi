@@ -43,7 +43,7 @@ gint gsb_navigation_view_get_navigation_sorting_accounts ( void );
 GQueue *gsb_navigation_view_get_pages_list ( void );
 GtkTreePath *gsb_navigation_view_get_page_path ( GtkTreeModel *model,
                         gint type_page );
-GtkWidget*gsb_navigation_view_new ( gint navigation_sorting_accounts );
+GtkWidget *gsb_navigation_view_new ( gint navigation_sorting_accounts );
 gboolean gsb_navigation_view_set_navigation_sorting_accounts ( gint navigation_sorting_accounts );
 gboolean gsb_navigation_view_set_selection ( gint page,
                         gint account_number,

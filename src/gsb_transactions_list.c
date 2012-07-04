@@ -1638,13 +1638,13 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     /* the white number has no account number, so we take the current account */
     if ( new_selected_transaction != -1 )
     {
-    account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
-    gsb_menu_transaction_operations_set_sensitive ( TRUE );
+        account_number = gsb_data_transaction_get_account_number (new_selected_transaction);
+        gsb_menu_transaction_operations_set_sensitive ( TRUE );
     }
     else
     {
-    account_number = gsb_gui_navigation_get_current_account ();
-    gsb_menu_transaction_operations_set_sensitive ( FALSE );
+        account_number = gsb_gui_navigation_get_current_account ();
+        gsb_menu_transaction_operations_set_sensitive ( FALSE );
     }
 
     /* save the new current transaction */

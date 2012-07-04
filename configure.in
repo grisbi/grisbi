@@ -57,6 +57,7 @@ dnl ================================================================
 LT_LIB_M
 
 PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 gmodule-2.0 >= 2.28 zlib libgoffice-0.8 >= 0.8.14])
+GRISBI_LIBS="$LIBM $GRISBI_LIBS"
 # Temporary hack until Mandriva ships zlib.pc
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
 #GRISBI_LIBS="$LIBM $GRISBI_LIBS -lz"
@@ -208,7 +209,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wunused -Wno-unused-parameter -Wno-unused-function"
+		CFLAGS="$CFLAGS -ansi -Wall -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-function"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])

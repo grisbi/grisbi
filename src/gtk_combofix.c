@@ -35,7 +35,7 @@
 #include "gtk_combofix.h"
 /*END_INCLUDE*/
 
- 
+
 G_DEFINE_TYPE ( GtkComboFix, gtk_combofix, GTK_TYPE_HBOX );
 
 #define GTK_COMBOFIX_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_COMBOFIX, GtkComboFixPrivate))
@@ -186,7 +186,7 @@ enum combofix_key_direction {
 GtkWidget *gtk_combofix_new ( GSList *list )
 {
     GtkComboFix *combofix = g_object_new ( GTK_TYPE_COMBOFIX, NULL );
- 
+
     gtk_combofix_set_list (combofix, list);
 
     return ( GTK_WIDGET ( combofix ) );
@@ -543,14 +543,14 @@ void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 
         valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( priv -> store ), &iter );
     }
-    
+
     if ( valid )
         gtk_tree_store_remove ( priv -> store, &iter );
 }
 
 
 /**
-* 
+*
 *
 * \param combofix text
 *
@@ -1146,9 +1146,19 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                             MIN ( length, model_string_length ) );
             }
             else
-                show_row = !g_strncasecmp ( model_string,
-                            string,
-                            MIN ( length, model_string_length ) );
+			{
+				gchar *tmp_str1;
+				gchar *tmp_str2;
+
+				tmp_str1 =  g_utf8_casefold ( model_string,
+				            MIN ( length, model_string_length ) );
+				tmp_str2 =  g_utf8_casefold ( string,
+				            MIN ( length, model_string_length ) );
+
+                show_row = !g_utf8_collate ( tmp_str1, tmp_str2 );
+				g_free ( tmp_str1 );
+				g_free ( tmp_str2 );
+			}
 
             if ( show_row )
             {
@@ -1170,7 +1180,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
 
         /* increment the path :
          * 	go to see the children only if the mother is showed */
-        
+
         if ( gtk_tree_model_iter_has_child ( model, &iter )
              &&
              show_row )
@@ -1416,7 +1426,7 @@ static gboolean gtk_combofix_focus_out ( GtkWidget *entry,
 
 /**
  * called when the entry receive a focus in event
- * 
+ *
  *
  * \param entry
  * \param ev
@@ -1777,14 +1787,14 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
         tmp_item = g_strndup ( item, ( ptr - item ) -1 );
     else
         tmp_item = g_strdup ( item );
-        
+
     model = GTK_TREE_MODEL ( priv -> model_sort );
     result = gtk_tree_model_get_iter_first ( model, &iter );
 
     while ( result )
     {
         gchar *tmp_str;
-        
+
         gtk_tree_model_get ( model, &iter, COMBOFIX_COL_REAL_STRING, &tmp_str, -1 );
 
         if ( tmp_str
@@ -2088,7 +2098,7 @@ void gtk_combofix_dialog ( gchar *text, gchar *hint )
                         "<span size=\"larger\" weight=\"bold\">%s</span>\n\n", hint ),
                         text, NULL );
 
-    dialog = gtk_message_dialog_new ( NULL, 
+    dialog = gtk_message_dialog_new ( NULL,
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
                         NULL );
@@ -2149,7 +2159,7 @@ gboolean gtk_combofix_search_for_text (GtkTreeModel *model,
  * \param sort_model
  * \param iter
  *
- * \return 
+ * \return
  */
 gchar *gtk_combofix_get_first_string_from_sort_model ( GtkTreeModel *sort_model,
                         const gchar *string )

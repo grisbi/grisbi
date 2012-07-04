@@ -1001,12 +1001,13 @@ gboolean gsb_file_close ( void )
         g_free ( nom_fichier_comptes );
 
         /* free all the variables */
-/*        init_variables ();
-        gsb_account_property_clear_config ( );
-*/
+/*         init_variables ();
+ *         gsb_account_property_clear_config ( );
+ */
+
         grisbi_window_set_active_title ( -1 );
 
-        menus_sensitifs ( FALSE );
+/*         menus_sensitifs ( FALSE );  */
 
         table_etat = NULL;
 
@@ -1015,6 +1016,8 @@ gboolean gsb_file_close ( void )
     default :
         return FALSE;
     }
+    /* return */
+    return FALSE;
 }
 
 

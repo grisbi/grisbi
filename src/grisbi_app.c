@@ -37,6 +37,7 @@
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_select_icon.h"
+#include "menu.h"
 #include "traitement_variables.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -471,6 +472,11 @@ gboolean grisbi_app_close_file ( void )
     gtk_widget_hide ( grisbi_window_get_widget_by_name ( "vbox_general" ) );
     gtk_widget_hide ( grisbi_window_get_headings_eb ( main_window ) );
     gtk_widget_show ( grisbi_window_get_accueil_page ( main_window ) );
+
+    /* grise les menus nécessaires */
+    gsb_menu_sensitive ( FALSE );
+    gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", FALSE );
+    gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/InitWidthCol", FALSE );
 
     return TRUE;
 }

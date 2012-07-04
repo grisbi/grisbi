@@ -29,6 +29,9 @@
 /*END_INCLUDE*/
 
 
+/* Entrées de menu "groupables" par bloc */
+
+/* Entrées du menu toujours actives */
 static const GtkActionEntry always_sensitive_entries[] =
 {
 /* name, stock_id, label, accelerator, tooltip, callback */
@@ -39,14 +42,11 @@ static const GtkActionEntry always_sensitive_entries[] =
      G_CALLBACK ( gsb_file_new ) },
     {"OpenAction",  GTK_STOCK_OPEN, N_("_Open..."), "<Meta>O", NULL,
      G_CALLBACK ( gsb_file_open_menu ) },
-    {"RecentFilesAction", NULL, N_("_Recently opened files"), NULL, NULL, NULL },
-     G_CALLBACK ( gsb_file_save ) },
 #else
     { "NewAction", GTK_STOCK_NEW, N_("_New account file..."), NULL, NULL,
      G_CALLBACK ( gsb_file_new ) },
     {"OpenAction",  GTK_STOCK_OPEN, N_("_Open..."), NULL, NULL,
      G_CALLBACK ( gsb_file_open_menu ) },
-    {"RecentFilesAction", NULL, N_("_Recently opened files"), NULL, NULL, NULL },
 #endif
     {"ImportFileAction", GTK_STOCK_CONVERT,  N_("_Import file..."), NULL, NULL,
      G_CALLBACK ( importer_fichier ) },
@@ -93,14 +93,17 @@ static GtkToggleActionEntry show_full_screen_entrie[] =
      G_CALLBACK ( gsb_menu_full_screen_mode ), 0 },
 };
 
-static const GtkActionEntry division_sensitive_entries[] =
+
+/* Entrées du menu actives avec un fichier chargé */
+static const GtkActionEntry file_loading_sensitive_entries[] =
 {
+/* name, stock_id, label, accelerator, tooltip, callback */
     {"SaveAsAction", GTK_STOCK_SAVE_AS,  N_("_Save as..."), NULL, NULL,
      G_CALLBACK ( gsb_file_save_as ) },
     {"FileRevertAction", GTK_STOCK_REVERT_TO_SAVED, NULL, NULL,
      N_("Revert to a saved version of the file..."),
      G_CALLBACK ( gsb_file_save_as ) },
-    { "ExportFileAction", GTK_STOCK_CONVERT, N_("_Export accounts as QIF/CSV file..."), NULL, NULL,
+    {"ExportFileAction", GTK_STOCK_CONVERT, N_("_Export accounts as QIF/CSV file..."), NULL, NULL,
      G_CALLBACK ( export_accounts ) },
     {"CreateArchiveAction", GTK_STOCK_CLEAR, N_("Archive transactions..."), NULL, NULL,
      G_CALLBACK ( gsb_assistant_archive_run_by_menu ) },
@@ -121,22 +124,6 @@ static const GtkActionEntry division_sensitive_entries[] =
      G_CALLBACK ( gsb_assistant_account_run ) },
 };
 
-static const GtkActionEntry file_save_entries[] =
-{
-#ifdef GTKOSXAPPLICATION
-    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), "<Meta>S", NULL,
-     G_CALLBACK ( gsb_file_save ) },
-#else
-    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), NULL, NULL,
-     G_CALLBACK ( gsb_file_save ) },
-#endif
-};
-
-static const GtkActionEntry file_recent_files_entrie[] =
-{
-    {"RecentFilesAction", NULL, N_("_Recently opened files"), NULL, NULL, NULL },
-};
-
 static GtkToggleActionEntry file_debug_toggle_entrie[] =
 {
 /* Name, stock_id, label, accelerator, tooltip, callback, is_active */
@@ -144,46 +131,54 @@ static GtkToggleActionEntry file_debug_toggle_entrie[] =
      G_CALLBACK ( gsb_debug_start_log ), 0 },
 };
 
-static const GtkActionEntry edit_sensitive_entries[] =
+/* Entrées de menu actives si une transaction (y compris planifiée) est sélectionnée */
+static const GtkActionEntry select_all_transactions_sensitive_entries[] =
 {
+/* name, stock_id, label, accelerator, tooltip, callback */
      {"EditTransactionAction", GTK_STOCK_EDIT, N_("_Edit transaction"), "", NULL,
      G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
-    {"NewTransactionAction", GTK_STOCK_NEW, N_("_New transaction"), "", NULL,
-     G_CALLBACK ( new_transaction ) },
-    {"MoveToAnotherAccountAction", NULL, N_("_Move transaction to another account"), NULL, NULL, NULL },
-    {"RemoveAccountAction", GTK_STOCK_DELETE, N_("_Remove current account"), "", NULL,
-     G_CALLBACK ( gsb_account_delete ) },
-};
-
-static const GtkActionEntry edit_transaction_entrie[] =
-{
-     {"EditTransactionAction", GTK_STOCK_EDIT, N_("_Edit transaction"), "", NULL,
-     G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
-};
-
-static const GtkActionEntry edit_transactions_entries[] =
-{
     {"RemoveTransactionAction", GTK_STOCK_DELETE, N_("_Remove transaction"), "", NULL,
      G_CALLBACK ( remove_transaction ) },
     {"TemplateTransactionAction", GTK_STOCK_COPY, N_("Use selected transaction as a template"), "", NULL,
      G_CALLBACK ( gsb_transactions_list_clone_template ) },
     {"CloneTransactionAction", GTK_STOCK_COPY, N_("_Clone transaction"), "", NULL,
      G_CALLBACK ( clone_selected_transaction ) },
+};
+
+/* Entrées de menu actives si une transaction d'un compte est sélectionnée */
+static const GtkActionEntry select_transaction_sensitive_entries[] =
+{
+/* name, stock_id, label, accelerator, tooltip, callback */
     {"ConvertToScheduledAction", GTK_STOCK_CONVERT, N_("Convert to _scheduled transaction"), NULL, NULL,
      G_CALLBACK ( schedule_selected_transaction ) },
+    {"MoveToAnotherAccountAction", NULL, N_("_Move transaction to another account"), NULL, NULL, NULL },
 };
 
-
-static const GtkActionEntry view_init_width_col_entrie[] =
+/* Entrées de menu actives si un compte ou l'onglet planification est sélectionné */
+static const GtkActionEntry new_transaction_sensitive_entries[] =
 {
-    {"InitwidthColAction", NULL, N_("Reset the column width"), NULL, NULL,
-     G_CALLBACK ( gsb_menu_reinit_largeur_col_menu ) },
-
+/* name, stock_id, label, accelerator, tooltip, callback */
+    {"NewTransactionAction", GTK_STOCK_NEW, N_("_New transaction"), "", NULL,
+     G_CALLBACK ( new_transaction ) },
 };
 
-static GtkRadioActionEntry view_radio_entries[] =
+static GtkToggleActionEntry view_transaction_form_toggle_entries[] =
 {
-    /* Name, StockID, Label, Accelerator, Tooltip, Value */
+/* Name, stock_id, label, accelerator, tooltip, callback, is_active */
+    {"ShowTransactionFormAction", NULL, N_("Show transaction _form"), NULL, NULL,
+     G_CALLBACK ( gsb_gui_toggle_show_form ), 0 },
+};
+
+/* Entrée de menu active dès qu'on affiche le détail d'un compte */
+static const GtkActionEntry select_account_remove_current_sensitive_entries[] =
+{
+    {"RemoveAccountAction", GTK_STOCK_DELETE, N_("_Remove current account"), "", NULL,
+     G_CALLBACK ( gsb_account_delete ) },
+};
+
+static GtkRadioActionEntry select_account_radio_entries[] =
+{
+/* name, stock_id, label, accelerator, tooltip, callback */
     {"ShowOneLineAction", NULL, N_("Show _one line per transaction"), NULL, NULL,
      ONE_LINE_PER_TRANSACTION },
     {"ShowTwoLinesAction", NULL, N_("Show _two lines per transaction"), NULL, NULL,
@@ -194,11 +189,9 @@ static GtkRadioActionEntry view_radio_entries[] =
      FOUR_LINES_PER_TRANSACTION },
 };
 
-static GtkToggleActionEntry view_toggle_entries[] =
+static GtkToggleActionEntry select_account_toggle_entries[] =
 {
 /* Name, stock_id, label, accelerator, tooltip, callback, is_active */
-    {"ShowTransactionFormAction", NULL, N_("Show transaction _form"), NULL, NULL,
-     G_CALLBACK ( gsb_gui_toggle_show_form ), 0 },
 #ifdef GTKOSXAPPLICATION
     {"ShowReconciledAction", NULL, N_("Show _reconciled"), "<Meta>R", NULL,
      G_CALLBACK ( gsb_gui_toggle_show_reconciled ), 0 },
@@ -210,9 +203,49 @@ static GtkToggleActionEntry view_toggle_entries[] =
     {"ShowArchivedAction", NULL, N_("Show _lines archives"), "<Alt>L", NULL,
      G_CALLBACK ( gsb_gui_toggle_show_archived ), 0 },
 #endif
+};
+
+
+
+
+
+/* entrées individuelles du menu */
+ /* Entrée du menu pour la liste des fichiers si nécessaire */
+static const GtkActionEntry file_recent_files_entrie[] =
+{
+/* name, stock_id, label, accelerator, tooltip, callback */
+    {"RecentFilesAction", NULL, N_("_Recently opened files"), NULL, NULL, NULL },
+};
+
+/* Entrée du menu active dès qu'une modification du fichier est faite */
+static const GtkActionEntry file_save_entrie[] =
+{
+/* name, stock_id, label, accelerator, tooltip, callback */
+#ifdef GTKOSXAPPLICATION
+    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), "<Meta>S", NULL,
+     G_CALLBACK ( gsb_file_save ) },
+#else
+    {"SaveAction", GTK_STOCK_SAVE, N_("_Save"), NULL, NULL,
+     G_CALLBACK ( gsb_file_save ) },
+#endif
+};
+
+/* Entrée de menu existante si il existe au moins un compte clos */
+static GtkToggleActionEntry show_closed_toggle_entries[] =
+{
+/* Name, stock_id, label, accelerator, tooltip, callback, is_active */
     {"ShowClosedAction", NULL, N_("Show _closed accounts"), NULL, NULL,
      G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ),0 }
 };
+
+ /* Entrée du menu réinitialiser la largeur des colonnes */
+static const GtkActionEntry init_width_col_entrie[] =
+{
+/* name, stock_id, label, accelerator, tooltip, callback */
+    {"InitWidthColAction", NULL, N_("Reset the column width"), NULL, NULL,
+     G_CALLBACK ( gsb_menu_reinit_largeur_col_menu ) },
+};
+
 
 
 #endif  /* __GRISBI_UI_H__  */

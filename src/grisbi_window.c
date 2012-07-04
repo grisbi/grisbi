@@ -83,16 +83,17 @@ struct _GrisbiWindowPrivate
     /* Menus et barres d'outils */
     GtkWidget           *menu_bar;
     GtkUIManager        *ui_manager;
+
     GtkActionGroup      *always_sensitive_action_group;
-    GtkActionGroup      *division_sensitive_action_group;
-    GtkActionGroup      *file_save_action_group;
+    GtkActionGroup      *file_loading_sensitive_action_group;
+    GtkActionGroup      *select_all_transactions_sensitive_action_group;    /* toutes transactions */
+    GtkActionGroup      *select_transaction_sensitive_action_group;         /* account transaction */
+    GtkActionGroup      *select_account_planed_sensitive_action_group;      /* account or planed selected */
+    GtkActionGroup      *select_account_sensitive_action_group;             /* account selected */
     GtkActionGroup      *file_recent_files_action_group;
-    GtkActionGroup      *file_debug_toggle_action_group;
-    GtkActionGroup      *edit_sensitive_action_group;
-    GtkActionGroup      *edit_transactions_action_group;
-    GtkActionGroup      *view_sensitive_action_group;
-    guint                recent_files_merge_id;             /* utile pour la mise à jour du menu recent file */
-    guint                move_to_account_merge_id;          /* utile pour la mise à jour du menu move_to_account */
+
+    guint                recent_files_merge_id;                     /* utile pour la mise à jour du menu recent file */
+    guint                move_to_account_merge_id;                  /* utile pour la mise à jour du menu move_to_account */
 
     /* statusbar */
     GtkWidget           *statusbar;
@@ -112,6 +113,7 @@ struct _GrisbiWindowPrivate
     GtkWidget           *navigation_tree_view;
     GSList              *list_accounts;
     gpointer            account_buffer;
+    gboolean            is_closed_account;
 
     /* Widget that hold the scheduler calendar. */
     GtkWidget *scheduler_calendar;
@@ -354,7 +356,7 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 
     conf = grisbi_app_get_conf ();
 
-    /* actions toujours accessibles (sensitives) */
+    /* actions toujours actives (sensitives) */
     actions = gtk_action_group_new ( "AlwaysSensitiveActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_actions (actions,
@@ -372,32 +374,98 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
     g_object_unref ( actions );
     window->priv->always_sensitive_action_group = actions;
 
-    /* Actions pour la gestion des fichiers sensitives */
-    actions = gtk_action_group_new ( "DivisionSensitiveActions" );
+    /* Actions actives lors du chargement initial du fichier */
+    actions = gtk_action_group_new ( "FileLoadingSensitiveActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_actions (actions,
-                        division_sensitive_entries,
-                        G_N_ELEMENTS ( division_sensitive_entries ),
+                        file_loading_sensitive_entries,
+                        G_N_ELEMENTS ( file_loading_sensitive_entries ),
+                        window );
+
+    gtk_action_group_add_toggle_actions ( actions,
+                        file_debug_toggle_entrie,
+                        G_N_ELEMENTS ( file_debug_toggle_entrie ),
+                        NULL );
+
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( actions );
+    window->priv->file_loading_sensitive_action_group = actions;
+    gtk_action_group_set_sensitive ( actions, FALSE );
+
+    /* actions actives lorsqu'on sélectionne une opération (y compris planifiée) */
+    actions = gtk_action_group_new ( "SelectAllTransactionsSensitiveActions" );
+    gtk_action_group_set_translation_domain ( actions, NULL );
+    gtk_action_group_add_actions (actions,
+                        select_all_transactions_sensitive_entries,
+                        G_N_ELEMENTS ( select_all_transactions_sensitive_entries ),
                         window );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
-    window->priv->division_sensitive_action_group = actions;
+    window->priv->select_all_transactions_sensitive_action_group = actions;
     gtk_action_group_set_sensitive ( actions, FALSE );
 
-    /* Actions pour la gestion des fichiers sensitives */
-    actions = gtk_action_group_new ( "FileSaveAction" );
+    /* actions actives lorsqu'on sélectionne une opération d'un compte */
+    actions = gtk_action_group_new ( "SelectTransactionSensitiveActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_actions (actions,
-                        file_save_entries,
-                        G_N_ELEMENTS ( file_save_entries ),
+                        select_transaction_sensitive_entries,
+                        G_N_ELEMENTS ( select_transaction_sensitive_entries ),
                         window );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
-    window->priv->file_save_action_group = actions;
+    window->priv->select_transaction_sensitive_action_group = actions;
     gtk_action_group_set_sensitive ( actions, FALSE );
 
+    /* actions actives si un compte ou l'onglet planification est sélectionné */
+    actions = gtk_action_group_new ( "SelectAccountPlanedSensitiveActions" );
+    gtk_action_group_set_translation_domain ( actions, NULL );
+    gtk_action_group_add_actions (actions,
+                        new_transaction_sensitive_entries,
+                        G_N_ELEMENTS ( new_transaction_sensitive_entries ),
+                        window );
+
+    /* view_transaction_form_toggle_entries */
+    gtk_action_group_add_toggle_actions ( actions,
+                        view_transaction_form_toggle_entries,
+                        G_N_ELEMENTS ( view_transaction_form_toggle_entries ),
+                        NULL );
+
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( actions );
+    window->priv->select_account_planed_sensitive_action_group = actions;
+    gtk_action_group_set_sensitive ( actions, FALSE );
+
+    /* actions actives si un compte est sélectionné */
+    actions = gtk_action_group_new ( "SelectAccountSensitiveActions" );
+    gtk_action_group_set_translation_domain ( actions, NULL );
+    gtk_action_group_add_actions (actions,
+                        select_account_remove_current_sensitive_entries,
+                        G_N_ELEMENTS ( select_account_remove_current_sensitive_entries ),
+                        window );
+
+    /* actions d'affichage des opérations rapprochées ou des lignes d'archives */
+    gtk_action_group_add_toggle_actions ( actions,
+                        select_account_toggle_entries,
+                        G_N_ELEMENTS ( select_account_toggle_entries ),
+                        NULL );
+
+    /* actions de sélection du nombre de lignes à afficher */
+    gtk_action_group_add_radio_actions ( actions,
+                        select_account_radio_entries,
+                        G_N_ELEMENTS ( select_account_radio_entries ),
+                        -1,
+                        G_CALLBACK ( gsb_gui_toggle_line_view_mode ),
+                        NULL );
+
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( actions );
+    window->priv->select_account_sensitive_action_group = actions;
+    gtk_action_group_set_sensitive ( actions, FALSE );
+
+
+    /* Actions spécifiques */
     /* Actions pour la gestion des fichiers récents */
     actions = gtk_action_group_new ( "FileRecentFilesAction" );
     gtk_action_group_set_translation_domain ( actions, NULL );
@@ -408,71 +476,45 @@ static void grisbi_window_init_menus ( GrisbiWindow *window )
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
+    window->priv->file_recent_files_action_group = actions;
     gtk_action_group_set_sensitive ( actions, TRUE );
 
-    /* DebugToggle_Action sensitive */
-    actions = gtk_action_group_new ( "FileDebugToggleAction" );
+    /* Action pour la gestion de la sauvegarde du fichier */
+    actions = gtk_action_group_new ( "FileSaveAction" );
+    gtk_action_group_set_translation_domain ( actions, NULL );
+    gtk_action_group_add_actions (actions,
+                        file_save_entrie,
+                        G_N_ELEMENTS ( file_save_entrie ),
+                        window );
+
+    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( actions );
+    gtk_action_group_set_sensitive ( actions, FALSE );
+
+    /* actions du menu ShowClosed */
+    actions = gtk_action_group_new ( "ShowClosedSensitiveActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_toggle_actions ( actions,
-                        file_debug_toggle_entrie,
-                        G_N_ELEMENTS ( file_debug_toggle_entrie ),
-                        NULL );
-
-    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
-    g_object_unref ( actions );
-    window->priv->file_debug_toggle_action_group = actions;
-    gtk_action_group_set_sensitive ( actions, FALSE );
-
-    /* actions du menu Edit sensitives */
-    actions = gtk_action_group_new ( "EditSensitiveActions" );
-    gtk_action_group_set_translation_domain ( actions, NULL );
-    gtk_action_group_add_actions (actions,
-                        edit_sensitive_entries,
-                        G_N_ELEMENTS ( edit_sensitive_entries ),
+                        show_closed_toggle_entries,
+                        G_N_ELEMENTS ( show_closed_toggle_entries ),
                         window );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
-    window->priv->edit_sensitive_action_group = actions;
     gtk_action_group_set_sensitive ( actions, FALSE );
 
-    /* actions propres aux transactions */
-    actions = gtk_action_group_new ( "EditTransactionsActions" );
+    /* Action pour la gestion de la sauvegarde du fichier */
+    actions = gtk_action_group_new ( "InitWidthColActions" );
     gtk_action_group_set_translation_domain ( actions, NULL );
     gtk_action_group_add_actions (actions,
-                        edit_transactions_entries,
-                        G_N_ELEMENTS ( edit_transactions_entries ),
+                        init_width_col_entrie,
+                        G_N_ELEMENTS ( init_width_col_entrie ),
                         window );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
     g_object_unref ( actions );
-    window->priv->edit_transactions_action_group = actions;
     gtk_action_group_set_sensitive ( actions, FALSE );
 
-    /* actions du menu View sensitives */
-    actions = gtk_action_group_new ( "ViewSensitiveActions" );
-    gtk_action_group_set_translation_domain ( actions, NULL );
-    gtk_action_group_add_actions (actions,
-                        view_init_width_col_entrie,
-                        G_N_ELEMENTS ( view_init_width_col_entrie ),
-                        window );
-
-    gtk_action_group_add_radio_actions ( actions,
-                        view_radio_entries,
-                        G_N_ELEMENTS ( view_radio_entries ),
-                        -1,
-                        G_CALLBACK ( gsb_gui_toggle_line_view_mode ),
-                        NULL );
-
-    gtk_action_group_add_toggle_actions ( actions,
-                        view_toggle_entries,
-                        G_N_ELEMENTS ( view_toggle_entries ),
-                        NULL );
-
-    gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
-    g_object_unref ( actions );
-    window->priv->view_sensitive_action_group = actions;
-    gtk_action_group_set_sensitive ( actions, FALSE );
 
     /* now load the UI definition */
     ui_file = g_build_filename ( gsb_dirs_get_ui_dir (), "grisbi_ui.xml", NULL );
@@ -973,18 +1015,18 @@ GtkActionGroup *grisbi_window_get_action_group ( GrisbiWindow *window,
 {
     if ( strcmp ( action_group_name, "AlwaysSensitiveActions" ) == 0 )
         return window->priv->always_sensitive_action_group;
-    else if ( strcmp ( action_group_name, "DivisionSensitiveActions" ) == 0 )
-        return window->priv->division_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "FileLoadingSensitiveActions" ) == 0 )
+        return window->priv->file_loading_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "SelectAllTransactionsSensitiveActions" ) == 0 )
+        return window->priv->select_all_transactions_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "SelectTransactionSensitiveActions" ) == 0 )
+        return window->priv->select_transaction_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "SelectAccountPlanedSensitiveActions" ) == 0 )
+        return window->priv->select_account_planed_sensitive_action_group;
+    else if ( strcmp ( action_group_name, "SelectAccountSensitiveActions" ) == 0 )
+        return window->priv->select_account_sensitive_action_group;
     else if ( strcmp ( action_group_name, "FileRecentFilesAction" ) == 0 )
         return window->priv->file_recent_files_action_group;
-    else if ( strcmp ( action_group_name, "FileDebugToggleAction" ) == 0 )
-        return window->priv->file_debug_toggle_action_group;
-    else if ( strcmp ( action_group_name, "EditSensitiveActions" ) == 0 )
-        return window->priv->edit_sensitive_action_group;
-    else if ( strcmp ( action_group_name, "EditTransactionsActions" ) == 0 )
-        return window->priv->edit_transactions_action_group;
-    else if ( strcmp ( action_group_name, "ViewSensitiveActions" ) == 0 )
-        return window->priv->view_sensitive_action_group;
     else
         return NULL;
 }
@@ -1613,6 +1655,52 @@ void grisbi_window_free_priv_file ( GrisbiWindow *window )
     grisbi_window_free_list_accounts ( window );
 
 
+}
+
+
+/**
+ * retourne TRUE si il existe au moins un compte clos
+ *
+ * \param
+ *
+ * \return              TRUE or FALSE
+ **/
+gboolean grisbi_window_get_is_closed_account ( void )
+{
+    GrisbiWindow *window;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( TRUE ) );
+
+    if ( window )
+        return window->priv->is_closed_account;
+    else
+        return FALSE;
+}
+
+
+/**
+ * positionne is_closed_account à TRUE si au moins un compte clos existe
+ *
+ * \param gint          is_closed_account
+ *
+ * \return              TRUE or FALSE
+ **/
+gboolean grisbi_window_set_is_closed_account ( gint is_closed_account )
+{
+    GrisbiWindow *window;
+
+    if ( is_closed_account == 0 )
+        return TRUE;
+
+    window = grisbi_app_get_active_window ( grisbi_app_get_default ( TRUE ) );
+
+    if ( window )
+    {
+        window->priv->is_closed_account = is_closed_account;
+        return TRUE;
+    }
+    else
+        return FALSE;
 }
 
 

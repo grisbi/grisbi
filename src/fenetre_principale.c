@@ -79,8 +79,10 @@ void gsb_gui_new_gui ( void )
     GtkWidget *general_widget;
     GtkWidget *notebook_general;
 
-    /* dégrise les menus nécessaire */
+    /* dégrise les menus nécessaires et montre le menu ShowClosed si nécessaire */
     gsb_menu_sensitive ( TRUE );
+    if ( grisbi_window_get_is_closed_account () )
+        gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/ShowClosed", TRUE );
 
     /* Create main widget. */
     gsb_status_message ( _("Creating main window") );

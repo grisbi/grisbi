@@ -308,7 +308,7 @@ void menus_sensitifs ( gboolean sensitif )
         "/menubar/ViewMenu/ShowTwoLines",
         "/menubar/ViewMenu/ShowThreeLines",
         "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
+        "/menubar/ViewMenu/InitWidthCol",
         NULL
     };
     gchar ** tmp = items;
@@ -340,7 +340,7 @@ void menus_view_sensitifs ( gboolean sensitif )
         "/menubar/ViewMenu/ShowTwoLines",
         "/menubar/ViewMenu/ShowThreeLines",
         "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
+        "/menubar/ViewMenu/InitWidthCol",
         NULL
     };
     gchar **tmp = items;

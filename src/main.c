@@ -74,7 +74,7 @@ static void gsb_main_load_import_formats ( void )
     register_import_formats ();
 }
 
- 
+
 /**
  * affiche les variables d'environnement de Grisbi
  *
@@ -230,10 +230,6 @@ gint main ( int argc, char **argv )
 
     /* Init type system */
     g_type_init ();
-
-    /* Init glib threads asap */
-    if ( g_thread_get_initialized () )
-        g_thread_init ( NULL );
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ();

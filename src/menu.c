@@ -265,12 +265,13 @@ gboolean help_bugreport ( void )
  * representation of its position in the menu.
  * menu.
  *
- * \param item_name		Path of the menu item.
- * \param state			Whether widget should be 'sensitive' or not.
+ * \param item_name     Path of the menu item.
+ * \param state         Whether widget should be 'sensitive' or not.
  *
  * \return TRUE on success.
  */
-gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
+gboolean gsb_gui_sensitive_menu_item ( gchar *item_name,
+                        gboolean state )
 {
     GtkWidget *widget;
     GtkUIManager *ui_manager;
@@ -287,6 +288,34 @@ gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
     return FALSE;
 }
 
+
+/**
+ * Set sensitiveness an account name in the
+ * /menubar/EditMenu/MoveToAnotherAccount.
+ *
+ * \param account_number
+ * \param state             Whether menu should be 'sensitive' or not.
+ *
+ * \return TRUE on success.
+ */
+gboolean gsb_gui_sensitive_menu_account_name ( gint account_number,
+                        gboolean state )
+{
+    gchar *tmp_menu_path;
+
+    if ( account_number == -1 )
+        return FALSE;
+
+    tmp_menu_path = g_strconcat (
+                        "/menubar/EditMenu/MoveToAnotherAccount/",
+                        gsb_data_account_get_name ( account_number ),
+                        NULL );
+    gsb_gui_sensitive_menu_item ( tmp_menu_path, state );
+
+    g_free ( tmp_menu_path );
+
+    return TRUE;
+}
 
 
 /** 
@@ -563,15 +592,29 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
  */
 gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
 {
+    GrisbiWindow *window;
+    GtkUIManager *ui_manager;
+    GtkActionGroup *actions;
+
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
+    window = grisbi_app_get_active_window ( NULL );
+    ui_manager = grisbi_app_get_active_ui_manager ( );
+
+    actions = grisbi_window_get_action_group ( window, "SelectAllTransactionsSensitiveActions" );
+    gtk_action_group_set_sensitive ( actions, sensitive );
+
+    actions = grisbi_window_get_action_group ( window, "SelectAccountSensitiveActions" );
+    gtk_action_group_set_sensitive ( actions, sensitive );
+
+/*
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/TemplateTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
-
+*/
     return FALSE;
 }
 
@@ -620,29 +663,26 @@ gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
 
 
 /**
+ * rend sensible les menus liés au chargement d'un fichier
  *
- *
- * \param
+ * \param sensitif
  *
  * \return
  **/
-void gsb_menu_sensitive ( gboolean sensitif )
+void gsb_menu_sensitive ( gboolean sensitive )
 {
     GrisbiWindow *window;
     GtkUIManager *ui_manager;
     GtkActionGroup *actions;
 
-    devel_debug_int (sensitif);
+    devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
     window = grisbi_app_get_active_window ( NULL );
     ui_manager = grisbi_app_get_active_ui_manager ( );
 
 
-    actions = grisbi_window_get_action_group ( window, "DivisionSensitiveActions" );
-    gtk_action_group_set_sensitive ( actions, sensitif );
-    actions = grisbi_window_get_action_group ( window, "FileDebugToggleAction" );
-    gtk_action_group_set_sensitive ( actions, sensitif );
-
+    actions = grisbi_window_get_action_group ( window, "FileLoadingSensitiveActions" );
+    gtk_action_group_set_sensitive ( actions, sensitive );
 }
 
 
