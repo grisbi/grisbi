@@ -68,7 +68,6 @@ static gint payee_transaction_sub_div_id ( gint transaction_number );
 
 /*START_EXTERN*/
 extern gint no_devise_totaux_tiers;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

@@ -153,7 +153,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 extern GtkWidget *account_page;
 extern gboolean execute_scheduled_of_month;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gsb_real null_real;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/

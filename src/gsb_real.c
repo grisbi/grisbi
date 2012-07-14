@@ -44,9 +44,6 @@
 #include "gsb_real.h"
 /*END_INCLUDE*/
 
-gsb_real null_real = { 0 , 0 };
-gsb_real error_real = { G_MININT64, 0 };
-
 static glong gsb_real_power_10[] = { 1, 10, 100, 1000, 10000, 100000,
                             1000000, 10000000, 100000000, 1000000000 };
 

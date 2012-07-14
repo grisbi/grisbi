@@ -110,7 +110,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /*START_EXTERN*/
 extern gint mise_a_jour_liste_comptes_accueil;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /** label of the last statement */

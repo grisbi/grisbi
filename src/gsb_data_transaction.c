@@ -114,7 +114,6 @@ static gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transac
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

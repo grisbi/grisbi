@@ -73,7 +73,6 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gsb_real null_real;
 extern GSList *orphan_child_transactions;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/

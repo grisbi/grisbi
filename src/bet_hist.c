@@ -118,7 +118,6 @@ static gboolean bet_historical_set_full_sub_div ( GtkTreeModel *model, GtkTreeIt
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /* blocage des signaux pour le tree_view pour les comptes de type GSB_TYPE_CASH */

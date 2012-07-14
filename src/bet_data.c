@@ -75,7 +75,6 @@ static SH *struct_initialise_bet_historical ( void );
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

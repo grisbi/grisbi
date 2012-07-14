@@ -62,7 +62,6 @@
 
 /*START_EXTERN*/
 extern GtkWidget *form_button_recover_split;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

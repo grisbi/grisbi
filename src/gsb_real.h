@@ -17,6 +17,9 @@ typedef struct
     gint exponent;
 } gsb_real;
 
+static const gsb_real null_real = { 0 , 0 };
+static const gsb_real error_real = { G_MININT64, 0 };
+
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */

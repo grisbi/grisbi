@@ -111,7 +111,6 @@ extern const gchar *nom_ib_en_cours;
 extern const gchar *nom_ss_categ_en_cours;
 extern const gchar *nom_ss_ib_en_cours;
 extern const gchar *nom_tiers_en_cours;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

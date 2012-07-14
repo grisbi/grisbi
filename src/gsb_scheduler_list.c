@@ -128,7 +128,6 @@ extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern struct conditional_message delete_msg[];
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

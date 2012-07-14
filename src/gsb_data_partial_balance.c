@@ -86,8 +86,6 @@ static void gsb_partial_balance_selectionne_cptes ( GtkWidget *tree_view,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real error_real;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 /* devise de base des soldes partiels de comptes ayant des devises différentes */

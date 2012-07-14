@@ -91,7 +91,6 @@ static void update_soldes_minimaux ( gboolean force );
 
 /*START_EXTERN*/
 extern GtkWidget *form_transaction_part;
-extern gsb_real null_real;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/

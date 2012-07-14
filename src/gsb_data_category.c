@@ -109,7 +109,6 @@ static gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

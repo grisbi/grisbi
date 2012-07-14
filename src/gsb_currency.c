@@ -114,7 +114,6 @@ extern GtkWidget *detail_devise_compte;
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

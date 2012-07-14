@@ -32,7 +32,6 @@
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
-extern gsb_real error_real;
 /*END_EXTERN*/
 
 

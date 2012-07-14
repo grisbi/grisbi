@@ -62,7 +62,6 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 

@@ -68,7 +68,6 @@ static gpointer gsb_data_reconcile_get_structure ( gint reconcile_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gsb_real null_real;
 /*END_EXTERN*/
 
 
