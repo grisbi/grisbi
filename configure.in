@@ -224,7 +224,7 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wunused -Wno-unused-parameter -Wno-unused-function"
+		CFLAGS="$CFLAGS -ansi -Wall -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-function"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
@@ -362,7 +362,7 @@ echo "
                 Build with libxml2:        $build_libxml2
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
-                Build with goffice:         $build_goffice
+                Build with goffice:        $build_goffice
                 Build plugins statically:  $enable_static
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit

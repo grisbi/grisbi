@@ -708,7 +708,7 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
 {
     GtkTreeModel *model = NULL;
     GtkTreeIter iter;
-    gdouble prev_montant;
+    gdouble prev_montant = 0.0;
 
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( self -> tree_view ) );
     if ( model == NULL )
@@ -722,10 +722,10 @@ gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self
         gdouble montant = 0.;
         GDate *first_date;
         GDate *last_date;
-        GDate *date_courante;
-        GDateDay day_courant;
-        GDateMonth month_courant;
-        gint nbre_iterations;
+        GDate *date_courante = NULL;
+        GDateDay day_courant = G_DATE_BAD_DAY;
+        GDateMonth month_courant = G_DATE_BAD_MONTH;
+        gint nbre_iterations = 0;
 
         tab_libelle_axe_x = &libelle_axe_x;
 
@@ -1068,7 +1068,7 @@ gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
     menu = gtk_menu_new ();
 
     tmp_list = liste;
-    
+
     while (tmp_list)
     {
         struct_bet_graph_button *self;
@@ -1116,7 +1116,7 @@ void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
 
     parent = gtk_widget_get_parent ( self->box );
     tmp_list = g_object_get_data ( G_OBJECT ( parent ), "button_list" );
-    
+
     while ( tmp_list )
     {
         struct_bet_graph_button *self;
