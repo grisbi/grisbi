@@ -2572,7 +2572,9 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
 {
     GtkWidget * menu, * item;
     gint i;
+    gint element_number;
 
+    element_number = tab_affichage_ope[y][x];
     menu = gtk_menu_new ();
 
     for ( i = 0 ; i < 18 ; i++ )
@@ -2580,8 +2582,11 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
         gchar *tmp_str;
 
         tmp_str = gsb_transaction_list_get_titre_colonne_liste_ope ( i );
-        item = gtk_menu_item_new_with_label ( tmp_str );
+        item = gtk_check_menu_item_new_with_label ( tmp_str );
         g_free ( tmp_str );
+
+        if ( i == element_number -1 )
+            gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( item ), TRUE );
 
         g_object_set_data ( G_OBJECT (item), "x", GINT_TO_POINTER (x) );
         g_object_set_data ( G_OBJECT (item), "y", GINT_TO_POINTER (y) );
@@ -2601,7 +2606,7 @@ GtkWidget *gsb_gui_create_cell_contents_menu ( int x, int y )
         g_object_set_data ( G_OBJECT ( item ), "y", GINT_TO_POINTER ( y ) );
         g_signal_connect ( G_OBJECT ( item ),
                         "activate",
-			            G_CALLBACK ( gsb_gui_change_cell_content ),
+                        G_CALLBACK ( gsb_gui_change_cell_content ),
                         GINT_TO_POINTER ( 0 ) );
 
         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
