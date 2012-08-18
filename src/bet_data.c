@@ -915,7 +915,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
 
         tmp_str = g_markup_printf_escaped ( "\t<Bet_transfert Nb=\"%d\" Dt=\"%s\" Ac=\"%d\" "
                         "Ty=\"%d\" Ra=\"%d\" Rt=\"%d\" Dd=\"%d\" Dtb=\"%s\" "
-                        "Pa=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
+                        "Pa=\"%d\" Pn=\"%d\" Ca=\"%d\" Sca=\"%d\" Bu=\"%d\" Sbu=\"%d\" "
                         "CPa=\"%d\" CCa=\"%d\" CSca=\"%d\" CBu=\"%d\" CSbu=\"%d\" />\n",
                         ++index,
                         my_safe_null_str ( date ),
@@ -926,6 +926,7 @@ GPtrArray *bet_data_get_strings_to_save ( void )
                         transfert->direct_debit,
                         my_safe_null_str ( date_bascule ),
                         transfert->main_payee_number,
+                        transfert->main_payment_number,
                         transfert->main_category_number,
                         transfert->main_sub_category_number,
                         transfert->main_budgetary_number,

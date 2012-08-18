@@ -82,7 +82,8 @@ struct _transfert_data
     gint direct_debit;              /* si = 1 création de la transaction dans le compte principal */
     GDate *date;                    /* dare de l'opération du compte principal */
     GDate *date_bascule;            /* date de début de nouveau de mois dans le compte à débit différé */
-    gint main_payee_number;              /* tiers de l'opération du compte principal */
+    gint main_payee_number;         /* tiers de l'opération du compte principal */
+    gint main_payment_number;       /* moyen de payement de l'opération du compte principal */
     gint main_category_number;      /* catégorie de l'opération du compte principal */
     gint main_sub_category_number;  /* sous-catégorie de l'opération du compte principal */
     gint main_budgetary_number;     /* IB de l'opération du compte principal */

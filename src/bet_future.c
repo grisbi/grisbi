@@ -1333,6 +1333,32 @@ static gboolean bet_future_get_payee_data ( GtkWidget *widget,
 
 
 /**
+ * récupère le moyen de payement
+ *
+ *
+ * \return FALSE
+ * */
+static gboolean bet_future_get_payment_data ( GtkWidget *widget,
+                        gpointer *value )
+{
+    gint payment_number;
+    struct_transfert_data *sd = (struct_transfert_data *) value;
+
+    payment_number = gsb_payment_method_get_selected_number ( widget );
+    if ( payment_number > 0 )
+    {
+        sd->main_payment_number = payment_number;
+    }
+    else
+    {
+        sd->main_payee_number = gsb_data_account_get_default_debit ( sd->account_number );
+    }
+
+    return FALSE;
+}
+
+
+/**
  * récupère la catégorie et la sous catégorie
  *
  *
@@ -2180,7 +2206,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_entry, FALSE, FALSE, 0 );
 
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_vbox_new ( FALSE, 5 );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_vbox_data", vbox );
 
     /* check button Automatic creation of the direct debit transaction */
@@ -2242,6 +2268,18 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_PARTY ) );
 
+    /* Création du mode de payement */
+    combo = gtk_combo_box_new ();
+    gsb_payment_method_create_combo_list ( combo,
+                        GSB_PAYMENT_DEBIT,
+                        account_number, 0, FALSE );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( combo ),
+                        _("Choose the method of payment") );
+    g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_payment_combo", combo );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
+    
     /* saisie des (sous)catégories et (sous)IB */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
@@ -2408,6 +2446,9 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
             if ( transfert->main_payee_number > 0 )
                 empty = FALSE;
         }
+
+        widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_main_payment_combo" );
+        bet_future_get_payment_data ( widget, ( gpointer ) transfert );
 
         widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_main_category_combo" );
         if ( gsb_form_widget_check_empty( widget ) == FALSE )
@@ -2586,6 +2627,9 @@ static gboolean bet_transfert_set_form_data_from_line ( gint account_number,
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), _("Payee") );
         gsb_form_widget_set_empty ( GTK_COMBOFIX ( widget ) -> entry, TRUE );
     }
+
+    widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_main_payment_combo" );
+    gsb_payment_method_set_payment_position ( widget, transfert->main_payment_number );
 
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "bet_transfert_main_category_combo" );
     if ( transfert->main_category_number > 0 )

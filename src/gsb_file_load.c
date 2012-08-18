@@ -4266,6 +4266,13 @@ void gsb_file_load_bet_transfert_part ( const gchar **attribute_names,
         continue;
     }
 
+    if ( !strcmp ( attribute_names[i], "Pn" ) )
+    {
+        transfert->main_payment_number = utils_str_atoi ( attribute_values[i] );
+        i++;
+        continue;
+    }
+
     if ( !strcmp ( attribute_names[i], "Ca" ) )
     {
         transfert->main_category_number = utils_str_atoi ( attribute_values[i] );
