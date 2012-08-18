@@ -3715,7 +3715,7 @@ gboolean gsb_data_account_exists ( gint account_number )
  *
  * \return gsb_real         le solde du compte
  * */
-gsb_real gsb_data_account_calculate_balance_at_date ( gint account_number,
+gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
                         GDate *date )
 {
     struct_account *account;

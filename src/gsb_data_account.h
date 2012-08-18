@@ -26,8 +26,6 @@ typedef enum _kind_account	kind_account;
 
 /* START_DECLARATION */
 gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_number );
-gsb_real gsb_data_account_calculate_balance_at_date ( gint account_number,
-                        GDate *date );
 gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_number );
 gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
                         GDate *day );
@@ -44,6 +42,8 @@ GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number );
 GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number );
 GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind );
 gint gsb_data_account_get_accounts_amount ( void );
+gsb_real gsb_data_account_get_balance_at_date ( gint account_number,
+                        GDate *date );
 gint gsb_data_account_get_bank ( gint account_number );
 gchar *gsb_data_account_get_bank_account_iban (gint account_number);
 gchar *gsb_data_account_get_bank_account_key ( gint account_number );

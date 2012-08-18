@@ -8,7 +8,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-GPtrArray *gsb_data_partial_balance_calculate_balance_at_date ( gint partial_balance_number,
+GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_balance_number,
                         GDate *date );
 gboolean gsb_data_partial_balance_drag_data_get ( GtkTreeDragSource * drag_source,
                         GtkTreePath * path,
@@ -16,6 +16,8 @@ gboolean gsb_data_partial_balance_drag_data_get ( GtkTreeDragSource * drag_sourc
 gboolean gsb_data_partial_balance_drag_data_received ( GtkTreeDragDest * drag_dest,
                         GtkTreePath * dest_path,
                         GtkSelectionData * selection_data );
+gsb_real gsb_data_partial_balance_get_balance_at_date ( gint partial_balance_number,
+                        GDate *date );
 gboolean gsb_data_partial_balance_get_colorise ( gint partial_balance_number );
 gint gsb_data_partial_balance_get_currency ( gint partial_balance_number );
 gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_number );

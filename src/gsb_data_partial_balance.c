@@ -1045,7 +1045,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     if ( !partial_balance )
         return NULL;
 
-    if ( partial_balance -> liste_cptes == NULL || 
+    if ( partial_balance -> liste_cptes == NULL ||
      strlen ( partial_balance -> liste_cptes ) == 0 )
         return NULL;
 
@@ -1108,7 +1108,7 @@ gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_numb
     if ( !partial_balance )
         return null_real;
 
-    if ( partial_balance -> liste_cptes == NULL || 
+    if ( partial_balance -> liste_cptes == NULL ||
      strlen ( partial_balance -> liste_cptes ) == 0 )
         return null_real;
 
@@ -1272,7 +1272,7 @@ gboolean gsb_data_partial_balance_init_from_liste_cptes ( gint partial_balance_n
     if ( !partial_balance )
         return FALSE;
 
-    if ( partial_balance -> liste_cptes == NULL || 
+    if ( partial_balance -> liste_cptes == NULL ||
      strlen ( partial_balance -> liste_cptes ) == 0 )
         return FALSE;
 
@@ -1436,14 +1436,14 @@ gboolean gsb_data_partial_balance_move ( gint orig_partial_number, gint dest_pos
 
 
 /**
- * calcule le solde d'un solde partiel à une date donnée
+ * calcule le solde des comptes d'un solde partiel à une date donnée
  *
  * \param account_number    numéro du compte concerné
  * \param date              date de calcul du solde
  *
- * \return
+ * \return GPtrArray        un tableau avec le solde de chaque compte concerné
  * */
-GPtrArray *gsb_data_partial_balance_calculate_balance_at_date ( gint partial_balance_number,
+GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_balance_number,
                         GDate *date )
 {
     GSList *tmp_list;
@@ -1787,6 +1787,65 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
 
     return currency_nb;
 }
+
+/**
+ * calcule le solde d'un solde partiel à une date donnée
+ *
+ * \param partial_balance_number    numéro du solde partiel concerné
+ * \param date                      date de calcul du solde
+ *
+ * \return gsb_real         le solde du solde partiel
+ * */
+gsb_real gsb_data_partial_balance_get_balance_at_date ( gint partial_balance_number,
+                        GDate *date )
+{
+    struct_partial_balance *partial_balance;
+    gsb_real solde = null_real;
+    gchar **tab;
+    gint i;
+
+    partial_balance = gsb_data_partial_balance_get_structure ( partial_balance_number );
+
+    if ( !partial_balance )
+        return null_real;
+
+    if ( partial_balance -> liste_cptes == NULL ||
+     strlen ( partial_balance -> liste_cptes ) == 0 )
+        return null_real;
+
+    tab = g_strsplit ( partial_balance -> liste_cptes, ";", 0 );
+    for ( i = 0; tab[i]; i++ )
+    {
+        gsb_real tmp_real;
+        gint account_number;
+        gint account_currency;
+        gint link_number;
+
+        account_number = utils_str_atoi ( tab[i] );
+        account_currency = gsb_data_account_get_currency ( account_number );
+        tmp_real = gsb_data_account_get_balance_at_date ( account_number, date );
+
+        if ( tmp_real.mantissa != 0 && partial_balance -> currency != account_currency )
+        {
+            if ( ( link_number = gsb_data_currency_link_search ( account_currency,
+                        partial_balance -> currency ) ) )
+            {
+                if ( gsb_data_currency_link_get_first_currency ( link_number) == account_currency )
+                    tmp_real = gsb_real_mul ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+                else
+                    tmp_real = gsb_real_div ( tmp_real,
+                                gsb_data_currency_link_get_change_rate ( link_number ) );
+            }
+        }
+        solde = gsb_real_add ( solde, tmp_real );
+    }
+    g_strfreev ( tab );
+
+    return solde;
+}
+
+
 /**
  *
  *

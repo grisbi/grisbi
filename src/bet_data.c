@@ -1727,7 +1727,7 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
     /* replace_account is an account */
     if ( transfert -> type == 0 )
     {
-        amount = gsb_data_account_calculate_balance_at_date ( transfert->replace_account, date );
+        amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date );
         transaction_number = gsb_data_transaction_new_transaction ( transfert->replace_account );
         gsb_data_transaction_set_date ( transaction_number, date );
         gsb_data_transaction_set_amount ( transaction_number, gsb_real_opposite ( amount ) );
@@ -1777,7 +1777,7 @@ static void bet_data_transfert_create_reset_credit_card ( struct_transfert_data 
         tab = g_strsplit ( gsb_data_partial_balance_get_liste_cptes ( transfert->replace_account ), ";", 0 );
 
         /* on calcule la balance de tous les comptes du pseudo compte */
-        balances = gsb_data_partial_balance_calculate_balance_at_date ( transfert->replace_account, date );
+        balances = gsb_data_partial_balance_calculate_balances_at_date ( transfert->replace_account, date );
 
         for ( i = 0; tab[i]; i++ )
         {
@@ -2066,7 +2066,12 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
 void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfert )
 {
     gint transaction_number;
+    GDate *date;
     gsb_real amount;
+
+    date = gsb_date_copy ( transfert->date_bascule );
+    /* on enlève 1 jour pour la date de l'opération de remise à 0 du compte */
+    g_date_subtract_days ( date, 1 );
 
     transaction_number = gsb_data_transaction_new_transaction ( transfert->account_number );
 
@@ -2076,11 +2081,11 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
     /* set the amount soit celui du compte carte soit celui du solde partiel */
     if ( transfert -> type == 0 )
     {
-        amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+        amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date );
     }
     else
     {
-        amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+        amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date );
     }
     gsb_data_transaction_set_amount ( transaction_number, amount );
 
@@ -2089,12 +2094,7 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
                         gsb_data_account_get_currency ( transfert->account_number ) );
 
     /* set the payement mode */
-    if ( amount.mantissa < 0 )
-        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_debit ( transfert->account_number ) );
-    else
-        gsb_data_transaction_set_method_of_payment_number ( transaction_number,
-                        gsb_data_account_get_default_credit ( transfert->account_number ) );
+        gsb_data_transaction_set_method_of_payment_number ( transaction_number, transfert->main_payment_number );
 
     /* set the payee */
     gsb_data_transaction_set_party_number ( transaction_number, transfert->main_payee_number );
