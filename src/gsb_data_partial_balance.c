@@ -36,6 +36,7 @@
 /*START_INCLUDE*/
 #include "gsb_data_partial_balance.h"
 #include "dialog.h"
+#include "gsb_color.h"
 #include "gsb_currency_config.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
@@ -1081,9 +1082,16 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
     g_strfreev ( tab );
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
-        string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+    {
+        gchar *color;
+
+        color = gsb_color_get_couleur_to_string ( "couleur_solde_alarme_rouge_normal" );
+        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
+                        color,
                         utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE ) );
+        g_free ( color );
+    }
     else
         string = utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE );
@@ -1164,9 +1172,16 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
     solde = gsb_data_partial_balance_get_current_amount ( partial_balance_number );
 
     if ( partial_balance -> colorise && solde.mantissa < 0 )
-        string = g_strdup_printf ( "<span color=\"red\">%s</span>",
+    {
+        gchar *color;
+
+        color = gsb_color_get_couleur_to_string ( "couleur_solde_alarme_rouge_normal" );
+        string = g_strdup_printf ( "<span color=\"%s\">%s</span>",
+                        color,
                         utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE ) );
+        g_free ( color );
+    }
     else
         string = utils_real_get_string_with_currency (
                         solde, partial_balance -> currency, TRUE );

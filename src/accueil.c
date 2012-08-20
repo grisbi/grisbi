@@ -997,7 +997,12 @@ gint affiche_soldes_partiels ( GtkWidget *table,
         partial_number = gsb_data_partial_balance_get_number ( liste -> data );
         kind = gsb_data_partial_balance_get_kind ( partial_number );
 
-        if ( ( kind == type_compte
+        if ( kind == -1 )
+        {
+            liste = liste -> next;
+            continue;
+        }
+        else if ( ( kind == type_compte
          || ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
          &&
          gsb_data_partial_balance_get_currency ( partial_number ) == currency_number )
@@ -1087,44 +1092,47 @@ void affiche_solde_des_comptes ( GtkWidget *table,
                         gsb_real solde_global_pointe )
 {
     GtkWidget *label;
-    gchar *tmpstr;
+    gchar *tmp_str;
 
     /* on commence par une ligne vide */
     label = gtk_label_new ( chaine_espace );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
     i ++;
 
-	/* Première colonne */
+    /* Première colonne */
+    label = gtk_label_new ( NULL );
     if ( nb_comptes == 1 )
-        label = gtk_label_new ( _("Global balance: ") );
+        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balance: "), "</span>", NULL );
     else if ( conf.pluriel_final )
-        label = gtk_label_new ( ("Soldes finaux: ") );
+        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Soldes finaux: "), "</span>", NULL );
     else
-        label = gtk_label_new ( _("Global balances: ") );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balances: "), "</span>", NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
-	gtk_widget_show ( label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
 
-	/* Deuxième colonne : elle contient le solde total pointé des comptes */
-	tmpstr = utils_real_get_string_with_currency (solde_global_pointe,
-								    currency_number, TRUE);
-	label = gtk_label_new ( tmpstr );
-	g_free ( tmpstr );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
-	gtk_widget_show ( label );
+    /* Deuxième colonne : elle contient le solde total pointé des comptes */
+    tmp_str = utils_real_get_string_with_currency ( solde_global_pointe, currency_number, TRUE );
+    label = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+    gtk_widget_show ( label );
 
-	/* Troisième colonne : elle contient le solde total courant des comptes */
-	tmpstr = utils_real_get_string_with_currency (solde_global_courant, currency_number, TRUE);
-	label = gtk_label_new ( tmpstr );
-	g_free ( tmpstr );
-	gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
-	gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
-	gtk_widget_show ( label );
+    /* Troisième colonne : elle contient le solde total courant des comptes */
+    tmp_str = utils_real_get_string_with_currency ( solde_global_courant, currency_number, TRUE );
+    label = gtk_label_new ( tmp_str );
+    g_free ( tmp_str );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+    gtk_widget_show ( label );
 }
 
 /**
