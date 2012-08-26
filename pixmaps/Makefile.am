@@ -69,8 +69,8 @@ grisbi_pixmaps_DATA = \
 	warnings.png \
 	delete.png
 
-grisbi_iconsdir = $(datadir)/icons/hicolor/48x48/apps
-grisbi_icons_DATA = grisbi.png
+grisbi_iconsdir = $(datadir)/icons/hicolor/scalable/apps
+grisbi_icons_DATA = grisbi.svg
 
 EXTRA_DIST = $(grisbi_pixmaps_DATA) $(grisbi_icons_DATA)
 
