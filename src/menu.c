@@ -42,6 +42,7 @@
 #include "gsb_assistant_archive.h"
 #include "gsb_assistant_archive_export.h"
 #include "gsb_data_account.h"
+#include "gsb_data_mix.h"
 #include "gsb_debug.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
@@ -213,7 +214,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         /* Editmenu */
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
         {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
-         G_CALLBACK ( gsb_transactions_list_edit_current_transaction ) },
+         G_CALLBACK ( gsb_data_mix_edit_current_transaction ) },
         {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "", NULL,
          G_CALLBACK ( new_transaction ) },
         {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
@@ -330,6 +331,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
     gsb_menu_transaction_operations_set_sensitive ( FALSE );
 
+    /* return */
     return menubar;
 }
 

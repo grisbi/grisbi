@@ -57,9 +57,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_mix.h"
+#include "fenetre_principale.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
+#include "gsb_scheduler_list.h"
+#include "gsb_transactions_list.h"
+#include "navigation.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -473,3 +477,34 @@ GSList *gsb_data_mix_get_children ( gint transaction_number,
         return ( gsb_data_scheduled_get_children ( transaction_number, return_number ) );
 }
 
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_data_mix_edit_current_transaction ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+        gsb_transactions_list_edit_current_transaction ();
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+        gsb_scheduler_list_edit_transaction ( 0 );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

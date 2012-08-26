@@ -7,6 +7,7 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+void gsb_data_mix_edit_current_transaction ( void );
 gint gsb_data_mix_get_account_number ( gint transaction_number,
                         gboolean is_transaction );
 gint gsb_data_mix_get_account_number_transfer ( gint transaction_number,
