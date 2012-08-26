@@ -72,8 +72,6 @@
 static GtkWidget *creation_barre_outils_echeancier ( void );
 static gboolean gsb_scheduler_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
-static gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
-                        gint *scheduled_number );
 static void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view );
 static GtkTreeModel *gsb_scheduler_list_create_model ( void );
 static GtkWidget *gsb_scheduler_list_create_tree_view (void);
@@ -1866,10 +1864,9 @@ gboolean gsb_scheduler_list_edit_transaction ( gint scheduled_number )
     devel_debug_int (scheduled_number);
     if ( scheduled_number == 0 )
         gsb_form_fill_by_transaction ( gsb_scheduler_list_get_current_scheduled_number ( ), FALSE, TRUE );
-    else if ( scheduled_number < 0 )
-        gsb_form_fill_by_transaction ( scheduled_number, FALSE, FALSE );
     else
         gsb_form_fill_by_transaction ( scheduled_number, FALSE, TRUE );
+
     return FALSE;
 }
 
@@ -2376,7 +2373,11 @@ gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
     gint new_scheduled_number;
     gint tmp_scheduled_number;
 
-    tmp_scheduled_number = GPOINTER_TO_INT ( scheduled_number );
+    if ( scheduled_number == NULL )
+        tmp_scheduled_number = gsb_scheduler_list_get_current_scheduled_number ( );
+    else
+        tmp_scheduled_number = GPOINTER_TO_INT ( scheduled_number );
+
     new_scheduled_number = gsb_data_scheduled_new_scheduled ( );
 
     gsb_data_scheduled_copy_scheduled ( tmp_scheduled_number, new_scheduled_number );

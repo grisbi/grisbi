@@ -7,6 +7,8 @@
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
+void gsb_data_mix_clone_current_transaction ( void );
+void gsb_data_mix_delete_current_transaction ( void );
 void gsb_data_mix_edit_current_transaction ( void );
 gint gsb_data_mix_get_account_number ( gint transaction_number,
                         gboolean is_transaction );
@@ -53,6 +55,7 @@ gint gsb_data_mix_get_white_line ( gint transaction_number,
                         gboolean is_transaction );
 gint gsb_data_mix_new_transaction ( gint account_number,
                         gboolean is_transaction );
+void gsb_data_mix_new_transaction_by_menu ( void );
 gboolean gsb_data_mix_set_amount ( gint transaction_number,
                         gsb_real amount,
                         gboolean is_transaction );

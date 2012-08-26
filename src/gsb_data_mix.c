@@ -479,7 +479,7 @@ GSList *gsb_data_mix_get_children ( gint transaction_number,
 
 
 /**
- *
+ * Edit l'opération courante, teste le type de page pour choisir.
  *
  * \param
  *
@@ -495,6 +495,66 @@ void gsb_data_mix_edit_current_transaction ( void )
         gsb_transactions_list_edit_current_transaction ();
     else if ( current_page == GSB_SCHEDULER_PAGE )
         gsb_scheduler_list_edit_transaction ( 0 );
+}
+
+
+/**
+ * Delete l'opération courante, teste le type de page pour choisir.
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_data_mix_delete_current_transaction ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+        remove_transaction ();
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+        gsb_scheduler_list_delete_scheduled_transaction ( 0, TRUE );
+}
+
+
+/**
+ * Clone l'opération courante, teste le type de page pour choisir.
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_data_mix_clone_current_transaction ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+        clone_selected_transaction ( NULL, NULL );
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+        gsb_scheduler_list_clone_selected_scheduled ( NULL, NULL );
+}
+
+
+/**
+ * selectionne une nouvelle transaction, teste le type de page pour choisir.
+ *
+ * \param
+ *
+ * \return
+ * */
+void gsb_data_mix_new_transaction_by_menu ( void )
+{
+    gint current_page;
+
+    current_page = gsb_gui_navigation_get_current_page ( );
+
+    if ( current_page == GSB_ACCOUNT_PAGE )
+        new_transaction ();
+    else if ( current_page == GSB_SCHEDULER_PAGE )
+        gsb_scheduler_list_edit_transaction ( -1 );
 }
 
 
