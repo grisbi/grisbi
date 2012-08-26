@@ -42,11 +42,10 @@
 
 /*START_INCLUDE*/
 #include "gsb_file.h"
-#include "menu.h"
-#include "utils.h"
-#include "fenetre_principale.h"
+#include "accueil.h"
+#include "affichage_liste.h"
 #include "dialog.h"
-#include "utils_file_selection.h"
+#include "fenetre_principale.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant_account.h"
 #include "gsb_assistant_file.h"
@@ -56,19 +55,20 @@
 #include "gsb_file_load.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "navigation.h"
-#include "accueil.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "gsb_transactions_list.h"
-#include "traitement_variables.h"
 #include "main.h"
-#include "utils_str.h"
+#include "menu.h"
+#include "navigation.h"
 #include "parametres.h"
-#include "affichage_liste.h"
-#include "transaction_list.h"
-#include "utils_files.h"
 #include "structures.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "utils.h"
+#include "utils_file_selection.h"
+#include "utils_files.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -166,7 +166,7 @@ void gsb_file_new_gui ( void )
     GtkWidget *notebook_general;
 
     /* dégrise les menus nécessaire */
-    menus_sensitifs ( TRUE );
+    gsb_menu_set_menus_with_file_sensitive ( TRUE );
 
     /*     récupère l'organisation des colonnes  */
     recuperation_noms_colonnes_et_tips ();
@@ -975,7 +975,8 @@ gboolean gsb_file_close ( void )
 
         gsb_main_set_grisbi_title ( -1 );
 
-	    menus_sensitifs ( FALSE );
+        /* unsensitive the necessaries menus */
+        gsb_menu_set_menus_with_file_sensitive ( FALSE );
 
         table_etat = NULL;
 

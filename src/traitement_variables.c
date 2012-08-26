@@ -334,88 +334,6 @@ void free_variables ( void )
 }
 
 
-/*****************************************************************************************************/
-/* si grise = 1 ; grise tous les menus qui doivent l'être quand aucun fichier n'est en mémoire */
-/* si grise = 0 ; dégrise les même menus */
-/*****************************************************************************************************/
-
-void menus_sensitifs ( gboolean sensitif )
-{
-    gchar * items[] = {
-        "/menubar/FileMenu/Save",
-        "/menubar/FileMenu/SaveAs",
-        "/menubar/FileMenu/DebugFile",
-        "/menubar/FileMenu/Obfuscate",
-        "/menubar/FileMenu/DebugMode",
-        "/menubar/FileMenu/ExportFile",
-        "/menubar/FileMenu/CreateArchive",
-        "/menubar/FileMenu/ExportArchive",
-        "/menubar/FileMenu/Close",
-        "/menubar/EditMenu/NewTransaction",
-        "/menubar/EditMenu/RemoveTransaction",
-        "/menubar/EditMenu/TemplateTransaction",
-        "/menubar/EditMenu/CloneTransaction",
-        "/menubar/EditMenu/EditTransaction",
-        "/menubar/EditMenu/ConvertToScheduled",
-        "/menubar/EditMenu/MoveToAnotherAccount",
-        "/menubar/EditMenu/Preferences",
-        "/menubar/EditMenu/RemoveAccount",
-        "/menubar/EditMenu/NewAccount",
-        "/menubar/ViewMenu/ShowTransactionForm",
-        "/menubar/ViewMenu/ShowGrid",
-        "/menubar/ViewMenu/ShowReconciled",
-        "/menubar/ViewMenu/ShowArchived",
-        "/menubar/ViewMenu/ShowClosed",
-        "/menubar/ViewMenu/ShowOneLine",
-        "/menubar/ViewMenu/ShowTwoLines",
-        "/menubar/ViewMenu/ShowThreeLines",
-        "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
-        NULL
-    };
-    gchar ** tmp = items;
-
-    devel_debug_int (sensitif);
-
-    while ( *tmp )
-    {
-        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
-        tmp++;
-    }
-
-    /* As this function may only be called when a new account is
-     * created and the like, it is unlikely that we want to sensitive
-     * transaction-related menus. */
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-    gsb_menu_transaction_operations_set_sensitive ( FALSE );
-}
-
-void menus_view_sensitifs ( gboolean sensitif )
-{
-    gchar * items[] = {
-        "/menubar/ViewMenu/ShowTransactionForm",
-        "/menubar/ViewMenu/ShowGrid",
-        "/menubar/ViewMenu/ShowReconciled",
-        "/menubar/ViewMenu/ShowArchived",
-        "/menubar/ViewMenu/ShowOneLine",
-        "/menubar/ViewMenu/ShowTwoLines",
-        "/menubar/ViewMenu/ShowThreeLines",
-        "/menubar/ViewMenu/ShowFourLines",
-        "/menubar/ViewMenu/InitwidthCol",
-        NULL
-    };
-    gchar **tmp = items;
-
-    devel_debug_int (sensitif);
-
-    while ( *tmp )
-    {
-        gsb_gui_sensitive_menu_item ( *tmp, sensitif );
-        tmp++;
-    }
-}
-
-
 /**
  * initialise la largeur des colonnes du tableau d'affichage des opérations.
  * ou des opérations planifiées.
@@ -527,6 +445,13 @@ void initialise_number_separators ( void )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

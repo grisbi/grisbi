@@ -592,7 +592,7 @@ GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
     menu_bar = init_menus ( vbox );
 
     /* unsensitive the necessaries menus */
-    menus_sensitifs ( FALSE );
+    gsb_menu_set_menus_with_file_sensitive ( FALSE );
 
     /* charge les raccourcis claviers */
     gtk_accel_map_load ( C_PATH_CONFIG_ACCELS ( ) );

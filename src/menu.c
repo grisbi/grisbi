@@ -328,9 +328,6 @@ GtkWidget *init_menus ( GtkWidget *vbox )
     menubar = gtk_ui_manager_get_widget ( ui_manager, "/menubar" );
     gtk_box_pack_start ( GTK_BOX ( vbox ),  menubar, FALSE, TRUE, 0 );
 
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
-    gsb_menu_transaction_operations_set_sensitive ( FALSE );
-
     /* return */
     return menubar;
 }
@@ -805,16 +802,36 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
  * 
  * \return		FALSE
  */
-gboolean gsb_menu_transaction_operations_set_sensitive ( gboolean sensitive )
+gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
 {
     devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
 
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/TemplateTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
-    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/ConvertToScheduled", sensitive );
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/MoveToAnotherAccount", sensitive );
+
+    return FALSE;
+}
+
+
+/**
+ * Set sensitiveness of all menu items that work on the selected scheduled.
+
+ * \param sensitive	Sensitiveness (FALSE for unsensitive, TRUE for
+ *			sensitive).
+ *
+ * \return		FALSE
+ */
+gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive )
+{
+    devel_debug ( sensitive ? "item sensitive" : "item unsensitive" );
+
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/EditTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveTransaction", sensitive );
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/CloneTransaction", sensitive );
 
     return FALSE;
 }
@@ -875,6 +892,102 @@ gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
 }
 
 
+/**
+ * Initialise la barre de menus en fonction de la présence ou non d'un fichier de comptes
+ *
+ * \param sensitif
+ *
+ * \return
+ * */
+void gsb_menu_set_menus_with_file_sensitive ( gboolean sensitive )
+{
+    gchar * items[] = {
+        "/menubar/FileMenu/Save",
+        "/menubar/FileMenu/SaveAs",
+        "/menubar/FileMenu/DebugFile",
+        "/menubar/FileMenu/Obfuscate",
+        "/menubar/FileMenu/DebugMode",
+        "/menubar/FileMenu/ExportFile",
+        "/menubar/FileMenu/CreateArchive",
+        "/menubar/FileMenu/ExportArchive",
+        "/menubar/FileMenu/Close",
+        "/menubar/EditMenu/NewTransaction",
+        "/menubar/EditMenu/RemoveTransaction",
+        "/menubar/EditMenu/TemplateTransaction",
+        "/menubar/EditMenu/CloneTransaction",
+        "/menubar/EditMenu/EditTransaction",
+        "/menubar/EditMenu/ConvertToScheduled",
+        "/menubar/EditMenu/MoveToAnotherAccount",
+        "/menubar/EditMenu/Preferences",
+        "/menubar/EditMenu/RemoveAccount",
+        "/menubar/EditMenu/NewAccount",
+        "/menubar/ViewMenu/ShowTransactionForm",
+        "/menubar/ViewMenu/ShowReconciled",
+        "/menubar/ViewMenu/ShowArchived",
+        "/menubar/ViewMenu/ShowClosed",
+        "/menubar/ViewMenu/ShowOneLine",
+        "/menubar/ViewMenu/ShowTwoLines",
+        "/menubar/ViewMenu/ShowThreeLines",
+        "/menubar/ViewMenu/ShowFourLines",
+        "/menubar/ViewMenu/InitwidthCol",
+        NULL
+    };
+    gchar ** tmp = items;
+
+    devel_debug_int (sensitive);
+
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_menu_item ( *tmp, sensitive );
+        tmp++;
+    }
+
+    /* As this function may only be called when a new account is
+     * created and the like, it is unlikely that we want to sensitive
+     * transaction-related menus. */
+    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
+    gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
+}
+
+/**
+ * Initialise la barre de menus si un compte est sélectionné
+ *
+ * \param sensitif
+ *
+ * \return
+ * */
+void gsb_menu_set_menus_view_account_sensitive ( gboolean sensitive )
+{
+    gchar * items[] = {
+        "/menubar/ViewMenu/ShowTransactionForm",
+        "/menubar/ViewMenu/ShowReconciled",
+        "/menubar/ViewMenu/ShowArchived",
+        "/menubar/ViewMenu/ShowOneLine",
+        "/menubar/ViewMenu/ShowTwoLines",
+        "/menubar/ViewMenu/ShowThreeLines",
+        "/menubar/ViewMenu/ShowFourLines",
+        "/menubar/ViewMenu/InitwidthCol",
+        NULL
+    };
+    gchar **tmp = items;
+
+    devel_debug_int (sensitive);
+
+    while ( *tmp )
+    {
+        gsb_gui_sensitive_menu_item ( *tmp, sensitive );
+        tmp++;
+    }
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

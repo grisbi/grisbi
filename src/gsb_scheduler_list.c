@@ -56,6 +56,7 @@
 #include "gsb_real.h"
 #include "gsb_scheduler.h"
 #include "gsb_transactions_list.h"
+#include "menu.h"
 #include "mouse.h"
 #include "navigation.h"
 #include "structures.h"
@@ -1727,12 +1728,12 @@ gboolean gsb_scheduler_list_selection_changed ( GtkTreeSelection *selection,
                         !gsb_data_scheduled_get_mother_scheduled_number (tmp_number));
 
     /* sensitive/unsensitive the button edit */
-
     gtk_widget_set_sensitive ( scheduler_button_edit, ( tmp_number > 0 ) );
 
     /* sensitive/unsensitive the button delete */
-
     gtk_widget_set_sensitive ( scheduler_button_delete, ( tmp_number > 0 ) );
+
+    gsb_menu_set_menus_select_scheduled_sensitive ( tmp_number > 0 );
 
     return FALSE;
 }

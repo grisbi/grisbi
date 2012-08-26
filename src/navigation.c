@@ -980,9 +980,9 @@ gboolean navigation_change_account ( gint new_account )
 
     /* Sensitive menu items if something is selected. */
     if ( gsb_data_account_get_current_transaction_number ( new_account ) == -1 )
-        gsb_menu_transaction_operations_set_sensitive ( FALSE );
+        gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     else
-        gsb_menu_transaction_operations_set_sensitive ( TRUE );
+        gsb_menu_set_menus_select_transaction_sensitive ( TRUE );
 
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
@@ -1121,7 +1121,8 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
     {
         gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
         gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", FALSE );
-        menus_view_sensitifs ( FALSE );
+        gsb_menu_set_menus_view_account_sensitive ( FALSE );
+        gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
     if ( page_number != GSB_SCHEDULER_PAGE ) 
@@ -1146,7 +1147,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	case GSB_ACCOUNT_PAGE:
 	    notice_debug ("Account page selected");
 
-        menus_view_sensitifs ( TRUE );
+        gsb_menu_set_menus_view_account_sensitive ( TRUE );
 	    gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/RemoveAccount", TRUE );
 
 	    account_number = gsb_gui_navigation_get_current_account ();
@@ -1199,6 +1200,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    /* show the calendar */
 	    gsb_calendar_update ();
 	    gtk_widget_show_all ( scheduler_calendar );
+
+        /* show menu NewTransaction */
+        gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
 
         /* show menu InitwidthCol */
         gsb_gui_sensitive_menu_item ( "/menubar/ViewMenu/InitwidthCol", TRUE );

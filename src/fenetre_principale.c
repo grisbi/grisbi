@@ -334,7 +334,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 
     if ( page_number != GSB_TRANSACTIONS_PAGE )
     {
-        menus_view_sensitifs ( FALSE );
+        gsb_menu_set_menus_view_account_sensitive ( FALSE );
         gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", FALSE );
     }
 
@@ -342,7 +342,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
     {
     case GSB_TRANSACTIONS_PAGE:
         gsb_form_set_expander_visible ( TRUE, TRUE );
-        menus_view_sensitifs ( TRUE );
+        gsb_menu_set_menus_view_account_sensitive ( TRUE );
         gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
         break;
     case GSB_ESTIMATE_PAGE:
