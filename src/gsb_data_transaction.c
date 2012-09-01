@@ -2145,6 +2145,7 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
 	 !target_transaction )
 	return FALSE;
 
+    /* on sauvegarde le numéro de compte initial */
     target_transaction_account_number = target_transaction -> account_number;
 
     memcpy ( target_transaction,
@@ -2157,7 +2158,6 @@ gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
         target_transaction -> reconcile_number = 0;
         target_transaction -> marked_transaction = 0;
         target_transaction -> transaction_id = NULL;
-        target_transaction -> archive_number = 0;
     }
 
     /* make the archive_number */
