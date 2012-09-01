@@ -2583,7 +2583,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             payee_number = gsb_data_payee_get_number_by_name (
                         imported_transaction -> tiers, TRUE );
         }
-        else
+        else if ( etat.get_copy_payee_in_note )
         {
             if ( g_utf8_collate ( gsb_data_payee_get_name (
                         payee_number, FALSE ),
@@ -3698,6 +3698,13 @@ GtkWidget *onglet_importation (void)
                         NULL, NULL );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    /* recopier le tiers dans les notes */
+    button = gsb_automem_checkbutton_new (
+                        _("Coping the original payee in the notes"),
+                        &etat.get_copy_payee_in_note,
+                        NULL, NULL );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* propose to choose between getting the fyear by value date or by date */
     gsb_automem_radiobutton_new_with_title ( vbox_pref,

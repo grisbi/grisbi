@@ -919,6 +919,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 if ( !strcmp ( attribute_names[i], "Import_interval_search" ))
                     valeur_echelle_recherche_date_import = utils_str_atoi ( attribute_values[i]);
 
+                else if ( !strcmp ( attribute_names[i], "Import_copy_payee_in_note" ))
+                    etat.get_copy_payee_in_note = utils_str_atoi ( attribute_values[i]);
+
                 else if ( !strcmp ( attribute_names[i], "Import_extract_number_for_check" ))
                     etat.get_extract_number_for_check = utils_str_atoi ( attribute_values[i]);
 
