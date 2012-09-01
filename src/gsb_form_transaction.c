@@ -450,6 +450,7 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 {
     GDate *contra_value_date = NULL;
     const gchar *contra_transaction_content = NULL;
+    gint contra_payment_number = 0;
     gint contra_transaction_number;
     gint contra_mother_number = 0;
     gint contra_marked_transaction = 0;
@@ -480,6 +481,11 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
             contra_mother_number = gsb_data_transaction_get_mother_transaction_number (
                             contra_transaction_number );
 
+            /* on récupère le moyen de payement de l'opération fille qui ne doit pas changer */
+            if ( contra_mother_number > 0 )
+                contra_payment_number = gsb_data_transaction_get_method_of_payment_number (
+                        contra_transaction_number );
+
             /* Copying/deleting remove the marked information, so we get it here */
             contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
                             contra_transaction_number );
@@ -493,14 +499,12 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
             if ( value_date )
                 contra_value_date = gsb_date_copy ( value_date );
 
-
             /* check if we change the account target */
             if ( gsb_data_transaction_get_contra_transaction_account (
                             transaction_number) != account_transfer )
             {
                 /* it was a transfer and the user changed the target account so we delete
                  * the last contra transaction contra_transaction_transfer has just been set */
-
                 gsb_data_transaction_set_contra_transaction_number (
                                 contra_transaction_number, 0);
                 gsb_transactions_list_delete_transaction (contra_transaction_number, FALSE);
@@ -517,7 +521,6 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     /* so, now, it's either a new transfer and new_transaction is TRUE,
      * either a transfer without changing the target account and in that case, contra_transaction_number is
      * already set */
-
     if ( new_transaction )
         contra_transaction_number = gsb_data_transaction_new_transaction ( account_transfer );
 
@@ -530,6 +533,16 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
      * set that mother number to 0 (for the contra-transaction) */
     gsb_data_transaction_set_mother_transaction_number ( contra_transaction_number,
 							 contra_mother_number );
+
+    /* si la contre opération est une fille et pas rapprochée on change la date */
+    if ( contra_mother_number > 0 && contra_marked_transaction != OPERATION_RAPPROCHEE )
+    {
+        const GDate *date;
+
+        date = gsb_data_transaction_get_date ( transaction_number );
+        gsb_data_transaction_set_date ( contra_mother_number, date );
+        gsb_transactions_list_update_transaction ( contra_mother_number );
+    }
 
     /* If this is not a new transaction it restores the marked statement */
     gsb_data_transaction_set_marked_transaction ( contra_transaction_number,
@@ -551,15 +564,21 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
     /* we have to check the change */
     gsb_currency_check_for_change ( contra_transaction_number );
 
-    /* set the contra-method of payment,
+    /* set the contra-method of payment if the contra-transaction was not a child of split,
      * there is no place into the transaction structure for that, so it was not taken with the form,
      * we need to get it now from the form */
-    contra_payment_button = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
-    if (contra_payment_button
-	&&
-	GTK_WIDGET_VISIBLE (contra_payment_button))
-	gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
-							    gsb_payment_method_get_selected_number (contra_payment_button));
+    if ( contra_mother_number == 0 )
+    {
+        contra_payment_button = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
+        if ( contra_payment_button
+         &&
+         GTK_WIDGET_VISIBLE ( contra_payment_button ) )
+        gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
+                        gsb_payment_method_get_selected_number ( contra_payment_button ) );
+    }
+    else
+        gsb_data_transaction_set_method_of_payment_number ( contra_transaction_number,
+                        contra_payment_number );
 
     /* set the content of the contra-method of paiement if it is not a new transaction */
     if ( !new_transaction )
@@ -574,9 +593,9 @@ gint gsb_form_transaction_validate_transfer ( gint transaction_number,
 
     /* show the contra_transaction */
     if ( new_transaction )
-	gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
+        gsb_transactions_list_append_new_transaction (contra_transaction_number, TRUE);
     else
-	gsb_transactions_list_update_transaction (contra_transaction_number);
+        gsb_transactions_list_update_transaction (contra_transaction_number);
 
     return contra_transaction_number;
 }

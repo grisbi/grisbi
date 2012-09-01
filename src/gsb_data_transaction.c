@@ -49,6 +49,7 @@
 #include "gsb_data_payment.h"
 #include "gsb_file.h"
 #include "gsb_real.h"
+#include "gsb_transactions_list.h"
 #include "structures.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -535,7 +536,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 	return FALSE;
 
     if (transaction -> date)
-	g_date_free (transaction -> date);
+        g_date_free (transaction -> date);
 
     transaction -> date = gsb_date_copy (date);
 
@@ -553,9 +554,25 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 	    transaction = tmp_list -> data;
 
 	    if (transaction -> date)
-		g_date_free (transaction -> date);
+            g_date_free (transaction -> date);
 
 	    transaction -> date = gsb_date_copy (date);
+
+        /* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
+         * si elle ne l'est pas on peut mettre à jour la date */
+        if ( transaction->transaction_number_transfer > 0 )
+        {
+            gint contra_marked_transaction = 0;
+
+            contra_marked_transaction = gsb_data_transaction_get_marked_transaction (
+                        transaction->transaction_number_transfer );
+
+            if ( contra_marked_transaction != OPERATION_RAPPROCHEE )
+            {
+                gsb_data_transaction_set_date ( transaction->transaction_number_transfer, transaction -> date );
+                gsb_transactions_list_update_transaction ( transaction->transaction_number_transfer );
+            }
+        }
 
 	    tmp_list = tmp_list -> next;
 	}

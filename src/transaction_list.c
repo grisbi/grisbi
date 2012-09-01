@@ -1003,6 +1003,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     gint nb_rows;
     gint line_p;
     gboolean marked_transaction;
+    gboolean mother_is_visible = TRUE;
     CustomList *custom_list;
     CustomRecord *white_record = NULL;
     CustomRecord **children_rows = NULL;
@@ -1019,11 +1020,12 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     /* we can update a transaction wich is not visible, so need to find the iter into
      * all the transactions */
     if (!transaction_model_get_transaction_iter (&iter, transaction_number, 0))
-	return FALSE;
+        return FALSE;
 
     record = iter.user_data;
     if (!record)
-	return FALSE;
+        return FALSE;
+
     /* printf ("transaction_number = %d record -> filtered_pos = %d record -> line_in_transaction = %d\n",
         transaction_number,
         record -> filtered_pos,
@@ -1035,33 +1037,33 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 	&&
 	!record -> number_of_children )
     {
-	/* there is no children, we add a white line */
-	gint white_line_number;
-	gchar *amount_string;
-	gchar *variance_string;
+        /* there is no children, we add a white line */
+        gint white_line_number;
+        gchar *amount_string;
+        gchar *variance_string;
 
-	white_line_number = gsb_data_transaction_new_white_line (transaction_number);
-	children_rows = g_malloc0 (sizeof (CustomRecord*));
+        white_line_number = gsb_data_transaction_new_white_line (transaction_number);
+        children_rows = g_malloc0 (sizeof (CustomRecord*));
 
-	/* create and fill the white line record */
-	white_record = g_malloc0 (sizeof (CustomRecord));
-	white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
-                        white_line_number);
-	white_record -> what_is_line = IS_TRANSACTION;
-	white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
+        /* create and fill the white line record */
+        white_record = g_malloc0 (sizeof (CustomRecord));
+        white_record -> transaction_pointer = gsb_data_transaction_get_pointer_of_transaction (
+                            white_line_number);
+        white_record -> what_is_line = IS_TRANSACTION;
+        white_record -> row_bg = gsb_color_get_couleur ( "split_background" );
 
-	/* as we append just now the white line, there are no child split, so the total is 0 */
-	amount_string = utils_real_get_string_with_currency (null_real,
-							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
-							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
-							   amount_string,
-							   variance_string );
-	g_free (amount_string);
-	g_free (variance_string);
+        /* as we append just now the white line, there are no child split, so the total is 0 */
+        amount_string = utils_real_get_string_with_currency (null_real,
+                                   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+        variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
+                                     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
+        white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+                                   amount_string,
+                                   variance_string );
+        g_free (amount_string);
+        g_free (variance_string);
 
-	children_rows[0] = white_record;
+        children_rows[0] = white_record;
     }
 
     /* get the P position if the transaction is marked */
@@ -1069,19 +1071,27 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     line_p = find_element_line (ELEMENT_MARK);
 
     /* if we update a child, only 1 line */
-    if (record -> mother_row)
-	nb_rows = 1;
+    if ( record -> mother_row )
+    {
+        nb_rows = 1;
+        /* positione une variable qui indique que l'opération fille qui est l'objet d'une mise à jour
+         * est une contre opération d'un transfert et donc que sa mère n'est pas visible.
+         * Ça empêche la mise à jour du tree_view.
+         */
+        if ( record -> mother_row -> filtered_pos == -1 )
+            mother_is_visible = FALSE;
+    }
     else
-	nb_rows = TRANSACTION_LIST_ROWS_NB;
+        nb_rows = TRANSACTION_LIST_ROWS_NB;
 
     /* now we can save the new rows */
     for (i=0 ; i<nb_rows ; i++)
     {
-	CustomRecord *tmp_record;
+        CustomRecord *tmp_record;
 
-	/* get the good line in the record */
-	if (!record -> mother_row)
-	    record = record -> transaction_records[i];
+        /* get the good line in the record */
+        if (!record -> mother_row)
+            record = record -> transaction_records[i];
 
         if ( !record )
             return FALSE;
@@ -1110,9 +1120,9 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
             record -> checkbox_active = marked_transaction;
 
         /* inform the tree view we changed the row, only if visible */
-        if (record -> filtered_pos != -1)
+        if ( record -> filtered_pos != -1 && mother_is_visible )
         {
-            GtkTreePath *path = gtk_tree_path_new();
+            GtkTreePath *path = gtk_tree_path_new ();
 
             /* if there is some children and we are the last row, set the expander */
             if ( white_record
@@ -1125,9 +1135,10 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
             /* set the path */
             if (record -> mother_row)
-            /* it's a child, need to get the path of the mother */
-            gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
-            gtk_tree_path_append_index(path, record->filtered_pos);
+                /* it's a child, need to get the path of the mother if visible */
+                gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+
+            gtk_tree_path_append_index (path, record->filtered_pos);
 
             /* set the iter */
             iter.user_data = record;
@@ -1144,7 +1155,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
     }
 
     /* if the modification is on a child or a mother, update the white line */
-    if (record -> mother_row || record -> number_of_children)
+    if ( ( record -> mother_row && mother_is_visible ) || record -> number_of_children)
     {
         /* we need now to recalculate the amount of split and update the white line */
         CustomRecord *mother_record;
@@ -1165,7 +1176,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
         record -> checkbox_active = marked_transaction;
 
     /* inform the tree view we changed the row, only if visible */
-    if (record -> filtered_pos != -1)
+    if ( record -> filtered_pos != -1 && mother_is_visible )
     {
         GtkTreePath *path = gtk_tree_path_new();
 
@@ -1174,14 +1185,14 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
          &&
          i == ( transaction_list_get_last_line ( custom_list -> nb_rows_by_transaction ) ) )
         {
-        record -> has_expander = TRUE;
-        white_record -> mother_row = record;
+            record -> has_expander = TRUE;
+            white_record -> mother_row = record;
         }
 
         /* set the path */
         if (record -> mother_row)
-        /* it's a child, need to get the path of the mother */
-        gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
+            /* it's a child, need to get the path of the mother */
+            gtk_tree_path_append_index (path, record -> mother_row -> filtered_pos);
         gtk_tree_path_append_index(path, record->filtered_pos);
 
         /* set the iter */
@@ -1192,21 +1203,12 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
 
         /* if there is a child (white line), set the expander */
         if (record -> has_expander)
-        gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
-                              path, &iter);
+            gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list), path, &iter);
+
         gtk_tree_path_free(path);
     }
 
-    if (nb_rows == 1)
-    {
-        CustomRecord *white_record;
-
-        /* we need now to recalculate the amount of split and update the white line */
-        white_record = record -> mother_row -> children_rows[record -> 
-                            mother_row -> number_of_children -1];
-        transaction_list_update_white_child (white_record);
-    }
-
+    /* return */
     return TRUE;
 }
 
