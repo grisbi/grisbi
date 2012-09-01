@@ -1107,7 +1107,7 @@ void affiche_solde_des_comptes ( GtkWidget *table,
     if ( nb_comptes == 1 )
         tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balance: "), "</span>", NULL );
     else if ( conf.pluriel_final )
-        tmp_str = g_strconcat ("<span weight=\"bold\">", _("Soldes finaux: "), "</span>", NULL );
+        tmp_str = g_strconcat ("<span weight=\"bold\">", "Soldes finaux: ", "</span>", NULL );
     else
         tmp_str = g_strconcat ("<span weight=\"bold\">", _("Global balances: "), "</span>", NULL );
     gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
