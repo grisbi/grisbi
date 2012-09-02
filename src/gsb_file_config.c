@@ -449,7 +449,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Show headings bar",
                         NULL );
 
-    etat.show_closed_accounts = g_key_file_get_integer ( config,
+    conf.show_closed_accounts = g_key_file_get_integer ( config,
                         "Display",
                         "Show closed accounts",
                         NULL );
@@ -480,12 +480,12 @@ gboolean gsb_file_config_load_config ( void )
         g_free ( name );
     }
 
-    etat.last_tip = g_key_file_get_integer ( config,
+    conf.last_tip = g_key_file_get_integer ( config,
                         "Messages",
                         "Last tip",
                         NULL );
 
-    etat.show_tip = g_key_file_get_integer ( config,
+    conf.show_tip = g_key_file_get_integer ( config,
                         "Messages",
                         "Show tip",
                         NULL );
@@ -804,7 +804,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Show closed accounts",
-                        etat.show_closed_accounts );
+                        conf.show_closed_accounts );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -830,12 +830,12 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Messages",
                         "Last tip",
-                        etat.last_tip );
+                        conf.last_tip );
 
     g_key_file_set_integer ( config,
                         "Messages",
                         "Show tip",
-                        etat.show_tip );
+                        conf.show_tip );
 
     /* save into a file */
     file_content = g_key_file_to_data ( config, &length, NULL );
@@ -1165,21 +1165,21 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "show_closed_accounts" ))
     {
-	etat.show_closed_accounts = utils_str_atoi (text);
+	conf.show_closed_accounts = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "show_tip" ))
     {
-	etat.show_tip = utils_str_atoi (text);
+	conf.show_tip = utils_str_atoi (text);
 	return;
     }
 
     if ( !strcmp ( element_name,
 		   "last_tip" ))
     {
-	etat.last_tip = utils_str_atoi (text);
+	conf.last_tip = utils_str_atoi (text);
 	return;
     }
 
@@ -1231,7 +1231,7 @@ void gsb_file_config_clean_config ( void )
     conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
     conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
     conf.transactions_list_secondary_sorting = 0;   /* Secondary sorting option for the transactions */
-    etat.show_closed_accounts = FALSE;
+    conf.show_closed_accounts = FALSE;
 
     if ( conf.font_string )
     {
@@ -1262,8 +1262,8 @@ void gsb_file_config_clean_config ( void )
     conf.check_for_archival = TRUE;
     conf.max_non_archived_transactions_for_check = 3000;
 
-    etat.last_tip = -1;
-    etat.show_tip = FALSE;
+    conf.last_tip = -1;
+    conf.show_tip = FALSE;
 
     /* mise en conformité avec les recommandations FreeDesktop. */
     if ( conf.browser_command )

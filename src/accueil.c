@@ -1545,7 +1545,7 @@ void update_soldes_minimaux ( gboolean force )
 
         i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-        if ( gsb_data_account_get_closed_account ( i ) && !etat.show_closed_accounts )
+        if ( gsb_data_account_get_closed_account ( i ) && !conf.show_closed_accounts )
         {
             list_tmp = list_tmp -> next;
             continue;
@@ -1826,7 +1826,7 @@ void update_fin_comptes_passifs ( gboolean force )
     gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
-    if ( !etat.show_closed_accounts )
+    if ( !conf.show_closed_accounts )
         return;
 
     list_tmp = gsb_data_account_get_list_accounts ();

@@ -292,7 +292,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
          G_CALLBACK ( gsb_gui_toggle_show_archived ), 0 },
 #endif
         {"ShowClosedAction", NULL, _("Show _closed accounts"), NULL, NULL,
-         G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ), etat.show_closed_accounts } 
+         G_CALLBACK ( gsb_gui_toggle_show_closed_accounts ), conf.show_closed_accounts }
     };
 
     ui_manager = gtk_ui_manager_new ();
@@ -657,7 +657,7 @@ gboolean gsb_gui_toggle_show_archived ( void )
  */
 gboolean gsb_gui_toggle_show_closed_accounts ( void )
 {
-    etat.show_closed_accounts = ! etat.show_closed_accounts;
+    conf.show_closed_accounts = !conf.show_closed_accounts;
 
     gsb_gui_navigation_create_account_list ( gsb_gui_navigation_get_model ( ) );
     gsb_gui_navigation_update_home_page ( );
