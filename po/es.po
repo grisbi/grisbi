@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-01 20:47+0200\n"
+"POT-Creation-Date: 2012-09-02 07:54+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -2410,7 +2410,7 @@ msgstr "Transacciones"
 
 #. echange line label
 #: ../src/etats_config.c:653 ../src/etats_config.c:656
-#: ../src/gsb_currency.c:554 ../src/gsb_currency_config.c:300
+#: ../src/gsb_currency.c:554 ../src/gsb_currency_config.c:301
 #: ../src/parametres.c:533
 msgid "Currencies"
 msgstr "Monedas"
@@ -4354,7 +4354,7 @@ msgstr "Modificación de archivo"
 #. set the name
 #: ../src/gsb_archive_config.c:190 ../src/gsb_assistant_reconcile_config.c:392
 #: ../src/gsb_bank.c:672 ../src/gsb_bank.c:848
-#: ../src/gsb_currency_config.c:359 ../src/gsb_data_partial_balance.c:1713
+#: ../src/gsb_currency_config.c:360 ../src/gsb_data_partial_balance.c:1713
 #: ../src/gsb_fyear_config.c:196 ../src/gsb_payment_method_config.c:242
 #: ../src/gsb_reconcile_config.c:199
 msgid "Name: "
@@ -6248,7 +6248,7 @@ msgstr "Méjico"
 msgid "Panama Balboa"
 msgstr "Balboa panameña"
 
-#: ../src/gsb_currency_config.c:176 ../src/gsb_currency_config.c:258
+#: ../src/gsb_currency_config.c:176 ../src/gsb_currency_config.c:259
 msgid "Panama"
 msgstr "Panamá"
 
@@ -6277,6 +6277,7 @@ msgstr "Panamá"
 #: ../src/gsb_currency_config.c:223 ../src/gsb_currency_config.c:224
 #: ../src/gsb_currency_config.c:225 ../src/gsb_currency_config.c:226
 #: ../src/gsb_currency_config.c:227 ../src/gsb_currency_config.c:228
+#: ../src/gsb_currency_config.c:229
 msgid "Europe"
 msgstr "Europa"
 
@@ -6287,11 +6288,11 @@ msgstr "Europa"
 #: ../src/gsb_currency_config.c:186 ../src/gsb_currency_config.c:187
 #: ../src/gsb_currency_config.c:188 ../src/gsb_currency_config.c:189
 #: ../src/gsb_currency_config.c:190 ../src/gsb_currency_config.c:191
-#: ../src/gsb_currency_config.c:201
+#: ../src/gsb_currency_config.c:202
 msgid "Euro"
 msgstr "Euro"
 
-#: ../src/gsb_currency_config.c:178 ../src/gsb_currency_config.c:199
+#: ../src/gsb_currency_config.c:178 ../src/gsb_currency_config.c:200
 msgid "Germany"
 msgstr "Alemania"
 
@@ -6303,43 +6304,43 @@ msgstr "Austria"
 msgid "Belgium"
 msgstr "Bélgica"
 
-#: ../src/gsb_currency_config.c:182 ../src/gsb_currency_config.c:224
+#: ../src/gsb_currency_config.c:182 ../src/gsb_currency_config.c:225
 msgid "Spain"
 msgstr "España"
 
-#: ../src/gsb_currency_config.c:183 ../src/gsb_currency_config.c:202
+#: ../src/gsb_currency_config.c:183 ../src/gsb_currency_config.c:203
 msgid "Finland"
 msgstr "Finlandia"
 
-#: ../src/gsb_currency_config.c:184 ../src/gsb_currency_config.c:203
+#: ../src/gsb_currency_config.c:184 ../src/gsb_currency_config.c:204
 msgid "France"
 msgstr "Francia"
 
-#: ../src/gsb_currency_config.c:185 ../src/gsb_currency_config.c:205
+#: ../src/gsb_currency_config.c:185 ../src/gsb_currency_config.c:206
 msgid "Greece"
 msgstr "Grecia"
 
-#: ../src/gsb_currency_config.c:186 ../src/gsb_currency_config.c:208
+#: ../src/gsb_currency_config.c:186 ../src/gsb_currency_config.c:209
 msgid "Ireland"
 msgstr "Irlanda"
 
-#: ../src/gsb_currency_config.c:187 ../src/gsb_currency_config.c:210
+#: ../src/gsb_currency_config.c:187 ../src/gsb_currency_config.c:211
 msgid "Italy"
 msgstr "Italia"
 
-#: ../src/gsb_currency_config.c:188 ../src/gsb_currency_config.c:214
+#: ../src/gsb_currency_config.c:188 ../src/gsb_currency_config.c:215
 msgid "Luxembourg"
 msgstr "Luxemburgo"
 
-#: ../src/gsb_currency_config.c:189 ../src/gsb_currency_config.c:215
+#: ../src/gsb_currency_config.c:189 ../src/gsb_currency_config.c:216
 msgid "Netherlands"
 msgstr "Países Bajos"
 
-#: ../src/gsb_currency_config.c:190 ../src/gsb_currency_config.c:219
+#: ../src/gsb_currency_config.c:190 ../src/gsb_currency_config.c:220
 msgid "Portugal"
 msgstr "Portugal"
 
-#: ../src/gsb_currency_config.c:191 ../src/gsb_currency_config.c:223
+#: ../src/gsb_currency_config.c:191 ../src/gsb_currency_config.c:224
 msgid "Slovenia"
 msgstr "Eslovenia"
 
@@ -6368,639 +6369,647 @@ msgid "Bulgaria"
 msgstr "Bulgaria"
 
 #: ../src/gsb_currency_config.c:197
+msgid "Croatian kuna"
+msgstr ""
+
+#: ../src/gsb_currency_config.c:197
+msgid "Croatia"
+msgstr ""
+
+#: ../src/gsb_currency_config.c:198
 msgid "Czech Koruna"
 msgstr "Corona Checa"
 
-#: ../src/gsb_currency_config.c:197
+#: ../src/gsb_currency_config.c:198
 msgid "Czech Republic"
 msgstr "República Checa"
 
-#: ../src/gsb_currency_config.c:198
+#: ../src/gsb_currency_config.c:199
 msgid "Danish Krone"
 msgstr "Corona Danesa"
 
-#: ../src/gsb_currency_config.c:198
+#: ../src/gsb_currency_config.c:199
 msgid "Denmark"
 msgstr "Dinamarca"
 
-#: ../src/gsb_currency_config.c:199
+#: ../src/gsb_currency_config.c:200
 msgid "Deutsche Mark"
 msgstr "Marco Alemán"
 
-#: ../src/gsb_currency_config.c:200
+#: ../src/gsb_currency_config.c:201
 msgid "Estonian Kroon"
 msgstr "Corona de Estonia"
 
-#: ../src/gsb_currency_config.c:200
+#: ../src/gsb_currency_config.c:201
 msgid "Estonia"
 msgstr "Estonia"
 
-#: ../src/gsb_currency_config.c:201
+#: ../src/gsb_currency_config.c:202
 msgid "UE (Europe)"
 msgstr "UE (Europa)"
 
-#: ../src/gsb_currency_config.c:202
+#: ../src/gsb_currency_config.c:203
 msgid "Finnish Markka"
 msgstr "Markka finlandesa"
 
-#: ../src/gsb_currency_config.c:203
+#: ../src/gsb_currency_config.c:204
 msgid "French Franc"
 msgstr "Franco Francés"
 
-#: ../src/gsb_currency_config.c:204
+#: ../src/gsb_currency_config.c:205
 msgid "Gibraltar Pound"
 msgstr "Lira Gibraltareña"
 
-#: ../src/gsb_currency_config.c:204
+#: ../src/gsb_currency_config.c:205
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../src/gsb_currency_config.c:205
+#: ../src/gsb_currency_config.c:206
 msgid "Greek Drachma"
 msgstr "Dracma Griego"
 
-#: ../src/gsb_currency_config.c:206
+#: ../src/gsb_currency_config.c:207
 msgid "Hungarian Forint"
 msgstr "Florín húngaro"
 
-#: ../src/gsb_currency_config.c:206
+#: ../src/gsb_currency_config.c:207
 msgid "Hungary"
 msgstr "Hungría"
 
-#: ../src/gsb_currency_config.c:207
+#: ../src/gsb_currency_config.c:208
 msgid "Iceland Krona"
 msgstr "Corona de Islandia"
 
-#: ../src/gsb_currency_config.c:207
+#: ../src/gsb_currency_config.c:208
 msgid "Iceland"
 msgstr "Islandia"
 
-#: ../src/gsb_currency_config.c:208
+#: ../src/gsb_currency_config.c:209
 msgid "Irish Pound"
 msgstr "Libra Irlandesa"
 
-#: ../src/gsb_currency_config.c:209 ../src/gsb_currency_config.c:210
-#: ../src/gsb_currency_config.c:211
+#: ../src/gsb_currency_config.c:210 ../src/gsb_currency_config.c:211
+#: ../src/gsb_currency_config.c:212
 msgid "Italian Lira"
 msgstr "Lira Italiana"
 
-#: ../src/gsb_currency_config.c:209
+#: ../src/gsb_currency_config.c:210
 msgid "Holy See"
 msgstr "Ciudad del Vaticano"
 
-#: ../src/gsb_currency_config.c:211
+#: ../src/gsb_currency_config.c:212
 msgid "San Marino"
 msgstr "San Marino"
 
-#: ../src/gsb_currency_config.c:212
+#: ../src/gsb_currency_config.c:213
 msgid "Latvian Lat"
 msgstr "Lat de Letonia"
 
-#: ../src/gsb_currency_config.c:212
+#: ../src/gsb_currency_config.c:213
 msgid "Latvia"
 msgstr "Letonia"
 
-#: ../src/gsb_currency_config.c:213
+#: ../src/gsb_currency_config.c:214
 msgid "Lithuanian Litas"
 msgstr "Litas lituanas"
 
-#: ../src/gsb_currency_config.c:213
+#: ../src/gsb_currency_config.c:214
 msgid "Lietuva"
 msgstr "Lituania"
 
-#: ../src/gsb_currency_config.c:214
+#: ../src/gsb_currency_config.c:215
 msgid "Luxembourg Franc"
 msgstr "Franco de Luxemburgo"
 
-#: ../src/gsb_currency_config.c:215
+#: ../src/gsb_currency_config.c:216
 msgid "Netherlands Guilder"
 msgstr "Guilder holandés"
 
-#: ../src/gsb_currency_config.c:216
+#: ../src/gsb_currency_config.c:217
 msgid "New Yugoslavian Dinar"
 msgstr "Dinar de Nueva Yugoslavia"
 
-#: ../src/gsb_currency_config.c:216
+#: ../src/gsb_currency_config.c:217
 msgid "Serbia and Montenegro"
 msgstr "Serbia y Montenegro"
 
-#: ../src/gsb_currency_config.c:217
+#: ../src/gsb_currency_config.c:218
 msgid "Norwegian Krone"
 msgstr "Corona Noruega"
 
-#: ../src/gsb_currency_config.c:217
+#: ../src/gsb_currency_config.c:218
 msgid "Norway"
 msgstr "Noruega"
 
-#: ../src/gsb_currency_config.c:218
+#: ../src/gsb_currency_config.c:219
 msgid "Polish Zloty"
 msgstr "Zloty polaco"
 
-#: ../src/gsb_currency_config.c:218
+#: ../src/gsb_currency_config.c:219
 msgid "Poland"
 msgstr "Polonía"
 
-#: ../src/gsb_currency_config.c:219
+#: ../src/gsb_currency_config.c:220
 msgid "Portuguese Escudo"
 msgstr "Escudo Portugués"
 
-#: ../src/gsb_currency_config.c:220
+#: ../src/gsb_currency_config.c:221
 msgid "Pound Sterling"
 msgstr "Libra Esterlina"
 
-#: ../src/gsb_currency_config.c:220
+#: ../src/gsb_currency_config.c:221
 msgid "United Kingdom"
 msgstr "Reino Unido"
 
-#: ../src/gsb_currency_config.c:221
+#: ../src/gsb_currency_config.c:222
 msgid "Romanian Leu"
 msgstr "Lei rumano"
 
-#: ../src/gsb_currency_config.c:221
+#: ../src/gsb_currency_config.c:222
 msgid "Romania"
 msgstr "Rumanía"
 
-#: ../src/gsb_currency_config.c:222
+#: ../src/gsb_currency_config.c:223
 msgid "Slovak Koruna"
 msgstr "Corona eslovaca"
 
-#: ../src/gsb_currency_config.c:222
+#: ../src/gsb_currency_config.c:223
 msgid "Slovakia"
 msgstr "Eslovaquia"
 
-#: ../src/gsb_currency_config.c:223
+#: ../src/gsb_currency_config.c:224
 msgid "Slovene Tolar"
 msgstr "Tolar esloveno"
 
-#: ../src/gsb_currency_config.c:224
+#: ../src/gsb_currency_config.c:225
 msgid "Spanish Peseta"
 msgstr "Peseta española"
 
-#: ../src/gsb_currency_config.c:225
+#: ../src/gsb_currency_config.c:226
 msgid "Swedish Krona"
 msgstr "Corona sueca"
 
-#: ../src/gsb_currency_config.c:225
+#: ../src/gsb_currency_config.c:226
 msgid "Sweden"
 msgstr "Suecia"
 
-#: ../src/gsb_currency_config.c:226 ../src/gsb_currency_config.c:227
+#: ../src/gsb_currency_config.c:227 ../src/gsb_currency_config.c:228
 msgid "Swiss Franc"
 msgstr "Franco suizo"
 
-#: ../src/gsb_currency_config.c:226
+#: ../src/gsb_currency_config.c:227
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ../src/gsb_currency_config.c:227
+#: ../src/gsb_currency_config.c:228
 msgid "Switzerland"
 msgstr "Suiza"
 
-#: ../src/gsb_currency_config.c:228
+#: ../src/gsb_currency_config.c:229
 msgid "Hryvnia"
 msgstr "Hryvnia"
 
-#: ../src/gsb_currency_config.c:228
+#: ../src/gsb_currency_config.c:229
 msgid "Ukraine"
 msgstr "Ukraine"
 
-#: ../src/gsb_currency_config.c:229 ../src/gsb_currency_config.c:230
-#: ../src/gsb_currency_config.c:231 ../src/gsb_currency_config.c:232
-#: ../src/gsb_currency_config.c:233 ../src/gsb_currency_config.c:234
-#: ../src/gsb_currency_config.c:235 ../src/gsb_currency_config.c:236
-#: ../src/gsb_currency_config.c:237 ../src/gsb_currency_config.c:238
-#: ../src/gsb_currency_config.c:239 ../src/gsb_currency_config.c:240
-#: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:242
+#: ../src/gsb_currency_config.c:230 ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232 ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234 ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:238 ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:241
+#: ../src/gsb_currency_config.c:242 ../src/gsb_currency_config.c:243
 msgid "Northern America"
 msgstr "América del Norte"
 
-#: ../src/gsb_currency_config.c:229
+#: ../src/gsb_currency_config.c:230
 msgid "Bahamian Dollar"
 msgstr "Dólar de las Bahamas"
 
-#: ../src/gsb_currency_config.c:229
+#: ../src/gsb_currency_config.c:230
 msgid "Bahamas"
 msgstr "Bahamas"
 
-#: ../src/gsb_currency_config.c:230
+#: ../src/gsb_currency_config.c:231
 msgid "Barbados Dollar"
 msgstr "Dólar de las Barbados"
 
-#: ../src/gsb_currency_config.c:230
+#: ../src/gsb_currency_config.c:231
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232
 msgid "Bermuda Dollar"
 msgstr "Dólar de las Bermudas"
 
-#: ../src/gsb_currency_config.c:231
+#: ../src/gsb_currency_config.c:232
 msgid "Bermuda"
 msgstr "Bermudas"
 
-#: ../src/gsb_currency_config.c:232
+#: ../src/gsb_currency_config.c:233
 msgid "Canadian Dollar"
 msgstr "Dolar Canadiense"
 
-#: ../src/gsb_currency_config.c:232
+#: ../src/gsb_currency_config.c:233
 msgid "Canada"
 msgstr "Canada"
 
-#: ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234
 msgid "Cayman Islands Dollar"
 msgstr "Dólar de las Islas Caimán"
 
-#: ../src/gsb_currency_config.c:233
+#: ../src/gsb_currency_config.c:234
 msgid "Cayman Islands"
 msgstr "Islas Caimán"
 
-#: ../src/gsb_currency_config.c:234
+#: ../src/gsb_currency_config.c:235
 msgid "Cuban Peso"
 msgstr "Peso cubano"
 
-#: ../src/gsb_currency_config.c:234
+#: ../src/gsb_currency_config.c:235
 msgid "Cuba"
 msgstr "Cuba"
 
-#: ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:236
 msgid "Dominican Peso"
 msgstr "Peso dominicano"
 
-#: ../src/gsb_currency_config.c:235
+#: ../src/gsb_currency_config.c:236
 msgid "Dominican Republic"
 msgstr "República Dominicana"
 
-#: ../src/gsb_currency_config.c:236 ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:237 ../src/gsb_currency_config.c:238
 msgid "East Caribbean Dollar"
 msgstr "Dólar del Caribe del Este"
 
-#: ../src/gsb_currency_config.c:236
+#: ../src/gsb_currency_config.c:237
 msgid "Grenada"
 msgstr "Granada"
 
-#: ../src/gsb_currency_config.c:237
+#: ../src/gsb_currency_config.c:238
 msgid "Saint Lucia"
 msgstr "Santa Lucía"
 
-#: ../src/gsb_currency_config.c:238
+#: ../src/gsb_currency_config.c:239
 msgid "Haitian Gourde"
 msgstr "Gourde de Haití"
 
-#: ../src/gsb_currency_config.c:238
+#: ../src/gsb_currency_config.c:239
 msgid "Haiti"
 msgstr "Haití"
 
-#: ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240
 msgid "Jamaican Dollar"
 msgstr "Dolar jamaicano"
 
-#: ../src/gsb_currency_config.c:239
+#: ../src/gsb_currency_config.c:240
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: ../src/gsb_currency_config.c:240
+#: ../src/gsb_currency_config.c:241
 msgid "Netherlands Antillian Guilder"
 msgstr "Guilder de las Antillas Holandesas"
 
-#: ../src/gsb_currency_config.c:240
+#: ../src/gsb_currency_config.c:241
 msgid "Netherlands Antilles"
 msgstr "Antillas holandesas"
 
-#: ../src/gsb_currency_config.c:241
+#: ../src/gsb_currency_config.c:242
 msgid "Trinidad and Tobago Dollar"
 msgstr "Dólar de Trinidad y Tobago"
 
-#: ../src/gsb_currency_config.c:241
+#: ../src/gsb_currency_config.c:242
 msgid "Trinidad and Tobago"
 msgstr "Trinidad y Tobago"
 
-#: ../src/gsb_currency_config.c:242 ../src/gsb_currency_config.c:258
+#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:259
 msgid "United States Dollar"
 msgstr "Dolar estadoudinense"
 
-#: ../src/gsb_currency_config.c:242 ../src/gsb_currency_config.c:1404
+#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:1405
 msgid "United States"
 msgstr "Estados Unidos"
 
-#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:244
-#: ../src/gsb_currency_config.c:245 ../src/gsb_currency_config.c:246
-#: ../src/gsb_currency_config.c:247 ../src/gsb_currency_config.c:248
-#: ../src/gsb_currency_config.c:249 ../src/gsb_currency_config.c:250
-#: ../src/gsb_currency_config.c:251 ../src/gsb_currency_config.c:252
-#: ../src/gsb_currency_config.c:253 ../src/gsb_currency_config.c:254
-#: ../src/gsb_currency_config.c:255 ../src/gsb_currency_config.c:256
-#: ../src/gsb_currency_config.c:257 ../src/gsb_currency_config.c:258
-#: ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:244 ../src/gsb_currency_config.c:245
+#: ../src/gsb_currency_config.c:246 ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:248 ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:250 ../src/gsb_currency_config.c:251
+#: ../src/gsb_currency_config.c:252 ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254 ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256 ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258 ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:260
 msgid "Pacific Ocean"
 msgstr "Océano Pacífico"
 
-#: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:244
-#: ../src/gsb_currency_config.c:245 ../src/gsb_currency_config.c:246
+#: ../src/gsb_currency_config.c:244 ../src/gsb_currency_config.c:245
+#: ../src/gsb_currency_config.c:246 ../src/gsb_currency_config.c:247
 msgid "Australian Dollar"
 msgstr "Dólar australiano"
 
-#: ../src/gsb_currency_config.c:243
+#: ../src/gsb_currency_config.c:244
 msgid "Australia"
 msgstr "Australia"
 
-#: ../src/gsb_currency_config.c:244
+#: ../src/gsb_currency_config.c:245
 msgid "Kiribati"
 msgstr "República de Kiribati"
 
-#: ../src/gsb_currency_config.c:245
+#: ../src/gsb_currency_config.c:246
 msgid "Nauru"
 msgstr "República de Nauru"
 
-#: ../src/gsb_currency_config.c:246
+#: ../src/gsb_currency_config.c:247
 msgid "Tuvalu"
 msgstr "Tuvulu"
 
-#: ../src/gsb_currency_config.c:247 ../src/gsb_currency_config.c:248
-#: ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:248 ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:250
 msgid "CFP Franc"
 msgstr "Franco de la Polinesia Francesa"
 
-#: ../src/gsb_currency_config.c:247
+#: ../src/gsb_currency_config.c:248
 msgid "French Polynesia"
 msgstr "Polinesia Francesa"
 
-#: ../src/gsb_currency_config.c:248
+#: ../src/gsb_currency_config.c:249
 msgid "New Caledonia"
 msgstr "Nueva Caledonia"
 
-#: ../src/gsb_currency_config.c:249
+#: ../src/gsb_currency_config.c:250
 msgid "Wallis and Futuna"
 msgstr "Wallis y Futuna"
 
-#: ../src/gsb_currency_config.c:250
+#: ../src/gsb_currency_config.c:251
 msgid "Fiji Dollar"
 msgstr "Dólar de Fidji"
 
-#: ../src/gsb_currency_config.c:250
+#: ../src/gsb_currency_config.c:251
 msgid "Fiji"
 msgstr "Fidji"
 
-#: ../src/gsb_currency_config.c:251 ../src/gsb_currency_config.c:252
+#: ../src/gsb_currency_config.c:252 ../src/gsb_currency_config.c:253
 msgid "New Zealand Dollar"
 msgstr "Dólar neocelandés"
 
-#: ../src/gsb_currency_config.c:251
+#: ../src/gsb_currency_config.c:252
 msgid "Cook Islands"
 msgstr "Islas Cook"
 
-#: ../src/gsb_currency_config.c:252
+#: ../src/gsb_currency_config.c:253
 msgid "New Zealand"
 msgstr "Nueva Zelanda"
 
-#: ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254
 msgid "Papua New Guinea Kina"
 msgstr "Kina de Papua - Nueva Ghinea"
 
-#: ../src/gsb_currency_config.c:253
+#: ../src/gsb_currency_config.c:254
 msgid "Papua New Guinea"
 msgstr "Papua Nueva Guinea"
 
-#: ../src/gsb_currency_config.c:254
+#: ../src/gsb_currency_config.c:255
 msgid "Samoa Tala"
 msgstr "Tala de Samoa"
 
-#: ../src/gsb_currency_config.c:254
+#: ../src/gsb_currency_config.c:255
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256
 msgid "Solomon Islands Dollar"
 msgstr "Dólar de las Islas Salomón"
 
-#: ../src/gsb_currency_config.c:255
+#: ../src/gsb_currency_config.c:256
 msgid "Solomon Islands"
 msgstr "Islas Salomón"
 
-#: ../src/gsb_currency_config.c:256
+#: ../src/gsb_currency_config.c:257
 msgid "Timor Escudo"
 msgstr "Escudo de Timor"
 
-#: ../src/gsb_currency_config.c:256
+#: ../src/gsb_currency_config.c:257
 msgid "Timor"
 msgstr "Timor"
 
-#: ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258
 msgid "Tongan Pa'anga"
 msgstr "Pa'anga de Tonga"
 
-#: ../src/gsb_currency_config.c:257
+#: ../src/gsb_currency_config.c:258
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:260
 msgid "Vanuatu Vatu"
 msgstr "Vatu de la República de Vanuatu"
 
-#: ../src/gsb_currency_config.c:259
+#: ../src/gsb_currency_config.c:260
 msgid "Vanuatu"
 msgstr "República de Vanuatu"
 
-#: ../src/gsb_currency_config.c:260 ../src/gsb_currency_config.c:261
-#: ../src/gsb_currency_config.c:262 ../src/gsb_currency_config.c:263
-#: ../src/gsb_currency_config.c:264 ../src/gsb_currency_config.c:265
-#: ../src/gsb_currency_config.c:266 ../src/gsb_currency_config.c:267
-#: ../src/gsb_currency_config.c:268 ../src/gsb_currency_config.c:269
-#: ../src/gsb_currency_config.c:270 ../src/gsb_currency_config.c:271
+#: ../src/gsb_currency_config.c:261 ../src/gsb_currency_config.c:262
+#: ../src/gsb_currency_config.c:263 ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265 ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267 ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:269 ../src/gsb_currency_config.c:270
+#: ../src/gsb_currency_config.c:271 ../src/gsb_currency_config.c:272
 msgid "Southern America"
 msgstr "Sudamérica"
 
-#: ../src/gsb_currency_config.c:260 ../src/gsb_currency_config.c:262
-#: ../src/gsb_currency_config.c:263 ../src/gsb_currency_config.c:270
+#: ../src/gsb_currency_config.c:261 ../src/gsb_currency_config.c:263
+#: ../src/gsb_currency_config.c:264 ../src/gsb_currency_config.c:271
 msgid "Peso"
 msgstr "Peso"
 
-#: ../src/gsb_currency_config.c:260
+#: ../src/gsb_currency_config.c:261
 msgid "Argentina"
 msgstr "Argentina"
 
-#: ../src/gsb_currency_config.c:261
+#: ../src/gsb_currency_config.c:262
 msgid "Boliviano"
 msgstr "Boliviano"
 
-#: ../src/gsb_currency_config.c:261
+#: ../src/gsb_currency_config.c:262
 msgid "Bolivia"
 msgstr "Bolivia"
 
-#: ../src/gsb_currency_config.c:262
+#: ../src/gsb_currency_config.c:263
 msgid "Chile"
 msgstr "Chile"
 
-#: ../src/gsb_currency_config.c:263
+#: ../src/gsb_currency_config.c:264
 msgid "Colombia"
 msgstr "Colombia"
 
-#: ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265
 msgid "Ecuador Sucre"
 msgstr "Sucre de Ecuador"
 
-#: ../src/gsb_currency_config.c:264
+#: ../src/gsb_currency_config.c:265
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: ../src/gsb_currency_config.c:265
+#: ../src/gsb_currency_config.c:266
 msgid "Guyana Dollar"
 msgstr "Dólar de la Guyana"
 
-#: ../src/gsb_currency_config.c:265
+#: ../src/gsb_currency_config.c:266
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267
 msgid "Paraguay Guarani"
 msgstr "Guaraní Paraguayo"
 
-#: ../src/gsb_currency_config.c:266
+#: ../src/gsb_currency_config.c:267
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../src/gsb_currency_config.c:267
+#: ../src/gsb_currency_config.c:268
 msgid "Nuevos Soles"
 msgstr "Nuevos Soles"
 
-#: ../src/gsb_currency_config.c:267
+#: ../src/gsb_currency_config.c:268
 msgid "Peru"
 msgstr "Perú"
 
-#: ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:269
 msgid "Real"
 msgstr "Real"
 
-#: ../src/gsb_currency_config.c:268
+#: ../src/gsb_currency_config.c:269
 msgid "Brazil"
 msgstr "Brasil"
 
-#: ../src/gsb_currency_config.c:269
+#: ../src/gsb_currency_config.c:270
 msgid "Suriname Guilder"
 msgstr "Florín del Surinam"
 
-#: ../src/gsb_currency_config.c:269
+#: ../src/gsb_currency_config.c:270
 msgid "Suriname"
 msgstr "Surinam"
 
-#: ../src/gsb_currency_config.c:270
+#: ../src/gsb_currency_config.c:271
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ../src/gsb_currency_config.c:271
+#: ../src/gsb_currency_config.c:272
 msgid "Venezuelan Bolivar"
 msgstr "Bolívar Venezolano"
 
-#: ../src/gsb_currency_config.c:271
+#: ../src/gsb_currency_config.c:272
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: ../src/gsb_currency_config.c:301
+#: ../src/gsb_currency_config.c:302
 msgid "Known currencies"
 msgstr "Monedas conocidas"
 
 #. Input form for currencies
-#: ../src/gsb_currency_config.c:350
+#: ../src/gsb_currency_config.c:351
 msgid "Currency properties"
 msgstr "Propiedades de la moneda"
 
 #. Create Sign entry
-#: ../src/gsb_currency_config.c:372
+#: ../src/gsb_currency_config.c:373
 msgid "Sign: "
 msgstr "Símbolo: "
 
 #. Create ISO code entry
-#: ../src/gsb_currency_config.c:385
+#: ../src/gsb_currency_config.c:386
 msgid "ISO code: "
 msgstr "Código ISO: "
 
 #. Create floating point entry
-#: ../src/gsb_currency_config.c:398 ../src/gsb_currency_config.c:1015
+#: ../src/gsb_currency_config.c:399 ../src/gsb_currency_config.c:1016
 msgid "Floating point: "
 msgstr "Punto decimal: "
 
-#: ../src/gsb_currency_config.c:458
+#: ../src/gsb_currency_config.c:459
 msgid "Country name"
 msgstr "Nombre del pais"
 
-#: ../src/gsb_currency_config.c:481
+#: ../src/gsb_currency_config.c:482
 msgid "Currency name"
 msgstr "Nombre de la moneda"
 
-#: ../src/gsb_currency_config.c:492
+#: ../src/gsb_currency_config.c:493
 msgid "ISO Code"
 msgstr "Código ISO"
 
-#: ../src/gsb_currency_config.c:504
+#: ../src/gsb_currency_config.c:505
 msgid "Sign"
 msgstr "Símbolo"
 
-#: ../src/gsb_currency_config.c:621
+#: ../src/gsb_currency_config.c:622
 #, c-format
 msgid "Currency '%s' is used in current file.  Grisbi can't delete it."
 msgstr ""
 "La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
 "borrarla."
 
-#: ../src/gsb_currency_config.c:624 ../src/gsb_currency_config.c:648
+#: ../src/gsb_currency_config.c:625 ../src/gsb_currency_config.c:649
 #, c-format
 msgid "Impossible to remove currency '%s'"
 msgstr "Imposible eliminar la moneda '%s'"
 
-#: ../src/gsb_currency_config.c:645
+#: ../src/gsb_currency_config.c:646
 #, c-format
 msgid "Currency '%s' is used in current file. Grisbi can't delete it."
 msgstr ""
 "La moneda '%s' se está usando en el archivo actual.  Grisbi no puede "
 "borrarla."
 
-#: ../src/gsb_currency_config.c:823
+#: ../src/gsb_currency_config.c:824
 msgid "Currency for payees tree: "
 msgstr "Moneda para el arbol de terceros: "
 
-#: ../src/gsb_currency_config.c:833
+#: ../src/gsb_currency_config.c:834
 msgid "Currency for categories tree: "
 msgstr "Moneda para el arbol de categorías: "
 
-#: ../src/gsb_currency_config.c:843
+#: ../src/gsb_currency_config.c:844
 msgid "Currency for budgetary lines tree: "
 msgstr "Moneda para el árbol de líneas presupuestarias: "
 
-#: ../src/gsb_currency_config.c:854
+#: ../src/gsb_currency_config.c:855
 msgid "Add transactions archived in the totals"
 msgstr "Añadir transacciones archivadas en los totales"
 
-#: ../src/gsb_currency_config.c:945
+#: ../src/gsb_currency_config.c:946
 msgid "Add a currency"
 msgstr "Añadir una moneda"
 
-#: ../src/gsb_currency_config.c:954
+#: ../src/gsb_currency_config.c:955
 msgid "Select base currency for your account"
 msgstr "Seleccione la moneda para su cuenta"
 
-#: ../src/gsb_currency_config.c:963
+#: ../src/gsb_currency_config.c:964
 msgid "World currencies"
 msgstr "Monedas del mundo"
 
-#: ../src/gsb_currency_config.c:972
+#: ../src/gsb_currency_config.c:973
 msgid "Currency details"
 msgstr "Detalles de la moneda"
 
 #. Currency name
-#: ../src/gsb_currency_config.c:981
+#: ../src/gsb_currency_config.c:982
 msgid "Currency name: "
 msgstr "Nombre de la moneda:"
 
 #. Currency ISO code
-#: ../src/gsb_currency_config.c:993
+#: ../src/gsb_currency_config.c:994
 msgid "Currency international code: "
 msgstr "Código de moneda internacional: "
 
 #. Currency usual sign
-#: ../src/gsb_currency_config.c:1004
+#: ../src/gsb_currency_config.c:1005
 msgid "Currency sign: "
 msgstr "Símbolo de la moneda: "
 
-#: ../src/gsb_currency_config.c:1080
+#: ../src/gsb_currency_config.c:1081
 msgid ""
 "Currency name and either international currency code or currency nickname "
 "should be set."
@@ -7008,12 +7017,12 @@ msgstr ""
 "Los nombres de moneda y o bien  los códigos de moneda o bien los apodos de "
 "las monedas deben ser configurados."
 
-#: ../src/gsb_currency_config.c:1082 ../src/gsb_data_partial_balance.c:325
+#: ../src/gsb_currency_config.c:1083 ../src/gsb_data_partial_balance.c:325
 #: ../src/gsb_data_partial_balance.c:435
 msgid "All fields are not filled in"
 msgstr "No están todos los campos rellenos"
 
-#: ../src/gsb_currency_config.c:1210
+#: ../src/gsb_currency_config.c:1211
 msgid "Include obsolete currencies"
 msgstr "Incluir monedas antiguas"
 
