@@ -43,7 +43,6 @@ struct gsb_etat_t
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
 
     /* formulaire */
-    gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint affiche_nb_ecritures_listes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 
@@ -174,6 +173,7 @@ struct gsb_conf_t
     gboolean automatic_recover_splits;              /* 1 pour recréer automatiquement les sous opérations */
     gboolean automatic_erase_credit_debit;          /* 1 pour effacer les champs crédit et débit */
     gboolean formulaire_toujours_affiche;           /* TRUE formulaire toujours affiché */
+    gint affichage_exercice_automatique;            /* automatic fyear :0 to set according to the date, 1 according to value date */
 
 #if IS_DEVELOPMENT_VERSION == 1
     /* config file */

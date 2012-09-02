@@ -405,7 +405,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Transactions_list_secondary_sorting",
                         NULL );
 
-    etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
+    conf.affichage_exercice_automatique = g_key_file_get_integer ( config,
                         "Display",
                         "Show automatic financial year",
                         NULL );
@@ -764,7 +764,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Show automatic financial year",
-                        etat.affichage_exercice_automatique );
+                        conf.affichage_exercice_automatique );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1151,7 +1151,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Affichage_exercice_automatique" ))
     {
-	etat.affichage_exercice_automatique = utils_str_atoi (text);
+	conf.affichage_exercice_automatique = utils_str_atoi (text);
 	return;
     }
 
@@ -1217,7 +1217,7 @@ void gsb_file_config_clean_config ( void )
     execute_scheduled_of_month = FALSE;
     conf.balances_with_scheduled = TRUE;
     conf.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
-    etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
+    conf.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
     conf.automatic_completion_payee = 1;            /* by default automatic completion */
     conf.limit_completion_to_current_account = 0;   /* By default, do full search */
     conf.automatic_recover_splits = 1;

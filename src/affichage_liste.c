@@ -528,7 +528,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 _("Automatic financial year is set"),
 							 _("according to transaction date"),
 							 _("according to transaction value date"),
-							 &etat.affichage_exercice_automatique, 
+							 &conf.affichage_exercice_automatique,
 							 NULL, NULL);
 
     /* automatic amount separatior fields */

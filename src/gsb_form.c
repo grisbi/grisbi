@@ -3128,7 +3128,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_EXERCICE:
-		if (etat.affichage_exercice_automatique && value_date)
+		if (conf.affichage_exercice_automatique && value_date)
         {
             if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (
              TRANSACTION_FORM_VALUE_DATE) ) )
