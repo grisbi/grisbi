@@ -51,7 +51,6 @@ struct gsb_etat_t
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
     
-    gboolean show_headings_bar;     /** Show headings bar or not. */
     gboolean show_closed_accounts;
     gboolean automatic_separator;   /* TRUE if do automatic separator */
 
@@ -150,6 +149,7 @@ struct gsb_conf_t
     gboolean active_scrolling_left_pane;            /* active mouse scrolling in the left_pane. */
 
     gint display_toolbar;                           /* Display mode of toolbar. */
+    gboolean show_headings_bar;                     /* Show headings bar or not. */
 
     /* files part */
     gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */

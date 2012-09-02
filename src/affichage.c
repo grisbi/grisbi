@@ -711,7 +711,7 @@ GtkWidget *tab_display_toolbar ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new ( _("Display headings bar"),
-                        &(etat.show_headings_bar),
+                        &(conf.show_headings_bar),
                         G_CALLBACK ( preferences_switch_headings_bar ),
                         NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 5 );

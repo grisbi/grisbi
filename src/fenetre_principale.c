@@ -436,7 +436,7 @@ void gsb_gui_headings_update_suffix ( gchar * suffix )
  */
 gboolean gsb_gui_update_show_headings ( void )
 {
-    if ( etat.show_headings_bar )
+    if ( conf.show_headings_bar )
     {
 	gtk_widget_show_all ( headings_eb );
     }

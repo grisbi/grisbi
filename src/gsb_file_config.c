@@ -444,7 +444,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Active_scrolling_left_pane",
                         NULL );
 
-    etat.show_headings_bar = g_key_file_get_integer ( config,
+    conf.show_headings_bar = g_key_file_get_integer ( config,
                         "Display",
                         "Show headings bar",
                         NULL );
@@ -799,7 +799,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Show headings bar",
-                        etat.show_headings_bar );
+                        conf.show_headings_bar );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1226,7 +1226,7 @@ void gsb_file_config_clean_config ( void )
     conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
     conf.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     conf.active_scrolling_left_pane = FALSE;        /* Active_scrolling_left_pane or not. */
-    etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
+    conf.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */
     conf.show_transaction_gives_balance = 1;        /* show transaction that gives the balance of the day */
     conf.transactions_list_primary_sorting = 1;     /* Primary sorting option for the transactions */
