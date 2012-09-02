@@ -260,7 +260,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* Common actions */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 					       _("_New scheduled"),
 					       "new-scheduled.png",
 					       G_CALLBACK (gsb_scheduler_list_edit_transaction),
@@ -269,7 +269,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 				  _("Prepare form to create a new scheduled transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    scheduler_button_delete = gsb_automem_stock_button_new ( etat.display_toolbar,
+    scheduler_button_delete = gsb_automem_stock_button_new ( conf.display_toolbar,
 							    GTK_STOCK_DELETE,
 							    _("Delete"),
 							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
@@ -279,7 +279,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 				  _("Delete selected scheduled transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
 
-    scheduler_button_edit = gsb_automem_stock_button_new ( etat.display_toolbar,
+    scheduler_button_edit = gsb_automem_stock_button_new ( conf.display_toolbar,
 							  GTK_STOCK_EDIT,
 							  _("Edit"),
 							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
@@ -290,7 +290,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
 
     /* Display/hide comments */
-    scheduler_display_hide_comments = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    scheduler_display_hide_comments = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 									_("Comments"),
 									"comments.png",
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
@@ -301,7 +301,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 			 FALSE, FALSE, 0 );
 
     /* Execute transaction */
-    scheduler_button_execute = gsb_automem_stock_button_new ( etat.display_toolbar,
+    scheduler_button_execute = gsb_automem_stock_button_new ( conf.display_toolbar,
 							     GTK_STOCK_EXECUTE,
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
@@ -311,7 +311,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 				  _("Execute current scheduled transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
 
-    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
 						GTK_STOCK_SELECT_COLOR, _("View"),
 						G_CALLBACK (popup_scheduled_view_mode_menu),
 						NULL );

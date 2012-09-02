@@ -1135,7 +1135,7 @@ void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
     gtk_container_foreach ( GTK_CONTAINER ( self->box ), ( GtkCallback ) gtk_widget_destroy, NULL );
 
     self->is_visible = TRUE;
-    self->button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    self->button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         self->name,
                         self->filename,
                         NULL,

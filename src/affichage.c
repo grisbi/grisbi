@@ -679,7 +679,7 @@ gboolean change_toolbar_display_mode ( GtkRadioButton *button )
         return FALSE;
 
     /* save the new parameter */
-    etat.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
+    conf.display_toolbar = GPOINTER_TO_INT (g_object_get_data ( G_OBJECT(button), "display" ));
 
     /* update toolbars */
     gsb_gui_update_all_toolbars ( );
@@ -735,7 +735,7 @@ GtkWidget *tab_display_toolbar ( void )
     radiogroup = radio = gtk_radio_button_new_with_label ( NULL, _("Text") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_TEXT ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_TEXT )
+    if ( conf.display_toolbar == GSB_BUTTON_TEXT )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
 
     g_signal_connect ( G_OBJECT ( radio ),
@@ -746,7 +746,7 @@ GtkWidget *tab_display_toolbar ( void )
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Icons") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_ICON ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_ICON )
+    if ( conf.display_toolbar == GSB_BUTTON_ICON )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
 
     g_signal_connect ( G_OBJECT ( radio ),
@@ -757,7 +757,7 @@ GtkWidget *tab_display_toolbar ( void )
     radio = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ), _("Both") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_BUTTON_BOTH ) );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), radio, FALSE, FALSE, 0 );
-    if ( etat.display_toolbar == GSB_BUTTON_BOTH )
+    if ( conf.display_toolbar == GSB_BUTTON_BOTH )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
 
     g_signal_connect ( G_OBJECT ( radio ),

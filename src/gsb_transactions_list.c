@@ -339,7 +339,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* Add various icons */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 					       _("New transaction"),
 					       "new-transaction.png",
 					       G_CALLBACK ( new_transaction ),
@@ -348,7 +348,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
 				  _("Blank the form to create a new transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_DELETE, 
 					   _("Delete"),
 					   G_CALLBACK ( remove_transaction ),
@@ -357,7 +357,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
 				  _("Delete selected transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_EDIT,
 					   _("Edit"),
 					   G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
@@ -366,7 +366,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
 				  _("Edit current transaction"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 					       _("Reconcile"),
 					       "reconciliation.png",
 					       G_CALLBACK (gsb_reconcile_run_reconciliation),
@@ -376,7 +376,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     /* This stuff needs GTK+ 2.10 to work. */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					    GTK_STOCK_PRINT,
 					    _("Print"),
 					    G_CALLBACK (print_transactions_list),
@@ -385,7 +385,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
 				  _("Print the transactions list"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
-    menu = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    menu = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
 					      GTK_STOCK_SELECT_COLOR, _("View"),
 					      G_CALLBACK (popup_transaction_view_mode_menu),
 					      NULL );
@@ -393,7 +393,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
 				  _("Change display mode of the list"));
     gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
 
-    menu_import_rules = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    menu_import_rules = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
 							    GTK_STOCK_EXECUTE, _("Import rules"),
 							    G_CALLBACK (popup_transaction_rules_menu),
 							    NULL );
@@ -404,7 +404,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     alignement = gtk_alignment_new ( 1, 0, 0, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), alignement, TRUE, TRUE, 0 );
 
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 					       _("Recreates archive"),
 					       "archive_24.png",
 					       G_CALLBACK ( gsb_transactions_list_hide_transactions_in_archive_line ),

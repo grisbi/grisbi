@@ -1772,7 +1772,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     if ( simulator )
     {
     /* création du bouton calculer */
-        button = gsb_automem_stock_button_new ( etat.display_toolbar,
+        button = gsb_automem_stock_button_new ( conf.display_toolbar,
                         GTK_STOCK_EXECUTE,
                         _("Calculate"),
                         NULL,
@@ -1787,7 +1787,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
 
         /* création du bouton afficher le tableau d'amortissement */
         selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
-        button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+        button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         _("Amortization"),
                         "ac_liability_16.png",
                         NULL,
@@ -1802,7 +1802,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     else if ( amortization )
     {
         /* création du bouton afficher le simulateur de crédits */
-        button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+        button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         _("Credits"),
                         "ac_liability_16.png",
                         NULL,
@@ -1819,7 +1819,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
         gboolean amortization_initial_date = FALSE;
 
         /* création du bouton afficher le simulateur de crédits */
-        button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+        button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         _("Amortization"),
                         "ac_liability_16.png",
                         NULL,
@@ -1837,7 +1837,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     }
 
     /* création du bouton print */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
                         GTK_STOCK_PRINT,
                         _("Print"),
                         NULL,
@@ -1850,7 +1850,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_SAVE,
 					   _("Export"),
 					   NULL,

@@ -1926,7 +1926,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* print button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
                         GTK_STOCK_PRINT,
                         _("Print"),
                         NULL,
@@ -1939,7 +1939,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_SAVE,
 					   _("Export"),
 					   NULL,
@@ -1953,7 +1953,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
 
 #ifdef HAVE_GOFFICE
     /* graph button */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         _("Data graph"),
                         "graph-sectors.png",
                         NULL,

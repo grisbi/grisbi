@@ -314,7 +314,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* Add various icons */
-    button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 					       _("New payee"), "new-payee.png",
 					       G_CALLBACK ( appui_sur_ajout_payee ),
 					       payee_tree_model );
@@ -322,7 +322,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  _("Create a new payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_DELETE, _("Delete"),
 					   G_CALLBACK ( supprimer_division ),
 					   payee_tree );
@@ -331,7 +331,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  _("Delete selected payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_EDIT, _("Edit"),
 					   G_CALLBACK ( edit_payee ),
 					   payee_tree );
@@ -340,7 +340,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  _("Edit selected payee"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_menu_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
 						GTK_STOCK_SELECT_COLOR,
 						_("View"),
 						G_CALLBACK ( popup_payee_view_mode_menu ),
@@ -349,7 +349,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  _("Change view mode"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-	button = gsb_automem_imagefile_button_new ( etat.display_toolbar,
+	button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
 						_("Manage payees"), "payeesmg.png",
 						G_CALLBACK ( payees_manage_payees ),
 						NULL );
@@ -357,7 +357,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
 				  _("Manage the payees"));
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
 
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_DELETE, _("Remove unused payees"),
 					   G_CALLBACK ( payees_remove_unused_payees ),
 					   NULL );

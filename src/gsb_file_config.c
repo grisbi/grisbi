@@ -434,7 +434,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Automatic_erase_credit_debit",
                         NULL );
 
-    etat.display_toolbar = g_key_file_get_integer ( config,
+    conf.display_toolbar = g_key_file_get_integer ( config,
                         "Display",
                         "Display toolbar",
                         NULL );
@@ -789,7 +789,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Display toolbar",
-                        etat.display_toolbar );
+                        conf.display_toolbar );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1158,7 +1158,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "display_toolbar" ))
     {
-	etat.display_toolbar = utils_str_atoi (text);
+	conf.display_toolbar = utils_str_atoi (text);
 	return;
     }
 
@@ -1224,7 +1224,7 @@ void gsb_file_config_clean_config ( void )
     conf.automatic_erase_credit_debit = 0;
 
     conf.display_grisbi_title = GSB_ACCOUNTS_TITLE; /* show Accounts file title par défaut */
-    etat.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
+    conf.display_toolbar = GSB_BUTTON_BOTH;         /* How to display toolbar icons. */
     conf.active_scrolling_left_pane = FALSE;        /* Active_scrolling_left_pane or not. */
     etat.show_headings_bar = TRUE;                  /* Show toolbar or not. */
     conf.show_transaction_selected_in_form = 1;     /* show selected transaction in form */

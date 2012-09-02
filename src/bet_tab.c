@@ -2905,7 +2905,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
     hbox = gtk_hbox_new ( FALSE, 0 );
 
     /* print button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
                         GTK_STOCK_PRINT,
                         _("Print"),
                         NULL,
@@ -2918,7 +2918,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( etat.display_toolbar,
+    button = gsb_automem_stock_button_new ( conf.display_toolbar,
 					   GTK_STOCK_SAVE,
 					   _("Export"),
 					   NULL,
@@ -2932,7 +2932,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
 
 #ifdef HAVE_GOFFICE
     /* graph button */
-    button = bet_graph_button_menu_new ( etat.display_toolbar,
+    button = bet_graph_button_menu_new ( conf.display_toolbar,
                         "forecast_graph",
                         G_CALLBACK ( bet_graph_line_graph_new ),
                         tree_view );
