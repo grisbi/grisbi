@@ -667,7 +667,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
 
     /* Display or not tips */
     tip_checkbox = gsb_automem_checkbutton_new ( _("Display tip of the day"),
-                        &(etat.show_tip),
+                        &(conf.show_tip),
                         NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 

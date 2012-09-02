@@ -91,10 +91,6 @@ struct gsb_etat_t
     /* variables sur l'échéancier */
     gint affichage_commentaire_echeancier;      /* à 1 si le commentaire est affiché */
 
-    /* Tips */
-    gint last_tip; 
-    gint show_tip; 
-
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */
     gint add_archive_in_total_balance;      /* Add transactions archived in the totals */
@@ -197,6 +193,9 @@ struct gsb_conf_t
     gint check_for_archival;                        /* TRUE if we want to check the number of non archived transactions at the opening */
     gint max_non_archived_transactions_for_check;   /* the max number of transaction before grisbi warm at the opening */
 
+    /* Tips */
+    gint last_tip;
+    gint show_tip;
 };
 
 /* declared in gsb_file_config.c */

@@ -126,19 +126,19 @@ void display_tip ( gboolean force )
     GtkWidget *btn_back, *btn_forward, *btn_close;
     gchar *tmpstr;
 
-    if ( !force && !etat.show_tip )
+    if ( !force && !conf.show_tip )
         return;
 
-    etat.last_tip = CLAMP (etat.last_tip+1, 0, sizeof(tips)/sizeof(gpointer)-1);
+    conf.last_tip = CLAMP ( conf.last_tip+1, 0, sizeof(tips)/sizeof(gpointer)-1);
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
                         make_hint ( _("Did you know that..."),
                         /* We use the grisbi-tips catalog */
-                        g_dgettext(NULL, tips[etat.last_tip]) ) );
+                        g_dgettext(NULL, tips[conf.last_tip]) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
     checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"), 
-                        &(etat.show_tip), NULL, NULL );
+                        &(conf.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
 
@@ -150,21 +150,21 @@ void display_tip ( gboolean force )
     /* We iterate as user can select several tips. */
     while ( TRUE )
     {
-    if (etat.last_tip == sizeof(tips)/sizeof(gpointer)-1)
+    if ( conf.last_tip == sizeof(tips)/sizeof(gpointer)-1)
         gtk_widget_set_sensitive (btn_forward, FALSE);
-    if (etat.last_tip == 0)
+    if ( conf.last_tip == 0)
         gtk_widget_set_sensitive (btn_back, FALSE);
 
     switch ( gtk_dialog_run ( GTK_DIALOG(dialog) ) )
     {
         case 1:
-        if ( etat.last_tip > 0 )
-            etat.last_tip--;
+        if ( conf.last_tip > 0 )
+            conf.last_tip--;
         gtk_widget_set_sensitive (btn_forward, TRUE); 
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
-                        g_dgettext (NULL, tips[etat.last_tip] ),
+                        g_dgettext (NULL, tips[conf.last_tip] ),
                         NULL );
 
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
@@ -173,12 +173,12 @@ void display_tip ( gboolean force )
         break;
 
         case 2:
-        if (etat.last_tip < sizeof(tips)/sizeof(gpointer)-1)
-            etat.last_tip++;
+        if ( conf.last_tip < sizeof(tips)/sizeof(gpointer)-1)
+            conf.last_tip++;
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",
-                        g_dgettext (NULL, tips[etat.last_tip] ),
+                        g_dgettext (NULL, tips[conf.last_tip] ),
                         NULL );
 
         gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog) -> label ),
