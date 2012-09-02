@@ -46,7 +46,6 @@ struct gsb_etat_t
     gint formulaire_toujours_affiche;
     gint affichage_exercice_automatique;    /* automatic fyear :0 to set according to the date, 2 according to value date */
     gint affiche_nb_ecritures_listes;
-    gint largeur_auto_colonnes;
     gint retient_affichage_par_compte;      /* à 1 si les caractéristiques de l'affichage (R, non R ...) diffèrent par compte */
 
     /* Fonts & logo */

@@ -405,11 +405,6 @@ gboolean gsb_file_config_load_config ( void )
                         "Transactions_list_secondary_sorting",
                         NULL );
 
-    etat.largeur_auto_colonnes = g_key_file_get_integer ( config,
-                        "Display",
-                        "Columns width auto",
-                        NULL );
-
     etat.affichage_exercice_automatique = g_key_file_get_integer ( config,
                         "Display",
                         "Show automatic financial year",
@@ -1154,13 +1149,6 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     }
 
     if ( !strcmp ( element_name,
-		   "Largeur_auto_colonnes" ))
-    {
-	etat.largeur_auto_colonnes = utils_str_atoi (text);
-	return;
-    }
-
-    if ( !strcmp ( element_name,
 		   "Affichage_exercice_automatique" ))
     {
 	etat.affichage_exercice_automatique = utils_str_atoi (text);
@@ -1273,8 +1261,6 @@ void gsb_file_config_clean_config ( void )
     /* archive data */
     conf.check_for_archival = TRUE;
     conf.max_non_archived_transactions_for_check = 3000;
-
-    etat.largeur_auto_colonnes = 0;
 
     etat.last_tip = -1;
     etat.show_tip = FALSE;
