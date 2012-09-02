@@ -513,41 +513,94 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
 
 
 /**
+ * Fonction appelée lorsqu'on change le nombre de lignes des opérations
  *
+ * \param   menu_item concerné
+ * \param   pointeur sur l'index du bouton
  *
- *
+ * \return
  */
-static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
+static void gsb_transaction_list_radio_button_activate ( GtkMenuItem *menu_item,
+                        gpointer data )
+{
+    if ( gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( menu_item ) ) )
+    {
+        gint demande = 0;
+
+        if ( data )
+            demande = GPOINTER_TO_INT ( data );
+        change_aspect_liste ( demande );
+    }
+}
+
+
+/**
+ * Création du bouton de sélection de l'affichage de la liste des opérations.
+ *
+ * \param   bouton sur lequel on attache le menu
+ * \param   pointeur NULL
+ *
+ * \return  FALSE
+ */
+static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
                         gpointer null )
 {
-    GtkWidget *menu, *menu_item;
+    GSList *group = NULL;
+    GtkWidget *menu;
+    GtkWidget *menu_item, *menu_item_1, *menu_item_2, *menu_item_3;
     gint current_account;
+    gint nb_rows_by_transaction;
+
+    current_account = gsb_gui_navigation_get_current_account ( );
+    nb_rows_by_transaction = gsb_data_account_get_nb_rows ( current_account );
 
     menu = gtk_menu_new ();
 
-    menu_item = gtk_menu_item_new_with_label ( _("Simple view") );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (1) );
+    menu_item_1 = gtk_radio_menu_item_new_with_label ( group, _("Simple view") );
+    group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( menu_item_1 ) );
+    if ( nb_rows_by_transaction == 1 )
+        gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item_1 ), TRUE );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item_1 );
+        
+    menu_item_2 = gtk_radio_menu_item_new_with_label ( group, _("Two lines view") );
+    group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( menu_item_2 ) );
+    if ( nb_rows_by_transaction == 2 )
+        gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item_2 ), TRUE );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item_2 );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Two lines view") );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (2) );
+    menu_item_3 = gtk_radio_menu_item_new_with_label ( group, _("Three lines view") );
+    group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( menu_item_3 ) );
+    if ( nb_rows_by_transaction == 3 )
+        gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item_3 ), TRUE );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item_3 );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Three lines view") );
+    menu_item = gtk_radio_menu_item_new_with_label ( group, _("Complete view") );
+    group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( menu_item ) );
+    if ( nb_rows_by_transaction == 4 )
+        gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), TRUE );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (3) );
 
-    menu_item = gtk_menu_item_new_with_label ( _("Complete view") );
-    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-    g_signal_connect_swapped ( G_OBJECT(menu_item), "activate", 
-			       G_CALLBACK (change_aspect_liste), GINT_TO_POINTER (4) );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( gsb_transaction_list_radio_button_activate ),
+                        GINT_TO_POINTER (4) );
+
+    g_signal_connect ( G_OBJECT ( menu_item_1 ),
+                        "activate",
+                        G_CALLBACK ( gsb_transaction_list_radio_button_activate ),
+                        GINT_TO_POINTER ( 1 ) );
+
+    g_signal_connect ( G_OBJECT ( menu_item_2 ),
+                        "activate",
+                        G_CALLBACK ( gsb_transaction_list_radio_button_activate ),
+                        GINT_TO_POINTER (2) );
+
+    g_signal_connect ( G_OBJECT ( menu_item_3 ),
+                        "activate",
+                        G_CALLBACK ( gsb_transaction_list_radio_button_activate ),
+                        GINT_TO_POINTER (3) );
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
-
-    current_account = gsb_gui_navigation_get_current_account ( );
 
     menu_item = gtk_check_menu_item_new_with_label ( _("Show reconciled transactions") );
     gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM (menu_item),
@@ -559,7 +612,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
-                        "activate", 
+                        "activate",
 			            G_CALLBACK ( gsb_gui_toggle_show_reconciled ),
                         NULL );
 
@@ -573,17 +626,18 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget * button,
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
     g_signal_connect ( G_OBJECT ( menu_item ),
-                        "activate", 
+                        "activate",
 			            G_CALLBACK ( gsb_gui_toggle_show_archived ),
                         NULL );
 
-    gtk_menu_set_active ( GTK_MENU(menu), 
+    gtk_menu_set_active ( GTK_MENU(menu),
 			  gsb_data_account_get_nb_rows ( gsb_gui_navigation_get_current_account () ) );
 
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1, 
-		     gtk_get_current_event_time ( ) );
+    gtk_menu_popup ( GTK_MENU( menu ), NULL, button, set_popup_position, button, 1,
+                        gtk_get_current_event_time ( ) );
 
+    /* return */
     return FALSE;
 }
 
@@ -4281,32 +4335,40 @@ gboolean change_aspect_liste ( gint demande )
 	/* 	1, 2, 3 et 4 sont les nb de lignes qu'on demande à afficher */
 
 	case 1 :
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowOneLine" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    gsb_menu_set_block_menu_cb ( FALSE );
 	    break;
 	case 2 :
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowTwoLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    gsb_menu_set_block_menu_cb ( FALSE );
 	    break;
 	case 3 :
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowThreeLines" ) ),
 					    TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    gsb_menu_set_block_menu_cb ( FALSE );
 	    break;
 	case 4 :
+	    gsb_menu_set_block_menu_cb ( TRUE );
 	    gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
                         gtk_ui_manager_get_action ( ui_manager,
 					    "/menubar/ViewMenu/ShowFourLines" ) ),
 					   TRUE );
 	    gsb_transactions_list_set_visible_rows_number ( demande );
+	    gsb_menu_set_block_menu_cb ( FALSE );
 	    break;
 
 	case 5 :
@@ -4605,6 +4667,13 @@ void gsb_transactions_list_process_orphan_list ( GSList *orphan_list )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
