@@ -1012,6 +1012,9 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
             case 'R':
                 if ( !strcmp ( attribute_names[i], "Reconcile_end_date" ) )
                     etat.reconcile_end_date = utils_str_atoi ( attribute_values[i] );
+
+                else if ( !strcmp ( attribute_names[i], "Remind_display_per_account" ) )
+                    etat.retient_affichage_par_compte = utils_str_atoi ( attribute_values[i] );
                 else
                     unknown = 1;
                 break;

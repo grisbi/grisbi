@@ -233,6 +233,8 @@ void init_variables ( void )
     etat.utilise_logo = 1;
     gsb_select_icon_init_logo_variables ();
 
+    etat.retient_affichage_par_compte = 0;
+
     /* reconcile (etat) */
     run.reconcile_account_number = -1;
     g_free ( run.reconcile_final_balance );

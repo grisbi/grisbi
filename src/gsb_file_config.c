@@ -1275,7 +1275,6 @@ void gsb_file_config_clean_config ( void )
     conf.max_non_archived_transactions_for_check = 3000;
 
     etat.largeur_auto_colonnes = 0;
-    etat.retient_affichage_par_compte = 0;
 
     etat.last_tip = -1;
     etat.show_tip = FALSE;
