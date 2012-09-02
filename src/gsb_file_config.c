@@ -380,7 +380,7 @@ gboolean gsb_file_config_load_config ( void )
         err = NULL;
 
     /* get shown section */
-    etat.formulaire_toujours_affiche = g_key_file_get_integer ( config,
+    conf.formulaire_toujours_affiche = g_key_file_get_integer ( config,
                         "Display",
                         "Show transaction form",
                         NULL );
@@ -739,7 +739,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Display",
                         "Show transaction form",
-                        etat.formulaire_toujours_affiche );
+                        conf.formulaire_toujours_affiche );
 
     g_key_file_set_integer ( config,
                         "Display",
@@ -1144,7 +1144,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
 		   "Affichage_formulaire" ))
     {
-	etat.formulaire_toujours_affiche = utils_str_atoi (text);
+	conf.formulaire_toujours_affiche = utils_str_atoi (text);
 	return;
     }
 
@@ -1216,7 +1216,7 @@ void gsb_file_config_clean_config ( void )
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
     execute_scheduled_of_month = FALSE;
     conf.balances_with_scheduled = TRUE;
-    etat.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
+    conf.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     etat.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */
     conf.automatic_completion_payee = 1;            /* by default automatic completion */
     conf.limit_completion_to_current_account = 0;   /* By default, do full search */

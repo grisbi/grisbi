@@ -279,7 +279,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         {"DebugModeAction", NULL, _("Debug mode"), NULL, NULL,
          G_CALLBACK ( gsb_debug_start_log ), etat.debug_mode },
         {"ShowTransactionFormAction", NULL, _("Show transaction _form"), NULL, NULL,
-         G_CALLBACK ( gsb_gui_toggle_show_form ), etat.formulaire_toujours_affiche },
+         G_CALLBACK ( gsb_gui_toggle_show_form ), conf.formulaire_toujours_affiche },
 #ifdef GTKOSXAPPLICATION
         {"ShowReconciledAction", NULL, _("Show _reconciled"), "<Meta>R", NULL,
          G_CALLBACK ( gsb_gui_toggle_show_reconciled ), 0 },
