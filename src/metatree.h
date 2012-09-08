@@ -143,9 +143,10 @@ void metatree_set_linked_widgets_sensitive ( GtkTreeModel * model,
 gboolean metatree_sort_column  ( GtkTreeModel * model,
                         GtkTreeIter * a, GtkTreeIter * b,
                         gpointer user_data );
+void metatree_transfer_identical_transactions ( GtkWidget *tree_view );
 gboolean supprimer_division ( GtkTreeView * tree_view );
-void update_transaction_in_tree ( MetatreeInterface * iface, 
-                        GtkTreeModel * model, 
+void update_transaction_in_tree ( MetatreeInterface * iface,
+                        GtkTreeModel * model,
                         gint transaction_number );
 /*END_DECLARATION*/
 

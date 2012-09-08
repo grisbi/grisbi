@@ -1097,12 +1097,27 @@ void budgetary_line_list_popup_context_menu ( void )
 
     type_division = metatree_get_row_type_from_tree_view ( budgetary_line_tree );
 
-    if ( type_division == META_TREE_TRANSACTION
-     ||
-     type_division == META_TREE_INVALID )
+    if ( type_division == META_TREE_INVALID )
         return;
 
     menu = gtk_menu_new ();
+
+    if ( type_division == META_TREE_TRANSACTION )
+    {
+        title = g_strdup ( _("Transfers the identical transactions in another sub-budgetary line") );
+
+        menu_item = gtk_image_menu_item_new_with_label ( title );
+        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
+                        gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
+                        GTK_ICON_SIZE_MENU ) );
+        g_signal_connect_swapped ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( metatree_transfer_identical_transactions ),
+                        budgetary_line_tree );
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+        g_free ( title );
+    }
 
     if ( type_division == META_TREE_DIV || type_division == META_TREE_SUB_DIV )
     {

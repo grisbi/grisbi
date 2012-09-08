@@ -183,6 +183,10 @@ static void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * mod
 static gint button_move_selected = 0;
 static gint button_action_selected = 0;
 
+static gint metatree_find_payee = 0;
+static gint metatree_find_notes = 0;
+
+
 /**
  * Determine whether a model is displayed.  That is, in metatree's
  * meaning, it contains at least an iter.
@@ -3139,8 +3143,6 @@ enum meta_tree_row_type metatree_get_row_type_from_tree_view ( GtkWidget *tree_v
             nbre_trans_s_s_div = metatree_get_nbre_transactions_sans_sub_div ( tree_view );
             if ( nbre_trans_s_s_div > 0 )
                 return META_TREE_TRANS_S_S_DIV;
-            else
-                return META_TREE_INVALID;
         }
 
         path = gtk_tree_model_get_path ( model, &iter );
@@ -3658,6 +3660,390 @@ void metatree_sub_division_set_name ( MetatreeInterface *iface,
 }
 
 
+/**
+ *
+ *
+ *
+ *
+ * \param iface
+ * \param model
+ * \param division the current (old) division number
+ * \param sub_division the current (old) sub-division number
+ * \param no_div a pointer to gint for the choice of division chosen by user
+ * \param no_sub_div a pointer to gint for the choice of sub-division chosen by user
+ *
+ * \return FALSE to stop the process, TRUE to continue
+ * 	no_div will contain the new division, no_sub_div the new sub-division
+ * 	if no move of transactions, no_div and no_sub_div are set to 0
+ * 	if move to another division but no sub-division, no_sub_div is set to 0
+ * */
+static gboolean metatree_select_transactions_destination ( MetatreeInterface *iface,
+                        GtkTreeModel *model,
+                        gint transaction_number,
+                        gint division,
+                        gint sub_division,
+                        gint *no_div,
+                        gint *no_sub_div )
+{
+    GtkWidget *dialog;
+    GtkWidget *vbox;
+    GtkWidget *hbox;
+    GtkWidget *button_1;
+    GtkWidget *button_2;
+    GtkWidget *label;
+    GtkWidget *combofix;
+    gchar **split_division;
+    gchar *tmp_str_1;
+    gchar *tmp_str_2;
+    gint nouveau_no_division;
+    gint nouveau_no_sub_division;
+    gint resultat;
+    gint number;
+
+    /* create the box to move change the division and sub-div of the transactions */
+    tmp_str_1 = g_strdup_printf ( _("Select transactions in \"%s\"."),
+                        ( !sub_division ?
+                        iface -> div_name ( division ) :
+                        iface -> sub_div_name ( division, sub_division ) ) );
+
+    tmp_str_2 = g_strdup_printf (
+                        _("You can transfer content from \"%s\" in another %s or %s.\n"),
+                        iface -> sub_div_name ( division, sub_division ),
+                        gettext ( iface -> meta_name_minus ),
+                        gettext ( iface -> meta_sub_name ) );
+
+    dialog = dialogue_special_no_run ( GTK_MESSAGE_OTHER,
+                        GTK_BUTTONS_OK_CANCEL,
+                        make_hint ( tmp_str_1 , tmp_str_2 ) );
+
+    gtk_widget_set_size_request ( dialog, -1, -1 );
+
+    g_free ( tmp_str_1 );
+    g_free ( tmp_str_2 );
+
+    number = gsb_data_transaction_get_party_number ( transaction_number );
+    tmp_str_1 = g_strdup_printf ( _("Use payee: \"%s\" to find the transactions"),
+                    gsb_data_payee_get_name ( number, FALSE ) );
+    button_1 = gsb_automem_checkbutton_new ( tmp_str_1,
+                        &metatree_find_payee,
+                        NULL,
+                        NULL );
+
+    g_free ( tmp_str_1 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), button_1, FALSE, FALSE, 0 );
+
+    tmp_str_2 = g_strdup ( gsb_data_transaction_get_notes ( transaction_number ) );
+    if ( tmp_str_2 )
+    {
+        tmp_str_1 = g_strdup_printf ( _("Use notes: \"%s\" to find the transactions"), tmp_str_2 );
+        button_2 = gsb_automem_checkbutton_new ( tmp_str_1,
+                        &metatree_find_notes,
+                        NULL,
+                        NULL );
+
+        g_free ( tmp_str_1 );
+        g_free ( tmp_str_2 );
+        gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), button_2, FALSE, FALSE, 0 );
+    }
+
+    /* create the list containing division and sub-division without the current division */
+    hbox = gtk_hbox_new ( FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( dialog ) -> vbox ), hbox, FALSE, FALSE, 0 );
+
+    label = gtk_label_new ( _("Select the destination: ") );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
+
+    vbox = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 0 );
+
+    combofix = metatree_get_combofix ( iface, division, sub_division, META_TREE_TRANSACTION );
+    gtk_combofix_set_force_text ( GTK_COMBOFIX ( combofix ), FALSE );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), combofix, TRUE, TRUE, 0 );
+
+    gtk_widget_show_all ( dialog );
+    gtk_widget_grab_focus ( GTK_WIDGET ( ( GTK_COMBOFIX ( combofix ) ) -> entry ) );
+    gtk_editable_set_position ( GTK_EDITABLE ( ( GTK_COMBOFIX ( combofix ) ) -> entry ), 0 );
+
+    resultat = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
+
+    if ( resultat != GTK_RESPONSE_OK )
+    {
+        gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+        return FALSE;
+    }
+
+    nouveau_no_division = 0;
+    nouveau_no_sub_division = 0;
+
+    if ( metatree_find_payee == 0 && metatree_find_notes == 0 )
+    {
+        tmp_str_1 = g_strdup ( _("You must select at least one search element") );
+        tmp_str_2 = g_strdup ( _("WARNING") );
+
+        dialogue_warning_hint ( tmp_str_1 , tmp_str_2 );
+
+        g_free ( tmp_str_1 );
+        g_free ( tmp_str_2 );
+
+        gtk_widget_destroy (dialog);
+
+        return ( metatree_select_transactions_destination ( iface, model,
+                        transaction_number,
+                        division, sub_division,
+                        no_div, no_sub_div ) );
+    }
+
+    /* we want to move the content */
+    if ( !strlen ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ) ) )
+    {
+        tmp_str_1 = g_strdup_printf (
+                        _("It is compulsory to specify a destination %s "
+                        "to move content but no %s was entered."),
+                        gettext ( iface -> meta_name_minus ),
+                        gettext ( iface -> meta_name_minus ) );
+        tmp_str_2 = g_strdup_printf ( _("Please enter a %s!"), _(iface -> meta_name_minus) );
+
+        dialogue_warning_hint ( tmp_str_1 , tmp_str_2 );
+
+        g_free ( tmp_str_1 );
+        g_free ( tmp_str_2 );
+
+        gtk_widget_destroy (dialog);
+
+        return ( metatree_select_transactions_destination ( iface, model,
+                        transaction_number,
+                        division, sub_division,
+                        no_div, no_sub_div ) );
+    }
+
+    /* get the new (sub-)division */
+    split_division = g_strsplit ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ), " : ", 2 );
+
+    nouveau_no_division = iface -> get_div_pointer_from_name ( split_division[0], 0 );
+
+    if (nouveau_no_division)
+    {
+        nouveau_no_sub_division =  iface -> get_sub_div_pointer_from_name (
+                    nouveau_no_division, split_division[1], 0 );
+
+        if ( split_division[1] && nouveau_no_sub_division == 0 )
+        {
+            tmp_str_1 = g_strdup_printf ( _("Warning you can not create %s."),
+                    _(iface -> meta_name_minus) );
+            dialogue_warning( tmp_str_1 );
+
+            g_free ( tmp_str_1 );
+
+            gtk_widget_destroy ( dialog );
+
+        return ( metatree_select_transactions_destination ( iface, model,
+                        transaction_number,
+                        division, sub_division,
+                        no_div, no_sub_div ) );
+        }
+    }
+
+    g_strfreev ( split_division );
+
+    gtk_widget_destroy ( GTK_WIDGET ( dialog ) );
+
+    /* return the new number of division and sub-division
+     * if don't want to move the transactions, 0 and 0 will be returned */
+    if ( no_div)
+        *no_div = nouveau_no_division;
+    if ( no_sub_div )
+        *no_sub_div = nouveau_no_sub_division;
+
+    return TRUE;
+}
+
+
+/**
+ * cette fonction déplace les opérations de même modèle dans la nouvelle catégorie/sous catégorie
+ *
+ * \param tree_view
+ *
+ * \return
+ *
+ */
+void metatree_transfer_identical_transactions ( GtkWidget *tree_view )
+{
+    GtkTreeSelection *selection;
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeIter parent;
+    GtkTreeIter *it;
+    GtkTreePath *path = NULL;
+    GSList *list_tmp;
+    gchar *tmp_str = NULL;
+    gchar *search_str_1 = NULL;
+    gchar *search_str_2 = NULL;
+    gint no_division = 0;
+    gint no_sub_division = 0;
+    gint no_transaction = 0;
+    gint new_division;
+    gint new_sub_division;
+    gint profondeur;
+    MetatreeInterface *iface;
+
+    devel_debug (NULL);
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    if ( selection && gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+    {
+        gtk_tree_model_get ( model,
+                        &iter,
+                        META_TREE_NO_TRANSACTION_COLUMN, &no_transaction,
+                        -1 );
+    }
+    else
+        return;
+
+    if ( no_transaction <= 0 )
+        return;
+
+    /* on détermine la division sous division à partir de la transaction */
+    path = gtk_tree_model_get_path ( model, &iter );
+    gtk_tree_path_up ( path );
+    gtk_tree_model_iter_parent ( model, &parent, &iter );
+    gtk_tree_model_get ( model,
+                        &parent,
+                        META_TREE_NO_DIV_COLUMN, &no_division,
+                        META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
+                        -1 );
+
+    iface = g_object_get_data ( G_OBJECT ( model ), "metatree-interface" );
+	if ( !metatree_select_transactions_destination ( iface, model, no_transaction, no_division, no_sub_division,
+                        &new_division, &new_sub_division ) )
+	    return;
+
+    /* move the transactions, need to to that for archived transactions too */
+    list_tmp = gsb_data_transaction_get_complete_transactions_list ();
+
+    if ( metatree_find_payee )
+    {
+        tmp_str = g_strdup ( gsb_data_payee_get_name (
+                        gsb_data_transaction_get_party_number ( no_transaction ), TRUE ) );
+        if ( tmp_str )
+            search_str_1 = g_utf8_collate_key ( tmp_str, -1 );
+        g_free ( tmp_str );
+    }
+
+    if ( metatree_find_notes )
+    {
+        tmp_str = g_strdup ( gsb_data_transaction_get_notes ( no_transaction ) );
+        if ( tmp_str )
+            search_str_2 = g_utf8_collate_key ( tmp_str, -1 );
+        g_free ( tmp_str );
+    }
+
+    while ( list_tmp )
+    {
+        gint transaction_number_tmp;
+
+        transaction_number_tmp =
+                gsb_data_transaction_get_transaction_number ( list_tmp -> data );
+
+        if ( iface -> transaction_div_id ( transaction_number_tmp ) == no_division
+         &&
+         iface -> transaction_sub_div_id ( transaction_number_tmp ) == no_sub_division )
+        {
+            gboolean trouve = FALSE;
+
+            if ( search_str_1 )
+            {
+                gchar *tmp_key = NULL;
+
+                tmp_str = g_strdup ( gsb_data_payee_get_name (
+                        gsb_data_transaction_get_party_number ( transaction_number_tmp ), TRUE ) );
+
+                if ( tmp_str )
+                    tmp_key = g_utf8_collate_key ( tmp_str, -1 );
+
+                if ( tmp_key )
+                    trouve = !strcmp ( tmp_key, search_str_1 );
+                else
+                    trouve = FALSE;
+
+                g_free ( tmp_key );
+                g_free ( tmp_str );
+            }
+            if ( search_str_2 )
+            {
+                gchar *tmp_key = NULL;
+
+                tmp_str = g_strdup ( gsb_data_transaction_get_notes ( transaction_number_tmp ) );
+
+                if ( tmp_str )
+                    tmp_key = g_utf8_collate_key ( tmp_str, -1 );
+
+                if ( tmp_key )
+                    trouve = !strcmp ( tmp_key, search_str_2 );
+                else
+                    trouve = FALSE;
+
+                g_free ( tmp_key );
+                g_free ( tmp_str );
+            }
+
+            if ( trouve )
+            {
+                /* Change parameters of the transaction */
+                iface -> transaction_set_div_id ( transaction_number_tmp, new_division );
+                iface -> transaction_set_sub_div_id ( transaction_number_tmp, new_sub_division );
+                gsb_transactions_list_update_transaction ( transaction_number_tmp );
+            }
+        }
+
+        list_tmp = list_tmp -> next;
+    }
+
+    g_free ( search_str_1 );
+    g_free ( search_str_2 );
+
+    /* met à jour le tree_view */
+    metatree_update_tree_view ( iface );
+
+    /* restitue l'état du tree_view */
+    /* old path */
+    if ( iface -> content == 1 )
+        path = categories_hold_position_get_path ( );
+    else if ( iface -> content == 2 )
+        path = budgetary_hold_position_get_path ( );
+
+    profondeur = gtk_tree_path_get_depth ( path );
+    while ( profondeur > 1 )
+    {
+        gtk_tree_path_up ( path );
+        profondeur = gtk_tree_path_get_depth ( path );
+    }
+    gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( tree_view ), path );
+    gtk_tree_path_free ( path );
+
+    /* new path */
+    it = get_iter_from_div ( model, new_division, 0 );
+    if ( it )
+    {
+        path = gtk_tree_model_get_path ( model, it );
+        gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( tree_view ), path );
+        gtk_tree_path_free ( path );
+    }
+
+    /* We did some modifications */
+    gsb_file_set_modified ( TRUE );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ *
+ */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
