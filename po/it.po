@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -5071,9 +5071,9 @@ msgstr "Indirizzo Internet"
 msgid "Web browser command: "
 msgstr "Browser Web:"
 
-#: ../src/gsb_assistant_first.c:229
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
 #, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
@@ -10566,13 +10566,6 @@ msgstr "Salva il File"
 
 #: ../src/parametres.c:985
 msgid "Use the config file of version stable as model"
-msgstr ""
-
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
 msgstr ""
 
 #: ../src/parametres.c:1116

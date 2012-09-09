@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Grisbi 0.5.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2009-04-13 14:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: KASKAS <ttnfy17@yahoo.gr>\n"
@@ -5190,9 +5190,9 @@ msgstr "Ιστός"
 msgid "Web browser command: "
 msgstr "Εντολή μηχανών αναζήτησης Ιστού:"
 
-#: ../src/gsb_assistant_first.c:229
-#, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
 "remote %s' "
@@ -10830,15 +10830,6 @@ msgstr "Σώζοντας το αρχείο"
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1075
-#, fuzzy, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr ""
-"Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: 'firefox -"
-"remote %s' "
-
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Προειδοποιήσεις χρονοπρογραμματιστών στο άνοιγμα Grisbi"
@@ -11957,6 +11948,14 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Προσωπικός διευθυντής χρηματοδότησης για τον καθέναν\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may use %s to expand the URL I.e:\n"
+#~ "'firefox %s'"
+#~ msgstr ""
+#~ "Μπορείτε να χρησιμοποιήσετε το %s για να επεκτείνετε το URL - I.e: "
+#~ "'firefox -remote %s' "
 
 #, fuzzy
 #~ msgid "Soldes finaux: "

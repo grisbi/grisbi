@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -4649,9 +4649,9 @@ msgstr ""
 msgid "Web browser command: "
 msgstr ""
 
-#: ../src/gsb_assistant_first.c:229
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
 #, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
@@ -9733,13 +9733,6 @@ msgstr ""
 
 #: ../src/parametres.c:985
 msgid "Use the config file of version stable as model"
-msgstr ""
-
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
 msgstr ""
 
 #: ../src/parametres.c:1116

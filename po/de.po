@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2012-02-15 21:21+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: deutsch <de@li.org>\n"
@@ -4995,9 +4995,9 @@ msgstr "Internet"
 msgid "Web browser command: "
 msgstr "Webbrowser: "
 
-#: ../src/gsb_assistant_first.c:229
-#, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s' "
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
@@ -10511,13 +10511,6 @@ msgstr ""
 "Die Konfigurationsdatei von einer älteren Grisbi-Version als Vorlage "
 "verwenden"
 
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s'"
-
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Planer Meldungen"
@@ -11709,6 +11702,12 @@ msgstr "Beschriftung anzeigen"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may use %s to expand the URL I.e:\n"
+#~ "'firefox %s'"
+#~ msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s'"
 
 #, fuzzy
 #~ msgid "Soldes finaux: "

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -4988,12 +4988,10 @@ msgstr "Web"
 msgid "Web browser command: "
 msgstr "Navigateur Web : "
 
-#: ../src/gsb_assistant_first.c:229
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
 #, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
-msgstr ""
-"En cas de non fonctionnement vous pouvez essayer de mettre %s\n"
-"Exemple : 'firefox -remote %s'"
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
+msgstr "Vous pouvez essayer de mettre %s Exemple : 'firefox %s'"
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
 msgid "Account files handling"
@@ -10489,15 +10487,6 @@ msgstr "Fichier de configuration"
 #: ../src/parametres.c:985
 msgid "Use the config file of version stable as model"
 msgstr "Utiliser le fichier de configuration de la version stable comme modèle"
-
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr ""
-"Eventuellement vous pouvez essayer de mettre %s.\n"
-"Exemple 'firefox -remote %s'"
 
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"

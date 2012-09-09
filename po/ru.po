@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -4909,9 +4909,9 @@ msgstr "Интернет"
 msgid "Web browser command: "
 msgstr "Команда вызова браузера:"
 
-#: ../src/gsb_assistant_first.c:229
-#, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr ""
 "Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
 
@@ -10137,14 +10137,6 @@ msgstr "Файл CSV"
 msgid "Use the config file of version stable as model"
 msgstr ""
 
-#: ../src/parametres.c:1075
-#, fuzzy, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr ""
-"Вы можете использовать %s для расширения URL, например: 'firefox -remote %s'"
-
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Предупреждения о расписании при запуске Grisbi"
@@ -11191,6 +11183,14 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may use %s to expand the URL I.e:\n"
+#~ "'firefox %s'"
+#~ msgstr ""
+#~ "Вы можете использовать %s для расширения URL, например: 'firefox -remote "
+#~ "%s'"
 
 #, fuzzy
 #~ msgid "Soldes finaux: "

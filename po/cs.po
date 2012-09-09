@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -4963,9 +4963,9 @@ msgstr "Web"
 msgid "Web browser command: "
 msgstr "Příkaz webového prohlížeče: "
 
-#: ../src/gsb_assistant_first.c:229
-#, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Můžete použít %s na určení URL např.: 'firefox -remote %s'"
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
@@ -10411,15 +10411,6 @@ msgstr "Konfigurační soubor"
 msgid "Use the config file of version stable as model"
 msgstr "Použít konfigurační soubor stabilní verze jako předlohu"
 
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr ""
-"Můžete použít %s na určení URL např.:\n"
-"'firefox -remote %s'"
-
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Oznámení plánovače při spuštění Grisbi"
@@ -11578,6 +11569,14 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may use %s to expand the URL I.e:\n"
+#~ "'firefox %s'"
+#~ msgstr ""
+#~ "Můžete použít %s na určení URL např.:\n"
+#~ "'firefox -remote %s'"
 
 #, fuzzy
 #~ msgid "Soldes finaux: "

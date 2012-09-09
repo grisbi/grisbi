@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-08 23:11+0200\n"
+"POT-Creation-Date: 2012-09-09 08:58+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -5048,9 +5048,9 @@ msgstr "Web"
 msgid "Web browser command: "
 msgstr "Comando para el navegador web: "
 
-#: ../src/gsb_assistant_first.c:229
-#, c-format
-msgid "You may use %s to expand the URL - I.e: 'firefox -remote %s' "
+#: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
+#, fuzzy, c-format
+msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
 msgstr "Podrá usar %s para cargar la URL. EJ: 'firefox -remote %s' "
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
@@ -10590,15 +10590,6 @@ msgstr "Guardando archivo"
 msgid "Use the config file of version stable as model"
 msgstr "Borrar el fichero de configuración de una versión anterior"
 
-#: ../src/parametres.c:1075
-#, c-format
-msgid ""
-"You may use %s to expand the URL I.e:\n"
-"'firefox -remote %s'"
-msgstr ""
-"Podrá usar %s para cargar la URL. EJ:\n"
-"'firefox -remote %s' "
-
 #: ../src/parametres.c:1116
 msgid "Scheduler warnings at Grisbi's opening"
 msgstr "Avisos del programador de tareas al iniciar Grisbi"
@@ -11773,6 +11764,14 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "You may use %s to expand the URL I.e:\n"
+#~ "'firefox %s'"
+#~ msgstr ""
+#~ "Podrá usar %s para cargar la URL. EJ:\n"
+#~ "'firefox -remote %s' "
 
 #, fuzzy
 #~ msgid "Soldes finaux: "
