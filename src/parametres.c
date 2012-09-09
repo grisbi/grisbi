@@ -1071,8 +1071,8 @@ GtkWidget *onglet_programmes (void)
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = make_blue ( g_strconcat ( 
-                        _("You may use %s to expand the URL I.e:\n'firefox -remote %s'"),
+    text = make_blue ( g_strconcat (
+                        _("You may use %s to expand the URL - I.e: 'firefox %s' "),
                         NULL ) );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );

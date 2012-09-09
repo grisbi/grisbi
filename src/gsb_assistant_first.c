@@ -226,7 +226,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     entry = gsb_automem_entry_new ( &conf.browser_command, NULL, NULL );
     gtk_table_attach ( GTK_TABLE(table), entry, 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0 );
 
-    text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox -remote %s' ") );
+    text = make_blue ( _("You may use %s to expand the URL - I.e: 'firefox %s' ") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
