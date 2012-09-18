@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-09 08:58+0200\n"
+"POT-Creation-Date: 2012-09-18 21:08+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -938,7 +938,7 @@ msgstr "Bestand aan het laden:"
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1297
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:163
 #: ../src/gsb_scheduler_list.c:512 ../src/gsb_transactions_list.c:170
-#: ../src/import.c:3327 ../src/import_csv.c:81
+#: ../src/import.c:3330 ../src/import_csv.c:81
 msgid "Date"
 msgstr "Datum"
 
@@ -1130,7 +1130,7 @@ msgstr "Kies een betalingsmethode"
 #: ../src/fenetre_principale.c:288 ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_form.c:1318 ../src/gsb_form_widget.c:436
 #: ../src/gsb_scheduler_list.c:512 ../src/gsb_transactions_list.c:172
-#: ../src/import.c:3334 ../src/import_csv.c:83 ../src/meta_payee.c:78
+#: ../src/import.c:3337 ../src/import_csv.c:83 ../src/meta_payee.c:78
 #, fuzzy
 msgid "Payee"
 msgstr "Betaler/begunstigde"
@@ -1176,8 +1176,8 @@ msgstr "Aantekeningen"
 #: ../src/etats_affiche.c:1847 ../src/export_csv.c:625 ../src/export_csv.c:737
 #: ../src/export_csv.c:749 ../src/gsb_data_category.c:1059
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2313 ../src/import.c:2763
-#: ../src/import.c:2781 ../src/plugins/ofx/ofx.c:434
+#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2313 ../src/import.c:2766
+#: ../src/import.c:2784 ../src/plugins/ofx/ofx.c:434
 msgid "Transfer"
 msgstr "Overschrijving"
 
@@ -1358,7 +1358,7 @@ msgstr "Selecteer alles"
 #: ../src/bet_hist.c:588 ../src/categories_onglet.c:180
 #: ../src/etats_config.c:5249 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:513
-#: ../src/gsb_transactions_list.c:177 ../src/import.c:3341
+#: ../src/gsb_transactions_list.c:177 ../src/import.c:3344
 #: ../src/imputation_budgetaire.c:185 ../src/tiers_onglet.c:232
 msgid "Amount"
 msgstr "Bedrag"
@@ -1638,7 +1638,7 @@ msgid "Create a new sub-category"
 msgstr "Vul een naam in voor de sub-categorie"
 
 #: ../src/categories_onglet.c:552 ../src/etats_onglet.c:158
-#: ../src/import.c:442 ../src/import.c:3645 ../src/imputation_budgetaire.c:587
+#: ../src/import.c:442 ../src/import.c:3648 ../src/imputation_budgetaire.c:587
 #: ../src/parametres.c:323 ../src/utils_files.c:576
 msgid "Import"
 msgstr "Importeren"
@@ -2633,7 +2633,7 @@ msgstr "Selecteer alles"
 #: ../src/etats_config.c:2572 ../src/etats_config.c:2827
 #: ../src/etats_config.c:3109 ../src/etats_config.c:3916
 #: ../src/etats_config.c:4106 ../src/etats_config.c:7337 ../src/export.c:608
-#: ../src/import.c:2270 ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
+#: ../src/import.c:2271 ../src/tiers_onglet.c:1219 ../src/tiers_onglet.c:1430
 msgid "Unselect all"
 msgstr "Selectie opheffen"
 
@@ -7313,22 +7313,22 @@ msgstr ""
 "Transactie #%d  moet een tegenrekening hebben  #%d  maar deze bestaat niet. "
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2745
+#: ../src/gsb_data_payment.c:724 ../src/import.c:2748
 #: ../src/plugins/ofx/ofx.c:422
 msgid "Deposit"
 msgstr "Storting"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2265 ../src/import.c:2751
-#: ../src/import.c:2757
+#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2265 ../src/import.c:2754
+#: ../src/import.c:2760
 msgid "Credit card"
 msgstr "Creditcard"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2302 ../src/import.c:2769
-#: ../src/import.c:2787
+#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2302 ../src/import.c:2772
+#: ../src/import.c:2790
 msgid "Direct debit"
 msgstr "Automatische afschrijving"
 
@@ -8044,13 +8044,13 @@ msgid "Direct deposit"
 msgstr "Automatische storting"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2283 ../src/import.c:2552 ../src/import.c:2600
-#: ../src/import.c:2726 ../src/plugins/ofx/ofx.c:402
+#: ../src/gsb_form.c:2283 ../src/import.c:2555 ../src/import.c:2603
+#: ../src/import.c:2729 ../src/plugins/ofx/ofx.c:402
 msgid "Check"
 msgstr "Controleer"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2292 ../src/import.c:2775
+#: ../src/gsb_form.c:2292 ../src/import.c:2778
 msgid "Cash withdrawal"
 msgstr ""
 
@@ -9344,14 +9344,14 @@ msgstr "Kies het te importeren bestand"
 msgid "File name"
 msgstr "Naam"
 
-#: ../src/import.c:542 ../src/import.c:697 ../src/import.c:4418
+#: ../src/import.c:542 ../src/import.c:697 ../src/import.c:4421
 #: ../src/import_csv.c:1083 ../src/import_csv.c:1109
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Kan het bestand '%s' niet openen %s"
 
-#: ../src/import.c:645 ../src/import.c:754 ../src/import.c:4314
-#: ../src/import.c:4337
+#: ../src/import.c:645 ../src/import.c:754 ../src/import.c:4317
+#: ../src/import.c:4340
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -9513,22 +9513,22 @@ msgstr ""
 msgid "Imported account"
 msgstr "Importeer rekening"
 
-#: ../src/import.c:2260
+#: ../src/import.c:2261
 #, fuzzy, c-format
 msgid "Confirmation of transactions to be merged in: %s"
 msgstr "Verwijderen van transactie bevestigen"
 
-#: ../src/import.c:2264
+#: ../src/import.c:2265
 #, fuzzy, c-format
 msgid "Confirmation of importation of transactions in: %s"
 msgstr "Bevestig het importeren van de transacties"
 
-#: ../src/import.c:2284
+#: ../src/import.c:2285
 #, fuzzy
 msgid "Please select the transactions to be merged"
 msgstr "Gebruik de gekozen transactie als sjabloon"
 
-#: ../src/import.c:2290
+#: ../src/import.c:2291
 #, fuzzy
 msgid ""
 "Some imported transactions seem to be already saved.Please select the "
@@ -9537,27 +9537,27 @@ msgstr ""
 "Sommige van de te importeren transacties lijken al te bestaan. Selecteer de "
 "transacties die u wilt importeren."
 
-#: ../src/import.c:2359
+#: ../src/import.c:2362
 #, fuzzy, c-format
-msgid "Transactions to be merged : %s ; %s ; %s"
+msgid "Transaction to be merged : %s ; %s ; %s"
 msgstr "Transacties om te importeren : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2364
+#: ../src/import.c:2367
 #, fuzzy, c-format
-msgid "Transactions to import : %s ; %s ; %s"
+msgid "Transaction to import : %s ; %s ; %s"
 msgstr "Transacties om te importeren : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2390
+#: ../src/import.c:2393
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s ; %s"
 msgstr "Gevonden transactie : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 
-#: ../src/import.c:2404
+#: ../src/import.c:2407
 #, fuzzy, c-format
 msgid "Transaction found : %s ; %s ; %s"
 msgstr "Gevonden transactie : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2866
+#: ../src/import.c:2869
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -9566,26 +9566,26 @@ msgstr ""
 "Waarschuwing dit chequenummer wordt al gebruikt.\n"
 "Toch door gaan?"
 
-#: ../src/import.c:3236
+#: ../src/import.c:3239
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Verweesde transacties"
 
-#: ../src/import.c:3254
+#: ../src/import.c:3257
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Markeer de transacties die u wilt toevoegen en klik op de knop\"Toevoegen\" "
 
-#: ../src/import.c:3320
+#: ../src/import.c:3323
 msgid "Mark"
 msgstr "Markeren"
 
-#: ../src/import.c:3374
+#: ../src/import.c:3377
 msgid "The id of the imported and chosen accounts are different"
 msgstr "De id voor de geïmporteerde en gekozen rekeningen is niet hetzelfde."
 
-#: ../src/import.c:3375
+#: ../src/import.c:3378
 msgid ""
 "Perhaps you choose a wrong account ?  If you choose to continue, the id of "
 "the account will be changed.  Do you want to continue ?"
@@ -9593,144 +9593,144 @@ msgstr ""
 "Misschien heeft u een verkeerde rekening gekozen? Als u doorgaat wordt het "
 "id van de rekening aangepast. Wil u doorgaan?"
 
-#: ../src/import.c:3623
+#: ../src/import.c:3626
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "%s %d"
 
-#: ../src/import.c:3650
+#: ../src/import.c:3653
 #, fuzzy
 msgid "Import settings"
 msgstr "Exporteer categorieën"
 
-#: ../src/import.c:3657
+#: ../src/import.c:3660
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr ""
 
-#: ../src/import.c:3676
+#: ../src/import.c:3679
 #, fuzzy
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Transactie omzetten naar een geplande transactie"
 
-#: ../src/import.c:3686
+#: ../src/import.c:3689
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/import.c:3697 ../src/tiers_onglet.c:1066
+#: ../src/import.c:3700 ../src/tiers_onglet.c:1066
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: ../src/import.c:3705
+#: ../src/import.c:3708
 msgid "Coping the original payee in the notes"
 msgstr ""
 
-#: ../src/import.c:3712
+#: ../src/import.c:3715
 #, fuzzy
 msgid "Set the financial year"
 msgstr "Kies een financieel jaar"
 
 # optie voor "laatst gekozen financieel jaar"
-#: ../src/import.c:3713
+#: ../src/import.c:3716
 #, fuzzy
 msgid "According to the date"
 msgstr "transactiedatum"
 
-#: ../src/import.c:3714
+#: ../src/import.c:3717
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/import.c:3739
+#: ../src/import.c:3742
 #, fuzzy
 msgid "Manage import associations"
 msgstr "Gebruik categorieën."
 
-#: ../src/import.c:3746 ../src/parametres.c:332
+#: ../src/import.c:3749 ../src/parametres.c:332
 #, fuzzy
 msgid "Import associations"
 msgstr "Actie"
 
-#: ../src/import.c:3748
+#: ../src/import.c:3751
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
 "specific payee representing your landlord."
 msgstr ""
 
-#: ../src/import.c:3817 ../src/tiers_onglet.c:1169
+#: ../src/import.c:3820 ../src/tiers_onglet.c:1169
 #, fuzzy
 msgid "Payee name"
 msgstr "Totaal algemeen"
 
-#: ../src/import.c:3831
+#: ../src/import.c:3834
 #, fuzzy
 msgid "Search string"
 msgstr "Zoeken"
 
-#: ../src/import.c:3840
+#: ../src/import.c:3843
 #, fuzzy
 msgid "Details of associations"
 msgstr "Laat geen details zien van de gecontroleerde transacties"
 
 #. Create entry liste des tiers
-#: ../src/import.c:3849
+#: ../src/import.c:3852
 #, fuzzy
 msgid "Payee name: "
 msgstr "Totaal algemeen:"
 
 #. Create entry search string
-#: ../src/import.c:3872
+#: ../src/import.c:3875
 #, fuzzy
 msgid "Search string: "
 msgstr "Zoeken:"
 
-#: ../src/import.c:4166
+#: ../src/import.c:4169
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: ../src/import.c:4402
+#: ../src/import.c:4405
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4462
+#: ../src/import.c:4465
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4559
+#: ../src/import.c:4562
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4570
+#: ../src/import.c:4573
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Resultaat van %s"
 
-#: ../src/import.c:4589
+#: ../src/import.c:4592
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr ""
 "Alle transacties zullen worden omgeschreven naar de valuta van hun rekening."
 
-#: ../src/import.c:4592
+#: ../src/import.c:4595
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Een deel van de opsplits transactie is naar deze rekening overgeschreven. "
 
 #. textstring 2
-#: ../src/import.c:4597
+#: ../src/import.c:4600
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Valuta eigenschappen"
 
-#: ../src/import.c:4606
+#: ../src/import.c:4609
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Automatisch uitgevoerde geplande transacties"
@@ -9738,17 +9738,17 @@ msgstr "Automatisch uitgevoerde geplande transacties"
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste
 # keer)
 #. label filename
-#: ../src/import.c:4619
+#: ../src/import.c:4622
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "Bestand opslaan als:"
 
-#: ../src/import.c:4720
+#: ../src/import.c:4723
 #, fuzzy, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "Kan het bestand '%s' niet openen %s"
 
-#: ../src/import.c:4749
+#: ../src/import.c:4752
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Kan het bestand '%s' niet openen %s"
