@@ -2251,6 +2251,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     GtkWidget *frame;
     gchar* tmpstr;
     gchar* tmpstr2;
+    gint return_exponent;
     gint action_derniere_ventilation;
     gint result;
 
@@ -2354,14 +2355,16 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    gtk_box_pack_start ( GTK_BOX ( hbox ), ope_import -> bouton, FALSE, FALSE, 0 );
 	    gtk_widget_show ( ope_import -> bouton );
 
-	    tmpstr2 = utils_real_get_string (ope_import -> montant);
+        return_exponent = gsb_data_account_get_currency_floating_point ( account_number );
+	    tmpstr2 = utils_real_get_string ( gsb_real_adjust_exponent ( ope_import -> montant,
+                        return_exponent ) );
         if ( etat.get_fusion_import_transactions )
-            tmpstr = g_strdup_printf ( _("Transactions to be merged : %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction to be merged : %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
                         tmpstr2);
         else
-            tmpstr = g_strdup_printf ( _("Transactions to import : %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction to import : %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
                         tmpstr2);
