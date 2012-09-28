@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
-# Martin Stromberger <fabiolla@aon.at>, 2007, 2008.
-# Martin Stromberger <mstromberger@aon.at>, 2008, 2009, 2010, 2011.
+# Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
+# Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-18 21:08+0200\n"
-"PO-Revision-Date: 2012-02-15 21:21+0100\n"
+"PO-Revision-Date: 2012-09-28 22:50+0200\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
-"Language-Team: deutsch <de@li.org>\n"
-"Language: \n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/accueil.c:194
 msgid "Closed liabilities accounts"
@@ -302,9 +303,8 @@ msgstr "Logo auswählen - Grisbi"
 
 #. Headings bar
 #: ../src/affichage.c:710
-#, fuzzy
 msgid "Headings bar"
-msgstr "Kopfzeile anzeigen"
+msgstr "Kopfzeile"
 
 #: ../src/affichage.c:713
 msgid "Display headings bar"
@@ -714,7 +714,7 @@ msgstr "Es muss zumindest ein Wert für den Betrag erfasst werden"
 
 #: ../src/bet_config.c:1573
 msgid "Account with deferred debit card"
-msgstr ""
+msgstr "Ausgabenkonto mit verzögerten Buchungen"
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:293
 #: ../src/navigation.c:1223 ../src/navigation.c:1960
@@ -1121,28 +1121,25 @@ msgstr "Auflistung von Konten"
 
 #. Account with deferred debit card
 #: ../src/bet_future.c:2084
-#, fuzzy
 msgid "Deferred debit card"
-msgstr "Kreditkarte"
+msgstr "Bankomatkarte mit verzögerten Buchungen"
 
 #: ../src/bet_future.c:2090
-#, fuzzy
 msgid "Date of change of month: "
-msgstr "Importdatei: "
+msgstr "Datum der Monatsänderung: "
 
 #: ../src/bet_future.c:2101 ../src/bet_future.c:2242
 msgid "This field is required"
-msgstr ""
+msgstr "Das Eingabefeld muss befüllt werden"
 
 #: ../src/bet_future.c:2135
 msgid "One of the two fields is recommended"
-msgstr ""
+msgstr "Die Eingabe in zumindest ein Feld wird empfohlen"
 
 #. Main account
 #: ../src/bet_future.c:2195
-#, fuzzy
 msgid "Main account"
-msgstr "Bankkonto"
+msgstr "Hauptkonto"
 
 #. Effective Date
 #: ../src/bet_future.c:2201
@@ -1150,18 +1147,16 @@ msgid "Effective date: "
 msgstr "Effektives Datum: "
 
 #: ../src/bet_future.c:2214
-#, fuzzy
 msgid "Automatic creation of the direct debit transaction"
-msgstr "Die zugehörigen Teilbuchungen von einer Buchung wiederherstellen"
+msgstr "Automatische Erstellung einer Ausgabenbuchung"
 
 #: ../src/bet_future.c:2226
-#, fuzzy
 msgid "Replacement of the scheduled operation"
-msgstr "Die 'Checkbox' auswählen um die geplante Buchung zu ersetzen"
+msgstr "Die geplante Buchung zu ersetzen"
 
 #: ../src/bet_future.c:2288
 msgid "One of the two fields is required"
-msgstr ""
+msgstr "Die Eingabe in zumindest ein Feld ist erforderlich"
 
 #: ../src/bet_future.c:2711
 msgid "You must create at least one cash account"
@@ -1177,7 +1172,7 @@ msgstr "Fehlende Daten"
 
 #: ../src/bet_future.c:2759 ../src/bet_future.c:3040
 msgid "Error: a date is not present or a field is in error."
-msgstr ""
+msgstr "Es wurde entweder kein oder ein fehlerhaftes Datum einggeben"
 
 #. Description entry
 #: ../src/bet_future.c:2816 ../src/categories_onglet.c:757 ../src/import.c:474
@@ -1198,11 +1193,12 @@ msgid ""
 "There is an inconsistency in the balance of a deferred debit account.\n"
 "You should delete it and create another"
 msgstr ""
+"Es gibt Inkonsistenzen bei einem Ausgabenkonto mit verzögerten Buchungen.\n"
+"Das entsprechende Konto sollte gelöscht und neu erstellt werden"
 
 #: ../src/bet_future.c:2999
-#, fuzzy
 msgid "Error of configuration"
-msgstr "Allgemeine Konfiguration"
+msgstr "Konfigurationsfehler"
 
 #: ../src/bet_graph.c:305 ../src/bet_graph.c:422
 msgid "Graph"
@@ -1387,9 +1383,9 @@ msgid "Convert selection to scheduled transaction"
 msgstr "Buchung regelmäßig ausführen"
 
 #: ../src/bet_tab.c:1519
-#, fuzzy
 msgid "Insert the balance of a deferred debit account"
-msgstr "Den Saldo von einem Bargeldkonto eingeben"
+msgstr ""
+"Geben Sie den Saldo von einem Ausgabenkonto mit verzögerten Buchungen ein"
 
 #. redo item
 #: ../src/bet_tab.c:1545
@@ -1623,9 +1619,8 @@ msgid "New sub-category"
 msgstr "Neue Unterkategorie"
 
 #: ../src/categories_onglet.c:1072
-#, fuzzy
 msgid "Transfers the identical transactions in another sub-category"
-msgstr "Alle Buchungen einer anderen Unterkategorie zuordnen"
+msgstr "Alle identischen Buchungen einer anderen Unterkategorie zuordnen"
 
 #: ../src/categories_onglet.c:1094
 msgid "Edit selected sub-category"
@@ -4996,9 +4991,9 @@ msgid "Web browser command: "
 msgstr "Webbrowser: "
 
 #: ../src/gsb_assistant_first.c:229 ../src/parametres.c:1075
-#, fuzzy, c-format
+#, c-format
 msgid "You may use %s to expand the URL - I.e: 'firefox %s' "
-msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s' "
+msgstr "Mit %s die URL übergeben - z.B.: 'firefox -remote %s'"
 
 #: ../src/gsb_assistant_first.c:239 ../src/parametres.c:874
 msgid "Account files handling"
@@ -6312,11 +6307,11 @@ msgstr "Bulgarien"
 
 #: ../src/gsb_currency_config.c:197
 msgid "Croatian kuna"
-msgstr ""
+msgstr "Kroatische Kuna"
 
 #: ../src/gsb_currency_config.c:197
 msgid "Croatia"
-msgstr ""
+msgstr "Kroatien"
 
 #: ../src/gsb_currency_config.c:198
 msgid "Czech Koruna"
@@ -8550,9 +8545,9 @@ msgid "Split neutral payment methods"
 msgstr "Neutrale Zahlungsweisen aufsplitten"
 
 #: ../src/gsb_regex.c:97
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to compile regex: %s\n"
-msgstr "Die temporäre Datei kann nicht erstellt werden: %s\n"
+msgstr "Der reguläre Ausdruck kann nicht kompiliert werden: %s\n"
 
 #: ../src/gsb_scheduler_list.c:264
 msgid "_New scheduled"
@@ -9449,14 +9444,14 @@ msgstr ""
 "Auswahl welche Buchungen importiert werden sollen."
 
 #: ../src/import.c:2362
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction to be merged : %s ; %s ; %s"
 msgstr "Buchung für Zusammenführung : %s ; %s ; %s"
 
 #: ../src/import.c:2367
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction to import : %s ; %s ; %s"
-msgstr "Buchung für Import : %s ; %s ; %s"
+msgstr "Buchung für Import: %s ; %s ; %s"
 
 #: ../src/import.c:2393
 #, c-format
@@ -9532,7 +9527,6 @@ msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Eine Nummer extrahieren und in das Feld für Schecknummer einfügen"
 
 #: ../src/import.c:3708
-#, fuzzy
 msgid "Coping the original payee in the notes"
 msgstr "Den Namen vom Empfänger in das Feld Notizen eintragen"
 
@@ -9874,9 +9868,8 @@ msgid "New sub-budget"
 msgstr "Neuer Teil-Budgeteintrag"
 
 #: ../src/imputation_budgetaire.c:1107
-#, fuzzy
 msgid "Transfers the identical transactions in another sub-budgetary line"
-msgstr "Alle Buchungen einem anderen Teil-Budgeteintrag zuordnen"
+msgstr "Alle identischen Buchungen einem anderen Teil-Budgeteintrag zuordnen"
 
 #: ../src/imputation_budgetaire.c:1129
 msgid "Edit selected sub-budgetary line"
@@ -10154,21 +10147,21 @@ msgid "Can't remove selected division."
 msgstr "Der gewählte Bereich kann nicht entfernt werden."
 
 #: ../src/metatree.c:1179
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The selected operation belongs to the account N°%d\n"
 "that no longer exists.\n"
 "Please contact the Grisbi's team on devel@listes.grisbi.org to find what "
 "happened to your current file."
 msgstr ""
-"Grisbi konnte die Datei nicht öffnen und die Sicherungsfunktionalität ist "
-"deaktiviert...\n"
+"Die ausgewählte Aktion benötigt das Konto N°%d\n"
+"diese Konto ist nicht mehr vorhanden.\n"
 "Bitte kontaktieren Sie das Grisbi-Team (devel@listes.grisbi.org) um die "
 "Ursache für den Fehler zu finden."
 
 #: ../src/metatree.c:1184
 msgid "The account no longer exists"
-msgstr ""
+msgstr "Das Konto ist nicht mehr vorhanden"
 
 #. create the box to move change the division and sub-div of the transactions
 #: ../src/metatree.c:1752
@@ -10286,36 +10279,32 @@ msgstr "Warnung: es dürfen keine Empfänger %s erstellt werden."
 
 #. create the box to move change the division and sub-div of the transactions
 #: ../src/metatree.c:3704
-#, fuzzy, c-format
+#, c-format
 msgid "Select transactions in \"%s\"."
-msgstr "alle Buchungen"
+msgstr "Alle Buchungen in \"%s\"."
 
 #: ../src/metatree.c:3710
-#, fuzzy, c-format
+#, c-format
 msgid "You can transfer content from \"%s\" in another %s or %s.\n"
-msgstr ""
-"Sie können den Inhalt von \"%s\" nach %s oder %s verschieben.\n"
-"Es besteht auch die Möglichkeit \"%s\" in eine andere %s zuzuordnen oder %s "
-"nach %s zu verschieben."
+msgstr "Der Inhalt von \"%s\" kann nach  %s oder nach %s verschoben werden.\n"
 
 #: ../src/metatree.c:3725
-#, fuzzy, c-format
+#, c-format
 msgid "Use payee: \"%s\" to find the transactions"
-msgstr "Eine benutzerdefinierte Schrift für Buchungen verwenden: "
+msgstr "Verwenden Sie den Empfänger: \"%s\" um die Buchungen zu finden"
 
 #: ../src/metatree.c:3738
-#, fuzzy, c-format
+#, c-format
 msgid "Use notes: \"%s\" to find the transactions"
-msgstr "Eine benutzerdefinierte Schrift für Buchungen verwenden: "
+msgstr "Verwenden Sie die Notiz: \"%s\" um die Buchungen zu finden"
 
 #: ../src/metatree.c:3782
-#, fuzzy
 msgid "You must select at least one search element"
-msgstr "Es müssen mindestens 2 Konten ausgewählt werden."
+msgstr "Es muss zumindest ein Suchkriterium ausgewählt werden"
 
 #: ../src/metatree.c:3783
 msgid "WARNING"
-msgstr ""
+msgstr "Warnung"
 
 #: ../src/navigation.c:1030
 msgid "Last statement: "
@@ -10416,7 +10405,7 @@ msgstr "Währungen & Sortierung"
 
 #: ../src/parametres.c:423
 msgid "Elements of interface"
-msgstr ""
+msgstr "Elemente auf der Oberfläche"
 
 #: ../src/parametres.c:441
 msgid "List behavior"
