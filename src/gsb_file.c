@@ -145,6 +145,9 @@ gboolean gsb_file_new_finish ( void )
         return FALSE;
     }
 
+    /* the the name in the last opened files */
+    gsb_file_append_name_to_opened_list ( nom_fichier_comptes );
+
     /* init the gui */
     gsb_file_new_gui ();
 
