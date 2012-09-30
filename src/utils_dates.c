@@ -331,7 +331,10 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
         return NULL;
 
     /* récupère le format des champs date */
-    date_tokens = g_strsplit ( format + 1, "/%", 3 );
+    if (  g_strrstr_len ( format, 4, "/%" ) )
+        date_tokens = g_strsplit ( format + 1, "/%", 3 );
+    if (  g_strrstr_len ( format, 4, ".%" ) )
+        date_tokens = g_strsplit ( format + 1, ".%", 3 );
 
     /* get the regex from the store */
     date_regex = gsb_regex_lookup ( DATE_STRING_KEY );
@@ -496,12 +499,13 @@ gchar *gsb_format_date ( gint day, gint month, gint year )
 gchar *gsb_format_gdate ( const GDate *date )
 {
     gchar retour_str[SIZEOF_FORMATTED_STRING_DATE];
-    guint longueur;
+    guint longueur = 0;
 
     if ( !date || !g_date_valid ( date ) )
         return my_strdup ( "" );
 
-    longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date );
+    if ( format )
+        longueur = g_date_strftime ( retour_str, SIZEOF_FORMATTED_STRING_DATE, format, date );
 
     if ( longueur == 0 )
         return my_strdup ( "" );
@@ -627,10 +631,14 @@ void gsb_date_set_format_date ( const gchar *format_date )
     g_free ( format );
     format = NULL;
 
-    if ( format_date && 
-            ( strcmp ( format_date, "%d/%m/%Y" ) == 0
-           || strcmp ( format_date, "%m/%d/%Y" ) == 0 ) )
+    if ( format_date
+     &&
+        ( strcmp ( format_date, "%d/%m/%Y" ) == 0
+         || strcmp ( format_date, "%m/%d/%Y" ) == 0
+         || strcmp ( format_date, "%d.%m.%Y" ) == 0 ) )
+    {
         format = g_strdup ( format_date );
+    }
 
     g_free ( last_date );
     last_date = NULL;

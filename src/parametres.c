@@ -1312,10 +1312,10 @@ GtkWidget *onglet_localisation ( void )
 GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
 {
     GtkWidget *hbox, *paddingbox;
-    GtkWidget *button_1, *button_2;
+    GtkWidget *button_1, *button_2, *button_3;
     gchar *format_date;
 
-    button_1 =gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
+    button_1 = gtk_radio_button_new_with_label ( NULL, "dd/mm/yyyy" );
     format_date = g_strdup ( "%d/%m/%Y" );
     g_object_set_data_full ( G_OBJECT ( button_1 ),
                         "pointer",
@@ -1331,11 +1331,21 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
                         format_date,
                         g_free );
 
+    button_3 = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (
+                        GTK_RADIO_BUTTON ( button_1 ) ),
+                        "dd.mm.yyyy" );
+    format_date = g_strdup ( "%d.%m.%Y" );
+    g_object_set_data_full ( G_OBJECT ( button_3 ),
+                        "pointer",
+                        format_date,
+                        g_free );
+
     if ( sens == GTK_ORIENTATION_VERTICAL )
     {
         paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Choose the date format") );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_2, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_3, FALSE, FALSE, 0 );
     }
     else
     {
@@ -1344,12 +1354,19 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );
+        gtk_box_pack_start ( GTK_BOX ( hbox ), button_3, FALSE, FALSE, 0 );
     }
 
     format_date = gsb_date_get_format_date ( );
-    if ( format_date && strcmp ( format_date, "%m/%d/%Y" ) == 0 )
-        gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
-    g_free ( format_date );
+    if ( format_date )
+    {
+        if ( strcmp ( format_date, "%m/%d/%Y" ) == 0 )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_2 ), TRUE );
+        else if ( strcmp ( format_date, "%d.%m.%Y" ) == 0 )
+            gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_3 ), TRUE );
+
+        g_free ( format_date );
+    }
 
     g_signal_connect ( G_OBJECT ( button_1 ),
                         "button-release-event",
@@ -1360,6 +1377,10 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
                         G_CALLBACK ( gsb_localisation_format_date_toggle ),
                         GINT_TO_POINTER ( sens ) );
 
+    g_signal_connect ( G_OBJECT ( button_3 ),
+                        "button-release-event",
+                        G_CALLBACK ( gsb_localisation_format_date_toggle ),
+                        GINT_TO_POINTER ( sens ) );
     return paddingbox;
 }
 
