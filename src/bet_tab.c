@@ -108,8 +108,6 @@ static void bet_array_list_insert_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
 static void bet_array_list_redo_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
-static gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_model,
-                        struct_transfert_data *transfert );
 static gint bet_array_list_schedule_line ( gint origine, gint account_number, gint number );
 static void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
@@ -151,7 +149,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gboolean execute_scheduled_of_month;
 extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
@@ -171,18 +168,154 @@ static GtkWidget *bet_array_toolbar;
 
 
 /**
+ * Remplace une opération planifiée ou non en fonction du paramètre origin_data
+ * par la ligne de solde de carte à débit différé
+ *
+ * \param model             du treeview
+ * \param struct transfert  contenant les données de remplacement
+ * \param origin_data       SPP_ORIGIN_TRANSACTION ou SPP_ORIGIN_SCHEDULED
+ *
+ * \return FALSE
+ * */
+static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_model,
+                        struct_transfert_data *transfert,
+                        gint origin_data )
+{
+    GtkTreeIter iter;
+
+    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( tab_model ), &iter ) )
+    {
+        GtkTreeIter *tmp_iter = NULL;
+        gchar* str_date;
+        GDate *date_debut_comparaison;
+        GDate *date_fin_comparaison;
+        GDate *date;
+        gint transaction_number;
+        gint origine;
+
+        date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
+                    g_date_get_month ( transfert -> date ),
+                    g_date_get_year ( transfert -> date ));
+        g_date_subtract_days ( date_debut_comparaison,
+                    valeur_echelle_recherche_date_import );
+
+        date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
+                    g_date_get_month ( transfert -> date ),
+                    g_date_get_year ( transfert -> date ));
+        g_date_add_days ( date_fin_comparaison,
+                    valeur_echelle_recherche_date_import );
+
+        do
+        {
+            gtk_tree_model_get ( GTK_TREE_MODEL ( tab_model ),
+                        &iter,
+                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
+                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, &transaction_number,
+                        SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
+                        -1 );
+
+            if ( origine != origin_data )
+                continue;
+
+            date = gsb_parse_date_string ( str_date );
+            if ( g_date_compare ( date, date_debut_comparaison ) < 0 )
+                continue;
+
+            if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
+            {
+                if ( tmp_iter )
+                    gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
+                break;
+            }
+
+            if ( transfert->main_category_number )
+            {
+                /* on cherche une opération par sa catégorie */
+                gint tmp_category_number = 0;
+                gint tmp_sub_category_number = 0;
+
+                if ( origin_data == SPP_ORIGIN_TRANSACTION )
+                {
+                    tmp_category_number = gsb_data_transaction_get_category_number ( transaction_number );
+                    if ( transfert->main_sub_category_number )
+                        tmp_sub_category_number = gsb_data_transaction_get_sub_category_number (
+                                                    transaction_number );
+                }
+                else
+                {
+                    tmp_category_number = gsb_data_scheduled_get_category_number ( transaction_number );
+                    if ( transfert->main_sub_category_number )
+                        tmp_sub_category_number = gsb_data_scheduled_get_sub_category_number (
+                                                    transaction_number );
+                }
+
+                if ( transfert->main_category_number == tmp_category_number
+                 &&
+                    transfert->main_sub_category_number == tmp_sub_category_number )
+                {
+                    if ( g_date_compare ( date, transfert -> date ) == 0 )
+                    {
+                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+                        break;
+                    }
+                    tmp_iter = gtk_tree_iter_copy ( &iter );
+                }
+            }
+            else if ( transfert->main_budgetary_number )
+            {
+                /* on cherche une opération par son IB */
+                gint tmp_budget_number;
+                gint tmp_sub_budget_number = 0;
+
+                if ( origin_data == SPP_ORIGIN_TRANSACTION )
+                {
+                    tmp_budget_number = gsb_data_transaction_get_budgetary_number ( transaction_number );
+                    if ( transfert->main_sub_budgetary_number )
+                        tmp_sub_budget_number = gsb_data_transaction_get_sub_budgetary_number (
+                                                    transaction_number );
+                }
+                else
+                {
+                    tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( transaction_number );
+                    if ( transfert->main_sub_budgetary_number )
+                        tmp_sub_budget_number = gsb_data_scheduled_get_sub_budgetary_number (
+                                                    transaction_number );
+                }
+
+                if ( transfert->main_budgetary_number == tmp_budget_number
+                 &&
+                    transfert->main_sub_budgetary_number == tmp_sub_budget_number )
+                {
+                    if ( g_date_compare ( date, transfert -> date ) == 0 )
+                    {
+                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+                        break;
+                    }
+                    tmp_iter = gtk_tree_iter_copy ( &iter );
+                }
+            }
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tab_model ), &iter ) );
+    }
+
+    return FALSE;
+}
+
+
+/**
  * remplace l'opération planifiée de même date et de même catégorie ou IB
  *
  * \param modèle du tableau
  *
  * \return
  * */
-static void bet_array_list_replace_scheduled_by_transfert ( GtkTreeModel *tab_model,
+static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab_model,
                         gint account_number )
 {
     GHashTable *transfert_list;
     GHashTableIter iter;
     gpointer key, value;
+    GDate *current_day;
 
     transfert_list = bet_data_transfert_get_list ();
     g_hash_table_iter_init ( &iter, transfert_list );
@@ -194,7 +327,20 @@ static void bet_array_list_replace_scheduled_by_transfert ( GtkTreeModel *tab_mo
             continue;
 
         if (  transfert -> replace_transaction )
-            bet_array_list_replace_planned_line_by_transfert ( tab_model, transfert );
+        {
+            if ( conf.execute_scheduled_of_month )
+            {
+                current_day = gdate_today ();
+                if ( g_date_get_month ( current_day ) == g_date_get_month ( transfert->date ) )
+                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
+                else
+                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
+
+                g_date_free ( current_day );
+            }
+            else
+                bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
+        }
     }
 }
 
@@ -508,7 +654,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
                         date_min,
                         date_max );
 
-    bet_array_list_replace_scheduled_by_transfert ( tree_model, account_number );
+    bet_array_list_replace_transactions_by_transfert ( tree_model, account_number );
 
     /* shows the balance at beginning of month */
     bet_array_shows_balance_at_beginning_of_month ( tree_model, date_min, date_max );
@@ -2726,118 +2872,6 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
 
 
 /**
- * Remplace l'opération planifiée par la ligne de solde de carte à débit différé
- *
- * \param model du treeview
- * \param struct transfert contenant les données de remplacement
- *
- * \return FALSE
- * */
-gboolean bet_array_list_replace_planned_line_by_transfert ( GtkTreeModel *tab_model,
-                        struct_transfert_data *transfert )
-{
-    GtkTreeIter iter;
-
-    if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( tab_model ), &iter ) )
-    {
-        GtkTreeIter *tmp_iter = NULL;
-        gchar* str_date;
-        GDate *date_debut_comparaison;
-        GDate *date_fin_comparaison;
-        GDate *date;
-        gint scheduled_number;
-        gint origine;
-
-        date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
-                    g_date_get_month ( transfert -> date ),
-                    g_date_get_year ( transfert -> date ));
-        g_date_subtract_days ( date_debut_comparaison,
-                    valeur_echelle_recherche_date_import );
-
-        date_fin_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
-                    g_date_get_month ( transfert -> date ),
-                    g_date_get_year ( transfert -> date ));
-        g_date_add_days ( date_fin_comparaison,
-                    valeur_echelle_recherche_date_import );
-
-        do
-        {
-            gtk_tree_model_get ( GTK_TREE_MODEL ( tab_model ),
-                        &iter,
-                        SPP_ESTIMATE_TREE_ORIGIN_DATA, &origine,
-                        SPP_ESTIMATE_TREE_DIVISION_COLUMN, &scheduled_number,
-                        SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
-                        -1 );
-
-            if ( origine != SPP_ORIGIN_SCHEDULED )
-                continue;
-
-            date = gsb_parse_date_string ( str_date );
-            if ( g_date_compare ( date, date_debut_comparaison ) < 0 )
-                continue;
-
-            if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
-            {
-                if ( tmp_iter )
-                    gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
-                break;
-            }
-
-            if ( transfert->main_category_number )
-            {
-                /* on cherche une opération par sa catégorie */
-                gint tmp_category_number = 0;
-                gint tmp_sub_category_number = 0;
-
-                tmp_category_number = gsb_data_scheduled_get_category_number ( scheduled_number );
-                if ( transfert->main_sub_category_number )
-                    tmp_sub_category_number = gsb_data_scheduled_get_sub_category_number (
-                                                    scheduled_number );
-
-                if ( transfert->main_category_number == tmp_category_number
-                 &&
-                    transfert->main_sub_category_number == tmp_sub_category_number )
-                {
-                    if ( g_date_compare ( date, transfert -> date ) == 0 )
-                    {
-                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
-                        break;
-                    }
-                    tmp_iter = gtk_tree_iter_copy ( &iter );
-                }
-            }
-            else if ( transfert->main_budgetary_number )
-            {
-                /* on cherche une opération par son IB */
-                gint tmp_budget_number;
-                gint tmp_sub_budget_number = 0;
-
-                tmp_budget_number = gsb_data_scheduled_get_budgetary_number ( scheduled_number );
-                if ( transfert->main_sub_budgetary_number )
-                    tmp_sub_budget_number = gsb_data_scheduled_get_sub_budgetary_number (
-                                                    scheduled_number );
-
-                if ( transfert->main_budgetary_number == tmp_budget_number
-                 &&
-                    transfert->main_sub_budgetary_number == tmp_sub_budget_number )
-                {
-                    if ( g_date_compare ( date, transfert -> date ) == 0 )
-                    {
-                        gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
-                        break;
-                    }
-                    tmp_iter = gtk_tree_iter_copy ( &iter );
-                }
-            }
-        }
-        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tab_model ), &iter ) );
-    }
-
-    return FALSE;
-}
-
-
-/**
  * called when the size of the tree view changed, to keep the same ration
  * between the columns
  *
@@ -3105,7 +3139,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
 
         date_jour = gdate_today ( );
 
-        if ( execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
+        if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
         {
             /* on recherche une transaction */
             tmp_list = gsb_data_transaction_get_transactions_list ( );
