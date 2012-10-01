@@ -177,6 +177,9 @@ struct gsb_conf_t
     gint stable_config_file_model;                  /* TRUE for use the stable config file as model */
 #endif
 
+    /* variables pour l'échéancier */
+    gboolean execute_scheduled_of_month;            /* warn/execute scheduled at expiration (FALSE) or of the month (TRUE) */
+
     /* variables pour le calcul des soldes */
     gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
 

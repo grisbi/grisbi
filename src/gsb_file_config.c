@@ -66,7 +66,6 @@ static void gsb_file_config_remove_old_config_file ( gchar *filename );
 
 /*START_EXTERN*/
 extern struct conditional_message delete_msg[];
-extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
 extern gint nb_days_before_scheduled;
 extern gchar *nom_fichier_comptes;
@@ -365,7 +364,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Days before remind",
                         NULL );
 
-    execute_scheduled_of_month = g_key_file_get_integer ( config,
+    conf.execute_scheduled_of_month = g_key_file_get_integer ( config,
                         "Scheduled",
                         "Execute scheduled of month",
                         NULL );
@@ -728,7 +727,7 @@ gboolean gsb_file_config_save_config ( void )
     g_key_file_set_integer ( config,
                         "Scheduled",
                         "Execute scheduled of month",
-                        execute_scheduled_of_month );
+                        conf.execute_scheduled_of_month );
 
     g_key_file_set_integer ( config,
                         "Scheduled",
@@ -1137,7 +1136,7 @@ void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 		   "Delai_rappel_echeances" ))
     {
 	nb_days_before_scheduled = utils_str_atoi (text);
-	execute_scheduled_of_month = FALSE;
+	conf.execute_scheduled_of_month = FALSE;
 	return;
     }
 
@@ -1214,7 +1213,7 @@ void gsb_file_config_clean_config ( void )
     conf.sauvegarde_auto = 0;    /* on NE sauvegarde PAS * automatiquement par défaut */
     conf.entree = 1;    /* la touche entree provoque l'enregistrement de l'opération */
     nb_days_before_scheduled = 0;     /* nb de jours avant l'échéance pour prévenir */
-    execute_scheduled_of_month = FALSE;
+    conf.execute_scheduled_of_month = FALSE;
     conf.balances_with_scheduled = TRUE;
     conf.formulaire_toujours_affiche = 0;           /* le formulaire ne s'affiche que lors de l'edition d'1 opé */
     conf.affichage_exercice_automatique = 0;        /* l'exercice est choisi en fonction de la date */

@@ -125,7 +125,6 @@ static gint width_spin_button = 50;
 /*START_EXTERN*/
 extern GtkWidget *account_page;
 extern struct conditional_message delete_msg[];
-extern gboolean execute_scheduled_of_month;
 extern struct conditional_message messages[];
 extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
@@ -1116,7 +1115,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         _("Scheduler warnings at Grisbi's opening"),
                         _("Warn/Execute the scheduled transactions arriving at expiration date"),
                         _("Warn/Execute the scheduled transactions of the month"),
-                        &execute_scheduled_of_month,
+                        &conf.execute_scheduled_of_month,
                         NULL, NULL );
 
     hbox = gtk_hbox_new ( FALSE, 0);
