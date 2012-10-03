@@ -186,7 +186,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
     if ( gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( tab_model ), &iter ) )
     {
         GtkTreeIter *tmp_iter = NULL;
-        gchar* str_date;
+        gchar *str_date = NULL;
         GDate *date_debut_comparaison;
         GDate *date_fin_comparaison;
         GDate *date;
@@ -214,19 +214,29 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                         SPP_ESTIMATE_TREE_DATE_COLUMN, &str_date,
                         -1 );
 
-            if ( origine != origin_data )
-                continue;
-
             date = gsb_parse_date_string ( str_date );
+            g_free ( str_date );
+
             if ( g_date_compare ( date, date_debut_comparaison ) < 0 )
+            {
+                g_date_free ( date );
                 continue;
+            }
 
             if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
             {
                 if ( tmp_iter )
                     gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
+
+                g_date_free ( date );
                 break;
             }
+
+            if ( origine != origin_data )
+            {
+                continue;
+            }
+
 
             if ( transfert->main_category_number )
             {
@@ -256,6 +266,8 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                     if ( g_date_compare ( date, transfert -> date ) == 0 )
                     {
                         gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+
+                        g_date_free ( date );
                         break;
                     }
                     tmp_iter = gtk_tree_iter_copy ( &iter );
@@ -289,13 +301,19 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                     if ( g_date_compare ( date, transfert -> date ) == 0 )
                     {
                         gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
+
+                        g_date_free ( date );
                         break;
                     }
                     tmp_iter = gtk_tree_iter_copy ( &iter );
                 }
             }
+            g_date_free ( date );
         }
         while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( tab_model ), &iter ) );
+
+        g_date_free ( date_debut_comparaison );
+        g_date_free ( date_fin_comparaison );
     }
 
     return FALSE;
@@ -328,18 +346,30 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
 
         if (  transfert -> replace_transaction )
         {
+            current_day = gdate_today ();
+
             if ( conf.execute_scheduled_of_month )
             {
-                current_day = gdate_today ();
                 if ( g_date_get_month ( current_day ) == g_date_get_month ( transfert->date ) )
                     bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
                 else
                     bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
 
-                g_date_free ( current_day );
             }
             else
-                bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
+            {
+                gboolean trouve = FALSE;
+
+                if ( g_date_get_month ( current_day ) == g_date_get_month ( transfert->date ) )
+                {
+                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
+                    trouve = TRUE;
+                }
+                if ( trouve == FALSE )
+                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
+            }
+                
+            g_date_free ( current_day );
         }
     }
 }
