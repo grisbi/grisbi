@@ -58,12 +58,14 @@ gdouble bet_data_finance_get_echeance ( gdouble capital,
     gdouble coeff;
     gdouble number;
 
-    coeff = pow ( ( 1 + taux_periodique ), nbre_echeances );
-
-    if ( taux_periodique == 0 )
+    if ( (gint) taux_periodique == 0 )
         number = capital / nbre_echeances;
     else
+    {
+        coeff = pow ( ( 1 + taux_periodique ), nbre_echeances );
         number = ( capital * taux_periodique * coeff ) / ( coeff - 1 );
+    }
+
     number = bet_data_finance_troncate_number ( number, 2 );
 
     return number;
@@ -82,6 +84,9 @@ gdouble bet_data_finance_get_echeance ( gdouble capital,
 gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
 {
     gdouble taux_periodique;
+
+    if ( taux == 0 )
+        return 0;
 
     if ( type_taux )
         taux_periodique = ( taux / 100 ) / 12;
