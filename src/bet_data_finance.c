@@ -58,7 +58,7 @@ gdouble bet_data_finance_get_echeance ( gdouble capital,
     gdouble coeff;
     gdouble number;
 
-    if ( (gint) taux_periodique == 0 )
+    if ( taux_periodique < GSB_EPSILON )
         number = capital / nbre_echeances;
     else
     {
@@ -85,8 +85,8 @@ gdouble bet_data_finance_get_taux_periodique ( gdouble taux, gint type_taux )
 {
     gdouble taux_periodique;
 
-    if ( taux == 0 )
-        return 0;
+    if ( taux < GSB_EPSILON )
+        return 0.;
 
     if ( type_taux )
         taux_periodique = ( taux / 100 ) / 12;
