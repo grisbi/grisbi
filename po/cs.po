@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 15:36+0200\n"
+"POT-Creation-Date: 2012-10-06 23:45+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1201,46 +1201,78 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Základní nastavení"
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:422
+#: ../src/bet_graph.c:321
+#, fuzzy
+msgid "total amount: "
+msgstr "Částka půjčky: "
+
+#: ../src/bet_graph.c:341
+#, fuzzy, c-format
+msgid ""
+"<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
+msgstr ""
+"<span weight=\"bold\" foreground=\"red\">Heslo je chybné!</span>\n"
+"\n"
+
+#: ../src/bet_graph.c:346
+#, fuzzy, c-format
+msgid ""
+"<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
+"span>"
+msgstr ""
+"<span weight=\"bold\" foreground=\"red\">Heslo je chybné!</span>\n"
+"\n"
+
+#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:543
+#, fuzzy
+msgid "The selected budget item has no subitems"
+msgstr "Odstranit vybraný rozpočet"
+
+#: ../src/bet_graph.c:545
+#, fuzzy
+msgid "The selected category has no subcategory"
+msgstr "Upravit vybranou podkategorii"
+
+#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Volby"
 
-#: ../src/bet_graph.c:435
+#: ../src/bet_graph.c:723
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:456 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Příjmy"
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:986
+#: ../src/bet_graph.c:1278
 #, fuzzy
 msgid "Column"
 msgstr "Sloupce"
 
-#: ../src/bet_graph.c:1013
+#: ../src/bet_graph.c:1305
 msgid "Line"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1473 ../src/bet_graph.c:1507
+#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
 #, fuzzy
 msgid "Hide grid"
 msgstr "Archivy"
 
-#: ../src/bet_graph.c:1475 ../src/bet_graph.c:1509 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Zobrazit _odsouhlasené"

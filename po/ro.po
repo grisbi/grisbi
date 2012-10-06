@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 15:36+0200\n"
+"POT-Creation-Date: 2012-10-06 23:45+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -1318,48 +1318,76 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Generalităţi"
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:422
+#: ../src/bet_graph.c:321
+#, fuzzy
+msgid "total amount: "
+msgstr "Încărcarea fişierului:"
+
+#: ../src/bet_graph.c:341
+#, c-format
+msgid ""
+"<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
+msgstr ""
+
+#: ../src/bet_graph.c:346
+#, c-format
+msgid ""
+"<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
+"span>"
+msgstr ""
+
+#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:543
+#, fuzzy
+msgid "The selected budget item has no subitems"
+msgstr "Suprimarea unei imputaţii"
+
+#: ../src/bet_graph.c:545
+#, fuzzy
+msgid "The selected category has no subcategory"
+msgstr "categoria"
+
+#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
 #, fuzzy
 msgid "Options"
 msgstr "Cheltueli"
 
-#: ../src/bet_graph.c:435
+#: ../src/bet_graph.c:723
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:456 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Revenituri"
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:986
+#: ../src/bet_graph.c:1278
 #, fuzzy
 msgid "Column"
 msgstr "Comentarii"
 
-#: ../src/bet_graph.c:1013
+#: ../src/bet_graph.c:1305
 #, fuzzy
 msgid "Line"
 msgstr "Licenţă"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1473 ../src/bet_graph.c:1507
+#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
 #, fuzzy
 msgid "Hide grid"
 msgstr "A activa"
 
-#: ../src/bet_graph.c:1475 ../src/bet_graph.c:1509 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Apropiaţi"

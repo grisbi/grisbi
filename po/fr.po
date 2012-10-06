@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 15:36+0200\n"
+"POT-Creation-Date: 2012-10-06 23:45+0200\n"
 "PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1206,44 +1206,73 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Erreur de configuration"
 
-#: ../src/bet_graph.c:305 ../src/bet_graph.c:422
+#: ../src/bet_graph.c:321
+msgid "total amount: "
+msgstr "Montant total : "
+
+#: ../src/bet_graph.c:341
+#, c-format
+msgid ""
+"<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
+msgstr ""
+"<span weight=\"bold\" size=\"large\">Affiche les sous imputations "
+"budgétaires de : %s</span>"
+
+#: ../src/bet_graph.c:346
+#, c-format
+msgid ""
+"<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
+"span>"
+msgstr ""
+"<span weight=\"bold\" size=\"large\">Affiche les sous-catégories de : %s</"
+"span>"
+
+#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
 msgid "Graph"
 msgstr "Graphique"
 
-#: ../src/bet_graph.c:362 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:543
+msgid "The selected budget item has no subitems"
+msgstr "L'imputation budgétaire sélectionnée n'a pas de sous IB"
+
+#: ../src/bet_graph.c:545
+msgid "The selected category has no subcategory"
+msgstr "La catégorie sélectionnée n'a pas de sous-catégorie"
+
+#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Options"
 
-#: ../src/bet_graph.c:435
+#: ../src/bet_graph.c:723
 msgid "Expenses"
 msgstr "Dépenses"
 
-#: ../src/bet_graph.c:456 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Revenus"
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "You can not exceed one year of visualization"
 msgstr "Vous ne pouvez pas visualiser plus d'une année"
 
-#: ../src/bet_graph.c:815
+#: ../src/bet_graph.c:1107
 msgid "Overflow"
 msgstr "Dépassement"
 
-#: ../src/bet_graph.c:986
+#: ../src/bet_graph.c:1278
 msgid "Column"
 msgstr "Colonnes"
 
-#: ../src/bet_graph.c:1013
+#: ../src/bet_graph.c:1305
 msgid "Line"
 msgstr "Ligne"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1473 ../src/bet_graph.c:1507
+#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
 msgid "Hide grid"
 msgstr "Cacher la grille"
 
-#: ../src/bet_graph.c:1475 ../src/bet_graph.c:1509 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
 msgid "Show grid"
 msgstr "Montrer la grille"
 
@@ -11662,6 +11691,3 @@ msgstr "Afficher les étiquettes"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Gestionnaire de finances personnelles"
-
-#~ msgid "Date of change of month: "
-#~ msgstr "Date de changement de mois : "
