@@ -2087,7 +2087,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
-    label = gtk_label_new ( _("Date of change of month: ") );
+    label = gtk_label_new ( _("Date of beginning of period: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     date_bascule = gsb_calendar_entry_new ( FALSE );
@@ -2223,7 +2223,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
 
     /* check button replace planned line */
     button = gtk_check_button_new_with_label (
-                        _("Replacement of the scheduled operation") );
+                        _("Replacement of the scheduled transaction in the forecast") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_replace_data", button );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
