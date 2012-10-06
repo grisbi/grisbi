@@ -1668,6 +1668,13 @@ gint gsb_data_category_test_create_category ( gint no_category,
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 gboolean gsb_data_category_test_create_sub_category ( gint no_category,
                         gint no_sub_category,
                         const gchar *name )
@@ -1703,6 +1710,35 @@ gboolean gsb_data_category_test_create_sub_category ( gint no_category,
     }
     return FALSE;
 }
+
+
+/**
+ * retourne le nombre de sous catégories
+ *
+ * \param   no_category
+ *
+ * \return  length of sub_category_list
+ * */
+gint gsb_data_category_get_sub_category_list_length ( gint no_category )
+{
+    struct_category *category;
+
+    category = gsb_data_category_get_structure ( no_category );
+
+    if ( !category )
+        return 0;
+
+    return g_slist_length ( category->sub_category_list );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

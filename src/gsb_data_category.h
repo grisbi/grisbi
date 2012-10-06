@@ -42,6 +42,7 @@ gint gsb_data_category_get_number_by_name ( const gchar *name,
 gpointer gsb_data_category_get_structure ( gint no_category );
 gsb_real gsb_data_category_get_sub_category_balance ( gint no_category,
 						      gint no_sub_category );
+gint gsb_data_category_get_sub_category_list_length ( gint no_category );
 GSList *gsb_data_category_get_sub_category_list ( gint no_category );
 gchar *gsb_data_category_get_sub_category_name ( gint no_category,
 						 gint no_sub_category,

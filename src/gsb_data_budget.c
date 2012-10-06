@@ -1579,6 +1579,34 @@ void gsb_data_budget_set_budget_from_string ( gint transaction_number,
     g_strfreev (tab_char);
 }
 
+
+/**
+ * retourne le nombre de sous IB
+ *
+ * \param   budget_number
+ *
+ * \return  length of sub_category_list
+ * */
+gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number )
+{
+    struct_budget *budget;
+
+    budget = gsb_data_budget_get_structure ( budget_number );
+
+    if ( !budget )
+        return 0;
+
+    return g_slist_length ( budget->sub_budget_list );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

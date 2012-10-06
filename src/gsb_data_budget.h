@@ -29,6 +29,7 @@ gpointer gsb_data_budget_get_structure ( gint no_budget );
 gsb_real gsb_data_budget_get_sub_budget_balance ( gint no_budget,
 						  gint no_sub_budget );
 GSList *gsb_data_budget_get_sub_budget_list ( gint no_budget );
+gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number );
 gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
 					     gint no_sub_budget,
 					     const gchar *return_value_error );
