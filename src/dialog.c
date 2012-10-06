@@ -203,7 +203,7 @@ void dialogue_special ( GtkMessageType param, gchar *text )
 {
     GtkWidget *dialog;
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ), 
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         "%s", text );
@@ -735,7 +735,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     format_text = make_hint ( hint, text );
 
-    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ), 
+    dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO, 
                         GTK_BUTTONS_CLOSE,
