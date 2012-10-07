@@ -270,6 +270,8 @@ gboolean bet_graph_populate_sectors_by_sub_divisions ( struct_bet_graph_data *se
                             self->montant += tab_montant_division[self -> nbre_elemnts];
 
                         self -> nbre_elemnts++;
+                        g_free ( desc );
+                        g_free ( amount );
                     }
                 }
                 
@@ -812,8 +814,8 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
         type_compte = gsb_data_account_get_kind ( account_number );
         do
         {
-            gchar *desc;
-            gchar *amount;
+            gchar *desc = NULL;
+            gchar *amount = NULL;
             gint div;
             gint type_infos;
 
@@ -830,13 +832,15 @@ gboolean bet_graph_populate_sectors_by_hist_data ( struct_bet_graph_data *self )
                 strncpy ( &libelle_division[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE );
                 tab_montant_division[self -> nbre_elemnts] = utils_str_strtod ( ( amount == NULL) ? "0" : amount, NULL );
 
-                if ( type_compte ==  GSB_TYPE_CASH && tab_montant_division[self -> nbre_elemnts] < 0 )
+                if ( tab_montant_division[self -> nbre_elemnts] < 0 )
                     self->montant += -tab_montant_division[self -> nbre_elemnts];
                 else
                     self->montant += tab_montant_division[self -> nbre_elemnts];
 
                 self -> nbre_elemnts++;
             }
+            g_free ( desc );
+            g_free ( amount );
 
             if ( self -> nbre_elemnts >= MAX_SEGMENT_CAMEMBERT )
                 break;
