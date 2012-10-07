@@ -9,5 +9,7 @@ target
 *.suo
 *.user
 *.vcproj
+*.bak
 downloads
 config.h
+

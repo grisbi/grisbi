@@ -1,4 +1,5 @@
 @echo off
+cd %GRISBISRC%
 ::DEFINITION DES VERSIONS
 :: Change the next lines to choose which gtk+ version you download.
 :: Choose runtime version posterior to dev version
@@ -7,9 +8,9 @@
 ::    Don't include the extension
 SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
 SET ZLIB_DEV_FILE_BASENAME%=zlib_1.2.5-2_win32
-SET LIBXML_FILE_BASENAME=libxml2-2.7.7.win32
+SET LIBXML_FILE_BASENAME=libxml2-2.7.8.win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0d
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_1c
 
 :: The rest of the script should do the rest
 ::on met chcp 1252 qpour les wget car ils affiche en francais
@@ -23,17 +24,10 @@ SET DOWNLOADS_DIR=%CURRENT_DIR%\downloads
 echo Downloads directory : %DOWNLOADS_DIR%
 echo Target directory : %TARGET_DIR%
 
-REM PAUSE
-
-:: Download and install the GTK runtime
-REM cd %DOWNLOADS_DIR%
-REM wget -nc -c "http://sourceforge.net/projects/gtk-win/files/GTK+ Runtime Environment/GTK+ 2.16/%GTK_BIN_FILE%/download"
-REM .\%GTK_BIN_FILE%
-
 :: Download and unzip libxml2 dev and bin files
 
 cd %DOWNLOADS_DIR%
-chcp 1252 && wget -nc ftp://ftp.zlatkovic.com/libxml/%LIBXML_FILE_BASENAME%.zip
+chcp 1252 && wget -nc ftp://ftp.zlatkovic.com/pub/libxml/%LIBXML_FILE_BASENAME%.zip
 cd %TARGET_DIR%
 unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_BASENAME%.zip" -d plugins-dev
 IF EXIST plugins-dev\libxml2 RMDIR /S /Q plugins-dev\libxml2
@@ -56,7 +50,7 @@ PAUSE
 
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://www.slproweb.com/download/%OPENSSL_FILE_BASENAME%.exe
-SET SSLDIR=%SystemDrive%\OpenSSL
+SET SSLDIR=%SystemDrive%\OpenSSL-Win32
 IF NOT EXIST "%SSLDIR%\readme.txt" (
 	IF EXIST %OPENSSL_FILE_BASENAME%.exe (
 		ECHO ***** ATTENTION: installer openssl sur le disque systeme generalement C: dans le repertoire par defaut *****
