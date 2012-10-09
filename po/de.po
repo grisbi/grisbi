@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-06 23:45+0200\n"
-"PO-Revision-Date: 2012-09-28 22:50+0200\n"
+"PO-Revision-Date: 2012-10-09 20:17+0200\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1125,9 +1125,8 @@ msgid "Deferred debit card"
 msgstr "Bankomatkarte mit verzögerten Buchungen"
 
 #: ../src/bet_future.c:2090
-#, fuzzy
 msgid "Date of beginning of period: "
-msgstr "Saldo Anfangsperiode"
+msgstr "Saldo Anfangsperiode:"
 
 #: ../src/bet_future.c:2101 ../src/bet_future.c:2242
 msgid "This field is required"
@@ -1152,9 +1151,8 @@ msgid "Automatic creation of the direct debit transaction"
 msgstr "Automatische Erstellung einer Ausgabenbuchung"
 
 #: ../src/bet_future.c:2226
-#, fuzzy
 msgid "Replacement of the scheduled transaction in the forecast"
-msgstr "Die geplante Buchung zu ersetzen"
+msgstr "Die geplante Buchung in der Prognose ersetzen"
 
 #: ../src/bet_future.c:2288
 msgid "One of the two fields is required"
@@ -1203,42 +1201,37 @@ msgid "Error of configuration"
 msgstr "Konfigurationsfehler"
 
 #: ../src/bet_graph.c:321
-#, fuzzy
 msgid "total amount: "
-msgstr "Kredit Betrag: "
+msgstr "Gesamtbetrag:"
 
 #: ../src/bet_graph.c:341
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
 msgstr ""
-"<span weight=\"bold\" foreground=\"red\">Das Passwort ist nicht korrekt!</"
-"span>\n"
-"\n"
+"<span weight=\"bold\">Teilbereiche vom Budgeteintrag: %s anzeigen</span>"
 
 #: ../src/bet_graph.c:346
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
 "span>"
 msgstr ""
-"<span weight=\"bold\" foreground=\"red\">Das Passwort ist nicht korrekt!</"
-"span>\n"
-"\n"
+"<span weight=\"bold\" size=\"large\">Teilbereichte von Kategorie: %s "
+"anzeigen</"
+"span>"
 
 #: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
 msgid "Graph"
 msgstr "Diagramm"
 
 #: ../src/bet_graph.c:543
-#, fuzzy
 msgid "The selected budget item has no subitems"
-msgstr "Den selektierten Budgeteintrag löschen"
+msgstr "Der selektierte Budgeteintrag hat keine Teil-Budgeteinträge"
 
 #: ../src/bet_graph.c:545
-#, fuzzy
 msgid "The selected category has no subcategory"
-msgstr "Die selektierte Unterkategorie bearbeiten"
+msgstr "Die selektierte Kategorie hat keine Unterkategorie"
 
 #: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
 msgid "Options"
@@ -1754,7 +1747,7 @@ msgstr ""
 
 #: ../src/dialog.c:87
 msgid "Recover split?"
-msgstr "Splittbuchung wiederherstellen?"
+msgstr "Splittbuchung wiederherstellen"
 
 #: ../src/dialog.c:88
 msgid ""
@@ -10376,7 +10369,7 @@ msgstr "Den selektierten Empfänger bearbeiten"
 
 #: ../src/navigation.c:2190 ../src/tiers_onglet.c:353
 msgid "Manage payees"
-msgstr "Ersetzungen verwalten"
+msgstr "Empfänger verwalten"
 
 #: ../src/navigation.c:2198 ../src/tiers_onglet.c:361
 msgid "Remove unused payees"
@@ -10441,7 +10434,7 @@ msgstr "Währungen & Sortierung"
 
 #: ../src/parametres.c:422
 msgid "Elements of interface"
-msgstr "Elemente auf der Oberfläche"
+msgstr "Benutzeroberfläche"
 
 #: ../src/parametres.c:440
 msgid "List behavior"
