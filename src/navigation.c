@@ -107,7 +107,7 @@ static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selectio
 static void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         gint type_page,
                         gint ordre );
-static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection, 
+static void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 					    GtkTreeIter *iter,
                         gint page,
 					    gint account_number,
@@ -222,10 +222,10 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_set_headers_visible ( GTK_TREE_VIEW(navigation_tree_view), FALSE );
     gtk_container_add ( GTK_CONTAINER(sw), navigation_tree_view );
 
-    navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL, 
+    navigation_model = GTK_TREE_MODEL ( gtk_tree_store_new ( NAVIGATION_TOTAL,
 							    GDK_TYPE_PIXBUF,        /* NAVIGATION_PIX */
 							    G_TYPE_BOOLEAN,         /* NAVIGATION_PIX_VISIBLE */
-                                G_TYPE_STRING,          /* NAVIGATION_TEXT */ 
+                                G_TYPE_STRING,          /* NAVIGATION_TEXT */
 							    G_TYPE_INT,             /* NAVIGATION_FONT */
                                 G_TYPE_INT,             /* NAVIGATION_PAGE */
 							    G_TYPE_INT,             /* NAVIGATION_ACCOUNT */
@@ -235,7 +235,7 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 
     gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( navigation_model ),
                         NAVIGATION_ORDRE, GTK_SORT_ASCENDING );
-    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( navigation_model ), 
+    gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( navigation_model ),
                         NAVIGATION_ORDRE, navigation_sort_column,
                         NULL, NULL );
 
@@ -299,9 +299,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     /* Pixbuf renderer. */
     renderer = gtk_cell_renderer_pixbuf_new ();
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, FALSE);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "pixbuf", NAVIGATION_PIX);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "visible", NAVIGATION_PIX_VISIBLE);
     gtk_tree_view_column_set_expand ( column, FALSE );
 
@@ -309,14 +309,14 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     renderer = gtk_cell_renderer_text_new();
     renderer -> xpad = 6;
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "text", NAVIGATION_TEXT);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "weight", NAVIGATION_FONT);
-    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer, 
+    gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "sensitive", NAVIGATION_SENSITIVE);
 
-    gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ), 
+    gtk_tree_view_append_column ( GTK_TREE_VIEW ( navigation_tree_view ),
 				  GTK_TREE_VIEW_COLUMN ( column ) );
 
     /* crée les pages dans le panneau de gauche */
@@ -427,7 +427,7 @@ gint gsb_gui_navigation_get_current_account ( void )
 			 NAVIGATION_PAGE, &page,
 			 NAVIGATION_ACCOUNT, &account_number,
 			 -1);
-    
+
     if ( page == GSB_ACCOUNT_PAGE )
 	return account_number;
 
@@ -444,7 +444,7 @@ gint gsb_gui_navigation_get_current_account ( void )
  *
  * \return the last account number (become the current account number once the
  * 		switch is finished...)
- * 
+ *
  * */
 gint gsb_gui_navigation_get_last_account ( void )
 {
@@ -479,7 +479,7 @@ gint gsb_gui_navigation_get_current_report ( void )
 			 &iter,
 			 NAVIGATION_PAGE, &page,
 			 -1);
-    
+
     if ( page == GSB_REPORTS_PAGE)
     {
 	gint report_number;
@@ -572,8 +572,8 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
         report_number = gsb_data_report_get_report_number ( tmp_list -> data );
 
         gtk_tree_store_append ( GTK_TREE_STORE ( model ), &child, &parent);
-        gtk_tree_store_set(GTK_TREE_STORE(model), &child, 
-                        NAVIGATION_PIX_VISIBLE, FALSE, 
+        gtk_tree_store_set(GTK_TREE_STORE(model), &child,
+                        NAVIGATION_PIX_VISIBLE, FALSE,
                         NAVIGATION_TEXT, gsb_data_report_get_report_name ( report_number ),
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_REPORTS_PAGE,
@@ -581,7 +581,7 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
                         NAVIGATION_SENSITIVE, 1,
                         NAVIGATION_REPORT, report_number,
                         -1 );
-	
+
         tmp_list = tmp_list -> next;
     }
 
@@ -602,9 +602,9 @@ void gsb_gui_navigation_create_report_list ( GtkTreeModel *model )
  *
  *
  */
-gboolean navigation_sort_column ( GtkTreeModel *model, 
+gboolean navigation_sort_column ( GtkTreeModel *model,
                         GtkTreeIter *a,
-                        GtkTreeIter *b, 
+                        GtkTreeIter *b,
                         gpointer user_data )
 {
     gint ordre_a, page_a, account_a, report_a;
@@ -613,14 +613,14 @@ gboolean navigation_sort_column ( GtkTreeModel *model,
     if ( ! model )
         return FALSE;
 
-    gtk_tree_model_get ( model, a, 
+    gtk_tree_model_get ( model, a,
                         NAVIGATION_PAGE, &page_a,
                         NAVIGATION_ACCOUNT, &account_a,
                         NAVIGATION_REPORT, &report_a,
                         NAVIGATION_ORDRE, &ordre_a,
                         -1 );
 
-    gtk_tree_model_get ( model, b, 
+    gtk_tree_model_get ( model, b,
                         NAVIGATION_PAGE, &page_b,
                         NAVIGATION_ACCOUNT, &account_b,
                         NAVIGATION_REPORT, &report_b,
@@ -657,15 +657,15 @@ gboolean navigation_sort_column ( GtkTreeModel *model,
  *
  * \return TRUE if this iter matches.
  */
-static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel *tree_model, 
-                        GtkTreePath *path, 
-                        GtkTreeIter *iter, 
+static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel *tree_model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
                         gpointer data )
 {
     gint account_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_ACCOUNT, &account_number, 
+			 NAVIGATION_ACCOUNT, &account_number,
 			 -1 );
 
     if ( account_number == GPOINTER_TO_INT ( data ) )
@@ -691,15 +691,15 @@ static gboolean gsb_gui_navigation_update_account_iterator ( GtkTreeModel *tree_
  *
  * \return TRUE if this iter matches.
  */
-static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel *tree_model, 
-                        GtkTreePath *path, 
-                        GtkTreeIter *iter, 
+static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel *tree_model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
                         gpointer data )
 {
     gint report_nb;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_REPORT, &report_nb, 
+			 NAVIGATION_REPORT, &report_nb,
 			 -1 );
 
     if ( report_nb == GPOINTER_TO_INT ( data ) )
@@ -718,7 +718,7 @@ static gboolean gsb_gui_navigation_update_report_iterator ( GtkTreeModel *tree_m
  *
  * \param report_nb	Number of the report that has to be updated.
  */
-void gsb_gui_navigation_update_report ( gint report_number ) 
+void gsb_gui_navigation_update_report ( gint report_number )
 {
     gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
 			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_report_iterator,
@@ -734,12 +734,12 @@ void gsb_gui_navigation_update_report ( gint report_number )
  * \param report_iter	Iter to update.
  * \param data		Number of report as a reference.
  */
-void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model, 
+void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
                         GtkTreeIter * report_iter,
                         gint report_number )
 {
-    gtk_tree_store_set(GTK_TREE_STORE(model), report_iter, 
-		       NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number), 
+    gtk_tree_store_set(GTK_TREE_STORE(model), report_iter,
+		       NAVIGATION_TEXT, gsb_data_report_get_report_name (report_number),
 		       NAVIGATION_PAGE, GSB_REPORTS_PAGE,
 		       NAVIGATION_REPORT, report_number,
 		       NAVIGATION_ACCOUNT, -1,
@@ -761,15 +761,15 @@ void gsb_gui_navigation_update_report_iter ( GtkTreeModel *model,
  *
  * \return TRUE if this iter matches.
  */
-static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_model, 
-                        GtkTreePath *path, 
-                        GtkTreeIter *iter, 
+static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
                         gpointer data )
 {
     gint report;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_REPORT, &report, 
+			 NAVIGATION_REPORT, &report,
 			 -1 );
 
     if ( report == GPOINTER_TO_INT (data))
@@ -799,7 +799,7 @@ void gsb_gui_navigation_add_report ( gint report_number )
     gtk_tree_store_append ( GTK_TREE_STORE ( navigation_model ), &iter, &parent );
     gtk_tree_view_expand_to_path ( GTK_TREE_VIEW ( navigation_tree_view ), path );
 
-    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL ( navigation_model ), &iter,  report_number );    
+    gsb_gui_navigation_update_report_iter ( GTK_TREE_MODEL ( navigation_model ), &iter,  report_number );
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) );
     gtk_tree_selection_select_iter ( selection, &iter );
@@ -814,8 +814,8 @@ void gsb_gui_navigation_add_report ( gint report_number )
  */
 void gsb_gui_navigation_remove_report ( gint report_number )
 {
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
+			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_report_iterator,
 			     GINT_TO_POINTER ( report_number ) );
 }
 
@@ -828,8 +828,8 @@ void gsb_gui_navigation_remove_report ( gint report_number )
  */
 void gsb_gui_navigation_update_account ( gint account_number )
 {
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
+			     (GtkTreeModelForeachFunc) gsb_gui_navigation_update_account_iterator,
 			     GINT_TO_POINTER ( account_number ) );
 }
 
@@ -842,7 +842,7 @@ void gsb_gui_navigation_update_account ( gint account_number )
  * \param account_iter	Iter to update.
  * \param data		Number of account as a reference.
  */
-void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model, 
+void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         GtkTreeIter *account_iter,
                         gint account_number )
 {
@@ -850,10 +850,10 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
 
     pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
 
-    gtk_tree_store_set ( GTK_TREE_STORE ( model ), account_iter, 
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ), account_iter,
                         NAVIGATION_PIX, pixbuf,
-                        NAVIGATION_PIX_VISIBLE, TRUE, 
-                        NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ), 
+                        NAVIGATION_PIX_VISIBLE, TRUE,
+                        NAVIGATION_TEXT, gsb_data_account_get_name ( account_number ),
                         NAVIGATION_FONT, 400,
                         NAVIGATION_PAGE, GSB_ACCOUNT_PAGE,
                         NAVIGATION_ACCOUNT, account_number,
@@ -876,15 +876,15 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
  *
  * \return TRUE if this iter matches.
  */
-static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel *tree_model, 
-                        GtkTreePath *path, 
-                        GtkTreeIter *iter, 
+static gboolean gsb_gui_navigation_remove_account_iterator ( GtkTreeModel *tree_model,
+                        GtkTreePath *path,
+                        GtkTreeIter *iter,
                         gpointer data )
 {
     gint account_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL ( tree_model ), iter,
-			 NAVIGATION_ACCOUNT, &account_number, 
+			 NAVIGATION_ACCOUNT, &account_number,
 			 -1 );
 
     if ( account_number == GPOINTER_TO_INT ( data ) )
@@ -914,7 +914,7 @@ void gsb_gui_navigation_add_account ( gint account_number,
     gtk_tree_model_get_iter ( GTK_TREE_MODEL( navigation_model ), &parent, path );
     gtk_tree_store_append ( GTK_TREE_STORE ( navigation_model ), &iter, &parent );
 
-    gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL ( navigation_model ), &iter, account_number );    
+    gsb_gui_navigation_update_account_iter ( GTK_TREE_MODEL ( navigation_model ), &iter, account_number );
 
     if ( switch_to_account )
     {
@@ -927,11 +927,11 @@ void gsb_gui_navigation_add_account ( gint account_number,
 
 
 
-/** 
+/**
  * change the list of transactions, according to the new account
- * 
+ *
  * \param no_account a pointer on the number of the account we want to see
- * 
+ *
  * \return FALSE
  * */
 gboolean navigation_change_account ( gint new_account )
@@ -1026,7 +1026,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
                                             reconcile_number ) );
         tmp_str2 = utils_real_get_string_with_currency ( amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
-        
+
         tmp_str = g_strconcat ( _("Last statement: "), tmp_str1, " - ",
                                _("Reconciled balance: "), tmp_str2, NULL );
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmp_str);
@@ -1038,7 +1038,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
     {
         tmp_str2 = utils_real_get_string_with_currency (amount,
                         gsb_data_account_get_currency ( account_number ), TRUE );
-        
+
         tmp_str = g_strconcat ( _("Last statement: none"), " - ",
                                _("Reconciled balance: "), tmp_str2, NULL );
         gtk_label_set_text ( GTK_LABEL ( label_last_statement ), tmp_str);
@@ -1060,7 +1060,7 @@ void gsb_navigation_update_statement_label ( gint account_number )
  */
 void gsb_navigation_update_account_label ( gint account_number )
 {
-    gchar * title = NULL; 
+    gchar * title = NULL;
 
     title = g_strconcat ( _("Account"), " : ",
 			  gsb_data_account_get_name ( account_number ),
@@ -1074,7 +1074,7 @@ void gsb_navigation_update_account_label ( gint account_number )
 
     gsb_data_account_colorize_current_balance ( account_number );
     gsb_gui_headings_update_title ( title );
-    
+
     g_free ( title );
 }
 
@@ -1086,8 +1086,8 @@ void gsb_navigation_update_account_label ( gint account_number )
  */
 void gsb_gui_navigation_remove_account ( gint account_number )
 {
-    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model), 
-			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_account_iterator, 
+    gtk_tree_model_foreach ( GTK_TREE_MODEL(navigation_model),
+			     (GtkTreeModelForeachFunc) gsb_gui_navigation_remove_account_iterator,
 			     GINT_TO_POINTER ( account_number ) );
 }
 
@@ -1125,7 +1125,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
         gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
     }
 
-    if ( page_number != GSB_SCHEDULER_PAGE ) 
+    if ( page_number != GSB_SCHEDULER_PAGE )
     {
 	gtk_widget_hide_all ( scheduler_calendar );
     }
@@ -1184,7 +1184,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    notice_debug ("Scheduler page selected");
 
 	    title = g_strdup(_("Scheduled transactions"));
-        
+
 	    /* what to be done if switch to that page */
 	    /* update the list (can do that because short list, so very fast) */
 	    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
@@ -1293,7 +1293,7 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
  *			account.
  * \param report	If page is GSB_REPORTS, switch to given
  *			report.
- * 
+ *
  * \return		TRUE on success.
  */
 gboolean gsb_gui_navigation_set_selection ( gint page,
@@ -1334,28 +1334,28 @@ gboolean gsb_gui_navigation_set_selection ( gint page,
  *			account.
  * \param report	If page is GSB_REPORTS, switch to given
  *			report.
- * 
+ *
  * \return		TRUE on success.
  */
-void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection, 
+void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 					    GtkTreeIter *iter,
-                        gint page, 
+                        gint page,
 					    gint account_number,
                         gpointer report )
 {
-    do 
+    do
     {
 	gint iter_page, iter_account_nb;
 	gpointer iter_report;
 
-	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), iter, 
-			     NAVIGATION_REPORT, &iter_report, 
+	gtk_tree_model_get ( GTK_TREE_MODEL(navigation_model), iter,
+			     NAVIGATION_REPORT, &iter_report,
 			     NAVIGATION_ACCOUNT, &iter_account_nb,
 			     NAVIGATION_PAGE, &iter_page,
 			     -1 );
 
 	if ( iter_page == page &&
-	     ! ( page == GSB_ACCOUNT_PAGE && 
+	     ! ( page == GSB_ACCOUNT_PAGE &&
 		 iter_account_nb != account_number ) &&
 	     ! ( page == GSB_REPORTS_PAGE &&
 		 iter_report != report ) )
@@ -1366,9 +1366,9 @@ void gsb_gui_navigation_set_selection_branch ( GtkTreeSelection *selection,
 	if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL(navigation_model), iter ) )
 	{
 	    GtkTreeIter child;
-    
+
 	    gtk_tree_model_iter_children ( GTK_TREE_MODEL(navigation_model), &child, iter );
-	    gsb_gui_navigation_set_selection_branch ( selection, &child, 
+	    gsb_gui_navigation_set_selection_branch ( selection, &child,
 						      page, account_number, report );
 	}
     }
@@ -1393,7 +1393,7 @@ gboolean gsb_gui_navigation_select_prev ( void )
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
-    
+
     if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
         return TRUE;
     path = gtk_tree_model_get_path ( model, &iter );
@@ -1412,13 +1412,13 @@ gboolean gsb_gui_navigation_select_prev ( void )
              && gtk_tree_view_row_expanded ( GTK_TREE_VIEW ( navigation_tree_view ), path ) )
         {
             GtkTreeIter parent = iter;
-            gtk_tree_model_iter_nth_child ( model, &iter, &parent, 
-                                            gtk_tree_model_iter_n_children ( model, 
+            gtk_tree_model_iter_nth_child ( model, &iter, &parent,
+                                            gtk_tree_model_iter_n_children ( model,
                                                                              &parent ) - 1 );
             path = gtk_tree_model_get_path ( model, &iter );
         }
     }
-    
+
     gtk_tree_selection_select_path ( selection, path );
     gtk_tree_path_free ( path );
 
@@ -1441,7 +1441,7 @@ gboolean gsb_gui_navigation_select_next ( void )
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW(navigation_tree_view) );
     g_return_val_if_fail ( selection, FALSE );
-    
+
     if ( !gtk_tree_selection_get_selected ( selection, &model, &iter ) )
         return TRUE;
 
@@ -1484,7 +1484,7 @@ gboolean gsb_gui_navigation_select_next ( void )
 
 
 
-/** 
+/**
  * Check the key pressed on the navigation tree view,
  * if need, stop the event to do another thing with that key
  *
@@ -1553,7 +1553,7 @@ gboolean gsb_gui_navigation_check_key_press ( GtkWidget *tree_view,
 
 
 
-/** 
+/**
  * Check mouse scrolling on the navigation tree view.
  *
  * \param tree_view the navigation tree_view
@@ -1605,7 +1605,7 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
     if ( path )
     {
-	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model), 
+	gtk_tree_set_row_drag_data ( selection_data, GTK_TREE_MODEL(navigation_model),
 				     path );
     }
 
@@ -1615,7 +1615,7 @@ gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
 
 /**
- *  
+ *
  *
  */
 gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
@@ -1639,16 +1639,16 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
 
         gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
 
-        if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) ) 
-            gtk_tree_model_get (model , &iter, 
-                        NAVIGATION_REPORT, &dst_report, 
+        if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, dest_path ) )
+            gtk_tree_model_get (model , &iter,
+                        NAVIGATION_REPORT, &dst_report,
                         NAVIGATION_ACCOUNT, &dst_account,
                         NAVIGATION_ORDRE, &dst_ordre,
                         -1 );
 
         if ( gtk_tree_model_get_iter ( GTK_TREE_MODEL(model), &iter, orig_path ) )
-            gtk_tree_model_get ( model, &iter, 
-                        NAVIGATION_REPORT, &src_report, 
+            gtk_tree_model_get ( model, &iter,
+                        NAVIGATION_REPORT, &src_report,
                         NAVIGATION_ACCOUNT, &src_account,
                         NAVIGATION_ORDRE, &src_ordre,
                         -1 );
@@ -1669,7 +1669,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
         /* update the tree view */
         gtk_tree_sortable_set_sort_column_id ( GTK_TREE_SORTABLE ( model ),
                         NAVIGATION_ORDRE, GTK_SORT_ASCENDING );
-        gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( model ), 
+        gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE ( model ),
                         NAVIGATION_ORDRE, navigation_sort_column,
                         NULL, NULL );
 
@@ -1687,7 +1687,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
  *
  *
  */
-gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest, 
+gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data )
 {
@@ -1703,15 +1703,15 @@ gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
         gtk_tree_get_row_drag_data ( selection_data, &model, &orig_path );
 
         if ( gtk_tree_model_get_iter ( model, &iter, orig_path ) )
-            gtk_tree_model_get ( model, &iter, 
-                        NAVIGATION_REPORT, &src_report, 
+            gtk_tree_model_get ( model, &iter,
+                        NAVIGATION_REPORT, &src_report,
                         NAVIGATION_ACCOUNT, &src_account,
                         NAVIGATION_ORDRE, &src_ordre,
                         -1 );
 
         if ( gtk_tree_model_get_iter ( model, &iter, dest_path ) )
-            gtk_tree_model_get ( model, &iter, 
-                        NAVIGATION_REPORT, &dst_report, 
+            gtk_tree_model_get ( model, &iter,
+                        NAVIGATION_REPORT, &dst_report,
                         NAVIGATION_ACCOUNT, &dst_account,
                         NAVIGATION_ORDRE, &dst_ordre,
                         -1 );
@@ -1917,7 +1917,7 @@ void gsb_gui_navigation_free_pages_list ( void )
 
 /**
  * return a pointer on the first element of g_queue of navigation pages
- * 
+ *
  * \param none
  * \return a GList
  * */
@@ -2184,7 +2184,7 @@ void gsb_gui_navigation_context_menu ( GtkWidget *tree_view,
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
-            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "new-payee.png", NULL);
+            tmp_str = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "payeesmg.png", NULL);
             image = gtk_image_new_from_file ( tmp_str );
             g_free ( tmp_str );
             menu_item = gtk_image_menu_item_new_with_label ( _("Manage payees") );
