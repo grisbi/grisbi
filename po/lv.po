@@ -325,7 +325,7 @@ msgstr "Rīkjoslas"
 msgid "Display toolbar buttons as"
 msgstr "Rādīt rīkjoslas pogas:"
 
- ../src/affichage.c:735
+#: ../src/affichage.c:735
 msgid "Text"
 msgstr "Tekstu"
 
