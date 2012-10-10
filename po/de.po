@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 23:45+0200\n"
+"POT-Creation-Date: 2012-10-10 21:09+0200\n"
 "PO-Revision-Date: 2012-10-09 20:17+0200\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1200,75 +1200,74 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Konfigurationsfehler"
 
-#: ../src/bet_graph.c:321
+#: ../src/bet_graph.c:323
 msgid "total amount: "
 msgstr "Gesamtbetrag:"
 
-#: ../src/bet_graph.c:341
+#: ../src/bet_graph.c:343
 #, c-format
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
 msgstr ""
 "<span weight=\"bold\">Teilbereiche vom Budgeteintrag: %s anzeigen</span>"
 
-#: ../src/bet_graph.c:346
+#: ../src/bet_graph.c:348
 #, c-format
 msgid ""
 "<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
 "span>"
 msgstr ""
 "<span weight=\"bold\" size=\"large\">Teilbereichte von Kategorie: %s "
-"anzeigen</"
-"span>"
+"anzeigen</span>"
 
-#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
+#: ../src/bet_graph.c:362 ../src/bet_graph.c:591 ../src/bet_graph.c:712
 msgid "Graph"
 msgstr "Diagramm"
 
-#: ../src/bet_graph.c:543
+#: ../src/bet_graph.c:545
 msgid "The selected budget item has no subitems"
 msgstr "Der selektierte Budgeteintrag hat keine Teil-Budgeteinträge"
 
-#: ../src/bet_graph.c:545
+#: ../src/bet_graph.c:547
 msgid "The selected category has no subcategory"
 msgstr "Die selektierte Kategorie hat keine Unterkategorie"
 
-#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:654 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Einstellungen"
 
-#: ../src/bet_graph.c:723
+#: ../src/bet_graph.c:725
 msgid "Expenses"
 msgstr "Ausgaben"
 
-#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:746 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "You can not exceed one year of visualization"
 msgstr ""
 "Die Zeitspanne von einem Jahr kann bei der Datenvisualisierung nicht "
 "überschritten werden"
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "Overflow"
 msgstr "Überlauf"
 
-#: ../src/bet_graph.c:1278
+#: ../src/bet_graph.c:1282
 msgid "Column"
 msgstr "Balken"
 
-#: ../src/bet_graph.c:1305
+#: ../src/bet_graph.c:1309
 msgid "Line"
 msgstr "Linie"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
+#: ../src/bet_graph.c:1769 ../src/bet_graph.c:1803
 msgid "Hide grid"
 msgstr "Gitter verbergen"
 
-#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1771 ../src/bet_graph.c:1805 ../src/ui/bet_graph.ui.h:23
 msgid "Show grid"
 msgstr "Gitter anzeigen"
 
@@ -10323,8 +10322,8 @@ msgid "Use payee: \"%s\" to find the transactions"
 msgstr "Verwenden Sie den Empfänger: \"%s\" um die Buchungen zu finden"
 
 #: ../src/metatree.c:3738
-#, c-format
-msgid "Use notes: \"%s\" to find the transactions"
+#, fuzzy, c-format
+msgid "Use note: \"%s\" to find the transactions"
 msgstr "Verwenden Sie die Notiz: \"%s\" um die Buchungen zu finden"
 
 #: ../src/metatree.c:3782

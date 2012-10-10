@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 23:45+0200\n"
+"POT-Creation-Date: 2012-10-10 21:09+0200\n"
 "PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -546,8 +546,8 @@ msgstr "Aujourd'hui"
 #: ../src/bet_config.c:204
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
-"Note : cette option est utilisée en l'absence d'une date de début pour les "
-"prévisions."
+"Remarque : cette option est utilisée en l'absence d'une date de début pour "
+"les prévisions."
 
 #: ../src/bet_config.c:261 ../src/parametres.c:600
 msgid "Accounts data"
@@ -1206,11 +1206,11 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Erreur de configuration"
 
-#: ../src/bet_graph.c:321
+#: ../src/bet_graph.c:323
 msgid "total amount: "
 msgstr "Montant total : "
 
-#: ../src/bet_graph.c:341
+#: ../src/bet_graph.c:343
 #, c-format
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
@@ -1218,7 +1218,7 @@ msgstr ""
 "<span weight=\"bold\" size=\"large\">Affiche les sous imputations "
 "budgétaires de : %s</span>"
 
-#: ../src/bet_graph.c:346
+#: ../src/bet_graph.c:348
 #, c-format
 msgid ""
 "<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
@@ -1227,52 +1227,52 @@ msgstr ""
 "<span weight=\"bold\" size=\"large\">Affiche les sous-catégories de : %s</"
 "span>"
 
-#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
+#: ../src/bet_graph.c:362 ../src/bet_graph.c:591 ../src/bet_graph.c:712
 msgid "Graph"
 msgstr "Graphique"
 
-#: ../src/bet_graph.c:543
+#: ../src/bet_graph.c:545
 msgid "The selected budget item has no subitems"
 msgstr "L'imputation budgétaire sélectionnée n'a pas de sous IB"
 
-#: ../src/bet_graph.c:545
+#: ../src/bet_graph.c:547
 msgid "The selected category has no subcategory"
 msgstr "La catégorie sélectionnée n'a pas de sous-catégorie"
 
-#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:654 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Options"
 
-#: ../src/bet_graph.c:723
+#: ../src/bet_graph.c:725
 msgid "Expenses"
 msgstr "Dépenses"
 
-#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:746 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Revenus"
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "You can not exceed one year of visualization"
 msgstr "Vous ne pouvez pas visualiser plus d'une année"
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "Overflow"
 msgstr "Dépassement"
 
-#: ../src/bet_graph.c:1278
+#: ../src/bet_graph.c:1282
 msgid "Column"
 msgstr "Colonnes"
 
-#: ../src/bet_graph.c:1305
+#: ../src/bet_graph.c:1309
 msgid "Line"
 msgstr "Ligne"
 
 #. la grille est visible
-#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
+#: ../src/bet_graph.c:1769 ../src/bet_graph.c:1803
 msgid "Hide grid"
 msgstr "Cacher la grille"
 
-#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1771 ../src/bet_graph.c:1805 ../src/ui/bet_graph.ui.h:23
 msgid "Show grid"
 msgstr "Montrer la grille"
 
@@ -2710,7 +2710,7 @@ msgstr "sous-imputation"
 
 #: ../src/etats_config.c:5009 ../src/etats_config.c:6753
 msgid "note"
-msgstr "note"
+msgstr "remarque"
 
 #: ../src/etats_config.c:5037 ../src/etats_config.c:6682
 #: ../src/etats_config.c:6781
@@ -2954,7 +2954,7 @@ msgstr "date de valeur"
 
 #: ../src/etats_config.c:6667
 msgid "notes"
-msgstr "notes"
+msgstr "remarques"
 
 #: ../src/etats_config.c:6670 ../src/etats_config.c:6760
 msgid "method of payment"
@@ -3637,7 +3637,7 @@ msgstr "Cacher les imputations budgétaires"
 
 #: ../src/file_obfuscate.c:429
 msgid "Hide notes"
-msgstr "Cacher les notes"
+msgstr "Cacher les remarques"
 
 #: ../src/file_obfuscate.c:435
 msgid "Hide banks details"
@@ -10314,8 +10314,8 @@ msgstr "Utiliser le tiers : « %s » pour trouver les opérations"
 
 #: ../src/metatree.c:3738
 #, c-format
-msgid "Use notes: \"%s\" to find the transactions"
-msgstr "Utiliser la note : « %s » pour trouver les opérations"
+msgid "Use note: \"%s\" to find the transactions"
+msgstr "Utiliser la remarque : « %s » pour trouver les opérations"
 
 #: ../src/metatree.c:3782
 msgid "You must select at least one search element"
@@ -11041,7 +11041,7 @@ msgstr "[Opération importée sans date]"
 
 #: ../src/tiers_onglet.c:293
 msgid "Warning you will crush the existing note."
-msgstr "Attention vous allez écraser la note existante."
+msgstr "Attention vous allez écraser la remarque existante."
 
 #: ../src/tiers_onglet.c:322
 msgid "Create a new payee"
@@ -11148,7 +11148,7 @@ msgstr "Entrez le nom du nouveau tiers : "
 
 #: ../src/tiers_onglet.c:1072
 msgid "Save the payees in the notes"
-msgstr "Sauvegarder les tiers dans les notes"
+msgstr "Sauvegarder les tiers dans les remarques"
 
 #: ../src/tiers_onglet.c:1105
 msgid "List of payees who will be modified"
@@ -11216,9 +11216,9 @@ msgid ""
 "\n"
 "If you answer YES, the existing note will be replaced by %s."
 msgstr ""
-"Voulez vous remplacer la note existante ?\n"
+"Voulez vous remplacer la remarque existante ?\n"
 "\n"
-"Si vous répondez OUI la note sera remplacée par %s."
+"Si vous répondez OUI la remarque sera remplacée par %s."
 
 #: ../src/tip.c:41
 msgid ""

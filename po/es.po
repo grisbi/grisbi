@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-06 23:45+0200\n"
+"POT-Creation-Date: 2012-10-10 21:09+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1235,12 +1235,12 @@ msgstr ""
 msgid "Error of configuration"
 msgstr "Configuración general"
 
-#: ../src/bet_graph.c:321
+#: ../src/bet_graph.c:323
 #, fuzzy
 msgid "total amount: "
 msgstr "Cargando cuentas: "
 
-#: ../src/bet_graph.c:341
+#: ../src/bet_graph.c:343
 #, fuzzy, c-format
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
@@ -1249,7 +1249,7 @@ msgstr ""
 "span>\n"
 "\n"
 
-#: ../src/bet_graph.c:346
+#: ../src/bet_graph.c:348
 #, fuzzy, c-format
 msgid ""
 "<span weight=\"bold\" size=\"large\">Display subdivisions of category: %s</"
@@ -1259,56 +1259,56 @@ msgstr ""
 "span>\n"
 "\n"
 
-#: ../src/bet_graph.c:360 ../src/bet_graph.c:589 ../src/bet_graph.c:710
+#: ../src/bet_graph.c:362 ../src/bet_graph.c:591 ../src/bet_graph.c:712
 msgid "Graph"
 msgstr ""
 
-#: ../src/bet_graph.c:543
+#: ../src/bet_graph.c:545
 #, fuzzy
 msgid "The selected budget item has no subitems"
 msgstr "Borrar la línea presupuestaria seleccionada"
 
-#: ../src/bet_graph.c:545
+#: ../src/bet_graph.c:547
 #, fuzzy
 msgid "The selected category has no subcategory"
 msgstr "Editar la categoría seleccionada"
 
-#: ../src/bet_graph.c:652 ../src/tiers_onglet.c:1064
+#: ../src/bet_graph.c:654 ../src/tiers_onglet.c:1064
 msgid "Options"
 msgstr "Opciones"
 
-#: ../src/bet_graph.c:723
+#: ../src/bet_graph.c:725
 msgid "Expenses"
 msgstr ""
 
-#: ../src/bet_graph.c:744 ../src/etats_affiche.c:2298
+#: ../src/bet_graph.c:746 ../src/etats_affiche.c:2298
 msgid "Incomes"
 msgstr "Ingresos"
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "You can not exceed one year of visualization"
 msgstr ""
 
-#: ../src/bet_graph.c:1107
+#: ../src/bet_graph.c:1111
 msgid "Overflow"
 msgstr ""
 
-#: ../src/bet_graph.c:1278
+#: ../src/bet_graph.c:1282
 #, fuzzy
 msgid "Column"
 msgstr "Columnas"
 
-#: ../src/bet_graph.c:1305
+#: ../src/bet_graph.c:1309
 msgid "Line"
 msgstr ""
 
 #. la grille est visible
-#: ../src/bet_graph.c:1765 ../src/bet_graph.c:1799
+#: ../src/bet_graph.c:1769 ../src/bet_graph.c:1803
 #, fuzzy
 msgid "Hide grid"
 msgstr "Archivos"
 
-#: ../src/bet_graph.c:1767 ../src/bet_graph.c:1801 ../src/ui/bet_graph.ui.h:23
+#: ../src/bet_graph.c:1771 ../src/bet_graph.c:1805 ../src/ui/bet_graph.ui.h:23
 #, fuzzy
 msgid "Show grid"
 msgstr "Mostrar _reconciliados"
@@ -10406,7 +10406,7 @@ msgstr "Usar una letra personalizada para las transacciones: "
 
 #: ../src/metatree.c:3738
 #, fuzzy, c-format
-msgid "Use notes: \"%s\" to find the transactions"
+msgid "Use note: \"%s\" to find the transactions"
 msgstr "Usar una letra personalizada para las transacciones: "
 
 #: ../src/metatree.c:3782

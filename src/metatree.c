@@ -3735,7 +3735,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     tmp_str_2 = g_strdup ( gsb_data_transaction_get_notes ( transaction_number ) );
     if ( tmp_str_2 )
     {
-        tmp_str_1 = g_strdup_printf ( _("Use notes: \"%s\" to find the transactions"), tmp_str_2 );
+        tmp_str_1 = g_strdup_printf ( _("Use note: \"%s\" to find the transactions"), tmp_str_2 );
         button_2 = gsb_automem_checkbutton_new ( tmp_str_1,
                         &metatree_find_notes,
                         NULL,
