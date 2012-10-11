@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -1148,6 +1148,7 @@ msgstr "Categorie : Sottocategorie"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Note"
@@ -4445,8 +4446,7 @@ msgid "Minimum desired balance: "
 msgstr "Minimo bilancio desiderato:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Commenti"
 
@@ -8619,7 +8619,7 @@ msgstr "Elimina transazione"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "Visualizza transazioni schedulate"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8787,11 +8787,11 @@ msgstr "Nuova transazione"
 msgid "Delete transaction"
 msgstr "Elimina transazione"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Mostra/Nasconti commenti"
+msgid "Displays/Hide notes"
+msgstr "Visualizza/Nascondi"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11672,6 +11672,10 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Mostra/Nasconti commenti"
+
+#, fuzzy
 #~ msgid "Date of change of month: "
 #~ msgstr "Nome del documento dei conti:"
 
@@ -12530,9 +12534,6 @@ msgstr ""
 
 #~ msgid "Bring together marked transactions"
 #~ msgstr "termina la registrazione"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "Visualizza/Nascondi"
 
 #~ msgid "Display/hide form"
 #~ msgstr "Mostra/Nascondi modulo"

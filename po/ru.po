@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -1112,6 +1112,7 @@ msgstr ""
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Заметки"
@@ -4248,8 +4249,7 @@ msgid "Minimum desired balance: "
 msgstr "Минимальный желаемый баланс:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Комментарии"
 
@@ -8317,7 +8317,8 @@ msgid "Edit selected transaction"
 msgstr "Изменить выбранную проводку"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+#, fuzzy
+msgid "Display scheduled transactions notes"
 msgstr "Показать комментарии к запланированным проводкам"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8474,11 +8475,11 @@ msgstr "Создать"
 msgid "Delete transaction"
 msgstr "Удалить транзакцию"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Показать комментарии к запланированным транзакциям"
+msgid "Displays/Hide notes"
+msgstr "Скрыть заметки"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11210,6 +11211,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
+
+#, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Показать комментарии к запланированным транзакциям"
 
 #, fuzzy
 #~ msgid "Date of change of month: "

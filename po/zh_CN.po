@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -1147,6 +1147,7 @@ msgstr "类别 : 子类别"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "备注"
@@ -4412,8 +4413,7 @@ msgid "Minimum desired balance: "
 msgstr "最小期望余额:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "备注"
 
@@ -8582,7 +8582,7 @@ msgstr "删除交易"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "显示定期交易"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8751,11 +8751,11 @@ msgstr "新交易"
 msgid "Delete transaction"
 msgstr "删除交易"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "显示/隐藏注释"
+msgid "Displays/Hide notes"
+msgstr "显示/隐藏表单"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11621,6 +11621,10 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "显示/隐藏注释"
+
+#, fuzzy
 #~ msgid "Date of change of month: "
 #~ msgstr "选择导入的文件:"
 
@@ -12028,9 +12032,6 @@ msgstr ""
 
 #~ msgid "fourth line"
 #~ msgstr "第四行"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "显示/隐藏表单"
 
 #~ msgid "Display/hide form"
 #~ msgstr "显示/隐藏表单"

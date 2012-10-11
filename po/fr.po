@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2012-06-11 21:01+0200\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1078,6 +1078,7 @@ msgstr "Catégories : Sous-catégories"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Remarques"
@@ -4270,8 +4271,7 @@ msgid "Minimum desired balance: "
 msgstr "Solde minimal voulu : "
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Commentaires"
 
@@ -8596,8 +8596,8 @@ msgid "Edit selected transaction"
 msgstr "Editer l'opération sélectionnée"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
-msgstr "Afficher les commentaires des opérations planifiées"
+msgid "Display scheduled transactions notes"
+msgstr "Afficher les remarques des opérations planifiées"
 
 #: ../src/gsb_scheduler_list.c:306
 msgid "Execute"
@@ -8760,10 +8760,10 @@ msgstr "Nouvelle opération"
 msgid "Delete transaction"
 msgstr "Supprimer l'opération"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
-msgstr "Afficher/Cacher les commentaires"
+msgid "Displays/Hide notes"
+msgstr "Afficher/Masquer les remarques"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346

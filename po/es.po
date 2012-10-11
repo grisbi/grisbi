@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -1103,6 +1103,7 @@ msgstr "Categorías: Subcategorías"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Anotaciones"
@@ -4324,8 +4325,7 @@ msgid "Minimum desired balance: "
 msgstr "Balance mínimo deseado: "
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Comentarios"
 
@@ -8670,7 +8670,8 @@ msgid "Edit selected transaction"
 msgstr "Editar la transacción seleccionada"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+#, fuzzy
+msgid "Display scheduled transactions notes"
 msgstr "Mostrar los comentarios de las transacciones programadas"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8838,10 +8839,11 @@ msgstr "Nueva transacción"
 msgid "Delete transaction"
 msgstr "Borrar transacción"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
-msgstr "Mostrar/Cachear comentarios"
+#, fuzzy
+msgid "Displays/Hide notes"
+msgstr "Ocultar notas"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11798,6 +11800,9 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Gestor de finanzas personal para todo el mundo\n"
+
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Mostrar/Cachear comentarios"
 
 #, fuzzy
 #~ msgid "Date of change of month: "

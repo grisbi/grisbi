@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -1149,6 +1149,7 @@ msgstr "Categorias : sub-categorias"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Notas"
@@ -4445,8 +4446,7 @@ msgid "Minimum desired balance: "
 msgstr "Saldo mínimo desejado:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Comentários"
 
@@ -8649,7 +8649,7 @@ msgstr "Apagar lançamento"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "Exibir lançamentos agendados"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8823,11 +8823,11 @@ msgstr "Novo lançamento"
 msgid "Delete transaction"
 msgstr "Apagar lançamento"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Exibit/Ocultar comentários"
+msgid "Displays/Hide notes"
+msgstr "as notas"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11708,6 +11708,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Exibit/Ocultar comentários"
 
 #, fuzzy
 #~ msgid "Date of change of month: "

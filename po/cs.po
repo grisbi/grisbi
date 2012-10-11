@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -1070,6 +1070,7 @@ msgstr "Kategorie : Podkategorie"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Pozn."
@@ -4251,8 +4252,7 @@ msgid "Minimum desired balance: "
 msgstr "Minimální požadovaný zůstatek: "
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Komentář"
 
@@ -8523,7 +8523,8 @@ msgid "Edit selected transaction"
 msgstr "Upravit vybranou transakci"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+#, fuzzy
+msgid "Display scheduled transactions notes"
 msgstr "Zobrazit komentář k plánovaným transakcím"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8685,10 +8686,11 @@ msgstr "Nová transakce"
 msgid "Delete transaction"
 msgstr "Odstranit transakci"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
-msgstr "Zobrazit/skrýt komentáře"
+#, fuzzy
+msgid "Displays/Hide notes"
+msgstr "Skrýt poznámky"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11601,6 +11603,9 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
+
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Zobrazit/skrýt komentáře"
 
 #, fuzzy
 #~ msgid "Date of change of month: "

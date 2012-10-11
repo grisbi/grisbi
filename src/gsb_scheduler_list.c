@@ -153,7 +153,7 @@ gint scheduler_current_tree_view_width = 0;
 /* toolbar */
 static GtkWidget *scheduler_toolbar;
 /** Used to display/hide comments in scheduler list */
-static GtkWidget *scheduler_display_hide_comments = NULL;
+static GtkWidget *scheduler_display_hide_notes = NULL;
 /** here are the 3 buttons on the scheduler toolbar
  * which can been unsensitive or sensitive */
 static GtkWidget *scheduler_button_execute = NULL;
@@ -290,14 +290,14 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
 
     /* Display/hide comments */
-    scheduler_display_hide_comments = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-									_("Comments"),
+    scheduler_display_hide_notes = gsb_automem_imagefile_button_new ( conf.display_toolbar,
+									_("Notes"),
 									"comments.png",
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_comments),
-				  _("Display scheduled transactions comments"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_comments, 
+    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_notes),
+				  _("Display scheduled transactions notes"));
+    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_notes,
 			 FALSE, FALSE, 0 );
 
     /* Execute transaction */
@@ -510,7 +510,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
     gint i;
     gchar *scheduler_titles[] = {
 	_("Date"), _("Account"), _("Payee"), _("Frequency"),
-	_("Mode"), _("Comments"), _("Amount"), _("Balance")
+	_("Mode"), _("Notes"), _("Amount"), _("Balance")
     };
     gfloat col_justs[] = {
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER,
@@ -2328,8 +2328,8 @@ void popup_scheduled_context_menu ( void )
     /* Separator */
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
-    /* Display/hide comments */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Displays/Cache comments") );
+    /* Display/hide notes */
+    menu_item = gtk_image_menu_item_new_with_label ( _("Displays/Hide notes") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
                         "comments.png", NULL ) ) );

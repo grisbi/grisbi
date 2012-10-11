@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -1181,6 +1181,7 @@ msgstr "Categorii : Sub-categorii"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Observaţii"
@@ -4469,8 +4470,7 @@ msgid "Minimum desired balance: "
 msgstr "Sold minim vrut:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Comentarii"
 
@@ -8679,7 +8679,7 @@ msgstr "Suprima operaţiunea"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "Afişarea operaţiunilor planificate"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8854,11 +8854,11 @@ msgstr "O nouă operaţiune"
 msgid "Delete transaction"
 msgstr "Suprima operaţiunea"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Afişa/masca comentariile"
+msgid "Displays/Hide notes"
+msgstr "Afişare/Masca formularului"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11739,6 +11739,10 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Afişa/masca comentariile"
+
+#, fuzzy
 #~ msgid "Date of change of month: "
 #~ msgstr "Creaţia unui nume de fişier de conturi:"
 
@@ -12635,9 +12639,6 @@ msgstr ""
 
 #~ msgid "Bring together marked transactions"
 #~ msgstr "A regrupa operaţiile marcate"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "Afişare/Masca formularului"
 
 #~ msgid "Display/hide form"
 #~ msgstr "Afişa/masca formularul"

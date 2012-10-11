@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:17+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -1074,6 +1074,7 @@ msgstr "Kategorijas: apakškategorijas"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Piezīmes"
@@ -4244,8 +4245,7 @@ msgid "Minimum desired balance: "
 msgstr "Minimālā vēlamā bilance:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Komentāri"
 
@@ -8489,7 +8489,8 @@ msgid "Edit selected transaction"
 msgstr "Rediģēt izvēlēto darījumu"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+#, fuzzy
+msgid "Display scheduled transactions notes"
 msgstr "Lauks paredzēts darījumu komentāriem"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8651,10 +8652,11 @@ msgstr "Jauns darījums"
 msgid "Delete transaction"
 msgstr "Dzēst darījumus"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
-msgstr "Rādīt/Slēpt komentārus"
+#, fuzzy
+msgid "Displays/Hide notes"
+msgstr "Paslēpt piezīmes"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11553,3 +11555,5 @@ msgstr ""
 msgid "Personnal finances manager"
 msgstr "Personīgais finanšu pārvaldnieks"
 
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Rādīt/Slēpt komentārus"

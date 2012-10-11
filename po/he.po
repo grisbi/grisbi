@@ -283,7 +283,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2006-02-11 16:08+0200\n"
 "Last-Translator: dotan\n"
 "Language-Team: <en@li.org>\n"
@@ -1425,6 +1425,7 @@ msgstr "קטגוריות : תתי-קטגוריות"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "הערות"
@@ -4706,8 +4707,7 @@ msgid "Minimum desired balance: "
 msgstr "יתרה מינימלית רצויה:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "הערות"
 
@@ -8890,7 +8890,7 @@ msgstr "מחיקת עיסקה"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "הצגת עיסקאות מתוכננות"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -9058,11 +9058,11 @@ msgstr "עיסקה חדשה"
 msgid "Delete transaction"
 msgstr "מחיקת עיסקה"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "הצגת/הסתרת הערות"
+msgid "Displays/Hide notes"
+msgstr "הצגת/הסתרת טופס"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11934,6 +11934,10 @@ msgid "Personnal finances manager"
 msgstr ""
 
 #, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "הצגת/הסתרת הערות"
+
+#, fuzzy
 #~ msgid "Date of change of month: "
 #~ msgstr "שם קובץ החשבונות:"
 
@@ -12795,9 +12799,6 @@ msgstr ""
 
 #~ msgid "Bring together marked transactions"
 #~ msgstr "איחוד עיסקאות מסומנות"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "הצגת/הסתרת טופס"
 
 #~ msgid "Display/hide form"
 #~ msgstr "הצגת/הסתרת טופס"

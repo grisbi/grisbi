@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1164,6 +1164,7 @@ msgstr "Categorieën : Sub-categorieën"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Aantekeningen"
@@ -4467,8 +4468,7 @@ msgid "Minimum desired balance: "
 msgstr "Minimaal gewenst bedrag:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Opmerkingen"
 
@@ -8709,7 +8709,7 @@ msgstr "Verwijder transactie"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "Toon geplande transactie"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8880,11 +8880,11 @@ msgstr "Nieuwe transactie"
 msgid "Delete transaction"
 msgstr "Verwijder transactie"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Toon/verberg commentaar"
+msgid "Displays/Hide notes"
+msgstr "Toon/verberg formulier"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11790,6 +11790,10 @@ msgstr ""
 msgid "Personnal finances manager"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Toon/verberg commentaar"
+
 # titel van scherm bij het opslaan met een nieuwe naam (dus ook bij de eerste
 # keer)
 #, fuzzy
@@ -12681,9 +12685,6 @@ msgstr ""
 
 #~ msgid "Bring together marked transactions"
 #~ msgstr "Voeg gemarkeerde transacties samen"
-
-#~ msgid "Display/Hide form"
-#~ msgstr "Toon/verberg formulier"
 
 #~ msgid "Display/hide form"
 #~ msgstr "Toon/verberg formulier"

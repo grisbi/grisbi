@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1048,6 +1048,7 @@ msgstr ""
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr ""
@@ -4068,8 +4069,7 @@ msgid "Minimum desired balance: "
 msgstr ""
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr ""
 
@@ -7989,7 +7989,7 @@ msgid "Edit selected transaction"
 msgstr ""
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr ""
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8144,9 +8144,9 @@ msgstr ""
 msgid "Delete transaction"
 msgstr ""
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
+msgid "Displays/Hide notes"
 msgstr ""
 
 #. Execute transaction

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2006-03-25 13:23+0100\n"
 "Last-Translator: Dmitri Popov <dmpop@openoffice.org>\n"
 "Language-Team: \n"
@@ -1137,6 +1137,7 @@ msgstr "Kategorier: Underkategorier"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Noter"
@@ -4319,8 +4320,7 @@ msgid "Minimum desired balance: "
 msgstr "Konti under det ønskede minimumsbeløb:"
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Kommentarer"
 
@@ -8396,7 +8396,7 @@ msgstr "Opret en planlagt transaktion"
 
 #: ../src/gsb_scheduler_list.c:299
 #, fuzzy
-msgid "Display scheduled transactions comments"
+msgid "Display scheduled transactions notes"
 msgstr "Lukkede planlagte transaktioner"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8560,11 +8560,11 @@ msgstr ""
 msgid "Delete transaction"
 msgstr ""
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
 #, fuzzy
-msgid "Displays/Cache comments"
-msgstr "Vis/Skjul formular"
+msgid "Displays/Hide notes"
+msgstr "Noter"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11358,6 +11358,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Vis/Skjul formular"
 
 #, fuzzy
 #~ msgid "Date of change of month: "

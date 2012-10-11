@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-10 21:09+0200\n"
+"POT-Creation-Date: 2012-10-11 19:57+0200\n"
 "PO-Revision-Date: 2012-10-09 20:17+0200\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1072,6 +1072,7 @@ msgstr "Kategorien : Unterkategorien"
 #. Notes
 #: ../src/bet_future.c:811 ../src/etats_affiche.c:2450 ../src/export_csv.c:820
 #: ../src/gsb_bank.c:941 ../src/gsb_form.c:1347 ../src/gsb_form_widget.c:452
+#: ../src/gsb_scheduler_list.c:294 ../src/gsb_scheduler_list.c:513
 #: ../src/gsb_transactions_list.c:184 ../src/import_csv.c:84
 msgid "Notes"
 msgstr "Notizen"
@@ -4259,8 +4260,7 @@ msgid "Minimum desired balance: "
 msgstr "Mindestsaldo festgelegt: "
 
 #. comments line
-#: ../src/gsb_account_property.c:565 ../src/gsb_scheduler_list.c:294
-#: ../src/gsb_scheduler_list.c:513
+#: ../src/gsb_account_property.c:565
 msgid "Comments"
 msgstr "Notizen"
 
@@ -8594,7 +8594,8 @@ msgid "Edit selected transaction"
 msgstr "Die selektierte Buchung bearbeiten"
 
 #: ../src/gsb_scheduler_list.c:299
-msgid "Display scheduled transactions comments"
+#, fuzzy
+msgid "Display scheduled transactions notes"
 msgstr "Notizen in der Buchungsübersicht anzeigen"
 
 #: ../src/gsb_scheduler_list.c:306
@@ -8757,10 +8758,11 @@ msgstr "Neue Buchung"
 msgid "Delete transaction"
 msgstr "Buchung löschen"
 
-#. Display/hide comments
+#. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2332
-msgid "Displays/Cache comments"
-msgstr "Notizen in der Buchungsübersicht anzeigen"
+#, fuzzy
+msgid "Displays/Hide notes"
+msgstr "Notizen von Buchungen"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2346
@@ -11719,6 +11721,9 @@ msgstr "Beschriftung anzeigen"
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Finanzprogramm für Privatpersonen"
+
+#~ msgid "Displays/Cache comments"
+#~ msgstr "Notizen in der Buchungsübersicht anzeigen"
 
 #~ msgid "Date of change of month: "
 #~ msgstr "Datum der Monatsänderung: "
