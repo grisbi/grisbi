@@ -1446,6 +1446,9 @@ void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
     gtk_box_pack_start ( GTK_BOX ( self->box ), self->button, TRUE, TRUE, 0 );
 
     gsb_file_set_modified ( TRUE );
+
+    /* on lance le graphique */
+    gtk_button_clicked ( GTK_BUTTON ( self->button ) );
 }
 
 
