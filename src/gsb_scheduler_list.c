@@ -232,8 +232,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     /* create the columns */
     gsb_scheduler_list_create_list_columns (tree_view);
 
-    /* begin by hiding the notes (set to 1 because !1 in the function */
-    etat.affichage_commentaire_echeancier = 1;
+    /* begin by hiding the notes */
     gsb_scheduler_list_show_notes ();
 
     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
@@ -296,7 +295,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 									G_CALLBACK ( gsb_scheduler_list_show_notes ),
 									0 );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_notes),
-				  _("Display scheduled transactions notes"));
+				  _("Display the notes of scheduled transactions") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_notes,
 			 FALSE, FALSE, 0 );
 
@@ -510,7 +509,7 @@ void gsb_scheduler_list_create_list_columns ( GtkWidget *tree_view )
     gint i;
     gchar *scheduler_titles[] = {
 	_("Date"), _("Account"), _("Payee"), _("Frequency"),
-	_("Mode"), _("Notes"), _("Amount"), _("Balance")
+	_("Mode"), _("Notes"), _("Amount")
     };
     gfloat col_justs[] = {
 	COLUMN_CENTER, COLUMN_LEFT, COLUMN_LEFT, COLUMN_CENTER,
@@ -785,7 +784,26 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
  */
 gboolean gsb_scheduler_list_show_notes ( void )
 {
-    etat.affichage_commentaire_echeancier = !etat.affichage_commentaire_echeancier;
+    if ( scheduler_display_hide_notes )
+    {
+        if ( conf.display_toolbar != GSB_BUTTON_ICON )
+        {
+            GtkWidget *label;
+
+            label = g_object_get_data ( G_OBJECT ( scheduler_display_hide_notes ), "label" );
+            if ( etat.affichage_commentaire_echeancier )
+                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("Frequency/Mode") );
+            else
+                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("Notes") );
+        }
+
+        if ( etat.affichage_commentaire_echeancier )
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
+                _("Display the frequency and mode of scheduled transactions") );
+        else
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
+                _("Display the notes of scheduled transactions") );
+    }
 
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
 				       !etat.affichage_commentaire_echeancier );
@@ -793,6 +811,9 @@ gboolean gsb_scheduler_list_show_notes ( void )
 				       !etat.affichage_commentaire_echeancier );
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_NOTES] ),
 				       etat.affichage_commentaire_echeancier );
+
+    etat.affichage_commentaire_echeancier = !etat.affichage_commentaire_echeancier;
+
     return FALSE;
 }
 

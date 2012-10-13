@@ -92,7 +92,10 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
 
 GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, const gchar * name )
 {
-    GtkWidget * vbox, *hbox, * label, * image;
+    GtkWidget *vbox;
+    GtkWidget *hbox;
+    GtkWidget *label = NULL;
+    GtkWidget *image;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
     hbox = gtk_hbox_new ( FALSE, 0 );
@@ -134,6 +137,9 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
         gtk_box_pack_start ( GTK_BOX(vbox), hbox, TRUE, TRUE, 0 );
     }
     gtk_widget_show_all ( vbox );
+
+    /* permettra de changer le label du bouton */
+    g_object_set_data ( G_OBJECT ( vbox ), "label", label );
 
     return vbox;
 }

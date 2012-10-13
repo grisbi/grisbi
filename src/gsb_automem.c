@@ -856,15 +856,22 @@ GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
  *
  */
 GtkWidget *gsb_automem_imagefile_button_new ( GsbButtonStyle style,
-					      const gchar * name, const gchar * filename,
-					      GCallback callback, gpointer data )
+                        const gchar *name,
+                        const gchar *filename,
+                        GCallback callback,
+                        gpointer data )
 {
-    GtkWidget * button, *vbox;
+    GtkWidget *vbox;
+    GtkWidget *button;
+    GtkWidget *label;
 
     vbox = new_image_label ( style, filename, name );
 
+    label = g_object_get_data ( G_OBJECT ( vbox ), "label" );
+
     button = gtk_button_new ();
     gtk_button_set_relief ( GTK_BUTTON(button), GTK_RELIEF_NONE );
+    g_object_set_data ( G_OBJECT ( button ), "label", label );
 
     gtk_container_add ( GTK_CONTAINER(button), vbox );
     gtk_widget_show_all ( button );
