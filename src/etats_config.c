@@ -6556,8 +6556,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     entree_nom_etat = gtk_entry_new ();
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 entree_nom_etat,
-			 FALSE,
-			 FALSE,
+			 TRUE,
+			 TRUE,
 			 0 );
     gtk_widget_show ( entree_nom_etat );
 
