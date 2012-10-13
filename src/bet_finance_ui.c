@@ -1612,7 +1612,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     struct_amortissement *s_amortissement;
     gboolean amortization_initial_date;
 
-    devel_debug ( NULL );
+/*     devel_debug ( NULL );  */
     if ( gsb_gui_navigation_get_current_account ( ) != account_number )
         return;
 
@@ -1820,7 +1820,7 @@ GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
 
         /* création du bouton afficher le simulateur de crédits */
         button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                        _("Amortization"),
+                        _("Start date"),
                         "ac_liability_16.png",
                         NULL,
                         NULL );
@@ -1941,7 +1941,18 @@ void bet_finance_switch_amortization_initial_date ( GtkWidget *widget, GtkWidget
         tmp_button = widget;
     else
         tmp_button = g_object_get_data ( G_OBJECT ( tree_view ), "amortization_initial_date_button" );
-    
+
+        if ( conf.display_toolbar != GSB_BUTTON_ICON )
+        {
+            GtkWidget *label;
+
+            label = g_object_get_data ( G_OBJECT ( tmp_button ), "label" );
+            if ( amortization_initial_date )
+                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("At today") );
+            else
+                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("Start date") );
+        }
+
     if ( amortization_initial_date )
             gtk_widget_set_tooltip_text ( GTK_WIDGET ( tmp_button ), _("Show amortization schedule to date") );
     else
