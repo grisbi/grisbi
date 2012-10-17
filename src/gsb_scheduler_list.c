@@ -2350,7 +2350,11 @@ void popup_scheduled_context_menu ( void )
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new ( ) );
 
     /* Display/hide notes */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Displays/Hide notes") );
+    if ( etat.affichage_commentaire_echeancier )
+        menu_item = gtk_image_menu_item_new_with_label ( _("Displays notes") );
+    else
+        menu_item = gtk_image_menu_item_new_with_label ( _("Displays Frequency/Mode") );
+
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
                         "comments.png", NULL ) ) );

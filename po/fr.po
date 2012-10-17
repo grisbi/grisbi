@@ -8606,7 +8606,7 @@ msgstr "Editer l'opération sélectionnée"
 
 #: ../src/gsb_scheduler_list.c:298 ../src/gsb_scheduler_list.c:805
 msgid "Display the notes of scheduled transactions"
-msgstr "Afficher les notes des opérations planifiées"
+msgstr "Afficher les remarques des opérations planifiées"
 
 #: ../src/gsb_scheduler_list.c:305
 msgid "Execute"
