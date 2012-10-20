@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-13 13:09+0200\n"
-"PO-Revision-Date: 2012-10-09 20:17+0200\n"
+"PO-Revision-Date: 2012-10-20 23:23+0200\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -901,9 +901,8 @@ msgid "Credits"
 msgstr "Einnahmen"
 
 #: ../src/bet_finance_ui.c:1823 ../src/bet_finance_ui.c:1953
-#, fuzzy
 msgid "Start date"
-msgstr "Beginndatum: "
+msgstr "Beginndatum"
 
 #: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1931 ../src/bet_tab.c:2974
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:381
@@ -926,9 +925,8 @@ msgid "Cannot save file."
 msgstr "Datei kann nicht gespeichert werden."
 
 #: ../src/bet_finance_ui.c:1951
-#, fuzzy
 msgid "At today"
-msgstr "aktuelles Datum"
+msgstr "heutiges Datum"
 
 #: ../src/bet_finance_ui.c:1995 ../src/gsb_scheduler_list.c:2137
 msgid "months"
@@ -1305,7 +1303,7 @@ msgstr "aktuelles Geschäftsjahr"
 
 #: ../src/bet_hist.c:643
 msgid "Amount retained"
-msgstr "einbehaltener Betrag"
+msgstr "manuelle Eingabe"
 
 #. devel_debug (NULL);
 #. the fyear list store, contains 3 columns :
@@ -1319,7 +1317,7 @@ msgstr "Zeitspanne von 12 Monaten"
 #. Add last amount menu
 #: ../src/bet_hist.c:1477
 msgid "Assign the amount of the last operation"
-msgstr "Den Betrag von der letzten Aktion zuordnen"
+msgstr "Den Betrag von der letzten Buchung eintragen"
 
 #. Add average amount menu
 #: ../src/bet_hist.c:1500
@@ -8605,9 +8603,8 @@ msgid "Edit selected transaction"
 msgstr "Die selektierte Buchung bearbeiten"
 
 #: ../src/gsb_scheduler_list.c:298 ../src/gsb_scheduler_list.c:805
-#, fuzzy
 msgid "Display the notes of scheduled transactions"
-msgstr "Die Darstellung ändern"
+msgstr "Zeigt die Spalte Notizen an"
 
 #: ../src/gsb_scheduler_list.c:305
 msgid "Execute"
@@ -8654,14 +8651,12 @@ msgid "Mode"
 msgstr "Art"
 
 #: ../src/gsb_scheduler_list.c:795
-#, fuzzy
 msgid "Frequency/Mode"
-msgstr "Frequenz"
+msgstr "Frequenz / Art"
 
 #: ../src/gsb_scheduler_list.c:802
-#, fuzzy
 msgid "Display the frequency and mode of scheduled transactions"
-msgstr "Die Darstellung ändern"
+msgstr "Zeigt die Spalten Frequenz und Art an"
 
 #: ../src/gsb_scheduler_list.c:1112
 #, c-format
@@ -8781,9 +8776,8 @@ msgstr "Buchung löschen"
 
 #. Display/hide notes
 #: ../src/gsb_scheduler_list.c:2353
-#, fuzzy
 msgid "Displays/Hide notes"
-msgstr "Notizen von Buchungen"
+msgstr "Notizen ein/ausblenden"
 
 #. Execute transaction
 #: ../src/gsb_scheduler_list.c:2367
@@ -10345,7 +10339,7 @@ msgid "Use payee: \"%s\" to find the transactions"
 msgstr "Verwenden Sie den Empfänger: \"%s\" um die Buchungen zu finden"
 
 #: ../src/metatree.c:3738
-#, fuzzy, c-format
+#, c-format
 msgid "Use note: \"%s\" to find the transactions"
 msgstr "Verwenden Sie die Notiz: \"%s\" um die Buchungen zu finden"
 
