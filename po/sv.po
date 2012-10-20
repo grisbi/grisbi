@@ -3,7 +3,7 @@
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
