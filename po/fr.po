@@ -46,7 +46,7 @@ msgstr "Comptes sous le solde autorisé"
 
 #: ../src/accueil.c:254
 msgid "Accounts under desired balance"
-msgstr "Comptes sous le solde minimum voulu"
+msgstr "Comptes sous le solde minimal voulu"
 
 #. Create the dialog
 #: ../src/accueil.c:301
@@ -137,40 +137,40 @@ msgstr "%s Débité sur %s"
 #: ../src/accueil.c:1701
 #, c-format
 msgid "balance of account %s is under desired and authorised minima!"
-msgstr "le compte %s est passé sous les seuils minimums autorisés et voulus !"
+msgstr "le compte %s est passé sous les seuils minimaux autorisés et voulus !"
 
 #: ../src/accueil.c:1705
 msgid ""
 "accounts with the balance under desired and authorised minimal :\n"
 "\n"
 msgstr ""
-"compte dont le solde est sous les seuils minimums autorisés et voulus :\n"
+"compte dont le solde est sous les seuils minimauxs autorisés et voulus :\n"
 "\n"
 
 #: ../src/accueil.c:1734
 #, c-format
 msgid "balance of account %s is under authorised minimum!"
-msgstr "le solde du compte %s est passé sous le seuil minimum autorisé !"
+msgstr "le solde du compte %s est passé sous le seuil minimal autorisé !"
 
 #: ../src/accueil.c:1744
 msgid ""
 "accounts with the balance under authorised minimal :\n"
 "\n"
 msgstr ""
-"comptes dont le solde est passé sous seuil minimum autorisé :\n"
+"comptes dont le solde est passé sous seuil minimal autorisé :\n"
 "\n"
 
 #: ../src/accueil.c:1776
 #, c-format
 msgid "balance of account %s is under desired minimum!"
-msgstr "le compte %s est passé sous le seuil minimum voulu !"
+msgstr "le compte %s est passé sous le seuil minimal voulu !"
 
 #: ../src/accueil.c:1786
 msgid ""
 "accounts with the balance under desired minimal :\n"
 "\n"
 msgstr ""
-"comptes dont le solde est sous le seuil minimum voulu :\n"
+"comptes dont le solde est sous le seuil minimal voulu :\n"
 "\n"
 
 #: ../src/accueil.c:1978
@@ -488,7 +488,7 @@ msgstr "Ne pas autoriser la création de nouvelles catégories/Imputations B."
 #: ../src/affichage_liste.c:637
 msgid "Maximum items showed in drop down lists (0 for no limit): "
 msgstr ""
-"Nombre maximum de lignes dans les menus déroulants (0 pas de limite) : "
+"Nombre maximal de lignes dans les menus déroulants (0 pas de limite) : "
 
 #. à la base, on met une vbox
 #: ../src/affichage_liste.c:803 ../src/parametres.c:450
@@ -1739,12 +1739,12 @@ msgstr ""
 
 #: ../src/dialog.c:78
 msgid "Account under desired balance."
-msgstr "Comptes sous le solde minimum voulu"
+msgstr "Comptes sous le solde minimal voulu"
 
 #: ../src/dialog.c:79
 #, c-format
 msgid "Grisbi detected that an account is under a desired balance: %s"
-msgstr "Grisbi a détecté qu'un compte est sous le solde minimum voulu: %s"
+msgstr "Grisbi a détecté qu'un compte est sous le solde minimal voulu: %s"
 
 #: ../src/dialog.c:82
 msgid "No budgetary line was entered"
