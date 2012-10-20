@@ -29,9 +29,10 @@ INCLUDE (CheckIncludeFiles)
 #on verifie que le programme existe
 INCLUDE (${PROJECT_SOURCE_DIR}/modules_cmake/FindMsgfmt.cmake)
 
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName})
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName}/plugins)
-SET(PACKAGE_NAME grisbi)
+SET (EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/target/${PlateformName}/package)
+SET (LIBRARY_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/lib)
+SET (SHARE_OUTPUT_PATH ${EXECUTABLE_OUTPUT_PATH}/share)
+SET (PACKAGE_NAME grisbi)
 set (grisbi_MAJOR 0)
 set (grisbi_MINOR 9)
 set (grisbi_PATCH 5)
@@ -40,22 +41,28 @@ MARK_AS_ADVANCED(LIBRARY_OUTPUT_PATH)
 MARK_AS_ADVANCED(grisbi_version)
 
 configure_file (config.h.cmake config.h)
-SET (MINGW_DIR C:/MinGW)
-SET (MYSYS_DIR ${MINGW_DIR}/msys/1.0)
+SET (MINGW_DIR C:\MinGW)
+SET (GRISBI_SRC_DIR C:\grisbi\src)
+SET (GTK_DEV_PATH ${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev)
+SET (PLUGINS_DEV_PATH ${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev)
+SET (OPENSSL_DIR C:/OpenSSL-Win32)
 INCLUDE_DIRECTORIES(
-	${MINGW_DIR}/include
-	${MINGW_DIR}/include/atk-1.0
-	${MINGW_DIR}/include/cairo
-	${MINGW_DIR}/include/gtk-2.0
-	${MINGW_DIR}/lib/gtk-2.0/include
-	${MINGW_DIR}/include/glib-2.0
-	${MINGW_DIR}/lib/glib-2.0/include
-	${MINGW_DIR}/include/pango-1.0
-	${MINGW_DIR}/include/gdk-pixbuf-2.0
-	${MYSYS_DIR}/local/include/
-	${MYSYS_DIR}/local/include/libxml2/include
-	${MYSYS_DIR}/local/include/libgoffice-0.8/
-	${MINGW_DIR}/include/libgsf-1
+    ${GTK_DEV_PATH}/include
+	${GTK_DEV_PATH}/include/atk-1.0
+	${GTK_DEV_PATH}/include/cairo
+	${GTK_DEV_PATH}/include/gtk-2.0
+	${GTK_DEV_PATH}/lib/gtk-2.0/include
+	${GTK_DEV_PATH}/include/glib-2.0
+	${GTK_DEV_PATH}/lib/glib-2.0/include
+	${GTK_DEV_PATH}/include/pango-1.0
+	${GTK_DEV_PATH}/include/gdk-pixbuf-2.0
+	${PLUGINS_DEV_PATH}/libofx/include
+	${PLUGINS_DEV_PATH}/libxml2/include/libxml2
+	${PLUGINS_DEV_PATH}/iconv/include
+	${PLUGINS_DEV_PATH}/openssl/include
+	${PLUGINS_DEV_PATH}/libgoffice/include/libgoffice-0.8
+	${PLUGINS_DEV_PATH}/libgsf-1/include/libgsf-1
+	${OPENSSL_DIR}/include/
 	${PROJECT_SOURCE_DIR}/../win32
 	${PROJECT_SOURCE_DIR}/../win32-msvc/src
 	${PROJECT_SOURCE_DIR}
@@ -66,11 +73,16 @@ INCLUDE_DIRECTORIES(
 	${PROJECT_BINARY_DIR}
 )
 LINK_DIRECTORIES(
-#	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/openssl/lib
-#	${PROJECT_SOURCE_DIR}/target/${PlateformName}/plugins-dev/openssl/lib/VC
-	${MYSYS_DIR}/local/lib
-	${MYSYS_DIR}/local/bin
-	${MINGW}/bin
+	${PROJECT_SOURCE_DIR}/target/${PlateformName}/gtk-dev/lib
+	${PLUGINS_DEV_PATH}/libofx/bin
+	${PLUGINS_DEV_PATH}/libofx/lib
+	${PLUGINS_DEV_PATH}/libxml2/bin
+	${PLUGINS_DEV_PATH}/libxml2/lib
+	${PLUGINS_DEV_PATH}/iconv/lib
+	${PLUGINS_DEV_PATH}/openssl/lib
+	${PLUGINS_DEV_PATH}/openssl/lib/VC
+    ${PLUGINS_DEV_PATH}/libgoffice/bin
+    ${PLUGINS_DEV_PATH}/libgoffice/lib
 	${PROJECT_SOURCE_DIR}
 	${PROJECT_BINARY_DIR}
 )
@@ -176,10 +188,9 @@ ADD_LIBRARY ( ofx
 
 ADD_CUSTOM_COMMAND ( TARGET ofx
 	POST_BUILD
-	#COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/${TargetDir}/ofx.dll ${PROJECT_BINARY_DIR}//target/${PlateformName}/plugins
-	COMMAND ${CMAKE_COMMAND} -E copy ${MYSYS_DIR}/local/bin/libofx-5.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	COMMAND ${CMAKE_COMMAND} -E copy ${MYSYS_DIR}/local/bin/libosp-5.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${MYSYS_DIR}/local/libofx/dtd ${PROJECT_BINARY_DIR}/target/${PlateformName}/dtd
+	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libofx/bin/libofx-4.dll ${EXECUTABLE_OUTPUT_PATH}
+	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libofx/bin/libosp-5.dll ${EXECUTABLE_OUTPUT_PATH}
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libofx/bin/dtd ${SHARE_OUTPUT_PATH}/libofx/dtd
 )
 
 ADD_LIBRARY ( gnucash
@@ -190,9 +201,8 @@ ADD_LIBRARY ( gnucash
 
 ADD_CUSTOM_COMMAND ( TARGET gnucash
 	POST_BUILD
-	#COMMAND ${CMAKE_COMMAND} -E copy  ${PROJECT_SOURCE_DIR}/${TargetDir}/gnucash.dll target\\${PlateformName}\\${OutDir}\\plugins
-	COMMAND ${CMAKE_COMMAND} -E copy ${MYSYS_DIR}/local/bin/libxml2-2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libiconv-2.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libxml2/bin/libxml2-2.dll ${EXECUTABLE_OUTPUT_PATH}
+	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/iconv/bin/iconv.dll ${EXECUTABLE_OUTPUT_PATH}
 )
 
 ADD_LIBRARY ( openssl
@@ -203,9 +213,8 @@ ADD_LIBRARY ( openssl
 
 ADD_CUSTOM_COMMAND ( TARGET openssl
 	POST_BUILD
-	#COMMAND ${CMAKE_COMMAND} -E copy  ${PROJECT_SOURCE_DIR}/target/openssl.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}/plugins
-	COMMAND ${CMAKE_COMMAND} -E copy  ${MYSYS_DIR}/local/bin/libeay32.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-	COMMAND ${CMAKE_COMMAND} -E copy  ${MYSYS_DIR}/local/bin/ssleay32.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
+	COMMAND ${CMAKE_COMMAND} -E copy  ${OPENSSL_DIR}/bin/libeay32.dll ${EXECUTABLE_OUTPUT_PATH}
+	COMMAND ${CMAKE_COMMAND} -E copy  ${OPENSSL_DIR}/bin/ssleay32.dll ${EXECUTABLE_OUTPUT_PATH}
 )
 
 # ADD_DEPENDENCIES (ofx grisbi)
@@ -213,7 +222,7 @@ ADD_CUSTOM_COMMAND ( TARGET openssl
 TARGET_LINK_LIBRARIES (ofx
 	glib-2.0
 	intl
-	libofx-5
+	libofx-4
 #    grisbi
 )
 
@@ -223,7 +232,7 @@ TARGET_LINK_LIBRARIES (gnucash
 	intl
 #	grisbi
 	libxml2-2
-	libiconv
+	iconv
 )
 # ADD_DEPENDENCIES (openssl grisbi)
 # SET_TARGET_PROPERTIES(openssl PROPERTIES LINK_FLAGS -enable-auto-import)
@@ -243,35 +252,43 @@ ADD_CUSTOM_TARGET (prepare_env COMMENT "preparation")
 
 ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../pixmaps ${PROJECT_BINARY_DIR}/target/${PlateformName}/pixmaps
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../help ${PROJECT_BINARY_DIR}/target/${PlateformName}/help
-	COMMAND ${CMAKE_COMMAND} -E copy ${MYSYS_DIR}/local/bin/libgoffice-0.8-8.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/freetype6.dll ${PROJECT_BINARY_DIR}/target/${PlateformName} 
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/intl.dll ${PROJECT_BINARY_DIR}/target/${PlateformName}
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libatk-1.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}     
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libcairo-2.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}      
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libexpat-1.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}    
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libfontconfig-1.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgcc_s_dw2-1.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}   
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgdk-win32-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgdk_pixbuf-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgio-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}   
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libglib-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}    
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgmodule-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgobject-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgsf-1-114.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}    
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgthread-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libgtk-win32-2.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}   
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libiconv-2.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libpango-1.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}   
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libpangocairo-1.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libpangoft2-1.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libpangowin32-1.0-0.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libpng14-14.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}  
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libstdc++-6.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName} 
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/pcre3.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}   
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/pthreadgc2.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName}    
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/zlib1.dll  ${PROJECT_BINARY_DIR}/target/${PlateformName} 
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../pixmaps ${EXECUTABLE_OUTPUT_PATH}/pixmaps
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../help ${EXECUTABLE_OUTPUT_PATH}/help
+
+    COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/iconv/bin/iconv.dll  ${EXECUTABLE_OUTPUT_PATH}
+	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libgoffice/bin/libgoffice-0.8-8.dll ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libgsf-1/bin/libgsf-1-114.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libstdc++-6.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/pcre/bin/pcre3.dll  ${EXECUTABLE_OUTPUT_PATH}
+
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/freetype6.dll ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/intl.dll ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libatk-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libcairo-2.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libexpat-1.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libfontconfig-1.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgcc_s_dw2-1.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgdk-win32-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgdk_pixbuf-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgio-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libglib-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgmodule-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgobject-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgthread-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libgtk-win32-2.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpango-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpangocairo-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpangoft2-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpangowin32-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpng14-14.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/pthreadgc2.dll  ${EXECUTABLE_OUTPUT_PATH}/pthread2.dll
+    COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/zlib1.dll  ${EXECUTABLE_OUTPUT_PATH}
+
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/lib/goffice ${LIBRARY_OUTPUT_PATH}/goffice
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/share/goffice ${SHARE_OUTPUT_PATH}/goffice
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../share/categories ${SHARE_OUTPUT_PATH}/categories
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../src/ui ${SHARE_OUTPUT_PATH}/ui
+
 )
 
 if (HELLO_NLS_ENABLED)
@@ -286,7 +303,7 @@ if (HELLO_NLS_ENABLED)
 	endforeach (HDR ${Hello_I18N_HEADERS})
 	add_custom_target (prepare_mo COMMENT "Building i18n messages.")
 	file(GLOB po_files ${PROJECT_SOURCE_DIR}/../po/*.po)
-	add_custom_command (TARGET prepare_mo COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/target/lib/locale)
+	add_custom_command (TARGET prepare_mo COMMAND ${CMAKE_COMMAND} -E make_directory ${EXECUTABLE_OUTPUT_PATH}/lib/locale)
 
 	foreach (current_po ${po_files})
 		get_filename_component(
@@ -294,10 +311,10 @@ if (HELLO_NLS_ENABLED)
 			${current_po}
 			NAME_WE
 		)
-		set(mo_file ${PROJECT_BINARY_DIR}/target/${PlateformName}/lib/locale/${lang}/LC_MESSAGES/${PACKAGE_NAME}.mo)
+		set(mo_file ${EXECUTABLE_OUTPUT_PATH}/lib/locale/${lang}/LC_MESSAGES/${PACKAGE_NAME}.mo)
 		add_custom_command(TARGET prepare_mo
 			POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/target/${PlateformName}/lib/locale/${lang}/LC_MESSAGES
+			COMMAND ${CMAKE_COMMAND} -E make_directory ${EXECUTABLE_OUTPUT_PATH}/lib/locale/${lang}/LC_MESSAGES
 			COMMAND ${MSGFMT_EXECUTABLE} -c ${current_po} -o ${mo_file}
 			DEPENDS ${current_po}
 		)

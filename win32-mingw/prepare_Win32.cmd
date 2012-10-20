@@ -1,16 +1,20 @@
 @echo off
+cd %GRISBISRC%
 ::DEFINITION DES VERSIONS
 :: Change the next lines to choose which gtk+ version you download.
 :: Choose runtime version posterior to dev version
-::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/
+::    Get this file name from http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/gtk+-bundle_2.24.10-20120208_win32.zip
 ::    Specify the BUNDLE file
 ::    Don't include the extension
-SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.18.7-20100213_win32
-:: gtk+-bundle_2.24.5-20110713_win32.zip
+SET GTK_DEV_FILE_BASENAME=gtk+-bundle_2.24.10-20120208_win32
+SET GTK_DEV_BUNDLE_VERSION=2.24
 SET ZLIB_DEV_FILE_BASENAME%=zlib_1.2.5-2_win32
-SET LIBXML_FILE_BASENAME=libxml2-2.7.8.win32
+SET LIBXML_FILE_BASENAME=libxml2_2.9.0-1_win32
+SET LIBXML_FILE_DEV_NAME=libxml2-dev_2.9.0-1_win32
 SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
-SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0e
+SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0j
+SET LIBGSF_FILE_BASENAME=libgsf_1.14.17-1_win32
+SET LIBGSF_FILE_DEV_NAME=libgsf-dev_1.14.17-1_win32
 
 :: The rest of the script should do the rest
 ::on met chcp 1252 qpour les wget car ils affiche en francais
@@ -18,28 +22,33 @@ SET CURRENT_DIR=%CD%
 IF NOT EXIST target MKDIR target
 IF NOT EXIST target\Win32 MKDIR target\Win32
 SET TARGET_DIR=%CURRENT_DIR%\target\Win32
+IF NOT EXIST target\Win32\plugins-dev MKDIR target\Win32\plugins-dev
 IF NOT EXIST downloads MKDIR downloads
 SET DOWNLOADS_DIR=%CURRENT_DIR%\downloads
 
 echo Downloads directory : %DOWNLOADS_DIR%
 echo Target directory : %TARGET_DIR%
 
-REM PAUSE
-
-:: Download and install the GTK runtime
-REM cd %DOWNLOADS_DIR%
-REM wget -nc -c "http://sourceforge.net/projects/gtk-win/files/GTK+ Runtime Environment/GTK+ 2.16/%GTK_BIN_FILE%/download"
-REM .\%GTK_BIN_FILE%
-
 :: Download and unzip libxml2 dev and bin files
 
 cd %DOWNLOADS_DIR%
-chcp 1252 && wget -nc ftp://ftp.zlatkovic.com/libxml/%LIBXML_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/%LIBXML_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/%LIBXML_FILE_DEV_NAME%.zip
 cd %TARGET_DIR%
-unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_BASENAME%.zip" -d plugins-dev
-IF EXIST plugins-dev\libxml2 RMDIR /S /Q plugins-dev\libxml2
-MOVE plugins-dev\%LIBXML_FILE_BASENAME% plugins-dev\libxml2
+unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_BASENAME%.zip" -d plugins-dev\libxml2
+unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_DEV_NAME%.zip" -d plugins-dev\libxml2
 echo libxml ok
+PAUSE
+
+:: Download and unzip libgsf dev and bin files
+
+cd %DOWNLOADS_DIR%
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/libgsf/1.14/%LIBGSF_FILE_BASENAME%.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/libgsf/1.14/%LIBGSF_FILE_DEV_NAME%.zip
+cd %TARGET_DIR%
+unzip -uo "%DOWNLOADS_DIR%\%LIBGSF_FILE_BASENAME%.zip" -d plugins-dev\libgsf-1
+unzip -uo "%DOWNLOADS_DIR%\%LIBGSF_FILE_DEV_NAME%.zip" -d plugins-dev\libgsf-1
+echo libgsf ok
 PAUSE
 
 :: Download and unzip iconv dev and bin files
@@ -57,7 +66,7 @@ PAUSE
 
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://www.slproweb.com/download/%OPENSSL_FILE_BASENAME%.exe
-SET SSLDIR=%SystemDrive%\OpenSSL
+SET SSLDIR=%SystemDrive%\OpenSSL-Win32
 IF NOT EXIST "%SSLDIR%\readme.txt" (
 	IF EXIST %OPENSSL_FILE_BASENAME%.exe (
 		ECHO ***** ATTENTION: installer openssl sur le disque systeme generalement C: dans le repertoire par defaut *****
@@ -82,15 +91,35 @@ xcopy /YICD %SSLDIR%\*.dll plugins-dev\openssl\bin
 echo openssl ok
 
 :: Download and unzip libofx dev and bin files
+
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.7/libofx_mingw.zip/download
 cd "%TARGET_DIR%"
 unzip -uo "%DOWNLOADS_DIR%\libofx_mingw.zip" -d plugins-dev
 echo ofx ok
 
+:: Download and unzip libgoffice dev and bin files
+
+cd %DOWNLOADS_DIR%
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.9/libgoffice-0.8-8.zip/download
+cd %TARGET_DIR%
+unzip -uo "%DOWNLOADS_DIR%\libgoffice-0.8-8.zip" -d plugins-dev
+echo libgoffice ok
+PAUSE
+
+:: Download and unzip pcre dev and bin files
+
+cd %DOWNLOADS_DIR%
+chcp 1252 && wget -nc http://sourceforge.net/projects/gnuwin32/files/pcre/7.0/pcre-7.0-bin.zip/download
+chcp 1252 && wget -nc http://sourceforge.net/projects/gnuwin32/files/pcre/7.0/pcre-7.0-lib.zip/download
+cd %TARGET_DIR%
+unzip -uo "%DOWNLOADS_DIR%\pcre-7.0-bin.zip" -d plugins-dev\pcre
+unzip -uo "%DOWNLOADS_DIR%\pcre-7.0-lib.zip" -d plugins-dev\pcre
+echo pcre ok
+PAUSE
+
 cd "%DOWNLOADS_DIR%"
-chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.18/%GTK_DEV_FILE_BASENAME%.zip
-:: http://www.optionexplicit.be/projects/gnome-windows/20111020/gtk+-bundle_test_gtk-2-24-win32_branch3.zip
+chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/%GTK_DEV_BUNDLE_VERSION%/%GTK_DEV_FILE_BASENAME%.zip
 chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/dependencies/%ZLIB_DEV_FILE_BASENAME%.zip
 
 :: Checking if already unzipped
