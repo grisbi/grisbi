@@ -91,7 +91,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     const gchar *cs_end;
     gint nbre_char;
 	lldiv_t units;
-/*printf ("currency_symbol = %s\n", currency_symbol);*/
+
     cs_start = (currency_symbol && locale->p_cs_precedes) ? currency_symbol : "";
     cs_start_space = (currency_symbol && locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     sign = (number.mantissa < 0) ? locale->negative_sign : locale->positive_sign;
