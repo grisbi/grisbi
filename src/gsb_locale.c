@@ -33,8 +33,10 @@ static struct lconv *_locale = NULL;
 void gsb_locale_init ( void )
 {
     struct lconv *locale;
+    const gchar *langue;
 
-    locale = localeconv ( );
+    locale = localeconv ();
+    langue = g_getenv ( "LANG");
 
     _locale = g_malloc ( sizeof (*_locale) );
     _locale -> decimal_point     = g_strdup ( locale -> decimal_point );
@@ -49,12 +51,30 @@ void gsb_locale_init ( void )
     _locale -> negative_sign     = g_strdup ( locale -> negative_sign );
     _locale -> int_frac_digits   = locale -> int_frac_digits;
     _locale -> frac_digits       = locale -> frac_digits;
-    _locale -> p_cs_precedes     = locale -> p_cs_precedes;
-    _locale -> p_sep_by_space    = locale -> p_sep_by_space;
-    _locale -> n_cs_precedes     = locale -> n_cs_precedes;
-    _locale -> n_sep_by_space    = locale -> n_sep_by_space;
     _locale -> p_sign_posn       = locale -> p_sign_posn;
     _locale -> n_sign_posn       = locale -> n_sign_posn;
+
+    if ( g_str_has_prefix ( langue, "fr_" ) )
+    {
+        _locale -> p_cs_precedes     = 0;
+        _locale -> p_sep_by_space    = 1;
+        _locale -> n_cs_precedes     = 0;
+        _locale -> n_sep_by_space    = 1;
+    }
+    else     if ( g_str_has_prefix ( langue, "de_" ) )
+    {
+        _locale -> p_cs_precedes     = 0;
+        _locale -> p_sep_by_space    = 0;
+        _locale -> n_cs_precedes     = 0;
+        _locale -> n_sep_by_space    = 0;
+    }
+    else
+    {
+        _locale -> p_cs_precedes     = locale -> p_cs_precedes;
+        _locale -> p_sep_by_space    = locale -> p_sep_by_space;
+        _locale -> n_cs_precedes     = locale -> n_cs_precedes;
+        _locale -> n_sep_by_space    = locale -> n_sep_by_space;
+    }
 }
 
 

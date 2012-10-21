@@ -412,6 +412,8 @@ void initialise_format_date ( void )
 
     if ( g_str_has_prefix ( langue, "en_" ) || g_str_has_prefix ( langue, "cs_" ) )
         gsb_date_set_format_date ( "%m/%d/%Y" );
+    else if ( g_str_has_prefix ( langue, "de_" ) )
+        gsb_date_set_format_date ( "%d.%m.%Y" );
     else
         gsb_date_set_format_date ( "%d/%m/%Y" );
 }
