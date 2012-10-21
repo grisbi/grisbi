@@ -4,7 +4,7 @@
 # hadi <hadi60@gmail.com>, 2008.
 #
 #
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: girisbi VERSION\n"
