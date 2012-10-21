@@ -15,9 +15,10 @@ SET ICONV_FILE_BASENAME=iconv-1.9.2.win32
 SET OPENSSL_FILE_BASENAME=Win32OpenSSL-1_0_0j
 SET LIBGSF_FILE_BASENAME=libgsf_1.14.17-1_win32
 SET LIBGSF_FILE_DEV_NAME=libgsf-dev_1.14.17-1_win32
+SET LIBPTHREAD_FILE_BASENAME=libpthread-2.8.0-3-mingw32-dll-2
 
 :: The rest of the script should do the rest
-::on met chcp 1252 qpour les wget car ils affiche en francais
+:: on met chcp 1252 pour les wget car ils affiche en francais
 SET CURRENT_DIR=%CD%
 IF NOT EXIST target MKDIR target
 IF NOT EXIST target\Win32 MKDIR target\Win32
@@ -25,6 +26,7 @@ SET TARGET_DIR=%CURRENT_DIR%\target\Win32
 IF NOT EXIST target\Win32\plugins-dev MKDIR target\Win32\plugins-dev
 IF NOT EXIST downloads MKDIR downloads
 SET DOWNLOADS_DIR=%CURRENT_DIR%\downloads
+IF NOT EXIST target\Win32/package MKDIR target\Win32\package
 
 echo Downloads directory : %DOWNLOADS_DIR%
 echo Target directory : %TARGET_DIR%
@@ -38,7 +40,6 @@ cd %TARGET_DIR%
 unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_BASENAME%.zip" -d plugins-dev\libxml2
 unzip -uo "%DOWNLOADS_DIR%\%LIBXML_FILE_DEV_NAME%.zip" -d plugins-dev\libxml2
 echo libxml ok
-PAUSE
 
 :: Download and unzip libgsf dev and bin files
 
@@ -49,7 +50,6 @@ cd %TARGET_DIR%
 unzip -uo "%DOWNLOADS_DIR%\%LIBGSF_FILE_BASENAME%.zip" -d plugins-dev\libgsf-1
 unzip -uo "%DOWNLOADS_DIR%\%LIBGSF_FILE_DEV_NAME%.zip" -d plugins-dev\libgsf-1
 echo libgsf ok
-PAUSE
 
 :: Download and unzip iconv dev and bin files
 
@@ -98,14 +98,25 @@ cd "%TARGET_DIR%"
 unzip -uo "%DOWNLOADS_DIR%\libofx_mingw.zip" -d plugins-dev
 echo ofx ok
 
-:: Download and unzip libgoffice dev and bin files
+:: Download and unzip libgoffice dev and bin files and other dll (provisoire)
 
 cd %DOWNLOADS_DIR%
 chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.9/libgoffice-0.8-8.zip/download
 cd %TARGET_DIR%
 unzip -uo "%DOWNLOADS_DIR%\libgoffice-0.8-8.zip" -d plugins-dev
 echo libgoffice ok
-PAUSE
+
+:: Download and unzip other files (provisoire)
+
+cd %DOWNLOADS_DIR%
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.9/gtkrc/download
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.9/libxml2.dll/download
+chcp 1252 && wget -nc http://sourceforge.net/projects/grisbi/files/dependancies/0.9/IEShims.dll/download
+cd %TARGET_DIR%
+copy /Y %DOWNLOADS_DIR%\gtkrc gtk-dev\etc\gtk-2.0
+copy /Y %DOWNLOADS_DIR%\libxml2.dll package
+copy /Y %DOWNLOADS_DIR%\IEShims.dll package
+echo other files ok
 
 :: Download and unzip pcre dev and bin files
 
@@ -116,7 +127,21 @@ cd %TARGET_DIR%
 unzip -uo "%DOWNLOADS_DIR%\pcre-7.0-bin.zip" -d plugins-dev\pcre
 unzip -uo "%DOWNLOADS_DIR%\pcre-7.0-lib.zip" -d plugins-dev\pcre
 echo pcre ok
+
+:: Download and unzip libpthread-2.dll file
+
+cd %DOWNLOADS_DIR%
+chcp 1252 && wget -nc http://sourceforge.net/projects/mingw/files/MinGW/Base/pthreads-w32/pthreads-w32-2.8.0-3/%LIBPTHREAD_FILE_BASENAME%.tar.lzma/download
+:: cd %TARGET_DIR%
+7z e -y "%LIBPTHREAD_FILE_BASENAME%.tar.lzma"
+7z e -y "%LIBPTHREAD_FILE_BASENAME%.tar"
+IF NOT EXIST %TARGET_DIR%\plugins-dev\libpthread mkdir %TARGET_DIR%\plugins-dev\libpthread
+MOVE libpthread-2.dll %TARGET_DIR%\plugins-dev\libpthread
+RM -f -v %LIBPTHREAD_FILE_BASENAME%.tar
+echo libpthread ok
 PAUSE
+
+:: Download and unzip gtk dev and bin files
 
 cd "%DOWNLOADS_DIR%"
 chcp 1252 && wget -nc http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/%GTK_DEV_BUNDLE_VERSION%/%GTK_DEV_FILE_BASENAME%.zip
@@ -151,6 +176,8 @@ IF NOT EXIST gtk-dev\%GTK_DEV_FILE_BASENAME%.README.txt (
 echo gtk ok
 SET GTK_DEV_FILE_BASENAME=
 cd "%CURRENT_DIR%"
-::call generate.cmd
 
-::PAUSE
+call generate.cmd
+PAUSE
+
+call build.cmd

@@ -254,12 +254,19 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
 	POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../pixmaps ${EXECUTABLE_OUTPUT_PATH}/pixmaps
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../help ${EXECUTABLE_OUTPUT_PATH}/help
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../share/categories ${SHARE_OUTPUT_PATH}/categories
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../src/ui ${SHARE_OUTPUT_PATH}/ui
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/lib/goffice ${LIBRARY_OUTPUT_PATH}/goffice
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/share/goffice ${SHARE_OUTPUT_PATH}/goffice
 
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/../win32/grisbi.ico ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libstdc++-6.dll  ${EXECUTABLE_OUTPUT_PATH}
+    
     COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/iconv/bin/iconv.dll  ${EXECUTABLE_OUTPUT_PATH}
 	COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libgoffice/bin/libgoffice-0.8-8.dll ${EXECUTABLE_OUTPUT_PATH}
     COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libgsf-1/bin/libgsf-1-114.dll  ${EXECUTABLE_OUTPUT_PATH}
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/libstdc++-6.dll  ${EXECUTABLE_OUTPUT_PATH}
     COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/pcre/bin/pcre3.dll  ${EXECUTABLE_OUTPUT_PATH}
+    COMMAND ${CMAKE_COMMAND} -E copy ${PLUGINS_DEV_PATH}/libpthread/libpthread-2.dll  ${EXECUTABLE_OUTPUT_PATH}
 
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/freetype6.dll ${EXECUTABLE_OUTPUT_PATH}
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/intl.dll ${EXECUTABLE_OUTPUT_PATH}
@@ -281,14 +288,7 @@ ADD_CUSTOM_COMMAND(TARGET prepare_env
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpangoft2-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpangowin32-1.0-0.dll  ${EXECUTABLE_OUTPUT_PATH}
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/libpng14-14.dll  ${EXECUTABLE_OUTPUT_PATH}
-    COMMAND ${CMAKE_COMMAND} -E copy ${MINGW_DIR}/bin/pthreadgc2.dll  ${EXECUTABLE_OUTPUT_PATH}/pthread2.dll
     COMMAND ${CMAKE_COMMAND} -E copy ${GTK_DEV_PATH}/bin/zlib1.dll  ${EXECUTABLE_OUTPUT_PATH}
-
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/lib/goffice ${LIBRARY_OUTPUT_PATH}/goffice
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PLUGINS_DEV_PATH}/libgoffice/share/goffice ${SHARE_OUTPUT_PATH}/goffice
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../share/categories ${SHARE_OUTPUT_PATH}/categories
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/../src/ui ${SHARE_OUTPUT_PATH}/ui
-
 )
 
 if (HELLO_NLS_ENABLED)
