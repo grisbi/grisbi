@@ -72,7 +72,7 @@ static FILE *debug_file = NULL;
 /*************************************************************************************************************/
 void traitement_sigsegv ( gint signal_nb )
 {
-    gchar *gsb_file_default_dir;
+    const gchar *gsb_file_default_dir;
     gchar *errmsg = g_strdup ( "" );
 	gchar *old_errmsg;
     gchar *tmpstr;
@@ -111,7 +111,7 @@ void traitement_sigsegv ( gint signal_nb )
 	   pas de nom de fichier, on le crée, sinon on rajoute #
 	   autour */
 
-        gsb_file_default_dir = (gchar *) my_get_gsb_file_default_dir();
+        gsb_file_default_dir = gsb_dirs_get_default_dir ();
 
 	if ( nom_fichier_comptes )
 	    /* set # around the filename */
@@ -462,7 +462,7 @@ gboolean gsb_debug_start_log ( void )
         complete_filename = g_strconcat ( base_filename, "-log.txt", NULL);
         basename = g_path_get_basename ( complete_filename );
 
-        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), basename, NULL);
+        debug_filename = g_build_filename ( gsb_dirs_get_default_dir (), basename, NULL);
 
         g_free ( basename);
         g_free ( complete_filename );
@@ -470,7 +470,7 @@ gboolean gsb_debug_start_log ( void )
     }
     else
     {
-        debug_filename = g_build_filename ( my_get_gsb_file_default_dir (), "No_name-log.txt", NULL);
+        debug_filename = g_build_filename ( gsb_dirs_get_default_dir (), "No_name-log.txt", NULL);
     }
 
 

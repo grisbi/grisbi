@@ -9037,7 +9037,7 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
         copy_old_filename = gsb_string_remplace_string ( copy_old_filename, ".gsb",
                         "-old-version.gsb" );
         copy_old_filename = g_build_filename (
-                        my_get_XDG_grisbi_data_dir (),
+                        gsb_dirs_get_user_data_dir (),
                         copy_old_filename, NULL );
 
         file_ori = g_file_new_for_path ( filename );

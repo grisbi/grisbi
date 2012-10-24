@@ -292,7 +292,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 	/* need to declare filename_entry first for the next callback,
 	 * if no filename, set the title.gsb as default name */
 	if (!nom_fichier_comptes)
-	nom_fichier_comptes = g_strconcat ( my_get_gsb_file_default_dir (),
+	nom_fichier_comptes = g_strconcat ( gsb_dirs_get_default_dir (),
 			G_DIR_SEPARATOR_S, titre_fichier, ".gsb", NULL );
 	filename_entry = gsb_automem_entry_new (&nom_fichier_comptes,
 			NULL, NULL);
@@ -544,7 +544,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
      * else we don't touch the filename entry */
     last_title = g_object_get_data ( G_OBJECT (title_entry),
 				     "last_title");
-    last_filename = g_strconcat ( my_get_gsb_file_default_dir (),
+    last_filename = g_strconcat ( gsb_dirs_get_default_dir (),
 				  G_DIR_SEPARATOR_S,
 				  last_title,
 				  ".gsb",
@@ -569,7 +569,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
 
     if ( strlen ( gtk_entry_get_text (GTK_ENTRY (title_entry) ) ) )
     {
-	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
+	new_filename = g_strconcat ( gsb_dirs_get_default_dir (),
 				     G_DIR_SEPARATOR_S,
 				     gtk_entry_get_text (GTK_ENTRY (title_entry)),
 				     ".gsb",
@@ -577,7 +577,7 @@ static gboolean gsb_assistant_file_change_title ( GtkWidget *title_entry,
     }
     else
     {
-	new_filename = g_strconcat ( my_get_gsb_file_default_dir (),
+	new_filename = g_strconcat ( gsb_dirs_get_default_dir (),
 				     G_DIR_SEPARATOR_S,
 				     _("My accounts"),
 				     ".gsb",

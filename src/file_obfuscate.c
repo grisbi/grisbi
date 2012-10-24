@@ -345,7 +345,7 @@ gboolean file_obfuscate_run ( void )
 	    filename = g_strconcat ( nom_fichier_comptes, "-obfuscated.gsb", NULL);
 	}
 	else
-	    filename = g_strconcat ( my_get_gsb_file_default_dir (), "No_name-obfuscated.gsb", NULL);
+	    filename = g_build_filename ( gsb_dirs_get_default_dir (), "No_name-obfuscated.gsb", NULL);
 
 	if (gsb_file_save_save_file (filename, FALSE, FALSE))
 	    dialogue_hint ( g_strdup_printf ( _("Obfuscated file saved as\n'%s'"), filename ),

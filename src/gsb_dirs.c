@@ -36,19 +36,35 @@ static gchar *pixmaps_dir;
 static gchar *plugins_dir;
 static gchar *categories_dir;
 static gchar *ui_dir;
-static gchar *_C_GRISBIRC;
-static gchar *_C_OLD_GRISBIRC;
-static gchar *_C_PATH_CONFIG;
-static gchar *_C_PATH_DATA_FILES;
-static gchar *_C_PATH_CONFIG_ACCELS;
-static gchar *_my_get_XDG_grisbi_data_dir;
-static gchar *_my_get_XDG_grisbirc_dir;
-static gchar *_my_get_grisbirc_dir;
-static gchar *_my_get_gsb_file_default_dir;
+static gchar *user_config_dir;
+static gchar *user_data_dir;
+static gchar *user_default_dir;
+
+static gchar *grisbirc_filename;
+static gchar *accelerator_filename;
 
 
 void gsb_dirs_init ( void )
 {
+#ifdef G_OS_WIN32
+    {
+        gchar *dir;
+
+        dir = g_win32_get_package_installation_directory_of_module ( NULL );
+
+        categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
+        locale_dir = g_strconcat ( dir, "/share/locale", NULL );
+        pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
+        plugins_dir = g_strconcat ( dir, "/lib/grisbi", NULL );
+        ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
+
+        g_free ( dir );
+
+        user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
+        user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
+        user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
+    }
+#else
 #ifdef GTKOSXAPPLICATION
     if ( quartz_application_get_bundle_id ( ) )
     {
@@ -62,67 +78,30 @@ void gsb_dirs_init ( void )
         ui_dir = g_strconcat (res_path, "/share/grisbi/ui", NULL );
 
         g_free ( res_path );
+
+        user_config_dir = g_build_filename ( g_get_home_dir (),
+                        "Library/Application Support/Grisbi/config", NULL );
+        user_data_dir = g_build_filename ( g_get_home_dir (),
+                        "Library/Application Support/Grisbi/data", NULL );
+        user_default_dir = g_strdup ( g_get_home_dir() );
+
     }
-    else
-#endif
+#else
     {
         categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
         locale_dir = g_strdup ( LOCALEDIR );
         pixmaps_dir = g_strdup ( PIXMAPS_DIR );
         plugins_dir = g_strdup ( PLUGINS_DIR );
         ui_dir = g_strdup ( UI_DIR );
+
+        user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
+        user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
+        user_default_dir = g_strdup ( g_get_home_dir() );
     }
-
-    /*
-     * FIXME: code from gsb_file_config.h
-     */
-#if IS_DEVELOPMENT_VERSION == 1
-    _C_GRISBIRC = g_strconcat ( PACKAGE, "dev.conf", NULL);
-#else
-    _C_GRISBIRC = g_strconcat ( PACKAGE, ".conf", NULL);
+#endif /* GTKOSXAPPLICATION */
 #endif
 
-    _C_OLD_GRISBIRC = g_strconcat ( ".", PACKAGE, "rc", NULL);
-
-#ifndef _WIN32
-
-#ifdef OS_OSX
-    _C_PATH_CONFIG = g_strconcat (g_get_home_dir ( ), G_DIR_SEPARATOR_S,
-                        "Library/Application Support/Grisbi/config", NULL);
-    _C_PATH_DATA_FILES = g_strconcat (g_get_home_dir ( ), G_DIR_SEPARATOR_S,
-                        "Library/Application Support/Grisbi/data", NULL);
-#else /* OS_OSX */
-    _C_PATH_CONFIG = g_strconcat (g_get_user_config_dir ( ), G_DIR_SEPARATOR_S,
-                        "grisbi", NULL);
-    _C_PATH_DATA_FILES = g_strconcat (g_get_user_data_dir ( ), G_DIR_SEPARATOR_S,
-                        "grisbi", NULL);
-#endif /* OS_OSX */
-
-#else /* _WIN32 */
-
-/* Some old Windows version have difficulties with dat starting file names */
-    _C_PATH_CONFIG = win32_get_grisbirc_folder_path( );
-    _C_PATH_DATA_FILES = g_strdup ( g_get_home_dir ( ) );
-
-#endif /* _WIN32 */
-
-    _C_PATH_CONFIG_ACCELS = g_strconcat ( _C_PATH_CONFIG, G_DIR_SEPARATOR_S,
-                        "grisbi-accels", NULL );
-
-    /*
-     * FIXME: code from utils_files.c
-     */
-#ifndef _WIN32
-    _my_get_XDG_grisbirc_dir = g_strdup ( _C_PATH_CONFIG );
-    _my_get_XDG_grisbi_data_dir = g_strdup ( _C_PATH_DATA_FILES );
-    _my_get_grisbirc_dir = g_strdup ( g_get_home_dir () );
-    _my_get_gsb_file_default_dir = g_strdup ( g_get_home_dir() );
-#else
-    _my_get_XDG_grisbirc_dir = g_strdup ( win32_get_grisbirc_folder_path() );
-    _my_get_XDG_grisbi_data_dir = g_strdup ( g_get_home_dir () );
-    _my_get_grisbirc_dir = g_strdup ( win32_get_grisbirc_folder_path() );
-    _my_get_gsb_file_default_dir = g_strdup ( win32_get_my_documents_folder_path() );
-#endif
+    accelerator_filename = g_build_filename ( user_config_dir, "grisbi-accels", NULL );
 }
 
 
@@ -133,15 +112,12 @@ void gsb_dirs_shutdown ( void )
     g_free ( pixmaps_dir );
     g_free ( plugins_dir );
     g_free ( ui_dir );
-    g_free ( _C_GRISBIRC );
-    g_free ( _C_OLD_GRISBIRC );
-    g_free ( _C_PATH_CONFIG );
-    g_free ( _C_PATH_DATA_FILES );
-    g_free ( _C_PATH_CONFIG_ACCELS );
-    g_free ( _my_get_XDG_grisbi_data_dir );
-    g_free ( _my_get_XDG_grisbirc_dir );
-    g_free ( _my_get_grisbirc_dir );
-    g_free ( _my_get_gsb_file_default_dir );
+    g_free ( user_config_dir );
+    g_free ( user_data_dir );
+
+    g_free ( grisbirc_filename );
+    g_free ( accelerator_filename );
+    g_free ( user_default_dir );
 }
 
 
@@ -175,74 +151,44 @@ const gchar *gsb_dirs_get_ui_dir ( void )
 }
 
 
-const gchar *C_GRISBIRC ( void )
+const gchar *gsb_dirs_get_grisbirc_filename ( void )
 {
-    return _C_GRISBIRC;
+    gchar *filename;
+
+#if IS_DEVELOPMENT_VERSION == 1
+    filename = g_strconcat ( PACKAGE, "dev.conf", NULL);
+#else
+    filename = g_strconcat ( PACKAGE, ".conf", NULL);
+#endif
+
+    grisbirc_filename = g_build_filename ( user_config_dir, filename, NULL );
+    g_free ( filename );
+
+    return grisbirc_filename;
 }
 
 
-const gchar *C_OLD_GRISBIRC ( void )
+const gchar *gsb_dirs_get_user_config_dir ( void )
 {
-    return _C_OLD_GRISBIRC;
+    return user_config_dir;
 }
 
 
-const gchar *C_PATH_CONFIG ( void )
+const gchar *gsb_dirs_get_user_data_dir ( void )
 {
-    return _C_PATH_CONFIG;
+    return user_data_dir;
 }
-
-
-const gchar *C_PATH_DATA_FILES ( void )
-{
-    return _C_PATH_DATA_FILES;
-}
-
-
-const gchar *C_PATH_CONFIG_ACCELS ( void )
-{
-    return _C_PATH_CONFIG_ACCELS;
-}
-
 
 /**
- * return the absolute path of where the configuration file should be located
- * On UNIX platforms this is determined using the mechanisms described 
- * in the  XDG Base Directory Specification
- * on Windows based systems return APPDATA\Grisbi
- * 
- * \return the absolute path of the configuration file directory
+ * return the accelerator filename
+ *
+ * \param
+ *
+ * \return the accelerator filename with an absolute path
  */
-const gchar *my_get_XDG_grisbirc_dir ( void )
+const gchar *gsb_dirs_get_accelerator_filename ( void )
 {
-    return _my_get_XDG_grisbirc_dir;
-}
-
-
-/**
- * return the absolute path of where the data files should be located
- * On UNIX platforms this is determined using the mechanisms described 
- * in the  XDG Base Directory Specification
- * on Windows based systems return APPDATA\Grisbi
- * 
- * \return the absolute path of the home directory
- */
-const gchar *my_get_XDG_grisbi_data_dir ( void )
-{
-    return _my_get_XDG_grisbi_data_dir;
-}
-
-
-/**
- * return the absolute path of where the configuration file should be located
- * on Un*x based system return $HOME
- * on Windows based systems return APPDATA\Grisbi
- * 
- * \return the absolute path of the configuration file directory
- */
-const gchar *my_get_grisbirc_dir ( void )
-{
-    return _my_get_grisbirc_dir;
+    return accelerator_filename;
 }
 
 
@@ -250,10 +196,11 @@ const gchar *my_get_grisbirc_dir ( void )
  * return the absolute path of the default accounts files location
  * on Un*x based system return $HOME
  * on Windows based systems return "My Documents"
- * 
+ *
  * \return the absolute path of the configuration file directory
  */
-const gchar *my_get_gsb_file_default_dir ( void )
+const gchar *gsb_dirs_get_default_dir ( void )
 {
-    return _my_get_gsb_file_default_dir;
+    return user_default_dir;
 }
+

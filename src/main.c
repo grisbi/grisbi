@@ -220,7 +220,7 @@ void main_linux ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
+    gtk_accel_map_save ( gsb_dirs_get_accelerator_filename () );
 
     /* libération de mémoire */
     gsb_locale_shutdown ( );
@@ -349,7 +349,7 @@ void main_mac_osx ( int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
+    gtk_accel_map_save ( gsb_dirs_get_accelerator_filename () );
 
     g_object_unref ( theApp );
 
@@ -446,7 +446,7 @@ void main_win_32 (  int argc, char **argv )
     gtk_main ();
 
     /* sauvegarde les raccourcis claviers */
-    gtk_accel_map_save ( C_PATH_CONFIG_ACCELS ( ) );
+    gtk_accel_map_save ( gsb_dirs_get_accelerator_filename () );
 
     gsb_locale_shutdown ( );
     gsb_dirs_shutdown ( );
@@ -595,7 +595,7 @@ GtkWidget *gsb_grisbi_create_main_menu ( GtkWidget *vbox )
     gsb_menu_set_menus_with_file_sensitive ( FALSE );
 
     /* charge les raccourcis claviers */
-    gtk_accel_map_load ( C_PATH_CONFIG_ACCELS ( ) );
+    gtk_accel_map_load ( gsb_dirs_get_accelerator_filename () );
 
     /* set the last opened files */
     affiche_derniers_fichiers_ouverts ( );
@@ -908,25 +908,23 @@ gchar *gsb_main_get_print_dir_var ( void )
     gchar *path_str = NULL;
 
     path_str = g_strdup_printf ( "Paths\n"
-                        "\tXDG_DATA_HOME                    = %s\n"
-                        "\tXDG_CONFIG_HOME                  = %s\n\n"
-                        "\tC_GRISBIRC                       = %s\n"
-                        "\tC_PATH_CONFIG                    = %s\n"
-                        "\tC_PATH_CONFIG_ACCELS             = %s\n"
-                        "\tC_PATH_DATA_FILES                = %s\n\n"
-                        "\tDATA_PATH                        = %s\n\n"
-                        "\tgsb_dirs_get_categories_dir ( )  = %s\n"
-                        "\tgsb_dirs_get_locale_dir ( )      = %s\n"
-                        "\tgsb_dirs_get_plugins_dir ( )     = %s\n"
-                        "\tgsb_dirs_get_pixmaps_dir ( )     = %s\n"
-                        "\tgsb_dirs_get_ui_dir ( )          = %s\n\n",
-                        g_get_user_data_dir ( ),
-                        g_get_user_config_dir ( ),
-                        C_GRISBIRC ( ),
-                        C_PATH_CONFIG ( ),
-                        C_PATH_CONFIG_ACCELS ( ),
-                        C_PATH_DATA_FILES ( ),
-                        DATA_PATH,
+                        "\tg_get_user_data_dir ()               = %s\n"
+                        "\tgsb_dirs_get_user_data_dir ()        = %s\n\n"
+                        "\tg_get_user_config_dir ()             = %s\n"
+                        "\tgsb_dirs_get_user_config_dir ()      = %s\n"
+                        "\tgsb_dirs_get_grisbirc_filename ()    = %s\n"
+                        "\tgsb_dirs_get_accelerator_filename () = %s\n\n"
+                        "\tgsb_dirs_get_categories_dir ()       = %s\n"
+                        "\tgsb_dirs_get_locale_dir ()           = %s\n"
+                        "\tgsb_dirs_get_plugins_dir ()          = %s\n"
+                        "\tgsb_dirs_get_pixmaps_dir ()          = %s\n"
+                        "\tgsb_dirs_get_ui_dir ()               = %s\n\n",
+                        g_get_user_data_dir (),
+                        gsb_dirs_get_user_data_dir (),
+                        g_get_user_config_dir (),
+                        gsb_dirs_get_user_config_dir (),
+                        gsb_dirs_get_grisbirc_filename (),
+                        gsb_dirs_get_accelerator_filename (),
                         gsb_dirs_get_categories_dir ( ),
                         gsb_dirs_get_locale_dir ( ),
                         gsb_dirs_get_plugins_dir ( ),
