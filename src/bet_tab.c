@@ -192,6 +192,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
         GDate *date;
         gint transaction_number;
         gint origine;
+        gboolean trouve = FALSE;
 
         date_debut_comparaison = g_date_new_dmy ( g_date_get_day ( transfert -> date ),
                     g_date_get_month ( transfert -> date ),
@@ -226,7 +227,10 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
             if ( g_date_compare ( date, date_fin_comparaison ) > 0 )
             {
                 if ( tmp_iter )
+                {
                     gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), tmp_iter );
+                    trouve = TRUE;
+                }
 
                 g_date_free ( date );
                 break;
@@ -236,7 +240,6 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
             {
                 continue;
             }
-
 
             if ( transfert->main_category_number )
             {
@@ -268,6 +271,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                         gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
 
                         g_date_free ( date );
+                        trouve = TRUE;
                         break;
                     }
                     tmp_iter = gtk_tree_iter_copy ( &iter );
@@ -303,6 +307,7 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
                         gtk_tree_store_remove ( GTK_TREE_STORE ( tab_model ), &iter );
 
                         g_date_free ( date );
+                        trouve = TRUE;
                         break;
                     }
                     tmp_iter = gtk_tree_iter_copy ( &iter );
@@ -314,6 +319,8 @@ static gboolean bet_array_list_replace_line_by_transfert ( GtkTreeModel *tab_mod
 
         g_date_free ( date_debut_comparaison );
         g_date_free ( date_fin_comparaison );
+
+        return trouve;
     }
 
     return FALSE;
@@ -333,7 +340,6 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
     GHashTable *transfert_list;
     GHashTableIter iter;
     gpointer key, value;
-    GDate *current_day;
 
     transfert_list = bet_data_transfert_get_list ();
     g_hash_table_iter_init ( &iter, transfert_list );
@@ -346,30 +352,12 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
 
         if (  transfert -> replace_transaction )
         {
-            current_day = gdate_today ();
+            gboolean trouve = FALSE;
 
-            if ( conf.execute_scheduled_of_month )
-            {
-                if ( g_date_get_month ( current_day ) == g_date_get_month ( transfert->date ) )
-                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
-                else
-                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
+            trouve = bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
 
-            }
-            else
-            {
-                gboolean trouve = FALSE;
-
-                if ( g_date_get_month ( current_day ) == g_date_get_month ( transfert->date ) )
-                {
-                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_TRANSACTION );
-                    trouve = TRUE;
-                }
-                if ( trouve == FALSE )
-                    bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
-            }
-                
-            g_date_free ( current_day );
+            if ( trouve == FALSE )
+                bet_array_list_replace_line_by_transfert ( tab_model, transfert, SPP_ORIGIN_SCHEDULED );
         }
     }
 }
@@ -3216,6 +3204,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                             amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_transactions_list_update_transaction ( transaction_number );
                         find = TRUE;
                         break;
                     }
@@ -3240,6 +3229,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                             amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
+                        gsb_transactions_list_update_transaction ( transaction_number );
                         find = TRUE;
                         break;
                     }
