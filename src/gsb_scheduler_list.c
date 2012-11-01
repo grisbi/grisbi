@@ -1438,48 +1438,60 @@ gboolean gsb_scheduler_list_select ( gint scheduled_number )
 {
     GtkTreeIter *iter;
     GtkTreeIter iter_sort;
+    GtkTreePath *path = NULL;
     gint mother_number;
 
-    devel_debug_int (scheduled_number);
+    devel_debug_int ( scheduled_number );
 
     /* if it's a split child, we must open the mother to select it */
-    mother_number = gsb_data_scheduled_get_mother_scheduled_number (scheduled_number);
-    if (mother_number)
+    mother_number = gsb_data_scheduled_get_mother_scheduled_number ( scheduled_number );
+    if ( mother_number )
     {
-	GtkTreeIter *iter_mother;
-	GtkTreeIter iter_mother_sort;
+        GtkTreeIter *iter_mother;
+        GtkTreeIter iter_mother_sort;
 
-	iter_mother = gsb_scheduler_list_get_iter_from_scheduled_number (mother_number);
-	if (iter_mother)
-	{
-	    GtkTreePath *path;
+        iter_mother = gsb_scheduler_list_get_iter_from_scheduled_number ( mother_number );
+        if ( iter_mother )
+        {
 
-	    gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (tree_model_sort_scheduler_list),
-							     &iter_mother_sort,
-							     iter_mother );
-	    path = gtk_tree_model_get_path ( GTK_TREE_MODEL (tree_model_sort_scheduler_list),
-					     &iter_mother_sort );
-	    gtk_tree_view_expand_row ( GTK_TREE_VIEW (tree_view_scheduler_list),
-				       path,
-				       TRUE );
-	    gtk_tree_iter_free (iter_mother);
-	    gtk_tree_path_free (path);
-	}
+            gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (
+                        tree_model_sort_scheduler_list ),
+                        &iter_mother_sort,
+                        iter_mother );
+            path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( tree_model_sort_scheduler_list ),
+                        &iter_mother_sort );
+            gtk_tree_view_expand_row ( GTK_TREE_VIEW ( tree_view_scheduler_list ),
+                        path,
+                        TRUE );
+            gtk_tree_iter_free ( iter_mother );
+        }
     }
 
     /* now can work with the transaction we want to select */
-    iter = gsb_scheduler_list_get_iter_from_scheduled_number (scheduled_number);
+    iter = gsb_scheduler_list_get_iter_from_scheduled_number ( scheduled_number );
 
     if (!iter)
         return FALSE;
 
-    gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT (tree_model_sort_scheduler_list),
-						     &iter_sort,
-						     iter );
-    gtk_tree_selection_select_iter ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection ( GTK_TREE_VIEW (tree_view_scheduler_list))),
-				     &iter_sort );
+    gtk_tree_model_sort_convert_child_iter_to_iter ( GTK_TREE_MODEL_SORT ( tree_model_sort_scheduler_list ),
+                    &iter_sort,
+                    iter );
 
-    gtk_tree_iter_free (iter);
+    gtk_tree_selection_select_iter ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view_scheduler_list ) ) ),
+                        &iter_sort );
+
+    /* move the tree view to the selection */
+    if ( path == NULL )
+        path = gtk_tree_model_get_path ( GTK_TREE_MODEL ( tree_model_sort_scheduler_list ),
+                        &iter_sort );
+
+    gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view_scheduler_list ),
+                        path, NULL,
+                        FALSE, 0.0, 0.0 );
+
+    gtk_tree_iter_free ( iter );
+    gtk_tree_path_free ( path );
 
     return FALSE;
 }
