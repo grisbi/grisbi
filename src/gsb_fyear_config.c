@@ -194,6 +194,8 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* Financial year name */
     label = gtk_label_new ( _("Name: ") );
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
+    gtk_label_set_justify ( GTK_LABEL(label), GTK_JUSTIFY_RIGHT );
     gtk_table_attach ( GTK_TABLE ( table ),
 		       label, 0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL, 0,
