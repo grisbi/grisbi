@@ -6530,6 +6530,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
     GtkWidget *label;
     GtkWidget *hbox;
     GtkWidget *vbox_onglet;
+	gchar *text;
 
     vbox_onglet = new_vbox_with_title_and_icon ( _("Generalities"), "generalities.png" );
     gtk_widget_show ( vbox_onglet );
@@ -6600,6 +6601,28 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 FALSE,
 			 0 );
     gtk_widget_show ( bouton_inclure_dans_tiers );
+
+	/* display hint for bouton_inclure_dans_tiers */
+    hbox = gtk_hbox_new ( FALSE,
+			  5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_onglet ),
+			 hbox,
+			 FALSE,
+			 FALSE,
+			 0 );
+    gtk_widget_show ( hbox );
+
+	text = make_blue ( _("Hint: if you create a transcation with a report as payee,\n"
+	"Grisbi will automatically create transcations for all payees from the report") );
+
+	label = gtk_label_new ( text );
+	gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
+	gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
+	gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
+	gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5) ;
+    gtk_widget_show ( label );
+
+	g_free ( text );
 
     return ( vbox_onglet );
 }
