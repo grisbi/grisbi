@@ -420,7 +420,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
         if ( index == -1 )
             buf = NULL;
         else
-            buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index],
+            buf = g_strdup_printf ( _("date %s : solde %s"), self->tab_vue_libelle[index],
                         utils_real_get_string_with_currency_from_double (
                         self->tab_Y[index], self->currency_number ) );
     }
@@ -445,7 +445,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
             x_map = gog_chart_map_get_axis_map (map, 0);
             index = (gint) gog_axis_map_from_view (x_map, event->x);
 
-            buf = g_strdup_printf ("date %s : solde %s", self->tab_vue_libelle[index-1],
+            buf = g_strdup_printf ( _("date %s : solde %s"), self->tab_vue_libelle[index-1],
                         utils_real_get_string_with_currency_from_double (
                         self->tab_Y[index-1], self->currency_number ) );
         }
