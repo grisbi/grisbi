@@ -2742,10 +2742,10 @@ gchar *bet_array_list_get_description ( gint account_number,
         struct_transfert_data *transfert = ( struct_transfert_data * ) value;
 
         if ( transfert -> type == 0 )
-            desc = g_strdup_printf ("Solde du compte : %s",
+            desc = g_strdup_printf ( _("Solde du compte : %s"),
                         gsb_data_account_get_name ( transfert -> replace_account ) );
         else
-            desc = g_strdup_printf ("Solde partiel : %s",
+            desc = g_strdup_printf ( _("Solde partiel : %s"),
                         gsb_data_partial_balance_get_name ( transfert -> replace_account ) );
     }
 
