@@ -6612,8 +6612,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-	text = make_blue ( _("Hint: if you create a transcation with a report as payee,\n"
-	"Grisbi will automatically create transcations for all payees from the report") );
+	text = make_blue ( _("Hint: if you create a transaction with a report as payee,\n"
+	"Grisbi will automatically create transactions for all payees from the report") );
 
 	label = gtk_label_new ( text );
 	gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
