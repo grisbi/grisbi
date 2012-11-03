@@ -268,10 +268,10 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     if (success == TRUE)
     {
         gsb_real result;
+
         result.mantissa = sign * mantissa;
-        result.exponent = ( dot_position >= 0 )
-                          ? nb_digits - dot_position
-                          : 0;
+        result.exponent = ( dot_position >= 0 ) ? nb_digits - dot_position : 0;
+
         return result;
     }
     else

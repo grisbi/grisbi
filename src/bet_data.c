@@ -49,6 +49,7 @@
 #include "structures.h"
 #include "traitement_variables.h"
 #include "utils_dates.h"
+#include "utils_real.h"
 #include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
@@ -2049,7 +2050,7 @@ gchar *bet_data_get_str_amount_in_account_currency ( gsb_real amount,
         break;
     }
 
-    str_amount = gsb_real_safe_real_to_string ( new_amount, floating_point );
+    str_amount = utils_real_get_string ( new_amount );
 
     return str_amount;
 }

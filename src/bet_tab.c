@@ -449,8 +449,8 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
                 result = -1;
             else
             {
-                amount_a = gsb_real_safe_real_from_string ( str_amount_a );
-                amount_b = gsb_real_safe_real_from_string ( str_amount_b );
+                amount_a = utils_real_get_from_string ( str_amount_a );
+                amount_b = utils_real_get_from_string ( str_amount_b );
                 result = - ( gsb_real_cmp ( amount_a, amount_b ) );
             }
 
@@ -516,10 +516,10 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
     gtk_tree_model_get ( model, iter, SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &tmp_str, -1 );
 
-    amount = gsb_real_safe_real_from_string ( tmp_str );
+    amount = utils_real_get_from_string ( tmp_str );
 
     tmp_range -> current_balance = gsb_real_add ( tmp_range -> current_balance, amount );
-    str_balance = utils_real_get_string_with_currency ( tmp_range -> current_balance, 
+    str_balance = utils_real_get_string_with_currency ( tmp_range -> current_balance,
                                 gsb_data_account_get_currency ( selected_account ), TRUE );
 
     if ( tmp_range->current_balance.mantissa < 0 )
@@ -598,8 +598,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 
     currency_number = gsb_data_account_get_currency ( account_number );
 
-    str_amount = gsb_real_safe_real_to_string ( current_balance, 
-                    gsb_data_currency_get_floating_point ( currency_number ) );
+    str_amount = utils_real_get_string ( current_balance );
     str_current_balance = utils_real_get_string_with_currency ( current_balance, currency_number, TRUE );
 
     if ( current_balance.mantissa < 0 )
@@ -1022,7 +1021,7 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
                 amount = gsb_real_opposite ( gsb_data_scheduled_get_adjusted_amount_for_currency ( scheduled_number,
                                     currency_number,
                                     floating_point ) );
-                str_amount = gsb_real_safe_real_to_string ( amount, floating_point );
+                str_amount = utils_real_get_string ( amount );
             }
             else if ( account_number == selected_account )
             {
@@ -1301,7 +1300,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         str_description = bet_data_get_div_name ( div_number, sub_div_nb, NULL );
     }
 
-    amount = gsb_real_safe_real_from_string ( str_amount );
+    amount = utils_real_get_from_string ( str_amount );
 
     if ( amount.mantissa < 0 )
         str_debit = utils_real_get_string_with_currency ( gsb_real_opposite ( amount ),
@@ -1443,8 +1442,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
             amount = scheduled -> amount;
 
         currency_number = gsb_data_account_get_currency ( account_number );
-        str_amount = gsb_real_safe_real_to_string ( amount, 
-                    gsb_data_currency_get_floating_point ( currency_number ) );
+        str_amount = utils_real_get_string ( amount );
 
         if ( amount.mantissa < 0 )
             str_debit = utils_real_get_string_with_currency ( gsb_real_opposite ( amount ),
@@ -2030,7 +2028,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                 date_today = gdate_today ( );
                 if ( g_date_get_month ( date ) - g_date_get_month ( date_today ) == 0 )
                 {
-                    number = gsb_real_safe_real_from_string ( str_amount );
+                    number = utils_real_get_from_string ( str_amount );
                     if ( number.mantissa != 0 )
                     {
                         sign = bet_data_get_div_type ( div_number );
@@ -2127,8 +2125,8 @@ void bet_array_list_update_balance ( GtkTreeModel *model )
         SBR *tmp_range;
 
         gtk_tree_model_get ( model, &iter,
-                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_current_balance, -1 ); 
-        current_balance = gsb_real_safe_real_from_string ( str_current_balance );
+                        SPP_ESTIMATE_TREE_AMOUNT_COLUMN, &str_current_balance, -1 );
+        current_balance = utils_real_get_from_string ( str_current_balance );
 
         tmp_range = struct_initialise_bet_range ( );
         tmp_range -> first_pass = TRUE;
@@ -3017,9 +3015,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     g_date_add_months ( date, 1 );
     g_date_set_day ( date, 1 );
 
-    str_amount = gsb_real_safe_real_to_string ( null_real, 
-                        gsb_data_currency_get_floating_point (
-                        bet_data_get_selected_currency ( ) ) );
+    str_amount = utils_real_get_string ( null_real );
 
     while ( g_date_compare ( date, date_max ) < 0 )
     {
