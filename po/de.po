@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-03 07:42+0100\n"
-"PO-Revision-Date: 2012-11-01 19:00+0100\n"
+"PO-Revision-Date: 2012-11-04 10:47+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -439,7 +439,7 @@ msgstr "entsprechend Datum der Durchführung"
 
 #: ../src/affichage_liste.c:536
 msgid "Automatic amount separator"
-msgstr "Kommastelle automatisch ergänzen"
+msgstr "Kommastellen automatisch ergänzen"
 
 #: ../src/affichage_liste.c:539
 msgid "Automagically add separator in amounts fields if unspecified"
@@ -459,7 +459,7 @@ msgstr "Die Werte für Einnahmen oder Ausgaben zurücksetzen"
 
 #: ../src/affichage_liste.c:590
 msgid "Automatically recover the children of the associated transaction"
-msgstr "Splittbuchungen automatisch mit erstellen"
+msgstr "Teilbuchungen von Splittbuchungen automatisch erstellen"
 
 #: ../src/affichage_liste.c:602
 msgid "Limit the filling with payees belonging to the current account"
@@ -894,11 +894,11 @@ msgstr "Berechnen"
 
 #: ../src/bet_finance_ui.c:1791
 msgid "Amortization"
-msgstr "Tilgung"
+msgstr "Tilgungsplan"
 
 #: ../src/bet_finance_ui.c:1806
 msgid "Credits"
-msgstr "Kredite"
+msgstr "Kreditrechner"
 
 #: ../src/bet_finance_ui.c:1823 ../src/bet_finance_ui.c:1953
 msgid "Start date"
@@ -1357,7 +1357,7 @@ msgstr "Auflistung exportieren"
 #: ../src/bet_tab.c:615
 #, c-format
 msgid "Balance estimate of the account \"%s\" from %s to %s"
-msgstr "Voraussichtlicher Saldo für das Konto \"%s\" von %s bis %s"
+msgstr "Voraussichtlicher Saldo für das Konto «%s» vom %s bis %s"
 
 #: ../src/bet_tab.c:632
 msgid "balance beginning of period"
@@ -1464,14 +1464,14 @@ msgid "No budgetary line"
 msgstr "Keine Gruppe"
 
 #: ../src/bet_tab.c:2745
-#, fuzzy, c-format
+#, c-format
 msgid "Balance of account : %s"
-msgstr "Saldo vom Konto: "
+msgstr "Saldo vom Konto : %s"
 
 #: ../src/bet_tab.c:2748
 #, c-format
 msgid "Partial balance : %s"
-msgstr "Teilsaldo: "
+msgstr "Teilsaldo : %s"
 
 #: ../src/bet_tab.c:2978 ../src/bet_tab.c:3077
 msgid "Export the array of forecast"
@@ -2263,7 +2263,7 @@ msgstr "Beleg"
 #: ../src/etats_affiche.c:2478 ../src/export_csv.c:835 ../src/gsb_form.c:1389
 #: ../src/gsb_form_widget.c:476 ../src/gsb_transactions_list.c:185
 msgid "Bank references"
-msgstr "Banknummern"
+msgstr "Bank"
 
 #: ../src/etats_affiche.c:2485
 msgid "Statement"
@@ -2483,7 +2483,7 @@ msgstr "Datum Auswahl"
 
 #: ../src/etats_config.c:2088
 msgid "Use dates ranges"
-msgstr "Datenbereiche benutzen"
+msgstr "Datenbereiche verwenden"
 
 #: ../src/etats_config.c:2184
 msgid "Use financial years"
@@ -2503,7 +2503,7 @@ msgstr "Abgelaufenes Geschäftsjahr"
 
 #: ../src/etats_config.c:2250
 msgid "Detail financial years"
-msgstr "Geschäftsjahr Details"
+msgstr "Geschäftsjahr(e) auswählen"
 
 #. set the initial date
 #: ../src/etats_config.c:2309 ../src/gsb_assistant_archive.c:235
@@ -2730,7 +2730,7 @@ msgstr "Notiz"
 #: ../src/etats_config.c:5037 ../src/etats_config.c:6705
 #: ../src/etats_config.c:6804
 msgid "bank reference"
-msgstr "Banknummer"
+msgstr "Bank"
 
 #: ../src/etats_config.c:5065 ../src/etats_config.c:6699
 #: ../src/etats_config.c:6797
@@ -2744,7 +2744,7 @@ msgstr "Schecknummer"
 #: ../src/etats_config.c:5106 ../src/etats_config.c:6708
 #: ../src/etats_config.c:6811
 msgid "reconciliation reference"
-msgstr "Abstimmungsnummer"
+msgstr "Abstimmung Nr."
 
 #: ../src/etats_config.c:5161
 msgid "contains"
@@ -2943,7 +2943,6 @@ msgid "Consider the payees of this report as a multiple payee."
 msgstr "Den Bericht in der Auswahlliste der Empfänger anzeigen"
 
 #: ../src/etats_config.c:6615
-#, fuzzy
 msgid ""
 "Hint: if you create a transaction with a report as payee,\n"
 "Grisbi will automatically create transactions for all payees from the report"
@@ -3089,7 +3088,7 @@ msgstr "Eine Zwischensumme für jede Unterkategorie anzeigen"
 
 #: ../src/etats_config.c:7152
 msgid "Display \" No sub-category\" if none"
-msgstr "'Keine Unterkategorie' anzeigen Daten nicht vorhanden sind"
+msgstr "'Keine Unterkategorie' anzeigen wenn Daten nicht vorhanden sind"
 
 #: ../src/etats_config.c:7169
 msgid "Display the (sub-)budget line name"
@@ -3112,7 +3111,7 @@ msgstr "Eine Zwischensumme für jede Untergruppe anzeigen"
 
 #: ../src/etats_config.c:7227
 msgid "Display \"No sub-budgetary line\" if none"
-msgstr "'Keine Gruppe' anzeigen Daten nicht vorhanden sind"
+msgstr "'Keine Gruppe' anzeigen wenn Daten nicht vorhanden sind"
 
 #. on met dans la partie de gauche une liste contenant les modes de paiement à
 #. sélectionner
@@ -3534,7 +3533,7 @@ msgstr "Untergruppen"
 
 #: ../src/export_csv.c:832
 msgid "Reconciliation number"
-msgstr "Abstimmungsnummer"
+msgstr "Abstimmung Nr."
 
 #: ../src/fenetre_principale.c:241 ../src/parametres.c:368
 msgid "Main page"
@@ -6911,7 +6910,7 @@ msgstr "Erfasste Währungen"
 #. Input form for currencies
 #: ../src/gsb_currency_config.c:351
 msgid "Currency properties"
-msgstr "Währungseigenschaften"
+msgstr "Währung Details"
 
 #. Create Sign entry
 #: ../src/gsb_currency_config.c:373
@@ -6964,15 +6963,15 @@ msgstr ""
 
 #: ../src/gsb_currency_config.c:824
 msgid "Currency for payees tree: "
-msgstr "Währung der Empfänger: "
+msgstr "Währung von den Empfängern: "
 
 #: ../src/gsb_currency_config.c:834
 msgid "Currency for categories tree: "
-msgstr "Währung der Kategorien: "
+msgstr "Währung von den Kategorien: "
 
 #: ../src/gsb_currency_config.c:844
 msgid "Currency for budgetary lines tree: "
-msgstr "Währung von Gruppe: "
+msgstr "Währung von den Gruppen: "
 
 #: ../src/gsb_currency_config.c:855
 msgid "Add transactions archived in the totals"
@@ -7036,7 +7035,7 @@ msgstr "Erfasste Wechselkurse"
 #. Input form for currencies
 #: ../src/gsb_currency_link_config.c:157
 msgid "Link properties"
-msgstr "Eigenschaften"
+msgstr "Wechselkurs Details"
 
 #. Create first currency link entry
 #: ../src/gsb_currency_link_config.c:169
@@ -8495,7 +8494,7 @@ msgstr "Saldo Ende"
 
 #: ../src/gsb_reconcile_config.c:115
 msgid "Select the end date of reconciliation: "
-msgstr "Abstimmung auswählen - Grisbi: "
+msgstr "Enddatum für Abstimmungen: "
 
 #: ../src/gsb_reconcile_config.c:116
 msgid "Start Date + one month"
@@ -8842,7 +8841,7 @@ msgstr "Ein oder alle Vorkommen von einer geplanten Buchung löschen"
 
 #: ../src/gsb_transactions_list.c:225
 msgid "Delete a rule file import."
-msgstr "Importregel löschen"
+msgstr "Eine Importregel löschen"
 
 #: ../src/gsb_transactions_list.c:348
 msgid "Blank the form to create a new transaction"
