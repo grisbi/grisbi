@@ -1469,12 +1469,12 @@ msgstr "Pas d'imputation budgétaire"
 #: ../src/bet_tab.c:2745
 #, c-format
 msgid "Balance of account : %s"
-msgstr "Solde du compte : "
+msgstr "Solde du compte : %s"
 
 #: ../src/bet_tab.c:2748
 #, c-format
 msgid "Partial balance : %s"
-msgstr "Solde partiel : "
+msgstr "Solde partiel : %s"
 
 #: ../src/bet_tab.c:2978 ../src/bet_tab.c:3077
 msgid "Export the array of forecast"
