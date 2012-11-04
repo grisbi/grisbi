@@ -24,11 +24,13 @@
 #endif
 
 #include "include.h"
+#include <string.h>
 
 /*START_INCLUDE*/
 #include "utils_real.h"
 #include "gsb_data_currency.h"
 #include "gsb_locale.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -150,6 +152,88 @@ gchar *utils_real_get_string_with_currency_from_double ( gdouble number,
     real = gsb_real_double_to_real ( number );
 
     return utils_real_get_string_with_currency ( real, currency_number, TRUE );
+}
+
+
+/**
+ * calcule le total du contenu de l'entrée donnée en argument
+ * accepte les + et les - * /
+ *
+ * \param entry         entrée d'un montant
+ *
+ * \return gsb_real     total de ce qui est dans l'entrée
+ */
+gsb_real utils_real_get_calculate_entry ( GtkWidget *entry )
+{
+    gchar *string;
+    gchar *pointeur;
+    gsb_real total = null_real;
+	
+    string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
+
+    if ( string && strlen ( string ) )
+        pointeur = string + strlen ( string );
+    else
+    {
+        if ( string )
+            g_free ( string );
+        return total;
+    }
+
+    if ( g_utf8_strchr ( string, -1, '-' ) || g_utf8_strchr ( string, -1, '+' ) )
+    {
+        while ( pointeur != string )
+        {
+            if ( pointeur[0] == '+'
+                 ||
+                 pointeur[0] == '-' )
+            {
+                total = gsb_real_add ( total,
+                            utils_real_get_from_string ( pointeur ) );
+                pointeur[0] = 0;
+            }
+            
+            pointeur--;
+        }
+        total = gsb_real_add ( total,
+                        utils_real_get_from_string ( pointeur ) );
+    }
+    else if ( g_utf8_strchr ( string, -1, '*' ) )
+    {
+        total.mantissa = 1;
+        total.exponent = 0;
+
+        while ( pointeur != string )
+        {
+            if ( pointeur[0] == '*' )
+            {
+                total = gsb_real_mul ( total,
+                            utils_real_get_from_string ( pointeur + 1 ) );
+                pointeur[0] = 0;
+            }
+            
+            pointeur--;
+        }
+        total = gsb_real_mul ( total,
+                        utils_real_get_from_string ( pointeur ) );
+    }
+    else if ( g_utf8_strchr ( string, -1, '/' ) )
+    {
+        gchar **tab;
+
+        tab = g_strsplit ( string, "/", 2 );
+
+        total = gsb_real_div ( utils_real_get_from_string ( tab[0] ),
+                        utils_real_get_from_string ( tab[1] ) );
+
+        g_strfreev ( tab );
+    }
+    else
+        total = utils_real_get_from_string ( string );
+
+    g_free ( string );
+
+    return total;
 }
 
 

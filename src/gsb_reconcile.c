@@ -59,7 +59,6 @@
 #include "transaction_list.h"
 #include "transaction_list_sort.h"
 #include "utils_dates.h"
-#include "utils_editables.h"
 #include "utils_real.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
@@ -799,7 +798,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     }
 
     currency_number = gsb_data_account_get_currency ( account_number );
-    amount = gsb_utils_edit_calculate_entry ( reconcile_final_balance_entry );
+    amount = utils_real_get_calculate_entry ( reconcile_final_balance_entry );
     final_balance = utils_real_get_string_with_currency ( amount, currency_number, FALSE );
     gtk_label_set_text ( GTK_LABEL ( reconcile_final_balance_label ), final_balance );
 

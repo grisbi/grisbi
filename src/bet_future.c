@@ -36,29 +36,29 @@
 #include "bet_tab.h"
 #include "dialog.h"
 #include "fenetre_principale.h"
-#include "utils_dates.h"
 #include "gsb_calendar_entry.h"
 #include "gsb_combo_box.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
 #include "gsb_data_currency_link.h"
+#include "gsb_data_form.h"
 #include "gsb_data_partial_balance.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_payment.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
-#include "navigation.h"
 #include "gsb_payment_method.h"
-#include "utils_editables.h"
 #include "gtk_combofix.h"
+#include "navigation.h"
+#include "structures.h"
 #include "utils.h"
+#include "utils_dates.h"
+#include "utils_editables.h"
 #include "utils_real.h"
 #include "utils_str.h"
-#include "structures.h"
-#include "gsb_data_payment.h"
-#include "gsb_data_form.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -1751,7 +1751,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
     if ( gsb_form_widget_check_empty ( widget ) == FALSE )
     {
         gsb_form_check_auto_separator ( widget );
-        scheduled -> amount = gsb_real_opposite ( gsb_utils_edit_calculate_entry ( widget ) );
+        scheduled -> amount = gsb_real_opposite ( utils_real_get_calculate_entry ( widget ) );
     }
     else
     {
@@ -1759,7 +1759,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
         {
             gsb_form_check_auto_separator ( widget );
-            scheduled -> amount = gsb_utils_edit_calculate_entry ( widget );
+            scheduled -> amount = utils_real_get_calculate_entry ( widget );
         }
         else
             return FALSE;

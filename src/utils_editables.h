@@ -4,7 +4,6 @@
 #include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
-#include "gsb_real.h"
 /* END_INCLUDE_H */
 
 
@@ -13,7 +12,6 @@ gboolean gsb_editable_erase_text_view ( GtkWidget *button,
 					GtkWidget *text_view );
 gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view );
 GtkWidget *gsb_editable_text_view_new ( const gchar *value );
-gsb_real gsb_utils_edit_calculate_entry ( GtkWidget *entry );
 void increment_decrement_champ ( GtkWidget *entry, gint increment );
 /* END_DECLARATION */
 #endif

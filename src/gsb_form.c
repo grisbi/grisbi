@@ -40,8 +40,9 @@
 #include "accueil.h"
 #include "bet_data.h"
 #include "dialog.h"
-#include "gsb_calendar_entry.h"
+#include "fenetre_principale.h"
 #include "gsb_calendar.h"
+#include "gsb_calendar_entry.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_budget.h"
@@ -55,35 +56,34 @@
 #include "gsb_data_report.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_dates.h"
 #include "gsb_file.h"
 #include "gsb_form_scheduler.h"
 #include "gsb_form_transaction.h"
 #include "gsb_form_widget.h"
 #include "gsb_fyear.h"
 #include "gsb_locale.h"
-#include "navigation.h"
-#include "menu.h"
-#include "tiers_onglet.h"
 #include "gsb_payment_method.h"
-#include "parametres.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_report.h"
 #include "gsb_scheduler.h"
 #include "gsb_scheduler_list.h"
 #include "gsb_transactions_list.h"
-#include "utils_editables.h"
 #include "gtk_combofix.h"
+#include "menu.h"
+#include "mouse.h"
+#include "navigation.h"
+#include "parametres.h"
+#include "structures.h"
+#include "tiers_onglet.h"
 #include "traitement_variables.h"
-#include "utils_real.h"
-#include "utils_str.h"
 #include "transaction_list.h"
 #include "transaction_list_select.h"
+#include "utils_dates.h"
+#include "utils_editables.h"
 #include "utils_operations.h"
-#include "fenetre_principale.h"
-#include "mouse.h"
-#include "structures.h"
+#include "utils_real.h"
+#include "utils_str.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -3170,7 +3170,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
         {
             gsb_form_check_auto_separator (element -> element_widget);
 		    gsb_data_mix_set_amount ( transaction_number, gsb_real_opposite (
-                        gsb_utils_edit_calculate_entry ( element -> element_widget )),
+                        utils_real_get_calculate_entry ( element -> element_widget )),
                         is_transaction);
         }
 		break;
@@ -3180,7 +3180,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
         {
             gsb_form_check_auto_separator (element -> element_widget);
 		    gsb_data_mix_set_amount ( transaction_number,
-                        gsb_utils_edit_calculate_entry ( element -> element_widget ),
+                        utils_real_get_calculate_entry ( element -> element_widget ),
                         is_transaction);
         }
 		break;
