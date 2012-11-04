@@ -342,6 +342,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         NULL,
                         G_CALLBACK (gsb_data_account_set_holder_address),
                         0 );
+    gtk_widget_set_size_request ( detail_adresse_titulaire, -1, 70 );
 
     /* now the checkbutton for different address */
     button_holder_address = gsb_autofunc_checkbutton_new (

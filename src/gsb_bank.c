@@ -761,6 +761,7 @@ static GtkWidget *gsb_bank_create_form ( GtkWidget *parent,
                         NULL,
                         G_CALLBACK ( gsb_data_bank_set_bank_address ),
                         0 );
+    gtk_widget_set_size_request ( bank_adr, -1, 70 );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), bank_adr );
     gtk_size_group_add_widget ( size_group, bank_adr );
     gtk_table_attach ( GTK_TABLE ( table ),
