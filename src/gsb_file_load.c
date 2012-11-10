@@ -360,7 +360,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                 dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
                         "handle that file.\n\n"
                         "Please make sure if is installed (i.e. check "
-                        "that 'grisbi-ssl' package is installed) and "
+                        "that 'open-ssl' package is installed) and "
                         "try again."),
                         _("Encryption plugin not found." ) );
                 return FALSE;
@@ -453,7 +453,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 {
     gint unknown = 0;
 
-    /* the first time we come here, we check if it's a grisbi file */
+    /* the first time we come here, we check if it's a Grisbi file */
     if ( !download_tmp_values.download_ok )
     {
         if ( strcmp ( element_name, 
@@ -723,7 +723,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
                         GError *error,
                         gpointer user_data )
 {
-    /* the first time we come here, we check if it's a grisbi file */
+    /* the first time we come here, we check if it's a Grisbi file */
     gchar* tmpstr = g_strdup_printf (
                         _("An error occured while parsing the file :\nError number : %d\n%s"),
                         error -> code,
@@ -735,7 +735,7 @@ void gsb_file_load_error ( GMarkupParseContext *context,
 
 
 /**
- * load the general part in the grisbi file
+ * load the general part in the Grisbi file
  *
  * \param attribute_names
  * \param attribute_values
@@ -1133,7 +1133,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 }
 
 /**
- * load the color part in the grisbi file
+ * load the color part in the Grisbi file
  *
  * \param attribute_names
  * \param attribute_values
@@ -1374,7 +1374,7 @@ void gsb_file_load_color_part ( const gchar **attribute_names,
 
 
 /**
- * load the print part in the grisbi file
+ * load the print part in the Grisbi file
  *
  * \param attribute_names
  * \param attribute_values

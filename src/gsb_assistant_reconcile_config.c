@@ -167,7 +167,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 
     if (!transactions_list)
     {
-	dialogue (_("No marked transactions without reconciliation found !"));
+	dialogue (_("No marked transactions without reconciliation found!"));
 	return GTK_RESPONSE_CANCEL;
     }
 
@@ -176,7 +176,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 
     /* come here if we have some orphan transactions
      * this can happen by 2 ways :
-     * for old users of grisbi, before i don't remember what version, there were no reconcile number,
+     * for old users of Grisbi, before i don't remember what version, there were no reconcile number,
      * 		the reconciled transactions were juste marked R
      * before the 0.6.0, ctrl R didn't permit to choose a reconcile
      *
@@ -192,10 +192,10 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
 
     /* first, create the assistant */
     tmpstr = g_strdup_printf (_("Grisbi found %d marked transactions not associated with a reconciliation number, "
-						       "this can happen for old users of grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
+						       "this can happen for old users of Grisbi or from a misuse of the Ctrl-R shortcut.\n\n"
 						       "This assistant will help you make the link between such transactions and a reconciliation.\n\n"
 						       "Before continuing, you should first check if all the dates of the existing reconciliations are good "
-						       "because grisbi will try to guess them not very precisely "
+						       "because Grisbi will try to guess them not very precisely "
 						       "(you will be able to create new reconciliations in the next step). "
 						       "Previous reconciliations will be available too."),
 						       transactions_to_link );
@@ -708,7 +708,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
     page = gtk_vbox_new ( FALSE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
-    label = gtk_label_new (_("Congratulation !\n\n"
+    label = gtk_label_new (_("Congratulations!\n\n"
 			     "You have linked all the transactions without reconcile.\n"
 			     "Normally you needn't have to come back to that assistant ; it shouldn't have any way now\n"
 			     "	to have some transactions without reconciliation number."));
@@ -838,7 +838,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     gtk_entry_set_text ( GTK_ENTRY (reconcile_init_balance_entry), "" );
     gtk_entry_set_text ( GTK_ENTRY (reconcile_final_balance_entry), "" );
 
-    string = make_blue ( g_strdup_printf ( _("Reconciliation %s successfully appended !"),
+    string = make_blue ( g_strdup_printf ( _("Reconciliation %s successfully appended!"),
                         gsb_data_reconcile_get_name ( reconcile_number ) ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), string );
     g_free ( string );
@@ -952,7 +952,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
     }
     else
     {
-	string = my_strdup (_("There is no transaction that grisbi can link.\n"
+	string = my_strdup (_("There is no transaction that Grisbi can link.\n"
 			      "Check if you created all the necesssary reconciles."));
 	gtk_widget_set_sensitive ( button_run_association,
 				   FALSE );
@@ -1013,7 +1013,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 				 0, 0.5 );
 
 	gtk_label_set_text ( GTK_LABEL (label_possible_association),
-			     _("There is no transaction that grisbi can link.\n"
+			     _("There is no transaction that Grisbi can link.\n"
 			       "Check if you created all the necesssary reconciles."));
 	gtk_widget_set_sensitive ( button_run_association,
 				   FALSE );

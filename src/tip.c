@@ -39,7 +39,7 @@
 static const gchar* tips[] =
 {
     N_("You can reconcile transactions to match your real financial state as "
-    "seen on your bank receipts.  If you just spend 15mn each month reconciling "
+    "seen on your bank receipts. If you just spend 15mn each month reconciling "
     "Grisbi transactions with your bank receipts, you are guaranteed that your "
     "accounts are in perfect shape."),
     N_("Grisbi automatically saves a copy of your work if it crashes.\n\nThus "
@@ -58,8 +58,8 @@ static const gchar* tips[] =
     N_("You can encrypt your Grisbi files to improve your privacy.  Just select "
     "the 'Encrypt Grisbi file' in preferences window and enter a password next "
     "time you save your file.\n\nEncryption is irreversible, if you loose your "
-    "password, there is NO WAY to restore your Grisbi accounts.  Use with "
-    "caution !"),
+    "password, there is NO WAY to restore your Grisbi accounts. Use with "
+    "caution!"),
     N_("You can efficiently manage your professional expenses with Grisbi.\n\n"
     "Create a <i>Professional expenses</i> budgetary line and put all "
     "professional expenses there.  When you are paid, split your salary as a "
@@ -91,14 +91,14 @@ static const gchar* tips[] =
     "possibily put old transactions into separate files for archival.  Use "
     "'File/Archive transaction' menu to achieve this."),
     N_("If unused payees have accumulated in the course of time due to bank "
-    "imports, you can remove all of them in one click!  Just go to the "
+    "imports, you can remove all of them in one click! Just go to the "
     "<i>Payees</i> page and click on the 'Remove unused payees' button."),
     N_("You can sort the transaction list according to any criteria.  Click on "
-    "the column titles to sort transactions differently.  For example, you can "
+    "the column titles to sort transactions differently. For example, you can "
     "sort transactions by payee or category name."),
     N_("You can reorder accounts in the navigation list using drag &amp; drop."),
     N_("You can have future scheduled transactions 'executed' before their date, "),
-    N_("No more tip available !  Please send any tips you know to "
+    N_("No more tip available!  Please send any tips you know to "
     "grisbi-devel@lists.sourceforge.net so that we can include them in next "
     "version for all users.")
 };
@@ -133,7 +133,7 @@ void display_tip ( gboolean force )
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
                         make_hint ( _("Did you know that..."),
-                        /* We use the grisbi-tips catalog */
+                        /* We use the Grisbi-tips catalog */
                         g_dgettext(NULL, tips[conf.last_tip]) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 

@@ -419,7 +419,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     }
 
     /* partie mensuelle */
-    label = gtk_label_new ( _("Duration estimation") );
+    label = gtk_label_new ( _("Duration estimation:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( box ), label, FALSE, FALSE, 5 ) ;
@@ -582,7 +582,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     origine = SPP_ORIGIN_TRANSACTION;
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
-    label = gtk_label_new ( _("Labels for transactions") );
+    label = gtk_label_new ( _("Labels for transactions:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
@@ -601,7 +601,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     origine = SPP_ORIGIN_SCHEDULED;
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
-    label = gtk_label_new ( _("Labels for scheduled transactions") );
+    label = gtk_label_new ( _("Labels for scheduled transactions:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
@@ -619,7 +619,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     origine = SPP_ORIGIN_FUTURE;
     select = gsb_data_account_get_bet_select_label ( bet_config_get_account_from_combo ( ),
                         origine );
-    label = gtk_label_new ( _("Labels for futur data") );
+    label = gtk_label_new ( _("Labels for futur data:") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5 );
@@ -633,8 +633,8 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
                         GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button, FALSE, FALSE, 0 );
 
-    text = make_blue ( _("Order by default if the data are not zero: notes, payee, "
-                        "category and budgetary line.") );
+    text = make_blue ( _("Order by default if the data are not zero:\n"
+                        "\tnotes, payee, category and budgetary line.") );
     label = gtk_label_new ( text );
     gtk_label_set_use_markup ( GTK_LABEL(label), TRUE );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
@@ -1319,7 +1319,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
-    label = gtk_label_new ( _("Date of first Repayment: ") );
+    label = gtk_label_new ( _("Date of first repayment: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );

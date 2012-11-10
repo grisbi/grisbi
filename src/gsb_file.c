@@ -1138,8 +1138,8 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gint resultat;
 	gchar *tmpstr;
 
-    dialog = gtk_dialog_new_with_buttons ( 
-                        _("Delete file copy from a previous version of grisbi"),
+    dialog = gtk_dialog_new_with_buttons (
+                        _("Delete file copy from a previous version of Grisbi"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
@@ -1158,9 +1158,9 @@ void gsb_file_save_remove_old_file ( gchar *filename )
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
-    tmpstr = g_strdup_printf ( 
+    tmpstr = g_strdup_printf (
                         _("Caution, you are about to delete a file copy\n"
-                        "from a previous version of grisbi.\n"
+                        "from a previous version of Grisbi.\n"
                         "\n<b>Do you want to delete this file:\n%s ?</b>"),
                         filename );
 

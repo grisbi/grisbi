@@ -1781,7 +1781,7 @@ void bet_historical_set_page_title ( gint account_number )
     result = gsb_data_account_get_bet_hist_fyear ( account_number );
     if ( result == 0 )
         title = g_strdup_printf (
-                    _("Amounts by %s on 12 months rolling for the account: «%s»"),
+                    _("Amounts by %s on 12 months rolling for the account: '%s'"),
                     hist_srce_name,
                     gsb_data_account_get_name ( account_number ) );
     else

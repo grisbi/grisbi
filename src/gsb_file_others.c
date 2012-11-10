@@ -581,11 +581,11 @@ gboolean gsb_file_others_load ( gchar *filename,
 		    gsb_gui_navigation_add_report ( report_number );
 
 		    /* inform the user of that */
-		    dialogue_hint ( _("Some things in a report cannot be imported :\n"
+		    dialogue_hint ( _("Some things in a report cannot be imported:\n"
                         "The selected lists of financial years, accounts, transfer accounts, "
                         "categories, budgetaries, parties and kind of payments.\nSo that lists "
                         "have been erased while the import.\nThe currencies have been set too "
-                        "on the first currency of this grisbi file.\nYou should check and modify "
+                        "on the first currency of this Grisbi file.\nYou should check and modify "
                         "that in the property box of that account."),
 				        _("Importing a report"));
 		}
@@ -626,14 +626,14 @@ gboolean gsb_file_others_check_file ( gchar *file_content,
 	 ||
 	 strlen (file_content) < 37 )
     {
-	dialogue_error ( _("This is not a grisbi file, loading canceled..."));
+	dialogue_error ( _("This is not a Grisbi file, loading canceled..."));
 	return FALSE;
     }
 
     file_content = gsb_string_uniform_new_line ( file_content, 37 );
     if ( !file_content )
     {
-        dialogue_error ( _("This is not a grisbi file, loading canceled..."));
+        dialogue_error ( _("This is not a Grisbi file, loading canceled..."));
         return FALSE;
     }
 

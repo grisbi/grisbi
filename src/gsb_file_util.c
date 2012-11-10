@@ -332,7 +332,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         {
             gchar* tmp_str;
 
-            tmp_str = g_strdup_printf ( _("Cannot write lock file :'%s': %s"),
+            tmp_str = g_strdup_printf ( _("Cannot write lock file: '%s': %s"),
                                 nom_fichier_comptes,
                                 g_strerror ( errno ) );
             dialogue_error ( tmp_str );
@@ -359,7 +359,7 @@ gboolean gsb_file_util_modify_lock ( gboolean create_lock )
         {
             gchar* tmp_str;
 
-            tmp_str = g_strdup_printf (_("Cannot erase lock file :'%s': %s"),
+            tmp_str = g_strdup_printf (_("Cannot erase lock file: '%s': %s"),
                                 nom_fichier_comptes,
                                 g_strerror ( errno ) );
             dialogue_error ( tmp_str );

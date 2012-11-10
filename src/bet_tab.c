@@ -1578,7 +1578,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
     gtk_widget_show ( menu_item );
 
     /* Insert Row */
-    menu_item = gtk_image_menu_item_new_with_label ( _("Insert Row") );
+    menu_item = gtk_image_menu_item_new_with_label ( _("Insert row") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                     gtk_image_new_from_stock ( GTK_STOCK_ADD,
                     GTK_ICON_SIZE_MENU ) );
@@ -2740,10 +2740,10 @@ gchar *bet_array_list_get_description ( gint account_number,
         struct_transfert_data *transfert = ( struct_transfert_data * ) value;
 
         if ( transfert -> type == 0 )
-            desc = g_strdup_printf ( _("Balance of account : %s"),
+            desc = g_strdup_printf ( _("Balance of account: %s"),
                         gsb_data_account_get_name ( transfert -> replace_account ) );
         else
-            desc = g_strdup_printf ( _("Partial balance : %s"),
+            desc = g_strdup_printf ( _("Partial balance: %s"),
                         gsb_data_partial_balance_get_name ( transfert -> replace_account ) );
     }
 

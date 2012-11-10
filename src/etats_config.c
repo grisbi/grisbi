@@ -1325,8 +1325,8 @@ void recuperation_info_perso_etat ( void )
     if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
 	 !gsb_date_check_entry ( entree_date_init_etat ) )
     {
-	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid initial date '%s'"),
+	dialogue_error_hint ( _("Grisbi can't parse date. For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+			      g_strdup_printf ( _("Invalid initial date: '%s'"),
 						gtk_entry_get_text(GTK_ENTRY(entree_date_init_etat)) ) );
 	return;
     }
@@ -1334,8 +1334,8 @@ void recuperation_info_perso_etat ( void )
     if ( GPOINTER_TO_INT ( GTK_CLIST ( liste_plages_dates_etat ) -> selection -> data ) == 1 &&
 	 !gsb_date_check_entry (entree_date_finale_etat ) )
     {
-	dialogue_error_hint ( _("Grisbi can't parse date.  For a list of date formats that Grisbi can use, refer to Grisbi manual."),
-			      g_strdup_printf ( _("Invalid final date '%s'"),
+	dialogue_error_hint ( _("Grisbi can't parse date. For a list of date formats that Grisbi can use, refer to Grisbi manual."),
+			      g_strdup_printf ( _("Invalid final date: '%s'"),
 						gtk_entry_get_text(GTK_ENTRY(entree_date_finale_etat)) ) );
 	return;
     }
@@ -1512,7 +1512,7 @@ void recuperation_info_perso_etat ( void )
     {
 	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
-				       _("All financial years have been selected.  Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
+				       _("All financial years have been selected. Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
 	gsb_data_report_set_financial_year_type ( current_report_number,
 						  0 );
     }
@@ -1571,7 +1571,7 @@ void recuperation_info_perso_etat ( void )
     {
 	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
-				       _("All accounts have been selected.  Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
+				       _("All accounts have been selected. Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
 	gsb_data_report_set_account_use_chosen ( current_report_number,
 						 0 );
     }
@@ -1720,7 +1720,7 @@ void recuperation_info_perso_etat ( void )
     {
 	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
-				       _("All payees have been selected.  Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
+				       _("All payees have been selected. Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
 	gsb_data_report_set_payee_detail_used ( current_report_number,
 						0 );
     }
@@ -1899,7 +1899,7 @@ void recuperation_info_perso_etat ( void )
     {
 	dialogue_special ( GTK_MESSAGE_INFO,
 			   make_hint ( _("Performance issue."),
-				       _("All methods of payment have been selected.  Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
+				       _("All methods of payment have been selected. Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
 	gsb_data_report_set_method_of_payment_used ( current_report_number,
 						     0 );
     }
@@ -3682,11 +3682,11 @@ static GSList *report_config_categ_budget_get_selected ( gboolean is_categ )
 	if (is_categ)
 	    dialogue_special ( GTK_MESSAGE_INFO,
 			       make_hint ( _("Performance issue."),
-					   _("All categories have been selected.  Grisbi will run faster without the \"Detail categories used\" option activated.")));
+					   _("All categories have been selected. Grisbi will run faster without the \"Detail categories used\" option activated.")));
 	else
 	    dialogue_special ( GTK_MESSAGE_INFO,
 			       make_hint ( _("Performance issue."),
-					   _("All budgets have been selected.  Grisbi will run faster without the \"Detail budgets used\" option activated.")));
+					   _("All budgets have been selected. Grisbi will run faster without the \"Detail budgets used\" option activated.")));
 
 	report_config_mix_select_all (model, FALSE);
 	gsb_data_report_free_categ_budget_struct (tmp_list);
@@ -4744,7 +4744,7 @@ GtkWidget *cree_ligne_comparaison_texte ( gint text_comparison_number )
 			 0 );
     gtk_widget_show (gsb_data_report_text_comparison_get_entry_second_amount (text_comparison_number));
 
-    /* on met les bouton ajouter et supprimer */
+    /* on met les boutons ajouter et supprimer */
 
     bouton = gtk_button_new_with_label ( _("Add"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
@@ -5637,8 +5637,7 @@ GtkWidget *cree_ligne_comparaison_montant ( gint amount_comparison_number )
     gsb_data_report_amount_comparison_set_entry_second_amount ( amount_comparison_number,
 								widget);
 
-    /* on met les bouton ajouter et supprimer */
-
+    /* on met les boutons ajouter et supprimer */
     bouton = gtk_button_new_with_label ( _("Add"));
     gtk_button_set_relief ( GTK_BUTTON ( bouton ),
 			    GTK_RELIEF_NONE );

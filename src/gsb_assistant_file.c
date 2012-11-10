@@ -483,7 +483,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = new_vbox_with_title_and_icon ( _("Configuration finished !"),
+    vbox = new_vbox_with_title_and_icon ( _("Configuration finished!"),
 					  "reconciliationlg.png" );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,

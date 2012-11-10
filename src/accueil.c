@@ -458,11 +458,11 @@ void update_liste_comptes_accueil ( gboolean force )
 
         /* Creating the table which will store accounts with their balances. */
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strdup_printf ( _("Account balances in %s at %s"),
+            tmpstr = g_strdup_printf ( _("Accounts balance in %s at %s"),
                         gsb_data_currency_get_name ( currency_number ),
                         gsb_date_today ( ) );
         else
-            tmpstr = g_strdup_printf ( _("Account balances in %s"),
+            tmpstr = g_strdup_printf ( _("Accounts balance in %s"),
                         gsb_data_currency_get_name ( currency_number ) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -539,11 +539,11 @@ void update_liste_comptes_accueil ( gboolean force )
 
         /* Creating the table which will store accounts with their balances   */
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s at %s"),
+            tmpstr = g_strdup_printf (_("Liabilities accounts balance in %s at %s"),
                         gsb_data_currency_get_name (currency_number),
                         gsb_date_today ( ) );
         else
-            tmpstr = g_strdup_printf (_("Liabilities accounts balances in %s"),
+            tmpstr = g_strdup_printf (_("Liabilities accounts balance in %s"),
                          gsb_data_currency_get_name (currency_number) );
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -619,11 +619,11 @@ void update_liste_comptes_accueil ( gboolean force )
 
         /* Creating the table which will store accounts with their balances    */
         if ( conf.balances_with_scheduled == FALSE )
-            tmpstr = g_strdup_printf (_("Assets accounts balances in %s at %s"),
+            tmpstr = g_strdup_printf (_("Assets accounts balance in %s at %s"),
                         gsb_data_currency_get_name (currency_number),
                         gsb_date_today ( ) );
         else
-            tmpstr = g_strdup_printf (_("Assets accounts balances in %s"),
+            tmpstr = g_strdup_printf (_("Assets accounts balance in %s"),
                          gsb_data_currency_get_name (currency_number));
 
         paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmpstr );
@@ -1702,7 +1702,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 					      (gchar *) liste_autorise_et_voulu -> data );
 	else
 	{
-	    texte_affiche = g_strdup(_("accounts with the balance under desired and authorised minimal :\n\n"));
+	    texte_affiche = g_strdup(_("accounts with the balance under desired and authorised minimal:\n\n"));
 	    liste_tmp = liste_autorise_et_voulu;
 	    while ( liste_tmp )
 	    {
@@ -1741,7 +1741,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	{
 	    gchar* oldstr = texte_affiche;
 	    texte_affiche = g_strconcat ( oldstr,
-					  _("accounts with the balance under authorised minimal :\n\n"),
+					  _("accounts with the balance under authorised minimal:\n\n"),
 					  NULL );
 	    g_free ( oldstr );
 	    liste_tmp = liste_autorise;
@@ -1783,7 +1783,7 @@ void affiche_dialogue_soldes_minimaux ( void )
 	{
 	    gchar* oldstr = texte_affiche;
 	    texte_affiche = g_strconcat ( oldstr,
-					  _("accounts with the balance under desired minimal :\n\n"),
+					  _("accounts with the balance under desired minimal:\n\n"),
 					  NULL );
 	    g_free ( oldstr );
 	    liste_tmp = liste_voulu;

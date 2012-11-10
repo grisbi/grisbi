@@ -2754,7 +2754,7 @@ gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
         amount_string = utils_real_get_string_with_currency ( total_split, currency_number, TRUE);
         variance_string = utils_real_get_string_with_currency (variance, currency_number, TRUE);
 
-        tmp_str = g_strdup_printf ( _("Total : %s (variance : %s)"), amount_string, variance_string );
+        tmp_str = g_strdup_printf ( _("Total: %s (variance : %s)"), amount_string, variance_string );
 
         g_free ( amount_string );
         g_free ( variance_string );
@@ -2863,7 +2863,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
 
         message = g_strdup_printf ( _("Some scheduled children didn't find their mother in the list, "
                         "this shouldn't happen and there is probably a bug behind that.\n\n"
-                        "The concerned children number are :\n %s\n\n"
+                        "The concerned children number are:\n %s\n\n"
                         "Do you want to delete it"),
                         string );
 

@@ -181,7 +181,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 			hbox,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Initial date : "));
+    label = gtk_label_new (_("Initial date: "));
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
@@ -193,7 +193,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 			init_date_entry,
 			FALSE, FALSE, 0);
 
-    label = gtk_label_new (_("Final date : "));
+    label = gtk_label_new (_("Final date: "));
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);

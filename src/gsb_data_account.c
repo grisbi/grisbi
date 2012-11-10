@@ -550,7 +550,7 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 	 ||
 	 nb_rows > 4 )
     {
-	devel_debug ( g_strdup_printf ( _("Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"),
+	devel_debug ( g_strdup_printf ( _("Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c: %d\n"),
 		 nb_rows ) );
 	return FALSE;
     }

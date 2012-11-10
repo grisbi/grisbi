@@ -465,7 +465,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
                           "If you continue, all the transactions linked to that archive "
                           "will loose the link and will begin again not archived.\n"
                           "All the information about that archive will be destroyed.\n\n"
-                          "Do you want to continue ?"),
+                          "Do you want to continue?"),
                         gsb_data_archive_get_name (archive_number) );
     if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
     {

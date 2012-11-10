@@ -1294,7 +1294,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
 						account_number,
 						payment_number, FALSE ))
     {
-	dialogue_error ( _("Problem while filling the target method of payment to delete it.\nThis is not normal, please contact the grisbi team."));
+	dialogue_error ( _("Problem while filling the target method of payment to delete it.\nThis is not normal, please contact the Grisbi team."));
 	return FALSE;
     }
 

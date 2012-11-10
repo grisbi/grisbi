@@ -320,7 +320,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 
 /**
  * create the page 3 of the first assistant
- * this is the page for report error of reconcile import of an old grisbi file
+ * this is the page for report error of reconcile import of an old Grisbi file
  *
  * \param assistant the GtkWidget assistant
  *

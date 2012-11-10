@@ -541,7 +541,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
 
     label = gtk_label_new ( NULL );
     tmpstr = g_strdup_printf ( _("You are here because your file"
-                        " can't be imported directly into grisbi.\n%s"),
+                        " can't be imported directly into Grisbi.\n%s"),
                         filename );
     gtk_label_set_markup ( GTK_LABEL ( label ),
                         make_pango_attribut ( "weight=\"bold\"",tmpstr ) );
@@ -594,7 +594,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
 
     /* select an other encoding */
     label = gtk_label_new ( _("If no proposals above are correct you can choose a "
-                        "different charset") );
+                        "different charset.") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
@@ -745,7 +745,7 @@ void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
     {
         gtk_label_set_text ( GTK_LABEL ( label ), "");
         gtk_label_set_markup ( GTK_LABEL ( label ),
-                        make_red ( _("The conversion failed try another set of characters") ) );
+                        make_red ( _("The conversion failed, try another set of characters") ) );
         gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
     }
 }

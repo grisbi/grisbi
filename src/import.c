@@ -969,7 +969,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     if ( liste_comptes_importes )
     {
         gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                            _("Congratulations !"), -1,
+                            _("Congratulations!"), -1,
                             "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -1016,7 +1016,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
     else
     {
         gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-                        _("Error !"), -1,
+                        _("Error!"), -1,
                         "x-large", NULL);
         gtk_text_buffer_insert (buffer, &iter, "\n\n", -1 );
 
@@ -1375,7 +1375,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     compte -> hbox_rule = gtk_hbox_new (FALSE, 5);
     gtk_box_pack_start ( GTK_BOX ( vbox ), compte -> hbox_rule, FALSE, FALSE, 0 );
     compte -> entry_name_rule = gtk_entry_new ();
-    button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule : "),
+    button = gsb_automem_checkbutton_new (_("Create a rule for this import. Name of the rule: "),
                         &compte -> create_rule, G_CALLBACK (
                         gsb_button_sensitive_by_checkbutton),
                         compte -> entry_name_rule);
@@ -1411,7 +1411,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
                         _("The account currency imported %s is %s.\nThis currency "
                         "doesn't exist so you have to create it by selecting OK.\n"
                         "\n"
-                        "Do you create it ?"),
+                        "Do you create it?"),
                         compte -> nom_de_compte,
                         compte -> devise );
     tmpstr2 = g_strdup_printf ( 
@@ -1622,7 +1622,7 @@ void traitement_operations_importees ( void )
     if (!gsb_data_account_get_accounts_amount ())
     {
     dialogue_error (_("No account in memory now, this is bad...\nBetter to leave "
-                      "the import before a crash.\n\nPlease contact the grisbi team "
+                      "the import before a crash.\n\nPlease contact the Grisbi team "
                       "to find the problem."));
     return;
     }
@@ -2359,12 +2359,12 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    tmpstr2 = utils_real_get_string ( gsb_real_adjust_exponent ( ope_import -> montant,
                         return_exponent ) );
         if ( etat.get_fusion_import_transactions )
-            tmpstr = g_strdup_printf ( _("Transaction to be merged : %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction to be merged: %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
                         tmpstr2);
         else
-            tmpstr = g_strdup_printf ( _("Transaction to import : %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction to import: %s ; %s ; %s"),
                         gsb_format_gdate ( ope_import -> date ),
                         ope_import -> tiers,
                         tmpstr2);
@@ -2390,7 +2390,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    {
             tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
-            tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction found: %s ; %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (
                         ope_import -> ope_correspondante ) ),
                         tiers,
@@ -2404,7 +2404,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	    {
             tmpstr2 = utils_real_get_string (gsb_data_transaction_get_amount (
                                 ope_import -> ope_correspondante));
-            tmpstr = g_strdup_printf ( _("Transaction found : %s ; %s ; %s"),
+            tmpstr = g_strdup_printf ( _("Transaction found: %s ; %s ; %s"),
                         gsb_format_gdate ( gsb_data_transaction_get_date (
                         ope_import -> ope_correspondante ) ),
                         tiers,
@@ -3375,8 +3375,8 @@ gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
 		/* 		    on propose encore d'arrêter... */
             if ( question_yes_no_hint (
                         _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account ?  If you choose to continue, "
-                        "the id of the account will be changed.  Do you want to continue ?"),
+					    _("Perhaps you choose a wrong account?  If you choose to continue, "
+                        "the id of the account will be changed. Do you want to continue?"),
 					    GTK_RESPONSE_NO ) )
                 gsb_data_account_set_id ( account_nb, my_strdup ( imported_id ) );
             else

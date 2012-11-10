@@ -143,7 +143,7 @@ GtkResponseType gsb_assistant_archive_run ( gboolean origin )
     else
 	/* come by menu action */
 	tmpstr = my_strdup (_("This assistant will guide you through the process of archiving transactions "
-			      "to increase the speed of grisbi.\n\n"
+			      "to increase the speed of Grisbi.\n\n"
 			      "By default, Grisbi does not export any archive into separate files, "
 			      "it just mark transactions as archted and do not use them.\n\n"
 			      "You can still export them into a separate archive file if necessary.\n"));
@@ -428,7 +428,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
     gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-					      _("Congratulations !"), -1,
+					      _("Congratulations!"), -1,
 					      "x-large", "bold", NULL);
     gtk_text_buffer_insert ( buffer, &iter, "\n\n", -1 );
     
@@ -468,7 +468,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     gtk_text_buffer_get_iter_at_offset (buffer, &iter, 1);
     gtk_text_buffer_insert ( buffer, &iter, "\n", -1 );
     gtk_text_buffer_insert_with_tags_by_name (buffer, &iter,
-					      _("Failed !"), -1,
+					      _("Failed!"), -1,
 					      "x-large", "bold", NULL);
     gtk_text_buffer_insert ( buffer, &iter, "\n\n", -1 );
     

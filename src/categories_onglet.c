@@ -795,14 +795,14 @@ gboolean edit_category ( GtkTreeView *tree_view )
 	    if ( sub_category_number > 0 )
 	    {
 		message = g_strdup_printf ( _("You tried to rename current sub-category to '%s' "
-					      "but this sub-category already exists.  Please "
+					      "but this sub-category already exists. Please "
 					      "choose another name."),
 					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 	    }
 	    else
 	    {
 		message = g_strdup_printf ( _("You tried to rename current category to '%s' "
-					      "but this category already exists.  Please "
+					      "but this category already exists. Please "
 					      "choose another name."),
 					    gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 	    }

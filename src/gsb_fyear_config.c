@@ -712,7 +712,7 @@ gboolean gsb_fyear_config_remove_fyear ( GtkWidget *tree_view )
 		gint result;
 
 		result = question_yes_no_hint ( _("The selected financial year is used in the file"),
-						_("If you really remove it, all the associated transactions will be without financial year.\nAre you sure ?"),
+						_("If you really remove it, all the associated transactions will be without financial year.\nAre you sure?"),
 						GTK_RESPONSE_NO );
 		if (result)
 		{

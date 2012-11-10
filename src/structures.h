@@ -152,7 +152,7 @@ struct gsb_conf_t
     gint sauvegarde_demarrage;                      /* utilisé pour enregistrer le fichier s'il s'est bien ouvert */
     gint sauvegarde_auto;                           /* utilisé pour enregistrer le fichier automatiquementà la fermeture */
     gint dernier_fichier_auto;
-    gint compress_file;                             /* TRUE if we want to compress the grisbi file */
+    gint compress_file;                             /* TRUE if we want to compress the Grisbi file */
     gint alerte_permission;                         /* à un si le message d'alerte s'affiche */
     gint force_enregistrement;                      /* à un si on force l'enregistrement */
     gint nb_max_derniers_fichiers_ouverts;          /* contient le nb max que peut contenir nb_derniers_fichiers_ouverts */

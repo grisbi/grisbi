@@ -381,7 +381,7 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
             return parties_list;
         }
 
-        if ( strncmp ( string, _("Report : "), 7 ) )
+        if ( strncmp ( string, _("Report: "), 7 ) )
             /* the party is not a report, set -1 and go away */
             parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
         else

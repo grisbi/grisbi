@@ -498,7 +498,7 @@ gboolean gsb_debug_start_log ( void )
         if ( widget && GTK_IS_WIDGET ( widget ) )
             gtk_widget_set_sensitive ( widget, FALSE );
 
-        /* début du mode débogage */
+        /* début du mode de débogage */
         tmp_str = g_strdup_printf(_("%s, %2f : Debug - %s:%d:%s\n\n"),
                         get_debug_time ( ),
                         (double ) clock ( )/ CLOCKS_PER_SEC,

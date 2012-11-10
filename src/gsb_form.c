@@ -3355,7 +3355,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		    if (!question_yes_no_hint ( _("Modifying a transaction"),
 						_("You are trying to change a split of transaction to another kind of transaction.\n"
                         "There is some children to that transaction, if you continue, the children will "
-                        "be deleted.\nAre you sure ?"),
+                        "be deleted.\nAre you sure?"),
 						GTK_RESPONSE_OK ))
 			return FALSE;
 

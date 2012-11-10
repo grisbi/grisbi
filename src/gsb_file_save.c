@@ -408,7 +408,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
                         "handle that file.\n\n"
                         "Please make sure if is installed (i.e. check "
-                        "that 'grisbi-ssl' package is installed) and "
+                        "that 'open-ssl' package is installed) and "
                         "try again."),
                       _("Encryption plugin not found." ) );
 

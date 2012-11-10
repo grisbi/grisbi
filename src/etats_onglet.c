@@ -263,7 +263,7 @@ gboolean ajout_etat ( void )
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( _("Choose template for new report"),
-						   _("You are about to create a new report.  For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
+						   _("You are about to create a new report. For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
 
     frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
 					_("Report type"));
@@ -918,7 +918,7 @@ void change_choix_nouvel_etat ( GtkWidget *combobox, GtkWidget *label_descriptio
 	case 6:
 	    /* Search */
 
-	    description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, payees etc. criteria thant you want. By default the transactions are clickables.");
+	    description = _("This report displays all the information for all transactions of all accounts for the current year. You just have to add the amount, date, payees etc. criteria that you want. By default the transactions are clickables.");
 	    break;
 
 	default:
@@ -1158,7 +1158,7 @@ void exporter_etat ( void )
     {
 	nom_etat = file_selection_get_filename ( GTK_FILE_CHOOSER ( fenetre_nom ));
 
-	gsb_status_message ( _("Exporting report ...") );
+	gsb_status_message ( _("Exporting report...") );
 
 	gsb_status_wait ( TRUE );
 

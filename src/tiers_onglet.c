@@ -1302,13 +1302,13 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
 
     str_cherche = gtk_combofix_get_text ( g_object_get_data (
                         G_OBJECT (assistant), "payee") );
-    str = g_strdup_printf ( _("Payee sought : %s"), str_cherche );
+    str = g_strdup_printf ( _("Payee sought: %s"), str_cherche );
     payee_search_label = g_object_get_data (
                         G_OBJECT (assistant), "payee_search_label" );
     gtk_label_set_text ( GTK_LABEL (payee_search_label), str );
     new_tiers = gtk_entry_get_text( g_object_get_data (
                         G_OBJECT (assistant), "new_payee") );
-    new_tiers = g_strdup_printf ( _("New payee : %s"), new_tiers );
+    new_tiers = g_strdup_printf ( _("New payee: %s"), new_tiers );
     new_payee_label = g_object_get_data (
                         G_OBJECT (assistant), "new_payee_label" );
     gtk_label_set_text ( GTK_LABEL (new_payee_label), new_tiers );

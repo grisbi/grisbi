@@ -160,7 +160,7 @@ void transaction_list_append_transaction ( gint transaction_number )
 							   gsb_data_transaction_get_currency_number (transaction_number), TRUE);
 	variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
 							     gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
 							   amount_string,
 							   variance_string );
 	g_free (amount_string);
@@ -1057,7 +1057,7 @@ gboolean transaction_list_update_transaction ( gint transaction_number )
                                    gsb_data_transaction_get_currency_number (transaction_number), TRUE);
         variance_string = utils_real_get_string_with_currency (gsb_data_transaction_get_amount (transaction_number),
                                      gsb_data_transaction_get_currency_number (transaction_number), TRUE);
-        white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+        white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
                                    amount_string,
                                    variance_string );
         g_free (amount_string);
@@ -1598,7 +1598,7 @@ void transaction_list_set ( GtkTreeIter *iter, ... )
 	    case CUSTOM_MODEL_VISIBLE:
 		/* this value should not be changed here, check later if i'm right,
 		 * for now just show a message */
-		devel_debug (_("Try to change a visible line by transaction_list_set. It shouldn't append ! Check that."));
+		devel_debug (_("Try to change a visible line by transaction_list_set. It shouldn't append! Check that."));
 		/*         record -> line_visible = va_arg (var_args, gboolean); */
 		break;
 	    case CUSTOM_MODEL_CHECKBOX_VISIBLE:
@@ -1967,7 +1967,7 @@ static gboolean transaction_list_update_white_child ( CustomRecord *white_record
     /* show the variance and sub-total only if different of the transaction */
     if (variance.mantissa)
     {
-	white_record -> visible_col[2] = g_strdup_printf ( _("Total : %s (variance : %s)"),
+	white_record -> visible_col[2] = g_strdup_printf ( _("Total: %s (variance : %s)"),
 							   amount_string,
 							   variance_string );
 	mother_text_color = gsb_color_get_couleur_with_indice ( "text_color", 1 );

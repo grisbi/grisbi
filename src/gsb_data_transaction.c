@@ -183,7 +183,7 @@ GSList *gsb_data_transaction_get_complete_transactions_list ( void )
 /**
  * just append the archived transaction given in param
  * into the non archived transactions list
- * called when want to load archived transactions into grisbi
+ * called when want to load archived transactions into Grisbi
  *
  * \param transaction_number the transaction to append
  *
@@ -1950,7 +1950,7 @@ gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_n
 
 /**
  * get the account number of the contra transaction
- * it's not saved into grisbi, this function avoid just to get the contra-transaction
+ * it's not saved into Grisbi, this function avoid just to get the contra-transaction
  * and find its account
  *
  * \param transaction_number the number of the transaction

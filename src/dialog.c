@@ -59,8 +59,8 @@ struct conditional_message messages[] =
 
     { "encryption-is-irreversible", N_("Encryption is irreversible."),
       N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
-      "original password.  It means that if you forget your password, you will loose all "
-      "your data.  Use with caution.\n\nI repeat: if you ever forget your password, there "
+      "original password. It means that if you forget your password, you will loose all "
+      "your data. Use with caution.\n\nI repeat: if you ever forget your password, there "
       "is no coming back, we cannot help you."), 
       FALSE, FALSE, },
 
@@ -75,7 +75,7 @@ struct conditional_message messages[] =
       "\"Force saving locked files\" option in setup."),
       FALSE, FALSE, },
      
-    { "minimum-balance-alert", N_("Account under desired balance."),
+    { "minimum-balance-alert", N_("Account under desired balance"),
       N_("Grisbi detected that an account is under a desired balance: %s"), 
       FALSE, FALSE, },
     
@@ -101,14 +101,14 @@ struct conditional_message messages[] =
 
     { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
       N_("In previous versions, Grisbi did not save start date, end date and balance for "
-      "reconciliation.  This is now done, so Grisbi will try to guess values from your "
-      "accounts.  Thought this can not harm data coherence, false values can be guessed. "
+      "reconciliation. This is now done, so Grisbi will try to guess values from your "
+      "accounts. Thought this can not harm data coherence, false values can be guessed. "
       "Please check in the Preferences window for more information."), 
       FALSE, FALSE, },
 
     { "development-version", N_("You are running Grisbi version %s"), 
       N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
-      "Never use your original file grisbi: you could make it unusable.\n"
+      "Never use your original file Grisbi: you could make it unusable.\n"
       "Make a copy now."),
       FALSE, FALSE },
 
