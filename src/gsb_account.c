@@ -29,7 +29,9 @@
 
 /*START_INCLUDE*/
 #include "gsb_account.h"
+#include "categories_onglet.h"
 #include "dialog.h"
+#include "fenetre_principale.h"
 #include "gsb_account_property.h"
 #include "gsb_category.h"
 #include "gsb_data_account.h"
@@ -39,26 +41,22 @@
 #include "gsb_data_transaction.h"
 #include "gsb_file.h"
 #include "gsb_form_scheduler.h"
-#include "navigation.h"
-#include "fenetre_principale.h"
-#include "menu.h"
 #include "gsb_real.h"
 #include "gsb_scheduler_list.h"
-#include "main.h"
-#include "traitement_variables.h"
-#include "tiers_onglet.h"
-#include "categories_onglet.h"
-#include "imputation_budgetaire.h"
-#include "transaction_list.h"
 #include "gsb_transactions_list.h"
+#include "imputation_budgetaire.h"
+#include "main.h"
+#include "menu.h"
+#include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
+#include "traitement_variables.h"
+#include "transaction_list.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
 /*END_STATIC*/
-
-
-
 
 
 /*START_EXTERN*/
@@ -152,9 +150,12 @@ gboolean gsb_account_new ( kind_account account_type,
 
 
 
-/** that function delete the current account selected in the account properties
- * \param none
- * \return FALSE FALSE
+/**
+ * that function delete the current account selected
+ *
+ * \param   none
+ *
+ * \return  FALSE
  * */
 gboolean gsb_account_delete ( void )
 {
@@ -164,9 +165,10 @@ gboolean gsb_account_delete ( void )
 	gchar* tmpstr;
 
     deleted_account = gsb_gui_navigation_get_current_account ();
-
+    devel_debug_int (deleted_account);
+    
     tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
-				     gsb_data_account_get_name ( deleted_account ) ) ;
+                        gsb_data_account_get_name ( deleted_account ) ) ;
 
     if ( !question_yes_no_hint ( tmpstr,
 				        _("This will irreversibly remove this account and all operations "
@@ -194,13 +196,11 @@ gboolean gsb_account_delete ( void )
         gint scheduled_number;
 
         scheduled_number = gsb_data_scheduled_get_scheduled_number ( list_tmp -> data );
+        list_tmp = list_tmp -> next;
 
         if ( gsb_data_scheduled_get_account_number (scheduled_number) == deleted_account )
             gsb_data_scheduled_remove_scheduled (scheduled_number);
-
-        list_tmp = list_tmp -> next;
     }
-
 
     /* remove all the transactions of that account */
     list_tmp = gsb_data_transaction_get_complete_transactions_list ();
@@ -226,6 +226,7 @@ gboolean gsb_account_delete ( void )
                 gsb_data_transaction_set_contra_transaction_number ( contra_transaction_number, -1);
 
             /* now can remove the transaction */
+            transaction_list_remove_transaction ( transaction_number );
             gsb_data_transaction_remove_transaction_without_check ( transaction_number );
         }
     }
@@ -247,50 +248,42 @@ gboolean gsb_account_delete ( void )
     /* delete the account */
     gsb_data_account_delete ( deleted_account );
 
-    /* check gsb_gui_navigation_get_current_account () and gsb_gui_navigation_get_current_account ()_onglet and put them
-     * on the first account if they are on the deleted account */
-
+    /* check gsb_gui_navigation_get_current_account () and gsb_gui_navigation_get_current_account ()_onglet
+     * and put them on the first account if they are on the deleted account */
     if ( gsb_gui_navigation_get_current_account () == deleted_account )
     {
         GtkWidget *notebook_general;
+        gint first_account;
 
-	/* update the transaction list */
-    notebook_general = gsb_gui_get_general_notebook ( );
-	page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
+        /* sélection du premier compte de la liste */
+        notebook_general = gsb_gui_get_general_notebook ();
+        page_number = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general ) );
+        first_account = gsb_data_account_first_no_closed_account ();
 
-	navigation_change_account ( gsb_data_account_first_number () );
-
-	gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), page_number );
+        gsb_gui_navigation_set_selection ( 1, first_account, NULL );
+        navigation_change_account ( first_account );
     }
+
+    /* Update navigation pane. */
+    gsb_gui_navigation_remove_account ( deleted_account );
 
     /* update the buttons lists */
     gsb_menu_update_accounts_in_menus();
 
-    /* Replace trees contents. */
-    categories_fill_list ();
-    budgetary_lines_fill_list ();
-    payees_fill_list ();
-
-    /* update the categories in lists */
-    transaction_list_update_element (ELEMENT_CATEGORY);
-
     /* update the name of accounts in form */
-    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT),
-				    FALSE );
+    gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT), FALSE );
 
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
     mise_a_jour_liste_echeances_manuelles_accueil = 1;
     mise_a_jour_liste_comptes_accueil = 1;
     mise_a_jour_soldes_minimaux = 1;
     mise_a_jour_fin_comptes_passifs = 1;
 
-    /* Update navigation pane. */
-    gsb_gui_navigation_remove_account ( deleted_account );
-
     gsb_file_set_modified ( TRUE );
+
+    /* return */
     return FALSE;
 }
-
 
 
 /**
@@ -301,7 +294,7 @@ gboolean gsb_account_delete ( void )
  * \param include_closed If set to TRUE, include the closed accounts
  *
  * \return a new GtkCombobox containing the list of the accounts
- */
+ * */
 GtkWidget *gsb_account_create_combo_list ( GCallback func,
 					   gpointer data,
 					   gboolean include_closed )
@@ -377,34 +370,46 @@ gboolean gsb_account_update_combo_list ( GtkWidget *combo_box,
     GSList *list_tmp;
     GtkListStore *store;
 
-    if (!combo_box)
-	return FALSE;
+    if ( !combo_box )
+        return FALSE;
 
-    store = GTK_LIST_STORE (gtk_combo_box_get_model ( GTK_COMBO_BOX (combo_box)));
-    gtk_list_store_clear (store);
+    g_signal_handlers_block_by_func ( G_OBJECT ( combo_box ),
+                        G_CALLBACK ( gsb_form_scheduler_change_account ),
+                        NULL );
+
+    store = GTK_LIST_STORE ( gtk_combo_box_get_model ( GTK_COMBO_BOX ( combo_box) ) );
+    gtk_list_store_clear ( store );
 
     list_tmp = gsb_data_account_get_list_accounts ();
 
     while ( list_tmp )
     {
-	gint account_number;
-	GtkTreeIter iter;
+        gint account_number;
+        GtkTreeIter iter;
 
-	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( account_number >= 0 && ( !gsb_data_account_get_closed_account (account_number)
-				      || include_closed ) )
-	{
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, gsb_data_account_get_name (account_number),
-				 1, account_number,
-				 -1 );
-	}
-	list_tmp = list_tmp -> next;
+        if ( account_number >= 0
+         &&
+         ( !gsb_data_account_get_closed_account ( account_number )
+           ||
+           include_closed
+         ) )
+        {
+            gtk_list_store_append ( GTK_LIST_STORE ( store ), &iter );
+            gtk_list_store_set ( store,
+                        &iter,
+                        0, gsb_data_account_get_name ( account_number ),
+                        1, account_number,
+                        -1 );
+        }
+        list_tmp = list_tmp -> next;
     }
+
+    g_signal_handlers_unblock_by_func ( G_OBJECT ( combo_box ),
+                        G_CALLBACK ( gsb_form_scheduler_change_account ),
+                        NULL );
+
     return FALSE;
 }
 
@@ -496,7 +501,7 @@ gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
  * \param include_closed If set to TRUE, include the closed accounts
  *
  * \return A newly created menu
- */
+ * */
 GtkWidget *gsb_account_create_menu_list ( GCallback func,
 					  gboolean activate_currrent,
 					  gboolean include_closed )
@@ -543,6 +548,13 @@ GtkWidget *gsb_account_create_menu_list ( GCallback func,
 
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

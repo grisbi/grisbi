@@ -411,7 +411,7 @@ gint gsb_data_account_first_number ( void )
     struct_account *account;
 
     if ( !list_accounts )
-	return -1;
+        return -1;
 
     account = list_accounts -> data;
 
@@ -419,7 +419,35 @@ gint gsb_data_account_first_number ( void )
 }
 
 
+/**
+ * ind and return the first no closed account
+ *
+ * \param none
+ *
+ * \return first number of account, -1 if no accounts
+ * */
+gint gsb_data_account_first_no_closed_account ( void )
+{
+    struct_account *account;
+    GSList *list_tmp;
 
+    if ( !list_accounts )
+        return -1;
+
+    list_tmp = list_accounts;
+
+    while ( list_tmp )
+    {
+        account = list_tmp -> data;
+
+        if ( account -> closed_account == 0 )
+            break;
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return  account -> account_number;
+}
 
 
 /**

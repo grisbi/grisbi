@@ -940,49 +940,43 @@ gboolean navigation_change_account ( gint new_account )
     gchar *tmp_menu_path;
 
     devel_debug_int (new_account);
-
     if ( new_account < 0 )
-	return FALSE;
+        return FALSE;
 
     /* the selection on the navigation bar has already changed, so
      * have to use a buffer variable to get the last account */
     current_account = gsb_gui_navigation_get_last_account ();
 
     /* sensitive the last account in the menu */
-    tmp_menu_path = g_strconcat (
-        "/menubar/EditMenu/MoveToAnotherAccount/",
-        gsb_data_account_get_name (current_account),
-        NULL );
+    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
+                        gsb_data_account_get_name (current_account),
+                        NULL );
     gsb_gui_sensitive_menu_item ( tmp_menu_path, TRUE );
     g_free ( tmp_menu_path );
+
     gsb_gui_sensitive_menu_item ( "/menubar/EditMenu/NewTransaction", TRUE );
 
     /* save the row_align of the last account */
     gsb_data_account_set_row_align ( current_account,
-				     gsb_transactions_list_get_row_align ( ) );
+                        gsb_transactions_list_get_row_align ( ) );
 
     /* set the appearance of the list according to the new account */
     transaction_list_sort_set_column ( gsb_data_account_get_sort_column (new_account ),
-				      gsb_data_account_get_sort_type ( new_account ) );
+                        gsb_data_account_get_sort_type ( new_account ) );
+
     gsb_transactions_list_update_tree_view ( new_account, FALSE );
-    transaction_list_select ( gsb_data_account_get_current_transaction_number ( new_account ) );
     gsb_transactions_list_set_row_align ( gsb_data_account_get_row_align ( new_account ) );
 
     /* mise en place de la date du dernier relevé */
     gsb_navigation_update_statement_label ( new_account );
 
-    tmp_menu_path = g_strconcat (
-        "/menubar/EditMenu/MoveToAnotherAccount/",
-        gsb_data_account_get_name (new_account),
-        NULL );
+    /* on met le nom insensitif dans la liste des comptes */
+    tmp_menu_path = g_strconcat ( "/menubar/EditMenu/MoveToAnotherAccount/",
+                        gsb_data_account_get_name (new_account),
+                        NULL );
     gsb_gui_sensitive_menu_item ( tmp_menu_path, FALSE );
-    g_free ( tmp_menu_path );
 
-    /* Sensitive menu items if something is selected. */
-    if ( gsb_data_account_get_current_transaction_number ( new_account ) == -1 )
-        gsb_menu_set_menus_select_transaction_sensitive ( FALSE );
-    else
-        gsb_menu_set_menus_select_transaction_sensitive ( TRUE );
+    g_free ( tmp_menu_path );
 
     /* show or hide the rules button in toolbar */
     if ( gsb_data_import_rule_account_has_rule ( new_account ) )
@@ -994,6 +988,7 @@ gboolean navigation_change_account ( gint new_account )
     if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
         gsb_main_set_grisbi_title ( new_account );
 
+    /* select the good tab */
     bet_data_select_bet_pages ( new_account );
 
     /* unset the last date written */

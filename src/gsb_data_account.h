@@ -37,6 +37,7 @@ gint gsb_data_account_compare_position ( gint account_number_1,
 gboolean gsb_data_account_delete ( gint account_number );
 gboolean gsb_data_account_exists ( gint account_number );
 gint gsb_data_account_first_number ( void );
+gint gsb_data_account_first_no_closed_account ( void );
 gint gsb_data_account_get_account_by_id ( const gchar *account_id );
 GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number );
 GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number );

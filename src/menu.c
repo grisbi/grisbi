@@ -741,8 +741,8 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
     GSList *list_tmp;
     GtkActionGroup * action_group;
 
-    if ( move_to_account_merge_id != -1 ) 
-	gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
+    if ( move_to_account_merge_id != -1 )
+        gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
 
     move_to_account_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
     action_group = gtk_action_group_new ( "Group3" );
@@ -752,38 +752,43 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
     while ( list_tmp )
     {
-	gint i;
+        gint i;
 
-	i = gsb_data_account_get_no_account ( list_tmp -> data );
+        i = gsb_data_account_get_no_account ( list_tmp -> data );
 
-	if ( !gsb_data_account_get_closed_account ( i ))
-	{
-	    gchar * tmp_name = g_strdup_printf ( "MoveToAccount%d", i );
-	    gchar * account_name = gsb_data_account_get_name(i);
-	    GtkAction * action;
+        if ( !gsb_data_account_get_closed_account ( i ) )
+        {
+            gchar *tmp_name;
+            gchar *account_name;
+            GtkAction *action;
 
-	    if ( ! account_name )
-	    {
-		account_name = _("Unnamed account");
-	    }
-	    action = gtk_action_new ( tmp_name, account_name, "", "" );
+            tmp_name = g_strdup_printf ( "MoveToAccount%d", i );
+            account_name = gsb_data_account_get_name ( i );
+            if ( !account_name )
+                account_name = _("Unnamed account");
 
-	    if ( gsb_gui_navigation_get_current_account () == i )
-		gtk_action_set_sensitive ( action, FALSE );
+            action = gtk_action_new ( tmp_name, account_name, "", "" );
 
-	    gtk_action_group_add_action ( action_group, action );
+            if ( gsb_gui_navigation_get_current_account () == i )
+                gtk_action_set_sensitive ( action, FALSE );
 
-	    g_signal_connect ( action, "activate", 
-			       G_CALLBACK(move_selected_operation_to_account_nb), 
-			       GINT_TO_POINTER(i) );
-	    gtk_ui_manager_add_ui ( ui_manager, recent_files_merge_id, 
-				    "/menubar/EditMenu/MoveToAnotherAccount/",
-				    tmp_name, tmp_name,
-				    GTK_UI_MANAGER_MENUITEM, FALSE );
-	    g_free ( tmp_name );
-	}
+            gtk_action_group_add_action ( action_group, action );
+            g_signal_connect ( action,
+                        "activate",
+                        G_CALLBACK ( move_selected_operation_to_account_nb ),
+                        GINT_TO_POINTER ( i ) );
 
-	list_tmp = list_tmp -> next;
+            gtk_ui_manager_add_ui ( ui_manager,
+                        move_to_account_merge_id,
+                        "/menubar/EditMenu/MoveToAnotherAccount/",
+                        tmp_name,
+                        tmp_name,
+                        GTK_UI_MANAGER_MENUITEM,
+                        FALSE );
+            g_free ( tmp_name );
+        }
+
+        list_tmp = list_tmp -> next;
     }
 
     gtk_ui_manager_insert_action_group ( ui_manager, action_group, 2 );

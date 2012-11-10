@@ -272,9 +272,9 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
                         gsb_account_property_create_page (),
                         gtk_label_new ( _("Properties") ) );
 
-    g_signal_connect ( G_OBJECT (account_page),
-                        "switch_page",
-                        G_CALLBACK (gsb_gui_on_account_switch_page),
+    g_signal_connect ( G_OBJECT ( account_page ),
+                        "switch-page",
+                        G_CALLBACK ( gsb_gui_on_account_switch_page ),
                         NULL );
 
     /* append the scheduled transactions page */
