@@ -21,7 +21,7 @@
 
 /**
  * \file gsb_utils_font.c
- * this file contains usefull functions to work with fonts 
+ * this file contains usefull functions to work with fonts
  */
 
 
@@ -125,16 +125,16 @@ static gboolean utils_font_choose ( GtkWidget *button,
     dialog = gtk_font_selection_dialog_new (_("Choosing font"));
 
     if (*fontname)
-	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog), 
+	gtk_font_selection_dialog_set_font_name (GTK_FONT_SELECTION_DIALOG(dialog),
 						 *fontname );
-    gtk_window_set_modal ( GTK_WINDOW ( dialog ), 
+    gtk_window_set_modal ( GTK_WINDOW ( dialog ),
 			   TRUE );
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
 	case GTK_RESPONSE_OK:
 	    new_fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG(dialog));
-	    gtk_widget_destroy (dialog);  
+	    gtk_widget_destroy (dialog);
 	    utils_font_update_labels (button, new_fontname);
 	    break;
 	default:

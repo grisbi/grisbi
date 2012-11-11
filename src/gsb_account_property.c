@@ -234,7 +234,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* création de la ligne des détails du compte */
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
-    
+
    /* création de la ligne du nom du compte */
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
@@ -283,7 +283,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
-    detail_devise_compte = gsb_autofunc_currency_new (TRUE, 
+    detail_devise_compte = gsb_autofunc_currency_new (TRUE,
                         0,
                         G_CALLBACK (gsb_account_property_changed),
                         GINT_TO_POINTER (PROPERTY_CURRENCY),
@@ -525,7 +525,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     detail_solde_init = gsb_autofunc_real_new ( null_real,
-                        G_CALLBACK (gsb_account_property_changed), 
+                        G_CALLBACK (gsb_account_property_changed),
                         GINT_TO_POINTER (PROPERTY_INIT_BALANCE),
                         G_CALLBACK (gsb_data_account_set_init_balance), 0);
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_solde_init, TRUE, TRUE, 0 );
@@ -541,7 +541,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     detail_solde_mini_autorise = gsb_autofunc_real_new ( null_real,
-                        G_CALLBACK (gsb_account_property_changed), 
+                        G_CALLBACK (gsb_account_property_changed),
                         GINT_TO_POINTER (PROPERTY_WANTED_BALANCE),
                         G_CALLBACK (gsb_data_account_set_mini_balance_authorized),
                         0);
@@ -1464,7 +1464,7 @@ gint gsb_account_property_iban_control_iban ( gchar *iban )
 
     tmp_str = g_strndup ( iban + 2, 2 );
     code_controle =  utils_str_atoi ( tmp_str );
-    
+
     if ( code_controle - reste == 0 )
         result = 1;
     else

@@ -83,7 +83,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
 	return FALSE;
 
     /* on bloque le signal du gtk_combo_box pour éviter de multiples appels */
-    g_signal_handlers_block_by_func ( combo_box, 
+    g_signal_handlers_block_by_func ( combo_box,
                         gsb_payment_method_changed_callback, NULL);
 
     /* we check first the existing model ; if none, we create it */
@@ -162,7 +162,7 @@ gboolean gsb_payment_method_create_combo_list ( GtkWidget *combo_box,
     }
 
     /* on réactive le signal du gtk_combo_box */
-    g_signal_handlers_unblock_by_func ( combo_box, 
+    g_signal_handlers_unblock_by_func ( combo_box,
                         gsb_payment_method_changed_callback, NULL);
 
     return TRUE;
@@ -259,7 +259,7 @@ gint gsb_payment_method_get_payment_position ( GtkWidget *combo_box,
 				 -1 );
 	    if ( tmp == payment_number )
 		return i;
-	    i++; 
+	    i++;
 	}
 	while ( gtk_tree_model_iter_next (GTK_TREE_MODEL (model),
 					  &iter));
@@ -298,7 +298,7 @@ void gsb_payment_method_set_payment_position ( GtkWidget *combo_box,
             gtk_combo_box_set_active_iter ( GTK_COMBO_BOX (combo_box), &iter );
             return;
         }
-        i++; 
+        i++;
     }
     while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
     }
@@ -329,7 +329,7 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
         return TRUE;
 
     /* on bloque le signal du gtk_combo_box pour éviter de multiples appels */
-    g_signal_handlers_block_by_func ( combo_box, 
+    g_signal_handlers_block_by_func ( combo_box,
                         gsb_payment_method_changed_callback, NULL);
 
     account_number = gsb_data_payment_get_account_number (payment_number);
@@ -350,13 +350,13 @@ gboolean gsb_payment_method_set_combobox_history ( GtkWidget *combo_box,
 
         return_value = FALSE;
     }
-    
+
     gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_box), position );
     if ( check_entry )
         gsb_payment_method_set_cheque_entry ( payment_number );
 
     /* on réactive le signal du gtk_combo_box */
-    g_signal_handlers_unblock_by_func ( combo_box, 
+    g_signal_handlers_unblock_by_func ( combo_box,
                         gsb_payment_method_changed_callback, NULL);
 
     return return_value;
@@ -455,11 +455,11 @@ gboolean gsb_payment_method_set_cheque_entry ( gint payment_number )
             gchar* tmpstr;
 
             gsb_form_entry_get_focus ( cheque_entry );
-            
+
             tmpstr = gsb_data_payment_incremente_last_number ( payment_number, 1 );
             gtk_entry_set_text ( GTK_ENTRY (cheque_entry), tmpstr);
             g_free ( tmpstr );
-            
+
         }
         else
         {
@@ -480,7 +480,7 @@ gboolean gsb_payment_method_set_cheque_entry ( gint payment_number )
 
         gtk_widget_hide ( cheque_entry );
     }
-    
+
     return TRUE;
 }
 

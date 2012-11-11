@@ -182,7 +182,7 @@ NULL};
                         " ",
                         __TIME__,
                         NULL );
-                        
+
         g_free ( compiled_time );
     }
     else

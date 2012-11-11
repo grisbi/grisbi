@@ -280,7 +280,7 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
 {
     gint selected_transaction = 0;
 
-    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are 
+    /* called sometimes with gsb_gui_navigation_get_current_account, so check we are
      * on an account */
     if ( account_number == -1 )
         return;
@@ -349,7 +349,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
 
     button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_DELETE, 
+					   GTK_STOCK_DELETE,
 					   _("Delete"),
 					   G_CALLBACK ( remove_transaction ),
 					   NULL );
@@ -444,7 +444,7 @@ void gsb_gui_update_transaction_toolbar ( void )
     transaction_toolbar = gsb_transactions_list_get_toolbar ( );
 
     list = gtk_container_get_children ( GTK_CONTAINER ( transaction_toolbar ) );
-    
+
     if ( list )
     {
         gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
@@ -471,19 +471,19 @@ gboolean popup_transaction_rules_menu ( GtkWidget * button,
     menu = gtk_menu_new ( );
 
     tmp_list = gsb_data_import_rule_get_from_account ( current_account );
-    
+
     while ( tmp_list )
     {
         gint rule;
 
         rule = gsb_data_import_rule_get_number ( tmp_list -> data );
-     
+
         if ( i > 0 )
         {
             menu_item = gtk_separator_menu_item_new ( );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
         }
-      
+
         menu_item = gtk_menu_item_new_with_label ( gsb_data_import_rule_get_name ( rule ) );
         gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
         g_signal_connect_swapped ( G_OBJECT ( menu_item ),
@@ -561,7 +561,7 @@ static gboolean popup_transaction_view_mode_menu ( GtkWidget *button,
     if ( nb_rows_by_transaction == 1 )
         gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item_1 ), TRUE );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item_1 );
-        
+
     menu_item_2 = gtk_radio_menu_item_new_with_label ( group, _("Two lines view") );
     group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( menu_item_2 ) );
     if ( nb_rows_by_transaction == 2 )
@@ -1324,7 +1324,7 @@ gint find_element_col ( gint element_number )
     return -1;
 }
 
-/** 
+/**
  * find line number for the transaction element number
  *
  * \param element_number the element we look for
@@ -1571,7 +1571,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
 
 /**
  * gère le clavier sur la liste des opés
- * 
+ *
  * */
 gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
                         GdkEventKey *ev )
@@ -1611,7 +1611,7 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     case GDK_P:         /* touche P */
     case GDK_p:         /* touche p */
-    case GDK_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/ 
+    case GDK_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/
 
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
             ||
@@ -1713,7 +1713,7 @@ void gsb_transactions_list_selection_changed ( gint new_selected_transaction )
     gsb_form_is_visible () )
         gsb_form_fill_by_transaction (new_selected_transaction, TRUE, FALSE);
 
-    /* give the focus to the transaction_tree_view pbiava 02/09/2009 
+    /* give the focus to the transaction_tree_view pbiava 02/09/2009
      * edit due to a regression loss of <CtrlR> */
     if ( transactions_tree_view )
         gtk_widget_grab_focus ( transactions_tree_view );
@@ -1905,7 +1905,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     {
         msg_no = question_conditional_yes_no_get_no_struct ( &messages[0],
                         "reconcile-transaction" );
-    	tmp_str = g_strdup_printf ( 
+    	tmp_str = g_strdup_printf (
 				   _("You are trying to reconcile or unreconcile a transaction manually, "
 				     "which is not a recommended action.This is the wrong approach.\n\n"
 				     "And moreover the transaction you try to reconcile is a child of split, so "
@@ -2153,7 +2153,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
                 GDate *date_debut;
                 GDate *date_fin;
                 const GDate *date;
-                
+
                 date_debut = gsb_parse_date_string ( init_date );
                 date_fin = gsb_parse_date_string ( final_date );
                 date = gsb_data_transaction_get_date ( transaction_number );
@@ -2734,7 +2734,7 @@ gboolean gsb_gui_change_cell_content ( GtkWidget * item, gint *element_ptr )
     if ( sort_column == last_col )
     {
         gsb_data_account_set_sort_column ( current_account, col );
-        transaction_list_sort_set_column ( col, 
+        transaction_list_sort_set_column ( col,
                         gsb_data_account_get_sort_type ( current_account ) );
     }
 
@@ -3046,7 +3046,7 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
     /* if it's a transfer, update the contra-transaction category line */
     if (contra_transaction_number > 0)
     {
-        /* the transaction is a transfer, we check if the contra-transaction is not on 
+        /* the transaction is a transfer, we check if the contra-transaction is not on
          * the target account */
         if ( gsb_data_transaction_get_account_number (
                         contra_transaction_number) == target_account )
@@ -3925,7 +3925,7 @@ gboolean gsb_transactions_list_restore_archive ( gint archive_number,
     /* remove the lines of the archive in the model */
     exist = transaction_list_remove_archive ( archive_number );
 
-    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le 
+    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le
      * tree_view. Evite de charger deux fois les données si on supprime l'archive
      * après avoir ajouté les lignes */
     if (exist )
@@ -4043,7 +4043,7 @@ gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_numb
     /* set visible the transactions in archive_store */
     gsb_data_archive_store_set_transactions_visibles ( archive_number, account_number, TRUE );
 
-    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le 
+    /* si l'archive existait bien on ajoute les transactions dans la liste et dans le
      * tree_view. Evite de charger deux fois les données si on supprime l'archive
      * après avoir ajouté les lignes */
     if ( exist )
@@ -4207,9 +4207,9 @@ gint find_element_col_for_archive ( void )
 
 /**
  * display contra_transaction
- * 
  *
- * 
+ *
+ *
  */
 void gsb_transactions_list_display_contra_transaction ( gint *element_ptr )
 {
@@ -4277,7 +4277,7 @@ gboolean gsb_transactions_list_change_alignement ( GtkWidget *menu_item,
     g_object_set ( G_OBJECT ( cell_renderer ),
 		                "xalign", xalign,
 		                NULL );
-    
+
     gsb_file_set_modified ( TRUE );
 
     return FALSE;

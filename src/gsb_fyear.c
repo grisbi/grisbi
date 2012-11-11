@@ -151,14 +151,14 @@ gboolean gsb_fyear_set_combobox_history ( GtkWidget *combo_box,
 }
 
 
-/** 
+/**
  * Get and return the number of the fyear in the combobox given
  * in param
  * if the fyear is 0, try to find a fyear with the givent date
- * 
+ *
  * \param combo_box a combo_box with the financials years
  * \param date date to find a corresponding fyear if the combobox is on Automatic or NULL
- * 
+ *
  * \return the number of fyear or 0 if problem
  * */
 gint gsb_fyear_get_fyear_from_combobox ( GtkWidget *combo_box,

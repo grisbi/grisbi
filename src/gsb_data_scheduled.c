@@ -48,7 +48,7 @@
 
 
 /**
- * \struct 
+ * \struct
  * Describe a scheduled
  */
 typedef struct
@@ -133,7 +133,7 @@ void gsb_data_scheduled_delete_all_scheduled ()
             scheduled = tmp_list -> data;
             tmp_list = tmp_list -> next;
                 _gsb_data_scheduled_free ( scheduled );
-        } 
+        }
         g_slist_free ( scheduled_list );
         scheduled_list = NULL;
     }
@@ -153,7 +153,7 @@ gboolean gsb_data_scheduled_init_variables ( void )
 }
 
 
-/** 
+/**
  * return a pointer to the g_slist of scheduleds structure
  * it's not a copy, so we must not free or change it
  * if we want to change something, use gsb_data_scheduled_copy_scheduled_list instead
@@ -169,9 +169,9 @@ GSList *gsb_data_scheduled_get_scheduled_list ( void )
 
 /**
  * find the last number of scheduled
- * 
+ *
  * \param none
- * 
+ *
  * \return the number
  * */
 gint gsb_data_scheduled_get_last_number (void)
@@ -200,7 +200,7 @@ gint gsb_data_scheduled_get_last_number (void)
  * all the white lines have a number < 0, and it always exists at least
  * one line, which number -1 which is the general white line (without mother)
  * so we never return 0 to avoid -1 for a number of white split
- * 
+ *
  * \param none
  *
  * \return the number
@@ -236,9 +236,9 @@ gint gsb_data_scheduled_get_last_white_number (void)
 /**
  * get the number of the scheduled and save the pointer in the buffer
  * which will increase the speed later
- * 
+ *
  * \param scheduled a pointer to a scheduled
- * 
+ *
  * \return the number of the scheduled
  * */
 gint gsb_data_scheduled_get_scheduled_number ( gpointer scheduled_pointer )
@@ -261,9 +261,9 @@ gint gsb_data_scheduled_get_scheduled_number ( gpointer scheduled_pointer )
 
 /**
  * save the pointer in a buffer to increase the speed later
- * 
+ *
  * \param scheduled the pointer to the scheduled
- * 
+ *
  * \return TRUE or FALSE if pb
  * */
 gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled )
@@ -282,11 +282,11 @@ gboolean gsb_data_scheduled_save_scheduled_pointer ( gpointer scheduled )
 
 
 /**
- * return the scheduled which the number is in the parameter. 
+ * return the scheduled which the number is in the parameter.
  * the new scheduled is stored in the buffer
- * 
+ *
  * \param scheduled_number
- * 
+ *
  * \return a pointer to the scheduled, NULL if not found
  * */
 struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number )
@@ -334,9 +334,9 @@ struct_scheduled *gsb_data_scheduled_get_scheduled_by_no ( gint scheduled_number
 
 /**
  * get the account_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the account of the scheduled or -1 if problem
  * */
 gint gsb_data_scheduled_get_account_number ( gint scheduled_number )
@@ -355,10 +355,10 @@ gint gsb_data_scheduled_get_account_number ( gint scheduled_number )
 /**
  * set the account_number
  * if the scheduled has some children, they change too
- * 
+ *
  * \param scheduled_number
  * \param no_account
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
@@ -397,10 +397,10 @@ gboolean gsb_data_scheduled_set_account_number ( gint scheduled_number,
 
 
 /**
- * get the GDate of the scheduled 
- * 
+ * get the GDate of the scheduled
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the GDate of the scheduled
  * */
 GDate *gsb_data_scheduled_get_date ( gint scheduled_number )
@@ -419,10 +419,10 @@ GDate *gsb_data_scheduled_get_date ( gint scheduled_number )
 /**
  * set the GDate of the scheduled
  * if the scheduled has some children, they change too
- * 
+ *
  * \param scheduled_number
  * \param no_account
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
@@ -469,9 +469,9 @@ gboolean gsb_data_scheduled_set_date ( gint scheduled_number,
 /**
  * get the amount of the scheduled without any currency change
  * (so just get the given amout)
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the amount of the scheduled
  * */
 gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number )
@@ -489,10 +489,10 @@ gsb_real gsb_data_scheduled_get_amount ( gint scheduled_number )
 
 /**
  * set the amount of the scheduled
- * 
+ *
  * \param scheduled_number
  * \param amount
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_amount ( gint scheduled_number,
@@ -513,11 +513,11 @@ gboolean gsb_data_scheduled_set_amount ( gint scheduled_number,
 
 
 
-/** 
- * get the currency_number 
- * 
+/**
+ * get the currency_number
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the currency number of the scheduled
  * */
 gint gsb_data_scheduled_get_currency_number ( gint scheduled_number )
@@ -536,10 +536,10 @@ gint gsb_data_scheduled_get_currency_number ( gint scheduled_number )
 /**
  * set the currency_number
  * if the scheduled has some children, they change too
- * 
+ *
  * \param scheduled_number
  * \param no_currency
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
@@ -579,10 +579,10 @@ gboolean gsb_data_scheduled_set_currency_number ( gint scheduled_number,
 
 
 /**
- * get the party_number 
- * 
+ * get the party_number
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the currency number of the scheduled
  * */
 gint gsb_data_scheduled_get_party_number ( gint scheduled_number )
@@ -601,10 +601,10 @@ gint gsb_data_scheduled_get_party_number ( gint scheduled_number )
 /**
  * set the party_number
  * if the scheduled has some children, they change too
- * 
+ *
  * \param scheduled_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
@@ -643,10 +643,10 @@ gboolean gsb_data_scheduled_set_party_number ( gint scheduled_number,
 
 
 /**
- * get the category_number 
- * 
+ * get the category_number
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the category number of the scheduled
  * */
 gint gsb_data_scheduled_get_category_number ( gint scheduled_number )
@@ -664,10 +664,10 @@ gint gsb_data_scheduled_get_category_number ( gint scheduled_number )
 
 /**
  * set the category_number
- * 
+ *
  * \param scheduled_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_category_number ( gint scheduled_number,
@@ -687,10 +687,10 @@ gboolean gsb_data_scheduled_set_category_number ( gint scheduled_number,
 
 
 /**
- * get the sub_category_number 
- * 
+ * get the sub_category_number
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the sub_category number of the scheduled
  * */
 gint gsb_data_scheduled_get_sub_category_number ( gint scheduled_number )
@@ -708,10 +708,10 @@ gint gsb_data_scheduled_get_sub_category_number ( gint scheduled_number )
 
 /**
  * set the sub_category_number
- * 
+ *
  * \param scheduled_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_sub_category_number ( gint scheduled_number,
@@ -732,9 +732,9 @@ gboolean gsb_data_scheduled_set_sub_category_number ( gint scheduled_number,
 
 /**
  * get if the scheduled is a split_of_scheduled
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return TRUE if the scheduled is a split of scheduled
  * */
 gint gsb_data_scheduled_get_split_of_scheduled ( gint scheduled_number )
@@ -754,7 +754,7 @@ gint gsb_data_scheduled_get_split_of_scheduled ( gint scheduled_number )
  * set if the scheduled is a split_of_scheduled
  * \param scheduled_number
  * \param is_split
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_split_of_scheduled ( gint scheduled_number,
@@ -775,9 +775,9 @@ gboolean gsb_data_scheduled_set_split_of_scheduled ( gint scheduled_number,
 
 /**
  * get the notes
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the notes of the scheduled
  * */
 gchar *gsb_data_scheduled_get_notes ( gint scheduled_number )
@@ -796,10 +796,10 @@ gchar *gsb_data_scheduled_get_notes ( gint scheduled_number )
 /**
  * set the notes
  * the notes parameter will be copy before stored in memory
- * 
+ *
  * \param scheduled_number
  * \param notes a gchar with the new notes
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
@@ -829,9 +829,9 @@ gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
 
 /**
  * get the method_of_payment_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the method_of_payment_number
  * */
 gint gsb_data_scheduled_get_method_of_payment_number ( gint scheduled_number )
@@ -850,10 +850,10 @@ gint gsb_data_scheduled_get_method_of_payment_number ( gint scheduled_number )
 /**
  * set the method_of_payment_number
  * if the scheduled has some children, they change too
- * 
+ *
  * \param scheduled_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number,
@@ -892,9 +892,9 @@ gboolean gsb_data_scheduled_set_method_of_payment_number ( gint scheduled_number
 
 /**
  * get the method_of_payment_content
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the method_of_payment_content of the scheduled
  * */
 gchar *gsb_data_scheduled_get_method_of_payment_content ( gint scheduled_number )
@@ -913,10 +913,10 @@ gchar *gsb_data_scheduled_get_method_of_payment_content ( gint scheduled_number 
 /**
  * set the method_of_payment_content
  * dupplicate the parameter before storing it in the scheduled
- * 
+ *
  * \param scheduled_number
  * \param method_of_payment_content a gchar with the new method_of_payment_content
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_number,
@@ -947,9 +947,9 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_numbe
 
 /**
  * get the automatic_scheduled
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return 1 if the scheduled was taken automaticly
  * */
 gint gsb_data_scheduled_get_automatic_scheduled ( gint scheduled_number )
@@ -967,10 +967,10 @@ gint gsb_data_scheduled_get_automatic_scheduled ( gint scheduled_number )
 
 /**
  * set the automatic_scheduled
- * 
+ *
  * \param scheduled_number
  * \param  automatic_scheduled
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_automatic_scheduled ( gint scheduled_number,
@@ -992,9 +992,9 @@ gboolean gsb_data_scheduled_set_automatic_scheduled ( gint scheduled_number,
 
 /**
  * get the financial_year_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the financial_year_number
  * */
 gint gsb_data_scheduled_get_financial_year_number ( gint scheduled_number )
@@ -1012,10 +1012,10 @@ gint gsb_data_scheduled_get_financial_year_number ( gint scheduled_number )
 
 /**
  * set the financial_year_number
- * 
+ *
  * \param scheduled_number
  * \param  financial_year_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_financial_year_number ( gint scheduled_number,
@@ -1037,9 +1037,9 @@ gboolean gsb_data_scheduled_set_financial_year_number ( gint scheduled_number,
 
 /**
  * get the budgetary_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the budgetary_number of the scheduled
  * */
 gint gsb_data_scheduled_get_budgetary_number ( gint scheduled_number )
@@ -1057,10 +1057,10 @@ gint gsb_data_scheduled_get_budgetary_number ( gint scheduled_number )
 
 /**
  * set the budgetary_number
- * 
+ *
  * \param scheduled_number
  * \param budgetary_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_budgetary_number ( gint scheduled_number,
@@ -1081,9 +1081,9 @@ gboolean gsb_data_scheduled_set_budgetary_number ( gint scheduled_number,
 
 /**
  * get the  sub_budgetary_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the sub_budgetary_number number of the scheduled
  * */
 gint gsb_data_scheduled_get_sub_budgetary_number ( gint scheduled_number )
@@ -1101,10 +1101,10 @@ gint gsb_data_scheduled_get_sub_budgetary_number ( gint scheduled_number )
 
 /**
  * set the sub_budgetary_number
- * 
+ *
  * \param scheduled_number
  * \param sub_budgetary_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_sub_budgetary_number ( gint scheduled_number,
@@ -1150,7 +1150,7 @@ gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number )
     /* next, if account_number_transfer is > 0, it's a transfer */
     if (scheduled -> account_number_transfer > 0)
 	return TRUE;
-    
+
     /* ok, now we have an account_number_transfer at 0, so it can be
      * a normal scheduled transactions (with categs), or split */
     if (scheduled -> category_number
@@ -1162,10 +1162,10 @@ gboolean gsb_data_scheduled_is_transfer ( gint scheduled_number )
 
 
 
-/** 
+/**
  * get the  account_number_transfer
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the account_number_transfer number of the scheduled
  * */
 gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number )
@@ -1183,10 +1183,10 @@ gint gsb_data_scheduled_get_account_number_transfer ( gint scheduled_number )
 
 /**
  * set the account_number_transfer
- * 
+ *
  * \param scheduled_number
  * \param account_number_transfer
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_account_number_transfer ( gint scheduled_number,
@@ -1208,9 +1208,9 @@ gboolean gsb_data_scheduled_set_account_number_transfer ( gint scheduled_number,
 
 /**
  * get the  mother_scheduled_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the mother_scheduled_number of the scheduled or 0 if the scheduled doen't exist
  * */
 gint gsb_data_scheduled_get_mother_scheduled_number ( gint scheduled_number )
@@ -1228,10 +1228,10 @@ gint gsb_data_scheduled_get_mother_scheduled_number ( gint scheduled_number )
 
 /**
  * set the mother_scheduled_number
- * 
+ *
  * \param scheduled_number
  * \param mother_scheduled_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_mother_scheduled_number ( gint scheduled_number,
@@ -1253,9 +1253,9 @@ gboolean gsb_data_scheduled_set_mother_scheduled_number ( gint scheduled_number,
 
 /**
  * get the contra_method_of_payment_number
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the contra_method_of_payment_number
  * */
 gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint scheduled_number )
@@ -1273,10 +1273,10 @@ gint gsb_data_scheduled_get_contra_method_of_payment_number ( gint scheduled_num
 
 /**
  * set the contra_method_of_payment_number
- * 
+ *
  * \param scheduled_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint scheduled_number,
@@ -1297,9 +1297,9 @@ gboolean gsb_data_scheduled_set_contra_method_of_payment_number ( gint scheduled
 
 /**
  * get the frequency
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the frequency
  * */
 gint gsb_data_scheduled_get_frequency ( gint scheduled_number )
@@ -1317,10 +1317,10 @@ gint gsb_data_scheduled_get_frequency ( gint scheduled_number )
 
 /**
  * set the frequency
- * 
+ *
  * \param scheduled_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_frequency ( gint scheduled_number,
@@ -1341,9 +1341,9 @@ gboolean gsb_data_scheduled_set_frequency ( gint scheduled_number,
 
 /**
  * get the user_interval
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the user_interval
  * */
 gint gsb_data_scheduled_get_user_interval ( gint scheduled_number )
@@ -1361,10 +1361,10 @@ gint gsb_data_scheduled_get_user_interval ( gint scheduled_number )
 
 /**
  * set the user_interval
- * 
+ *
  * \param scheduled_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_user_interval ( gint scheduled_number,
@@ -1385,9 +1385,9 @@ gboolean gsb_data_scheduled_set_user_interval ( gint scheduled_number,
 
 /**
  * get the user_entry
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the user_entry
  * */
 gint gsb_data_scheduled_get_user_entry ( gint scheduled_number )
@@ -1405,10 +1405,10 @@ gint gsb_data_scheduled_get_user_entry ( gint scheduled_number )
 
 /**
  * set the user_entry
- * 
+ *
  * \param scheduled_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_set_user_entry ( gint scheduled_number,
@@ -1429,10 +1429,10 @@ gboolean gsb_data_scheduled_set_user_entry ( gint scheduled_number,
 
 
 /**
- * get the limit_GDate of the scheduled 
- * 
+ * get the limit_GDate of the scheduled
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the limit_GDate of the scheduled
  * */
 GDate *gsb_data_scheduled_get_limit_date ( gint scheduled_number )
@@ -1482,9 +1482,9 @@ gboolean gsb_data_scheduled_set_limit_date ( gint scheduled_number,
  * set the scheduled number given in param (if no number, give the last number + 1)
  * set the number of the account, the number of the scheduled and the currency number
  * which is by default the currency of the account
- * 
+ *
  * \param scheduled_number the number of the scheduled
- * 
+ *
  * \return the number of the new scheduled, 0 if problem
  * */
 gint gsb_data_scheduled_new_scheduled_with_number ( gint scheduled_number )
@@ -1516,9 +1516,9 @@ gint gsb_data_scheduled_new_scheduled_with_number ( gint scheduled_number )
 /**
  * create a new scheduled with gsb_data_scheduled_new_scheduled_with_number
  * but set automatickly the last number
- * 
- * \param 
- * 
+ *
+ * \param
+ *
  * \return the number of the new scheduled
  * */
 gint gsb_data_scheduled_new_scheduled ( void )
@@ -1527,7 +1527,7 @@ gint gsb_data_scheduled_new_scheduled ( void )
 }
 
 
-/** 
+/**
  * create a new white line
  * if there is a mother scheduled, it's a split and we increment in the negatives values
  * the number of that line
@@ -1536,7 +1536,7 @@ gint gsb_data_scheduled_new_scheduled ( void )
  * if it's a child split, the account is set as for its mother,
  * if it's the last white line, the account is set to -1
  * that scheduled is appended to the white scheduleds list
- * 
+ *
  * \param mother_scheduled_number the number of the mother's scheduled if it's a split child ; 0 if not
  *
  * \return the number of the white line
@@ -1603,9 +1603,9 @@ static void _gsb_data_scheduled_free ( struct_scheduled *scheduled )
  * remove the scheduled from the scheduled's list
  * free the scheduled, if there's some children,
  * remove also the children
- * 
+ *
  * \param scheduled_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_scheduled_remove_scheduled ( gint scheduled_number )
@@ -1780,12 +1780,12 @@ gint gsb_data_scheduled_get_currency_floating_point ( gint scheduled_number )
 
 /**
  * get the amount of the scheduled, modified to be ok with the currency
- * given in param 
- * 
+ * given in param
+ *
  * \param scheduled_number 		the number of the scheduled
  * \param return_currency_number 	the currency we want to adjust the transaction's amount
  * \param return_exponent 		the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
- * 
+ *
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_scheduled_get_adjusted_amount_for_currency ( gint scheduled_number,

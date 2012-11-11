@@ -42,8 +42,8 @@
 
 
 /**
- * \struct 
- * Describe a method of payment 
+ * \struct
+ * Describe a method of payment
  */
 typedef struct
 {
@@ -224,7 +224,7 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
     GSList *tmp_list;
     gint payment_number = 0 ;
     gint compare;
-    
+
     tmp_list = payment_list;
 
     while ( tmp_list )
@@ -249,9 +249,9 @@ gint gsb_data_payment_get_number_by_name ( const gchar *name,
  * find and return the last number of payment
  * carrefull, it's an internal function to create a new payment number,
  * nothing to see to the number of cheque we want to increase
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of payment
  * */
 gint gsb_data_payment_max_number ( void )
@@ -293,7 +293,7 @@ gint gsb_data_payment_new ( const gchar *name )
 
     if (name)
 	payment -> payment_name = my_strdup (name);
-    else 
+    else
 	payment -> payment_name = NULL;
 
     payment -> last_number = NULL;
@@ -692,9 +692,9 @@ gboolean gsb_data_payment_set_last_number ( gint payment_number,
  * them to the account given in param
  * moreover, create a preformated list to sort the transaction list according to
  * 	the method of payment, and set it in the account
- * 
+ *
  * \param account_number
- * 
+ *
  * \return TRUE ok, FALSE problem
  * */
 gint gsb_data_payment_create_default  ( gint account_number )
@@ -906,7 +906,7 @@ gboolean gsb_data_payment_set_last_number_from_int ( gint payment_number,
  * \param number initial
  * \ numéro du nouveau compte
  *
- * \ return the numéro de paiement si trouvé ou celui par défaut pour 
+ * \ return the numéro de paiement si trouvé ou celui par défaut pour
  * le compte concerné.
  * */
 gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
@@ -940,7 +940,7 @@ gint gsb_data_payment_search_number_other_account_by_name ( gint payment_number,
 
     if ( sign == GSB_PAYMENT_CREDIT)
         new_payment_number = gsb_data_account_get_default_credit ( account_number );
-    else 
+    else
         new_payment_number = gsb_data_account_get_default_debit ( account_number );
 
     return new_payment_number;

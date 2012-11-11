@@ -125,7 +125,7 @@ gint gsb_partial_balance_new ( const gchar *name )
 
     if ( name )
         partial_balance -> balance_name = my_strdup ( name );
-    else 
+    else
         partial_balance -> balance_name = NULL;
 
     partial_balance_list = g_slist_append ( partial_balance_list, partial_balance );
@@ -158,7 +158,7 @@ gint gsb_partial_balance_new_at_position ( const gchar *name, gint pos )
 
     if ( name )
         partial_balance -> balance_name = my_strdup ( name );
-    else 
+    else
         partial_balance -> balance_name = NULL;
 
     partial_balance_list = g_slist_insert ( partial_balance_list, partial_balance, pos - 1 );
@@ -170,10 +170,10 @@ gint gsb_partial_balance_new_at_position ( const gchar *name, gint pos )
 }
 
 
-/** 
+/**
  *
- * \param 
- * \param 
+ * \param
+ * \param
  *
  * */
 GtkListStore *gsb_partial_balance_create_model ( void )
@@ -186,10 +186,10 @@ GtkListStore *gsb_partial_balance_create_model ( void )
 }
 
 
-/** 
+/**
  *
- * \param 
- * \param 
+ * \param
+ * \param
  *
  * */
 void gsb_partial_balance_fill_model ( GtkListStore *list_store )
@@ -285,8 +285,8 @@ dialog_return:
         name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ) );
         liste_cptes = gtk_entry_get_text ( GTK_ENTRY ( entry_list ) );
 
-        if ( strlen ( name ) && strlen ( liste_cptes ) 
-         && 
+        if ( strlen ( name ) && strlen ( liste_cptes )
+         &&
          g_utf8_strchr  ( liste_cptes, -1, ';' ) )
         {
             position = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_bouton ) );
@@ -401,7 +401,7 @@ dialog_return:
         name = gtk_entry_get_text ( GTK_ENTRY ( entry_name ) );
         liste_cptes = gtk_entry_get_text ( GTK_ENTRY ( entry_list ) );
 
-        if ( strlen ( name ) && strlen ( liste_cptes ) && 
+        if ( strlen ( name ) && strlen ( liste_cptes ) &&
          g_utf8_strchr  ( liste_cptes, -1, ';' ) )
         {
             gsb_data_partial_balance_set_name ( partial_balance_number, name );
@@ -633,7 +633,7 @@ gboolean gsb_partial_balance_button_press ( GtkWidget *tree_view,
 
 
 /**
- * 
+ *
  *
 **/
 void gsb_partial_balance_colorise_toggled ( GtkCellRendererToggle *cell,
@@ -654,9 +654,9 @@ void gsb_partial_balance_colorise_toggled ( GtkCellRendererToggle *cell,
     treepath = gtk_tree_path_new_from_string ( path_str );
     gtk_tree_model_get_iter ( GTK_TREE_MODEL (model), &iter, treepath );
 
-    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter, 
+    gtk_tree_model_get ( GTK_TREE_MODEL ( model ), &iter,
                         4, &partial_number,
-                        5, &toggle, 
+                        5, &toggle,
                         -1);
     toggle ^= 1;
     gtk_list_store_set (GTK_LIST_STORE ( model ), &iter, 5, toggle, -1);
@@ -691,7 +691,7 @@ gboolean gsb_data_partial_balance_init_variables ( void )
 
             partial_balance = tmp_list -> data;
             tmp_list = tmp_list -> next;
-            _gsb_data_partial_balance_free ( partial_balance ); 
+            _gsb_data_partial_balance_free ( partial_balance );
         }
         g_slist_free ( partial_balance_list );
     }
@@ -778,18 +778,18 @@ gint gsb_data_partial_balance_get_number ( gpointer balance_ptr )
 
 
 /**
- * This internal function is called to free the memory used by an 
+ * This internal function is called to free the memory used by an
  * struct_partial_balance structure
  */
 static void _gsb_data_partial_balance_free ( struct_partial_balance *partial_balance)
 {
     if ( ! partial_balance )
         return;
-    if ( partial_balance -> balance_name 
+    if ( partial_balance -> balance_name
      &&
      strlen ( partial_balance -> balance_name ) )
         g_free ( partial_balance -> balance_name );
-    if ( partial_balance -> liste_cptes 
+    if ( partial_balance -> liste_cptes
      &&
      strlen ( partial_balance -> liste_cptes ) )
         g_free ( partial_balance -> liste_cptes );
@@ -901,7 +901,7 @@ gboolean gsb_data_partial_balance_set_name ( gint partial_balance_number,
 }
 
 
-/** 
+/**
  * get the kind of the partial_balance
  * \param partial_balance_number no of the partial_balance
  *
@@ -920,7 +920,7 @@ kind_account gsb_data_partial_balance_get_kind ( gint partial_balance_number )
 }
 
 
-/** 
+/**
  * set the kind of the partial_balance
  * \param partial_balance_number no of the partial_balance
  * \param kind type to set
@@ -943,7 +943,7 @@ gboolean gsb_data_partial_balance_set_kind ( gint partial_balance_number,
 }
 
 
-/** 
+/**
  * get the currency of the partial_balance
  *
  * \param partial_balance_number no of the partial_balance
@@ -963,7 +963,7 @@ gint gsb_data_partial_balance_get_currency ( gint partial_balance_number )
 }
 
 
-/** 
+/**
  * set the currency of the partial_balance
  *
  * \param partial_balance_number no of the partial_balance
@@ -987,12 +987,12 @@ gboolean gsb_data_partial_balance_set_currency ( gint partial_balance_number,
 }
 
 
-/** 
- * 
+/**
+ *
  *
  * \param partial_balance_number no of the partial_balance
  *
- * \return 
+ * \return
  * */
 gboolean gsb_data_partial_balance_get_colorise ( gint partial_balance_number )
 {
@@ -1007,7 +1007,7 @@ gboolean gsb_data_partial_balance_get_colorise ( gint partial_balance_number )
 }
 
 
-/** 
+/**
  * \param partial_balance_number no of the partial_balance
  * \param colorise
  *
@@ -1030,7 +1030,7 @@ gboolean gsb_data_partial_balance_set_colorise ( gint partial_balance_number,
 
 
 /**
- * 
+ *
  *
  * */
 gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number )
@@ -1075,7 +1075,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
                     tmp_real = gsb_real_div ( tmp_real,
                                 gsb_data_currency_link_get_change_rate ( link_number ) );
             }
-            
+
         }
         solde = gsb_real_add ( solde, tmp_real );
     }
@@ -1101,7 +1101,7 @@ gchar *gsb_data_partial_balance_get_marked_balance ( gint partial_balance_number
 
 
 /**
- * 
+ *
  *
  * */
 gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_number )
@@ -1155,7 +1155,7 @@ gsb_real gsb_data_partial_balance_get_current_amount ( gint partial_balance_numb
 
 
 /**
- * 
+ *
  *
  * */
 gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_number )
@@ -1191,7 +1191,7 @@ gchar *gsb_data_partial_balance_get_current_balance ( gint partial_balance_numbe
 
 
 /**
- * 
+ *
  *
  * */
 gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
@@ -1220,7 +1220,7 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
                 gtk_tree_model_get ( model, &iter, 1, &account_nb, -1);
                 if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) > 0 )
                 {
-                    gtk_entry_set_text ( GTK_ENTRY ( entry ), 
+                    gtk_entry_set_text ( GTK_ENTRY ( entry ),
                                 g_strconcat ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), ";",
                                 g_strdup_printf ( "%d", account_nb ), NULL ) );
                 }
@@ -1243,7 +1243,7 @@ gboolean gsb_partial_balance_select_account ( GtkTreeSelection *selection,
             gtk_tree_model_get ( model, &iter, 1, &account_nb, -1);
             if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) > 0 )
             {
-                gtk_entry_set_text ( GTK_ENTRY ( entry ), 
+                gtk_entry_set_text ( GTK_ENTRY ( entry ),
                             g_strconcat ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ), ";",
                             g_strdup_printf ( "%d", account_nb ), NULL ) );
             }
@@ -1388,7 +1388,7 @@ gboolean gsb_data_partial_balance_drag_data_received ( GtkTreeDragDest * drag_de
 
         /* On récupère le model et le path d'origine */
         gtk_tree_get_row_drag_data (selection_data, &model, &orig_path);
-        
+
         if ( gtk_tree_model_get_iter ( model, &iter, orig_path ) )
             gtk_tree_model_get ( model, &iter, 4, &orig_partial_number, -1 );
 
@@ -1588,7 +1588,7 @@ GPtrArray *gsb_data_partial_balance_calculate_balances_at_date ( gint partial_ba
 /*              Interface                                                                    */
 /*********************************************************************************************/
 /**
- * 
+ *
  *
  * */
 GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
@@ -1668,7 +1668,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
 
 
 /**
- * 
+ *
  *
  * */
 GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
@@ -1753,7 +1753,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     gtk_table_attach ( GTK_TABLE ( table ), bouton, 0, 2, 5, 6,
                         GTK_SHRINK | GTK_FILL, 0, 0, 0 );
     g_object_set_data ( G_OBJECT ( dialog ), "colorise_bouton", bouton );
-    
+
     g_object_set_data ( G_OBJECT ( dialog ), "entry_name", entry_name );
     g_object_set_data ( G_OBJECT ( dialog ), "entry_list", entry_list );
     g_object_set_data ( G_OBJECT ( dialog ), "account_list", account_list );
@@ -1763,7 +1763,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
 
 
 /**
- * 
+ *
  *
  * */
 gint gsb_partial_balance_request_currency ( GtkWidget *parent )

@@ -268,7 +268,7 @@ void budgetary_lines_fill_list ( void )
 
     /** Then, populate tree with budgetary lines. */
     budget_list = gsb_data_budget_get_budgets_list ();
-    
+
     /* add first the empty budget */
     budget_list = g_slist_prepend ( budget_list,
 				    gsb_data_budget_get_empty_budget ());
@@ -933,7 +933,7 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
     gint budget_number = -1, sub_budget_number = -1;
     gint i = 0,j = 0;
 
-    selection = gtk_tree_view_get_selection ( 
+    selection = gtk_tree_view_get_selection (
                         GTK_TREE_VIEW (budgetary_line_tree) );
     if ( selection && gtk_tree_selection_get_selected (
                         selection, &model, &parent ) )
@@ -951,7 +951,7 @@ void selectionne_sub_budgetary ( GtkTreeModel * model )
         return;
 
     name =  my_strdup (_("New sub-budget"));
-    sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( 
+    sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name (
                         budget_number, name, FALSE );
     j = gtk_tree_model_iter_n_children ( model, &parent );
     for (i = 0; i < j; i++ )

@@ -252,7 +252,7 @@ GtkTreeModel * csv_import_create_model ( GtkTreeView * tree_preview, gchar * con
         types[i+1] = G_TYPE_STRING;
 
         cell = gtk_cell_renderer_text_new ();
-        col = gtk_tree_view_column_new_with_attributes ( 
+        col = gtk_tree_view_column_new_with_attributes (
                         NULL,
                         cell,
                         "text", i + 1,
@@ -627,7 +627,7 @@ gint * csv_import_guess_fields_config ( gchar * contents, gint size, gchar * sep
 	    if ( strlen ( value ) > 1 &&
 		 strlen ( csv_fields [ field ] . name ) > 1 )
         {
-            if ( strlen ( csv_fields [ field ] . alias ) > 1 
+            if ( strlen ( csv_fields [ field ] . alias ) > 1
              &&
              ( safe_contains ( csv_fields [ field ] . name, value ) ||
                safe_contains ( _( csv_fields [ field ] . name ), value ) ||
@@ -926,7 +926,7 @@ void csv_import_update_validity_check ( GtkWidget * assistant )
     if ( !( ( csv_find_field_config ( 11 ) && !csv_find_field_config ( 12 ) &&
            !csv_find_field_config ( 13 ) && !csv_find_field_config ( 14 ) )
      ||
-     ( !csv_find_field_config ( 11 ) &&  csv_find_field_config ( 12 ) && 
+     ( !csv_find_field_config ( 11 ) &&  csv_find_field_config ( 12 ) &&
        ( csv_find_field_config ( 13 ) || csv_find_field_config ( 14 ) ) &&
        !( csv_find_field_config ( 13 ) && csv_find_field_config ( 14 ) ) ) ) )
     {

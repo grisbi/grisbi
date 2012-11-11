@@ -77,10 +77,10 @@ static struct option long_options[] =           /*!< configure the list of 'long
  */
 gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErrval)
 {
-    gboolean still_args_to_treat = TRUE; /*!< used to stop treating the command line args using getopt */ 
+    gboolean still_args_to_treat = TRUE; /*!< used to stop treating the command line args using getopt */
     int      option_index        = 0;    /*!< Index of the field of argv to compute */
     gboolean app_must_stop       = FALSE;
-	
+
     *pErrval = CMDLINE_ERROR(CMDLINE_SYNTAX_OK);
 	/* init param de retour */
 	pOpt->demande_page         = 0;
@@ -110,19 +110,19 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
             case EOF:/* all options parsed */
                 still_args_to_treat = FALSE;
                 break;
-            
+
             /* configured returned values */
             /* -h : short help = usage */
             case 'v' : /* -v */
             case 'V' : /* --version */
                 app_must_stop       = TRUE; /* stopping here! */
-                show_version();    
+                show_version();
                 break;
             case 'h':  /* -h */
             case 'H':  /* --help */
                 app_must_stop       = TRUE; /* stopping here! */
                 show_help();
-                break; 
+                break;
             case 't': /* -t <str> */
             case 'T': /* --tab[=]<optarg> */
                 if (!optarg)
@@ -130,14 +130,14 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
                     /* Denote a getopt configuration error, arg is required should never happend, but ... */
                     *pErrval = CMDLINE_ERROR(CMDLINE_GETOPT_CONFIGURATION_ERROR);
                     show_usage((gint)(*pErrval),"");
-			} 
+			}
                 else
 			{
                     /* optarg contains argument parameter */
                     if (CMDLINE_SYNTAX_OK != (*pErrval = parse_tab_parameters(optarg, pOpt)))
                         show_usage((gint)(*pErrval),"");
-			} 
-                break; 
+			}
+                break;
 				}
 			}
     /* Manual management of command line arguments */
@@ -156,15 +156,15 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
         pOpt->fichier = g_strdup(argv[optind]);
         optind++;
 		}
-		
+
     return ((gboolean)((*pErrval)==0)&&(!app_must_stop));
-	
+
 }
 
 
 
 /**
- * 
+ *
  * Display grisbi version after synoptic
  *
  *
@@ -195,7 +195,7 @@ void show_help(void)
 /**
  *
  * Display usage line
- * 
+ *
  * \param errval  error code to pass to show_errstr
  * \param extra  extra information to pass to show_errstr
  *
@@ -210,7 +210,7 @@ void show_usage ( gint errval, gchar* extra )
 
 /**
  *
- * Display a string corresponding to error code 
+ * Display a string corresponding to error code
  *
  * \param errval  error code to inform the user why this message is displayed
  * \param extra  extra information to complete error code
@@ -240,7 +240,7 @@ void show_errstr(gint errval, gchar* extra)
             break;
         case CMDLINE_GETOPT_CONFIGURATION_ERROR:
             g_printerr(_("Something strange happend (%s)\n\n"),extra);
-            break;            
+            break;
         default:
             g_printerr(_("Syntax error!\n\n"));
             break;
@@ -264,18 +264,18 @@ CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt)
 {
 	gchar **split_chiffres;
 	gint    w, x, y, z;
-	
+
 	w = x = y = z = -1;
 
     split_chiffres = g_strsplit ( tab_parameters, ",", 0 );
-	
+
 	if (split_chiffres[0] == NULL)
 	{
 		/* on s'attend à avoir au moins un numero d'onglet */
         return CMDLINE_MISSING_PARAMETER;
 	}
-	
-	w = utils_str_atoi(split_chiffres[0]); 
+
+	w = utils_str_atoi(split_chiffres[0]);
 	if ( !is_valid_window_number(w) )
 	{
         return CMDLINE_TAB_ID_OUT_OF_RANGE;
@@ -284,45 +284,45 @@ CMDLINE_ERRNO parse_tab_parameters(char *tab_parameters, cmdline_options* pOpt)
 	if (w == 7)
 	{
 		/* Fenetre des etats. Lit parametres restant si il y en a. */
-		if (split_chiffres[1]) 
+		if (split_chiffres[1])
 		{
 			x = utils_str_atoi(split_chiffres[1]);
-		
-			if (split_chiffres[2]) 
+
+			if (split_chiffres[2])
 			{
 				y = utils_str_atoi(split_chiffres[2]);
-				if (split_chiffres[3]) 
+				if (split_chiffres[3])
 				{
 					z = utils_str_atoi(split_chiffres[3]);
 				}
 			}
 		}
 	}
-	
+
 
 	/* Tout c'est bien passé, on peut ranger les valeurs dans la var. de retour */
 	pOpt->demande_page         = 1;
-	
+
 	pOpt->page_w               = w;
 	pOpt->report_no            = x;
 	pOpt->customization_tab_no = y;
 	pOpt->subcustom_tab_no     = z;
-	
+
     return CMDLINE_SYNTAX_OK;
 
 }
 
-	
 
 
-#define  NB_MAX_ONGLET    8 
+
+#define  NB_MAX_ONGLET    8
 /**
- * 
+ *
  * Check if a value can be a tab index.
- * 
+ *
  * A Tab index is in -1 (config dialog) to NB_MAX_ONGLET-1.
  *
- * \param w value to check 
+ * \param w value to check
  *
  * \return TRUE is w can be a tab index, FALSE otherwise.
  */

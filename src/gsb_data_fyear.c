@@ -159,10 +159,10 @@ GSList *gsb_data_fyear_get_fyears_list ( void )
 gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr )
 {
     struct_fyear *fyear;
-    
+
     if ( !fyear_ptr )
 	return 0;
-    
+
     fyear = fyear_ptr;
     fyear_buffer = fyear;
     return fyear -> fyear_number;
@@ -171,9 +171,9 @@ gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr )
 
 /**
  * find and return the last number of fyear
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of fyear
  * */
 gint gsb_data_fyear_max_number ( void )
@@ -182,7 +182,7 @@ gint gsb_data_fyear_max_number ( void )
     gint number_tmp = 0;
 
     tmp = fyear_list;
-    
+
     while ( tmp )
     {
 	struct_fyear *fyear;
@@ -215,7 +215,7 @@ gint gsb_data_fyear_new ( const gchar *name )
 
     if (name)
 	fyear -> fyear_name = my_strdup (name);
-    else 
+    else
 	fyear -> fyear_name = NULL;
 
     fyear_list = g_slist_append ( fyear_list, fyear );
@@ -259,10 +259,10 @@ gboolean gsb_data_fyear_remove ( gint fyear_number )
 
     if (!fyear)
 	return FALSE;
-    
+
     fyear_list = g_slist_remove ( fyear_list,
 				  fyear );
-    
+
     _gsb_data_fyear_free ( fyear );
 
     return TRUE;
@@ -336,7 +336,7 @@ gboolean gsb_data_fyear_set_name ( gint fyear_number,
     /* we free the last name */
     if ( fyear -> fyear_name )
 	g_free (fyear -> fyear_name);
-    
+
     /* and copy the new one */
     fyear -> fyear_name = my_strdup (name);
 
@@ -391,7 +391,7 @@ gboolean gsb_data_fyear_set_beginning_date ( gint fyear_number,
     /* we free the last date */
     if ( fyear -> beginning_date )
 	g_date_free (fyear -> beginning_date);
-    
+
     /* and copy the new one */
     fyear -> beginning_date = gsb_date_copy (date);
 
@@ -504,7 +504,7 @@ gboolean gsb_data_fyear_set_form_show ( gint fyear_number,
  *
  * \param fyear_number the number of the fyear
  *
- * \return TRUE if the fyear is invalid 
+ * \return TRUE if the fyear is invalid
  * */
 gint gsb_data_fyear_get_invalid ( gint fyear_number )
 {
@@ -570,7 +570,7 @@ void gsb_data_fyear_check_all_for_invalid ( void )
     {
 	fyear_buffer = tmp_list -> data;
 	gsb_data_fyear_check_for_invalid ( fyear_buffer -> fyear_number);
-	
+
 	tmp_list = tmp_list -> next;
     }
 }

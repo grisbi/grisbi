@@ -4,8 +4,8 @@
 #include <glib.h>
 
 /**
- * \struct 
- * Describe a fyear 
+ * \struct
+ * Describe a fyear
  */
 typedef struct
 {

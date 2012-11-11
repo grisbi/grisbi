@@ -444,7 +444,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     tmpstr = make_pango_attribut ( "size=\"x-large\"",
                         g_strdup_printf ( "Export of : %s",
                         gsb_data_account_get_name ( account -> account_nb ) ) );
-                        
+
     label = gtk_label_new ( NULL );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0.5);
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );

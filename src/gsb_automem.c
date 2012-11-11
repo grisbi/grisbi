@@ -54,10 +54,10 @@ static gboolean gsb_automem_entry_changed (GtkWidget *entry,
 					   gpointer null );
 static gboolean gsb_automem_spin_button_changed ( GtkWidget *spin,
 						  gpointer null);
-static GtkWidget *gsb_automem_spin_button_new_full ( gint *value, 
-					      gdouble lower, gdouble upper, 
-					      gdouble step_increment, gdouble page_increment, 
-					      gdouble page_size, 
+static GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
+					      gdouble lower, gdouble upper,
+					      gdouble step_increment, gdouble page_increment,
+					      gdouble page_size,
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data );
 static gboolean gsb_automem_textview_changed ( GtkTextBuffer *buffer,
@@ -106,7 +106,7 @@ GtkWidget *gsb_automem_entry_new ( gchar **value,
 
 
 
-/** 
+/**
  * set the value in an gsb_automem_entry
  *
  * \param entry the gsb_automem_enty
@@ -121,11 +121,11 @@ void gsb_automem_entry_set_value ( GtkWidget *entry,
     !* Block everything *!
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
 	g_signal_handler_block ( G_OBJECT(entry),
-				 (gulong) g_object_get_data (G_OBJECT (entry), 
+				 (gulong) g_object_get_data (G_OBJECT (entry),
 							     "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
 	g_signal_handler_block ( G_OBJECT(entry),
-				 (gulong) g_object_get_data (G_OBJECT (entry), 
+				 (gulong) g_object_get_data (G_OBJECT (entry),
 							     "changed-hook"));
 
     !* Fill in value *!
@@ -140,11 +140,11 @@ void gsb_automem_entry_set_value ( GtkWidget *entry,
     !* Unblock everything *!
     if ( g_object_get_data (G_OBJECT (entry), "changed") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(entry),
-				   (gulong) g_object_get_data (G_OBJECT (entry), 
+				   (gulong) g_object_get_data (G_OBJECT (entry),
 							       "changed"));
     if ( g_object_get_data (G_OBJECT (entry), "changed-hook") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(entry),
-				   (gulong) g_object_get_data (G_OBJECT (entry), 
+				   (gulong) g_object_get_data (G_OBJECT (entry),
 							       "changed-hook"));
 }
 */
@@ -219,7 +219,7 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
 }
 
 
-/** 
+/**
  * set the value in an gsb_automem_textview
  *
  * \param entry the gsb_automem_enty
@@ -227,7 +227,7 @@ GtkWidget *gsb_automem_textview_new ( gchar **value,
  *
  * \return
  */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+/* TODO dOm : this function seems not to be used. Is it possible to remove it
 void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				      gchar **value )
 {
@@ -244,7 +244,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				 (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
     if ( g_object_get_data (G_OBJECT(buffer), "changed-hook") > 0 )
 	g_signal_handler_block ( G_OBJECT(buffer),
-				 (gulong) g_object_get_data ( G_OBJECT(buffer), 
+				 (gulong) g_object_get_data ( G_OBJECT(buffer),
 							      "changed-hook" ));
     !* Fill in value *!
     if (value && *value)
@@ -260,7 +260,7 @@ void gsb_automem_textview_set_value ( GtkWidget *text_view,
 				   (gulong) g_object_get_data ( G_OBJECT(buffer), "changed" ));
     if ( g_object_get_data (G_OBJECT(buffer), "changed-hook") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(buffer),
-				   (gulong) g_object_get_data ( G_OBJECT(buffer), 
+				   (gulong) g_object_get_data ( G_OBJECT(buffer),
 								"changed-hook" ));
 }
 */
@@ -325,12 +325,12 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
     g_object_set_data ( G_OBJECT (checkbutton),
 			"pointer", value);
 
-    g_object_set_data ( G_OBJECT (checkbutton), "changed", 
+    g_object_set_data ( G_OBJECT (checkbutton), "changed",
 			(gpointer) g_signal_connect (checkbutton, "toggled",
 						     G_CALLBACK (gsb_automem_checkbutton_changed), NULL));
 
     if ( hook )
-	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook", 
+	g_object_set_data ( G_OBJECT ( checkbutton ), "changed-hook",
 			    (gpointer) g_signal_connect (checkbutton, "toggled",
 							 G_CALLBACK (hook), data ));
     return checkbutton;
@@ -341,7 +341,7 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 /**
  * Update the widget's appearance accordingly.  If update is set, update
  * property as well.
- * 
+ *
  * \param checkbutton The checkbutton to update
  * \param value A pointer to a boolean which contains the new value to
  * 	fill in checkbutton's properties.  This boolean will be modified by
@@ -352,8 +352,8 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 {
     // Block everything
     if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
-	g_signal_handler_block ( checkbutton, 
-				 (gulong) g_object_get_data (G_OBJECT(checkbutton), 
+	g_signal_handler_block ( checkbutton,
+				 (gulong) g_object_get_data (G_OBJECT(checkbutton),
 							     "changed" ));
     if (g_object_get_data (G_OBJECT(checkbutton), "changed-hook") > 0)
 	g_signal_handler_block ( checkbutton,
@@ -368,7 +368,7 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 
     // Unblock everything
     if (g_object_get_data (G_OBJECT(checkbutton), "changed") > 0)
-	g_signal_handler_unblock ( checkbutton, 
+	g_signal_handler_unblock ( checkbutton,
 				   (gulong) g_object_get_data (G_OBJECT(checkbutton),
 							       "changed" ));
     if (g_object_get_data (G_OBJECT(checkbutton), "changed-hook") > 0)
@@ -383,7 +383,7 @@ GtkWidget *gsb_automem_checkbutton_new ( const gchar *label,
 /**
  * Set a boolean integer to the value of a checkbutton.  Normally called
  * via a GTK "toggled" signal handler.
- * 
+ *
  * \param checkbutton a pointer to a checkbutton widget.
  * \param null not used
  */
@@ -432,7 +432,7 @@ GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
     gtk_box_pack_start (GTK_BOX(paddingbox),
 			gsb_automem_radiobutton_new ( choice1, choice2,
 						      value,
-						      hook, data ), 
+						      hook, data ),
 			FALSE, FALSE, 0 );
     return paddingbox;
 }
@@ -464,7 +464,7 @@ GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
-    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(button1)), 
+    button2 = gtk_radio_button_new_with_mnemonic ( gtk_radio_button_get_group (GTK_RADIO_BUTTON(button1)),
 						   choice2 );
     gtk_box_pack_start (GTK_BOX(vbox), button2, FALSE, FALSE, 0 );
 
@@ -607,7 +607,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
         if ( button3 )
             g_signal_connect ( G_OBJECT ( button3 ), "button-release-event", G_CALLBACK ( callback ), data );
     }
- 
+
     return box;
 }
 
@@ -623,10 +623,10 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
  * \param value a pointer to an integer wich will change with the value of the spin button
  * \param hook An optional hook to run at each change
  * \param data optional data to send to hook
- * 
+ *
  * \return a GtkSpinButton
  * */
-GtkWidget *gsb_automem_spin_button_new ( gint *value, 
+GtkWidget *gsb_automem_spin_button_new ( gint *value,
 					 GCallback hook,
 					 gpointer data )
 {
@@ -664,10 +664,10 @@ GtkWidget *gsb_automem_spin_button_new ( gint *value,
  * \param hook An optional hook to run at each change
  * \param data optional data to send to hook
  */
-GtkWidget *gsb_automem_spin_button_new_full ( gint *value, 
-					      gdouble lower, gdouble upper, 
-					      gdouble step_increment, gdouble page_increment, 
-					      gdouble page_size, 
+GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
+					      gdouble lower, gdouble upper,
+					      gdouble step_increment, gdouble page_increment,
+					      gdouble page_size,
 					      gdouble climb_rate,
 					      GCallback hook, gpointer data )
 {
@@ -678,7 +678,7 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
     if ( value )  /* Sanity check */
 	initial = *value;
 
-    adjustment = GTK_ADJUSTMENT( gtk_adjustment_new ( initial, lower, upper, 
+    adjustment = GTK_ADJUSTMENT( gtk_adjustment_new ( initial, lower, upper,
 						      step_increment, page_increment,
 						      page_size ));
 
@@ -689,13 +689,13 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
 
     g_object_set_data ( G_OBJECT (spin), "changed",
 			(gpointer) g_signal_connect ( G_OBJECT (spin),
-						      "value-changed", 
-						      G_CALLBACK (gsb_automem_spin_button_changed), 
+						      "value-changed",
+						      G_CALLBACK (gsb_automem_spin_button_changed),
 						      NULL ));
     if ( hook )
 	g_object_set_data ( G_OBJECT (spin), "changed-hook",
-			    (gpointer) g_signal_connect ( G_OBJECT (spin), 
-							  "value-changed", 
+			    (gpointer) g_signal_connect ( G_OBJECT (spin),
+							  "value-changed",
 							  G_CALLBACK (hook),
 							  data ));
     return spin;
@@ -712,7 +712,7 @@ GtkWidget *gsb_automem_spin_button_new_full ( gint *value,
  * \return
  *
  */
-/* TODO dOm : this function seems not to be used. Is it possible to remove it 
+/* TODO dOm : this function seems not to be used. Is it possible to remove it
 void gsb_automem_spin_button_set_value ( GtkWidget *spin,
 					 gint *value )
 {
@@ -728,7 +728,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
     !* Block everything *!
     if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
 	g_signal_handler_block ( G_OBJECT(adjustment),
-				 (gulong) g_object_get_data ( G_OBJECT (spin), 
+				 (gulong) g_object_get_data ( G_OBJECT (spin),
 							      "changed"));
     if ( g_object_get_data (G_OBJECT (spin), "changed-hook") > 0 )
 	g_signal_handler_block ( G_OBJECT(adjustment),
@@ -746,7 +746,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
     !* Unblock everything *!
     if ( g_object_get_data (G_OBJECT (spin), "changed") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(adjustment),
-				   (gulong) g_object_get_data ( G_OBJECT (spin), 
+				   (gulong) g_object_get_data ( G_OBJECT (spin),
 								"changed"));
     if ( g_object_get_data (G_OBJECT (spin), "changed-hook") > 0 )
 	g_signal_handler_unblock ( G_OBJECT(adjustment),
@@ -759,7 +759,7 @@ void gsb_automem_spin_button_set_value ( GtkWidget *spin,
 /**
  * Set an int to the value of a spin button.  Normally called via
  * a GTK "changed" signal handler.
- * 
+ *
  * \param spin a pointer to a spinbutton widget.
  * \param null unused
  */
@@ -810,12 +810,12 @@ GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
     {
 	if ( data >= 0 )
 	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+	    g_signal_connect_swapped ( G_OBJECT(button), "clicked",
 				       G_CALLBACK(callback), data );
 	}
 	else
 	{
-	    g_signal_connect ( G_OBJECT(button), "clicked", 
+	    g_signal_connect ( G_OBJECT(button), "clicked",
 			       G_CALLBACK(callback), data );
 	}
     }
@@ -828,7 +828,7 @@ GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
  *
  */
 GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
-					       const gchar * stock_id, const gchar * name, 
+					       const gchar * stock_id, const gchar * name,
 					       GCallback callback, gpointer data )
 {
     GtkWidget * button, * vbox, * hbox, * arrow;
@@ -849,7 +849,7 @@ GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
 
     if ( callback )
     {
-	g_signal_connect ( G_OBJECT(button), "button-press-event", 
+	g_signal_connect ( G_OBJECT(button), "button-press-event",
 			   G_CALLBACK(callback), data );
     }
 
@@ -886,12 +886,12 @@ GtkWidget *gsb_automem_imagefile_button_new ( GsbButtonStyle style,
     {
 	if ( data >= 0 )
 	{
-	    g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
+	    g_signal_connect_swapped ( G_OBJECT(button), "clicked",
 				       G_CALLBACK(callback), data );
 	}
 	else
 	{
-	    g_signal_connect ( G_OBJECT(button), "clicked", 
+	    g_signal_connect ( G_OBJECT(button), "clicked",
 			       G_CALLBACK(callback), data );
 	}
     }

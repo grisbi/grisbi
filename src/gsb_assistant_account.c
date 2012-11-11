@@ -236,13 +236,13 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 6 );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
 
-    gtk_box_pack_start ( GTK_BOX (page), table, 
+    gtk_box_pack_start ( GTK_BOX (page), table,
 			 FALSE, FALSE, 0 );
 
     /* choose the currency */
     label = gtk_label_new ( _("Currency for the account: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 
+    gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
@@ -259,7 +259,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 
     /* create the currency combobox */
     account_combobox_currency = gsb_currency_make_combobox (TRUE);
-    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_currency, 
+    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_currency,
 		       1, 2, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
@@ -271,7 +271,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
 		       "clicked",
 		       G_CALLBACK (gsb_currency_config_add_currency_set_combobox),
 		       account_combobox_currency );
-    gtk_table_attach ( GTK_TABLE ( table ), button, 
+    gtk_table_attach ( GTK_TABLE ( table ), button,
 		       2, 3, 0, 1,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
@@ -280,12 +280,12 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     /* choose the bank */
     label = gtk_label_new ( _("Bank for the account: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 
+    gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
-    
+
     account_combobox_bank = gsb_bank_create_combobox (0 );
 
     if ( gsb_data_bank_max_number() != 0 )
@@ -296,7 +296,7 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     {
 	gsb_bank_list_set_bank ( account_combobox_bank, 0 );
     }
-    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank, 
+    gtk_table_attach ( GTK_TABLE ( table ), account_combobox_bank,
 		       1, 2, 1, 2,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
@@ -305,19 +305,19 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     /* set the initial amount */
     label = gtk_label_new ( _("Opening balance: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.5 );
-    gtk_table_attach ( GTK_TABLE ( table ), label, 
+    gtk_table_attach ( GTK_TABLE ( table ), label,
 		       0, 1, 2, 3,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
-    
+
     account_entry_initial_amount = gtk_entry_new ();
-    gtk_table_attach ( GTK_TABLE ( table ), account_entry_initial_amount, 
+    gtk_table_attach ( GTK_TABLE ( table ), account_entry_initial_amount,
 		       1, 2, 2, 3,
 		       GTK_SHRINK | GTK_FILL,
 		       GTK_SHRINK | GTK_FILL,
 		       0, 0 );
-    
+
     /* création du choix de l'icône du compte */
     /* Récupération de l'icône par défaut */
     align = gtk_alignment_new (0.5,0.5,1,1);
@@ -329,15 +329,15 @@ static GtkWidget *gsb_assistant_account_page_3 ( GtkWidget *assistant )
     gtk_button_set_image ( GTK_BUTTON ( button ), image);
     gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NORMAL );
     gtk_container_add (GTK_CONTAINER (align), button);
-    gtk_table_attach ( GTK_TABLE ( table ), align, 
+    gtk_table_attach ( GTK_TABLE ( table ), align,
 		       3, 4, 0, 3,
 		       GTK_FILL | GTK_FILL,
 		       GTK_FILL | GTK_FILL,
 		       0, 0 );
     g_object_set_data ( G_OBJECT (assistant), "bouton_icon", button );
-    g_signal_connect ( G_OBJECT( button ), 
-                            "clicked", 
-                            G_CALLBACK(gsb_assistant_account_change_account_icon), 
+    g_signal_connect ( G_OBJECT( button ),
+                            "clicked",
+                            G_CALLBACK(gsb_assistant_account_change_account_icon),
                             NULL );
 
     gtk_widget_show_all (page);
@@ -468,7 +468,7 @@ gboolean gsb_assistant_account_toggled_kind_account ( GtkWidget *button,
     GtkWidget *bouton_icon, *image;
     kind_account account_kind;
 
-    account_kind = GPOINTER_TO_INT ( g_object_get_data 
+    account_kind = GPOINTER_TO_INT ( g_object_get_data
                 ( G_OBJECT (button), "account_kind"));
     g_object_set_data ( G_OBJECT (assistant),
                 "account_kind", GINT_TO_POINTER ( account_kind ) );

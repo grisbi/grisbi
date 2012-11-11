@@ -69,7 +69,7 @@ extern GtkTreeViewColumn *transactions_tree_view_columns[CUSTOM_MODEL_VISIBLE_CO
  *
  * to update all the tree view, use gsb_transactions_list_update_tree_view instead
  *
- * \param 
+ * \param
  *
  * \return
  * */

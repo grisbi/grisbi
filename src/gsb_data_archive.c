@@ -43,8 +43,8 @@
 
 
 /**
- * \struct 
- * Describe a archive 
+ * \struct
+ * Describe a archive
  */
 typedef struct
 {
@@ -99,7 +99,7 @@ gboolean gsb_data_archive_init_variables ( void )
 	    struct_archive *archive;
 	    archive = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-            _gsb_data_archive_free ( archive ); 
+            _gsb_data_archive_free ( archive );
 	}
         g_slist_free ( archive_list );
     }
@@ -186,9 +186,9 @@ gint gsb_data_archive_get_no_archive ( gpointer archive_ptr )
 
 /**
  * find and return the last number of archive
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of archive
  * */
 gint gsb_data_archive_max_number ( void )
@@ -235,7 +235,7 @@ gint gsb_data_archive_new ( const gchar *name )
 
     if (name)
     archive -> archive_name = my_strdup (name);
-    else 
+    else
     archive -> archive_name = NULL;
 
     archive_list = g_slist_append ( archive_list, archive );

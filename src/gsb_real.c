@@ -68,13 +68,13 @@ static gboolean gsb_real_raw_truncate_number ( gint64 *mantissa, gint *exponent 
  * Return the real in a formatted string with an optional currency
  * symbol, according to the given locale regarding decimal separator,
  * thousands separator and positive or negative sign.
- * 
+ *
  * \param number		    Number to format.
  * \param locale      		the locale obtained with localeconv(), or built manually
  * \param currency_symbol 	the currency symbol
  *
  * \return		A newly allocated string of the number (this
- *			function will never return NULL) 
+ *			function will never return NULL)
  */
 gchar *gsb_real_raw_format_string (gsb_real number,
                         struct lconv *locale,
@@ -98,7 +98,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
     mon_decimal_point = locale->mon_decimal_point && *locale->mon_decimal_point ? locale->mon_decimal_point : "";
     cs_end_space = (currency_symbol && !locale->p_cs_precedes && locale->p_sep_by_space) ? " " : "";
     cs_end = (currency_symbol && !locale->p_cs_precedes) ? currency_symbol : "";
-    
+
     units = lldiv ( llabs (number.mantissa), gsb_real_power_10[number.exponent] );
 
     nbre_char = g_sprintf ( buffer, "%.0f", (gdouble) units.quot );
@@ -115,7 +115,7 @@ gchar *gsb_real_raw_format_string (gsb_real number,
                                             number.exponent,
                                             "lld%s%s" );
 
-    result = g_strdup_printf ( format, 
+    result = g_strdup_printf ( format,
                             cs_start,
                             cs_start_space,
                             sign,
@@ -543,7 +543,7 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
         sign = ( number.mantissa < 0 ) ? -1 : 1;
 
         tmp_num = lldiv ( llabs ( number.mantissa ), gsb_real_power_10[exponent] );
-        
+
         if ( tmp_num.rem > ( 0.5 * gsb_real_power_10[exponent] ) )
             number.mantissa = ( tmp_num.quot + 1 ) * sign;
         else
@@ -669,12 +669,12 @@ gsb_real gsb_real_div ( gsb_real number_1,
 {
     gsb_real number;
 	gint64 reste;
-	
+
 	if ( number_1.mantissa == error_real.mantissa ||
 	     number_2.mantissa == error_real.mantissa ||
 	     !number_2.mantissa )
 		return error_real;
-	
+
 	reste = number_1.mantissa % number_2.mantissa;
 
 	if( ( number_1.mantissa >= number_2.mantissa ) && !reste )

@@ -62,7 +62,7 @@
 
 /*START_STATIC*/
 static void button_delete_div_sub_div_clicked ( GtkWidget *togglebutton, GdkEventButton *event, GtkWidget *button );
-static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path, 
+static gboolean division_node_maybe_expand ( GtkTreeModel *model, GtkTreePath *path,
                         GtkTreeIter *iter, gpointer data );
 static void fill_division_zero ( GtkTreeModel * model,
                         MetatreeInterface * iface,
@@ -71,12 +71,12 @@ static void fill_sub_division_zero ( GtkTreeModel * model,
                         MetatreeInterface * iface,
                         GtkTreeIter * iter,
                         gint division );
-static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter, 
+static void fill_transaction_row ( GtkTreeModel * model, GtkTreeIter * iter,
                         gint transaction_number );
-static gboolean find_associated_transactions ( MetatreeInterface * iface, 
+static gboolean find_associated_transactions ( MetatreeInterface * iface,
                         gint no_division, gint no_sub_division );
-static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model, 
-                        gint division, gint sub_division, 
+static gboolean find_destination_blob ( MetatreeInterface * iface, GtkTreeModel * model,
+                        gint division, gint sub_division,
                         gint * no_div, gint * no_sub_div );
 static GtkTreeIter *get_iter_from_sub_div_zero ( GtkTreeModel *model,
                         MetatreeInterface *iface,
@@ -198,7 +198,7 @@ static gint metatree_find_notes = 0;
 gboolean metatree_model_is_displayed ( GtkTreeModel * model )
 {
     GtkTreeIter iter;
-    
+
     return gtk_tree_model_get_iter_first ( model, &iter );
 }
 
@@ -227,8 +227,8 @@ gboolean metatree_model_is_displayed ( GtkTreeModel * model )
  *
  * \return		TRUE on success.
  */
-gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path, 
-                        gchar ** text, gint * no_div, gint * no_sub_div, 
+gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * path,
+                        gchar ** text, gint * no_div, gint * no_sub_div,
                         gint * no_transaction, gint * data )
 {
     GtkTreeIter iter;
@@ -264,17 +264,17 @@ gboolean metatree_get_row_properties ( GtkTreeModel * tree_model, GtkTreePath * 
 /**
  * Determine row type, which can be division, sub division,
  * transaction or invalid.
- * 
+ *
  * \param tree_model	GtkTreeModel containing the entry to test.
  * \param path		A GtkTreePath pointing to entry to test.
  *
  * \return		Type of entry.
  */
-enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model, 
+enum meta_tree_row_type metatree_get_row_type ( GtkTreeModel * tree_model,
                         GtkTreePath * path )
 {
     gint no_div, no_sub_div, no_transaction;
-  
+
     if ( metatree_get_row_properties ( tree_model, path, NULL, &no_div, &no_sub_div, &no_transaction, NULL ) )
     {
 	if (no_div)
@@ -444,7 +444,7 @@ void fill_sub_division_row ( GtkTreeModel *model,
 	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, sub_division ),
 						      iface -> tree_currency (), TRUE );
     }
-    
+
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
 			 META_TREE_TEXT_COLUMN, string_tmp,
 			 META_TREE_POINTER_COLUMN, sub_division,
@@ -474,8 +474,8 @@ void fill_transaction_row ( GtkTreeModel *model,
 {
     gchar * account; /* no need to be freed */
     gchar * amount = NULL;
-    gchar * label = NULL; 
-    gchar * notes = NULL; 
+    gchar * label = NULL;
+    gchar * notes = NULL;
     const gchar *string;
     GtkTreePath * path;
     enum meta_tree_row_type type;
@@ -507,14 +507,14 @@ void fill_transaction_row ( GtkTreeModel *model,
                    ... the end is probably near btw. */
                 notes = my_strdup ( string );
             }
-            else 
+            else
             {
                 gchar * trunc = g_strndup ( string, ( tmp - string ) );
                 notes = g_strconcat ( trunc, " ...", NULL );
                 g_free ( trunc );
             }
         }
-        else 
+        else
         {
             notes = my_strdup ( string );
         }
@@ -527,11 +527,11 @@ void fill_transaction_row ( GtkTreeModel *model,
     }
 
     label = gsb_format_gdate ( gsb_data_transaction_get_date (transaction_number));
- 
+
     if ( notes )
     {
         label = g_strconcat ( label, " : ", notes, NULL );
-        g_free (notes); 
+        g_free (notes);
     }
 
     if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
@@ -544,7 +544,7 @@ void fill_transaction_row ( GtkTreeModel *model,
     amount = utils_real_get_string_with_currency ( gsb_data_transaction_get_amount (transaction_number),
 						 gsb_data_transaction_get_currency_number (transaction_number), TRUE );
     account = gsb_data_account_get_name ( gsb_data_transaction_get_account_number (transaction_number));
-    gtk_tree_store_set ( GTK_TREE_STORE(model), iter, 
+    gtk_tree_store_set ( GTK_TREE_STORE(model), iter,
 			 META_TREE_POINTER_COLUMN, transaction_number,
 			 META_TREE_TEXT_COLUMN, label,
 			 META_TREE_ACCOUNT_COLUMN, account,
@@ -573,7 +573,7 @@ void metatree_new_division ( GtkTreeModel *model )
     MetatreeInterface * iface;
     gint div_id;
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
     g_return_if_fail ( iface );
 
     div_id = iface -> add_div ();
@@ -612,15 +612,15 @@ void metatree_fill_new_division ( MetatreeInterface * iface,
     if ( iface -> depth > 1 )
     {
 	gtk_tree_store_append (GTK_TREE_STORE (model), &sub_iter, &iter);
-	fill_sub_division_row ( GTK_TREE_MODEL(model), iface, &sub_iter, 
+	fill_sub_division_row ( GTK_TREE_MODEL(model), iface, &sub_iter,
 				div_id, 0 );
     }
 
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    g_return_if_fail ( tree_view );   
+    g_return_if_fail ( tree_view );
 
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
-    gtk_tree_view_scroll_to_cell ( tree_view, 
+    gtk_tree_view_scroll_to_cell ( tree_view,
 				   gtk_tree_model_get_path ( model, &iter ),
 				   gtk_tree_view_get_column ( tree_view, 0 ),
 				   TRUE, 0.5, 0.0 );
@@ -642,7 +642,7 @@ void metatree_new_sub_division ( GtkTreeModel *model, gint div_id )
     MetatreeInterface * iface;
     gint sub_div_id;
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
     g_return_if_fail ( iface );
 
     sub_div_id = iface -> add_sub_div ( div_id );
@@ -682,15 +682,15 @@ void metatree_fill_new_sub_division ( MetatreeInterface *iface,
     parent_iter = get_iter_from_div ( model, div_id, 0 );
 
     gtk_tree_store_append ( GTK_TREE_STORE(model), &iter, parent_iter );
-    fill_sub_division_row ( model, iface, &iter, 
+    fill_sub_division_row ( model, iface, &iter,
 			    div_id,
 			    sub_div_id );
 
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
-    g_return_if_fail ( tree_view );   
+    g_return_if_fail ( tree_view );
 
     gtk_tree_selection_select_iter ( gtk_tree_view_get_selection ( tree_view ), &iter );
-    gtk_tree_view_scroll_to_cell ( tree_view, 
+    gtk_tree_view_scroll_to_cell ( tree_view,
 				   gtk_tree_model_get_path ( model, &iter ),
 				   gtk_tree_view_get_column ( tree_view, 0 ),
 				   TRUE, 0.5, 0.0 );
@@ -711,7 +711,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
     GtkTreeView * tree_view;
     GtkTreeSelection * selection;
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
     tree_view = g_object_get_data ( G_OBJECT(model), "tree-view" );
     if ( !iface || !tree_view )
 	return;
@@ -728,7 +728,7 @@ void appui_sur_ajout_sub_division ( GtkTreeModel * model )
 	    return;
 
 	metatree_new_sub_division ( model, div_id );
-			     
+
         gsb_file_set_modified ( TRUE );
 
 	gtk_tree_path_free ( path );
@@ -761,7 +761,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     selection = gtk_tree_view_get_selection ( tree_view );
     if ( selection && gtk_tree_selection_get_selected(selection, &model, &iter))
     {
-	gtk_tree_model_get ( model, &iter, 
+	gtk_tree_model_get ( model, &iter,
 			     META_TREE_POINTER_COLUMN, &current_number,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
@@ -776,7 +776,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 	return FALSE;
     }
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 
     /* get the type of the delete */
     path = gtk_tree_model_get_path ( model, &iter );
@@ -807,7 +807,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
         /* some transactions have that division, we ask to move them
          * to another division or juste erase the division, and it
          * will become blanck for the transactions */
-        
+
         /* fill new_division and new_sub_division (nota = 0)*/
         if ( ! find_destination_blob ( iface, model, no_division, 0,
                            &new_division, &new_sub_division ) )
@@ -854,7 +854,7 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
     }
 
     /* supprime dans la liste des division  */
-    iface -> remove_div ( no_division ); 
+    iface -> remove_div ( no_division );
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
 
     return FALSE;
@@ -882,7 +882,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 
     devel_debug (NULL);
 
-    if ( find_associated_transactions ( iface, division, 
+    if ( find_associated_transactions ( iface, division,
                         sub_division ) )
     {
 	gint nouveau_no_division, nouveau_no_sub_division;
@@ -890,11 +890,11 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
     GSList *list_num = NULL; /* mémorise les transactions à transferer */
 
 	/* fill nouveau_no_division and nouveau_no_sub_division */
-	if ( ! find_destination_blob ( iface, model, division, sub_division, 
+	if ( ! find_destination_blob ( iface, model, division, sub_division,
                         &nouveau_no_division, &nouveau_no_sub_division ) )
 	    return;
 
-	/* move the transactions to the new division numbers, need to do for 
+	/* move the transactions to the new division numbers, need to do for
      * archived transactions too */
 	list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 	while ( list_tmp_transactions )
@@ -907,7 +907,7 @@ void supprimer_sub_division ( GtkTreeView * tree_view, GtkTreeModel * model,
 		 &&
 		 ( iface -> transaction_sub_div_id (transaction_number_tmp) == sub_division))
 	    {
-		iface -> add_transaction_to_sub_div ( transaction_number_tmp, 
+		iface -> add_transaction_to_sub_div ( transaction_number_tmp,
                         nouveau_no_division,
                         nouveau_no_sub_division );
 		iface -> transaction_set_div_id (transaction_number_tmp, nouveau_no_division);
@@ -1025,7 +1025,7 @@ void metatree_remove_transaction ( GtkTreeView * tree_view,
     it = get_iter_from_div ( model, division, 0 );
     if ( it )
 	fill_division_row ( model, iface, it, division );
-    
+
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
     gsb_file_set_modified ( TRUE );
 }
@@ -1058,7 +1058,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
     gtk_tree_model_iter_children( model, &child_iter, iter );
     gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &name, -1 );
 
-    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );   
+    iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 
     /* If there is already an entry there, don't populate it. */
     if ( !name )
@@ -1157,7 +1157,7 @@ gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
     if ( gtk_tree_model_get_iter ( model, &iter, path ) )
     {
 	gint transaction_number;
-	
+
 	gtk_tree_model_get( model, &iter,
 			    META_TREE_NO_DIV_COLUMN, &no_division,
 			    META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
@@ -1250,11 +1250,11 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 	orig_type = metatree_get_row_type ( model, orig_path );
 	dest_type = metatree_get_row_type ( model, dest_path );
 
-	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN, 
+	if ( ! metatree_get ( model, dest_path, META_TREE_NO_DIV_COLUMN,
 			      &no_div ) ||
-	     ! metatree_get ( model, orig_path, META_TREE_NO_DIV_COLUMN, 
+	     ! metatree_get ( model, orig_path, META_TREE_NO_DIV_COLUMN,
 			      &orig_no_div ) ||
-	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN, 
+	     ! metatree_get ( model, dest_path, META_TREE_POINTER_COLUMN,
 			      &current_number ) )
 	{
 	    return FALSE;
@@ -1263,16 +1263,16 @@ gboolean division_row_drop_possible ( GtkTreeDragDest *drag_dest,
 	switch ( orig_type )
 	{
 	    case META_TREE_SUB_DIV:
-		if ( dest_type == META_TREE_DIV && 
+		if ( dest_type == META_TREE_DIV &&
 		     ! gtk_tree_path_is_ancestor ( dest_path, orig_path ) &&
-		     current_number && 
-		     orig_no_div != 0 && 
+		     current_number &&
+		     orig_no_div != 0 &&
 		     no_div != 0 ) /* i.e. ancestor is no "No division" */
 		    return TRUE;
 		break;
 
 	    case META_TREE_TRANSACTION:
-		if ( dest_type == META_TREE_DIV || 
+		if ( dest_type == META_TREE_DIV ||
 		     dest_type == META_TREE_SUB_DIV )
 		    return TRUE;
 		break;
@@ -1332,7 +1332,7 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 	    return FALSE;
 
 	metatree_get_row_properties ( model, orig_path,
-				      NULL, &no_orig_division, &no_orig_sub_division, 
+				      NULL, &no_orig_division, &no_orig_sub_division,
 				      &transaction_number, NULL );
 
 	/* get the type of row (div, sub-div, transaction) */
@@ -1340,22 +1340,22 @@ gboolean division_drag_data_received ( GtkTreeDragDest *drag_dest,
 
 	/* get the destination param */
 	metatree_get_row_properties ( model, dest_path,
-				      &name, &no_dest_division, &no_dest_sub_division, 
+				      &name, &no_dest_division, &no_dest_sub_division,
 				      NULL, NULL );
 	if ( ! name )
 	{
 	    gtk_tree_path_up ( dest_path );
 	    metatree_get_row_properties ( model, dest_path,
-					  &name, &no_dest_division, &no_dest_sub_division, 
+					  &name, &no_dest_division, &no_dest_sub_division,
 					  NULL, NULL );
 	}
-	
+
 	switch ( orig_type )
 	{
 		/* move a transaction */
 	    case META_TREE_TRANSACTION:
 		if (transaction_number)
-		    move_transaction_to_sub_division ( transaction_number, model, 
+		    move_transaction_to_sub_division ( transaction_number, model,
 						       orig_path, dest_path,
 						       no_dest_division, no_dest_sub_division );
 		break;
@@ -1467,7 +1467,7 @@ void move_transaction_to_sub_division ( gint transaction_number,
         iface -> add_transaction_to_sub_div ( transaction_number,
                         no_division, no_sub_division );
         if ( no_sub_division == 0 )
-            fill_sub_division_zero ( model, iface, &dest_iter, 
+            fill_sub_division_zero ( model, iface, &dest_iter,
                         no_division );
         else
             fill_sub_division_row ( model, iface, &dest_iter,
@@ -1493,14 +1493,14 @@ void move_transaction_to_sub_division ( gint transaction_number,
                 if ( old_div == 0 )
                     fill_division_zero ( model, iface, &parent_iter );
                 else if ( old_sub_div == 0 )
-                    fill_sub_division_zero ( model, iface, &parent_iter, 
+                    fill_sub_division_zero ( model, iface, &parent_iter,
                         old_div );
                 else
-                    fill_sub_division_row ( model, iface, &parent_iter, 
+                    fill_sub_division_row ( model, iface, &parent_iter,
                         old_div, old_sub_div );
-                if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter, 
+                if ( gtk_tree_model_iter_parent ( model, &gd_parent_iter,
                         &parent_iter ) )
-                    fill_division_row ( model, iface, &gd_parent_iter, 
+                    fill_division_row ( model, iface, &gd_parent_iter,
                         old_div );
             }
             else
@@ -1522,7 +1522,7 @@ void move_transaction_to_sub_division ( gint transaction_number,
  * \param no_orig_division number of the initial division containing the sub-division we want to move
  * \param no_orig_sub_division number of the initial sub-division we want to move to another division or 0 if no sub-division
  *
- * \return	
+ * \return
  */
 void move_sub_division_to_division ( GtkTreeModel *model,
                         gint no_dest_division,
@@ -1577,9 +1577,9 @@ void move_sub_division_to_division ( GtkTreeModel *model,
 	    GtkTreePath * path;
 
 	    path = gtk_tree_model_get_path ( model, &iter );
-	    move_transaction_to_sub_division ( transaction_number_tmp, model, 
+	    move_transaction_to_sub_division ( transaction_number_tmp, model,
 					       NULL, path,
-					       no_dest_division, 
+					       no_dest_division,
 					       no_dest_sub_division );
 	}
 	list_tmp_transactions = list_tmp_transactions -> next;
@@ -1602,12 +1602,12 @@ void move_sub_division_to_division ( GtkTreeModel *model,
     /* If it was no sub-division, recreate it. */
     if ( !no_orig_sub_division )
     {
-	metatree_fill_new_sub_division ( iface, model, 
+	metatree_fill_new_sub_division ( iface, model,
 					 no_orig_division, no_orig_sub_division );
     }
 
     /* Update dest at last. */
-    fill_sub_division_row ( model, iface, &iter, 
+    fill_sub_division_row ( model, iface, &iter,
 			    no_dest_division, no_dest_sub_division );
     gtk_tree_iter_free (iter_parent);
     gsb_file_set_modified ( TRUE );
@@ -1655,7 +1655,7 @@ void move_all_sub_divisions_to_division ( GtkTreeModel *model,
 
         orig_sub_division = iface -> sub_div_id (tmp_list -> data);
 
-        /* check if transactions in the sub-division, move only when there 
+        /* check if transactions in the sub-division, move only when there
          * is some transactions  */
         iter = get_iter_from_div (model, orig_division, orig_sub_division);
 
@@ -1704,7 +1704,7 @@ void expand_arbre_division ( GtkWidget *bouton, gint depth )
 {
     GtkTreeView *tree_view = g_object_get_data ( G_OBJECT(bouton), "tree-view" );
     GtkTreeModel *model;
-    
+
     if ( tree_view )
     {
         gtk_tree_view_collapse_all ( tree_view );
@@ -1749,11 +1749,11 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gchar *tmpstr;
 
     /* create the box to move change the division and sub-div of the transactions */
-    gchar* tmpstr1 = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."), 
-				       ( !sub_division ? 
+    gchar* tmpstr1 = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."),
+				       ( !sub_division ?
 					 iface -> div_name ( division ) :
 					 iface -> sub_div_name ( division, sub_division ) ) );
-    gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."), 
+    gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."),
 				       _( iface -> meta_name ) );
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
 				       make_hint ( tmpstr1 , tmpstr2 ) );
@@ -1921,8 +1921,8 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 	    g_free ( tmpstr2 );
 
 	    gtk_widget_destroy (dialog);
-	    return (find_destination_blob ( iface, model, 
-					    division, sub_division, 
+	    return (find_destination_blob ( iface, model,
+					    division, sub_division,
 					    no_div, no_sub_div ));
 	}
 
@@ -1933,7 +1933,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 	nouveau_no_division = iface -> get_div_pointer_from_name ( split_division[0], 0 );
 
 	if (nouveau_no_division)
-	    nouveau_no_sub_division =  iface -> get_sub_div_pointer_from_name ( 
+	    nouveau_no_sub_division =  iface -> get_sub_div_pointer_from_name (
                         nouveau_no_division, split_division[1], 0 );
 
 	g_strfreev ( split_division );
@@ -1951,7 +1951,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 }
 
 
-/** 
+/**
  * Find transactions that are associated with a div or subdiv.
  *
  * \param iface		A MetatreeInterface to use.
@@ -1998,7 +1998,7 @@ gboolean find_associated_transactions ( MetatreeInterface * iface,
 
 	scheduled_number = gsb_data_scheduled_get_scheduled_number (tmp_list -> data);
 
-	if ( iface -> scheduled_div_id (scheduled_number) == no_division && 
+	if ( iface -> scheduled_div_id (scheduled_number) == no_division &&
 	     ( !no_sub_division ||
 	       iface -> scheduled_div_id (scheduled_number) == no_sub_division ) )
 	{
@@ -2027,7 +2027,7 @@ GtkTreeIter *get_iter_from_div ( GtkTreeModel * model, int div, int sub_div )
 {
     gpointer pointeurs[3] = { GINT_TO_POINTER (div), GINT_TO_POINTER (sub_div), NULL };
 
-    gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) search_for_div_or_subdiv, 
+    gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) search_for_div_or_subdiv,
 			     pointeurs );
 
     return (GtkTreeIter *) pointeurs[2];
@@ -2054,9 +2054,9 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model,
     gchar *text;
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), iter,
-			 META_TREE_TEXT_COLUMN, &text, 
-			 META_TREE_NO_DIV_COLUMN, &no_div, 
-			 META_TREE_NO_SUB_DIV_COLUMN, &no_sub_div, 
+			 META_TREE_TEXT_COLUMN, &text,
+			 META_TREE_NO_DIV_COLUMN, &no_div,
+			 META_TREE_NO_SUB_DIV_COLUMN, &no_sub_div,
 			 -1 );
 
     /* This is a kludge because we want to skip "dummy" iters that are
@@ -2065,7 +2065,7 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model,
 	return FALSE;
 
     if ( ! pointers[0] && ( !pointers[1] || !GPOINTER_TO_INT (pointers[1]))
-	 && 
+	 &&
 	 !no_div && !no_sub_div )
     {
 	pointers[2] = gtk_tree_iter_copy (iter);
@@ -2074,7 +2074,7 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model,
 
     if ( no_div == GPOINTER_TO_INT (pointers[0]))
     {
-	if ( ( !GPOINTER_TO_INT (pointers[1])) || 
+	if ( ( !GPOINTER_TO_INT (pointers[1])) ||
 	     ( no_sub_div == GPOINTER_TO_INT (pointers[1])))
 	{
 	    pointers[2] = gtk_tree_iter_copy (iter);
@@ -2093,12 +2093,12 @@ gboolean search_for_div_or_subdiv ( GtkTreeModel *model,
  *
  * \return a newly allocated GtkTreeIter or NULL
  */
-GtkTreeIter *get_iter_from_transaction ( GtkTreeModel * model, 
+GtkTreeIter *get_iter_from_transaction ( GtkTreeModel * model,
                         gint transaction_number )
 {
     gpointer pointeurs[2] = { GINT_TO_POINTER (transaction_number), NULL };
 
-    gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc) 
+    gtk_tree_model_foreach ( model, (GtkTreeModelForeachFunc)
                         search_for_transaction, pointeurs );
 
     return (GtkTreeIter *) pointeurs[1];
@@ -2124,7 +2124,7 @@ gboolean search_for_transaction ( GtkTreeModel *model,
     gint current_number;
 
     gtk_tree_model_get ( GTK_TREE_MODEL(model), iter,
-			 META_TREE_POINTER_COLUMN, &current_number, 
+			 META_TREE_POINTER_COLUMN, &current_number,
 			 -1 );
 
     if ( current_number == GPOINTER_TO_INT (pointers[0] ))
@@ -2223,11 +2223,11 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
 	GtkTreeIter child_iter;
 	gchar *text;
 
-	if ( ! gtk_tree_model_iter_children ( model, &child_iter, 
+	if ( ! gtk_tree_model_iter_children ( model, &child_iter,
                         ( iface -> depth == 1 ? div_iter : sub_div_iter ) ) )
 	    /* Panic, something went wrong. */
 	    return;
-	
+
 	gtk_tree_model_get ( model, &child_iter, META_TREE_TEXT_COLUMN, &text, -1 );
 
 	/* Text is set only if division has been expanded previously,
@@ -2254,7 +2254,7 @@ void update_transaction_in_tree ( MetatreeInterface * iface,
  * \param model		Model pertaining to tree view.
  * \param iter		Iter to remove.
  */
-void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view, 
+void metatree_remove_iter_and_select_next ( GtkTreeView * tree_view,
                         GtkTreeModel * model,
                         GtkTreeIter * iter )
 {
@@ -2349,7 +2349,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                         ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
                          _( iface->no_sub_div_label ) ),
                         NULL );
- 
+
                 balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
                                     iface -> tree_currency (), TRUE );
                 break;
@@ -2367,7 +2367,7 @@ gboolean metatree_selection_changed ( GtkTreeSelection *selection, GtkTreeModel 
                         ( sub_div_id ? iface -> sub_div_name ( div_id, sub_div_id ) :
                          _( iface->no_sub_div_label ) ),
                         NULL );
- 
+
                 balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( div_id, sub_div_id ),
                                     iface -> tree_currency (), TRUE );
                 break;
@@ -2495,13 +2495,13 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
     gchar * string_a, * string_b;
     gint no_div_a, no_sous_div_a, no_div_b, no_sous_div_b;
 
-    gtk_tree_model_get ( model, a, 
-			 META_TREE_DATE_COLUMN, &date_a, 
+    gtk_tree_model_get ( model, a,
+			 META_TREE_DATE_COLUMN, &date_a,
 			 META_TREE_TEXT_COLUMN, &string_a,
              META_TREE_NO_DIV_COLUMN, &no_div_a,
 			 META_TREE_NO_SUB_DIV_COLUMN, &no_sous_div_a, -1 );
-    gtk_tree_model_get ( model, b, 
-			 META_TREE_DATE_COLUMN, &date_b, 
+    gtk_tree_model_get ( model, b,
+			 META_TREE_DATE_COLUMN, &date_b,
 			 META_TREE_TEXT_COLUMN, &string_b,
              META_TREE_NO_DIV_COLUMN, &no_div_b,
 			 META_TREE_NO_SUB_DIV_COLUMN, &no_sous_div_b,  -1 );
@@ -2515,7 +2515,7 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
         return -1;
     if ( no_div_a == no_div_b && no_sous_div_b == 0 )
         return 1;
-    
+
     if (!string_b)
         return 1;
     if (!string_a)
@@ -2655,7 +2655,7 @@ void fill_sub_division_zero ( GtkTreeModel * model,
 	balance = utils_real_get_string_with_currency ( iface -> sub_div_balance ( division, 0 ),
 						      iface -> tree_currency (), TRUE );
     }
-    
+
     gtk_tree_store_set ( GTK_TREE_STORE (model), iter,
 			 META_TREE_TEXT_COLUMN, string_tmp,
 			 META_TREE_POINTER_COLUMN, 0,
@@ -2702,7 +2702,7 @@ GtkTreeIter *get_iter_from_sub_div_zero ( GtkTreeModel *model,
                 break;
         }
     }
-    
+
     return gtk_tree_iter_copy (&child_iter);
 }
 
@@ -2724,7 +2724,7 @@ void move_transactions_to_division_payee (GtkTreeModel * model,
 
     if ( !model )
         return;
-    
+
     iface = g_object_get_data ( G_OBJECT(model), "metatree-interface" );
 
     /* fill the dest division for payee with the transactions */
@@ -3035,7 +3035,7 @@ void metatree_manage_sub_divisions ( GtkWidget *tree_view )
 
 /*     printf ("no_division = %d no_sub_division = %d\n", no_division, no_sub_division);
  *     printf ("new_division = %d new_sub_division = %d\n", new_division, new_sub_division);
- * 
+ *
  */
     /* Transfert d'opérations dans une catégorie ou une sous catégorie */
     if ( button_action_selected == 0 && no_division && new_division )

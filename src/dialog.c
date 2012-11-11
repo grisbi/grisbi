@@ -61,7 +61,7 @@ struct conditional_message messages[] =
       N_("Grisbi encrypts files in a very secure way that does not allow recovery without "
       "original password. It means that if you forget your password, you will loose all "
       "your data. Use with caution.\n\nI repeat: if you ever forget your password, there "
-      "is no coming back, we cannot help you."), 
+      "is no coming back, we cannot help you."),
       FALSE, FALSE, },
 
     { "account-file-readable",  N_("Account file is world readable."),
@@ -74,11 +74,11 @@ struct conditional_message messages[] =
       "(maybe Grisbi crashed?).\nGrisbi can't save the file unless you activate the "
       "\"Force saving locked files\" option in setup."),
       FALSE, FALSE, },
-     
+
     { "minimum-balance-alert", N_("Account under desired balance"),
-      N_("Grisbi detected that an account is under a desired balance: %s"), 
+      N_("Grisbi detected that an account is under a desired balance: %s"),
       FALSE, FALSE, },
-    
+
     { "no-budgetary-line", N_("No budgetary line was entered"),
       N_("This transaction has no budgetary line entered.  You should use them to "
       "easily produce budgets and make reports on them."),
@@ -96,17 +96,17 @@ struct conditional_message messages[] =
     { "reconcile-transaction", N_("Confirmation of manual (un)reconciliation"),
       N_("You are trying to reconcile or unreconcile a transaction manually, "
 	  "which is not a recommended action.\n"
-      "Are you really sure you know what you are doing?"), 
+      "Are you really sure you know what you are doing?"),
       FALSE, FALSE, },
 
     { "reconcile-start-end-dates", N_("Reconcile start and end dates."),
       N_("In previous versions, Grisbi did not save start date, end date and balance for "
       "reconciliation. This is now done, so Grisbi will try to guess values from your "
       "accounts. Thought this can not harm data coherence, false values can be guessed. "
-      "Please check in the Preferences window for more information."), 
+      "Please check in the Preferences window for more information."),
       FALSE, FALSE, },
 
-    { "development-version", N_("You are running Grisbi version %s"), 
+    { "development-version", N_("You are running Grisbi version %s"),
       N_("Warning, please be aware that the version you run is a DEVELOPMENT version. "
       "Never use your original file Grisbi: you could make it unusable.\n"
       "Make a copy now."),
@@ -114,7 +114,7 @@ struct conditional_message messages[] =
 
 /*
     { "", N_(),
-      N_(), 
+      N_(),
       FALSE, FALSE, },
 */
     { NULL },
@@ -193,7 +193,7 @@ void dialogue_warning_hint ( gchar *text, gchar *hint )
 
 /**
  * Display a dialog window with arbitrary icon.
- * WARNING you may need to escape text with g_markup_escape_text() 
+ * WARNING you may need to escape text with g_markup_escape_text()
  * or g_markup_printf_escaped():
  *
  * \param param Type of Window to display
@@ -217,9 +217,9 @@ void dialogue_special ( GtkMessageType param, gchar *text )
 
 /**
  * Display a dialog window with arbitrary icon.
- * WARNING you may need to escape text with g_markup_escape_text() 
+ * WARNING you may need to escape text with g_markup_escape_text()
  * or g_markup_printf_escaped():
- * 
+ *
  * \param param Type of Window to display
  * \param text Text to display in window
  */
@@ -290,7 +290,7 @@ gboolean dialogue_update_var ( GtkWidget *checkbox, gint message )
 /**
  * Create a dialog with an informal text and a checkbox that allow
  * this message not to be displayed again thanks to preferences.
- * WARNING you may need to escape text with g_markup_escape_text() 
+ * WARNING you may need to escape text with g_markup_escape_text()
  * or g_markup_printf_escaped():
  *
  * \param text  Text to be displayed
@@ -333,7 +333,7 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
     vbox = GTK_DIALOG(dialog) -> vbox;
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
-    g_signal_connect ( G_OBJECT ( checkbox ), "toggled", 
+    g_signal_connect ( G_OBJECT ( checkbox ), "toggled",
                         G_CALLBACK ( dialogue_update_var ), GINT_TO_POINTER ( i ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
     gtk_widget_show_all ( checkbox );
@@ -423,7 +423,7 @@ gboolean question_yes_no_hint ( gchar *hint,
 /**
  * Pop up a warning dialog window with a question and wait for user to
  * press 'YES' or 'NO'.
-  * WARNING you may need to escape text with g_markup_escape_text() 
+  * WARNING you may need to escape text with g_markup_escape_text()
  * or g_markup_printf_escaped():
  *
  * \param texte  Text to be displayed
@@ -533,7 +533,7 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
     g_signal_connect ( G_OBJECT ( checkbox ),
-                        "toggled", 
+                        "toggled",
                         G_CALLBACK ( dialogue_update_struct_message ),
                         message );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
@@ -665,7 +665,7 @@ gchar *make_blue ( const gchar *text )
 void dialogue_error_brain_damage ()
 {
     dialogue_error_hint ( _("Hi, you are in the middle of nowhere, between two lines of code."
-                        " Grisbi is expected to crash very soon. Have a nice day."), 
+                        " Grisbi is expected to crash very soon. Have a nice day."),
                         _("Serious brain damage expected.") );
 }
 
@@ -737,7 +737,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_MESSAGE_INFO, 
+                        GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,
                         "%s", format_text );
     gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), format_text );

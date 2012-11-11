@@ -374,7 +374,7 @@ gchar *gsb_import_formats_get_list_formats_to_string ( void )
 
         format = (struct import_format *) tmp_list -> data;
         tmp_str = g_strdup_printf ("	• %s (%s)\n", _(format -> complete_name), format -> name );
-        
+
         if ( format_str == NULL )
             format_str = tmp_str;
         else
@@ -946,7 +946,7 @@ gboolean import_enter_resume_page ( GtkWidget * assistant )
         while ( tmp )
         {
             struct import_format *format = (struct import_format *) tmp -> data;
-            
+
             if ( !strcmp ( imported -> type, format -> name ) )
             {
                 devel_print_str ( imported -> type );
@@ -1295,7 +1295,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     g_object_set_data ( G_OBJECT ( radio_add_account ), "associated", compte -> hbox2 );
     g_object_set_data ( G_OBJECT ( radio_add_account ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio_add_account ), "toggled",
-                        G_CALLBACK ( import_account_action_activated ), 
+                        G_CALLBACK ( import_account_action_activated ),
                         GINT_TO_POINTER (IMPORT_ADD_TRANSACTIONS));
 
     /* Mark account */
@@ -1320,7 +1320,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     g_object_set_data ( G_OBJECT ( radio ), "associated", compte -> hbox3 );
     g_object_set_data ( G_OBJECT ( radio ), "account", compte );
     g_signal_connect ( G_OBJECT ( radio ), "toggled",
-                        G_CALLBACK ( import_account_action_activated ), 
+                        G_CALLBACK ( import_account_action_activated ),
                         GINT_TO_POINTER (IMPORT_MARK_TRANSACTIONS));
 
 	/* set on the right account */
@@ -1386,7 +1386,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     gtk_widget_set_sensitive (button, FALSE);
 
     gtk_widget_set_sensitive (compte -> entry_name_rule, FALSE);
-    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule), 
+    gtk_box_pack_start ( GTK_BOX (compte -> hbox_rule),
                         compte -> entry_name_rule, FALSE, FALSE, 0 );
 
     return vbox;
@@ -1407,14 +1407,14 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
     gchar *text;
     gint currency_number = 0;
 
-    tmpstr = g_strdup_printf ( 
+    tmpstr = g_strdup_printf (
                         _("The account currency imported %s is %s.\nThis currency "
                         "doesn't exist so you have to create it by selecting OK.\n"
                         "\n"
                         "Do you create it?"),
                         compte -> nom_de_compte,
                         compte -> devise );
-    tmpstr2 = g_strdup_printf ( 
+    tmpstr2 = g_strdup_printf (
                         _("Can't associate ISO 4217 code for currency '%s'."),
                         compte -> devise );
     text = make_hint ( tmpstr2, tmpstr );
@@ -1430,7 +1430,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
 
     vbox = GTK_DIALOG(dialog) -> vbox;
 
-    checkbox = gtk_check_button_new_with_label ( 
+    checkbox = gtk_check_button_new_with_label (
                         _("Use this currency for totals for the payees categories\n"
                         "and budgetary lines") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), checkbox, TRUE, TRUE, 6 );
@@ -2018,7 +2018,7 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     GDate *first_date_import = NULL;
     gint demande_confirmation;
 
-    /* check the imported account id, and set it in the grisbi account if it doesn't 
+    /* check the imported account id, and set it in the grisbi account if it doesn't
      * exist or if it's wrong */
     if ( imported_account -> id_compte )
     {
@@ -2027,11 +2027,11 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
     }
 
     /* on fait un premier tour de la liste des opés pour repérer celles qui sont déjà entrées
-     * si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id 
-     * donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle 
-     * n'y est pas l'opé est à enregistrer 
-     * si on importe du qif, il n'y a pas d'id. donc soit on retrouve une opé semblable 
-     * (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur  
+     * si on n'importe que du ofx, c'est facile, chaque opé est repérée par une id
+     * donc si l'opé importée a une id, il suffit de rechercher l'id dans le compte, si elle
+     * n'y est pas l'opé est à enregistrer
+     * si on importe du qif, il n'y a pas d'id. donc soit on retrouve une opé semblable
+     * (cad même montant et même date, on ne fait pas joujou avec le tiers car l'utilisateur
      * a pu le changer), et on demande à l'utilisateur quoi faire, sinon on enregistre l'opé
      */
 
@@ -2109,12 +2109,12 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 
 
 /**
- * 
- * 
  *
- * \param 
  *
- * return 
+ *
+ * \param
+ *
+ * return
  */
 gboolean gsb_import_define_action ( struct struct_compte_importation *imported_account,
                         gint account_number,
@@ -2135,7 +2135,7 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
 
         /* on corrige le bug de la libofx */
         if ( imported_account -> origine
-         && g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0 
+         && g_ascii_strcasecmp (imported_account -> origine, "OFX") == 0
          && imported_transaction -> cheque )
             imported_transaction -> tiers = my_strdelimit (
                     imported_transaction -> tiers, "&", "°" );
@@ -2332,7 +2332,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 
 	ope_import = list_tmp -> data;
 
-	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles 
+	/* on n'affiche pas si c'est des opés de ventil, si la mère est cochée, les filles
      * seront alors cochées on ne teste pas ici car ça a été testé avant */
 	if ( ope_import -> action == IMPORT_TRANSACTION_ASK_FOR_TRANSACTION
 	     &&
@@ -2430,7 +2430,7 @@ dialog_return:
                         GINT_TO_POINTER ( result ) );
         goto dialog_return;
     }
-    
+
     /* on fait maintenant le tour des check buttons pour voir ce qu'on importe */
     list_tmp = imported_account -> operations_importees;
     action_derniere_ventilation = 1;
@@ -2516,7 +2516,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
     gsb_data_transaction_set_date ( transaction_number,
                         imported_transaction -> date );
 
-    /* récupération de la date de valeur */    
+    /* récupération de la date de valeur */
     if ( imported_transaction -> date_de_valeur )
     {
         gsb_data_transaction_set_value_date ( transaction_number,
@@ -2554,7 +2554,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                 {
                     payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                             account_number );
-                    gsb_data_transaction_set_method_of_payment_number (transaction_number, 
+                    gsb_data_transaction_set_method_of_payment_number (transaction_number,
                             payment_number);
                     gsb_data_transaction_set_method_of_payment_content (
                             transaction_number, tmpstr );
@@ -2575,7 +2575,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
                         imported_transaction -> devise );
 
     /* Recovery of payee.
-     * we routinely backup imported payee. May be replaced later if 
+     * we routinely backup imported payee. May be replaced later if
      * notes exist to transactions imported */
     if ( imported_transaction -> tiers
      &&
@@ -2602,7 +2602,7 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
             {
                 payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                         account_number );
-                gsb_data_transaction_set_method_of_payment_number (transaction_number, 
+                gsb_data_transaction_set_method_of_payment_number (transaction_number,
                         payment_number);
                 gsb_data_transaction_set_method_of_payment_content (
                         transaction_number, tmpstr );
@@ -2926,7 +2926,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
             return;
     }
 
-    /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la 
+    /* on fait le tour des opés importées et recherche dans la liste d'opé s'il y a la
      * correspondance */
     list_tmp = imported_account -> operations_importees;
     liste_opes_import_celibataires = NULL;
@@ -2977,7 +2977,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
         if ( imported_account -> invert_transaction_amount )
             ope_import -> montant =  gsb_real_opposite ( ope_import -> montant );
- 
+
 	    list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
 
 	    while ( list_tmp_transactions )
@@ -2998,7 +2998,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 			 !gsb_data_transaction_get_mother_transaction_number (transaction_number)
              &&
              gsb_data_transaction_get_marked_transaction ( transaction_number ) < 2 )
-			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste 
+			/* on a retouvé une opé de même date et même montant, on l'ajoute à la liste
              * des opés trouvées */
 			ope_trouvees = g_slist_append ( ope_trouvees,
 							GINT_TO_POINTER (transaction_number));
@@ -3051,7 +3051,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 		{
 		    gsb_data_transaction_set_marked_transaction ( transaction_number,
                                     2 );
-		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre 
+		    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre
              * le même pointage que la mère */
 		    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 		    {
@@ -3074,7 +3074,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 		    }
 		}
 
-        /* récupération de la date de valeur */    
+        /* récupération de la date de valeur */
         if ( ope_import -> date_de_valeur )
         {
             gint fyear = 0;
@@ -3132,7 +3132,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
 			 &&
 			 !ope_import_tmp -> ope_de_ventilation )
-			/* on a retouvé une opé d'import de même date et même montant, on incrémente 
+			/* on a retouvé une opé d'import de même date et même montant, on incrémente
              * le nb d'opé d'import semblables trouvees */
 			i++;
 
@@ -3141,7 +3141,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
 		if ( i ==  g_slist_length ( ope_trouvees ))
 		{
-		    /* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la 
+		    /* on a trouvé autant d'opé d'import semblables que d'opés semblables dans la
              * liste d'opé donc on peut marquer les opés trouvées */
 		    /* pour celles qui sont déjà pointées, on ne fait rien */
 		    /* si l'opé importée à une id, on met cette id dans l'opération si elle n'en a pas */
@@ -3166,7 +3166,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 			{
 			    gsb_data_transaction_set_marked_transaction ( transaction_number, 2 );
 
-			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre 
+			    /* si c'est une opé ventilée, on recherche les opé filles pour leur mettre
                  * le même pointage que la mère */
 			    if ( gsb_data_transaction_get_split_of_transaction (transaction_number))
 			    {
@@ -3194,7 +3194,7 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 		}
 		else
 		{
-		    /* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans 
+		    /* on a trouvé un nombre différent d'opés d'import et d'opés semblables dans
              * la liste d'opés on marque donc cette opé d'import comme seule */
 
 		    ope_import -> devise = gsb_currency_get_currency_from_combobox (
@@ -3355,12 +3355,12 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
 	gtk_widget_show ( dialog );
 }
 /**
- * 
- * 
  *
- * \param 
  *
- * return 
+ *
+ * \param
+ *
+ * return
  */
 gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
 {
@@ -3392,11 +3392,11 @@ gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
 
 /**
  * get first date of the imported file
- * 
  *
- * \param 
  *
- * return 
+ * \param
+ *
+ * return
  */
 GDate *gsb_import_get_first_date ( GSList *import_list )
 {
@@ -3508,7 +3508,7 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 		    liste_opes_import_celibataires = g_slist_remove_link ( liste_opes_import_celibataires,
 									   last_item );
 
-		    /* on retire la ligne qu'on vient d'enregistrer, celà met l'iter directement sur 
+		    /* on retire la ligne qu'on vient d'enregistrer, celà met l'iter directement sur
              * la suite */
 		    gtk_list_store_remove ( GTK_LIST_STORE ( model),
 					    &iter );
@@ -3882,8 +3882,8 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_entry_set_text ( GTK_ENTRY (entry), "" );
     gtk_table_attach ( GTK_TABLE ( table ), entry, 1, 2, 1, 2,
                         GTK_EXPAND|GTK_FILL, 0, 0, 0 );
-    g_signal_connect_swapped ( entry, 
-                        "changed", 
+    g_signal_connect_swapped ( entry,
+                        "changed",
                         G_CALLBACK (gsb_import_associations_check_add_button),
                         vbox_main );
     g_object_set_data ( G_OBJECT (vbox_main), "Search_string", entry );
@@ -4173,7 +4173,7 @@ void gsb_import_associations_combo_changed ( GtkEditable *editable,
         if ( strlen (gtk_entry_get_text (GTK_ENTRY (entry))) )
         {
             gtk_entry_set_text ( GTK_ENTRY (entry), "" );
-            
+
         }
         g_free ( str );
     }
@@ -4470,7 +4470,7 @@ gboolean gsb_import_by_rule ( gint rule )
             i++;
             continue;
         }
-        
+
         while ( liste_comptes_importes )
         {
             struct struct_compte_importation *account;
@@ -4801,23 +4801,23 @@ void gsb_import_lookup_budget ( struct struct_ope_importation *imported_transact
 
 /**
  * check or uncheck the operation found
- * 
+ *
  * \param widget to test
- * \param data for check or uncheck 
+ * \param data for check or uncheck
  *
  * \return void
  * */
 void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data )
 {
     gint result = GPOINTER_TO_INT ( data );
-    
+
     if ( GTK_IS_HBOX ( widget ) )
     {
         gtk_container_foreach ( GTK_CONTAINER (widget ),
                         (GtkCallback) gsb_import_check_ope_import,
                         data );
     }
-    
+
     if ( GTK_IS_TOGGLE_BUTTON ( widget ) )
     {
         GtkDialog *dialog;
@@ -4841,9 +4841,9 @@ void gsb_import_check_ope_import ( GtkWidget *widget, gpointer data )
 
 /**
  * select or unselect buttons of the dialog
- * 
+ *
  * \param toggle_button
- * \param dialog 
+ * \param dialog
  *
  * \return void
  * */
@@ -4874,7 +4874,7 @@ void gsb_import_ope_import_toggled ( GtkWidget *button, GtkWidget *vbox )
 
 /**
  * returns false if at least 1 check_button is different of test
- * 
+ *
  * \param
  * \param
  *
@@ -4894,7 +4894,7 @@ gboolean gsb_import_ope_import_test_toggled ( GtkWidget *vbox , gboolean test )
         if ( GTK_IS_HBOX ( widget ) )
         {
             GList *list;
-            
+
             list = gtk_container_get_children ( GTK_CONTAINER ( widget ) );
             while ( list )
             {

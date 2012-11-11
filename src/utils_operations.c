@@ -61,7 +61,7 @@ static void update_transaction_in_payee_tree ( gint transaction_number );
 /**
  * update the given transaction in the metatrees
  *
- * \param transaction_number	the transaction to update 
+ * \param transaction_number	the transaction to update
  *
  * \return
  */
@@ -77,7 +77,7 @@ void update_transaction_in_trees ( gint transaction_number )
 /**
  * delete the given transaction in the metatrees
  *
- * \param transaction_number	the transaction to delete 
+ * \param transaction_number	the transaction to delete
  *
  * \return
  */
@@ -105,8 +105,8 @@ void update_transaction_in_categ_tree ( gint transaction_number )
     category_interface = category_get_metatree_interface ( );
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_category_update_counters ( );
-    update_transaction_in_tree ( category_interface, 
-                                 GTK_TREE_MODEL ( categories_get_tree_store ( ) ), 
+    update_transaction_in_tree ( category_interface,
+                                 GTK_TREE_MODEL ( categories_get_tree_store ( ) ),
                                  transaction_number );
 }
 
@@ -124,7 +124,7 @@ void update_transaction_in_budgetary_line_tree ( gint transaction_number )
     /* FIXME: Kludgeish, we should maintain a state. */
     gsb_data_budget_update_counters ( );
     update_transaction_in_tree ( budgetary_interface,
-                        GTK_TREE_MODEL ( budgetary_lines_get_tree_store ( ) ), 
+                        GTK_TREE_MODEL ( budgetary_lines_get_tree_store ( ) ),
                         transaction_number );
 }
 

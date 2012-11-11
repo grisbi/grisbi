@@ -57,7 +57,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne );
 gint etat_affiche_affiche_total_partiel ( gsb_real total_partie,
 					  gint ligne,
 					  gint type );
-gint etat_affiche_affiche_total_periode ( gint transaction_number, 
+gint etat_affiche_affiche_total_periode ( gint transaction_number,
 					  gint ligne,
 					  gint force );
 gint etat_affiche_affiche_total_sous_categ ( gint ligne );

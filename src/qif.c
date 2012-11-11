@@ -215,7 +215,7 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
 
                     if ( account_type == 6 )
                     {
-                        /* on considère le imported_account d'investissement comme un imported_account 
+                        /* on considère le imported_account d'investissement comme un imported_account
                          * bancaire mais met un warning car pas implémenté, aucune idée si ça passe ou pas... */
                         gchar *msg;
 
@@ -681,7 +681,7 @@ gboolean gsb_qif_export_archive ( const gchar *filename,
 	}
 	tmp_list = tmp_list -> next;
     }
-    
+
     /* if there is more than 1 file created, we show what files we did */
     if (g_slist_length (name_list) > 1)
     {
@@ -1139,7 +1139,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
 
             /* récupération du chèque */
             if ( string[0] == 'N' )
-                imported_transaction -> cheque = my_strdup ( string + 1 ); 
+                imported_transaction -> cheque = my_strdup ( string + 1 );
 
             /* récupération du tiers */
             if ( string[0] == 'P' )
@@ -1155,7 +1155,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 /* begin a splitted transaction, if we were on a transaction, we save it */
                 if ( returned_value != EOF && imported_transaction && imported_transaction -> date_tmp )
                 {
-                    
+
                     if ( imported_splitted == NULL )
                     imported_account -> operations_importees = g_slist_append (
                                         imported_account -> operations_importees, imported_transaction );
@@ -1235,7 +1235,7 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
         else
         {
             if ( imported_transaction -> date_tmp == NULL
-             || 
+             ||
              strlen ( g_strstrip ( imported_transaction -> date_tmp ) ) == 0 )
             {
                 /* l'opération n'a pas de date, c'est pas normal. pour éviter de la perdre, on va lui */
@@ -1249,11 +1249,11 @@ gint gsb_qif_recupere_operations_from_account ( FILE *qif_file,
                 else
                     imported_transaction -> tiers = my_strdup ( _(" [Transaction imported without date]") );
             }
-            
+
             imported_account -> operations_importees = g_slist_append (
                                         imported_account -> operations_importees, imported_transaction );
         }
-    } 
+    }
 
     if ( string[0] == '!' )
     {
@@ -1332,14 +1332,14 @@ gint gsb_qif_recupere_categories ( FILE *qif_file, const gchar *coding_system )
                 if (tab_str[1])
                 {
                     tab_str[1] = g_strstrip ( tab_str[1] );
-            
+
                     gsb_data_category_get_sub_category_number_by_name (
                                 category_number,
                                 tab_str[1],
                                 TRUE );
                 }
             }
-            
+
             g_strfreev(tab_str);
         }
     }

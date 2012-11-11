@@ -47,7 +47,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
+static void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				 struct gsb_debug_test * test, gchar * summary );
 static gchar *gsb_debug_budget_test  ( void );
 static gboolean gsb_debug_budget_test_fix ();
@@ -174,16 +174,16 @@ gboolean gsb_debug ( void )
 
     text_buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW ( text_view ) );
     g_object_set_data ( G_OBJECT ( assistant ), "text-buffer", text_buffer );
-    gtk_text_buffer_create_tag ( text_buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( text_buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);
     gtk_text_buffer_create_tag ( text_buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_create_tag ( text_buffer, "indented", "left-margin", 24, NULL);
 
-    gsb_assistant_add_page ( assistant, scrolled_window, 1, 0, -1, 
+    gsb_assistant_add_page ( assistant, scrolled_window, 1, 0, -1,
 			     G_CALLBACK ( gsb_debug_enter_test_page ) );
-    
+
     gsb_assistant_run ( assistant );
     gtk_widget_destroy ( assistant );
-    
+
     return FALSE;
 }
 
@@ -204,10 +204,10 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 
     text_buffer = g_object_get_data ( G_OBJECT(assistant), "text-buffer" );
 
-    while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant), 
+    while ( gtk_notebook_get_n_pages ( g_object_get_data ( G_OBJECT (assistant),
 							   "notebook" ) ) > 2 )
     {
-	gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ), 
+	gtk_notebook_remove_page ( g_object_get_data ( G_OBJECT (assistant), "notebook" ),
 				   -1 );
     }
 
@@ -224,7 +224,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 	    {
 		/* No inconsistency found yet so put title. */
 		gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
-							   _("Inconsistencies found\n\n"), 
+							   _("Inconsistencies found\n\n"),
 							   -1, "x-large", NULL );
 		gtk_text_buffer_insert ( text_buffer, &text_iter,
 					 _("The following debug tests found inconsistencies "
@@ -243,19 +243,19 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
 	    page ++;
 	}
     }
-    
+
     gsb_status_message ( _("Done") );
 
     if ( !inconsistency )
     {
 	gtk_text_buffer_insert_with_tags_by_name ( text_buffer, &text_iter,
-						   _("No inconsistency found\n\n"), 
+						   _("No inconsistency found\n\n"),
 						   -1, "x-large", NULL );
 	gtk_text_buffer_insert ( text_buffer, &text_iter,
 				 _("Congratulations, your account file is in good shape!\n"),
 				 -1 );
     }
-    
+
     return TRUE;
 }
 
@@ -265,7 +265,7 @@ gboolean gsb_debug_enter_test_page ( GtkWidget * assistant )
  *
  *
  */
-void gsb_debug_add_report_page ( GtkWidget * assistant, gint page, 
+void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 				 struct gsb_debug_test * test, gchar * summary )
 {
     GtkWidget * vbox, * label, * button;
@@ -312,8 +312,8 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
     {
 	button = gtk_button_new_with_label ( _("Try to fix this inconsistency.") );
 	gtk_box_pack_start ( GTK_BOX(vbox), button, FALSE, FALSE, 0 );
-	g_signal_connect_swapped ( G_OBJECT(button), "clicked", 
-				   G_CALLBACK ( gsb_debug_try_fix ), 
+	g_signal_connect_swapped ( G_OBJECT(button), "clicked",
+				   G_CALLBACK ( gsb_debug_try_fix ),
 				   (gpointer) test -> fix );
     }
 
@@ -401,7 +401,7 @@ gchar * gsb_debug_reconcile_test ( void )
 	     * plus le montant des opérations rapprochées) et le comparer à la valeur
 	     * stockée dans le fichier. Si les valeurs diffèrent, on affiche une boite
 	     * d'avertissement */
-      
+
         reconcilied_amount = gsb_data_account_get_init_balance ( account_nb, -1 );
 
         /* On récupère la liste des opérations */
@@ -413,7 +413,7 @@ gchar * gsb_debug_reconcile_test ( void )
                         pTransactionList -> data );
 
             /* On ne prend en compte que les opérations rapprochées.
-             * On ne prend pas en compte les sous-opérations ventilées. 
+             * On ne prend pas en compte les sous-opérations ventilées.
              * modification aportée pour tenir compte de la transformation ultérieure
              d'une opération simple en opération ventilée et pour avoir une correspondance
              * entre le relevé et l'edition de déboggage */
@@ -424,7 +424,7 @@ gchar * gsb_debug_reconcile_test ( void )
             ! gsb_data_transaction_get_mother_transaction_number ( transaction ) )
             {
             reconcilied_amount = gsb_real_add ( reconcilied_amount,
-						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction, 
+						      gsb_data_transaction_get_adjusted_amount_for_currency ( transaction,
 													      gsb_data_account_get_currency (account_nb),
 													      -1 ));
             }
@@ -444,7 +444,7 @@ gchar * gsb_debug_reconcile_test ( void )
             tmpstr1 = g_strdup_printf ( _("<span weight=\"bold\">%s</span>\n"
 					"  Last reconciliation amount : %s\n"
 					"  Computed reconciliation amount : %s\n"),
-					gsb_data_account_get_name ( account_nb ), 
+					gsb_data_account_get_name ( account_nb ),
 					tmprealstr1,
 					tmprealstr2 );
             tmpstr2 = pText;
@@ -890,11 +890,11 @@ gboolean gsb_debug_payee_test_fix ()
 /*   /\* Si on n'utilise pas les exercices, on quitte *\/ */
 /*   if ( !etat.utilise_exercice ) */
 /*     return FALSE; */
-    
+
 /*   /\* On fera la vérification des comptes dans l'ordre préféré */
 /*      de l'utilisateur. On fait une copie de la liste. *\/ */
 /*   pUserAccountsList = g_slist_copy ( ordre_comptes ); */
-  
+
 /*   /\* Pour chacun des comptes, faire *\/ */
 /*   do */
 /*   { */
@@ -903,7 +903,7 @@ gboolean gsb_debug_payee_test_fix ()
 /*     gchar *account_name = NULL; */
 
 /*     p_tab_nom_de_compte_variable = p_tab_nom_de_compte + GPOINTER_TO_INT ( pUserAccountsList -> data ); */
-      
+
 /*     /\* On affiche le nom du compte testé. Si le compte n'est pas affecté, */
 /*        on libèrera la mémoire *\/ */
 /*     account_name = g_strdup_printf ("%s", NOM_DU_COMPTE); */
@@ -967,7 +967,7 @@ gboolean gsb_debug_payee_test_fix ()
 /* 	    corrupted_account = TRUE; */
 /* 	  } */
 /* 	} */
-      
+
 /*       } */
 /*       pTransactionList = pTransactionList -> next; */
 /*     } */

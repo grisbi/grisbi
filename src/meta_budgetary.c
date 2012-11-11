@@ -42,7 +42,7 @@
 /*START_STATIC*/
 static gint budgetary_line_add_div ();
 static gint budgetary_line_add_sub_div ( int div_id );
-static gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
+static gboolean budgetary_line_add_transaction_to_div ( gint transaction_number,
 						 int div_id );
 static gchar *budgetary_line_div_name ( gint div );
 static gint budgetary_line_get_without_div_pointer ( );
@@ -222,7 +222,7 @@ gint budgetary_line_add_div ()
     {
 	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New budget #%d"), i ); 
+	name = g_strdup_printf ( _("New budget #%d"), i );
     }
 
     new_budget_number = gsb_data_budget_get_number_by_name ( name, TRUE, 0 );
@@ -252,7 +252,7 @@ gint budgetary_line_add_sub_div ( int div_id )
     {
 	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New sub-budget #%d"), i ); 
+	name = g_strdup_printf ( _("New sub-budget #%d"), i );
     }
 
     new_sub_budget_number = gsb_data_budget_get_sub_budget_number_by_name ( div_id, name, TRUE );
@@ -268,7 +268,7 @@ gint budgetary_line_add_sub_div ( int div_id )
  *
  *
  */
-gboolean budgetary_line_add_transaction_to_div ( gint transaction_number, 
+gboolean budgetary_line_add_transaction_to_div ( gint transaction_number,
 						 int div_id )
 {
     gsb_data_budget_add_transaction_to_budget ( transaction_number,

@@ -39,7 +39,7 @@
 /*END_INCLUDE*/
 
 
-/* these two macros are here to reduce 
+/* these two macros are here to reduce
  * amount of code for setters and getters */
 #define BANK_GET_OR_RETURN(bank, number, ret) \
     bank = gsb_data_bank_get_structure ( number ); \
@@ -51,8 +51,8 @@
 
 
 /**
- * \struct 
- * Describe a bank 
+ * \struct
+ * Describe a bank
  */
 typedef struct
 {
@@ -192,9 +192,9 @@ GSList *gsb_data_bank_get_bank_list ( void )
 
 /**
  * find and return the last number of bank
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of bank
  * */
 gint gsb_data_bank_max_number ( void )
@@ -328,7 +328,7 @@ gint gsb_data_bank_set_new_number ( gint bank_number,
 /**
  * Setters and getters are defined just after.
  *
- * Each setter takes a string as parameter. So the field of the structure is 
+ * Each setter takes a string as parameter. So the field of the structure is
  * first freed and the value is duplicated. It is freed when the bank is
  * destroyed (by _gsb_data_bank_free).
  * Setters return TRUE on success, FALSE otherwise

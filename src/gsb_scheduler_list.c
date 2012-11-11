@@ -248,7 +248,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
  * Create the toolbar that contains all elements needed to manipulate
  * the scheduler.
  *
- * \param 
+ * \param
  *
  * \return A newly created hbox.
  */
@@ -304,7 +304,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 							     GTK_STOCK_EXECUTE,
 							     _("Execute"),
 							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
-							     NULL ); 
+							     NULL );
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
 				  _("Execute current scheduled transaction"));
@@ -335,7 +335,7 @@ void gsb_gui_update_scheduler_toolbar ( void )
     GList * list = NULL;
 
     list = gtk_container_get_children ( GTK_CONTAINER ( scheduler_toolbar ) );
-    
+
     if ( list )
     {
 	gtk_container_remove ( GTK_CONTAINER ( scheduler_toolbar ),
@@ -354,13 +354,13 @@ void gsb_gui_update_scheduler_toolbar ( void )
 gboolean popup_scheduled_view_mode_menu ( GtkWidget *button )
 {
     GtkWidget *menu, *item;
-    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"), 
-			_("Two months view"), _("Quarter view"), 
+    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
+			_("Two months view"), _("Quarter view"),
 			_("Year view"), _("Custom view"), NULL, };
     int i;
 
     menu = gtk_menu_new ();
-    
+
     for ( i = 0 ; names[i] ; i++ )
     {
 	item = gtk_menu_item_new_with_label ( names[i] );
@@ -372,7 +372,7 @@ gboolean popup_scheduled_view_mode_menu ( GtkWidget *button )
 
     gtk_widget_show_all ( menu );
 
-    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1, 
+    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1,
 		     gtk_get_current_event_time());
 
     return FALSE;
@@ -880,7 +880,7 @@ gboolean gsb_scheduler_list_fill_list ( GtkWidget *tree_view )
         scheduled_number = gsb_data_scheduled_get_scheduled_number ( tmp_list -> data );
 
         if ( !end_date
-         || 
+         ||
          g_date_compare ( gsb_data_scheduled_get_date ( scheduled_number ), end_date) <= 0 )
         {
             if ( !gsb_scheduler_list_append_new_scheduled ( scheduled_number, end_date ) )
@@ -1978,7 +1978,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
         }
         else
         {
-            /* for a normal scheduled, ask only if no frequency, else, it will 
+            /* for a normal scheduled, ask only if no frequency, else, it will
              * have another dialog to delete the occurence or the transaction */
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                         "delete-scheduled" );
@@ -2025,7 +2025,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
             msg_no = question_conditional_yes_no_get_no_struct ( &delete_msg[0],
                             "delete-scheduled-occurences" );
-            
+
             if ( delete_msg[msg_no].hidden )
                 result = delete_msg[msg_no].default_answer;
             else

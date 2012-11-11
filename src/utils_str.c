@@ -49,16 +49,16 @@ static gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trun
 
 /**
  * @brief convert an integer into a gchar based string
- * 
- * 
+ *
+ *
  * @param integer   integer to convert
- * 
+ *
  * @return  a newly allocated string
- * 
+ *
  * @caveats You have to unallocate the returned string when you no more use it to save memory
  *
  * @todo: check usage of this function which a cause of memory leak
- * 
+ *
  * */
 gchar *utils_str_itoa ( gint integer )
 {
@@ -68,14 +68,14 @@ gchar *utils_str_itoa ( gint integer )
     gint num;
 
     chaine = g_malloc0 ( 11*sizeof (gchar) );
-    
+
     num = abs(integer);
 
     /* Construct the result in the reverse order from right to left, then reverse it. */
     do
     {
 	result_div = div ( num, 10 );
-	chaine[i] = result_div.rem + '0'; 
+	chaine[i] = result_div.rem + '0';
 	i++;
     }
     while ( ( num = result_div.quot ));
@@ -86,7 +86,7 @@ gchar *utils_str_itoa ( gint integer )
     {
         chaine[i++] = '-';
     }
-    
+
     chaine[i] = 0;
 
     g_strreverse ( chaine );
@@ -167,7 +167,7 @@ gchar *utils_str_reduce_exponant_from_string ( const gchar *amount_string,
 
 
 /**
- * locates the decimal dot 
+ * locates the decimal dot
  *
  *
  *
@@ -226,14 +226,14 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
 
 /**
  * @brief Secured version of atoi
- * 
+ *
  * Encapsulated call of atoi which may crash when it is call with a NULL pointer.
- * 
+ *
  * @param chaine   pointer to the buffer containing the string to convert
- * 
+ *
  * @return  the converted string as interger
  * @retval  0 when the pointer is NULL or the string empty.
- * 
+ *
  * */
 G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
 {
@@ -316,7 +316,7 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
 	{
 	    gint retour;
  	    gchar *new_1, *new_2;
-	    
+
 	    new_1 = g_utf8_collate_key ( string_1, -1 );
 	    new_2 = g_utf8_collate_key ( string_2, -1 );
 	    retour = strcmp ( new_1, new_2 );
@@ -356,7 +356,7 @@ gint my_strcasecmp ( const gchar *string_1, const gchar *string_2 )
         {
             gint retour;
             gchar *new_1, *new_2;
-            
+
             new_1 = g_utf8_collate_key ( g_utf8_casefold ( string_1,-1 ),
                          -1 );
             new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,-1 ),
@@ -398,7 +398,7 @@ gint my_strncasecmp ( gchar *string_1,
         {
             gint retour;
             gchar *new_1, *new_2;
-            
+
             new_1 = g_utf8_casefold ( string_1,longueur );
             new_2 = g_utf8_casefold (  string_2,longueur );
             retour = g_utf8_collate ( new_1, new_2);
@@ -417,15 +417,15 @@ gint my_strncasecmp ( gchar *string_1,
 
 /**
  * Protect the my_strdup function if the string is NULL
- * 
+ *
  * If the length of string is 0 (ie ""), return NULL.  That is just
  * nonsense, but it has been done that way and disabling it would
  * certainly cause side effects. [benj]
  *
  * \param string the string to be dupped
  *
- * \return a newly allocated string (which is a copy of that string) 
- * or NULL if the parameter is NULL or an empty string. 
+ * \return a newly allocated string (which is a copy of that string)
+ * or NULL if the parameter is NULL or an empty string.
  * */
 G_MODULE_EXPORT gchar *my_strdup ( const gchar *string )
 {
@@ -566,7 +566,7 @@ GSList *gsb_string_get_string_list_from_string ( const gchar *string,
 
 /**
  * return a gslist of struct_categ_budget_sel
- * from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ... 
+ * from a string as no_categ/no_sub_categ/no_sub_categ/no_sub_categ-no_categ/no_sub_categ...
  * (or idem with budget)
  *
  * \param string	the string we want to change to a list
@@ -655,7 +655,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 
     if ( strlen(string) < n )
 	return my_strdup ( string );
-    
+
     tmp = string + n;
     if ( ! hard_trunc && ! ( tmp = strchr ( tmp, ' ' ) ) )
     {
@@ -663,7 +663,7 @@ gchar * gsb_string_truncate_n ( gchar * string, int n, gboolean hard_trunc )
 	   UTF-8 accent ... the end is probably near btw. */
 	return my_strdup ( string );
     }
-    else 
+    else
     {
 	while ( ! isascii(*tmp) && *tmp )
 	    tmp++;
@@ -708,7 +708,7 @@ gchar * gsb_string_remplace_string ( gchar *str, gchar *old_str, gchar *new_str 
 
 
 /**
- * recherche des mots séparés par des jokers "%*" dans une chaine 
+ * recherche des mots séparés par des jokers "%*" dans une chaine
  *
  * \param haystack
  * \param needle
@@ -722,7 +722,7 @@ gboolean gsb_string_is_trouve ( const gchar *payee_name, const gchar *needle )
     gint i;
     gboolean is_prefix = FALSE, is_suffix = FALSE;
 
-    if ( g_strstr_len ( needle, -1, "%" ) == NULL && 
+    if ( g_strstr_len ( needle, -1, "%" ) == NULL &&
                         g_strstr_len ( needle, -1, "*" ) == NULL )
     {
         if ( my_strcasecmp ( payee_name, needle ) == 0 )
@@ -826,7 +826,7 @@ gchar *gsb_string_supprime_joker ( const gchar *chaine )
 
 /*
  * extrait un nombre d'une chaine
- * 
+ *
  * \param chaine
  *
  * \return guint
@@ -878,8 +878,8 @@ gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char )
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
         result = g_strjoinv ( "", tab_str );
     }
-    else if ( g_strstr_len ( chaine, nbre_char, "\r" ) 
-     && 
+    else if ( g_strstr_len ( chaine, nbre_char, "\r" )
+     &&
      !g_strstr_len ( chaine, nbre_char, "\n" ) )
     {
         tab_str = g_strsplit_set ( chaine, "\r", 0 );
@@ -1010,7 +1010,7 @@ gchar *utils_str_incremente_number_from_str ( const gchar *str_number, gint incr
         }
         if ( i > 0 )
             prefix = g_strndup ( str_number, i );
-    
+
         number = utils_str_atoi ( str_number );
     }
 

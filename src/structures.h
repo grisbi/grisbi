@@ -51,7 +51,7 @@ struct gsb_etat_t
     gint utilise_logo;
     gboolean is_pixmaps_dir;        /* TRUE if path_icon == gsb_dirs_get_pixmaps_dir ( ) */
     gchar *name_logo;
-    
+
     gboolean automatic_separator;   /* TRUE if do automatic separator */
 
     /* Various display message stuff    */
@@ -83,7 +83,7 @@ struct gsb_etat_t
     gint combofix_enter_select_completion;  /* TRUE if enter close the popup and keep what is in the entry (else, select the current item in the list) */
     gint combofix_force_payee;              /* TRUE if no new item can be appended in the payee combofix */
     gint combofix_force_category;           /* TRUE if no new item can be appended in the category and budget combofix */
-    
+
     /* width panned */
     gint largeur_colonne_echeancier;
     gint largeur_colonne_comptes_comptes;
@@ -134,7 +134,7 @@ struct gsb_conf_t
 
     /* general part */
     gint r_modifiable;                              /* Changes in reconciled transactions */
-    gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */ 
+    gint entree;                                    /* si etat.entree = 1, la touche entrée finit l'opération */
     gint alerte_mini;
     gint utilise_fonte_listes;                      /* TRUE to use a custom font for the lists */
     gchar *font_string;                             /* contain the description of the font, or NULL */
@@ -277,7 +277,7 @@ enum bet_array_origin_data
 
 
 /* définition du type de mise à jour en fonction des données du module budgétaire */
-enum bet_type_maj 
+enum bet_type_maj
 {
     BET_MAJ_FALSE = 0,
     BET_MAJ_ESTIMATE,

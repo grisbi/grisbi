@@ -305,15 +305,15 @@ GtkWidget *init_menus ( GtkWidget *vbox )
                         (gpointer) run.window );
 
     gtk_action_group_add_radio_actions ( actions,
-                        radio_entries, 
-                        G_N_ELEMENTS ( radio_entries ), 
+                        radio_entries,
+                        G_N_ELEMENTS ( radio_entries ),
                         -1,
-                        G_CALLBACK ( gsb_gui_toggle_line_view_mode ), 
+                        G_CALLBACK ( gsb_gui_toggle_line_view_mode ),
                         NULL );
 
     gtk_action_group_add_toggle_actions ( actions,
-                        toggle_entries, 
-                        G_N_ELEMENTS ( toggle_entries ), 
+                        toggle_entries,
+                        G_N_ELEMENTS ( toggle_entries ),
                         NULL );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
@@ -371,14 +371,14 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
         tmp_name = g_strdup_printf ( "LastFile%d", i );
 
-        action = gtk_action_new ( tmp_name, 
-                        tab_noms_derniers_fichiers_ouverts[i], 
+        action = gtk_action_new ( tmp_name,
+                        tab_noms_derniers_fichiers_ouverts[i],
                         "",
                         "" );
         g_free ( tmp_name );
         g_signal_connect ( action,
                         "activate",
-                        G_CALLBACK ( gsb_file_open_direct_menu ), 
+                        G_CALLBACK ( gsb_file_open_direct_menu ),
                         GINT_TO_POINTER ( i ) );
         gtk_action_group_add_action ( action_group, action );
     }
@@ -396,7 +396,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
 
         gtk_ui_manager_add_ui ( ui_manager,
-                    recent_files_merge_id, 
+                    recent_files_merge_id,
                     "/menubar/FileMenu/RecentFiles/",
                     tmp_label,
                     tmp_name,
@@ -409,7 +409,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
 
     /* add a separator */
     gtk_ui_manager_add_ui ( ui_manager,
-                    merge_id, 
+                    merge_id,
                     "/menubar/FileMenu/Open/",
                     NULL,
                     NULL,
@@ -539,7 +539,7 @@ gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
     GtkWidget * widget;
 
     widget = gtk_ui_manager_get_widget ( ui_manager, item_name );
-    
+
     if ( widget && GTK_IS_WIDGET(widget) )
     {
 	gtk_widget_set_sensitive ( widget, state );
@@ -550,7 +550,7 @@ gboolean gsb_gui_sensitive_menu_item ( gchar *item_name, gboolean state )
 
 
 
-/** 
+/**
  * Callback called when an item of the "View/Show ... lines" menu is
  * triggered.
  */
@@ -688,18 +688,18 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
     /* update the showing of reconciled transactions */
     tmpstr = "/menubar/ViewMenu/ShowReconciled";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_data_account_get_r ( account_number ) );
 
     tmpstr = "/menubar/ViewMenu/ShowTransactionForm";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_form_is_visible ( ) );
 
     /* update the showing of archived transactions */
     tmpstr = "/menubar/ViewMenu/ShowArchived";
     gtk_toggle_action_set_active ( GTK_TOGGLE_ACTION (
-                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ), 
+                        gtk_ui_manager_get_action ( ui_manager, tmpstr) ),
 				        gsb_data_account_get_l ( account_number ) );
 
     /* update the number of line showed */
@@ -729,7 +729,7 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 }
 
 
-/** 
+/**
  * Update the clickable list of closed accounts and target
  * accounts to move a transaction, in menu.
  *
@@ -804,7 +804,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
 
  * \param sensitive	Sensitiveness (FALSE for unsensitive, TRUE for
  *			sensitive).
- * 
+ *
  * \return		FALSE
  */
 gboolean gsb_menu_set_menus_select_transaction_sensitive ( gboolean sensitive )
@@ -890,7 +890,7 @@ gboolean gsb_menu_reinit_largeur_col_menu ( void )
  */
 gboolean gsb_menu_set_block_menu_cb ( gboolean etat )
 {
-    
+
     block_menu_cb = etat;
 
     return FALSE;

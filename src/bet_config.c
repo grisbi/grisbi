@@ -117,7 +117,7 @@ GtkWidget *bet_config_general_create_general_page ( void )
 
     vbox = new_vbox_with_title_and_icon ( _("General Options"), "balance_estimate.png" );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
-    
+
     /* Calculation of period */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Common data") );
 
@@ -178,7 +178,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
                         _("1st day of month") );
     gtk_widget_set_name ( button_1, "bet_period_button_1" );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), button_1 );
-    
+
     button_2 = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( button_1 ),
                         _("date today") );
@@ -225,7 +225,7 @@ gboolean bet_config_general_cash_account_option_clicked ( GtkWidget *checkbutton
                         gpointer null )
 {
     GtkWidget *combo;
-    
+
     combo = g_object_get_data ( G_OBJECT ( account_page ), "account_combo" );
     if ( combo )
     {
@@ -438,8 +438,8 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
             widget = gtk_radio_button_new_with_label ( NULL,
                         _(bet_duration_array[iduration]) );
             previous = widget;
-        }  
-        else 
+        }
+        else
         {
             widget = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( previous ),
@@ -888,7 +888,7 @@ gboolean bet_config_duration_number_changed ( GtkWidget *spin_button,
     months = gtk_spin_button_get_value_as_int ( GTK_SPIN_BUTTON ( spin_button ) );
     if ( gsb_data_account_get_bet_spin_range ( account_number ) == 1 )
         months *= 12;
-                                               
+
     gsb_data_account_set_bet_months ( account_number, months );
 
     gsb_file_set_modified ( TRUE );
@@ -1120,7 +1120,7 @@ gboolean bet_config_select_label_changed ( GtkWidget *checkbutton,
     gsb_data_account_set_bet_select_label ( account_number, origine, value );
 
     gsb_file_set_modified ( TRUE );
-    
+
     gsb_data_account_set_bet_maj ( account_number, BET_MAJ_ESTIMATE );
     bet_data_update_bet_module ( account_number, -1 );
 

@@ -376,7 +376,7 @@ gboolean gsb_file_open_file ( gchar *filename )
     gsb_status_message ( _("Loading accounts") );
 
     /* try to load the file */
-    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared 
+    /* FIXME:BUG under Windows: for unknwon reason yet filename is cleared
      * when returning from gsb_file_load_open_file!
      * making application crashes! */
 
@@ -398,7 +398,7 @@ gboolean gsb_file_open_file ( gchar *filename )
         if ( conf.sauvegarde_demarrage || conf.make_backup || conf.make_backup_every_minutes )
         {
             gchar *tmpstr = g_strdup_printf ( _("Error loading file '%s'"), filename);
-            gchar *tmpstr2 = g_strdup_printf ( 
+            gchar *tmpstr2 = g_strdup_printf (
                                 _("Grisbi was unable to load file. You should find the last "
                                   "backups in '%s', they are saved with date and time into "
                                   "their name so you should find easily the last backup "
@@ -418,7 +418,7 @@ gboolean gsb_file_open_file ( gchar *filename )
             gchar *tmpstr2;
 
             if (gsb_file_get_backup_path ())
-            tmpstr2 = g_strdup_printf ( 
+            tmpstr2 = g_strdup_printf (
                             _("Grisbi was unable to load file and the backups seem not to "
                               "be activated... This is a bad thing.\nYour backup path is '%s', "
                               "try to find if earlier you had some backups in there ?\n"
@@ -465,7 +465,7 @@ gboolean gsb_file_open_file ( gchar *filename )
 	account_number = gsb_data_account_get_no_account ( list_tmp -> data );
 
 	/* set the minimum balances to be shown or not */
-	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number), 
+	value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
                           gsb_data_account_get_mini_balance_authorized (account_number) ) == -1;
     gsb_data_account_set_mini_balance_authorized_message ( account_number, value);
     value = gsb_real_cmp ( gsb_data_account_get_current_balance (account_number),
@@ -1029,7 +1029,7 @@ void gsb_file_append_name_to_opened_list ( gchar * path_fichier )
         real_name = g_strdup ( path_fichier );
     }
 
-    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts 
+    /* on commence par vérifier si ce fichier n'est pas dans les nb_derniers_fichiers_ouverts
      * noms */
     position = 0;
 
@@ -1154,7 +1154,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
 
-    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING, 
+    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING,
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 

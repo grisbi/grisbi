@@ -42,8 +42,8 @@
 
 
 /**
- * \struct 
- * Describe a currency_link 
+ * \struct
+ * Describe a currency_link
  */
 typedef struct
 {
@@ -183,9 +183,9 @@ GSList *gsb_data_currency_link_get_currency_link_list ( void )
 
 /**
  * find and return the last number of currency_link
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of currency_link
  * */
 gint gsb_data_currency_link_max_number ( void )
@@ -448,7 +448,7 @@ gboolean gsb_data_currency_link_set_change_rate ( gint currency_link_number,
  *
  * \param currency_link_number the number of the currency_link
  *
- * \return TRUE if the link is invalid 
+ * \return TRUE if the link is invalid
  * */
 gint gsb_data_currency_link_get_invalid_link ( gint currency_link_number )
 {
@@ -469,7 +469,7 @@ gint gsb_data_currency_link_get_invalid_link ( gint currency_link_number )
  *
  * \param currency_link_number the number of the currency_link
  *
- * \return a const gchar formatted with markup : error the message 
+ * \return a const gchar formatted with markup : error the message
  * */
 const gchar *gsb_data_currency_link_get_invalid_message ( gint currency_link_number )
 {
@@ -600,10 +600,10 @@ gint gsb_data_currency_link_search ( gint currency_1,
 
 
 /**
- * get the GDate of the currency link 
- * 
+ * get the GDate of the currency link
+ *
  * \param currency_link_number
- * 
+ *
  * \return the GDate of the currency link
  * */
 GDate *gsb_data_currency_link_get_modified_date ( gint currency_link_number )
@@ -621,10 +621,10 @@ GDate *gsb_data_currency_link_get_modified_date ( gint currency_link_number )
 
 /**
  * set the GDate of the currency link
- * 
+ *
  * \param currency_link_number
  * \param date
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
@@ -654,7 +654,7 @@ gboolean gsb_data_currency_link_set_modified_date ( gint currency_link_number,
  *
  * \param currency_link_number the number of the currency_link
  *
- * \return TRUE if ok or FALSE if no ok 
+ * \return TRUE if ok or FALSE if no ok
  * */
 gboolean gsb_data_currency_link_get_fixed_link ( gint currency_link_number )
 {

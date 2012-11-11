@@ -255,7 +255,7 @@ void gsb_form_create_widgets ( void )
 
     /* the scheduled part is a table of SCHEDULED_WIDTH col x SCHEDULED_HEIGHT rows */
 
-    form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT, 
+    form_scheduled_part = gtk_table_new ( SCHEDULED_HEIGHT,
                       SCHEDULED_WIDTH,
                       FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE (form_scheduled_part),
@@ -409,7 +409,7 @@ gboolean gsb_form_fill_by_transaction ( gint transaction_number,
     mother_number = gsb_data_mix_get_mother_transaction_number (transaction_number, is_transaction);
     is_split = gsb_data_mix_get_split_of_transaction (transaction_number, is_transaction);
 
-    /* if here account number = -1, it's because it's a white line or there were a problem ; 
+    /* if here account number = -1, it's because it's a white line or there were a problem ;
      * in all case, get the current account number */
     if (account_number == -1)
         account_number = gsb_form_get_account_number ();
@@ -1031,7 +1031,7 @@ gboolean gsb_form_activate_expander ( GtkWidget *expander,
  * show the form, detect automaticly what we need to show, even for transactions,
  * scheduled_transactions and the buttons valid/cancel
  *
- * \param show TRUE if we want to automatickly turn on the expander, 
+ * \param show TRUE if we want to automatickly turn on the expander,
  * 		FALSE if we don't want, so just let it
  *
  * \return FALSE
@@ -1143,7 +1143,7 @@ gint gsb_form_get_account_number ( void )
 	case ORIGIN_VALUE_SCHEDULED:
 	    account_number = gsb_form_scheduler_get_account ();
 	    break;
-	    
+
 	default:
 	    account_number = origin;
     }
@@ -1194,7 +1194,7 @@ gint gsb_form_get_origin ( void )
  * fill the form according to the account_number :
  *
  * \param account_number the number of account or -1 to get it from the account button
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_form_fill_from_account ( gint account_number )
@@ -1211,7 +1211,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	case -2:
 	    return FALSE;
 	    break;
-	    
+
 	case -1:
 	    account_number = gsb_form_scheduler_get_account ();
 	    if (account_number == -2 )
@@ -1236,7 +1236,7 @@ gboolean gsb_form_fill_from_account ( gint account_number )
 	    if ( !widget )
             continue;
 
-	    /* We want to show all the widgets that are independent of operations and put 
+	    /* We want to show all the widgets that are independent of operations and put
          * the means of payment in accordance with the type of account */
 	    if ( element == TRANSACTION_FORM_TYPE )
         {
@@ -1423,8 +1423,8 @@ gboolean gsb_form_clean ( gint account_number )
 /**
  * Determine element is expandable or not in a GtkTable.
  *
- * \param element_number 
- * 
+ * \param element_number
+ *
  * \return
  */
 gint gsb_form_get_element_expandable ( gint element_number )
@@ -1588,7 +1588,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                 gtk_entry_set_text ( GTK_ENTRY ( tmp_widget ), string );
                 gsb_form_widget_set_empty ( tmp_widget, FALSE );
                 g_free ( string );
-                
+
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
@@ -1714,7 +1714,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                             gsb_form_widget_set_empty ( widget, FALSE );
                         }
                     }
- 
+
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
                     if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
@@ -1826,7 +1826,7 @@ void gsb_form_check_auto_separator ( GtkWidget *entry )
 	||
 	!entry )
 	return;
-    
+
     /* we need a my_strdup to permit to do the g_free later
      * because if strlen < floating point we need to
      * malloc another string */
@@ -2041,7 +2041,7 @@ gboolean gsb_form_change_sensitive_buttons ( gboolean sensitive )
  * \param widget wich receive the signal
  * \param ev
  * \param ptr_origin a pointer number of the element
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_form_key_press_event ( GtkWidget *widget,
@@ -2052,14 +2052,14 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     gint account_number;
     gint element_suivant;
     GtkWidget *widget_prov;
-    
+
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
 
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
 	 &&
-	 ( ev -> keyval == GDK_Return 
+	 ( ev -> keyval == GDK_Return
 	   ||
 	   ev -> keyval == GDK_KP_Enter ))
 	ev->keyval = GDK_Tab ;
@@ -2324,13 +2324,13 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 }
 
 
-/** 
+/**
  * called when the user finishes the edition of the form
  * this function works for transaction and scheduled transactions,
  * it add/modify the transaction in the form
- * 
+ *
  * \param none
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_form_finish_edition ( void )
@@ -2389,7 +2389,7 @@ gboolean gsb_form_finish_edition ( void )
      * -1 for the general white line
      *  -2, -3, ... for the white lines of scheduled transactions
      *  or it's an execution of scheduled transaction */
-    if ( transaction_number < 0 ) 
+    if ( transaction_number < 0 )
         new_transaction = 1;
     else
         new_transaction = 0;
@@ -2444,7 +2444,7 @@ gboolean gsb_form_finish_edition ( void )
                                     GPOINTER_TO_INT ( list_tmp -> data ) );
 
                     /* if it's not the first party and the method of payment has to change its number (cheque),
-                     * we increase the number. as we are in a party's list, it's always a new transactio, 
+                     * we increase the number. as we are in a party's list, it's always a new transactio,
                      * so we know that it's not the first if transaction_number is not 0 */
 
                     payment_number = gsb_data_transaction_get_method_of_payment_number (
@@ -2633,7 +2633,7 @@ gboolean gsb_form_finish_edition ( void )
         if ( gsb_data_scheduled_get_split_of_scheduled (saved_scheduled_number) )
             gsb_scheduler_execute_children_of_scheduled_transaction ( saved_scheduled_number,
                         transaction_number );
- 
+
         /* now we can increase the scheduled transaction */
         increase_result = gsb_scheduler_increase_scheduled ( saved_scheduled_number );
 
@@ -2896,7 +2896,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
             number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
-            
+
 	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
          number.mantissa == 0 )
@@ -2914,7 +2914,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             }
         }
     }
-    
+
     /* now work with the categories */
     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CATEGORY);
 
@@ -3017,7 +3017,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 	    {
 		/* check that the number is not used */
 		gint tmp_transaction_number;
-		
+
 		tmp_transaction_number = gsb_data_transaction_check_content_payment (
                                     payment,
                                     gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
@@ -3083,10 +3083,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
 /**
  * get the datas in the form and set them in the transaction/scheduled transaction in param
- * 
+ *
  * \param transaction_number the transaction to modify
  * \param is_transaction TRUE if it's for a transaction, FALSE for a scheduled transaction
- * 
+ *
  * \return
  * */
 void gsb_form_take_datas_from_form ( gint transaction_number,
@@ -3125,7 +3125,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_VALUE_DATE:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		    gsb_data_mix_set_value_date ( transaction_number, NULL, is_transaction );
 		else
 		    gsb_data_mix_set_value_date ( transaction_number,
@@ -3154,11 +3154,11 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
             break;
 
 	    case TRANSACTION_FORM_PARTY:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		    gsb_data_mix_set_party_number ( transaction_number, 0, is_transaction );
 		else
 		{
-		    gsb_data_mix_set_party_number ( transaction_number, 
+		    gsb_data_mix_set_party_number ( transaction_number,
                         gsb_data_payee_get_number_by_name (
                         gtk_combofix_get_text ( GTK_COMBOFIX ( element -> element_widget ) ),
                         TRUE ), is_transaction );
@@ -3176,7 +3176,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_CREDIT:
-		if (!gsb_form_widget_check_empty (element -> element_widget)) 
+		if (!gsb_form_widget_check_empty (element -> element_widget))
         {
             gsb_form_check_auto_separator (element -> element_widget);
 		    gsb_data_mix_set_amount ( transaction_number,
@@ -3186,7 +3186,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_BUDGET:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		{
 		    gsb_data_mix_set_budgetary_number ( transaction_number, 0, is_transaction );
 		    gsb_data_mix_set_sub_budgetary_number ( transaction_number, 0, is_transaction );
@@ -3198,7 +3198,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_NOTES:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		    gsb_data_mix_set_notes ( transaction_number, NULL, is_transaction );
 		else
 		{
@@ -3252,7 +3252,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_DEVISE:
-		gsb_data_mix_set_currency_number ( transaction_number, 
+		gsb_data_mix_set_currency_number ( transaction_number,
                         gsb_currency_get_currency_from_combobox (
                         element -> element_widget), is_transaction );
 		if (is_transaction)
@@ -3261,7 +3261,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_BANK:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		    gsb_data_mix_set_bank_references ( transaction_number, NULL, is_transaction);
 		else
 		{
@@ -3272,7 +3272,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_VOUCHER:
-		if (gsb_form_widget_check_empty (element -> element_widget)) 
+		if (gsb_form_widget_check_empty (element -> element_widget))
 		    gsb_data_mix_set_voucher ( transaction_number, NULL, is_transaction);
 		else
 		{
@@ -3288,14 +3288,14 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 
 
-/** 
+/**
  * get the category in the form, for transaction and scheduled transaction
  * do everything needed by that category (create contra-transaction...)
- * 
+ *
  * \param transaction_number the transaction which work with
  * \param new_transaction 1 if it's a new_transaction
  * \param is_transaction TRUE if it's for a transaction, FALSE for a scheduled transaction
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_form_get_categories ( gint transaction_number,
@@ -3420,7 +3420,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 		     * we set data_mix to protect */
 		    gsb_data_mix_set_transaction_number_transfer ( transaction_number,
 								   -1, is_transaction );
-		    /* we don't set any break here, so with the case -1 the 
+		    /* we don't set any break here, so with the case -1 the
 		     * category will be set to 0 (!! let the case -1 after here) */
 
 		case -1:
@@ -3499,7 +3499,7 @@ gboolean gsb_form_get_categories ( gint transaction_number,
 /**
  * called when cancel a form
  *
- * \param 
+ * \param
  *
  * \return FALSE
  * */
@@ -3708,7 +3708,7 @@ GtkWidget *gsb_form_get_element_widget_from_list ( gint element_number,
  * initialise le formulaire
  *
  * \param
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_form_initialise_transaction_form ( void )

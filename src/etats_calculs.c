@@ -500,7 +500,7 @@ GSList *recupere_opes_etat ( gint report_number )
 			    gint ope_dans_second_test;
 			    gint ope_dans_test;
 			    gint amount_comparison_number;
-			    
+
 			    amount_comparison_number = GPOINTER_TO_INT (comparison_list -> data);
 
 			    montant = gsb_data_transaction_get_adjusted_amount ( transaction_number_tmp, -1);
@@ -923,7 +923,7 @@ const gchar *recupere_texte_test_etat ( gint transaction_number,
 
 	case 1:
 	    /* info du tiers */
-	    
+
 	    texte = gsb_data_payee_get_description ( gsb_data_transaction_get_party_number (transaction_number));
 	    break;
 
@@ -1461,7 +1461,7 @@ classement_suivant:
 	    {
 		gint category_number_1;
 		gint category_number_2;
-		
+
 		category_number_1 = gsb_data_transaction_get_category_number (transaction_number_1);
 		category_number_2 = gsb_data_transaction_get_category_number (transaction_number_2);
 

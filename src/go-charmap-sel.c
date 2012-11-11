@@ -537,7 +537,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!lgroups[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   cgroup_name, group_name);
-			if ( lgroups[i].collate_key ) 
+			if ( lgroups[i].collate_key )
 			     g_free ( lgroups[i].collate_key );
 			lgroups[i].collate_key = my_strdup (group_name);
 		}
@@ -559,7 +559,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!charset_trans_array[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   ctitle, title);
-			if ( charset_trans_array[i].collate_key ) 
+			if ( charset_trans_array[i].collate_key )
 			    g_free ( charset_trans_array[i].collate_key );
 			charset_trans_array[i].collate_key = my_strdup (title);
 		}
@@ -667,7 +667,7 @@ static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 		gtk_container_foreach (GTK_CONTAINER (sub), (GtkCallback)cb_find_entry, cl);
 		if (cl->found)
 			return;
-		
+
 		cl->i = GPOINTER_TO_INT (cl->path->data);
 		cl->path = cl->path->next;
 		g_slist_free_1 (tmp);
@@ -684,7 +684,7 @@ static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 	cl->i++;
 }
 
-/* 
+/*
  * TODO dOm : this function seems not to be used :
  * warning: ‘go_charmap_sel_set_encoding’ defined but not used
  * Is it possible to remove it ? */

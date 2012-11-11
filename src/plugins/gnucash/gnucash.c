@@ -48,8 +48,8 @@ static gchar * child_content ( xmlNodePtr node, gchar * child_name );
 static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
-static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount, 
-				    struct struct_compte_importation * account, 
+static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
+				    struct struct_compte_importation * account,
 				    struct gnucash_category * categ );
 static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
@@ -65,14 +65,14 @@ static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
 static void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node );
-static void update_split ( struct gnucash_split * split, gsb_real amount, 
+static void update_split ( struct gnucash_split * split, gsb_real amount,
 		    gchar * account, gchar * categ );
 /*END_STATIC*/
 
 
 static struct import_format gnucash_format = {
-    "Gnucash", 
-    "Gnucash",	
+    "Gnucash",
+    "Gnucash",
     "gnc",
     (import_function) recuperation_donnees_gnucash,
 };
@@ -181,15 +181,15 @@ gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
  * Main role of this function is to iterate over XML nodes of the file
  * and determine which account nodes are category nodes and which are
  * real accounts, as in Gnucash, accounts and categories are mixed.
- * 
+ *
  * \param book_node	Pointer to current XML node.
  */
 void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 {
     xmlNodePtr child_node;
-    
+
     child_node = book_node -> children;
-    
+
     while ( child_node )
     {
 	/* Books are subdivisions of gnucash files */
@@ -211,12 +211,12 @@ void recuperation_donnees_gnucash_book ( xmlNodePtr book_node )
 		recuperation_donnees_gnucash_categorie ( child_node );
 	    }
 	}
-	
+
 	if ( node_strcmp(child_node, "transaction") )
         {
 	    recuperation_donnees_gnucash_transaction ( child_node );
 	}
-	
+
 	child_node = child_node -> next;
     }
 }
@@ -241,19 +241,19 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     /* Gnucash import */
     compte -> origine = my_strdup ( "Gnucash" );
 
-    if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") ) 
+    if ( !strcmp(type, "BANK") || !strcmp(type, "CREDIT") )
     {
 	compte -> type_de_compte = 0; /* Bank */
     }
-    else if ( !strcmp(type, "CASH") || !strcmp(type, "CURRENCY") ) 
+    else if ( !strcmp(type, "CASH") || !strcmp(type, "CURRENCY") )
     {
 	compte -> type_de_compte = 1; /* Currency */
     }
-    else if ( !strcmp(type, "ASSET") || !strcmp(type, "STOCK") || !strcmp(type, "MUTUAL") ) 
+    else if ( !strcmp(type, "ASSET") || !strcmp(type, "STOCK") || !strcmp(type, "MUTUAL") )
     {
 	compte -> type_de_compte = 0; /* Asset */
     }
-    else if ( !strcmp(type, "LIABILITY") ) 
+    else if ( !strcmp(type, "LIABILITY") )
     {
 	compte -> type_de_compte = 0; /* Liability */
     }
@@ -268,7 +268,7 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
     compte -> nom_de_compte = unique_imported_name ( compte -> nom_de_compte );
 
     gsb_import_register_account ( compte );
-    
+
     gnucash_accounts = g_slist_append ( gnucash_accounts, compte );
 }
 
@@ -314,7 +314,7 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
     {
 	categ -> type = GNUCASH_CATEGORY_INCOME;
     }
-    else 
+    else
     {
 	categ -> type = GNUCASH_CATEGORY_EXPENSE;
     }
@@ -332,7 +332,7 @@ void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node )
 void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 {
   struct struct_ope_importation * transaction;
-  struct struct_compte_importation * account = NULL; 
+  struct struct_compte_importation * account = NULL;
   struct gnucash_split * split;
   gchar * date_string, *space, *tiers;
   GDate * date;
@@ -346,7 +346,7 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
   while ( split_node )
     {
-      struct struct_compte_importation * split_account = NULL; 
+      struct struct_compte_importation * split_account = NULL;
       struct gnucash_category * categ = NULL;
       struct gnucash_split * split;
       enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
@@ -364,12 +364,12 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 	{
 	  gchar * account_name = NULL, * categ_name = NULL;
 
-	  split_account = find_imported_account_by_uid ( child_content ( split_node, 
+	  split_account = find_imported_account_by_uid ( child_content ( split_node,
 									"account" ) );
 	  categ = find_imported_categ_by_uid ( child_content ( split_node, "account" ) );
 	  amount = gnucash_value ( child_content(split_node, "value") );
 
-	  if ( categ ) 
+	  if ( categ )
 	    categ_name = categ -> name;
 	  if ( split_account )
 	    {
@@ -436,15 +436,15 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
       while ( split_list )
 	{
 	  struct gnucash_split * split = split_list -> data;
-	  struct struct_compte_importation * account = NULL; 
-	  
+	  struct struct_compte_importation * account = NULL;
+
 	  transaction = new_transaction_from_split ( split, tiers, date );
 	  transaction -> ope_de_ventilation = 1;
 
 	  account = find_imported_account_by_name ( split -> account );
 	  if ( account )
 	    account -> operations_importees = g_slist_append ( account -> operations_importees, transaction );
-      
+
 	  split_list = split_list -> next;
 	}
     }
@@ -492,7 +492,7 @@ struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid )
 	}
 
       liste_tmp = liste_tmp -> next;
-    }  
+    }
 
   return NULL;
 }
@@ -525,7 +525,7 @@ struct struct_compte_importation * find_imported_account_by_name ( gchar * name 
 	}
 
       liste_tmp = liste_tmp -> next;
-    }  
+    }
 
   return NULL;
 }
@@ -556,7 +556,7 @@ struct gnucash_category * find_imported_categ_by_uid ( gchar * guid )
 	}
 
       liste_tmp = liste_tmp -> next;
-    }  
+    }
 
   return NULL;
 }
@@ -579,7 +579,7 @@ gsb_real gnucash_value ( gchar * value )
   gdouble number, mantisse;
 
   tab_value = g_strsplit ( value, "/", 2 );
-  
+
   number = utils_str_atoi ( tab_value[0] );
   mantisse = utils_str_atoi ( tab_value[1] );
 
@@ -641,10 +641,10 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
   {
     gchar * tag;
     tag = g_strrstr ( buffer, "<gnc-v2>" );
-      
+
     if ( tag )
 	{
-        gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty", 
+        gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty",
                         "ts", "slots", "slot", "price", "sx", "fs", NULL };
         gchar **iter;
 
@@ -677,7 +677,7 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
   /** Once parsed, the temporary file is removed as it is useless.  */
   g_unlink ( tempname );
-  
+
   return doc;
 }
 
@@ -694,12 +694,12 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
  *
  * \return		A gnucash_split upon success.  NULL otherwise.
  */
-struct gnucash_split * find_split ( GSList * split_list, gsb_real amount, 
-				    struct struct_compte_importation * account, 
+struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
+				    struct struct_compte_importation * account,
 				    struct gnucash_category * categ )
 {
   GSList * tmp;
-  
+
   tmp = split_list;
   while ( tmp )
     {
@@ -715,7 +715,7 @@ struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
 
       tmp = tmp -> next;
     }
-  
+
   return NULL;
 }
 
@@ -727,13 +727,13 @@ struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
  * account, this means it is the second split of the pair and first
  * split was an account split, so this is transfer split and we set
  * split's contra_account to 'account'.
- * 
+ *
  * \param split		Split to update.
  * \param amount	Amount to set if account is not NULL.
  * \param account	Account to set if not NULL.
  * \param categ		Category to set if not NULL.
  */
-void update_split ( struct gnucash_split * split, gsb_real amount, 
+void update_split ( struct gnucash_split * split, gsb_real amount,
 		    gchar * account, gchar * categ )
 {
   if ( categ )
@@ -775,11 +775,11 @@ struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * cat
   split -> amount = amount;
   if ( account )
     split -> account = my_strdup ( account );
-  else 
+  else
     split -> account = NULL;
   if ( categ )
     split -> category = my_strdup ( categ );
-  else 
+  else
     split -> category = NULL;
 
   return split;
@@ -790,7 +790,7 @@ struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * cat
 /**
  * Allocate and return a struct_ope_importation created from a
  * gnucash_split and some arguments.
- * 
+ *
  * \param split		Split to use as a base.
  * \param tiers		Transaction payee name.
  * \param date		Transaction date.
@@ -815,7 +815,7 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
       /** If split contains a contra account, then this is a transfer. */
       struct struct_compte_importation * contra_account;
       struct struct_ope_importation * contra_transaction;
-	  
+
       contra_transaction = calloc ( 1, sizeof ( struct struct_ope_importation ));
       contra_transaction -> montant = gsb_real_opposite (split -> amount);
       contra_transaction -> notes = split -> notes;
@@ -878,7 +878,7 @@ gchar * child_content ( xmlNodePtr node, gchar * child_name )
 
   if ( child_node )
     return (gchar *) xmlNodeGetContent ( child_node );
-  
+
   return NULL;
 }
 

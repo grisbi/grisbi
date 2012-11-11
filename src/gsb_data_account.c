@@ -190,7 +190,7 @@ void gsb_data_account_delete_all_accounts (void)
 
 /**
  * set the accounts global variables to NULL, usually when we init all the global variables
- * 
+ *
  * \param none
  *
  * \return FALSE
@@ -207,7 +207,7 @@ gboolean gsb_data_account_init_variables ( void )
  * return a pointer on the g_slist of accounts
  * carrefull : it's not a copy, so we must not free or change it
  * if we want to change the list, use gsb_data_account_get_copy_list_accounts instead
- * 
+ *
  * \param none
  * \return a g_slist on the accounts
  * */
@@ -219,9 +219,9 @@ GSList *gsb_data_account_get_list_accounts ( void )
 
 /**
  * create a new account and add to the list of accounts
- * 
+ *
  * \param account_type the type of the account
- * 
+ *
  * \return no of account, -1 if problem
  * */
 gint gsb_data_account_new ( kind_account account_kind )
@@ -324,9 +324,9 @@ static void _gsb_data_account_free ( struct_account* account )
 
 /**
  * delete and free the account given
- * 
+ *
  * \param account_number the no of account
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_account_delete ( gint account_number )
@@ -349,9 +349,9 @@ gboolean gsb_data_account_delete ( gint account_number )
 
 /**
  * return the amount of accounts
- * 
+ *
  * \param none
- * 
+ *
  * \return amount of accounts
  * */
 gint gsb_data_account_get_accounts_amount ( void )
@@ -366,9 +366,9 @@ gint gsb_data_account_get_accounts_amount ( void )
 
 /**
  * find and return the last number of account
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of account
  * */
 gint gsb_data_account_max_number ( void )
@@ -401,9 +401,9 @@ gint gsb_data_account_max_number ( void )
 
 /**
  * find and return the first number of account
- * 
+ *
  * \param none
- * 
+ *
  * \return first number of account, -1 if no accounts
  * */
 gint gsb_data_account_first_number ( void )
@@ -451,10 +451,10 @@ gint gsb_data_account_first_no_closed_account ( void )
 
 
 /**
- * find and return the number of the account which the struct is the param 
- * 
+ * find and return the number of the account which the struct is the param
+ *
  * \param the struct of the account
- * 
+ *
  * \return the number of account, -1 if pb
  * */
 gint gsb_data_account_get_no_account ( gpointer account_ptr )
@@ -476,10 +476,10 @@ gint gsb_data_account_get_no_account ( gpointer account_ptr )
  * it returns the new number (given in param also)
  * it is called ONLY when loading a file to change the default
  * number, given when we create the account
- * 
+ *
  * \param account_number no of the account to change
  * \param new_no new number to the account
- * 
+ *
  * \return the new number, or -1 if failed
  * */
 gint gsb_data_account_set_account_number ( gint account_number,
@@ -500,11 +500,11 @@ gint gsb_data_account_set_account_number ( gint account_number,
 
 
 
-/** 
+/**
  * find and return the structure of the account asked
- * 
+ *
  * \param no number of account
- * 
+ *
  * \return the adr of the struct of the account (NULL if doesn't exit)
  * */
 struct_account *gsb_data_account_get_structure ( gint no )
@@ -546,9 +546,9 @@ struct_account *gsb_data_account_get_structure ( gint no )
 
 /**
  * get the nb of rows displayed on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return nb of rows displayed (1, 2, 3 or 4), or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_nb_rows ( gint account_number )
@@ -596,9 +596,9 @@ gboolean gsb_data_account_set_nb_rows ( gint account_number,
 
 /**
  * return if archives Lines are displayed in the account asked
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return boolean show/not show L
  * */
 gboolean gsb_data_account_get_l ( gint account_number )
@@ -615,10 +615,10 @@ gboolean gsb_data_account_get_l ( gint account_number )
 
 /**
  * set if archives lines are displayed in the account asked
- * 
+ *
  * \param account_number no of the account
  * \param show_l boolean
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_l ( gint account_number,
@@ -638,9 +638,9 @@ gboolean gsb_data_account_set_l ( gint account_number,
 
 /**
  * return if R are displayed in the account asked
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return boolean show/not show R
  * */
 gboolean gsb_data_account_get_r ( gint account_number )
@@ -657,10 +657,10 @@ gboolean gsb_data_account_get_r ( gint account_number )
 
 /**
  * set if R are displayed in the account asked
- * 
+ *
  * \param account_number no of the account
  * \param show_r boolean
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_r ( gint account_number,
@@ -696,13 +696,13 @@ gchar *gsb_data_account_get_id ( gint account_number )
 }
 
 
-/** 
+/**
  * set the id of the account
  * the id is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param id id to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_id ( gint account_number,
@@ -727,7 +727,7 @@ gboolean gsb_data_account_set_id ( gint account_number,
 /**
  * Test if account exist by id (// Modif Yoann )
  * and return its number
- * 
+ *
  * \param Account Id
  *
  * \return the account number or -1
@@ -815,13 +815,13 @@ gchar *gsb_data_account_get_name ( gint account_number )
 }
 
 
-/** 
+/**
  * set the name of the account
  * the name is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param name name to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_name ( gint account_number,
@@ -845,12 +845,12 @@ gboolean gsb_data_account_set_name ( gint account_number,
 }
 
 
-/** 
+/**
  * find and return the number of account which
  * have the name given in param
- * 
+ *
  * \param account_name
- * 
+ *
  * \return the number of account or -1
  * */
 gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
@@ -881,10 +881,10 @@ gint gsb_data_account_get_no_account_by_name ( const gchar *account_name )
 
 /**
  * get the init balance of the account
- * 
+ *
  * \param account_number no of the account
  * \param floating_point give the number of digits after the separator we want, -1 for no limit
- * 
+ *
  * \return balance or NULL if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_init_balance ( gint account_number,
@@ -904,10 +904,10 @@ gsb_real gsb_data_account_get_init_balance ( gint account_number,
 
 /**
  * set the init balance of the account
- * 
+ *
  * \param account_number no of the account
  * \param balance balance to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_init_balance ( gint account_number,
@@ -928,11 +928,11 @@ gboolean gsb_data_account_set_init_balance ( gint account_number,
 
 
 
-/** 
+/**
  * get the minimum balance wanted of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return balance or NULL if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
@@ -950,10 +950,10 @@ gsb_real gsb_data_account_get_mini_balance_wanted ( gint account_number )
 
 /**
  * set the minimum balance wanted of the account
- * 
+ *
  * \param account_number no of the account
  * \param balance balance to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
@@ -973,9 +973,9 @@ gboolean gsb_data_account_set_mini_balance_wanted ( gint account_number,
 
 /**
  * get the minimum balance authorized of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return balance or 0 if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
@@ -993,10 +993,10 @@ gsb_real gsb_data_account_get_mini_balance_authorized ( gint account_number )
 
 /**
  * set the minimum balance authorized of the account
- * 
+ *
  * \param account_number no of the account
  * \param balance balance to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
@@ -1017,9 +1017,9 @@ gboolean gsb_data_account_set_mini_balance_authorized ( gint account_number,
 
 /**
  * flag the current and marked balance dirty to force recompute
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_balances_are_dirty ( gint account_number )
@@ -1119,7 +1119,7 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 	tmp_list = tmp_list -> next;
     }
 
-    g_date_free ( date_jour ); 
+    g_date_free ( date_jour );
     account -> current_balance = gsb_real_add ( current_balance, current_balance_later );
     account -> marked_balance = gsb_real_add ( marked_balance, marked_balance_later );
 
@@ -1129,9 +1129,9 @@ gsb_real gsb_data_account_calculate_current_and_marked_balances ( gint account_n
 
 /**
  * get the current balance  of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return balance or 0 if the account doesn't exist
  * */
 gsb_real gsb_data_account_get_current_balance ( gint account_number )
@@ -1228,7 +1228,7 @@ gsb_real gsb_data_account_calculate_waiting_marked_balance ( gint account_number
  *
  * \param account_number no of the account
  * \param no_column no of the column
- * 
+ *
  * \return  the element_number used to sort or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_element_sort ( gint account_number,
@@ -1242,7 +1242,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
     {
         gchar* tmpstr;
 
-    	/* TODO dOm : the return value of g_strdup_printf was not used ! 
+    	/* TODO dOm : the return value of g_strdup_printf was not used !
          I add the devel_debug to print it. Is it OK to do that ? */
         tmpstr = g_strdup_printf ( _("Bad no column to gsb_data_account_get_element_sort () "
                                    "in data_account.c\nno_column = %d\n" ),
@@ -1268,7 +1268,7 @@ gint gsb_data_account_get_element_sort ( gint account_number,
  * \param account_number no of the account
  * \param no_column no of the column
  * \param element_number  element number used to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_element_sort ( gint account_number,
@@ -1331,10 +1331,10 @@ gint gsb_data_account_get_current_transaction_number ( gint account_number )
 
 /**
  * set the current transaction of the account
- * 
+ *
  * \param account_number no of the account
  * \param transaction_number number of the transaction selection
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
@@ -1356,9 +1356,9 @@ gboolean gsb_data_account_set_current_transaction_number ( gint account_number,
 
 /**
  * get the value of mini_balance_wanted_message  on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return mini_balance_wanted_message or 0 if the account doesn't exist
  * */
 gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number )
@@ -1374,12 +1374,12 @@ gboolean gsb_data_account_get_mini_balance_wanted_message ( gint account_number 
 }
 
 
-/** 
+/**
  * set the value of mini_balance_wanted_message in the account given
- * 
+ *
  * \param account_number no of the account
- * \param value 
- * 
+ * \param value
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_wanted_message ( gint account_number,
@@ -1417,10 +1417,10 @@ gboolean gsb_data_account_get_mini_balance_authorized_message ( gint account_num
 
 /**
  * set the value of mini_balance_authorized_message in the account given
- * 
+ *
  * \param account_number no of the account
- * \param value 
- * 
+ * \param value
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_number,
@@ -1441,9 +1441,9 @@ gboolean gsb_data_account_set_mini_balance_authorized_message ( gint account_num
 
 /**
  * get the currency on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return currency or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_currency ( gint account_number )
@@ -1535,13 +1535,13 @@ gchar *gsb_data_account_get_bank_branch_code ( gint account_number )
 }
 
 
-/** 
+/**
  * set the bank_branch_code of the account
  * the code is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param bank_branch_code bank_branch_code to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_branch_code ( gint account_number,
@@ -1585,10 +1585,10 @@ gchar *gsb_data_account_get_bank_account_number ( gint account_number )
 /**
  * set the bank_account_number of the account
  * the number is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param bank_account_number bank_account_number to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_number ( gint account_number,
@@ -1631,13 +1631,13 @@ gchar *gsb_data_account_get_bank_account_key ( gint account_number )
 }
 
 
-/** 
+/**
  * set the bank_account_key of the account
  * the key is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param bank_account_key bank_account_key to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_bank_account_key ( gint account_number,
@@ -1720,10 +1720,10 @@ gchar *gsb_data_account_get_comment ( gint account_number )
 /**
  * set the comment of the account
  * the comment is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param comment comment to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_comment ( gint account_number,
@@ -1747,9 +1747,9 @@ gboolean gsb_data_account_set_comment ( gint account_number,
 /**
  * get reconcile_sort_type on the account given
  * 1 if the list should be sorted by method of payment, 0 if normal sort
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return 1 if the list should be sorted by method of payment, 0 if normal sort
  * */
 gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
@@ -1768,10 +1768,10 @@ gint gsb_data_account_get_reconcile_sort_type ( gint account_number )
 /**
  * set reconcile_sort_type in the account given
  * 1 if the list should be sorted by method of payment, 0 if normal sort
- * 
+ *
  * \param account_number no of the account
- * \param sort_type 
- * 
+ * \param sort_type
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
@@ -1790,13 +1790,13 @@ gboolean gsb_data_account_set_reconcile_sort_type ( gint account_number,
 }
 
 
-/** 
+/**
  * get the sort_list of the account
  * this is a sorted list containing the numbers of the method of payment
  * used to sort the list while reconciling, according to the method of payments
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return the g_slist or NULL if the account doesn't exist
  * */
 GSList *gsb_data_account_get_sort_list ( gint account_number )
@@ -1811,14 +1811,14 @@ GSList *gsb_data_account_get_sort_list ( gint account_number )
     return account -> sort_list;
 }
 
-/** 
+/**
  * set the sort_list list of the account
  * this is a sorted list containing the numbers of the method of payment
  * used to sort the list while reconciling, according to the method of payments
- * 
+ *
  * \param account_number no of the account
  * \param list g_slist to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_list ( gint account_number,
@@ -1911,9 +1911,9 @@ gboolean gsb_data_account_sort_list_free ( gint account_number )
 
 /**
  * get split_neutral_payment on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return split_neutral_payment or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_split_neutral_payment ( gint account_number )
@@ -1929,12 +1929,12 @@ gint gsb_data_account_get_split_neutral_payment ( gint account_number )
 }
 
 
-/** 
+/**
  * set split_neutral_payment in the account given
- * 
+ *
  * \param account_number no of the account
  * \param split_neutral_payment split_neutral_payment to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
@@ -1955,9 +1955,9 @@ gboolean gsb_data_account_set_split_neutral_payment ( gint account_number,
 
 /**
  * get the holder_name of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return holder_name or NULL if the account doesn't exist
  * */
 gchar *gsb_data_account_get_holder_name ( gint account_number )
@@ -1976,10 +1976,10 @@ gchar *gsb_data_account_get_holder_name ( gint account_number )
 /**
  * set the holder_name of the account
  * the name is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param holder_name holder_name to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_name ( gint account_number,
@@ -2023,10 +2023,10 @@ gchar *gsb_data_account_get_holder_address ( gint account_number )
 /**
  * set the holder_address of the account
  * the address is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param holder_address holder_address to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_holder_address ( gint account_number,
@@ -2053,9 +2053,9 @@ gboolean gsb_data_account_set_holder_address ( gint account_number,
 
 /**
  * get default_debit on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return default_debit or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_default_debit ( gint account_number )
@@ -2073,10 +2073,10 @@ gint gsb_data_account_get_default_debit ( gint account_number )
 
 /**
  * set default_debit in the account given
- * 
+ *
  * \param account_number no of the account
  * \param default_debit default_debit to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_debit ( gint account_number,
@@ -2098,9 +2098,9 @@ gboolean gsb_data_account_set_default_debit ( gint account_number,
 
 /**
  * get default_credit on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return default_credit or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_default_credit ( gint account_number )
@@ -2118,10 +2118,10 @@ gint gsb_data_account_get_default_credit ( gint account_number )
 
 /**
  * set default_credit in the account given
- * 
+ *
  * \param account_number no of the account
  * \param default_credit default_credit to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_default_credit ( gint account_number,
@@ -2143,9 +2143,9 @@ gboolean gsb_data_account_set_default_credit ( gint account_number,
 
 /**
  * get row_align on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return the row_align or 0
  * */
 gfloat gsb_data_account_get_row_align ( gint account_number )
@@ -2164,10 +2164,10 @@ gfloat gsb_data_account_get_row_align ( gint account_number )
 /**
  * set the row_align parameter for the account
  * use to place the list at the good place when changing account
- * 
+ *
  * \param account_number no of the account
  * \param row_align	the row_align to use with gtk_tree_view_scroll_to_cell
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_row_align ( gint account_number,
@@ -2188,9 +2188,9 @@ gboolean gsb_data_account_set_row_align ( gint account_number,
 /**
  * get sort_type on the account given
  * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
  * */
 gint gsb_data_account_get_sort_type ( gint account_number )
@@ -2209,10 +2209,10 @@ gint gsb_data_account_get_sort_type ( gint account_number )
 /**
  * set sort_type in the account given
  * ie GTK_SORT_DESCENDING / GTK_SORT_ASCENDING
- * 
+ *
  * \param account_number no of the account
  * \param sort_type sort_type to set (GTK_SORT_DESCENDING / GTK_SORT_ASCENDING)
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_type ( gint account_number,
@@ -2235,9 +2235,9 @@ gboolean gsb_data_account_set_sort_type ( gint account_number,
 
 /**
  * get sort_column on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return sort_column or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_sort_column ( gint account_number )
@@ -2256,10 +2256,10 @@ gint gsb_data_account_get_sort_column ( gint account_number )
 
 /**
  * set sort_column in the account given
- * 
+ *
  * \param account_number no of the account
  * \param sort_column sort_column to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_sort_column ( gint account_number,
@@ -2281,9 +2281,9 @@ gboolean gsb_data_account_set_sort_column ( gint account_number,
 
 /**
  * get the form_organization of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return form_organization or NULL if the account doesn't exist
  * */
 gpointer gsb_data_account_get_form_organization ( gint account_number )
@@ -2301,10 +2301,10 @@ gpointer gsb_data_account_get_form_organization ( gint account_number )
 
 /**
  * set the form_organization of the account
- * 
+ *
  * \param account_number no of the account
  * \param form_organization form_organization to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_form_organization ( gint account_number,
@@ -2329,9 +2329,9 @@ gboolean gsb_data_account_set_form_organization ( gint account_number,
  * set a new order in the list of accounts
  * all the accounts which are not in the new order are appened at the end of the new list
  * should be used only when loading a file before the 0.6 version
- * 
+ *
  * \param new_order a g_slist which contains the number of accounts in the new order
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_account_reorder ( GSList *new_order )
@@ -2340,7 +2340,7 @@ gboolean gsb_data_account_reorder ( GSList *new_order )
 
     while ( new_order )
     {
-	new_list_accounts = g_slist_append ( new_list_accounts, 
+	new_list_accounts = g_slist_append ( new_list_accounts,
 					     gsb_data_account_get_structure ( GPOINTER_TO_INT (new_order -> data )));
 	new_order = new_order -> next;
     }
@@ -2528,9 +2528,9 @@ gboolean gsb_data_form_dup_sort_values ( gint origin_account,
 
 /**
  * get the icon_path of the account
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return icon_path or NULL if the account doesn't exist
  * */
 gchar *gsb_data_account_get_name_icon (gint account_number)
@@ -2549,10 +2549,10 @@ gchar *gsb_data_account_get_name_icon (gint account_number)
 /**
  * set the icon_path of the account
  * the address is copied in memory
- * 
+ *
  * \param account_number no of the account
  * \param filename name of file to set
- * 
+ *
  * \return TRUE, ok ; FALSE, problem
  * */
 gboolean gsb_data_account_set_name_icon ( gint account_number,
@@ -2583,10 +2583,10 @@ gboolean gsb_data_account_set_name_icon ( gint account_number,
 
 /**
  * get the image icon of the account
- * 
+ *
  * \param account_number no of the account
- * 
- * \return image icon 
+ *
+ * \return image icon
  * */
 GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number )
 {
@@ -2601,10 +2601,10 @@ GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number )
 
 /**
  * get the pixbuf icon of the account
- * 
+ *
  * \param account_number no of the account
- * 
- * \return pixbuf icon 
+ *
+ * \return pixbuf icon
  * */
 GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
 {
@@ -2652,10 +2652,10 @@ gboolean gsb_data_account_set_account_icon_pixbuf ( gint account_number,
 
 /**
  * get the default pixbuf icon for the kind_account
- * 
+ *
  * \param kind_account
- * 
- * \return pixbuf icon 
+ *
+ * \return pixbuf icon
  * */
 
 GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_kind )
@@ -2681,10 +2681,10 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 
 /**
  * get the filename of the default pixbuf icon for the kind_account
- * 
+ *
  * \param kind_account
- * 
- * \return filename 
+ *
+ * \return filename
  * */
 
 gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind )
@@ -2801,7 +2801,7 @@ gboolean gsb_data_account_set_bank_account_iban ( gint account_number, const gch
 
     if ( !account )
         return FALSE;
-    
+
     g_free ( account -> bank_account_iban );
 
     if (!iban || !strlen (iban))
@@ -2908,14 +2908,14 @@ gsb_real gsb_data_account_calculate_current_day_balance ( gint account_number,
         tmp_list = tmp_list -> next;
     }
 
-    g_date_free ( date_jour ); 
+    g_date_free ( date_jour );
 
     return gsb_real_add ( current_balance, current_balance_later );
 }
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -2945,7 +2945,7 @@ GDate *gsb_data_account_get_bet_start_date ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -2977,7 +2977,7 @@ gboolean gsb_data_account_set_bet_start_date ( gint account_number, const GDate 
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -2995,7 +2995,7 @@ gint gsb_data_account_get_bet_spin_range ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3015,7 +3015,7 @@ gboolean gsb_data_account_set_bet_spin_range ( gint account_number, gint spin_ra
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3036,7 +3036,7 @@ gint gsb_data_account_get_bet_months ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3074,7 +3074,7 @@ gint gsb_data_account_get_bet_hist_data ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3094,7 +3094,7 @@ gboolean gsb_data_account_set_bet_hist_data ( gint account_number, gint hist_dat
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3112,7 +3112,7 @@ gint gsb_data_account_get_bet_hist_fyear ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3132,7 +3132,7 @@ gboolean gsb_data_account_set_bet_hist_fyear ( gint account_number, gint hist_fy
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3150,7 +3150,7 @@ gboolean gsb_data_account_get_bet_auto_inc_month ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3171,7 +3171,7 @@ gboolean gsb_data_account_set_bet_auto_inc_month ( gint account_number,
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3202,7 +3202,7 @@ gint gsb_data_account_get_bet_select_label ( gint account_number, gint origine )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3235,7 +3235,7 @@ gboolean gsb_data_account_set_bet_select_label ( gint account_number,
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3267,7 +3267,7 @@ gboolean gsb_data_account_bet_update_initial_date_if_necessary ( gint account_nu
 
 
 /**
- * retourne le bit utilisation du module budget. 
+ * retourne le bit utilisation du module budget.
  *
  *  -1 pas de module possible 0 non utilisé 1 utilisé
  * */
@@ -3484,7 +3484,7 @@ gboolean gsb_data_account_set_bet_finance_frais ( gint account_number, gdouble f
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3502,7 +3502,7 @@ gint gsb_data_account_get_bet_finance_type_taux ( gint account_number )
 
 
 /**
- * 
+ *
  *
  *
  * */
@@ -3523,9 +3523,9 @@ gboolean gsb_data_account_set_bet_finance_type_taux ( gint account_number, gint 
 
 /**
  * get floating_point of the currency on the account given
- * 
+ *
  * \param account_number no of the account
- * 
+ *
  * \return floating_point or 0 if the account or the currency doesn't exist
  * */
 gint gsb_data_account_get_currency_floating_point ( gint account_number )

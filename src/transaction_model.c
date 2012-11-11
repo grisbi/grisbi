@@ -128,7 +128,7 @@ CustomList *transaction_model_get_model (void)
  *
  * \param new_custom_list	a CustomList to save
  *
- * \return 
+ * \return
  * */
 void transaction_model_set_model ( CustomList *new_custom_list )
 {

@@ -887,7 +887,7 @@ GtkWidget * gsb_currency_config_new_combobox ( gint * value, GCallback hook )
     g_object_set_data ( G_OBJECT ( combo_box ), "pointer", value);
 
     if ( hook )
-    g_object_set_data ( G_OBJECT (combo_box), "changed-hook", 
+    g_object_set_data ( G_OBJECT (combo_box), "changed-hook",
                         (gpointer) g_signal_connect_after (G_OBJECT(combo_box), "changed",
                         G_CALLBACK (hook), value ));
 
@@ -1049,18 +1049,18 @@ dialog_return:
 
         if ( gsb_data_currency_get_number_by_name ( currency_name ) )
         {
-            currency_number = gsb_data_currency_get_number_by_name 
+            currency_number = gsb_data_currency_get_number_by_name
                         ( currency_name );
         }
-        else if ( gsb_data_currency_get_number_by_code_iso4217 
+        else if ( gsb_data_currency_get_number_by_code_iso4217
                         ( currency_isocode ) )
         {
-            currency_number = gsb_data_currency_get_number_by_code_iso4217 
+            currency_number = gsb_data_currency_get_number_by_code_iso4217
                         ( currency_isocode );
         }
         else
         {
-            currency_number = gsb_currency_config_create_currency ( currency_name, 
+            currency_number = gsb_currency_config_create_currency ( currency_name,
                         currency_code, currency_isocode, floating_point );
 
             /* update the currencies list in account properties */
@@ -1297,7 +1297,7 @@ gboolean gsb_currency_config_update_list ( GtkWidget * checkbox,
 
     model = gtk_tree_view_get_model ( tree_view );
     gtk_list_store_clear ( GTK_LIST_STORE (model) );
-    gsb_currency_config_fill_popup_list ( tree_view, 
+    gsb_currency_config_fill_popup_list ( tree_view,
                         gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(checkbox)) );
 
     /* re-select the default currency

@@ -86,7 +86,7 @@ enum link_list_column {
 /**
  * create the currency_link page for the config
  *
- * \param 
+ * \param
  *
  * \return a newly created box
  * */
@@ -101,7 +101,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     GtkWidget *combobox;
     gint width_entry = 170;
 
-    vbox_pref = new_vbox_with_title_and_icon ( _("Links between currencies"), "currencies.png" ); 
+    vbox_pref = new_vbox_with_title_and_icon ( _("Links between currencies"), "currencies.png" );
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known links"));
 
     hbox = gtk_hbox_new ( FALSE, 5 );
@@ -117,9 +117,9 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     tree_model = gtk_tree_view_get_model ( tree_view );
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ), GTK_WIDGET(tree_view) );
     gtk_box_pack_start ( GTK_BOX ( hbox ), scrolled_window, TRUE, TRUE, 0);
-    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( tree_view ) ), 
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW ( tree_view ) ),
 		       "changed",
-		       G_CALLBACK ( gsb_currency_link_config_select_currency ), 
+		       G_CALLBACK ( gsb_currency_link_config_select_currency ),
 		       NULL );
     /* check the keys on the list */
     g_signal_connect ( G_OBJECT ( tree_view ),
@@ -316,7 +316,7 @@ GtkWidget *gsb_currency_link_config_create_list ( void )
     }
 
     /* Sort columns accordingly */
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
 					  LINK_CURRENCY1_COLUMN, GTK_SORT_ASCENDING);
 
     return treeview;
@@ -357,7 +357,7 @@ void gsb_currency_link_config_fill_list ( GtkTreeModel *model )
  * \param link_number
  * \param iter a pointer to an iter to fill it with the position of the new link, or NULL
  *
- * \return 
+ * \return
  * */
 void gsb_currency_link_config_append_line ( GtkTreeModel *model,
 					    gint link_number,
@@ -458,7 +458,7 @@ gboolean gsb_currency_link_config_select_currency ( GtkTreeSelection *tree_selec
     g_signal_handlers_unblock_by_func ( G_OBJECT (combobox_1),
 					G_CALLBACK (gsb_currency_link_config_modify_link),
 					tree_view );
-    
+
     g_signal_handlers_block_by_func ( G_OBJECT (combobox_2),
 				      G_CALLBACK (gsb_currency_link_config_modify_link),
 				      tree_view );

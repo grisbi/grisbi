@@ -56,7 +56,7 @@ typedef struct
 
     /* charmap du fichier importé   */
     gchar *charmap;
-    
+
     /* last file imported with a rule */
     gchar *last_file_name;
 
@@ -99,7 +99,7 @@ gboolean gsb_data_import_rule_init_variables ( void )
 	    struct_import_rule *import_rule;
 	    import_rule = tmp_list -> data;
 	    tmp_list = tmp_list -> next;
-	    _gsb_data_import_rule_free ( import_rule ); 
+	    _gsb_data_import_rule_free ( import_rule );
 	}
 	g_slist_free ( import_rule_list );
     }
@@ -185,9 +185,9 @@ gint gsb_data_import_rule_get_number ( gpointer rule_ptr )
 
 /**
  * find and return the last number of import_rule
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of import_rule
  * */
 gint gsb_data_import_rule_max_number ( void )
@@ -234,7 +234,7 @@ gint gsb_data_import_rule_new ( const gchar *name )
 
     if (name)
 	import_rule -> rule_name = my_strdup (name);
-    else 
+    else
 	import_rule -> rule_name = NULL;
 
     import_rule_list = g_slist_append ( import_rule_list, import_rule );
@@ -278,7 +278,7 @@ gboolean gsb_data_import_rule_remove ( gint import_rule_number )
 
     if (!import_rule)
 	    return FALSE;
-    
+
     /* remove the import_rule from the list */
     import_rule_list = g_slist_remove ( import_rule_list,
 					import_rule );
@@ -478,7 +478,7 @@ gboolean gsb_data_import_rule_get_invert ( gint import_rule_number )
  * set the invert number of the import_rule
  *
  * \param import_rule_number 	the number of the import_rule
- * \param invert		TRUE to invert the amount of transactions 
+ * \param invert		TRUE to invert the amount of transactions
  *
  * \return TRUE if ok or FALSE if problem
  * */

@@ -52,7 +52,7 @@
 
 /*START_STATIC*/
 static void gtktable_attach_hsep ( int x, int x2, int y, int y2);
-static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+static void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			     enum alignement align, gint transaction_number );
 static void gtktable_attach_vsep ( int x, int x2, int y, int y2);
 static void gtktable_click_sur_ope_etat ( gint transaction_number );
@@ -93,7 +93,7 @@ extern GtkWidget *scrolled_window_etat;
  *				label is part of a transaction.  Make
  *				an hyperlink if applicable
  */
-void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			     enum alignement align, gint transaction_number )
 {
     GtkWidget * label;
@@ -107,7 +107,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     label = gtk_label_new ( text );
     gtk_label_set_line_wrap ( GTK_LABEL(label), TRUE );
 
-    switch (align) 
+    switch (align)
     {
 	case ALIGN_LEFT:
 	    gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
@@ -165,19 +165,19 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
     }
 
     if ( ((gint) properties) & TEXT_ITALIC)
-	pango_font_description_set_style ( style -> font_desc, 
+	pango_font_description_set_style ( style -> font_desc,
 					   PANGO_STYLE_ITALIC );
     if ( ((gint) properties) & TEXT_BOLD)
-	pango_font_description_set_weight ( style -> font_desc, 
+	pango_font_description_set_weight ( style -> font_desc,
 					    PANGO_WEIGHT_BOLD );
     if ( ((gint) properties) & TEXT_HUGE )
-	pango_font_description_set_size ( style -> font_desc, 
+	pango_font_description_set_size ( style -> font_desc,
 					  pango_font_description_get_size(style->font_desc) + 100 );
     if ( ((gint) properties) & TEXT_LARGE )
-	pango_font_description_set_size ( style -> font_desc, 
+	pango_font_description_set_size ( style -> font_desc,
 					  pango_font_description_get_size(style->font_desc) + 2 );
     if ( ((gint) properties) & TEXT_SMALL )
-	pango_font_description_set_size ( style -> font_desc, 
+	pango_font_description_set_size ( style -> font_desc,
 					  pango_font_description_get_size(style->font_desc) - 2 );
 
     gtk_widget_set_style ( label, style );
@@ -306,12 +306,12 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
 	gint mother_transaction;
 
 	/* go on the good account */
-	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE, 
+	gsb_gui_navigation_set_selection ( GSB_ACCOUNT_PAGE,
 					   account_number,
 					   GINT_TO_POINTER (-1));
 
 	/* récupération de la ligne de l'opé dans la liste ; affichage de toutes les opé si nécessaire */
-	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE 
+	if ( gsb_data_transaction_get_marked_transaction (transaction_number) == OPERATION_RAPPROCHEE
 	     &&
 	     !gsb_data_account_get_r ( account_number ) )
     {
@@ -319,7 +319,7 @@ void gtktable_click_sur_ope_etat ( gint transaction_number )
         gsb_menu_update_view_menu ( account_number );
         mise_a_jour_affichage_r ( TRUE );
     }
-	
+
 	/* if it's a child, open the mother */
 	mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
 	if (mother_transaction)

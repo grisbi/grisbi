@@ -225,7 +225,7 @@ gint get_utf8_line_from_file ( FILE *fichier,
 
     if ( !fichier )
 	return 0;
-	    
+
     /* allocate 30 characters, and increase it 30 by 30 */
     pointeur_char = (gchar*)g_realloc(pointeur_char,30*sizeof(gchar));
 
@@ -268,7 +268,7 @@ gint get_utf8_line_from_file ( FILE *fichier,
 	}
     }
 
-    tmp_string = g_convert ( pointeur_char, -1, "UTF-8", 
+    tmp_string = g_convert ( pointeur_char, -1, "UTF-8",
 			     coding_system, NULL, NULL,
 			     NULL );
     if (!tmp_string)
@@ -296,7 +296,7 @@ gint get_utf8_line_from_file ( FILE *fichier,
 
 /**
  * \brief utf8 version of fopen (see fopen for more detail about mode)
- * 
+ *
  * convert utf8 file path into the locale OS charset before calling fopen
  *
  * \param utf8filename file to open path coded using utf8 charset
@@ -316,7 +316,7 @@ G_MODULE_EXPORT FILE* utf8_fopen (const gchar *utf8filename, gchar *mode )
 
 /**
  * \brief utf8 version of remove (see remove for more detail about mode)
- * 
+ *
  * convert utf8 file path into the locale OS charset before calling remove
  *
  * \param utf8filename file to remove path coded using utf8 charset
@@ -332,7 +332,7 @@ gint utf8_remove ( const gchar *utf8filename )
 #endif
 }
 
-/** 
+/**
  * Sanitize a safe filename.  All chars that are not normally allowed
  * are replaced by underscores.
  *
@@ -344,7 +344,7 @@ gchar *safe_file_name ( gchar *filename )
 }
 
 
-/** 
+/**
  * \brief pallie à un bug du gtk_file_chooser_button_new
  *
  * \param widget parent et titre de la femnêtre
@@ -355,7 +355,7 @@ GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
 {
     GtkWidget *chooser;
     GtkWidget *bouton_cancel, *bouton_OK;
-    
+
     chooser = gtk_file_chooser_dialog_new ( titre,
                         GTK_WINDOW (parent),
                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
@@ -381,8 +381,8 @@ GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
 }
 
 
-/** 
- * \brief permet de pallier au bug de l'annulation du 
+/**
+ * \brief permet de pallier au bug de l'annulation du
  * gtk_file_chooser_button_new
  *
  * \param bouton appellant et chooser
@@ -399,11 +399,11 @@ void utils_files_file_chooser_cancel ( GtkWidget *bouton, GtkWidget *chooser)
 }
 
 
-/** 
+/**
  * \brief create the config and the data directories
  * using the mechanisms described in the XDG Base Directory Specification
  *
- * \param 
+ * \param
  *
  * \return TRUE if ok
  */
@@ -424,7 +424,7 @@ gboolean utils_files_create_XDG_dir ( void )
 
 /**
  * Test if converting a string to UTF8 is correct with different character sets
- * 
+ *
  * \param contents
  * \param coding_system
  *
@@ -443,7 +443,7 @@ GSList *utils_files_check_UTF8_validity ( const gchar *contents,
     gchar *ptr;
 
     ptr = (gchar *) contents;
-    
+
     while ( strlen ( ptr ) > 0 )
     {
         gchar *ptr_tmp;
@@ -622,7 +622,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     {
         GSList *tmp_list;
         struct struc_check_encoding *result;
-            
+
         tmp_list = list;
         result = tmp_list -> data;
         g_object_set_data_full ( G_OBJECT ( dialog ), "charset_str",
@@ -631,9 +631,9 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
         while ( tmp_list )
         {
             struct struc_check_encoding *result;
-            
+
             result = tmp_list -> data;
-            
+
             gtk_list_store_append ( GTK_LIST_STORE ( model ), &iter );
             gtk_list_store_set ( GTK_LIST_STORE ( model ), &iter,
                         IMPORT_CHARMAP_ENCODING, result -> charset,
@@ -731,7 +731,7 @@ void utils_files_go_charmap_sel_changed ( GtkWidget *go_charmap_sel,
         gtk_label_set_text ( GTK_LABEL ( label ), _("Select a charset") );
         return;
     }
-    
+
     contents = g_object_get_data ( G_OBJECT ( dialog ), "charset_str" );
     string = g_convert ( contents, -1, "UTF-8", encoding, NULL, NULL, NULL );
     if ( string )
@@ -764,7 +764,7 @@ gchar *utils_files_get_ofx_charset ( gchar *contents )
     gint i = 0;
 
     ptr = (gchar *) contents;
-    
+
     while ( strlen ( ptr ) > 0 )
     {
         gchar *ptr_tmp;

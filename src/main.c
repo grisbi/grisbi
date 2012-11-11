@@ -326,7 +326,7 @@ void main_mac_osx ( int argc, char **argv )
 #if IS_DEVELOPMENT_VERSION == 1
     dialog_message ( "development-version", VERSION );
 #endif
-    
+
     gsb_grisbi_load_file_if_necessary ( &opt );
 
     if ( first_use && !nom_fichier_comptes )
@@ -336,7 +336,7 @@ void main_mac_osx ( int argc, char **argv )
 
     if ( quartz_application_get_bundle_id ( ) == NULL )
     {
-        pixbuf = gdk_pixbuf_new_from_file ( g_build_filename 
+        pixbuf = gdk_pixbuf_new_from_file ( g_build_filename
                         (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), NULL );
         if ( pixbuf )
             gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
@@ -775,7 +775,7 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
     gchar *titre = NULL;
     gint tmp_number;
     gboolean return_value;
-    
+
     devel_debug_int ( account_number );
 
     if ( nom_fichier_comptes == NULL )

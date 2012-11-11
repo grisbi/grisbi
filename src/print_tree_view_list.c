@@ -430,7 +430,7 @@ static gint print_tree_view_list_draw_row ( GtkPrintContext *context,
 
 
 /**
- * draw a column line 
+ * draw a column line
  *
  * \param column_position   column position
  * \param line_position     line position
@@ -566,7 +566,7 @@ static gint print_tree_view_list_draw_cell ( GtkPrintContext *context,
  *
  * \param context           the GtkPrintContext
  * \param line_position     the position to insert the titles
- * 
+ *
  * \return the new line_position to continue to fill the page
  * */
 static gint print_tree_view_list_draw_columns_title ( GtkPrintContext *context,
@@ -741,7 +741,7 @@ void print_tree_view_list_calculate_columns_width ( GtkTreeView *tree_view, gdou
     /* set the page_width of the columns */
     for (column = 0 ; column < ( nbre_cols  - 1 ); column++ )
     {
-        columns_width[column] = ( columns_position[column + 1] - columns_position[column] - 
+        columns_width[column] = ( columns_position[column + 1] - columns_position[column] -
                                     3 * gsb_data_print_config_get_draw_column () ) * PANGO_SCALE;
 
         total_text_width = total_text_width + columns_width[column];
@@ -786,7 +786,7 @@ void print_tree_view_list_init_tree_view_data ( GtkTreeView *tree_view )
 
         list_tmp  = list_tmp -> next;
     }
-    
+
     list_tmp = list;
     while ( list_tmp )
     {
@@ -875,7 +875,7 @@ static gint print_tree_view_list_get_title_size ( void )
     nbre_lines++;
 
     size_line = pango_font_description_get_size ( gsb_data_print_config_get_font_title () );
-    
+
     size_tmp =  size_line * nbre_lines / PANGO_SCALE;
 
     return size_tmp;
@@ -893,7 +893,7 @@ static gint print_tree_view_list_get_columns_title_size ( gint nbre_lines )
     gint size_tmp = 0;
 
     devel_debug_int(nbre_lines);
-    
+
     size_tmp =  size_row * nbre_lines + gsb_data_print_config_get_draw_lines ( );
 
     return size_tmp;
@@ -1087,7 +1087,7 @@ static void print_tree_view_list_draw_background ( GtkPrintContext *context,
     model = gtk_tree_view_get_model ( tree_view );
     if ( !gtk_tree_model_get_iter ( model, &iter, tree_path_to_print ) )
         return;
-    
+
     col_origin = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( tree_view ), "origin_data_model" ) );
     if ( col_origin == 0 )
         return;

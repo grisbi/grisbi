@@ -171,7 +171,7 @@ GtkWidget *bet_finance_create_page ( void )
     /* create the array page */
     page = bet_finance_create_amortization_page ( );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( finance_notebook ), page, NULL );
-    
+
     return finance_notebook;
 }
 
@@ -217,7 +217,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
- 
+
     label_title = gtk_label_new ( _("Credits simulator") );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
 
@@ -340,7 +340,7 @@ GtkWidget *bet_finance_create_duration_widget ( GtkWidget *parent )
     combobox = gsb_combo_box_new_with_index ( text_duration,
                         G_CALLBACK ( bet_finance_duration_button_changed ),
                         parent );
-    
+
     g_signal_handlers_block_by_func ( G_OBJECT ( combobox ),
                         G_CALLBACK ( bet_finance_duration_button_changed ),
                         parent );
@@ -392,7 +392,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
                         "value-changed",
                         G_CALLBACK ( bet_finance_spin_button_fees_changed ),
                         parent );
-    
+
     tmp_str = g_strconcat (_("%"), _(" of borrowed capital"), NULL );
     label = gtk_label_new ( tmp_str );
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
@@ -1000,7 +1000,7 @@ void bet_finance_data_list_context_menu ( GtkWidget *tree_view, gint page_num )
                         G_CALLBACK ( bet_finance_switch_simulator_page ),
                         NULL );
         }
-        
+
     }
     else
     {
@@ -1075,7 +1075,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
- 
+
     label_title = gtk_label_new ( _("Amortization Table") );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
 
@@ -1429,7 +1429,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
-    
+
     gtk_tree_path_free ( path );
     bet_data_finance_structure_amortissement_free ( s_amortissement );
 }
@@ -1516,7 +1516,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
- 
+
     label_title = gtk_label_new ( _("Amortization Table") );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_finance_amortization_title", label_title );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
@@ -1727,7 +1727,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     path = gtk_tree_path_new_first ( );
     gtk_tree_view_scroll_to_cell ( GTK_TREE_VIEW ( tree_view ), path, NULL, TRUE, 0.0, 0.0 );
     gtk_tree_selection_select_path ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ), path );
-    
+
     gtk_tree_path_free ( path );
 }
 

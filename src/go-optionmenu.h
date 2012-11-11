@@ -1,4 +1,4 @@
-/* 
+/*
  * go-optionmenu.h
  *
  * Copyright (C) 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -11,7 +11,7 @@
  * Modified by the GTK+ Team and others 1997-2000.  See the GTK AUTHORS
  * file for a list of people on the GTK+ Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
+ * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  *
  *
  * This library is free software; you can redistribute it and/or
@@ -56,7 +56,7 @@ typedef struct _GOOptionMenuClass  GOOptionMenuClass;
 struct _GOOptionMenu
 {
 	GtkButton button;
-	
+
 	GtkWidget *menu;
 	GtkWidget *select_menu;
 	GtkWidget *menu_item;
@@ -66,7 +66,7 @@ struct _GOOptionMenu
 
 	GSList *selection;
 	gboolean new_selection;
-	
+
 	guint16 width;
 	guint16 height;
 };

@@ -228,7 +228,7 @@ void gsb_gui_update_reports_toolbar ( void )
     gint current_report;
 
     list = gtk_container_get_children ( GTK_CONTAINER ( reports_toolbar ) );
-    
+
     if ( list )
     {
         gtk_container_remove ( GTK_CONTAINER ( reports_toolbar ),

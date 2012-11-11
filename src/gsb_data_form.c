@@ -82,7 +82,7 @@ typedef struct
     /*  18: TRANSACTION_FORM_OP_NB */
     /*  19: TRANSACTION_FORM_MODE */
     /*  20: TRANSACTION_FORM_WIDGET_NB */
-	
+
     gint form_table[MAX_HEIGHT][MAX_WIDTH];
 
     /* percentage of each columns */
@@ -94,9 +94,9 @@ typedef struct
  * create a new form organization
  * and append it to the account
  * the form struct is set to 0 and has to be filled
- * 
+ *
  * \param account_number
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_form_new_organization ( gint account_number )
@@ -104,7 +104,7 @@ gboolean gsb_data_form_new_organization ( gint account_number )
     form_organization *new_form;
 
     new_form = g_malloc0 (sizeof (form_organization));
-    
+
     if ( !new_form )
     {
 	dialogue_error_memory ();
@@ -120,15 +120,15 @@ gboolean gsb_data_form_new_organization ( gint account_number )
 /**
  * create a default new form organization
  * and append it to the account
- * 
+ *
  * \param account_number
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_form_set_default_organization ( gint account_number )
 {
     form_organization *form;
-    gint tab[MAX_HEIGHT][MAX_WIDTH] = { 
+    gint tab[MAX_HEIGHT][MAX_WIDTH] = {
 	{ TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_DEBIT, TRANSACTION_FORM_CREDIT, 0, 0 },
 	{ 0, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, TRANSACTION_FORM_CHEQUE, 0, 0 },
 	{ 0, TRANSACTION_FORM_NOTES, TRANSACTION_FORM_CONTRA, 0, 0, 0 },
@@ -138,7 +138,7 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
     gint i, j;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -159,10 +159,10 @@ gboolean gsb_data_form_set_default_organization ( gint account_number )
 
 /**
  * duplicate the form organization of the account in the param
- * 
+ *
  * \param origin_account
  * \param target_account
- * 
+ *
  * \return TRUE, FALSE if problem
  * */
 gboolean gsb_data_form_dup_organization ( gint origin_account,
@@ -183,14 +183,14 @@ gboolean gsb_data_form_dup_organization ( gint origin_account,
 	dialogue_error_memory ();
 	return FALSE;
     }
-   
+
     memcpy ( new_form,
 	     origin_form,
 	     sizeof (form_organization));
 
     gsb_data_account_set_form_organization ( target_account,
 					     new_form );
- 
+
     return TRUE;
 }
 
@@ -207,7 +207,7 @@ gint gsb_data_form_get_nb_columns ( gint account_number )
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -231,7 +231,7 @@ gboolean gsb_data_form_set_nb_columns ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -252,7 +252,7 @@ gint gsb_data_form_get_nb_rows ( gint account_number )
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -274,7 +274,7 @@ gboolean gsb_data_form_set_nb_rows ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -299,7 +299,7 @@ gint gsb_data_form_get_value ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form
 	 ||
 	 column > MAX_WIDTH
@@ -330,7 +330,7 @@ gboolean gsb_data_form_set_value ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form
 	 ||
 	 column > MAX_WIDTH
@@ -357,7 +357,7 @@ gint gsb_data_form_get_width_column ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form
 	 ||
 	 column > MAX_WIDTH )
@@ -384,7 +384,7 @@ gboolean gsb_data_form_set_width_column ( gint account_number,
     form_organization *form;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form
 	 ||
 	 column > MAX_WIDTH)
@@ -416,7 +416,7 @@ gboolean gsb_data_form_look_for_value ( gint account_number,
     gint row, column;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return FALSE;
 
@@ -462,7 +462,7 @@ gint gsb_data_form_get_values_total ( gint account_number )
     gint values = 0;
 
     form = gsb_data_account_get_form_organization ( account_number );
-    
+
     if ( !form )
 	return -1;
 

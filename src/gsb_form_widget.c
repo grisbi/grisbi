@@ -99,7 +99,7 @@ GSList *gsb_form_widget_get_list ( void )
  * free the content of the list of the widget's form
  * so free the content of the form
  *
- * \param 
+ * \param
  *
  * \return FALSE
  * */
@@ -121,9 +121,9 @@ gboolean gsb_form_widget_free_list ( void )
 
         if (! element )
             continue;
-	
+
         /* just to make sure... */
-        if ( element -> element_widget ) 
+        if ( element -> element_widget )
         {
             if (GTK_IS_WIDGET (element -> element_widget))
             {
@@ -142,7 +142,7 @@ gboolean gsb_form_widget_free_list ( void )
                 element -> element_widget = NULL;
             }
         }
-        else 
+        else
         {
             alert_debug ("element_widget is NULL\n");
         }
@@ -375,7 +375,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
     else {
     	alert_debug ( "Widget should not be NULL" );
     }
-    
+
     return widget;
 }
 
@@ -512,7 +512,7 @@ gint gsb_form_widget_next_element ( gint account_number,
     gint return_value_number = 0;
     gint form_column_number;
     gint form_row_number;
-    
+
     if ( !gsb_data_form_look_for_value ( account_number,
 					 element_number,
 					 &row,
@@ -522,7 +522,7 @@ gint gsb_form_widget_next_element ( gint account_number,
     form_column_number = gsb_data_form_get_nb_columns (account_number);
     form_row_number = gsb_data_form_get_nb_rows (account_number);
 
-    while ( !gsb_form_widget_can_focus (return_value_number)) 
+    while ( !gsb_form_widget_can_focus (return_value_number))
     {
 	switch ( direction )
 	{
@@ -531,7 +531,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 		{
 		    /* we are at the upper left, go on the bottom right */
 		    column = form_column_number;
-		    row = form_row_number -1; 
+		    row = form_row_number -1;
 		}
 
 		if ( --column == -1 )
@@ -557,7 +557,7 @@ gint gsb_form_widget_next_element ( gint account_number,
 			continue;
 		    }
 		    column = -1;
-		    row = 0; 
+		    row = 0;
 		}
 
 		if ( ++column == form_column_number )
@@ -607,7 +607,7 @@ gint gsb_form_widget_next_element ( gint account_number,
  * check if the given element can receive focus
  *
  * \param element_number
- * 
+ *
  * \return TRUE : can receive focus, or FALSE
  * */
 gboolean gsb_form_widget_can_focus ( gint element_number )
@@ -699,7 +699,7 @@ gboolean gsb_form_widget_check_empty ( GtkWidget *entry )
  * \param entry must be an entry
  * \param empty TRUE or FALSE
  *
- * \return 
+ * \return
  * */
 void gsb_form_widget_set_empty ( GtkWidget *entry,
                     gboolean empty )
@@ -707,9 +707,9 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
     GdkColor gray, black;
 
     gray.pixel = 0;
-    gray.red = EMPTY_ENTRY_COLOR_RED; 
+    gray.red = EMPTY_ENTRY_COLOR_RED;
     gray.green = EMPTY_ENTRY_COLOR_GREEN;
-    gray.blue = EMPTY_ENTRY_COLOR_BLUE; 
+    gray.blue = EMPTY_ENTRY_COLOR_BLUE;
 
     black.pixel = 0;
     black.red = 0;
@@ -723,18 +723,18 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
 
     if ( ! empty )
     {
-	gtk_widget_modify_text ( entry, 
+	gtk_widget_modify_text ( entry,
 				 GTK_STATE_NORMAL,
 				 &black );
     }
     else
     {
-	gtk_widget_modify_text ( entry, 
+	gtk_widget_modify_text ( entry,
 				 GTK_STATE_NORMAL,
 				 &gray );
     }
 
-	gtk_widget_modify_base ( entry, 
+	gtk_widget_modify_base ( entry,
 				 GTK_STATE_NORMAL,
 				 NULL );
 
@@ -743,7 +743,7 @@ void gsb_form_widget_set_empty ( GtkWidget *entry,
 
 
 /**
- * called when an debit or credit entry get the focus, 
+ * called when an debit or credit entry get the focus,
  * if the entry is free, set it normal and erase the help content
  *
  * \param entry
@@ -889,7 +889,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
         gsb_form_check_auto_separator (entry);
         break;
     }
-    
+
     /* sensitive the valid and cancel buttons */
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_valid), TRUE);
     gtk_widget_set_sensitive (GTK_WIDGET (form_button_cancel), TRUE);
@@ -1102,8 +1102,8 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
         {
         case TRANSACTION_FORM_CATEGORY:
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE );
-            if ( widget != NULL 
-             && 
+            if ( widget != NULL
+             &&
              GTK_WIDGET_VISIBLE (
              gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE) ) )
             {
@@ -1252,7 +1252,7 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
 gboolean gsb_form_widget_update_payee_combofix ( void )
 {
     if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-    gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget 
+    gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget
                         (TRANSACTION_FORM_PARTY)),
                         gsb_data_payee_get_name_and_report_list ());
 

@@ -324,7 +324,7 @@ static GtkTreeModelFlags custom_list_get_flags (GtkTreeModel *tree_model)
 /**
  * tells the rest of the world how many data
  * columns we export via the tree model interface
- * 
+ *
  * reached by gtk_tree_model_get_n_columns
  *
  * \param 	tree_model
@@ -793,7 +793,7 @@ static gboolean custom_list_iter_has_child (GtkTreeModel *tree_model,
 
 /**
  * Returns the number of children the row
- * specified by 'iter' has. 
+ * specified by 'iter' has.
  * A special case i when 'iter' is NULL, in which case we need
  * to return the number of top-level nodes, ie. the number of rows in our list.
  *

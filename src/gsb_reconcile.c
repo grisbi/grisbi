@@ -121,13 +121,13 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 
-    /* the title of the frame */ 
+    /* the title of the frame */
     label = gtk_label_new ( NULL );
     gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
     gtk_misc_set_alignment ( GTK_MISC (label), 0.0, 0.0 );
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
-    /* number of reconcile */ 
+    /* number of reconcile */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
@@ -208,7 +208,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
 
-    /* 2nd table under that, with the balances labels */ 
+    /* 2nd table under that, with the balances labels */
     table = gtk_table_new ( 5, 2, FALSE );
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
@@ -280,7 +280,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_hseparator_new();
     gtk_box_pack_end ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-    gtk_widget_show_all ( frame ); 
+    gtk_widget_show_all ( frame );
 
     return ( frame );
 }
@@ -288,12 +288,12 @@ GtkWidget *gsb_reconcile_create_box ( void )
 
 /**
  * Build the new label for the reconciliation, given the old one.
- * The expected format is NAME+NUMBER, so this function returns 
+ * The expected format is NAME+NUMBER, so this function returns
  * a newly allocated string whose format is NAME+(NUMBER+1). It
  * preserves leading '0' for the NUMBER string.
  *
- * If this is the first label building (first reconciliation for 
- * this account), then the function returns a standard string 
+ * If this is the first label building (first reconciliation for
+ * this account), then the function returns a standard string
  * of the account name (lower case) + '-1'.
  *
  * \param reconcile_number
@@ -465,7 +465,7 @@ gboolean gsb_reconcile_run_reconciliation ( GtkWidget *button,
     g_date_free (date);
 
     /* set last input amount if available and if the account is the good one */
-    gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ), 
+    gtk_entry_set_text ( GTK_ENTRY ( reconcile_final_balance_entry ),
             (run.reconcile_final_balance) ? run.reconcile_final_balance : "");
     g_free(run.reconcile_final_balance);
 
@@ -680,22 +680,22 @@ void gsb_reconcile_sensitive ( gboolean sensitive )
     gtk_widget_set_sensitive ( gsb_gui_navigation_get_tree_view ( ), sensitive );
     gsb_gui_sensitive_headings (sensitive);
     /* add by pbiava 02/11/2009 */
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
                               "/menubar/ViewMenu/ShowReconciled/" ),
 			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget ( ui_manager,
                               "/menubar/ViewMenu/ShowArchived/" ),
 			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
 							  "/menubar/ViewMenu/ShowClosed/" ),
 			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
 							  "/menubar/EditMenu/ConvertToScheduled/" ),
 			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
 							  "/menubar/EditMenu/NewAccount/" ),
 			       sensitive );
-    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager, 
+    gtk_widget_set_sensitive ( gtk_ui_manager_get_widget (ui_manager,
 							  "/menubar/EditMenu/RemoveAccount/" ),
 			       sensitive );
 }
@@ -803,7 +803,7 @@ gboolean gsb_reconcile_update_amounts ( GtkWidget *entry,
     gtk_label_set_text ( GTK_LABEL ( reconcile_final_balance_label ), final_balance );
 
     /* set the marked balance amount,
-     * this is what we mark as P while reconciling, so it's the total marked balance 
+     * this is what we mark as P while reconciling, so it's the total marked balance
      * - the initial marked balance */
     tmp_string = utils_real_get_string_with_currency (
                         gsb_data_account_calculate_waiting_marked_balance ( account_number ),

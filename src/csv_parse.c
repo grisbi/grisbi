@@ -69,7 +69,7 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
         *contents = tmp + 1;
         return GINT_TO_POINTER ( -1 );
     }
-    
+
     if ( *tmp == '!' || *tmp == '#' || *tmp == ';' )
     {
         *contents = strchr ( tmp, '\n' ) + 1;
@@ -103,7 +103,7 @@ GSList * csv_parse_line ( gchar **contents, gchar *separator )
                 {
                     break;
                 }
-                
+
                 tmp++;
                 }
             }
@@ -160,7 +160,7 @@ gchar *sanitize_field ( gchar *begin, gchar *end  )
 
         if ( *begin == '\\' && *(begin+1) == '"' )
             begin++;
-        
+
         *iter++ = *begin++;
     }
 
@@ -197,13 +197,13 @@ gboolean csv_import_validate_date ( gchar * string )
     g_return_val_if_fail ( string, FALSE );
 
     date = gsb_parse_date_string ( string );
-    if ( date && g_date_valid ( date ) && 
+    if ( date && g_date_valid ( date ) &&
 	 ! csv_import_validate_number ( string ) )
     {
         g_date_free ( date );
         return TRUE;
     }
-    
+
     if ( date )
         g_date_free ( date );
     return FALSE;
@@ -283,7 +283,7 @@ gboolean csv_import_parse_date ( struct struct_ope_importation * ope, gchar * st
 {
     g_return_val_if_fail ( string, FALSE );
 
-    if ( ope -> date ) 
+    if ( ope -> date )
         g_date_free ( ope-> date );
     ope -> date = gsb_parse_date_string ( string );
 

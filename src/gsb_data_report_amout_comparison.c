@@ -91,7 +91,7 @@ static struct_amount_comparison *amount_comparison_buffer;
 
 /**
  * set the amount comparison global variables to NULL, usually when we init all the global variables
- * 
+ *
  * \param none
  *
  * \return FALSE
@@ -120,11 +120,11 @@ gboolean gsb_data_report_amount_comparison_init_variables ( void )
 
 
 /**
- * return a pointer on the amount comparison structure which the number is in the parameter. 
+ * return a pointer on the amount comparison structure which the number is in the parameter.
  * that structure is stored in the buffer
- * 
+ *
  * \param amount_comparison_number
- * 
+ *
  * \return a pointer to the amount_comparison, NULL if not found
  * */
 static struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by_no ( gint amount_comparison_number )
@@ -164,7 +164,7 @@ static struct_amount_comparison *gsb_data_report_amount_comparison_get_struct_by
 
 
 /** find and return the last number of amount_comparison
- * 
+ *
  * \param none
  *
  * \return last number of amount_comparison
@@ -267,7 +267,7 @@ gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number 
     struct_amount_comparison *amount_comparison;
     struct_amount_comparison *last_amount_comparison;
     gint amount_comparison_number;
-    
+
     last_amount_comparison = gsb_data_report_amount_comparison_get_struct_by_no (last_amount_comparison_number);
 
     if ( !last_amount_comparison )
@@ -289,9 +289,9 @@ gint gsb_data_report_amount_comparison_dup ( gint last_amount_comparison_number 
 
 
 
-/** 
+/**
  * set the report_number
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param report_number
  *
@@ -314,7 +314,7 @@ gboolean gsb_data_report_amount_comparison_set_report_number ( gint amount_compa
 
 /**
  * get the link_to_last_amount_comparison
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -331,9 +331,9 @@ gint gsb_data_report_amount_comparison_get_link_to_last_amount_comparison ( gint
     return amount_comparison -> link_to_last_amount_comparison;
 }
 
-/** 
+/**
  * set the link_to_last_amount_comparison
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param link_to_last_amount_comparison
  *
@@ -356,7 +356,7 @@ gboolean gsb_data_report_amount_comparison_set_link_to_last_amount_comparison ( 
 
 /**
  * get the first_comparison
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -373,9 +373,9 @@ gint gsb_data_report_amount_comparison_get_first_comparison ( gint amount_compar
     return amount_comparison -> first_comparison;
 }
 
-/** 
+/**
  * set the first_comparison
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param first_comparison
  *
@@ -399,7 +399,7 @@ gboolean gsb_data_report_amount_comparison_set_first_comparison ( gint amount_co
 
 /**
  * get the first_amount
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -416,9 +416,9 @@ gsb_real gsb_data_report_amount_comparison_get_first_amount ( gint amount_compar
     return amount_comparison -> first_amount;
 }
 
-/** 
+/**
  * set the first_amount
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param first_amount
  *
@@ -442,7 +442,7 @@ gboolean gsb_data_report_amount_comparison_set_first_amount ( gint amount_compar
 
 /**
  * get the link_first_to_second_part
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -459,9 +459,9 @@ gint gsb_data_report_amount_comparison_get_link_first_to_second_part ( gint amou
     return amount_comparison -> link_first_to_second_part;
 }
 
-/** 
+/**
  * set the link_first_to_second_part
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param link_first_to_second_part
  *
@@ -485,7 +485,7 @@ gboolean gsb_data_report_amount_comparison_set_link_first_to_second_part ( gint 
 
 /**
  * get the second_comparison
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -502,9 +502,9 @@ gint gsb_data_report_amount_comparison_get_second_comparison ( gint amount_compa
     return amount_comparison -> second_comparison;
 }
 
-/** 
+/**
  * set the second_comparison
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param second_comparison
  *
@@ -528,7 +528,7 @@ gboolean gsb_data_report_amount_comparison_set_second_comparison ( gint amount_c
 
 /**
  * get the second_amount
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -545,9 +545,9 @@ gsb_real gsb_data_report_amount_comparison_get_second_amount ( gint amount_compa
     return amount_comparison -> second_amount;
 }
 
-/** 
+/**
  * set the second_amount
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param second_amount
  *
@@ -571,7 +571,7 @@ gboolean gsb_data_report_amount_comparison_set_second_amount ( gint amount_compa
 
 /**
  * get the hbox_line
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -588,9 +588,9 @@ gpointer gsb_data_report_amount_comparison_get_hbox_line ( gint amount_compariso
     return amount_comparison -> hbox_line;
 }
 
-/** 
+/**
  * set the hbox_line
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param hbox_line
  *
@@ -613,7 +613,7 @@ gboolean gsb_data_report_amount_comparison_set_hbox_line ( gint amount_compariso
 
 /**
  * get the button_link
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -630,9 +630,9 @@ gpointer gsb_data_report_amount_comparison_get_button_link ( gint amount_compari
     return amount_comparison -> button_link;
 }
 
-/** 
+/**
  * set the button_link
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param button_link
  *
@@ -655,7 +655,7 @@ gboolean gsb_data_report_amount_comparison_set_button_link ( gint amount_compari
 
 /**
  * get the button_first_comparison
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -672,9 +672,9 @@ gpointer gsb_data_report_amount_comparison_get_button_first_comparison ( gint am
     return amount_comparison -> button_first_comparison;
 }
 
-/** 
+/**
  * set the button_first_comparison
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param button_first_comparison
  *
@@ -697,7 +697,7 @@ gboolean gsb_data_report_amount_comparison_set_button_first_comparison ( gint am
 
 /**
  * get the entry_first_amount
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -714,9 +714,9 @@ gpointer gsb_data_report_amount_comparison_get_entry_first_amount ( gint amount_
     return amount_comparison -> entry_first_amount;
 }
 
-/** 
+/**
  * set the entry_first_amount
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param entry_first_amount
  *
@@ -739,7 +739,7 @@ gboolean gsb_data_report_amount_comparison_set_entry_first_amount ( gint amount_
 
 /**
  * get the button_link_first_to_second_part
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -756,9 +756,9 @@ gpointer gsb_data_report_amount_comparison_get_button_link_first_to_second_part 
     return amount_comparison -> button_link_first_to_second_part;
 }
 
-/** 
+/**
  * set the button_link_first_to_second_part
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param button_link_first_to_second_part
  *
@@ -781,7 +781,7 @@ gboolean gsb_data_report_amount_comparison_set_button_link_first_to_second_part 
 
 /**
  * get the hbox_second_part
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -798,9 +798,9 @@ gpointer gsb_data_report_amount_comparison_get_hbox_second_part ( gint amount_co
     return amount_comparison -> hbox_second_part;
 }
 
-/** 
+/**
  * set the hbox_second_part
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param hbox_second_part
  *
@@ -823,7 +823,7 @@ gboolean gsb_data_report_amount_comparison_set_hbox_second_part ( gint amount_co
 
 /**
  * get the button_second_comparison
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -840,9 +840,9 @@ gpointer gsb_data_report_amount_comparison_get_button_second_comparison ( gint a
     return amount_comparison -> button_second_comparison;
 }
 
-/** 
+/**
  * set the button_second_comparison
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param button_second_comparison
  *
@@ -865,7 +865,7 @@ gboolean gsb_data_report_amount_comparison_set_button_second_comparison ( gint a
 
 /**
  * get the entry_second_amount
- * 
+ *
  * \param amount_comparison_number the number of the amount_comparison
  *
  * \return the  of the amount_comparison, -1 if problem
@@ -882,9 +882,9 @@ gpointer gsb_data_report_amount_comparison_get_entry_second_amount ( gint amount
     return amount_comparison -> entry_second_amount;
 }
 
-/** 
+/**
  * set the entry_second_amount
- * 
+ *
  * \param amount_comparison_number number of the amount_comparison
  * \param entry_second_amount
  *

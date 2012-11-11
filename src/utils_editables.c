@@ -73,7 +73,7 @@ GtkWidget *gsb_editable_text_view_new ( const gchar *value )
  *
  * \param the text_view
  *
- * \return a gchar which is the content of the text view 
+ * \return a gchar which is the content of the text view
  * */
 gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view )
 {
@@ -84,7 +84,7 @@ gchar *gsb_editable_text_view_get_content ( GtkWidget *text_view )
 			  NULL);
     g_return_val_if_fail (GTK_IS_TEXT_VIEW (text_view),
 			  NULL);
-    
+
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
     gtk_text_buffer_get_iter_at_offset ( buffer, &start, 0 );
     gtk_text_buffer_get_iter_at_offset ( buffer, &end, -1 );

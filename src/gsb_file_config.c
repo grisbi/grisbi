@@ -119,7 +119,7 @@ static void gsb_file_config_clean_config ( void )
     g_free ( conf.font_string );
     conf.font_string = NULL;
     }
-    
+
     conf.force_enregistrement = 1;     /* par défaut, on force l'enregistrement */
     gsb_file_update_last_path (g_get_home_dir ());
     gsb_file_set_backup_path ( gsb_dirs_get_user_data_dir () );
@@ -264,7 +264,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 					      "&" );
 	return;
     }
- 
+
     if ( !strcmp ( element_name,
 		   "Largeur_colonne_echeancier" ))
     {
@@ -299,7 +299,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	nom_fichier_comptes = my_strdup (text);
 	return;
     }
-  
+
     if ( !strcmp ( element_name,
 		   "Enregistrement_automatique" ))
     {
@@ -345,7 +345,7 @@ static void gsb_file_config_get_xml_text_element ( GMarkupParseContext *context,
 	conf.nb_derniers_fichiers_ouverts++;
 	return;
     }
- 
+
     if ( !strcmp ( element_name,
 		   "Delai_rappel_echeances" ))
     {
@@ -430,7 +430,7 @@ gboolean gsb_file_config_load_config ( void )
     filename = gsb_dirs_get_grisbirc_filename ();
 
     config = g_key_file_new ();
-    
+
     result = g_key_file_load_from_file ( config,
                         filename,
                         G_KEY_FILE_KEEP_COMMENTS,
@@ -531,9 +531,9 @@ gboolean gsb_file_config_load_config ( void )
                         "General",
                         "Use user font",
                         NULL );
-    
+
     conf.font_string = g_key_file_get_string ( config, "General", "Font name", NULL );
-    
+
     conf.browser_command = g_key_file_get_string ( config,
                         "General",
                         "Web",
@@ -543,7 +543,7 @@ gboolean gsb_file_config_load_config ( void )
                         "General",
                         "Pluriel_final",
                         NULL );
-                        
+
     conf.metatree_action_2button_press = g_key_file_get_integer ( config,
                         "General",
                         "Metatree_action_2button_press",
@@ -636,7 +636,7 @@ gboolean gsb_file_config_load_config ( void )
                         "IO",
                         "Max_transactions_before_warn_archival",
                         NULL );
-    
+
     /* get scheduled section */
     nb_days_before_scheduled = g_key_file_get_integer ( config,
                         "Scheduled",
@@ -687,7 +687,7 @@ gboolean gsb_file_config_load_config ( void )
                         "Display",
                         "Show automatic financial year",
                         NULL );
-    
+
     int_ret = g_key_file_get_integer ( config,
                         "Display",
                         "Automatic completion payee",
@@ -792,7 +792,7 @@ gboolean gsb_file_config_save_config ( void )
     FILE *conf_file;
     gint i;
     gint tmp_int = 0;
-    
+
     devel_debug (NULL);
 
     filename = gsb_dirs_get_grisbirc_filename ();
@@ -1140,7 +1140,7 @@ gboolean gsb_file_config_save_config ( void )
         g_key_file_free (config);
         return ( FALSE );
     }
-    
+
     fclose ( conf_file );
     g_free ( file_content);
     g_key_file_free (config);

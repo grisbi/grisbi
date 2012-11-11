@@ -121,9 +121,9 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     tree_model = gtk_tree_view_get_model (GTK_TREE_VIEW (tree_view));
     gtk_container_add ( GTK_CONTAINER ( scrolled_window ),
 			tree_view);
-    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), 
+    g_signal_connect ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)),
 		       "changed",
-		       G_CALLBACK (gsb_fyear_config_select), 
+		       G_CALLBACK (gsb_fyear_config_select),
 		       NULL );
 
 
@@ -338,7 +338,7 @@ GtkWidget *gsb_fyear_config_create_list ()
     }
 
     /* Sort columns accordingly */
-    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model), 
+    gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE(model),
 					  FYEAR_NAME_COLUMN, GTK_SORT_ASCENDING);
 
     return treeview;
@@ -379,7 +379,7 @@ void gsb_fyear_config_fill_list ( GtkTreeModel *model )
  * \param fyear_number
  * \param iter a pointer to an iter to fill it with the position of the new link, or NULL
  *
- * \return 
+ * \return
  * */
 void gsb_fyear_config_append_line ( GtkTreeModel *model,
 				    gint fyear_number,
@@ -497,7 +497,7 @@ gboolean gsb_fyear_config_select ( GtkTreeSelection *tree_selection,
 
 
 /**
- * called when something change for a fyear 
+ * called when something change for a fyear
  * update the list and the invalid
  *
  * \param entry the entry wich change
@@ -625,7 +625,7 @@ gboolean gsb_fyear_config_add_fyear ( GtkWidget *tree_view )
     /* if bad things will append soon ... */
     if (!fyear_number)
 	return FALSE;
-    
+
     gsb_data_fyear_set_form_show ( fyear_number,
 				   TRUE );
     gsb_data_fyear_set_beginning_date ( fyear_number,

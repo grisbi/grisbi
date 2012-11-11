@@ -21,19 +21,19 @@
 #include <glib.h>
 /*END_INCLUDE*/
 
-typedef struct _cmdline_options 
+typedef struct _cmdline_options
 {
 
     gint        demande_page;
     gint        page_w;
-    
+
     /* quand page_w correspond à la page des états */
     gint        report_no;            /* no etat. -1 si non spécifié dans les options */
     gint        customization_tab_no; /* onglet de personalisation. -1 si non spécifié dans les options */
     gint        subcustom_tab_no;     /* sous-onglet de personalisation. -1 si non spécifié dans les options */
-    
+
     gchar      *fichier;
-    
+
 } cmdline_options;
 
 typedef enum

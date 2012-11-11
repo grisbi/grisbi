@@ -42,7 +42,7 @@
 /*START_STATIC*/
 static gint category_add_div ();
 static gint category_add_sub_div ( int div_id );
-static gboolean category_add_transaction_to_div ( gint transaction_number, 
+static gboolean category_add_transaction_to_div ( gint transaction_number,
 					   int div_id );
 static gchar *category_div_name ( gint div );
 static gint category_get_div_pointer_from_name ( const gchar * name, gboolean create );
@@ -233,7 +233,7 @@ gint category_transaction_div_id ( gint transaction_number )
     if (transaction_number)
     {
 	if ( gsb_data_transaction_get_contra_transaction_number (transaction_number) > 0
-	     || 
+	     ||
 	     gsb_data_transaction_get_split_of_transaction (transaction_number))
 	    return -1;
 	else
@@ -260,7 +260,7 @@ gboolean category_scheduled_set_div_id ( gint scheduled_number,
 							     0 );
     }
     /* TODO dOm : add the return instruction.
-     * Is not better for this function to return void ? */ 
+     * Is not better for this function to return void ? */
     return TRUE;
 }
 
@@ -282,7 +282,7 @@ gint category_add_div ( void )
     {
 	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New category #%d"), i ); 
+	name = g_strdup_printf ( _("New category #%d"), i );
     }
 
     new_category_number = gsb_data_category_get_number_by_name ( name, TRUE, 0 );
@@ -312,7 +312,7 @@ gint category_add_sub_div ( int div_id )
     {
 	g_free (name);
 	i++;
-	name = g_strdup_printf ( _("New sub-category #%d"), i ); 
+	name = g_strdup_printf ( _("New sub-category #%d"), i );
     }
 
     new_sub_category_number = gsb_data_category_get_sub_category_number_by_name ( div_id, name, TRUE );
@@ -329,7 +329,7 @@ gint category_add_sub_div ( int div_id )
  *
  *
  */
-gboolean category_add_transaction_to_div ( gint transaction_number, 
+gboolean category_add_transaction_to_div ( gint transaction_number,
 					   int div_id )
 {
     gsb_data_category_add_transaction_to_category ( transaction_number,

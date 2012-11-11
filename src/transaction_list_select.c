@@ -73,7 +73,7 @@ gboolean transaction_list_select ( gint transaction_number )
     g_return_val_if_fail ( custom_list != NULL, FALSE );
 
     /* if the selection didn't change, do nothing */
-    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) == 
+    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) ==
         transaction_number )
 	return FALSE;
 

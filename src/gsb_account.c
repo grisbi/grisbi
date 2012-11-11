@@ -73,9 +73,9 @@ extern gint mise_a_jour_soldes_minimaux;
  * called to create a new account
  * called by the account assistant, should not be used directly
  * !! here is just to add an account, for new complete file see gsb_file_new
- * 
+ *
  * \param none
- * 
+ *
  * \return FALSE if problem, TRUE if ok
  */
 
@@ -107,11 +107,11 @@ gboolean gsb_account_new ( kind_account account_type,
     gsb_data_account_set_currency ( account_number, currency_number);
     gsb_data_account_set_bank (account_number, bank_number);
     gsb_data_account_set_init_balance (account_number, init_amount);
-    gsb_data_account_set_mini_balance_wanted ( account_number, 
-					       gsb_real_new ( 0, 
+    gsb_data_account_set_mini_balance_wanted ( account_number,
+					       gsb_real_new ( 0,
 							      gsb_data_currency_get_floating_point (currency_number) ) );
-    gsb_data_account_set_mini_balance_authorized (account_number, 
-						  gsb_real_new ( 0, 
+    gsb_data_account_set_mini_balance_authorized (account_number,
+						  gsb_real_new ( 0,
 								 gsb_data_currency_get_floating_point (currency_number) ) );
     gsb_data_account_set_name (account_number, name);
 
@@ -126,7 +126,7 @@ gboolean gsb_account_new ( kind_account account_type,
     mise_a_jour_liste_comptes_accueil = 1;
 
     /* update the accounts lists */
-    gsb_menu_update_accounts_in_menus (); 
+    gsb_menu_update_accounts_in_menus ();
 
     /* do the next part only if the widgets are created
      * (can come here at the end of the new file assistant...) */
@@ -166,7 +166,7 @@ gboolean gsb_account_delete ( void )
 
     deleted_account = gsb_gui_navigation_get_current_account ();
     devel_debug_int (deleted_account);
-    
+
     tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
                         gsb_data_account_get_name ( deleted_account ) ) ;
 
@@ -484,7 +484,7 @@ gboolean gsb_account_set_combo_account_number ( GtkWidget *combo_box,
 	}
     }
     while (gtk_tree_model_iter_next (model, &iter));
-    
+
     return FALSE;
 }
 
@@ -530,11 +530,11 @@ GtkWidget *gsb_account_create_menu_list ( GCallback func,
 		g_signal_connect ( G_OBJECT ( item ), "activate", G_CALLBACK(func), NULL );
 	    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
 
-	    if ( !activate_currrent && 
+	    if ( !activate_currrent &&
 		 gsb_gui_navigation_get_current_account () == i)
 	    {
 		gtk_widget_set_sensitive ( item, FALSE );
-	    }      
+	    }
 
 	    gtk_widget_show ( item );
 	}

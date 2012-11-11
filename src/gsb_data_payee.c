@@ -52,8 +52,8 @@
 
 
 /**
- * \struct 
- * Describe a payee 
+ * \struct
+ * Describe a payee
  */
 typedef struct
 {
@@ -147,7 +147,7 @@ gpointer gsb_data_payee_get_structure ( gint no_payee )
 	return payee_buffer;
 
     tmp = payee_list;
-    
+
     while ( tmp )
     {
 	struct_payee *payee;
@@ -200,10 +200,10 @@ GSList *gsb_data_payee_get_payees_list ( void )
 gint gsb_data_payee_get_no_payee ( gpointer payee_ptr )
 {
     struct_payee *payee;
-    
+
     if ( !payee_ptr )
 	return 0;
-    
+
     payee = payee_ptr;
     payee_buffer = payee;
     return payee -> payee_number;
@@ -220,7 +220,7 @@ gint gsb_data_payee_max_number ( void )
     gint number_tmp = 0;
 
     tmp = payee_list;
-    
+
     while ( tmp )
     {
 	struct_payee *payee;
@@ -257,11 +257,11 @@ gint gsb_data_payee_new ( const gchar *name )
 
         payee -> payee_name = my_strdup ( name );
         combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
-    
+
         if ( combofix && name )
             gtk_combofix_append_text ( GTK_COMBOFIX ( combofix ), name );
     }
-    else 
+    else
         payee -> payee_name = NULL;
 
     payee_list = g_slist_append ( payee_list, payee );
@@ -271,8 +271,8 @@ gint gsb_data_payee_new ( const gchar *name )
 
 
 /**
- * This internal function is called to free the memory used by a struct_payee structure 
- */ 
+ * This internal function is called to free the memory used by a struct_payee structure
+ */
 static void _gsb_data_payee_free ( struct_payee* payee)
 {
     if ( ! payee )
@@ -362,11 +362,11 @@ gint gsb_data_payee_get_number_by_name ( const gchar *name,
     list_tmp = g_slist_find_custom ( payee_list,
                         name,
                         (GCompareFunc) gsb_data_payee_get_pointer_from_name_in_glist );
-    
+
     if ( list_tmp )
     {
         struct_payee *payee;
-        
+
         payee = list_tmp -> data;
         payee_number = payee -> payee_number;
     }
@@ -452,7 +452,7 @@ gboolean gsb_data_payee_set_name ( gint no_payee,
             gtk_combofix_remove_text ( GTK_COMBOFIX ( combofix ), payee -> payee_name );
 	    g_free ( payee -> payee_name );
     }
-    
+
     /* and copy the new one or set NULL */
     payee -> payee_name = my_strdup ( name );
 
@@ -598,7 +598,7 @@ gboolean gsb_data_payee_set_description ( gint no_payee,
     /* we free the last name */
     if ( payee -> payee_description )
 	g_free (payee -> payee_description);
-    
+
     /* and copy the new one */
     if (description)
 	payee -> payee_description = my_strdup (description);
@@ -655,9 +655,9 @@ gsb_real gsb_data_payee_get_balance ( gint no_payee )
 /**
  * reset the counters of the payees
  *
- * \param 
+ * \param
  *
- * \return 
+ * \return
  * */
 void gsb_data_payee_reset_counters ( void )
 {
@@ -675,7 +675,7 @@ void gsb_data_payee_reset_counters ( void )
 
 	list_tmp = list_tmp -> next;
     }
-    
+
     /* reset the blank payee counters */
 
     empty_payee -> payee_balance = null_real;
@@ -704,7 +704,7 @@ void gsb_data_payee_update_counters ( void )
     {
 	gint transaction_number_tmp;
 	transaction_number_tmp = gsb_data_transaction_get_transaction_number (list_tmp_transactions -> data);
-	
+
 	gsb_data_payee_add_transaction_to_payee ( transaction_number_tmp );
 
 	list_tmp_transactions = list_tmp_transactions -> next;
@@ -735,7 +735,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     {
 	gchar *tmpstr;
 	tmpstr = g_strdup_printf ( _("The transaction %d has a payee n°%d but it doesn't exist."),
-				   transaction_number, 
+				   transaction_number,
 				   gsb_data_transaction_get_party_number (transaction_number));
 	warning_debug (tmpstr);
 	g_free (tmpstr);
@@ -745,7 +745,7 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
     payee -> payee_nb_transactions ++;
     if ( ! gsb_data_transaction_get_split_of_transaction ( transaction_number ) )
         payee -> payee_balance = gsb_real_add ( payee -> payee_balance,
-					    gsb_data_transaction_get_adjusted_amount_for_currency 
+					    gsb_data_transaction_get_adjusted_amount_for_currency
                         ( transaction_number, payee_tree_currency (), -1));
 }
 
@@ -770,7 +770,7 @@ void gsb_data_payee_remove_transaction_from_payee ( gint transaction_number )
     if (!payee
             &&
             !gsb_data_transaction_get_split_of_transaction (transaction_number)
-            && 
+            &&
             gsb_data_transaction_get_contra_transaction_number (transaction_number) == 0)
         payee = empty_payee;
 
@@ -878,7 +878,7 @@ gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_s
     /* we free the last name */
     if ( payee -> payee_search_string )
         g_free (payee -> payee_search_string);
-    
+
     /* and copy the new one */
     if (search_string)
         payee -> payee_search_string = my_strdup (search_string);

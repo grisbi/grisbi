@@ -50,7 +50,7 @@
 
 
 /**
- * \struct 
+ * \struct
  * Describe a budget
  */
 typedef struct
@@ -71,7 +71,7 @@ typedef struct
 
 
 /**
- * \struct 
+ * \struct
  * Describe a sub-budget
  */
 typedef struct
@@ -435,8 +435,8 @@ gint gsb_data_budget_max_number ( void )
 /**
  * find and return the last number of the sub-budgets
  *
- * \param 
- * 
+ * \param
+ *
  * \return last number of the sub-budgets
  * */
 gint gsb_data_budget_max_sub_budget_number ( gint budget_number )
@@ -494,7 +494,7 @@ gint gsb_data_budget_new ( const gchar *name )
 /**
  * create a new budget with a number, append it to the list
  * and return the number
- * 
+ *
  *
  * \param number the number we want to give to that budget
  * \param import_list a g_slist with the imported budgets if we are importing them,
@@ -863,7 +863,7 @@ gboolean gsb_data_budget_set_name ( gint no_budget,
  * \param no_sub_budget the number of the sub-budget
  * \param return_value_error if problem, return that value
  *
- * \return a newly allocated string with the name of the budget 
+ * \return a newly allocated string with the name of the budget
  * 		or return_value_error to be freed too
  * */
 gchar *gsb_data_budget_get_sub_budget_name ( gint no_budget,
@@ -1198,9 +1198,9 @@ gsb_real gsb_data_budget_get_direct_balance ( gint no_budget )
 /**
  * reset the counters of the budgets and sub-budgets
  *
- * \param 
+ * \param
  *
- * \return 
+ * \return
  * */
 void gsb_data_budget_reset_counters ( void )
 {
@@ -1298,7 +1298,7 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
     {
 	gchar *tmpstr;
 	tmpstr = g_strdup_printf ( _("The transaction %d has a budget n°%d and sub-budget n°%d but they don't exist."),
-				   transaction_number, 
+				   transaction_number,
 				   budget_id,
 				   sub_budget_id );
 	warning_debug (tmpstr);
@@ -1395,7 +1395,7 @@ void gsb_data_budget_remove_transaction_from_budget ( gint transaction_number )
  * Find if two sub budgets are the same
  *
  * \param a		First sub-budget to compare.
- * \param b		Second sub-budget to compare.	
+ * \param b		Second sub-budget to compare.
  *
  * \return		Same as a <=> b.
  */
@@ -1412,7 +1412,7 @@ gint gsb_data_sub_budget_compare ( struct_sub_budget * a, struct_sub_budget * b 
 
 /**
  * \brief Debug check to verify if some sub budgets are doubled.
- * 
+ *
  * This is a bug caused in old version of Grisbi and this check has to
  * be there since we need to access to the structures directly without
  * resorting to numeric ids.
@@ -1442,7 +1442,7 @@ gchar * gsb_debug_duplicate_budget_check ()
 	    if ( duplicate && duplicate > tmp_sous_budget )
 	    {
 	        gchar* tmpstr1 = output;
-		gchar* tmpstr2 = g_strdup_printf ( 
+		gchar* tmpstr2 = g_strdup_printf (
 		                        _("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 					budget -> budget_name,
 					((struct_sub_budget *) tmp_sous_budget -> data) -> sub_budget_name,
@@ -1456,7 +1456,7 @@ gchar * gsb_debug_duplicate_budget_check ()
 	    }
 	    tmp_sous_budget = tmp_sous_budget -> next;
 	}
-	
+
 	tmp = tmp -> next;
     }
 
@@ -1465,14 +1465,14 @@ gchar * gsb_debug_duplicate_budget_check ()
 	output [ strlen ( output ) - 1 ] = '\0';
 	return output;
     }
-    
+
     return NULL;
 }
 
 
 
 /**
- * Fix any duplicate in sub budgets.  
+ * Fix any duplicate in sub budgets.
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
@@ -1500,7 +1500,7 @@ gboolean gsb_debug_duplicate_budget_fix ()
 	    }
 	    tmp_sous_budget = tmp_sous_budget -> next;
 	}
-	
+
 	tmp = tmp -> next;
     }
 

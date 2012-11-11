@@ -366,7 +366,7 @@ static void bet_array_list_replace_transactions_by_transfert ( GtkTreeModel *tab
 /*
  * Met à jour les données à afficher dans les différentes vues du module
  *
- * 
+ *
  */
 void bet_array_update_estimate_tab ( gint account_number, gint type_maj )
 {
@@ -412,7 +412,7 @@ static gint bet_array_date_sort_function ( GtkTreeModel *model,
         return -1;
 
     /* get first date to compare */
-    gtk_tree_model_get_value ( model, itera, 
+    gtk_tree_model_get_value ( model, itera,
                         SPP_ESTIMATE_TREE_SORT_DATE_COLUMN, &date_value_a );
     date_a = g_value_get_boxed ( &date_value_a );
     if ( date_a == NULL )
@@ -526,7 +526,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
         color_str = "red";
     else
         color_str = NULL;
-    
+
     gtk_tree_store_set ( GTK_TREE_STORE ( model ),
                         iter,
                         SPP_ESTIMATE_TREE_BALANCE_COLUMN, str_balance,
@@ -589,7 +589,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     g_value_set_boxed ( &date_value, date_init );
 
     str_date_max = gsb_format_gdate ( date_max );
-    
+
     /* current balance may be in the future if there are transactions
      * in the future in the account. So we need to calculate the balance
      * of today */
@@ -994,11 +994,11 @@ void bet_array_refresh_scheduled_data ( GtkTreeModel *tab_model,
 
         div_number = bet_data_get_div_number ( scheduled_number, FALSE );
         sub_div_nb = bet_data_get_sub_div_nb ( scheduled_number, FALSE );
-        
+
         if ( div_number > 0
          &&
          bet_data_search_div_hist ( account_number, div_number, 0 )
-         && 
+         &&
          bet_array_sort_scheduled_transactions ( div_number, sub_div_nb, tab_model ) )
             continue;
 
@@ -1284,7 +1284,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
     /* devel_debug (NULL); */
     date_jour = gdate_today ( );
     date = gsb_date_get_last_day_of_month ( date_min );
-        
+
     /* initialise les données de la ligne insérée */
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
                         SPP_HISTORICAL_DESC_COLUMN, &str_description,
@@ -1313,7 +1313,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         if ( g_date_compare ( date, date_max ) > 0 )
             break;
 
-        if ( g_date_compare ( date, date_min ) < 0 
+        if ( g_date_compare ( date, date_min ) < 0
          ||
          ( g_date_get_year ( date ) == g_date_get_year ( date_jour )
          &&
@@ -1331,7 +1331,7 @@ void bet_array_list_add_new_hist_line ( GtkTreeModel *tab_model,
         g_value_init ( &date_value, G_TYPE_DATE );
         if ( date == NULL )
             return;
-        g_value_set_boxed ( &date_value, date ); 
+        g_value_set_boxed ( &date_value, date );
 
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
@@ -1453,7 +1453,7 @@ gboolean bet_array_refresh_futur_data ( GtkTreeModel *tab_model,
         str_date = gsb_format_gdate ( scheduled -> date );
 
         g_value_init ( &date_value, G_TYPE_DATE );
-        g_value_set_boxed ( &date_value, scheduled -> date ); 
+        g_value_set_boxed ( &date_value, scheduled -> date );
 
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
@@ -1507,7 +1507,7 @@ gboolean bet_array_list_button_press ( GtkWidget *tree_view,
             return FALSE;
         }
     }
-        
+
     if ( ev -> type == GDK_2BUTTON_PRESS )
         bet_array_list_traite_double_click ( GTK_TREE_VIEW ( tree_view ) );
 
@@ -1547,7 +1547,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
                         -1 );
 
     date = gsb_parse_date_string ( str_date );
-    date_jour = gdate_today ( ); 
+    date_jour = gdate_today ( );
 
     menu = gtk_menu_new ();
 
@@ -1639,7 +1639,7 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
-            menu_item = gtk_image_menu_item_new_with_label ( 
+            menu_item = gtk_image_menu_item_new_with_label (
                         _("Delete all occurences of the selection") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                         gtk_image_new_from_stock ( GTK_STOCK_DELETE,
@@ -1649,12 +1649,12 @@ void bet_array_list_context_menu ( GtkWidget *tree_view,
                         G_CALLBACK ( bet_array_list_delete_all_menu ),
                         tree_selection );
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
-            
+
             /* Separator */
             gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
 
             /* Convert to scheduled transaction */
-            menu_item = gtk_image_menu_item_new_with_label ( 
+            menu_item = gtk_image_menu_item_new_with_label (
                                 _("Convert selection to scheduled transaction") );
             gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
                                 gtk_image_new_from_stock ( GTK_STOCK_CONVERT,
@@ -1978,9 +1978,9 @@ void bet_array_list_redo_menu ( GtkWidget *menu_item,
 
 /**
  * Cette fonction recalcule le montant des données historiques en fonction de la
- * consommation mensuelle précédente. affiche le nouveau montant si même signe ou 0 
+ * consommation mensuelle précédente. affiche le nouveau montant si même signe ou 0
  * et un message pour budget dépassé.
- * 
+ *
  * */
 void bet_array_adjust_hist_amount ( gint div_number,
                         gint sub_div_nb,
@@ -2040,7 +2040,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa < 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number, 
+                                str_amount = gsb_real_safe_real_to_string ( number,
                                             gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_debit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
@@ -2062,7 +2062,7 @@ void bet_array_adjust_hist_amount ( gint div_number,
                         {
                             if ( number.mantissa > 0 )
                             {
-                                str_amount = gsb_real_safe_real_to_string ( number, 
+                                str_amount = gsb_real_safe_real_to_string ( number,
                                             gsb_data_currency_get_floating_point ( currency_number ) );
                                 str_credit = utils_real_get_string_with_currency (
                                             gsb_real_abs ( number ),
@@ -2193,7 +2193,7 @@ gboolean bet_array_start_date_focus_out ( GtkWidget *entry,
         if ( g_date_compare ( date, old_date ) != 0 )
             gsb_data_account_set_bet_auto_inc_month ( account_number, FALSE );
     }
-    
+
     gsb_data_account_set_bet_start_date ( account_number, date );
 
     gsb_file_set_modified ( TRUE );
@@ -2430,7 +2430,7 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
 /**
  * Cette fonction permet de sauter les opérations planifiées qui sont
  * remplacées par des données historiques
- * 
+ *
  * \return TRUE si l'opération doit être ignorée
  * */
 gboolean bet_array_sort_scheduled_transactions ( gint div_number,
@@ -2482,7 +2482,7 @@ void bet_array_list_traite_double_click ( GtkTreeView *tree_view )
 
 /**
  * Convert selected line to a template of scheduled transaction.
- * 
+ *
  */
 void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection )
@@ -2556,7 +2556,7 @@ gint bet_array_list_schedule_line ( gint origine, gint account_number, gint numb
         /* par défaut, on met en manuel, pour éviter si l'utilisateur se gourre dans la date,
          * (c'est le cas, à 0 avec g_malloc0) que l'opé soit enregistrée immédiatement */
         gsb_data_scheduled_set_frequency ( scheduled_number, scheduled -> frequency );
-        
+
     }
 
     return scheduled_number;
@@ -2703,7 +2703,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                     desc = g_strdup ( scheduled -> notes );
                     if ( desc && strlen ( desc ) )
                         break;
-                    
+
                     desc = g_strdup ( gsb_data_payee_get_name (
                                     scheduled -> party_number, TRUE ) );
                     if ( desc && strlen ( desc ) )
@@ -2762,7 +2762,7 @@ void bet_array_auto_inc_month_toggle ( GtkToggleButton *togglebutton, gpointer  
     gint account_number;
     gboolean value;
     gint auto_inc_month;
-    
+
     devel_debug_int (gtk_toggle_button_get_active ( togglebutton ));
 
     account_number = gsb_gui_navigation_get_current_account ( );
@@ -2858,7 +2858,7 @@ gboolean bet_array_refresh_transfert_data ( GtkTreeModel *tab_model,
         str_date = gsb_format_gdate ( transfert -> date );
 
         g_value_init ( &date_value, G_TYPE_DATE );
-        g_value_set_boxed ( &date_value, transfert -> date ); 
+        g_value_set_boxed ( &date_value, transfert -> date );
 
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
@@ -3028,7 +3028,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
         g_value_set_boxed ( &date_value, date );
 
         str_date = gsb_format_gdate ( date );
-        str_description = g_strconcat ( _("Balance at "), str_date, NULL ); 
+        str_description = g_strconcat ( _("Balance at "), str_date, NULL );
 
         /* add a line in the estimate array */
         gtk_tree_store_append ( GTK_TREE_STORE ( tab_model ), &tab_iter, NULL );
@@ -3053,7 +3053,7 @@ gboolean bet_array_shows_balance_at_beginning_of_month ( GtkTreeModel *tab_model
     }
     g_free ( str_amount );
     g_date_free ( date );
-    
+
     return FALSE;
 }
 

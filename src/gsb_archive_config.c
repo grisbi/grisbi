@@ -176,8 +176,8 @@ GtkWidget *gsb_archive_config_create ( void )
     modification_paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 						    _("Archive modification"));
     gtk_widget_set_sensitive ( modification_paddingbox, FALSE );
-    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (archive_treeview)), 
-		      "changed", 
+    g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (archive_treeview)),
+		      "changed",
 		      G_CALLBACK (gsb_archive_config_select),
 		      modification_paddingbox);
 
@@ -212,7 +212,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       G_CALLBACK (gsb_archive_config_delete_archive),
 		       archive_treeview );
     tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "import.png", NULL );
-    gtk_button_set_image ( GTK_BUTTON(button), 
+    gtk_button_set_image ( GTK_BUTTON(button),
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
     gtk_table_attach ( GTK_TABLE ( table ),
@@ -229,7 +229,7 @@ GtkWidget *gsb_archive_config_create ( void )
 		       G_CALLBACK (gsb_archive_config_destroy_archive),
 		       archive_treeview );
     tmpstr = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "import.png", NULL );
-    gtk_button_set_image ( GTK_BUTTON(button), 
+    gtk_button_set_image ( GTK_BUTTON(button),
 			   gtk_image_new_from_file ( tmpstr ) );
     g_free ( tmpstr );
 
@@ -341,7 +341,7 @@ static void gsb_archive_config_fill_list ( GtkListStore *store )
 
 
 /**
- * Callback used when an archive is selected 
+ * Callback used when an archive is selected
  *
  * \param selection the tree selection
  * \param paddingbox the modification paddingbox
@@ -365,7 +365,7 @@ static gboolean gsb_archive_config_select ( GtkTreeSelection *selection,
 				   TRUE );
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (archive_treeview));
-	gtk_tree_model_get (model, &iter, 
+	gtk_tree_model_get (model, &iter,
 			    ARCHIVES_NUMBER, &archive_number,
 			    -1 );
 
@@ -412,12 +412,12 @@ static gboolean gsb_archive_config_name_changed ( GtkWidget *entry,
 	gint archive_number;
 
 	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
 			     ARCHIVES_NUMBER, &archive_number,
 			     -1 );
 
 	/* update the tree view */
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, 
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 			    ARCHIVES_NAME_COLUMN, gsb_data_archive_get_name (archive_number),
 			    -1 );
     }
@@ -453,7 +453,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
     gint archive_number;
 
     model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+    gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
                         ARCHIVES_NUMBER, &archive_number,
                         -1 );
 
@@ -517,7 +517,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	gchar* tmpstr;
 
 	model = gtk_tree_view_get_model ( GTK_TREE_VIEW (tree_view));
-	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter, 
+	gtk_tree_model_get ( GTK_TREE_MODEL(model), &iter,
 			     ARCHIVES_NUMBER, &archive_number,
 			     -1 );
 
@@ -572,7 +572,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	while (tmp_list)
 	{
 	    gint transaction_number;
-	    
+
 	    transaction_number = gsb_data_transaction_get_transaction_number (tmp_list -> data);
 	    if (gsb_data_transaction_get_archive_number (transaction_number) == archive_number)
 	    {
@@ -601,7 +601,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
 	    gsb_account_property_fill_page ();
 	    transaction_list_set_balances ();
 	}
-	
+
         gsb_file_set_modified ( TRUE );
     }
     return FALSE;

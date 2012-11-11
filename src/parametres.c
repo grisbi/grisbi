@@ -179,7 +179,7 @@ GtkWidget * create_preferences_tree ( )
 
     /* Handle select */
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
-    g_signal_connect (selection, 
+    g_signal_connect (selection,
                         "changed",
                         (GCallback) selectionne_liste_preference,
                         preference_tree_model);
@@ -193,7 +193,7 @@ GtkWidget * create_preferences_tree ( )
     gtk_container_add (GTK_CONTAINER (sw), tree_view);
 
     /* expand all rows after the treeview widget has been realized */
-    g_signal_connect ( tree_view, 
+    g_signal_connect ( tree_view,
                         "realize",
                         (GCallback) gtk_tree_view_expand_all,
                         NULL );
@@ -332,7 +332,7 @@ gboolean preferences ( gint page )
                         1, IMPORT_ASSOCIATION_PAGE,
                         2, 400,
                         -1);
-    gtk_notebook_append_page (preference_frame, 
+    gtk_notebook_append_page (preference_frame,
                         gsb_import_associations_gere_tiers (), NULL);
 
     gtk_tree_store_append (GTK_TREE_STORE (preference_tree_model), &iter2, &iter);
@@ -671,7 +671,7 @@ GtkWidget *onglet_messages_and_warnings ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), tip_checkbox, FALSE, FALSE, 0 );
 
     /* Warnings */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE, 
+    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
                         _("Display following warnings messages") );
 
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
@@ -747,7 +747,7 @@ GtkWidget *onglet_delete_messages ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Messages before deleting"), "delete.png" );
 
     /* Delete messages */
-    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE, 
+    paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
                         _("Display following messages") );
 
     model = GTK_TREE_MODEL(gtk_tree_store_new ( 3, G_TYPE_INT, G_TYPE_STRING, G_TYPE_INT ) );
@@ -1145,7 +1145,7 @@ GtkWidget *onglet_metatree ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *total_currencies;
 
-    vbox_pref = new_vbox_with_title_and_icon ( 
+    vbox_pref = new_vbox_with_title_and_icon (
                         _("Payees, categories and budgetaries"),
                         "organization.png" );
 
@@ -1572,7 +1572,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
 
     text = gtk_combo_box_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
-    
+
     if ( g_strcmp0 ( text, "' '" ) == 0 )
     {
         gsb_locale_set_mon_thousands_sep ( " " );

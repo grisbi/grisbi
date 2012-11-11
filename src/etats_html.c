@@ -44,7 +44,7 @@
 
 /*START_STATIC*/
 static void html_attach_hsep ( int x, int x2, int y, int y2);
-static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+static void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number );
 static void html_attach_vsep ( int x, int x2, int y, int y2);
 static gint html_finish ();
@@ -94,7 +94,7 @@ struct struct_etat_affichage html_affichage = {
  * \param transaction_number the number of a transaction to link to (not used as html
  *            backend is not interactive)
  */
-void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2, 
+void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number )
 {
     int pad, realsize, realcolumns;
@@ -138,7 +138,7 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
     }
     if ( gsb_data_report_get_show_report_transactions (current_report_number))
 	realcolumns = (float)((nb_colonnes / 2) + 1);
-    else 
+    else
 	realcolumns = nb_colonnes;
 
     switch ( align )
@@ -220,7 +220,7 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
  * \param y2 bottom position of the separator
  */
 void html_attach_vsep ( int x, int x2, int y, int y2)
-{ 
+{
   int pad;
 
   if ( y >= html_lastline )
@@ -261,10 +261,10 @@ void html_attach_hsep ( int x, int x2, int y, int y2)
       fprintf ( html_out, "      </tr>\n\n");
     }
 
-  fprintf ( html_out, 
+  fprintf ( html_out,
 	    "      <tr>\n"
 	    "        <td colspan=\"%d\">\n"
-	    "          <hr/>\n" 
+	    "          <hr/>\n"
 	    "        </td>\n",
 	    nb_colonnes );
 
@@ -298,7 +298,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
       return FALSE;
     }
 
-    fprintf (html_out, 
+    fprintf (html_out,
 	     "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 	     "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n"
 	     "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n\n"
@@ -311,7 +311,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
 	return FALSE;
 
     html_safe (etats_titre(gsb_gui_navigation_get_current_report ()));
-    fprintf (html_out, 
+    fprintf (html_out,
 	     "</title>\n"
 	     "  </head>\n\n"
 	     "  <body>\n"
@@ -329,7 +329,7 @@ gint html_initialise ( GSList * opes_selectionnees, gchar * filename )
  */
 gint html_finish ()
 {
-    fprintf (html_out, 
+    fprintf (html_out,
 	     "      </tr>\n\n"
 	     "    </table>\n"
 	     "  </body>\n"
@@ -341,14 +341,14 @@ gint html_finish ()
 
 
 
-/** 
+/**
  * Print a html safe string into the html_out file descriptor.  All
  * chars that cannot be printed via html are converted to their html
  * equivalent
  *
  * \param text Text to print.
  */
-void html_safe ( gchar * text ) 
+void html_safe ( gchar * text )
 {
     gboolean start = 1;
 

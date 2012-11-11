@@ -161,7 +161,7 @@ static void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *contex
                         GError **error);
 static void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
                         const gchar *text,
-                        gsize text_len,  
+                        gsize text_len,
                         gpointer user_data,
                         GError **error);
 static void gsb_file_load_transactions ( const gchar **attribute_names,
@@ -248,7 +248,7 @@ static struct reconcile_conversion_struct *buffer_reconcile_conversion;
 
 /* structure temporaire utilisée pour faire un lien entre ancien et nouveau numéro
  * de rapprochement et chaque compte parce que dans les versions précédentes de Grisbi
- * on pouvait utiliser un même rapprochement dans les opérations car celles-ci étaient 
+ * on pouvait utiliser un même rapprochement dans les opérations car celles-ci étaient
  * organisées par comptes */
 struct old_new_rec_conversion_struct
 {
@@ -259,7 +259,7 @@ struct old_new_rec_conversion_struct
 static GSList *old_new_rec_list = NULL;
 static struct old_new_rec_conversion_struct *buffer_old_new_rec_conversion;
 
-/* variable utilisée pour indiquer le chemin de la copie d'un fichier de compte 
+/* variable utilisée pour indiquer le chemin de la copie d'un fichier de compte
  * d'une version antérieure de grisbi */
 gchar *copy_old_filename = NULL;
 
@@ -293,7 +293,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     devel_debug ( filename );
 
     /* general check */
-    
+
     if ( !g_file_test (filename, G_FILE_TEST_EXISTS) )
     {
         gchar* tmpstr1 = g_strdup_printf ( _("Cannot open file '%s': %s"),
@@ -310,7 +310,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     /* check here if it's not a regular file */
     if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ))
     {
-        gchar* tmpstr1 = g_strdup_printf ( 
+        gchar* tmpstr1 = g_strdup_printf (
                         _("%s doesn't seem to be a regular file,\nplease check it and try again."),
                         filename );
         gchar* tmpstr2 = g_strdup_printf ( _("Error loading file '%s'"), filename);
@@ -344,10 +344,10 @@ gboolean gsb_file_load_open_file ( gchar *filename )
             if ( plugin )
             {
             gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
-            
+
             crypt_function = (gpointer) plugin -> plugin_run;
             length = crypt_function ( filename, &file_content, FALSE, length );
-            
+
             if ( ! length )
             {
                 g_free (file_content);
@@ -456,7 +456,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
     /* the first time we come here, we check if it's a Grisbi file */
     if ( !download_tmp_values.download_ok )
     {
-        if ( strcmp ( element_name, 
+        if ( strcmp ( element_name,
                     "Grisbi" ))
         {
             dialogue_error ( _("This is not a Grisbi file... Loading aborted.") );
@@ -491,7 +491,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 
             else if ( !strcmp ( element_name, "Account_icon" ) )
             {
-                gsb_file_load_account_icon_part ( attribute_names, 
+                gsb_file_load_account_icon_part ( attribute_names,
                         attribute_values );
             }
 
@@ -543,7 +543,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
 
             else if ( !strcmp ( element_name, "Bet" ) )
             {
-                gsb_file_load_bet_part ( attribute_names, 
+                gsb_file_load_bet_part ( attribute_names,
                         attribute_values );
             }
 
@@ -696,7 +696,7 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
             if ( !strcmp ( element_name, "Logo" ) )
             {
                 if ( etat.utilise_logo )
-                    gsb_file_load_logo_accueil ( attribute_names, 
+                    gsb_file_load_logo_accueil ( attribute_names,
                             attribute_values );
             }
 
@@ -1071,7 +1071,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
                     for ( j = 0 ; j<TRANSACTION_LIST_ROWS_NB ; j++ )
                         for ( k = 0 ; k<CUSTOM_MODEL_VISIBLE_COLUMNS ; k++ )
-                            tab_affichage_ope[j][k] = utils_str_atoi ( 
+                            tab_affichage_ope[j][k] = utils_str_atoi (
                                     pointeur_char[k + j*CUSTOM_MODEL_VISIBLE_COLUMNS]);
 
                     g_strfreev ( pointeur_char );
@@ -1507,7 +1507,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
     {
         unknown = 0;
 
-        /* we test at the beginning if the attribute_value is NULL, 
+        /* we test at the beginning if the attribute_value is NULL,
          * if yes, go to the next */
 
         if ( !strcmp (attribute_values[i], "(null)" ) )
@@ -1792,7 +1792,7 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
             case 'L':
                 if ( !strcmp ( attribute_names[i], "Lines_per_transaction" ))
                 {
-                    gsb_data_account_set_nb_rows ( account_number, 
+                    gsb_data_account_set_nb_rows ( account_number,
                             utils_str_atoi (attribute_values[i]));
                 }
 
@@ -1803,13 +1803,13 @@ void gsb_file_load_account_part ( const gchar **attribute_names,
             case 'M':
                 if ( !strcmp ( attribute_names[i], "Minimum_wanted_balance" ))
                 {
-                    gsb_data_account_set_mini_balance_wanted ( account_number, 
+                    gsb_data_account_set_mini_balance_wanted ( account_number,
                             gsb_real_safe_real_from_string (attribute_values[i]));
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Minimum_authorised_balance" ))
                 {
-                    gsb_data_account_set_mini_balance_authorized ( account_number, 
+                    gsb_data_account_set_mini_balance_authorized ( account_number,
                             gsb_real_safe_real_from_string (attribute_values[i]));
                 }
 
@@ -1981,7 +1981,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
 
     if ( !attribute_names[i] )
     return;
-    
+
     payment_number = gsb_data_payment_new (NULL);
 
     do
@@ -2008,7 +2008,7 @@ void gsb_file_load_payment_part ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                         "Name" ))
     {
-        gsb_data_payment_set_name ( payment_number, 
+        gsb_data_payment_set_name ( payment_number,
                         attribute_values[i]);
         i++;
         continue;
@@ -2088,7 +2088,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     {
         unknown = 0;
 
-        /* we test at the beginning if the attribute_value is NULL, 
+        /* we test at the beginning if the attribute_value is NULL,
          * if yes, go to the next */
 
         if ( !strcmp (attribute_values[i], "(null)" ) )
@@ -2371,7 +2371,7 @@ void gsb_file_load_scheduled_transactions ( const gchar **attribute_names,
 
     if ( !attribute_names[i] )
     return;
-    
+
     do
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
@@ -5371,7 +5371,7 @@ void gsb_file_load_amount_comparison ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
-    
+
     gsb_data_report_set_amount_comparison_list ( report_number,
                              g_slist_append ( gsb_data_report_get_amount_comparison_list (report_number),
                                       GINT_TO_POINTER (amount_comparison_number)));
@@ -5405,7 +5405,7 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
         {
             GdkPixbuf *pixbuf = NULL;
 
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 ( 
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
                                 (gchar *) attribute_values[i] );
             etat.is_pixmaps_dir = FALSE;
 
@@ -5449,10 +5449,10 @@ void gsb_file_load_account_icon_part ( const gchar **attribute_names,
             i++;
             continue;
         }
-        
+
         if ( !strcmp ( attribute_names[i], "Image" ) )
         {
-            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 ( 
+            pixbuf = gsb_select_icon_create_pixbuf_from_chaine_base64 (
                                 (gchar *) attribute_values[i] );
             i++;
             continue;
@@ -5544,7 +5544,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
 
         if ( !strcmp ( attribute_names[i],
                    "Nom" ))
-            gsb_data_payment_set_name ( payment_number, 
+            gsb_data_payment_set_name ( payment_number,
                             attribute_values[i]);
         if ( !strcmp ( attribute_names[i],
                    "Signe" ))
@@ -5582,7 +5582,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         return;
     }
     }
-     
+
     if ( !strcmp ( element_name,
            "Operation" ))
     {
@@ -6018,7 +6018,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     {
         if ( !strcmp ( attribute_names[i],
                "No" ))
-        last_category = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i])); 
+        last_category = gsb_data_category_new_with_number ( utils_str_atoi (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                "Nom" ))
@@ -6067,7 +6067,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
     {
         if ( !strcmp ( attribute_names[i],
                "No" ))
-        last_budget = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i])); 
+        last_budget = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
 
         if ( !strcmp ( attribute_names[i],
                "Nom" ))
@@ -6123,7 +6123,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         gsb_real exchange;
         } tmp_currency_link;
         GDate *modified_date = NULL;
-        
+
         tmp_currency_link.one_c1_equal_x_c2 = 0;
         tmp_currency_link.contra_currency = 0;
         tmp_currency_link.exchange = null_real;
@@ -6189,7 +6189,7 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
         if ( !strcmp ( attribute_names[i],
                    "Change" ))
             tmp_currency_link.exchange = utils_real_get_from_string (attribute_values[i]);
-        if ( !strcmp ( attribute_names[i], "Date_dernier_change" ) 
+        if ( !strcmp ( attribute_names[i], "Date_dernier_change" )
          &&
          strlen ( attribute_values[i] ) )
         {
@@ -6257,57 +6257,57 @@ void gsb_file_load_start_element_before_0_6 ( GMarkupParseContext *context,
             bank_number = gsb_data_bank_set_new_number ( gsb_data_bank_new (NULL),
                                      utils_str_atoi (attribute_values[i]));
         }
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Nom" ))
             gsb_data_bank_set_name ( bank_number,
                          attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Code" ))
             gsb_data_bank_set_code ( bank_number,
                          attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Adresse" ))
             gsb_data_bank_set_bank_address ( bank_number,
                                  attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Tel" ))
             gsb_data_bank_set_bank_tel ( bank_number,
                              attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Mail" ))
             gsb_data_bank_set_bank_mail ( bank_number,
                               attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Web" ))
             gsb_data_bank_set_bank_web ( bank_number,
                              attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Nom_correspondant" ))
             gsb_data_bank_set_correspondent_name ( bank_number,
                                    attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Fax_correspondant" ))
             gsb_data_bank_set_correspondent_fax ( bank_number,
                                   attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Tel_correspondant" ))
             gsb_data_bank_set_correspondent_tel ( bank_number,
                                   attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Mail_correspondant" ))
             gsb_data_bank_set_correspondent_mail ( bank_number,
                                    attribute_values[i] );
-        
+
         if ( !strcmp ( attribute_names[i],
                    "Remarques" ))
             gsb_data_bank_set_bank_note ( bank_number,
@@ -6632,7 +6632,7 @@ void gsb_file_load_end_element_before_0_6 ( GMarkupParseContext *context,
 
 void gsb_file_load_text_element_before_0_6 ( GMarkupParseContext *context,
                         const gchar *text,
-                        gsize text_len,  
+                        gsize text_len,
                         gpointer user_data,
                         GError **error)
 {
@@ -6977,7 +6977,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
     gsb_real number;
-    
+
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     /* printf ("solde_initial = %s\n", tmp_string ); */
     number = utils_real_get_from_string ( tmp_string );
@@ -7000,7 +7000,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
     gsb_real number;
-    
+
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
@@ -7019,7 +7019,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
      * from 12.340000 to 12.34 before doing the conversion */
     gchar *tmp_string;
     gsb_real number;
-    
+
     tmp_string = utils_str_reduce_exponant_from_string ( text, 2 );
     number = utils_real_get_from_string ( tmp_string );
     if ( number.mantissa == error_real.mantissa )
@@ -7099,7 +7099,7 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Nb_lignes_ope" ))
     {
-    gsb_data_account_set_nb_rows ( account_number, 
+    gsb_data_account_set_nb_rows ( account_number,
                        utils_str_atoi (text));
     return;
     }
@@ -7802,7 +7802,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     }
     /* we append a null category with a null sub-category only if detail is not set*/
     if (!gsb_data_report_get_category_detail_used (last_report_number))
-    { 
+    {
         categ_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
         tmp_list = g_slist_append (tmp_list, categ_struct);
         categ_struct -> sub_div_numbers = g_slist_append (categ_struct -> sub_div_numbers,
@@ -7916,7 +7916,7 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
     }
     /* we append a null budget with a null sub-budget only if detail is not set*/
     if (!gsb_data_report_get_budget_detail_used (last_report_number))
-    { 
+    {
         budget_struct = g_malloc0 (sizeof (struct_categ_budget_sel));
         tmp_list = g_slist_append (tmp_list, budget_struct);
         budget_struct -> sub_div_numbers = g_slist_append (budget_struct -> sub_div_numbers,
@@ -8081,9 +8081,9 @@ void gsb_file_load_report_part_before_0_6 ( GMarkupParseContext *context,
 /**
  * called after downloading a file, check the version and do the changes if
  * necessary
- * 
+ *
  * \param
- * 
+ *
  * \return
  * */
 gboolean gsb_file_load_update_previous_version ( void )
@@ -8141,10 +8141,10 @@ gboolean gsb_file_load_update_previous_version ( void )
                 transaction_number_tmp_2 = gsb_data_transaction_get_transaction_number (
                         list_tmp_transactions_2 -> data) ;
 
-            if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) == 
+            if ( gsb_data_transaction_get_account_number (transaction_number_tmp_2) ==
                         gsb_data_transaction_get_account_number (transaction_number_tmp)
                  &&
-                 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) == 
+                 gsb_data_transaction_get_mother_transaction_number (transaction_number_tmp_2) ==
                         transaction_number_tmp)
                 gsb_data_transaction_set_reconcile_number ( transaction_number_tmp_2,
                         gsb_data_transaction_get_reconcile_number (transaction_number_tmp));
@@ -8487,7 +8487,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                                        PERIODICITY_YEARS );
             break;
         }
-                                    
+
         list_tmp_scheduled = list_tmp_scheduled -> next;
         }
 
@@ -8521,7 +8521,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
         mother_transaction = gsb_data_transaction_get_mother_transaction_number (transaction_number);
 
-        if (mother_transaction 
+        if (mother_transaction
             &&
             !gsb_data_transaction_get_split_of_transaction (mother_transaction))
         {
@@ -8546,7 +8546,7 @@ gboolean gsb_file_load_update_previous_version ( void )
 
             scheduled_number = gsb_data_scheduled_get_scheduled_number (list_tmp -> data);
             list_tmp = list_tmp -> next;
-            
+
             mother_scheduled_number = gsb_data_scheduled_get_mother_scheduled_number (
                         scheduled_number );
             if ( mother_scheduled_number )
@@ -8554,7 +8554,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                 if ( gsb_data_scheduled_get_automatic_scheduled (
                  mother_scheduled_number ) == -1 )
                 {
-                    /* it's a child but didn't find the mother, it can happen in old files 
+                    /* it's a child but didn't find the mother, it can happen in old files
                      * previous to 0.6 where the children wer saved before the mother */
                     /*we erase the child */
                     gsb_data_scheduled_remove_scheduled ( scheduled_number );
@@ -8608,10 +8608,10 @@ gboolean gsb_file_load_update_previous_version ( void )
          * and now there is no more information on reconcile in the account
          * so here we try to fill that fields, and especially set the last
          * final date and last final balance in the last reconciles
-         * hopefully, we can do that because each reconciled transaction has 
+         * hopefully, we can do that because each reconciled transaction has
          * its number of reconcile */
 
-        /* first step, fill the account numbers and try to fill the init 
+        /* first step, fill the account numbers and try to fill the init
          * and final dates */
         list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
         while ( list_tmp_transactions )
@@ -8674,12 +8674,12 @@ gboolean gsb_file_load_update_previous_version ( void )
                 else
                 {
                     struct old_new_rec_conversion_struct *old_new_rec_struct;
-                    
+
                     list_tmp = old_new_rec_list;
                     while (list_tmp)
                     {
                         old_new_rec_struct = list_tmp -> data;
-                        
+
                         if ( old_new_rec_struct -> account_number == account_number &&
                             old_new_rec_struct -> old_rec_number == reconcile_number )
                         {
@@ -8695,7 +8695,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                             struct old_new_rec_conversion_struct));
                         buffer_old_new_rec_conversion -> account_number = account_number;
                         buffer_old_new_rec_conversion -> old_rec_number = reconcile_number;
-                        reconcile_number = gsb_data_reconcile_new ( 
+                        reconcile_number = gsb_data_reconcile_new (
                             gsb_data_reconcile_get_name (reconcile_number) );
                         gsb_data_reconcile_set_account ( reconcile_number, account_number );
                         buffer_old_new_rec_conversion -> new_rec_number = reconcile_number;
@@ -8718,7 +8718,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                  ||
                  g_date_compare ( date_reconcile, date_transaction) > 0 )
                     gsb_data_reconcile_set_init_date ( reconcile_number, date_transaction );
-                
+
                 /* set the final date in the same way */
                 date_reconcile = gsb_data_reconcile_get_final_date (reconcile_number);
 
@@ -8742,7 +8742,7 @@ gboolean gsb_file_load_update_previous_version ( void )
             list_tmp_transactions = list_tmp_transactions -> next;
         }
 
-        /* second step, some reconciles can have the account number to -1 
+        /* second step, some reconciles can have the account number to -1
          * if they hadn't any transactions associated to them,
          * we delete them here */
         dlist_tmp = gsb_data_reconcile_get_reconcile_list ();
@@ -8813,7 +8813,7 @@ gboolean gsb_file_load_update_previous_version ( void )
                 list_tmp = list_tmp -> next;
             }
 
-            /* for each account, we find the last reconcile number, get the 
+            /* for each account, we find the last reconcile number, get the
              * final balance and calculate the initial balance, wich is the
              * final balance of the previous reconcile... */
 
@@ -8822,7 +8822,7 @@ gboolean gsb_file_load_update_previous_version ( void )
             while (rec_list)
             {
                 gint previous_reconcile_number;
-                
+
                 reconcile_number = GPOINTER_TO_INT ( rec_list -> data );
                 gsb_data_reconcile_set_init_balance ( reconcile_number,
                         gsb_real_sub ( gsb_data_reconcile_get_final_balance (
@@ -8885,7 +8885,7 @@ gboolean gsb_file_load_update_previous_version ( void )
     }
 
     /* general stuff for all versions */
-    
+
     /* mark the file as opened */
     gsb_file_util_modify_lock ( TRUE );
 
@@ -8894,7 +8894,7 @@ gboolean gsb_file_load_update_previous_version ( void )
      * by default take the 3000 transactions as limit */
     if ( conf.check_for_archival
      &&
-     g_slist_length (gsb_data_transaction_get_transactions_list ()) > 
+     g_slist_length (gsb_data_transaction_get_transactions_list ()) >
      conf.max_non_archived_transactions_for_check )
     gsb_assistant_archive_run (TRUE);
 
@@ -8926,7 +8926,7 @@ gint gsb_file_load_get_new_payment_number ( gint account_number,
                         gint payment_number )
 {
     GSList *tmp_list;
-    
+
     tmp_list = payment_conversion_list;
     while (tmp_list)
     {
@@ -8979,9 +8979,9 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
         gint reconcile_number;
         const GDate *last_date_next = NULL;
         const GDate *last_date;
-                
+
         reconcile_number = GPOINTER_TO_INT ( rec_list -> data );
-        last_date = gsb_data_reconcile_get_final_date ( reconcile_number );        
+        last_date = gsb_data_reconcile_get_final_date ( reconcile_number );
         if ( g_date_compare ( final_date, last_date ) >= 0 )
         {
             if ( rec_list -> next )
@@ -8991,7 +8991,7 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
                     last_date_next = gsb_data_reconcile_get_final_date ( reconcile_number_next );
                 if ( g_date_compare ( final_date, last_date_next ) < 0 )
                 {
-                    gsb_data_reconcile_set_final_balance ( 
+                    gsb_data_reconcile_set_final_balance (
                             gsb_data_reconcile_get_account_last_number (account_number),
                             amount );
                     return TRUE;
@@ -9017,8 +9017,8 @@ gboolean gsb_file_load_set_last_reconcile_data ( gint account_number,
 }
 
 
-/** 
- * copy an old grisbi file 
+/**
+ * copy an old grisbi file
  *
  * \param filename the name of the file
  *
@@ -9042,7 +9042,7 @@ void gsb_file_load_copy_old_file ( gchar *filename, gchar *file_content)
 
         file_ori = g_file_new_for_path ( filename );
         file_copy = g_file_new_for_path ( copy_old_filename );
-        if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE, 
+        if ( !g_file_copy ( file_ori, file_copy, G_FILE_COPY_OVERWRITE,
                         NULL, NULL, NULL, &error ) )
         {
             dialogue_error (error -> message );

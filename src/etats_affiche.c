@@ -54,7 +54,7 @@
 
 /*START_STATIC*/
 static void etat_affiche_attach_hsep ( int x, int x2, int y, int y2);
-static void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2, 
+static void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2,
 				 enum alignement align, gint transaction_number );
 static void etat_affiche_attach_vsep ( int x, int x2, int y, int y2);
 /*END_STATIC*/
@@ -223,7 +223,7 @@ gint etat_affiche_affiche_total_categories ( gint ligne )
 
 	    if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 	    {
-	        gchar* fmtstr; 
+	        gchar* fmtstr;
 		if ( nb_ope_categ_etat <= 1 )
 		    fmtstr = _("%s (%d transaction)");
 		else
@@ -345,11 +345,11 @@ gint etat_affiche_affiche_total_sous_categ ( gint ligne )
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_sous_categ_etat <= 1 )
-		    fmtstr = _("%s (%d transaction)"); 
+		    fmtstr = _("%s (%d transaction)");
 		else
 		    fmtstr = _("%s (%d transactions)");
 		tmpstr = utils_real_get_string_with_currency ( montant_sous_categ_etat, devise_categ_etat, TRUE  );
-	        text = g_strdup_printf ( fmtstr, tmpstr, 
+	        text = g_strdup_printf ( fmtstr, tmpstr,
 				nb_ope_sous_categ_etat );
 	        g_free ( tmpstr );
 	    }
@@ -414,7 +414,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    {
 		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
-		    gchar* fmtstr; 
+		    gchar* fmtstr;
 		    if ( nb_ope_ib_etat <= 1 )
 			fmtstr = _("Total %s (%d transaction)");
 		    else
@@ -428,7 +428,7 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    {
 		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
-		    gchar* fmtstr; 
+		    gchar* fmtstr;
 		    if ( nb_ope_ib_etat <= 1 )
 			fmtstr = _("Budgetary lines total: (%d transaction): ");
 		    else
@@ -458,9 +458,9 @@ gint etat_affiche_affiche_total_ib ( gint ligne )
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_ib_etat <= 1 )
-		    fmtstr = _("%s (%d transaction)"); 
+		    fmtstr = _("%s (%d transaction)");
 		else
-		    fmtstr = _("%s (%d transactions)"); 
+		    fmtstr = _("%s (%d transactions)");
 		tmpstr2 = utils_real_get_string_with_currency (montant_ib_etat, devise_ib_etat, TRUE  );
 		text = g_strdup_printf ( fmtstr, tmpstr2 , nb_ope_ib_etat );
 		g_free (tmpstr2);
@@ -527,7 +527,7 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	    {
 		if ( gsb_data_report_get_show_report_transaction_amount (current_report_number))
 		{
-		    gchar* fmtstr; 
+		    gchar* fmtstr;
 		    if ( nb_ope_sous_ib_etat <= 1 )
 			fmtstr = _("Total %s: %s (%d transaction): ");
 		    else
@@ -574,12 +574,12 @@ gint etat_affiche_affiche_total_sous_ib ( gint ligne )
 	        gchar* tmpstr;
 
 		if ( nb_ope_sous_ib_etat <= 1 )
-		    fmtstr = _("%s (%d transaction)"); 
+		    fmtstr = _("%s (%d transaction)");
 		else
-		    fmtstr = _("%s (%d transactions)"); 
-		tmpstr = utils_real_get_string_with_currency (montant_sous_ib_etat, 
+		    fmtstr = _("%s (%d transactions)");
+		tmpstr = utils_real_get_string_with_currency (montant_sous_ib_etat,
 							    devise_ib_etat, TRUE  );
-		text = g_strdup_printf ( fmtstr, tmpstr, 
+		text = g_strdup_printf ( fmtstr, tmpstr,
 					 nb_ope_sous_ib_etat );
 		g_free ( tmpstr );
 	    }
@@ -683,19 +683,19 @@ gint etat_affiche_affiche_total_compte ( gint ligne )
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_compte_etat <= 1 )
-		    fmtstr = _("%s (%d transaction)"); 
+		    fmtstr = _("%s (%d transaction)");
 		else
-		    fmtstr = _("%s (%d transactions)"); 
+		    fmtstr = _("%s (%d transactions)");
 		tmpstr = utils_real_get_string_with_currency ( montant_compte_etat,
 				devise_compte_en_cours_etat, TRUE  );
-		text = g_strdup_printf ( fmtstr, tmpstr, 
+		text = g_strdup_printf ( fmtstr, tmpstr,
 					     nb_ope_compte_etat );
 	        g_free ( tmpstr );
 	    }
 	    else
 		text = utils_real_get_string_with_currency ( montant_compte_etat, devise_compte_en_cours_etat, TRUE );
 
-	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );  
+	    etat_affiche_attach_label ( text, TEXT_NORMAL, nb_colonnes - 1, nb_colonnes, ligne, ligne + 1, ALIGN_RIGHT, 0 );
 	    g_free ( text );
 	    ligne++;
 	}
@@ -791,9 +791,9 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 	    {
 	        gchar* fmtstr;
 		if ( nb_ope_tiers_etat <= 1 )
-		    fmtstr = _("%s (%d transaction)"); 
+		    fmtstr = _("%s (%d transaction)");
 		else
-		    fmtstr = _("%s (%d transactions)"); 
+		    fmtstr = _("%s (%d transactions)");
 		tmpstr = utils_real_get_string_with_currency (montant_tiers_etat,
 										devise_tiers_etat, TRUE  );
 		text = g_strdup_printf ( fmtstr, tmpstr, nb_ope_tiers_etat );
@@ -828,7 +828,7 @@ gint etat_affiche_affiche_total_tiers ( gint ligne )
 /* si force = 0, vérifie les dates et affiche si nécessaire */
 /*   si force = 1, affiche le total (chgt de categ, ib ...) */
 /*****************************************************************************************************/
-gint etat_affiche_affiche_total_periode ( gint transaction_number, 
+gint etat_affiche_affiche_total_periode ( gint transaction_number,
 					  gint ligne,
 					  gint force )
 {
@@ -874,7 +874,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
             if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
-                do 
+                do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
@@ -970,7 +970,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 	    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
-                do 
+                do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
@@ -1110,7 +1110,7 @@ gint etat_affiche_affiche_total_periode ( gint transaction_number,
 
 		    if ( g_date_get_weekday ( date_debut_periode )  != jour_debut_semaine )
 			{
-                do 
+                do
                 {
                     g_date_subtract_days ( date_debut_periode, 1 );
                 }
@@ -1952,7 +1952,7 @@ gint etat_affiche_affiche_sous_categ_etat ( gint transaction_number,
 		    pointeur_char = my_strdup ("");
 	    }
 
-	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free (pointeur_char);
 	    ligne++;
@@ -2033,7 +2033,7 @@ gint etat_affiche_affiche_ib_etat ( gint transaction_number,
 					      _("No budgetary line"),
 					      NULL );
 
-	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
@@ -2121,7 +2121,7 @@ gint etat_affiche_affiche_sous_ib_etat ( gint transaction_number,
 		    pointeur_char = g_strdup("");
 	    }
 
-	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
@@ -2191,7 +2191,7 @@ gint etat_affiche_affiche_compte_etat ( gint transaction_number,
 					  NULL );
 	    nom_compte_en_cours = gsb_data_account_get_name (gsb_data_transaction_get_account_number (transaction_number));
 
-	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
@@ -2269,7 +2269,7 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 					      _("No payee"),
 					      NULL );
 
-	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1, 
+	    etat_affiche_attach_label ( pointeur_char, TEXT_NORMAL, 0, nb_colonnes-1,
 					ligne, ligne + 1, ALIGN_LEFT, 0 );
 	    g_free ( pointeur_char );
 	    ligne++;
@@ -2291,15 +2291,15 @@ gint etat_affiche_affiche_tiers_etat ( gint transaction_number,
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 {
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1, 
+    etat_affiche_attach_label ( _("Incomes"), TEXT_LARGE, 0, nb_colonnes-1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
@@ -2311,15 +2311,15 @@ gint etat_affiche_affiche_titre_revenus_etat ( gint ligne )
 /*****************************************************************************************************/
 gint etat_affiche_affiche_titre_depenses_etat ( gint ligne )
 {
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1, 
+    etat_affiche_attach_label ( _("Outgoings"), TEXT_LARGE, 0, nb_colonnes-1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
-    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1, 
+    etat_affiche_attach_label ( NULL, TEXT_NORMAL, 0, 1,
 				ligne, ligne + 1, ALIGN_CENTER, 0 );
     ligne++;
 
@@ -2343,7 +2343,7 @@ gint etat_affiche_affiche_totaux_sous_jaccent ( gint origine,
 
 
     /* on doit partir du bout de la liste pour revenir vers la structure demandée */
-    
+
     pointeur_glist = g_slist_reverse (g_slist_copy ( gsb_data_report_get_sorting_type (current_report_number)));
 
     while ( GPOINTER_TO_INT ( pointeur_glist -> data ) != origine )
@@ -2514,7 +2514,7 @@ void etat_affiche_attach_vsep ( int x, int x2, int y, int y2)
 
 
 
-void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2, 
+void etat_affiche_attach_label ( gchar * text, gint properties, int x, int x2, int y, int y2,
 				 enum alignement align, gint transaction_number )
 {
     etat_affichage_output -> attach_label ( text, properties, x, x2, y, y2, align, transaction_number );

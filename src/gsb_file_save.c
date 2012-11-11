@@ -171,7 +171,7 @@ extern gint transaction_col_width[CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
 
-/** 
+/**
  * save the grisbi file or an archive
  * we don't check anything here, all must be done before, here we just write
  * the file and set the permissions
@@ -243,7 +243,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
      * if not enough, we will make it growth later
      * the data below are about the memory to take for each part and for 1 of this part
      * with that i think we will allocate enough memory in one time but not too much */
-    
+
     length_calculated = general_part
 	+ account_part * gsb_data_account_get_accounts_amount ()
 	+ transaction_part * g_slist_length ( gsb_data_transaction_get_complete_transactions_list ())
@@ -394,7 +394,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
         if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
         {
             gint (*crypt_function) ( const gchar *, gchar **, gboolean, gulong );
-            
+
             crypt_function = (gpointer) plugin -> plugin_run;
             iterator = crypt_function ( filename, &file_content, TRUE, iterator );
             if ( ! iterator )
@@ -416,7 +416,7 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             return FALSE;
         }
     }
-    
+
     /* the file is in memory, we can save it */
     /* i didn't succeed to save a "proper" file with zlib without compression,
      * it always append some extra characters, so use glib without compression, and
@@ -518,7 +518,7 @@ gulong gsb_file_save_append_part ( gulong iterator,
 {
     if ( !new_string )
 	return iterator;
-    
+
     /* we check first if we don't go throw the upper limit */
 
     while ( (iterator + strlen (new_string)) >= *length_calculated )
@@ -545,13 +545,13 @@ gulong gsb_file_save_append_part ( gulong iterator,
 
 /**
  * Protect the caller against NULL strings.
- * 
+ *
  * It simply returns the passed string when it is not NULL,
  * or "(null)" when it is NULL.
  *
  * \param string the string to be returned
  *
- * \return the given string, or "(null)" if it is a NULL pointer. 
+ * \return the given string, or "(null)" if it is a NULL pointer.
  * */
 const gchar *my_safe_null_str ( const gchar *string )
 {
@@ -569,7 +569,7 @@ const gchar *my_safe_null_str ( const gchar *string )
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
- * \param archive_number the number of the archive or 0 if not an archive 
+ * \param archive_number the number of the archive or 0 if not an archive
  *
  * \return the new iterator
  * */
@@ -685,14 +685,14 @@ gulong gsb_file_save_general_part ( gulong iterator,
             g_free ( second_string_to_free );
         }
     }
-    
+
     /* CSV skipped lines */
     skipped_lines_string = utils_str_itoa ( etat.csv_skipped_lines[0] );
     for ( i = 1; i < CSV_MAX_TOP_LINES ; i ++ )
     {
         skipped_lines_string = g_strconcat (
                         first_string_to_free =  skipped_lines_string ,
-					    "-", 
+					    "-",
 					    second_string_to_free = utils_str_itoa ( etat.csv_skipped_lines[i] ),
 					    NULL );
 
@@ -869,7 +869,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
- * \param archive_number the number of the archive or 0 if not an archive 
+ * \param archive_number the number of the archive or 0 if not an archive
  *
  * \return the new iterator
  * */
@@ -896,7 +896,7 @@ gulong gsb_file_save_color_part ( gulong iterator,
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
  * \param file_content a pointer to the variable file_content
- * \param archive_number the number of the archive or 0 if not an archive 
+ * \param archive_number the number of the archive or 0 if not an archive
  *
  * \return the new iterator
  * */
@@ -1262,7 +1262,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
 }
 
 /**
- * save the methods of payment 
+ * save the methods of payment
  *
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
@@ -1286,7 +1286,7 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 	payment_number = gsb_data_payment_get_number (list_tmp -> data);
 
 	/* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( 
+	new_string = g_markup_printf_escaped (
                            "\t<Payment Number=\"%d\" Name=\"%s\" Sign=\"%d\" Show_entry=\"%d\" "
                            "Automatic_number=\"%d\" Current_number=\"%s\" Account=\"%d\" />\n",
 					       payment_number,
@@ -1309,7 +1309,7 @@ gulong gsb_file_save_payment_part ( gulong iterator,
 }
 
 /**
- * save the transactions 
+ * save the transactions
  *
  * \param iterator the current iterator
  * \param length_calculated a pointer to the variable lengh_calculated
@@ -1369,7 +1369,7 @@ gulong gsb_file_save_transaction_part ( gulong iterator,
 	exchange_fees = gsb_real_safe_real_to_string (
                         gsb_data_transaction_get_exchange_fees ( transaction_number ),
                         floating_point );
-	
+
 	/* set the dates */
 	date = gsb_format_gdate_safe ( gsb_data_transaction_get_date ( transaction_number ));
 	value_date = gsb_format_gdate_safe ( gsb_data_transaction_get_value_date ( transaction_number ));
@@ -1442,7 +1442,7 @@ gulong gsb_file_save_scheduled_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_scheduled_get_scheduled_list ();
 
     while ( list_tmp )
@@ -1527,7 +1527,7 @@ gulong gsb_file_save_party_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_payee_get_payees_list ();
 
     while ( list_tmp )
@@ -1544,7 +1544,7 @@ gulong gsb_file_save_party_part ( gulong iterator,
             continue;
         }
 
-        new_string = g_markup_printf_escaped ( 
+        new_string = g_markup_printf_escaped (
                             "\t<Party Nb=\"%d\" Na=\"%s\" Txt=\"%s\" Search=\"%s\" />\n",
                             payee_number,
                             my_safe_null_str(gsb_data_payee_get_name (payee_number, TRUE )),
@@ -1578,7 +1578,7 @@ gulong gsb_file_save_category_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_category_get_categories_list ();
 
     while ( list_tmp )
@@ -1655,7 +1655,7 @@ gulong gsb_file_save_budgetary_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_budget_get_budgets_list ();
 
     while ( list_tmp )
@@ -1733,7 +1733,7 @@ gulong gsb_file_save_currency_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_currency_get_currency_list ();
 
     while ( list_tmp )
@@ -1840,7 +1840,7 @@ gulong gsb_file_save_bank_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_bank_get_bank_list ();
 
     while ( list_tmp )
@@ -1895,7 +1895,7 @@ gulong gsb_file_save_financial_year_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_fyear_get_fyears_list ();
 
     while ( list_tmp )
@@ -1949,7 +1949,7 @@ gulong gsb_file_save_archive_part ( gulong iterator,
                         gchar **file_content )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_archive_get_archives_list ();
 
     while ( list_tmp )
@@ -2175,7 +2175,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
                         gboolean current_report )
 {
     GSList *list_tmp;
-	
+
     list_tmp = gsb_data_report_get_report_list ();
 
     while ( list_tmp )
@@ -2198,7 +2198,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	gchar *report_name;
 	gint amount_comparison_number_to_write;
 	gint text_comparison_number_to_write;
-	
+
 	report_number = gsb_data_report_get_report_number (list_tmp -> data);
 
 	/* if we need only the current report, we check here */
@@ -2820,7 +2820,7 @@ gulong gsb_file_save_account_icon_part ( gulong iterator,
             list_tmp = list_tmp -> next;
             continue;
         }
-        
+
         pixbuf = gsb_select_icon_get_account_pixbuf_by_ptr ( list_tmp -> data );
         str64 = gsb_select_icon_create_chaine_base64_from_pixbuf ( pixbuf );
 

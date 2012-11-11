@@ -24,7 +24,7 @@
 /* ************************************************************************** */
 
 /**
- * \todo make the CSV parameter configurable 
+ * \todo make the CSV parameter configurable
  */
 
 #ifdef HAVE_CONFIG_H
@@ -63,7 +63,7 @@ static void csv_add_record(FILE* file,
 			   gboolean print_balance );
 static void csv_clear_fields(gboolean clear_all);
 static FILE *gsb_csv_export_open_file ( const gchar *filename );
-gboolean gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1, 
+gboolean gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1,
                         gpointer transaction_pointer_2 );
 static gboolean gsb_csv_export_title_line ( FILE *csv_file,
 					    gboolean print_balance );
@@ -89,13 +89,13 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
  *
  * Free the memory used by the field value.
  *
- * \param a filed poointed 
+ * \param a filed poointed
  */
 #define CSV_CLEAR_FIELD(a)  if (a) { g_free(a);  a = NULL; }
 
 
 
-/** 
+/**
  * \brief write a string field.
  * \internal
  *
@@ -106,7 +106,7 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
  * \param   f   valid file stream to write
  * \param   a   string field to add.
  *
- */ 
+ */
 #define CSV_STR_FIELD(f,a)  if (a) { fprintf(f,"\"%s\"%c",g_locale_from_utf8(a,-1,NULL,NULL,NULL),g_csv_field_separator); } else { fprintf(f,"\"\"%c",g_csv_field_separator); }
 
 
@@ -127,7 +127,7 @@ static void gsb_csv_export_tree_view_list_export_title_line ( FILE *csv_file, Gt
 
 /**
  * \brief Write the end of record character
- * 
+ *
  * \param   f   valid file stream to write
  */
 #define CSV_END_RECORD(f)  fprintf(f,"\n")
@@ -167,11 +167,11 @@ gchar*  csv_field_info_bank  = NULL; /*!< bank references (string) */
  * \internal
  *
  * This function is to used before computing a new operation.
- * 
+ *
  * The function is able to reset all or just a part of the variable
  * depending of the need - typically the date is not reset when reading
  * split operation items.
- * 
+ *
  * \param clear_all partial or complete cleaning.
  *
  */
@@ -208,18 +208,18 @@ static void csv_clear_fields(gboolean clear_all)
 
 /**
  * \brief Write down the current csv record.
- * 
+ *
  * \internal
- * 
+ *
  * The function appends the current csv record values followed by a end of record
  * in the given file and then clean all fields (if requested)
  * Depending of a global grisbi configuration some field may not be written (like exercice one)
- * 
+ *
  * \param file      valid file stream to write
  * \param clear_all partial or complete cleaning.
  * \param print_balance print the balance or not
- * 
- */ 
+ *
+ */
 static void csv_add_record(FILE* file,
 			   gboolean clear_all,
 			   gboolean print_balance )
@@ -465,8 +465,8 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	if ( date )
 	{
 	    CSV_CLEAR_FIELD (csv_field_date);
-	    csv_field_date = g_strdup_printf ("%d/%d/%d", 
-					      g_date_get_day ( date ), 
+	    csv_field_date = g_strdup_printf ("%d/%d/%d",
+					      g_date_get_day ( date ),
 					      g_date_get_month ( date ),
 					      g_date_get_year ( date ) );
 	}
@@ -475,8 +475,8 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 	if ( value_date )
 	{
 	    CSV_CLEAR_FIELD (csv_field_date_val);
-	    csv_field_date_val = g_strdup_printf ("%d/%d/%d", 
-						  g_date_get_day ( value_date ), 
+	    csv_field_date_val = g_strdup_printf ("%d/%d/%d",
+						  g_date_get_day ( value_date ),
 						  g_date_get_month ( value_date ),
 						  g_date_get_year ( value_date ) );
 	}
@@ -593,7 +593,7 @@ static gboolean gsb_csv_export_transaction ( gint transaction_number,
 
 	    CSV_CLEAR_FIELD (csv_field_categ);
 	    csv_field_categ = my_strdup (_("Split of transaction"));
-        
+
 	    csv_add_record(csv_file,FALSE, print_balance);
 
 	    pSplitTransactionList = gsb_data_transaction_get_transactions_list ();
@@ -773,64 +773,64 @@ static gboolean gsb_csv_export_title_line ( FILE *csv_file,
 {
     CSV_CLEAR_FIELD (csv_field_operation );
     csv_field_operation  = my_strdup (_("Transactions"));
-    
+
     CSV_CLEAR_FIELD (csv_field_account   );
     csv_field_account    = my_strdup (_("Account name"));
-   
+
     CSV_CLEAR_FIELD (csv_field_ventil    );
     csv_field_ventil     = my_strdup (_("Split"));
-  
+
     CSV_CLEAR_FIELD (csv_field_date      );
     csv_field_date       = my_strdup (_("Date"));
- 
+
     CSV_CLEAR_FIELD (csv_field_date_val  );
     csv_field_date_val   = my_strdup (_("Value date"));
 
     CSV_CLEAR_FIELD (csv_field_cheque    );
     csv_field_cheque     = my_strdup (_("Cheques"));
-    
+
     CSV_CLEAR_FIELD (csv_field_exercice  );
     csv_field_exercice   = my_strdup (_("Financial year"));
-    
+
     CSV_CLEAR_FIELD (csv_field_pointage  );
     csv_field_pointage   = my_strdup (_("C/R"));
-    
+
     CSV_CLEAR_FIELD (csv_field_tiers     );
     csv_field_tiers      = my_strdup (_("Payee"));
-    
+
     CSV_CLEAR_FIELD (csv_field_credit    );
     csv_field_credit     = my_strdup (_("Credit"));
-    
+
     CSV_CLEAR_FIELD (csv_field_debit     );
     csv_field_debit      = my_strdup (_("Debit"));
-    
+
     CSV_CLEAR_FIELD (csv_field_montant   );
     csv_field_montant    = my_strdup (_("Amount"));
-    
+
     CSV_CLEAR_FIELD (csv_field_solde     );
     csv_field_solde      = my_strdup (_("Balance"));
-    
+
     CSV_CLEAR_FIELD (csv_field_categ     );
     csv_field_categ      = my_strdup (_("Category"));
-    
+
     CSV_CLEAR_FIELD (csv_field_sous_categ);
     csv_field_sous_categ = my_strdup (_("Sub-categories"));
-    
+
     CSV_CLEAR_FIELD (csv_field_notes     );
     csv_field_notes      = my_strdup (_("Notes"));
-    
+
     CSV_CLEAR_FIELD (csv_field_imput     );
     csv_field_imput      = my_strdup (_("Budgetary lines"));
-    
+
     CSV_CLEAR_FIELD (csv_field_sous_imput);
     csv_field_sous_imput = my_strdup (_("Sub-budgetary lines"));
-    
+
     CSV_CLEAR_FIELD (csv_field_piece     );
     csv_field_piece      = my_strdup (_("Voucher"));
-    
+
     CSV_CLEAR_FIELD (csv_field_rappro    );
     csv_field_rappro     = my_strdup (_("Reconciliation number"));
-    
+
     CSV_CLEAR_FIELD (csv_field_info_bank );
     csv_field_info_bank  = my_strdup (_("Bank references"));
 
@@ -976,13 +976,13 @@ static gboolean gsb_csv_export_tree_view_list_foreach_callback ( GtkTreeModel *m
 /**
  * used to compare 2 iters and sort the by value date or date if not exist
  * always put the white line below
- * 
+ *
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return -1 if iter_1 is before iter_2
  * */
-gint gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1, 
+gint gsb_csv_export_sort_by_value_date_or_date ( gpointer transaction_pointer_1,
                         gpointer transaction_pointer_2 )
 {
     gint transaction_number_1;

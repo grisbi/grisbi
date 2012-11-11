@@ -111,7 +111,7 @@ static struct_text_comparison *text_comparison_buffer;
 
 /**
  * set the text comparison global variables to NULL, usually when we init all the global variables
- * 
+ *
  * \param none
  *
  * \return FALSE
@@ -127,7 +127,7 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
 	    text_comparison = tmp_list-> data;
 	    tmp_list = tmp_list -> next;
 	    _gsb_data_report_text_comparison_free ( text_comparison );
-	    
+
         }
         g_slist_free ( text_comparison_list );
     }
@@ -140,11 +140,11 @@ gboolean gsb_data_report_text_comparison_init_variables ( void )
 
 
 /**
- * return a pointer on the text comparison structure which the number is in the parameter. 
+ * return a pointer on the text comparison structure which the number is in the parameter.
  * that structure is stored in the buffer
- * 
+ *
  * \param text_comparison_number
- * 
+ *
  * \return a pointer to the text_comparison, NULL if not found
  * */
 static struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no ( gint text_comparison_number )
@@ -184,7 +184,7 @@ static struct_text_comparison *gsb_data_report_text_comparison_get_struct_by_no 
 
 
 /** find and return the last number of text_comparison
- * 
+ *
  * \param none
  *
  * \return last number of text_comparison
@@ -291,7 +291,7 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
     struct_text_comparison *text_comparison;
     struct_text_comparison *last_text_comparison;
     gint text_comparison_number;
-    
+
     last_text_comparison = gsb_data_report_text_comparison_get_struct_by_no (last_text_comparison_number);
 
     if ( !last_text_comparison )
@@ -318,9 +318,9 @@ gint gsb_data_report_text_comparison_dup ( gint last_text_comparison_number )
 
 
 
-/** 
+/**
  * set the report_number
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param report_number
  *
@@ -343,7 +343,7 @@ gboolean gsb_data_report_text_comparison_set_report_number ( gint text_compariso
 
 /**
  * get the link_to_last_text_comparison
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -360,9 +360,9 @@ gint gsb_data_report_text_comparison_get_link_to_last_text_comparison ( gint tex
     return text_comparison -> link_to_last_text_comparison;
 }
 
-/** 
+/**
  * set the link_to_last_text_comparison
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param link_to_last_text_comparison
  *
@@ -386,7 +386,7 @@ gboolean gsb_data_report_text_comparison_set_link_to_last_text_comparison ( gint
 
 /**
  * get the field
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the field of the text_comparison, -1 if problem
@@ -403,9 +403,9 @@ gint gsb_data_report_text_comparison_get_field ( gint text_comparison_number )
     return text_comparison -> field;
 }
 
-/** 
+/**
  * set the field
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param field
  *
@@ -429,7 +429,7 @@ gboolean gsb_data_report_text_comparison_set_field ( gint text_comparison_number
 
 /**
  * get the operator
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the operator of the text_comparison, -1 if problem
@@ -446,9 +446,9 @@ gint gsb_data_report_text_comparison_get_operator ( gint text_comparison_number 
     return text_comparison -> operator;
 }
 
-/** 
+/**
  * set the operator
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param operator
  *
@@ -472,7 +472,7 @@ gboolean gsb_data_report_text_comparison_set_operator ( gint text_comparison_num
 
 /**
  * get the text
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the text of the text_comparison, -1 if problem
@@ -489,9 +489,9 @@ gchar *gsb_data_report_text_comparison_get_text ( gint text_comparison_number )
     return text_comparison -> text;
 }
 
-/** 
+/**
  * set the text
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param text  the value will be dumped before added so can free after
  * 		if the length is 0, set NULL
@@ -518,7 +518,7 @@ gboolean gsb_data_report_text_comparison_set_text ( gint text_comparison_number,
 
 /**
  * get the use_text
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the use_text of the text_comparison, -1 if problem
@@ -535,9 +535,9 @@ gint gsb_data_report_text_comparison_get_use_text ( gint text_comparison_number 
     return text_comparison -> use_text;
 }
 
-/** 
+/**
  * set the use_text
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param use_text
  *
@@ -561,7 +561,7 @@ gboolean gsb_data_report_text_comparison_set_use_text ( gint text_comparison_num
 
 /**
  * get the first_comparison
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -578,9 +578,9 @@ gint gsb_data_report_text_comparison_get_first_comparison ( gint text_comparison
     return text_comparison -> first_comparison;
 }
 
-/** 
+/**
  * set the first_comparison
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param first_comparison
  *
@@ -604,7 +604,7 @@ gboolean gsb_data_report_text_comparison_set_first_comparison ( gint text_compar
 
 /**
  * get the first_amount
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the first_amount of the text_comparison, -1 if problem
@@ -621,9 +621,9 @@ gint gsb_data_report_text_comparison_get_first_amount ( gint text_comparison_num
     return text_comparison -> first_amount;
 }
 
-/** 
+/**
  * set the first_amount
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param first_amount
  *
@@ -647,7 +647,7 @@ gboolean gsb_data_report_text_comparison_set_first_amount ( gint text_comparison
 
 /**
  * get the link_first_to_second_part
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -664,9 +664,9 @@ gint gsb_data_report_text_comparison_get_link_first_to_second_part ( gint text_c
     return text_comparison -> link_first_to_second_part;
 }
 
-/** 
+/**
  * set the link_first_to_second_part
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param link_first_to_second_part
  *
@@ -690,7 +690,7 @@ gboolean gsb_data_report_text_comparison_set_link_first_to_second_part ( gint te
 
 /**
  * get the second_comparison
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -707,9 +707,9 @@ gint gsb_data_report_text_comparison_get_second_comparison ( gint text_compariso
     return text_comparison -> second_comparison;
 }
 
-/** 
+/**
  * set the second_comparison
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param second_comparison
  *
@@ -733,7 +733,7 @@ gboolean gsb_data_report_text_comparison_set_second_comparison ( gint text_compa
 
 /**
  * get the second_amount
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the second_amount of the text_comparison, -1 if problem
@@ -750,9 +750,9 @@ gint gsb_data_report_text_comparison_get_second_amount ( gint text_comparison_nu
     return text_comparison -> second_amount;
 }
 
-/** 
+/**
  * set the second_amount
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param second_amount
  *
@@ -776,7 +776,7 @@ gboolean gsb_data_report_text_comparison_set_second_amount ( gint text_compariso
 
 /**
  * get the vbox_line
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -793,9 +793,9 @@ gpointer gsb_data_report_text_comparison_get_vbox_line ( gint text_comparison_nu
     return text_comparison -> vbox_line;
 }
 
-/** 
+/**
  * set the vbox_line
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param vbox_line
  *
@@ -818,7 +818,7 @@ gboolean gsb_data_report_text_comparison_set_vbox_line ( gint text_comparison_nu
 
 /**
  * get the button_link
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -835,9 +835,9 @@ gpointer gsb_data_report_text_comparison_get_button_link ( gint text_comparison_
     return text_comparison -> button_link;
 }
 
-/** 
+/**
  * set the button_link
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_link
  *
@@ -862,7 +862,7 @@ gboolean gsb_data_report_text_comparison_set_button_link ( gint text_comparison_
 
 /**
  * get the button_field
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the button_field of the text_comparison, -1 if problem
@@ -879,9 +879,9 @@ gpointer gsb_data_report_text_comparison_get_button_field ( gint text_comparison
     return text_comparison -> button_field;
 }
 
-/** 
+/**
  * set the button_field
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_field
  *
@@ -905,7 +905,7 @@ gboolean gsb_data_report_text_comparison_set_button_field ( gint text_comparison
 
 /**
  * get the button_use_text
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the button_use_text of the text_comparison, -1 if problem
@@ -922,9 +922,9 @@ gpointer gsb_data_report_text_comparison_get_button_use_text ( gint text_compari
     return text_comparison -> button_use_text;
 }
 
-/** 
+/**
  * set the button_use_text
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_use_text
  *
@@ -948,7 +948,7 @@ gboolean gsb_data_report_text_comparison_set_button_use_text ( gint text_compari
 
 /**
  * get the hbox_text
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the hbox_text of the text_comparison, -1 if problem
@@ -965,9 +965,9 @@ gpointer gsb_data_report_text_comparison_get_hbox_text ( gint text_comparison_nu
     return text_comparison -> hbox_text;
 }
 
-/** 
+/**
  * set the hbox_text
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param hbox_text
  *
@@ -991,7 +991,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_text ( gint text_comparison_nu
 
 /**
  * get the button_operator
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the button_operator of the text_comparison, -1 if problem
@@ -1008,9 +1008,9 @@ gpointer gsb_data_report_text_comparison_get_button_operator ( gint text_compari
     return text_comparison -> button_operator;
 }
 
-/** 
+/**
  * set the button_operator
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_operator
  *
@@ -1034,7 +1034,7 @@ gboolean gsb_data_report_text_comparison_set_button_operator ( gint text_compari
 
 /**
  * get the entry_text
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the entry_text of the text_comparison, -1 if problem
@@ -1051,9 +1051,9 @@ gpointer gsb_data_report_text_comparison_get_entry_text ( gint text_comparison_n
     return text_comparison -> entry_text;
 }
 
-/** 
+/**
  * set the entry_text
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param entry_text
  *
@@ -1077,7 +1077,7 @@ gboolean gsb_data_report_text_comparison_set_entry_text ( gint text_comparison_n
 
 /**
  * get the button_use_number
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the button_use_number of the text_comparison, -1 if problem
@@ -1094,9 +1094,9 @@ gpointer gsb_data_report_text_comparison_get_button_use_number ( gint text_compa
     return text_comparison -> button_use_number;
 }
 
-/** 
+/**
  * set the button_use_number
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_use_number
  *
@@ -1120,7 +1120,7 @@ gboolean gsb_data_report_text_comparison_set_button_use_number ( gint text_compa
 
 /**
  * get the hbox_cheque
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the hbox_cheque of the text_comparison, -1 if problem
@@ -1137,9 +1137,9 @@ gpointer gsb_data_report_text_comparison_get_hbox_cheque ( gint text_comparison_
     return text_comparison -> hbox_cheque;
 }
 
-/** 
+/**
  * set the hbox_cheque
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param hbox_cheque
  *
@@ -1163,7 +1163,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_cheque ( gint text_comparison_
 
 /**
  * get the button_first_comparison
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -1180,9 +1180,9 @@ gpointer gsb_data_report_text_comparison_get_button_first_comparison ( gint text
     return text_comparison -> button_first_comparison;
 }
 
-/** 
+/**
  * set the button_first_comparison
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_first_comparison
  *
@@ -1205,7 +1205,7 @@ gboolean gsb_data_report_text_comparison_set_button_first_comparison ( gint text
 
 /**
  * get the entry_first_amount
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the entry_first_amount of the text_comparison, -1 if problem
@@ -1222,9 +1222,9 @@ gpointer gsb_data_report_text_comparison_get_entry_first_amount ( gint text_comp
     return text_comparison -> entry_first_amount;
 }
 
-/** 
+/**
  * set the entry_first_amount
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param entry_first_amount
  *
@@ -1247,7 +1247,7 @@ gboolean gsb_data_report_text_comparison_set_entry_first_amount ( gint text_comp
 
 /**
  * get the button_link_first_to_second_part
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -1264,9 +1264,9 @@ gpointer gsb_data_report_text_comparison_get_button_link_first_to_second_part ( 
     return text_comparison -> button_link_first_to_second_part;
 }
 
-/** 
+/**
  * set the button_link_first_to_second_part
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_link_first_to_second_part
  *
@@ -1289,7 +1289,7 @@ gboolean gsb_data_report_text_comparison_set_button_link_first_to_second_part ( 
 
 /**
  * get the hbox_second_part
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -1306,9 +1306,9 @@ gpointer gsb_data_report_text_comparison_get_hbox_second_part ( gint text_compar
     return text_comparison -> hbox_second_part;
 }
 
-/** 
+/**
  * set the hbox_second_part
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param hbox_second_part
  *
@@ -1331,7 +1331,7 @@ gboolean gsb_data_report_text_comparison_set_hbox_second_part ( gint text_compar
 
 /**
  * get the button_second_comparison
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the  of the text_comparison, -1 if problem
@@ -1348,9 +1348,9 @@ gpointer gsb_data_report_text_comparison_get_button_second_comparison ( gint tex
     return text_comparison -> button_second_comparison;
 }
 
-/** 
+/**
  * set the button_second_comparison
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param button_second_comparison
  *
@@ -1373,7 +1373,7 @@ gboolean gsb_data_report_text_comparison_set_button_second_comparison ( gint tex
 
 /**
  * get the entry_second_amount
- * 
+ *
  * \param text_comparison_number the number of the text_comparison
  *
  * \return the entry_second_amount of the text_comparison, -1 if problem
@@ -1390,9 +1390,9 @@ gpointer gsb_data_report_text_comparison_get_entry_second_amount ( gint text_com
     return text_comparison -> entry_second_amount;
 }
 
-/** 
+/**
  * set the entry_second_amount
- * 
+ *
  * \param text_comparison_number number of the text_comparison
  * \param entry_second_amount
  *

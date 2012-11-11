@@ -49,7 +49,7 @@
 /*END_INCLUDE*/
 
 /**
- * \struct 
+ * \struct
  * Describe a category
  */
 typedef struct
@@ -70,7 +70,7 @@ typedef struct
 
 
 /**
- * \struct 
+ * \struct
  * Describe a sub-category
  */
 typedef struct
@@ -394,8 +394,8 @@ gint gsb_data_category_max_number ( void )
 /**
  * find and return the last number of the sub-categories
  *
- * \param 
- * 
+ * \param
+ *
  * \return last number of the sub-categories
  * */
 gint gsb_data_category_max_sub_category_number ( gint category_number )
@@ -453,7 +453,7 @@ gint gsb_data_category_new ( const gchar *name )
 /**
  * create a new category with a number, append it to the list
  * and return the number
- * 
+ *
  *
  * \param number the number we want to give to that category
  *
@@ -524,7 +524,7 @@ void _gsb_data_category_free ( struct_category *category )
     }
     if ( category -> category_name )
         g_free ( category -> category_name );
-    g_free ( category ); 
+    g_free ( category );
     if ( category_buffer == category )
 	category_buffer = NULL;
 }
@@ -886,7 +886,7 @@ gboolean gsb_data_category_set_name ( gint no_category,
                         const gchar *name )
 {
     struct_category *category;
-    
+
     category = gsb_data_category_get_structure ( no_category );
 
     if ( !category )
@@ -970,7 +970,7 @@ gboolean gsb_data_category_set_sub_category_name ( gint no_category,
     if ( name )
     {
         GtkWidget *combofix;
-        
+
         sub_category -> sub_category_name = my_strdup ( name );
         combofix = gsb_form_widget_get_widget ( TRANSACTION_FORM_PARTY );
         if ( combofix )
@@ -1298,9 +1298,9 @@ gsb_real gsb_data_category_get_direct_balance ( gint no_category )
 /**
  * reset the counters of the categories and sub-categories
  *
- * \param 
+ * \param
  *
- * \return 
+ * \return
  * */
 void gsb_data_category_reset_counters ( void )
 {
@@ -1324,7 +1324,7 @@ void gsb_data_category_reset_counters ( void )
 	while ( sub_list_tmp )
 	{
 	    struct_sub_category *sub_category;
-	    
+
 	    sub_category = sub_list_tmp -> data;
 
 	    sub_category -> sub_category_nb_transactions = 0;
@@ -1334,7 +1334,7 @@ void gsb_data_category_reset_counters ( void )
 	}
 	list_tmp = list_tmp -> next;
     }
-    
+
     /* reset the empty category */
     empty_category -> category_balance = null_real;
     empty_category -> category_nb_transactions = 0;
@@ -1411,7 +1411,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
     {
 	gchar *tmpstr;
 	tmpstr = g_strdup_printf ( _("The transaction %d has a category n°%d and sub-category n°%d but they don't exist."),
-				   transaction_number, 
+				   transaction_number,
 				   category_id,
 				   sub_category_id );
 	warning_debug (tmpstr);
@@ -1508,7 +1508,7 @@ void gsb_data_category_remove_transaction_from_category ( gint transaction_numbe
  * Find if two sub categories are the same
  *
  * \param a		First sub-category to compare.
- * \param b		Second sub-category to compare.	
+ * \param b		Second sub-category to compare.
  *
  * \return		Same as a <=> b.
  */
@@ -1525,7 +1525,7 @@ gint gsb_data_sub_category_compare ( struct_sub_category * a, struct_sub_categor
 
 /**
  * \brief Debug check to verify if some sub categories are doubled.
- * 
+ *
  * This is a bug caused in old version of Grisbi and this check has to
  * be there since we need to access to the structures directly without
  * resorting to numeric ids.
@@ -1555,7 +1555,7 @@ gchar * gsb_debug_duplicate_categ_check ()
 	    if ( duplicate && duplicate > tmp_sous_categ )
 	    {
 	        gchar* tmpstr1 = output;
-		gchar* tmpstr2 = g_strdup_printf ( 
+		gchar* tmpstr2 = g_strdup_printf (
 				_("In <i>%s</i>, <i>%s</i> is a duplicate of <i>%s</i>.\n"),
 				categ -> category_name,
 				((struct_sub_category *) tmp_sous_categ -> data) -> sub_category_name,
@@ -1569,7 +1569,7 @@ gchar * gsb_debug_duplicate_categ_check ()
 	    }
 	    tmp_sous_categ = tmp_sous_categ -> next;
 	}
-	
+
 	tmp = tmp -> next;
     }
 
@@ -1578,14 +1578,14 @@ gchar * gsb_debug_duplicate_categ_check ()
 	output [ strlen ( output ) - 1 ] = '\0';
 	return output;
     }
-    
+
     return NULL;
 }
 
 
 
 /**
- * Fix any duplicate in sub categories.  
+ * Fix any duplicate in sub categories.
  *
  * \return	TRUE on success.  FALSE otherwise.
  */
@@ -1613,7 +1613,7 @@ gboolean gsb_debug_duplicate_categ_fix ()
 	    }
 	    tmp_sous_categ = tmp_sous_categ -> next;
 	}
-	
+
 	tmp = tmp -> next;
     }
 
@@ -1622,10 +1622,10 @@ gboolean gsb_debug_duplicate_categ_fix ()
 
 
 /**
- * 
- * 
  *
- * \param 
+ *
+ *
+ * \param
  *
  * \return
  * */

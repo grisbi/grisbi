@@ -38,17 +38,17 @@
 
 
 /**
- * Return the real in a formatted string, according to the currency 
+ * Return the real in a formatted string, according to the currency
  * regarding decimal separator, thousands separator and positive or
  * negative sign.
  * this is directly the number coded in the real wich is returned
  * usually, utils_real_get_string_with_currency is better to adapt the format
  * 	of the number to the currency format
- * 
+ *
  * \param number	Number to format.
  *
  * \return		A newly allocated string of the number (this
- *			function will never return NULL) 
+ *			function will never return NULL)
 */
 gchar *utils_real_get_string ( gsb_real number )
 {
@@ -168,7 +168,7 @@ gsb_real utils_real_get_calculate_entry ( GtkWidget *entry )
     gchar *string;
     gchar *pointeur;
     gsb_real total = null_real;
-	
+
     string = my_strdup ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) );
 
     if ( string && strlen ( string ) )
@@ -192,7 +192,7 @@ gsb_real utils_real_get_calculate_entry ( GtkWidget *entry )
                             utils_real_get_from_string ( pointeur ) );
                 pointeur[0] = 0;
             }
-            
+
             pointeur--;
         }
         total = gsb_real_add ( total,
@@ -211,7 +211,7 @@ gsb_real utils_real_get_calculate_entry ( GtkWidget *entry )
                             utils_real_get_from_string ( pointeur + 1 ) );
                 pointeur[0] = 0;
             }
-            
+
             pointeur--;
         }
         total = gsb_real_mul ( total,

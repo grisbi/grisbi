@@ -140,17 +140,17 @@ GtkResponseType gsb_assistant_first_come_to_0_6 ( void )
 
     /* create the assistant */
     assistant = gsb_assistant_new ( _("Welcome to Grisbi!"),
-				    _("You are using Grisbi for the first time.  While most of the " 
+				    _("You are using Grisbi for the first time.  While most of the "
 				      "interface has not changed, you will notice a lot of improvements. "
 				      "Do not hesitate to read some tips of the day to learn more on the new "
-				      "features.\n\n" 
+				      "features.\n\n"
 				      "Of the most notable enhancements to Grisbi, we redesigned the "
 				      "backup function. "
 				      "Grisbi will now automatically put backup files in a directory "
 				      "that you will be able to set manually in next screen.\n\n"
 				      "Also, we advise you to configure your web browser "
 				      "to your system configuration and to configure various settings "
-				      "in next screen.\n\n" 
+				      "in next screen.\n\n"
 				      "If you want to make backups of your Grisbi file in case you want to revert "
 				      "to old version of Grisbi, we would advise you to do that right now.\n\n"
 				      "You can find out other improvements on http://www.grisbi.org/."),
@@ -241,13 +241,13 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     /* Automatically load last file on startup? */
     button = gsb_automem_checkbutton_new (_("Automatically load last file on startup"),
 					  &conf.dernier_fichier_auto, NULL, NULL );
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* automatically save file at closing */
     button = gsb_automem_checkbutton_new (_("Automatically save on exit"),
 					  &conf.sauvegarde_auto, NULL, NULL);
-    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, 
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), button,
 			 FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
@@ -368,7 +368,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
 
 
 /**
- * If error creating reconcilaitions, display the third page 
+ * If error creating reconcilaitions, display the third page
  * otherwise exit normally
  *
  * \param assistant
@@ -380,7 +380,7 @@ static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
                         gint new_page )
 {
     if ( result_reconcile == TRUE )
-        gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+        gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
 				       GTK_RESPONSE_APPLY );
 
     return FALSE;
@@ -398,7 +398,7 @@ static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
 static gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
                         gint new_page )
 {
-    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, 
+    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
 				       GTK_RESPONSE_APPLY );
 
     return FALSE;

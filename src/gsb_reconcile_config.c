@@ -59,9 +59,9 @@ static gboolean gsb_reconcile_config_end_date_changed ( GtkWidget *checkbutton,
                         GdkEventButton *event,
                         gpointer data );
 static gboolean gsb_reconcile_config_find_alone_transactions ( void );
-static gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection, 
+static gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection,
 				       GtkWidget *table );
-static gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,    
+static gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 					    GtkWidget *tree_view );
 /*END_STATIC*/
 
@@ -97,7 +97,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
     GtkWidget *label;
     gint i;
     gfloat alignment[] = {
-	COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER, 
+	COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER,
 	COLUMN_RIGHT, COLUMN_RIGHT
     };
     gchar *titles[] = {
@@ -157,7 +157,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 			reconcile_treeview );
 
     reconcile_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (reconcile_treeview));
-    g_signal_connect (reconcile_selection, "changed", 
+    g_signal_connect (reconcile_selection, "changed",
 		      G_CALLBACK (gsb_reconcile_config_select), table_selection);
 
     /* Name */
@@ -279,7 +279,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 	gtk_widget_set_sensitive ( table_selection, FALSE );
 
     /* set the button to find non-associated transactions */
-	button = gtk_button_new_with_label ( 
+	button = gtk_button_new_with_label (
                         _("Find all marked transactions not associated with a reconcile number"));
 	gtk_button_set_relief ( GTK_BUTTON (button),
 			GTK_RELIEF_NONE );
@@ -303,7 +303,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
  * fill the reconcile list,
  * sort each reconcile in its account
  *
- * \param 
+ * \param
  *
  * \return
  * */
@@ -396,7 +396,7 @@ void gsb_reconcile_config_fill ( void )
  *
  * \return FALSE
  */
-gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection, 
+gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection,
 				       GtkWidget *table )
 {
     GtkTreeIter iter;
@@ -408,7 +408,7 @@ gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection,
     {
 	gint reconcile_number;
 
-	gtk_tree_model_get (model, &iter, 
+	gtk_tree_model_get (model, &iter,
 			    RECONCILIATION_RECONCILE_COLUMN, &reconcile_number,
 			    -1 );
 
@@ -434,7 +434,7 @@ gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection,
 	    /* we make the table sensitive */
 	    gtk_widget_set_sensitive ( table, TRUE );
 	}
-	else 
+	else
 	    gtk_widget_set_sensitive ( table, FALSE );
     }
     else
@@ -450,7 +450,7 @@ gboolean gsb_reconcile_config_select ( GtkTreeSelection *selection,
  *
  * \return FALSE
  * */
-gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,    
+gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 					    GtkWidget *tree_view )
 {
     GtkTreeIter iter;
@@ -465,7 +465,7 @@ gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
     {
 	gint reconcile_number;
 
-	gtk_tree_model_get (model, &iter, 
+	gtk_tree_model_get (model, &iter,
 			    RECONCILIATION_RECONCILE_COLUMN, &reconcile_number,
 			    -1 );
 
@@ -525,7 +525,7 @@ gboolean gsb_reconcile_config_delete ( GtkWidget *button,
 	gint reconcile_number;
 	gint account_number;
 
-	gtk_tree_model_get (model, &iter, 
+	gtk_tree_model_get (model, &iter,
 			    RECONCILIATION_RECONCILE_COLUMN, &reconcile_number,
 			    -1 );
 

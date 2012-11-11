@@ -136,7 +136,7 @@ gboolean gsb_data_print_config_get_draw_lines  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_lines  ( gint number,
@@ -163,7 +163,7 @@ gboolean gsb_data_print_config_get_draw_column  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_column  ( gint number,
@@ -190,7 +190,7 @@ gboolean gsb_data_print_config_get_draw_background  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_background  ( gint number,
@@ -217,7 +217,7 @@ gboolean gsb_data_print_config_get_draw_archives  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_archives  ( gint number,
@@ -244,7 +244,7 @@ gboolean gsb_data_print_config_get_draw_columns_name  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_columns_name  ( gint number,
@@ -271,7 +271,7 @@ gboolean gsb_data_print_config_get_draw_title  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_title  ( gint number,
@@ -298,7 +298,7 @@ gboolean gsb_data_print_config_get_draw_interval_dates  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_interval_dates  ( gint number,
@@ -325,7 +325,7 @@ gboolean gsb_data_print_config_get_draw_dates_are_value_dates  ( void )
  *
  * \param number	not used (here for compatibility with gsb_autofunc)
  * \param value		value to set
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_draw_dates_are_value_dates  ( gint number,
@@ -352,7 +352,7 @@ PangoFontDescription *gsb_data_print_config_get_font_transactions ( void )
  * set the font_transactions value
  *
  * \param font_desc	the PangoFontDescription to save
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_font_transaction ( PangoFontDescription *font_desc )
@@ -380,7 +380,7 @@ PangoFontDescription *gsb_data_print_config_get_font_title ( void )
  * set the font title value
  *
  * \param font_desc	the PangoFontDescription to save
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_font_title ( PangoFontDescription *font_desc )
@@ -408,7 +408,7 @@ PangoFontDescription *gsb_data_print_config_get_report_font_transactions ( void 
  * set the report_font_transactions value for report
  *
  * \param font_desc	the PangoFontDescription to save
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_report_font_transaction ( PangoFontDescription *font_desc )
@@ -436,7 +436,7 @@ PangoFontDescription *gsb_data_print_config_get_report_font_title ( void )
  * set the font title value
  *
  * \param font_desc	the PangoFontDescription to save
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_print_config_set_report_font_title ( PangoFontDescription *font_desc )

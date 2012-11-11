@@ -51,7 +51,7 @@ gboolean navigation_change_account ( gint new_account );
 gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );
-gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest, 
+gboolean navigation_row_drop_possible ( GtkTreeDragDest *drag_dest,
                         GtkTreePath *dest_path,
                         GtkSelectionData *selection_data );
 /* END_DECLARATION */

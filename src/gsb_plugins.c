@@ -88,7 +88,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin_dir = g_dir_open ( dirname, 0, NULL );
     if ( ! plugin_dir )
 	return;
-    
+
     while ( ( filename = g_dir_read_name ( plugin_dir ) ) != NULL )
     {
 	gchar * complete_filename, * tmp;
@@ -105,7 +105,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 
 	complete_filename = g_build_filename ( dirname, filename, NULL );
 
-	if ( ! ( plugin -> handle = 
+	if ( ! ( plugin -> handle =
 		 g_module_open (complete_filename, 0 ) ) )
 	{
 	    gchar* tmpstr = g_strdup_printf ( "Couldn't load module %s: %s", filename,
@@ -116,13 +116,13 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	    g_free ( complete_filename);
 	    continue;
 	}
-	
+
 	g_free (complete_filename);
 
 	if ( ! g_module_symbol ( plugin -> handle, "plugin_name",
 				 (gpointer) &plugin_name ) )
 	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol", 
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol",
 					       filename );
 	    dialogue_error ( tmpstr );
 	    g_free ( tmpstr );
@@ -135,7 +135,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer)  &( plugin -> plugin_register ) ) )
 	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol", 
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol",
 					       filename );
 	    dialogue_error ( tmpstr );
 	    g_free ( tmpstr );
@@ -150,7 +150,7 @@ void gsb_plugins_scan_dir ( const char *dirname )
 	if ( ! g_module_symbol ( plugin -> handle, tmp,
 				 (gpointer) &( plugin -> plugin_run ) ) )
 	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no run symbol", 
+	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no run symbol",
 					       filename );
 	    dialogue_error ( tmpstr );
 	    g_free ( tmpstr );
@@ -178,7 +178,7 @@ gsb_plugin * gsb_plugin_find ( gchar * plugin_name )
     GSList * tmp = plugins;
 
     g_return_val_if_fail ( plugin_name, NULL );
-    
+
     while ( tmp )
     {
 	gsb_plugin * plugin = (gsb_plugin *) tmp -> data;

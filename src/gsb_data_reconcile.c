@@ -179,9 +179,9 @@ GList *gsb_data_reconcile_get_reconcile_list ( void )
 
 /**
  * find and return the last number of reconcile
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of reconcile
  * */
 gint gsb_data_reconcile_max_number ( void )
@@ -725,10 +725,10 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
 
         if (reconcile -> account_number == account_number)
         {
-            rec_list = g_list_insert_sorted ( rec_list, reconcile, 
+            rec_list = g_list_insert_sorted ( rec_list, reconcile,
                                              (GCompareFunc) gsb_data_reconcile_cmp_int );
         }
-	   
+
         tmp_list = tmp_list -> next;
     }
 
@@ -736,7 +736,7 @@ GList *gsb_data_reconcile_get_sort_reconcile_list ( gint account_number )
     while (tmp_list)
     {
         reconcile = tmp_list -> data;
-        
+
         new_list = g_list_append ( new_list, GINT_TO_POINTER (
                                     reconcile -> reconcile_number) );
         tmp_list = tmp_list -> next;

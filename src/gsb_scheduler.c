@@ -22,7 +22,7 @@
 
 /**
  * \file gsb_scheduler.c
- * contains several functions to work with the schedulers transactions 
+ * contains several functions to work with the schedulers transactions
  */
 
 
@@ -73,9 +73,9 @@ gint nb_days_before_scheduled;
  * if it's above the limit date, that transaction is deleted
  * if it's a split, the children are updated too
  * if the scheduled transaction is finished, it's removed from the list and from the scheduled transactions
- * 
+ *
  * \param scheduled_number the scheduled transaction we want to increase
- * 
+ *
  * \return FALSE if the scheduled transaction is finished, TRUE else
  * */
 gboolean gsb_scheduler_increase_scheduled ( gint scheduled_number )
@@ -199,7 +199,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 	    switch (gsb_data_scheduled_get_user_interval (scheduled_number))
 	    {
 		case PERIODICITY_DAYS:
-		    g_date_add_days ( return_date, 
+		    g_date_add_days ( return_date,
 				      gsb_data_scheduled_get_user_entry (scheduled_number));
 		    /* FIXME : there were a bug in gtk and we had to add 0 month to have the good date,
 		     * it seems fixed but we should wait the stable debian is upgraded to
@@ -208,7 +208,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 		    break;
 
 		case PERIODICITY_WEEKS:
-		    g_date_add_days ( return_date, 
+		    g_date_add_days ( return_date,
 				      gsb_data_scheduled_get_user_entry (scheduled_number) * 7 );
 		    g_date_add_months ( return_date, 0 );
 		    break;
@@ -235,7 +235,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
 	g_date_free (return_date);
 	return_date = NULL;
     }
-    
+
     return ( return_date );
 }
 
@@ -245,7 +245,7 @@ GDate *gsb_scheduler_get_next_date ( gint scheduled_number,
  * create a new transaction and fill it directly from a scheduled transaction
  * (don't pass throw the form)
  * if it's a child of split, append it automatickly to the mother
- * 
+ *
  * \param scheduled_number the transaction we use to fill the new transaction
  * \param transaction_mother the number of the mother if it's a split child, 0 else
  *
@@ -346,9 +346,9 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
  * used to catch a transaction from a scheduled transaction
  * take the category, check if it's a transfer or a split and
  * do the necessary (create contra-transaction)
- * don't execute the children if it's a split, need to call 
+ * don't execute the children if it's a split, need to call
  * gsb_scheduler_execute_children_of_scheduled_transaction later
- * 
+ *
  *
  * \param transaction_number
  * \param scheduled_number
@@ -410,7 +410,7 @@ gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gint tran
  * \param transaction_number the number of the transaction created from that scheduled (so, the future mother of the children)
  *
  * \return FALSE
- * 
+ *
  * */
 gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint scheduled_number,
 								   gint transaction_number )
@@ -441,9 +441,9 @@ gboolean gsb_scheduler_execute_children_of_scheduled_transaction ( gint schedule
 /**
  * check the scheduled transactions if the are in time limit
  * and record the automatic transactions
- * 
+ *
  * \param
- * 
+ *
  * \return
  * */
 void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
@@ -473,7 +473,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
     if ( conf.execute_scheduled_of_month)
     {
 	gint last_day;
-	
+
 	last_day = g_date_get_days_in_month ( g_date_get_month (date),
 					      g_date_get_year (date));
 	g_date_set_day (date, last_day);
@@ -517,7 +517,7 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 		/* set the scheduled transaction to the next date,
 		 * if it's not finished, we check them again if it need to be
 		 * executed more than one time (the easiest way is to check
-		 * all again, i don't think it will have thousand of scheduled transactions, 
+		 * all again, i don't think it will have thousand of scheduled transactions,
 		 * so no much waste of time...) */
 		if (gsb_scheduler_increase_scheduled (scheduled_number))
 		{

@@ -44,14 +44,14 @@
 /*END_INCLUDE*/
 
 /** \struct
- * describe an report 
+ * describe an report
  * */
 typedef struct
 {
     /** @name general stuff */
     gint report_number;
     gchar *report_name;
-    
+
     /** @name what we show of the transactions */
     gint show_r;         /**< 0=all the reports, 1=report not marked R, 2=report marked R */
     gint show_report_transactions;
@@ -182,7 +182,7 @@ static struct_report *report_buffer;
 
 /**
  * set the reports global variables to NULL, usually when we init all the global variables
- * 
+ *
  * \param none
  *
  * \return FALSE
@@ -207,11 +207,11 @@ gboolean gsb_data_report_init_variables ( void )
 
 
 /**
- * return a pointer on the g_slist of reports 
+ * return a pointer on the g_slist of reports
  * carrefull : it's not a copy, so we must not free or change it
- * 
+ *
  * \param none
- * 
+ *
  * \return a g_slist on the reports
  * */
 GSList *gsb_data_report_get_report_list ( void )
@@ -223,11 +223,11 @@ GSList *gsb_data_report_get_report_list ( void )
 
 
 /**
- * return a pointer on the report which the number is in the parameter. 
+ * return a pointer on the report which the number is in the parameter.
  * that report is stored in the buffer
- * 
+ *
  * \param report_number
- * 
+ *
  * \return a pointer to the report, NULL if not found
  * */
 struct_report *gsb_data_report_get_structure ( gint report_number )
@@ -268,9 +268,9 @@ struct_report *gsb_data_report_get_structure ( gint report_number )
 /**
  * get the number of the report and save the pointer in the buffer
  * which will increase the speed later
- * 
+ *
  * \param report_pointer a pointer to a report
- * 
+ *
  * \return the number of the report
  * */
 gint gsb_data_report_get_report_number ( gpointer report_pointer )
@@ -292,7 +292,7 @@ gint gsb_data_report_get_report_number ( gpointer report_pointer )
 
 
 /** find and return the last number of report
- * 
+ *
  * \param none
  *
  * \return last number of report
@@ -378,7 +378,7 @@ static void _gsb_data_report_free ( struct_report *report )
 
     if ( ! report )
         return ;
-    
+
     /* remove first the comparison */
     list_tmp = report -> text_comparison_list;
     while ( list_tmp )
@@ -443,9 +443,9 @@ gboolean gsb_data_report_remove ( gint no_report )
 /**
  * return the number of the report found by its name
  * that report is stored in the buffer
- * 
+ *
  * \param name
- * 
+ *
  * \return the number of the report or 0 if not found
  * */
 gint gsb_data_report_get_report_by_name ( const gchar *name )
@@ -485,7 +485,7 @@ gint gsb_data_report_get_report_by_name ( const gchar *name )
 
 /**
  * get the  report_name
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the report_name  of the report, -1 if problem
@@ -502,9 +502,9 @@ gchar *gsb_data_report_get_report_name ( gint report_number )
     return report -> report_name;
 }
 
-/** 
+/**
  * set the report_name
- * 
+ *
  * \param report_number number of the report
  * \param report_name
  *
@@ -531,7 +531,7 @@ gboolean gsb_data_report_set_report_name ( gint report_number,
 
 /**
  * get the  show_r
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_r  of the report, -1 if problem
@@ -548,9 +548,9 @@ gint gsb_data_report_get_show_r ( gint report_number )
     return report -> show_r;
 }
 
-/** 
+/**
  * set the show_r
- * 
+ *
  * \param report_number number of the report
  * \param show_r
  *
@@ -575,7 +575,7 @@ gboolean gsb_data_report_set_show_r ( gint report_number,
 
 /**
  * get the  show_report_transactions
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_transactions  of the report, -1 if problem
@@ -592,9 +592,9 @@ gint gsb_data_report_get_show_report_transactions ( gint report_number )
     return report -> show_report_transactions;
 }
 
-/** 
+/**
  * set the show_report_transactions
- * 
+ *
  * \param report_number number of the report
  * \param show_report_transactions
  *
@@ -618,7 +618,7 @@ gboolean gsb_data_report_set_show_report_transactions ( gint report_number,
 
 /**
  * get the  show_report_transaction_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_transaction_amount  of the report, -1 if problem
@@ -635,9 +635,9 @@ gint gsb_data_report_get_show_report_transaction_amount ( gint report_number )
     return report -> show_report_transaction_amount;
 }
 
-/** 
+/**
  * set the show_report_transaction_amount
- * 
+ *
  * \param report_number number of the report
  * \param show_report_transaction_amount
  *
@@ -661,7 +661,7 @@ gboolean gsb_data_report_set_show_report_transaction_amount ( gint report_number
 
 /**
  * get the  show_report_date
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_date  of the report, -1 if problem
@@ -678,9 +678,9 @@ gint gsb_data_report_get_show_report_date ( gint report_number )
     return report -> show_report_date;
 }
 
-/** 
+/**
  * set the show_report_date
- * 
+ *
  * \param report_number number of the report
  * \param show_report_date
  *
@@ -703,7 +703,7 @@ gboolean gsb_data_report_set_show_report_date ( gint report_number,
 
 /**
  * get the  show_report_value_date
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_value_date  of the report, -1 if problem
@@ -720,9 +720,9 @@ gint gsb_data_report_get_show_report_value_date ( gint report_number )
     return report -> show_report_value_date;
 }
 
-/** 
+/**
  * set the show_report_value_date
- * 
+ *
  * \param report_number number of the report
  * \param show_report_value_date
  *
@@ -746,7 +746,7 @@ gboolean gsb_data_report_set_show_report_value_date ( gint report_number,
 
 /**
  * get the  show_report_payee
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  show_report_payee of the report, -1 if problem
@@ -763,9 +763,9 @@ gint gsb_data_report_get_show_report_payee ( gint report_number )
     return report -> show_report_payee;
 }
 
-/** 
+/**
  * set the show_report_payee
- * 
+ *
  * \param report_number number of the report
  * \param show_report_payee
  *
@@ -789,7 +789,7 @@ gboolean gsb_data_report_set_show_report_payee ( gint report_number,
 
 /**
  * get the  show_report_category
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_category  of the report, -1 if problem
@@ -806,9 +806,9 @@ gint gsb_data_report_get_show_report_category ( gint report_number )
     return report -> show_report_category;
 }
 
-/** 
+/**
  * set the show_report_category
- * 
+ *
  * \param report_number number of the report
  * \param show_report_category
  *
@@ -832,7 +832,7 @@ gboolean gsb_data_report_set_show_report_category ( gint report_number,
 
 /**
  * get the  show_report_sub_category
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_sub_category  of the report, -1 if problem
@@ -849,9 +849,9 @@ gint gsb_data_report_get_show_report_sub_category ( gint report_number )
     return report -> show_report_sub_category;
 }
 
-/** 
+/**
  * set the show_report_sub_category
- * 
+ *
  * \param report_number number of the report
  * \param show_report_sub_category
  *
@@ -875,7 +875,7 @@ gboolean gsb_data_report_set_show_report_sub_category ( gint report_number,
 
 /**
  * get the  show_report_budget
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_budget  of the report, -1 if problem
@@ -892,9 +892,9 @@ gint gsb_data_report_get_show_report_budget ( gint report_number )
     return report -> show_report_budget;
 }
 
-/** 
+/**
  * set the show_report_budget
- * 
+ *
  * \param report_number number of the report
  * \param show_report_budget
  *
@@ -918,7 +918,7 @@ gboolean gsb_data_report_set_show_report_budget ( gint report_number,
 
 /**
  * get the  show_report_sub_budget
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  show_report_sub_budget of the report, -1 if problem
@@ -935,9 +935,9 @@ gint gsb_data_report_get_show_report_sub_budget ( gint report_number )
     return report -> show_report_sub_budget;
 }
 
-/** 
+/**
  * set the show_report_sub_budget
- * 
+ *
  * \param report_number number of the report
  * \param show_report_sub_budget
  *
@@ -961,7 +961,7 @@ gboolean gsb_data_report_set_show_report_sub_budget ( gint report_number,
 
 /**
  * get the  show_report_note
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_note  of the report, -1 if problem
@@ -978,9 +978,9 @@ gint gsb_data_report_get_show_report_note ( gint report_number )
     return report -> show_report_note;
 }
 
-/** 
+/**
  * set the show_report_note
- * 
+ *
  * \param report_number number of the report
  * \param show_report_note
  *
@@ -1004,7 +1004,7 @@ gboolean gsb_data_report_set_show_report_note ( gint report_number,
 
 /**
  * get the  show_report_voucher
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_voucher  of the report, -1 if problem
@@ -1021,9 +1021,9 @@ gint gsb_data_report_get_show_report_voucher ( gint report_number )
     return report -> show_report_voucher;
 }
 
-/** 
+/**
  * set the show_report_voucher
- * 
+ *
  * \param report_number number of the report
  * \param show_report_voucher
  *
@@ -1047,7 +1047,7 @@ gboolean gsb_data_report_set_show_report_voucher ( gint report_number,
 
 /**
  * get the  show_report_bank_references
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_bank_references  of the report, -1 if problem
@@ -1064,9 +1064,9 @@ gint gsb_data_report_get_show_report_bank_references ( gint report_number )
     return report -> show_report_bank_references;
 }
 
-/** 
+/**
  * set the show_report_bank_references
- * 
+ *
  * \param report_number number of the report
  * \param show_report_bank_references
  *
@@ -1090,7 +1090,7 @@ gboolean gsb_data_report_set_show_report_bank_references ( gint report_number,
 
 /**
  * get the  show_report_transaction_number
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_transaction_number  of the report, -1 if problem
@@ -1107,9 +1107,9 @@ gint gsb_data_report_get_show_report_transaction_number ( gint report_number )
     return report -> show_report_transaction_number;
 }
 
-/** 
+/**
  * set the show_report_transaction_number
- * 
+ *
  * \param report_number number of the report
  * \param show_report_transaction_number
  *
@@ -1133,7 +1133,7 @@ gboolean gsb_data_report_set_show_report_transaction_number ( gint report_number
 
 /**
  * get the  show_report_method_of_payment
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  show_report_method_of_payment of the report, -1 if problem
@@ -1150,9 +1150,9 @@ gint gsb_data_report_get_show_report_method_of_payment ( gint report_number )
     return report -> show_report_method_of_payment;
 }
 
-/** 
+/**
  * set the show_report_method_of_payment
- * 
+ *
  * \param report_number number of the report
  * \param show_report_method_of_payment
  *
@@ -1176,7 +1176,7 @@ gboolean gsb_data_report_set_show_report_method_of_payment ( gint report_number,
 
 /**
  * get the  show_report_method_of_payment_content
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_method_of_payment_content  of the report, -1 if problem
@@ -1193,9 +1193,9 @@ gint gsb_data_report_get_show_report_method_of_payment_content ( gint report_num
     return report -> show_report_method_of_payment_content;
 }
 
-/** 
+/**
  * set the show_report_method_of_payment_content
- * 
+ *
  * \param report_number number of the report
  * \param show_report_method_of_payment_content
  *
@@ -1219,7 +1219,7 @@ gboolean gsb_data_report_set_show_report_method_of_payment_content ( gint report
 
 /**
  * get the  show_report_marked
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_marked  of the report, -1 if problem
@@ -1236,9 +1236,9 @@ gint gsb_data_report_get_show_report_marked ( gint report_number )
     return report -> show_report_marked;
 }
 
-/** 
+/**
  * set the show_report_marked
- * 
+ *
  * \param report_number number of the report
  * \param show_report_marked
  *
@@ -1262,7 +1262,7 @@ gboolean gsb_data_report_set_show_report_marked ( gint report_number,
 
 /**
  * get the  show_report_financial_year
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the show_report_financial_year  of the report, -1 if problem
@@ -1279,9 +1279,9 @@ gint gsb_data_report_get_show_report_financial_year ( gint report_number )
     return report -> show_report_financial_year;
 }
 
-/** 
+/**
  * set the show_report_financial_year
- * 
+ *
  * \param report_number number of the report
  * \param show_report_financial_year
  *
@@ -1305,7 +1305,7 @@ gboolean gsb_data_report_set_show_report_financial_year ( gint report_number,
 
 /**
  * get the  sorting_report
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the sorting_report  of the report, -1 if problem
@@ -1322,9 +1322,9 @@ gint gsb_data_report_get_sorting_report ( gint report_number )
     return report -> sorting_report;
 }
 
-/** 
+/**
  * set the sorting_report
- * 
+ *
  * \param report_number number of the report
  * \param sorting_report
  *
@@ -1348,7 +1348,7 @@ gboolean gsb_data_report_set_sorting_report ( gint report_number,
 
 /**
  * get the  not_detail_split
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the not_detail_split  of the report, -1 if problem
@@ -1365,9 +1365,9 @@ gint gsb_data_report_get_not_detail_split ( gint report_number )
     return report -> not_detail_split;
 }
 
-/** 
+/**
  * set the not_detail_split
- * 
+ *
  * \param report_number number of the report
  * \param not_detail_split
  *
@@ -1391,7 +1391,7 @@ gboolean gsb_data_report_set_not_detail_split ( gint report_number,
 
 /**
  * get the  split_credit_debit
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the split_credit_debit  of the report, -1 if problem
@@ -1408,9 +1408,9 @@ gint gsb_data_report_get_split_credit_debit ( gint report_number )
     return report -> split_credit_debit;
 }
 
-/** 
+/**
  * set the split_credit_debit
- * 
+ *
  * \param report_number number of the report
  * \param split_credit_debit
  *
@@ -1434,7 +1434,7 @@ gboolean gsb_data_report_set_split_credit_debit ( gint report_number,
 
 /**
  * get the  currency_general
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  currency_general of the report, -1 if problem
@@ -1451,9 +1451,9 @@ gint gsb_data_report_get_currency_general ( gint report_number )
     return report -> currency_general;
 }
 
-/** 
+/**
  * set the currency_general
- * 
+ *
  * \param report_number number of the report
  * \param currency_general
  *
@@ -1477,7 +1477,7 @@ gboolean gsb_data_report_set_currency_general ( gint report_number,
 
 /**
  * get the  column_title_show
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the column_title_show  of the report, -1 if problem
@@ -1494,9 +1494,9 @@ gint gsb_data_report_get_column_title_show ( gint report_number )
     return report -> column_title_show;
 }
 
-/** 
+/**
  * set the column_title_show
- * 
+ *
  * \param report_number number of the report
  * \param column_title_show
  *
@@ -1520,7 +1520,7 @@ gboolean gsb_data_report_set_column_title_show ( gint report_number,
 
 /**
  * get the  column_title_type
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the column_title_type  of the report, -1 if problem
@@ -1537,9 +1537,9 @@ gint gsb_data_report_get_column_title_type ( gint report_number )
     return report -> column_title_type;
 }
 
-/** 
+/**
  * set the column_title_type
- * 
+ *
  * \param report_number number of the report
  * \param column_title_type
  *
@@ -1563,7 +1563,7 @@ gboolean gsb_data_report_set_column_title_type ( gint report_number,
 
 /**
  * get the  append_in_payee
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  append_in_payee of the report, -1 if problem
@@ -1580,9 +1580,9 @@ gint gsb_data_report_get_append_in_payee ( gint report_number )
     return report -> append_in_payee;
 }
 
-/** 
+/**
  * set the append_in_payee
- * 
+ *
  * \param report_number number of the report
  * \param append_in_payee
  *
@@ -1606,7 +1606,7 @@ gboolean gsb_data_report_set_append_in_payee ( gint report_number,
 
 /**
  * get the  report_can_click
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the report_can_click  of the report, -1 if problem
@@ -1623,9 +1623,9 @@ gint gsb_data_report_get_report_can_click ( gint report_number )
     return report -> report_can_click;
 }
 
-/** 
+/**
  * set the report_can_click
- * 
+ *
  * \param report_number number of the report
  * \param report_can_click
  *
@@ -1649,7 +1649,7 @@ gboolean gsb_data_report_set_report_can_click ( gint report_number,
 
 /**
  * get the  use_financial_year
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the use_financial_year  of the report, -1 if problem
@@ -1666,9 +1666,9 @@ gint gsb_data_report_get_use_financial_year ( gint report_number )
     return report -> use_financial_year;
 }
 
-/** 
+/**
  * set the use_financial_year
- * 
+ *
  * \param report_number number of the report
  * \param use_financial_year
  *
@@ -1692,7 +1692,7 @@ gboolean gsb_data_report_set_use_financial_year ( gint report_number,
 
 /**
  * get the  financial_year_type
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the financial_year_type  of the report, -1 if problem
@@ -1709,9 +1709,9 @@ gint gsb_data_report_get_financial_year_type ( gint report_number )
     return report -> financial_year_type;
 }
 
-/** 
+/**
  * set the financial_year_type
- * 
+ *
  * \param report_number number of the report
  * \param financial_year_type
  *
@@ -1735,7 +1735,7 @@ gboolean gsb_data_report_set_financial_year_type ( gint report_number,
 
 /**
  * get the  financial_year_split
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the financial_year_split  of the report, -1 if problem
@@ -1752,9 +1752,9 @@ gint gsb_data_report_get_financial_year_split ( gint report_number )
     return report -> financial_year_split;
 }
 
-/** 
+/**
  * set the financial_year_split
- * 
+ *
  * \param report_number number of the report
  * \param financial_year_split
  *
@@ -1778,7 +1778,7 @@ gboolean gsb_data_report_set_financial_year_split ( gint report_number,
 
 /**
  * get the  date_type
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the date_type  of the report, -1 if problem
@@ -1795,9 +1795,9 @@ gint gsb_data_report_get_date_type ( gint report_number )
     return report -> date_type;
 }
 
-/** 
+/**
  * set the date_type
- * 
+ *
  * \param report_number number of the report
  * \param date_type
  *
@@ -1821,7 +1821,7 @@ gboolean gsb_data_report_set_date_type ( gint report_number,
 
 /**
  * get the  personal_date_start
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the personal_date_start  of the report, -1 if problem
@@ -1838,9 +1838,9 @@ GDate *gsb_data_report_get_personal_date_start ( gint report_number )
     return report -> personal_date_start;
 }
 
-/** 
+/**
  * set the personal_date_start
- * 
+ *
  * \param report_number number of the report
  * \param personal_date_start
  *
@@ -1863,7 +1863,7 @@ gboolean gsb_data_report_set_personal_date_start ( gint report_number,
 
 /**
  * get the  personal_date_end
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the personal_date_end  of the report, -1 if problem
@@ -1880,9 +1880,9 @@ GDate *gsb_data_report_get_personal_date_end ( gint report_number )
     return report -> personal_date_end;
 }
 
-/** 
+/**
  * set the personal_date_end
- * 
+ *
  * \param report_number number of the report
  * \param personal_date_end
  *
@@ -1906,7 +1906,7 @@ gboolean gsb_data_report_set_personal_date_end ( gint report_number,
 
 /**
  * get the  period_split
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the period_split  of the report, -1 if problem
@@ -1923,9 +1923,9 @@ gint gsb_data_report_get_period_split ( gint report_number )
     return report -> period_split;
 }
 
-/** 
+/**
  * set the period_split
- * 
+ *
  * \param report_number number of the report
  * \param period_split
  *
@@ -1949,7 +1949,7 @@ gboolean gsb_data_report_set_period_split ( gint report_number,
 
 /**
  * get the  period_split_type
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the period_split_type  of the report, -1 if problem
@@ -1966,9 +1966,9 @@ gint gsb_data_report_get_period_split_type ( gint report_number )
     return report -> period_split_type;
 }
 
-/** 
+/**
  * set the period_split_type
- * 
+ *
  * \param report_number number of the report
  * \param period_split_type
  *
@@ -1992,7 +1992,7 @@ gboolean gsb_data_report_set_period_split_type ( gint report_number,
 
 /**
  * get the  period_split_day
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the period_split_day  of the report, -1 if problem
@@ -2009,9 +2009,9 @@ gint gsb_data_report_get_period_split_day ( gint report_number )
     return report -> period_split_day;
 }
 
-/** 
+/**
  * set the period_split_day
- * 
+ *
  * \param report_number number of the report
  * \param period_split_day
  *
@@ -2035,7 +2035,7 @@ gboolean gsb_data_report_set_period_split_day ( gint report_number,
 
 /**
  * get the  account_use_chosen
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the account_use_chosen  of the report, -1 if problem
@@ -2052,9 +2052,9 @@ gint gsb_data_report_get_account_use_chosen ( gint report_number )
     return report -> account_use_chosen;
 }
 
-/** 
+/**
  * set the account_use_chosen
- * 
+ *
  * \param report_number number of the report
  * \param account_use_chosen
  *
@@ -2078,7 +2078,7 @@ gboolean gsb_data_report_set_account_use_chosen ( gint report_number,
 
 /**
  * get the  account_group_reports
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the account_group_reports  of the report, -1 if problem
@@ -2095,9 +2095,9 @@ gint gsb_data_report_get_account_group_reports ( gint report_number )
     return report -> account_group_reports;
 }
 
-/** 
+/**
  * set the account_group_reports
- * 
+ *
  * \param report_number number of the report
  * \param account_group_reports
  *
@@ -2121,7 +2121,7 @@ gboolean gsb_data_report_set_account_group_reports ( gint report_number,
 
 /**
  * get the  account_show_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the account_show_amount  of the report, -1 if problem
@@ -2138,9 +2138,9 @@ gint gsb_data_report_get_account_show_amount ( gint report_number )
     return report -> account_show_amount;
 }
 
-/** 
+/**
  * set the account_show_amount
- * 
+ *
  * \param report_number number of the report
  * \param account_show_amount
  *
@@ -2164,7 +2164,7 @@ gboolean gsb_data_report_set_account_show_amount ( gint report_number,
 
 /**
  * get the  account_show_name
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the account_show_name  of the report, -1 if problem
@@ -2181,9 +2181,9 @@ gint gsb_data_report_get_account_show_name ( gint report_number )
     return report -> account_show_name;
 }
 
-/** 
+/**
  * set the account_show_name
- * 
+ *
  * \param report_number number of the report
  * \param account_show_name
  *
@@ -2207,7 +2207,7 @@ gboolean gsb_data_report_set_account_show_name ( gint report_number,
 
 /**
  * get the  transfer_choice
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the transfer_choice  of the report, -1 if problem
@@ -2224,9 +2224,9 @@ gint gsb_data_report_get_transfer_choice ( gint report_number )
     return report -> transfer_choice;
 }
 
-/** 
+/**
  * set the transfer_choice
- * 
+ *
  * \param report_number number of the report
  * \param transfer_choice
  *
@@ -2250,7 +2250,7 @@ gboolean gsb_data_report_set_transfer_choice ( gint report_number,
 
 /**
  * get the  transfer_reports_only
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the transfer_reports_only  of the report, -1 if problem
@@ -2267,9 +2267,9 @@ gint gsb_data_report_get_transfer_reports_only ( gint report_number )
     return report -> transfer_reports_only;
 }
 
-/** 
+/**
  * set the transfer_reports_only
- * 
+ *
  * \param report_number number of the report
  * \param transfer_reports_only
  *
@@ -2293,7 +2293,7 @@ gboolean gsb_data_report_set_transfer_reports_only ( gint report_number,
 
 /**
  * get the  category_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_used  of the report, -1 if problem
@@ -2310,9 +2310,9 @@ gint gsb_data_report_get_category_used ( gint report_number )
     return report -> category_used;
 }
 
-/** 
+/**
  * set the category_used
- * 
+ *
  * \param report_number number of the report
  * \param category_used
  *
@@ -2335,8 +2335,8 @@ gboolean gsb_data_report_set_category_used ( gint report_number,
 
 
 /**
- * get the category_detail_used 
- * 
+ * get the category_detail_used
+ *
  * \param report_number the number of the report
  *
  * \return the category_detail_used  of the report, -1 if problem
@@ -2353,9 +2353,9 @@ gint gsb_data_report_get_category_detail_used ( gint report_number )
     return report -> category_detail_used;
 }
 
-/** 
+/**
  * set the category_detail_used
- * 
+ *
  * \param report_number number of the report
  * \param category_detail_used
  *
@@ -2379,7 +2379,7 @@ gboolean gsb_data_report_set_category_detail_used ( gint report_number,
 
 /**
  * get the  category_show_sub_category
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_show_sub_category  of the report, -1 if problem
@@ -2396,9 +2396,9 @@ gint gsb_data_report_get_category_show_sub_category ( gint report_number )
     return report -> category_show_sub_category;
 }
 
-/** 
+/**
  * set the category_show_sub_category
- * 
+ *
  * \param report_number number of the report
  * \param category_show_sub_category
  *
@@ -2422,7 +2422,7 @@ gboolean gsb_data_report_set_category_show_sub_category ( gint report_number,
 
 /**
  * get the  category_show_category_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  category_show_category_amount of the report, -1 if problem
@@ -2439,9 +2439,9 @@ gint gsb_data_report_get_category_show_category_amount ( gint report_number )
     return report -> category_show_category_amount;
 }
 
-/** 
+/**
  * set the category_show_category_amount
- * 
+ *
  * \param report_number number of the report
  * \param category_show_category_amount
  *
@@ -2465,7 +2465,7 @@ gboolean gsb_data_report_set_category_show_category_amount ( gint report_number,
 
 /**
  * get the  category_show_sub_category_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_show_sub_category_amount  of the report, -1 if problem
@@ -2482,9 +2482,9 @@ gint gsb_data_report_get_category_show_sub_category_amount ( gint report_number 
     return report -> category_show_sub_category_amount;
 }
 
-/** 
+/**
  * set the category_show_sub_category_amount
- * 
+ *
  * \param report_number number of the report
  * \param category_show_sub_category_amount
  *
@@ -2509,7 +2509,7 @@ gboolean gsb_data_report_set_category_show_sub_category_amount ( gint report_num
 
 /**
  * get the  category_currency
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_currency  of the report, -1 if problem
@@ -2526,9 +2526,9 @@ gint gsb_data_report_get_category_currency ( gint report_number )
     return report -> category_currency;
 }
 
-/** 
+/**
  * set the category_currency
- * 
+ *
  * \param report_number number of the report
  * \param category_currency
  *
@@ -2552,7 +2552,7 @@ gboolean gsb_data_report_set_category_currency ( gint report_number,
 
 /**
  * get the  category_show_without_category
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_show_without_category  of the report, -1 if problem
@@ -2569,9 +2569,9 @@ gint gsb_data_report_get_category_show_without_category ( gint report_number )
     return report -> category_show_without_category;
 }
 
-/** 
+/**
  * set the category_show_without_category
- * 
+ *
  * \param report_number number of the report
  * \param category_show_without_category
  *
@@ -2595,7 +2595,7 @@ gboolean gsb_data_report_set_category_show_without_category ( gint report_number
 
 /**
  * get the  category_show_name
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the category_show_name  of the report, -1 if problem
@@ -2612,9 +2612,9 @@ gint gsb_data_report_get_category_show_name ( gint report_number )
     return report -> category_show_name;
 }
 
-/** 
+/**
  * set the category_show_name
- * 
+ *
  * \param report_number number of the report
  * \param category_show_name
  *
@@ -2638,7 +2638,7 @@ gboolean gsb_data_report_set_category_show_name ( gint report_number,
 
 /**
  * get the  budget_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_used  of the report, -1 if problem
@@ -2655,9 +2655,9 @@ gint gsb_data_report_get_budget_used ( gint report_number )
     return report -> budget_used;
 }
 
-/** 
+/**
  * set the budget_used
- * 
+ *
  * \param report_number number of the report
  * \param budget_used
  *
@@ -2681,7 +2681,7 @@ gboolean gsb_data_report_set_budget_used ( gint report_number,
 
 /**
  * get the  budget_detail_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  budget_detail_used of the report, -1 if problem
@@ -2698,9 +2698,9 @@ gint gsb_data_report_get_budget_detail_used ( gint report_number )
     return report -> budget_detail_used;
 }
 
-/** 
+/**
  * set the budget_detail_used
- * 
+ *
  * \param report_number number of the report
  * \param budget_detail_used
  *
@@ -2724,7 +2724,7 @@ gboolean gsb_data_report_set_budget_detail_used ( gint report_number,
 
 /**
  * get the  budget_show_sub_budget
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_show_sub_budget  of the report, -1 if problem
@@ -2741,9 +2741,9 @@ gint gsb_data_report_get_budget_show_sub_budget ( gint report_number )
     return report -> budget_show_sub_budget;
 }
 
-/** 
+/**
  * set the budget_show_sub_budget
- * 
+ *
  * \param report_number number of the report
  * \param budget_show_sub_budget
  *
@@ -2767,7 +2767,7 @@ gboolean gsb_data_report_set_budget_show_sub_budget ( gint report_number,
 
 /**
  * get the  budget_show_budget_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_show_budget_amount  of the report, -1 if problem
@@ -2784,9 +2784,9 @@ gint gsb_data_report_get_budget_show_budget_amount ( gint report_number )
     return report -> budget_show_budget_amount;
 }
 
-/** 
+/**
  * set the budget_show_budget_amount
- * 
+ *
  * \param report_number number of the report
  * \param budget_show_budget_amount
  *
@@ -2809,7 +2809,7 @@ gboolean gsb_data_report_set_budget_show_budget_amount ( gint report_number,
 
 /**
  * get the  budget_show_sub_budget_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_show_sub_budget_amount  of the report, -1 if problem
@@ -2826,9 +2826,9 @@ gint gsb_data_report_get_budget_show_sub_budget_amount ( gint report_number )
     return report -> budget_show_sub_budget_amount;
 }
 
-/** 
+/**
  * set the budget_show_sub_budget_amount
- * 
+ *
  * \param report_number number of the report
  * \param budget_show_sub_budget_amount
  *
@@ -2854,7 +2854,7 @@ gboolean gsb_data_report_set_budget_show_sub_budget_amount ( gint report_number,
 
 /**
  * get the  budget_currency
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_currency  of the report, -1 if problem
@@ -2871,9 +2871,9 @@ gint gsb_data_report_get_budget_currency ( gint report_number )
     return report -> budget_currency;
 }
 
-/** 
+/**
  * set the budget_currency
- * 
+ *
  * \param report_number number of the report
  * \param budget_currency
  *
@@ -2897,7 +2897,7 @@ gboolean gsb_data_report_set_budget_currency ( gint report_number,
 
 /**
  * get the  budget_show_without_budget
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_show_without_budget  of the report, -1 if problem
@@ -2914,9 +2914,9 @@ gint gsb_data_report_get_budget_show_without_budget ( gint report_number )
     return report -> budget_show_without_budget;
 }
 
-/** 
+/**
  * set the budget_show_without_budget
- * 
+ *
  * \param report_number number of the report
  * \param budget_show_without_budget
  *
@@ -2940,7 +2940,7 @@ gboolean gsb_data_report_set_budget_show_without_budget ( gint report_number,
 
 /**
  * get the  budget_show_name
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the budget_show_name  of the report, -1 if problem
@@ -2957,9 +2957,9 @@ gint gsb_data_report_get_budget_show_name ( gint report_number )
     return report -> budget_show_name;
 }
 
-/** 
+/**
  * set the budget_show_name
- * 
+ *
  * \param report_number number of the report
  * \param budget_show_name
  *
@@ -2983,7 +2983,7 @@ gboolean gsb_data_report_set_budget_show_name ( gint report_number,
 
 /**
  * get the  payee_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  payee_used of the report, -1 if problem
@@ -3000,9 +3000,9 @@ gint gsb_data_report_get_payee_used ( gint report_number )
     return report -> payee_used;
 }
 
-/** 
+/**
  * set the payee_used
- * 
+ *
  * \param report_number number of the report
  * \param payee_used
  *
@@ -3026,7 +3026,7 @@ gboolean gsb_data_report_set_payee_used ( gint report_number,
 
 /**
  * get the  payee_detail_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  payee_detail_used of the report, -1 if problem
@@ -3043,9 +3043,9 @@ gint gsb_data_report_get_payee_detail_used ( gint report_number )
     return report -> payee_detail_used;
 }
 
-/** 
+/**
  * set the payee_detail_used
- * 
+ *
  * \param report_number number of the report
  * \param payee_detail_used
  *
@@ -3069,7 +3069,7 @@ gboolean gsb_data_report_set_payee_detail_used ( gint report_number,
 
 /**
  * get the  payee_show_payee_amount
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the payee_show_payee_amount  of the report, -1 if problem
@@ -3086,9 +3086,9 @@ gint gsb_data_report_get_payee_show_payee_amount ( gint report_number )
     return report -> payee_show_payee_amount;
 }
 
-/** 
+/**
  * set the payee_show_payee_amount
- * 
+ *
  * \param report_number number of the report
  * \param payee_show_payee_amount
  *
@@ -3112,7 +3112,7 @@ gboolean gsb_data_report_set_payee_show_payee_amount ( gint report_number,
 
 /**
  * get the  payee_currency
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the payee_currency  of the report, -1 if problem
@@ -3129,9 +3129,9 @@ gint gsb_data_report_get_payee_currency ( gint report_number )
     return report -> payee_currency;
 }
 
-/** 
+/**
  * set the payee_currency
- * 
+ *
  * \param report_number number of the report
  * \param payee_currency
  *
@@ -3155,7 +3155,7 @@ gboolean gsb_data_report_set_payee_currency ( gint report_number,
 
 /**
  * get the  payee_show_name
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the payee_show_name  of the report, -1 if problem
@@ -3172,9 +3172,9 @@ gint gsb_data_report_get_payee_show_name ( gint report_number )
     return report -> payee_show_name;
 }
 
-/** 
+/**
  * set the payee_show_name
- * 
+ *
  * \param report_number number of the report
  * \param payee_show_name
  *
@@ -3198,7 +3198,7 @@ gboolean gsb_data_report_set_payee_show_name ( gint report_number,
 
 /**
  * get the  text_comparison_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the text_comparison_used  of the report, -1 if problem
@@ -3215,9 +3215,9 @@ gint gsb_data_report_get_text_comparison_used ( gint report_number )
     return report -> text_comparison_used;
 }
 
-/** 
+/**
  * set the text_comparison_used
- * 
+ *
  * \param report_number number of the report
  * \param text_comparison_used
  *
@@ -3241,7 +3241,7 @@ gboolean gsb_data_report_set_text_comparison_used ( gint report_number,
 
 /**
  * get the  amount_comparison_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the  amount_comparison_used of the report, -1 if problem
@@ -3258,9 +3258,9 @@ gint gsb_data_report_get_amount_comparison_used ( gint report_number )
     return report -> amount_comparison_used;
 }
 
-/** 
+/**
  * set the amount_comparison_used
- * 
+ *
  * \param report_number number of the report
  * \param amount_comparison_used
  *
@@ -3284,7 +3284,7 @@ gboolean gsb_data_report_set_amount_comparison_used ( gint report_number,
 
 /**
  * get the  amount_comparison_currency
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the amount_comparison_currency  of the report, -1 if problem
@@ -3301,9 +3301,9 @@ gint gsb_data_report_get_amount_comparison_currency ( gint report_number )
     return report -> amount_comparison_currency;
 }
 
-/** 
+/**
  * set the amount_comparison_currency
- * 
+ *
  * \param report_number number of the report
  * \param amount_comparison_currency
  *
@@ -3327,7 +3327,7 @@ gboolean gsb_data_report_set_amount_comparison_currency ( gint report_number,
 
 /**
  * get the  amount_comparison_only_report_non_null
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the amount_comparison_only_report_non_null  of the report, -1 if problem
@@ -3344,9 +3344,9 @@ gint gsb_data_report_get_amount_comparison_only_report_non_null ( gint report_nu
     return report -> amount_comparison_only_report_non_null;
 }
 
-/** 
+/**
  * set the amount_comparison_only_report_non_null
- * 
+ *
  * \param report_number number of the report
  * \param amount_comparison_only_report_non_null
  *
@@ -3369,7 +3369,7 @@ gboolean gsb_data_report_set_amount_comparison_only_report_non_null ( gint repor
 
 /**
  * get the  method_of_payment_used
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the method_of_payment_used  of the report, -1 if problem
@@ -3386,9 +3386,9 @@ gint gsb_data_report_get_method_of_payment_used ( gint report_number )
     return report -> method_of_payment_used;
 }
 
-/** 
+/**
  * set the method_of_payment_used
- * 
+ *
  * \param report_number number of the report
  * \param method_of_payment_used
  *
@@ -3412,7 +3412,7 @@ gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
 
 /**
  * get the  financial_year_list
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the financial_year_list  of the report, -1 if problem
@@ -3429,9 +3429,9 @@ GSList *gsb_data_report_get_financial_year_list ( gint report_number )
     return report -> financial_year_list;
 }
 
-/** 
+/**
  * set the financial_year_list
- * 
+ *
  * \param report_number number of the report
  * \param financial_year_list
  *
@@ -3454,7 +3454,7 @@ gboolean gsb_data_report_set_financial_year_list ( gint report_number,
 
 /**
  * get the  sorting_type
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the sorting_type  of the report, -1 if problem
@@ -3471,9 +3471,9 @@ GSList *gsb_data_report_get_sorting_type ( gint report_number )
     return report -> sorting_type;
 }
 
-/** 
+/**
  * set the sorting_type
- * 
+ *
  * \param report_number number of the report
  * \param sorting_type
  *
@@ -3496,7 +3496,7 @@ gboolean gsb_data_report_set_sorting_type ( gint report_number,
 
 /**
  * get the  account_numbers
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the account_numbers  of the report, -1 if problem
@@ -3513,9 +3513,9 @@ GSList *gsb_data_report_get_account_numbers ( gint report_number )
     return report -> account_numbers;
 }
 
-/** 
+/**
  * set the account_numbers
- * 
+ *
  * \param report_number number of the report
  * \param account_numbers
  *
@@ -3538,7 +3538,7 @@ gboolean gsb_data_report_set_account_numbers ( gint report_number,
 
 /**
  * get the  transfer_account_numbers
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the transfer_account_numbers  of the report, -1 if problem
@@ -3555,9 +3555,9 @@ GSList *gsb_data_report_get_transfer_account_numbers ( gint report_number )
     return report -> transfer_account_numbers;
 }
 
-/** 
+/**
  * set the transfer_account_numbers
- * 
+ *
  * \param report_number number of the report
  * \param transfer_account_numbers
  *
@@ -3582,7 +3582,7 @@ gboolean gsb_data_report_set_transfer_account_numbers ( gint report_number,
 /**
  * return the list of struct_categ_budget_sel
  * 	containing the selected categories and sub-categories
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the categ_select_struct  of the report, -1 if problem
@@ -3599,11 +3599,11 @@ GSList *gsb_data_report_get_category_struct ( gint report_number )
     return report -> categ_select_struct;
 }
 
-/** 
+/**
  * set the list of struct_categ_budget_sel
  * this is a list of struct_categ_budget_sel
  * if there were a previous category struct list, we free it before
- * 
+ *
  * \param report_number number of the report
  * \param categ_select_struct
  *
@@ -3688,7 +3688,7 @@ GSList *gsb_data_report_copy_categ_budget_struct (GSList *orig_categ_budget_list
 /**
  * return the list of struct_categ_budget_sel
  * 	containing the selected budgets and sub-budgets
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the categ_select_struct  of the report, -1 if problem
@@ -3705,11 +3705,11 @@ GSList *gsb_data_report_get_budget_struct ( gint report_number )
     return report -> budget_select_struct;
 }
 
-/** 
+/**
  * set the list of budgets struct
  * this is a list of struct_categ_budget_sel
  * if there were a previous budget struct list, we free it before
- * 
+ *
  * \param report_number number of the report
  * \param categ_select_struct
  *
@@ -3737,7 +3737,7 @@ gboolean gsb_data_report_set_budget_struct ( gint report_number,
 
 /**
  * get the  payee_numbers
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the payee_numbers  of the report, -1 if problem
@@ -3754,9 +3754,9 @@ GSList *gsb_data_report_get_payee_numbers ( gint report_number )
     return report -> payee_numbers;
 }
 
-/** 
+/**
  * set the payee_numbers
- * 
+ *
  * \param report_number number of the report
  * \param payee_numbers
  *
@@ -3779,7 +3779,7 @@ gboolean gsb_data_report_set_payee_numbers ( gint report_number,
 
 /**
  * get the  text_comparison_list
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the text_comparison_list  of the report, -1 if problem
@@ -3796,9 +3796,9 @@ GSList *gsb_data_report_get_text_comparison_list ( gint report_number )
     return report -> text_comparison_list;
 }
 
-/** 
+/**
  * set the text_comparison_list
- * 
+ *
  * \param report_number number of the report
  * \param text_comparison_list
  *
@@ -3821,7 +3821,7 @@ gboolean gsb_data_report_set_text_comparison_list ( gint report_number,
 
 /**
  * get the  amount_comparison_list
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the amount_comparison_list  of the report, -1 if problem
@@ -3838,9 +3838,9 @@ GSList *gsb_data_report_get_amount_comparison_list ( gint report_number )
     return report -> amount_comparison_list;
 }
 
-/** 
+/**
  * set the amount_comparison_list
- * 
+ *
  * \param report_number number of the report
  * \param amount_comparison_list
  *
@@ -3864,7 +3864,7 @@ gboolean gsb_data_report_set_amount_comparison_list ( gint report_number,
 /**
  * get the  method_of_payment_list
  * this is a list of string of method of payment we want to see in the report
- * 
+ *
  * \param report_number the number of the report
  *
  * \return the method_of_payment_list  of the report, -1 if problem
@@ -3881,9 +3881,9 @@ GSList *gsb_data_report_get_method_of_payment_list ( gint report_number )
     return report -> method_of_payment_list;
 }
 
-/** 
+/**
  * set the method_of_payment_list
- * 
+ *
  * \param report_number number of the report
  * \param method_of_payment_list
  *

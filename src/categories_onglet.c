@@ -265,7 +265,7 @@ void categories_fill_list ( void )
 
     /** Then, populate tree with categories. */
     category_list = gsb_data_category_get_categories_list ();
-    
+
     /* add first the empty category */
     category_list = g_slist_prepend ( category_list, gsb_data_category_get_empty_category ());
 
@@ -914,7 +914,7 @@ void selectionne_sub_category ( GtkTreeModel *model )
         return;
 
     name =  my_strdup (_("New sub-category"));
-    sub_category_number = gsb_data_category_get_sub_category_number_by_name ( 
+    sub_category_number = gsb_data_category_get_sub_category_number_by_name (
                         category_number, name, FALSE );
     j = gtk_tree_model_iter_n_children ( model, &parent );
     for (i = 0; i < j; i++ )

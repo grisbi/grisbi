@@ -52,7 +52,7 @@ static GtkPrintSettings *settings = NULL;
  * \param begin_callback	the function to call when the "begin" signal is emited
  * \param draw_callback		the function to call when the "draw" signal is emited
  * \param custom_tab_label	Tab title for an optional custom config tab
- * \param custom_tab_callback	Callback that creates an optional config tab 
+ * \param custom_tab_callback	Callback that creates an optional config tab
  * \param custom_apply_callback	Callback called when user validate config
  * \param data data for callback
  *
@@ -70,7 +70,7 @@ void print_dialog_config ( GCallback begin_callback,
     print = gtk_print_operation_new ();
 	gtk_print_operation_set_unit ( print, GTK_UNIT_POINTS );
 
-    if (settings != NULL) 
+    if (settings != NULL)
 	gtk_print_operation_set_print_settings (print, settings);
 
     /* Custom stuff */

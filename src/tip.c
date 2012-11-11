@@ -103,7 +103,7 @@ static const gchar* tips[] =
     "version for all users.")
 };
 
-/** 
+/**
  * Display a tip forcefully, even if show_tip option has been disabled.
  */
 void force_display_tip (  )
@@ -137,7 +137,7 @@ void display_tip ( gboolean force )
                         g_dgettext(NULL, tips[conf.last_tip]) ) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
-    checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"), 
+    checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"),
                         &(conf.show_tip), NULL, NULL );
     gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog) -> vbox ), checkbox, FALSE, FALSE, 6 );
     gtk_widget_show ( checkbox );
@@ -145,7 +145,7 @@ void display_tip ( gboolean force )
     btn_back =    gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_BACK, 1);
     btn_forward = gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_GO_FORWARD, 2);
     btn_close =   gtk_dialog_add_button (GTK_DIALOG(dialog), GTK_STOCK_CLOSE, 3);
- 
+
     /* gtk_widget_set_size_request ( dialog, 450, -1 ); */
     /* We iterate as user can select several tips. */
     while ( TRUE )
@@ -160,7 +160,7 @@ void display_tip ( gboolean force )
         case 1:
         if ( conf.last_tip > 0 )
             conf.last_tip--;
-        gtk_widget_set_sensitive (btn_forward, TRUE); 
+        gtk_widget_set_sensitive (btn_forward, TRUE);
         tmpstr = g_strconcat ( make_pango_attribut (
                         "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
                         "\n\n",

@@ -152,7 +152,7 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
     if ( !combobox_currency_store )
         gsb_currency_create_combobox_store ();
 
-    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL 
+    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL
                         (combobox_currency_store));
 
     /* Flag renderer */
@@ -275,41 +275,41 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
      * try to find why. */
     if ( detail_devise_compte && G_IS_OBJECT ( detail_devise_compte ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (detail_devise_compte), "changed-hook" );
         if ( handler_id > 0 )
         {
             g_signal_handler_block ( (gpointer *) detail_devise_compte,
                             handler_id );
-            old_currency_number = gtk_combo_box_get_active (GTK_COMBO_BOX 
+            old_currency_number = gtk_combo_box_get_active (GTK_COMBO_BOX
                             (detail_devise_compte));
         }
     }
     if ( combo_devise_totaux_tiers && G_IS_OBJECT ( combo_devise_totaux_tiers ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_tiers), "changed-hook" );
         if ( handler_id > 0 )
             g_signal_handler_block ( (gpointer *) combo_devise_totaux_tiers,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_tiers), "changed-hook" ) );
     }
     if ( combo_devise_totaux_categ  && G_IS_OBJECT ( combo_devise_totaux_categ ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_categ), "changed-hook" );
         if ( handler_id > 0 )
             g_signal_handler_block ( (gpointer *) combo_devise_totaux_categ,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_categ), "changed-hook" ) );
     }
     if ( combo_devise_totaux_ib  && G_IS_OBJECT ( combo_devise_totaux_ib ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_ib), "changed-hook" );
         if ( handler_id > 0 )
             g_signal_handler_block ( (gpointer *) combo_devise_totaux_ib,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_ib), "changed-hook" ) );
     }
 
@@ -354,52 +354,52 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
 
     if ( detail_devise_compte && G_IS_OBJECT ( detail_devise_compte ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (detail_devise_compte), "changed-hook" );
         {
-            gtk_combo_box_set_active ( GTK_COMBO_BOX (detail_devise_compte), 
+            gtk_combo_box_set_active ( GTK_COMBO_BOX (detail_devise_compte),
                             old_currency_number );
             g_signal_handler_unblock ( detail_devise_compte,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (detail_devise_compte), "changed-hook" ) );
         }
     }
     if ( combo_devise_totaux_tiers && G_IS_OBJECT ( combo_devise_totaux_tiers ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_tiers), "changed-hook" );
         if ( handler_id > 0 )
         {
-            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_tiers), 
+            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_tiers),
                             old_currency_number );
             g_signal_handler_unblock ( (gpointer *) combo_devise_totaux_tiers,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_tiers), "changed-hook" ) );
         }
     }
     if ( combo_devise_totaux_categ  && G_IS_OBJECT ( combo_devise_totaux_categ ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_categ), "changed-hook" );
         if ( handler_id > 0 )
         {
-            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_categ), 
+            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_categ),
                             old_currency_number );
             g_signal_handler_unblock ( (gpointer *) combo_devise_totaux_categ,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_categ), "changed-hook" ) );
         }
     }
     if ( combo_devise_totaux_ib  && G_IS_OBJECT ( combo_devise_totaux_ib ) )
     {
-        handler_id = (gulong) g_object_get_data ( G_OBJECT 
+        handler_id = (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_ib), "changed-hook" );
         if ( handler_id > 0 )
         {
-            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_ib), 
+            gtk_combo_box_set_active ( GTK_COMBO_BOX (combo_devise_totaux_ib),
                             old_currency_number );
             g_signal_handler_unblock ( (gpointer *) combo_devise_totaux_ib,
-                            (gulong) g_object_get_data ( G_OBJECT 
+                            (gulong) g_object_get_data ( G_OBJECT
                             (combo_devise_totaux_ib), "changed-hook" ) );
         }
     }
@@ -858,7 +858,7 @@ gboolean gsb_currency_create_combobox_store ( void )
     /* the currency list store, contains 4 columns :
      * CURRENCY_COL_CODE : the code of the currency
      * CURRENCY_COL_NAME : the name(code) of the currency
-     * CURRENCY_COL_NUMBER : the number of the currency 
+     * CURRENCY_COL_NUMBER : the number of the currency
      * CURRENCY_COL_FLAG :  */
 
     combobox_currency_store = gtk_list_store_new ( CURRENCY_NUM_COL,
@@ -957,7 +957,7 @@ void gsb_currency_init_exchanges ( void )
 
 /*
  * Handler that change the entries and calculate the exchange_rate
- * 
+ *
  *
  * \param entry_1 the entry wich receive the signal
  * \param entry_2 the other entry
@@ -1084,7 +1084,7 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
                     2, gsb_data_currency_get_name ( account_currency_number ),
                     -1 );
 
-    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL 
+    combo_box = gtk_combo_box_new_with_model (GTK_TREE_MODEL
                         (combobox_store));
 
     /* Flag renderer */

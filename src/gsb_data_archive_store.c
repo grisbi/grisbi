@@ -182,7 +182,7 @@ void gsb_data_archive_store_create_list ( void )
         }
         else
         {
-            /* there is no struct_store_archive for that transaction, we make a new one 
+            /* there is no struct_store_archive for that transaction, we make a new one
              * with the balance of the transaction as balance */
             gint archive_store_number;
 
@@ -387,9 +387,9 @@ gpointer gsb_data_archive_store_get_structure ( gint archive_store_number )
 
 /**
  * find and return the last number of archive
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of archive
  * */
 static gint gsb_data_archive_store_max_number ( void )

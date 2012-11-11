@@ -79,9 +79,9 @@ gint compare_basename ( gchar * file1, gchar * file2 )
     gchar * base1 = g_path_get_basename ( file1 );
     gchar * base2 = g_path_get_basename ( file2 );
     gint result;
-    
+
     result = strcmp ( base1, base2 );
-    
+
     g_free ( base1 );
     g_free ( base2 );
 
@@ -110,14 +110,14 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
     {
 	GSList * list;
 
-	if ( show_foreign || 
+	if ( show_foreign ||
 	     ( strlen ( (gchar *) *languages ) && strcmp ( (gchar *) *languages, "C" ) ) )
 	{
-	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages, 
+	    list = gsb_category_assistant_scan_directory ( (gchar *) * languages,
 							   model );
 	    while ( list )
 	    {
-		if ( ! g_slist_find_custom ( category_files, list -> data, 
+		if ( ! g_slist_find_custom ( category_files, list -> data,
 					     (GCompareFunc) cherche_string_equivalente_dans_slist ) )
 		{
 		    category_files = g_slist_append ( category_files, list -> data );
@@ -132,12 +132,12 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
     {
 	category_files = gsb_category_assistant_scan_directory ( "C", model );
     }
-    
+
     category_files = g_slist_sort ( category_files, (GCompareFunc) compare_basename );
 
     while ( category_files )
     {
-	gsb_category_assistant_parse_file ( (gchar * ) category_files -> data, 
+	gsb_category_assistant_parse_file ( (gchar * ) category_files -> data,
 					    model );
 
 	category_files = category_files -> next;
@@ -152,7 +152,7 @@ void gsb_category_fill_sets ( GtkTreeView * view, GtkTreeModel * model, gboolean
 
 
 /**
- * Handler that is responsible of toggling what is displayed in the 
+ * Handler that is responsible of toggling what is displayed in the
  *
  * \param button		GtkButton that triggered this handler.
  *
@@ -211,7 +211,7 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     gtk_container_add ( GTK_CONTAINER ( sw ), (GtkWidget *) builtin_category_view );
 
     cell = gtk_cell_renderer_text_new ();
-    col_offset = 
+    col_offset =
 	gtk_tree_view_insert_column_with_attributes ( GTK_TREE_VIEW ( builtin_category_view ),
 						      -1, _("Category list"),
 						      cell, "markup",
@@ -262,7 +262,7 @@ gboolean gsb_category_assistant_create_categories ( GtkWidget *assistant )
 			     &iter,
 			     BUILTIN_CATEGORY_MODEL_FILENAME, &filename,
 			     -1);
-	
+
 	gsb_file_others_load_category ( filename );
 
     }
@@ -286,7 +286,7 @@ gboolean gsb_category_update_combofix ( gboolean force )
                         TRANSACTION_FORM_CATEGORY ) ),
                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
     }
- 
+
     return FALSE;
 }
 
@@ -295,7 +295,7 @@ gboolean gsb_category_update_combofix ( gboolean force )
  * Scan a directory for Grisbi category files in order to put their
  * titles in a GtkTreeModel.
  *
- * \param basename	Basename of the directory to scan.  The 
+ * \param basename	Basename of the directory to scan.  The
  *			data directory will be prepended.
  * \param model		A GtkTreeModel to fill with information found.
  *
@@ -311,7 +311,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '.' );
-	if ( pos ) 
+	if ( pos )
 	    *pos = '\0';
 	g_free ( dirname );
 	dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), basename, NULL );
@@ -319,7 +319,7 @@ GSList * gsb_category_assistant_scan_directory ( gchar * basename, GtkTreeModel 
     if ( ! g_file_test ( dirname, G_FILE_TEST_IS_DIR ) )
     {
 	gchar * pos = strchr ( basename, '_' );
-	if ( pos ) 
+	if ( pos )
 	    *pos = '\0';
 	g_free ( dirname );
 	dirname = g_build_filename ( gsb_dirs_get_categories_dir ( ), basename, NULL );
@@ -383,7 +383,7 @@ void gsb_category_assistant_parse_file ( gchar * filename, GtkTreeModel * model 
 
     if ( ! description )
     {
-	description = g_strconcat ( "<span size=\"larger\" weight=\"bold\">", _("Unnamed category list"), 
+	description = g_strconcat ( "<span size=\"larger\" weight=\"bold\">", _("Unnamed category list"),
 				    "</span>", NULL );
     }
 
@@ -407,7 +407,7 @@ void gsb_category_assistant_start_element ( GMarkupParseContext *context, const 
 
     if ( ! my_strcasecmp ( element_name, "general" ) )
     {
-	
+
 	while ( *attribute_names )
 	{
 	    if ( ! my_strcasecmp ( *attribute_names, "title" ) )

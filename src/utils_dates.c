@@ -54,8 +54,8 @@ static int gsb_date_get_month_from_string ( const gchar * );
 
 
 /* date regex:
- * 1 or 2 digits + 
- * optional ( optional separator + 2 digits + 
+ * 1 or 2 digits +
+ * optional ( optional separator + 2 digits +
  *            optional ( optional separator + 2 or 4 digits ) )
  */
 #define DATE_STRING_REGEX       "^(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{1,2}|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(?:[-/.:]?(\\d{2}(?:\\d{2})?))?)?$"
@@ -65,7 +65,7 @@ static int gsb_date_get_month_from_string ( const gchar * );
 
 /* months */
 static const gchar *months[] = {
-    "Jan", "Feb", "Mar", "Apr", 
+    "Jan", "Feb", "Mar", "Apr",
     "May", "Jun", "Jul", "Aug",
     "Sep", "Oct", "Nov", "Dec"
 };
@@ -112,7 +112,7 @@ gchar *gsb_date_today ( void )
  * that value is dumped in memory
  *
  * \param a string which contains the last date to remain
- * 
+ *
  * */
 void gsb_date_set_last_date ( const gchar *date )
 {
@@ -178,7 +178,7 @@ GDate *gsb_date_tomorrow ( void )
  * \param date
  * \param free the init date
  *
- * \return a newly allocated GDate which represents the date of the day. 
+ * \return a newly allocated GDate which represents the date of the day.
  * Use g_date_free to free memory when no more used.
  * */
 GDate *gsb_date_add_one_month ( GDate *date, gboolean free )
@@ -198,9 +198,9 @@ GDate *gsb_date_add_one_month ( GDate *date, gboolean free )
 
 /**
  * copy the date given in param
- * 
+ *
  * \param date a GDate to copy
- * 
+ *
  * \return a copy or NULL if no date. Use g_date_free to free memory when no more used.
  * */
 GDate *gsb_date_copy ( const GDate *date )
@@ -221,7 +221,7 @@ GDate *gsb_date_copy ( const GDate *date )
 
 
 
-    
+
 /**
  * check the entry to find a date
  * if the entry is empty, set gsb_date_today according to set_today
@@ -240,7 +240,7 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 
     if (!entry)
     return FALSE;
-    
+
     /* if the entry is grey (empty), go away */
     if (gsb_form_widget_check_empty (entry))
     return (TRUE);
@@ -289,7 +289,7 @@ gboolean gsb_date_check_entry ( GtkWidget *entry )
 
     if ( !entry )
         return FALSE;
-    
+
     string = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
     if ( !string || strlen ( string ) == 0 )
         return FALSE;
@@ -342,9 +342,9 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     {
         /* only for the first call */
         devel_debug ( DATE_STRING_KEY );
-        date_regex = gsb_regex_insert ( DATE_STRING_KEY, 
-                                        DATE_STRING_REGEX, 
-                                        G_REGEX_CASELESS, 
+        date_regex = gsb_regex_insert ( DATE_STRING_KEY,
+                                        DATE_STRING_REGEX,
+                                        G_REGEX_CASELESS,
                                         0 );
         if ( ! date_regex )
         {
@@ -377,8 +377,8 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
         switch ( date_tokens[i][0] )
         {
             case 'm':
-                /* If month is NOT an integer, nvalue = 0, and we have 
-                 * to convert month string into an integer. If string is 
+                /* If month is NOT an integer, nvalue = 0, and we have
+                 * to convert month string into an integer. If string is
                  * not valid, the function returns 0 which is not a valid
                  * month -> goto invalid -> right behaviour!!! */
                 if ( isalpha ( tab_date[j][0] ) != 0 )
@@ -441,7 +441,7 @@ invalid:
  *
  * \param
  *
- * \return return a newly allocated string or NULL if the format of the date_string 
+ * \return return a newly allocated string or NULL if the format of the date_string
  * parameter is invalid.
  */
 GDate *gsb_parse_date_string_safe ( const gchar *date_string )
@@ -543,9 +543,9 @@ gchar *gsb_format_gdate_safe ( const GDate *date )
 
 
 /**
- * retourne la date bufferisée si les deux chaines correspondent 
+ * retourne la date bufferisée si les deux chaines correspondent
  * sinon renvoie une date issue de la chaine passée en paramètre
- * 
+ *
  * */
 GDate *gsb_date_get_last_entry_date ( const gchar *string )
 {
@@ -558,7 +558,7 @@ GDate *gsb_date_get_last_entry_date ( const gchar *string )
 
 /**
  * retourne la date de compilation conforme à la locale
- * 
+ *
  * */
 gchar *gsb_date_get_compiled_time ( void )
 {
@@ -590,7 +590,7 @@ gchar *gsb_date_get_compiled_time ( void )
 
 /**
  * returns a date with the last day of the month.
- * 
+ *
  * */
 GDate *gsb_date_get_last_day_of_month ( const GDate *date )
 {
@@ -609,7 +609,7 @@ GDate *gsb_date_get_last_day_of_month ( const GDate *date )
  * returns the format of date.
  * The returned string should be freed with g_free() when no longer needed.
  *
- * \return %d/%m/%Y or %m/%d/%Y 
+ * \return %d/%m/%Y or %m/%d/%Y
  * */
 gchar *gsb_date_get_format_date ( void )
 {
@@ -619,7 +619,7 @@ gchar *gsb_date_get_format_date ( void )
 
 /**
  * Set the format of date. If given format is not valid, the format
- * value is set to NULL. Since the format is supposed to change, 
+ * value is set to NULL. Since the format is supposed to change,
  * the last date entry is erased.
  *
  * \param format_date the new format to apply
@@ -646,12 +646,12 @@ void gsb_date_set_format_date ( const gchar *format_date )
 
 
 /**
- * Returns the integer of the month, as in GDateMonth (ie 1 for January, 
+ * Returns the integer of the month, as in GDateMonth (ie 1 for January,
  * ..., 12 for December). This function is case-insensitive.
  *
  * \param month A 3-length string representing the month
  *
- * \return The integet from 1 to 12, or 0 otherwise 
+ * \return The integet from 1 to 12, or 0 otherwise
  */
 int gsb_date_get_month_from_string ( const gchar *month )
 {

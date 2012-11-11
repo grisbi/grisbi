@@ -1,4 +1,4 @@
-/*! 
+/*!
  * \file  utils_file_selections.h
  * \brief  GtkFileSelection enhancement API interface
  */

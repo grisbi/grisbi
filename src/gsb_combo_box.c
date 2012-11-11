@@ -48,7 +48,7 @@
  * create a text only combo_box with an index
  * column 0 will contain the text
  * column 1 will have the index, in the order of the strings
- * 
+ *
  * this function takes an array of string and attribute a number beginning by the first element of the array
  * to link some text with a special number, use gsb_combo_box_new_with_index_by_list
  *
@@ -113,7 +113,7 @@ GtkWidget *gsb_combo_box_new_with_index ( gchar **string,
  *
  * the function takes a g_slist of text and number to attribute
  * 	this list must be as : text_1 -> number_1 -> text_2 -> number_2 -> ...
- * 
+ *
  * \param list	a g_slist containing succession of text and number to associate to the text
  * \param func an optional function to call when change the current item (gboolean func (GtkWidget *combox, gpointer data)
  * \param data the data to send to the func

@@ -41,7 +41,7 @@
 
 /*START_STATIC*/
 static void csv_attach_hsep ( gint x, gint x2, gint y, gint y2);
-static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+static void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2,
                         enum alignement align, gint transaction_number );
 static void csv_attach_vsep ( gint x, gint x2, gint y, gint y2);
 static gint csv_finish ();
@@ -86,7 +86,7 @@ static gint csv_lastline = 1;
  * \param transaction_number the number a transaction to link to (not used as csv
  *            backend is not interactive)
  */
-void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2, 
+void csv_attach_label ( gchar * text, gdouble properties, gint x, gint x2, gint y, gint y2,
                         enum alignement align, gint transaction_number )
 {
     gint pad;
@@ -200,14 +200,14 @@ gint csv_finish ()
 
 
 
-/** 
+/**
  * Print a csv safe string into the csv_out file descriptor.  All chars
  * that cannot be printed via csv are converted to their csv
  * equivalent (i.e. backslashes are escaped).
  *
  * \param text Text to print.
  */
-void csv_safe ( const gchar * text ) 
+void csv_safe ( const gchar * text )
 {
     if ( ! text || ! strlen(text))
 	return;

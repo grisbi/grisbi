@@ -185,7 +185,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
-    
+
     init_date_entry = gsb_calendar_entry_new (FALSE);
     if (draw_initial_date)
 	gsb_calendar_entry_set_date (init_date_entry, draw_initial_date);
@@ -197,7 +197,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
     gtk_box_pack_start (GTK_BOX (hbox),
 			label,
 			FALSE, FALSE, 0);
-    
+
     final_date_entry = gsb_calendar_entry_new (FALSE);
     if (draw_final_date)
 	gsb_calendar_entry_set_date (final_date_entry, draw_final_date);
@@ -346,7 +346,7 @@ gboolean print_transactions_list_apply ( GtkPrintOperation * operation,
 
     font_button_transactions = g_object_get_data ( G_OBJECT ( operation ), "font_transaction_button" );
     font_button_title = g_object_get_data ( G_OBJECT( operation ), "font_title_button" );
-    
+
     gsb_data_print_config_set_font_transaction ( pango_font_description_from_string (
                         gtk_font_button_get_font_name ( font_button_transactions ) ) );
     gsb_data_print_config_set_font_title ( pango_font_description_from_string (
@@ -743,7 +743,7 @@ static gint print_transactions_list_draw_title ( GtkPrintContext *context,
  * draw the title of the columns
  *
  * \param line_position	the position to insert the titles
- * 
+ *
  * \return the new line_position to continue to fill the page
  * */
 static gint print_transactions_list_draw_columns_title ( GtkPrintContext *context,
@@ -861,7 +861,7 @@ static gint print_transactions_list_draw_line ( gint line_position )
 }
 
 /**
- * draw a column line 
+ * draw a column line
  *
  * \param column_position	column position
  * \param line_position		line position
@@ -897,7 +897,7 @@ static gint print_transactions_list_draw_row ( GtkPrintContext *context,
 {
     gint column;
     gfloat alignment[] = {
-	PANGO_ALIGN_CENTER, PANGO_ALIGN_CENTER, PANGO_ALIGN_LEFT, 
+	PANGO_ALIGN_CENTER, PANGO_ALIGN_CENTER, PANGO_ALIGN_LEFT,
 	PANGO_ALIGN_CENTER, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT, PANGO_ALIGN_RIGHT
     };
 

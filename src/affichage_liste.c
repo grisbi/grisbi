@@ -20,7 +20,7 @@
 /*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 /*                                                                            */
 /* ************************************************************************** */
- 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -532,7 +532,7 @@ GtkWidget *onglet_diverse_form_and_lists ( void )
 							 NULL, NULL);
 
     /* automatic amount separatior fields */
-    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, 
+    paddingbox = new_paddingbox_with_title (vbox_pref, FALSE,
 					    _("Automatic amount separator"));
 
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
@@ -647,7 +647,7 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK (gsb_transactions_list_display_change_max_items),
                         NULL );
     gtk_box_pack_start ( GTK_BOX (hbox), entry, FALSE, FALSE, 0 );
-    
+
     if ( !gsb_data_account_get_accounts_amount () )
     {
         gtk_widget_set_sensitive ( vbox_pref, FALSE );
@@ -749,11 +749,11 @@ void gsb_transactions_list_display_show_gives_balance ( void )
 
 
 /**
- * Appellée lorsqu'on coche la case 
+ * Appellée lorsqu'on coche la case
  * "Automatic filling transactions from payee"
  *
- * \param 
- * \param 
+ * \param
+ * \param
  *
  * \return FALSE
  * */
@@ -780,7 +780,7 @@ gboolean gsb_transactions_list_display_update_auto_checkbutton ( GtkWidget *chec
         button = g_object_get_data ( G_OBJECT ( container ), "button_3" );
         gtk_widget_set_sensitive ( button, FALSE );
     }
- 
+
     return FALSE;
 }
 
@@ -870,7 +870,7 @@ GtkWidget *gsb_transaction_list_config_create_tree_view ( GtkListStore *store )
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ) );
 
     gtk_tree_view_set_grid_lines ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_VIEW_GRID_LINES_BOTH );
-    
+
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION (
                         gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
                         GTK_SELECTION_NONE );
@@ -1023,7 +1023,7 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
 
     return FALSE;
 }
-					
+
 
 /**
  * called when we end a drag,
@@ -1205,7 +1205,7 @@ gboolean gsb_transaction_list_config_fill_store ( GtkWidget *tree_view )
     gint j;
 
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) ) );
-						
+
     gtk_list_store_clear ( store );
 
     for ( i=0 ; i<TRANSACTION_LIST_ROWS_NB ; i++ )
@@ -1310,7 +1310,7 @@ void gsb_transaction_list_config_toggle_element_button ( GtkWidget *toggle_butto
 
         /* on change la couleur du bouton */
         gsb_transaction_list_config_button_set_normal_color ( toggle_button, FALSE );
-                        
+
         /* button is on, append the element */
         for ( row = 3 ; row >= 0 ; row-- )
         {

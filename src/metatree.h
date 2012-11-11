@@ -107,7 +107,7 @@ enum meta_tree_row_type {
 void appui_sur_ajout_sub_division ( GtkTreeModel * model );
 gboolean division_activated ( GtkTreeView * treeview, GtkTreePath * path,
                         GtkTreeViewColumn * col, gpointer userdata );
-gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter, 
+gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
                         GtkTreePath * tree_path, gpointer user_data ) ;
 gboolean division_column_collapsed  ( GtkTreeView *treeview,
                         GtkTreeIter *iter,
@@ -118,9 +118,9 @@ gboolean division_drag_data_received ( GtkTreeDragDest * drag_dest, GtkTreePath 
 gboolean division_row_drop_possible ( GtkTreeDragDest * drag_dest, GtkTreePath * dest_path,
                         GtkSelectionData * selection_data );
 void expand_arbre_division ( GtkWidget *bouton, gint depth );
-void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
+void fill_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
                         GtkTreeIter * iter, gint division );
-void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface, 
+void fill_sub_division_row ( GtkTreeModel * model, MetatreeInterface * iface,
                         GtkTreeIter * iter,
                         gint division,
                         gint sub_division );
@@ -133,7 +133,7 @@ void metatree_register_widget_as_linked ( GtkTreeModel * model,
                         GtkWidget * widget,
                         gchar * link_type );
 void metatree_remove_transaction ( GtkTreeView * tree_view,
-                        MetatreeInterface * iface, 
+                        MetatreeInterface * iface,
                         gint transaction,
                         gboolean delete_transaction );
 gboolean metatree_selection_changed ( GtkTreeSelection * selection, GtkTreeModel * model );

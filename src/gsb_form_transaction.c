@@ -158,8 +158,8 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
          element -> element_number != TRANSACTION_FORM_PARTY
          &&
          element -> element_number != TRANSACTION_FORM_MODE
-         && 
-         element -> element_number != TRANSACTION_FORM_TYPE 
+         &&
+         element -> element_number != TRANSACTION_FORM_TYPE
          &&
          element -> element_number != TRANSACTION_FORM_DEVISE )
     {
@@ -205,7 +205,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
                                    GSB_PAYMENT_DEBIT,
                                    account_number, 0, FALSE );
         else
-            gsb_payment_method_create_combo_list ( widget, GSB_PAYMENT_CREDIT, 
+            gsb_payment_method_create_combo_list ( widget, GSB_PAYMENT_CREDIT,
                         account_number, 0, FALSE );
 
         if ( GTK_WIDGET_VISIBLE (widget))
@@ -253,7 +253,7 @@ gboolean gsb_form_transaction_complete_form_by_payee ( const gchar *payee_name )
  * \param account_number the account we want to find first the party
  * keep it
  *
- * \return the number of the transaction found, or 0 
+ * \return the number of the transaction found, or 0
  * */
 gint gsb_form_transactions_look_for_last_party ( gint no_party,
                         gint no_new_transaction,
@@ -299,7 +299,7 @@ gint gsb_form_transactions_look_for_last_party ( gint no_party,
 
 /**
  * Clone the children of a split transaction to add the to the new split
- * 
+ *
  * \param new_transaction_number	the number of the new mother of the cloned transaction
  * \param no_last_split		the no of last split mother
  *
@@ -347,11 +347,11 @@ gboolean gsb_form_transaction_recover_splits_of_transaction ( gint new_transacti
 
 
 /**
- * return a list of numbers of parties if the party in the form is a 
+ * return a list of numbers of parties if the party in the form is a
  * report
- * 
+ *
  * \param none
- * 
+ *
  * \return a g_slist, with -1 if it's a normal party or a list of parties if it's a report
  * */
 GSList *gsb_form_transaction_get_parties_list_from_report ( void )
@@ -437,11 +437,11 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
  * - create the contra-transaction
  * - delete the last contra-transaction if it's a modification
  * - append the contra-transaction to the tree view or update the tree_view
- * 
+ *
  * \param transaction_number	the new transaction or the modifed transaction
  * \param new_transaction 	TRUE if it's a new transaction
  * \param account_transfer 	the number of the account we want to create the contra-transaction
- * 
+ *
  * \return the number of the contra-transaction
  * */
 gint gsb_form_transaction_validate_transfer ( gint transaction_number,
@@ -634,20 +634,20 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
                         gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE ) );
         link_number = gsb_data_currency_link_search ( account_currency_number,
                         currency_number );
-        if ( link_number 
-         && 
+        if ( link_number
+         &&
          gsb_data_currency_link_get_first_currency ( link_number )
          == account_currency_number )
             gsb_currency_exchange_dialog ( account_currency_number, currency_number,
                         1,
                         gsb_data_currency_link_get_change_rate ( link_number ),
-                        null_real, 
+                        null_real,
                         TRUE );
         else
             gsb_currency_exchange_dialog ( account_currency_number, currency_number,
                         0,
                         gsb_data_currency_link_get_change_rate ( link_number ),
-                        null_real, 
+                        null_real,
                         TRUE );
     }
     else
@@ -656,7 +656,7 @@ gboolean gsb_form_transaction_change_clicked ( GtkWidget *button,
         gsb_currency_exchange_dialog ( account_currency_number, currency_number,
                         gsb_data_transaction_get_change_between ( transaction_number ),
                         gsb_data_transaction_get_exchange_rate ( transaction_number ),
-                        gsb_data_transaction_get_exchange_fees ( transaction_number ), 
+                        gsb_data_transaction_get_exchange_fees ( transaction_number ),
                         TRUE );
     }
 

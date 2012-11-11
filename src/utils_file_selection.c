@@ -70,7 +70,7 @@ GtkWidget* file_selection_new ( const gchar *title, const gint properties )
 { /* {{{ */
     GtkWidget *filesel;
 
-    filesel = gtk_file_chooser_dialog_new ( title, NULL, 
+    filesel = gtk_file_chooser_dialog_new ( title, NULL,
 					    ( properties & FILE_SELECTION_IS_SAVE_DIALOG ?
 					      GTK_FILE_CHOOSER_ACTION_SAVE :
 					      GTK_FILE_CHOOSER_ACTION_OPEN ),
@@ -104,20 +104,20 @@ gchar* file_selection_get_filename(GtkFileChooser* filesel)
 
 
 
-/** 
+/**
  * file_selection_get_last_directory
  * @filesel
  * @ended    should the return string be terminated by a directory separator character
  *
  * Get the last directory from the history pulldown menu, add or remove (depending
- * of the ended argument) a last directory separator character at the end of the 
+ * of the ended argument) a last directory separator character at the end of the
  * UTF8 returned string.
- * 
+ *
  * \return newly allocated utf-8 string which should be freed after no more needed.
  * There is no need to use my_strdup before using the returned string.
  *
  * */
-gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended) 
+gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
 {/* {{{ */
     gchar * dirstr = gtk_file_chooser_get_current_folder ( filesel );
     gint     dirstr_len  = strlen(dirstr);
@@ -129,7 +129,7 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     /* Chek if the sirectory string is ended by a separator
      (if directory string  is small than the separator string
      it can ot be ended by the separator string) */
-    if ( dirstr_len >= sepstr_len) 
+    if ( dirstr_len >= sepstr_len)
     {
         is_endedstr = (gboolean)(!strncmp( dirstr + dirstr_len - sepstr_len, sepstr, sepstr_len));
     }
@@ -146,7 +146,7 @@ gchar* file_selection_get_last_directory(GtkFileChooser* filesel,gboolean ended)
     {
         dirstr[dirstr_len-sepstr_len-1] = 0;
     }
-    
+
     return g_filename_to_utf8(dirstr,-1,NULL,NULL,NULL);
 
 } /* }}} file_selection_get_last_directory */

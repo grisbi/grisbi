@@ -284,7 +284,7 @@ static void print_report_draw_line ( GtkTableChild *child,
 }
 
 /**
- * draw a column line 
+ * draw a column line
  *
  * \param column_position	column position
  * \param line_position		line position
@@ -483,7 +483,7 @@ gboolean print_config_show_config_apply ( GtkPrintOperation * operation,
 
     gsb_data_print_config_set_report_font_transaction ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_transactions ) ) );
     gsb_data_print_config_set_report_font_title ( pango_font_description_from_string ( gtk_font_button_get_font_name ( font_button_title ) ) );
-    
+
     return FALSE;
 }
 

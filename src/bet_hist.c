@@ -140,7 +140,7 @@ GtkTreeModel *bet_fyear_model = NULL;
  * */
 GtkTreeModel *bet_fyear_model_filter = NULL;
 
- 
+
 /**
  * Create the historical page
  *
@@ -165,7 +165,7 @@ GtkWidget *bet_historical_create_page ( void )
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
- 
+
     label_title = gtk_label_new ( "bet_hist_title" );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_hist_title", label_title);
@@ -350,7 +350,7 @@ gboolean bet_historical_div_toggle_clicked ( GtkCellRendererToggle *renderer,
                                 -1);
                     if ( bet_historical_amount_differ_average ( model, &parent) )
                         bet_data_set_div_amount ( account_number, div_number, 0, amount );
-                        
+
                     bet_historical_row_collapse_all ( NULL, &parent, model );
                 }
                 else
@@ -386,7 +386,7 @@ void bet_historical_div_cell_editing_started (GtkCellRenderer *cell,
                         const gchar *path_string,
                         GtkWidget *tree_view )
 {
-    if ( GTK_IS_ENTRY ( editable ) ) 
+    if ( GTK_IS_ENTRY ( editable ) )
         gtk_editable_delete_text ( GTK_EDITABLE ( editable ), 0, -1 );
 }
 
@@ -877,7 +877,7 @@ void bet_historical_populate_div_model ( gpointer key,
                         SPP_HISTORICAL_EDITED_COLUMN, edited,
                         -1);
 
-    if ( bet_data_search_div_hist ( account_nb, div_number, 0 ) 
+    if ( bet_data_search_div_hist ( account_nb, div_number, 0 )
      &&
      ( bet_data_get_div_edited ( account_nb, div_number, 0 )
       ||
@@ -907,7 +907,7 @@ void bet_historical_populate_div_model ( gpointer key,
         return;
 
     g_hash_table_iter_init ( &iter, sh -> list_sub_div );
-    while ( g_hash_table_iter_next ( &iter, &sub_key, &sub_value ) ) 
+    while ( g_hash_table_iter_next ( &iter, &sub_key, &sub_value ) )
     {
         SH *sub_sh = ( SH* ) sub_value;
         SBR *sub_sbr = sub_sh -> sbr;
@@ -1383,7 +1383,7 @@ void bet_historical_row_expanded_event ( GtkTreeView *tree_view,
 
 
 /**
- * Cette fonction compare le montant de la colonne montant retenu avec le montant 
+ * Cette fonction compare le montant de la colonne montant retenu avec le montant
  * de la colonne moyenne
  *
  * \ return O si egal -1 ou 1 si différent
@@ -1393,7 +1393,7 @@ gboolean bet_historical_amount_differ_average ( GtkTreeModel *model,
 {
     gchar *str_average;
     gchar *str_amount;
-    
+
     gtk_tree_model_get ( GTK_TREE_MODEL ( model ), iter,
                         SPP_HISTORICAL_AVERAGE_AMOUNT, &str_average,
                         SPP_HISTORICAL_RETAINED_AMOUNT, &str_amount,
@@ -1834,7 +1834,7 @@ GDate *bet_historical_get_start_date_current_fyear ( void )
  * \return 0    opération <= à date_max et < start_current_fyear (n'appartient pas à l'exercice en cours)
  * \return 1    opération > à date_max et > start_current_fyear (appartient à l'exercice en cours)
  * \return 2    opération <= à date_max et > start_current_fyear (appartient à l'exercice en cours)
- * \return -1   toutes les autres opérations 
+ * \return -1   toutes les autres opérations
  * */
 gint bet_historical_get_type_transaction ( const GDate *date,
                         GDate *start_current_fyear,

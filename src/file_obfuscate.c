@@ -101,7 +101,7 @@ gboolean file_obfuscate_run ( void )
 				      "To avoid any problems in your file, after saving the modified file, "
 				      "Grisbi will close without letting you saving anything.  "
 				      "So if you didn't save your changes, please stop this assistant, "
-				      "save your work and restart the obfuscation process.\n\n" 
+				      "save your work and restart the obfuscation process.\n\n"
 				      "In next page, you will be able to select individual features to "
 				      "obfuscate or to keep depending on the level of privacy needed."),
 				    "bug.png",
@@ -109,11 +109,11 @@ gboolean file_obfuscate_run ( void )
 
     gsb_assistant_add_page ( assistant,
 			     file_obfuscate_page_1 (),
-			     1, 0, 2, NULL ); 
+			     1, 0, 2, NULL );
     gsb_assistant_add_page ( assistant,
 			     file_obfuscate_page_2 (),
-			     2, 1, -1, NULL ); 
-    
+			     2, 1, -1, NULL );
+
     result = gsb_assistant_run ( assistant );
 
     if (result == GTK_RESPONSE_APPLY)
@@ -121,7 +121,7 @@ gboolean file_obfuscate_run ( void )
 	/* obfuscate the file */
 	GSList *tmp_list;
 	gchar *filename;
-	
+
 	/*  remove the swp file */
 	gsb_file_util_modify_lock (FALSE);
 
@@ -132,7 +132,7 @@ gboolean file_obfuscate_run ( void )
 	    while (tmp_list)
 	    {
 		gint account_number = gsb_data_account_get_no_account (tmp_list -> data);
-		
+
 		gsb_data_account_set_id (account_number,
 					 g_strdup_printf ("id account %d", account_number));
 		gsb_data_account_set_comment (account_number, NULL);
@@ -182,7 +182,7 @@ gboolean file_obfuscate_run ( void )
 	    while (tmp_list)
 	    {
 		gint account_number = gsb_data_account_get_no_account (tmp_list -> data);
-		
+
 		gsb_data_account_set_name (account_number,
 					   g_strdup_printf ("Account n°%d", account_number));
 
@@ -315,7 +315,7 @@ gboolean file_obfuscate_run ( void )
 	    {
 		gint report_number = gsb_data_report_get_report_number (tmp_list -> data);
 
-		gsb_data_report_set_report_name ( report_number, 
+		gsb_data_report_set_report_name ( report_number,
 						  g_strdup_printf ( "Report n°%d", report_number));
 
 		tmp_list = tmp_list -> next;
@@ -389,7 +389,7 @@ GtkWidget *file_obfuscate_page_1 ( void )
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_everything,
 			 FALSE, FALSE, 0);
-    
+
     button_accounts_names = gtk_check_button_new_with_label (_("Hide accounts names"));
     gtk_box_pack_start ( GTK_BOX (paddingbox),
 			 button_accounts_names,
@@ -480,7 +480,7 @@ GtkWidget *file_obfuscate_page_2 ( void )
     gtk_text_view_set_right_margin ( GTK_TEXT_VIEW(text_view), 12 );
 
     buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-    gtk_text_buffer_create_tag ( buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);  
+    gtk_text_buffer_create_tag ( buffer, "bold", "weight", PANGO_WEIGHT_BOLD, NULL);
     gtk_text_buffer_create_tag ( buffer, "x-large", "scale", PANGO_SCALE_X_LARGE, NULL);
     gtk_text_buffer_create_tag ( buffer, "indented", "left-margin", 24, NULL);
 

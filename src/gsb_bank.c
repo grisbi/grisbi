@@ -1059,7 +1059,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
         tmp_str = g_strdup ( _("New bank") );
         gtk_entry_set_text ( GTK_ENTRY ( bank_name ), tmp_str );
         g_free ( tmp_str );
-        
+
     }
     else
         gsb_bank_update_form ( bank_number, GTK_DIALOG(dialog)->vbox );
@@ -1334,7 +1334,7 @@ static void gsb_bank_bic_code_changed ( GtkEntry *entry, gpointer data )
 /**
  * create or update bank data
  * when it's change in the edit_bank form.
- * 
+ *
  * \param entry
  * \param null
  *

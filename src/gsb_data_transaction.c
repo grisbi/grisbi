@@ -58,7 +58,7 @@
 
 
 /**
- * \struct 
+ * \struct
  * Describe a transaction
  */
 typedef struct
@@ -138,9 +138,9 @@ static gint current_transaction_buffer;
 
 /**
  * set the transactions global variables to NULL, usually when we init all the global variables
- * 
+ *
  * \param
- * 
+ *
  * \return FALSE
  * */
 gboolean gsb_data_transaction_init_variables ( void )
@@ -150,7 +150,7 @@ gboolean gsb_data_transaction_init_variables ( void )
 }
 
 
-/** 
+/**
  * return a pointer to the g_slist of transactions structure
  * it's not a copy, so we must not free or change it
  * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
@@ -165,7 +165,7 @@ GSList *gsb_data_transaction_get_transactions_list ( void )
     return transactions_list;
 }
 
-/** 
+/**
  * return a pointer to the complete g_slist of transactions structure
  * it's not a copy, so we must not free or change it
  * if we want to change something, use gsb_data_transaction_copy_transactions_list instead
@@ -205,9 +205,9 @@ gboolean gsb_data_transaction_add_archived_to_list ( gint transaction_number )
 
 /**
  * transitionnal fonction, give back the pointer to the transaction,
- * normally deleted when the transfer from old transactions is finished 
+ * normally deleted when the transfer from old transactions is finished
  * set also in the transactions list, check if it's fast enough with only the transactions number ?
- * 
+ *
  * \param transaction_number
  *
  * \return a pointer to the structure of the transation
@@ -223,9 +223,9 @@ gpointer gsb_data_transaction_get_pointer_of_transaction ( gint transaction_numb
 
 /**
  * find the last number of transaction
- * 
+ *
  * \param none
- * 
+ *
  * \return the number
  * */
 gint gsb_data_transaction_get_last_number (void)
@@ -254,7 +254,7 @@ gint gsb_data_transaction_get_last_number (void)
  * all the white lines have a number < 0, and it always exists at least
  * one line, which number -1 which is the general white line (without mother)
  * so we never return 0 to avoid -1 for a number of white split
- * 
+ *
  * \param none
  *
  * \return the number
@@ -276,7 +276,7 @@ gint gsb_data_transaction_get_last_white_number (void)
 
 	transactions_list_tmp = transactions_list_tmp -> next;
     }
-    
+
     /* if the general white line has not been appened already, we
      * return -1 to keep that number for the general white line
      * (the number will be decreased after to numbered the new line) */
@@ -311,9 +311,9 @@ gint gsb_data_transaction_get_transaction_number ( gpointer transaction_pointer 
 
 /**
  * save the pointer in a buffer to increase the speed later
- * 
+ *
  * \param transaction the pointer to the transaction
- * 
+ *
  * \return TRUE or FALSE if pb
  * */
 gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction )
@@ -332,11 +332,11 @@ gboolean gsb_data_transaction_save_transaction_pointer ( gpointer transaction )
 
 
 /**
- * return the transaction which the number is in the parameter. 
+ * return the transaction which the number is in the parameter.
  * the new transaction is stored in the buffer
- * 
+ *
  * \param transaction_number
- * 
+ *
  * \return a pointer to the transaction, NULL if not found
  * */
 struct_transaction *gsb_data_transaction_get_transaction_by_no ( gint transaction_number )
@@ -403,7 +403,7 @@ const gchar *gsb_data_transaction_get_transaction_id ( gint transaction_number )
 }
 
 
-/** set the transaction_id 
+/** set the transaction_id
  * \param transaction_number
  * \param no_account
  * \param transaction_id a gchar with the new transaction_id
@@ -432,9 +432,9 @@ gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 
 /**
  * get the account_number
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the account of the transaction or -1 if problem
  * */
 gint gsb_data_transaction_get_account_number ( gint transaction_number )
@@ -456,7 +456,7 @@ gint gsb_data_transaction_get_account_number ( gint transaction_number )
  *
  * \param transaction_number
  * \param no_account
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
@@ -469,7 +469,7 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
-    gsb_data_account_set_balances_are_dirty ( transaction -> account_number );    
+    gsb_data_account_set_balances_are_dirty ( transaction -> account_number );
     transaction -> account_number = no_account;
     gsb_data_account_set_balances_are_dirty ( no_account );
 
@@ -497,10 +497,10 @@ gboolean gsb_data_transaction_set_account_number ( gint transaction_number,
 
 
 /**
- * get the GDate of the transaction 
- * 
+ * get the GDate of the transaction
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the GDate of the transaction
  * */
 const GDate *gsb_data_transaction_get_date ( gint transaction_number )
@@ -519,10 +519,10 @@ const GDate *gsb_data_transaction_get_date ( gint transaction_number )
 /**
  * set the GDate of the transaction
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param no_account
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_date ( gint transaction_number,
@@ -584,7 +584,7 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 
 
 
-/** get the value GDate of the transaction 
+/** get the value GDate of the transaction
  * \param transaction_number the number of the transaction
  * \return the GDate of the transaction
  * */
@@ -601,13 +601,13 @@ const GDate *gsb_data_transaction_get_value_date ( gint transaction_number )
 }
 
 
-/** 
+/**
  * set the value GDate of the transaction
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param date the value date
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
@@ -647,7 +647,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 	}
 	g_slist_free (save_tmp_list);
     }
-    
+
     return TRUE;
 }
 
@@ -678,9 +678,9 @@ const GDate *gsb_data_transaction_get_value_date_or_date ( gint transaction_numb
 /**
  * get the amount of the transaction without any currency change
  * (so just get the given amout)
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_transaction_get_amount ( gint transaction_number )
@@ -697,10 +697,10 @@ gsb_real gsb_data_transaction_get_amount ( gint transaction_number )
 
 
 /** set the amount of the transaction
- * 
+ *
  * \param transaction_number
  * \param amount
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_amount ( gint transaction_number,
@@ -715,7 +715,7 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
 
     transaction -> transaction_amount = amount;
     gsb_data_account_set_balances_are_dirty ( transaction -> account_number );
-    
+
     return TRUE;
 }
 
@@ -729,10 +729,10 @@ gboolean gsb_data_transaction_set_amount ( gint transaction_number,
  * !! we should never use -1 for the return_exponent because the numbers become to deep and
  * 	the functions gsb_real_add and others can return an overflow
  * 	try to pass a return_exponent by gsb_data_currency_get_floating_point before
- * 
+ *
  * \param transaction_number the number of the transaction
  * \param return_exponent the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
- * 
+ *
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
@@ -755,12 +755,12 @@ gsb_real gsb_data_transaction_get_adjusted_amount ( gint transaction_number,
 
 /**
  * get the amount of the transaction, modified to be ok with the currency
- * given in param 
- * 
+ * given in param
+ *
  * \param transaction_number 		the number of the transaction
  * \param return_currency_number 	the currency we want to adjust the transaction's amount
  * \param return_exponent 		the exponent we want to have for the returned number, or -1 for the exponent of the returned currency
- * 
+ *
  * \return the amount of the transaction
  * */
 gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transaction_number,
@@ -840,7 +840,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
             amount = gsb_real_sub ( amount, current_exchange_fees );
         else
             amount = gsb_real_sub ( amount, transaction -> exchange_fees );
-            
+
     }
 
     return gsb_real_adjust_exponent  ( amount, return_exponent );
@@ -849,7 +849,7 @@ gsb_real gsb_data_transaction_get_adjusted_amount_for_currency ( gint transactio
 
 
 
-/** get the currency_number 
+/** get the currency_number
  * \param transaction_number the number of the transaction
  * \return the currency number of the transaction
  * */
@@ -869,10 +869,10 @@ gint gsb_data_transaction_get_currency_number ( gint transaction_number )
 /**
  * set the currency_number
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param no_currency
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
@@ -886,7 +886,7 @@ gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 	return FALSE;
 
     transaction -> currency_number = no_currency;
-    
+
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
@@ -912,12 +912,12 @@ gboolean gsb_data_transaction_set_currency_number ( gint transaction_number,
 
 
 /**
- * get the change_between_account_and_transaction 
+ * get the change_between_account_and_transaction
  * if the value is 1, we have : 1 account_currency = (exchange_rate * amount) transaction_currency
  * else we have : 1 transaction_currency = (exchange_rate * amount) account_currency
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the currency number of the transaction
  * */
 gint gsb_data_transaction_get_change_between ( gint transaction_number )
@@ -938,10 +938,10 @@ gint gsb_data_transaction_get_change_between ( gint transaction_number )
  * if the value is 1, we have : 1 account_currency = (exchange_rate * amount) transaction_currency
  * else we have : 1 transaction_currency = (exchange_rate * amount) account_currency
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
@@ -955,7 +955,7 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 	return FALSE;
 
     transaction -> change_between_account_and_transaction = value;
-    
+
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
@@ -982,9 +982,9 @@ gboolean gsb_data_transaction_set_change_between ( gint transaction_number,
 
 /**
  * get the exchange_rate of the transaction
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the exchange_rate of the transaction
  * */
 gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
@@ -1003,10 +1003,10 @@ gsb_real gsb_data_transaction_get_exchange_rate ( gint transaction_number )
 /**
  * set the exchange_rate of the transaction
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param rate
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
@@ -1020,7 +1020,7 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
 	return FALSE;
 
     transaction -> exchange_rate = rate;
-    
+
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
@@ -1043,11 +1043,11 @@ gboolean gsb_data_transaction_set_exchange_rate ( gint transaction_number,
 
 
 
-/** 
+/**
  * get the exchange_fees of the transaction
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the exchange_fees of the transaction
  * */
 gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
@@ -1066,10 +1066,10 @@ gsb_real gsb_data_transaction_get_exchange_fees ( gint transaction_number )
 /**
  * set the exchange_fees of the transaction
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param rate
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
@@ -1083,7 +1083,7 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 	return FALSE;
 
     transaction -> exchange_fees = rate;
-    
+
     /* if the transaction is a split, change all the children */
     if (transaction -> split_of_transaction)
     {
@@ -1107,11 +1107,11 @@ gboolean gsb_data_transaction_set_exchange_fees ( gint transaction_number,
 
 
 
-/** 
- * get the party_number 
- * 
+/**
+ * get the party_number
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the currency number of the transaction
  * */
 gint gsb_data_transaction_get_party_number ( gint transaction_number )
@@ -1130,10 +1130,10 @@ gint gsb_data_transaction_get_party_number ( gint transaction_number )
 /**
  * set the party_number
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
@@ -1171,11 +1171,11 @@ gboolean gsb_data_transaction_set_party_number ( gint transaction_number,
 
 
 
-/** 
- * get the category_number 
- * 
+/**
+ * get the category_number
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the category number of the transaction, -1 for error
  * */
 gint gsb_data_transaction_get_category_number ( gint transaction_number )
@@ -1212,7 +1212,7 @@ gboolean gsb_data_transaction_set_category_number ( gint transaction_number,
 }
 
 
-/** get the sub_category_number 
+/** get the sub_category_number
  * \param transaction_number the number of the transaction
  * \return the sub_category number of the transaction
  * */
@@ -1232,10 +1232,10 @@ gint gsb_data_transaction_get_sub_category_number ( gint transaction_number )
 
 /**
  * set the sub_category_number
- * 
+ *
  * \param transaction_number
  * \param value
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
@@ -1256,9 +1256,9 @@ gboolean gsb_data_transaction_set_sub_category_number ( gint transaction_number,
 
 /**
  * check if the transaction is a split (mother)
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return TRUE if the transaction is a split of transaction
  * */
 gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number )
@@ -1274,12 +1274,12 @@ gint gsb_data_transaction_get_split_of_transaction ( gint transaction_number )
 }
 
 
-/** 
+/**
  * set the transaction as split or not
  *
  * \param transaction_number
  * \param is_split
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number,
@@ -1300,9 +1300,9 @@ gboolean gsb_data_transaction_set_split_of_transaction ( gint transaction_number
 
 /**
  * get the notes
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the notes of the transaction
  * */
 const gchar *gsb_data_transaction_get_notes ( gint transaction_number )
@@ -1344,7 +1344,7 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
 	transaction -> notes = my_strdup (notes);
     else
 	transaction -> notes = NULL;
-    
+
     return TRUE;
 }
 
@@ -1353,7 +1353,7 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
 /**
  * get the method_of_payment_number
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the method_of_payment_number
  * */
 gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number )
@@ -1372,10 +1372,10 @@ gint gsb_data_transaction_get_method_of_payment_number ( gint transaction_number
 /**
  * set the method_of_payment_number
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
- * \param 
- * 
+ * \param
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_number,
@@ -1412,7 +1412,7 @@ gboolean gsb_data_transaction_set_method_of_payment_number ( gint transaction_nu
 }
 
 
-/** 
+/**
  * get the method_of_payment_content
  *
  * \param transaction_number the number of the transaction
@@ -1431,7 +1431,7 @@ const gchar *gsb_data_transaction_get_method_of_payment_content ( gint transacti
 }
 
 
-/** 
+/**
  * set the method_of_payment_content
  * dupplicate the parameter before storing it in the transaction
  *
@@ -1459,7 +1459,7 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
 	transaction -> method_of_payment_content = my_strdup (method_of_payment_content);
     else
 	transaction -> method_of_payment_content = NULL;
-    
+
     return TRUE;
 }
 
@@ -1467,9 +1467,9 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
 
 /**
  * get the marked_transaction
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELERAPPROCHEE, OPERATION_RAPPROCHEE
  * */
 gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
@@ -1488,10 +1488,10 @@ gint gsb_data_transaction_get_marked_transaction ( gint transaction_number )
 /**
  * set the marked_transaction
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param marked_transaction : OPERATION_NORMALE, OPERATION_POINTEE, OPERATION_TELERAPPROCHEE, OPERATION_RAPPROCHEE
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
@@ -1531,9 +1531,9 @@ gboolean gsb_data_transaction_set_marked_transaction ( gint transaction_number,
 
 /**
  * get the number of the archive
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the archive number, 0 if not archived and -1 if transaction not found
  * */
 gint gsb_data_transaction_get_archive_number ( gint transaction_number )
@@ -1550,12 +1550,12 @@ gint gsb_data_transaction_get_archive_number ( gint transaction_number )
 
 
 /**
- * set the number of the archive if it's an archived transaction 
+ * set the number of the archive if it's an archived transaction
  * add or remove the transaction from the list of transactions without archive according to the value
- * 
+ *
  * \param transaction_number
  * \param archive_number or 0 if not an archive
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_archive_number ( gint transaction_number,
@@ -1645,10 +1645,10 @@ gint gsb_data_transaction_get_reconcile_number ( gint transaction_number )
 /**
  * set the reconcile_number
  * if the transaction has some children, they change too
- * 
+ *
  * \param transaction_number
  * \param  reconcile_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_reconcile_number ( gint transaction_number,
@@ -1704,10 +1704,10 @@ gint gsb_data_transaction_get_financial_year_number ( gint transaction_number )
 
 /**
  * set the financial_year_number
- * 
+ *
  * \param transaction_number
  * \param  financial_year_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_financial_year_number ( gint transaction_number,
@@ -1836,7 +1836,7 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
     if ( !transaction )
 	return FALSE;
 
-    
+
     if ( transaction -> voucher )
         g_free ( transaction -> voucher );
 
@@ -1846,13 +1846,13 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
 	transaction -> voucher = my_strdup (voucher);
     else
 	transaction -> voucher = g_strdup("");
-    
+
     return TRUE;
 }
 
 
 
-/** 
+/**
  * get the bank_references
  *
  * \param transaction_number the number of the transaction
@@ -1875,10 +1875,10 @@ const gchar *gsb_data_transaction_get_bank_references ( gint transaction_number 
 /**
  * set the bank_references
  * it's a copy of the parameter which will be stored in the transaction
- * 
+ *
  * \param transaction_number
  * \param bank_references. This string may be NULL. If not NULL, the string is duplicated.
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
@@ -1900,16 +1900,16 @@ gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
 	transaction -> bank_references = my_strdup (bank_references);
     else
 	transaction -> bank_references = NULL;
-    
+
     return TRUE;
 }
 
 
 /**
  * get the  transaction_number_transfer
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the transaction_number_transfer number of the transaction
  * */
 gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_number )
@@ -1926,10 +1926,10 @@ gint gsb_data_transaction_get_contra_transaction_number ( gint transaction_numbe
 
 /**
  * set the transaction_number_transfer
- * 
+ *
  * \param transaction_number
  * \param transaction_number_transfer
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_number,
@@ -1954,7 +1954,7 @@ gboolean gsb_data_transaction_set_contra_transaction_number ( gint transaction_n
  * and find its account
  *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the account number of the contra-transaction
  * */
 gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_number )
@@ -1977,11 +1977,11 @@ gint gsb_data_transaction_get_contra_transaction_account ( gint transaction_numb
 
 
 
-/** 
+/**
  * get the  mother_transaction_number
- * 
+ *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the mother_transaction_number of the transaction or 0 if the transaction doen't exist
  * */
 gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_number )
@@ -1999,10 +1999,10 @@ gint gsb_data_transaction_get_mother_transaction_number ( gint transaction_numbe
 
 /**
  * set the mother_transaction_number
- * 
+ *
  * \param transaction_number
  * \param mother_transaction_number
- * 
+ *
  * \return TRUE if ok
  * */
 gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_number,
@@ -2027,10 +2027,10 @@ gboolean gsb_data_transaction_set_mother_transaction_number ( gint transaction_n
  * set the transaction number given in param (if no number, give the last number + 1)
  * set the number of the account, the number of the transaction and the currency number
  * which is by default the currency of the account
- * 
+ *
  * \param no_account the number of the account where the transaction should be made
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the number of the new transaction
  * */
 gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
@@ -2070,9 +2070,9 @@ gint gsb_data_transaction_new_transaction_with_number ( gint no_account,
 /**
  * create a new transaction with gsb_data_transaction_new_transaction_with_number
  * but set automatickly the last number
- * 
+ *
  * \param no_account the number of the account where the transaction should be made
- * 
+ *
  * \return the number of the new transaction
  * */
 gint gsb_data_transaction_new_transaction ( gint no_account )
@@ -2082,7 +2082,7 @@ gint gsb_data_transaction_new_transaction ( gint no_account )
 }
 
 
-/** 
+/**
  * create a new white line
  * if there is a mother transaction, it's a split and we increment in the negatives values
  * the number of that line
@@ -2091,7 +2091,7 @@ gint gsb_data_transaction_new_transaction ( gint no_account )
  * if it's a child split, the account is set as for its mother,
  * if it's the last white line, the account is set to -1
  * that transaction is appended to the white transactions list
- * 
+ *
  * \param mother_transaction_number the number of the mother's transaction if it's a split child ; 0 if not
  *
  * \return the number of the white line
@@ -2139,11 +2139,11 @@ gint gsb_data_transaction_new_white_line ( gint mother_transaction_number)
  * all the char are dupplicated,
  * 	transaction_id is set to NULL,
  * 	marked, reconcile number and archive number are set to 0
- * 
+ *
  * \param source_transaction_number the transaction we want to copy
  * \param target_transaction_number the trnasaction we want to fill with the content of the first one
  * \param reset transaction_id, marked, reconcile number and archive number
- * 
+ *
  * \return TRUE if ok, FALSE else
  * */
 gboolean gsb_data_transaction_copy_transaction ( gint source_transaction_number,
@@ -2234,7 +2234,7 @@ static void gsb_data_transaction_free ( struct_transaction *transaction)
  * free the transaction
  * if there is a contra-transaction, remove it too
  * if there is some children, remove them and their contra-transaction if they exist
- * 
+ *
  * \param transaction_number
  *
  * \return TRUE if ok
@@ -2338,7 +2338,7 @@ gboolean gsb_data_transaction_remove_transaction ( gint transaction_number )
  * just do it and only for that transaction, check nothing
  * usefull when we need to delete a lot of transactions in one time
  * 	(example to delete an archive)
- * 
+ *
  * \param transaction_number
  *
  * \return TRUE if ok
@@ -2532,8 +2532,8 @@ gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
         return 0;
 
     tmp_list = g_slist_copy ( transactions_list );
-    
-    tmp_list = g_slist_sort (tmp_list, 
+
+    tmp_list = g_slist_sort (tmp_list,
                         (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
 
     while (tmp_list)
@@ -2638,7 +2638,7 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
 }
 
 
-/** 
+/**
  * return a copy of the g_slist of transactions structure
  * sorted by date
  *  * THIS IS THE LIST WITHOUT THE ARCHIVED TRANSACTIONS
@@ -2671,7 +2671,7 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
  * get the id of the transaction
  *
  * \param transaction_number the number of the transaction
- * 
+ *
  * \return the id of the transaction
  * */
 const gchar *gsb_data_transaction_get_id ( gint transaction_number )
@@ -2702,8 +2702,8 @@ gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
     GSList *tmp_list;
 
     tmp_list = g_slist_copy ( transactions_list );
-    
-    tmp_list = g_slist_sort (tmp_list, 
+
+    tmp_list = g_slist_sort (tmp_list,
                         (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
 
     while ( tmp_list )
@@ -2717,7 +2717,7 @@ gsb_real gsb_data_transaction_get_last_transaction_with_div_sub_div (
          && transaction -> category_number == div_number
          && transaction -> sub_category_number == sub_div_nb )
             return transaction -> transaction_amount;
-        else if ( type_div == 1 
+        else if ( type_div == 1
          && transaction -> account_number == account_number
          && transaction -> budgetary_number == div_number
          && transaction -> sub_budgetary_number == sub_div_nb )

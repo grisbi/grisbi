@@ -6420,9 +6420,9 @@ GtkWidget *page_data_separation ( void )
      * pour rendre insensible le choix du jour de la semaine pour les choix
      * autres que la semaine. On le met ici pour que l'initialisation se fasse
      * proprement */
-    g_signal_connect ( G_OBJECT ( bouton_type_separe_plages_etat ), 
+    g_signal_connect ( G_OBJECT ( bouton_type_separe_plages_etat ),
                   "changed",
-		          G_CALLBACK ( etat_option_menu_changed ), 
+		          G_CALLBACK ( etat_option_menu_changed ),
                   bouton_debut_semaine );
 
     return ( vbox_onglet );
@@ -6573,7 +6573,7 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_afficher_nb_opes = gtk_check_button_new_with_label ( 
+    bouton_afficher_nb_opes = gtk_check_button_new_with_label (
                         _("Display the number of transactions with the totals") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_afficher_nb_opes,
@@ -7070,7 +7070,7 @@ GtkWidget *onglet_affichage_etat_divers ( void )
     /* permet d'afficher un ss total lors de chgt de tiers */
     /* activé uniquement si on utilise les tiers */
 
-    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label ( 
+    bouton_affiche_sous_total_tiers = gtk_check_button_new_with_label (
                         _("Display a sub-total for each payee") );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 bouton_affiche_sous_total_tiers,

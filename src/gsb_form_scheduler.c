@@ -104,7 +104,7 @@ static gint last_account_number = 0;
 /**
  * create the scheduled part : that widgets are created at the beginning
  * and normally never destroyed, they are showed only for
- * scheduled transactions 
+ * scheduled transactions
  * Cela ne fonctionne pas : tous les widgets sont détruits par la
  * fonction gsb_form_create_widgets ( )
  *
@@ -124,7 +124,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
     if (scheduled_element_list)
         gsb_form_scheduler_free_list ( );
 
-    /* check the dimensions, 
+    /* check the dimensions,
      * if problem give a warning message but continue the program with changing the values */
     g_object_get ( G_OBJECT (table),
 		   "n-columns", &column,
@@ -141,7 +141,7 @@ gboolean gsb_form_scheduler_create ( GtkWidget *table )
         gtk_table_resize ( GTK_TABLE (table), SCHEDULED_HEIGHT, SCHEDULED_WIDTH );
     }
 
-    /* ok, now fill the form 
+    /* ok, now fill the form
      * we play with height and width, but for now it's fix : 6 columns and 1 line */
     for ( row=0 ; row < SCHEDULED_HEIGHT ; row++ )
 	for ( column=0 ; column < SCHEDULED_WIDTH ; column++ )
@@ -364,7 +364,7 @@ gboolean gsb_form_scheduler_change_account ( GtkWidget *button,
  * get the content in the form, and set it in a list composed
  * of each element with their content (list of struct content_element
  *
- * \param 
+ * \param
  *
  * \return a newly allocated list
  * */
@@ -585,7 +585,7 @@ void gsb_form_scheduler_free_content_list ( GSList *content_list )
 	/* normally, cannot happen */
 	if (!element)
 	    continue;
-	
+
 	if (element -> element_string)
 	    g_free (element -> element_string);
 	g_free (element);
@@ -864,7 +864,7 @@ gboolean gsb_form_scheduler_entry_lose_focus ( GtkWidget *entry,
  *
  * \param combo_box
  *
- * \return FALSE 
+ * \return FALSE
  * */
 gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
 						       gpointer null )
@@ -872,7 +872,7 @@ gboolean gsb_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
     gchar *selected_item;
 
     selected_item = gtk_combo_box_get_active_text ( GTK_COMBO_BOX (combo_box));
-    
+
     if ( !strcmp ( selected_item,
 		   _("Once")))
     {
@@ -1205,7 +1205,7 @@ gboolean gsb_form_scheduler_set_frequency_user_button ( gboolean automatic )
 
 /**
  * Clone the children of a splitted transaction to add the to the new splitted scheduled
- * 
+ *
  * \param scheduled_transaction		the splitted scheduled transaction we want to add the children
  * \param transaction_number		the splitted transaction we want to clone the children
  *

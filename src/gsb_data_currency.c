@@ -40,8 +40,8 @@
 
 
 /**
- * \struct 
- * Describe a currency 
+ * \struct
+ * Describe a currency
  */
 typedef struct
 {
@@ -174,9 +174,9 @@ GSList *gsb_data_currency_get_currency_list ( void )
 
 /**
  * find and return the last number of currency
- * 
+ *
  * \param none
- * 
+ *
  * \return last number of currency
  * */
 gint gsb_data_currency_max_number ( void )
@@ -219,7 +219,7 @@ gint gsb_data_currency_new ( const gchar *name )
 
     if (name)
 	currency -> currency_name = my_strdup (name);
-    else 
+    else
 	currency -> currency_name = NULL;
 
     currency_list = g_slist_append ( currency_list, currency );

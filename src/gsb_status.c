@@ -128,7 +128,7 @@ void gsb_status_clear (  )
 /**
  * Change current cursor to a animated watch (if animation supported
  * by environment).
- * 
+ *
  * \param force_update		Call a gtk iteration to ensure cursor
  *				is updated.  May cause trouble if
  *				called from some signal handlers.
@@ -137,8 +137,8 @@ void gsb_status_wait ( gboolean force_update )
 {
     GdkWindow * current_window;
 
-    gdk_window_set_cursor ( run.window -> window, 
-			    gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
+    gdk_window_set_cursor ( run.window -> window,
+			    gdk_cursor_new_for_display ( gdk_display_get_default ( ),
 							 GDK_WATCH ) );
 
     current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ),
@@ -149,14 +149,14 @@ void gsb_status_wait ( gboolean force_update )
 	 current_window != run.window -> window )
     {
 	GdkWindow * parent = gdk_window_get_toplevel ( current_window );
-	
+
 	if ( parent && parent != current_window )
 	{
 	    current_window = parent;
-	}	    
+	}
 
-	gdk_window_set_cursor ( current_window, 
-				gdk_cursor_new_for_display ( gdk_display_get_default ( ), 
+	gdk_window_set_cursor ( current_window,
+				gdk_cursor_new_for_display ( gdk_display_get_default ( ),
 							     GDK_WATCH ) );
 
 	tracked_window = current_window;
@@ -169,7 +169,7 @@ void gsb_status_wait ( gboolean force_update )
 
 /**
  * Change current cursor to default cursor.
- * 
+ *
  * \param force_update		Call a gtk iteration to ensure cursor
  *				is updated.  May cause trouble if
  *				called from some signal handlers.

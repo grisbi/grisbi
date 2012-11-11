@@ -97,7 +97,7 @@ gchar *titre_fichier = NULL;
 gchar *adresse_commune = NULL;
 gchar *adresse_secondaire = NULL;
 
- 
+
 /*START_EXTERN*/
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
@@ -143,7 +143,7 @@ void init_variables ( void )
     gint bet_array_col_width_init[BET_ARRAY_COLUMNS] = {15, 40, 15, 15, 15 };
     gint transaction_col_align_init[CUSTOM_MODEL_VISIBLE_COLUMNS] = { 1, 1, 0, 1, 2, 2, 2 };
     gint i;
-    
+
 /* xxx on devrait séparer ça en 2 : les variables liées au fichier de compte, qui doivent être remises  à 0,
  * et les variables liées à grisbi (ex sauvegarde auto...) qui doivent rester */
     devel_debug (NULL);
@@ -203,7 +203,7 @@ void init_variables ( void )
     mise_a_jour_fin_comptes_passifs = 0;
 
     orphan_child_transactions = NULL;
-    
+
     /* the main notebook is set to NULL,
      * important because it's the checked variable in a new file
      * to know if the widgets are created or not */
@@ -262,7 +262,7 @@ void init_variables ( void )
     etat.combofix_force_payee = FALSE;
     etat.combofix_force_category = FALSE;
 
-    /* mis à NULL prévient un plantage aléatoire dans 
+    /* mis à NULL prévient un plantage aléatoire dans
      * gsb_currency_update_combobox_currency_list */
     detail_devise_compte = NULL;
 
@@ -282,7 +282,7 @@ void init_variables ( void )
         g_free ( etat.scheduler_column_width );
         etat.scheduler_column_width = NULL;
     }
-    
+
     gsb_gui_navigation_init_tree_view ( );
 
     /* free the form */

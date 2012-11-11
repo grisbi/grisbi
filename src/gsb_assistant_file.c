@@ -223,12 +223,12 @@ GtkResponseType gsb_assistant_file_run ( gboolean first_opening,
     gsb_category_assistant_create_categories (assistant);
 
     /* get the next assistant to launch */
-    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 
+    launch_account_assistant = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
                         (button_create_account_next));
     gtk_widget_destroy (assistant);
 
     /* initialise le logo accueil */
-    gsb_select_icon_set_logo_pixbuf ( 
+    gsb_select_icon_set_logo_pixbuf (
                         gsb_select_icon_get_default_logo_pixbuf ( ) );
 
     /* and now, launch the next assistant */

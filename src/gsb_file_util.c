@@ -85,7 +85,7 @@ gboolean gsb_file_util_test_overwrite ( const gchar *filename )
 	    g_free ( tmpstr );
 	    return FALSE;
 	}
-	
+
 	tmpstr = g_strdup_printf (_("Do you want to overwrite file \"%s\"?"), filename);
 	response = question_yes_no_hint (_("File already exists"),
 				       tmpstr,

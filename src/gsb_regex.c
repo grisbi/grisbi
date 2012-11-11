@@ -43,10 +43,10 @@ static GHashTable *regex_store = NULL;
 
 
 /**
- * Initialize the hash map which is used to store 
+ * Initialize the hash map which is used to store
  * compile GRegex during the whole exeuction of Grisbi.
  *
- * This function is called on Grisbi startup and each time 
+ * This function is called on Grisbi startup and each time
  * of a new file is opened.
  *
  * \return void
@@ -87,7 +87,7 @@ GRegex *gsb_regex_insert ( const gchar *key,
     if ( ! regex_store )
         return NULL;
 
-    if ( ! key || ! strlen ( key ) 
+    if ( ! key || ! strlen ( key )
          || ! pattern || ! strlen ( pattern ) )
         return NULL;
 
@@ -99,8 +99,8 @@ GRegex *gsb_regex_insert ( const gchar *key,
         return NULL;
     }
 
-    g_hash_table_insert ( regex_store, 
-                          (gpointer) g_strdup ( key ), 
+    g_hash_table_insert ( regex_store,
+                          (gpointer) g_strdup ( key ),
                           regex );
 
     return regex;

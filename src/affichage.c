@@ -181,7 +181,7 @@ GtkWidget * onglet_display_fonts ( void )
     hbox = gtk_hbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
-    check_button = gtk_check_button_new_with_label ( 
+    check_button = gtk_check_button_new_with_label (
                         _("Use a custom font for the transactions: "));
     gtk_box_pack_start ( GTK_BOX ( hbox ), check_button, FALSE, FALSE, 0 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
@@ -258,7 +258,7 @@ gboolean change_choix_utilise_logo ( GtkWidget *check_button,
                         GtkWidget *hbox )
 {
 
-    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON 
+    etat.utilise_logo = gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON
                             ( check_button ));
     gtk_widget_set_sensitive ( hbox, etat.utilise_logo );
 
@@ -378,33 +378,33 @@ GtkWidget *onglet_display_addresses ( void )
     g_object_set_data ( G_OBJECT ( radiogroup ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_TITLE ) );
     if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radiogroup ), TRUE );
-    g_signal_connect ( G_OBJECT ( radiogroup ), 
+    g_signal_connect ( G_OBJECT ( radiogroup ),
                         "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ), 
+                        G_CALLBACK ( change_grisbi_title_type ),
                         entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radiogroup, FALSE, FALSE, 0 );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( 
+    radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
                         _("Account owner name") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNT_HOLDER ) );
     if ( conf.display_grisbi_title == GSB_ACCOUNT_HOLDER )
             gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ), 
+    g_signal_connect ( G_OBJECT ( radio ),
                     "toggled",
-                    G_CALLBACK ( change_grisbi_title_type ), 
+                    G_CALLBACK ( change_grisbi_title_type ),
                     entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
 
-    radio = gtk_radio_button_new_with_label_from_widget ( 
+    radio = gtk_radio_button_new_with_label_from_widget (
                         GTK_RADIO_BUTTON ( radiogroup ),
                         _("Filename") );
     g_object_set_data ( G_OBJECT ( radio ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_FILE ) );
     if ( conf.display_grisbi_title == GSB_ACCOUNTS_FILE )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radio ), TRUE );
-    g_signal_connect ( G_OBJECT ( radio ), 
+    g_signal_connect ( G_OBJECT ( radio ),
                         "toggled",
-                        G_CALLBACK ( change_grisbi_title_type ), 
+                        G_CALLBACK ( change_grisbi_title_type ),
                         entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
 
@@ -528,19 +528,19 @@ void change_logo_accueil ( GtkWidget * file_selector )
                 }
 
                 gsb_select_icon_set_logo_pixbuf ( pixbuf );
-                preview = gtk_image_new_from_pixbuf ( 
-                        gdk_pixbuf_scale_simple ( 
+                preview = gtk_image_new_from_pixbuf (
+                        gdk_pixbuf_scale_simple (
                         pixbuf, 48, 48, GDK_INTERP_BILINEAR ) );
-                
+
                 /* Update homepage logo */
                 gtk_widget_destroy ( logo_accueil );
-                
-                logo_accueil =  gtk_image_new_from_pixbuf ( 
+
+                logo_accueil =  gtk_image_new_from_pixbuf (
                                     gsb_select_icon_get_logo_pixbuf ( ) );
                 gtk_box_pack_start ( GTK_BOX ( hbox_title ), logo_accueil, FALSE, FALSE, 0 );
                 gtk_widget_show ( logo_accueil );
                 /* modify the icon of grisbi (set in the panel of gnome or other) */
-                gtk_window_set_default_icon ( 
+                gtk_window_set_default_icon (
                             gsb_select_icon_get_logo_pixbuf ( ) );
             }
 
@@ -548,7 +548,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         }
         gtk_widget_show ( preview );
         gtk_container_add ( GTK_CONTAINER ( logo_button ), preview );
-        
+
         /* Mark file as modified */
         gsb_file_set_modified ( TRUE );
     }
@@ -574,7 +574,7 @@ gboolean modification_logo_accueil ( )
     else
         gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER (
                         file_selector ), gsb_file_get_last_path () );
-        
+
     gtk_window_set_position ( GTK_WINDOW ( file_selector ), GTK_WIN_POS_CENTER_ON_PARENT );
 
     /* create the preview */
@@ -620,7 +620,7 @@ static gboolean preferences_view_update_preview_logo ( GtkFileChooser *file_choo
   if (!filename)
       return FALSE;
 
-  pixbuf = gdk_pixbuf_new_from_file_at_size ( filename, 
+  pixbuf = gdk_pixbuf_new_from_file_at_size ( filename,
                         LOGO_WIDTH, LOGO_HEIGHT, NULL );
   have_preview = ( pixbuf != NULL );
   g_free (filename);
@@ -949,7 +949,7 @@ gboolean change_grisbi_title_type ( GtkRadioButton *button, GtkWidget *entry )
 {
     if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button ) ) )
     {
-        conf.display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data 
+        conf.display_grisbi_title = GPOINTER_TO_INT ( g_object_get_data
                         ( G_OBJECT ( button ), "display" ) );
     }
 

@@ -187,7 +187,7 @@ static void radio_item_changed_cb ( GtkAction* action, GtkAction* current, MenuC
 static gboolean attention_cb ( AttentionRequest* req )
 {
     gtk_osxapplication_attention_request ( req->app, req->type );
-  
+
     g_free(req);
 
     return FALSE;
@@ -256,12 +256,12 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
 
     gtk_osxapplication_set_menu_bar ( theApp, GTK_MENU_SHELL ( menubar ) );
     gtk_osxapplication_insert_app_menu_item  ( theApp, items->about_item, 0 );
-  
+
     sep = gtk_separator_menu_item_new ( );
     g_object_ref ( sep );
     gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 1 );
     gtk_osxapplication_insert_app_menu_item  ( theApp, items->preferences_item, 2);
-  
+
     sep = gtk_separator_menu_item_new ( );
     g_object_ref ( sep );
     gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 3 );

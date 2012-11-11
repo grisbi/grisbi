@@ -128,7 +128,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
     ofx_set_account_cb ( ofx_context, ofx_proc_account_cb, NULL );
     ofx_set_transaction_cb ( ofx_context, ofx_proc_transaction_cb, NULL );
     ofx_set_statement_cb ( ofx_context, ofx_proc_statement_cb, NULL );
- 
+
     libofx_proc_file ( ofx_context, ofx_filename, AUTODETECT );
 
     /*     le dernier compte n'a pas été ajouté à la liste */
@@ -220,7 +220,7 @@ int ofx_proc_status_cb(struct OfxStatusData data, void * status_data)
 		    dialogue_error ( _("OFX processing returned an error message which is not valid."));
 		erreur_import_ofx = 1;
 		break;
-	}		
+	}
     }
 
 
@@ -466,7 +466,7 @@ int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data
 									       ope_import );
 
 
-    return 0; 
+    return 0;
 }
 /* *******************************************************************************/
 

@@ -86,8 +86,8 @@ void traitement_sigsegv ( gint signal_nb )
     /* soit on était en train de sauver un fichier, et là on peut rien faire */
     /* sinon on essaie de sauver le fichier sous le nom entouré de # */
 
-    if ( run.is_loading || 
-	 run.is_saving || 
+    if ( run.is_loading ||
+	 run.is_saving ||
 	 !gsb_file_get_modified ( ) )
     {
 
@@ -105,7 +105,7 @@ void traitement_sigsegv ( gint signal_nb )
 	    g_free ( old_errmsg );
 	}
     }
-    else 
+    else
     {
 	/* c'est un bug pendant le fonctionnement de Grisbi s'il n'y a
 	   pas de nom de fichier, on le crée, sinon on rajoute #
@@ -131,7 +131,7 @@ void traitement_sigsegv ( gint signal_nb )
 	gsb_status_clear();
 
     old_errmsg = errmsg;
-	errmsg = g_strconcat ( errmsg, 
+	errmsg = g_strconcat ( errmsg,
 			       g_strdup_printf ( _("Grisbi made a backup file at '%s'."),
 						 nom_fichier_comptes ),
 			       NULL );
@@ -139,7 +139,7 @@ void traitement_sigsegv ( gint signal_nb )
     }
 
     old_errmsg = errmsg;
-    errmsg = g_strconcat ( errmsg, 
+    errmsg = g_strconcat ( errmsg,
 			   "\n\n",
 			   _("Please report this problem to <tt>http://www.grisbi.org/bugtracking/</tt>.  "),
 			   NULL );
@@ -195,7 +195,7 @@ void initialize_debugging ( void )
 	debug_variable=utils_str_atoi (getenv ("DEBUG_GRISBI"));
 
 	/* on verifie que la variable est cohérente */
-	if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL) 
+	if (debug_variable > 0 && debug_variable <= MAX_DEBUG_LEVEL)
 	{
 	    /* on renseigne le texte du level de debug */
 	    debugging_grisbi = debug_variable;
@@ -211,7 +211,7 @@ void initialize_debugging ( void )
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    tmpstr1 = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
 	    tmpstr2 = g_strdup_printf(_("Debug enabled, level is '%s'"),debug_level);
-	    debug_message_string ( tmpstr1 , 
+	    debug_message_string ( tmpstr1 ,
 				   __FILE__, __LINE__, __PRETTY_FUNCTION__,
 				   tmpstr2,
 				   DEBUG_LEVEL_INFO, TRUE);
@@ -222,7 +222,7 @@ void initialize_debugging ( void )
 	{
 	    /* on affiche un message de debug pour indiquer que le debug est actif */
 	    gchar* tmpstr = g_strdup_printf(_("GRISBI %s Debug"),VERSION);
-	    debug_message_string (tmpstr , 
+	    debug_message_string (tmpstr ,
 				  __FILE__, __LINE__, __PRETTY_FUNCTION__,
 				  _("Wrong debug level, please check DEBUG_GRISBI environnement variable"),
 				  DEBUG_LEVEL_INFO, TRUE);
@@ -254,14 +254,14 @@ gchar *get_debug_time ( void )
 
     /* on renvoit le temps */
     return str_debug_time;
-}	
+}
 
 
 
 /**
  * show a debug message in the terminal
  * only if debug mode is on
- * not called directly so need to force the extern 
+ * not called directly so need to force the extern
  * the param to chow is a string
  *
  * \param
@@ -311,7 +311,7 @@ G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
 /**
  * show a debug message in the terminal
  * only if debug mode is on
- * not called directly so need to force the extern 
+ * not called directly so need to force the extern
  * the param to chow is a number
  *
  * \param
@@ -357,7 +357,7 @@ void debug_message_int ( gchar *prefixe,
 /**
  * show a debug message in the terminal
  * only if debug mode is on
- * not called directly so need to force the extern 
+ * not called directly so need to force the extern
  * the param to chow is a number
  *
  * \param
@@ -413,17 +413,17 @@ GtkWidget * print_backtrace ( void )
     size_t i;
     gchar **backtrace_strings, *text = g_strdup("");
     GtkWidget * label;
-		
+
     backtrace_size = backtrace (backtrace_content, 15);
     backtrace_strings = backtrace_symbols (backtrace_content, backtrace_size);
-		
+
     g_print ("%s : %d elements in stack.\n", get_debug_time(), backtrace_size);
-		
-    for (i = 0; i < backtrace_size; i++) 
+
+    for (i = 0; i < backtrace_size; i++)
     {
 	g_print ("\t%s\n", backtrace_strings[i]);
 	gchar* old_text = text;
-	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ), 
+	text = g_strconcat ( text, g_strconcat ( "\t", backtrace_strings[i], "\n", NULL ),
 			     NULL );
 	g_free ( old_text );
     }

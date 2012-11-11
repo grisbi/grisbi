@@ -385,7 +385,7 @@ void payees_update_toolbar_list ( void )
     GList * list = NULL;
 
     list = gtk_container_get_children ( GTK_CONTAINER ( payee_toolbar ) );
-    
+
     if ( list )
     {
 	gtk_container_remove ( GTK_CONTAINER ( payee_toolbar ),
@@ -971,7 +971,7 @@ void payees_manage_payees ( void )
             }
             else
             {
-                tmpstr = g_strdup_printf ( _("%d payees were replaced with a new one."), 
+                tmpstr = g_strdup_printf ( _("%d payees were replaced with a new one."),
                             nb_removed);
             }
             dialogue (tmpstr);
@@ -1666,7 +1666,7 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
                     question = FALSE;
                 g_free ( tmpstr );
             }
-            else 
+            else
                 question = TRUE;
             if ( question && my_strcmp ( (gchar *) gsb_data_payee_get_name (
                 payee_number, TRUE ),

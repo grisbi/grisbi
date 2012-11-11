@@ -43,14 +43,14 @@ GtkWidget *gsb_automem_radiobutton_new_with_title ( GtkWidget *parent,
 					    gboolean *value,
 					    GCallback hook,
                         gpointer data );
-GtkWidget *gsb_automem_spin_button_new ( gint *value, 
+GtkWidget *gsb_automem_spin_button_new ( gint *value,
 					 GCallback hook,
 					 gpointer data );
 GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
-					       const gchar * stock_id, const gchar * name, 
+					       const gchar * stock_id, const gchar * name,
 					       GCallback callback, gpointer data );
 GtkWidget *gsb_automem_stock_button_new ( GsbButtonStyle style,
-					  const gchar * stock_id, const gchar * name, 
+					  const gchar * stock_id, const gchar * name,
 					  GCallback callback, gpointer data );
 GtkWidget *gsb_automem_textview_new ( gchar **value,
 				      GCallback hook,

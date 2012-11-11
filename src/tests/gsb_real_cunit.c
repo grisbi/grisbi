@@ -314,7 +314,7 @@ void gsb_real_cunit__gsb_real_raw_format_string ( void )
     conv.mon_thousands_sep = "< >";
     conv.mon_decimal_point = "<.>";
     gchar *currency_symbol = "<€>";
-        
+
     n.mantissa = 1;
     n.exponent = 2;
     s = gsb_real_raw_format_string(n, &conv, currency_symbol);
@@ -449,7 +449,7 @@ void gsb_real_cunit__gsb_real_add ( void )
     gsb_real r = gsb_real_add(a, b);
     CU_ASSERT_EQUAL(41415, r.mantissa);
     CU_ASSERT_EQUAL(4, r.exponent);
-    
+
     a.mantissa = 0x7FFFFFFE;
     a.exponent = 0;
     b.mantissa = 1;
@@ -457,7 +457,7 @@ void gsb_real_cunit__gsb_real_add ( void )
     r = gsb_real_add(a, b);
     CU_ASSERT_EQUAL(0x7FFFFFFF, r.mantissa);
     CU_ASSERT_EQUAL(0, r.exponent);
-    
+
     a.mantissa = 0x7FFFFFFF;
     a.exponent = 0;
     b.mantissa = 2;
@@ -465,7 +465,7 @@ void gsb_real_cunit__gsb_real_add ( void )
     r = gsb_real_add(a, b);
     CU_ASSERT_EQUAL(0x80000001, r.mantissa);
     CU_ASSERT_EQUAL(0, r.exponent);
-    
+
     a.mantissa = 0x80000001;
     a.exponent = 0;
     b.mantissa = -2;
@@ -498,7 +498,7 @@ void gsb_real_cunit__gsb_real_sub()
     gsb_real r = gsb_real_sub ( a, b );
     CU_ASSERT_EQUAL ( -41415, r.mantissa );
     CU_ASSERT_EQUAL ( 4, r.exponent );
-    
+
     a.mantissa = 0x7FFFFFFE;
     a.exponent = 0;
     b.mantissa = -1;
@@ -506,7 +506,7 @@ void gsb_real_cunit__gsb_real_sub()
     r = gsb_real_sub ( a, b );
     CU_ASSERT_EQUAL ( 0x7FFFFFFF, r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
-    
+
     a.mantissa = 0x7FFFFFFF;
     a.exponent = 0;
     b.mantissa = -2;
@@ -514,7 +514,7 @@ void gsb_real_cunit__gsb_real_sub()
     r = gsb_real_sub ( a, b );
     CU_ASSERT_EQUAL ( 0x80000001, r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
-    
+
     a.mantissa = 0x80000001;
     a.exponent = 0;
     b.mantissa = 2;
@@ -532,7 +532,7 @@ void gsb_real_cunit__gsb_real_mul()
     gsb_real r = gsb_real_mul ( a, b );
     CU_ASSERT_EQUAL ( 37698, r.mantissa );
     CU_ASSERT_EQUAL ( 4, r.exponent );
-    
+
     a.mantissa = 0x7FFFFFFF;
     a.exponent = 0;
     b.mantissa = 2;
@@ -540,7 +540,7 @@ void gsb_real_cunit__gsb_real_mul()
     r = gsb_real_mul ( a, b );
     CU_ASSERT_EQUAL ( G_GINT64_CONSTANT(4294967294), r.mantissa );
     CU_ASSERT_EQUAL ( 0, r.exponent );
-    
+
     a.mantissa = 0x7FFFFFFF;
     a.exponent = 0;
     b.mantissa = 9;
@@ -548,7 +548,7 @@ void gsb_real_cunit__gsb_real_mul()
     r = gsb_real_mul ( a, b );
     CU_ASSERT_EQUAL ( 19327352823, r.mantissa );
     CU_ASSERT_EQUAL ( 1, r.exponent );
-    
+
     a.mantissa = G_MININT64;
     a.exponent = 0;
     b.mantissa = 2;

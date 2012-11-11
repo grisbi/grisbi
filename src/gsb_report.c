@@ -124,12 +124,12 @@ GtkWidget *gsb_report_make_combobox ( void )
 
 
 
-/** 
+/**
  * Get and return the number of the report in the combobox given
  * in param
- * 
- * \param combo_box a combo_box with the reports 
- * 
+ *
+ * \param combo_box a combo_box with the reports
+ *
  * \return the number of report or 0 if problem
  * */
 gint gsb_report_get_report_from_combobox ( GtkWidget *combo_box )

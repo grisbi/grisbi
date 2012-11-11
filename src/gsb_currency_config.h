@@ -19,7 +19,7 @@ struct cached_exchange_rate {
 };
 
 /** ISO 4217 currency.  Not specific to Grisbi. */
-struct iso_4217_currency 
+struct iso_4217_currency
 {
     gchar * continent;
     gchar * currency_name;

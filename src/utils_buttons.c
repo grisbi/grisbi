@@ -58,7 +58,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
     }
     else if (style == GSB_BUTTON_BOTH_HORIZ )
     {
-        image = gtk_image_new_from_stock ( stock_id, 
+        image = gtk_image_new_from_stock ( stock_id,
                         GTK_ICON_SIZE_SMALL_TOOLBAR );
         gtk_box_pack_start ( GTK_BOX(hbox), image, TRUE, TRUE, 0 );
     }

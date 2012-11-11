@@ -179,7 +179,7 @@ gint gsb_transactions_list_sort (CustomRecord **a,
  * \param model
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
@@ -229,11 +229,11 @@ gint gsb_transactions_list_sort_check_archive (  CustomRecord *record_1,
  * check for the part wich cannot change : the white line must always be at
  * the end of the list
  * and into a transaction, the lines are not sorted in ascending or descending method
- * 
+ *
  * \param model
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return 0 if that test cannot say the return_value between the 2 lines,
  * or the return_value if it's possible here
  * */
@@ -524,11 +524,11 @@ gint gsb_transactions_list_sort_by_date ( gint transaction_number_1,
 /**
  * used to compare 2 iters and sort the by value date or date if not exist
  * always put the white line below
- * 
+ *
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
@@ -571,7 +571,7 @@ gint gsb_transactions_list_sort_by_value_date ( gint transaction_number_1,
 }
 
 
-/** used to compare 2 iters and sort the by party first, and 
+/** used to compare 2 iters and sort the by party first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -617,7 +617,7 @@ gint gsb_transactions_list_sort_by_party ( gint transaction_number_1,
 }
 
 
-/** used to compare 2 iters and sort the by budgetary first, and 
+/** used to compare 2 iters and sort the by budgetary first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -674,14 +674,14 @@ gint gsb_transactions_list_sort_by_budget ( gint transaction_number_1,
 
 
 /**
- * used to compare 2 iters and sort the by credit amount first, and 
+ * used to compare 2 iters and sort the by credit amount first, and
  * by date and no transaction after
  * always put the white line below
- * 
+ *
  * \param model the GtkTreeModel
  * \param iter_1
  * \param iter_2
- * 
+ *
  * \return -1 if iter_1 is above iter_2
  * */
 gint gsb_transactions_list_sort_by_credit ( gint transaction_number_1,
@@ -701,7 +701,7 @@ gint gsb_transactions_list_sort_by_credit ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by debit amount first, and 
+/** used to compare 2 iters and sort the by debit amount first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -726,7 +726,7 @@ gint gsb_transactions_list_sort_by_debit ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by amount first, and 
+/** used to compare 2 iters and sort the by amount first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -751,7 +751,7 @@ gint gsb_transactions_list_sort_by_amount ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by type first, and 
+/** used to compare 2 iters and sort the by type first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -811,7 +811,7 @@ gint gsb_transactions_list_sort_by_type ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by reconcile number first, and 
+/** used to compare 2 iters and sort the by reconcile number first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -899,7 +899,7 @@ gint gsb_transactions_list_sort_by_financial_year ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by category first, and 
+/** used to compare 2 iters and sort the by category first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -941,7 +941,7 @@ gint gsb_transactions_list_sort_by_category ( gint transaction_number_1,
 }
 
 
-/** used to compare 2 iters and sort the by mark first, and 
+/** used to compare 2 iters and sort the by mark first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -968,7 +968,7 @@ gint gsb_transactions_list_sort_by_mark ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by voucher first, and 
+/** used to compare 2 iters and sort the by voucher first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -1000,7 +1000,7 @@ gint gsb_transactions_list_sort_by_voucher ( gint transaction_number_1,
 }
 
 
-/** used to compare 2 iters and sort the by notes first, and 
+/** used to compare 2 iters and sort the by notes first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -1033,7 +1033,7 @@ gint gsb_transactions_list_sort_by_notes ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by bank first, and 
+/** used to compare 2 iters and sort the by bank first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -1066,7 +1066,7 @@ gint gsb_transactions_list_sort_by_bank ( gint transaction_number_1,
 
 
 
-/** used to compare 2 iters and sort the by cheque or no of transfer first, and 
+/** used to compare 2 iters and sort the by cheque or no of transfer first, and
  * by date and no transaction after
  * always put the white line below
  * \param model the GtkTreeModel
@@ -1122,7 +1122,7 @@ gint gsb_transactions_list_sort_initial (CustomRecord **a,
         /* normally cannot happen, except come here at the opening
          * of grisbi, and must return 0 if we don't want a crash */
         return 0;
-    }   
+    }
 
     /* i don't know why but sometimes there is a comparison between the 2 same rows... */
     if (*a == *b)

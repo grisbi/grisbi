@@ -137,7 +137,7 @@ void bet_future_initialise_dialog ( void )
     }
  }
 
- 
+
 /**
  *
  *
@@ -157,7 +157,7 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
     account_number = gsb_gui_navigation_get_current_account ( );
     if ( account_number == -1 )
         return FALSE;
-    
+
     if ( bet_futur_dialog == NULL )
     {
         bet_futur_dialog = bet_future_create_dialog ( account_number );
@@ -172,7 +172,7 @@ gboolean bet_future_new_line_dialog ( GtkTreeModel *tab_model,
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DATE );
     date = gsb_parse_date_string ( str_date );
     date_jour = gdate_today ( );
-        
+
     if ( g_date_valid ( date ) )
     {
         if ( g_date_compare ( date_jour, date ) >= 0 )
@@ -283,7 +283,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
  * */
 gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
 {
-    
+
     GtkWidget *separator;
     GtkWidget *combo = NULL;
     gint column;
@@ -292,7 +292,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
     if (!table)
         return FALSE;
 
-    /* ok, now fill the form 
+    /* ok, now fill the form
      * we play with height and width, but for now it's fix : 6 columns and 1 line */
 	for ( column=0 ; column < SCHEDULED_WIDTH ; column++ )
 	{
@@ -405,7 +405,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
  * fill the form according to the account_number :
  *
  * \param account_number the number of account
- * 
+ *
  * \return FALSE
  * */
 gboolean bet_form_create_current_form ( GtkWidget *dialog,
@@ -507,7 +507,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element -> element_widget = widget;
     bet_form_list_widgets = g_slist_append ( bet_form_list_widgets, element );
     column = 0;
-    row ++; 
+    row ++;
 
     element_number = TRANSACTION_FORM_EXERCICE;
     widget = gsb_fyear_make_combobox (TRUE);
@@ -574,7 +574,7 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
     element -> element_widget = widget;
     bet_form_list_widgets = g_slist_append ( bet_form_list_widgets, element );
     column = 1;
-    row ++; 
+    row ++;
 
     element_number = TRANSACTION_FORM_BUDGET;
     widget = gtk_combofix_new (
@@ -731,7 +731,7 @@ gboolean bet_form_clean ( gint account_number )
 
         tmp_list = tmp_list -> next;
     }
-    
+
     /* clean the transactions widget */
     tmp_list = bet_form_list_widgets;
 
@@ -831,7 +831,7 @@ gboolean bet_form_clean ( gint account_number )
  *
  * \param combo_box
  *
- * \return FALSE 
+ * \return FALSE
  * */
 gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
                         GtkWidget *dialog )
@@ -839,7 +839,7 @@ gboolean bet_form_scheduler_frequency_button_changed ( GtkWidget *combo_box,
     gchar *selected_item;
 
     selected_item = gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) );
-    
+
     if ( !strcmp ( selected_item, _("Once") ) )
     {
         gtk_widget_hide ( bet_form_scheduler_get_element_widget (
@@ -1011,7 +1011,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                 gtk_entry_set_text ( GTK_ENTRY ( widget_prov ), string );
                 gsb_form_widget_set_empty ( widget_prov, FALSE );
                 g_free ( string );
-                
+
                 widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
@@ -1172,7 +1172,7 @@ GtkWidget *bet_form_widget_get_widget ( gint element_number )
  * \param widget wich receive the signal
  * \param ev
  * \param ptr_origin a pointer number of the element
- * 
+ *
  * \return FALSE
  * */
 gboolean bet_form_key_press_event ( GtkWidget *widget,
@@ -1189,7 +1189,7 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
 	 &&
-	 ( ev -> keyval == GDK_Return 
+	 ( ev -> keyval == GDK_Return
 	   ||
 	   ev -> keyval == GDK_KP_Enter ))
 	ev->keyval = GDK_Tab ;
@@ -1283,7 +1283,7 @@ gboolean bet_form_button_press_event ( GtkWidget *entry,
 {
     GtkWidget *date_entry;
     gint element_number;
-    
+
 
     element_number = GPOINTER_TO_INT ( ptr_origin );
 
@@ -1505,7 +1505,7 @@ static gboolean bet_future_get_budget_data ( GtkWidget *widget,
         budgetary_number = 0;
         sub_budgetary_number = 0;
     }
-        
+
     if ( struct_type == 0 )
     {
         struct_futur_data *sd = ( struct_futur_data *) value;
@@ -1602,7 +1602,7 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
         gtk_combofix_set_text ( GTK_COMBOFIX ( widget ), tmp_str );
         gtk_editable_set_position ( GTK_EDITABLE ( GTK_COMBOFIX ( widget ) -> entry ), 0 );
     }
-    
+
     if ( scheduled -> amount.mantissa < 0 )
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
@@ -1649,14 +1649,14 @@ gboolean bet_future_set_form_data_from_line ( gint account_number,
                         gsb_data_budget_get_name (  scheduled -> budgetary_number,
                         scheduled -> sub_budgetary_number, NULL ) );
     }
-    
+
     if ( scheduled -> notes && strlen ( scheduled -> notes ) > 0 )
     {
         widget = bet_form_widget_get_widget ( TRANSACTION_FORM_NOTES );
         gsb_form_widget_set_empty ( widget, FALSE );
         gtk_entry_set_text ( GTK_ENTRY ( widget ), scheduled -> notes );
     }
-    
+
     return TRUE;
 }
 
@@ -1722,7 +1722,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
         date_tomorrow = gsb_date_tomorrow ( );
         scheduled -> date = gsb_calendar_entry_get_date ( widget );
         if ( scheduled -> date == NULL
-         || 
+         ||
          g_date_compare ( scheduled -> date, date_tomorrow ) < 0 )
         {
             g_date_free ( date_tomorrow );
@@ -1767,7 +1767,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
 
     widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
     if ( gsb_form_widget_check_empty( widget ) == FALSE )
-        scheduled -> payment_number = 
+        scheduled -> payment_number =
                         gsb_payment_method_get_selected_number ( widget );
     else
         scheduled -> payment_number = 0;
@@ -1795,7 +1795,7 @@ gboolean bet_future_take_data_from_form (  struct_futur_data *scheduled )
         scheduled -> notes = g_strdup ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
     else
         scheduled -> notes = NULL;
-    
+
     return TRUE;
 }
 
@@ -1925,7 +1925,7 @@ static GtkListStore *bet_transfert_create_account_list_store ( gint account_numb
         GtkTreeIter iter;
 
         tmp_account_number = gsb_data_account_get_no_account ( tmp_list -> data );
-        
+
         if ( tmp_account_number != account_number )
         {
             bet_credit_card = gsb_data_account_get_bet_credit_card ( tmp_account_number );
@@ -2162,7 +2162,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_CATEGORY ) );
-    
+
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
@@ -2279,7 +2279,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_payment_combo", combo );
 
     gtk_box_pack_start ( GTK_BOX ( hbox ), combo, FALSE, FALSE, 0 );
-    
+
     /* saisie des (sous)catégories et (sous)IB */
     hbox = gtk_hbox_new ( FALSE, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, TRUE, 0 );
@@ -2314,7 +2314,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
                         "focus-out-event",
                         G_CALLBACK ( bet_transfert_entry_lose_focus ),
                         GINT_TO_POINTER ( TRANSACTION_FORM_CATEGORY ) );
-    
+
     combo = gtk_combofix_new (
                         gsb_data_budget_get_name_list ( TRUE, TRUE ) );
     gtk_widget_set_size_request ( combo, width, -1 );
@@ -2410,7 +2410,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
     {
         bet_future_get_category_data ( widget, 2, ( gpointer ) transfert );
     }
-   
+
     widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_card_budget_combo" );
     if ( gsb_form_widget_check_empty( widget ) == FALSE )
     {
@@ -2456,7 +2456,7 @@ static gboolean bet_transfert_take_data (  struct_transfert_data *transfert,
             bet_future_get_category_data ( widget, 1, ( gpointer ) transfert );
             empty = FALSE;
         }
-       
+
         widget = g_object_get_data ( G_OBJECT ( dialog ), "bet_transfert_main_budget_combo" );
         if ( gsb_form_widget_check_empty( widget ) == FALSE )
         {
@@ -2716,7 +2716,7 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     widget = g_object_get_data ( G_OBJECT ( bet_transfert_dialog ), "date_entry" );
     date = gsb_parse_date_string ( str_date );
     date_jour = gdate_today ( );
-        
+
     if ( g_date_valid ( date ) == FALSE )
         date = date_jour;
 

@@ -386,7 +386,7 @@ gboolean gsb_calendar_entry_focus_out ( GtkWidget *entry,
     gint valid;
 
     valid = gsb_date_check_and_complete_entry (entry, GPOINTER_TO_INT (set_today));
-    gsb_calendar_entry_set_color ( entry, valid ) ;    
+    gsb_calendar_entry_set_color ( entry, valid ) ;
 
     return FALSE;
 }
@@ -478,8 +478,8 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
 
     /* set the calendar */
     pCalendar = gtk_calendar_new();
-    gtk_calendar_select_month ( GTK_CALENDAR ( pCalendar ), 
-				g_date_get_month ( date ) - 1, 
+    gtk_calendar_select_month ( GTK_CALENDAR ( pCalendar ),
+				g_date_get_month ( date ) - 1,
 				g_date_get_year ( date ) );
     gtk_calendar_select_day ( GTK_CALENDAR ( pCalendar ), g_date_get_day ( date ) );
 

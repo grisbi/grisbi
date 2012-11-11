@@ -274,7 +274,7 @@ gboolean bet_graph_populate_sectors_by_sub_divisions ( struct_bet_graph_data *se
                         g_free ( amount );
                     }
                 }
-                
+
                 break;
             }
         }
@@ -343,7 +343,7 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
         title = g_markup_printf_escaped ( _("<span weight=\"bold\">"
                         "Display subdivisions items of budgetary: %s</span>"),
                         div_name );
-                        
+
     else
         title = g_markup_printf_escaped ( _("<span weight=\"bold\" size=\"large\">"
                         "Display subdivisions of category: %s</span>"),

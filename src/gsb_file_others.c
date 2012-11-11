@@ -81,7 +81,7 @@ static void gsb_file_others_start_element ( GMarkupParseContext *context,
 /*END_EXTERN*/
 
 
-/** 
+/**
  * save the category file
  * we don't check anything here, all must be done before, here we just write
  * the file
@@ -108,7 +108,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
      * with that i think we will allocate enough memory in one time but not too much */
 
     length_part = 500;
-    
+
     length_calculated = length_part * g_slist_length (gsb_data_category_get_categories_list());
     if ( length_calculated == 0 )
     {
@@ -123,7 +123,7 @@ gboolean gsb_file_others_save_category ( gchar *filename )
     file_content = g_malloc0 ( length_calculated );
 
     /* begin the file whit xml markup */
-    
+
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
@@ -164,14 +164,14 @@ gboolean gsb_file_others_save_category ( gchar *filename )
         g_free ( file_content );
         return ( FALSE );
     }
-    
+
     fclose (file);
     g_free ( file_content);
 
     return ( TRUE );
 }
 
-/** 
+/**
  * save the budget file
  * we don't check anything here, all must be done before, here we just write
  * the file
@@ -198,7 +198,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
      * with that i think we will allocate enough memory in one time but not too much */
 
     length_part = 500;
-    
+
     length_calculated = length_part * g_slist_length ( gsb_data_budget_get_budgets_list () );
     if ( length_calculated == 0 )
     {
@@ -213,7 +213,7 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
     file_content = g_malloc0 ( length_calculated );
 
     /* begin the file whit xml markup */
-    
+
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
@@ -254,14 +254,14 @@ gboolean gsb_file_others_save_budget ( gchar *filename )
         g_free ( file_content );
         return ( FALSE );
     }
-    
+
     fclose ( file );
     g_free ( file_content);
 
     return ( TRUE );
 }
 
-/** 
+/**
  * save the report file
  * we don't check anything here, all must be done before, here we just write
  * the file
@@ -288,7 +288,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
      * with that i think we will allocate enough memory in one time but not too much */
 
     length_part = 2500;
-    
+
     length_calculated = length_part * g_slist_length (gsb_data_report_get_report_list ());
     if ( length_calculated == 0 )
     {
@@ -303,7 +303,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
     file_content = g_malloc0 ( length_calculated );
 
     /* begin the file whit xml markup */
-    
+
     iterator = gsb_file_save_append_part ( iterator,
 					   &length_calculated,
 					   &file_content,
@@ -346,7 +346,7 @@ gboolean gsb_file_others_save_report ( gchar *filename )
         g_free ( file_content );
         return ( FALSE );
     }
-    
+
     fclose ( file );
     g_free ( file_content);
 
@@ -452,7 +452,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     devel_debug (filename);
 
     /* general check */
-    
+
     if ( !g_file_test ( filename,
 			G_FILE_TEST_EXISTS ))
     {
@@ -468,7 +468,7 @@ gboolean gsb_file_others_load ( gchar *filename,
     if ( !g_file_test ( filename,
 			G_FILE_TEST_IS_REGULAR ))
     {
-        gchar* tmpstr = g_strdup_printf ( 
+        gchar* tmpstr = g_strdup_printf (
                         _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 					   filename );
 	dialogue_error ( tmpstr );
@@ -798,7 +798,7 @@ gboolean gsb_file_others_load_budget_from_category ( const gchar *filename )
     /* check here if it's not a regular file */
     if ( !g_file_test ( filename, G_FILE_TEST_IS_REGULAR ) )
     {
-        tmp_str = g_strdup_printf ( 
+        tmp_str = g_strdup_printf (
                         _("%s doesn't seem to be a regular file,\nplease check it and try again."),
 					   filename );
         dialogue_error ( tmp_str );

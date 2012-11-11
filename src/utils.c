@@ -184,7 +184,7 @@ gboolean lance_navigateur_web ( const gchar *url )
     {
         use_default_browser = !strcmp ( conf.browser_command,ETAT_WWW_BROWSER );
     }
-    
+
 #else /* _WIN32 */
     if ( !( conf.browser_command && strlen ( conf.browser_command ) ) )
     {
@@ -222,7 +222,7 @@ gboolean lance_navigateur_web ( const gchar *url )
             chaine = tmp_str;
         }
         else
-            chaine = g_strconcat ( conf.browser_command, " ", url, "&", NULL ); 
+            chaine = g_strconcat ( conf.browser_command, " ", url, "&", NULL );
 
         if ( system ( chaine ) == -1 )
         {
@@ -309,12 +309,12 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
 /**
  * Function that makes a nice title with an optional icon.  It is
  * mainly used to automate preference tabs with titles.
- * 
+ *
  * \param title Title that will be displayed in window
  * \param filename (relative or absolute) to an image in a file format
  * recognized by gtk_image_new_from_file().  Use NULL if you don't
  * want an image to be displayed
- * 
+ *
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
@@ -372,11 +372,11 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 /**
  * Function that makes a nice title with an optional icon.  It is
  * mainly used to automate preference tabs with titles.
- * 
+ *
  * \param title Title that will be displayed in window
  * \param image.  Use NULL if you don't want an image to be displayed
- * 
- * 
+ *
+ *
  * \returns A pointer to a vbox widget that will contain all created
  * widgets and user defined widgets
  */
@@ -478,7 +478,7 @@ gboolean radio_set_active_linked_widgets ( GtkWidget *widget )
 
     while ( links )
     {
-	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(links -> data), 
+	gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON(links -> data),
 				       gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( widget ) ) );
 	links = links -> next;
     }

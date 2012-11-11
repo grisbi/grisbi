@@ -26,7 +26,7 @@
  * \file transaction_list.c
  * this contains the general functions to work with the CustomList
  * as append/remove some transactions, filter, colorize the list...
- * 
+ *
  * Grisbi shouldn't work directly on the CustomList except by those files
  */
 
@@ -412,7 +412,7 @@ gboolean transaction_list_remove_transaction ( gint transaction_number )
     if (record -> mother_row)
     {
 	/* we are deleting a child, update the mother
-	 * the child can never be the last one of the mother because there is 
+	 * the child can never be the last one of the mother because there is
      * always a white line at the end */
 	gint new_number_of_children;
 	CustomRecord **new_children_rows;
@@ -548,7 +548,7 @@ gboolean transaction_list_remove_archive ( gint archive_number )
         for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
             if (record -> visible_col[j])
                 g_free (record -> visible_col[j]);
-        
+
         /* remove the row. I decrement "i" because the next line of model is shifted
          * and has  "i" for index. Otherwise we do not test. */
         custom_list -> num_rows--;
@@ -712,7 +712,7 @@ void transaction_list_filter ( gint account_number )
 	    case IS_TRANSACTION:
 		/* the row is shown, if it's the last row chowed of the transaction
 		 * we have to move the children to that row if they exist */
-		if ( record -> number_of_children && 
+		if ( record -> number_of_children &&
 		     record -> line_in_transaction == ( transaction_list_get_last_line (
 											gsb_data_account_get_nb_rows (account_number) ) ) )
 		{
@@ -737,7 +737,7 @@ void transaction_list_filter ( gint account_number )
 		if (previous_shown && (record -> filtered_pos == last_pos_filtered_list))
 		{
 		    /* the row itself didn't change but perhaps it got or losed some children
-		     * in that case, the children were moved before, so we just have to 
+		     * in that case, the children were moved before, so we just have to
 		     * tell to the tree view that children changed */
 		    gtk_tree_model_row_has_child_toggled (GTK_TREE_MODEL (custom_list),
 							  path, &iter);
@@ -807,7 +807,7 @@ void transaction_list_filter ( gint account_number )
  *
  * to update all the tree view, use gsb_transactions_list_update_tree_view instead
  *
- * \param 
+ * \param
  *
  * \return
  * */
@@ -911,7 +911,7 @@ void transaction_list_set_balances ( void )
 
     if ( account_number == -1
 	 ||
-	 line_balance == -1 
+	 line_balance == -1
 	 ||
 	 !display_mode_check_line ( line_balance, nb_rows ) )
 	return;
@@ -1249,7 +1249,7 @@ gboolean transaction_list_update_element ( gint element_number )
  * update the column of all the record with the value
  * this is used to update some non seen fixed columns, as font for example
  * to update some visible columns, use instead transaction_list_update_element
- * 
+ *
  * the columns are defined in custom_list.h
  *
  * \param column    the column of the value we want to update
@@ -1515,7 +1515,7 @@ gboolean transaction_list_show_toggle_mark ( gboolean show )
  * Sets the value of one or more cells in the row referenced by iter.
  * The variable argument list should contain integer column numbers, each column number followed by the value to be set.
  * The list is terminated by a -1
- * 
+ *
  * \param iter        iter of the row
 
  * \param column    number of column
@@ -1780,7 +1780,7 @@ static void transaction_list_append_child ( gint transaction_number )
      * we go on the first mother */
     mother_record = mother_record -> transaction_records[0];
 
-    /* set by default the mother row of the child. avoids a crash when creating 
+    /* set by default the mother row of the child. avoids a crash when creating
      * an archive directly on the home page */
     newrecord -> mother_row = mother_record;
 
@@ -2065,7 +2065,7 @@ gint transaction_list_get_last_line ( gint nb_rows )
 /**
  * colorise avec un fond gris la ligne qui correspond à la date du jour
  *
- * \param 
+ * \param
  *
  * \return
  * */
@@ -2122,7 +2122,7 @@ void transaction_list_set_color_jour ( gint account_number )
             }
         }
     }
-    g_date_free ( date_jour ); 
+    g_date_free ( date_jour );
 }
 
 
@@ -2146,7 +2146,7 @@ gboolean transaction_list_get_variance ( gint transaction_number )
     g_return_val_if_fail ( custom_list != NULL, FALSE );
 
     /* if the selection didn't change, do nothing */
-    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) == 
+    if ( gsb_data_transaction_get_transaction_number (custom_list -> selected_row) ==
         transaction_number )
         white_record = custom_list -> selected_row;
 
@@ -2230,7 +2230,7 @@ gboolean transaction_list_remove_archive_line ( gint archive_number,
         for ( j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++ )
             if (record -> visible_col[j])
                 g_free (record -> visible_col[j]);
-        
+
         /* remove the row. I decrement "i" because the next line of model is shifted
          * and has  "i" for index. Otherwise we do not test. */
         custom_list -> num_rows--;

@@ -79,7 +79,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     CU_ASSERT_EQUAL(1, cur_number);
     CU_ASSERT_EQUAL(TRUE, gsb_data_currency_set_floating_point(cur_number, 2));
     CU_ASSERT_EQUAL(TRUE, gsb_data_account_set_currency(account_number, cur_number));
-    
+
     gint tr_number_1 = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(1, tr_number_1);
     gsb_real amount = { 2100000021, 2 };
@@ -88,7 +88,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     gsb_real balance = gsb_data_account_calculate_current_and_marked_balances(account_number);
     CU_ASSERT_EQUAL(2100000021, balance.mantissa);
     CU_ASSERT_EQUAL(2, balance.exponent);
-    
+
     gint tr_number_2 = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(2, tr_number_2);
     amount.mantissa = 100000000;
@@ -102,7 +102,7 @@ void gsb_data_account_cunit__gsb_data_account_calculate_current_and_marked_balan
     */
     CU_ASSERT_EQUAL(G_GINT64_CONSTANT(2200000021), balance.mantissa);
     CU_ASSERT_EQUAL(2, balance.exponent);
-    
+
     gint tr_number_3 = gsb_data_transaction_new_transaction(account_number);
     CU_ASSERT_EQUAL(3, tr_number_3);
     amount.mantissa = -100000000;

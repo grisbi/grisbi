@@ -239,7 +239,7 @@ GtkWidget *gsb_form_config_create_tree_view ( GtkListStore *store )
      * the config box increase too */
 
     tree_view = gtk_tree_view_new_with_model ( GTK_TREE_MODEL ( store ));
-    
+
     gtk_tree_selection_set_mode ( GTK_TREE_SELECTION ( gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view))),
 				  GTK_SELECTION_NONE );
 
@@ -484,7 +484,7 @@ gboolean gsb_form_config_update_form_config ( gint account_number )
     gint row;
     gint column;
     gint current_element_number;
-    
+
     /* fill the store */
     gsb_form_config_fill_store (account_number);
 
@@ -604,7 +604,7 @@ gboolean gsb_form_config_toggle_element_button ( GtkWidget *toggle_button )
 		    if ( no_second_element == -1 )
 		    {
 			/* 			il n'y a qu'un elt */
-			
+
 			gsb_data_form_set_value ( account_number,
 						  j,
 						  i,
@@ -748,7 +748,7 @@ gboolean gsb_form_config_fill_store ( gint account_number )
     GtkListStore *store;
 
     store = GTK_LIST_STORE ( gtk_tree_view_get_model ( GTK_TREE_VIEW ( form_config_tree_view )));
-						
+
     gtk_list_store_clear ( store );
 
     for ( row=0 ; row < gsb_data_form_get_nb_rows (account_number) ; row++ )
@@ -803,7 +803,7 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 										column ) * width / 100 );
     }
 
-    gdk_window_set_cursor ( tree_view -> window, 
+    gdk_window_set_cursor ( tree_view -> window,
 			    gdk_cursor_new ( GDK_FLEUR ) );
 
     return FALSE;
@@ -1011,7 +1011,7 @@ gboolean gsb_form_config_remove_column ( void )
     gint row;
     gint account_number;
     gint nb_columns;
-    
+
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
     nb_columns = gsb_data_form_get_nb_columns (account_number);
 
@@ -1186,7 +1186,7 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
 
     return FALSE;
 }
-					
+
 
 /**
  * called when we end a drag,

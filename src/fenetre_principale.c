@@ -112,8 +112,8 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     arrow_eb = gtk_event_box_new ();
     gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_left );
-    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
-		       G_CALLBACK ( on_simpleclick_event_run ), 
+    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
+		       G_CALLBACK ( on_simpleclick_event_run ),
 		       gsb_gui_navigation_select_prev );
     gtk_box_pack_start ( GTK_BOX ( hbox ), arrow_eb, FALSE, FALSE, 0 );
 
@@ -121,8 +121,8 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     arrow_eb = gtk_event_box_new ();
     gtk_widget_modify_bg ( arrow_eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
     gtk_container_add ( GTK_CONTAINER ( arrow_eb ), arrow_right );
-    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event", 
-		       G_CALLBACK ( on_simpleclick_event_run ), 
+    g_signal_connect ( G_OBJECT ( arrow_eb ), "button-press-event",
+		       G_CALLBACK ( on_simpleclick_event_run ),
 		       gsb_gui_navigation_select_next );
     gtk_box_pack_start ( GTK_BOX(hbox), arrow_eb, FALSE, FALSE, 3 );
 
@@ -177,7 +177,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
 
 /**
- * Create the main notebook : 
+ * Create the main notebook :
  * a notebook wich contains the pages : main page, accounts, scheduler... and
  * the form on the bottom, the form will be showed only for accounts page and
  * scheduler page
@@ -249,7 +249,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
                         account_page,
                         gtk_label_new ( _("Accounts") ) );
-   
+
     gtk_notebook_append_page ( GTK_NOTEBOOK ( account_page ),
                         creation_fenetre_operations (),
                         gtk_label_new ( _("Transactions") ) );
@@ -373,7 +373,7 @@ gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
 
 /**
  * Set the account notebook page.
- * 
+ *
  * \param page		Page to set.
  */
 void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page )
@@ -464,7 +464,7 @@ void gsb_gui_sensitive_headings ( gboolean sensitive )
 
 /**
  * Set the main notebook page.
- * 
+ *
  * \param page		Page to set.
  */
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page )
@@ -500,7 +500,7 @@ gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
                         gpointer null )
 {
     hpaned_left_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
-    
+
     return FALSE;
 }
 
