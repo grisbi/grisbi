@@ -22,7 +22,7 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
     GSB_HISTORICAL_PAGE,
     GSB_FINANCE_PAGE,
     GSB_PROPERTIES_PAGE,
-} GsbaccountNotebookPages;
+} GsbAccountNotebookPages;
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
@@ -38,7 +38,7 @@ void gsb_gui_init_general_vbox ( void );
 gint gsb_gui_get_hpaned_left_width ( void );
 gboolean gsb_gui_is_hpaned_general ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
-void gsb_gui_on_account_change_page ( GsbaccountNotebookPages page );
+void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page );
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
                         gpointer page,
                         guint page_number,
