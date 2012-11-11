@@ -43,13 +43,45 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
-				     gint page, gpointer assistant );
 /*END_STATIC*/
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+
+/**
+ * Call a user-defined optional callback when user change page.  Note
+ * that it is called AFTER stock callbacks for various reasons.
+ *
+ * \param notebook	This Grisbi assistant notebook.
+ * \param npage		Not used.
+ * \param page		Page selected.
+ * \param assistant	Grisbi assistant containing the notebook.
+ *
+ * \return		Result from user-defined callback or FALSE if
+ *			no callback defined.
+ */
+static gboolean gsb_assistant_change_page ( GtkNotebook *notebook,
+                        gpointer npage,
+                        gint page,
+                        gpointer assistant )
+{
+    typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget *, gint );
+    gsb_assistant_callback callback;
+/*     gpointer padding[32];	/\* Don't touch, looks like we have a */
+/* 				 * buffer overflow problem. *\/ */
+
+    gchar* tmpstr = g_strdup_printf ( "enter%d", page );
+    callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), tmpstr );
+    g_free ( tmpstr );
+
+    if ( callback )
+    {
+	return callback ( assistant, page );
+    }
+
+    return FALSE;
+}
 
 
 /**
@@ -158,8 +190,10 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 
     gtk_notebook_append_page ( GTK_NOTEBOOK(notebook), view, gtk_label_new(NULL) );
 
-    g_signal_connect_after ( notebook, "switch-page",
-                        G_CALLBACK ( gsb_assistant_change_page ), assistant );
+    g_signal_connect_after ( notebook,
+                        "switch-page",
+                        G_CALLBACK ( gsb_assistant_change_page ),
+                        assistant );
 
     gsb_assistant_set_next ( assistant, 0, 1 );
     g_object_set_data ( G_OBJECT(assistant), "notebook", notebook );
@@ -302,39 +336,6 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
     return GTK_RESPONSE_CANCEL;
 }
 
-
-
-/**
- * Call a user-defined optional callback when user change page.  Note
- * that it is called AFTER stock callbacks for various reasons.
- *
- * \param notebook	This Grisbi assistant notebook.
- * \param npage		Not used.
- * \param page		Page selected.
- * \param assistant	Grisbi assistant containing the notebook.
- *
- * \return		Result from user-defined callback or FALSE if
- *			no callback defined.
- */
-gboolean gsb_assistant_change_page ( GtkNotebook * notebook, GtkNotebookPage * npage,
-				     gint page, gpointer assistant )
-{
-    typedef gboolean ( * gsb_assistant_callback ) ( GtkWidget *, gint );
-    gsb_assistant_callback callback;
-/*     gpointer padding[32];	/\* Don't touch, looks like we have a */
-/* 				 * buffer overflow problem. *\/ */
-
-    gchar* tmpstr = g_strdup_printf ( "enter%d", page );
-    callback = ( gsb_assistant_callback ) g_object_get_data ( G_OBJECT (assistant), tmpstr );
-    g_free ( tmpstr );
-
-    if ( callback )
-    {
-	return callback ( assistant, page );
-    }
-
-    return FALSE;
-}
 
 
 

@@ -137,7 +137,7 @@ static GtkWidget *bet_graph_get_canvas  ( void );
 static void bet_graph_map_type_changed ( GtkComboBox *combo,
                         struct_bet_graph_data *self );
 static gboolean bet_graph_notebook_change_page ( GtkNotebook *notebook,
-                        GtkNotebookPage *npage,
+                        gpointer npage,
                         gint page,
                         struct_bet_graph_data *self );
 static gboolean bet_graph_populate_lines_by_forecast_data ( struct_bet_graph_data *self );
@@ -1830,7 +1830,7 @@ void bet_graph_show_grid_button_configure (  struct_bet_graph_data *self,
  *
  * */
 gboolean bet_graph_notebook_change_page ( GtkNotebook *notebook,
-                        GtkNotebookPage *npage,
+                        gpointer npage,
                         gint page,
                         struct_bet_graph_data *self )
 {

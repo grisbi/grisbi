@@ -326,7 +326,7 @@ gboolean gsb_gui_fill_general_notebook ( GtkWidget *notebook )
  * \return		FALSE
  */
 gboolean gsb_gui_on_account_switch_page ( GtkNotebook *notebook,
-                        GtkNotebookPage *page,
+                        gpointer page,
                         guint page_number,
                         gpointer null )
 {
