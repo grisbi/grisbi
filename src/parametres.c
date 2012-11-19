@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
+/*            2008-2012 Pierre Biava (grisbi@pierre.biava.name)               */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -49,6 +50,7 @@
 #include "gsb_currency_config.h"
 #include "gsb_currency_link_config.h"
 #include "gsb_data_account.h"
+#include "gsb_data_partial_balance.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form_config.h"
@@ -133,12 +135,279 @@ extern gint nb_days_before_scheduled;
 
 
 /**
+ * force le recalcul des soldes et la mise à jour de la page d'accueil
+ *
+ * \param   none
+ *
+ * \return  FALSE
+ * */
+static gboolean gsb_config_scheduler_switch_balances_with_scheduled ( void )
+{
+    GSList *list_tmp;
+
+    devel_debug ( NULL );
+
+    list_tmp = gsb_data_account_get_list_accounts ();
+
+    while ( list_tmp )
+    {
+        gint account_number;
+
+        account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+        gsb_data_account_set_balances_are_dirty ( account_number );
+
+        /* MAJ HOME_PAGE */
+        gsb_gui_navigation_update_home_page ( );
+
+        list_tmp = list_tmp -> next;
+    }
+    return FALSE;
+}
+
+
+/**
+ * callback function for conf.group_partial_balance_under_account variable
+ *
+ * \param button        object clicked
+ * \param user_data
+ *
+ * \return              FALSE
+ * */
+static gboolean gsb_config_partial_balance_group_under_accounts_clicked ( GtkToggleButton *button,
+                        gpointer user_data )
+{
+    gsb_gui_navigation_update_home_page ();
+
+    return FALSE;
+}
+
+
+/**
+ * page de configuration pour la page d'accueil
+ *
+ * \param       none
+ *
+ * \ return     the widget for preferences
+ * */
+static GtkWidget *onglet_accueil ( void )
+{
+    GtkWidget *vbox_pref, *vbox, *paddingbox, *button;
+    GtkWidget *hbox, *vbox2, *sw, *treeview;
+    GtkListStore *list_store;
+    GtkTreeViewColumn *column;
+    GtkCellRenderer *cell;
+    GtkTreeSelection *selection;
+    GtkTreeDragDestIface * dst_iface;
+    GtkTreeDragSourceIface * src_iface;
+    static GtkTargetEntry row_targets[] = {
+    { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
+    };
+
+    vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
+                        "title.png" );
+
+    vbox = gtk_vbox_new ( FALSE, 12 );
+    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
+
+    /* pour les francophones ;-) */
+    if ( g_strstr_len ( ( g_ascii_strup ( gdk_set_locale ( ), -1 ) ), -1, "FR" ) )
+    {
+        paddingbox = new_paddingbox_with_title (vbox, FALSE, "Pluriel de final" );
+
+        gtk_box_pack_start ( GTK_BOX ( paddingbox ),
+                        gsb_automem_radiobutton_new ( "Soldes finals",
+                        "Soldes finaux",
+                        &conf.pluriel_final,
+                        G_CALLBACK (gsb_gui_navigation_update_home_page), NULL ),
+                        FALSE, FALSE, 0 );
+    }
+
+    /* Take into account the planned operations in the calculation of balances */
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Calculation of balances") );
+
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Take into account the scheduled operations "
+                          "in the calculation of balances"),
+                        &conf.balances_with_scheduled,
+                        G_CALLBACK ( gsb_config_scheduler_switch_balances_with_scheduled ),
+                        NULL );
+
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
+    /* Data partial balance settings */
+    paddingbox = new_paddingbox_with_title (vbox, FALSE,
+                        _("Balances partials of the list of accounts") );
+
+    hbox = gtk_hbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
+
+    sw = gtk_scrolled_window_new (NULL, NULL);
+    gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
+                        GTK_SHADOW_ETCHED_IN);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+                        GTK_POLICY_AUTOMATIC,
+                        GTK_POLICY_ALWAYS);
+    gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
+
+    /* Create Add/Edit/Remove buttons */
+    vbox2 = gtk_vbox_new ( FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
+
+    /* Button "Add" */
+    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK  ( gsb_partial_balance_add ),
+                        vbox_pref );
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    g_object_set_data ( G_OBJECT (vbox_pref), "add_button", button );
+
+    /* Button "Edit" */
+    button = gtk_button_new_from_stock (GTK_STOCK_EDIT);
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK  ( gsb_partial_balance_edit ),
+                        vbox_pref );
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    gtk_widget_set_sensitive ( button, FALSE );
+    g_object_set_data ( G_OBJECT (vbox_pref), "edit_button", button );
+
+    /* Button "Remove" */
+    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    g_signal_connect ( G_OBJECT ( button ),
+                        "clicked",
+                        G_CALLBACK ( gsb_partial_balance_delete ),
+                        vbox_pref );
+    gtk_box_pack_start ( GTK_BOX ( vbox2 ), button, FALSE, FALSE, 5 );
+    gtk_widget_set_sensitive ( button, FALSE );
+    g_object_set_data ( G_OBJECT (vbox_pref), "remove_button", button );
+
+    /* create the model */
+    list_store = gsb_partial_balance_create_model ( );
+
+    /* populate the model if necessary */
+    if ( g_slist_length ( gsb_data_partial_balance_get_list ( ) ) > 0 )
+        gsb_partial_balance_fill_model ( list_store );
+
+    /* create the treeview */
+    treeview = gtk_tree_view_new_with_model (
+                        GTK_TREE_MODEL (list_store) );
+    g_object_unref ( list_store );
+
+    gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview), TRUE);
+    gtk_widget_set_size_request ( treeview, -1, 150 );
+
+    /* check the keys on the list */
+    g_signal_connect ( G_OBJECT ( treeview ),
+                        "key_press_event",
+                        G_CALLBACK ( gsb_partial_balance_key_press ),
+                        NULL );
+
+    /* check the buttons on the list */
+    g_signal_connect ( G_OBJECT ( treeview ),
+                        "button_press_event",
+                        G_CALLBACK ( gsb_partial_balance_button_press ),
+                        NULL );
+
+    /* Enable drag & drop */
+    gtk_tree_view_enable_model_drag_source ( GTK_TREE_VIEW (treeview),
+                        GDK_BUTTON1_MASK, row_targets, 1,
+                        GDK_ACTION_MOVE );
+    gtk_tree_view_enable_model_drag_dest ( GTK_TREE_VIEW (treeview), row_targets,
+                        1, GDK_ACTION_MOVE );
+    gtk_tree_view_set_reorderable ( GTK_TREE_VIEW (treeview), TRUE );
+
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW (treeview) );
+    gtk_tree_selection_set_select_function ( selection,
+                        (GtkTreeSelectionFunc) gsb_partial_balance_select_func,
+                        vbox_pref, NULL );
+    gtk_container_add (GTK_CONTAINER (sw), treeview);
+    gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
+    g_object_set_data ( G_OBJECT (vbox_pref), "treeview", treeview );
+
+    /* Nom du solde partiel */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Name"),
+                        cell, "text", 0, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 0);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Liste des comptes */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Accounts list"),
+                        cell, "text", 1, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 1);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Colorize */
+    cell = gtk_cell_renderer_toggle_new ( );
+    g_signal_connect ( cell,
+                        "toggled",
+                        G_CALLBACK ( gsb_partial_balance_colorise_toggled ),
+                        treeview );
+    gtk_cell_renderer_toggle_set_radio ( GTK_CELL_RENDERER_TOGGLE(cell), FALSE );
+    g_object_set (cell, "xalign", 0.5, NULL);
+
+    column = gtk_tree_view_column_new_with_attributes ( _("Colorize"),
+                        cell,
+                        "active", 5,
+                        NULL);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW(treeview), column);
+
+    /* Type de compte */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Account kind"),
+                        cell, "text", 2, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 2);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    /* Devise */
+    cell = gtk_cell_renderer_text_new ( );
+    column = gtk_tree_view_column_new_with_attributes ( _("Currency"),
+                        cell, "text", 3, NULL);
+    gtk_tree_view_column_set_expand ( column, TRUE );
+    gtk_tree_view_column_set_alignment ( column, 0.5 );
+    gtk_tree_view_column_set_sort_column_id (column, 3);
+    gtk_tree_view_append_column ( GTK_TREE_VIEW (treeview), column);
+
+    dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE ( list_store );
+    if ( dst_iface )
+        dst_iface -> drag_data_received = &gsb_data_partial_balance_drag_data_received;
+
+    src_iface = GTK_TREE_DRAG_SOURCE_GET_IFACE ( list_store );
+    if ( src_iface )
+    {
+        gtk_selection_add_target ( treeview,
+                      GDK_SELECTION_PRIMARY,
+                      GDK_SELECTION_TYPE_ATOM,
+                      1 );
+        src_iface -> drag_data_get = &gsb_data_partial_balance_drag_data_get;
+    }
+
+    gtk_widget_show_all ( vbox_pref );
+
+    return ( vbox_pref );
+}
+
+
+
+/**
  * Creates a simple TreeView and a TreeModel to handle preference
  * tabs.  Sets preference_tree_model to the newly created TreeModel.
  *
  * \return a GtkScrolledWindow
  */
-GtkWidget * create_preferences_tree ( )
+GtkWidget *create_preferences_tree ( )
 {
     GtkWidget *sw;
     GtkTreeViewColumn *column;

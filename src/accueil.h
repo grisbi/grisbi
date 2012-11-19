@@ -23,6 +23,5 @@ GtkWidget *creation_onglet_accueil ( void );
 gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number );
 void gsb_main_page_update_homepage_title ( const gchar *title );
 void mise_a_jour_accueil ( gboolean force );
-GtkWidget *onglet_accueil (void);
 /* END_DECLARATION */
 #endif
