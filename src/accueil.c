@@ -2,6 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*            2003-2008 Benjamin Drieu (bdrieu@april.org)                     */
+/*            2008-2012 Pierre Biava (grisbi@pierre.biava.name)               */
 /*             http://www.grisbi.org                                          */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -125,33 +126,25 @@ gint mise_a_jour_fin_comptes_passifs;
 /**
  * Create the home page of Grisbi
  *
+ * \param   none
  *
- *
+ * \return
  * */
 GtkWidget *creation_onglet_accueil ( void )
 {
-    GtkWidget *paddingbox, *base, *base_scroll;
-    GtkWidget * eb;
-    GtkStyle * style;
+    GtkWidget *vbox;
+    GtkWidget *paddingbox;
+    GtkWidget *base;
+    GtkWidget *base_scroll;
+    GtkWidget *eb;
+    GtkStyle *style;
 
     devel_debug ( NULL );
 
-    /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
-       scroller verticalement */
+    vbox = gtk_vbox_new ( FALSE, 15 );
+    gtk_widget_show ( vbox );
 
-    base_scroll = gtk_scrolled_window_new ( NULL, NULL);
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
-				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
-					  GTK_SHADOW_NONE );
-
-    base = gtk_vbox_new ( FALSE, 15 );
-    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
-    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
-    gtk_widget_show ( base_scroll );
-    gtk_widget_show ( base );
-
-    /* en dessous, on met le titre du fichier */
+    /* on met le titre du fichier */
     hbox_title = gtk_hbox_new ( FALSE, 0 );
 
     eb = gtk_event_box_new ();
@@ -171,18 +164,30 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_end ( GTK_BOX ( hbox_title ), label_titre_fichier, TRUE, TRUE, 20 );
     gtk_container_set_border_width ( GTK_CONTAINER ( hbox_title ), 6 );
     gtk_container_add ( GTK_CONTAINER ( eb ), hbox_title );
-    gtk_box_pack_start ( GTK_BOX ( base ), eb, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), eb, FALSE, FALSE, 0 );
     gtk_widget_show_all ( eb );
+
+    /* on crée à ce niveau base_scroll qui est aussi une vbox mais qui peut
+       scroller verticalement */
+    base_scroll = gtk_scrolled_window_new ( NULL, NULL);
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW ( base_scroll ),
+                        GTK_POLICY_NEVER,
+                        GTK_POLICY_AUTOMATIC );
+    gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
+                        GTK_SHADOW_NONE );
+
+    base = gtk_vbox_new ( FALSE, 15 );
+    gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
+    gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
+    gtk_widget_show ( base_scroll );
+    gtk_widget_show ( base );
 
     /* on crée le size_group pour l'alignement des tableaux */
     size_group_accueil = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     /* on crée la première frame dans laquelle on met les états des comptes */
-    frame_etat_comptes_accueil = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_comptes_accueil), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_comptes_accueil), 0 );
-    gtk_box_pack_start ( GTK_BOX(base), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
+    frame_etat_comptes_accueil = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( base ), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
     /* on met la liste des comptes et leur état dans la frame */
     mise_a_jour_liste_comptes_accueil = 1;
@@ -190,78 +195,53 @@ GtkWidget *creation_onglet_accueil ( void )
 
 
     /* mise en place de la partie fin des comptes passif */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-                         _("Closed liabilities accounts") );
-    frame_etat_fin_compte_passif = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), FALSE );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
-    mise_a_jour_fin_comptes_passifs = 1;
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed liabilities accounts") );
+    frame_etat_fin_compte_passif = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
+    mise_a_jour_fin_comptes_passifs = TRUE;
 
 
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
     /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Run out manual scheduled transactions") );
-    frame_etat_echeances_manuelles_accueil = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
-				 FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil),
-				   FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil),
-				     0 );
-    gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_manuelles_accueil,
-			 FALSE, FALSE, 6 );
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Run out manual scheduled transactions") );
+    frame_etat_echeances_manuelles_accueil = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
 
 
     /* mise en place de la partie des échéances auto  ( non affiché )*/
     /*     sera mis à jour automatiquement si nécessaire */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Automatic scheduled transactions entered") );
-    frame_etat_echeances_auto_accueil = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_echeances_auto_accueil), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_echeances_auto_accueil), 0 );
-    gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Automatic scheduled transactions entered") );
+    frame_etat_echeances_auto_accueil = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
 
 
     /* partie des fin d'échéances */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Closed scheduled transactions") );
-    main_page_finished_scheduled_transactions_part = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(main_page_finished_scheduled_transactions_part), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(main_page_finished_scheduled_transactions_part), 0 );
-    gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed scheduled transactions") );
+    main_page_finished_scheduled_transactions_part = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
 
 
     /* partie des soldes minimaux autorisés */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Accounts under authorized balance") );
-    frame_etat_soldes_minimaux_autorises = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_autorises), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_soldes_minimaux_autorises), 0 );
-    gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under authorized balance") );
+    frame_etat_soldes_minimaux_autorises = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
 
 
     /* partie des soldes minimaux voulus */
-    paddingbox = new_paddingbox_with_title ( base, FALSE,
-					     _("Accounts under desired balance") );
-    frame_etat_soldes_minimaux_voulus = gtk_notebook_new ();
-    gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
-    gtk_notebook_set_show_border ( GTK_NOTEBOOK(frame_etat_soldes_minimaux_voulus), FALSE );
-    gtk_container_set_border_width ( GTK_CONTAINER(frame_etat_soldes_minimaux_voulus), 0 );
-    gtk_box_set_spacing ( GTK_BOX(paddingbox), 6 );
-    gtk_box_pack_start ( GTK_BOX(paddingbox), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
+    paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under desired balance") );
+    frame_etat_soldes_minimaux_voulus = gtk_vbox_new ( FALSE, 0 );
+    gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
 
     mise_a_jour_soldes_minimaux = 1;
 
-    return ( base_scroll );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), base_scroll, TRUE, TRUE, 0 );
+
+    return ( vbox );
 }
 
 
@@ -356,7 +336,6 @@ gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 void update_liste_comptes_accueil ( gboolean force )
 {
     GtkWidget *pTable, *vbox, *paddingbox;
-    GList *children;
     GSList *devise;
     GSList *list_tmp;
     gsb_real solde_global_courant, solde_global_pointe;
@@ -376,10 +355,7 @@ void update_liste_comptes_accueil ( gboolean force )
     mise_a_jour_liste_comptes_accueil = 0;
 
     /* Remove previous child */
-    children = gtk_container_get_children(GTK_CONTAINER(frame_etat_comptes_accueil));
-    if ( children && children -> data)
-        gtk_container_remove ( GTK_CONTAINER(frame_etat_comptes_accueil),
-                       GTK_WIDGET(children -> data) );
+    utils_container_remove_children ( frame_etat_comptes_accueil );
 
     /* Create the handle vbox  */
     vbox = gtk_vbox_new ( FALSE, 6 );
@@ -1257,7 +1233,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
     gint manual = 1;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
-	gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_echeances_manuelles_accueil), 0 );
+    utils_container_remove_children ( frame_etat_echeances_manuelles_accueil );
 
 	/* on affiche la seconde frame dans laquelle on place les
 	   échéances à saisir */
@@ -1390,7 +1366,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
     gint manual = 0;
 
 	/* s'il y avait déjà un fils dans la frame, le détruit */
-	gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_echeances_auto_accueil ), 0 );
+    utils_container_remove_children ( frame_etat_echeances_auto_accueil );
 	/* on affiche la seconde frame dans laquelle on place les échéances à saisir */
 	show_paddingbox ( frame_etat_echeances_auto_accueil );
 
@@ -1528,8 +1504,8 @@ void update_soldes_minimaux ( gboolean force )
 
     /* s'il y avait déjà un fils dans la frame, le détruit */
 
-    gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_soldes_minimaux_autorises ), 0 );
-    gtk_notebook_remove_page ( GTK_NOTEBOOK ( frame_etat_soldes_minimaux_voulus ), 0 );
+    utils_container_remove_children ( frame_etat_soldes_minimaux_autorises );
+    utils_container_remove_children ( frame_etat_soldes_minimaux_voulus );
 
     hide_paddingbox ( frame_etat_soldes_minimaux_autorises );
     hide_paddingbox ( frame_etat_soldes_minimaux_voulus );
@@ -1823,7 +1799,7 @@ void update_fin_comptes_passifs ( gboolean force )
 
     mise_a_jour_fin_comptes_passifs = 0;
 
-    gtk_notebook_remove_page ( GTK_NOTEBOOK(frame_etat_fin_compte_passif), 0 );
+    utils_container_remove_children ( frame_etat_fin_compte_passif );
     hide_paddingbox ( frame_etat_fin_compte_passif );
 
     if ( !conf.show_closed_accounts )
@@ -1881,7 +1857,8 @@ void update_fin_comptes_passifs ( gboolean force )
  * */
 gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_number )
 {
-    GtkWidget * label, * hbox, * page;
+    GtkWidget *label;
+    GtkWidget *hbox;
     gint account_number;
     gint currency_number;
 	gchar* tmpstr;
@@ -1889,19 +1866,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     account_number = gsb_data_scheduled_get_account_number (scheduled_number);
     currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
 
-    /* check if the vbox is already made, and make it if necesssary */
-    page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part), 0);
-
-    if ( !page )
-    {
-	page = gtk_vbox_new ( FALSE,
-			      5 );
-	gtk_notebook_append_page  (GTK_NOTEBOOK (main_page_finished_scheduled_transactions_part),
-				   page, NULL );
-	gtk_widget_show ( page );
-    }
     /* append in the page the finished scheduled transaction */
-
     hbox = gtk_hbox_new ( TRUE, 0 );
     gtk_widget_show (  hbox );
 
@@ -1945,14 +1910,14 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     gtk_box_pack_end ( GTK_BOX (hbox), label, FALSE, TRUE, 0 );
     gtk_widget_show (  label );
 
-    gtk_box_pack_start ( GTK_BOX (page),
+    gtk_box_pack_start ( GTK_BOX ( main_page_finished_scheduled_transactions_part ),
 			 hbox,
 			 FALSE,
 			 TRUE,
 			 0 );
     gtk_widget_show (  label );
 
-    show_paddingbox (main_page_finished_scheduled_transactions_part);
+    show_paddingbox ( main_page_finished_scheduled_transactions_part );
 
     return FALSE;
 }
@@ -2177,7 +2142,7 @@ GtkWidget *onglet_accueil (void)
  *
  * \param title
  *
- *
+ * \return
  * */
 void gsb_main_page_update_homepage_title ( const gchar *title )
 {

@@ -33,6 +33,7 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
 void update_gui ( void );
+void utils_container_remove_children ( GtkWidget *widget );
 GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
                         gint initial,
                         const gchar *tooltip_0,

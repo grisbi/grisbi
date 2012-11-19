@@ -3,7 +3,7 @@
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*          2003-2004 Alain Portal (aportal@univ-montp2.fr)                   */
 /*          2003-2004 Francois Terrot (francois.terrot@grisbi.org)            */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -723,6 +723,27 @@ gboolean utils_set_image_with_etat ( GtkWidget *widget,
 
     /* return */
     return TRUE;
+}
+
+
+/**
+ * Deleting children of container
+ *
+ * \param widget    container with children
+ *
+ * \return          none
+ * */
+void utils_container_remove_children ( GtkWidget *widget )
+{
+    GList *children;
+
+    children = gtk_container_get_children ( GTK_CONTAINER ( widget ) );
+
+    if ( children && children -> data )
+    {
+        gtk_container_remove ( GTK_CONTAINER ( widget ), GTK_WIDGET ( children -> data ) );
+        g_list_free ( children );
+    }
 }
 
 
