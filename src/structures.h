@@ -131,6 +131,8 @@ struct gsb_conf_t
     gint main_width;                                /* main_window width */
     gint main_height;                               /* main_window height */
     gint full_screen;                               /* 1 to full screen, 0 else */
+    gint maximize_screen;                           /* 1 to maximize screen, 0 else */
+    gint panel_width;                               /* panel width */
     gint prefs_width;                               /* preferences width */
 
     /* general part */

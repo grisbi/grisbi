@@ -192,6 +192,26 @@ void gsb_status_stop_wait ( gboolean force_update )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+GtkWidget *gsb_status_get_status_bar ( void )
+{
+    return main_statusbar;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

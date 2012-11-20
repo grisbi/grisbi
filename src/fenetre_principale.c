@@ -74,7 +74,6 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 static GtkWidget *vbox_general = NULL;
 static GtkWidget *hpaned_general = NULL;
 static GtkWidget *notebook_general = NULL;
-static gint hpaned_left_width;
 
 /** Notebook of the account pane. */
 GtkWidget *account_page = NULL;
@@ -152,7 +151,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gtk_paned_add1 ( GTK_PANED ( hpaned_general ), gsb_gui_navigation_create_navigation_pane ( ) );
     gtk_paned_add2 ( GTK_PANED ( hpaned_general ), gsb_gui_create_general_notebook ( ) );
     gtk_container_set_border_width ( GTK_CONTAINER ( hpaned_general ), 6 );
-    if ( hpaned_left_width == -1 )
+    if ( conf.panel_width == -1 )
     {
         gint width, height;
 
@@ -161,8 +160,8 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     }
     else
     {
-        if ( hpaned_left_width )
-            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), hpaned_left_width );
+        if ( conf.panel_width )
+            gtk_paned_set_position ( GTK_PANED ( hpaned_general ), conf.panel_width );
         else
             gtk_paned_set_position ( GTK_PANED ( hpaned_general ), 1 );
     }
@@ -499,7 +498,7 @@ gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
                         GtkAllocation *allocation,
                         gpointer null )
 {
-    hpaned_left_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
+    conf.panel_width = gtk_paned_get_position ( GTK_PANED ( hpaned ) );
 
     return FALSE;
 }
@@ -542,30 +541,6 @@ gboolean gsb_gui_is_hpaned_general ( void )
         return TRUE;
     else
         return FALSE;
-}
-
-
-/**
- * renvoie la largeur de la partie gauche du hpaned
- *
- *
- */
-gint gsb_gui_get_hpaned_left_width ( void )
-{
-    return hpaned_left_width;
-}
-
-
-/**
- * fixe la largeur de la partie gauche du hpaned
- *
- *
- */
-gboolean gsb_gui_set_hpaned_left_width ( gint width )
-{
-    hpaned_left_width = width;
-
-    return TRUE;
 }
 
 
