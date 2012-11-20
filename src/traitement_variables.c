@@ -109,11 +109,6 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint id_timeout;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -196,11 +191,11 @@ void init_variables ( void )
     /* no bank in memory for now */
     bank_list_model = NULL;
 
-    mise_a_jour_liste_comptes_accueil = 0;
-    mise_a_jour_liste_echeances_manuelles_accueil = 0;
-    mise_a_jour_liste_echeances_auto_accueil = 0;
-    mise_a_jour_soldes_minimaux = 0;
-    mise_a_jour_fin_comptes_passifs = 0;
+    run.mise_a_jour_liste_comptes_accueil = FALSE;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
+    run.mise_a_jour_liste_echeances_auto_accueil = FALSE;
+    run.mise_a_jour_soldes_minimaux = FALSE;
+    run.mise_a_jour_fin_comptes_passifs = FALSE;
 
     orphan_child_transactions = NULL;
 

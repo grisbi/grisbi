@@ -393,6 +393,17 @@ static GtkWidget *onglet_accueil ( void )
         src_iface -> drag_data_get = &gsb_data_partial_balance_drag_data_get;
     }
 
+    /* mettre les soldes partiels sous les comptes si possibles */
+    hbox = gtk_hbox_new ( FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
+
+    button = gsb_automem_checkbutton_new (
+                        _("Place under the accounts of the partial balance if possible "),
+                        &conf.group_partial_balance_under_accounts,
+                        G_CALLBACK ( gsb_config_partial_balance_group_under_accounts_clicked ),
+                        NULL );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+
     gtk_widget_show_all ( vbox_pref );
 
     return ( vbox_pref );

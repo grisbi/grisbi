@@ -15,6 +15,7 @@
 
 /* Define this when in Git development branch. */
 #define IS_DEVELOPMENT_VERSION 1
+#define IS_DEVELOPMENT_VERSION 1
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -183,6 +184,7 @@ struct gsb_conf_t
 
     /* variables pour le calcul des soldes */
     gboolean balances_with_scheduled;               /* TRUE = the balance incorporates the scheduled operations */
+    gboolean group_partial_balance_under_accounts;  /* TRUE = in home page group the partial balance with accounts */
 
     /* variables for the list of transactions */
     gint show_transaction_selected_in_form;         /* TRUE will show the selected transaction in the form */

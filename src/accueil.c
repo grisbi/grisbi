@@ -109,8 +109,23 @@ static GtkStyle *style_label;
 static GtkSizeGroup * size_group_accueil;
 static gchar *chaine_espace = "                         ";
 
+
 #define show_paddingbox(child) gtk_widget_show_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
+
+
+/* structure définissant une association entre un compte et un solde partiel */
+typedef struct _StructAccountPartial StructAccountPartial;
+
+struct _StructAccountPartial
+{
+    gint account_number;
+    gint partial_number;
+    gboolean displayed;
+};
+
+/* structure buffer qui conserve un pointer sur le dernier compte possédant un solde partiel */
+static StructAccountPartial *partial_buffer;
 
 
 /**
@@ -325,6 +340,377 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
 
 /**
+ * fonction renvoie TRUE si le compte a déjà été affiché
+ *
+ * \param account_number    compte à tester
+ * \param list_partial      liste des structures concernées
+ *
+ * \return                  partial->displayed
+ * */
+static gint gsb_main_page_account_get_account_displayed ( gint account_number,
+                        GSList *list_partial )
+{
+    GSList *list_tmp;
+
+    /* on retourne TRUE si le compte est clos */
+    if ( gsb_data_account_get_closed_account ( account_number ) )
+        return TRUE;
+
+    list_tmp = list_partial;
+    while ( list_tmp )
+    {
+        StructAccountPartial *partial;
+
+        partial = ( list_tmp -> data );
+        if ( partial->account_number == account_number )
+        {
+            partial_buffer = partial;
+            return partial_buffer->displayed;
+        }
+
+        list_tmp = list_tmp -> next;
+    }
+
+    return FALSE;
+}
+
+
+/**
+ * retourne une ligne pour séparer les comptes de leur somme partielle
+ *
+ * \param table     table ou la libne va s'insérer
+ * \param i         indice de placement dans la table
+ *
+ * \return
+ * */
+static void gsb_main_page_account_get_ligne_somme ( GtkWidget *table,
+                        gint i )
+{
+    GtkWidget *alignement;
+    GtkWidget *separator;
+
+    alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
+    separator = gtk_hseparator_new ( );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
+    gtk_widget_show_all ( alignement );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 1, 2, i, i+1 );
+
+    alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
+    separator = gtk_hseparator_new ( );
+    gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
+    gtk_widget_show_all ( alignement );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 2, 4, i, i+1 );
+}
+
+
+/**
+ * affiche une ligne de solde partiel
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ * */
+static void gsb_main_page_account_affiche_solde_partiel ( GtkWidget *table,
+                        gint i,
+                        gint partial_number,
+                        gint currency_number )
+{
+    GtkWidget *label;
+    gchar *tmp_str;
+    gchar *tmp_str2;
+
+    /* on commence par une ligne vide spécifique */
+    gsb_main_page_account_get_ligne_somme ( table, i );
+    i ++;
+
+    /* Première colonne : elle contient le nom du solde partiel */
+    tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ), " : ", NULL );
+    tmp_str2 = make_blue ( tmp_str );
+    label = gtk_label_new ( tmp_str2 );
+    gtk_label_set_use_markup ( GTK_LABEL ( label ), TRUE );
+    g_free ( tmp_str );
+    g_free ( tmp_str2 );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
+
+    /* Deuxième colonne : elle contient le solde pointé du solde partiel */
+    tmp_str = gsb_data_partial_balance_get_marked_balance ( partial_number );
+    label = gtk_label_new ( tmp_str );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 1, 2, i, i+1 );
+    gtk_widget_show ( label );
+
+    /* Troisième colonne : elle contient le solde courant du solde partiel */
+    tmp_str = gsb_data_partial_balance_get_current_balance ( partial_number );
+    label = gtk_label_new ( NULL );
+    gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str );
+    g_free ( tmp_str );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 2, 3, i, i+1 );
+    gtk_widget_show ( label );
+
+    i++;
+
+    /* on finit par une ligne vide */
+    label = gtk_label_new ( chaine_espace );
+    gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );
+    gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
+    gtk_table_attach_defaults ( GTK_TABLE ( table ), label, 0, 1, i, i+1 );
+    gtk_widget_show ( label );
+}
+
+
+/**
+ * fonction si le compte passé en paramètre appartient à un solde partiel
+ *
+ * \param account_number    compte à tester
+  * \param list_partial      liste des structures concernées
+*
+ * \return TRUE si compte appartient à un solde partiel FALSE autrement
+ * */
+static gint gsb_main_page_account_have_partial_balance ( gint account_number,
+                        GSList *list_partial )
+{
+    GSList *list_tmp;
+
+    list_tmp = list_partial;
+    while ( list_tmp )
+    {
+        StructAccountPartial *partial;
+
+        partial = ( list_tmp -> data );
+        if ( partial->account_number == account_number )
+        {
+            partial_buffer = partial;
+
+            return TRUE;
+        }
+
+        list_tmp = list_tmp -> next;
+    }
+
+    /* le compte n'appartient pas à solde partiel */
+    partial_buffer->partial_number = 0;
+    partial_buffer->displayed = FALSE;
+    return FALSE;
+}
+
+
+/**
+ * routine qui affiche les comptes dans la bonne frame
+ *
+ * \param  pTable           table qui contiendra les lignes
+ * \param currency_number   devise concernée
+ * \param nb_comptes        nombre de comptes à afficher
+ * \param new_comptes       nombre de soldes partiels
+ * \param type_compte       type de compte à afficher
+ *
+ * \return
+ * */
+static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
+                        gint currency_number,
+                        gint nb_comptes,
+                        gint new_comptes,
+                        gint type_compte )
+{
+    GSList *list_tmp;
+    gsb_real solde_global_courant;
+    gsb_real solde_global_pointe;
+    gint i = 0;
+    gint j = 0;
+
+    devel_debug_int ( new_comptes);
+    /* Affichage des comptes et de leur solde */
+    i = 1;
+    solde_global_courant = null_real;
+    solde_global_pointe = null_real;
+
+    /* on traite les numéros des comptes composant le solde partiel si nécessaire */
+    if ( new_comptes > 0 && conf.group_partial_balance_under_accounts )
+    {
+        GSList *list_partial = NULL;
+
+        list_tmp = gsb_data_partial_balance_get_list ();
+        while ( list_tmp )
+        {
+            gint tmp_number;
+            kind_account kind;
+
+            tmp_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
+            
+            kind = gsb_data_partial_balance_get_kind ( tmp_number );;
+            if ( kind == type_compte
+             ||
+             ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
+            {
+                gchar **tab;
+                const gchar *liste_cptes;
+
+                liste_cptes = gsb_data_partial_balance_get_liste_cptes ( tmp_number );
+
+                tab = g_strsplit ( liste_cptes, ";", 0 );
+                for ( j = 0; j < g_strv_length ( tab ); j++ )
+                {
+                    StructAccountPartial *partial;
+
+                    partial = g_malloc0 ( sizeof ( StructAccountPartial ) );
+                    partial->account_number = utils_str_atoi ( tab[j] );
+                    partial->partial_number = tmp_number;
+                    partial->displayed = FALSE;
+                    list_partial = g_slist_append ( list_partial, partial );
+                }
+
+                g_strfreev ( tab );
+            }
+            list_tmp = list_tmp -> next;
+        }
+
+        list_tmp = gsb_data_account_get_list_accounts ();
+        while ( list_tmp )
+        {
+            gint account_number;
+            kind_account kind;
+
+            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+            if ( gsb_data_account_get_closed_account ( account_number )
+             ||
+             gsb_data_account_get_currency (account_number) != currency_number )
+            {
+                list_tmp = list_tmp -> next;
+                continue;
+            }
+
+            kind = gsb_data_account_get_kind ( account_number );
+            if ( kind == type_compte
+             ||
+             ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
+            {
+                /* on regarde si ce compte appartient à un solde partiel */
+                if ( gsb_main_page_account_have_partial_balance ( account_number, list_partial ) )
+                {
+                    gchar **tab;
+                    const gchar *liste_cptes;
+                    gint partial_number;
+
+                    if ( partial_buffer->displayed == TRUE )
+                    {
+                        list_tmp = list_tmp -> next;
+                        continue;
+                    }
+
+                    /* on traite le solde partiel */
+                    partial_number = partial_buffer->partial_number;
+
+                    /* on affiche tous les comptes du solde partiel */
+                    /* on affiche la ligne du compte avec les soldes pointé et courant */
+                    liste_cptes = gsb_data_partial_balance_get_liste_cptes ( partial_number );
+                    tab = g_strsplit ( liste_cptes, ";", 0 );
+                    for ( j = 0; j < g_strv_length ( tab ); j++ )
+                    {
+                        gint tmp_number;
+
+                        tmp_number = utils_str_atoi ( tab[j] );
+                        if ( !gsb_main_page_account_get_account_displayed ( tmp_number, list_partial) )
+                        {
+                            gsb_main_page_affiche_ligne_du_compte ( pTable, tmp_number, i );
+                            solde_global_courant = gsb_real_add ( solde_global_courant,
+                                                        gsb_data_account_get_current_balance ( tmp_number ) );
+                            solde_global_pointe = gsb_real_add ( solde_global_pointe,
+                                                        gsb_data_account_get_marked_balance ( tmp_number ) );
+
+                            partial_buffer->displayed = TRUE;
+                            i++;
+                        }
+                    }
+                    /* on affiche le solde partiel + une ligne vide */
+                    gsb_main_page_account_affiche_solde_partiel ( pTable, i, partial_number, currency_number );
+                    i += 2;
+
+                    g_strfreev ( tab );
+                }
+                else
+                {
+                    /* on affiche la ligne du compte avec les soldes pointé et courant */
+                    gsb_main_page_affiche_ligne_du_compte ( pTable, account_number, i );
+                    solde_global_courant = gsb_real_add ( solde_global_courant,
+                                                gsb_data_account_get_current_balance ( account_number ) );
+                    solde_global_pointe = gsb_real_add ( solde_global_pointe,
+                                                gsb_data_account_get_marked_balance ( account_number ) );
+                }
+            }
+            i++;
+
+            list_tmp = list_tmp -> next;
+        }
+
+        g_slist_free_full ( list_partial, g_free );
+    }
+    else
+    {
+        /* Pour chaque compte non cloturé (pour chaque ligne), */
+        /* créer toutes les colonnes et les remplir            */
+        list_tmp = gsb_data_account_get_list_accounts ();
+
+        while ( list_tmp )
+        {
+            gint account_number;
+            kind_account kind;
+
+            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
+
+            if ( gsb_data_account_get_closed_account ( account_number )
+             ||
+             gsb_data_account_get_currency (account_number) != currency_number )
+            {
+                list_tmp = list_tmp -> next;
+                continue;
+            }
+
+            kind = gsb_data_account_get_kind ( account_number );
+            if ( kind == type_compte
+             ||
+             ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
+            {
+                /* on affiche la ligne du compte avec les soldes pointé et courant */
+                gsb_main_page_affiche_ligne_du_compte ( pTable, account_number, i );
+
+                /* ATTENTION : les sommes effectuées ici présupposent que
+                   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
+                solde_global_courant = gsb_real_add ( solde_global_courant,
+                                            gsb_data_account_get_current_balance ( account_number ) );
+                solde_global_pointe = gsb_real_add ( solde_global_pointe,
+                                            gsb_data_account_get_marked_balance ( account_number ) );
+            }
+            i++;
+
+            list_tmp = list_tmp -> next;
+        }
+
+        /* affichage des soldes partiels s'ils existent */
+        if ( new_comptes > 0 && conf.group_partial_balance_under_accounts == 0 )
+        {
+            list_tmp = gsb_data_partial_balance_get_list ();
+            if ( list_tmp )
+                i += affiche_soldes_partiels ( pTable, i, new_comptes, list_tmp,
+                                currency_number, type_compte );
+        }
+    }
+    /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
+       elle contient la somme des soldes de chaque compte */
+    affiche_solde_des_comptes ( pTable, i, nb_comptes, currency_number,
+                        solde_global_courant, solde_global_pointe );
+}
+
+
+/**
  * affiche la liste des comptes et leur solde courant dans la frame qui leur
  * est réservée dans l'accueil
  *
@@ -337,7 +723,6 @@ static void update_liste_comptes_accueil ( gboolean force )
     GtkWidget *pTable, *vbox, *paddingbox;
     GSList *devise;
     GSList *list_tmp;
-    gsb_real solde_global_courant, solde_global_pointe;
     gchar* tmp_str;
     gint i = 0;
     gint nb_comptes_bancaires=0, nb_comptes_passif=0, nb_comptes_actif=0;
@@ -420,243 +805,126 @@ static void update_liste_comptes_accueil ( gboolean force )
    }
 
     /* Affichage des comptes bancaires et de caisse */
-    for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+    if ( nb_comptes_bancaires )
     {
-        gint currency_number;
+        for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+        {
+            gint currency_number;
 
-        currency_number = gsb_data_currency_get_no_currency (devise -> data);
+            currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
-        if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_BANK )
-            &&
-            !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_CASH ) )
-            continue;
+            if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_BANK )
+                &&
+                !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_CASH ) )
+                continue;
 
 
-        /* Creating the table which will store accounts with their balances. */
-        if ( conf.balances_with_scheduled == FALSE )
-            tmp_str = g_strdup_printf ( _("Accounts balance in %s at %s"),
-                        gsb_data_currency_get_name ( currency_number ),
-                        gsb_date_today ( ) );
-        else
-            tmp_str = g_strdup_printf ( _("Accounts balance in %s"),
-                        gsb_data_currency_get_name ( currency_number ) );
+            /* Creating the table which will store accounts with their balances. */
+            if ( conf.balances_with_scheduled == FALSE )
+                tmp_str = g_strdup_printf ( _("Accounts balance in %s at %s"),
+                                gsb_data_currency_get_name ( currency_number ),
+                                gsb_date_today ( ) );
+            else
+                tmp_str = g_strdup_printf ( _("Accounts balance in %s"),
+                                gsb_data_currency_get_name ( currency_number ) );
 
-        paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
-        g_free ( tmp_str );
+            paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
+            g_free ( tmp_str );
 
-        pTable = gsb_main_page_get_table_for_accounts (
+            pTable = gsb_main_page_get_table_for_accounts (
                         nb_comptes_bancaires + 3 + new_comptes_bancaires + 2, 3 );
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
+            gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-        /* Affichage des comptes et de leur solde */
-        i = 1;
-        solde_global_courant = null_real ;
-        solde_global_pointe = null_real;
+            /* Affichage des comptes et de leur solde */
+            gsb_main_page_diplays_accounts ( pTable,
+                        currency_number,
+                        nb_comptes_bancaires,
+                        new_comptes_bancaires,
+                        GSB_TYPE_BANK | GSB_TYPE_CASH );
 
-        /* Pour chaque compte non cloturé (pour chaque ligne), */
-        /* créer toutes les colonnes et les remplir            */
-
-        list_tmp = gsb_data_account_get_list_accounts ();
-
-        while ( list_tmp )
-        {
-            gint account_number;
-
-            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-            if ( !gsb_data_account_get_closed_account (account_number) &&
-             gsb_data_account_get_currency (account_number) == currency_number
-             && gsb_data_account_get_kind (account_number) < GSB_TYPE_LIABILITIES )
-            {
-                /* on affiche la ligne du compte avec les soldes pointé et courant */
-                gsb_main_page_affiche_ligne_du_compte  ( pTable, account_number, i );
-
-                /* ATTENTION : les sommes effectuées ici présupposent que
-                   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-                solde_global_courant = gsb_real_add ( solde_global_courant,
-                                      gsb_data_account_get_current_balance (account_number));
-                solde_global_pointe = gsb_real_add ( solde_global_pointe,
-                                     gsb_data_account_get_marked_balance (account_number));
-            }
-            i++;
-            list_tmp = list_tmp -> next;
+            gtk_widget_show_all ( paddingbox );
+            gtk_widget_show_all ( pTable );
         }
-
-        /* affichage des soldes partiels s'ils existent */
-        if ( new_comptes_bancaires > 0 )
-        {
-            list_tmp = gsb_data_partial_balance_get_list ( );
-            if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, new_comptes_bancaires, list_tmp,
-                        currency_number, GSB_TYPE_BANK | GSB_TYPE_CASH );
-        }
-
-        /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
-           elle contient la somme des soldes de chaque compte */
-        affiche_solde_des_comptes ( pTable, i, nb_comptes_bancaires, currency_number,
-                            solde_global_courant, solde_global_pointe );
-
-        gtk_widget_show_all ( paddingbox );
-        gtk_widget_show_all ( pTable );
     }
-
 
     /* Affichage des comptes de passif */
-    for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+    if ( nb_comptes_passif )
     {
-        GSList *list_tmp;
-        gint currency_number;
+        for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+        {
+            gint currency_number;
 
-        currency_number = gsb_data_currency_get_no_currency (devise -> data);
+            currency_number = gsb_data_currency_get_no_currency ( devise -> data );
 
-        if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_LIABILITIES ) )
-            continue;
+            if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_LIABILITIES ) )
+                continue;
 
-        /* Creating the table which will store accounts with their balances   */
-        if ( conf.balances_with_scheduled == FALSE )
-            tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s at %s"),
-                        gsb_data_currency_get_name (currency_number),
-                        gsb_date_today ( ) );
-        else
-            tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s"),
-                         gsb_data_currency_get_name (currency_number) );
+            /* Creating the table which will store accounts with their balances   */
+            if ( conf.balances_with_scheduled == FALSE )
+                tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s at %s"),
+                                gsb_data_currency_get_name (currency_number),
+                                gsb_date_today ( ) );
+            else
+                tmp_str = g_strdup_printf (_("Liabilities accounts balance in %s"),
+                                 gsb_data_currency_get_name (currency_number) );
 
-        paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
-        g_free ( tmp_str );
+            paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
+            g_free ( tmp_str );
 
-        pTable = gsb_main_page_get_table_for_accounts (
+            pTable = gsb_main_page_get_table_for_accounts (
                         nb_comptes_passif + 3 + new_comptes_passif + 2, 3 );
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
+            gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-        /* Affichage des comptes et de leur solde */
-        i = 1;
-        solde_global_courant = null_real;
-        solde_global_pointe = null_real;
+            /* Affichage des comptes et de leur solde */
+            gsb_main_page_diplays_accounts ( pTable,
+                        currency_number,
+                        nb_comptes_passif,
+                        new_comptes_passif,
+                        GSB_TYPE_LIABILITIES );
 
-        /* Pour chaque compte non cloturé (pour chaque ligne), */
-        /* créer toutes les colonnes et les remplir            */
-        list_tmp = gsb_data_account_get_list_accounts ();
-
-        while ( list_tmp )
-        {
-            gint account_number;
-
-            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-            if ( !gsb_data_account_get_closed_account (account_number) &&
-             gsb_data_account_get_currency (account_number) == currency_number
-             &&
-             gsb_data_account_get_kind (account_number) == GSB_TYPE_LIABILITIES )
-            {
-                /* on affiche la ligne du compte avec les soldes pointé et courant */
-                gsb_main_page_affiche_ligne_du_compte  ( pTable, account_number, i );
-
-                /* ATTENTION : les sommes effectuées ici présupposent que
-                   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-                solde_global_courant = gsb_real_add ( solde_global_courant,
-                                      gsb_data_account_get_current_balance (account_number));
-                solde_global_pointe = gsb_real_add ( solde_global_pointe,
-                                     gsb_data_account_get_marked_balance (account_number));
-            }
-            i++;
-            list_tmp = list_tmp -> next;
+            gtk_widget_show_all ( paddingbox );
+            gtk_widget_show_all ( pTable );
         }
-
-        /* affichage des soldes partiels s'ils existent */
-        if ( new_comptes_passif > 0 )
-        {
-            list_tmp = gsb_data_partial_balance_get_list ( );
-            if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, new_comptes_passif, list_tmp,
-                        currency_number, GSB_TYPE_LIABILITIES );
-        }
-
-        /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
-           elle contient la somme des soldes de chaque compte */
-        affiche_solde_des_comptes ( pTable, i, nb_comptes_passif, currency_number,
-                            solde_global_courant, solde_global_pointe );
-
-        gtk_widget_show_all ( paddingbox );
-        gtk_widget_show_all ( pTable );
     }
 
-
     /* Affichage des comptes d'actif */
-    for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+    if ( nb_comptes_actif )
     {
-        GSList *list_tmp;
-        gint currency_number;
+        for ( devise = gsb_data_currency_get_currency_list (); devise ; devise = devise->next )
+        {
+            gint currency_number;
 
-        currency_number = gsb_data_currency_get_no_currency (devise -> data);
+            currency_number = gsb_data_currency_get_no_currency (devise -> data);
 
-       if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_ASSET ) )
-            continue;
+           if ( !gsb_main_page_get_devise_is_used ( currency_number, GSB_TYPE_ASSET ) )
+                continue;
 
-        /* Creating the table which will store accounts with their balances    */
-        if ( conf.balances_with_scheduled == FALSE )
-            tmp_str = g_strdup_printf (_("Assets accounts balance in %s at %s"),
-                        gsb_data_currency_get_name (currency_number),
-                        gsb_date_today ( ) );
-        else
-            tmp_str = g_strdup_printf (_("Assets accounts balance in %s"),
-                         gsb_data_currency_get_name (currency_number));
+            /* Creating the table which will store accounts with their balances    */
+            if ( conf.balances_with_scheduled == FALSE )
+                tmp_str = g_strdup_printf (_("Assets accounts balance in %s at %s"),
+                            gsb_data_currency_get_name (currency_number),
+                            gsb_date_today ( ) );
+            else
+                tmp_str = g_strdup_printf (_("Assets accounts balance in %s"),
+                                gsb_data_currency_get_name (currency_number));
 
-        paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
-        g_free ( tmp_str );
+            paddingbox = new_paddingbox_with_title ( vbox, FALSE, tmp_str );
+            g_free ( tmp_str );
 
-        pTable = gsb_main_page_get_table_for_accounts (
+            pTable = gsb_main_page_get_table_for_accounts (
                         nb_comptes_actif + 3 + new_comptes_passif  + 2, 3 );
-        gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
+            gtk_box_pack_start ( GTK_BOX ( paddingbox ), pTable, FALSE, FALSE, 0 );
 
-        /* Affichage des comptes et de leur solde */
-        i = 1;
-        solde_global_courant = null_real;
-        solde_global_pointe = null_real;
+            /* Affichage des comptes et de leur solde */
+            gsb_main_page_diplays_accounts ( pTable,
+                        currency_number,
+                        nb_comptes_actif,
+                        new_comptes_actif,
+                        GSB_TYPE_ASSET );
 
-        /* Pour chaque compte non cloturé (pour chaque ligne), */
-        /* créer toutes les colonnes et les remplir            */
-
-        list_tmp = gsb_data_account_get_list_accounts ();
-
-        while ( list_tmp )
-        {
-            gint account_number;
-
-            account_number = gsb_data_account_get_no_account ( list_tmp -> data );
-
-            if ( !gsb_data_account_get_closed_account (account_number) &&
-             gsb_data_account_get_currency (account_number) == currency_number
-             &&
-             gsb_data_account_get_kind (account_number) == GSB_TYPE_ASSET )
-            {
-                /* on affiche la ligne du compte avec les soldes pointé et courant */
-                gsb_main_page_affiche_ligne_du_compte ( pTable, account_number, i );
-
-                /* ATTENTION : les sommes effectuées ici présupposent que
-                   TOUS les comptes sont dans la MÊME DEVISE !!!!!        */
-                solde_global_courant = gsb_real_add ( solde_global_courant,
-                                      gsb_data_account_get_current_balance (account_number));
-                solde_global_pointe = gsb_real_add ( solde_global_pointe,
-                                     gsb_data_account_get_marked_balance (account_number));
-            }
-            i++;
-            list_tmp = list_tmp -> next;
+            gtk_widget_show_all ( paddingbox );
+            gtk_widget_show_all ( pTable );
         }
-
-        /* affichage des soldes partiels s'ils existent */
-        if ( new_comptes_actif > 0 )
-        {
-            list_tmp = gsb_data_partial_balance_get_list ( );
-            if ( list_tmp )
-                i += affiche_soldes_partiels ( pTable, i, new_comptes_actif, list_tmp,
-                        currency_number, GSB_TYPE_ASSET );
-        }
-
-        /* Création et remplissage de la (nb_comptes + 3)ième ligne du tableau :
-           elle contient la somme des soldes de chaque compte */
-        affiche_solde_des_comptes ( pTable, i, nb_comptes_actif, currency_number,
-                            solde_global_courant, solde_global_pointe );
-        gtk_widget_show_all ( paddingbox );
-        gtk_widget_show_all ( pTable );
     }
 
     /* Affichage des soldes mixtes */
@@ -1153,9 +1421,15 @@ gint affiche_soldes_additionnels ( GtkWidget *table, gint i, GSList *liste )
             tmp_str = g_strconcat ( gsb_data_partial_balance_get_name ( partial_number ),
                             tmp_str2,
                             " : ", NULL );
-			g_free( tmp_str2 );
-            label = gtk_label_new ( tmp_str );
+			g_free ( tmp_str2 );
+            if ( conf.group_partial_balance_under_accounts )
+                tmp_str2 = make_blue ( tmp_str );
+            else
+                tmp_str2 = g_strdup ( tmp_str );
+            label = gtk_label_new ( NULL );
+            gtk_label_set_markup ( GTK_LABEL ( label ), tmp_str2 );
             g_free ( tmp_str );
+            g_free ( tmp_str2 );
 
             gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
             gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), label );

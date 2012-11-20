@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2011 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2012 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -657,6 +657,11 @@ gboolean gsb_file_config_load_config ( void )
     else
         err = NULL;
 
+    conf.group_partial_balance_under_accounts = g_key_file_get_integer ( config,
+                        "Scheduled",
+                        "Group_partial_balance",
+                        NULL );
+
     /* get shown section */
     conf.formulaire_toujours_affiche = g_key_file_get_integer ( config,
                         "Display",
@@ -1011,6 +1016,11 @@ gboolean gsb_file_config_save_config ( void )
                         "Scheduled",
                         "Balances with scheduled",
                         conf.balances_with_scheduled );
+
+    g_key_file_set_integer ( config,
+                        "Scheduled",
+                        "Group_partial_balance",
+                        conf.group_partial_balance_under_accounts );
 
     /* save shown section */
     g_key_file_set_integer ( config,
