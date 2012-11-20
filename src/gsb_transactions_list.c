@@ -190,10 +190,6 @@ static gchar *labels_titres_colonnes_liste_ope[] = {
 
 /*START_EXTERN*/
 extern struct conditional_message messages[];
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 extern GtkWidget *reconcile_sort_list_button;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 /*END_EXTERN*/
@@ -966,9 +962,9 @@ gboolean gsb_transactions_list_append_new_transaction ( gint transaction_number,
     }
 
     /* on réaffichera l'accueil */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
     return FALSE;
 }
 
@@ -1180,9 +1176,9 @@ gboolean gsb_transactions_list_update_transaction ( gint transaction_number )
     gsb_data_account_colorize_current_balance ( account_number );
 
     /* update first page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
 
     return FALSE;
 }
@@ -1852,7 +1848,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
     }
     /* need to update the marked amount on the home page */
     gsb_navigation_update_statement_label ( account_number );
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified ( TRUE );
 
@@ -2005,7 +2001,7 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
         transaction_list_update_element ( ELEMENT_MARK );
     }
     /* need to update the marked amount on the home page */
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     gsb_file_set_modified ( TRUE );
 
@@ -2332,8 +2328,8 @@ gboolean gsb_transactions_list_delete_transaction ( gint transaction_number,
 	gsb_reconcile_update_amounts (NULL, NULL);
 
     /* we will update the home page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
     affiche_dialogue_soldes_minimaux ();
 
     /* We blank form. */
@@ -3080,8 +3076,8 @@ gboolean gsb_transactions_list_move_transaction_to_account ( gint transaction_nu
         gsb_transactions_list_update_tree_view ( current_account, FALSE );
 
     /* update the first page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
 
     return TRUE;
 }
@@ -3102,7 +3098,7 @@ void schedule_selected_transaction ()
     scheduled_number = schedule_transaction ( gsb_data_account_get_current_transaction_number (
                                     gsb_gui_navigation_get_current_account () ) );
 
-    mise_a_jour_liste_echeances_auto_accueil = 1;
+    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
     if ( run.equilibrage == 0 )
     {

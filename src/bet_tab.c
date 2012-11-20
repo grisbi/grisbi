@@ -149,7 +149,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -2505,7 +2504,7 @@ void bet_array_list_schedule_selected_line ( GtkWidget *menu_item,
                         gsb_gui_navigation_get_current_account ( ),
                         number );
 
-    mise_a_jour_liste_echeances_auto_accueil = 1;
+    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
     gsb_gui_navigation_set_selection ( GSB_SCHEDULER_PAGE, 0, NULL );
     gsb_scheduler_list_select ( scheduled_number );

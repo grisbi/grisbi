@@ -113,15 +113,6 @@ static gchar *chaine_espace = "                         ";
 #define hide_paddingbox(child) gtk_widget_hide_all (gtk_widget_get_parent(gtk_widget_get_parent(gtk_widget_get_parent(GTK_WIDGET(child)))))
 
 
-/* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
-/* partie la prochaine fois qu'on va sur l'accueil */
-
-gint mise_a_jour_liste_comptes_accueil;
-gint mise_a_jour_liste_echeances_manuelles_accueil;
-gint mise_a_jour_liste_echeances_auto_accueil;
-gint mise_a_jour_soldes_minimaux;
-gint mise_a_jour_fin_comptes_passifs;
-
 /**
  * Create the home page of Grisbi
  *
@@ -189,7 +180,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( base ), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
     /* on met la liste des comptes et leur état dans la frame */
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
     gtk_widget_show_all ( frame_etat_comptes_accueil );
 
 
@@ -197,7 +188,7 @@ GtkWidget *creation_onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed liabilities accounts") );
     frame_etat_fin_compte_passif = gtk_vbox_new ( FALSE, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
-    mise_a_jour_fin_comptes_passifs = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
 
 
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
@@ -236,7 +227,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
 
-    mise_a_jour_soldes_minimaux = 1;
+    run.mise_a_jour_soldes_minimaux = TRUE;
 
     gtk_box_pack_start ( GTK_BOX ( vbox ), base_scroll, TRUE, TRUE, 0 );
 
@@ -354,13 +345,14 @@ static void update_liste_comptes_accueil ( gboolean force )
     gint soldes_mixtes = 0;
 
     if ( !force
-	 &&
-	 !( mise_a_jour_liste_comptes_accueil
-	   &&
-	   gsb_data_account_get_accounts_amount ( ) ) )
-	return;
+    &&
+    !( run.mise_a_jour_liste_comptes_accueil
+       &&
+       gsb_data_account_get_accounts_amount ( )
+     ) )
+        return;
 
-    mise_a_jour_liste_comptes_accueil = 0;
+    run.mise_a_jour_liste_comptes_accueil = FALSE;
 
     /* Remove previous child */
     utils_container_remove_children ( frame_etat_comptes_accueil );
@@ -1230,11 +1222,11 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 
     if ( !force
 	 &&
-	 !mise_a_jour_liste_echeances_manuelles_accueil )
+	 !run.mise_a_jour_liste_echeances_manuelles_accueil )
 	return;
 
 
-    mise_a_jour_liste_echeances_manuelles_accueil = 0;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = FALSE;
 
     if ( scheduled_transactions_to_take )
     {
@@ -1363,12 +1355,12 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 {
     if ( !force
 	 &&
-	 !mise_a_jour_liste_echeances_auto_accueil )
+	 !run.mise_a_jour_liste_echeances_auto_accueil )
 	return;
 
     devel_debug_int (force);
 
-    mise_a_jour_liste_echeances_auto_accueil = 0;
+    run.mise_a_jour_liste_echeances_auto_accueil = FALSE;
 
     if ( scheduled_transactions_taken )
     {
@@ -1504,12 +1496,12 @@ void update_soldes_minimaux ( gboolean force )
 
     if ( !force
 	 &&
-	 !mise_a_jour_soldes_minimaux  )
+	 !run.mise_a_jour_soldes_minimaux  )
 	return;
 
     devel_debug ( "update_soldes_minimaux" );
 
-    mise_a_jour_soldes_minimaux = 0;
+    run.mise_a_jour_soldes_minimaux = FALSE;
 
     liste_autorise = NULL;
     liste_voulu = NULL;
@@ -1593,7 +1585,7 @@ void update_soldes_minimaux ( gboolean force )
     /*     on affiche une boite d'avertissement si nécessaire */
 
     affiche_dialogue_soldes_minimaux ();
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
 
@@ -1614,8 +1606,8 @@ void affiche_dialogue_soldes_minimaux ( void )
     gchar *texte_affiche;
     GSList *list_tmp;
 
-    if ( !mise_a_jour_soldes_minimaux  )
-	return;
+    if ( !run.mise_a_jour_soldes_minimaux  )
+        return;
 
     liste_autorise = NULL;
     liste_voulu = NULL;
@@ -1815,12 +1807,12 @@ void update_fin_comptes_passifs ( gboolean force )
 
     if ( !force
 	 &&
-	 !mise_a_jour_fin_comptes_passifs )
+	 !run.mise_a_jour_fin_comptes_passifs )
 	return;
 
     devel_debug (NULL);
 
-    mise_a_jour_fin_comptes_passifs = 0;
+    run.mise_a_jour_fin_comptes_passifs = FALSE;
 
     utils_container_remove_children ( frame_etat_fin_compte_passif );
     hide_paddingbox ( frame_etat_fin_compte_passif );

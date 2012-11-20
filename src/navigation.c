@@ -140,7 +140,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 extern GtkWidget *account_page;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
-extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 
@@ -1669,7 +1668,7 @@ gboolean navigation_drag_data_received ( GtkTreeDragDest *drag_dest,
                         NULL, NULL );
 
         /* update the order of accounts in first page */
-        mise_a_jour_liste_comptes_accueil = TRUE;
+        run.mise_a_jour_liste_comptes_accueil = TRUE;
 
         gsb_file_set_modified ( TRUE );
     }
@@ -1741,7 +1740,7 @@ void gsb_gui_navigation_update_home_page ( void )
     if ( gsb_gui_navigation_get_current_page ( ) == GSB_HOME_PAGE )
         mise_a_jour_accueil ( TRUE );
     else
-        mise_a_jour_liste_comptes_accueil = TRUE;
+        run.mise_a_jour_liste_comptes_accueil = TRUE;
 }
 
 

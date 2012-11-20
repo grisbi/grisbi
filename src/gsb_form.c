@@ -109,7 +109,6 @@ static gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint mise_a_jour_liste_comptes_accueil;
 /*END_EXTERN*/
 
 /** label of the last statement */
@@ -2711,7 +2710,7 @@ gboolean gsb_form_finish_edition ( void )
         if ( gsb_data_transaction_get_marked_transaction ( transaction_number ) == OPERATION_POINTEE )
         {
             gsb_navigation_update_statement_label ( account_number );
-            mise_a_jour_liste_comptes_accueil = 1;
+            run.mise_a_jour_liste_comptes_accueil = TRUE;
         }
     }
 

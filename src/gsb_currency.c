@@ -111,9 +111,6 @@ extern GtkWidget *combo_devise_totaux_categ;
 extern GtkWidget *combo_devise_totaux_ib;
 extern GtkWidget *combo_devise_totaux_tiers;
 extern GtkWidget *detail_devise_compte;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 /*END_EXTERN*/
 
 
@@ -348,9 +345,9 @@ gboolean gsb_currency_update_combobox_currency_list ( void )
         list_tmp = list_tmp -> next;
     }
 
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
-    mise_a_jour_liste_echeances_auto_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
 
     if ( detail_devise_compte && G_IS_OBJECT ( detail_devise_compte ) )
     {

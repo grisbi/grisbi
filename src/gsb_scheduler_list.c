@@ -126,7 +126,6 @@ static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button );
 extern gint affichage_echeances;
 extern gint affichage_echeances_perso_nb_libre;
 extern struct conditional_message delete_msg[];
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 /*END_EXTERN*/
 
 
@@ -2089,7 +2088,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
 
     gsb_calendar_update ( );
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
 
     gsb_file_set_modified ( TRUE );
 

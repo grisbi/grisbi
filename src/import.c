@@ -165,8 +165,6 @@ static void traitement_operations_importees ( void );
 
 /*START_EXTERN*/
 extern GtkWidget *menu_import_rules;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
@@ -1648,9 +1646,9 @@ void traitement_operations_importees ( void )
     gsb_menu_update_accounts_in_menus();
 
     /* update main page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_accueil (FALSE);
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    mise_a_jour_accueil ( FALSE );
 
     gsb_status_clear();
 
@@ -3534,8 +3532,8 @@ gboolean click_dialog_ope_orphelines ( GtkWidget *dialog,
 
 	    /* mise à jour de l'accueil */
 
-	    mise_a_jour_liste_comptes_accueil = 1;
-	    mise_a_jour_soldes_minimaux = 1;
+	    run.mise_a_jour_liste_comptes_accueil = TRUE;
+	    run.mise_a_jour_soldes_minimaux = TRUE;
 
             gsb_file_set_modified ( TRUE );
 
@@ -4521,9 +4519,9 @@ gboolean gsb_import_by_rule ( gint rule )
     g_strfreev (array);
 
     /* update main page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_accueil (FALSE);
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    mise_a_jour_accueil ( FALSE );
 
     /* MAJ du solde du compte nécessaire suivant date des opérations existantes */
     if ( conf.balances_with_scheduled == FALSE )

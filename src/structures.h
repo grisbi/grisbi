@@ -227,8 +227,18 @@ struct gsb_run_t
     /* reconciliation */
     gint equilibrage;
     gint reconcile_account_number;  /* Save the last reconciliation try: account */
-    gchar *reconcile_final_balance; /*                                   final balance amount */
-    GDate *reconcile_new_date;      /*                                   new date */
+    gchar *reconcile_final_balance; /* final balance amount */
+    GDate *reconcile_new_date;      /* new date */
+
+    /* home page - accueil */
+    /* ces 5 variables sont mises à 1 lorsqu'il est nécessaire de rafraichir cette */
+    /* partie la prochaine fois qu'on va sur l'accueil */
+
+    gboolean mise_a_jour_liste_comptes_accueil;
+    gboolean mise_a_jour_liste_echeances_manuelles_accueil;
+    gboolean mise_a_jour_liste_echeances_auto_accueil;
+    gboolean mise_a_jour_soldes_minimaux;
+    gboolean mise_a_jour_fin_comptes_passifs;
 };
 
 /* declared in main.c */

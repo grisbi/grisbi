@@ -59,8 +59,6 @@ static gboolean gsb_scheduler_get_category_for_transaction_from_transaction ( gi
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint mise_a_jour_liste_echeances_auto_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
 extern GSList *scheduled_transactions_taken;
 extern GSList *scheduled_transactions_to_take;
 /*END_EXTERN*/
@@ -542,12 +540,12 @@ void gsb_scheduler_check_scheduled_transactions_time_limit ( void )
 
     if ( automatic_transactions_taken )
     {
-	mise_a_jour_liste_echeances_auto_accueil = 1;
+        run.mise_a_jour_liste_echeances_auto_accueil = TRUE;
         gsb_file_set_modified ( TRUE );
     }
 
     if ( scheduled_transactions_to_take )
-	mise_a_jour_liste_echeances_manuelles_accueil = 1;
+	run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
 
     g_date_free ( date );
 }

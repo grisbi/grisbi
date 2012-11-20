@@ -77,7 +77,6 @@ static gchar *gsb_reconcile_build_label ( int reconcile_number );
 
 /*START_EXTERN*/
 extern GtkWidget *label_last_statement;
-extern gint mise_a_jour_liste_comptes_accueil;
 extern GtkWidget * reconcile_panel;
 /*END_EXTERN*/
 
@@ -637,7 +636,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     /* update the P and T to R in the list */
     transaction_list_update_element (ELEMENT_MARK);
 
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* go back to the normal transactions list */
     gsb_reconcile_cancel (NULL, NULL);

@@ -61,10 +61,6 @@
 
 /*START_EXTERN*/
 extern GtkWidget *account_page;
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 /*END_EXTERN*/
 
 
@@ -123,7 +119,7 @@ gboolean gsb_account_new ( kind_account account_type,
 				    FALSE );
 
     /* update the main page */
-    mise_a_jour_liste_comptes_accueil = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update the accounts lists */
     gsb_menu_update_accounts_in_menus ();
@@ -274,10 +270,10 @@ gboolean gsb_account_delete ( void )
     /* update the name of accounts in form */
     gsb_account_update_combo_list ( gsb_form_scheduler_get_element_widget (SCHEDULED_FORM_ACCOUNT), FALSE );
 
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
 
     gsb_file_set_modified ( TRUE );
 

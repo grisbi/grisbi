@@ -128,7 +128,6 @@ static gint width_spin_button = 50;
 extern GtkWidget *account_page;
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
-extern gint mise_a_jour_liste_comptes_accueil;
 extern gchar *nom_fichier_comptes;
 extern gint nb_days_before_scheduled;
 /*END_EXTERN*/
@@ -1902,7 +1901,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
     if ( current_page == GSB_HOME_PAGE )
         mise_a_jour_accueil ( TRUE );
     else
-        mise_a_jour_liste_comptes_accueil = TRUE;
+        run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* update sheduled liste */
     gsb_scheduler_list_fill_list ( gsb_scheduler_list_get_tree_view ( ) );

@@ -181,10 +181,6 @@ enum origin
 };
 
 /*START_EXTERN*/
-extern gint mise_a_jour_fin_comptes_passifs;
-extern gint mise_a_jour_liste_comptes_accueil;
-extern gint mise_a_jour_liste_echeances_manuelles_accueil;
-extern gint mise_a_jour_soldes_minimaux;
 /*END_EXTERN*/
 
 
@@ -770,10 +766,10 @@ gboolean gsb_account_property_changed ( GtkWidget *widget,
     }
 
     /* update main page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
 
     return FALSE;
 }
@@ -1544,10 +1540,10 @@ gboolean gsb_account_property_focus_out ( GtkWidget *widget,
     }
 
     /* update main page */
-    mise_a_jour_liste_comptes_accueil = 1;
-    mise_a_jour_liste_echeances_manuelles_accueil = 1;
-    mise_a_jour_soldes_minimaux = 1;
-    mise_a_jour_fin_comptes_passifs = 1;
+    run.mise_a_jour_liste_comptes_accueil = TRUE;
+    run.mise_a_jour_liste_echeances_manuelles_accueil = TRUE;
+    run.mise_a_jour_soldes_minimaux = TRUE;
+    run.mise_a_jour_fin_comptes_passifs = TRUE;
 
     return FALSE;
 }
