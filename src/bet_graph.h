@@ -28,12 +28,13 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
                         GCallback callback,
                         GtkWidget *tree_view );
 void bet_graph_free_builder ( void );
-gchar *bet_graph_get_configuration_string ( void );
+gchar *bet_graph_get_configuration_string ( gint origin_tab );
 void bet_graph_line_graph_new ( GtkWidget *button,
+                        GtkTreeView *tree_view );
+void bet_graph_montly_graph_new ( GtkWidget *button,
                         GtkTreeView *tree_view );
 void bet_graph_sectors_graph_new ( GtkWidget *button,
                         GtkTreeView *tree_view );
-GtkWidget *bet_graph_sectors_graph_new_new ( void );
 void bet_graph_set_configuration_variables ( const gchar *string );
 void struct_free_bet_graph_prefs ( void );
 /* END_DECLARATION */

@@ -325,7 +325,7 @@ void free_variables ( void )
     gsb_gui_navigation_free_pages_list ( );
     gsb_regex_destroy ( );
 #ifdef HAVE_GOFFICE
-    struct_free_bet_graph_prefs ( );
+    struct_free_bet_graph_prefs ();
 #endif /* HAVE_GOFFICE */
 }
 

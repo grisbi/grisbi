@@ -891,6 +891,7 @@
                   <object class="GtkSpinButton" id="gap_spinner">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="editable">False</property>
                     <property name="invisible_char">•</property>
                     <property name="invisible_char_set">True</property>
                     <property name="primary_icon_activatable">False</property>
@@ -901,6 +902,8 @@
                     <property name="climb_rate">10</property>
                     <property name="snap_to_ticks">True</property>
                     <property name="numeric">True</property>
+                    <property name="wrap">True</property>
+                    <property name="update_policy">if-valid</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>

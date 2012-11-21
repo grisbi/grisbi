@@ -2904,14 +2904,24 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
 #ifdef HAVE_GOFFICE
     gchar *new_string = NULL;
 
-    /* save the preferences */
-    new_string = bet_graph_get_configuration_string ( );
+    /* save the forecast preferences */
+    new_string = bet_graph_get_configuration_string ( BET_ONGLETS_PREV );
 
     /* append the new string to the file content */
     iterator = gsb_file_save_append_part ( iterator,
                         length_calculated,
                         file_content,
                         new_string );
+
+    /* save the historical preferences */
+    new_string = bet_graph_get_configuration_string ( BET_ONGLETS_HIST );
+
+    /* append the new string to the file content */
+    iterator = gsb_file_save_append_part ( iterator,
+                        length_calculated,
+                        file_content,
+                        new_string );
+
 #endif /* HAVE_GOFFICE */
 
     /* and return the new iterator */

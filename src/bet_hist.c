@@ -90,7 +90,6 @@ static void bet_historical_fyear_hide_present_futures_fyears ( void );
 static gsb_real bet_historical_get_children_amount ( GtkTreeModel *model, GtkTreeIter *parent );
 static GtkWidget *bet_historical_get_data_tree_view ( GtkWidget *container );
 static gboolean bet_historical_get_full_div ( GtkTreeModel *model, GtkTreeIter *parent );
-static GDate *bet_historical_get_start_date_current_fyear ( void );
 static gint bet_historical_get_type_transaction ( const GDate *date,
                         GDate *start_current_fyear,
                         GDate *date_max );
@@ -126,7 +125,8 @@ static gboolean hist_block_signal = FALSE;
 /* toolbar */
 static GtkWidget *bet_historical_toolbar;
 
-
+/* liste qui contient les transactions de l'année courante */
+static GHashTable *list_trans_current_fyear = NULL;
 
 /**
  * this is a tree model filter with 3 columns :
@@ -699,7 +699,8 @@ void bet_historical_populate_data ( gint account_number )
     GDate *date_max;
     GDate *start_current_fyear;
     GSList* tmp_list;
-    GHashTable  *list_div;
+    GHashTable *list_div;
+    TransactionCurrentFyear *tcf = NULL;
 
     devel_debug_int ( account_number );
     tree_view = g_object_get_data (G_OBJECT ( account_page ), "bet_historical_treeview" );
@@ -731,12 +732,20 @@ void bet_historical_populate_data ( gint account_number )
 
     /* calculate the current_fyear */
     start_current_fyear = bet_historical_get_start_date_current_fyear ( );
-/*     printf ("start_current_fyear = %s\n", gsb_format_gdate ( start_current_fyear ));  */
 
     list_div = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_historical );
+
+    /* on initialise ici la liste des transactions appartenant à l'exercice courant
+     * pour les graphiques mensuels */
+    if ( list_trans_current_fyear )
+        g_hash_table_remove_all ( list_trans_current_fyear );
+    list_trans_current_fyear = g_hash_table_new_full ( g_str_hash,
+                                    g_str_equal,
+                                    (GDestroyNotify) g_free,
+                                    (GDestroyNotify) struct_free_bet_transaction_current_fyear );
 
     /* search transactions of the account  */
     tmp_list = gsb_data_transaction_get_complete_transactions_list ( );
@@ -770,12 +779,20 @@ void bet_historical_populate_data ( gint account_number )
 
         /* on détermine le type de transaction pour l'affichage */
         type_de_transaction = bet_historical_get_type_transaction ( date, start_current_fyear, date_max );
+        if ( type_de_transaction == 1 || type_de_transaction == 2 )
+        {
+            tcf = struct_initialise_transaction_current_fyear ();
+            tcf->transaction_number = transaction_number;
+            tcf->date = gsb_date_copy ( date );
 
-        bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction );
+            g_hash_table_insert ( list_trans_current_fyear, utils_str_itoa ( transaction_number ), tcf );
+            bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, tcf );
+        }
+        else
+            bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, NULL );
     }
 
     bet_historical_affiche_div ( list_div, tree_view );
-    /* bet_data_synchronise_hist_div_list ( list_div ); */
 
     g_hash_table_remove_all ( list_div );
     g_date_free ( date_jour );
@@ -784,6 +801,7 @@ void bet_historical_populate_data ( gint account_number )
     g_date_free ( start_current_fyear );
 
     bet_historical_set_background_color ( tree_view );
+    bet_array_list_select_path ( tree_view, NULL );
 }
 
 
@@ -1941,7 +1959,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
 #ifdef HAVE_GOFFICE
-    /* graph button */
+    /* sectors button */
     button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
                         _("Data graph"),
                         "graph-sectors.png",
@@ -1951,6 +1969,13 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( bet_graph_sectors_graph_new ),
+                        tree_view );
+    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+
+    /* monthly button */
+    button = bet_graph_button_menu_new ( conf.display_toolbar,
+                        "historical_graph",
+                        G_CALLBACK ( bet_graph_montly_graph_new ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 #endif /* HAVE_GOFFICE */
@@ -2087,6 +2112,26 @@ gchar *bet_historical_get_hist_source_name ( gint account_number )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return TRUE
+ * */
+GHashTable *bet_historical_get_list_trans_current_fyear ( void )
+{
+    return list_trans_current_fyear;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return TRUE
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -65,7 +65,8 @@ static gchar *bet_data_get_key ( gint account_number, gint div_number );
 static gboolean bet_data_update_div ( SH *sh,
                         gint transaction_number,
                         gint sub_div,
-                        gint type_de_transaction );
+                        gint type_de_transaction,
+                        gsb_real amount );
 static void struct_free_bet_future ( struct_futur_data *scheduled );
 static void struct_free_bet_range ( SBR *sbr );
 static void struct_free_bet_transfert ( struct_transfert_data *transfert );
@@ -696,12 +697,14 @@ gint bet_data_get_selected_currency ( void )
 gboolean bet_data_populate_div ( gint transaction_number,
                         gboolean is_transaction,
                         GHashTable  *list_div,
-                        gint type_de_transaction )
+                        gint type_de_transaction,
+                        TransactionCurrentFyear *tcf )
 {
     gint div = 0;
     gint sub_div = 0;
     gchar *key;
     SH *sh = NULL;
+    gsb_real amount;
 
     div = ptr_div ( transaction_number, is_transaction );
     if ( div > 0 )
@@ -709,10 +712,19 @@ gboolean bet_data_populate_div ( gint transaction_number,
     else
         return FALSE;
 
+    amount = gsb_data_transaction_get_amount ( transaction_number );
+    /* on complète la structure tcf pour les graphiques */
+    if ( tcf )
+    {
+        tcf->div_nb = div;
+        tcf->sub_div_nb = sub_div;
+        tcf->amount = amount;
+    }
+
     key = utils_str_itoa ( div );
     if ( (sh = g_hash_table_lookup ( list_div, key ) ) )
     {
-        bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
+        bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction, amount );
         g_free ( key );
     }
     else
@@ -720,10 +732,11 @@ gboolean bet_data_populate_div ( gint transaction_number,
         sh = struct_initialise_bet_historical ( );
         sh -> div = div;
         sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
-        bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction );
+        bet_data_update_div ( sh, transaction_number, sub_div, type_de_transaction, amount );
         g_hash_table_insert ( list_div, key, sh );
     }
 
+    /* return value */
     return FALSE;
 }
 
@@ -737,14 +750,12 @@ gboolean bet_data_populate_div ( gint transaction_number,
 gboolean bet_data_update_div ( SH *sh,
                         gint transaction_number,
                         gint sub_div,
-                        gint type_de_transaction )
+                        gint type_de_transaction,
+                        gsb_real amount )
 {
     SBR *sbr = ( SBR*) sh -> sbr;
-    gsb_real amount;
     gchar *key;
     SH *tmp_sh = NULL;
-
-    amount = gsb_data_transaction_get_amount ( transaction_number );
 
     switch ( type_de_transaction )
     {
@@ -766,7 +777,7 @@ gboolean bet_data_update_div ( SH *sh,
     key = utils_str_itoa ( sub_div );
     if ( ( tmp_sh = g_hash_table_lookup ( sh -> list_sub_div, key ) ) )
     {
-        bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction );
+        bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction, amount );
         g_free ( key );
     }
     else
@@ -774,7 +785,7 @@ gboolean bet_data_update_div ( SH *sh,
         tmp_sh = struct_initialise_bet_historical ( );
         tmp_sh -> div = sub_div;
         tmp_sh -> account_nb = gsb_data_transaction_get_account_number ( transaction_number );
-        bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction );
+        bet_data_update_div ( tmp_sh, transaction_number, -1, type_de_transaction, amount );
         g_hash_table_insert ( sh -> list_sub_div, key, tmp_sh );
     }
 
@@ -999,8 +1010,6 @@ SBR *struct_initialise_bet_range ( void )
 
 	sbr = g_malloc0 ( sizeof ( SBR ) );
     sbr -> first_pass = TRUE;
-    sbr -> min_date = NULL;
-    sbr -> max_date = NULL;
     sbr -> current_fyear = null_real;
     sbr -> current_balance = null_real;
 
@@ -1016,11 +1025,6 @@ SBR *struct_initialise_bet_range ( void )
  * */
 void struct_free_bet_range ( SBR *sbr )
 {
-    if ( sbr-> min_date )
-        g_date_free ( sbr-> min_date );
-    if ( sbr-> max_date )
-        g_date_free ( sbr-> max_date );
-
     g_free ( sbr );
 }
 
@@ -2118,6 +2122,42 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
 
     /* append the transaction in list */
     gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
+}
+
+
+/**
+ * initialise la structure
+ *
+ * \param
+ *
+ * \return
+ * */
+TransactionCurrentFyear *struct_initialise_transaction_current_fyear ( void )
+{
+    TransactionCurrentFyear *self;
+
+    self = g_malloc0 ( sizeof ( TransactionCurrentFyear ) );
+
+    self -> date = NULL;
+    self -> amount = null_real;
+
+    return self;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
+void struct_free_bet_transaction_current_fyear ( TransactionCurrentFyear *self )
+{
+    if ( self->date )
+        g_date_free ( self->date );
+
+    g_free ( self );
 }
 
 

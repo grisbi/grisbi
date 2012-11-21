@@ -10,17 +10,16 @@
 /* nombre de colonnes du tableau des prévisions */
 #define BET_ARRAY_COLUMNS 5
 
-typedef struct _bet_range           SBR;
-typedef struct _historical          SH;
-typedef struct _hist_div            struct_hist_div;
-typedef struct _future_data         struct_futur_data;
-typedef struct _transfert_data      struct_transfert_data;
+typedef struct _bet_range                   SBR;
+typedef struct _historical                  SH;
+typedef struct _hist_div                    struct_hist_div;
+typedef struct _future_data                 struct_futur_data;
+typedef struct _transfert_data              struct_transfert_data;
+typedef struct _TransactionCurrentFyear     TransactionCurrentFyear;
 
 struct _bet_range
 {
     gboolean first_pass;
-    GDate *min_date;
-    GDate *max_date;
     gsb_real current_fyear;
     gsb_real current_balance;
 };
@@ -95,6 +94,16 @@ struct _transfert_data
     gint card_sub_budgetary_number; /* sous IB de l'opération du compte à débit différé */
 };
 
+struct _TransactionCurrentFyear
+{
+    gint transaction_number;
+    gint div_nb;
+    gint sub_div_nb;
+    GDate *date;
+    gsb_real amount;
+};
+
+
 /* noms des colonnes du tree_view des previsions */
 enum bet_estimation_tree_columns
 {
@@ -121,7 +130,7 @@ enum bet_historical_data_columns {
     SPP_HISTORICAL_DESC_COLUMN,
     SPP_HISTORICAL_CURRENT_COLUMN,  /* Accumulation of the current year */
     SPP_HISTORICAL_BALANCE_COLUMN,
-    SPP_HISTORICAL_BALANCE_AMOUNT,          /* balance column without currency */
+    SPP_HISTORICAL_BALANCE_AMOUNT,  /* balance column without currency */
     SPP_HISTORICAL_AVERAGE_COLUMN,
     SPP_HISTORICAL_AVERAGE_AMOUNT,  /* average column without currency */
     SPP_HISTORICAL_RETAINED_COLUMN,
@@ -169,7 +178,8 @@ void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd )
 gboolean bet_data_populate_div ( gint transaction_number,
                         gboolean is_transaction,
                         GHashTable  *list_div,
-                        gint type_de_transaction );
+                        gint type_de_transaction,
+                        TransactionCurrentFyear *tcf );
 gboolean bet_data_remove_all_bet_data ( gint account_number );
 gboolean bet_data_remove_div_hist ( gint account_number, gint div_number, gint sub_div_nb );
 gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint sub_div_nb );
@@ -198,6 +208,8 @@ struct_futur_data *struct_initialise_bet_future ( void );
 SBR *struct_initialise_bet_range ( void );
 struct_transfert_data *struct_initialise_bet_transfert ( void );
 struct_hist_div *struct_initialise_hist_div ( void );
+void struct_free_bet_transaction_current_fyear ( TransactionCurrentFyear *self );
+TransactionCurrentFyear *struct_initialise_transaction_current_fyear ( void );
 /* END_DECLARATION */
 
 
