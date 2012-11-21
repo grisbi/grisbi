@@ -398,7 +398,7 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
-                        _("Place under the accounts of the partial balance if possible"),
+                        _("Place the partial balance  under its accounts if it's possible"),
                         &conf.group_partial_balance_under_accounts,
                         G_CALLBACK ( gsb_config_partial_balance_group_under_accounts_clicked ),
                         NULL );

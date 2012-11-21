@@ -1821,6 +1821,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
             prefs_prev = struct_initialise_bet_graph_prefs ();
         prefs = prefs_prev;
         origin_tab = BET_ONGLETS_PREV;
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( box_button ), _("Display the graph of forecast") );
     }
     else if ( strcmp ( type_graph, "historical_graph" ) == 0 )
     {
@@ -1828,6 +1829,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
             prefs_hist = struct_initialise_bet_graph_prefs ();
         prefs = prefs_hist;
         origin_tab = BET_ONGLETS_HIST;
+        gtk_widget_set_tooltip_text ( GTK_WIDGET ( box_button ), _("Display the monthly graph") );
     }
 
     /* initialisation des données pour chaque graphe */
@@ -2141,7 +2143,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     /* set the title */
     date_debut_periode = bet_graph_get_date_debut_periode ();
     tmp_str = gsb_format_gdate ( date_debut_periode );
-    title = g_strdup_printf ( _("Monthly amounts since %s of the %s account"),
+    title = g_strdup_printf ( _("Monthly amounts since %s for the account: '%s'"),
                         tmp_str,
                         gsb_data_account_get_name ( gsb_gui_navigation_get_current_account () ) );
 
