@@ -101,12 +101,14 @@ struct _struct_bet_graph_button
 {
     gchar *name;
     gchar *filename;
-    gchar *service_id;          /* définit le type de graphique */
-    GCallback callback;         /* fonction de callback */
-    gboolean is_visible;        /* TRUE si le bouton est visible dans la barre d'outils */
+    gchar *service_id;                  /* définit le type de graphique */
+    GCallback callback;                 /* fonction de callback */
+    gboolean is_visible;                /* TRUE si le bouton est visible dans la barre d'outils */
+    gint origin_tab;                    /* BET_ONGLETS_PREV ou BET_ONGLETS_HIST */
     GtkWidget *box;
     GtkWidget *button;
     GtkWidget *tree_view;
+    struct_bet_graph_prefs *prefs;      /* préférences pour le graphique */
 };
 
 
@@ -138,8 +140,8 @@ static gboolean bet_graph_right_button_press ( GtkWidget *widget,
 static GtkBuilder *bet_graph_builder = NULL;
 
 /* variables statiques pour les différents types de graphiques */
-static struct_bet_graph_prefs *prefs_prev = NULL;          /* for forecast graph */
-static struct_bet_graph_prefs *prefs_hist = NULL;        /* for monthly graph */
+static struct_bet_graph_prefs *prefs_prev = NULL;       /* for forecast graph */
+static struct_bet_graph_prefs *prefs_hist = NULL;       /* for monthly graph */
 
 /* mois sous la forme abrégée */
 static const gchar *str_months[] = {
@@ -1265,7 +1267,7 @@ static GtkWidget *bet_graph_create_line_preferences ( struct_bet_graph_data *sel
         gtk_widget_hide ( box_options_col );
 
     /* configuration de l'axe Y */
-    /* onfiguration de la grille */
+    /* configuration de la grille */
     button_1 = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "major_grid_y" ) );
     g_object_set_data ( G_OBJECT ( button_1 ), "rang", GINT_TO_POINTER ( 8 ) );
 
@@ -1559,6 +1561,7 @@ static void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
 {
     GtkWidget *parent;
     GList *tmp_list;
+    gint origin_tab = 0;
 
     parent = gtk_widget_get_parent ( self->box );
     tmp_list = g_object_get_data ( G_OBJECT ( parent ), "button_list" );
@@ -1566,12 +1569,21 @@ static void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
     while ( tmp_list )
     {
         struct_bet_graph_button *self;
+        struct_bet_graph_prefs *prefs;
 
         self = tmp_list -> data;
 
+        prefs = self->prefs;
+        origin_tab = self->origin_tab;
         if ( self->is_visible == TRUE )
         {
             self->is_visible = FALSE;
+            if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
+                prefs->type_graph = 1;
+            else
+                prefs->type_graph = 0;
+            origin_tab = self->origin_tab;
+
             break;
         }
 
@@ -1588,6 +1600,7 @@ static void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
                         NULL );
 
     g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
+    g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
     g_signal_connect ( G_OBJECT ( self->button ),
                         "clicked",
                         self->callback,
@@ -1675,6 +1688,7 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gpointer value;
     GDate *start_current_fyear;
     GDateMonth date_month = G_DATE_BAD_MONTH;
+    GDateMonth today_month = G_DATE_BAD_MONTH;
     gchar *desc;
     gchar *str_amount = NULL;
     gchar *libelle_axe_x = self->tab_libelle[0];
@@ -1682,8 +1696,9 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gdouble *tab_Y = self->tab_Y;
     gint div_number;
     gint sub_div_nb;
-    gsb_real tab[12];
     gint i;
+    gboolean line_graph;
+    gsb_real tab[12];
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( self -> tree_view ) );
 
@@ -1729,7 +1744,9 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     /* On commence par le début de l'exercice courant puis on balaie les douzes mois */
     start_current_fyear = bet_historical_get_start_date_current_fyear ( );
     date_month = g_date_get_month ( start_current_fyear );
+    today_month = g_date_get_month ( gdate_today () );
 
+    line_graph = strcmp ( self->service_id, "GogLinePlot" ) == 0 ? 1:0;
     for ( i = 0; i < 12; i++ )
     {
         desc = g_strdup_printf ("%s %d", gettext ( str_months[date_month-1] ), g_date_get_year ( start_current_fyear ) );
@@ -1740,7 +1757,16 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
  *             tab[date_month-1] = gsb_real_add ( tab[date_month-1], tab[date_month-2] );
  */
 
-        tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
+        /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
+        if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
+        {
+            if ( i < today_month )
+                tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
+            else
+                tab_Y[self->nbre_elemnts] = go_nan;
+        }
+        else
+            tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
 
         self->nbre_elemnts++;
         g_date_add_months ( start_current_fyear, 1 );
@@ -1832,7 +1858,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( box_button ), _("Display the monthly graph") );
     }
 
-    /* initialisation des données pour chaque graphe */
+    /* initialisation des données du premier bouton */
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Column") );
@@ -1841,7 +1867,10 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     self->callback = callback;
     self->box = box_button;
     self->tree_view = tree_view;
+    self->origin_tab = origin_tab;
+    self->prefs = prefs;
 
+    /* si ce boutton est celui par défaut on l'affiche */
     if ( prefs->type_graph == 0 )
     {
         self->is_visible = TRUE;
@@ -1861,6 +1890,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     }
     liste = g_list_append ( liste, self );
 
+    /* initialisation des données du deuxième bouton */
     self = struct_initialise_bet_graph_button ( );
 
     self->name = g_strdup ( _("Line") );
@@ -1869,7 +1899,10 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     self->callback = callback;
     self->box = box_button;
     self->tree_view = tree_view;
+    self->origin_tab = origin_tab;
+    self->prefs = prefs;
 
+    /* si ce boutton est celui par défaut on l'affiche */
     if ( prefs->type_graph == 1 )
     {
         self->is_visible = TRUE;
@@ -1900,19 +1933,6 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
                         liste );
 
     return box;
-}
-
-
-/**
- * free the gtk_builder
- *
- * \param
- *
- * \return TRUE
- * */
-void bet_graph_free_builder ( void )
-{
-    g_object_unref ( G_OBJECT ( bet_graph_builder ) );
 }
 
 

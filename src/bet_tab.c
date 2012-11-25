@@ -2986,8 +2986,6 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         G_CALLBACK ( bet_graph_line_graph_new ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
-
-    bet_graph_free_builder ( );
 #endif /* HAVE_GOFFICE */
 
     gtk_widget_show_all ( hbox );
