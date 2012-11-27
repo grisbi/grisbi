@@ -237,7 +237,7 @@ msgstr "Titre du fichier de comptes"
 
 #: ../src/affichage.c:389
 msgid "Account owner name"
-msgstr "Nom du titulaire"
+msgstr "Titulaire du compte"
 
 #: ../src/affichage.c:401
 msgid "Filename"
