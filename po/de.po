@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-11-21 22:23+0100\n"
-"PO-Revision-Date: 2012-11-04 10:47+0100\n"
+"PO-Revision-Date: 2012-12-02 16:47+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -59,32 +59,32 @@ msgid "Enter a scheduled transaction"
 msgstr "Geplante Buchung ausführen - Grisbi"
 
 #: ../src/accueil.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "Accounts balance in %s at %s"
 msgstr "Bargeld-/Bankkonten in %s am %s"
 
 #: ../src/accueil.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "Accounts balance in %s"
 msgstr "Bargeld-/Bankkonten in %s"
 
 #: ../src/accueil.c:864
-#, fuzzy, c-format
+#, c-format
 msgid "Liabilities accounts balance in %s at %s"
 msgstr "Kreditkonten in %s am %s"
 
 #: ../src/accueil.c:868
-#, fuzzy, c-format
+#, c-format
 msgid "Liabilities accounts balance in %s"
 msgstr "Kreditkonten in %s"
 
 #: ../src/accueil.c:904
-#, fuzzy, c-format
+#, c-format
 msgid "Assets accounts balance in %s at %s"
 msgstr "Anlagekonten in %s am %s"
 
 #: ../src/accueil.c:908
-#, fuzzy, c-format
+#, c-format
 msgid "Assets accounts balance in %s"
 msgstr "Anlagekonten in %s"
 
@@ -1186,56 +1186,52 @@ msgid "Error of configuration"
 msgstr "Konfigurationsfehler"
 
 #: ../src/bet_graph.c:146
-#, fuzzy
 msgid "Jan"
-msgstr "Japan"
+msgstr "Jan"
 
 #: ../src/bet_graph.c:146
-#, fuzzy
 msgid "Feb"
-msgstr "Internet"
+msgstr "Feb"
 
 #: ../src/bet_graph.c:146
-#, fuzzy
 msgid "Mar"
-msgstr "Markieren"
+msgstr "Mär"
 
 #: ../src/bet_graph.c:146
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: ../src/bet_graph.c:147
-#, fuzzy
 msgid "May"
-msgstr "Tag"
+msgstr "Mai"
 
 #: ../src/bet_graph.c:147
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: ../src/bet_graph.c:147
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: ../src/bet_graph.c:147
 msgid "Aug"
-msgstr ""
+msgstr "Aug"
 
 #: ../src/bet_graph.c:148
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: ../src/bet_graph.c:148
 msgid "Oct"
-msgstr ""
+msgstr "Okt"
 
 #: ../src/bet_graph.c:148
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: ../src/bet_graph.c:148
 msgid "Dec"
-msgstr ""
+msgstr "Dez"
 
 #: ../src/bet_graph.c:442
 msgid "total amount: "
@@ -1296,12 +1292,10 @@ msgid "Overflow"
 msgstr "Überlauf"
 
 #: ../src/bet_graph.c:1824
-#, fuzzy
 msgid "Display the graph of forecast"
-msgstr "Auflistung Exportieren"
+msgstr "Diagramm von Prognose anzeigen"
 
 #: ../src/bet_graph.c:1832
-#, fuzzy
 msgid "Display the monthly graph"
 msgstr "Diagramm anzeigen"
 
@@ -1314,11 +1308,9 @@ msgid "Line"
 msgstr "Linie"
 
 #: ../src/bet_graph.c:2146
-#, fuzzy, c-format
+#, c-format
 msgid "Monthly amounts since %s for the account: '%s'"
-msgstr ""
-"Auflistung nach %s in der Zeitspanne vom  Geschäftsjahr %s für das Konto: "
-"«%s»"
+msgstr "Auflistung nach monatlichen Beträgen seit %s für das Konto: «%s»"
 
 #: ../src/bet_graph.c:2261
 msgid "Expenses"
@@ -1389,7 +1381,6 @@ msgid "Data graph"
 msgstr "Diagramm"
 
 #: ../src/bet_hist.c:1968
-#, fuzzy
 msgid "Display the pie graph"
 msgstr "Diagramm anzeigen"
 
@@ -4439,7 +4430,7 @@ msgid " transactions are not archived."
 msgstr " Buchungen nicht archiviert sind"
 
 #: ../src/gsb_archive_config.c:464
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Warning, you are about the delete the archive \"%s\".\n"
 "\n"
@@ -4993,7 +4984,6 @@ msgid "Select the list of categories you will use"
 msgstr "Vordefinierte Kategorien auswählen"
 
 #: ../src/gsb_assistant_file.c:486
-#, fuzzy
 msgid "Configuration finished!"
 msgstr "Konfiguration abgeschlossen !"
 
@@ -5166,7 +5156,6 @@ msgstr ""
 "oder fehlende Abstimmungen führen Sie bitte eine manuelle Korrektur aus."
 
 #: ../src/gsb_assistant_reconcile_config.c:170
-#, fuzzy
 msgid "No marked transactions without reconciliation found!"
 msgstr "Es wurden keine Buchungen ohne Abstimmungsnummer gefunden !"
 
@@ -7123,7 +7112,7 @@ msgid "No name %d"
 msgstr "Kein Name %d"
 
 #: ../src/gsb_data_account.c:581
-#, fuzzy, c-format
+#, c-format
 msgid "Bad nb rows to gsb_data_account_set_nb_rows in gsb_data_account.c: %d\n"
 msgstr ""
 "Bad nb rows nach gsb_data_account_set_nb_rows in gsb_data_account.c : %d\n"
@@ -8814,12 +8803,12 @@ msgstr "Buchung ausführen"
 
 #: ../src/gsb_scheduler_list.c:2756 ../src/transaction_list.c:163
 #: ../src/transaction_list.c:1060 ../src/transaction_list.c:1970
-#, fuzzy, c-format
+#, c-format
 msgid "Total: %s (variance : %s)"
 msgstr "Gesamt : %s (variiert : %s)"
 
 #: ../src/gsb_scheduler_list.c:2863
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some scheduled children didn't find their mother in the list, this shouldn't "
 "happen and there is probably a bug behind that.\n"
@@ -8969,7 +8958,7 @@ msgid "R"
 msgstr "A"
 
 #: ../src/gsb_transactions_list.c:1493
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to add the transactions of the archive %s into the list?"
 msgstr ""
 "Sollen die Buchungen aus dem Archiv %s in die Buchungsübersicht geladen "
@@ -9143,7 +9132,6 @@ msgid "Transfer from a deleted account"
 msgstr "Die Buchung aus einem geschlossenen Konten verschieben"
 
 #: ../src/gsb_transactions_list.c:3976 ../src/gsb_transactions_list.c:4092
-#, fuzzy
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that. Please contact the Grisbi team.\n"
@@ -9174,7 +9162,7 @@ msgid "Do you really want to delete this file import rule?"
 msgstr "Soll die Importregel gelöscht werden?"
 
 #: ../src/gsb_transactions_list.c:4643
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some children didn't find their mother in the list, this shouldn't happen "
 "and there is probably a bug behind that.\n"
@@ -9401,7 +9389,6 @@ msgid "Invert the amount of the imported transactions"
 msgstr "Den Betrag der importierten Buchungen invertieren"
 
 #: ../src/import.c:1376
-#, fuzzy
 msgid "Create a rule for this import. Name of the rule: "
 msgstr "Eine Regel für diesen Import erstellen - Name der Regel : "
 
@@ -9519,7 +9506,7 @@ msgstr ""
 "Auswahl welche Buchungen importiert werden sollen."
 
 #: ../src/import.c:2360
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction to be merged: %s ; %s ; %s"
 msgstr "Buchung für Zusammenführung : %s ; %s ; %s"
 
@@ -9529,12 +9516,12 @@ msgid "Transaction to import: %s ; %s ; %s"
 msgstr "Buchung für Import: %s ; %s ; %s"
 
 #: ../src/import.c:2391
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction found: %s ; %s ; %s ; %s"
 msgstr "Buchung gefunden : %s ; %s ; %s ; %s"
 
 #: ../src/import.c:2405
-#, fuzzy, c-format
+#, c-format
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "Buchung gefunden : %s ; %s ; %s"
 
@@ -9569,7 +9556,6 @@ msgstr ""
 "überein"
 
 #: ../src/import.c:3376
-#, fuzzy
 msgid ""
 "Perhaps you choose a wrong account?  If you choose to continue, the id of "
 "the account will be changed. Do you want to continue?"
@@ -10480,7 +10466,6 @@ msgid "Account kind"
 msgstr "Kontoart"
 
 #: ../src/parametres.c:401
-#, fuzzy
 msgid "Place the partial balance  under its accounts if it's possible"
 msgstr ""
 "Der Name vom Teilsaldo und die Liste der Konten müssen vollständig "
@@ -11278,12 +11263,12 @@ msgid "Number of selected payees: "
 msgstr "Anzahl der ausgewählten Empfänger: "
 
 #: ../src/tiers_onglet.c:1305
-#, fuzzy, c-format
+#, c-format
 msgid "Payee sought: %s"
 msgstr "Empfänger Suchkriterium : %s"
 
 #: ../src/tiers_onglet.c:1311
-#, fuzzy, c-format
+#, c-format
 msgid "New payee: %s"
 msgstr "Neuer Empfänger : %s"
 
@@ -11697,7 +11682,6 @@ msgstr "Ergebnis"
 
 #. select an other encoding
 #: ../src/utils_files.c:596
-#, fuzzy
 msgid "If no proposals above are correct you can choose a different charset."
 msgstr ""
 "Wenn kein Vorschlag zutrifft bitte einen anderen Zeichensatz manuell "
@@ -11708,7 +11692,6 @@ msgid "Select a charset"
 msgstr "Zeichensatz auswählen"
 
 #: ../src/utils_files.c:748
-#, fuzzy
 msgid "The conversion failed, try another set of characters"
 msgstr ""
 "Die Konvertierung ist fehlgeschlagen, bitte einen anderen Zeichensatz "
@@ -11776,7 +11759,7 @@ msgstr "Mittig"
 
 #: ../src/ui/bet_graph.ui.h:17
 msgid "Intersection point of X Y axes"
-msgstr "Intercept point X and Y achses"
+msgstr "Schnittpunkt X und Y Achse"
 
 #: ../src/ui/bet_graph.ui.h:18
 msgid "Low"
