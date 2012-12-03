@@ -125,8 +125,8 @@ static gboolean hist_block_signal = FALSE;
 /* toolbar */
 static GtkWidget *bet_historical_toolbar;
 
-/* liste qui contient les transactions de l'année courante */
-static GHashTable *list_trans_current_fyear = NULL;
+/* liste qui contient les transactions concernées */
+static GHashTable *list_trans_hist = NULL;
 
 /**
  * this is a tree model filter with 3 columns :
@@ -738,11 +738,11 @@ void bet_historical_populate_data ( gint account_number )
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_historical );
 
-    /* on initialise ici la liste des transactions appartenant à l'exercice courant
-     * pour les graphiques mensuels */
-    if ( list_trans_current_fyear )
-        g_hash_table_remove_all ( list_trans_current_fyear );
-    list_trans_current_fyear = g_hash_table_new_full ( g_str_hash,
+    /* on initialise ici la liste des transactions pour les graphiques mensuels */
+    if ( list_trans_hist )
+        g_hash_table_remove_all ( list_trans_hist );
+
+    list_trans_hist = g_hash_table_new_full ( g_str_hash,
                                     g_str_equal,
                                     (GDestroyNotify) g_free,
                                     (GDestroyNotify) struct_free_bet_transaction_current_fyear );
@@ -779,17 +779,14 @@ void bet_historical_populate_data ( gint account_number )
 
         /* on détermine le type de transaction pour l'affichage */
         type_de_transaction = bet_historical_get_type_transaction ( date, start_current_fyear, date_max );
-        if ( type_de_transaction == 1 || type_de_transaction == 2 )
-        {
-            tcf = struct_initialise_transaction_current_fyear ();
-            tcf->transaction_number = transaction_number;
-            tcf->date = gsb_date_copy ( date );
 
-            g_hash_table_insert ( list_trans_current_fyear, utils_str_itoa ( transaction_number ), tcf );
-            bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, tcf );
-        }
-        else
-            bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, NULL );
+        tcf = struct_initialise_transaction_current_fyear ();
+        tcf->transaction_number = transaction_number;
+        tcf->date = gsb_date_copy ( date );
+        tcf->type_de_transaction = type_de_transaction;
+
+        g_hash_table_insert ( list_trans_hist, utils_str_itoa ( transaction_number ), tcf );
+        bet_data_populate_div ( transaction_number, TRUE, list_div, type_de_transaction, tcf );
     }
 
     bet_historical_affiche_div ( list_div, tree_view );
@@ -1849,10 +1846,16 @@ GDate *bet_historical_get_start_date_current_fyear ( void )
 
 
 /**
+ * discrimine les opérations appartenant à l'exercice en cours
+ *
+ * \param date                  date de l'opération est > date_min de recherche
+ * \param start_current_fyear   date de début de l'exercice en cours
+ * \param date_max              date max de recherche des données passées
+ *
  * \return 0    opération <= à date_max et < start_current_fyear (n'appartient pas à l'exercice en cours)
- * \return 1    opération > à date_max et > start_current_fyear (appartient à l'exercice en cours)
- * \return 2    opération <= à date_max et > start_current_fyear (appartient à l'exercice en cours)
- * \return -1   toutes les autres opérations
+ * \return 1    opération > start_current_fyear (appartient à l'exercice en cours)
+ * \return 2    opération <= à date_max et > start_current_fyear (appartient à l'exercice en cours) *
+ * \return -1   toutes les autres opérations ( aucune à priori )
  * */
 gint bet_historical_get_type_transaction ( const GDate *date,
                         GDate *start_current_fyear,
@@ -2121,7 +2124,7 @@ gchar *bet_historical_get_hist_source_name ( gint account_number )
  * */
 GHashTable *bet_historical_get_list_trans_current_fyear ( void )
 {
-    return list_trans_current_fyear;
+    return list_trans_hist;
 }
 
 

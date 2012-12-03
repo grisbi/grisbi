@@ -97,6 +97,7 @@ struct _transfert_data
 struct _TransactionCurrentFyear
 {
     gint transaction_number;
+    gint type_de_transaction;   /* 0 = historique 1 = current fyear 2 = hist and current fyear */
     gint div_nb;
     gint sub_div_nb;
     GDate *date;

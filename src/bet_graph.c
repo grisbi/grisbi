@@ -85,8 +85,11 @@ struct _struct_bet_graph_data
     gchar **tab_vue_libelle;                                        /* tableau associé à celui ci-dessus */
 
     /* données pour l'axe Y */
-    gdouble tab_Y[MAX_POINTS_GRAPHIQUE];                            /* série 1 données de type gdouble */
-    gdouble tab_Y2[MAX_POINTS_GRAPHIQUE];                           /* série 2 données de type gdouble */
+    gdouble tab_Y[MAX_POINTS_GRAPHIQUE];        /* série 1 données de type gdouble */
+    gdouble tab_Y2[MAX_POINTS_GRAPHIQUE];       /* série 2 données de type gdouble */
+    gboolean double_axe;                        /* TRUE if two axes */
+    gchar *title_Y;                             /* titre de la série 1 */
+    gchar *title_Y2;                            /* titre de la série 2 */
 
     /* données pour les camemberts */
     gint type_infos;            /* 0 type crédit ou < 0, 1 type débit ou >= 0, -1 tous types */
@@ -144,10 +147,17 @@ static struct_bet_graph_prefs *prefs_prev = NULL;       /* for forecast graph */
 static struct_bet_graph_prefs *prefs_hist = NULL;       /* for monthly graph */
 
 /* mois sous la forme abrégée */
-static const gchar *str_months[] = {
+static const gchar *short_str_months[] = {
     N_("Jan"), N_("Feb"), N_("Mar"), N_( "Apr"),
     N_("May"), N_("Jun"), N_("Jul"), N_("Aug"),
     N_("Sep"), N_("Oct"), N_("Nov"), N_("Dec")
+};
+
+/* mois sous la forme longue */
+static const gchar *long_str_months[] = {
+    N_("January"), N_("February"), N_("March"), N_( "April"),
+    N_("May"), N_("June"), N_("July"), N_("August"),
+    N_("September"), N_("October"), N_("November"), N_("December")
 };
 
 
@@ -199,12 +209,18 @@ static struct_bet_graph_data *struct_initialise_bet_graph_data ( void )
 
     self = g_new0 ( struct_bet_graph_data, 1 );
 
+    self->service_id = NULL;
+    self->title = NULL;
+
     self -> tab_vue_libelle = g_malloc ( MAX_POINTS_GRAPHIQUE * sizeof ( gchar* ) );
 
     for ( i = 0; i < MAX_POINTS_GRAPHIQUE; i++ )
     {
-        self -> tab_vue_libelle[i] = self -> tab_libelle[i];
+        self->tab_vue_libelle[i] = self -> tab_libelle[i];
     }
+
+    self->title_Y = NULL;
+    self->title_Y2 = NULL;
 
    return self;
 }
@@ -222,6 +238,8 @@ static void struct_free_bet_graph_data ( struct_bet_graph_data *self )
     g_free ( self->title );
     g_free ( self->service_id );
     g_free ( self->tab_vue_libelle );
+    g_free ( self->title_Y );
+    g_free ( self->title_Y2 );
 
     g_free ( self );
 }
@@ -775,6 +793,7 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
     GogPlot *cur_plot;
     GogSeries *series;
     GOData *data;
+    GOData *name_src;
     GOStyle *style;
     GogObject *axis;
     GogObject *axis_line = NULL;
@@ -882,6 +901,29 @@ static gboolean bet_graph_affiche_XY_line ( struct_bet_graph_data *self )
         return FALSE;
     }
 
+    if ( self->double_axe )
+    {
+        GogSeries *series2;
+
+        /* on fixe le nom de la première série */
+        name_src = go_data_scalar_str_new ( self->title_Y, FALSE );
+        gog_series_set_name ( series, GO_DATA_SCALAR ( name_src ), NULL );
+
+        series2 = GOG_SERIES ( gog_plot_new_series ( GOG_PLOT ( cur_plot ) ) );
+        name_src = go_data_scalar_str_new ( self->title_Y2, FALSE );
+        gog_series_set_name ( series2, GO_DATA_SCALAR ( name_src ), NULL );
+
+        data = go_data_vector_val_new ( self->tab_Y2, self->nbre_elemnts, NULL);
+        gog_series_set_dim (series2, 1, data, &error);
+        if ( error != NULL )
+        {
+            g_error_free ( error );
+            error = NULL;
+            return FALSE;
+        }
+    }
+
+    /* return value */
     return TRUE;
 }
 
@@ -1694,11 +1736,14 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     gchar *libelle_axe_x = self->tab_libelle[0];
     gchar **tab_libelle_axe_x;
     gdouble *tab_Y = self->tab_Y;
+    gdouble *tab_Y2 = self->tab_Y2;
     gint div_number;
     gint sub_div_nb;
+    gint fyear_number;
     gint i;
     gboolean line_graph;
     gsb_real tab[12];
+    gsb_real tab2[12];
 
     selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( self -> tree_view ) );
 
@@ -1712,14 +1757,20 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
                         SPP_HISTORICAL_SUB_DIV_NUMBER, &sub_div_nb,
                         -1 );
 
+    fyear_number = gsb_data_account_get_bet_hist_fyear ( self->account_number );
+
     /* on calcule les montants par mois en premier */
     list_transactions = bet_historical_get_list_trans_current_fyear ();
     if ( g_hash_table_size ( list_transactions ) == 0 )
         return FALSE;
 
-    /* on initialise le tableau des montants */
+    /* on initialise les tableaux des montants */
     for ( i = 0; i < 12; i++ )
+    {
         tab[i] = null_real;
+        if ( fyear_number > 0 )
+            tab2[i] = null_real;
+    }
 
     g_hash_table_iter_init ( &hash_iter, list_transactions );
     while ( g_hash_table_iter_next ( &hash_iter, &key, &value ) )
@@ -1732,41 +1783,94 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
             if ( sub_div_nb > 0 )
             {
                 if ( self->sub_div_nb == sub_div_nb )
-                    tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                {
+                    switch ( self->type_de_transaction )
+                    {
+                        case 0:
+                            if ( fyear_number > 0 )
+                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            break;
+                        case 1:
+                            if ( fyear_number > 0 )
+                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                            else
+                                tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            break;
+                        case 2:
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                            if ( fyear_number > 0 )
+                                tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                            break;
+                    }
+                }
             }
             else
-                tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+            {
+                switch ( self->type_de_transaction )
+                {
+                    case 0:
+                        if ( fyear_number > 0 )
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                        break;
+                    case 1:
+                        if ( fyear_number > 0 )
+                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                        else
+                            tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                        break;
+                    case 2:
+                        tab[date_month-1] = gsb_real_add ( tab[date_month-1], self->amount );
+                        if ( fyear_number > 0 )
+                            tab2[date_month-1] = gsb_real_add ( tab2[date_month-1], self->amount );
+                        break;
+                }
+            }
         }
     }
 
     tab_libelle_axe_x = &libelle_axe_x;
 
-    /* On commence par le début de l'exercice courant puis on balaie les douzes mois */
-    start_current_fyear = bet_historical_get_start_date_current_fyear ( );
+    /* On commence par le début de l'exercice courant puis on balaie les douze mois */
+    start_current_fyear = bet_historical_get_start_date_current_fyear ();
     date_month = g_date_get_month ( start_current_fyear );
     today_month = g_date_get_month ( gdate_today () );
 
     line_graph = strcmp ( self->service_id, "GogLinePlot" ) == 0 ? 1:0;
     for ( i = 0; i < 12; i++ )
     {
-        desc = g_strdup_printf ("%s %d", gettext ( str_months[date_month-1] ), g_date_get_year ( start_current_fyear ) );
+        if ( fyear_number > 0 )
+            desc = g_strdup_printf ("%s", gettext ( long_str_months[date_month-1] ) );
+        else
+            desc = g_strdup_printf ("%s %d", gettext ( short_str_months[date_month-1] ),
+                        g_date_get_year ( start_current_fyear ) );
         strncpy ( &libelle_axe_x[self -> nbre_elemnts * TAILLE_MAX_LIBELLE], desc, TAILLE_MAX_LIBELLE );
-
-        /* on additionne le montant du mois précédent au mois suivant à partir du 2ème mois */
-/*         if ( i > 0 )
- *             tab[date_month-1] = gsb_real_add ( tab[date_month-1], tab[date_month-2] );
- */
 
         /* Pour un graphique line on n'affiche pas 0 comme donnée des mois futurs */
         if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
         {
             if ( i < today_month )
+            {
                 tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
+                if ( fyear_number > 0 )
+                    tab_Y2[self->nbre_elemnts] = gsb_real_real_to_double ( tab2[date_month-1] );
+            }
             else
-                tab_Y[self->nbre_elemnts] = go_nan;
+            {
+                if ( fyear_number > 0 )
+                {
+                    tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
+                    tab_Y2[self->nbre_elemnts] = go_nan;
+                }
+                else
+                    tab_Y[self->nbre_elemnts] = go_nan;
+            }
         }
         else
+        {
             tab_Y[self->nbre_elemnts] = gsb_real_real_to_double ( tab[date_month-1] );
+            if ( fyear_number > 0 )
+                tab_Y2[self->nbre_elemnts] = gsb_real_real_to_double ( tab2[date_month-1] );
+        }
 
         self->nbre_elemnts++;
         g_date_add_months ( start_current_fyear, 1 );
@@ -1775,6 +1879,8 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
 
     /* on met la division sous division comme titre */
     self->title = g_strconcat ( bet_data_get_div_name ( div_number, sub_div_nb, NULL ), " = ", str_amount, NULL );
+
+    g_date_free ( start_current_fyear );   
 
     /* return value */
     return TRUE;
@@ -2103,16 +2209,12 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
 {
     GtkWidget *dialog;
     GtkWidget *label;
-    GDate *date_debut_periode;
-    gchar *title;
-    gchar *service_id;
+    gchar *title = NULL;
     gchar *tmp_str;
     gint result;
-    gint account_number;
-    gint currency_number;
     gint origin_tab;
+    gint fyear_number;
     struct_bet_graph_data *self;
-    struct_bet_graph_prefs *prefs;
 
     devel_debug (NULL);
 
@@ -2120,24 +2222,51 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     if ( !bet_graph_initialise_builder () )
         return;
 
-    account_number = gsb_gui_navigation_get_current_account ( );
-    currency_number = gsb_data_account_get_currency ( account_number );
-    service_id = g_object_get_data ( G_OBJECT ( button ), "service_id" );
-
-    /* initialisation des préférences */
-    origin_tab = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( button ), "origin_tab" ) );
-    if ( origin_tab == BET_ONGLETS_HIST )
-        prefs = prefs_hist;
-    else
-        prefs = prefs_prev;
-
     /* Initialisations des données */
     self = struct_initialise_bet_graph_data ();
     self->tree_view = tree_view;
-    self->account_number = account_number;
-    self->currency_number = currency_number;
-    self->service_id = g_strdup ( service_id );
-    self->prefs = prefs;
+    self->account_number = gsb_gui_navigation_get_current_account ();
+    self->currency_number = gsb_data_account_get_currency ( self->account_number );
+    self->service_id = g_strdup ( g_object_get_data ( G_OBJECT ( button ), "service_id" ) );
+
+    origin_tab = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( button ), "origin_tab" ) );
+    if ( origin_tab == BET_ONGLETS_HIST )
+    {
+        self->prefs = prefs_hist;
+        fyear_number = gsb_data_account_get_bet_hist_fyear ( self->account_number );
+        if ( fyear_number > 0 )
+        {
+            GDate *start_current_fyear;
+
+            self->double_axe = TRUE;
+            self->is_legend = TRUE;
+
+            /* set the titles */
+            start_current_fyear = bet_historical_get_start_date_current_fyear ();
+            self->title_Y = g_strdup ( gsb_data_fyear_get_name ( fyear_number ) );
+            self->title_Y2 = g_strdup_printf ("%d", g_date_get_year ( start_current_fyear ) );
+            title = g_strdup_printf ( _("Amounts %s - %s for the account: '%s'"),
+                            self->title_Y,
+                            self->title_Y2,
+                            gsb_data_account_get_name ( self->account_number ) );
+            g_date_free ( start_current_fyear );   
+        }
+        else
+        {
+            GDate *date_debut_periode;
+
+            /* set the title */
+            date_debut_periode = bet_graph_get_date_debut_periode ();
+            tmp_str = gsb_format_gdate ( date_debut_periode );
+            title = g_strdup_printf ( _("Monthly amounts since %s for the account: '%s'"),
+                            tmp_str,
+                            gsb_data_account_get_name ( self->account_number ) );
+            g_date_free ( date_debut_periode );   
+            g_free ( tmp_str );
+        }
+    }
+    else
+        self->prefs = prefs_prev;
 
     /* Création de la fenêtre de dialogue pour le graph */
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
@@ -2153,26 +2282,18 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     gtk_button_set_image ( GTK_BUTTON ( self->button_show_grid ),
                         gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ),
                         "grille.png", NULL ) ) );
-    if ( prefs->major_grid_y )
+    if ( self->prefs->major_grid_y )
         bet_graph_show_grid_button_configure ( self, TRUE, -1 );
     g_signal_connect ( self->button_show_grid,
                         "toggled",
                         G_CALLBACK ( bet_graph_show_grid_button_changed ),
                         self );
 
-    /* set the title */
-    date_debut_periode = bet_graph_get_date_debut_periode ();
-    tmp_str = gsb_format_gdate ( date_debut_periode );
-    title = g_strdup_printf ( _("Monthly amounts since %s for the account: '%s'"),
-                        tmp_str,
-                        gsb_data_account_get_name ( gsb_gui_navigation_get_current_account () ) );
-
     title = make_pango_attribut ( "weight=\"bold\" size=\"x-large\"", title );
 
     label = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "label_canvas" ) );
     gtk_label_set_markup ( GTK_LABEL ( label ), title );
 
-    g_free ( tmp_str );
     g_free ( title );
 
     /* initialise les pages pour les graphiques ligne et barre */
@@ -2205,7 +2326,6 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
 
     /* free the data */
     g_object_unref ( G_OBJECT ( bet_graph_builder ) );
-    g_date_free ( date_debut_periode );
 
     gtk_widget_destroy ( dialog );
 }
