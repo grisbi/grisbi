@@ -4,5 +4,6 @@ _Comment=Personnal finances manager
 Exec=grisbi
 Icon=grisbi
 Terminal=false
+MimeType=application/x-grisbi
 Type=Application
 Categories=Office;Finance;
