@@ -6,5 +6,6 @@
          <comment xml:lang="fr">Fichier Grisbi</comment>
          <glob pattern="*.gsb"/>
          <glob pattern="*.grisbi"/>
+    <icon name="grisbi"/>
   </mime-type>
 </mime-info>
