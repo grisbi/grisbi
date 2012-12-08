@@ -643,18 +643,29 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
     if ( strcmp ( self->service_id, "GogBarColPlot" ) == 0 )
     {
         index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
-
         if ( index == -1 )
             buf = NULL;
         else
+        {
+            double const *x;
+            double const *y;
+
+            gog_series_get_xy_data ( series, &x, &y );
             buf = g_strdup_printf ( _("date %s : value %s"), self->tab_vue_libelle[index],
                         utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number ) );
+                        y[index], self->currency_number ) );
+        }
     }
-
     else if (  strcmp ( self->service_id, "GogLinePlot")  == 0 )
     {
         GogAxis *x_axis, *y_axis;
+
+        /* correction manque fonction _get_data_at_point () pour les graphes lignes */
+        if ( self->double_axe )
+        {
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), "" );
+            return TRUE;
+        }
 
         x_axis = GOG_AXIS ( gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "X-Axis" ) );
         y_axis = GOG_AXIS ( gog_object_get_child_by_name ( GOG_OBJECT ( self->chart ), "Y-Axis" ) );
@@ -682,15 +693,20 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
     }
     else if (  strcmp ( self->service_id, "GogPiePlot" ) == 0 )
     {
-
         index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
         if ( index == -1 )
             buf = NULL;
         else
+        {
+            double const *x;
+            double const *y;
+
+            gog_series_get_xy_data ( series, &x, &y );
             buf = g_strdup_printf ("%s : %s (%.2f%%)", self->tab_vue_libelle[index],
                         utils_real_get_string_with_currency_from_double (
-                        self->tab_Y[index], self->currency_number ),
-                        ( 100*self->tab_Y[index]/self->montant ) );
+                        y[index], self->currency_number ),
+                        ( 100*y[index]/self->montant ) );
+        }
     }
 
     if ( buf )
@@ -701,6 +717,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
     else
         gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), "" );
 
+    /* return value */
     return TRUE;
 }
 
