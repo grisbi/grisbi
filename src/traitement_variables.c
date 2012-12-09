@@ -39,6 +39,7 @@
 #include "bet_data_finance.h"
 #include "bet_future.h"
 #include "bet_graph.h"
+#include "categories_onglet.h"
 #include "custom_list.h"
 #include "fenetre_principale.h"
 #include "gsb_calendar.h"
@@ -109,7 +110,6 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint id_timeout;
-extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GSList *orphan_child_transactions;
@@ -163,6 +163,7 @@ void init_variables ( void )
     gsb_data_transaction_init_variables ();
     gsb_data_payee_init_variables ();
     gsb_data_category_init_variables ();
+    categories_init_variables_list ();
     gsb_data_budget_init_variables ();
     gsb_data_report_init_variables ();
     gsb_data_report_amount_comparison_init_variables ();
@@ -213,7 +214,6 @@ void init_variables ( void )
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
     no_devise_totaux_tiers = 1;
-    no_devise_totaux_categ = 1;
     no_devise_totaux_ib = 1;
 
     /* initialization of titles and logo part */

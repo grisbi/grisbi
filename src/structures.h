@@ -41,6 +41,9 @@ struct gsb_etat_t
     gint crypt_file;                /* TRUE if we want to crypt the file */
     gint fichier_deja_ouvert;       /* à un si lors de l'ouverture, le fichier semblait déjà ouvert */
 
+    /* devises pour les catégories, imputations budgétaires et les tiers */
+    gint no_devise_totaux_categ;
+
     /* reconciliation */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
 

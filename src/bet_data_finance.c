@@ -42,7 +42,6 @@
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
 
 /**
@@ -299,7 +298,7 @@ struct_amortissement *bet_data_finance_structure_amortissement_init ( void )
 void bet_data_finance_data_simulator_init ( void )
 {
     etat.bet_capital = 1000.0;
-    etat.bet_currency = no_devise_totaux_categ;
+    etat.bet_currency = etat.no_devise_totaux_categ;
     etat.bet_taux_annuel = 4.0;
     etat.bet_index_duree = 0;
     etat.bet_frais = 0;

@@ -160,7 +160,6 @@ extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
-extern gint no_devise_totaux_categ;
 extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
@@ -799,7 +798,7 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	my_safe_null_str ( mon_decimal_point ),
 	my_safe_null_str ( mon_thousands_sep ),
 	no_devise_totaux_tiers,
-	no_devise_totaux_categ,
+	etat.no_devise_totaux_categ,
 	no_devise_totaux_ib,
     my_safe_null_str ( navigation_order_list ),
 	affichage_echeances,

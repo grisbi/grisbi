@@ -34,8 +34,9 @@
 #include "gsb_data_category.h"
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
 #include "gsb_real.h"
+#include "structures.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 
@@ -56,7 +57,6 @@ static gint category_transaction_div_id ( gint transaction_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint no_devise_totaux_categ;
 /*END_EXTERN*/
 
 static MetatreeInterface _category_interface = {
@@ -115,7 +115,7 @@ static MetatreeInterface *category_interface = &_category_interface;
  */
 gint category_tree_currency ( )
 {
-    return no_devise_totaux_categ;
+    return etat.no_devise_totaux_categ;
 }
 
 
