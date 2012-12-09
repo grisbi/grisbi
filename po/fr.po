@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-09 15:51+0100\n"
+"POT-Creation-Date: 2012-12-09 20:18+0100\n"
 "PO-Revision-Date: 2012-11-03 07:31+0100\n"
 "Last-Translator: Pierre Biava <pierre@pierre.biava.name>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -1090,8 +1090,8 @@ msgstr "Solde partiel"
 
 #. Create the dialog
 #: ../src/bet_future.c:2043
-msgid "Select an account"
-msgstr "Sélectionner un compte"
+msgid "Configuring a deferred debit account"
+msgstr "Configuration d'un compte à débit différé"
 
 #. list of accounts
 #: ../src/bet_future.c:2059
@@ -1594,7 +1594,7 @@ msgstr "Importer des catégories"
 msgid "Grisbi category files (*.cgsb)"
 msgstr "Fichier des catégories Grisbi (*.cgsb)"
 
-#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1225
+#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1228
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:485
 msgid "All files"
@@ -3318,26 +3318,26 @@ msgid "Blank report"
 msgstr "État vierge"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:603
 msgid "Cheques deposit"
 msgstr "Remise de chèques"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:679
 msgid "Monthly outgoings by payee"
 msgstr "Dépenses mensuelles par tiers"
 
 #. Search
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:768
 msgid "Search"
 msgstr "Recherche"
 
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:855
 msgid "Unknown report type, creation cancelled"
 msgstr "Type d'état inconnu, création abandonnée"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:885
+#: ../src/etats_onglet.c:888
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3348,7 +3348,7 @@ msgstr ""
 "valider (par défaut, tous les comptes sont utilisés)."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:891
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3359,7 +3359,7 @@ msgstr ""
 "valider (par défaut, tous les comptes sont utilisés)."
 
 #. Annual budget
-#: ../src/etats_onglet.c:897
+#: ../src/etats_onglet.c:900
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3368,12 +3368,12 @@ msgstr ""
 "et de valider (par défaut, tous les comptes sont utilisés)."
 
 #. Blank report
-#: ../src/etats_onglet.c:903
+#: ../src/etats_onglet.c:906
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Cet état est vide. Vous pouvez le configurer entièrement."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:909
+#: ../src/etats_onglet.c:912
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3382,7 +3382,7 @@ msgstr ""
 "comptes et de valider (par défaut, tous les comptes sont utilisés)."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:915
+#: ../src/etats_onglet.c:918
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
@@ -3392,7 +3392,7 @@ msgstr ""
 "utilisés)."
 
 #. Search
-#: ../src/etats_onglet.c:921
+#: ../src/etats_onglet.c:924
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, payees "
@@ -3403,54 +3403,54 @@ msgstr ""
 "de recherche (par montant, tiers, date, etc.) qui vous intéressent. Les "
 "opérations sont interactives par défaut."
 
-#: ../src/etats_onglet.c:926
+#: ../src/etats_onglet.c:929
 msgid "No description available"
 msgstr "Aucune description disponible"
 
-#: ../src/etats_onglet.c:953
+#: ../src/etats_onglet.c:956
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Effacer l'état « %s » ?"
 
-#: ../src/etats_onglet.c:955
+#: ../src/etats_onglet.c:958
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Cela détruira irrémédiablement cet état. Il n'y a pas d'annulation possible."
 
-#: ../src/etats_onglet.c:1122
+#: ../src/etats_onglet.c:1125
 msgid "Export report"
 msgstr "Exporter un état"
 
-#: ../src/etats_onglet.c:1137
+#: ../src/etats_onglet.c:1140
 msgid "File format: "
 msgstr "Format du fichier : "
 
-#: ../src/etats_onglet.c:1142
+#: ../src/etats_onglet.c:1145
 msgid "Grisbi report file (egsb file)"
 msgstr "Fichier d'état de Grisbi (fichier egsb)"
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1146
 msgid "HTML file"
 msgstr "Fichier HTML"
 
-#: ../src/etats_onglet.c:1144
+#: ../src/etats_onglet.c:1147
 msgid "CSV file"
 msgstr "Fichier CSV"
 
-#: ../src/etats_onglet.c:1161
+#: ../src/etats_onglet.c:1164
 msgid "Exporting report..."
 msgstr "Exporter un état..."
 
-#: ../src/etats_onglet.c:1185 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
+#: ../src/etats_onglet.c:1188 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
 #: ../src/gsb_file.c:611 ../src/gsb_file.c:682
 msgid "Done"
 msgstr "Terminé"
 
-#: ../src/etats_onglet.c:1208
+#: ../src/etats_onglet.c:1211
 msgid "Import a report"
 msgstr "Importer un état"
 
-#: ../src/etats_onglet.c:1219
+#: ../src/etats_onglet.c:1222
 msgid "Grisbi report files (*.egsb)"
 msgstr "Fichiers Grisbi d'état (*.egsb)"
 

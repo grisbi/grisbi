@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-09 15:51+0100\n"
+"POT-Creation-Date: 2012-12-09 20:18+0100\n"
 "PO-Revision-Date: 2005-12-19 09:07-0200\n"
 "Last-Translator: \n"
 "Language-Team: <pt@li.org>\n"
@@ -1160,8 +1160,8 @@ msgstr "Saldo inicial"
 #. Create the dialog
 #: ../src/bet_future.c:2043
 #, fuzzy
-msgid "Select an account"
-msgstr "Selecionar contas bancárias"
+msgid "Configuring a deferred debit account"
+msgstr "Não é possível efetuar uma transferência em uma conta fechada."
 
 #. list of accounts
 #: ../src/bet_future.c:2059
@@ -1711,7 +1711,7 @@ msgstr "Exportar categorias"
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1225
+#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1228
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:485
 #, fuzzy
@@ -3498,27 +3498,27 @@ msgid "Blank report"
 msgstr "Relatório em branco"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:603
 msgid "Cheques deposit"
 msgstr "Depósito em cheques"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:679
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "Despesas mensais por terceiros"
 
 #. Search
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:768
 msgid "Search"
 msgstr "Procurar"
 
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:855
 msgid "Unknown report type, creation cancelled"
 msgstr "Tipo de relatório desconhecido, criação cancelada"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:885
+#: ../src/etats_onglet.c:888
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3529,7 +3529,7 @@ msgstr ""
 "selecionar uma conta. Pelo padrão, todos as contas estão selecionados."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:891
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3540,7 +3540,7 @@ msgstr ""
 "padrão todas as contas estão selecionadas."
 
 #. Annual budget
-#: ../src/etats_onglet.c:897
+#: ../src/etats_onglet.c:900
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3549,13 +3549,13 @@ msgstr ""
 "Por padrão todas as contas estão selecionadas."
 
 #. Blank report
-#: ../src/etats_onglet.c:903
+#: ../src/etats_onglet.c:906
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Este relatório está vazio. Você precisa customizá-lo inteiramente."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:909
+#: ../src/etats_onglet.c:912
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3564,7 +3564,7 @@ msgstr ""
 "conta(s). Por padrão todas as contas estão selecionadas."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:915
+#: ../src/etats_onglet.c:918
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -3575,7 +3575,7 @@ msgstr ""
 "estão selecionadas."
 
 #. Search
-#: ../src/etats_onglet.c:921
+#: ../src/etats_onglet.c:924
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -3586,59 +3586,59 @@ msgstr ""
 "as contas no ano atual. Você tem que adicionar um critério tipo valor, data "
 "terceiro, etc. Por padrão os lançamentos estão clicáveis. "
 
-#: ../src/etats_onglet.c:926
+#: ../src/etats_onglet.c:929
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:953
+#: ../src/etats_onglet.c:956
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Apagar relatório \"%s\"?"
 
-#: ../src/etats_onglet.c:955
+#: ../src/etats_onglet.c:958
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Isto irá remover definitivamente este relatório. Não será possível recuperá-"
 "lo."
 
-#: ../src/etats_onglet.c:1122
+#: ../src/etats_onglet.c:1125
 msgid "Export report"
 msgstr "Exportar relatório"
 
-#: ../src/etats_onglet.c:1137
+#: ../src/etats_onglet.c:1140
 #, fuzzy
 msgid "File format: "
 msgstr "Informações:"
 
-#: ../src/etats_onglet.c:1142
+#: ../src/etats_onglet.c:1145
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1146
 msgid "HTML file"
 msgstr "Arquivo HTML"
 
-#: ../src/etats_onglet.c:1144
+#: ../src/etats_onglet.c:1147
 #, fuzzy
 msgid "CSV file"
 msgstr "Salvar arquivo"
 
-#: ../src/etats_onglet.c:1161
+#: ../src/etats_onglet.c:1164
 #, fuzzy
 msgid "Exporting report..."
 msgstr "Exportar relatório para CSV"
 
-#: ../src/etats_onglet.c:1185 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
+#: ../src/etats_onglet.c:1188 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
 #: ../src/gsb_file.c:611 ../src/gsb_file.c:682
 #, fuzzy
 msgid "Done"
 msgstr "Nenhum"
 
-#: ../src/etats_onglet.c:1208
+#: ../src/etats_onglet.c:1211
 msgid "Import a report"
 msgstr "Importar um relatório"
 
-#: ../src/etats_onglet.c:1219
+#: ../src/etats_onglet.c:1222
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
@@ -11847,6 +11847,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Select an account"
+#~ msgstr "Selecionar contas bancárias"
 
 #, fuzzy
 #~ msgid "Initial date : "

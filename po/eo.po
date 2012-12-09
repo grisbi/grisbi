@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-09 15:51+0100\n"
+"POT-Creation-Date: 2012-12-09 20:18+0100\n"
 "PO-Revision-Date: 2009-06-28 20:04+0200\n"
 "Last-Translator: Cyril Castelbou <cyril.castelbou@free.fr>\n"
 "Language-Team: esperanto <eo@li.org>\n"
@@ -1060,7 +1060,7 @@ msgstr ""
 
 #. Create the dialog
 #: ../src/bet_future.c:2043
-msgid "Select an account"
+msgid "Configuring a deferred debit account"
 msgstr ""
 
 #. list of accounts
@@ -1554,7 +1554,7 @@ msgstr ""
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1225
+#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1228
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:485
 msgid "All files"
@@ -3190,26 +3190,26 @@ msgid "Blank report"
 msgstr ""
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:603
 msgid "Cheques deposit"
 msgstr ""
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:679
 msgid "Monthly outgoings by payee"
 msgstr ""
 
 #. Search
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:768
 msgid "Search"
 msgstr ""
 
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:855
 msgid "Unknown report type, creation cancelled"
 msgstr ""
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:885
+#: ../src/etats_onglet.c:888
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3217,7 +3217,7 @@ msgid ""
 msgstr ""
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:891
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3225,86 +3225,86 @@ msgid ""
 msgstr ""
 
 #. Annual budget
-#: ../src/etats_onglet.c:897
+#: ../src/etats_onglet.c:900
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
 msgstr ""
 
 #. Blank report
-#: ../src/etats_onglet.c:903
+#: ../src/etats_onglet.c:906
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr ""
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:909
+#: ../src/etats_onglet.c:912
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
 msgstr ""
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:915
+#: ../src/etats_onglet.c:918
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
 "need to select the account(s). By default all accounts are selected."
 msgstr ""
 
 #. Search
-#: ../src/etats_onglet.c:921
+#: ../src/etats_onglet.c:924
 msgid ""
 "This report displays all the information for all transactions of all "
 "accounts for the current year. You just have to add the amount, date, payees "
 "etc. criteria that you want. By default the transactions are clickables."
 msgstr ""
 
-#: ../src/etats_onglet.c:926
+#: ../src/etats_onglet.c:929
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:953
+#: ../src/etats_onglet.c:956
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr ""
 
-#: ../src/etats_onglet.c:955
+#: ../src/etats_onglet.c:958
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 
-#: ../src/etats_onglet.c:1122
+#: ../src/etats_onglet.c:1125
 msgid "Export report"
 msgstr ""
 
-#: ../src/etats_onglet.c:1137
+#: ../src/etats_onglet.c:1140
 msgid "File format: "
 msgstr ""
 
-#: ../src/etats_onglet.c:1142
+#: ../src/etats_onglet.c:1145
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1146
 msgid "HTML file"
 msgstr ""
 
-#: ../src/etats_onglet.c:1144
+#: ../src/etats_onglet.c:1147
 msgid "CSV file"
 msgstr ""
 
-#: ../src/etats_onglet.c:1161
+#: ../src/etats_onglet.c:1164
 msgid "Exporting report..."
 msgstr ""
 
-#: ../src/etats_onglet.c:1185 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
+#: ../src/etats_onglet.c:1188 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
 #: ../src/gsb_file.c:611 ../src/gsb_file.c:682
 msgid "Done"
 msgstr ""
 
-#: ../src/etats_onglet.c:1208
+#: ../src/etats_onglet.c:1211
 msgid "Import a report"
 msgstr ""
 
-#: ../src/etats_onglet.c:1219
+#: ../src/etats_onglet.c:1222
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 

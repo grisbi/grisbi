@@ -2040,7 +2040,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     GtkWidget *icon;
 
     /* Create the dialog */
-    dialog = gtk_dialog_new_with_buttons ( _("Select an account"),
+    dialog = gtk_dialog_new_with_buttons ( _("Configuring a deferred debit account"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
                         GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

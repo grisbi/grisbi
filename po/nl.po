@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-09 15:51+0100\n"
+"POT-Creation-Date: 2012-12-09 20:18+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -1175,8 +1175,8 @@ msgstr "Begin saldo"
 #. Create the dialog
 #: ../src/bet_future.c:2043
 #, fuzzy
-msgid "Select an account"
-msgstr "Selecteer bankrekeningen"
+msgid "Configuring a deferred debit account"
+msgstr "Kan geen transactie uitvoeren op/naar een gesloten rekening."
 
 #. list of accounts
 #: ../src/bet_future.c:2059
@@ -1727,7 +1727,7 @@ msgstr "Exporteer categorieën"
 msgid "Grisbi category files (*.cgsb)"
 msgstr ""
 
-#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1225
+#: ../src/categories_onglet.c:466 ../src/etats_onglet.c:1228
 #: ../src/file_obfuscate_qif.c:109 ../src/gsb_file.c:241 ../src/import.c:856
 #: ../src/imputation_budgetaire.c:485
 #, fuzzy
@@ -3517,27 +3517,27 @@ msgid "Blank report"
 msgstr "Leeg rapport"
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:602
+#: ../src/etats_onglet.c:300 ../src/etats_onglet.c:603
 msgid "Cheques deposit"
 msgstr "Cheque storting"
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:678
+#: ../src/etats_onglet.c:301 ../src/etats_onglet.c:679
 #, fuzzy
 msgid "Monthly outgoings by payee"
 msgstr "Maandelijkse uitgaven van begunstigden"
 
 #. Search
-#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:767
+#: ../src/etats_onglet.c:302 ../src/etats_onglet.c:768
 msgid "Search"
 msgstr "Zoeken"
 
-#: ../src/etats_onglet.c:852
+#: ../src/etats_onglet.c:855
 msgid "Unknown report type, creation cancelled"
 msgstr "Onbekend rapport type, aanmaken gestopt"
 
 #. Last month incomes and outgoings
-#: ../src/etats_onglet.c:885
+#: ../src/etats_onglet.c:888
 msgid ""
 "This report displays totals for last month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3548,7 +3548,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. Current month incomes and outgoings
-#: ../src/etats_onglet.c:891
+#: ../src/etats_onglet.c:894
 msgid ""
 "This report displays totals of current month's transactions sorted by "
 "categories and sub-categories. You just need to select the account(s). By "
@@ -3559,7 +3559,7 @@ msgstr ""
 "kiezen. Standaard zijn ze allemaal geselecteerd."
 
 #. Annual budget
-#: ../src/etats_onglet.c:897
+#: ../src/etats_onglet.c:900
 msgid ""
 "This report displays annual budget. You just need to select the account(s). "
 "By default all accounts are selected."
@@ -3568,13 +3568,13 @@ msgstr ""
 "te kiezen Standaard zijn alle rekeningen geselecteerd."
 
 #. Blank report
-#: ../src/etats_onglet.c:903
+#: ../src/etats_onglet.c:906
 #, fuzzy
 msgid "This report is an empty one. You need to customize it entirely."
 msgstr "Dit verslag is leeg. U zult zelf alles moeten kiezen."
 
 #. Cheques deposit
-#: ../src/etats_onglet.c:909
+#: ../src/etats_onglet.c:912
 msgid ""
 "This report displays the cheques deposit. You just need to select the account"
 "(s). By default all accounts are selected."
@@ -3583,7 +3583,7 @@ msgstr ""
 "te kiezen. Standaard zijn alle rekeningen geselecteerd."
 
 #. Monthly outgoings by payee
-#: ../src/etats_onglet.c:915
+#: ../src/etats_onglet.c:918
 #, fuzzy
 msgid ""
 "This report displays current month's outgoings sorted by payees. You just "
@@ -3594,7 +3594,7 @@ msgstr ""
 "geselecteerd."
 
 #. Search
-#: ../src/etats_onglet.c:921
+#: ../src/etats_onglet.c:924
 #, fuzzy
 msgid ""
 "This report displays all the information for all transactions of all "
@@ -3605,59 +3605,59 @@ msgstr ""
 "rekeningen van dit jaar. U hoeft alleen een bedrag, datum, begunstigde etc "
 "in te vullen volgens uw wensen. Standaard zijn alle transacties klikbaar."
 
-#: ../src/etats_onglet.c:926
+#: ../src/etats_onglet.c:929
 msgid "No description available"
 msgstr ""
 
-#: ../src/etats_onglet.c:953
+#: ../src/etats_onglet.c:956
 #, c-format
 msgid "Delete report \"%s\"?"
 msgstr "Rapport \"%s\" verwijderen?"
 
-#: ../src/etats_onglet.c:955
+#: ../src/etats_onglet.c:958
 msgid "This will irreversibly remove this report.  There is no undo for this."
 msgstr ""
 "Het rapport zal definitief worden verwijderd. Dit kan niet ongedaan gemaakt "
 "worden."
 
-#: ../src/etats_onglet.c:1122
+#: ../src/etats_onglet.c:1125
 msgid "Export report"
 msgstr "Exporteer rapport"
 
-#: ../src/etats_onglet.c:1137
+#: ../src/etats_onglet.c:1140
 #, fuzzy
 msgid "File format: "
 msgstr "Informatie:"
 
-#: ../src/etats_onglet.c:1142
+#: ../src/etats_onglet.c:1145
 msgid "Grisbi report file (egsb file)"
 msgstr ""
 
-#: ../src/etats_onglet.c:1143
+#: ../src/etats_onglet.c:1146
 msgid "HTML file"
 msgstr "HTML bestand"
 
-#: ../src/etats_onglet.c:1144
+#: ../src/etats_onglet.c:1147
 #, fuzzy
 msgid "CSV file"
 msgstr "Bestand opslaan"
 
-#: ../src/etats_onglet.c:1161
+#: ../src/etats_onglet.c:1164
 #, fuzzy
 msgid "Exporting report..."
 msgstr "Exporteer naar CSV ..."
 
-#: ../src/etats_onglet.c:1185 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
+#: ../src/etats_onglet.c:1188 ../src/gsb_debug.c:247 ../src/gsb_file.c:487
 #: ../src/gsb_file.c:611 ../src/gsb_file.c:682
 #, fuzzy
 msgid "Done"
 msgstr "Geen"
 
-#: ../src/etats_onglet.c:1208
+#: ../src/etats_onglet.c:1211
 msgid "Import a report"
 msgstr "Importeer een rapport"
 
-#: ../src/etats_onglet.c:1219
+#: ../src/etats_onglet.c:1222
 msgid "Grisbi report files (*.egsb)"
 msgstr ""
 
@@ -11927,6 +11927,10 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Select an account"
+#~ msgstr "Selecteer bankrekeningen"
 
 #, fuzzy
 #~ msgid "Initial date : "
