@@ -563,32 +563,33 @@ gboolean ajout_etat ( void )
 							     1 );
 
 
-	    gsb_data_report_set_show_report_transactions ( report_number,
-							   1 );
-	    gsb_data_report_set_show_report_date ( report_number,
-						   1 );
-	    gsb_data_report_set_show_report_value_date ( report_number,
-							 1 );
-	    gsb_data_report_set_show_report_payee ( report_number,
-						    1 );
-	    gsb_data_report_set_show_report_category ( report_number,
-						       1 );
-	    gsb_data_report_set_split_credit_debit ( report_number,
-						     1 );
-	    gsb_data_report_set_transfer_choice ( report_number,
-						  2 );
-	    gsb_data_report_set_category_used ( report_number,
-						1 );
-	    gsb_data_report_set_category_show_category_amount ( report_number,
-								1 );
-	    gsb_data_report_set_category_show_sub_category ( report_number,
-							     1 );
-	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
-								    1 );
-	    gsb_data_report_set_category_show_name ( report_number,
-						     1 );
-	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
-									 1 );
+/* 	    gsb_data_report_set_show_report_transactions ( report_number,
+ * 							   1 );
+ * 	    gsb_data_report_set_show_report_date ( report_number,
+ * 						   1 );
+ * 	    gsb_data_report_set_show_report_value_date ( report_number,
+ * 							 1 );
+ * 	    gsb_data_report_set_show_report_payee ( report_number,
+ * 						    1 );
+ * 	    gsb_data_report_set_show_report_category ( report_number,
+ * 						       1 );
+ * 	    gsb_data_report_set_split_credit_debit ( report_number,
+ * 						     1 );
+ * 	    gsb_data_report_set_transfer_choice ( report_number,
+ * 						  2 );
+ * 	    gsb_data_report_set_category_used ( report_number,
+ * 						1 );
+ * 	    gsb_data_report_set_category_show_category_amount ( report_number,
+ * 								1 );
+ * 	    gsb_data_report_set_category_show_sub_category ( report_number,
+ * 							     1 );
+ * 	    gsb_data_report_set_category_show_sub_category_amount ( report_number,
+ * 								    1 );
+ * 	    gsb_data_report_set_category_show_name ( report_number,
+ * 						     1 );
+ * 	    gsb_data_report_set_amount_comparison_only_report_non_null ( report_number,
+ * 									 1 );
+ */
 
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
@@ -801,47 +802,49 @@ gboolean ajout_etat ( void )
 							     1 );
 
 
-	    gsb_data_report_set_show_report_transactions ( report_number,
-							   1 );
-	    gsb_data_report_set_show_report_date ( report_number,
-						   1 );
-	    gsb_data_report_set_show_report_value_date ( report_number,
-							 1 );
-	    gsb_data_report_set_show_report_payee ( report_number,
-						    1 );
-	    gsb_data_report_set_show_report_category ( report_number,
-						       1 );
-	    gsb_data_report_set_show_report_sub_category ( report_number,
-							   1 );
-	    gsb_data_report_set_show_report_method_of_payment ( report_number,
-								1 );
-	    gsb_data_report_set_show_report_budget ( report_number,
-						     1 );
-	    gsb_data_report_set_show_report_sub_budget ( report_number,
-							 1 );
-	    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
-									1 );
-	    gsb_data_report_set_show_report_note ( report_number,
-						   1 );
-	    gsb_data_report_set_show_report_voucher ( report_number,
-						      1 );
-	    gsb_data_report_set_show_report_marked ( report_number,
-						     1 );
-	    gsb_data_report_set_show_report_bank_references ( report_number,
-							      1 );
-	    gsb_data_report_set_show_report_financial_year ( report_number,
-							     1 );
+/* 	    gsb_data_report_set_show_report_transactions ( report_number,
+ * 							   1 );
+ * 	    gsb_data_report_set_show_report_date ( report_number,
+ * 						   1 );
+ * 	    gsb_data_report_set_show_report_value_date ( report_number,
+ * 							 1 );
+ * 	    gsb_data_report_set_show_report_payee ( report_number,
+ * 						    1 );
+ * 	    gsb_data_report_set_show_report_category ( report_number,
+ * 						       1 );
+ * 	    gsb_data_report_set_show_report_sub_category ( report_number,
+ * 							   1 );
+ * 	    gsb_data_report_set_show_report_method_of_payment ( report_number,
+ * 								1 );
+ * 	    gsb_data_report_set_show_report_budget ( report_number,
+ * 						     1 );
+ * 	    gsb_data_report_set_show_report_sub_budget ( report_number,
+ * 							 1 );
+ * 	    gsb_data_report_set_show_report_method_of_payment_content ( report_number,
+ * 									1 );
+ * 	    gsb_data_report_set_show_report_note ( report_number,
+ * 						   1 );
+ * 	    gsb_data_report_set_show_report_voucher ( report_number,
+ * 						      1 );
+ * 	    gsb_data_report_set_show_report_marked ( report_number,
+ * 						     1 );
+ * 	    gsb_data_report_set_show_report_bank_references ( report_number,
+ * 							      1 );
+ * 	    gsb_data_report_set_show_report_financial_year ( report_number,
+ * 							     1 );
+ */
 
-	    gsb_data_report_set_report_can_click ( report_number,
-						   1 );
-	    gsb_data_report_set_date_type ( report_number,
-					    4 );
-	    gsb_data_report_set_period_split ( report_number,
-					       1 );
-	    gsb_data_report_set_period_split_type ( report_number,
-						    3 );
-	    gsb_data_report_set_transfer_choice ( report_number,
-						  2 );
+/* 	    gsb_data_report_set_report_can_click ( report_number,
+ * 						   1 );
+ * 	    gsb_data_report_set_date_type ( report_number,
+ * 					    4 );
+ * 	    gsb_data_report_set_period_split ( report_number,
+ * 					       1 );
+ * 	    gsb_data_report_set_period_split_type ( report_number,
+ * 						    3 );
+ * 	    gsb_data_report_set_transfer_choice ( report_number,
+ * 						  2 );
+ */
 
 	    /*   tout le reste est à NULL, ce qui est très bien */
 
