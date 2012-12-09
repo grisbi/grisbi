@@ -179,6 +179,12 @@ void gsb_scheduler_list_init_variables ( void )
         g_slist_free ( scheduled_transactions_taken );
         scheduled_transactions_taken = NULL;
     }
+
+    /* on réinitialise tous les widgets */
+    scheduler_display_hide_notes = NULL;
+    scheduler_button_execute = NULL;
+    scheduler_button_delete = NULL;
+    scheduler_button_edit = NULL;
 }
 
 /**
