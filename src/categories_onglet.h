@@ -9,9 +9,10 @@
 
 /* START_DECLARATION */
 GtkWidget *categories_create_list ( void );
-void categories_fill_list ( void );
 void categories_exporter_list ( void );
+void categories_fill_list ( void );
 void categories_importer_list ( void );
+void categories_init_variables_list ( void );
 void categories_update_toolbar_list ( void );
 GtkTreeStore *categories_get_tree_store ( void );
 GtkWidget *categories_get_tree_view ( void );

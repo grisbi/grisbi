@@ -71,10 +71,9 @@ static void selectionne_sub_category ( GtkTreeModel *model );
 
 
 /* Category toolbar, tree model & tree view */
-static GtkWidget *category_toolbar;
+static GtkWidget *category_toolbar = NULL;
 static GtkTreeStore *categ_tree_model = NULL;
 static GtkWidget *arbre_categ = NULL;
-gint no_devise_totaux_categ;
 
 /* variable for the management of the cancelled edition */
 static gboolean sortie_edit_category = FALSE;
@@ -85,6 +84,25 @@ struct metatree_hold_position *category_hold_position;
 
 /*START_EXTERN*/
 /*END_EXTERN*/
+
+
+/**
+ * réinitialisation des variables globales
+ *
+ * \param
+ *
+ * \return
+ * */
+void categories_init_variables_list ( void )
+{
+    categ_tree_model = NULL;
+
+    category_toolbar = NULL;
+    arbre_categ = NULL;
+    etat.no_devise_totaux_categ = 1;
+
+    sortie_edit_category = FALSE;
+}
 
 
 /**
@@ -1212,6 +1230,13 @@ void categories_edit_category ( void )
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
