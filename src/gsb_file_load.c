@@ -180,7 +180,6 @@ extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct iso_4217_currency iso_4217_currencies[];
 extern GtkWidget *logo_accueil;
-extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titre_fichier;
@@ -795,7 +794,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                     etat.bet_type_taux = utils_str_atoi ( attribute_values[i] );
 
                 else if ( !strcmp ( attribute_names[i], "Budget_list_currency_number" ))
-                    no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
+                    etat.no_devise_totaux_ib = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Bet_array_column_width" ))
                 {
@@ -3059,13 +3058,13 @@ void gsb_file_load_currency ( const gchar **attribute_names,
             etat.no_devise_totaux_categ = gsb_data_currency_get_no_currency (
                         g_slist_nth_data ( tmp_list, 0 ) );
     }
-    if ( no_devise_totaux_ib == 0 )
+    if ( etat.no_devise_totaux_ib == 0 )
     {
         GSList *tmp_list;
 
         tmp_list = gsb_data_currency_get_currency_list ( );
         if ( g_slist_length ( tmp_list ) > 0 )
-            no_devise_totaux_ib = gsb_data_currency_get_no_currency (
+            etat.no_devise_totaux_ib = gsb_data_currency_get_no_currency (
                 g_slist_nth_data ( tmp_list, 0 ) );
     }
 }

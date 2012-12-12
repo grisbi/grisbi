@@ -75,7 +75,6 @@ static void selectionne_sub_budgetary ( GtkTreeModel * model );
 static GtkWidget *budgetary_toolbar;
 static GtkWidget *budgetary_line_tree = NULL;
 static GtkTreeStore *budgetary_line_tree_model = NULL;
-gint no_devise_totaux_ib;
 
 /* variable for the management of the cancelled edition */
 static gboolean sortie_edit_budgetary_line = FALSE;
@@ -87,7 +86,23 @@ static struct metatree_hold_position *budgetary_hold_position;
 /*END_EXTERN*/
 
 
+/**
+ * réinitialisation des variables globales
+ *
+ * \param
+ *
+ * \return
+ * */
+void budgetary_lines_init_variables_list ( void )
+{
+    budgetary_line_tree_model = NULL;
 
+    budgetary_toolbar = NULL;
+    budgetary_line_tree = NULL;
+    etat.no_devise_totaux_ib = 1;
+
+    sortie_edit_budgetary_line = FALSE;
+}
 
 
 /**

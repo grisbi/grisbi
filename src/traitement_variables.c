@@ -110,7 +110,6 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint id_timeout;
-extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
@@ -165,6 +164,7 @@ void init_variables ( void )
     gsb_data_category_init_variables ();
     categories_init_variables_list ();
     gsb_data_budget_init_variables ();
+    budgetary_lines_init_variables_list ();
     gsb_data_report_init_variables ();
     gsb_data_report_amount_comparison_init_variables ();
     gsb_data_report_text_comparison_init_variables ();
@@ -214,7 +214,6 @@ void init_variables ( void )
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
     no_devise_totaux_tiers = 1;
-    no_devise_totaux_ib = 1;
 
     /* initialization of titles and logo part */
     if ( titre_fichier && strlen ( titre_fichier ) )

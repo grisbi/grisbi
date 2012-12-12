@@ -35,6 +35,7 @@
 #include "gsb_data_scheduled.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
+#include "structures.h"
 #include "utils_str.h"
 /*END_INCLUDE*/
 
@@ -53,7 +54,6 @@ static gint budgetary_lint_get_number_by_name ( const gchar *name, gboolean crea
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint no_devise_totaux_ib;
 /*END_EXTERN*/
 
 
@@ -111,7 +111,7 @@ static MetatreeInterface *budgetary_interface = &_budgetary_interface;
  */
 gint budgetary_line_tree_currency ( )
 {
-    return no_devise_totaux_ib;
+    return etat.no_devise_totaux_ib;
 }
 
 

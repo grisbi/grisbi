@@ -165,7 +165,6 @@ static void traitement_operations_importees ( void );
 
 /*START_EXTERN*/
 extern GtkWidget *menu_import_rules;
-extern gint no_devise_totaux_ib;
 extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
@@ -1447,7 +1446,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
         {
             no_devise_totaux_tiers = currency_number;
             etat.no_devise_totaux_categ = currency_number;
-            no_devise_totaux_ib = currency_number;
+            etat.no_devise_totaux_ib = currency_number;
         }
     }
     gtk_widget_destroy ( dialog );

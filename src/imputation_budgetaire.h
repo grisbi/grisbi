@@ -12,6 +12,7 @@ GtkWidget *budgetary_lines_create_list ( void );
 void budgetary_lines_fill_list ( void );
 void budgetary_lines_exporter_list ( void );
 void budgetary_lines_importer_list ( void );
+void budgetary_lines_init_variables_list ( void );
 void budgetary_lines_update_toolbar_list ( void );
 GtkTreeStore *budgetary_lines_get_tree_store ( void );
 GtkWidget *budgetary_lines_get_tree_view ( void );

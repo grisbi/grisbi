@@ -43,6 +43,7 @@ struct gsb_etat_t
 
     /* devises pour les catégories, imputations budgétaires et les tiers */
     gint no_devise_totaux_categ;
+    gint no_devise_totaux_ib;
 
     /* reconciliation */
     gint reconcile_end_date;        /* Date initiale + 1 mois par défaut */
