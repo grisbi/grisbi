@@ -76,10 +76,12 @@
 #include "gsb_select_icon.h"
 #include "gsb_transactions_list.h"
 #include "import.h"
+#include "imputation_budgetaire.h"
 #include "main.h"
 #include "menu.h"
 #include "navigation.h"
 #include "structures.h"
+#include "tiers_onglet.h"
 #include "transaction_model.h"
 #include "utils_dates.h"
 #include "utils_str.h"
@@ -110,7 +112,6 @@ extern gint display_one_line;
 extern gint display_three_lines;
 extern gint display_two_lines;
 extern gint id_timeout;
-extern gint no_devise_totaux_tiers;
 extern GSList *orphan_child_transactions;
 extern gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
 extern gint scheduler_current_tree_view_width;
@@ -161,6 +162,7 @@ void init_variables ( void )
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();
     gsb_data_payee_init_variables ();
+    payees_init_variables_list ();
     gsb_data_category_init_variables ();
     categories_init_variables_list ();
     gsb_data_budget_init_variables ();
@@ -212,8 +214,6 @@ void init_variables ( void )
     affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
     affichage_echeances_perso_nb_libre = 0;
     affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
-
-    no_devise_totaux_tiers = 1;
 
     /* initialization of titles and logo part */
     if ( titre_fichier && strlen ( titre_fichier ) )

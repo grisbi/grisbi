@@ -180,7 +180,6 @@ extern gint display_three_lines;
 extern gint display_two_lines;
 extern struct iso_4217_currency iso_4217_currencies[];
 extern GtkWidget *logo_accueil;
-extern gint no_devise_totaux_tiers;
 extern gint tab_affichage_ope[TRANSACTION_LIST_ROWS_NB][CUSTOM_MODEL_VISIBLE_COLUMNS];
 extern gchar *titre_fichier;
 extern gint transaction_col_align[CUSTOM_MODEL_VISIBLE_COLUMNS];
@@ -1002,7 +1001,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
 
             case 'P':
                 if ( !strcmp ( attribute_names[i], "Party_list_currency_number" ))
-                    no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
+                    etat.no_devise_totaux_tiers = utils_str_atoi ( attribute_values[i]);
                 else
                     unknown = 1;
                 break;
@@ -3040,13 +3039,13 @@ void gsb_file_load_currency ( const gchar **attribute_names,
 
     /* initialization of the currency for the payees, categories and
      * budgetary lines in case of need */
-    if ( no_devise_totaux_tiers == 0 )
+    if ( etat.no_devise_totaux_tiers == 0 )
     {
         GSList *tmp_list;
 
         tmp_list = gsb_data_currency_get_currency_list ( );
         if ( g_slist_length ( tmp_list ) > 0 )
-            no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
+            etat.no_devise_totaux_tiers = gsb_data_currency_get_no_currency (
                 g_slist_nth_data ( tmp_list, 0 ) );
     }
     if ( etat.no_devise_totaux_categ == 0 )
@@ -6707,7 +6706,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Numero_devise_totaux_tiers" ))
     {
-    no_devise_totaux_tiers = utils_str_atoi ( text);
+    etat.no_devise_totaux_tiers = utils_str_atoi ( text);
     return;
     }
 

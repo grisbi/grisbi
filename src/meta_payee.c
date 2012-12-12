@@ -31,9 +31,10 @@
 #include "meta_payee.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_transaction.h"
-#include "utils_str.h"
-#include "tiers_onglet.h"
 #include "gsb_real.h"
+#include "structures.h"
+#include "tiers_onglet.h"
+#include "utils_str.h"
 /*END_INCLUDE*/
 
 
@@ -67,7 +68,6 @@ static gint payee_transaction_sub_div_id ( gint transaction_number );
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
 
@@ -125,7 +125,7 @@ static MetatreeInterface *payee_interface = &_payee_interface;
  */
 gint payee_tree_currency ( )
 {
-    return no_devise_totaux_tiers;
+    return etat.no_devise_totaux_tiers;
 }
 
 

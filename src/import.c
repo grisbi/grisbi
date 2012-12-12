@@ -165,7 +165,6 @@ static void traitement_operations_importees ( void );
 
 /*START_EXTERN*/
 extern GtkWidget *menu_import_rules;
-extern gint no_devise_totaux_tiers;
 /*END_EXTERN*/
 
 /* recopie des types de transaction de la libofx en attendant une version propre */
@@ -1444,7 +1443,7 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
                         compte -> devise );
         if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( checkbox ) ) )
         {
-            no_devise_totaux_tiers = currency_number;
+            etat.no_devise_totaux_tiers = currency_number;
             etat.no_devise_totaux_categ = currency_number;
             etat.no_devise_totaux_ib = currency_number;
         }

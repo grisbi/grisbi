@@ -10,6 +10,7 @@
 /* START_DECLARATION */
 GtkWidget *payees_create_list ( void );
 void payees_fill_list ( void );
+void payees_init_variables_list ( void );
 void payees_update_toolbar_list ( void );
 GtkWidget *payees_get_tree_view ( void );
 GtkTreeStore *payees_get_tree_store ( void );

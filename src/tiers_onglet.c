@@ -106,7 +106,6 @@ static void payee_tree_update_transactions ( GtkTreeModel * model,
 static gboolean popup_payee_view_mode_menu ( GtkWidget * button );
 /*END_STATIC*/
 
-gint no_devise_totaux_tiers;
 
 static GtkWidget *payee_toolbar;
 static GtkWidget *payee_tree = NULL;
@@ -138,6 +137,25 @@ enum {
   COLUMN_STRING,
   N_COLUMNS
 };
+
+/**
+ * réinitialisation des variables globales
+ *
+ * \param
+ *
+ * \return
+ * */
+void payees_init_variables_list ( void )
+{
+    payee_tree_model = NULL;
+
+    payee_toolbar = NULL;
+    payee_tree = NULL;
+    etat.no_devise_totaux_tiers = 1;
+
+    sortie_edit_payee = FALSE;
+}
+
 
 /*
  * Crée la liste des Tiers
