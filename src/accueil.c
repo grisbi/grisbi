@@ -125,7 +125,7 @@ struct _StructAccountPartial
 };
 
 /* structure buffer qui conserve un pointer sur le dernier compte possédant un solde partiel */
-static StructAccountPartial *partial_buffer;
+static StructAccountPartial *partial_buffer = NULL;
 
 
 /**
@@ -497,8 +497,12 @@ static gint gsb_main_page_account_have_partial_balance ( gint account_number,
     }
 
     /* le compte n'appartient pas à solde partiel */
-    partial_buffer->partial_number = 0;
-    partial_buffer->displayed = FALSE;
+    if ( partial_buffer )
+    {
+        partial_buffer->partial_number = 0;
+        partial_buffer->displayed = FALSE;
+    }
+
     return FALSE;
 }
 
@@ -544,11 +548,11 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
             kind_account kind;
 
             tmp_number = gsb_data_partial_balance_get_number ( list_tmp -> data );
-            
-            kind = gsb_data_partial_balance_get_kind ( tmp_number );;
+
+            kind = gsb_data_partial_balance_get_kind ( tmp_number );
             if ( kind == type_compte
              ||
-             ( kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
+             ( kind >= 0 && kind < GSB_TYPE_LIABILITIES && type_compte < GSB_TYPE_LIABILITIES ) )
             {
                 gchar **tab;
                 const gchar *liste_cptes;
