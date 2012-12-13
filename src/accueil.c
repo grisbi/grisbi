@@ -655,7 +655,8 @@ static void gsb_main_page_diplays_accounts ( GtkWidget *pTable,
             list_tmp = list_tmp -> next;
         }
 
-        g_slist_free_full ( list_partial, g_free );
+        /* bug not found with g_slist_free_full() */
+        g_slist_free ( list_partial );
     }
     else
     {
