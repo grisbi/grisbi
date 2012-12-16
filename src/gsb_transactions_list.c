@@ -1198,6 +1198,7 @@ gfloat gsb_transactions_list_get_row_align ( void )
     GtkTreePath *path;
     GtkTreeView *tree_view;
     GdkRectangle back_rect;
+    GdkWindow *window;
     gint height_win;
     gfloat row_align;
     gfloat height, rect_y;
@@ -1208,13 +1209,14 @@ gfloat gsb_transactions_list_get_row_align ( void )
     path = transaction_list_select_get_path (0);
 
     if (!path)
-	return 0;
+	    return 0;
 
-    if ( !GDK_IS_DRAWABLE ( gtk_tree_view_get_bin_window ( tree_view ) ) )
+    window = gtk_tree_view_get_bin_window ( tree_view );
+    if ( !GDK_IS_DRAWABLE ( window ) )
         return 0;
 
-    gdk_drawable_get_size ( GDK_DRAWABLE (gtk_tree_view_get_bin_window (tree_view)),
-			    NULL, &height_win);
+    height_win = gdk_window_get_height ( window );
+
     gtk_tree_view_get_background_area (tree_view, path, NULL, &back_rect);
     gtk_tree_path_free (path);
 
