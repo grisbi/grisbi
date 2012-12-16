@@ -1,8 +1,8 @@
 dnl Process this file with autoconf to produce a configure script.
 
-m4_define(grisbi_major_version, 0)
-m4_define(grisbi_minor_version, 9)
-m4_define(grisbi_micro_version, 5)
+m4_define(grisbi_major_version, 1)
+m4_define(grisbi_minor_version, 1)
+m4_define(grisbi_micro_version, 0)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
 AC_INIT([grisbi],[grisbi_version],[http://grisbi.tuxfamily.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.fr.html])
@@ -56,12 +56,20 @@ dnl ================================================================
 
 LT_LIB_M
 
-#PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.0 glib-2.0 >= 2.2 gmodule-2.0 >= 2.2 zlib])
+PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 gmodule-2.0 >= 2.28 zlib libgoffice-0.8 >= 0.8.14])
 # Temporary hack until Mandriva ships zlib.pc
-PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
-GRISBI_LIBS="$LIBM $GRISBI_LIBS -lz"
-AC_SUBST(GRISBI_LIBS)
+#PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
+#GRISBI_LIBS="$LIBM $GRISBI_LIBS -lz"
+#AC_SUBST(GRISBI_LIBS)
 # </hack>
+
+dnl ================================================================
+dnl Defined if Grisbi is a development version
+dnl ================================================================
+
+if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
+	AC_DEFINE(IS_DEVELOPMENT_VERSION,1,[Defined if Grisbi is a developmeent version])
+fi
 
 dnl ================================================================
 dnl Plugin support using glib's GModule
@@ -191,30 +199,6 @@ fi
 AM_CONDITIONAL(HAVE_OFX, [test "$build_ofx" = yes])
 
 dnl ================================================================
-dnl Check for libgoffice library
-dnl ================================================================
-
-AC_ARG_WITH(goffice,
-	AS_HELP_STRING([--with-goffice],[GOffice support of graphics (default=auto)]),
-	[build_goffice=$withval],
-	[build_goffice=auto])
-
-PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.8 >= 0.8.0], have_goffice=yes, have_goffice=no)
-if test "$build_goffice" = yes -a "$have_goffice" = no; then
-	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
-fi
-if test "$build_goffice" != no; then
-	build_goffice=$have_goffice
-else
-	build_goffice=no
-fi
-if test "$build_goffice" = yes; then
-	AC_DEFINE(HAVE_GOFFICE, 1, [Define if goffice support is enabled])
-fi
-
-AM_CONDITIONAL(HAVE_GOFFICE, [test "$build_goffice" = yes])
-
-dnl ================================================================
 dnl WError support
 dnl ================================================================
 
@@ -224,30 +208,12 @@ AC_ARG_ENABLE(werror,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
 	if test "x$GCC" = "xyes" ; then
-		CFLAGS="$CFLAGS -ansi -Wall -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-function"
+		CFLAGS="$CFLAGS -ansi -Wall -Wunused -Wno-unused-parameter -Wno-unused-function"
 		AC_MSG_WARN([Wall and Wunused flags are enabled])
 	else
 		AC_MSG_WARN([Wall and Wunused can be enabled only with gcc])
 	fi
 fi
-
-dnl ================================================================
-dnl GMemProfile support
-dnl ================================================================
-
-AC_ARG_ENABLE(gmemprofile,
- 	[AC_HELP_STRING([--enable-gmemprofile],
- 	[Outputs a summary of memory usage when grisbi terminates (default=no)])],,
- 	enable_gmemprofile=no)
-if test "x$enable_gmemprofile" = xyes ; then
-	GSB_GMEMPROFILE=1
-	AC_MSG_WARN([g_mem_profile is enabled])
-else
-	GSB_GMEMPROFILE=0
-fi
-AC_DEFINE_UNQUOTED([GSB_GMEMPROFILE], [${GSB_GMEMPROFILE}],
-	[define to 1 if g_mem_profile support is enabled])
-AC_SUBST(GSB_GMEMPROFILE)
 
 dnl ================================================================
 dnl NoOptim support
@@ -362,7 +328,6 @@ echo "
                 Build with libxml2:        $build_libxml2
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
-                Build with goffice:        $build_goffice
                 Build plugins statically:  $enable_static
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit

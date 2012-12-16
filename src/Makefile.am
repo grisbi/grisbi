@@ -1,10 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\"" -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
-
-if HAVE_GOFFICE
-AM_CPPFLAGS += $(GOFFICE_CFLAGS)
-endif
+AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\"" -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
 
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
@@ -20,11 +16,7 @@ libgrisbi_la_LIBADD += \
 else
 libgrisbi_la_LDFLAGS = -export_dynamic
 endif
-libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
-
-if HAVE_GOFFICE
-libgrisbi_la_LIBADD += $(GOFFICE_LIBS)
-endif
+libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS) $(GOFFICE_LIBS)
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\
@@ -49,8 +41,6 @@ libgrisbi_la_SOURCES = \
 	fenetre_principale.c	\
 	file_obfuscate.c	\
 	file_obfuscate_qif.c	\
-	go-charmap-sel.c	\
-	go-optionmenu.c		\
 	grisbi_osx.c \
 	gsb_account.c		\
 	gsb_account_property.c	\
@@ -192,8 +182,6 @@ libgrisbi_la_SOURCES = \
 	etats_html.h            \
 	export.h                \
 	export_csv.h            \
-	go-charmap-sel.h        \
-	go-optionmenu.h         \
 	grisbi_osx.h \
 	gsb_account.h		\
 	gsb_account_property.h	\
