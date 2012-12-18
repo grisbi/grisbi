@@ -35,6 +35,7 @@ libgrisbi_la_SOURCES = \
 	etats_gtktable.c	\
 	etats_html.c		\
 	etats_onglet.c		\
+	etats_prefs.c	\
 	etats_support.c		\
 	export.c		\
 	export_csv.c		\
@@ -176,12 +177,23 @@ libgrisbi_la_SOURCES = \
 	classement_echeances.h	\
 	csv_parse.h             \
 	custom_list.h		\
+	dialog.h		\
 	erreur.h		\
+	etats.h			\
 	etats_affiche.h         \
+	etats_calculs.h		\
+	etats_config.h		\
 	etats_csv.h             \
+	etats_gtktable.h	\
 	etats_html.h            \
+	etats_onglet.h		\
+	etats_prefs.h	\
+	etats_support.h		\
 	export.h                \
 	export_csv.h            \
+	fenetre_principale.h	\
+	file_obfuscate.h	\
+	file_obfuscate_qif.h	\
 	grisbi_osx.h \
 	gsb_account.h		\
 	gsb_account_property.h	\
@@ -258,16 +270,6 @@ libgrisbi_la_SOURCES = \
 	gsb_scheduler_list.h	\
 	gsb_transactions_list.h	\
 	gsb_transactions_list_sort.h	\
-	dialog.h		\
-	etats_calculs.h		\
-	etats_config.h		\
-	etats_gtktable.h	\
-	etats.h			\
-	etats_onglet.h		\
-	etats_support.h		\
-	fenetre_principale.h	\
-	file_obfuscate.h	\
-	file_obfuscate_qif.h	\
 	gtk_combofix.h		\
 	help.h			\
 	import.h		\
