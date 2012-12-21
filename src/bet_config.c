@@ -1484,12 +1484,18 @@ void bet_config_initialise_finance_widget ( gint account_number,
  * */
 void bet_config_finance_apply_clicked ( GtkButton *button, GtkWidget *parent )
 {
-    GtkWidget *bouton;
+    GtkWidget *bouton, *widget;
     gdouble number;
     gint type_taux;
     gint account_number;
+    GDate *start_date;
 
     account_number = bet_config_get_account_from_combo ( );
+
+    /* start date */
+    widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_start_date" );
+    start_date = gsb_calendar_entry_get_date( widget );
+    gsb_data_account_set_bet_start_date( account_number, start_date );
 
     /* capital */
     number = bet_finance_get_number_from_string ( parent, "bet_config_capital" );
