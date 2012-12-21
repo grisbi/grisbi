@@ -544,12 +544,10 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
                         attribute_values );
             }
 
-#ifdef HAVE_GOFFICE
             else if ( !strcmp ( element_name, "Bet_graph" ) )
             {
                 gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
             }
-#endif /* HAVE_GOFFICE */
 
             else if ( !strcmp ( element_name, "Bet_historical" ) )
             {
@@ -3869,9 +3867,7 @@ void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
 
     if ( !strcmp ( attribute_names[i], "prefs" ) )
     {
-#ifdef HAVE_GOFFICE
         bet_graph_set_configuration_variables ( attribute_values[i] );
-#endif /* HAVE_GOFFICE */
         i++;
         continue;
     }

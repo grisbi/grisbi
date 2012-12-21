@@ -308,9 +308,8 @@ void init_variables ( void )
         bet_array_col_width[i] = bet_array_col_width_init[i];
 
     bet_data_finance_data_simulator_init ( );
-#ifdef HAVE_GOFFICE
+
     bet_graph_set_configuration_variables ( NULL );
-#endif /* HAVE_GOFFICE */
 
 }
 
