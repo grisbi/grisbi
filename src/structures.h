@@ -1,5 +1,5 @@
 #ifndef _STRUCTURES_H
-#define _STRUCTURES_H (1)
+#define _STRUCTURES_H
 
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -279,6 +279,17 @@ enum alignement
 };
 
 
+/* definition of the columns of model for the left panel  */
+enum left_panel_tree_columns
+{
+    LEFT_PANEL_TREE_TEXT_COLUMN,
+    LEFT_PANEL_TREE_PAGE_COLUMN,
+    LEFT_PANEL_TREE_BOLD_COLUMN,
+    LEFT_PANEL_TREE_ITALIC_COLUMN,
+    LEFT_PANEL_TREE_NUM_COLUMNS,
+};
+
+
 /* définition du type d'origine pour les données du module budgétaire */
 enum bet_array_origin_data
 {
@@ -317,5 +328,12 @@ enum _bet_type_onglets
     BET_ONGLETS_CAP,
 };
 
+
+enum direction_move {
+    GSB_LEFT = 0,
+    GSB_RIGHT,
+    GSB_UP,
+    GSB_DOWN
+};
 
 #endif

@@ -2218,7 +2218,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_name = my_strdup (gsb_data_report_get_report_name (report_number));
 
 	/* set the general sort type */
-	tmp_list = gsb_data_report_get_sorting_type (report_number);
+	tmp_list = gsb_data_report_get_sorting_type_list (report_number);
 	general_sort_type = NULL;
 
 	while ( tmp_list )
@@ -2260,7 +2260,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* set the account_selected */
-	tmp_list = gsb_data_report_get_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_account_numbers_list (report_number);
 	account_selected = NULL;
 
 	while ( tmp_list )
@@ -2281,7 +2281,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the transfer_selected_accounts */
-	tmp_list = gsb_data_report_get_transfer_account_numbers (report_number);
+	tmp_list = gsb_data_report_get_transfer_account_numbers_list (report_number);
 	transfer_selected_accounts = NULL;
 
 	while ( tmp_list )
@@ -2302,7 +2302,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* save the category and sub-category list */
-	tmp_list = gsb_data_report_get_category_struct (report_number);
+	tmp_list = gsb_data_report_get_category_struct_list (report_number);
 	categ_selected = NULL;
 
 	while ( tmp_list )
@@ -2347,7 +2347,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* save the budget and sub-budget list */
-	tmp_list = gsb_data_report_get_budget_struct (report_number);
+	tmp_list = gsb_data_report_get_budget_struct_list (report_number);
 	budget_selected = NULL;
 
 	while ( tmp_list )
@@ -2392,7 +2392,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	}
 
 	/* 	set the payee_selected */
-	tmp_list = gsb_data_report_get_payee_numbers (report_number);
+	tmp_list = gsb_data_report_get_payee_numbers_list (report_number);
 	payee_selected = NULL;
 
 	while ( tmp_list )
@@ -2442,7 +2442,10 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
 					       "\t\tGeneral_sort_type=\"%s\"\n"
+					       "\t\tShow_m=\"%d\"\n"
+					       "\t\tShow_p=\"%d\"\n"
 					       "\t\tShow_r=\"%d\"\n"
+					       "\t\tShow_t=\"%d\"\n"
 					       "\t\tShow_transaction=\"%d\"\n"
 					       "\t\tShow_transaction_amount=\"%d\"\n"
 					       "\t\tShow_transaction_nb=\"%d\"\n"
@@ -2472,6 +2475,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tFinancial_year_kind=\"%d\"\n"
 					       "\t\tFinancial_year_select=\"%s\"\n"
 					       "\t\tDate_kind=\"%d\"\n"
+					       "\t\tDate_select_value=\"%d\"\n"
 					       "\t\tDate_beginning=\"%s\"\n"
 					       "\t\tDate_end=\"%s\"\n"
 					       "\t\tSplit_by_date=\"%d\"\n"
@@ -2519,7 +2523,10 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_number_to_write,
 	    my_safe_null_str(report_name),
 	    my_safe_null_str(general_sort_type),
+	    gsb_data_report_get_show_m (report_number),
+	    gsb_data_report_get_show_p (report_number),
 	    gsb_data_report_get_show_r (report_number),
+	    gsb_data_report_get_show_t (report_number),
 	    gsb_data_report_get_show_report_transactions (report_number),
 	    gsb_data_report_get_show_report_transaction_amount (report_number),
 	    gsb_data_report_get_show_report_transaction_number (report_number),
@@ -2549,6 +2556,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    gsb_data_report_get_financial_year_type (report_number),
 	    my_safe_null_str(financial_year_select),
 	    gsb_data_report_get_date_type (report_number),
+	    gsb_data_report_get_date_select_value (report_number),
 	    my_safe_null_str(date_start),
 	    my_safe_null_str(date_end),
 	    gsb_data_report_get_period_split (report_number),

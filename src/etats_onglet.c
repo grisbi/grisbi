@@ -194,7 +194,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
     bouton_personnaliser_etat = gsb_automem_stock_button_new ( conf.display_toolbar,
 							      GTK_STOCK_PROPERTIES,
 							      _("Properties"),
-							      G_CALLBACK (personnalisation_etat),
+							      G_CALLBACK (etats_config_personnalisation_etat),
 							      NULL ),
     gtk_widget_set_tooltip_text ( GTK_WIDGET (bouton_personnaliser_etat),
 				  _("Edit selected report") );
@@ -342,23 +342,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 	    gsb_data_report_set_transfer_choice ( report_number,
@@ -404,23 +404,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 
@@ -463,23 +463,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 
@@ -529,23 +529,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
@@ -604,23 +604,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6 (cf structure.h) */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
@@ -680,23 +680,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
 
 
@@ -769,23 +769,23 @@ gboolean ajout_etat ( void )
 
 	    /*   le classement de base est 1-2-3-4-5-6  */
 
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 1 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 2 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 3 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 4 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 5 )));
-	    gsb_data_report_set_sorting_type ( report_number,
-					       g_slist_append ( gsb_data_report_get_sorting_type (report_number),
+	    gsb_data_report_set_sorting_type_list ( report_number,
+					       g_slist_append ( gsb_data_report_get_sorting_type_list (report_number),
 								GINT_TO_POINTER ( 6 )));
 
 	    /*   les devises sont à 1 (euro) */
@@ -860,7 +860,7 @@ gboolean ajout_etat ( void )
     gsb_gui_navigation_add_report ( report_number );
     gsb_gui_update_gui_to_report ( report_number );
 
-    personnalisation_etat ();
+    etats_config_personnalisation_etat ();
     gsb_file_set_modified ( TRUE );
 
     return FALSE;
@@ -1272,11 +1272,22 @@ void dupliquer_etat ( void )
     gsb_gui_navigation_add_report (report_number);
     gsb_gui_update_gui_to_report ( report_number );
 
-    personnalisation_etat ();
+    etats_config_personnalisation_etat ();
     gsb_file_set_modified ( TRUE );
 }
 
 
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
+GtkWidget *etats_onglet_get_notebook_etats ( void )
+{
+    return notebook_etats;
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

@@ -26,18 +26,18 @@
 #include <config.h>
 #endif
 
-#include "include.h"
 #include <stdlib.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
- #include "dialog.h"
+#include "utils.h"
+#include "dialog.h"
 #include "gsb_color.h"
 #include "gsb_data_account.h"
+#include "gsb_dirs.h"
 #include "gsb_file_config.h"
 #include "structures.h"
 #include "erreur.h"
-#include "gsb_dirs.h"
 /*END_INCLUDE*/
 
 #ifdef GTKOSXAPPLICATION
@@ -370,64 +370,6 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 
 
 /**
- * Function that makes a nice title with an optional icon.  It is
- * mainly used to automate preference tabs with titles.
- *
- * \param title Title that will be displayed in window
- * \param image.  Use NULL if you don't want an image to be displayed
- *
- *
- * \returns A pointer to a vbox widget that will contain all created
- * widgets and user defined widgets
- */
-/*GtkWidget *new_vbox_with_title_and_image ( gchar * title, GtkWidget *image )
-{
-    GtkWidget *vbox_pref, *hbox, *label, *eb;
-    GtkStyle * style;
-	gchar* tmpstr1;
-	gchar* tmpstr2;
-
-    vbox_pref = gtk_vbox_new ( FALSE, 6 );
-    gtk_widget_show ( vbox_pref );
-
-    eb = gtk_event_box_new ();
-    style = gtk_widget_get_style ( eb );
-    gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
-    gtk_box_pack_start ( GTK_BOX ( vbox_pref ), eb, FALSE, FALSE, 0);
-
-
-    !* Title hbox *!
-    hbox = gtk_hbox_new ( FALSE, 6 );
-    gtk_widget_show ( hbox );
-    gtk_container_add ( GTK_CONTAINER ( eb ), hbox );
-    gtk_container_set_border_width ( GTK_CONTAINER ( hbox ), 3 );
-
-    !* Icon *!
-    if ( image )
-    {
-        gtk_image_set_pixel_size ( GTK_IMAGE ( image ), 128 );
-        gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
-        gtk_widget_show ( image );
-    }
-
-    !* Nice huge title *!
-    label = gtk_label_new ( title );
-    tmpstr1 = g_markup_escape_text (title, strlen(title));
-    tmpstr2 = g_strconcat ("<span size=\"x-large\" weight=\"bold\">",
-					tmpstr1,
-					"</span>",
-					NULL );
-    gtk_label_set_markup ( GTK_LABEL(label), tmpstr2);
-    g_free(tmpstr1);
-    g_free(tmpstr2);
-    gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0);
-    gtk_widget_show ( label );
-
-    return vbox_pref;
-}*/
-
-
-/**
  * Returns TRUE if an account is loaded in memory.  Usefull to be sure
  * there is data to process.
  *
@@ -744,6 +686,304 @@ void utils_container_remove_children ( GtkWidget *widget )
         gtk_container_remove ( GTK_CONTAINER ( widget ), GTK_WIDGET ( children -> data ) );
         g_list_free ( children );
     }
+}
+
+
+/**
+ *  expand all the tree_view and select le path when the widget is realized
+ *
+ *
+ *
+ * */
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path )
+{
+    GtkTreePath *path;
+
+    gtk_tree_view_expand_all ( GTK_TREE_VIEW ( tree_view ) );
+
+    /* selection du premier item sélectionnable */
+    path = gtk_tree_path_new_from_string ( str_path );
+
+    gtk_tree_selection_select_path ( GTK_TREE_SELECTION (
+                        gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
+                        path );
+
+    gtk_tree_path_free ( path );
+
+}
+
+
+/**
+ * Cette fonction retourne TRUE si tous les items sont sélectionnés
+ *
+ * \param le tree_view considéré
+ *
+ * \return TRUE si tous sélectionnés FALSE autrement.
+ */
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    GtkTreeSelection *selection;
+    GList *rows_list;
+    gint index;
+
+    model = gtk_tree_view_get_model ( tree_view );
+    selection = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+    rows_list = gtk_tree_selection_get_selected_rows ( selection, &model );
+    index = g_list_length ( rows_list );
+
+    if ( gtk_tree_model_get_iter_first ( model, &iter ) )
+    {
+        do
+        {
+            index--;
+            if ( index < 0 )
+                break;
+        }
+        while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );    }
+
+    g_list_foreach ( rows_list, ( GFunc ) gtk_tree_path_free, NULL );
+    g_list_free ( rows_list );
+
+    if ( index == 0 )
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+/**
+ * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ */
+GtkListStore *utils_list_store_create_from_string_array ( gchar **array )
+{
+    GtkListStore *store = NULL;
+    gint i = 0;
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    while ( array[i] )
+    {
+        GtkTreeIter iter;
+        gchar *string = gettext ( array[i] );
+
+        gtk_list_store_append ( store, &iter );
+        gtk_list_store_set ( store, &iter, 0, string, 1, i, -1 );
+
+        i++;
+    }
+
+    /* return */
+    return store;
+}
+
+
+/**
+ * Cette fonction crée la colonne visible d'un GtkComboBox
+ *
+ * \param le combo à initialiser
+ * \param le numéro de la colonne texte
+ *
+ * \return
+ */
+void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col )
+{
+    GtkCellRenderer *renderer;
+
+    renderer = gtk_cell_renderer_text_new ( );
+    gtk_cell_layout_pack_start ( GTK_CELL_LAYOUT ( combo ), renderer, TRUE );
+    gtk_cell_layout_set_attributes ( GTK_CELL_LAYOUT ( combo ), renderer,
+                                    "text", num_col,
+                                    NULL );
+}
+
+
+/**
+ * revoie un combo_box avec une GtkListStore et la colonne 0 en texte
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkComboBox.
+ */
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array )
+{
+    GtkWidget *combo;
+    GtkTreeModel *model;
+
+    combo = gtk_combo_box_new ( );
+
+    model = GTK_TREE_MODEL ( utils_list_store_create_from_string_array ( array ) );
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
+    utils_gtk_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
+
+    return combo;
+}
+
+
+/**
+ * ajoute une ligne dans le tree_model du panel de gauche de la fenêtre
+ * des préférences de grisbi ou des états
+ *
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ * */
+void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page )
+{
+    GtkTreeIter iter2;
+
+    if ( page == -1 )
+    {
+        /* append page groupe */
+        gtk_tree_store_append ( GTK_TREE_STORE ( tree_model ), iter, NULL );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), iter,
+                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
+                        LEFT_PANEL_TREE_PAGE_COLUMN, -1,
+                        LEFT_PANEL_TREE_BOLD_COLUMN, 800,
+                        -1 );
+    }
+    else
+    {
+        /* append page onglet*/
+        if ( child )
+            gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ),
+                        child,
+                        gtk_label_new ( title ) );
+
+        gtk_tree_store_append (GTK_TREE_STORE ( tree_model ), &iter2, iter );
+        gtk_tree_store_set (GTK_TREE_STORE ( tree_model ), &iter2,
+                        LEFT_PANEL_TREE_TEXT_COLUMN, title,
+                        LEFT_PANEL_TREE_PAGE_COLUMN, page,
+                        LEFT_PANEL_TREE_BOLD_COLUMN, 400,
+                        -1);
+    }
+}
+
+
+/**
+ * indique si la ligne choisie peut être sélectionnée
+ *
+ * \param selection
+ * \param model
+ * \param chemin de la ligne à tester
+ * \param TRUE si la ligne est déja sélectionnée
+ * \param data transmise à la fonction
+ *
+ * \return selectable
+ */
+gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data )
+{
+    GtkTreeIter iter;
+    gint selectable;
+
+    gtk_tree_model_get_iter ( model, &iter, path );
+    gtk_tree_model_get ( model, &iter, 1, &selectable, -1 );
+
+    return ( selectable != -1 );
+}
+
+
+/**
+ *
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+gboolean utils_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *notebook )
+{
+    GtkTreeModel *model;
+    GtkTreeIter iter;
+    gint selected;
+
+    if (! gtk_tree_selection_get_selected ( selection, &model, &iter ) )
+        return(FALSE);
+
+    gtk_tree_model_get ( model, &iter, 1, &selected, -1 );
+
+    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), selected );
+
+    /* return */
+    return FALSE;
+}
+
+
+/**
+ * selectionne une page
+ *
+ * \param
+ * \param
+ * \param
+ *
+ * \return
+ */
+gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
+                        GtkWidget *notebook,
+                        gint page )
+{
+    GtkTreeModel *model;
+    GtkTreeIter parent_iter;
+
+    model = gtk_tree_view_get_model ( GTK_TREE_VIEW ( tree_view ) );
+
+    if ( !gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( model ), &parent_iter ) )
+        return FALSE;
+
+    do
+    {
+        GtkTreeIter iter;
+
+        if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &parent_iter ) )
+        {
+            do
+            {
+                gint tmp_page;
+
+                gtk_tree_model_get (GTK_TREE_MODEL ( model ),
+                                &iter,
+                                LEFT_PANEL_TREE_PAGE_COLUMN, &tmp_page,
+                                -1 );
+
+                if ( tmp_page == page )
+                {
+                    GtkTreeSelection *sel;
+
+                    sel = gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) );
+                    gtk_tree_selection_select_iter ( sel, &iter );
+                    gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook ), page );
+                    break;
+                }
+            }
+            while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &parent_iter ) );
+
+    /* return */
+    return FALSE;
 }
 
 

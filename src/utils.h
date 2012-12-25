@@ -9,6 +9,7 @@
 
 /* START_DECLARATION */
 gboolean assert_account_loaded ();
+GtkWidget *utils_combo_box_make_from_string_array ( gchar **array );
 gboolean desensitive_widget ( gpointer object,
                         GtkWidget *widget );
 gchar *get_gtk_run_version ( void );
@@ -33,15 +34,38 @@ gboolean sens_desensitive_pointeur ( GtkWidget *bouton,
 gboolean sensitive_widget ( gpointer object,
                         GtkWidget *widget );
 void update_gui ( void );
+
 void utils_container_remove_children ( GtkWidget *widget );
 GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
                         gint initial,
                         const gchar *tooltip_0,
                         const gchar *tooltip_1 );
+void utils_gtk_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col );
+GtkListStore *utils_list_store_create_from_string_array ( gchar **array );
 gboolean utils_set_image_with_etat ( GtkWidget *widget,
                         gint etat );
 void utils_set_tree_view_selection_and_text_color ( GtkWidget *tree_view );
 gboolean utils_set_tree_view_background_color ( GtkWidget *tree_view,
                         gint color_column );
+gboolean utils_tree_view_all_rows_are_selected ( GtkTreeView *tree_view );
+void utils_tree_view_set_expand_all_and_select_path_realize ( GtkWidget *tree_view,
+                        const gchar *str_path );
+void utils_ui_left_panel_add_line ( GtkTreeStore *tree_model,
+                        GtkTreeIter *iter,
+                        GtkWidget *notebook,
+                        GtkWidget *child,
+                        const gchar *title,
+                        gint page );
+gboolean utils_ui_left_panel_tree_view_select_page ( GtkWidget *tree_view,
+                        GtkWidget *notebook,
+                        gint page );
+gboolean utils_ui_left_panel_tree_view_selectable_func (GtkTreeSelection *selection,
+                        GtkTreeModel *model,
+                        GtkTreePath *path,
+                        gboolean path_currently_selected,
+                        gpointer data );
+gboolean utils_ui_left_panel_tree_view_selection_changed ( GtkTreeSelection *selection,
+                        GtkWidget *notebook );
 /* END_DECLARATION */
 #endif

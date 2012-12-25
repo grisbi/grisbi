@@ -188,6 +188,7 @@ libgrisbi_la_SOURCES = \
 	etats_html.h            \
 	etats_onglet.h		\
 	etats_prefs.h	\
+	etats_prefs_private.h	\
 	etats_support.h		\
 	export.h                \
 	export_csv.h            \
