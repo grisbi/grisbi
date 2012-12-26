@@ -374,7 +374,7 @@ GtkWidget *onglet_display_addresses ( void )
     hbox = gtk_hbox_new ( FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
-    radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounts file title") );
+    radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounting entity") );
     g_object_set_data ( G_OBJECT ( radiogroup ), "display", GINT_TO_POINTER ( GSB_ACCOUNTS_TITLE ) );
     if ( conf.display_grisbi_title == GSB_ACCOUNTS_TITLE )
         gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( radiogroup ), TRUE );
@@ -412,7 +412,7 @@ GtkWidget *onglet_display_addresses ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
-    label = gtk_label_new ( _("Accounts file title: ") );
+    label = gtk_label_new ( _("Name of accounting entity: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label,
 			 FALSE, FALSE, 0);
 
