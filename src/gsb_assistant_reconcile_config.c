@@ -389,7 +389,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 	gtk_box_pack_start ( GTK_BOX (paddingbox), table, FALSE, FALSE, 0 );
 
 	/* set the name */
-	label = gtk_label_new ( _("Name: ") );
+	label = gtk_label_new ( _("Reconciliation reference: ") );
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 1);
 	gtk_label_set_justify ( GTK_LABEL (label), GTK_JUSTIFY_LEFT );
 	gtk_table_attach ( GTK_TABLE ( table ), label, 0, 1, 0, 1,
@@ -1228,7 +1228,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
 	gchar *titles[] = {
-	    _("Name"), _("Initial date"), _("Final date")
+	    _("Reconciliation reference"), _("Initial date"), _("Final date")
 	};
 	gfloat alignment[] = {
 	    COLUMN_LEFT, COLUMN_CENTER, COLUMN_CENTER

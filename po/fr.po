@@ -5282,7 +5282,7 @@ msgid ""
 "\tYou can create all the previous needed reconciliations here."
 msgstr ""
 "\tIl peut exister des opérations datées d'avant le premier rapprochement "
-"connue.\n"
+"connu.\n"
 "\tVous allez pouvoir créer ici tous les rapprochements nécessaires."
 
 #: ../src/gsb_assistant_reconcile_config.c:314
