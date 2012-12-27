@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-09 20:18+0100\n"
-"PO-Revision-Date: 2012-12-02 16:47+0100\n"
+"PO-Revision-Date: 2012-12-27 18:48+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1085,7 +1085,6 @@ msgstr "Teilsaldo"
 
 #. Create the dialog
 #: ../src/bet_future.c:2043
-#, fuzzy
 msgid "Configuring a deferred debit account"
 msgstr "Saldo von Ausgabenkonto übernehmen"
 
@@ -1235,52 +1234,48 @@ msgid "Dec"
 msgstr "Dez"
 
 #: ../src/bet_graph.c:158
-#, fuzzy
 msgid "January"
-msgstr "manuell"
+msgstr "Januar"
 
 #: ../src/bet_graph.c:158
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
 #: ../src/bet_graph.c:158
-#, fuzzy
 msgid "March"
-msgstr "Alle Einnahmen und Ausgaben"
+msgstr "März"
 
 #: ../src/bet_graph.c:158
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: ../src/bet_graph.c:159
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: ../src/bet_graph.c:159
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: ../src/bet_graph.c:159
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: ../src/bet_graph.c:160
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: ../src/bet_graph.c:160
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: ../src/bet_graph.c:160
-#, fuzzy
 msgid "November"
-msgstr "Nr."
+msgstr "November"
 
 #: ../src/bet_graph.c:160
-#, fuzzy
 msgid "December"
-msgstr "Empfänger Nummer"
+msgstr "Dezember"
 
 #: ../src/bet_graph.c:462
 msgid "total amount: "
@@ -1357,7 +1352,7 @@ msgid "Line"
 msgstr "Linie"
 
 #: ../src/bet_graph.c:2265
-#, fuzzy, c-format
+#, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr ""
 "Auflistung nach %s in der Zeitspanne vom  Geschäftsjahr %s für das Konto: "
