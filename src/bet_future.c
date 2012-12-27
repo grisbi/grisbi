@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -100,8 +100,10 @@ static gboolean bet_transfert_selection_changed ( GtkTreeSelection *selection, G
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-#define BET_SCHEDULED_WIDTH 4
-#define BET_SCHEDULED_HEIGHT 2
+/* dimmension du formulaire de données futures */
+#define BET_FUTURE_FORM_WIDTH 4
+#define BET_FUTURE_FORM_HEIGHT 5
+
 static gint width = 250;
 
 
@@ -116,6 +118,18 @@ static GSList *bet_form_list_widgets = NULL;
 static GtkWidget *bet_futur_dialog = NULL;
 static GtkWidget *bet_transfert_dialog = NULL;
 
+/* organisation du formulaire */
+struct BetFormOrganization
+{
+    /* 4 columns */
+    gint columns;
+    /* 5 rows */
+    gint rows;
+    gint form_table[BET_FUTURE_FORM_HEIGHT][BET_FUTURE_FORM_WIDTH];
+};
+
+static struct BetFormOrganization *bfo;
+
 /**
  *
  *
@@ -124,6 +138,16 @@ static GtkWidget *bet_transfert_dialog = NULL;
  * */
 void bet_future_initialise_dialog ( void )
  {
+    gint tab[BET_FUTURE_FORM_HEIGHT][BET_FUTURE_FORM_WIDTH] = {
+        { SCHEDULED_FORM_FREQUENCY_BUTTON, SCHEDULED_FORM_LIMIT_DATE, SCHEDULED_FORM_FREQUENCY_USER_ENTRY,
+          SCHEDULED_FORM_FREQUENCY_USER_BUTTON },
+        { TRANSACTION_FORM_DATE, TRANSACTION_FORM_PARTY, TRANSACTION_FORM_DEBIT, TRANSACTION_FORM_CREDIT },
+        { TRANSACTION_FORM_EXERCICE, TRANSACTION_FORM_CATEGORY, TRANSACTION_FORM_TYPE, 0 },
+        { 0, TRANSACTION_FORM_BUDGET, 0, 0 },
+        { TRANSACTION_FORM_NOTES, 0, 0, 0 }
+    };
+    gint i, j;
+
     if ( bet_futur_dialog != NULL )
     {
         gtk_widget_destroy ( bet_futur_dialog );
@@ -135,6 +159,21 @@ void bet_future_initialise_dialog ( void )
         gtk_widget_destroy ( bet_transfert_dialog );
         bet_transfert_dialog = NULL;
     }
+
+    bfo = g_malloc0 ( sizeof ( struct BetFormOrganization ) );
+
+    if ( !bfo )
+    {
+        dialogue_error_memory ();
+        return;
+    }
+
+    bfo->columns = BET_FUTURE_FORM_WIDTH;
+    bfo->rows = BET_FUTURE_FORM_HEIGHT;
+
+    for ( i = 0 ; i<BET_FUTURE_FORM_HEIGHT ; i++ )
+    for ( j = 0 ; j<BET_FUTURE_FORM_WIDTH ; j++ )
+        bfo->form_table[i][j] = tab[i][j];
  }
 
 
@@ -260,7 +299,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
 	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
     /* next we fill the bet_form */
-    table = gtk_table_new ( BET_SCHEDULED_HEIGHT, BET_SCHEDULED_WIDTH, FALSE );
+    table = gtk_table_new ( BET_FUTURE_FORM_HEIGHT, BET_FUTURE_FORM_WIDTH, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 6 );
     gtk_widget_show ( table );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 5 );
@@ -303,6 +342,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
 	    gchar *text_frequency_user [] = { _("Days"), _("Weeks"), _("Months"), _("Years"), NULL };
         gint element_number;
         struct_element *element;
+
         /* on tient compte que le premier widget utile est le troisième du formulaire */
 	    element_number = column + 2;
 
@@ -312,6 +352,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
 		    widget = gsb_combo_box_new_with_index ( text_frequency,
                         G_CALLBACK ( bet_form_scheduler_frequency_button_changed ),
                         dialog );
+            g_object_set_data ( G_OBJECT ( widget ), "form_type", GINT_TO_POINTER ( 1 ) );
             combo = widget;
 		    tooltip_text = _("Frequency");
             gtk_widget_show ( widget );
@@ -319,6 +360,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
 
         case SCHEDULED_FORM_LIMIT_DATE:
             widget = gsb_calendar_entry_new ( FALSE );
+            g_object_set_data ( G_OBJECT ( widget ), "form_type", GINT_TO_POINTER ( 1 ) );
             gsb_form_widget_set_empty ( widget, TRUE );
             gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					    _("Limit date") );
@@ -334,12 +376,17 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus ),
                         GINT_TO_POINTER (element_number));
+            g_signal_connect ( G_OBJECT ( widget ),
+                       "key-press-event",
+                       G_CALLBACK ( bet_form_key_press_event ),
+                       GINT_TO_POINTER ( element_number ) );
             tooltip_text = _("Final date");
             gtk_widget_show ( widget );
             break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_ENTRY:
 		    widget = gtk_entry_new ();
+            g_object_set_data ( G_OBJECT ( widget ), "form_type", GINT_TO_POINTER ( 1 ) );
             gtk_entry_set_text ( GTK_ENTRY ( widget ),
 					    _("Own frequency") );
             gsb_form_widget_set_empty ( widget, TRUE );
@@ -351,12 +398,21 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         "focus-out-event",
                         G_CALLBACK ( gsb_form_scheduler_entry_lose_focus),
                         GINT_TO_POINTER (element_number));
+            g_signal_connect ( G_OBJECT ( widget ),
+                       "key-press-event",
+                       G_CALLBACK ( bet_form_key_press_event ),
+                       GINT_TO_POINTER ( element_number ) );
 		    tooltip_text = _("Custom frequency");
 		    break;
 
 		case SCHEDULED_FORM_FREQUENCY_USER_BUTTON:
 		    widget = gsb_combo_box_new_with_index ( text_frequency_user,
 							    NULL, NULL );
+            g_object_set_data ( G_OBJECT ( widget ), "form_type", GINT_TO_POINTER ( 1 ) );
+            g_signal_connect ( G_OBJECT ( widget ),
+                        "key-press-event",
+                        G_CALLBACK ( bet_form_key_press_event ),
+                        GINT_TO_POINTER ( element_number ) );
 		    tooltip_text = _("Custom frequency");
             gsb_combo_box_set_index ( widget, 2 );
 		    break;
@@ -672,6 +728,8 @@ gboolean bet_form_create_current_form ( GtkWidget *dialog,
                        "key-press-event",
                        G_CALLBACK ( bet_form_key_press_event ),
                        GINT_TO_POINTER ( element -> element_number ) );
+
+            g_object_set_data ( G_OBJECT ( widget ), "form_type", GINT_TO_POINTER ( 0 ) );
         }
         tmp_list = tmp_list -> next;
     }
@@ -1167,6 +1225,147 @@ GtkWidget *bet_form_widget_get_widget ( gint element_number )
 
 
 /**
+ * check if the given element can receive focus
+ *
+ * \param element_number
+ *
+ * \return TRUE : can receive focus, or FALSE
+ * */
+static gboolean bet_form_widget_can_focus ( gint element_number,
+                        gint form_type )
+{
+    GtkWidget *widget;
+
+    /* if element_number is -1 or -2, the iteration while must
+     * stop, so return TRUE */
+    if ( element_number == -1 || element_number == -2 )
+        return TRUE;
+
+    if ( form_type )
+        widget = bet_form_scheduler_get_element_widget ( element_number );
+    else
+        widget = bet_form_widget_get_widget ( element_number );
+
+    if ( !widget )
+        return FALSE;
+
+    if ( !GTK_WIDGET_VISIBLE ( widget ) )
+        return FALSE;
+
+    if ( !GTK_WIDGET_SENSITIVE ( widget ) )
+        return FALSE;
+
+    if ( !( GTK_IS_COMBOFIX ( widget )
+       ||
+       GTK_IS_ENTRY ( widget )
+       ||
+       GTK_IS_BUTTON ( widget )
+       ||
+       GTK_IS_COMBO_BOX ( widget ) ) )
+        return FALSE;
+
+    return TRUE;
+}
+
+
+static GtkWidget *bet_form_widget_get_next_element ( gint element_number,
+                        gint form_type )
+{
+    gint row = 0;
+    gint column = 0;
+    gint return_value_number = 0;
+    gint form_column_number = BET_FUTURE_FORM_WIDTH;
+    gint form_row_number = 5;
+    gboolean trouve = FALSE;
+
+    if ( form_type ) /* le widget initial est sur la partie scheduled du formulaire */
+    {
+        for ( column=0 ; column < bfo->columns ; column++ )
+        {
+            if ( bfo->form_table[row][column] == element_number )
+            {
+                form_row_number = 1;
+                while ( !bet_form_widget_can_focus ( return_value_number, form_type ) )
+                {
+                    if ( column == ( form_column_number - 1)
+                         &&
+                         row == ( form_row_number - 1 ) )
+                    {
+                        /* we are on the bottom right, we finish the edition or
+                         * go to the upper left */
+                        if ( !conf.entree )
+                        {
+                            return_value_number = -2;
+                            continue;
+                        }
+                        column = -1;
+                        row = 0;
+                    }
+
+                    if ( ++column == form_column_number )
+                    {
+                        column = 0;
+                        row++;
+                    }
+                    return_value_number = bfo->form_table[row][column];
+                }
+                trouve = TRUE;
+                break;
+            }
+        }
+    }
+    else
+    {
+        for ( row=1 ; row < bfo->rows; row++ )
+        {
+            for ( column=0 ; column < bfo->columns ; column++ )
+            {
+                if ( bfo->form_table[row][column] == element_number )
+                {
+                    trouve = TRUE;
+                    break;
+                }
+            }
+            if ( trouve )
+                break;
+        }
+        while ( !bet_form_widget_can_focus ( return_value_number, form_type ) )
+        {
+            if ( column == ( form_column_number - 1)
+                 &&
+                 row == ( form_row_number - 1 ) )
+            {
+                /* we are on the bottom right, we finish the edition or
+                 * go to the upper left */
+                if ( !conf.entree )
+                {
+                    return_value_number = -2;
+                    continue;
+                }
+                column = -1;
+                row = 0;
+            }
+
+            if ( ++column == form_column_number )
+            {
+                column = 0;
+                row++;
+            }
+            return_value_number = bfo->form_table[row][column];
+        }
+    }
+
+    /* return value */
+    if ( row == 0 )
+        return gsb_form_get_element_widget_from_list ( return_value_number,
+                        bet_schedul_element_list );
+    else
+        return gsb_form_get_element_widget_from_list ( return_value_number,
+                        bet_form_list_widgets );
+}
+
+
+/**
  * called when press a key on an element of the form
  *
  * \param widget wich receive the signal
@@ -1179,9 +1378,17 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
                         GdkEventKey *ev,
                         gint *ptr_origin )
 {
+    GtkWidget *widget_suivant;
+    GtkWidget *widget_prov;
     gint element_number;
     gint account_number;
-    GtkWidget *widget_prov;
+    gint form_type = 0;
+
+    form_type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT ( widget ), "form_type" ) );
+
+    /* on sort si on est sur la partie scheduler du formulaire sauf pour GDK_Tab */
+    if ( form_type && ev -> keyval != GDK_Tab )
+        return FALSE;
 
     element_number = GPOINTER_TO_INT (ptr_origin);
     account_number = gsb_form_get_account_number ();
@@ -1261,6 +1468,20 @@ gboolean bet_form_key_press_event ( GtkWidget *widget,
 		return TRUE;
 	    }
 	    break;
+
+    case GDK_Tab :
+        widget_suivant = bet_form_widget_get_next_element ( element_number, form_type );
+
+        if ( widget_suivant )
+        {
+            if ( GTK_IS_COMBOFIX ( widget_suivant ) )
+                gtk_widget_grab_focus ( GTK_COMBOFIX ( widget_suivant ) -> entry );
+            else
+                gtk_widget_grab_focus ( widget_suivant );
+
+            return TRUE;
+        }
+        break;
     }
 
     return FALSE;
