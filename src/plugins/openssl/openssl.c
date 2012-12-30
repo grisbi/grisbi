@@ -434,7 +434,7 @@ return_bad_password:
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void openssl_plugin_register ( void )
+extern void openssl_plugin_register ( void )
 {
     devel_debug ("Initializating openssl plugin");
     saved_crypt_key = NULL;
@@ -443,7 +443,7 @@ G_MODULE_EXPORT extern void openssl_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
+extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
     /* The final size is cast from a gulong to a gpointer. This is 'ok' because

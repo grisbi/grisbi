@@ -82,7 +82,7 @@ GSList * gnucash_accounts = NULL;
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void gnucash_plugin_register ( void )
+extern void gnucash_plugin_register ( void )
 {
     devel_debug ("Initializating gnucash plugin");
 
@@ -92,7 +92,7 @@ G_MODULE_EXPORT extern void gnucash_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gpointer gnucash_plugin_run ( void )
+extern gpointer gnucash_plugin_run ( void )
 {
     return NULL;
 }

@@ -59,7 +59,7 @@ static struct import_format ofx_format =
 
 
 /** Initialization function. */
-G_MODULE_EXPORT extern void ofx_plugin_register ( void )
+extern void ofx_plugin_register ( void )
 {
     devel_debug ("Initializating ofx plugin");
     register_import_format ( &ofx_format );
@@ -68,7 +68,7 @@ G_MODULE_EXPORT extern void ofx_plugin_register ( void )
 
 
 /** Main function of module. */
-G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
+extern gpointer ofx_plugin_run ( GtkWidget * assistant,
 				    struct imported_file * imported )
 {
     return recuperation_donnees_ofx ( assistant, imported );

@@ -304,7 +304,7 @@ gint get_utf8_line_from_file ( FILE *fichier,
  *
  * \return file descriptor returned by fopen
  */
-G_MODULE_EXPORT FILE* utf8_fopen (const gchar *utf8filename, gchar *mode )
+FILE* utf8_fopen (const gchar *utf8filename, gchar *mode )
 {
 #ifdef _MSC_VER
     return fopen ( g_locale_from_utf8 ( utf8filename, -1, NULL, NULL, NULL ), mode );

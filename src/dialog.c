@@ -150,7 +150,7 @@ void dialogue ( gchar *texte_dialogue )
  *
  * \param text Text to display in window
  */
-G_MODULE_EXPORT void dialogue_error ( gchar *text )
+void dialogue_error ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, text );
 }
@@ -162,7 +162,7 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text )
  * \param text Text to display in window
  * \param hint Text to display in window as hint (bold, larger)
  */
-G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
+void dialogue_error_hint ( const gchar *text, gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
 }
@@ -173,7 +173,7 @@ G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
  *
  * \param text Text to display in window
  */
-G_MODULE_EXPORT void dialogue_warning ( gchar *text )
+void dialogue_warning ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, text );
 }

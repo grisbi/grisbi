@@ -18,12 +18,12 @@ struct conditional_message
 
 
 /* START_DECLARATION */
-G_MODULE_EXPORT void dialog_message ( gchar *label, ... );
+void dialog_message ( gchar *label, ... );
 void dialogue ( gchar *texte_dialogue );
 void dialogue_conditional_hint ( gchar *hint, gchar *text, gchar *var );
-G_MODULE_EXPORT void dialogue_error ( gchar *text );
+void dialogue_error ( gchar *text );
 void dialogue_error_brain_damage ();
-G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint );
+void dialogue_error_hint ( const gchar *text, gchar *hint );
 void dialogue_error_memory ();
 void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
@@ -33,7 +33,7 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         gchar *text );
 gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
                         struct conditional_message *message );
-G_MODULE_EXPORT void dialogue_warning ( gchar *text );
+void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar *hint );
 gchar *make_blue ( const gchar *text );
 gchar *make_hint ( const gchar *hint, const gchar *text );

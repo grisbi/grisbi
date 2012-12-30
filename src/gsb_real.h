@@ -3,7 +3,6 @@
 
 #include <locale.h>
 #include <glib.h>
-#include <gmodule.h>
 
 #define EXPONENT_MAX 10
 #define ERROR_REAL_STRING "###ERR###"
@@ -26,20 +25,20 @@ static const gsb_real error_real = { G_MININT64, 0 };
 
 /* START_DECLARATION */
 gsb_real gsb_real_abs ( gsb_real number );
-G_MODULE_EXPORT gsb_real gsb_real_add ( gsb_real number_1,
+gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_adjust_exponent ( gsb_real number,
                         gint return_exponent );
-G_MODULE_EXPORT gint gsb_real_cmp ( gsb_real number_1,
+gint gsb_real_cmp ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_div ( gsb_real number_1,
                         gsb_real number_2 );
-G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number );
+gsb_real gsb_real_double_to_real ( gdouble number );
 gsb_real gsb_real_mul ( gsb_real number_1,
                         gsb_real number_2 );
 gsb_real gsb_real_new ( gint64 mantissa, gint exponent );
 gboolean gsb_real_normalize ( gsb_real *number_1, gsb_real *number_2 );
-G_MODULE_EXPORT gsb_real gsb_real_opposite ( gsb_real number );
+gsb_real gsb_real_opposite ( gsb_real number );
 gchar *gsb_real_raw_format_string (gsb_real number,
                         struct lconv *locale,
                         const gchar *currency_symbol );
