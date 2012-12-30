@@ -22,6 +22,8 @@ src/etats_csv.c
 src/etats_gtktable.c
 src/etats_html.c
 src/etats_onglet.c
+src/etats_prefs.c
+src/etats_prefs_private.h
 src/etats_support.c
 src/export.c
 src/export_csv.c
@@ -144,4 +146,5 @@ src/utils_gtkbuilder.c
 src/utils_operations.c
 src/utils_str.c
 [type: gettext/glade]src/ui/bet_graph.ui
+[type: gettext/glade]src/ui/etats_prefs.ui
 share/grisbi.desktop.in
