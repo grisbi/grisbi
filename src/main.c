@@ -508,7 +508,7 @@ gboolean gsb_grisbi_init_app ( void )
     gboolean first_use = FALSE;
     gchar *string;
 
-    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
+    gsb_plugins_scan_dir ( );
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
@@ -969,7 +969,6 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tgsb_dirs_get_accelerator_filename () = %s\n\n"
                         "\tgsb_dirs_get_categories_dir ()       = %s\n"
                         "\tgsb_dirs_get_locale_dir ()           = %s\n"
-                        "\tgsb_dirs_get_plugins_dir ()          = %s\n"
                         "\tgsb_dirs_get_pixmaps_dir ()          = %s\n"
                         "\tgsb_dirs_get_ui_dir ()               = %s\n\n",
                         g_get_user_data_dir (),
@@ -980,7 +979,6 @@ gchar *gsb_main_get_print_dir_var ( void )
                         gsb_dirs_get_accelerator_filename (),
                         gsb_dirs_get_categories_dir ( ),
                         gsb_dirs_get_locale_dir ( ),
-                        gsb_dirs_get_plugins_dir ( ),
                         gsb_dirs_get_pixmaps_dir ( ),
                         gsb_dirs_get_ui_dir ( ) );
 

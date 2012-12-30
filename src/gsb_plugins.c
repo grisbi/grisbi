@@ -55,7 +55,7 @@ static GSList * plugins = NULL;
  *
  *
  */
-void gsb_plugins_scan_dir ( const char *dirname )
+void gsb_plugins_scan_dir ( void )
 {
     gsb_plugin *plugin = NULL;
 

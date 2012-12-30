@@ -171,7 +171,7 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
  **/
 void show_version(void)
 {
-    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
+    gsb_plugins_scan_dir ( );
 
     g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());
 }

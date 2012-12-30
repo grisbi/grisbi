@@ -17,7 +17,7 @@ typedef struct gsb_plugin {
 /* START_DECLARATION */
 gsb_plugin * gsb_plugin_find ( gchar * plugin_name );
 gchar * gsb_plugin_get_list ();
-void gsb_plugins_scan_dir ( const char *dirname );
+void gsb_plugins_scan_dir ( void );
 /* END_DECLARATION */
 
 #endif
