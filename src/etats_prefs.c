@@ -1011,8 +1011,7 @@ static GtkWidget *etats_prefs_onglet_periode_create_page ( gint page )
                         gtk_builder_get_object ( etats_prefs_builder, "vbox_utilisation_exo" ) );
 
     /* on connecte les signaux nécessaires pour gérer la sélection de l'exercice */
-    g_signal_connect ( G_OBJECT ( utils_gtkbuilder_get_widget_by_name ( etats_prefs_builder,
-                        "bouton_detaille_exo_etat", NULL ) ),
+    g_signal_connect ( G_OBJECT ( gtk_builder_get_object ( etats_prefs_builder, "bouton_detaille_exo_etat" ) ),
                         "toggled",
                         G_CALLBACK ( sens_desensitive_pointeur ),
                         gtk_builder_get_object ( etats_prefs_builder, "sw_exer" ) );
@@ -2156,8 +2155,6 @@ static GtkWidget *etats_prefs_onglet_montants_create_page ( gint page )
     GtkWidget *vbox_onglet;
     GtkWidget *vbox;
     GtkWidget *button;
-
-    devel_debug (NULL);
 
     vbox_onglet =  GTK_WIDGET ( gtk_builder_get_object ( etats_prefs_builder, "onglet_etat_montant" ) );
 

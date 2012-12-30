@@ -225,10 +225,6 @@ static void etats_config_initialise_onglet_periode ( gint report_number )
 
             etats_prefs_onglet_periode_date_interval_sensitive ( TRUE );
 
-            /* on initialise le type de date à sélectionner */
-            etats_prefs_button_toggle_set_actif ( "button_sel_value_date",
-                                gsb_data_report_get_date_select_value ( report_number ) );
-
             /* on remplit les dates perso si elles existent */
             if ( ( date = gsb_data_report_get_personal_date_start ( report_number ) ) )
                 gsb_calendar_entry_set_date (
@@ -270,9 +266,6 @@ static void etats_config_recupere_info_onglet_periode ( gint report_number )
         {
             GtkWidget *entry;
 
-            gsb_data_report_set_date_select_value ( report_number,
-                                etats_prefs_button_toggle_get_actif ( "button_sel_value_date" ) );
-
             entry = etats_prefs_widget_get_widget_by_name ( "hbox_date_init", "entree_date_init_etat" );
             if ( !gsb_date_check_entry ( entry ) )
             {
@@ -313,8 +306,7 @@ static void etats_config_recupere_info_onglet_periode ( gint report_number )
                 gsb_data_report_set_personal_date_end ( report_number,
                                 gsb_calendar_entry_get_date ( entry ) );
         }
-        else
-            gsb_data_report_set_date_type ( report_number, item_selected );
+        gsb_data_report_set_date_type ( report_number, item_selected );
     }
     else
     {
@@ -3121,6 +3113,11 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
     gtk_entry_set_text ( GTK_ENTRY ( etats_prefs_widget_get_widget_by_name ( "entree_nom_etat", NULL ) ),
                         gsb_data_report_get_report_name ( report_number ) );
 
+    /* on initialise le type de date à sélectionner */
+    etats_prefs_button_toggle_set_actif ( "button_sel_value_date",
+                        gsb_data_report_get_date_select_value ( report_number ) );
+
+    /* on initialise les autres données */
     etats_prefs_button_toggle_set_actif ( "bouton_afficher_nb_opes",
                         gsb_data_report_get_show_report_transaction_amount ( report_number ) );
     etats_prefs_button_toggle_set_actif ( "bouton_inclure_dans_tiers",
@@ -3151,6 +3148,8 @@ static void etats_config_recupere_info_onglet_affichage_generalites ( gint repor
     }
 
     /* on récupère les autres informations */
+    gsb_data_report_set_date_select_value ( report_number,
+                        etats_prefs_button_toggle_get_actif ( "button_sel_value_date" ) );
     gsb_data_report_set_show_report_transaction_amount ( report_number,
                         etats_prefs_button_toggle_get_actif ( "bouton_afficher_nb_opes" ) );
     gsb_data_report_set_append_in_payee ( report_number,

@@ -54,7 +54,7 @@ typedef struct
     gchar *report_name;
 
     /** @name what we show of the transactions */
-    gint show_m;                                    /**< 0=all transactions, 1=report marked, 2=report non marked R */
+    gint show_m;                                    /**< 0=all the reports, 1=report not marked R, 2=report marked P,R or T */
     gint show_p;                                    /**< 0=report not marked P, 1=report marked P */
     gint show_r;                                    /**< 0=report not marked R, 1=report marked R */
     gint show_t;                                    /**< 0=report not marked T, 1=report marked T */

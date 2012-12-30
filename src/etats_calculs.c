@@ -465,16 +465,34 @@ GSList *recupere_opes_etat ( gint report_number )
 
 		    /* on vérifie les R */
 
-		    if ( gsb_data_report_get_show_r (report_number))
+		    if ( gsb_data_report_get_show_m (report_number))
 		    {
-			if ( ( gsb_data_report_get_show_r (report_number) == 1
-			       &&
-			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)== OPERATION_RAPPROCHEE )
-			     ||
-			     ( gsb_data_report_get_show_r (report_number) == 2
-			       &&
-			       gsb_data_transaction_get_marked_transaction ( transaction_number_tmp)!= OPERATION_RAPPROCHEE ))
-			    goto operation_refusee;
+                if ( gsb_data_report_get_show_m (report_number) == 1
+                 &&
+                 gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_RAPPROCHEE )
+                {
+                    goto operation_refusee;
+                }
+                if ( gsb_data_report_get_show_m (report_number) == 2 )
+                {
+                    if ( !gsb_data_transaction_get_marked_transaction ( transaction_number_tmp ) )
+                        goto operation_refusee;
+
+                    if ( gsb_data_report_get_show_p (report_number) == 0
+                     &&
+                     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_POINTEE )
+                        goto operation_refusee;
+
+                    if ( gsb_data_report_get_show_r (report_number) == 0
+                     &&
+                     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_RAPPROCHEE )
+                        goto operation_refusee;
+
+                    if ( gsb_data_report_get_show_t (report_number) == 0
+                     &&
+                     gsb_data_transaction_get_marked_transaction ( transaction_number_tmp) == OPERATION_TELERAPPROCHEE )
+                        goto operation_refusee;
+                }
 		    }
 
 
