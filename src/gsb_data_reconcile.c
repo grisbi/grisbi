@@ -37,9 +37,10 @@
 #include "gsb_data_reconcile.h"
 #include "dialog.h"
 #include "gsb_data_transaction.h"
+#include "gsb_transactions_list.h"
+#include "gsb_real.h"
 #include "utils_dates.h"
 #include "utils_str.h"
-#include "gsb_real.h"
 /*END_INCLUDE*/
 
 /** \struct
@@ -270,10 +271,9 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
     reconcile = gsb_data_reconcile_get_structure ( reconcile_number );
 
     if (!reconcile)
-	return FALSE;
+        return FALSE;
 
-    reconcile_list = g_list_remove ( reconcile_list,
-				      reconcile );
+    reconcile_list = g_list_remove ( reconcile_list, reconcile );
     _gsb_data_reconcile_free ( reconcile );
 
     /* remove that reconcile of the transactions */
@@ -281,15 +281,16 @@ gboolean gsb_data_reconcile_remove ( gint reconcile_number )
 
     while (list_tmp)
     {
-	gint transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
+        gint transaction_number;
 
-	if ( gsb_data_transaction_get_reconcile_number (transaction_number) == reconcile_number )
-	{
-	    gsb_data_transaction_set_reconcile_number ( transaction_number, 0 );
-	    gsb_data_transaction_set_marked_transaction ( transaction_number,
-							  OPERATION_POINTEE );
-	}
-	list_tmp = list_tmp -> next;
+        transaction_number = gsb_data_transaction_get_transaction_number ( list_tmp -> data );
+        if ( gsb_data_transaction_get_reconcile_number (transaction_number) == reconcile_number )
+        {
+            gsb_data_transaction_set_reconcile_number ( transaction_number, 0 );
+            gsb_data_transaction_set_marked_transaction ( transaction_number, OPERATION_POINTEE );
+            gsb_transactions_list_update_transaction ( transaction_number );
+        }
+        list_tmp = list_tmp -> next;
     }
 
     return TRUE;
