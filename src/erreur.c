@@ -39,7 +39,6 @@
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"

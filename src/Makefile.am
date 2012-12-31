@@ -116,7 +116,6 @@ libgrisbi_la_SOURCES = \
 	gsb_locale.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
-	gsb_plugins.c		\
 	gsb_real.c		\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
@@ -259,7 +258,6 @@ libgrisbi_la_SOURCES = \
 	gsb_locale.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-	gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\

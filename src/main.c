@@ -50,7 +50,6 @@
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
-#include "gsb_plugins.h"
 #include "gsb_status.h"
 #include "import.h"
 #include "menu.h"
@@ -507,8 +506,6 @@ gboolean gsb_grisbi_init_app ( void )
 {
     gboolean first_use = FALSE;
     gchar *string;
-
-    gsb_plugins_scan_dir ( );
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
