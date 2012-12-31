@@ -26,12 +26,12 @@
 
 /*START_INCLUDE*/
 #include "parse_cmdline.h"
-#include "gsb_plugins.h"
 #include "main.h"
 #include "utils_str.h"
 #include "structures.h"
 #include "utils.h"
 #include "gsb_dirs.h"
+#include "help.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -171,9 +171,9 @@ gboolean  parse_options(int argc, char **argv, cmdline_options *pOpt, gint* pErr
  **/
 void show_version(void)
 {
-    gsb_plugins_scan_dir ( );
-
-    g_print(N_("Grisbi version %s, %s\n"), VERSION, gsb_plugin_get_list());
+    g_print( _("Grisbi version %s"), VERSION);
+    g_print( "\n\n" );
+    g_print( "%s", extra_support ( ) );
 }
 
 
