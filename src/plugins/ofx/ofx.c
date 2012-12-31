@@ -111,7 +111,7 @@ extern void ofx_plugin_register ( void )
 extern gpointer ofx_plugin_run ( GtkWidget * assistant,
 				    struct imported_file * imported )
 {
-    return recuperation_donnees_ofx ( assistant, imported );
+    return NULL;
 }
 
 
