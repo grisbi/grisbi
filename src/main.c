@@ -508,9 +508,7 @@ gboolean gsb_grisbi_init_app ( void )
     gboolean first_use = FALSE;
     gchar *string;
 
-#ifdef HAVE_PLUGINS
     gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
-#endif
 
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );

@@ -335,7 +335,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS = ui
+SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
 SUBDIRS += tests
@@ -345,10 +345,6 @@ EXTRA_DIST = grisbi.keys grisbi.mime
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
-
-if HAVE_PLUGINS
-SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
-endif
 
 ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
 

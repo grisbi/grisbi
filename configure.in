@@ -67,32 +67,6 @@ dnl ================================================================
 dnl Plugin support using glib's GModule
 dnl ================================================================
 
-AC_ARG_WITH(plugins,
-	AS_HELP_STRING([--with-plugins],[support plugins (default=auto)]),
-	[build_plugins=$withval],
-	[build_plugins=auto])
-
-AC_MSG_CHECKING(whether GLib supports loadable modules)
-gmodule_supported=`$PKG_CONFIG gmodule-2.0 --variable gmodule_supported`
-if test "$gmodule_supported" = true ; then
-	have_plugins=yes
-else
-	have_plugins=no
-fi
-AC_MSG_RESULT($have_plugins)
-
-if test "$have_plugins" = no -a "$build_plugins" = yes; then
-	AC_MSG_ERROR([GLib on this platform doesn't support loadable modules, so you can't enable plugins.])
-fi
-if test "$build_plugins" != no; then
-	build_plugins=$have_plugins
-else
-	build_plugins=no
-fi
-if test "$build_plugins" = yes; then
-	AC_DEFINE(HAVE_PLUGINS, 1, [Define if plugins are enabled])
-fi
-AM_CONDITIONAL(HAVE_PLUGINS, [test "$build_plugins" = yes])
 AC_SUBST(plugindir,[$\(libdir\)/$\(PACKAGE\)])
 
 dnl ================================================================
@@ -358,7 +332,6 @@ AC_OUTPUT
 
 echo "
 
-                Build plugin support:      $build_plugins
                 Build with libxml2:        $build_libxml2
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
