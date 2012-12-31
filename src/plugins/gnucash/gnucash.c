@@ -74,7 +74,7 @@ static struct import_format gnucash_format = {
     "Gnucash",
     "Gnucash",
     "gnc",
-    (import_function) recuperation_donnees_gnucash,
+    recuperation_donnees_gnucash,
 };
 
 GSList * gnucash_accounts = NULL;

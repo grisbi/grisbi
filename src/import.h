@@ -106,8 +106,6 @@ struct imported_file
 };
 
 
-typedef gboolean ( * import_function ) ( GtkWidget * assistant, struct imported_file * );
-
 struct import_format
 {
     gchar * name;

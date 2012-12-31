@@ -93,7 +93,7 @@ static struct import_format ofx_format =
     "OFX",
     "Open Financial Exchange",
     "ofx",
-    (import_function) recuperation_donnees_ofx,
+    recuperation_donnees_ofx,
 };
 
 

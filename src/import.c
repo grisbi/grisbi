@@ -201,8 +201,8 @@ static gboolean marked_r_transactions_imported;
 /** Known built-in import formats.  Others are plugins.  */
 static struct import_format builtin_formats[] =
 {
-{ "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
-{ "QIF", N_("Quicken Interchange Format"), "qif", (import_function) recuperation_donnees_qif },
+{ "CSV", N_("Comma Separated Values"),     "csv", csv_import_csv_account },
+{ "QIF", N_("Quicken Interchange Format"), "qif", recuperation_donnees_qif },
 { NULL,  NULL,              NULL,       NULL },
 };
 
