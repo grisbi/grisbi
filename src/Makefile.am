@@ -12,14 +12,25 @@ noinst_LTLIBRARIES = libgrisbi.la
 grisbi_LDADD = $(GRISBI_LIBS) $(GTK_MAC_LIBS) libgrisbi.la
 
 libgrisbi_la_LIBADD =
+
 if ENABLE_STATIC
-libgrisbi_la_LIBADD += \
-	plugins/gnucash/gnucash.la \
-	plugins/ofx/ofx.la \
-	plugins/openssl/openssl.la
-else
-libgrisbi_la_LDFLAGS = -export_dynamic
+
+if HAVE_XML2
+libgrisbi_la_LIBADD += plugins/gnucash/gnucash.la
 endif
+if HAVE_OFX
+libgrisbi_la_LIBADD += plugins/ofx/ofx.la
+endif
+if HAVE_SSL
+libgrisbi_la_LIBADD += plugins/openssl/openssl.la
+endif
+
+else # ENABLE_STATIC
+
+libgrisbi_la_LDFLAGS = -export_dynamic
+
+endif # ENABLE_STATIC
+
 libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
 
 if HAVE_GOFFICE

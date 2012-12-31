@@ -113,8 +113,8 @@ if test "$build_libxml2" != no; then
 else
 	build_libxml2=no
 fi
-if test "$build_libxml2" = no; then
-	AC_DEFINE(NOXML2, 1, [Define if libxml2 support is disabled])
+if test "$build_libxml2" = yes; then
+	AC_DEFINE(HAVE_XML2, 1, [Define if libxml2 support is enabled])
 fi
 AM_CONDITIONAL(HAVE_XML2, [test "$build_libxml2" = yes])
 
