@@ -44,7 +44,7 @@ static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
 static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
 static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
 static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
-static GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported );
+static gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported );
 /*END_STATIC*/
 
 
@@ -140,7 +140,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
  *
  *
  */
-GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
+gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
     gchar *argv[2] = { "", "" };
@@ -180,7 +180,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
         gsb_import_register_account_error ( account );
         devel_print_str ( account -> nom_de_compte );
 
-        return ( FALSE );
+        return FALSE ;
     }
 
     liste_tmp = liste_comptes_importes_ofx;
@@ -199,7 +199,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
 	liste_tmp = liste_tmp -> next;
     }
 
-    return ( liste_tmp );
+    return TRUE;
 }
 /* *******************************************************************************/
 
