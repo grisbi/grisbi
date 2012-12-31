@@ -68,7 +68,6 @@
 #include "gsb_file.h"
 #include "gsb_file_util.h"
 #include "gsb_locale.h"
-#include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "gsb_scheduler_list.h"
@@ -83,6 +82,9 @@
 #include "utils_str.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
+#ifdef HAVE_SSL
+#include "plugins/openssl/openssl.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -331,27 +333,20 @@ gboolean gsb_file_load_open_file ( gchar *filename )
     {
         GMarkupParser *markup_parser;
         GMarkupParseContext *context;
-        gsb_plugin *plugin;
 
         /* first, we check if the file is crypted, if it is, we decrypt it */
         if ( !strncmp ( file_content, "Grisbi encrypted file ", 22 ) ||
              !strncmp ( file_content, "Grisbi encryption v2: ", 22 ) )
         {
-            plugin = gsb_plugin_find ( "openssl" );
-            if ( plugin )
-            {
-            gint (*crypt_function) ( gchar *, gchar **, gboolean, gulong );
-
-            crypt_function = (gpointer) plugin -> plugin_run;
-            length = crypt_function ( filename, &file_content, FALSE, length );
+#ifdef HAVE_SSL
+            length = gsb_file_util_crypt_file ( filename, &file_content, FALSE, length );
 
             if ( ! length )
             {
                 g_free (file_content);
                 return FALSE;
             }
-            }
-            else
+#else
             {
                 g_free (file_content);
                 dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
@@ -362,6 +357,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
                         _("Encryption plugin not found." ) );
                 return FALSE;
             }
+#endif
         }
 
         /* we begin to check if we are in a version under 0.6 or 0.6 and above,

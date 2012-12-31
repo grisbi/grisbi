@@ -41,7 +41,6 @@
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_plugins.h"
 #include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -251,7 +250,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
-    if ( gsb_plugin_find ( "openssl" ) )
+#ifdef HAVE_SSL
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
                                                &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
@@ -261,10 +260,11 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
         if ( etat.crypt_file )
             run.new_crypted_file = TRUE;
     }
-    else
+#else
     {
         run.new_crypted_file = FALSE;
     }
+#endif
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),

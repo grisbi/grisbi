@@ -29,10 +29,6 @@
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "dialog.h"
-
-#ifdef HAVE_SSL
-#include "plugins/openssl/openssl.h"
-#endif
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -52,15 +48,6 @@ static GSList * plugins = NULL;
 void gsb_plugins_scan_dir ( void )
 {
     gsb_plugin *plugin = NULL;
-
-#ifdef HAVE_SSL
-    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
-    plugin -> name = "openssl";
-    plugin -> plugin_register = &openssl_plugin_register;
-    plugin -> plugin_run =      &openssl_plugin_run;
-    plugin -> plugin_register ();
-    plugins = g_slist_append ( plugins, plugin );
-#endif
 }
 
 
