@@ -44,7 +44,6 @@ static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
 static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
 static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
 static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
-static gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported );
 /*END_STATIC*/
 
 
@@ -85,34 +84,6 @@ static gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct importe
 #endif /* _MIN_GW */
 
 /* #endif _WIN32 */
-
-
-
-static struct import_format ofx_format =
-{
-    "OFX",
-    "Open Financial Exchange",
-    "ofx",
-    recuperation_donnees_ofx,
-};
-
-
-
-/** Initialization function. */
-extern void ofx_plugin_register ( void )
-{
-    devel_debug ("Initializating ofx plugin");
-    register_import_format ( &ofx_format );
-}
-
-
-
-/** Main function of module. */
-extern gpointer ofx_plugin_run ( GtkWidget * assistant,
-				    struct imported_file * imported )
-{
-    return NULL;
-}
 
 
 

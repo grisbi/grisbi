@@ -1,14 +1,15 @@
 #ifndef GSB_GNUCASH_H
 #define GSB_GNUCASH_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 
 /* START_INCLUDE_H */
+#include "import.h"
 /* END_INCLUDE_H */
 
 /* START_DECLARATION */
-void gnucash_plugin_register ( void );
-gpointer gnucash_plugin_run ( void );
+gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
+					struct imported_file * imported );
 /* END_DECLARATION */
 
 #endif

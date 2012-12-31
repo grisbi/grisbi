@@ -30,12 +30,6 @@
 #include "gsb_plugins.h"
 #include "dialog.h"
 
-#ifdef HAVE_XML2
-#include "plugins/gnucash/gnucash.h"
-#endif
-#ifdef HAVE_OFX
-#include "plugins/ofx/ofx.h"
-#endif
 #ifdef HAVE_SSL
 #include "plugins/openssl/openssl.h"
 #endif
@@ -58,24 +52,6 @@ static GSList * plugins = NULL;
 void gsb_plugins_scan_dir ( void )
 {
     gsb_plugin *plugin = NULL;
-
-#ifdef HAVE_XML2
-    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
-    plugin -> name = "gnucash";
-    plugin -> plugin_register = &gnucash_plugin_register;
-    plugin -> plugin_run =      &gnucash_plugin_run;
-    plugin -> plugin_register ();
-    plugins = g_slist_append ( plugins, plugin );
-#endif
-
-#ifdef HAVE_OFX
-    plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
-    plugin -> name = "ofx";
-    plugin -> plugin_register = &ofx_plugin_register;
-    plugin -> plugin_run =      &ofx_plugin_run;
-    plugin -> plugin_register ();
-    plugins = g_slist_append ( plugins, plugin );
-#endif /* HAVE_OFX */
 
 #ifdef HAVE_SSL
     plugin = g_malloc0 ( sizeof ( gsb_plugin ) );

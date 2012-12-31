@@ -82,6 +82,12 @@
 #include "structures.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
+#ifdef HAVE_XML2
+#include "plugins/gnucash/gnucash.h"
+#endif
+#ifdef HAVE_OFX
+#include "plugins/ofx/ofx.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -203,6 +209,12 @@ static struct import_format builtin_formats[] =
 {
 { "CSV", N_("Comma Separated Values"),     "csv", csv_import_csv_account },
 { "QIF", N_("Quicken Interchange Format"), "qif", recuperation_donnees_qif },
+#ifdef HAVE_XML2
+{ "Gnucash", N_("Gnucash"),                "gnc", recuperation_donnees_gnucash },
+#endif
+#ifdef HAVE_OFX
+{ "OFX", N_("Open Financial Exchange"),    "ofx", recuperation_donnees_ofx },
+#endif
 { NULL,  NULL,              NULL,       NULL },
 };
 
