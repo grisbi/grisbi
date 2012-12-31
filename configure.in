@@ -283,21 +283,6 @@ else
 fi
 
 dnl ================================================================
-dnl Static or Shared plugins support
-dnl ================================================================
-
-AC_ARG_ENABLE(static-plugins,
-	AS_HELP_STRING(
-		[--enable-static-plugins],
-		[Statically build all plugins inside the main binary (default=no)]),
-	enable_static=$enableval,
-	enable_static=no)
-if test "$enable_static" = yes; then
-	AC_DEFINE(ENABLE_STATIC, 1, [Statically build all plugins inside the main binary])
-fi
-AM_CONDITIONAL(ENABLE_STATIC, [test "$enable_static" = yes])
-
-dnl ================================================================
 dnl Makefiles
 dnl ================================================================
 
@@ -336,7 +321,6 @@ echo "
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
                 Build with goffice:        $build_goffice
-                Build plugins statically:  $enable_static
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
 

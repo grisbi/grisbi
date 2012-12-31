@@ -2,9 +2,6 @@
 #define GSB_PLUGINS_H
 
 #include <glib.h>
-#ifndef ENABLE_STATIC
-#include <gmodule.h>
-#endif
 
 /* START_INCLUDE_H */
 /* END_INCLUDE_H */
@@ -14,9 +11,6 @@ typedef struct gsb_plugin {
     gchar * name;
     void (* plugin_register) ( void );
     gpointer (* plugin_run) ( );
-#ifndef ENABLE_STATIC
-    GModule * handle;
-#endif
 }  gsb_plugin;
 
 

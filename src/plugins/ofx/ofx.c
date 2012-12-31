@@ -58,13 +58,6 @@ static struct import_format ofx_format =
 
 
 
-#ifndef ENABLE_STATIC
-/** Module name. */
-G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
-#endif
-
-
-
 /** Initialization function. */
 G_MODULE_EXPORT extern void ofx_plugin_register ( void )
 {

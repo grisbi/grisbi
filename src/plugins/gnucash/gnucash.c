@@ -80,12 +80,6 @@ static struct import_format gnucash_format = {
 GSList * gnucash_accounts = NULL;
 
 
-#ifndef ENABLE_STATIC
-/** Module name. */
-G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
-#endif
-
-
 
 /** Initialization function. */
 G_MODULE_EXPORT extern void gnucash_plugin_register ( void )

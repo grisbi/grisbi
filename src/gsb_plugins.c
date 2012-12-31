@@ -24,16 +24,12 @@
 #endif
 
 #include "include.h"
-#ifndef ENABLE_STATIC
-#include <gmodule.h>
-#endif
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_plugins.h"
 #include "dialog.h"
 
-#ifdef ENABLE_STATIC
 #ifdef HAVE_XML2
 #include "plugins/gnucash/gnucash.h"
 #endif
@@ -43,7 +39,6 @@
 #ifdef HAVE_SSL
 #include "plugins/openssl/openssl.h"
 #endif
-#endif /* ENABLE_STATIC */
 /*END_INCLUDE*/
 
 /*START_EXTERN*/
@@ -62,7 +57,6 @@ static GSList * plugins = NULL;
  */
 void gsb_plugins_scan_dir ( const char *dirname )
 {
-#ifdef ENABLE_STATIC
     gsb_plugin *plugin = NULL;
 
 #ifdef HAVE_XML2
@@ -91,90 +85,6 @@ void gsb_plugins_scan_dir ( const char *dirname )
     plugin -> plugin_register ();
     plugins = g_slist_append ( plugins, plugin );
 #endif
-#else /* ENABLE_STATIC */
-    GDir * plugin_dir;
-    const gchar * filename;
-    gchar * plugin_name;
-
-    plugin_dir = g_dir_open ( dirname, 0, NULL );
-    if ( ! plugin_dir )
-	return;
-
-    while ( ( filename = g_dir_read_name ( plugin_dir ) ) != NULL )
-    {
-	gchar * complete_filename, * tmp;
-	gchar ** split_filename;
-	gsb_plugin * plugin = g_malloc0 ( sizeof ( gsb_plugin ) );
-
-	split_filename = g_strsplit(filename, ".", 2);
-
-	if (!split_filename[1])
-		continue;
-
-	if ( strncmp ( split_filename[1], G_MODULE_SUFFIX, strlen(G_MODULE_SUFFIX) ) )
-	    continue;
-
-	complete_filename = g_build_filename ( dirname, filename, NULL );
-
-	if ( ! ( plugin -> handle =
-		 g_module_open (complete_filename, 0 ) ) )
-	{
-	    gchar* tmpstr = g_strdup_printf ( "Couldn't load module %s: %s", filename,
-					       g_module_error() );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( plugin );
-	    g_free ( complete_filename);
-	    continue;
-	}
-
-	g_free (complete_filename);
-
-	if ( ! g_module_symbol ( plugin -> handle, "plugin_name",
-				 (gpointer) &plugin_name ) )
-	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol",
-					       filename );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( plugin );
-	    continue;
-	}
-	plugin -> name = plugin_name;
-
-	tmp = g_strconcat ( plugin_name, "_plugin_register", NULL );
-	if ( ! g_module_symbol ( plugin -> handle, tmp,
-				 (gpointer)  &( plugin -> plugin_register ) ) )
-	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no register symbol",
-					       filename );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( plugin );
-	    continue;
-	}
-	g_free ( tmp );
-
-	plugin -> plugin_register ();
-
-	tmp = g_strconcat ( plugin_name, "_plugin_run", NULL );
-	if ( ! g_module_symbol ( plugin -> handle, tmp,
-				 (gpointer) &( plugin -> plugin_run ) ) )
-	{
-	    gchar* tmpstr = g_strdup_printf ( "Plugin %s has no run symbol",
-					       filename );
-	    dialogue_error ( tmpstr );
-	    g_free ( tmpstr );
-	    g_free ( plugin );
-	    continue;
-	}
-	g_free ( tmp );
-
-	plugins = g_slist_append ( plugins, plugin );
-    }
-
-    g_dir_close ( plugin_dir );
-#endif /* ENABLE_STATIC */
 }
 
 
