@@ -41,13 +41,6 @@
 #include "erreur.h"
 /*END_INCLUDE*/
 
-/*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
-#ifdef _MSC_VER
-#define SYMBOL_IMPORT __declspec(dllimport)
-#else
-#define SYMBOL_IMPORT extern
-#endif
-
 /*START_EXTERN*/
 /*END_EXTERN*/
 
