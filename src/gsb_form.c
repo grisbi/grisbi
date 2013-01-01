@@ -3133,23 +3133,29 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 		break;
 
 	    case TRANSACTION_FORM_EXERCICE:
-		if (conf.affichage_exercice_automatique && value_date)
+        if ( is_transaction )
         {
-            if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (
-             TRANSACTION_FORM_VALUE_DATE) ) )
-                gsb_data_mix_set_financial_year_number ( transaction_number,
-                        gsb_fyear_get_fyear_from_combobox (
-                        element -> element_widget, date ), is_transaction );
+            if ( conf.affichage_exercice_automatique )
+            {
+                if ( gsb_form_widget_check_empty ( gsb_form_widget_get_widget (
+                 TRANSACTION_FORM_VALUE_DATE) ) )
+                    gsb_data_transaction_set_financial_year_number ( transaction_number,
+                            gsb_fyear_get_fyear_from_combobox (
+                            element -> element_widget, date ) );
+                else
+                    gsb_data_transaction_set_financial_year_number ( transaction_number,
+                            gsb_fyear_get_fyear_from_combobox (
+                            element -> element_widget, value_date ) );
+            }
             else
-                gsb_data_mix_set_financial_year_number ( transaction_number,
-                        gsb_fyear_get_fyear_from_combobox (
-                        element -> element_widget, value_date ), is_transaction );
+                gsb_data_transaction_set_financial_year_number ( transaction_number,
+                            gsb_fyear_get_fyear_from_combobox (
+                            element -> element_widget, date ) );
         }
-		else
-		    gsb_data_mix_set_financial_year_number ( transaction_number,
+        else
+            gsb_data_scheduled_set_financial_year_number ( transaction_number,
                         gsb_fyear_get_fyear_from_combobox (
-                        element -> element_widget, date ), is_transaction);
-
+                        element -> element_widget, NULL ) );
             break;
 
 	    case TRANSACTION_FORM_PARTY:
