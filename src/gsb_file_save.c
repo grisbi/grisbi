@@ -2442,6 +2442,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 					       "\t\tNb=\"%d\"\n"
 					       "\t\tName=\"%s\"\n"
 					       "\t\tGeneral_sort_type=\"%s\"\n"
+                           "\t\tIgnore_archives=\"%d\"\n"
 					       "\t\tShow_m=\"%d\"\n"
 					       "\t\tShow_p=\"%d\"\n"
 					       "\t\tShow_r=\"%d\"\n"
@@ -2523,6 +2524,7 @@ gulong gsb_file_save_report_part ( gulong iterator,
 	    report_number_to_write,
 	    my_safe_null_str(report_name),
 	    my_safe_null_str(general_sort_type),
+        gsb_data_report_get_ignore_archives ( report_number ),
 	    gsb_data_report_get_show_m (report_number),
 	    gsb_data_report_get_show_p (report_number),
 	    gsb_data_report_get_show_r (report_number),

@@ -4,7 +4,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2013 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -38,10 +38,13 @@
 
 /*START_INCLUDE*/
 #include "gsb_data_report.h"
+#include "gsb_data_archive.h"
+#include "gsb_data_fyear.h"
 #include "gsb_data_report_amout_comparison.h"
 #include "gsb_data_report_text_comparison.h"
 #include "utils_dates.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /** \struct_report
@@ -87,6 +90,7 @@ typedef struct
     gint column_title_type;                         /* 0 = botton, 1 = each section */
     gint append_in_payee;                           /* TRUE : the name of the report will be in the payee list */
     gint report_can_click;                          /* TRUE : we can click on the reports */
+    gint ignore_archives;                           /* TRUE ignore les opérations archivées choix manuel */
 
 
     /** @name period part of the report */
@@ -97,7 +101,7 @@ typedef struct
     gint financial_year_split;                      /* TRUE : split by financial year */
 
     /** dates */
-    gint date_type;                                 /* 0=perso, 1=all ... */
+    gint date_type;                                 /* 0=all, 1=perso ... */
     gint date_select_value;                         /* 0=date (default), 1=value date */
     GDate *personal_date_start;
     GDate *personal_date_end;
@@ -4425,6 +4429,363 @@ void gsb_data_report_free_sorting_type_list ( gint report_number )
 }
 
 
+/**
+ * get the  ignore_archive 0 by default
+ *
+ * \param report_number the number of the report
+ *
+ * \return the ignore_archive  of the report, -1 if problem
+ * */
+gint gsb_data_report_get_ignore_archives ( gint report_number )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return -1;
+
+    return report -> ignore_archives;
+}
+
+
+/**
+ * set the ignore_archive
+ *
+ * \param report_number number of the report
+ * \param ignore_archive
+ *
+ * \return TRUE if ok
+ * */
+gboolean gsb_data_report_set_ignore_archives ( gint report_number,
+                        gint ignore_archives )
+{
+    struct_report *report;
+
+    report = gsb_data_report_get_structure ( report_number );
+
+    if ( !report )
+        return FALSE;
+
+    report -> ignore_archives = ignore_archives;
+
+    return TRUE;
+}
+
+
+/**
+ * cherche la valeur d'ignore_archives en fonction de l'état
+ *
+ * \param report_number de l'état dont on veut déterminer ignore_archives
+ *
+ * \return ignore_archives
+ * */
+gint gsb_data_report_test_ignore_archives ( gint report_number )
+{
+    gint ignore_archives = 0;       /* valeur par défaut */
+
+    if ( gsb_data_report_get_use_financial_year ( report_number ) )
+    {
+        gint fyear_number;
+        gint previous_fyear_number;
+        GSList *tmp_list;
+
+        /* get the current financial year */
+        fyear_number = gsb_data_fyear_get_from_date ( gdate_today ( ) );
+
+        switch ( gsb_data_report_get_financial_year_type ( report_number ) )
+        {
+        case 1:
+            /* want the current financial year */
+            if ( fyear_number )
+                ignore_archives = !gsb_data_archive_get_from_fyear ( fyear_number );
+            break;
+        case 2:
+            /* want the previous financial year */
+            previous_fyear_number = gsb_data_fyear_get_previous_financial_year ( fyear_number );
+
+            /* here, last_fyear_number is on the last financial year */
+            if ( previous_fyear_number )
+                ignore_archives = !gsb_data_archive_get_from_fyear ( previous_fyear_number );
+            break;
+        case 3:
+            tmp_list = gsb_data_report_get_financial_year_list ( report_number );
+
+            while (tmp_list )
+            {
+                fyear_number = GPOINTER_TO_INT ( tmp_list->data );
+
+                if ( gsb_data_archive_get_from_fyear ( fyear_number ) )
+                    return 0;
+
+                tmp_list = tmp_list->next;
+            }
+            ignore_archives = 1;
+            break;
+        }
+    }
+    else
+    {
+        GDate *tmp_date;
+        GDate *tmp_date2;
+
+        switch ( gsb_data_report_get_date_type (report_number))
+        {
+        case 0:
+            /* toutes dates */
+            ignore_archives = 0;
+            break;
+        case 1:
+            /* plage perso */
+            tmp_date = gsb_data_report_get_personal_date_start ( report_number );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                break;
+            }
+
+            tmp_date = gsb_data_report_get_personal_date_end ( report_number );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                break;
+            }
+            ignore_archives = 1;
+            break;
+        case 2:
+            /* cumul à ce jour */
+            ignore_archives = 0;
+            break;
+        case 3:
+            /* mois en cours */
+            tmp_date2 = gdate_today ();
+            g_date_set_day ( tmp_date2, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date2 ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date2 );
+                break;
+            }
+            tmp_date = gsb_date_get_last_day_of_month ( tmp_date2 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                g_date_free ( tmp_date2 );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            g_date_free ( tmp_date2 );
+            break;
+        case 4:
+            /* année en cours */
+            tmp_date = gdate_today ();
+            g_date_set_day ( tmp_date, 1 );
+            g_date_set_month ( tmp_date, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_set_month ( tmp_date, 12 );
+            g_date_set_day ( tmp_date, 31 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 5:
+            /* cumul mensuel */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_set_day ( tmp_date, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 6:
+            /* cumul annuel */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_set_day ( tmp_date, 1 );
+            g_date_set_month ( tmp_date, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+
+        case 7:
+            /* mois précédent */
+            tmp_date2 = gdate_today ();
+            g_date_subtract_months ( tmp_date2, 1 );
+            g_date_set_day ( tmp_date2, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date2 ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date2 );
+                break;
+            }
+            tmp_date = gsb_date_get_last_day_of_month ( tmp_date2 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                g_date_free ( tmp_date2 );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            g_date_free ( tmp_date2 );
+            break;
+        case 8:
+            /* année précédente */
+            tmp_date = gdate_today ();
+            g_date_subtract_years ( tmp_date, 1 );
+            g_date_set_day ( tmp_date, 1 );
+            g_date_set_month ( tmp_date, 1 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_set_month ( tmp_date, 12 );
+            g_date_set_day ( tmp_date, 31 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 9:
+            /* 30 derniers jours */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_subtract_days ( tmp_date, 30 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 10:
+            /* 3 derniers mois */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_subtract_months ( tmp_date, 3 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 11:
+            /* 6 derniers mois */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_subtract_months ( tmp_date, 6 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        case 12:
+            /* 12 derniers mois */
+            tmp_date = gdate_today ();
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            g_date_subtract_months ( tmp_date, 12 );
+            if ( gsb_data_archive_get_from_date ( tmp_date ) )
+            {
+                ignore_archives = 0;
+                g_date_free ( tmp_date );
+                break;
+            }
+            ignore_archives = 1;
+
+            g_date_free ( tmp_date );
+            break;
+        }
+    }
+
+    return ignore_archives;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

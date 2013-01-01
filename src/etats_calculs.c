@@ -1,8 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*          2008-2013 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -181,65 +182,45 @@ GSList *recupere_opes_etat ( gint report_number )
     GSList *transactions_report_list;
     gint no_exercice_recherche;
     GSList *tmp_list;
+    gint ignore_archives;
 
     transactions_report_list = NULL;
 
+    /* on récupère ignore_archives qui s'il vaut 1 ne retient que la liste courte des opérations */
+    ignore_archives = gsb_data_report_test_ignore_archives ( report_number );
+
+    /* si ignore_archives est différent de la valeur initiale on la met à jour */
+    if ( ignore_archives != gsb_data_report_get_ignore_archives ( report_number ) )
+        gsb_data_report_set_ignore_archives ( report_number, ignore_archives );
+
     /* si on utilise l'exercice courant ou précédent, on cherche ici */
     /* le numéro de l'exercice correspondant */
-
     no_exercice_recherche = 0;
 
     if ( gsb_data_report_get_use_financial_year (report_number))
     {
-	gint fyear_number;
-	gint last_fyear_number;
+        gint fyear_number;
+        gint last_fyear_number;
 
-	/* get the current financial year */
-	fyear_number = gsb_data_fyear_get_from_date (gdate_today ());
+        /* get the current financial year */
+        fyear_number = gsb_data_fyear_get_from_date (gdate_today ( ) );
 
-	switch ( gsb_data_report_get_financial_year_type (report_number))
-	{
-	    case 1:
-		/* want the current financial year */
+        switch ( gsb_data_report_get_financial_year_type ( report_number ) )
+        {
+            case 1:
+            /* want the current financial year */
+            if ( fyear_number )
+                no_exercice_recherche = fyear_number;
+            break;
+            case 2:
+            /* want the last financial year */
+            last_fyear_number = gsb_data_fyear_get_previous_financial_year ( fyear_number );
 
-		if (fyear_number)
-		    no_exercice_recherche = fyear_number;
-		break;
-
-	    case 2:
-		/* want the last financial year */
-
-		fyear_number = gsb_data_fyear_get_from_date (gdate_today ());
-		last_fyear_number = 0;
-
-		tmp_list = gsb_data_fyear_get_fyears_list ();
-		while (tmp_list)
-		{
-		    gint tmp_fyear_number;
-
-		    tmp_fyear_number = gsb_data_fyear_get_no_fyear (tmp_list -> data);
-
-		    if (gsb_data_fyear_compare (fyear_number, tmp_fyear_number) == 1)
-		    {
-			if (last_fyear_number)
-			{
-			    if (gsb_data_fyear_compare (last_fyear_number, tmp_fyear_number) == -1)
-				last_fyear_number = tmp_fyear_number;
-			}
-			else
-			{
-			    last_fyear_number = tmp_fyear_number;
-			}
-		    }
-		    tmp_list = tmp_list -> next;
-		}
-
-		/* here, last_fyear_number is on the last financial year */
-
-		if (last_fyear_number)
-		    no_exercice_recherche = last_fyear_number;
-		break;
-	}
+            /* here, last_fyear_number is on the last financial year */
+            if ( last_fyear_number )
+                no_exercice_recherche = last_fyear_number;
+            break;
+        }
     }
 
     /*   si on a utilisé "le plus grand" dans la recherche de texte, c'est ici qu'on recherche */
@@ -284,8 +265,10 @@ GSList *recupere_opes_etat ( gint report_number )
 		    GSList *list_tmp_transactions;
 
 		    /* on fait le tour de la liste des opés en recherchant le plus grand ds les 3 variables */
-
-		    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+            if ( ignore_archives )
+                list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+            else
+    	        list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 		    while ( list_tmp_transactions )
 		    {
@@ -358,7 +341,11 @@ GSList *recupere_opes_etat ( gint report_number )
 	    /* on va faire le tour de toutes les opés du compte */
 
 	    GSList *list_tmp_transactions;
-	    list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
+
+        if ( ignore_archives )
+            list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+        else
+            list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
 
 	    while ( list_tmp_transactions )
 	    {

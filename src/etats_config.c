@@ -3118,6 +3118,8 @@ static void etats_config_initialise_onglet_affichage_generalites ( gint report_n
                         gsb_data_report_get_date_select_value ( report_number ) );
 
     /* on initialise les autres données */
+    etats_prefs_button_toggle_set_actif ( "bouton_ignore_archives",
+                        gsb_data_report_get_ignore_archives ( report_number ) );
     etats_prefs_button_toggle_set_actif ( "bouton_afficher_nb_opes",
                         gsb_data_report_get_show_report_transaction_amount ( report_number ) );
     etats_prefs_button_toggle_set_actif ( "bouton_inclure_dans_tiers",
@@ -3150,6 +3152,8 @@ static void etats_config_recupere_info_onglet_affichage_generalites ( gint repor
     /* on récupère les autres informations */
     gsb_data_report_set_date_select_value ( report_number,
                         etats_prefs_button_toggle_get_actif ( "button_sel_value_date" ) );
+    gsb_data_report_set_ignore_archives ( report_number,
+                        etats_prefs_button_toggle_get_actif ( "bouton_ignore_archives" ) );
     gsb_data_report_set_show_report_transaction_amount ( report_number,
                         etats_prefs_button_toggle_get_actif ( "bouton_afficher_nb_opes" ) );
     gsb_data_report_set_append_in_payee ( report_number,

@@ -39,6 +39,7 @@ gint gsb_data_fyear_get_invalid ( gint fyear_number );
 const gchar *gsb_data_fyear_get_invalid_message ( gint fyear_number );
 const gchar *gsb_data_fyear_get_name ( gint fyear_number );
 gint gsb_data_fyear_get_no_fyear ( gpointer fyear_ptr );
+gint gsb_data_fyear_get_previous_financial_year ( const gint fyear_number );
 gboolean gsb_data_fyear_init_variables ( void );
 gint gsb_data_fyear_new ( const gchar *name );
 gboolean gsb_data_fyear_remove ( gint fyear_number );

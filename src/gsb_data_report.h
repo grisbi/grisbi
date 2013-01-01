@@ -69,6 +69,7 @@ gint gsb_data_report_get_date_select_value ( gint report_number );
 GSList *gsb_data_report_get_financial_year_list ( gint report_number );
 gint gsb_data_report_get_financial_year_split ( gint report_number );
 gint gsb_data_report_get_financial_year_type ( gint report_number );
+gint gsb_data_report_get_ignore_archives ( gint report_number );
 GSList *gsb_data_report_get_method_of_payment_list ( gint report_number );
 gint gsb_data_report_get_method_of_payment_used ( gint report_number );
 gint gsb_data_report_get_not_detail_split ( gint report_number );
@@ -197,6 +198,8 @@ gboolean gsb_data_report_set_financial_year_split ( gint report_number,
                         gint financial_year_split );
 gboolean gsb_data_report_set_financial_year_type ( gint report_number,
                         gint financial_year_type );
+gboolean gsb_data_report_set_ignore_archives ( gint report_number,
+                        gint ignore_archives );
 gboolean gsb_data_report_set_method_of_payment_list ( gint report_number,
                         GSList *method_of_payment_list );
 gboolean gsb_data_report_set_method_of_payment_used ( gint report_number,
@@ -289,6 +292,7 @@ gboolean gsb_data_report_set_transfer_reports_only ( gint report_number,
                         gint transfer_reports_only );
 gboolean gsb_data_report_set_use_financial_year ( gint report_number,
                         gint use_financial_year );
+gint gsb_data_report_test_ignore_archives ( gint report_number );
 /* END_DECLARATION */
 
 #endif

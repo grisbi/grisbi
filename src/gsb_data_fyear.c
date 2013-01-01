@@ -718,6 +718,52 @@ gint gsb_data_fyear_compare_from_struct ( struct_fyear *fyear_1,
 }
 
 
+/**
+ * retourne l'exercice précédent l'exercice passé en paramètre
+ *
+ * \param fyear_number
+ *
+ * \return previous_fyear_number ou 0 si pas d'exercice precedent
+ * */
+gint gsb_data_fyear_get_previous_financial_year ( const gint fyear_number )
+{
+    gint previous_fyear_number = 0;
+    GSList *tmp_list;
+
+    tmp_list = fyear_list;
+
+    while ( tmp_list )
+    {
+        gint tmp_fyear_number;
+
+        tmp_fyear_number = gsb_data_fyear_get_no_fyear ( tmp_list -> data );
+
+        if ( gsb_data_fyear_compare ( fyear_number, tmp_fyear_number ) == 1)
+        {
+            if ( previous_fyear_number )
+            {
+                if ( gsb_data_fyear_compare ( previous_fyear_number, tmp_fyear_number ) == -1)
+                    previous_fyear_number = tmp_fyear_number;
+            }
+            else
+            {
+                previous_fyear_number = tmp_fyear_number;
+            }
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    return previous_fyear_number;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

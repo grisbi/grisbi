@@ -4399,6 +4399,15 @@ void gsb_file_load_report ( const gchar **attribute_names,
     }
 
     if ( !strcmp ( attribute_names[i],
+               "Ignore_archives" ))
+    {
+        gsb_data_report_set_ignore_archives ( report_number,
+                     utils_str_atoi (attribute_values[i]));
+        i++;
+        continue;
+    }
+
+    if ( !strcmp ( attribute_names[i],
                "Show_m" ))
     {
         gsb_data_report_set_show_m ( report_number,
