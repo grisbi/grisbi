@@ -35,7 +35,8 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void dialogue_special ( GtkMessageType param, gchar *text );
+static void dialogue_special ( GtkMessageType param, const gchar *text,
+                               const gchar *hint);
 static void dialogue_conditional ( gchar *text, gchar *var );
 static GtkDialog *dialogue_conditional_new ( gchar *text,
                         gchar *var,
@@ -131,7 +132,7 @@ struct conditional_message messages[] =
  */
 void dialogue_hint ( gchar *text, gchar *hint )
 {
-    dialogue_special ( GTK_MESSAGE_INFO, make_hint(hint, text) );
+    dialogue_special ( GTK_MESSAGE_INFO, text, hint );
 }
 
 
@@ -142,7 +143,7 @@ void dialogue_hint ( gchar *text, gchar *hint )
  */
 void dialogue ( gchar *texte_dialogue )
 {
-    dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue );
+    dialogue_special ( GTK_MESSAGE_INFO, texte_dialogue, NULL );
 }
 
 
@@ -153,7 +154,7 @@ void dialogue ( gchar *texte_dialogue )
  */
 void dialogue_error ( gchar *text )
 {
-    dialogue_special ( GTK_MESSAGE_ERROR, text );
+    dialogue_special ( GTK_MESSAGE_ERROR, text, NULL );
 }
 
 
@@ -165,7 +166,7 @@ void dialogue_error ( gchar *text )
  */
 void dialogue_error_hint ( const gchar *text, gchar *hint )
 {
-    dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
+    dialogue_special ( GTK_MESSAGE_ERROR, text, hint );
 }
 
 
@@ -176,7 +177,7 @@ void dialogue_error_hint ( const gchar *text, gchar *hint )
  */
 void dialogue_warning ( gchar *text )
 {
-    dialogue_special ( GTK_MESSAGE_WARNING, text );
+    dialogue_special ( GTK_MESSAGE_WARNING, text, NULL );
 }
 
 
@@ -188,7 +189,7 @@ void dialogue_warning ( gchar *text )
  */
 void dialogue_warning_hint ( gchar *text, gchar *hint )
 {
-    dialogue_special ( GTK_MESSAGE_WARNING, make_hint (hint, text) );
+    dialogue_special ( GTK_MESSAGE_WARNING, text, hint );
 }
 
 
@@ -199,16 +200,22 @@ void dialogue_warning_hint ( gchar *text, gchar *hint )
  *
  * \param param Type of Window to display
  * \param text Text to display in window
+ * \param hint Text to display in window as hint (bold, larger), may be NULL
  */
-void dialogue_special ( GtkMessageType param, gchar *text )
+void dialogue_special ( GtkMessageType param, const gchar *text, const gchar *hint )
 {
     GtkWidget *dialog;
+    const gchar *primary_text = hint ? hint : text;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
                         NULL );
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
+
+    if ( hint )
+        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog),
+                                                   "%s", text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
