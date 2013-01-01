@@ -316,13 +316,12 @@ gint gsb_scheduler_create_transaction_from_scheduled_transaction ( gint schedule
 						    gsb_data_scheduled_get_sub_budgetary_number (scheduled_number));
 
     /* if the financial year is automatic, we set it here */
-
-    if ( gsb_data_scheduled_get_financial_year_number (scheduled_number) == -2 )
-	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 gsb_data_fyear_get_from_date ( gsb_data_transaction_get_date (transaction_number)));
+    if ( gsb_data_scheduled_get_financial_year_number ( scheduled_number ) == 0 )
+        gsb_data_transaction_set_financial_year_number ( transaction_number,
+    				    gsb_data_fyear_get_from_date ( gsb_data_transaction_get_date ( transaction_number ) ) );
     else
-	gsb_data_transaction_set_financial_year_number ( transaction_number,
-							 gsb_data_scheduled_get_financial_year_number (scheduled_number));
+        gsb_data_transaction_set_financial_year_number ( transaction_number,
+    				    gsb_data_scheduled_get_financial_year_number ( scheduled_number ) );
 
     /* get the category */
 
