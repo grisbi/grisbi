@@ -35,6 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void dialogue_special ( GtkMessageType param, gchar *text );
 static void dialogue_conditional ( gchar *text, gchar *var );
 static GtkDialog *dialogue_conditional_new ( gchar *text,
                         gchar *var,

@@ -277,10 +277,10 @@ gint get_utf8_line_from_file ( FILE *fichier,
         tmp_string = latin2utf8 (pointeur_char);
         if ( tmp_string == NULL )
         {
-            dialogue_special ( GTK_MESSAGE_ERROR, make_hint (
-                            _("Convert to utf8 failed."),
+            dialogue_error_hint (
                             _("If the result is not correct, try again by selecting the "
-                            "correct character set in the window for selecting files.") ) );
+                            "correct character set in the window for selecting files."),
+                            _("Convert to utf8 failed.") );
             return 0;
         }
     }

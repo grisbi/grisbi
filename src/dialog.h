@@ -27,7 +27,6 @@ void dialogue_error_hint ( const gchar *text, gchar *hint );
 void dialogue_error_memory ();
 void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
-void dialogue_special ( GtkMessageType param, gchar *text );
 GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
                         gchar *text );

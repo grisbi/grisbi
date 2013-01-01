@@ -1510,9 +1510,8 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_financial_year_type (current_report_number) == 3 )
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All financial years have been selected. Grisbi will run faster without the \"Detail financial years\" option activated.") ) );
+	dialogue_hint ( _("All financial years have been selected. Grisbi will run faster without the \"Detail financial years\" option activated."),
+			_("Performance issue.") );
 	gsb_data_report_set_financial_year_type ( current_report_number,
 						  0 );
     }
@@ -1569,9 +1568,8 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_account_use_chosen (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All accounts have been selected. Grisbi will run faster without the \"Detail accounts used\" option activated.") ) );
+	dialogue_hint ( _("All accounts have been selected. Grisbi will run faster without the \"Detail accounts used\" option activated."),
+			_("Performance issue.") );
 	gsb_data_report_set_account_use_chosen ( current_report_number,
 						 0 );
     }
@@ -1718,9 +1716,8 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_payee_detail_used (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All payees have been selected. Grisbi will run faster without the \"Detail payees used\" option activated.") ) );
+	dialogue_hint ( _("All payees have been selected. Grisbi will run faster without the \"Detail payees used\" option activated."),
+			_("Performance issue."));
 	gsb_data_report_set_payee_detail_used ( current_report_number,
 						0 );
     }
@@ -1897,9 +1894,8 @@ void recuperation_info_perso_etat ( void )
 	 &&
 	 gsb_data_report_get_method_of_payment_used (current_report_number))
     {
-	dialogue_special ( GTK_MESSAGE_INFO,
-			   make_hint ( _("Performance issue."),
-				       _("All methods of payment have been selected. Grisbi will run faster without the \"Detail methods of payment used\" option activated.") ) );
+	dialogue_hint ( _("All methods of payment have been selected. Grisbi will run faster without the \"Detail methods of payment used\" option activated."),
+			_("Performance issue.") );
 	gsb_data_report_set_method_of_payment_used ( current_report_number,
 						     0 );
     }
@@ -3680,13 +3676,11 @@ static GSList *report_config_categ_budget_get_selected ( gboolean is_categ )
     if (all_selected)
     {
 	if (is_categ)
-	    dialogue_special ( GTK_MESSAGE_INFO,
-			       make_hint ( _("Performance issue."),
-					   _("All categories have been selected. Grisbi will run faster without the \"Detail categories used\" option activated.")));
+	    dialogue_hint ( _("All categories have been selected. Grisbi will run faster without the \"Detail categories used\" option activated."),
+			    _("Performance issue.") );
 	else
-	    dialogue_special ( GTK_MESSAGE_INFO,
-			       make_hint ( _("Performance issue."),
-					   _("All budgets have been selected. Grisbi will run faster without the \"Detail budgets used\" option activated.")));
+	    dialogue_hint ( _("All budgets have been selected. Grisbi will run faster without the \"Detail budgets used\" option activated."),
+			    _("Performance issue.") );
 
 	report_config_mix_select_all (model, FALSE);
 	gsb_data_report_free_categ_budget_struct (tmp_list);
