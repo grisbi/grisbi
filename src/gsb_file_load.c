@@ -349,12 +349,12 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 #else
             {
                 g_free (file_content);
-                dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
-                        "handle that file.\n\n"
-                        "Please make sure if is installed (i.e. check "
-                        "that 'open-ssl' package is installed) and "
-                        "try again."),
-                        _("Encryption plugin not found." ) );
+                gchar *text = _("This build of Grisbi does not support encryption.\n"
+                        "Please recompile Grisbi with OpenSSL encryption enabled.");
+                gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
+	                                            filename );
+                dialogue_error_hint ( text, hint );
+                g_free ( hint );
                 return FALSE;
             }
 #endif
