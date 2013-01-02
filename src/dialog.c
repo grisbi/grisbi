@@ -233,16 +233,17 @@ void dialogue_special ( GtkMessageType param, const gchar *text, const gchar *hi
  */
 GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
-                        gchar *text )
+                        const gchar *text, const gchar *hint )
 {
     GtkWidget *dialog;
+    const gchar *primary_text = hint ? hint : text;
 
     if ( GTK_IS_WINDOW ( run.window ) )
     {
         dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT || GTK_DIALOG_MODAL,
                         param, buttons,
-                        "%s", text );
+                        NULL );
     }
     else
     {
@@ -251,7 +252,11 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         param, buttons,
                         NULL );
     }
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
+
+    if ( hint )
+        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog),
+                                                   "%s", text );
 
     return dialog;
 }

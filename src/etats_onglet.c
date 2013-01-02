@@ -259,8 +259,11 @@ gboolean ajout_etat ( void )
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION,
 				       GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( _("Choose template for new report"),
-						   _("You are about to create a new report. For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
+				       _("You are about to create a new report. For "
+					 "convenience, you can choose between the "
+					 "following templates.  Reports may be "
+					 "customized later."),
+				       _("Choose template for new report") );
 
     frame = new_paddingbox_with_title ( dialog_get_content_area ( dialog ), FALSE,
 					_("Report type"));

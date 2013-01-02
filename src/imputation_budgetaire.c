@@ -522,13 +522,13 @@ void budgetary_lines_importer_list ( void )
     /* on permet de remplacer/fusionner la liste */
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-				       make_hint ( _("Merge imported budgetary lines with existing?"),
-						   ( last_transaction_number ?
-						     _("File already contains budgetary lines.  If you decide to continue, existing budgetary lines will be merged with imported ones.") :
-						     _("File does not contain budgetary lines.  "
-						       "If you decide to continue, existing budgetary lines will be merged with imported ones.  "
-						       "Once performed, there is no undo for this.\n"
-						       "You may also decide to replace existing budgetary lines with imported ones." ) ) ) );
+				       ( last_transaction_number ?
+				         _("File already contains budgetary lines.  If you decide to continue, existing budgetary lines will be merged with imported ones.") :
+				         _("File does not contain budgetary lines.  "
+				           "If you decide to continue, existing budgetary lines will be merged with imported ones.  "
+				           "Once performed, there is no undo for this.\n"
+				           "You may also decide to replace existing budgetary lines with imported ones." ) ),
+				       _("Merge imported budgetary lines with existing?") );
 
     if ( !last_transaction_number)
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
