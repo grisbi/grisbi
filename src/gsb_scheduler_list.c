@@ -2136,8 +2136,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
             g_free ( tmpstr );
 
             dialog = dialogue_special_no_run ( GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-                            make_hint ( _("Delete this scheduled transaction?"),
-                            occurences ));
+                            occurences, _("Delete this scheduled transaction?") );
 
             gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
                              "gtk-cancel", 2,

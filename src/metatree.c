@@ -1746,29 +1746,29 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gchar *tmpstr;
 
     /* create the box to move change the division and sub-div of the transactions */
-    gchar* tmpstr1 = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."),
+    gchar* hint = g_strdup_printf ( _("'%s' still contains transactions or archived transactions."),
 				       ( !sub_division ?
 					 iface -> div_name ( division ) :
 					 iface -> sub_div_name ( division, sub_division ) ) );
-    gchar* tmpstr2 = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."),
+    gchar* text = g_strdup_printf ( _("If you want to remove it but want to keep transactions, you can transfer them to another (sub-)%s.  Otherwise, transactions can be simply deleted along with their division."),
 				       _( iface -> meta_name ) );
     dialog = dialogue_special_no_run ( GTK_MESSAGE_WARNING, GTK_BUTTONS_OK_CANCEL,
-				       make_hint ( tmpstr1 , tmpstr2 ) );
+				       text , hint );
 
-    g_free ( tmpstr1 );
-    g_free ( tmpstr2 );
+    g_free ( hint );
+    g_free ( text );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
     if ( iface -> content == 0 )
-        tmpstr1 = g_strdup_printf ( _("Transfer transactions to payee") );
+        tmpstr = g_strdup_printf ( _("Transfer transactions to payee") );
     else
-        tmpstr1 = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
+        tmpstr = g_strdup_printf (_("Transfer transactions to %s"), _(iface -> meta_name));
 
-    button_move = gtk_radio_button_new_with_label ( NULL, tmpstr1);
-    g_free ( tmpstr1 );
+    button_move = gtk_radio_button_new_with_label ( NULL, tmpstr );
+    g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_move,
 			 FALSE, FALSE, 0 );
 
@@ -1907,15 +1907,15 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
 	/* we want to move the transactions */
 	if ( !strlen (gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ))))
 	{
-	    gchar* tmpstr1 = g_strdup_printf (
+	    text = g_strdup_printf (
                         _("It is compulsory to specify a destination %s "
                         "to move transactions but no %s was entered."),
                         _(iface -> meta_name), _(iface -> meta_name) );
-	    gchar* tmpstr2 = g_strdup_printf ( _("Please enter a %s!"),
+	    hint = g_strdup_printf ( _("Please enter a %s!"),
                         _(iface -> meta_name) );
-	    dialogue_warning_hint ( tmpstr1 , tmpstr2 );
-	    g_free ( tmpstr1 );
-	    g_free ( tmpstr2 );
+	    dialogue_warning_hint ( text , hint );
+	    g_free ( text );
+	    g_free ( hint );
 
 	    gtk_widget_destroy (dialog);
 	    return (find_destination_blob ( iface, model,
@@ -2838,25 +2838,25 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
     gint resultat;
     gchar **split_division;
     gchar *tmp_str;
-    gchar* tmp_str_1;
-    gchar* tmp_str_2;
+    gchar* hint;
+    gchar* text;
 
     if ( type_division == META_TREE_TRANS_S_S_DIV )
     {
-        tmp_str_1 = g_strdup_printf ( _("Transfer all transactions in a \n%s."),
+        hint = g_strdup_printf ( _("Transfer all transactions in a \n%s."),
                         gettext ( iface -> meta_sub_name ) );
 
-        tmp_str_2 = NULL;
+        text = NULL;
     }
     else
     {
         /* create the box to move change the division and sub-div of the transactions */
-        tmp_str_1 = g_strdup_printf ( _("Choose action for \"%s\"."),
+        hint = g_strdup_printf ( _("Choose action for \"%s\"."),
                         ( !sub_division ?
                         iface -> div_name ( division ) :
                         iface -> sub_div_name ( division, sub_division ) ) );
 
-        tmp_str_2 = g_strdup_printf (
+        text = g_strdup_printf (
                         _("You can transfer content from \"%s\" in another %s or %s.\n"
                         "Otherwise you can transfer \"%s\" in another %s "
                         "or transform \"%s\" to %s."),
@@ -2871,12 +2871,12 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_OTHER,
                         GTK_BUTTONS_OK_CANCEL,
-                        make_hint ( tmp_str_1 , tmp_str_2 ) );
+                        text, hint );
 
     gtk_widget_set_size_request ( dialog, -1, -1 );
 
-    g_free ( tmp_str_1 );
-    g_free ( tmp_str_2 );
+    g_free ( hint );
+    g_free ( text );
 
     if ( sub_division )
     {
@@ -2964,17 +2964,17 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         /* we want to move the content */
         if ( !strlen ( gtk_combofix_get_text ( GTK_COMBOFIX ( combofix ) ) ) )
         {
-            tmp_str_1 = g_strdup_printf (
+            text = g_strdup_printf (
                             _("It is compulsory to specify a destination %s "
                             "to move content but no %s was entered."),
                             gettext ( iface -> meta_name_minus ),
                             gettext ( iface -> meta_name_minus ) );
-            tmp_str_2 = g_strdup_printf ( _("Please enter a %s!"), _(iface -> meta_name_minus) );
+            hint = g_strdup_printf ( _("Please enter a %s!"), _(iface -> meta_name_minus) );
 
-            dialogue_warning_hint ( tmp_str_1 , tmp_str_2 );
+            dialogue_warning_hint ( text , hint );
 
-            g_free ( tmp_str_1 );
-            g_free ( tmp_str_2 );
+            g_free ( text );
+            g_free ( hint );
 
             gtk_widget_destroy (dialog);
 
@@ -2995,11 +2995,11 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
 
             if ( split_division[1] && nouveau_no_sub_division == 0 )
             {
-                tmp_str_1 = g_strdup_printf ( _("Warning you can not create %s."),
+                tmp_str = g_strdup_printf ( _("Warning you can not create %s."),
                         _(iface -> meta_name_minus) );
-                dialogue_warning( tmp_str_1 );
+                dialogue_warning( tmp_str );
 
-                g_free ( tmp_str_1 );
+                g_free ( tmp_str );
 
                 gtk_widget_destroy ( dialog );
 
@@ -3726,6 +3726,8 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     GtkWidget *label;
     GtkWidget *combofix;
     gchar **split_division;
+    gchar *hint;
+    gchar *text;
     gchar *tmp_str_1;
     gchar *tmp_str_2;
     gint nouveau_no_division;
@@ -3734,12 +3736,12 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     gint number;
 
     /* create the box to move change the division and sub-div of the transactions */
-    tmp_str_1 = g_strdup_printf ( _("Select transactions in \"%s\"."),
+    hint = g_strdup_printf ( _("Select transactions in \"%s\"."),
                         ( !sub_division ?
                         iface -> div_name ( division ) :
                         iface -> sub_div_name ( division, sub_division ) ) );
 
-    tmp_str_2 = g_strdup_printf (
+    text = g_strdup_printf (
                         _("You can transfer content from \"%s\" in another %s or %s.\n"),
                         iface -> sub_div_name ( division, sub_division ),
                         gettext ( iface -> meta_name_minus ),
@@ -3747,12 +3749,12 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_OTHER,
                         GTK_BUTTONS_OK_CANCEL,
-                        make_hint ( tmp_str_1 , tmp_str_2 ) );
+                        text, hint );
 
     gtk_widget_set_size_request ( dialog, -1, -1 );
 
-    g_free ( tmp_str_1 );
-    g_free ( tmp_str_2 );
+    g_free ( hint );
+    g_free ( text );
 
     number = gsb_data_transaction_get_party_number ( transaction_number );
     tmp_str_1 = g_strdup_printf ( _("Use payee: \"%s\" to find the transactions"),

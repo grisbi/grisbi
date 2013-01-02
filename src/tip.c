@@ -124,17 +124,18 @@ void display_tip ( gboolean force )
     GtkWidget * checkbox;
     GtkWidget * dialog = NULL;
     GtkWidget *btn_back, *btn_forward, *btn_close;
-    gchar *tmpstr;
 
     if ( !force && !conf.show_tip )
         return;
 
     conf.last_tip = CLAMP ( conf.last_tip+1, 0, sizeof(tips)/sizeof(gpointer)-1);
 
+    /* the dialog is created with empty text because we set it using gtk's markup
+       function instead */
     dialog = dialogue_special_no_run ( GTK_MESSAGE_INFO, GTK_BUTTONS_NONE,
-                        make_hint ( _("Did you know that..."),
-                        /* We use the Grisbi-tips catalog */
-                        g_dgettext(NULL, tips[conf.last_tip]) ) );
+                                       "", _("Did you know that...") );
+    gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
+                                                 "%s", g_dgettext (NULL, tips[conf.last_tip]) );
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), FALSE );
 
     checkbox = gsb_automem_checkbutton_new ( _("Display tips at next start"),
@@ -161,27 +162,15 @@ void display_tip ( gboolean force )
         if ( conf.last_tip > 0 )
             conf.last_tip--;
         gtk_widget_set_sensitive (btn_forward, TRUE);
-        tmpstr = g_strconcat ( make_pango_attribut (
-                        "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
-                        "\n\n",
-                        g_dgettext (NULL, tips[conf.last_tip] ),
-                        NULL );
-
-        gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), tmpstr );
-        g_free ( tmpstr );
+        gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
+                                                     "%s", g_dgettext (NULL, tips[conf.last_tip]) );
         break;
 
         case 2:
         if ( conf.last_tip < sizeof(tips)/sizeof(gpointer)-1)
             conf.last_tip++;
-        tmpstr = g_strconcat ( make_pango_attribut (
-                        "size=\"larger\" weight=\"bold\"", _("Did you know that...") ),
-                        "\n\n",
-                        g_dgettext (NULL, tips[conf.last_tip] ),
-                        NULL );
-
-        gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), tmpstr );
-        g_free ( tmpstr );
+        gtk_message_dialog_format_secondary_markup ( GTK_MESSAGE_DIALOG (dialog),
+                                                     "%s", g_dgettext (NULL, tips[conf.last_tip]) );
         gtk_widget_set_sensitive (btn_back, TRUE);
         break;
 

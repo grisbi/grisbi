@@ -239,8 +239,8 @@ void debug_traitement_sigsegv ( gint signal_nb )
 #endif
 
     dialog = dialogue_special_no_run ( GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
-				       make_hint ( _("Grisbi terminated due to a segmentation fault."),
-						   errmsg ));
+				       errmsg,
+				       _("Grisbi terminated due to a segmentation fault.") );
     g_free ( errmsg );
 
 #ifdef HAVE_BACKTRACE

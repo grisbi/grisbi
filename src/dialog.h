@@ -31,7 +31,7 @@ void dialogue_hint ( gchar *text, gchar *hint );
 const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_description );
 GtkWidget *dialogue_special_no_run ( GtkMessageType param,
                         GtkButtonsType buttons,
-                        gchar *text );
+                        const gchar *text, const gchar* hint );
 gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
                         struct conditional_message *message );
 void dialogue_warning ( gchar *text );
