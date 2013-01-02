@@ -626,7 +626,7 @@ gboolean gsb_form_widget_can_focus ( gint element_number )
     if ( !widget )
 	return FALSE;
 
-    if ( !GTK_WIDGET_VISIBLE (widget))
+    if ( !gtk_widget_get_visible (widget))
 	return FALSE;
 
     if ( !GTK_WIDGET_SENSITIVE (widget))
@@ -804,7 +804,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                 old_credit_payment_number = gsb_payment_method_get_selected_number ( widget );
 
                 tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-                if ( tmp_widget && GTK_WIDGET_VISIBLE ( tmp_widget ) )
+                if ( tmp_widget && gtk_widget_get_visible ( tmp_widget ) )
                 {
                     if ( old_credit_payment_content )
                         g_free ( old_credit_payment_content );
@@ -820,7 +820,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                                         account_number, 0, FALSE );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
-                if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                if ( widget && gtk_widget_get_visible ( widget ) )
                     gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                         TRANSACTION_FORM_CONTRA ),
                                         GSB_PAYMENT_CREDIT,
@@ -854,7 +854,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                 old_debit_payment_number = gsb_payment_method_get_selected_number ( widget );
 
                 tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-                if ( tmp_widget && GTK_WIDGET_VISIBLE ( tmp_widget ) )
+                if ( tmp_widget && gtk_widget_get_visible ( tmp_widget ) )
                 {
                     if ( old_debit_payment_content )
                         g_free ( old_debit_payment_content );
@@ -870,7 +870,7 @@ gboolean gsb_form_widget_entry_get_focus ( GtkWidget *entry,
                                         account_number, 0, FALSE );
 
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
-                if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                if ( widget && gtk_widget_get_visible ( widget ) )
                     gsb_payment_method_create_combo_list ( widget,
                                         GSB_PAYMENT_DEBIT,
                                         account_number, 0, TRUE );
@@ -1094,7 +1094,7 @@ gboolean gsb_form_combo_selection_changed ( GtkTreeSelection *tree_selection,
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE );
             if ( widget != NULL
              &&
-             GTK_WIDGET_VISIBLE (
+             gtk_widget_get_visible (
              gsb_form_widget_get_widget ( TRANSACTION_FORM_DEVISE) ) )
             {
                 if ( g_str_has_prefix ( tmp_str, _("Transfer : ") ) )

@@ -1271,7 +1271,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     radio_add_account = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( radiogroup ),
                         _("Add transactions to an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox ), radio_add_account, FALSE, FALSE, 0 );
-    if (radio_add_account && GTK_WIDGET_VISIBLE (radio_add_account))
+    if (radio_add_account && gtk_widget_get_visible (radio_add_account))
         gtk_widget_set_sensitive  ( radio_add_account, assert_account_loaded ( ) );
 
     compte -> hbox2 = gtk_hbox_new ( FALSE, 6 );
@@ -1464,17 +1464,17 @@ gboolean import_account_action_activated ( GtkWidget * radio, gint action )
 
     account = g_object_get_data ( G_OBJECT ( radio ), "account" );
 
-    if (account -> hbox1 && GTK_WIDGET_VISIBLE (account -> hbox1))
+    if (account -> hbox1 && gtk_widget_get_visible (account -> hbox1))
         gtk_widget_set_sensitive ( account -> hbox1, FALSE );
-    if (account -> hbox2 && GTK_WIDGET_VISIBLE (account -> hbox2))
+    if (account -> hbox2 && gtk_widget_get_visible (account -> hbox2))
         gtk_widget_set_sensitive ( account -> hbox2, FALSE );
-    if (account -> hbox3 && GTK_WIDGET_VISIBLE (account -> hbox3))
+    if (account -> hbox3 && gtk_widget_get_visible (account -> hbox3))
         gtk_widget_set_sensitive ( account -> hbox3, FALSE );
     gtk_widget_set_sensitive ( g_object_get_data ( G_OBJECT ( radio ), "associated" ), TRUE );
 
     account -> action = action;
 
-    if ( account -> hbox_rule && GTK_WIDGET_VISIBLE (account -> hbox_rule) )
+    if ( account -> hbox_rule && gtk_widget_get_visible (account -> hbox_rule) )
         gtk_widget_set_sensitive ( account -> hbox_rule, action != IMPORT_CREATE_ACCOUNT );
     return FALSE;
 }

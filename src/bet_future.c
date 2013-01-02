@@ -1249,7 +1249,7 @@ static gboolean bet_form_widget_can_focus ( gint element_number,
     if ( !widget )
         return FALSE;
 
-    if ( !GTK_WIDGET_VISIBLE ( widget ) )
+    if ( !gtk_widget_get_visible ( widget ) )
         return FALSE;
 
     if ( !GTK_WIDGET_SENSITIVE ( widget ) )

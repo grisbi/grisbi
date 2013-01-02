@@ -830,7 +830,7 @@ void gsb_form_fill_element ( gint element_number,
 
 	    /* don't show the cheque entry for a child of split */
         tmp_widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-	    if ( GTK_WIDGET_VISIBLE ( widget ) )
+	    if ( gtk_widget_get_visible ( widget ) )
 	    {
             gboolean check_entry = FALSE;
 
@@ -911,7 +911,7 @@ void gsb_form_fill_element ( gint element_number,
 							   GSB_PAYMENT_DEBIT,
 							   number, 0, TRUE );
 
-            if (GTK_WIDGET_VISIBLE (widget))
+            if (gtk_widget_get_visible (widget))
             {
                 gint method;
 
@@ -1125,7 +1125,7 @@ gint gsb_form_get_account_number ( void )
 	case ORIGIN_VALUE_HOME:
 	    /* we are on the home page, we need to check if the form is showed,
 	     * if yes, we get the account number of the scheduled showed in that form */
-	    if ( transaction_form && GTK_WIDGET_VISIBLE (transaction_form))
+	    if ( transaction_form && gtk_widget_get_visible (transaction_form))
 	    {
 		gint scheduled_number;
 
@@ -1564,11 +1564,11 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                                             account_number, 0, FALSE );
             /* if there is no payment method, the last function hide it, but we have
              * to hide the cheque element too */
-            if ( !GTK_WIDGET_VISIBLE ( widget ) )
+            if ( !gtk_widget_get_visible ( widget ) )
                 gtk_widget_hide ( gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE ) );
 
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA );
-            if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+            if ( widget && gtk_widget_get_visible ( widget ) )
                 gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_CREDIT,
@@ -1608,7 +1608,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     gsb_payment_method_set_payment_position ( widget, payment_number );
 
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    if ( widget && gtk_widget_get_visible ( widget ) )
                     {
                         if ( gsb_form_widget_get_old_credit_payment_content ( ) )
                         {
@@ -1619,7 +1619,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     }
 
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
-                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    if ( widget && gtk_widget_get_visible ( widget ) )
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_DEBIT,
@@ -1661,11 +1661,11 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                         account_number, 0, FALSE );
             /* if there is no payment method, the last function hide it, but we have
              * to hide the cheque element too */
-            if ( !GTK_WIDGET_VISIBLE (widget))
+            if ( !gtk_widget_get_visible (widget))
                 gtk_widget_hide (gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE));
 
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CONTRA);
-            if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+            if ( widget && gtk_widget_get_visible ( widget ) )
                 gsb_payment_method_create_combo_list ( widget,
                         GSB_PAYMENT_DEBIT,
                         account_number, 0, TRUE );
@@ -1704,7 +1704,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     gsb_payment_method_set_payment_position ( widget, payment_number );
 
                     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CHEQUE );
-                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    if ( widget && gtk_widget_get_visible ( widget ) )
                     {
                         if ( gsb_form_widget_get_old_debit_payment_content ( ) )
                         {
@@ -1715,7 +1715,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                     }
 
                     widget = gsb_form_widget_get_widget (TRANSACTION_FORM_CONTRA);
-                    if ( widget && GTK_WIDGET_VISIBLE ( widget ) )
+                    if ( widget && gtk_widget_get_visible ( widget ) )
                         gsb_payment_method_create_combo_list ( gsb_form_widget_get_widget (
                                             TRANSACTION_FORM_CONTRA ),
                                             GSB_PAYMENT_CREDIT,
@@ -1977,7 +1977,7 @@ gboolean gsb_form_button_press_event ( GtkWidget *entry,
 
 	if ( widget
 	     &&
-	     GTK_WIDGET_VISIBLE (widget))
+	     gtk_widget_get_visible (widget))
 	{
 	    gint payment_number;
 	    gint account_number;
@@ -2993,7 +2993,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
 
     if ( widget
 	 &&
-	 GTK_WIDGET_VISIBLE (widget))
+	 gtk_widget_get_visible (widget))
     {
 	GtkWidget *combo_box;
 	gint payment;
@@ -3215,7 +3215,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 	    case TRANSACTION_FORM_TYPE:
 		/* set the type only if visible */
-		if ( GTK_WIDGET_VISIBLE (element -> element_widget))
+		if ( gtk_widget_get_visible (element -> element_widget))
 		{
 		    GtkWidget *widget_tmp;
 		    gint payment_number;
@@ -3226,7 +3226,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 		    /* set the number of cheque only if visible */
 		    widget_tmp = gsb_form_widget_get_widget (TRANSACTION_FORM_CHEQUE);
-		    if ( GTK_WIDGET_VISIBLE (widget_tmp)
+		    if ( gtk_widget_get_visible (widget_tmp)
 			 &&
 			 !gsb_form_widget_check_empty (widget_tmp))
 		    {
@@ -3251,7 +3251,7 @@ void gsb_form_take_datas_from_form ( gint transaction_number,
 
 	    case TRANSACTION_FORM_CONTRA:
 		/* here only for scheduled transaction */
-		if (!is_transaction && GTK_WIDGET_VISIBLE (element -> element_widget))
+		if (!is_transaction && gtk_widget_get_visible (element -> element_widget))
 		    gsb_data_scheduled_set_contra_method_of_payment_number ( transaction_number,
 									     gsb_payment_method_get_selected_number (element -> element_widget));
 		break;

@@ -930,7 +930,7 @@ void gsb_account_property_iban_insert_text ( GtkEditable *entry,
     /* on autorise ou pas la saisie des données banquaires */
     if ( g_utf8_strlen (iban, -1) == 0 )
         gsb_account_property_iban_switch_bank_data ( TRUE );
-    else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
+    else if ( gtk_widget_is_sensitive ( bank_list_combobox ) )
         gsb_account_property_iban_switch_bank_data ( FALSE );
 
     /* on contrôle l'existence d'un modèle pour le numéro IBAN */
@@ -970,7 +970,7 @@ void gsb_account_property_iban_delete_text ( GtkEditable *entry,
     /* on autorise ou pas la saisie des données banquaires */
     if ( start_pos == 0 )
         gsb_account_property_iban_switch_bank_data ( TRUE );
-    else if ( GTK_WIDGET_IS_SENSITIVE ( bank_list_combobox ) )
+    else if ( gtk_widget_is_sensitive ( bank_list_combobox ) )
         gsb_account_property_iban_switch_bank_data ( FALSE );
 }
 

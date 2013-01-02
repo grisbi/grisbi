@@ -580,7 +580,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
     gsb_assistant_change_button_next ( assistant,
                     GTK_STOCK_APPLY, GTK_RESPONSE_YES );
 
-    if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
+    if ( gtk_widget_is_sensitive (initial_date) )
     {
         gchar * sdate, * fdate;
 
@@ -590,7 +590,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
         g_free ( sdate );
         g_free ( fdate );
     }
-    else if ( GTK_WIDGET_IS_SENSITIVE (financial_year_button) )
+    else if ( gtk_widget_is_sensitive (financial_year_button) )
     {
         gint fyear;
 
@@ -598,7 +598,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
         string = g_strdup_printf ( _("Archive of financial year %s"),
                             gsb_data_fyear_get_name ( fyear ) );
     }
-    else if ( GTK_WIDGET_IS_SENSITIVE (report_button) )
+    else if ( gtk_widget_is_sensitive (report_button) )
     {
         gint report_number;
         report_number = gsb_report_get_report_from_combobox (report_button);
@@ -666,7 +666,7 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
                         GTK_STOCK_CLOSE, GTK_RESPONSE_APPLY );
 
     /* fill the archive */
-    if (GTK_WIDGET_IS_SENSITIVE (initial_date))
+    if (gtk_widget_is_sensitive (initial_date))
     {
         GDate *init_gdate;
         GDate *final_gdate;
@@ -679,10 +679,10 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
         g_date_free (init_gdate);
         g_date_free (final_gdate);
     }
-    else if (GTK_WIDGET_IS_SENSITIVE (financial_year_button))
+    else if (gtk_widget_is_sensitive (financial_year_button))
         gsb_data_archive_set_fyear ( archive_number,
                         gsb_fyear_get_fyear_from_combobox ( financial_year_button,NULL ) );
-    else if (GTK_WIDGET_IS_SENSITIVE (report_button) )
+    else if (gtk_widget_is_sensitive (report_button) )
     {
         gint report_number;
 
@@ -804,7 +804,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
     /* ok for now the choice is on initial/final date */
     if ( gtk_notebook_get_current_page (GTK_NOTEBOOK(notebook)) == ARCHIVE_ASSISTANT_MENU )
     {
-        if ( GTK_WIDGET_IS_SENSITIVE (initial_date) )
+        if ( gtk_widget_is_sensitive (initial_date) )
         {
             GDate *init_gdate;
             GDate *final_gdate;
@@ -878,7 +878,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
             }
 
         /* ok for now the choice is on fyear */
-        else if (  GTK_WIDGET_IS_SENSITIVE ( financial_year_button ) )
+        else if (  gtk_widget_is_sensitive ( financial_year_button ) )
         {
             gint fyear_number;
             string = NULL;
@@ -919,7 +919,7 @@ static gboolean gsb_assistant_archive_update_labels ( GtkWidget *assistant )
             }
         }
         /* ok for now the choice is on report */
-        else if (  GTK_WIDGET_IS_SENSITIVE (report_button))
+        else if (  gtk_widget_is_sensitive (report_button))
         {
             gint report_number;
             string = NULL;
