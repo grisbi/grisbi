@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C) 2011-2012 Pierre Biava (grisbi@pierre.biava.name)        */
+/*     Copyright (C) 2011-2013 Pierre Biava (grisbi@pierre.biava.name)        */
 /*                   2011 Guillaume Verger (guillaume.verger@laposte.net)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
@@ -470,9 +470,9 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
         gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( parent_widget ) );
     }
     gtk_widget_set_size_request ( dialog, 600, 400 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
@@ -724,7 +724,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
  * Création de la page pour le graphique initialisée
  *
  * \param
- * \param   add_page    
+ * \param   add_page
  *
  * \return GogPlot
  * */
@@ -1895,7 +1895,7 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     /* on met la division sous division comme titre */
     self->title = g_strconcat ( bet_data_get_div_name ( div_number, sub_div_nb, NULL ), " = ", str_amount, NULL );
 
-    g_date_free ( start_current_fyear );   
+    g_date_free ( start_current_fyear );
 
     /* return value */
     return TRUE;
@@ -2151,9 +2151,9 @@ void bet_graph_line_graph_new ( GtkWidget *button,
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* initialise le bouton show_grid avec la préférence "Major_grid" */
@@ -2264,7 +2264,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
                             self->title_Y,
                             self->title_Y2,
                             gsb_data_account_get_name ( self->account_number ) );
-            g_date_free ( start_current_fyear );   
+            g_date_free ( start_current_fyear );
         }
         else
         {
@@ -2276,7 +2276,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
             title = g_strdup_printf ( _("Monthly amounts since %s for the account: '%s'"),
                             tmp_str,
                             gsb_data_account_get_name ( self->account_number ) );
-            g_date_free ( date_debut_periode );   
+            g_date_free ( date_debut_periode );
             g_free ( tmp_str );
         }
     }
@@ -2287,9 +2287,9 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* initialise le bouton show_grid avec la préférence "Major_grid" */
@@ -2380,9 +2380,9 @@ void bet_graph_sectors_graph_new ( GtkWidget *button,
     dialog = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "bet_graph_dialog" ) );
     gtk_window_set_transient_for ( GTK_WINDOW ( dialog ), GTK_WINDOW ( run.window ) );
     gtk_widget_set_size_request ( dialog, PAGE_WIDTH+30, PAGE_HEIGHT+70 );
-    gtk_signal_connect ( GTK_OBJECT ( dialog ),
+    g_signal_connect ( G_OBJECT ( dialog ),
                         "destroy",
-                        GTK_SIGNAL_FUNC ( gtk_widget_destroy ),
+                        G_CALLBACK ( gtk_widget_destroy ),
                         NULL);
 
     /* set the title */
