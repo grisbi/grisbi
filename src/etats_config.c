@@ -210,6 +210,9 @@ static void etats_config_initialise_onglet_periode ( gint report_number )
                                 gsb_data_report_get_financial_year_list ( report_number ),
                                 "treeview_exer",
                                 1 );
+
+        /* on initialise le tree_view des dates avec une valeur par défaut (mois en cours) */
+        etats_prefs_tree_view_select_single_row ( "treeview_dates", 3 );
     }
     else
     {
