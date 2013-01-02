@@ -45,7 +45,7 @@ static GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon );
 static void gsb_select_icon_create_file_chooser ( GtkWidget * button,
                                            gpointer user_data );
 static GtkWidget * gsb_select_icon_create_icon_view ( gchar * name_icon );
-static void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
+static void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
                                           gpointer user_data );
 static GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon );
 static GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf );
@@ -242,18 +242,13 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
  *
  * \return  le GtkComboBox
  * */
-GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
+GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon )
 {
     GtkWidget *combo;
     GtkTreeIter iter;
 
-    if ( store )
+    if ( !store )
     {
-        devel_debug ( "combo existe" );
-    }
-    else
-    {
-        devel_debug ( "combo n'existe pas" );
         store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
         gtk_list_store_append (store, &iter);
         if ( g_strcmp0 ( gsb_dirs_get_pixmaps_dir ( ), path_icon ) != 0 )
@@ -263,9 +258,11 @@ GtkWidget * gsb_select_icon_create_entry_text ( gchar * name_icon )
         }
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
     }
+  
+    combo = gtk_combo_box_new_with_model_and_entry ( GTK_TREE_MODEL ( store ) );
+    gtk_combo_box_set_entry_text_column ( GTK_COMBO_BOX ( combo ), 0 );
 
-    combo = gtk_combo_box_entry_new_with_model ( GTK_TREE_MODEL ( store ), 0 );
-    gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (combo)->child), name_icon );
+    gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( combo ) ) ), name_icon );
 
     return combo;
 }
@@ -439,7 +436,7 @@ void gsb_select_icon_create_file_chooser ( GtkWidget * button,
  * \return void
  *
  * */
-void gsb_select_icon_entry_text_changed ( GtkComboBoxEntry *entry,
+void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
                                           gpointer user_data )
 {
     GtkTreePath *path;
