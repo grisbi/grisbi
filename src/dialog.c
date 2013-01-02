@@ -630,10 +630,11 @@ gchar *make_red ( const gchar *text )
  */
 gchar *make_pango_attribut ( gchar *attribut, const gchar *text )
 {
-    gchar *tmpstr;
+    gchar *tmpstr, *span_format;
 
-    tmpstr = g_markup_printf_escaped (
-                        g_strconcat ( "<span ", attribut, ">%s</span>", NULL ), text );
+    span_format = g_strconcat ( "<span ", attribut, ">%s</span>", NULL );
+    tmpstr = g_markup_printf_escaped ( span_format , text );
+    g_free ( span_format );
 
     return tmpstr;
 }
