@@ -1045,7 +1045,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
             &&
-            GTK_WIDGET_SENSITIVE ( widget ) )
+            gtk_widget_get_sensitive ( widget ) )
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
@@ -1073,7 +1073,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                 widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
-                     GTK_WIDGET_SENSITIVE ( widget ) )
+                     gtk_widget_get_sensitive ( widget ) )
                 {
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
@@ -1106,7 +1106,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
              &&
-             GTK_WIDGET_SENSITIVE (widget))
+             gtk_widget_get_sensitive (widget))
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
@@ -1134,7 +1134,7 @@ gboolean bet_form_entry_lose_focus ( GtkWidget *entry,
                 widget = bet_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
-                     GTK_WIDGET_SENSITIVE ( widget ) )
+                     gtk_widget_get_sensitive ( widget ) )
                 {
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
@@ -1252,7 +1252,7 @@ static gboolean bet_form_widget_can_focus ( gint element_number,
     if ( !gtk_widget_get_visible ( widget ) )
         return FALSE;
 
-    if ( !GTK_WIDGET_SENSITIVE ( widget ) )
+    if ( !gtk_widget_get_sensitive ( widget ) )
         return FALSE;
 
     if ( !( GTK_IS_COMBOFIX ( widget )

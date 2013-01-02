@@ -1554,7 +1554,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
             &&
-            GTK_WIDGET_SENSITIVE (widget))
+            gtk_widget_get_sensitive (widget))
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT)
@@ -1591,7 +1591,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
-                     GTK_WIDGET_SENSITIVE ( widget ) )
+                     gtk_widget_get_sensitive ( widget ) )
                 {
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_DEBIT )
@@ -1651,7 +1651,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
          * (if grey, it's a child of split so do nothing) */
         if ( widget
              &&
-             GTK_WIDGET_SENSITIVE (widget))
+             gtk_widget_get_sensitive (widget))
         {
             /* change the signe of the method of payment and the contra */
             if ( gsb_payment_method_get_combo_sign (widget) == GSB_PAYMENT_DEBIT)
@@ -1687,7 +1687,7 @@ gboolean gsb_form_entry_lose_focus ( GtkWidget *entry,
                 widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_TYPE );
                 if ( widget
                      &&
-                     GTK_WIDGET_SENSITIVE ( widget ) )
+                     gtk_widget_get_sensitive ( widget ) )
                 {
                     /* change the signe of the method of payment and the contra */
                     if ( gsb_payment_method_get_combo_sign ( widget ) == GSB_PAYMENT_CREDIT )
