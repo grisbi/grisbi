@@ -40,7 +40,6 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
-static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data);
 /*END_STATIC*/
 
 
@@ -49,30 +48,29 @@ static void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data
 
 
 /**
- * Handler used to pop up a web browser when user clicked on a link in
+ * Handler used to lauch a mailer or browser when user clicked on a link in
  * the GtkAboutDialog.
  *
- * \param about		Dialog that triggered the event.
- * \param link		URL to display.
- * \param data		Not used.
+ * \param label     link that triggered the event.
+ * \param uri       URL to display.
+ * \param data      Not used.
  */
-void launch_url (GtkAboutDialog *about, const gchar * link, gpointer data)
+static gboolean url_clicked ( GtkAboutDialog *label,
+                        gchar *uri,
+                        gpointer user_data )
 {
-    lance_navigateur_web ( link );
-}
+    if ( g_str_has_prefix ( uri, "mailto:" ) )
+    {
+        gchar *str;
 
+        str = gsb_string_remplace_string ( uri, "%40", "@" );
+        lance_mailer ( str );
+        g_free ( str );
+    }
+    else
+        lance_navigateur_web ( uri );
 
-/**
- * Handler used to pop up a mailer when user clicked on a link in
- * the GtkAboutDialog.
- *
- * \param about		Dialog that triggered the event.
- * \param link		URL to display.
- * \param data		Not used.
- */
-void launch_mailto (GtkAboutDialog *about, const gchar * link, gpointer data)
-{
-    lance_mailer ( link );
+    return TRUE;
 }
 
 
@@ -203,8 +201,6 @@ NULL};
     }
 
     about = gtk_about_dialog_new ( );
-    gtk_about_dialog_set_url_hook (launch_url, NULL, NULL);
-    gtk_about_dialog_set_email_hook (launch_mailto, NULL, NULL);
     gtk_about_dialog_set_program_name ( GTK_ABOUT_DIALOG (about), "Grisbi" );
     gtk_about_dialog_set_logo ( GTK_ABOUT_DIALOG (about), logo );
     gtk_about_dialog_set_comments ( GTK_ABOUT_DIALOG (about), comments );
@@ -225,6 +221,10 @@ NULL};
     g_free ( plugins );
     g_free ( version_to_string );
     g_free ( comments );
+    g_signal_connect ( G_OBJECT ( about ),
+                        "activate-link",
+                        G_CALLBACK ( url_clicked ),
+                        NULL );
 
     gtk_dialog_run ( GTK_DIALOG (about)) ;
 

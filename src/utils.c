@@ -171,7 +171,7 @@ gboolean desensitive_widget ( gpointer object, GtkWidget *widget )
  * sous Windows si la commande est vide ou egale a la valeur par defaut
  * on lance le butineur par defaut (open)
  */
-gboolean lance_navigateur_web ( const gchar *url )
+gboolean lance_navigateur_web_old ( const gchar *url )
 {
     gchar **split;
     gchar *chaine = NULL;
@@ -246,6 +246,40 @@ gboolean lance_navigateur_web ( const gchar *url )
     return FALSE;
 }
 
+gboolean lance_navigateur_web ( const gchar *uri )
+{
+    GError *error = NULL;
+    gchar *str;
+
+    if ( g_str_has_prefix ( uri, "http://" ) )
+    {
+        str = g_strdup ( uri );
+    }
+    else
+    {
+        str = g_strconcat ( "file://", uri, NULL );
+    }
+
+    if ( gtk_show_uri ( NULL, str, GDK_CURRENT_TIME, &error ) == FALSE )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup_printf ( _("Grisbi was unable to execute a web browser to "
+                        "browse url <tt>%s</tt>.\n"
+                        "The error was: %s."),
+                        uri, error -> message );
+        g_error_free ( error );
+        dialogue_error_hint ( tmp_str, _("Cannot execute web browser") );
+        g_free(tmp_str);
+    }
+
+    g_free ( str );
+
+    if ( error )
+        return FALSE;
+    else
+        return TRUE;
+}
 
 /**
  * Create a box with a nice bold title and content slightly indented.
@@ -456,12 +490,9 @@ gchar *get_gtk_run_version ( void )
  * */
 void lance_mailer ( const gchar *uri )
 {
-    gchar *chaine;
     GError *error = NULL;
 
-    chaine = g_strconcat ( "mailto:", uri, NULL );
-
-    if ( gtk_show_uri ( NULL, chaine, GDK_CURRENT_TIME, &error ) == FALSE )
+    if ( gtk_show_uri ( NULL, uri, GDK_CURRENT_TIME, &error ) == FALSE )
     {
         gchar *tmp_str;
 
@@ -472,7 +503,6 @@ void lance_mailer ( const gchar *uri )
         dialogue_error_hint ( tmp_str, _("Cannot execute mailer") );
         g_free(tmp_str);
     }
-    g_free ( chaine );
 }
 
 
