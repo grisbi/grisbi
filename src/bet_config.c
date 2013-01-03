@@ -1154,25 +1154,25 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         case BET_ONGLETS_HIST:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         case BET_ONGLETS_CAP:
             widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
             gtk_widget_show_all ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
             gtk_widget_show_all ( widget );
             break;
@@ -1180,11 +1180,11 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
             widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
             gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-            gtk_widget_hide_all ( widget );
+            gtk_widget_hide ( widget );
             break;
         }
     }
@@ -1193,11 +1193,11 @@ void bet_config_sensitive_account_parameters ( gint account_number, gboolean sen
         widget = g_object_get_data ( G_OBJECT ( account_page ), "bet_credit_card_hbox" );
         gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_forecast" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_historical" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
         widget = g_object_get_data ( G_OBJECT ( account_page ), "Data_for_credit" );
-        gtk_widget_hide_all ( widget );
+        gtk_widget_hide ( widget );
     }
 }
 

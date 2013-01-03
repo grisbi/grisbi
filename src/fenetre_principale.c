@@ -441,7 +441,7 @@ gboolean gsb_gui_update_show_headings ( void )
     }
     else
     {
-	gtk_widget_hide_all ( headings_eb );
+	gtk_widget_hide ( headings_eb );
     }
     return FALSE;
 }
