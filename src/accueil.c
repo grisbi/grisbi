@@ -303,7 +303,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
 
 	/* first we reparent the form in the dialog */
 	hbox = gtk_hbox_new ( FALSE, 0 );
-	gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, TRUE, TRUE, 0 );
+	gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, TRUE, TRUE, 0 );
 	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 	gtk_widget_reparent ( form_transaction_part, hbox );
     gtk_widget_show_all ( hbox );

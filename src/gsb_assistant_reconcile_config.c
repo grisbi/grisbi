@@ -1196,7 +1196,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transactions: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
 			 label,
 			 FALSE, FALSE,
 			 10 );
@@ -1206,7 +1206,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (scrolled_window),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
 			 scrolled_window,
 			 TRUE, TRUE,
 			 0 );

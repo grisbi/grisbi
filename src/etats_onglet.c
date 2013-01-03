@@ -265,7 +265,7 @@ gboolean ajout_etat ( void )
 				       make_hint ( _("Choose template for new report"),
 						   _("You are about to create a new report. For convenience, you can choose between the following templates.  Reports may be customized later." ) ) );
 
-    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, FALSE,
+    frame = new_paddingbox_with_title ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ), FALSE,
 					_("Report type"));
 
     /* combobox for predefined reports */
@@ -273,7 +273,7 @@ gboolean ajout_etat ( void )
     gtk_box_pack_start ( GTK_BOX(frame), combobox, FALSE, FALSE, 0 );
 
     /* on ajoute maintenant la frame */
-    frame = new_paddingbox_with_title ( GTK_DIALOG(dialog)->vbox, TRUE,
+    frame = new_paddingbox_with_title ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ), TRUE,
 					_("Description"));
 
     /* on met le label dans une scrolled window */
@@ -311,7 +311,7 @@ gboolean ajout_etat ( void )
 			G_CALLBACK ( change_choix_nouvel_etat ),
 			G_OBJECT ( label_description ));
 
-    gtk_box_set_spacing ( GTK_BOX(GTK_DIALOG(dialog)->vbox), 6 );
+    gtk_box_set_spacing ( GTK_BOX( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), 6 );
     gtk_widget_show_all ( dialog );
 
     /* on attend le choix de l'utilisateur */

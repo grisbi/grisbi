@@ -206,8 +206,8 @@ void dialogue_special ( GtkMessageType param, gchar *text )
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         param, GTK_BUTTONS_CLOSE,
-                        "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG (dialog)->label ), text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
     gtk_window_set_modal ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_run (GTK_DIALOG (dialog));
@@ -241,10 +241,9 @@ GtkWidget *dialogue_special_no_run ( GtkMessageType param,
         dialog = gtk_message_dialog_new ( NULL,
                         0,
                         param, buttons,
-                        "%s", text );
+                        NULL );
     }
-
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
     return dialog;
 }
@@ -326,11 +325,11 @@ GtkDialog *dialogue_conditional_new ( gchar *text,
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         type, buttons,
-                        "%s", text );
+                        NULL );
     gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_CLOSE );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
-    vbox = GTK_DIALOG(dialog) -> vbox;
+    vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
     g_signal_connect ( G_OBJECT ( checkbox ), "toggled",
@@ -440,8 +439,8 @@ gboolean question_yes_no ( gchar *text, gint default_answer )
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
-                        "%s", text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), default_answer );
 
@@ -525,11 +524,11 @@ gboolean question_conditional_yes_no_with_struct ( struct conditional_message *m
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_WARNING,
                         GTK_BUTTONS_YES_NO,
-                        "%s", text );
+                        NULL );
     gtk_dialog_set_default_response ( GTK_DIALOG( dialog ), GTK_RESPONSE_NO );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog )->label ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
 
-    vbox = GTK_DIALOG ( dialog ) -> vbox;
+    vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
     g_signal_connect ( G_OBJECT ( checkbox ),
@@ -739,11 +738,11 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_INFO,
                         GTK_BUTTONS_CLOSE,
-                        "%s", format_text );
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ), format_text );
+                        NULL );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), format_text );
 
     hbox = gtk_hbox_new (FALSE, 5);
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
                         hbox,
                         FALSE, FALSE, 0);
 

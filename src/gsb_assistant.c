@@ -122,7 +122,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
 
     button_select = gtk_toggle_button_new_with_label ( _("Select all") );
     gtk_widget_set_size_request ( button_select, width, -1 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG ( assistant )->action_area ),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( assistant ) ) ),
                         button_select, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT(assistant), "button_select", button_select );
 
@@ -165,12 +165,12 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     g_free ( tmpstr );
     gtk_box_pack_start ( GTK_BOX(hbox), image, FALSE, FALSE, 0 );
 
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), eb, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG (assistant) ) ), eb, FALSE, FALSE, 0 );
 
     notebook = gtk_notebook_new ();
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK(notebook), FALSE );
     gtk_notebook_set_show_border ( GTK_NOTEBOOK(notebook), FALSE );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(assistant) -> vbox ), notebook, TRUE, TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( assistant ) ) ), notebook, TRUE, TRUE, 0 );
 
     view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (view), GTK_WRAP_WORD);

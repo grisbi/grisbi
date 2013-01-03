@@ -165,7 +165,7 @@ void traitement_sigsegv ( gint signal_nb )
 
     gtk_expander_set_use_markup ( GTK_EXPANDER ( expander ), TRUE );
     gtk_container_add ( GTK_CONTAINER ( expander ), print_backtrace() );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(dialog)->vbox ), expander, FALSE, FALSE, 6 );
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), expander, FALSE, FALSE, 6 );
 
     gtk_widget_show_all ( dialog );
 #endif
