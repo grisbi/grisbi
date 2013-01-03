@@ -338,8 +338,8 @@ void gsb_form_create_widgets ( void )
 
     /* Kludge : otherwise, GtkExpander won't give us as many space
        as we need. */
-    gtk_widget_set_size_request ( hbox, 2048, -1 );
-
+/*    gtk_widget_set_size_request ( hbox, 2048, -1 );
+*/
     gtk_widget_show_all ( hbox );
     gtk_widget_show_all ( transaction_form );
     gtk_widget_hide ( form_scheduled_part );

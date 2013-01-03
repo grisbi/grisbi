@@ -575,7 +575,7 @@ GtkWidget *gsb_main_create_main_window ( void )
                         G_CALLBACK ( main_window_key_press_event ),
                         NULL );
 
-    gtk_window_set_policy ( GTK_WINDOW ( run.window ), TRUE, TRUE, FALSE );
+    gtk_window_set_resizable ( GTK_WINDOW ( run.window ), TRUE );
 
     /* create the main window : a vbox */
     vbox = gtk_vbox_new ( FALSE, 0 );
