@@ -133,14 +133,14 @@ GtkWidget * import_create_csv_preview_page ( GtkWidget * assistant )
     hbox = gtk_hbox_new ( FALSE, 12 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    combobox = gtk_combo_box_new_text ();
+    combobox = gtk_combo_box_text_new ();
     do
     {
 	gchar * complete_name = g_strdup_printf ( "%s : \"%s\"",
 						  _(csv_separators [ i ] . name),
 						  ( csv_separators [ i ] . value ?
 						    csv_separators [ i ] . value : "" ) );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), complete_name );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), complete_name );
 	g_free ( complete_name );
 
     }

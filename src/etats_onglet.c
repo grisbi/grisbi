@@ -269,7 +269,7 @@ gboolean ajout_etat ( void )
 					_("Report type"));
 
     /* combobox for predefined reports */
-    combobox = gtk_combo_box_new_text ();
+    combobox = gtk_combo_box_text_new ();
     gtk_box_pack_start ( GTK_BOX(frame), combobox, FALSE, FALSE, 0 );
 
     /* on ajoute maintenant la frame */
@@ -293,13 +293,13 @@ gboolean ajout_etat ( void )
 				   GTK_SHADOW_NONE );
 
 	/* fill combobox */
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Last month incomes and outgoings") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Current month incomes and outgoings") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Annual budget") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Blank report") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Cheques deposit") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Monthly outgoings by payee") );
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), _("Search") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Last month incomes and outgoings") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Current month incomes and outgoings") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Annual budget") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Blank report") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Cheques deposit") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Monthly outgoings by payee") );
+	gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( combobox ), _("Search") );
 
 
 	/* set first entry and description */
@@ -1140,11 +1140,11 @@ void exporter_etat ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( _("File format: ") ),
 			 FALSE, FALSE, 0 );
 
-    combo = gtk_combo_box_new_text();
+    combo = gtk_combo_box_text_new ();
     gtk_box_pack_start ( GTK_BOX(hbox), combo, TRUE, TRUE, 0 );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("Grisbi report file (egsb file)" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("HTML file" ) );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX(combo), _("CSV file" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT (combo), _("Grisbi report file (egsb file)" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT (combo), _("HTML file" ) );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT (combo), _("CSV file" ) );
 
     /* Set initial format. */
     gtk_combo_box_set_active ( GTK_COMBO_BOX(combo), REPORT_HTML );

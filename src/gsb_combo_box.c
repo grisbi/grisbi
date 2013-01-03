@@ -2,9 +2,10 @@
 /*                                                                            */
 /*                                gsb_combo_box                               */
 /*                                                                            */
-/*     Copyright (C)	2000-2006 Cédric Auger (cedric@grisbi.org)	      */
-/*			2003-2006 Benjamin Drieu (bdrieu@april.org)	      */
-/* 			http://www.grisbi.org				      */
+/*     Copyright (C)    2000-2006 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2006 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2008-2013 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -33,6 +34,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "gsb_combo_box.h"
@@ -44,13 +46,109 @@
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+
+/**
+ * Cette fonction retourne un GtkListStore à partir d'une liste
+ * TODO modifier le fonctionnement de cette liste
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ */
+static GtkListStore *gsb_combo_box_list_store_new_from_list ( GSList *list )
+{
+    GtkListStore *store = NULL;
+    GSList *tmp_list;
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    tmp_list = list;
+    while (tmp_list)
+    {
+        GtkTreeIter iter;
+        gchar *string;
+
+        string = tmp_list -> data;
+        tmp_list = tmp_list -> next;
+
+        /* should not append */
+        if ( !tmp_list )
+            break;
+
+        gtk_list_store_append ( GTK_LIST_STORE ( store ), &iter );
+        gtk_list_store_set ( store,
+                        &iter,
+                        0, string,
+                        1, GPOINTER_TO_INT ( tmp_list -> data ),
+                        -1 );
+
+        tmp_list = tmp_list -> next;
+    }
+
+    /* return */
+    return store;
+}
+
+
+/**
+ * Cette fonction retourne un GtkListStore à partir d'un tableau de chaine
+ *
+ * \param le tableau de chaines à mettre dans le modèle
+ *
+ * \return un GtkListStore.
+ */
+GtkListStore *gsb_combo_box_list_store_new_from_array ( gchar **array )
+{
+    GtkListStore *store = NULL;
+    gint i = 0;
+
+    store = gtk_list_store_new ( 2, G_TYPE_STRING, G_TYPE_INT );
+
+    while ( array[i] )
+    {
+        GtkTreeIter iter;
+        gchar *string;
+
+        string = gettext ( array[i] );
+        gtk_list_store_append ( store, &iter );
+        gtk_list_store_set ( store, &iter, 0, string, 1, i, -1 );
+
+        i++;
+    }
+
+    /* return */
+    return store;
+}
+
+
+/**
+ * Cette fonction crée la colonne visible d'un GtkComboBox
+ *
+ * \param le combo à initialiser
+ * \param le numéro de la colonne texte
+ *
+ * \return
+ */
+void gsb_combo_box_set_text_renderer ( GtkComboBox *combo,
+                        gint num_col )
+{
+    GtkCellRenderer *renderer;
+
+    renderer = gtk_cell_renderer_text_new ( );
+    gtk_cell_layout_pack_start ( GTK_CELL_LAYOUT ( combo ), renderer, TRUE );
+    gtk_cell_layout_set_attributes ( GTK_CELL_LAYOUT ( combo ), renderer,
+                                    "text", num_col,
+                                    NULL );
+}
+
+
 /**
  * create a text only combo_box with an index
  * column 0 will contain the text
  * column 1 will have the index, in the order of the strings
  *
  * this function takes an array of string and attribute a number beginning by the first element of the array
- * to link some text with a special number, use gsb_combo_box_new_with_index_by_list
+ * to link some text with a special number, use gsb_combo_box_new_with_index_from_list
  *
  * \param string a pointer to an array of strings terminated by NULL, string will be appended in that order
  * \param func an optional function to call when change the current item (gboolean func (GtkWidget *combox, gpointer data)
@@ -59,50 +157,26 @@
  * \return a combo box widget
  * */
 GtkWidget *gsb_combo_box_new_with_index ( gchar **string,
-					  GCallback func,
-					  gpointer data )
+                        GCallback func,
+                        gpointer data )
 {
-    GtkWidget *combo_box;
-    GtkListStore *store;
-    GtkCellRenderer *renderer;
-    gint i = 0;
+    GtkWidget *combo;
+    GtkTreeModel *model;
 
-    combo_box = gtk_combo_box_new ();
+    combo = gtk_combo_box_new ( );
 
-    store = gtk_list_store_new ( 2,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
-    if (string)
-    {
-	while (string[i])
-	{
-	    GtkTreeIter iter;
+    model = GTK_TREE_MODEL ( gsb_combo_box_list_store_new_from_array ( string ) );
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
 
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, string[i],
-				 1, i,
-				 -1 );
-	    i++;
-	}
-    }
-    gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
-			      GTK_TREE_MODEL (store));
+    gsb_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
     if ( func )
-	g_signal_connect ( G_OBJECT (combo_box),
-			   "changed",
-			   G_CALLBACK(func),
-			   data );
+        g_signal_connect ( G_OBJECT ( combo ),
+                        "changed",
+                        G_CALLBACK ( func ),
+                        data );
 
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
-				    "text", 0,
-				    NULL);
-
-    return combo_box;
+    return combo;
 }
 
 
@@ -120,60 +194,28 @@ GtkWidget *gsb_combo_box_new_with_index ( gchar **string,
  *
  * \return a combo box widget
  * */
-GtkWidget *gsb_combo_box_new_with_index_by_list ( GSList *list,
-						  GCallback func,
-						  gpointer data )
+GtkWidget *gsb_combo_box_new_with_index_from_list ( GSList *list,
+                        GCallback func,
+                        gpointer data )
 {
-    GSList *tmp_list;
-    GtkWidget *combo_box;
-    GtkListStore *store;
-    GtkCellRenderer *renderer;
+    GtkWidget *combo;
+    GtkTreeModel *model;
 
-    combo_box = gtk_combo_box_new ();
+    combo = gtk_combo_box_new ();
 
-    store = gtk_list_store_new ( 2,
-				 G_TYPE_STRING,
-				 G_TYPE_INT );
-    tmp_list = list;
-    if (tmp_list)
-    {
-	while (tmp_list)
-	{
-	    GtkTreeIter iter;
-	    gchar *string;
+    model = GTK_TREE_MODEL ( gsb_combo_box_list_store_new_from_list ( list ) );
+    gtk_combo_box_set_model ( GTK_COMBO_BOX ( combo ), model );
 
-	    string = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
+    gsb_combo_box_set_text_renderer ( GTK_COMBO_BOX ( combo ), 0 );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo ), 0 );
 
-	    /* should not append */
-	    if (!tmp_list)
-		break;
-
-	    gtk_list_store_append ( GTK_LIST_STORE (store),
-				    &iter );
-	    gtk_list_store_set ( store,
-				 &iter,
-				 0, string,
-				 1, GPOINTER_TO_INT (tmp_list -> data),
-				 -1 );
-	    tmp_list = tmp_list -> next;
-	}
-    }
-    gtk_combo_box_set_model ( GTK_COMBO_BOX (combo_box),
-			      GTK_TREE_MODEL (store));
     if ( func )
-	g_signal_connect ( G_OBJECT (combo_box),
-			   "changed",
-			   G_CALLBACK(func),
-			   data );
+        g_signal_connect ( G_OBJECT ( combo ),
+                        "changed",
+                        G_CALLBACK ( func ),
+                        data );
 
-    renderer = gtk_cell_renderer_text_new ();
-    gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
-    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), renderer,
-				    "text", 0,
-				    NULL);
-
-    return combo_box;
+    return combo;
 }
 
 /**
@@ -186,20 +228,19 @@ GtkWidget *gsb_combo_box_new_with_index_by_list ( GSList *list,
  * */
 gint gsb_combo_box_get_index ( GtkWidget *combo_box )
 {
-    gint index;
+    GtkTreeModel *model;
     GtkTreeIter iter;
+    gint index;
 
     if (!combo_box)
-	return -1;
+        return -1;
 
-    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX (combo_box),
-					  &iter ))
-	return -1;
+    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo_box ), &iter ) )
+        return -1;
 
-    gtk_tree_model_get ( GTK_TREE_MODEL (gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box))),
-			 &iter,
-			 1, &index,
-			 -1 );
+    model = gtk_combo_box_get_model ( GTK_COMBO_BOX ( combo_box ) );
+    gtk_tree_model_get ( model, &iter, 1, &index, -1 );
+
     return index;
 }
 
@@ -215,7 +256,7 @@ gint gsb_combo_box_get_index ( GtkWidget *combo_box )
  * \return TRUE ok, FALSE problem
  * */
 gint gsb_combo_box_set_index ( GtkWidget *combo_box,
-			       gint index )
+                        gint index )
 {
     GtkTreeIter iter;
     GtkTreeModel *model;
@@ -246,4 +287,31 @@ gint gsb_combo_box_set_index ( GtkWidget *combo_box,
     }
     return FALSE;
 }
+/**
+ * get the text of the current item in the combo_box given in param
+ * the combo_box must have been created with gsb_combo_box_new_with_index
+ *
+ * \param combo_box
+ *
+ * \return a newly allocated string or NULL if nothing selected
+ * */
+gchar *gsb_combo_box_get_active_text ( GtkComboBox *combo_box )
+{
+    GtkTreeIter iter;
+    gchar *string;
+
+    if ( !combo_box )
+        return NULL;
+
+    if ( !gtk_combo_box_get_active_iter ( GTK_COMBO_BOX ( combo_box ), &iter ) )
+        return NULL;
+
+    gtk_tree_model_get ( GTK_TREE_MODEL ( gtk_combo_box_get_model ( GTK_COMBO_BOX ( combo_box ) ) ),
+                        &iter,
+                        0, &string,
+                        -1 );
+
+    return string;
+}
+
 
