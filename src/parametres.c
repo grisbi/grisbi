@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*            2008-2012 Pierre Biava (grisbi@pierre.biava.name)               */
+/*            2008-2013 Pierre Biava (grisbi@pierre.biava.name)               */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -91,11 +91,11 @@ static gboolean gsb_gui_delete_msg_toggled ( GtkCellRendererToggle *cell, gchar 
                         GtkTreeModel * model );
 static gboolean gsb_gui_messages_toggled ( GtkCellRendererToggle *cell, gchar *path_str,
                         GtkTreeModel * model );
-static void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data );
+static void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer user_data );
 static gboolean gsb_localisation_format_date_toggle ( GtkToggleButton *togglebutton,
                         GdkEventButton *event,
                         gpointer user_data);
-static void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data );
+static void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data );
 static void gsb_localisation_update_affichage ( gint type_maj );
 static GtkWidget *onglet_delete_messages ( void );
 static GtkWidget *onglet_fichier ( void );
@@ -1709,11 +1709,11 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), label, FALSE, FALSE, 0 );
 
-    dec_sep = gtk_combo_box_entry_new_text ( );
-    gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( dec_sep ) -> child ), FALSE );
-    gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( dec_sep ) -> child ), 5 );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( dec_sep ), "." );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( dec_sep ), "," );
+    dec_sep = gtk_combo_box_text_new_with_entry ( );
+    gtk_editable_set_editable ( GTK_EDITABLE ( gtk_bin_get_child ( GTK_BIN ( dec_sep ) ) ), FALSE );
+    gtk_entry_set_width_chars ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( dec_sep ) ) ), 5 );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( dec_sep ), "." );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( dec_sep ), "," );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), dec_sep, FALSE, FALSE, 0 );
 
     thou_hbox = gtk_hbox_new ( FALSE, 0 );
@@ -1722,13 +1722,13 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
 
-    thou_sep = gtk_combo_box_entry_new_text ( );
+    thou_sep = gtk_combo_box_text_new_with_entry ( );
     gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( thou_sep ) -> child ), FALSE );
-    gtk_entry_set_width_chars ( GTK_ENTRY ( GTK_BIN ( thou_sep ) -> child ), 5 );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "' '" );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "." );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "," );
-    gtk_combo_box_append_text ( GTK_COMBO_BOX ( thou_sep ), "''" );
+    gtk_entry_set_width_chars ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( thou_sep ) ) ), 5 );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "' '" );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "." );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "," );
+    gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "''" );
 
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), thou_sep, FALSE, FALSE, 0 );
 
@@ -1789,21 +1789,21 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
  *
  *
  * */
-void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user_data )
+void gsb_localisation_decimal_point_changed ( GtkComboBoxText *widget, gpointer user_data )
 {
     GtkWidget *combo_box;
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
 
-    text = gtk_combo_box_get_active_text ( widget );
+    text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
     if ( g_strcmp0 ( text, "," ) == 0 )
     {
         gsb_locale_set_mon_decimal_point ( "," );
 
-        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
+        if ( g_strcmp0 ( gtk_combo_box_text_get_active_text ( GTK_COMBO_BOX_TEXT ( combo_box ) ), "," ) == 0 )
         {
             gsb_locale_set_mon_thousands_sep ( " " );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
@@ -1812,7 +1812,7 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
     else
     {
         gsb_locale_set_mon_decimal_point ( "." );
-        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        if ( g_strcmp0 ( gtk_combo_box_text_get_active_text ( GTK_COMBO_BOX_TEXT ( combo_box ) ), "." ) == 0 )
         {
             gsb_locale_set_mon_thousands_sep ( "," );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 2 );
@@ -1842,14 +1842,14 @@ void gsb_localisation_decimal_point_changed ( GtkComboBox *widget, gpointer user
  *
  *
  * */
-void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user_data )
+void gsb_localisation_thousands_sep_changed ( GtkComboBoxText *widget, gpointer user_data )
 {
     GtkWidget *combo_box;
     GtkWidget *entry;
     gchar *str_capital;
     const gchar *text;
 
-    text = gtk_combo_box_get_active_text ( widget );
+    text = gtk_combo_box_text_get_active_text ( widget );
     combo_box = g_object_get_data ( G_OBJECT ( widget ), "separator" );
 
     if ( g_strcmp0 ( text, "' '" ) == 0 )
@@ -1860,7 +1860,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     {
 
         gsb_locale_set_mon_thousands_sep ( "." );
-        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "." ) == 0 )
+        if ( g_strcmp0 ( gtk_combo_box_text_get_active_text ( GTK_COMBO_BOX_TEXT ( combo_box ) ), "." ) == 0 )
         {
             gsb_locale_set_mon_decimal_point ( "," );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 1 );
@@ -1870,7 +1870,7 @@ void gsb_localisation_thousands_sep_changed ( GtkComboBox *widget, gpointer user
     {
 
         gsb_locale_set_mon_thousands_sep ( "," );
-        if ( g_strcmp0 ( gtk_combo_box_get_active_text ( GTK_COMBO_BOX ( combo_box ) ), "," ) == 0 )
+        if ( g_strcmp0 ( gtk_combo_box_text_get_active_text ( GTK_COMBO_BOX_TEXT ( combo_box ) ), "," ) == 0 )
         {
             gsb_locale_set_mon_decimal_point ( "." );
             gtk_combo_box_set_active ( GTK_COMBO_BOX ( combo_box ), 0 );
