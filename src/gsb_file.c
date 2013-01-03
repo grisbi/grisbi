@@ -44,7 +44,6 @@
 #include "gsb_file.h"
 #include "accueil.h"
 #include "affichage_liste.h"
-#include "dialog.h"
 #include "fenetre_principale.h"
 #include "grisbi_app.h"
 #include "grisbi_win.h"
@@ -873,7 +872,7 @@ static gint gsb_file_dialog_save ( void )
     g_free ( tmpstr2 );
     g_free ( time_elapsed );
 
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ), make_hint ( hint, message ) );
+    g_object_set ( G_OBJECT ( dialog ), "text", hint, "secondary-text", message, NULL );
 
     g_free ( message );
     g_free ( hint );

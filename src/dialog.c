@@ -44,6 +44,7 @@ static GtkDialog *dialogue_conditional_new ( gchar *text,
                         GtkButtonsType buttons );
 static void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type );
 static gboolean dialogue_update_var ( GtkWidget *checkbox, gint message );
+static gchar *make_hint ( const gchar *hint, const gchar *text );
 /*END_STATIC*/
 
 

@@ -37,7 +37,6 @@ gboolean dialogue_update_struct_message ( GtkWidget *checkbox,
 void dialogue_warning ( gchar *text );
 void dialogue_warning_hint ( gchar *text, gchar *hint );
 gchar *make_blue ( const gchar *text );
-gchar *make_hint ( const gchar *hint, const gchar *text );
 gchar *make_pango_attribut ( gchar *attribut, const gchar *text );
 gchar *make_red ( const gchar *text );
 gboolean question_conditional_yes_no ( gchar *var );

@@ -1412,31 +1412,31 @@ gint gsb_import_add_currency ( struct struct_compte_importation * compte )
 {
     GtkWidget *vbox, *checkbox, *dialog;
     gint response;
-    gchar *tmpstr;
-    gchar *tmpstr2;
-    gchar *text;
+    gchar *message;
+    gchar *hint;
     gint currency_number = 0;
 
-    tmpstr = g_strdup_printf (
+    message = g_strdup_printf (
                         _("The account currency imported %s is %s.\nThis currency "
                         "doesn't exist so you have to create it by selecting OK.\n"
                         "\n"
                         "Do you create it?"),
                         compte -> nom_de_compte,
                         compte -> devise );
-    tmpstr2 = g_strdup_printf (
+    hint = g_strdup_printf (
                         _("Can't associate ISO 4217 code for currency '%s'."),
                         compte -> devise );
-    text = make_hint ( tmpstr2, tmpstr );
-    g_free ( tmpstr );
-    g_free ( tmpstr2 );
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
                         GTK_DIALOG_DESTROY_WITH_PARENT,
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
                         NULL );
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), hint );
+    gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog),
+                                               "%s", message );
+    g_free ( message );
+    g_free ( hint );
 
     vbox = dialog_get_content_area ( dialog );
 
