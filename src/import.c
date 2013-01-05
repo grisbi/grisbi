@@ -29,6 +29,7 @@
 #include "include.h"
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
+#include <goffice/goffice.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -37,7 +38,6 @@
 #include "import_csv.h"
 #include "dialog.h"
 #include "utils_file_selection.h"
-#include "go-charmap-sel.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
 #include "gsb_assistant.h"
