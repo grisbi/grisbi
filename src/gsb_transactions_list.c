@@ -757,15 +757,19 @@ void update_titres_tree_view ( void )
 
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     {
-        gtk_tree_view_column_set_title ( GTK_TREE_VIEW_COLUMN (
-                        transactions_tree_view_columns[i] ),
-                        _(titres_colonnes_liste_operations[i] ) );
+        GtkTreeViewColumn *col;
+        GtkWidget *button;
 
-        if ( GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i] )->button )
+        col = GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i] );
+        gtk_tree_view_column_set_title ( col, ( titres_colonnes_liste_operations[i] ) );
+
+/*         for gtk3
+ *          button = gtk_tree_view_column_get_button  ( col );
+ */
+        button = col->button;
+        if ( button )
         {
-            gtk_widget_set_tooltip_text ( GTK_WIDGET ( GTK_TREE_VIEW_COLUMN (
-                        transactions_tree_view_columns[i] )->button ),
-                        tips_col_liste_operations[i] );
+            gtk_widget_set_tooltip_text ( button, tips_col_liste_operations[i] );
         }
     }
 }
@@ -815,30 +819,36 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 
     for ( i = 0 ; i < CUSTOM_MODEL_VISIBLE_COLUMNS ; i++ )
     {
-	    gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ),
-				        transactions_tree_view_columns[i] );
+        GtkWidget *button;
+        GtkTreeViewColumn *col;
 
-	    gtk_tree_view_column_set_clickable ( transactions_tree_view_columns[i],
-					    TRUE );
+        col = GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i] );
+        gtk_tree_view_append_column ( GTK_TREE_VIEW ( tree_view ), col );
 
-	/* 	    set the tooltips */
-	    gtk_widget_set_tooltip_text ( GTK_WIDGET (transactions_tree_view_columns[i] -> button),
-				        tips_col_liste_operations[i] );
+        gtk_tree_view_column_set_clickable ( col, TRUE );
 
-	    g_signal_connect ( G_OBJECT ( transactions_tree_view_columns[i] -> button),
-			            "button-press-event",
-			            G_CALLBACK ( gsb_transactions_list_title_column_button_press ),
-			            GINT_TO_POINTER ( i ) );
+    /* set the tooltips */
+/*         for gtk3
+ *          button = gtk_tree_view_column_get_button  ( col );
+ */
+        button = col->button;
+        gtk_widget_set_tooltip_text ( button, tips_col_liste_operations[i] );
 
-	    /* use the click to sort the list */
-	    g_signal_connect ( G_OBJECT ( transactions_tree_view_columns[i] ),
-			            "clicked",
-			            G_CALLBACK ( gsb_transactions_list_change_sort_column ),
-			            GINT_TO_POINTER ( i ) );
+        g_signal_connect ( G_OBJECT ( button ),
+                        "button-press-event",
+                        G_CALLBACK ( gsb_transactions_list_title_column_button_press ),
+                        GINT_TO_POINTER ( i ) );
+
+        /* use the click to sort the list */
+        g_signal_connect ( G_OBJECT ( col ),
+                        "clicked",
+                        G_CALLBACK ( gsb_transactions_list_change_sort_column ),
+                        GINT_TO_POINTER ( i ) );
     }
 
-    gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ),
-			            GTK_TREE_MODEL ( model ) );
+    gtk_tree_view_set_model ( GTK_TREE_VIEW ( tree_view ), GTK_TREE_MODEL ( model ) );
+
+    /* return */
     return tree_view;
 }
 
@@ -2055,7 +2065,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
 
     label = gtk_label_new ( _("Select the reconciliation to associate to the selected transaction: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0.0, 0.0 );
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area GTK_DIALOG ( dialog ) ),
 			 label,
 			 FALSE, FALSE, 10 );
     gtk_widget_show (label);
@@ -2064,7 +2074,7 @@ gint gsb_transactions_list_choose_reconcile ( gint account_number,
     gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW (scrolled_window),
 				     GTK_POLICY_AUTOMATIC,
 				     GTK_POLICY_AUTOMATIC );
-    gtk_box_pack_start ( GTK_BOX (GTK_DIALOG (dialog) -> vbox),
+    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area GTK_DIALOG ( dialog ) ),
 			 scrolled_window,
 			 TRUE, TRUE, 0 );
     gtk_widget_show (scrolled_window);

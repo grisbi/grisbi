@@ -157,6 +157,7 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 {
     GtkWidget *widget;
     GtkRequisition requisition;
+    GtkAllocation allocation;
     gint screen_width, menu_xpos, menu_ypos, menu_width;
 
     widget = GTK_WIDGET (user_data);
@@ -164,13 +165,14 @@ void set_popup_position (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
     gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
     menu_width = requisition.width;
 
-    gdk_window_get_origin (widget->window, &menu_xpos, &menu_ypos);
+    gdk_window_get_origin ( gtk_widget_get_window ( widget ), &menu_xpos, &menu_ypos );
 
-    menu_xpos += widget->allocation.x;
-    menu_ypos += widget->allocation.y + widget->allocation.height - 2;
+    gtk_widget_get_allocation ( widget, &allocation );
+    menu_xpos += allocation.x;
+    menu_ypos += allocation.y + allocation.height - 2;
 
-    if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
-	menu_xpos = menu_xpos + widget->allocation.width - menu_width;
+    if ( gtk_widget_get_direction ( widget) == GTK_TEXT_DIR_RTL )
+        menu_xpos = menu_xpos + allocation.width - menu_width;
 
     /* Clamp the position on screen */
     screen_width = gdk_screen_get_width (gtk_widget_get_screen (widget));

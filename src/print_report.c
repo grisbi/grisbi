@@ -130,10 +130,13 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
     gint nb_pages;
     gint i;
     gint table_size = 0;
+    guint nrows;
+    guint ncols;
 
     devel_debug (NULL);
 
     /* initialize globals variables */
+    gtk_table_get_size ( GTK_TABLE ( table_etat ), &nrows, &ncols );
     cr = gtk_print_context_get_cairo_context (context);
     size_row = pango_font_description_get_size (gsb_data_print_config_get_report_font_transactions ())/PANGO_SCALE;
     size_title = pango_font_description_get_size (gsb_data_print_config_get_report_font_title ())/PANGO_SCALE;
@@ -144,15 +147,17 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
     page_width = gtk_print_context_get_width (context);
 
     /* get the width of each columns */
-    if (columns_width)
-	g_free (columns_width);
-    columns_width = g_malloc0 (GTK_TABLE (table_etat) -> ncols * sizeof (gdouble));
+    if ( columns_width )
+        g_free ( columns_width );
+
+    columns_width = g_malloc0 ( ncols * sizeof ( gdouble ) );
 
     /* get first the size of the table */
-    for (i=0 ; i<GTK_TABLE (table_etat) -> ncols ; i++)
-	table_size = table_size + (GTK_TABLE (table_etat) -> cols)[i].allocation;
-    for (i=0 ; i<GTK_TABLE (table_etat) -> ncols ; i++)
-	columns_width[i] = (page_width * (GTK_TABLE (table_etat) -> cols)[i].allocation) / table_size;
+    for ( i = 0; i < ncols ; i++ )
+        table_size = table_size + ( GTK_TABLE ( table_etat ) -> cols)[i].allocation;
+
+    for ( i = 0; i < ncols ; i++ )
+        columns_width[i] = ( page_width * ( GTK_TABLE ( table_etat ) -> cols)[i].allocation ) / table_size;
 
     /* calculate the nb of rows in 1 page and in the first page */
     nb_rows_per_page = page_height / size_row;
@@ -161,10 +166,9 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
     /* calculate the number of pages,
      * it's not too difficult because each line has the same size
      * except the title */
-    nb_pages = ceil (((GTK_TABLE (table_etat) -> nrows - 1)*size_row + size_title) / page_height);
+    nb_pages = ceil ( ( ( nrows - 1 ) * size_row + size_title ) / page_height );
 
-    gtk_print_operation_set_n_pages ( GTK_PRINT_OPERATION (operation),
-				      nb_pages );
+    gtk_print_operation_set_n_pages ( GTK_PRINT_OPERATION ( operation ), nb_pages );
 
     current_child_table = NULL;
     current_child_line = 0;
@@ -192,16 +196,15 @@ gboolean print_report_draw_page ( GtkPrintOperation *operation,
 				  gpointer null )
 {
     GList *children;
-    gint nb_columns;
-    gint nb_lines;
+    guint nb_columns;
+    guint nb_lines;
     gint rows_drawed = 0;
     gint previous_line = -1;
     gboolean is_title = FALSE;
 
     devel_debug_int (page);
 
-    nb_columns = GTK_TABLE (table_etat) -> ncols;
-    nb_lines = GTK_TABLE (table_etat) -> nrows;
+    gtk_table_get_size ( GTK_TABLE ( table_etat ), &nb_lines, &nb_columns );
 
     /* children begins with the last GtkTableChild added, so we need to inverse */
     if (page)

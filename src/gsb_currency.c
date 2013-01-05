@@ -145,6 +145,8 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
 {
     GtkCellRenderer *text_renderer, *flag_renderer;
     GtkWidget *combo_box;
+    gint xpad;
+    gint ypad;
 
     if ( !combobox_currency_store )
         gsb_currency_create_combobox_store ();
@@ -158,7 +160,8 @@ GtkWidget *gsb_currency_make_combobox ( gboolean set_name )
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), flag_renderer,
 				    "pixbuf", CURRENCY_COL_FLAG, NULL );
 
-    GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
+    gtk_cell_renderer_get_padding ( GTK_CELL_RENDERER ( flag_renderer ), &xpad, &ypad );
+    gtk_cell_renderer_set_padding ( GTK_CELL_RENDERER ( flag_renderer ), 3, ypad );
 
     text_renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);
@@ -535,7 +538,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );
@@ -1047,17 +1050,19 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
     GtkTreeIter iter;
     GdkPixbuf *pixbuf;
     gchar *string;
+    gchar *tmp_dir;
+    gint xpad;
+    gint ypad;
 
     combobox_store = gtk_list_store_new ( 3, G_TYPE_INT, GDK_TYPE_PIXBUF,
 						G_TYPE_STRING);
 
-    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
-                        "flags", G_DIR_SEPARATOR_S,
-                        gsb_data_currency_get_code_iso4217 (
-                        transaction_currency_number ),
-                        ".png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
-    g_free (string);
+    string = g_strconcat ( gsb_data_currency_get_code_iso4217 ( transaction_currency_number ), ".png", NULL );
+
+    tmp_dir = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "flags", string, NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmp_dir, NULL );
+    g_free ( string );
+    g_free ( tmp_dir );
 
     gtk_list_store_append ( GTK_LIST_STORE ( combobox_store ), &iter );
     gtk_list_store_set ( combobox_store, &iter,
@@ -1066,13 +1071,12 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
                     2, gsb_data_currency_get_name ( transaction_currency_number ),
                     -1 );
 
-    string = g_strconcat( gsb_dirs_get_pixmaps_dir ( ), G_DIR_SEPARATOR_S,
-                        "flags", G_DIR_SEPARATOR_S,
-                        gsb_data_currency_get_code_iso4217 (
-                        account_currency_number ),
-                        ".png", NULL );
-    pixbuf = gdk_pixbuf_new_from_file ( string, NULL );
-    g_free (string);
+    string = g_strconcat( gsb_data_currency_get_code_iso4217 ( account_currency_number ), ".png", NULL );
+
+    tmp_dir = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "flags", string, NULL );
+    pixbuf = gdk_pixbuf_new_from_file ( tmp_dir, NULL );
+    g_free ( string );
+    g_free ( tmp_dir );
 
     gtk_list_store_append ( GTK_LIST_STORE ( combobox_store ), &iter );
     gtk_list_store_set ( combobox_store, &iter,
@@ -1090,7 +1094,8 @@ GtkWidget *gsb_currency_make_combobox_exchange_dialog ( gint transaction_currenc
     gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo_box), flag_renderer,
 				    "pixbuf", 1, NULL );
 
-    GTK_CELL_RENDERER(flag_renderer) -> xpad = 3; /* Ugly but how to set it otherwise ?*/
+    gtk_cell_renderer_get_padding ( GTK_CELL_RENDERER ( flag_renderer ), &xpad, &ypad );
+    gtk_cell_renderer_set_padding ( GTK_CELL_RENDERER ( flag_renderer ), 3, ypad );
 
     text_renderer = gtk_cell_renderer_text_new ();
     gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo_box), text_renderer, FALSE);

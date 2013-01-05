@@ -135,18 +135,20 @@ void gsb_status_clear (  )
  */
 void gsb_status_wait ( gboolean force_update )
 {
-    GdkWindow * current_window;
+    GdkWindow *current_window;
+    GdkWindow *run_window;
 
-    gdk_window_set_cursor ( run.window -> window,
-			    gdk_cursor_new_for_display ( gdk_display_get_default ( ),
-							 GDK_WATCH ) );
+    run_window = gtk_widget_get_window ( GTK_WIDGET ( run.window ) );
 
-    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ),
-							 NULL, NULL );
+    gdk_window_set_cursor ( run_window,
+                        gdk_cursor_new_for_display ( gdk_display_get_default ( ),
+                        GDK_WATCH ) );
+
+    current_window = gdk_display_get_window_at_pointer ( gdk_display_get_default ( ), NULL, NULL );
 
     if ( current_window && GDK_IS_WINDOW ( current_window )
      &&
-	 current_window != run.window -> window )
+     current_window != run_window )
     {
 	GdkWindow * parent = gdk_window_get_toplevel ( current_window );
 
@@ -179,7 +181,7 @@ void gsb_status_stop_wait ( gboolean force_update )
     if ( ! run.window )
 	return;
 
-    gdk_window_set_cursor ( run.window -> window, NULL );
+    gdk_window_set_cursor ( gtk_widget_get_window ( GTK_WIDGET ( run.window ) ), NULL );
 
     if ( tracked_window && gdk_window_is_visible ( tracked_window ) )
     {

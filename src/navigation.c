@@ -203,11 +203,13 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
 {
     GtkWidget * sw, *vbox;
     GQueue *tmp_queue;
-    GtkCellRenderer * renderer;
-    GtkTreeDragDestIface * navigation_dst_iface;
-    GtkTreeDragSourceIface * navigation_src_iface;
-    GtkTreeViewColumn * column;
-	gint i;
+    GtkCellRenderer *renderer;
+    GtkTreeDragDestIface *navigation_dst_iface;
+    GtkTreeDragSourceIface *navigation_src_iface;
+    GtkTreeViewColumn *column;
+    gint i;
+    gint xpad;
+    gint ypad;
 
     vbox = gtk_vbox_new ( FALSE, 6 );
 
@@ -305,8 +307,10 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_view_column_set_expand ( column, FALSE );
 
     /* Text renderer. */
-    renderer = gtk_cell_renderer_text_new();
-    renderer -> xpad = 6;
+    renderer = gtk_cell_renderer_text_new ();
+
+    gtk_cell_renderer_get_padding ( GTK_CELL_RENDERER ( renderer ), &xpad, &ypad );
+    gtk_cell_renderer_set_padding ( GTK_CELL_RENDERER ( renderer ), 6, ypad );
     gtk_tree_view_column_pack_start(GTK_TREE_VIEW_COLUMN(column), renderer, TRUE);
     gtk_tree_view_column_add_attribute(GTK_TREE_VIEW_COLUMN(column), renderer,
 				       "text", NAVIGATION_TEXT);

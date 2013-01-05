@@ -852,7 +852,7 @@ gboolean preferences ( gint page )
 
     gtk_widget_show_all ( hpaned );
     gtk_container_set_border_width ( GTK_CONTAINER(hpaned), 6 );
-    gtk_box_pack_start ( GTK_BOX ( GTK_DIALOG(fenetre_preferences) -> vbox ),
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( fenetre_preferences ) ),
                         hpaned, TRUE, TRUE, 0);
 
     /* balance estimate subtree */
@@ -1723,7 +1723,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_box_pack_start ( GTK_BOX ( thou_hbox ), label, FALSE, FALSE, 0 );
 
     thou_sep = gtk_combo_box_text_new_with_entry ( );
-    gtk_editable_set_editable ( GTK_EDITABLE ( GTK_BIN ( thou_sep ) -> child ), FALSE );
+    gtk_editable_set_editable ( GTK_EDITABLE ( gtk_bin_get_child ( GTK_BIN ( thou_sep ) ) ), FALSE );
     gtk_entry_set_width_chars ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( thou_sep ) ) ), 5 );
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "' '" );
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( thou_sep ), "." );

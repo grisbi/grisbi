@@ -2056,7 +2056,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
                              _("Only this one"), 0,
                              NULL );
 
-            vbox = GTK_DIALOG(dialog) -> vbox;
+            vbox = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
             checkbox = gtk_check_button_new_with_label ( _("Do not show this message again") );
             g_signal_connect ( G_OBJECT ( checkbox ),
@@ -2166,7 +2166,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
     hbox = gtk_hbox_new ( FALSE, 0 );
-    gtk_box_pack_start ( GTK_BOX(GTK_DIALOG(dialog)->vbox), hbox, FALSE, FALSE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Scheduler frequency") );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(paddingbox), 6 );

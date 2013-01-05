@@ -44,7 +44,7 @@ struct _GtkComboFix
     GtkWidget *entry;
 
     /* *** private entries *** */
-    GtkComboFixPrivate *GSEAL (priv);
+    GtkComboFixPrivate *priv;
 };
 
 struct _GtkComboFixClass

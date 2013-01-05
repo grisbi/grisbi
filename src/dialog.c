@@ -761,6 +761,30 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
 
     return string;
 }
+/**
+ * return the content_area of dialog
+ *
+ * \param dialog
+ *
+ * \return the content_area
+ */
+GtkWidget *dialog_get_content_area ( GtkWidget *dialog )
+{
+    return gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
+}
+
+
+/**
+ * return the action_area of dialog
+ *
+ * \param dialog
+ *
+ * \return the action_area
+ */
+GtkWidget *dialog_get_action_area ( GtkWidget *dialog )
+{
+    return gtk_dialog_get_action_area ( GTK_DIALOG ( dialog ) );
+}
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

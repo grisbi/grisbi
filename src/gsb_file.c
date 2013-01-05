@@ -857,8 +857,7 @@ static gint gsb_file_dialog_save ( void )
     g_free ( tmpstr2 );
     g_free ( time_elapsed );
 
-    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG(dialog)->label ),
-			   make_hint ( hint, message ) );
+    gtk_label_set_markup ( GTK_LABEL ( GTK_MESSAGE_DIALOG ( dialog ) ), make_hint ( hint, message ) );
 
     g_free ( message );
     g_free ( hint );
@@ -1131,7 +1130,6 @@ void gsb_file_remove_name_from_opened_list ( gchar *filename )
 void gsb_file_save_remove_old_file ( gchar *filename )
 {
     GtkWidget *dialog;
-    GtkWidget *content_area;
     GtkWidget *hbox;
     GtkWidget *image;
     GtkWidget *label;
@@ -1149,10 +1147,9 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
-    content_area = GTK_DIALOG(dialog) -> vbox;
     hbox = gtk_hbox_new ( FALSE, 5);
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
-    gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 
     image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING,
                         GTK_ICON_SIZE_DIALOG );

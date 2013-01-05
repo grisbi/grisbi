@@ -512,9 +512,7 @@ GtkWidget *gsb_calendar_entry_popup ( GtkWidget *entry )
     gtk_widget_show ( button );
 
     /* set the position */
-    gdk_window_get_origin ( GTK_WIDGET ( entry ) -> window,
-			    &x,
-			    &y );
+    gdk_window_get_origin ( gtk_widget_get_window ( GTK_WIDGET ( entry ) ), &x, &y );
 
     /* on récupère la taille de la popup */
     popup_size = g_malloc0 ( sizeof ( GtkRequisition ));

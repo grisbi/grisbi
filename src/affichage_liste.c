@@ -944,14 +944,16 @@ gboolean gsb_transaction_list_config_realized ( GtkWidget *tree_view,
     for ( column = 0 ; column < CUSTOM_MODEL_VISIBLE_COLUMNS ; column++ )
     {
         gint width;
+        GtkAllocation allocation;
 
-        width = ( transaction_col_width [column] * ( tree_view -> allocation.width ) ) / 100;
+        gtk_widget_get_allocation ( tree_view, &allocation );
+        width = ( transaction_col_width [column] * ( allocation.width ) ) / 100;
         gtk_tree_view_column_set_fixed_width (
                         gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
                         width );
     }
 
-    gdk_window_set_cursor ( tree_view -> window, gdk_cursor_new ( GDK_HAND2 ) );
+    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_HAND2 ) );
 
     return FALSE;
 }

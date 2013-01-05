@@ -173,7 +173,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
                                 GTK_STOCK_OK,
                                 GTK_RESPONSE_ACCEPT);
     gtk_widget_set_size_request ( dialog, 400, 450 );
-    content_area = GTK_DIALOG ( dialog ) -> vbox;
+    content_area = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
     hbox = gtk_hbox_new ( FALSE, 5);
@@ -258,7 +258,7 @@ GtkWidget *gsb_select_icon_create_entry_text ( gchar *name_icon )
         }
         gtk_list_store_set (store, &iter, 0, path_icon, -1);
     }
-  
+
     combo = gtk_combo_box_new_with_model_and_entry ( GTK_TREE_MODEL ( store ) );
     gtk_combo_box_set_entry_text_column ( GTK_COMBO_BOX ( combo ), 0 );
 
@@ -418,7 +418,7 @@ void gsb_select_icon_create_file_chooser ( GtkWidget * button,
         gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
                             path, TRUE, 0.5, 0 );
         gsb_select_icon_add_path ( );
-        gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ),
+        gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry_text ) ) ),
                                  path_icon );
         gtk_widget_set_sensitive (bouton_OK, FALSE );
     }
@@ -440,21 +440,22 @@ void gsb_select_icon_entry_text_changed ( GtkComboBox *entry,
                                           gpointer user_data )
 {
     GtkTreePath *path;
-    const gchar *tmpstr;
+    const gchar *tmp_str;
     gchar *ptr;
 
-    tmpstr = gtk_entry_get_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ) );
-    devel_debug ( tmpstr );
-    ptr = g_strstr_len ( tmpstr, -1, path_icon );
+    tmp_str = gtk_entry_get_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry ) ) ) );
+    devel_debug ( tmp_str );
+
+    ptr = g_strstr_len ( tmp_str, -1, path_icon );
     if ( ptr == NULL )
     {
-        if ( g_file_test ( tmpstr, G_FILE_TEST_IS_DIR ) )
+        if ( g_file_test ( tmp_str, G_FILE_TEST_IS_DIR ) )
         {
-            path_icon = g_strdup ( tmpstr );
+            path_icon = g_strdup ( tmp_str );
             path = gsb_select_icon_fill_icon_view ( NULL );
-            gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ),
-                            path, TRUE, 0.5, 0 );
-            gtk_widget_set_sensitive (bouton_OK, FALSE );
+            gtk_icon_view_scroll_to_path (GTK_ICON_VIEW ( icon_view ), path, TRUE, 0.5, 0 );
+
+            gtk_widget_set_sensitive ( bouton_OK, FALSE );
         }
     }
 }
@@ -492,11 +493,10 @@ void gsb_select_icon_selection_changed ( GtkIconView *icon_view,
     devel_debug ( name_icon );
     if ( name_icon && strlen ( name_icon ) > 0 )
     {
-        new_icon = g_strconcat ( path_icon, G_DIR_SEPARATOR_S,
-                                 name_icon, NULL );
-        gtk_entry_set_text ( GTK_ENTRY (GTK_BIN (entry_text)->child ),
-                                 new_icon );
+        new_icon = g_build_filename ( path_icon, name_icon, NULL );
+        gtk_entry_set_text ( GTK_ENTRY ( gtk_bin_get_child ( GTK_BIN ( entry_text ) ) ), new_icon );
         gtk_widget_set_sensitive (bouton_OK, TRUE );
+        g_free ( name_icon );
     }
 }
 

@@ -596,8 +596,8 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
 					    vbox2 );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( scrolled_window ),
 					  GTK_SHADOW_NONE );
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( GTK_BIN ( scrolled_window ) -> child ),
-				   GTK_SHADOW_NONE );
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
+                        GTK_SHADOW_NONE );
     gtk_widget_set_sensitive ( vbox2, FALSE );
 
     gsb_bank_create_form ( vbox2, NULL );
@@ -1040,14 +1040,14 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 				     GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC );
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW(scrolled_window),
 					  GTK_SHADOW_NONE );
-    gtk_container_add ( GTK_CONTAINER ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), scrolled_window );
+    gtk_container_add ( GTK_CONTAINER ( dialog_get_content_area ( dialog ) ), scrolled_window );
     gtk_widget_set_size_request ( scrolled_window, 600, 400 );
 
     vbox = gtk_vbox_new ( FALSE, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER (vbox), 12 );
     form = gsb_bank_create_form ( vbox, combobox );
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), vbox);
-    gtk_viewport_set_shadow_type ( GTK_VIEWPORT (GTK_BIN(scrolled_window) -> child ),
+    gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
 				   GTK_SHADOW_NONE );
 
     gtk_widget_show_all ( dialog );
@@ -1062,7 +1062,7 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
 
     }
     else
-        gsb_bank_update_form ( bank_number, gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) );
+        gsb_bank_update_form ( bank_number, dialog_get_content_area ( dialog ) );
 
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ) );
 

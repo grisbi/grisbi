@@ -784,27 +784,25 @@ gboolean gsb_form_config_realized ( GtkWidget *tree_view,
 {
     gint column;
     gint account_number;
-    gint width;
+    GtkAllocation allocation;
 
     if ( !assert_account_loaded())
       return FALSE;
 
     account_number = gsb_account_get_combo_account_number ( accounts_combobox );
-    width = tree_view -> allocation.width;
+    gtk_widget_get_allocation ( tree_view, &allocation );
 
     /* fill and update the form list and buttons */
     gsb_form_config_update_form_config(account_number);
 
     for ( column=0 ; column < gsb_data_form_get_nb_columns (account_number) ; column++ )
     {
-	gtk_tree_view_column_set_fixed_width ( gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ),
-									  column ),
-					       gsb_data_form_get_width_column ( account_number,
-										column ) * width / 100 );
+        gtk_tree_view_column_set_fixed_width (
+                        gtk_tree_view_get_column ( GTK_TREE_VIEW ( tree_view ), column ),
+                        gsb_data_form_get_width_column ( account_number, column ) * allocation.width / 100 );
     }
 
-    gdk_window_set_cursor ( tree_view -> window,
-			    gdk_cursor_new ( GDK_FLEUR ) );
+    gdk_window_set_cursor ( gtk_widget_get_window ( tree_view ), gdk_cursor_new ( GDK_FLEUR ) );
 
     return FALSE;
 }
@@ -827,6 +825,7 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     gint column;
     gint account_number;
     gint i;
+    GtkAllocation tmp_allocation;
 
     if ( !gtk_widget_get_realized (tree_view))
 	return FALSE;
@@ -850,8 +849,9 @@ gboolean gsb_form_config_change_column_size ( GtkWidget *tree_view,
     gsb_file_set_modified ( TRUE );
 
     /* update the form if needed */
-	saved_allocation_size = 0;
-	gsb_form_allocate_size ( NULL, &(form_transaction_part -> allocation), NULL );
+    saved_allocation_size = 0;
+    gtk_widget_get_allocation ( form_transaction_part, &tmp_allocation );
+    gsb_form_allocate_size ( NULL, &tmp_allocation, NULL );
     gsb_form_create_widgets ();
 
     return FALSE;
