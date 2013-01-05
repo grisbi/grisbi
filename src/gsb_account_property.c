@@ -1014,13 +1014,13 @@ gboolean gsb_account_property_iban_key_press_event ( GtkWidget *entry,
 
     switch ( ev -> keyval )
     {
-	case GDK_Escape :
+	case GDK_KEY_Escape :
 
         return TRUE;
 	    break;
 
-	case GDK_KP_Enter :
-	case GDK_Return :
+	case GDK_KEY_KP_Enter :
+	case GDK_KEY_Return :
         iban = gtk_editable_get_chars ( GTK_EDITABLE (entry), 0, -1 );
         if ( gsb_account_property_iban_control_iban (iban) == 0 )
         {

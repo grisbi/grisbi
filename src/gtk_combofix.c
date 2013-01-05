@@ -1496,10 +1496,10 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
 
     switch ( ev -> keyval )
     {
-    case GDK_ISO_Left_Tab:
-    case GDK_Tab :
-    case GDK_KP_Enter :
-    case GDK_Return :
+    case GDK_KEY_ISO_Left_Tab:
+    case GDK_KEY_Tab :
+    case GDK_KEY_KP_Enter :
+    case GDK_KEY_Return :
         /* we get the current selection */
         if ( gtk_widget_get_visible ( priv -> popup )
          &&
@@ -1517,7 +1517,7 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         return FALSE;
         break;
 
-    case GDK_Escape:
+    case GDK_KEY_Escape:
         if ( gtk_widget_get_visible ( priv -> popup ))
         {
             gtk_combofix_hide_popup ( combofix );
@@ -1527,8 +1527,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         }
         break;
 
-    case GDK_Down :
-    case GDK_KP_Down :
+    case GDK_KEY_Down :
+    case GDK_KEY_KP_Down :
         /* show the popup if necessary */
         if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );
@@ -1538,8 +1538,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         return TRUE;
         break;
 
-    case GDK_Up :
-    case GDK_KP_Up :
+    case GDK_KEY_Up :
+    case GDK_KEY_KP_Up :
         /* move the selection up in the combofix only if the popup is showed,
          * else let the program works with the upper key */
         if (gtk_widget_get_visible ( priv -> popup))
@@ -1550,8 +1550,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         }
         break;
 
-    case GDK_Page_Up :
-    case GDK_KP_Page_Up :
+    case GDK_KEY_Page_Up :
+    case GDK_KEY_KP_Page_Up :
         /* show the popup if necessary */
         if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );
@@ -1561,8 +1561,8 @@ static gboolean gtk_combofix_key_press_event ( GtkWidget *entry,
         return TRUE;
         break;
 
-    case GDK_Page_Down :
-    case GDK_KP_Page_Down :
+    case GDK_KEY_Page_Down :
+    case GDK_KEY_KP_Page_Down :
         /* show the popup if necessary */
         if ( !gtk_widget_get_visible ( priv -> popup ) )
             gtk_combofix_show_popup ( combofix );

@@ -2058,10 +2058,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
     /* if conf.entree = 1, entry finish the transaction, else does as tab */
     if ( !conf.entree
 	 &&
-	 ( ev -> keyval == GDK_Return
+	 ( ev -> keyval == GDK_KEY_Return
 	   ||
-	   ev -> keyval == GDK_KP_Enter ))
-	ev->keyval = GDK_Tab ;
+	   ev -> keyval == GDK_KEY_KP_Enter ))
+	ev->keyval = GDK_KEY_Tab ;
 
     if (!g_object_get_data (G_OBJECT (transaction_form), "transaction_number_in_form"))
 	/* set the new transaction number */
@@ -2071,16 +2071,16 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
     switch ( ev -> keyval )
     {
-    case GDK_1:
-    case GDK_2:
-    case GDK_3:
-    case GDK_4:
-    case GDK_5:
-    case GDK_6:
-    case GDK_7:
-    case GDK_8:
-    case GDK_9:
-    case GDK_0:
+    case GDK_KEY_1:
+    case GDK_KEY_2:
+    case GDK_KEY_3:
+    case GDK_KEY_4:
+    case GDK_KEY_5:
+    case GDK_KEY_6:
+    case GDK_KEY_7:
+    case GDK_KEY_8:
+    case GDK_KEY_9:
+    case GDK_KEY_0:
         switch ( element_number )
         {
         case TRANSACTION_FORM_DEBIT:
@@ -2103,11 +2103,11 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             break;
         }
         break;
-	case GDK_Escape :
+	case GDK_KEY_Escape :
 	    gsb_form_escape_form ();
 	    break;
 
-	case GDK_Up:
+	case GDK_KEY_Up:
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_UP );
@@ -2115,7 +2115,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    return TRUE;
 	    break;
 
-	case GDK_Down:
+	case GDK_KEY_Down:
 	    element_suivant = gsb_form_widget_next_element ( account_number,
 							     element_number,
 							     GSB_DOWN );
@@ -2123,7 +2123,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    return TRUE;
 	    break;
 
-	case GDK_ISO_Left_Tab:
+	case GDK_KEY_ISO_Left_Tab:
         if ( element_number == TRANSACTION_FORM_CREDIT
          || element_number == TRANSACTION_FORM_DEBIT )
         {
@@ -2152,7 +2152,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    return TRUE;
 	    break;
 
-	case GDK_Tab :
+	case GDK_KEY_Tab :
         if ( element_number == TRANSACTION_FORM_CREDIT
          || element_number == TRANSACTION_FORM_DEBIT )
         {
@@ -2185,8 +2185,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    return TRUE;
 	    break;
 
-	case GDK_KP_Enter :
-	case GDK_Return :
+	case GDK_KEY_KP_Enter :
+	case GDK_KEY_Return :
 
 	    /* need to check here if we are performing a scheduled transaction in home page
 	     * or another transaction, because if we are in home page, cannot finish like that,
@@ -2229,9 +2229,9 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-	case GDK_KP_Add:
-	case GDK_plus:
-	case GDK_equal:		/* This should make all our US users happy */
+	case GDK_KEY_KP_Add:
+	case GDK_KEY_plus:
+	case GDK_KEY_equal:		/* This should make all our US users happy */
 	    /* increase the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
 	    {
@@ -2242,7 +2242,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    break;
 
 	case GDK_KP_Subtract:
-	case GDK_minus:
+	case GDK_KEY_minus:
 	    /* decrease the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
 	    {
@@ -2259,8 +2259,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
         switch ( ev -> keyval )
         {
-        case GDK_c:
-        case GDK_C:
+        case GDK_KEY_c:
+        case GDK_KEY_C:
             payment_number = gsb_data_payment_get_number_by_name ( _("Credit card"),
                         account_number );
             if ( payment_number )
@@ -2268,8 +2268,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             return TRUE;
             break;
-        case GDK_d:
-        case GDK_D:
+        case GDK_KEY_d:
+        case GDK_KEY_D:
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct deposit"),
                         account_number );
             if ( payment_number )
@@ -2277,8 +2277,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             return TRUE;
             break;
-        case GDK_h:
-        case GDK_H:
+        case GDK_KEY_h:
+        case GDK_KEY_H:
             payment_number = gsb_data_payment_get_number_by_name ( _("Check"),
                         account_number );
             if ( payment_number )
@@ -2286,8 +2286,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             return TRUE;
             break;
-        case GDK_l:
-        case GDK_L:
+        case GDK_KEY_l:
+        case GDK_KEY_L:
             payment_number = gsb_data_payment_get_number_by_name ( _("Cash withdrawal"),
                         account_number );
             if ( payment_number )
@@ -2296,8 +2296,8 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
             return TRUE;
             break;
 
-        case GDK_p:
-        case GDK_P:
+        case GDK_KEY_p:
+        case GDK_KEY_P:
             payment_number = gsb_data_payment_get_number_by_name ( _("Direct debit"),
                         account_number );
             if ( payment_number )
@@ -2305,10 +2305,10 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 
             return TRUE;
             break;
-        case GDK_t:
-        case GDK_T:
-        case GDK_v:
-        case GDK_V:
+        case GDK_KEY_t:
+        case GDK_KEY_T:
+        case GDK_KEY_v:
+        case GDK_KEY_V:
             payment_number = gsb_data_payment_get_number_by_name ( _("Transfer"),
                         account_number );
             if ( payment_number )

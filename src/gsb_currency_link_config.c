@@ -686,7 +686,7 @@ gboolean gsb_currency_link_config_key_press ( GtkWidget *tree_view, GdkEventKey 
 {
     switch ( ev -> keyval )
     {
-    case GDK_Delete:    /*  del  */
+    case GDK_KEY_Delete:    /*  del  */
         gsb_currency_link_config_remove_link ( tree_view );
         return TRUE;
         break;

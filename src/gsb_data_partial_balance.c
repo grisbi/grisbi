@@ -586,14 +586,14 @@ gboolean gsb_partial_balance_key_press ( GtkWidget *tree_view, GdkEventKey *ev )
 {
     switch ( ev -> keyval )
     {
-    case GDK_Return :   /* entrée */
-    case GDK_KP_Enter :
-    case GDK_Tab :
+    case GDK_KEY_Return :   /* entrée */
+    case GDK_KEY_KP_Enter :
+    case GDK_KEY_Tab :
         g_object_set_data ( G_OBJECT ( tree_view ), "treeview", tree_view );
         gsb_partial_balance_edit ( NULL, tree_view );
         return TRUE;
         break;
-    case GDK_Delete:    /*  del  */
+    case GDK_KEY_Delete:    /*  del  */
         g_object_set_data ( G_OBJECT ( tree_view ), "treeview", tree_view );
         gsb_partial_balance_delete ( NULL, tree_view );
         return TRUE;
