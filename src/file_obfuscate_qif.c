@@ -115,7 +115,7 @@ gboolean file_obfuscate_qif_run ( void )
 	    case GTK_RESPONSE_OK:
 		    qif_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
 		    gtk_widget_destroy ( file_selection );
-		    if (qif_name || strlen (qif_name))
+		    if (qif_name && strlen (qif_name))
 			file_obfuscate_qif_start (qif_name);
 		    break;
 	    default:
