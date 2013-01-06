@@ -72,15 +72,15 @@ typedef struct
 
 typedef struct
 {
-  GtkOSXApplication *app;
-  GtkOSXApplicationAttentionType type;
+  GtkosxApplication *app;
+  GtkosxApplicationAttentionType type;
 } AttentionRequest;
 
 
 /*START_STATIC*/
 static void action_activate_cb ( GtkAction *action, gpointer data );
 static gboolean attention_cb ( AttentionRequest* req );
-static void bounce_cb ( GtkWidget  *button, GtkOSXApplication *app );
+static void bounce_cb ( GtkWidget  *button, GtkosxApplication *app );
 static MenuCBData *menu_cbdata_new ( gchar *label, gpointer item );
 static void menu_cbdata_delete ( MenuCBData *datum );
 static void menu_item_activate_cb ( GtkWidget *item, MenuCBData  *datum );
@@ -186,7 +186,7 @@ static void radio_item_changed_cb ( GtkAction* action, GtkAction* current, MenuC
  * */
 static gboolean attention_cb ( AttentionRequest* req )
 {
-    gtk_osxapplication_attention_request ( req->app, req->type );
+    gtkosx_application_attention_request ( req->app, req->type );
 
     g_free(req);
 
@@ -200,7 +200,7 @@ static gboolean attention_cb ( AttentionRequest* req )
  *
  *
  * */
-static void bounce_cb ( GtkWidget  *button, GtkOSXApplication *app )
+static void bounce_cb ( GtkWidget  *button, GtkosxApplication *app )
 {
     AttentionRequest *req = g_new0 ( AttentionRequest, 1 );
 
@@ -217,7 +217,7 @@ static void bounce_cb ( GtkWidget  *button, GtkOSXApplication *app )
  *
  *
  * */
-void grisbi_osx_app_active_cb ( GtkOSXApplication* app, gboolean* data )
+void grisbi_osx_app_active_cb ( GtkosxApplication* app, gboolean* data )
 {
     g_print("Application became %s\n", *data ? "active" : "inactive");
 }
@@ -235,9 +235,9 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
     GtkWidget *sep;
     MenuItems *items;
     GtkUIManager *ui_manager;
-    GtkOSXApplication *theApp;
+    GtkosxApplication *theApp;
 
-    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+    theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
 
     ui_manager = gsb_menu_get_ui_manager ( );
     items = menu_items_new ( );
@@ -254,20 +254,20 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
     gtk_widget_hide ( items->quit_item );
     gtk_widget_hide ( menubar );
 
-    gtk_osxapplication_set_menu_bar ( theApp, GTK_MENU_SHELL ( menubar ) );
-    gtk_osxapplication_insert_app_menu_item  ( theApp, items->about_item, 0 );
+    gtkosx_application_set_menu_bar ( theApp, GTK_MENU_SHELL ( menubar ) );
+    gtkosx_application_insert_app_menu_item  ( theApp, items->about_item, 0 );
 
     sep = gtk_separator_menu_item_new ( );
     g_object_ref ( sep );
-    gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 1 );
-    gtk_osxapplication_insert_app_menu_item  ( theApp, items->preferences_item, 2);
+    gtkosx_application_insert_app_menu_item  ( theApp, sep, 1 );
+    gtkosx_application_insert_app_menu_item  ( theApp, items->preferences_item, 2);
 
     sep = gtk_separator_menu_item_new ( );
     g_object_ref ( sep );
-    gtk_osxapplication_insert_app_menu_item  ( theApp, sep, 3 );
+    gtkosx_application_insert_app_menu_item  ( theApp, sep, 3 );
 
-    gtk_osxapplication_set_help_menu ( theApp, GTK_MENU_ITEM ( items->help_menu ) );
-    gtk_osxapplication_set_window_menu ( theApp, NULL );
+    gtkosx_application_set_help_menu ( theApp, GTK_MENU_ITEM ( items->help_menu ) );
+    gtkosx_application_set_window_menu ( theApp, NULL );
 
     if ( !menu_items_quark )
         menu_items_quark = g_quark_from_static_string ( "MenuItem" );
@@ -286,11 +286,11 @@ GtkWidget *grisbi_osx_init_menus ( GtkWidget *window, GtkWidget *menubar )
  * */
 void grisbi_osx_app_update_menus_cb ( void )
 {
-    GtkOSXApplication *theApp;
+    GtkosxApplication *theApp;
 
-    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
+    theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
 
-    gtk_osxapplication_sync_menubar ( theApp );
+    gtkosx_application_sync_menubar ( theApp );
 }
 
 

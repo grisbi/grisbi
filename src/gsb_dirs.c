@@ -66,11 +66,11 @@ void gsb_dirs_init ( void )
     }
 #else
 #ifdef GTKOSXAPPLICATION
-    if ( quartz_application_get_bundle_id ( ) )
+    if ( gtkosx_application_get_bundle_id ( ) )
     {
         gchar *res_path;
 
-        res_path = quartz_application_get_resource_path ();
+        res_path = gtkosx_application_get_resource_path ();
         categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
         locale_dir = g_strconcat (res_path, "/share/locale", NULL );
         pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );

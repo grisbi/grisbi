@@ -253,13 +253,16 @@ void main_mac_osx ( int argc, char **argv )
     cmdline_options  opt;
     gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
-    GtkOSXApplication *theApp;
+    GtkosxApplication *theApp;
 
     devel_debug ("main_mac_osx");
 
 #if IS_DEVELOPMENT_VERSION == 1
     gsb_grisbi_print_environment_var ( );
 #endif
+
+    /* init the app */
+    theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
 
     gtk_init ( &argc, &argv );
 
@@ -269,9 +272,6 @@ void main_mac_osx ( int argc, char **argv )
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 #endif /* HAVE_GOFFICE */
-
-    /* init the app */
-    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
@@ -333,17 +333,17 @@ void main_mac_osx ( int argc, char **argv )
     else
         display_tip ( FALSE );
 
-    if ( quartz_application_get_bundle_id ( ) == NULL )
+    if ( gtkosx_application_get_bundle_id ( ) == NULL )
     {
         pixbuf = gdk_pixbuf_new_from_file ( g_build_filename
                         (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), NULL );
         if ( pixbuf )
-            gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
+            gtkosx_application_set_dock_icon_pixbuf ( theApp, pixbuf );
     }
 
-    gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
+    gtkosx_application_set_use_quartz_accelerators ( theApp, TRUE );
 
-    gtk_osxapplication_ready ( theApp );
+    gtkosx_application_ready ( theApp );
 
     gtk_main ();
 
