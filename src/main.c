@@ -260,10 +260,10 @@ void main_mac_osx ( int argc, char **argv )
     gsb_grisbi_print_environment_var ( );
 #endif
 
+    gtk_init ( &argc, &argv );
+
     /* init the app */
     theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
-
-    gtk_init ( &argc, &argv );
 
 #ifdef HAVE_GOFFICE
     /* initialisation libgoffice */
@@ -316,7 +316,7 @@ void main_mac_osx ( int argc, char **argv )
                         NULL );
     }
     menubar = gsb_grisbi_create_main_menu ( vbox );
-    grisbi_osx_init_menus ( main_window, menubar );
+    grisbi_osx_init_menus ( run.window, menubar );
     main_window_set_size_and_position ( );
 
     gtk_widget_show ( run.window );
