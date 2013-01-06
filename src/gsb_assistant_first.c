@@ -332,14 +332,11 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *paddingbox;
-    GtkSizeGroup *size_group;
     GtkWidget *hbox;
     GtkWidget *image;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
-
-    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );
