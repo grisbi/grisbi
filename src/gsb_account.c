@@ -172,11 +172,10 @@ gboolean gsb_account_delete ( void )
     tmpstr = g_strdup_printf (_("Delete account \"%s\"?"),
                         gsb_data_account_get_name ( deleted_account ) ) ;
 
-    if ( !question_yes_no_hint ( tmpstr,
-				        _("This will irreversibly remove this account and all operations "
-                        "that were previously contained.  There is no undo for this. "
-                        "Usually it's a better way to close an account."),
-				        GTK_RESPONSE_NO ))
+    if ( !question_yes_no (_("This will irreversibly remove this account and all operations "
+                             "that were previously contained.  There is no undo for this. "
+                             "Usually it's a better way to close an account."),
+                           tmpstr, GTK_RESPONSE_NO ))
     {
         g_free ( tmpstr );
 	    return FALSE;

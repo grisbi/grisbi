@@ -1491,7 +1491,7 @@ gboolean gsb_transactions_list_button_press ( GtkWidget *tree_view,
                         _("Do you want to add the transactions of the archive %s "
                         "into the list?"),
                         name );
-		if (question_yes_no ( tmpstr , GTK_RESPONSE_CANCEL ))
+		if (question_yes_no ( tmpstr ,NULL, GTK_RESPONSE_CANCEL ))
 		    gsb_transactions_list_add_transactions_from_archive (archive_number,
                         gsb_data_archive_store_get_account_number ( archive_store_number ),
                         TRUE );
@@ -4644,7 +4644,7 @@ void gsb_transactions_list_process_orphan_list ( GSList *orphan_list )
                         "Do you want to delete it"),
                         string );
 
-        result = question_yes_no_hint (_("Remove orphan children"), message, GTK_RESPONSE_CANCEL );
+        result = question_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL );
 
         if (result == TRUE)
         {

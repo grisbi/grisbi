@@ -3407,11 +3407,10 @@ gboolean gsb_import_set_id_compte ( gint account_nb, gchar *imported_id )
 	    {
 		/* 		l'id du compte choisi et l'id du compte importé sont différents */
 		/* 		    on propose encore d'arrêter... */
-            if ( question_yes_no_hint (
-                        _("The id of the imported and chosen accounts are different"),
-					    _("Perhaps you choose a wrong account?  If you choose to continue, "
-                        "the id of the account will be changed. Do you want to continue?"),
-					    GTK_RESPONSE_NO ) )
+            if (question_yes_no ( _("Perhaps you choose a wrong account?  If you choose to continue, "
+                                    "the id of the account will be changed. Do you want to continue?"),
+                                  _("The id of the imported and chosen accounts are different"),
+                                  GTK_RESPONSE_NO ) )
                 gsb_data_account_set_id ( account_nb, my_strdup ( imported_id ) );
             else
                 return FALSE;

@@ -1901,7 +1901,7 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
                           "If you have yet to enter into transactions on behalf deferred debit card finish "
                           "with \"No\" and update the account before you start."),
                         tmp_str );
-        if (!question_yes_no_hint (_("Confirmation of the change of period"), msg , GTK_RESPONSE_CANCEL ))
+        if (!question_yes_no ( msg, _("Confirmation of the change of period"), GTK_RESPONSE_CANCEL ))
         {
             g_free ( msg );
             return;

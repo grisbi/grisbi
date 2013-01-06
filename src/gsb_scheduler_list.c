@@ -2932,7 +2932,7 @@ void gsb_scheduler_list_process_orphan_list ( GSList *orphan_scheduled,
                         "Do you want to delete it"),
                         string );
 
-        result = question_yes_no_hint (_("Remove orphan children"), message, GTK_RESPONSE_CANCEL );
+        result = question_yes_no (message, _("Remove orphan children"), GTK_RESPONSE_CANCEL );
 
         if (result == TRUE)
         {

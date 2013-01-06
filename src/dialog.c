@@ -416,37 +416,19 @@ void dialogue_conditional_special ( gchar *text, gchar *var, GtkMessageType type
 
 /**
  * Pop up a warning dialog window with a question and wait for user to
- * press 'OK' or 'Cancel'.  A hint is displayed on the top of the
+ * press 'YES' or 'NO'. If provided, a hint is displayed on the top of the
  * window larger and in bold.
  *
- * \param hint Hint to be displayed
- * \param texte Text to be displayed
- * \param default_answer GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button
- *
- * \return TRUE if user pressed 'OK'.  FALSE otherwise.
- */
-gboolean question_yes_no_hint ( gchar *hint,
-                        gchar *texte,
-                        gint default_answer )
-{
-    return question_yes_no ( make_hint ( hint, texte ), default_answer );
-}
-
-
-/**
- * Pop up a warning dialog window with a question and wait for user to
- * press 'YES' or 'NO'.
-  * WARNING you may need to escape text with g_markup_escape_text()
- * or g_markup_printf_escaped():
- *
  * \param texte  Text to be displayed
+ * \param hint Hint to be displayed, may be NULL
  * \param default_answer GTK_RESPONSE_OK or GTK_RESPONSE_CANCEL, will give the focus to the button
  *
  * \return TRUE if user pressed 'YES'.  FALSE otherwise.
  */
-gboolean question_yes_no ( gchar *text, gint default_answer )
+gboolean question_yes_no ( const gchar *text, const gchar *hint, gint default_answer )
 {
     GtkWidget *dialog;
+    const gchar *primary_text = hint ? hint : text;
     gint response;
 
     dialog = gtk_message_dialog_new ( GTK_WINDOW ( run.window ),
@@ -454,7 +436,11 @@ gboolean question_yes_no ( gchar *text, gint default_answer )
                         GTK_MESSAGE_QUESTION,
                         GTK_BUTTONS_YES_NO,
                         NULL );
-    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), text );
+    gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), primary_text );
+
+    if ( hint )
+        gtk_message_dialog_format_secondary_text ( GTK_MESSAGE_DIALOG (dialog),
+                                                   "%s", text );
 
     gtk_dialog_set_default_response (GTK_DIALOG (dialog), default_answer );
 
