@@ -467,7 +467,7 @@ static gboolean gsb_archive_config_delete_archive ( GtkWidget *button,
                           "All the information about that archive will be destroyed.\n\n"
                           "Do you want to continue?"),
                         gsb_data_archive_get_name (archive_number) );
-    if (!question_yes_no_hint (_("Deleting an archive"), tmpstr , GTK_RESPONSE_CANCEL ))
+    if (!question_yes_no (tmpstr, _("Deleting an archive"), GTK_RESPONSE_CANCEL ))
     {
         g_free ( tmpstr );
         return FALSE;
@@ -533,8 +533,7 @@ static gboolean gsb_archive_config_destroy_archive ( GtkWidget *button,
                           "that archive into another file...\n\nAre you sure you want to "
                           "continue ?"),
                         gsb_data_archive_get_name (archive_number) );
-	if (!question_yes_no_hint ( _("Deleting an archive and its transactions"),
-                        tmpstr, GTK_RESPONSE_CANCEL ) )
+	if (!question_yes_no (tmpstr, _("Deleting an archive and its transactions"), GTK_RESPONSE_CANCEL ) )
 	{
 	    g_free ( tmpstr );
 	    return FALSE;
