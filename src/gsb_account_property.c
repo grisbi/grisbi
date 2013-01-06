@@ -812,8 +812,7 @@ gboolean gsb_account_property_change_currency ( GtkWidget *combobox,
     tmpstr = g_strdup_printf ( _("You are changing the currency of the account, do you want to change the currency of the transactions too?\n(yes will change all the transactions currency from %s to %s, all the transactions with another currency will stay the same).\n\nArchived and reconcilied transactions will be left unmodified."),
 				      gsb_data_currency_get_name (account_currency_number),
 				      gsb_data_currency_get_name (new_currency_number));
-    result = question_yes_no_hint ( _("Change the transactions currency"),
-				    tmpstr,
+    result = question_yes_no (tmpstr, _("Change the transactions currency"),
 				    GTK_RESPONSE_NO );
     g_free ( tmpstr );
 

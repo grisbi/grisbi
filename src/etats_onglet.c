@@ -957,10 +957,9 @@ void efface_etat ( void )
 
     hint = g_strdup_printf ( _("Delete report \"%s\"?"),
                              gsb_data_report_get_report_name (current_report_number) );
-    answer = question_yes_no_hint ( hint,
-                                   _("This will irreversibly remove this report.  "
-                                     "There is no undo for this."),
-                                   GTK_RESPONSE_NO );
+    answer = question_yes_no ( _("This will irreversibly remove this report.  "
+                                 "There is no undo for this."),
+                               hint, GTK_RESPONSE_NO );
     g_free ( hint );
 
     if ( ! answer )

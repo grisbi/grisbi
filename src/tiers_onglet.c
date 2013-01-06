@@ -423,11 +423,11 @@ void payees_remove_unused_payees ( void )
 {
     gint result;
 
-    result = question_yes_no_hint (_("Remove orphan payees"),
-				   _("This will remove all the payees wich are not used in any transactions.  "
-				     "Payees linked to an archived transactions will not be removed, even if not "
-				     "used outside the archive.\n\nAre you sure you want to do that?"),
-				   GTK_RESPONSE_CANCEL );
+    result = question_yes_no ( _("This will remove all the payees wich are not used in any transactions.  "
+                                 "Payees linked to an archived transactions will not be removed, even if not "
+                                 "used outside the archive.\n\nAre you sure you want to do that?"),
+                               _("Remove orphan payees"),
+                               GTK_RESPONSE_CANCEL );
 
     if (result == TRUE)
     {
