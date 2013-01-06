@@ -110,18 +110,14 @@ gboolean file_obfuscate_qif_run ( void )
 	gtk_file_filter_add_pattern ( filter, "*" );
 	gtk_file_chooser_add_filter ( GTK_FILE_CHOOSER ( file_selection ), filter );
 
-	switch ( gtk_dialog_run ( GTK_DIALOG (file_selection)))
+	if ( gtk_dialog_run ( GTK_DIALOG (file_selection) ) == GTK_RESPONSE_OK )
 	{
-	    case GTK_RESPONSE_OK:
 		    qif_name = file_selection_get_filename ( GTK_FILE_CHOOSER ( file_selection ) ) ;
 		    gtk_widget_destroy ( file_selection );
 		    if (qif_name && strlen (qif_name))
 			file_obfuscate_qif_start (qif_name);
-		    break;
-	    default:
-		    gtk_widget_destroy ( file_selection );
-		    break;
 	}
+	gtk_widget_destroy ( file_selection );
     }
 
     gtk_widget_destroy ( assistant );
