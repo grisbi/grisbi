@@ -256,10 +256,6 @@ void main_mac_osx ( int argc, char **argv )
 
     devel_debug ("main_mac_osx");
 
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
-
     gtk_init ( &argc, &argv );
 
     /* init the app */
@@ -274,6 +270,10 @@ void main_mac_osx ( int argc, char **argv )
 
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
     bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
