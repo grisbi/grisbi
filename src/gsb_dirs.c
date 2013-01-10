@@ -106,6 +106,7 @@ void gsb_dirs_init ( void )
         user_default_dir = g_strdup ( g_get_home_dir() );
     }
 #endif /* OS_OSX */
+#endif
 
     accelerator_filename = g_build_filename ( user_config_dir, "grisbi-accels", NULL );
 }
