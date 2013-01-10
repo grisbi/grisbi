@@ -441,13 +441,10 @@ static GtkTreePath *custom_list_get_path (GtkTreeModel *tree_model,
 {
     GtkTreePath  *path;
     CustomRecord *record;
-    CustomList   *custom_list;
 
     g_return_val_if_fail (CUSTOM_IS_LIST(tree_model), NULL);
     g_return_val_if_fail (iter != NULL,               NULL);
     g_return_val_if_fail (iter->user_data != NULL,    NULL);
-
-    custom_list = CUSTOM_LIST(tree_model);
 
     record = (CustomRecord*) iter->user_data;
 
@@ -480,15 +477,12 @@ static void custom_list_get_value (GtkTreeModel *tree_model,
 				   GValue       *value)
 {
     CustomRecord  *record;
-    CustomList    *custom_list;
 
     g_return_if_fail (CUSTOM_IS_LIST (tree_model));
     g_return_if_fail (iter != NULL);
     g_return_if_fail (column < CUSTOM_LIST(tree_model)->n_columns);
 
     g_value_init (value, CUSTOM_LIST(tree_model)->column_types[column]);
-
-    custom_list = CUSTOM_LIST(tree_model);
 
     record = (CustomRecord*) iter->user_data;
     g_return_if_fail ( record != NULL );
