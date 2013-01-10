@@ -251,20 +251,12 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
 
     if ( strlen (string))
     {
-        GDate *today;
         GDate *date;
         gchar* tmpstr;
 
         date = gsb_date_get_last_entry_date ( string );
         if (!date)
             return FALSE;
-
-        /* if date > today, then we go back one year before
-         * usefull when entering operations just after the new year */
-        today = gdate_today ( );
-        if ( g_date_compare ( today, date ) < 0 )
-            g_date_subtract_years ( date, 1 );
-        g_date_free ( today );
 
         tmpstr = gsb_format_gdate (date);
         gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
@@ -332,6 +324,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
     GRegex *date_regex;
     gchar **date_tokens = NULL;
     gchar **tab_date = NULL;
+    gboolean year_auto = TRUE;
     int num_tokens, num_fields;
     int i, j;
 
@@ -415,6 +408,7 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
                 if ( ! g_date_valid_year ( nvalue ) && num_fields >= 3 )
                     goto invalid;
                 g_date_set_year ( date, nvalue );
+                year_auto = FALSE;
                 break;
 
             default:
@@ -427,6 +421,16 @@ GDate *gsb_parse_date_string ( const gchar *date_string )
      * write for example only 31, and the current month has only 30 days... */
     if ( ! g_date_valid ( date ) )
         goto invalid;
+
+    /* if date > today, then we go back one year before
+     * usefull when entering operations just after the new year */
+    if ( year_auto )
+    {
+        GDate *today = gdate_today ( );
+        if ( g_date_compare ( today, date ) < 0 )
+            g_date_set_year ( date, g_date_get_year ( today ) - 1 );
+        g_date_free ( today );
+    }
 
     g_strfreev ( tab_date );
     g_strfreev ( date_tokens );
