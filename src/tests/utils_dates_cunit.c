@@ -57,6 +57,7 @@ static int utils_dates_cunit_init_suite ( void );
  */
 int utils_dates_cunit_init_suite ( void )
 {
+    gsb_regex_init_variables ( );
     return 0;
 }
 
@@ -66,6 +67,7 @@ int utils_dates_cunit_init_suite ( void )
  */
 int utils_dates_cunit_clean_suite ( void )
 {
+    gsb_regex_destroy ( );
     return 0;
 }
 
@@ -73,8 +75,6 @@ int utils_dates_cunit_clean_suite ( void )
 void utils_dates_cunit__gsb_parse_date_string ( void )
 {
     GDate *date = NULL;
-
-    gsb_regex_init_variables ( );
 
     /**
      * month-first tests
@@ -302,8 +302,6 @@ void utils_dates_cunit__gsb_parse_date_string ( void )
      * tear down
      */
     gsb_date_set_format_date ( NULL );
-
-    gsb_regex_destroy ( );
 }
 
 
