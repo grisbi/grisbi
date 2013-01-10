@@ -657,12 +657,11 @@ GtkWidget *bet_config_account_get_select_historical_data ( gchar *title )
 {
     GtkWidget *vbox;
     GtkWidget *paddingbox;
-    GtkWidget *hbox;
 
     vbox = gtk_vbox_new ( FALSE, 0 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
-    hbox = bet_config_get_select_historical_data ( paddingbox, account_page );
+    bet_config_get_select_historical_data ( paddingbox, account_page );
 
     return vbox;
 }
