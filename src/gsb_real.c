@@ -177,8 +177,6 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
     static const gchar *empty_char = "" ;
     const gchar *default_decimal_char_dot = decimal_char_dot;
     const gchar *default_decimal_char_comma = decimal_char_comma;
-    unsigned mts_len;
-    unsigned mdp_len;
     unsigned nb_digits = 0;
     gint64 mantissa = 0;
     gint8 sign = 0;
@@ -188,9 +186,6 @@ gsb_real gsb_real_raw_get_from_string ( const gchar *string,
 
     if ( !string)
         return error_real;
-
-    mts_len = mon_thousands_sep ? strlen ( mon_thousands_sep ) : 0;
-    mdp_len = mon_decimal_point ? strlen ( mon_decimal_point ) : 0;
 
     if ( mon_thousands_sep )
     {
