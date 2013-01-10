@@ -1047,7 +1047,6 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     gint end_drag_column;
     gint element;
     gint old_element;
-    gint current_account;
 
     /* get the cell position */
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view ) ),
@@ -1075,7 +1074,6 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
         return ( FALSE );
 
     element = tab_affichage_ope[start_drag_row][start_drag_column];
-    current_account = gsb_gui_navigation_get_current_account ( );
 
     /* save the old position et désensitive le bouton correspondant */
     old_element = tab_affichage_ope[end_drag_row][end_drag_column];
