@@ -239,24 +239,32 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
     const gchar *string;
 
     if (!entry)
-    return FALSE;
+        return FALSE;
 
     /* if the entry is grey (empty), go away */
     if (gsb_form_widget_check_empty (entry))
-    return (TRUE);
+        return (TRUE);
 
     string = gtk_entry_get_text ( GTK_ENTRY (entry));
     if (!string)
-    return FALSE;
+        return FALSE;
 
     if ( strlen (string))
     {
+        GDate *today;
         GDate *date;
-		gchar* tmpstr;
+        gchar* tmpstr;
 
         date = gsb_date_get_last_entry_date ( string );
         if (!date)
             return FALSE;
+
+        /* if date > today, then we go back one year before
+         * usefull when entering operations just after the new year */
+        today = gdate_today ( );
+        if ( g_date_compare ( today, date ) < 0 )
+            g_date_subtract_years ( date, 1 );
+        g_date_free ( today );
 
         tmpstr = gsb_format_gdate (date);
         gtk_entry_set_text ( GTK_ENTRY ( entry ), tmpstr);
@@ -268,8 +276,8 @@ gboolean gsb_date_check_and_complete_entry ( GtkWidget *entry,
     }
     else
     {
-    if (set_today)
-        gtk_entry_set_text ( GTK_ENTRY (entry), gsb_date_today() );
+        if (set_today)
+            gtk_entry_set_text ( GTK_ENTRY (entry), gsb_date_today() );
     }
     return ( TRUE );
 }
