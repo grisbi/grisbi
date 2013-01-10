@@ -120,8 +120,7 @@ GtkWidget *bet_config_general_create_general_page ( void )
 
     /* Calculation of period */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Common data") );
-
-    widget = bet_config_general_get_period_widget ( paddingbox );
+    bet_config_general_get_period_widget ( paddingbox );
 
     /* add a separator */
     gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_hseparator_new (), FALSE, FALSE, 5 );
