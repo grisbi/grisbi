@@ -2146,11 +2146,10 @@ GtkWidget *onglet_etat_dates ( void )
 
     while ( plages_dates[i] )
     {
-	gint row;
 	gchar * plage = _(plages_dates[i]);
 
-	row = gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
-				   &plage );
+	gtk_clist_append ( GTK_CLIST ( liste_plages_dates_etat ),
+			   &plage );
 	i++;
     }
 
