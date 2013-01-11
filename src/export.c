@@ -59,7 +59,6 @@ static void export_account_toggled ( GtkCellRendererToggle *cell, gchar *path_st
 static GtkWidget * export_create_final_page ( GtkWidget * assistant );
 static GtkWidget * export_create_resume_page ( GtkWidget * assistant );
 static GtkWidget * export_create_selection_page ( GtkWidget * assistant );
-static gboolean export_enter_final_page ( GtkWidget *assistant );
 static gboolean export_enter_resume_page ( GtkWidget * assistant );
 static void export_resume_maybe_sensitive_next ( GtkWidget * assistant );
 /*END_STATIC*/

@@ -66,8 +66,6 @@ static gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         gpointer null );
 static void budgetary_line_list_popup_context_menu ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
-static void exporter_ib ( void );
-static void importer_ib ( void );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 static void selectionne_sub_budgetary ( GtkTreeModel * model );
 /*END_STATIC*/
