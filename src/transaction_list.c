@@ -1895,9 +1895,6 @@ static CustomRecord *transaction_list_create_record ( gint transaction_number,
 {
     gint column;
     CustomRecord *newrecord;
-    CustomList *custom_list;
-
-    custom_list = transaction_model_get_model ();
 
     /* create the new record */
     newrecord = g_malloc0 (sizeof (CustomRecord));
