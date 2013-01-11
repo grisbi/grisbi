@@ -1506,7 +1506,6 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 	    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number))
 	    {
 		GSList *list_tmp_transactions;
-		gboolean found = FALSE;
 
 		/* On récupère donc la liste des opérations du compte et on en fait
 		   le tour jusqu'à ce qu'on trouve l'opération mère */
@@ -1528,7 +1527,6 @@ gint etat_affiche_affichage_ligne_ope ( gint transaction_number,
 			{
 			    gsb_data_transaction_set_method_of_payment_content ( transaction_number,
 										 gsb_data_transaction_get_method_of_payment_content (transaction_number_tmp));
-			    found = TRUE;
 			}
 		    }
 		    list_tmp_transactions = list_tmp_transactions -> next;
