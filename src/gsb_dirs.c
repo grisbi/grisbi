@@ -33,7 +33,6 @@
 
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
-static gchar *plugins_dir;
 static gchar *categories_dir;
 static gchar *ui_dir;
 static gchar *user_config_dir;
@@ -55,7 +54,6 @@ void gsb_dirs_init ( void )
         categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
         locale_dir = g_strconcat ( dir, "/share/locale", NULL );
         pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
-        plugins_dir = g_strconcat ( dir, "/lib/grisbi", NULL );
         ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
 
         g_free ( dir );
@@ -117,7 +115,6 @@ void gsb_dirs_shutdown ( void )
     g_free ( categories_dir );
     g_free ( locale_dir );
     g_free ( pixmaps_dir );
-    g_free ( plugins_dir );
     g_free ( ui_dir );
     g_free ( user_config_dir );
     g_free ( user_data_dir );
@@ -143,12 +140,6 @@ const gchar *gsb_dirs_get_locale_dir ( void )
 const gchar *gsb_dirs_get_pixmaps_dir ( void )
 {
     return pixmaps_dir;
-}
-
-
-const gchar *gsb_dirs_get_plugins_dir ( void )
-{
-    return plugins_dir;
 }
 
 

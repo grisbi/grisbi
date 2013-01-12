@@ -363,7 +363,7 @@ gsb_real gsb_real_safe_real_from_string ( const gchar *string )
  *
  * \return -1 if number_1 < number_2 ; 0 if number_1 = number_2 ; 1 if number_1 > number_2
  * */
-G_MODULE_EXPORT gint gsb_real_cmp ( gsb_real number_1,
+gint gsb_real_cmp ( gsb_real number_1,
                         gsb_real number_2 )
 {
     gsb_real_normalize ( &number_1,
@@ -569,7 +569,7 @@ gsb_real gsb_real_adjust_exponent ( gsb_real number,
  *
  * \return a gsb_real = number_1 + number_2, or error_real when an error occured
  * */
-G_MODULE_EXPORT gsb_real gsb_real_add ( gsb_real number_1,
+gsb_real gsb_real_add ( gsb_real number_1,
                         gsb_real number_2 )
 {
     gint64 mantissa;
@@ -614,7 +614,7 @@ gsb_real gsb_real_sub ( gsb_real number_1,
  *
  * \return its opposite
  * */
-G_MODULE_EXPORT gsb_real gsb_real_opposite ( gsb_real number )
+gsb_real gsb_real_opposite ( gsb_real number )
 {
     number.mantissa = -number.mantissa;
     return number;
@@ -704,7 +704,7 @@ gsb_real gsb_real_div ( gsb_real number_1,
  *
  * \return the number in gsb_real format
  * */
-G_MODULE_EXPORT gsb_real gsb_real_double_to_real ( gdouble number )
+gsb_real gsb_real_double_to_real ( gdouble number )
 {
 	return gsb_real_double_to_real_add_exponent(number, 0);
 }

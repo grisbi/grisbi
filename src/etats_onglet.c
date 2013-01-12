@@ -943,6 +943,8 @@ void efface_etat ( void )
 {
     gint current_report_number;
     GtkWidget *notebook_general;
+    gchar *hint;
+    gboolean answer;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
 
@@ -953,11 +955,16 @@ void efface_etat ( void )
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general), GSB_REPORTS_PAGE );
 
-   if ( !question_yes_no_hint ( g_strdup_printf (_("Delete report \"%s\"?"),
-						  gsb_data_report_get_report_name (current_report_number) ),
-				_("This will irreversibly remove this report.  There is no undo for this."),
-				GTK_RESPONSE_NO ))
-	return;
+    hint = g_strdup_printf ( _("Delete report \"%s\"?"),
+                             gsb_data_report_get_report_name (current_report_number) );
+    answer = question_yes_no_hint ( hint,
+                                   _("This will irreversibly remove this report.  "
+                                     "There is no undo for this."),
+                                   GTK_RESPONSE_NO );
+    g_free ( hint );
+
+    if ( ! answer )
+        return;
 
    /* remove the report */
 

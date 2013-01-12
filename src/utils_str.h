@@ -2,7 +2,6 @@
 #define _UTILS_STR_H (1)
 
 #include <glib.h>
-#include <gmodule.h>
 
 
 #ifdef _WIN32
@@ -25,7 +24,7 @@ gchar *gsb_string_remplace_string ( const gchar *str,
                         gchar *new_str );
 gchar * gsb_string_truncate ( gchar * string );
 gchar *gsb_string_uniform_new_line ( const gchar *chaine, gint nbre_char );
-G_MODULE_EXPORT gchar * latin2utf8 ( const gchar * inchar);
+gchar * latin2utf8 ( const gchar * inchar);
 gchar *limit_string ( gchar *string,
                         gint length );
 gint my_strcasecmp ( const gchar *string_1, const gchar *string_2 );
@@ -33,11 +32,11 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 );
 gchar *my_strdelimit ( const gchar *string,
                         const gchar *delimiters,
                         const gchar *new_delimiters );
-G_MODULE_EXPORT gchar *my_strdup ( const gchar *string );
+gchar *my_strdup ( const gchar *string );
 gint my_strncasecmp ( gchar *string_1,
                         gchar *string_2,
                         gint longueur );
-G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine );
+gint utils_str_atoi ( const gchar *chaine );
 gint utils_str_get_nbre_motifs ( const gchar *chaine, const gchar *motif );
 gchar *utils_str_itoa ( gint integer );
 gchar *utils_str_dtostr ( gdouble number, gint nbre_decimal, gboolean canonical );

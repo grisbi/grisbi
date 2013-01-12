@@ -41,7 +41,7 @@ void debug_message_real ( gchar *prefixe,
                         gsb_real message,
                         gint level,
                         gboolean force_debug_display);
-G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
+void debug_message_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,

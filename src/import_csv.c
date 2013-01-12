@@ -1097,10 +1097,10 @@ gboolean import_enter_csv_preview_page ( GtkWidget * assistant )
         size = 0;
         bytes_written = 0;
 
-        dialogue_special ( GTK_MESSAGE_WARNING, make_hint (
-                            _("The conversion to utf8 went wrong."),
+        dialogue_warning_hint (
                             _("If the result does not suit you, try again by selecting the "
-                            "correct character set in the window for selecting files.") ) );
+                            "correct character set in the window for selecting files."),
+                            _("The conversion to utf8 went wrong.") );
 
         contents = g_convert_with_fallback ( tmp_str, -1, "UTF-8", "ISO-8859-1",
                         "?", &size, &bytes_written, &error );

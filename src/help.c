@@ -31,7 +31,6 @@
 
 /*START_INCLUDE*/
 #include "help.h"
-#include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "structures.h"
 #include "utils.h"
@@ -71,6 +70,35 @@ static gboolean url_clicked ( GtkAboutDialog *label,
         lance_navigateur_web ( uri );
 
     return TRUE;
+}
+
+
+gchar * extra_support ( void )
+{
+    gchar *ret;
+
+    ret = g_strconcat (
+        _("GnuCash support: "),
+#ifdef HAVE_XML2
+        _("yes"), "\n",
+#else
+        _("no"), "\n",
+#endif
+        _("OFX support: "),
+#ifdef HAVE_OFX
+        _("yes"), "\n",
+#else
+        _("no"), "\n",
+#endif
+        _("OpenSSL support: "),
+#ifdef HAVE_SSL
+        _("yes"), "\n",
+#else
+        _("no"), "\n",
+#endif
+        NULL);
+
+    return ret;
 }
 
 
@@ -157,10 +185,10 @@ NULL};
 
     /* Others info */
     gchar *comments;
-    gchar *plugins;
+    gchar *extra;
     gchar *version_to_string;
 
-    plugins = gsb_plugin_get_list ( );
+    extra = extra_support ( );
     version_to_string = get_gtk_run_version ( );
 
     if ( IS_DEVELOPMENT_VERSION == 1 )
@@ -169,8 +197,8 @@ NULL};
 
         compiled_time = gsb_date_get_compiled_time ( );
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
-                        plugins,
-                        "\nVersion de GTK : ",
+                        extra,
+                        "Version de GTK : ",
                         version_to_string,
                         "\n",
                         _("This instance of Grisbi was compiled on\n"),
@@ -185,8 +213,8 @@ NULL};
     }
     else
         comments = g_strconcat ( _("Personal finance manager for everyone\n"),
-                        plugins,
-                        "\nVersion de GTK : ",
+                        extra,
+                        "Version de GTK : ",
                         version_to_string,
                         NULL );
 
@@ -218,7 +246,7 @@ NULL};
     gtk_window_set_modal ( GTK_WINDOW ( about ), TRUE );
     gtk_window_set_transient_for ( GTK_WINDOW ( about ), GTK_WINDOW ( run.window ) );
 
-    g_free ( plugins );
+    g_free ( extra );
     g_free ( version_to_string );
     g_free ( comments );
     g_signal_connect ( G_OBJECT ( about ),

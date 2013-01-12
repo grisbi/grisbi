@@ -29,39 +29,23 @@
 /* This define is required to disable openssl's SSLeay support which redefines
  * _(), which obvisouly breaks glib's gettext macros. */
 #define OPENSSL_DISABLE_OLD_DES_SUPPORT
-#ifdef HAVE_SSL
-#  include <openssl/des.h>
-#endif
+#include <openssl/des.h>
 
 /*START_INCLUDE*/
 #include "openssl.h"
-#include "dialog.h"
-#include "main.h"
 #include "structures.h"
-#include "erreur.h"
 /*END_INCLUDE*/
-
-/*FIX FOR THE LINKING ERROR WITH WINDOWS MSVC*/
-#ifdef _MSC_VER
-#define SYMBOL_IMPORT __declspec(dllimport)
-#else
-#define SYMBOL_IMPORT extern
-#endif
 
 /*START_EXTERN*/
 /*END_EXTERN*/
 
-#ifdef HAVE_SSL
 /*START_STATIC*/
-static gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
+static gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt );
-static gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
-                        gboolean crypt, gulong length );
 static void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry );
 /*END_STATIC*/
-#endif
 
-static gchar *saved_crypt_key;
+static gchar *saved_crypt_key = NULL;
 
 #define V1_MARKER "Grisbi encrypted file "
 #define V1_MARKER_SIZE (sizeof(V1_MARKER) - 1)
@@ -72,7 +56,6 @@ static gchar *saved_crypt_key;
 
 
 
-#ifdef HAVE_SSL
 /**
  *
  */
@@ -207,7 +190,6 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
     *file_content = decrypted_buf;
     return decrypted_len;
 }
-#endif /* HAVE_SSL */
 
 
 /**
@@ -222,10 +204,9 @@ decrypt_v1(gchar *password, gchar **file_content, gulong length)
  *
  * \return the length of the new file_content or 0 if problem
  */
-gulong gsb_file_util_crypt_file ( gchar * file_name, gchar **file_content,
+gulong gsb_file_util_crypt_file ( const gchar * file_name, gchar **file_content,
                         gboolean crypt, gulong length )
 {
-#ifdef HAVE_SSL
     gchar * key, * message = "";
 
     if ( run.new_crypted_file )
@@ -287,14 +268,6 @@ return_bad_password:
         return returned_length;
     }
 
-#else
-    /* FIXME: import symbols to be sure we can call this kind of stuff. */
-    dialogue_error_hint ( _("This build of Grisbi does not support encryption.\n"
-                        "Please recompile Grisbi with OpenSSL encryption enabled."),
-                        g_strdup_printf ( _("Cannot open encrypted file '%s'"),
-					    file_name ) );
-#endif
-
     return 0;
 }
 
@@ -308,8 +281,7 @@ return_bad_password:
  *
  * \return a string which is the crypt key or NULL if it was
  * cancelled. */
-#ifdef HAVE_SSL
-gchar *gsb_file_util_ask_for_crypt_key ( gchar * file_name, gchar * additional_message,
+gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additional_message,
                         gboolean encrypt )
 {
     gchar *key = NULL;
@@ -429,34 +401,7 @@ return_bad_password:
 
     return key;
 }
-#endif
 
-
-#ifndef ENABLE_STATIC
-/** Module name. */
-G_MODULE_EXPORT const gchar plugin_name[] = "openssl";
-#endif
-
-
-
-/** Initialization function. */
-G_MODULE_EXPORT extern void openssl_plugin_register ( void )
-{
-    devel_debug ("Initializating openssl plugin");
-    saved_crypt_key = NULL;
-}
-
-
-
-/** Main function of module. */
-G_MODULE_EXPORT extern gpointer openssl_plugin_run ( gchar * file_name, gchar **file_content,
-                        gboolean crypt, gulong length )
-{
-    /* The final size is cast from a gulong to a gpointer. This is 'ok' because
-     * a gpointer is always the same size. It is quite ugly though, and a proper
-     * fix should be found for this. */
-    return (gpointer) gsb_file_util_crypt_file ( file_name, file_content, crypt, length );
-}
 
 
 void gsb_file_util_show_hide_passwd ( GtkToggleButton *togglebutton, GtkWidget *entry )

@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DPLUGINS_DIR="\"$(plugindir)\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\"" -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
+AM_CPPFLAGS = -I$(top_srcdir) $(GRISBI_CFLAGS) $(GTK_MAC_CFLAGS) $(GOFFICE_CFLAGS) -DLOCALEDIR=\"$(localedir)\" -DPIXMAPS_DIR="\"$(datadir)/pixmaps/@PACKAGE@\"" -DLOGO_PATH="\"$(datadir)/pixmaps/@PACKAGE@/grisbi-logo.png\"" -DDATA_PATH="\"$(datadir)/@PACKAGE@\"" -DHELP_PATH="\"$(docdir)\"" -DUI_DIR="\"$(datadir)/@PACKAGE@/ui\""
 
 bin_PROGRAMS = grisbi
 noinst_LTLIBRARIES = libgrisbi.la
@@ -8,13 +8,15 @@ noinst_LTLIBRARIES = libgrisbi.la
 grisbi_LDADD = $(GRISBI_LIBS) $(GTK_MAC_LIBS) libgrisbi.la
 
 libgrisbi_la_LIBADD =
-if ENABLE_STATIC
-libgrisbi_la_LIBADD += \
-	plugins/gnucash/gnucash.la \
-	plugins/ofx/ofx.la \
-	plugins/openssl/openssl.la
-else
-libgrisbi_la_LDFLAGS = -export_dynamic
+
+if HAVE_XML2
+libgrisbi_la_LIBADD += plugins/gnucash/gnucash.la
+endif
+if HAVE_OFX
+libgrisbi_la_LIBADD += plugins/ofx/ofx.la
+endif
+if HAVE_SSL
+libgrisbi_la_LIBADD += plugins/openssl/openssl.la
 endif
 libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS) $(GOFFICE_LIBS)
 
@@ -104,7 +106,6 @@ libgrisbi_la_SOURCES = \
 	gsb_locale.c	\
 	gsb_payment_method.c	\
 	gsb_payment_method_config.c	\
-	gsb_plugins.c		\
 	gsb_real.c		\
 	gsb_reconcile.c		\
 	gsb_reconcile_config.c	\
@@ -257,7 +258,6 @@ libgrisbi_la_SOURCES = \
 	gsb_locale.h	\
 	gsb_payment_method.h	\
 	gsb_payment_method_config.h	\
-	gsb_plugins.h           \
 	gsb_real.h		\
 	gsb_reconcile.h		\
 	gsb_reconcile_config.h	\
@@ -315,7 +315,7 @@ grisbi_SOURCES = 		\
 	main.c				\
 	main.h
 
-SUBDIRS = ui
+SUBDIRS = ui plugins/gnucash plugins/ofx plugins/openssl
 
 if HAVE_CUNIT
 SUBDIRS += tests
@@ -325,10 +325,6 @@ EXTRA_DIST = grisbi.keys grisbi.mime
 
 mimedir = $(datadir)/mime-info
 mime_DATA = grisbi.keys grisbi.mime
-
-if HAVE_PLUGINS
-SUBDIRS += plugins/gnucash plugins/ofx plugins/openssl
-endif
 
 ALLHEADERS := $(filter %.h,$(libgrisbi_la_SOURCES) $(grisbi_SOURCES))
 

@@ -72,7 +72,6 @@
 #include "utils_dates.h"
 #include "navigation.h"
 #include "gsb_locale.h"
-#include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_select_icon.h"
 #include "utils_str.h"
@@ -81,6 +80,9 @@
 #include "gsb_scheduler_list.h"
 #include "gsb_calendar.h"
 #include "erreur.h"
+#ifdef HAVE_SSL
+#include "plugins/openssl/openssl.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -213,8 +215,6 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     gint bet_graph_part = 100;
 
     struct stat buf;
-
-    gsb_plugin * plugin;
 
     devel_debug (filename);
 
@@ -380,30 +380,27 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
     /* crypt the file if asked */
     if ( etat.crypt_file )
     {
-        if ( ( plugin = gsb_plugin_find ( "openssl" ) ) )
+#ifdef HAVE_SSL
         {
-            gint (*crypt_function) ( const gchar *, gchar **, gboolean, gulong );
-
-            crypt_function = (gpointer) plugin -> plugin_run;
-            iterator = crypt_function ( filename, &file_content, TRUE, iterator );
+            iterator = gsb_file_util_crypt_file ( filename, &file_content, TRUE, iterator );
             if ( ! iterator )
             {
                 g_free ( file_content);
                 return FALSE;
             }
         }
-        else
+#else
         {
-            dialogue_error_hint ( _("Grisbi was unable to load required plugin to "
-                        "handle that file.\n\n"
-                        "Please make sure if is installed (i.e. check "
-                        "that 'open-ssl' package is installed) and "
-                        "try again."),
-                      _("Encryption plugin not found." ) );
-
             g_free ( file_content);
+            gchar *text = _("This build of Grisbi does not support encryption.\n"
+                    "Please recompile Grisbi with OpenSSL encryption enabled.");
+            gchar *hint = g_strdup_printf ( _("Cannot open encrypted file '%s'"),
+                                                filename );
+            dialogue_error_hint ( text, hint );
+            g_free ( hint );
             return FALSE;
         }
+#endif
     }
 
     /* the file is in memory, we can save it */

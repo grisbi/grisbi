@@ -34,7 +34,6 @@
 #include "dialog.h"
 #include "gsb_data_transaction.h"
 #include "gsb_real.h"
-#include "import.h"
 #include "utils_str.h"
 #include "utils_files.h"
 #include "erreur.h"
@@ -59,8 +58,6 @@ static struct struct_ope_importation * new_transaction_from_split ( struct gnuca
 							     gchar * tiers, GDate * date );
 static gboolean node_strcmp ( xmlNodePtr node, gchar * name );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
-static gboolean recuperation_donnees_gnucash ( GtkWidget * assistant,
-					struct imported_file * imported );
 static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
 static void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node );
@@ -69,39 +66,7 @@ static void update_split ( struct gnucash_split * split, gsb_real amount,
 		    gchar * account, gchar * categ );
 /*END_STATIC*/
 
-
-static struct import_format gnucash_format = {
-    "Gnucash",
-    "Gnucash",
-    "gnc",
-    (import_function) recuperation_donnees_gnucash,
-};
-
 GSList * gnucash_accounts = NULL;
-
-
-#ifndef ENABLE_STATIC
-/** Module name. */
-G_MODULE_EXPORT const gchar plugin_name[] = "gnucash";
-#endif
-
-
-
-/** Initialization function. */
-G_MODULE_EXPORT extern void gnucash_plugin_register ( void )
-{
-    devel_debug ("Initializating gnucash plugin");
-
-    register_import_format ( &gnucash_format );
-}
-
-
-
-/** Main function of module. */
-G_MODULE_EXPORT extern gpointer gnucash_plugin_run ( void )
-{
-    return NULL;
-}
 
 
 

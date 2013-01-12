@@ -1044,18 +1044,8 @@ dialog_return:
     {
         /* check if the currency exists si la devise existe on ne fait rien */
 
-        if ( gsb_data_currency_get_number_by_name ( currency_name ) )
-        {
-            currency_number = gsb_data_currency_get_number_by_name
-                        ( currency_name );
-        }
-        else if ( gsb_data_currency_get_number_by_code_iso4217
-                        ( currency_isocode ) )
-        {
-            currency_number = gsb_data_currency_get_number_by_code_iso4217
-                        ( currency_isocode );
-        }
-        else
+        if ( ! gsb_data_currency_get_number_by_name ( currency_name ) &&
+             ! gsb_data_currency_get_number_by_code_iso4217 ( currency_isocode ) )
         {
             currency_number = gsb_currency_config_create_currency ( currency_name,
                         currency_code, currency_isocode, floating_point );

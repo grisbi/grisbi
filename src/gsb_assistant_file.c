@@ -44,7 +44,6 @@
 #include "gsb_currency.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_plugins.h"
 #include "gsb_select_icon.h"
 #include "import.h"
 #include "parametres.h"
@@ -323,7 +322,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
 			GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     /* will we crypt the file ? */
-    if ( gsb_plugin_find ( "openssl" ) )
+#ifdef HAVE_SSL
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
                                                &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
@@ -333,10 +332,11 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
         if ( etat.crypt_file )
             run.new_crypted_file = TRUE;
     }
-    else
+#else
     {
         run.new_crypted_file = FALSE;
     }
+#endif
 
     /* date format */
     paddingbox = gsb_config_date_format_chosen ( vbox, GTK_ORIENTATION_HORIZONTAL );

@@ -41,7 +41,6 @@
 #include "gsb_automem.h"
 #include "gsb_dirs.h"
 #include "gsb_file.h"
-#include "gsb_plugins.h"
 #include "parametres.h"
 #include "structures.h"
 #include "traitement_variables.h"
@@ -251,7 +250,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* crypt the grisbi file */
-    if ( gsb_plugin_find ( "openssl" ) )
+#ifdef HAVE_SSL
     {
         button = gsb_automem_checkbutton_new ( _("Encrypt Grisbi file"),
                                                &(etat.crypt_file), G_CALLBACK (gsb_gui_encryption_toggled), NULL);
@@ -261,10 +260,11 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
         if ( etat.crypt_file )
             run.new_crypted_file = TRUE;
     }
-    else
+#else
     {
         run.new_crypted_file = FALSE;
     }
+#endif
 
     /* Automatic backup ? */
     button = gsb_automem_checkbutton_new (_("Make a backup copy before saving files"),
@@ -332,14 +332,11 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *label;
     GtkWidget *paddingbox;
-    GtkSizeGroup *size_group;
     GtkWidget *hbox;
     GtkWidget *image;
 
     page = gtk_hbox_new (FALSE, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
-
-    size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
     vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
     gtk_box_pack_start ( GTK_BOX (page), vbox, TRUE, TRUE, 0 );

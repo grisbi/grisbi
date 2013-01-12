@@ -82,6 +82,12 @@
 #include "structures.h"
 #include "erreur.h"
 #include "gsb_dirs.h"
+#ifdef HAVE_XML2
+#include "plugins/gnucash/gnucash.h"
+#endif
+#ifdef HAVE_OFX
+#include "plugins/ofx/ofx.h"
+#endif
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -201,8 +207,14 @@ static gboolean marked_r_transactions_imported;
 /** Known built-in import formats.  Others are plugins.  */
 static struct import_format builtin_formats[] =
 {
-{ "CSV", N_("Comma Separated Values"),     "csv", (import_function) csv_import_csv_account },
-{ "QIF", N_("Quicken Interchange Format"), "qif", (import_function) recuperation_donnees_qif },
+{ "CSV", N_("Comma Separated Values"),     "csv", csv_import_csv_account },
+{ "QIF", N_("Quicken Interchange Format"), "qif", recuperation_donnees_qif },
+#ifdef HAVE_XML2
+{ "Gnucash", N_("Gnucash"),                "gnc", recuperation_donnees_gnucash },
+#endif
+#ifdef HAVE_OFX
+{ "OFX", N_("Open Financial Exchange"),    "ofx", recuperation_donnees_ofx },
+#endif
 { NULL,  NULL,              NULL,       NULL },
 };
 
@@ -267,7 +279,7 @@ void register_import_formats ( void )
  *                      this import format.
  *
  */
-G_MODULE_EXPORT void register_import_format ( struct import_format *format )
+void register_import_format ( struct import_format *format )
 {
     gchar *tmp_str;
 
@@ -3593,7 +3605,7 @@ gboolean click_sur_liste_opes_orphelines ( GtkCellRendererToggle *renderer,
  *
  * return a newly allocated string or NULL
  */
-G_MODULE_EXPORT gchar * unique_imported_name ( gchar * account_name )
+gchar * unique_imported_name ( gchar * account_name )
 {
     GSList *tmp_list;
     gchar *basename;
@@ -4346,7 +4358,7 @@ const gchar * autodetect_file_type ( gchar * filename,
  *
  * \param account   Account to register.
  */
-G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importation * account )
+void gsb_import_register_account ( struct struct_compte_importation * account )
 {
     liste_comptes_importes = g_slist_append ( liste_comptes_importes, account );
 }
@@ -4358,7 +4370,7 @@ G_MODULE_EXPORT void gsb_import_register_account ( struct struct_compte_importat
  *
  * \param account   Account to register.
  */
-G_MODULE_EXPORT void gsb_import_register_account_error ( struct struct_compte_importation * account )
+void gsb_import_register_account_error ( struct struct_compte_importation * account )
 {
     liste_comptes_importes_error = g_slist_append ( liste_comptes_importes, account );
 }

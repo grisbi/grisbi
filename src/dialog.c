@@ -35,6 +35,7 @@
 /*END_INCLUDE*/
 
 /*START_STATIC*/
+static void dialogue_special ( GtkMessageType param, gchar *text );
 static void dialogue_conditional ( gchar *text, gchar *var );
 static GtkDialog *dialogue_conditional_new ( gchar *text,
                         gchar *var,
@@ -150,7 +151,7 @@ void dialogue ( gchar *texte_dialogue )
  *
  * \param text Text to display in window
  */
-G_MODULE_EXPORT void dialogue_error ( gchar *text )
+void dialogue_error ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, text );
 }
@@ -162,7 +163,7 @@ G_MODULE_EXPORT void dialogue_error ( gchar *text )
  * \param text Text to display in window
  * \param hint Text to display in window as hint (bold, larger)
  */
-G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
+void dialogue_error_hint ( const gchar *text, gchar *hint )
 {
     dialogue_special ( GTK_MESSAGE_ERROR, make_hint (hint, text) );
 }
@@ -173,7 +174,7 @@ G_MODULE_EXPORT void dialogue_error_hint ( const gchar *text, gchar *hint )
  *
  * \param text Text to display in window
  */
-G_MODULE_EXPORT void dialogue_warning ( gchar *text )
+void dialogue_warning ( gchar *text )
 {
     dialogue_special ( GTK_MESSAGE_WARNING, text );
 }
@@ -629,10 +630,11 @@ gchar *make_red ( const gchar *text )
  */
 gchar *make_pango_attribut ( gchar *attribut, const gchar *text )
 {
-    gchar *tmpstr;
+    gchar *tmpstr, *span_format;
 
-    tmpstr = g_markup_printf_escaped (
-                        g_strconcat ( "<span ", attribut, ">%s</span>", NULL ), text );
+    span_format = g_strconcat ( "<span ", attribut, ">%s</span>", NULL );
+    tmpstr = g_markup_printf_escaped ( span_format , text );
+    g_free ( span_format );
 
     return tmpstr;
 }

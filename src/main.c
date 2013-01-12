@@ -47,7 +47,6 @@
 #include "gsb_file.h"
 #include "gsb_file_config.h"
 #include "gsb_locale.h"
-#include "gsb_plugins.h"
 #include "gsb_status.h"
 #include "import.h"
 #include "menu.h"
@@ -246,26 +245,26 @@ void main_mac_osx ( int argc, char **argv )
     cmdline_options  opt;
     gboolean first_use = FALSE;
     gint status = CMDLINE_SYNTAX_OK;
-    GtkOSXApplication *theApp;
+    GtkosxApplication *theApp;
 
     devel_debug ("main_mac_osx");
 
-#if IS_DEVELOPMENT_VERSION == 1
-    gsb_grisbi_print_environment_var ( );
-#endif
-
     gtk_init ( &argc, &argv );
+
+    /* init the app */
+    theApp = g_object_new ( GTKOSX_TYPE_APPLICATION, NULL );
 
     /* initialisation libgoffice */
     libgoffice_init ( );
     /* Initialize plugins manager */
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
-    /* init the app */
-    theApp = g_object_new ( GTK_TYPE_OSX_APPLICATION, NULL );
-
     /* initialisation des différents répertoires */
     gsb_dirs_init ( );
+
+#if IS_DEVELOPMENT_VERSION == 1
+    gsb_grisbi_print_environment_var ( );
+#endif
 
     bindtextdomain ( PACKAGE,  gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
@@ -308,7 +307,7 @@ void main_mac_osx ( int argc, char **argv )
                         NULL );
     }
     menubar = gsb_grisbi_create_main_menu ( vbox );
-    grisbi_osx_init_menus ( main_window, menubar );
+    grisbi_osx_init_menus ( run.window, menubar );
     main_window_set_size_and_position ( );
 
     gtk_widget_show ( run.window );
@@ -324,17 +323,17 @@ void main_mac_osx ( int argc, char **argv )
     else
         display_tip ( FALSE );
 
-    if ( quartz_application_get_bundle_id ( ) == NULL )
+    if ( gtkosx_application_get_bundle_id ( ) == NULL )
     {
         pixbuf = gdk_pixbuf_new_from_file ( g_build_filename
                         (gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL), NULL );
         if ( pixbuf )
-            gtk_osxapplication_set_dock_icon_pixbuf ( theApp, pixbuf );
+            gtkosx_application_set_dock_icon_pixbuf ( theApp, pixbuf );
     }
 
-    gtk_osxapplication_set_use_quartz_accelerators ( theApp, TRUE );
+    gtkosx_application_set_use_quartz_accelerators ( theApp, TRUE );
 
-    gtk_osxapplication_ready ( theApp );
+    gtkosx_application_ready ( theApp );
 
     gtk_main ();
 
@@ -493,10 +492,6 @@ gboolean gsb_grisbi_init_app ( void )
     gboolean first_use = FALSE;
     gchar *string;
 
-#ifdef HAVE_PLUGINS
-    gsb_plugins_scan_dir ( gsb_dirs_get_plugins_dir ( ) );
-#endif
-
     /* create the icon of grisbi (set in the panel of gnome or other) */
     string = g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), "grisbi-logo.png", NULL );
     if ( g_file_test ( string, G_FILE_TEST_EXISTS ) )
@@ -531,7 +526,7 @@ static gboolean main_window_key_press_event ( GtkWidget *widget,
 {
     switch ( event -> keyval )
     {
-        case GDK_KEY_F11 :
+        case GDK_F11 :
             if ( conf.full_screen )
                 gtk_window_unfullscreen ( GTK_WINDOW ( widget ) );
             else
@@ -956,7 +951,6 @@ gchar *gsb_main_get_print_dir_var ( void )
                         "\tgsb_dirs_get_accelerator_filename () = %s\n\n"
                         "\tgsb_dirs_get_categories_dir ()       = %s\n"
                         "\tgsb_dirs_get_locale_dir ()           = %s\n"
-                        "\tgsb_dirs_get_plugins_dir ()          = %s\n"
                         "\tgsb_dirs_get_pixmaps_dir ()          = %s\n"
                         "\tgsb_dirs_get_ui_dir ()               = %s\n\n",
                         g_get_user_data_dir (),
@@ -967,7 +961,6 @@ gchar *gsb_main_get_print_dir_var ( void )
                         gsb_dirs_get_accelerator_filename (),
                         gsb_dirs_get_categories_dir ( ),
                         gsb_dirs_get_locale_dir ( ),
-                        gsb_dirs_get_plugins_dir ( ),
                         gsb_dirs_get_pixmaps_dir ( ),
                         gsb_dirs_get_ui_dir ( ) );
 

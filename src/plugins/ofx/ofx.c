@@ -44,42 +44,46 @@ static int ofx_proc_account_cb(struct OfxAccountData data, void * account_data);
 static int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);;
 static int ofx_proc_status_cb(struct OfxStatusData data, void * status_data);;
 static int ofx_proc_transaction_cb(struct OfxTransactionData data, void * security_data);;
-static GSList * recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported );
 /*END_STATIC*/
 
 
-static struct import_format ofx_format =
-{
-    "OFX",
-    "Open Financial Exchange",
-    "ofx",
-    (import_function) recuperation_donnees_ofx,
-};
 
+/* It seems the following applies to everyone, otherwise OFX_* are not defined */
+/* #ifdef _WIN32 */
+/* On Windows, the Ofx Severity enumerate values are already used in wingdi.h, DELETE is used in winnt.h
+ * This is a work around to this issues :
+ *  INFO, WARN, ERROR, DELETE and REPLACE are used in standard libofx.h;
+ *  on windows they should be prefixed by OFX_
+ */
 
+#ifndef _MINGW
 
-#ifndef ENABLE_STATIC
-/** Module name. */
-G_MODULE_EXPORT const gchar plugin_name[] = "ofx";
+#ifndef OFX_INFO
+#define OFX_INFO    INFO
 #endif
 
+#ifndef OFX_WARN
+#define OFX_WARN    WARN
+#endif
 
+#ifndef OFX_ERROR
+#if defined(_MSC_VER) || defined(_MINGW)
+#undef ERROR
+#endif /* _MSC_VER */
+#define OFX_ERROR   ERROR
+#endif
 
-/** Initialization function. */
-G_MODULE_EXPORT extern void ofx_plugin_register ( void )
-{
-    devel_debug ("Initializating ofx plugin");
-    register_import_format ( &ofx_format );
-}
+#ifndef OFX_DELETE
+#define OFX_DELETE  DELETE
+#endif
 
+#ifndef OFX_REPLACE
+#define OFX_REPLACE REPLACE
+#endif
 
+#endif /* _MIN_GW */
 
-/** Main function of module. */
-G_MODULE_EXPORT extern gpointer ofx_plugin_run ( GtkWidget * assistant,
-				    struct imported_file * imported )
-{
-    return recuperation_donnees_ofx ( assistant, imported );
-}
+/* #endif _WIN32 */
 
 
 
@@ -107,7 +111,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
  *
  *
  */
-GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
+gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
     gchar *argv[2] = { "", "" };
@@ -147,7 +151,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
         gsb_import_register_account_error ( account );
         devel_print_str ( account -> nom_de_compte );
 
-        return ( FALSE );
+        return FALSE ;
     }
 
     liste_tmp = liste_comptes_importes_ofx;
@@ -166,7 +170,7 @@ GSList *recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file *
 	liste_tmp = liste_tmp -> next;
     }
 
-    return ( liste_tmp );
+    return TRUE;
 }
 /* *******************************************************************************/
 

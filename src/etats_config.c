@@ -333,7 +333,7 @@ static void etats_config_recupere_info_onglet_periode ( gint report_number )
                 text = g_strdup ( _("All financial years have been selected.  Grisbi will run "
                                 "faster without the \"Detail financial years\" option activated.") );
 
-                dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+                dialogue_hint ( text, hint );
                 etats_prefs_button_toggle_set_actif ( "bouton_exo_tous", FALSE );
                 gsb_data_report_set_financial_year_type ( report_number, 0 );
 
@@ -541,7 +541,7 @@ static void etats_config_recupere_info_onglet_comptes ( gint report_number )
             text = g_strdup ( _("All accounts have been selected.  Grisbi will run "
                             "faster without the \"Detail accounts used\" option activated") );
 
-            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            dialogue_hint ( text, hint );
             etats_prefs_button_toggle_set_actif ( "gsb_data_report_set_account_use_chosen", FALSE );
             gsb_data_report_set_account_use_chosen ( report_number, FALSE );
 
@@ -729,7 +729,7 @@ static void etats_config_recupere_info_onglet_tiers ( gint report_number )
             text = g_strdup ( _("All payees have been selected.  Grisbi will run "
                             "faster without the \"Detail payees used\" option activated.") );
 
-            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            dialogue_hint ( text, hint );
             etats_prefs_button_toggle_set_actif ( "togglebutton_select_all_tiers", FALSE );
             gsb_data_report_set_payee_detail_used ( report_number, FALSE );
 
@@ -954,15 +954,15 @@ static GSList *etats_config_onglet_categ_budget_get_selected ( const gchar *tree
     if ( all_selected )
     {
         if ( strcmp ( treeview_name, "treeview_categ" ) == 0 )
-            dialogue_special ( GTK_MESSAGE_INFO,
-                        make_hint ( _("Performance issue."),
+            dialogue_hint (
                         _("All categories have been selected.  Grisbi will run faster without "
-                        "the \"Detail categories used\" option activated.") ) );
+                        "the \"Detail categories used\" option activated."),
+                        _("Performance issue.") );
         else
-            dialogue_special ( GTK_MESSAGE_INFO,
-                        make_hint ( _("Performance issue."),
+            dialogue_hint (
                         _("All budgets have been selected.  Grisbi will run faster without the "
-                        "\"Detail budgets used\" option activated.") ) );
+                        "\"Detail budgets used\" option activated."),
+                        _("Performance issue.") );
 
         etats_config_onglet_categ_budget_tree_model_check_uncheck_all ( model, FALSE );
         gsb_data_report_free_categ_budget_struct_list ( tmp_list );
@@ -2622,7 +2622,7 @@ static void etats_config_recupere_info_onglet_mode_paiement ( gint report_number
             text = g_strdup ( _("All methods of payment have been selected.  Grisbi will run "
                             "faster without the \"Detail methods of payment used\" option activated.") );
 
-            dialogue_special ( GTK_MESSAGE_INFO, make_hint ( hint, text ) );
+            dialogue_hint ( text, hint );
             etats_prefs_button_toggle_set_actif ( "togglebutton_select_all_mode_paiement", FALSE );
             gsb_data_report_set_method_of_payment_used ( report_number, 0 );
 

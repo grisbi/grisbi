@@ -235,7 +235,7 @@ gchar *utils_str_localise_decimal_point_from_string ( const gchar *string )
  * @retval  0 when the pointer is NULL or the string empty.
  *
  * */
-G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
+gint utils_str_atoi ( const gchar *chaine )
 {
     if ((chaine )&&(*chaine))
     {
@@ -254,7 +254,7 @@ G_MODULE_EXPORT gint utils_str_atoi ( const gchar *chaine )
  *
  *
  * */
-G_MODULE_EXPORT gchar * latin2utf8 ( const gchar * inchar)
+gchar * latin2utf8 ( const gchar * inchar)
 {
     return g_locale_from_utf8 ( inchar, -1, NULL, NULL, NULL );
 }
@@ -427,7 +427,7 @@ gint my_strncasecmp ( gchar *string_1,
  * \return a newly allocated string (which is a copy of that string)
  * or NULL if the parameter is NULL or an empty string.
  * */
-G_MODULE_EXPORT gchar *my_strdup ( const gchar *string )
+gchar *my_strdup ( const gchar *string )
 {
     if ( string && strlen (string) )
 	return g_strdup (string);

@@ -39,7 +39,6 @@
 #include "gsb_file.h"
 #include "gsb_file_save.h"
 #include "gsb_file_util.h"
-#include "gsb_plugins.h"
 #include "gsb_real.h"
 #include "gsb_status.h"
 #include "import.h"
@@ -274,7 +273,7 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-G_MODULE_EXPORT void debug_message_string ( gchar *prefixe,
+void debug_message_string ( gchar *prefixe,
                         gchar *file,
                         gint line,
                         const char *function,
