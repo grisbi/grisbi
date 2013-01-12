@@ -2323,6 +2323,8 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_edit_transaction_by_pointer ),
                         GINT_TO_POINTER ( scheduled_number ) );
+    if ( scheduled_number < 0 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2335,6 +2337,8 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_clone_selected_scheduled ),
                         GINT_TO_POINTER ( scheduled_number ) );
+    if ( scheduled_number < 0 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
 
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
@@ -2361,6 +2365,10 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
                         NULL );
+
+    if ( scheduled_number < 0 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
@@ -2393,6 +2401,9 @@ void popup_scheduled_context_menu ( void )
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
                         NULL );
+    if ( scheduled_number < 0 )
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Finish all. */
