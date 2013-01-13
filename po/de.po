@@ -5,13 +5,13 @@
 #
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
-# Martin Stromberger <ma.stromberger@gmx.at>, 2012.
+# Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-30 18:48+0100\n"
-"PO-Revision-Date: 2012-12-27 18:48+0100\n"
+"PO-Revision-Date: 2013-01-13 14:57+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -229,9 +229,8 @@ msgid "Titles"
 msgstr "Bezeichnungen"
 
 #: ../src/affichage.c:377
-#, fuzzy
 msgid "Accounting entity"
-msgstr "Konto Details"
+msgstr "Bezeichnung"
 
 #: ../src/affichage.c:389
 msgid "Account owner name"
@@ -243,9 +242,8 @@ msgstr "Dateiname"
 
 #. label account name
 #: ../src/affichage.c:415 ../src/gsb_assistant_file.c:286
-#, fuzzy
 msgid "Name of accounting entity: "
-msgstr "Saldo vom Konto : %s"
+msgstr "Bezeichnung: "
 
 #: ../src/affichage.c:428
 msgid "Addresses"
@@ -2492,7 +2490,6 @@ msgid "negative"
 msgstr "negativ ist"
 
 #: ../src/etats_config.c:275 ../src/etats_config.c:295
-#, fuzzy
 msgid ""
 "Grisbi can't parse date.  For a list of date formats that Grisbi can use, "
 "refer to Grisbi manual."
@@ -2501,12 +2498,12 @@ msgstr ""
 "Grisbi Handbuch beschrieben."
 
 #: ../src/etats_config.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid initial date '%s'"
 msgstr "Ungültiges Beginndatum: '%s'"
 
 #: ../src/etats_config.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid final date '%s'"
 msgstr "Ungültiges Enddatum: '%s'"
 
@@ -2517,7 +2514,6 @@ msgid "Performance issue."
 msgstr "Performance Problem"
 
 #: ../src/etats_config.c:330
-#, fuzzy
 msgid ""
 "All financial years have been selected.  Grisbi will run faster without the "
 "\"Detail financial years\" option activated."
@@ -2526,7 +2522,6 @@ msgstr ""
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
 #: ../src/etats_config.c:538
-#, fuzzy
 msgid ""
 "All accounts have been selected.  Grisbi will run faster without the "
 "\"Detail accounts used\" option activated"
@@ -2535,7 +2530,6 @@ msgstr ""
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
 #: ../src/etats_config.c:726
-#, fuzzy
 msgid ""
 "All payees have been selected.  Grisbi will run faster without the \"Detail "
 "payees used\" option activated."
@@ -2544,7 +2538,6 @@ msgstr ""
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
 #: ../src/etats_config.c:956
-#, fuzzy
 msgid ""
 "All categories have been selected.  Grisbi will run faster without the "
 "\"Detail categories used\" option activated."
@@ -2553,7 +2546,6 @@ msgstr ""
 "Die Erstellung vom Bericht kann längere Zeit in Anspruch nehmen."
 
 #: ../src/etats_config.c:961
-#, fuzzy
 msgid ""
 "All budgets have been selected.  Grisbi will run faster without the \"Detail "
 "budgets used\" option activated."
@@ -2591,7 +2583,6 @@ msgid "Transactions with an amount of"
 msgstr "Buchungen mit einem Betrag welcher"
 
 #: ../src/etats_config.c:2619
-#, fuzzy
 msgid ""
 "All methods of payment have been selected.  Grisbi will run faster without "
 "the \"Detail methods of payment used\" option activated."
@@ -11265,9 +11256,8 @@ msgstr ""
 "als die sichtbaren Spalten (%d)"
 
 #: ../src/utils_buttons.c:288 ../src/utils_buttons.c:290
-#, fuzzy
 msgid "Unselect"
-msgstr "Alle abwählen"
+msgstr "Abwählen"
 
 #: ../src/utils.c:191
 #, c-format
@@ -11486,21 +11476,18 @@ msgid "Report name: "
 msgstr "Bericht Name: "
 
 #: ../src/ui/etats_prefs.ui.h:7
-#, fuzzy
 msgid "Selection of transactions by:"
-msgstr "alle Buchungen"
+msgstr "Buchungen auswählen nach:"
 
 #: ../src/ui/etats_prefs.ui.h:10
-#, fuzzy
 msgid "Ignore the archived transactions"
-msgstr "Das Archiv und die Buchungen löschen"
+msgstr "Archivierte Buchungen nicht berücksichtigen"
 
 #: ../src/ui/etats_prefs.ui.h:11
 msgid "Display the number of transactions with the totals"
 msgstr "Die Anzahl der Buchungen im Verhältnis zu allen Buchungen anzeigen"
 
 #: ../src/ui/etats_prefs.ui.h:12
-#, fuzzy
 msgid "Consider the payees of this report as a multiple payee"
 msgstr "Den Bericht in der Auswahlliste der Empfänger anzeigen"
 
@@ -11585,9 +11572,8 @@ msgid "Display a sub-total for each sub-category"
 msgstr "Eine Zwischensumme für jede Unterkategorie anzeigen"
 
 #: ../src/ui/etats_prefs.ui.h:50
-#, fuzzy
 msgid "Display «No sub-category» if none"
-msgstr "'Keine Unterkategorie' anzeigen wenn Daten nicht vorhanden sind"
+msgstr "«Keine Unterkategorie» anzeigen wenn Daten nicht vorhanden sind"
 
 #: ../src/ui/etats_prefs.ui.h:52
 msgid "Display the (sub-)budget line name"
@@ -11606,9 +11592,8 @@ msgid "Display a sub-total for each sub-budget line"
 msgstr "Eine Zwischensumme für jede Untergruppe anzeigen"
 
 #: ../src/ui/etats_prefs.ui.h:56
-#, fuzzy
 msgid "Display «No sub-budgetary line» if none"
-msgstr "'Keine Gruppe' anzeigen wenn Daten nicht vorhanden sind"
+msgstr "«Keine Gruppe» anzeigen wenn Daten nicht vorhanden sind"
 
 #: ../src/ui/etats_prefs.ui.h:57
 msgid "Detail categories"
@@ -11627,13 +11612,12 @@ msgid "Outgoing categories"
 msgstr "Kategorien Ausgaben"
 
 #: ../src/ui/etats_prefs.ui.h:62
-#, fuzzy
 msgid "Expand all"
-msgstr "Zeile expandieren"
+msgstr "Expandieren"
 
 #: ../src/ui/etats_prefs.ui.h:63
 msgid "Collapse all"
-msgstr ""
+msgstr "Zusammenklappen"
 
 #: ../src/ui/etats_prefs.ui.h:64
 msgid "Select transactions only for given accounts"
@@ -11660,34 +11644,28 @@ msgid "Select assets accounts"
 msgstr "Anlagekonten auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:70
-#, fuzzy
 msgid "Selecting Transactions"
-msgstr "alle Buchungen"
+msgstr "Buchungen auswählen"
 
 #: ../src/ui/etats_prefs.ui.h:71
-#, fuzzy
 msgid "All transactions"
-msgstr "Buchungen Aufruf"
+msgstr "Alle Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:72
-#, fuzzy
 msgid "Unreconciled transactions"
-msgstr "Abgestimmte Buchungen"
+msgstr "Unabgestimmte Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:73
-#, fuzzy
 msgid "Marked transactions"
-msgstr "Buchungen archivieren"
+msgstr "nach Abstimmung"
 
 #: ../src/ui/etats_prefs.ui.h:74
-#, fuzzy
 msgid "Pointing transactions"
-msgstr "Eine Buchung bearbeiten"
+msgstr "Verrechnete Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:75
-#, fuzzy
 msgid "Tele-transmitted transactions"
-msgstr "abgestimmte Buchungen"
+msgstr "Teilabgestimmte Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:76
 msgid "Reconciled transactions"
@@ -11766,37 +11744,36 @@ msgid "Select payees to include in this report: "
 msgstr "Empfänger für den Bericht auswählen: "
 
 #: ../src/ui/etats_prefs.ui.h:97
-#, fuzzy
 msgid "Navigation"
-msgstr "Navigationsbereich"
+msgstr "Navigation"
 
 #: ../src/ui/etats_prefs.ui.h:98
 msgid "First item"
-msgstr ""
+msgstr "zum Anfang"
 
 #: ../src/ui/etats_prefs.ui.h:99
-#, fuzzy
 msgid "Prévious"
-msgstr "letztes Jahr"
+msgstr "nach Oben"
 
 #: ../src/ui/etats_prefs.ui.h:100
 msgid "Following"
-msgstr ""
+msgstr "nach Unten"
 
 #: ../src/ui/etats_prefs.ui.h:101
-#, fuzzy
 msgid "Last item"
-msgstr "Letzte Abstimmung: "
+msgstr "zum Ende"
 
 #: ../src/ui/etats_prefs.ui.h:102
 msgid "<Ctrl> + left click of mouse to add to the selection"
-msgstr ""
+msgstr "Mit STRG + linke Maustaste zur Auswahl hinzufügen"
 
 #: ../src/ui/etats_prefs.ui.h:104
 msgid ""
 "<Ctrl> + left click of mouse\n"
 "to add at the selection"
 msgstr ""
+"Mit STRG + linke Maustaste\n"
+"zur Auswahl hinzufügen"
 
 #: ../src/ui/etats_prefs.ui.h:106
 msgid "Do not include transfers"
@@ -11867,7 +11844,6 @@ msgid "Beginning of week: "
 msgstr "Wochenanfang: "
 
 #: ../src/ui/etats_prefs.ui.h:124
-#, fuzzy
 msgid "title"
 msgstr "Bezeichnungen"
 
