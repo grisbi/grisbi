@@ -1526,8 +1526,6 @@ void gsb_assistant_payees_toggled ( GtkCellRendererToggle *cell,
 
     /* do something with the value */
     sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
-    if (!sup_payees)
-        return;
     if ( g_slist_find (sup_payees, GINT_TO_POINTER (payee_number)) && fixed )
         sup_payees = g_slist_delete_link ( sup_payees,
                         g_slist_find ( sup_payees,
