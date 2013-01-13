@@ -1384,7 +1384,6 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
  */
 static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
 {
-    GtkTreeView *treeview;
     GtkLabel *label;
     GtkComboFix *combo;
     GtkEntry *entry;
@@ -1393,7 +1392,6 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
     const gchar *str_cherche;
 
     devel_debug ("Enter page finish");
-    treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
     sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
     combo = g_object_get_data ( G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text ( combo );
