@@ -215,7 +215,7 @@ GtkWidget *init_menus ( GtkWidget *vbox )
         {"EditMenuAction", NULL, _("_Edit"), NULL, NULL, NULL },
         {"EditTransactionAction", GTK_STOCK_EDIT, _("_Edit transaction"), "", NULL,
          G_CALLBACK ( gsb_data_mix_edit_current_transaction ) },
-        {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "", NULL,
+        {"NewTransactionAction", GTK_STOCK_NEW, _("_New transaction"), "<Control>T", NULL,
          G_CALLBACK ( gsb_data_mix_new_transaction_by_menu ) },
         {"RemoveTransactionAction", GTK_STOCK_DELETE, _("_Remove transaction"), "", NULL,
          G_CALLBACK ( gsb_data_mix_delete_current_transaction ) },
