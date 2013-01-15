@@ -1332,8 +1332,9 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
     gtk_label_set_text ( GTK_LABEL (new_payee_label), new_tiers );
 
     payee_list_tmp = gsb_data_payee_get_payees_list ();
-    list_store = gtk_list_store_new ( N_COLUMNS, G_TYPE_BOOLEAN,
-                        G_TYPE_UINT, G_TYPE_STRING );
+    treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
+    list_store = GTK_LIST_STORE ( gtk_tree_view_get_model ( treeview ) );
+    gtk_list_store_clear ( list_store );
 
     while ( payee_list_tmp )
     {
@@ -1362,10 +1363,6 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
 
     if ( i > 0 )
     {
-        treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
-        if ( treeview )
-            gtk_tree_view_set_model (GTK_TREE_VIEW (treeview),
-                            GTK_TREE_MODEL (list_store));
         label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_total" );
         gtk_label_set_text ( GTK_LABEL (label ),
                         g_strdup_printf ("%d", i ) );
