@@ -29,3 +29,5 @@ doxygen/
 *.ho
 *~
 *.md5
+*.swp
+tags
