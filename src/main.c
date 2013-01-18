@@ -161,7 +161,7 @@ void main_linux ( int argc, char **argv )
     gint status = CMDLINE_SYNTAX_OK;
 
     /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
+    gsb_dirs_init ( argv[0] );
 
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );
@@ -260,7 +260,7 @@ void main_mac_osx ( int argc, char **argv )
     go_plugins_init (NULL, NULL, NULL, NULL, TRUE, GO_TYPE_PLUGIN_LOADER_MODULE);
 
     /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
+    gsb_dirs_init ( argv[0] );
 
 #if IS_DEVELOPMENT_VERSION == 1
     gsb_grisbi_print_environment_var ( );
@@ -383,7 +383,7 @@ void main_win_32 (  int argc, char **argv )
     win32_make_sure_the_gtk2_dlls_path_is_in_PATH();
 
     /* initialisation des différents répertoires */
-    gsb_dirs_init ( );
+    gsb_dirs_init ( argv[0] );
 
     bindtextdomain ( PACKAGE, gsb_dirs_get_locale_dir ( ) );
     bind_textdomain_codeset ( PACKAGE, "UTF-8" );

@@ -3,7 +3,7 @@
 
 #include <glib.h>
 
-void gsb_dirs_init ( void );
+void gsb_dirs_init ( char* gsb_bin_path );
 void gsb_dirs_shutdown ( void );
 const gchar *gsb_dirs_get_categories_dir ( void );
 const gchar *gsb_dirs_get_default_dir ( void );
