@@ -786,24 +786,21 @@ static void update_liste_comptes_accueil ( gboolean force )
         while ( list_tmp )
         {
             kind_account i;
-
             i = gsb_data_partial_balance_get_number ( list_tmp -> data );
 
-            if ( gsb_data_partial_balance_get_kind ( i ) == GSB_TYPE_ASSET )
+            switch ( gsb_data_partial_balance_get_kind ( i ) )
             {
-                new_comptes_actif++;
-            }
-            else if ( gsb_data_partial_balance_get_kind ( i ) == GSB_TYPE_LIABILITIES )
-            {
-                new_comptes_passif++;
-            }
-            else if ( gsb_data_partial_balance_get_kind ( i ) == -1 )
-            {
-                soldes_mixtes++;
-            }
-            else
-            {
-                new_comptes_bancaires++;
+                case GSB_TYPE_ASSET:
+                    new_comptes_actif++; break;
+
+                case GSB_TYPE_LIABILITIES:
+                    new_comptes_passif++; break;
+
+                case -1:
+                    soldes_mixtes++; break;
+
+                default:
+                    new_comptes_bancaires++;
             }
             list_tmp = list_tmp -> next;
         }
@@ -2155,7 +2152,8 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     GtkWidget *hbox;
     gint account_number;
     gint currency_number;
-	gchar *tmp_str;
+    gsb_real amount;
+	gchar *tmp_str, *tmp_str2, *way;
 
     account_number = gsb_data_scheduled_get_account_number ( scheduled_number );
     currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number) ;
@@ -2180,37 +2178,25 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     gtk_widget_show ( label  );
 
     /* label à droite */
-    if ( gsb_data_scheduled_get_amount (scheduled_number).mantissa >= 0 )
+    amount = gsb_data_scheduled_get_amount ( scheduled_number );
+    
+    if ( amount.mantissa >= 0 )
     {
-        gchar* tmp_str2;
-
-        tmp_str2 = utils_real_get_string_with_currency ( gsb_data_scheduled_get_amount (
-                        scheduled_number ),
-                        currency_number,
-                        TRUE );
-            tmp_str = g_strdup_printf ( _("%s credited on %s"),
-                        tmp_str2,
-                        gsb_data_account_get_name ( account_number ) );
-
-        g_free ( tmp_str2 );
+        amount = gsb_real_abs ( amount );
+        way = _("%s credited on %s");
     }
     else
     {
-        gchar* tmp_str2;
-
-        tmp_str2 = utils_real_get_string_with_currency ( gsb_real_abs (
-                        gsb_data_scheduled_get_amount ( scheduled_number ) ),
-                        currency_number,
-                        TRUE );
-        tmp_str = g_strdup_printf ( _("%s debited on %s"),
-                        tmp_str2,
-                        gsb_data_account_get_name ( account_number ) );
-
-        g_free ( tmp_str2 );
+        way = _("%s debited on %s");
     }
+
+    tmp_str2 = utils_real_get_string_with_currency ( amount, currency_number, TRUE );
+    tmp_str = g_strdup_printf ( way, tmp_str2, gsb_data_account_get_name ( account_number ) );
+    g_free ( tmp_str2 );
 
     label = gtk_label_new ( tmp_str );
     g_free ( tmp_str );
+
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_RIGHT, MISC_VERT_CENTER );
     gtk_box_pack_end ( GTK_BOX (hbox), label, FALSE, TRUE, 0 );
     gtk_widget_show (  label );
