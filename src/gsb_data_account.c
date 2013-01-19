@@ -2834,8 +2834,8 @@ void gsb_data_account_colorize_current_balance ( gint account_number )
     if ( gsb_data_account_get_current_balance (account_number).mantissa < 0 )
     {
         string = g_strdup_printf ( "<span color=\"red\">%s</span>", tmpstr );
-        g_free ( tmpstr );
     }
+    g_free ( tmpstr );
 
     if ( !string )
         string = g_strdup ( "" );

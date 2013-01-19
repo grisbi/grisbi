@@ -3350,12 +3350,9 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
                "Bdte" ))
     {
         date = gsb_parse_date_string_safe (attribute_values[i]);
-        gsb_data_fyear_set_beginning_date ( fyear_number,
-                           date );
+        gsb_data_fyear_set_beginning_date ( fyear_number, date );
         if ( date )
-        {
-        g_date_free (date);
-        }
+            g_date_free (date);
         i++;
         continue;
     }
@@ -3364,12 +3361,9 @@ void gsb_file_load_financial_year ( const gchar **attribute_names,
                "Edte" ))
     {
         date = gsb_parse_date_string_safe (attribute_values[i]);
-        gsb_data_fyear_set_end_date ( fyear_number,
-                      date );
+        gsb_data_fyear_set_end_date ( fyear_number, date );
         if ( date )
-        {
-        g_date_free (date);
-        }
+            g_date_free (date);
         i++;
         continue;
     }
@@ -3500,6 +3494,7 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
 {
     gint i=0;
     gint reconcile_number = 0;
+    GDate *date;
 
     if ( !attribute_names[i] )
     return;
@@ -3547,18 +3542,20 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Idate" ))
     {
-        gsb_data_reconcile_set_init_date ( reconcile_number,
-                           gsb_parse_date_string_safe (attribute_values[i]));
+        date = gsb_parse_date_string_safe ( attribute_values[i] );
+        gsb_data_reconcile_set_init_date ( reconcile_number, date );
         i++;
+        g_date_free ( date );
         continue;
     }
 
     if ( !strcmp ( attribute_names[i],
                "Fdate" ))
     {
-        gsb_data_reconcile_set_final_date ( reconcile_number,
-                            gsb_parse_date_string_safe (attribute_values[i]));
+        date = gsb_parse_date_string_safe ( attribute_values[i] );
+        gsb_data_reconcile_set_final_date ( reconcile_number, date );
         i++;
+        g_date_free ( date );
         continue;
     }
 

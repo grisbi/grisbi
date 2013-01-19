@@ -243,8 +243,7 @@ static void _gsb_data_reconcile_free ( struct_reconcile *reconcile )
 {
     if ( ! reconcile )
         return;
-    if ( reconcile -> reconcile_name )
-        g_free ( reconcile -> reconcile_name );
+    g_free ( reconcile -> reconcile_name );
     if ( reconcile -> reconcile_init_date)
         g_date_free ( reconcile -> reconcile_init_date );
     if ( reconcile -> reconcile_final_date)
