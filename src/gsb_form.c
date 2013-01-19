@@ -595,8 +595,8 @@ gboolean gsb_form_set_sensitive ( gboolean split,
         {
             switch ( element -> element_number )
             {
+            case TRANSACTION_FORM_EXERCICE:
             case TRANSACTION_FORM_BUDGET:
-            case TRANSACTION_FORM_VOUCHER:
                 gtk_widget_set_sensitive ( element -> element_widget, FALSE );
                 break;
             }
@@ -616,6 +616,7 @@ gboolean gsb_form_set_sensitive ( gboolean split,
             case TRANSACTION_FORM_TYPE:
             case TRANSACTION_FORM_CHEQUE:
             case TRANSACTION_FORM_BANK:
+            case TRANSACTION_FORM_VOUCHER:
                 gtk_widget_set_sensitive ( element -> element_widget, FALSE );
                 break;
             }
