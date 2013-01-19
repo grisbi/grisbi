@@ -148,9 +148,8 @@ void export_accounts ( void )
 
     g_free ( extension );
     g_slist_free ( selected_accounts );
-    g_slist_foreach ( exported_accounts, ( GFunc ) expert_account_free_account_structure, NULL );
-    g_slist_free ( exported_accounts );
-/*     g_slist_free_full ( exported_accounts, ( GDestroyNotify ) expert_account_free_account_structure );  */
+    g_slist_free_full ( exported_accounts, ( GDestroyNotify ) expert_account_free_account_structure );
+
     gtk_widget_destroy ( dialog );
 }
 

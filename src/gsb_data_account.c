@@ -174,17 +174,10 @@ void gsb_data_account_delete_all_accounts (void)
 {
     if ( list_accounts )
     {
-        GSList* tmp_list = list_accounts;
-        while ( tmp_list )
-        {
-	    struct_account *account;
-	    account = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-            _gsb_data_account_free ( account );
-	}
-        g_slist_free ( list_accounts );
+        g_slist_free_full ( list_accounts, (GDestroyNotify) _gsb_data_account_free );
+        list_accounts = NULL;
     }
-    list_accounts = NULL;
+
     account_buffer = NULL;
 }
 

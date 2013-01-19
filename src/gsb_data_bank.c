@@ -101,17 +101,10 @@ gboolean gsb_data_bank_init_variables ( void )
 {
     if ( bank_list )
     {
-        GSList* tmp_list = bank_list;
-        while ( tmp_list )
-        {
-	    struct_bank *bank;
-	    bank = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-	    _gsb_data_bank_free ( bank );
-        }
-        g_slist_free ( bank_list );
+        g_slist_free_full ( bank_list, (GDestroyNotify) _gsb_data_bank_free );
+        bank_list = NULL;
     }
-    bank_list = NULL;
+
     bank_buffer = NULL;
 
     return FALSE;
@@ -250,6 +243,7 @@ static void _gsb_data_bank_free ( struct_bank* bank)
     if ( !bank )
 	return;
 
+    printf ( "Free bank %s\n", bank -> bank_name );
     /* free string fields */
     g_free ( bank -> bank_name );
     g_free ( bank -> bank_code );

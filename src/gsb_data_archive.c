@@ -93,17 +93,10 @@ gboolean gsb_data_archive_init_variables ( void )
 {
     if ( archive_list )
     {
-        GSList* tmp_list = archive_list;
-        while ( tmp_list )
-        {
-	    struct_archive *archive;
-	    archive = tmp_list -> data;
-	    tmp_list = tmp_list -> next;
-            _gsb_data_archive_free ( archive );
-	}
-        g_slist_free ( archive_list );
+        g_slist_free_full ( archive_list, (GDestroyNotify) _gsb_data_archive_free );
+        archive_list = NULL;
     }
-    archive_list = NULL;
+
     archive_buffer = NULL;
 
     return FALSE;

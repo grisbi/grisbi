@@ -134,18 +134,9 @@ gboolean gsb_data_budget_init_variables ( void )
 {
     if ( budget_list )
     {
-        /* free memory used by the budget list */
-        GSList *tmp_list = budget_list;
-        while ( tmp_list )
-        {
-            struct_budget *budget;
-            budget = tmp_list -> data;
-            tmp_list = tmp_list -> next;
-	    _gsb_data_budget_free ( budget );
-        }
-	g_slist_free (budget_list);
+        g_slist_free_full ( budget_list, (GDestroyNotify) _gsb_data_budget_free );
+        budget_list = NULL;
     }
-    budget_list = NULL;
 
     /* recreate the empty budget */
     _gsb_data_budget_free ( empty_budget );
@@ -167,24 +158,15 @@ static void _gsb_data_budget_free ( struct_budget* budget )
 {
     if ( ! budget )
         return;
+
     /* free memory used by sub-bugdgets */
     if ( budget -> sub_budget_list)
-    {
-        GSList* sub_tmp_list = budget -> sub_budget_list;
-        while ( sub_tmp_list )
-        {
-	    struct_sub_budget *sub_budget;
-	    sub_budget = sub_tmp_list -> data;
-	    sub_tmp_list = sub_tmp_list -> next;
-	    _gsb_data_sub_budget_free ( sub_budget );
-        }
-	g_slist_free ( budget -> sub_budget_list );
-    }
-    if ( budget -> budget_name )
-	g_free ( budget -> budget_name);
+        g_slist_free_full ( budget -> sub_budget_list, (GDestroyNotify) _gsb_data_sub_budget_free );
+    g_free ( budget -> budget_name);
     g_free ( budget );
+
     if ( budget_buffer == budget )
-	budget_buffer = NULL;
+        budget_buffer = NULL;
 }
 
 /**
