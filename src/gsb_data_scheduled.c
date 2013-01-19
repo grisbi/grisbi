@@ -808,19 +808,11 @@ gboolean gsb_data_scheduled_set_notes ( gint scheduled_number,
     struct_scheduled *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
-
     if ( !scheduled )
-	return FALSE;
+        return FALSE;
 
-    if ( scheduled -> notes )
-        g_free ( scheduled -> notes );
-
-    if ( notes
-	 &&
-	 strlen (notes))
-	scheduled -> notes = my_strdup (notes);
-    else
-	scheduled -> notes = NULL;
+    g_free ( scheduled -> notes );
+    scheduled -> notes = my_strdup (notes);
 
     return TRUE;
 }
@@ -925,19 +917,11 @@ gboolean gsb_data_scheduled_set_method_of_payment_content ( gint scheduled_numbe
     struct_scheduled *scheduled;
 
     scheduled = gsb_data_scheduled_get_scheduled_by_no ( scheduled_number);
-
     if ( !scheduled )
-	return FALSE;
+        return FALSE;
 
-    if ( scheduled -> method_of_payment_content )
-        g_free ( scheduled -> method_of_payment_content );
-
-    if ( method_of_payment_content
-	 &&
-	 strlen (method_of_payment_content))
-	scheduled -> method_of_payment_content = my_strdup (method_of_payment_content);
-    else
-	scheduled -> method_of_payment_content = NULL;
+    g_free ( scheduled -> method_of_payment_content );
+    scheduled -> method_of_payment_content = my_strdup (method_of_payment_content);
 
     return TRUE;
 }
@@ -1495,17 +1479,17 @@ gint gsb_data_scheduled_new_scheduled_with_number ( gint scheduled_number )
 
     if ( !scheduled )
     {
-	dialogue_error_memory ();
-	return FALSE;
+        dialogue_error_memory ();
+        return FALSE;
     }
 
     if ( !scheduled_number )
-	scheduled_number = gsb_data_scheduled_get_last_number () + 1;
+        scheduled_number = gsb_data_scheduled_get_last_number () + 1;
 
     scheduled -> scheduled_number = scheduled_number;
 
     scheduled_list = g_slist_append ( scheduled_list,
-				      scheduled );
+            scheduled );
 
     gsb_data_scheduled_save_scheduled_pointer (scheduled);
 
@@ -1585,15 +1569,17 @@ static void _gsb_data_scheduled_free ( struct_scheduled *scheduled )
 {
     if ( ! scheduled )
         return;
-    if ( scheduled -> notes )
-	g_free ( scheduled -> notes );
+
+    g_free ( scheduled -> notes );
+    g_free ( scheduled -> method_of_payment_content );
+
     if ( scheduled -> date )
-	g_date_free ( scheduled -> date );
+        g_date_free ( scheduled -> date );
     if ( scheduled -> limit_date )
-	g_date_free ( scheduled -> limit_date );
-    if ( scheduled -> method_of_payment_content )
-	g_free ( scheduled -> method_of_payment_content );
+        g_date_free ( scheduled -> limit_date );
+
     g_free ( scheduled );
+
     scheduled_buffer[0] = NULL;
     scheduled_buffer[1] = NULL;
     current_scheduled_buffer = 0;

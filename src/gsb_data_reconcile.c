@@ -222,15 +222,12 @@ gint gsb_data_reconcile_new ( const gchar *name )
     reconcile = g_malloc0 ( sizeof ( struct_reconcile ));
     if (!reconcile)
     {
-	dialogue_error_memory ();
-	return 0;
+        dialogue_error_memory ();
+        return 0;
     }
 
     reconcile -> reconcile_number = gsb_data_reconcile_max_number () + 1;
-
-    if (name)
-	reconcile -> reconcile_name = my_strdup (name);
-
+    reconcile -> reconcile_name = my_strdup (name);
     reconcile_list = g_list_append ( reconcile_list, reconcile );
 
     return reconcile -> reconcile_number;

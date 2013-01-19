@@ -414,18 +414,18 @@ gboolean gsb_data_transaction_set_transaction_id ( gint transaction_number,
 {
     struct_transaction *transaction;
 
-    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number );
 
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
-    if ( transaction -> transaction_id )
-        g_free ( transaction -> transaction_id );
+    g_free ( transaction -> transaction_id );
 
-    if (transaction_id)
-	transaction -> transaction_id = my_strdup (transaction_id);
+    if ( transaction_id )
+        transaction -> transaction_id = my_strdup ( transaction_id );
     else
-    	transaction -> transaction_id = NULL;
+        transaction -> transaction_id = NULL;
+
     return TRUE;
 }
 
@@ -537,7 +537,6 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 
     if (transaction -> date)
         g_date_free (transaction -> date);
-
     transaction -> date = gsb_date_copy (date);
 
     /* if the transaction is a split, change all the children */
@@ -555,7 +554,6 @@ gboolean gsb_data_transaction_set_date ( gint transaction_number,
 
 	    if (transaction -> date)
             g_date_free (transaction -> date);
-
 	    transaction -> date = gsb_date_copy (date);
 
         /* si l'opération fille est un transfert on regarde si la contre opération est rapprochée
@@ -621,8 +619,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 	return FALSE;
 
     if (transaction ->  value_date)
-	g_date_free (transaction ->  value_date);
-
+        g_date_free (transaction ->  value_date);
     transaction ->  value_date = gsb_date_copy (date);
 
     /* if the transaction is a split, change all the children */
@@ -639,8 +636,7 @@ gboolean gsb_data_transaction_set_value_date ( gint transaction_number,
 	    transaction = tmp_list -> data;
 
 	    if (transaction ->  value_date)
-		g_date_free (transaction -> value_date);
-
+            g_date_free (transaction -> value_date);
 	    transaction -> value_date = gsb_date_copy (date);
 
 	    tmp_list = tmp_list -> next;
@@ -1331,19 +1327,11 @@ gboolean gsb_data_transaction_set_notes ( gint transaction_number,
     struct_transaction *transaction;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
-
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
-    if ( transaction -> notes )
-        g_free ( transaction -> notes );
-
-    if ( notes
-	 &&
-	 strlen (notes))
-	transaction -> notes = my_strdup (notes);
-    else
-	transaction -> notes = NULL;
+    g_free ( transaction -> notes );
+    transaction -> notes = my_strdup ( notes );
 
     return TRUE;
 }
@@ -1446,19 +1434,11 @@ gboolean gsb_data_transaction_set_method_of_payment_content ( gint transaction_n
     struct_transaction *transaction;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
-
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
-    if ( transaction -> method_of_payment_content )
-        g_free ( transaction -> method_of_payment_content );
-
-    if ( method_of_payment_content
-	 &&
-	 strlen (method_of_payment_content))
-	transaction -> method_of_payment_content = my_strdup (method_of_payment_content);
-    else
-	transaction -> method_of_payment_content = NULL;
+    g_free ( transaction -> method_of_payment_content );
+    transaction -> method_of_payment_content = my_strdup ( method_of_payment_content );
 
     return TRUE;
 }
@@ -1831,21 +1811,16 @@ gboolean gsb_data_transaction_set_voucher ( gint transaction_number,
 {
     struct_transaction *transaction;
 
-    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
-
+    transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number );
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
+    g_free ( transaction -> voucher );
 
-    if ( transaction -> voucher )
-        g_free ( transaction -> voucher );
-
-    if ( voucher
-	 &&
-	 strlen (voucher))
-	transaction -> voucher = my_strdup (voucher);
+    if ( voucher && strlen (voucher) )
+        transaction -> voucher = my_strdup ( voucher );
     else
-	transaction -> voucher = g_strdup("");
+        transaction -> voucher = g_strdup ("");
 
     return TRUE;
 }
@@ -1887,19 +1862,11 @@ gboolean gsb_data_transaction_set_bank_references ( gint transaction_number,
     struct_transaction *transaction;
 
     transaction = gsb_data_transaction_get_transaction_by_no ( transaction_number);
-
     if ( !transaction )
-	return FALSE;
+        return FALSE;
 
-    if ( transaction -> bank_references )
-        g_free ( transaction -> bank_references );
-
-    if ( bank_references
-	 &&
-	 strlen (bank_references))
-	transaction -> bank_references = my_strdup (bank_references);
-    else
-	transaction -> bank_references = NULL;
+    g_free ( transaction -> bank_references );
+    transaction -> bank_references = my_strdup ( bank_references );
 
     return TRUE;
 }
@@ -2209,22 +2176,22 @@ static void gsb_data_transaction_free ( struct_transaction *transaction)
 {
     if ( ! transaction )
         return;
+
     gsb_data_account_set_balances_are_dirty ( transaction -> account_number );
-    if ( transaction -> transaction_id )
-        g_free ( transaction -> transaction_id );
-    if ( transaction -> notes )
-        g_free ( transaction -> notes );
-    if ( transaction -> voucher )
-        g_free ( transaction -> voucher );
-    if ( transaction -> bank_references )
-        g_free ( transaction -> bank_references );
+
+    g_free ( transaction -> transaction_id );
+    g_free ( transaction -> notes );
+    g_free ( transaction -> voucher );
+    g_free ( transaction -> bank_references );
+    g_free ( transaction -> method_of_payment_content );
+
     if ( transaction -> date )
         g_date_free ( transaction -> date );
     if ( transaction -> value_date )
         g_date_free ( transaction -> value_date );
-    if ( transaction -> method_of_payment_content )
-        g_free ( transaction -> method_of_payment_content );
+
     g_free ( transaction );
+
     transaction_buffer[0] = NULL;
     transaction_buffer[1] = NULL;
 }
