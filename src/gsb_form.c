@@ -2742,7 +2742,10 @@ gboolean gsb_form_finish_edition ( void )
 
     /* give the focus to the date widget */
     if ( is_transaction )
-        gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+    {
+        if ( mother_number == 0 )
+            gsb_form_widget_set_focus ( TRANSACTION_FORM_DATE );
+    }
     else
         gsb_scheduler_list_edit_transaction (gsb_scheduler_list_get_current_scheduled_number ());
 
