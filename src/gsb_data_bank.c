@@ -243,7 +243,6 @@ static void _gsb_data_bank_free ( struct_bank* bank)
     if ( !bank )
 	return;
 
-    printf ( "Free bank %s\n", bank -> bank_name );
     /* free string fields */
     g_free ( bank -> bank_name );
     g_free ( bank -> bank_code );
