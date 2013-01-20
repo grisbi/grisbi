@@ -2419,7 +2419,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, TRUE, 0 );
 
     /* Effective Date */
-    label = gtk_label_new ( _("Effective date: ") );
+    label = gtk_label_new ( _("Date of debit: ") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     date_entry = gsb_calendar_entry_new ( FALSE );
