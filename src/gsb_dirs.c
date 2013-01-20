@@ -46,60 +46,64 @@ static gchar *grisbi_dir;
 
 void gsb_dirs_init ( char* gsb_bin_path )
 {
-    gchar* local_ui_dir;
+    gchar *local_ui_dir;
+    GDir *local_ui_handle;
 
     /* Get the grisbi executable directory as it may be useful when running dev instances */
-    grisbi_dir = g_path_get_dirname( gsb_bin_path );
-    local_ui_dir = g_strconcat( grisbi_dir, "/ui", NULL );
+    grisbi_dir = g_path_get_dirname ( gsb_bin_path );
+    local_ui_dir = g_strconcat ( grisbi_dir, "/ui", NULL );
 
 #ifdef G_OS_WIN32
-    {
-        gchar *dir;
+{
+    gchar *dir;
 
-        dir = g_win32_get_package_installation_directory_of_module ( NULL );
+    dir = g_win32_get_package_installation_directory_of_module ( NULL );
 
-        categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
-        locale_dir = g_strconcat ( dir, "/share/locale", NULL );
-        pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
-        ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
+    categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
+    locale_dir = g_strconcat ( dir, "/share/locale", NULL );
+    pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
+    ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
 
-        g_free ( dir );
+    g_free ( dir );
 
-        user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
-        user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
-        user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
-    }
+    user_config_dir = g_build_filename ( g_get_user_config_dir (), "grisbi", NULL);
+    user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
+    user_default_dir = g_strdup ( win32_get_my_documents_folder_path () );
+}
 #else
-#ifdef OS_OSX
-	
+{
+    #ifdef OS_OSX
+    {
         user_config_dir = g_build_filename ( g_get_home_dir (),
                         "Library/Application Support/Grisbi/config", NULL );
         user_data_dir = g_build_filename ( g_get_home_dir (),
                         "Library/Application Support/Grisbi/data", NULL );
         user_default_dir = g_strdup ( g_get_home_dir() );
 
-#ifdef GTKOSXAPPLICATION
-       	
-    if ( gtkosx_application_get_bundle_id ( ) )
-    {
-        gchar *res_path = gtkosx_application_get_resource_path ();
-        
-        categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
-        locale_dir = g_strconcat (res_path, "/share/locale", NULL );
-        pixmaps_dir = g_strconcat (res_path, "/share/pixmaps/grisbi", NULL );
-        ui_dir = g_strconcat (res_path, "/share/grisbi/ui", NULL );
+        #ifdef GTKOSXAPPLICATION
+        {
+            if ( gtkosx_application_get_bundle_id ( ) )
+            {
+                gchar *res_path = gtkosx_application_get_resource_path ();
+                
+                categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
+                locale_dir = g_build_filename (res_path, "/share/locale", NULL );
+                pixmaps_dir = g_build_filename (res_path, "/share/pixmaps/grisbi", NULL );
+                ui_dir = g_build_filename (res_path, "/share/grisbi/ui", NULL );
 
-        g_free ( res_path );
+                g_free ( res_path );
+            }
+            else
+            {
+                categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
+                locale_dir = g_strdup ( LOCALEDIR );
+                pixmaps_dir = g_strdup ( PIXMAPS_DIR );
+                ui_dir = g_strdup ( UI_DIR );
+            }
+        }
+        #endif /* GTKOSXAPPLICATION */
     }
-    else {
-        categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
-        locale_dir = g_strdup ( LOCALEDIR );
-        pixmaps_dir = g_strdup ( PIXMAPS_DIR );
-        ui_dir = g_strdup ( UI_DIR );    
-    }
-
-#endif /* GTKOSXAPPLICATION */ 
-#else
+    #else
     {
         categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
         locale_dir = g_strdup ( LOCALEDIR );
@@ -110,14 +114,14 @@ void gsb_dirs_init ( char* gsb_bin_path )
         user_data_dir = g_build_filename ( g_get_user_data_dir (), "grisbi", NULL);
         user_default_dir = g_strdup ( g_get_home_dir() );
     }
-#endif /* OS_OSX */
+    #endif /* OS_OSX */
+}
 #endif
 
-
-    GDir* local_ui_handle = g_dir_open( local_ui_dir, 0, NULL );
+    local_ui_handle = g_dir_open ( local_ui_dir, 0, NULL );
     if ( NULL != local_ui_handle )
     {
-        g_free( ui_dir );
+        g_free ( ui_dir );
         ui_dir = local_ui_dir;
     }
     accelerator_filename = g_build_filename ( user_config_dir, "grisbi-accels", NULL );
