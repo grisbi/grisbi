@@ -2979,12 +2979,14 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
 
+#ifdef HAVE_GOFFICE
     /* graph button */
     button = bet_graph_button_menu_new ( conf.display_toolbar,
                         "forecast_graph",
                         G_CALLBACK ( bet_graph_line_graph_new ),
                         tree_view );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+#endif /* HAVE_GOFFICE */
 
     gtk_widget_show_all ( hbox );
 

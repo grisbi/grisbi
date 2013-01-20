@@ -27,6 +27,8 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 #include <strings.h>
+
+#ifdef HAVE_GOFFICE
 #include <goffice/goffice.h>
 
 /*START_INCLUDE*/
@@ -2522,7 +2524,7 @@ void struct_free_bet_graph_prefs ( void )
 }
 
 
-
+#endif /* HAVE_GOFFICE */
 /**
  *
  *

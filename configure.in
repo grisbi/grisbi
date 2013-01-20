@@ -56,7 +56,7 @@ dnl ================================================================
 
 LT_LIB_M
 
-PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 zlib libgoffice-0.8 >= 0.8.14])
+PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
 #GRISBI_LIBS="$LIBM $GRISBI_LIBS -lz"
@@ -165,6 +165,30 @@ if test "$build_ofx" = yes; then
 	AC_DEFINE(HAVE_OFX, 1, [Build with ofx support])
 fi
 AM_CONDITIONAL(HAVE_OFX, [test "$build_ofx" = yes])
+
+dnl ================================================================
+dnl Check for libgoffice library
+dnl ================================================================
+
+AC_ARG_WITH(goffice,
+	AS_HELP_STRING([--with-goffice],[GOffice support of graphics (default=auto)]),
+	[build_goffice=$withval],
+	[build_goffice=auto])
+
+PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.8 >= 0.8.0], have_goffice=yes, have_goffice=no)
+if test "$build_goffice" = yes -a "$have_goffice" = no; then
+	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
+fi
+if test "$build_goffice" != no; then
+	build_goffice=$have_goffice
+else
+	build_goffice=no
+fi
+if test "$build_goffice" = yes; then
+	AC_DEFINE(HAVE_GOFFICE, 1, [Define if goffice support is enabled])
+fi
+
+AM_CONDITIONAL(HAVE_GOFFICE, [test "$build_goffice" = yes])
 
 dnl ================================================================
 dnl WError support
@@ -280,6 +304,7 @@ echo "
                 Build with libxml2:        $build_libxml2
                 Build with OpenSSL:        $build_openssl
                 Build with OFX plugin:     $build_ofx
+                Build with goffice:        $build_goffice
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
 

@@ -29,7 +29,6 @@
 #include "include.h"
 #include <glib/gstdio.h>
 #include <glib/gi18n.h>
-#include <goffice/goffice.h>
 
 /*START_INCLUDE*/
 #include "import.h"
@@ -37,6 +36,7 @@
 #include "bet_data.h"
 #include "import_csv.h"
 #include "dialog.h"
+#include "go-charmap-sel.h"
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"
