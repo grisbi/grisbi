@@ -641,9 +641,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
     if ( strcmp ( self->service_id, "GogBarColPlot" ) == 0 )
     {
         index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
-        if ( index == -1 )
-            buf = NULL;
-        else
+        if ( index != -1 )
         {
             double const *x;
             double const *y;
@@ -685,37 +683,29 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
                         utils_real_get_string_with_currency_from_double (
                         self->tab_Y[index-1], self->currency_number ) );
         }
-        else
-            buf = NULL;
         gog_chart_map_free ( map );
     }
     else if (  strcmp ( self->service_id, "GogPiePlot" ) == 0 )
     {
         index = gog_plot_view_get_data_at_point ( GOG_PLOT_VIEW ( view ), event->x, event->y, &series );
-        if ( index == -1 )
-            buf = NULL;
-        else
+        if ( index != -1 )
         {
             double const *x;
             double const *y;
 
             gog_series_get_xy_data ( series, &x, &y );
-            buf = g_strdup_printf ("%s : %s (%.2f%%)", self->tab_vue_libelle[index],
-                        utils_real_get_string_with_currency_from_double (
-                        y[index], self->currency_number ),
-                        ( 100*y[index]/self->montant ) );
+            buf = g_strdup_printf (
+                    "<markup><span font_weight=\"bold\">%s</span>\n%s (%.2f%%)</markup>",
+                    self->tab_vue_libelle[index],
+                    utils_real_get_string_with_currency_from_double ( y[index], self->currency_number ),
+                    100*y[index]/self->montant
+                    );
         }
     }
 
-    if ( buf )
-    {
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), buf );
-        g_free ( buf );
-    }
-    else
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( self->widget ), "" );
+    gtk_widget_set_tooltip_markup ( GTK_WIDGET ( self->widget ), buf );
+    g_free ( buf );
 
-    /* return value */
     return TRUE;
 }
 
