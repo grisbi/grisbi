@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-01-20 20:11+0100\n"
-"PO-Revision-Date: 2013-01-13 14:57+0100\n"
+"PO-Revision-Date: 2013-01-25 22:34+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -1111,9 +1111,8 @@ msgstr "Hauptkonto"
 
 #. Effective Date
 #: ../src/bet_future.c:2422
-#, fuzzy
 msgid "Date of debit: "
-msgstr "Datum erste Tilgung: "
+msgstr "Ausgabedatum: "
 
 #: ../src/bet_future.c:2435
 msgid "Automatic creation of the direct debit transaction"
@@ -8859,25 +8858,23 @@ msgstr "Warnung: es dürfen keine Empfänger oder Kategorien erstellt werden"
 
 #: ../src/help.c:81
 msgid "GnuCash support: "
-msgstr ""
+msgstr "GnuCash Unterstützung: "
 
 #: ../src/help.c:83 ../src/help.c:89 ../src/help.c:95
-#, fuzzy
 msgid "yes"
-msgstr "Jahre"
+msgstr "Ja"
 
 #: ../src/help.c:85 ../src/help.c:91 ../src/help.c:97
-#, fuzzy
 msgid "no"
-msgstr "Notiz"
+msgstr "Nein"
 
 #: ../src/help.c:87
 msgid "OFX support: "
-msgstr ""
+msgstr "OFX Unterstützung: "
 
 #: ../src/help.c:93
 msgid "OpenSSL support: "
-msgstr ""
+msgstr "OpenSSL Unterstützung: "
 
 #: ../src/help.c:120
 msgid "Programming"
@@ -8937,7 +8934,7 @@ msgstr "Gnucash"
 
 #: ../src/import.c:216
 msgid "Open Financial Exchange"
-msgstr ""
+msgstr "OFX Datenformat für den Finanzdaten-Austausch"
 
 #: ../src/import.c:286
 #, c-format
@@ -10383,9 +10380,9 @@ msgstr ""
 "  -v, --version           die Versionsnummer anzeigen und beenden\n"
 
 #: ../src/parse_cmdline.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Grisbi version %s"
-msgstr "Grisbi Version %s, %s\n"
+msgstr "Grisbi Version %s"
 
 #: ../src/parse_cmdline.c:225
 #, c-format
@@ -11294,13 +11291,12 @@ msgstr ""
 "Bitte prüfen Sie die Einstellungen für den Browser."
 
 #: ../src/utils.c:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi was unable to execute a web browser to browse url <tt>%s</tt>.\n"
 "The error was: %s."
 msgstr ""
-"Grisbi konnte den Browser für das Schreiben von <tt>%s</tt> nicht "
-"ausführen.\n"
+"Grisbi konnte den Browser für den Aufruf von <tt>%s</tt> nicht ausführen.\n"
 "Der Fehler war: %s."
 
 #: ../src/utils.c:499
@@ -11830,7 +11826,7 @@ msgstr "Splittbuchungen"
 
 #: ../src/ui/etats_prefs.ui.h:102
 msgid "Tele-transmitted transactions"
-msgstr "Teilabgestimmte Buchungen"
+msgstr "Teil-Abgestimmte Buchungen"
 
 #: ../src/ui/etats_prefs.ui.h:103
 msgid "Unreconciled transactions"
