@@ -117,8 +117,6 @@ static gboolean sortie_edit_payee = FALSE;
 /* structure pour la sauvegarde de la position */
 static struct metatree_hold_position *payee_hold_position;
 
-static struct conditional_message *overwrite_payee;
-
 /*START_EXTERN*/
 extern GSList *liste_associations_tiers;
 /*END_EXTERN*/
@@ -308,15 +306,6 @@ GtkWidget *payees_create_list ( void )
 
     /* création de la structure de sauvegarde de la position */
     payee_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
-
-    /* création de la structure pour le remplacement des notes */
-    overwrite_payee = g_malloc0 ( sizeof (struct conditional_message ) );
-    overwrite_payee -> name = g_strdup ( "crush-existing-note" );
-    overwrite_payee -> hint = g_strdup ( _("Warning you will crush the existing note.") );
-    overwrite_payee -> hidden = FALSE;
-    overwrite_payee -> default_answer = FALSE;
-
-    gtk_widget_show_all ( onglet );
 
     return ( onglet );
 }
@@ -1657,6 +1646,8 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
     gint payee_number;
     gchar *nombre;
     gboolean question = TRUE;
+    struct conditional_message overwrite_payee;
+
 
     payee_number = gsb_data_mix_get_party_number ( transaction_number, is_transaction );
     if ( g_slist_find ( sup_payees, GINT_TO_POINTER ( payee_number ) ) )
@@ -1669,14 +1660,22 @@ void gsb_assistant_payees_modifie_operations ( GSList *sup_payees,
                         transaction_number, is_transaction ) );
             if ( tmpstr && strlen ( tmpstr ) )
             {
-                overwrite_payee -> message = g_strdup_printf (
+
+                overwrite_payee.name = g_strdup ( "crush-existing-note" );
+                overwrite_payee.hint = g_strdup ( _("Warning you will crush the existing note.") );
+                overwrite_payee.hidden = FALSE;
+                overwrite_payee.default_answer = FALSE;
+                overwrite_payee.message = g_strdup_printf (
                     _("Do you want overwrite the existing note.\n\n"
                     "If you answer YES, the existing note will be replaced by %s."),
                     gsb_data_payee_get_name ( payee_number, TRUE ) );
 
                 if ( question_conditional_yes_no_with_struct (
-                 overwrite_payee ) == FALSE )
+                 &overwrite_payee ) == FALSE )
                     question = FALSE;
+                g_free ( overwrite_payee.name );
+                g_free ( overwrite_payee.hint );
+                g_free ( overwrite_payee.message );
                 g_free ( tmpstr );
             }
             else
