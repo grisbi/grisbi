@@ -26,6 +26,7 @@
 #endif
 
 #include "include.h"
+#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 
 /*START_INCLUDE*/
@@ -39,6 +40,7 @@
 #include "gsb_account.h"
 #include "gsb_automem.h"
 #include "gsb_calendar_entry.h"
+#include "gsb_color.h"
 #include "gsb_currency.h"
 #include "gsb_data_account.h"
 #include "gsb_data_currency.h"
@@ -1256,11 +1258,120 @@ GtkWidget *bet_config_account_get_finance_data ( gchar *title )
 
 
 /**
+ * called when entry changed
+ * check the entry and set the entry red/invalid if not a good number
  *
+ * \param entry
+ * \param parent
  *
- *
- *
+ * \return
  * */
+void bet_config_account_amount_entry_changed ( GtkWidget *entry,
+                        GtkWidget *parent )
+{
+    gboolean valide = FALSE;
+    const gchar *text;
+
+    text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
+    /* if nothing in the entry, keep the normal style */
+    if ( strlen ( text ) == 0 )
+    {
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        return;
+    }
+
+    valide = gsb_form_widget_get_valide_amout_entry ( text );
+    if ( valide )
+    {
+        /* the entry is valid, make it normal */
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
+        bet_config_finance_apply_clicked ( NULL, parent );
+    }
+    else
+    {
+        /* the entry is not valid, make it red */
+        gtk_widget_modify_base ( entry, GTK_STATE_NORMAL,
+                        gsb_color_get_couleur ( "entry_error_color" ) );
+    }
+}
+
+
+/**
+ * fonction appellée lorsqu'on change le type de taux
+ *
+ * \param togglebutton
+ * \param event
+ * \param parent        parent widget for callback
+ *
+ * \return
+ **/
+static void bet_config_account_type_taux_changed ( GtkWidget *togglebutton,
+                        GdkEventButton *event,
+                        GtkWidget *parent )
+{
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( togglebutton ), TRUE );
+    bet_config_finance_apply_clicked ( NULL, parent );
+}
+
+
+/**
+ * function called when changing the start date
+ *
+ * \param entry         date entry
+ * \param event
+ * \param parent        parent widget for callback
+ *
+ * \return              TRUE to stop other handlers from being invoked for the event.
+ **/
+static gboolean bet_config_account_date_entry_lose_focus ( GtkWidget *entry,
+                        GdkEventFocus *event,
+                        GtkWidget *parent )
+{
+    if ( strlen ( gtk_entry_get_text ( GTK_ENTRY ( entry ) ) ) )
+    {
+        GDate *date = NULL;
+
+        date = gsb_calendar_entry_get_date ( entry );
+        if ( date && g_date_valid ( date ) )
+            bet_config_finance_apply_clicked ( NULL, parent );
+    }
+
+    return TRUE;
+}
+
+
+/**
+ * called when we press the button in an entry field in the entry
+ *
+ * \param entry     wich receive the signal
+ * \param event     can be NULL
+ * \param parent    parent widget for callback
+ *
+ * \return TRUE or FALSE
+ * */
+static gboolean bet_config_account_date_key_press_event ( GtkWidget *entry,
+                        GdkEventKey *event,
+                        GtkWidget *parent )
+{
+    if (  event->keyval == GDK_Return || event->keyval == GDK_KP_Enter )
+    {
+        GtkWidget *widget;
+
+        widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_taux" );
+        gtk_widget_grab_focus ( widget );
+    }
+
+    return FALSE;
+}
+
+
+/**
+ * Create the amortization array
+ *
+ * \param parent    widget parent
+ *
+ * \return          Widget for options of amortization array
+ **/
 GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
 {
     GtkWidget *vbox;
@@ -1269,9 +1380,6 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     GtkWidget *widget;
     GtkWidget *spin_button = NULL;
     GtkWidget *button_1, *button_2;
-    GtkWidget *align;
-    GtkWidget *image;
-    GtkWidget *button;
 
     vbox = gtk_vbox_new ( FALSE, 5 );
 
@@ -1288,10 +1396,6 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_widget_set_size_request ( widget, 90, -1 );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_capital", widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
-    g_signal_connect ( G_OBJECT ( widget ),
-                        "changed",
-                        G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
-                        NULL );
 
     label = gtk_label_new ( NULL );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_capital_devise", label );
@@ -1357,10 +1461,6 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_widget_set_size_request ( widget, 50, -1 );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_montant_frais", widget );
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
-    g_signal_connect ( G_OBJECT ( widget ),
-                        "changed",
-                        G_CALLBACK ( gsb_form_widget_amount_entry_changed ),
-                        NULL );
 
     label = gtk_label_new ( NULL );
     g_object_set_data ( G_OBJECT ( parent ), "bet_config_frais_devise", label );
@@ -1376,6 +1476,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
     button_1 = gtk_radio_button_new_with_label ( NULL, _("CAGR") );
+    g_object_set_data ( G_OBJECT ( parent ), "bet_config_type_taux_1", button_1 );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_1 ), TRUE );
 
     button_2 = gtk_radio_button_new_with_label_from_widget ( GTK_RADIO_BUTTON ( button_1 ),
@@ -1385,22 +1486,10 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 5) ;
     gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 5) ;
 
-    /* Apply */
-    align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
-    gtk_box_pack_start ( GTK_BOX ( vbox ), align, FALSE, FALSE, 5);
-
-    image = gtk_image_new_from_stock ( GTK_STOCK_APPLY, GTK_ICON_SIZE_BUTTON );
-    button = gtk_button_new_with_label ( _("Apply") );
-    gtk_button_set_image ( GTK_BUTTON ( button ), image );
-    gtk_button_set_relief ( GTK_BUTTON ( button ), GTK_RELIEF_NONE );
-    g_signal_connect ( G_OBJECT ( button ),
-                        "clicked",
-                        G_CALLBACK ( bet_config_finance_apply_clicked ),
-                        parent );
-
-    gtk_container_add ( GTK_CONTAINER ( align ), button );
     return vbox;
 }
+
+
 /**
  *
  *
@@ -1438,6 +1527,10 @@ void bet_config_initialise_finance_widget ( gint account_number,
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_capital ( account_number ) ),
                         devise, FALSE ) );
+    g_signal_connect ( G_OBJECT ( widget ),
+                        "changed",
+                        G_CALLBACK ( bet_config_account_amount_entry_changed ),
+                        parent );
 
     /* set duration */
     nbre_ans = gsb_data_account_get_bet_months ( account_number ) / 12;
@@ -1448,16 +1541,32 @@ void bet_config_initialise_finance_widget ( gint account_number,
         gtk_label_set_label ( GTK_LABEL ( widget ), _(" year ") );
     else
         gtk_label_set_label ( GTK_LABEL ( widget ), _(" years ") );
+    g_signal_connect ( button,
+                        "value-changed",
+                        G_CALLBACK ( bet_config_finance_apply_clicked ),
+                        parent );
 
     /* set start_date */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_start_date" );
     gsb_calendar_entry_set_date ( widget,
                         gsb_data_account_get_bet_start_date ( account_number ) );
+    g_signal_connect_after ( G_OBJECT (widget),
+                        "focus-out-event",
+                        G_CALLBACK ( bet_config_account_date_entry_lose_focus ),
+                        parent );
+    g_signal_connect ( G_OBJECT ( widget ),
+                       "key-press-event",
+                       G_CALLBACK ( bet_config_account_date_key_press_event ),
+                       parent );
 
     /* set taux */
     button = g_object_get_data ( G_OBJECT ( parent ), "bet_config_taux" );
     taux = gsb_data_account_get_bet_finance_taux_annuel ( account_number );
     gtk_spin_button_set_value ( GTK_SPIN_BUTTON ( button ), taux );
+    g_signal_connect ( button,
+                        "value-changed",
+                        G_CALLBACK ( bet_config_finance_apply_clicked ),
+                        parent );
 
     /* set frais */
     widget = g_object_get_data ( G_OBJECT ( parent ), "bet_config_montant_frais" );
@@ -1466,11 +1575,25 @@ void bet_config_initialise_finance_widget ( gint account_number,
                         gsb_real_double_to_real (
                         gsb_data_account_get_bet_finance_frais ( account_number ) ),
                         devise, FALSE ) );
+    g_signal_connect ( G_OBJECT ( widget ),
+                        "changed",
+                        G_CALLBACK ( bet_config_account_amount_entry_changed ),
+                        parent );
 
     /* set type taux */
     button = g_object_get_data ( G_OBJECT ( parent ), "bet_config_type_taux" );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ),
                         gsb_data_account_get_bet_finance_type_taux ( account_number ) );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-release-event",
+                        G_CALLBACK ( bet_config_account_type_taux_changed ),
+                        parent );
+
+    button = g_object_get_data ( G_OBJECT ( parent ), "bet_config_type_taux_1" );
+    g_signal_connect ( G_OBJECT ( button ),
+                        "button-release-event",
+                        G_CALLBACK ( bet_config_account_type_taux_changed ),
+                        parent );
 }
 
 
@@ -1613,9 +1736,10 @@ static void bet_config_initialise_select_bank_card ( gint account_number )
 /**
  *
  *
+ * \param
  *
- *
- * */
+ * \return
+ **/
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
