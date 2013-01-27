@@ -1311,16 +1311,20 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
 
     str_cherche = gtk_combofix_get_text ( g_object_get_data (
                         G_OBJECT (assistant), "payee") );
+
     str = g_strdup_printf ( _("Payee sought: %s"), str_cherche );
     payee_search_label = g_object_get_data (
                         G_OBJECT (assistant), "payee_search_label" );
     gtk_label_set_text ( GTK_LABEL (payee_search_label), str );
+    g_free ( str );
+
     new_tiers = gtk_entry_get_text( g_object_get_data (
                         G_OBJECT (assistant), "new_payee") );
-    new_tiers = g_strdup_printf ( _("New payee: %s"), new_tiers );
+    str = g_strdup_printf ( _("New payee: %s"), new_tiers );
     new_payee_label = g_object_get_data (
                         G_OBJECT (assistant), "new_payee_label" );
-    gtk_label_set_text ( GTK_LABEL (new_payee_label), new_tiers );
+    gtk_label_set_text ( GTK_LABEL (new_payee_label), str );
+    g_free ( str );
 
     payee_list_tmp = gsb_data_payee_get_payees_list ();
     treeview = g_object_get_data ( G_OBJECT (assistant), "treeview" );
@@ -1355,11 +1359,15 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
     if ( i > 0 )
     {
         label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_total" );
-        gtk_label_set_text ( GTK_LABEL (label ),
-                        g_strdup_printf ("%d", i ) );
+        str = g_strdup_printf ("%d", i );
+        gtk_label_set_text ( GTK_LABEL (label), str );
+        g_free ( str );
+
         label = g_object_get_data ( G_OBJECT (assistant), "nbre_tiers_select" );
-        gtk_label_set_text ( GTK_LABEL (label ),
-                        g_strdup_printf ("%d", i ) );
+        str = g_strdup_printf ("%d", i );
+        gtk_label_set_text ( GTK_LABEL (label), str );
+        g_free ( str );
+
         g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
     }
     return FALSE;
