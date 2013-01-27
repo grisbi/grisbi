@@ -29,3 +29,4 @@ doxygen/
 *.ho
 *~
 *.md5
+test-driver
