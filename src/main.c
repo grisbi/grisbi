@@ -883,10 +883,11 @@ gboolean gsb_main_set_grisbi_title ( gint account_number )
     }
     gtk_window_set_title ( GTK_WINDOW ( run.window ), titre_grisbi );
 
-    gsb_main_page_update_homepage_title ( titre_grisbi );
-
     if ( titre_grisbi && strlen ( titre_grisbi ) > 0 )
+    {
+        gsb_main_page_update_homepage_title ( titre_grisbi );
         g_free ( titre_grisbi );
+    }
 
     return return_value;
 }
