@@ -1287,7 +1287,6 @@ void bet_config_account_amount_entry_changed ( GtkWidget *entry,
     {
         /* the entry is valid, make it normal */
         gtk_widget_modify_base ( entry, GTK_STATE_NORMAL, NULL );
-        bet_config_finance_apply_clicked ( NULL, parent );
     }
     else
     {
@@ -1335,6 +1334,32 @@ static gboolean bet_config_account_date_entry_lose_focus ( GtkWidget *entry,
 
         date = gsb_calendar_entry_get_date ( entry );
         if ( date && g_date_valid ( date ) )
+            bet_config_finance_apply_clicked ( NULL, parent );
+    }
+
+    return TRUE;
+}
+
+
+/**
+ * function called when changing the capital or fees
+ *
+ * \param entry         entry for capital
+ * \param event
+ * \param parent        parent widget for callback
+ *
+ * \return              TRUE to stop other handlers from being invoked for the event.
+ **/
+static gboolean bet_config_account_entry_lose_focus ( GtkWidget *entry,
+                        GdkEventFocus *event,
+                        GtkWidget *parent )
+{
+    const gchar *text;
+
+    text = gtk_entry_get_text ( GTK_ENTRY ( entry ) );
+    if ( strlen ( text ) )
+    {
+        if ( gsb_form_widget_get_valide_amout_entry ( text ) )
             bet_config_finance_apply_clicked ( NULL, parent );
     }
 
@@ -1533,6 +1558,10 @@ void bet_config_initialise_finance_widget ( gint account_number,
                         "changed",
                         G_CALLBACK ( bet_config_account_amount_entry_changed ),
                         parent );
+    g_signal_connect_after ( G_OBJECT (widget),
+                        "focus-out-event",
+                        G_CALLBACK ( bet_config_account_entry_lose_focus ),
+                        parent );
 
     /* set duration */
     nbre_ans = gsb_data_account_get_bet_months ( account_number ) / 12;
@@ -1580,6 +1609,10 @@ void bet_config_initialise_finance_widget ( gint account_number,
     g_signal_connect ( G_OBJECT ( widget ),
                         "changed",
                         G_CALLBACK ( bet_config_account_amount_entry_changed ),
+                        parent );
+    g_signal_connect_after ( G_OBJECT (widget),
+                        "focus-out-event",
+                        G_CALLBACK ( bet_config_account_entry_lose_focus ),
                         parent );
 
     /* set type taux */
