@@ -841,6 +841,7 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
     gchar *str_echeance;
     gchar *str_totale;
     gchar *str_total_cost;
+    gchar *str_format;
     gchar buffer[256];
     gint nbre_char;
 
@@ -850,8 +851,10 @@ void bet_finance_fill_data_ligne ( GtkTreeModel *model,
                         gsb_real_double_to_real ( s_echeance -> capital ),
                         s_echeance -> devise, TRUE );
 
-    nbre_char = g_sprintf ( buffer, "%.2f", s_echeance -> taux );
+    str_format = g_strconcat ("%.", utils_str_itoa ( BET_TAUX_DIGITS ), "f", NULL );
+    nbre_char = g_sprintf ( buffer, str_format, s_echeance -> taux );
     str_taux =  g_strndup ( buffer, nbre_char + 1 );
+    g_free ( str_format );
 
     str_frais = utils_real_get_string_with_currency (
                         gsb_real_double_to_real ( s_echeance -> frais ),
@@ -1103,7 +1106,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     label = gtk_label_new ( NULL );
-    g_object_set_data ( G_OBJECT ( page ), "taux", label );
+    g_object_set_data ( G_OBJECT ( page ), "bet_finance_taux", label );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("%") );
@@ -1272,7 +1275,7 @@ GtkWidget *bet_finance_create_amortization_tree_view ( GtkWidget *container, gin
     g_free ( title );
 
     /* Fees*/
-    title = g_strdup ( _("Insurance") );
+    title = g_strdup ( _("Fees") );
     cell = gtk_cell_renderer_text_new ( );
     g_object_set ( G_OBJECT ( cell ), "xalign", 0.5, NULL );
 
@@ -1383,7 +1386,7 @@ void bet_finance_fill_amortization_array ( GtkWidget *menu_item,
     page = gtk_notebook_get_nth_page ( GTK_NOTEBOOK ( finance_notebook ), 1 );
     label = g_object_get_data ( G_OBJECT ( page ), "capital" );
     gtk_label_set_label ( GTK_LABEL ( label ), str_capital );
-    label = g_object_get_data ( G_OBJECT ( page ), "taux" );
+    label = g_object_get_data ( G_OBJECT ( page ), "bet_finance_taux" );
     gtk_label_set_label ( GTK_LABEL ( label ), str_taux );
     label = g_object_get_data ( G_OBJECT ( page ), "duree" );
     gtk_label_set_label ( GTK_LABEL ( label ), str_duree );
@@ -1655,7 +1658,7 @@ void bet_finance_ui_update_amortization_tab ( gint account_number )
     taux = gsb_data_account_get_bet_finance_taux_annuel ( account_number );
     type_taux = gsb_data_account_get_bet_finance_type_taux ( account_number );
     taux_periodique = bet_data_finance_get_taux_periodique ( taux, type_taux );
-    tmp_str = utils_str_dtostr ( taux, 2, FALSE );
+    tmp_str = utils_str_dtostr ( taux, BET_TAUX_DIGITS, FALSE );
     gtk_label_set_label ( GTK_LABEL ( label ), tmp_str );
     g_free ( tmp_str );
 

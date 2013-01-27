@@ -7,7 +7,7 @@
 #include "gsb_real.h"
 /* END_INCLUDE_H */
 
-#define BET_TAUX_DIGITS 2
+#define BET_TAUX_DIGITS 3
 
 /* structure échéance */
  typedef struct {

@@ -1194,7 +1194,8 @@ gulong gsb_file_save_account_part ( gulong iterator,
                 my_safe_null_str ( utils_str_dtostr (
                         gsb_data_account_get_bet_finance_taux_annuel ( account_number ), BET_TAUX_DIGITS, TRUE ) ),
                 my_safe_null_str ( utils_str_dtostr (
-                        gsb_data_account_get_bet_finance_frais ( account_number ), BET_TAUX_DIGITS, TRUE ) ),
+                        gsb_data_account_get_bet_finance_frais ( account_number ),
+                        gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
                 gsb_data_account_get_bet_finance_type_taux ( account_number ) );
             new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
             g_free ( bet_str );
