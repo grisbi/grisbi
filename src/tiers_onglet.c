@@ -493,6 +493,8 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
  * */
 void payees_fill_list ( void )
 {
+    void *empty_payee;
+    gint payee_number;
     GSList *payee_list_tmp;
     GtkTreeIter iter_payee;
     GtkTreeSelection *selection;
@@ -517,21 +519,23 @@ void payees_fill_list ( void )
     /* Compute payee balances. */
     gsb_data_payee_update_counters ();
 
+    // add the virtually unused payee to the top of the list
+    empty_payee = gsb_data_payee_get_empty_payee ( );
+    payee_number = gsb_data_payee_get_no_payee ( empty_payee );
+    gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
+    fill_division_row ( GTK_TREE_MODEL(payee_tree_model),
+                payee_get_metatree_interface ( ),
+                &iter_payee, payee_number );
+
     /** Then, populate tree with payee. */
     payee_list_tmp = gsb_data_payee_get_payees_list ();
 
-    payee_list_tmp = g_slist_prepend ( payee_list_tmp, gsb_data_payee_get_empty_payee ());
-
     while ( payee_list_tmp )
     {
-        gint payee_number;
-
         payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
 
         /* no display the payee without transactions (archived) */
-        if ( payee_number == 0
-         ||
-         gsb_data_payee_get_nb_transactions ( payee_number ) )
+        if ( gsb_data_payee_get_nb_transactions ( payee_number ) )
         {
             gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
             fill_division_row ( GTK_TREE_MODEL(payee_tree_model),
