@@ -2099,7 +2099,7 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
                         gsb_data_account_get_currency ( transfert->account_number ) );
 
     /* set the payement mode */
-        gsb_data_transaction_set_method_of_payment_number ( transaction_number, transfert->main_payment_number );
+    gsb_data_transaction_set_method_of_payment_number ( transaction_number, transfert->main_payment_number );
 
     /* set the payee */
     gsb_data_transaction_set_party_number ( transaction_number, transfert->main_payee_number );
@@ -2122,6 +2122,8 @@ void bet_data_transfert_create_new_transaction ( struct_transfert_data *transfer
 
     /* append the transaction in list */
     gsb_transactions_list_append_new_transaction ( transaction_number, TRUE );
+
+    g_date_free ( date );
 }
 
 
