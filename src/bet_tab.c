@@ -3152,6 +3152,11 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
 
         if ( conf.execute_scheduled_of_month || g_date_compare ( date_jour, transfert -> date ) >= 0 )
         {
+            GDate *date_bascule;
+
+            date_bascule = gsb_date_copy ( transfert->date_bascule );
+            g_date_subtract_days ( date_bascule, 1 );
+
             /* on recherche une transaction */
             tmp_list = gsb_data_transaction_get_transactions_list ( );
 
@@ -3190,11 +3195,11 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                     {
                         if ( transfert->type == 0 )
                         {
-                            amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
                         }
                         else
                         {
-                            amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
                         gsb_transactions_list_update_transaction ( transaction_number );
@@ -3215,11 +3220,11 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                     {
                         if ( transfert -> type == 0 )
                         {
-                            amount = gsb_data_account_get_current_balance ( transfert -> replace_account );
+                            amount = gsb_data_account_get_balance_at_date ( transfert->replace_account, date_bascule );
                         }
                         else
                         {
-                            amount = gsb_data_partial_balance_get_current_amount ( transfert -> replace_account );
+                            amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
                         gsb_transactions_list_update_transaction ( transaction_number );
@@ -3228,6 +3233,8 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                     }
                 }
             }
+            g_date_free ( date_bascule );
+
             if ( find == FALSE )
             {
                 bet_data_transfert_create_new_transaction ( transfert );
