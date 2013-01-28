@@ -1013,6 +1013,7 @@ void payees_manage_payees ( void )
         gsb_status_stop_wait ( TRUE );
     }
 
+    g_slist_free ( g_object_get_data ( G_OBJECT (assistant), "sup_payees" ) );
     gtk_widget_destroy (assistant);
 }
 
@@ -1372,6 +1373,7 @@ static gboolean gsb_assistant_payees_enter_page_3 ( GtkWidget *assistant )
         gtk_label_set_text ( GTK_LABEL (label), str );
         g_free ( str );
 
+        g_slist_free ( g_object_get_data ( G_OBJECT (assistant), "sup_payees" ) );
         g_object_set_data ( G_OBJECT (assistant), "sup_payees", sup_payees );
     }
     return FALSE;
