@@ -441,7 +441,7 @@ gboolean bet_form_create_scheduler_part ( GtkWidget *dialog, GtkWidget *table )
                         0, 0 );
 	}
 
-    separator = gtk_hseparator_new ( );
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_widget_show ( separator );
     gtk_table_attach ( GTK_TABLE (table),
                         separator,

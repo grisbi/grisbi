@@ -203,7 +203,7 @@ void gtktable_attach_vsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
 
-    separateur = gtk_vseparator_new ();
+    separateur = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
     gtk_table_attach ( GTK_TABLE ( table_etat ),
 		       separateur,
 		       x, x2, y, y2,
@@ -226,7 +226,7 @@ void gtktable_attach_hsep ( int x, int x2, int y, int y2)
 {
     GtkWidget * separateur;
 
-    separateur = gtk_hseparator_new ();
+    separateur = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_table_attach ( GTK_TABLE ( table_etat ),
 		       separateur,
 		       x, x2, y, y2,

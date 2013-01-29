@@ -141,7 +141,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
                             "the reconciliation.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_number_entry, TRUE, TRUE, 0);
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
     /* under the reconcile number, we have a table */
@@ -155,7 +155,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 3, 3, 4 );
 
-    separator = gtk_vseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_VERTICAL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 1, 2, 0, 5 );
 
     label = gtk_label_new ( _("Date") );
@@ -203,7 +203,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_final_balance_entry,
 				2, 3, 4, 5 );
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
 
@@ -236,7 +236,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_misc_set_alignment ( GTK_MISC ( reconcile_marked_balance_label ), 1, 0.5 );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_marked_balance_label, 1, 2, 2, 3);
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 2, 3, 4);
 
     label = gtk_label_new ( _("Variance: ") );
@@ -248,7 +248,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_table_attach_defaults ( GTK_TABLE ( table ), reconcile_variation_balance_label, 1, 2, 4, 5);
 
     /* set the button to sort with the method of paymen */
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
@@ -278,7 +278,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
 		       G_CALLBACK (gsb_reconcile_finish_reconciliation), NULL );
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_ok_button, FALSE, FALSE, 0);
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_end ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
     gtk_widget_show_all ( frame );

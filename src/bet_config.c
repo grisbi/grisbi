@@ -124,7 +124,7 @@ GtkWidget *bet_config_general_create_general_page ( void )
     widget = bet_config_general_get_period_widget ( paddingbox );
 
     /* add a separator */
-    gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_hseparator_new (), FALSE, FALSE, 5 );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL ), FALSE, FALSE, 5 );
 
     /* option pour les comptes de caisse */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Option for cash accounts") );

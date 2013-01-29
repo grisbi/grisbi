@@ -390,13 +390,13 @@ static void gsb_main_page_account_get_ligne_somme ( GtkWidget *table,
     GtkWidget *separator;
 
     alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
-    separator = gtk_hseparator_new ( );
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
     gtk_widget_show_all ( alignement );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 1, 2, i, i+1 );
 
     alignement = gtk_alignment_new ( 1.0, 0.0, 0.4, 1.0) ;
-    separator = gtk_hseparator_new ( );
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_container_add ( GTK_CONTAINER ( alignement ), separator );
     gtk_widget_show_all ( alignement );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), alignement, 2, 4, i, i+1 );

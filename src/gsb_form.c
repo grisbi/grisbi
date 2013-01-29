@@ -267,7 +267,7 @@ void gsb_form_create_widgets ( void )
     gsb_form_scheduler_create (form_scheduled_part);
 
     /* add a separator between the scheduled and transaction part */
-    separator = gtk_hseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX (transaction_form),
 			 separator,
 			 FALSE, FALSE,

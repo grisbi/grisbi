@@ -275,7 +275,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 			 label_transactions_to_link_1,
 			 FALSE, FALSE, 0 );
 
-    separator = gtk_hseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX (page),
 			 separator,
 			 FALSE, FALSE, 0 );
@@ -533,7 +533,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
 			 label_transactions_to_link_2,
 			 FALSE, FALSE, 0 );
 
-    separator = gtk_hseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX (page),
 			 separator,
 			 FALSE, FALSE, 0 );
@@ -613,7 +613,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 			 label_transactions_to_link_3,
 			 FALSE, FALSE, 0 );
 
-    separator = gtk_hseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX (page),
 			 separator,
 			 FALSE, FALSE, 0 );
