@@ -56,11 +56,11 @@ dnl ================================================================
 
 LT_LIB_M
 
-PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.2.24 glib-2.0 >= 2.28 zlib])
+PKG_CHECK_MODULES(GRISBI, [gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
-#GRISBI_LIBS="$LIBM $GRISBI_LIBS -lz"
-#AC_SUBST(GRISBI_LIBS)
+GRISBI_LIBS="$LIBM $GRISBI_LIBS"
+AC_SUBST(GRISBI_LIBS)
 # </hack>
 
 dnl ================================================================
@@ -175,7 +175,7 @@ AC_ARG_WITH(goffice,
 	[build_goffice=$withval],
 	[build_goffice=auto])
 
-PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.8 >= 0.8.0], have_goffice=yes, have_goffice=no)
+PKG_CHECK_MODULES(GOFFICE, [libgoffice-0.10 >= 0.10.0], have_goffice=yes, have_goffice=no)
 if test "$build_goffice" = yes -a "$have_goffice" = no; then
 	AC_MSG_ERROR([GOffice support was requested but goffice could not be found.])
 fi
