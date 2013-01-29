@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-20 19:46+0100\n"
+"POT-Creation-Date: 2013-01-29 06:28+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -93,7 +93,7 @@ msgstr "Дополнительный баланс"
 msgid "Additional balances"
 msgstr "Дополнительные балансы"
 
-#: ../src/accueil.c:946 ../src/bet_finance_ui.c:1639
+#: ../src/accueil.c:946 ../src/bet_finance_ui.c:1642
 msgid " at "
 msgstr ""
 
@@ -476,105 +476,105 @@ msgstr "Линии списка транзакций"
 msgid "Transactions list contents"
 msgstr "Ячейки списка транзакций"
 
-#: ../src/bet_config.c:97 ../src/etats_config.c:6373
+#: ../src/bet_config.c:99 ../src/etats_config.c:6373
 msgid "Month"
 msgstr "Месяц"
 
-#: ../src/bet_config.c:98 ../src/etats_config.c:6377
+#: ../src/bet_config.c:100 ../src/etats_config.c:6377
 msgid "Year"
 msgstr "Год"
 
-#: ../src/bet_config.c:118 ../src/parametres.c:870
+#: ../src/bet_config.c:120 ../src/parametres.c:870
 #, fuzzy
 msgid "General Options"
 msgstr "Основные параметры"
 
 #. Calculation of period
-#: ../src/bet_config.c:122
+#: ../src/bet_config.c:124
 #, fuzzy
 msgid "Common data"
 msgstr "Обычный адрес"
 
 #. option pour les comptes de caisse
-#: ../src/bet_config.c:129
+#: ../src/bet_config.c:131
 #, fuzzy
 msgid "Option for cash accounts"
 msgstr "Выделить наличные счета"
 
-#: ../src/bet_config.c:131
+#: ../src/bet_config.c:133
 #, fuzzy
 msgid "Add the forecast tab for cash accounts"
 msgstr "Добавить проводки к счёту"
 
-#: ../src/bet_config.c:168
+#: ../src/bet_config.c:170
 msgid "Beginning of period"
 msgstr "Начало периода"
 
-#: ../src/bet_config.c:177
+#: ../src/bet_config.c:179
 msgid "1st day of month"
 msgstr "Первый день месяца"
 
-#: ../src/bet_config.c:183
+#: ../src/bet_config.c:185
 msgid "date today"
 msgstr ""
 
-#: ../src/bet_config.c:203
+#: ../src/bet_config.c:205
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr ""
 
-#: ../src/bet_config.c:260 ../src/parametres.c:879
+#: ../src/bet_config.c:262 ../src/parametres.c:879
 #, fuzzy
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
 
 #. Data for the forecast
-#: ../src/bet_config.c:287
+#: ../src/bet_config.c:289
 #, fuzzy
 msgid "Data for the forecast"
 msgstr "Имя файла со счетами"
 
 #. Sources of historical data
-#: ../src/bet_config.c:292
+#: ../src/bet_config.c:294
 #, fuzzy
 msgid "Sources of historical data"
 msgstr "Дата начала"
 
 #. Data for the credit
-#: ../src/bet_config.c:302
+#: ../src/bet_config.c:304
 #, fuzzy
 msgid "Credit Data"
 msgstr "Кредитная карта"
 
 #. set the choice of account
-#: ../src/bet_config.c:338 ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/bet_config.c:340 ../src/gsb_assistant_reconcile_config.c:403
 #, fuzzy
 msgid "Account: "
 msgstr "Счёт:"
 
-#: ../src/bet_config.c:352
+#: ../src/bet_config.c:354
 #, fuzzy
 msgid "Use the budget module"
 msgstr "Использовать логотип"
 
 #. partie mensuelle
-#: ../src/bet_config.c:421
+#: ../src/bet_config.c:423
 #, fuzzy
 msgid "Duration estimation:"
 msgstr "Оценка длительности"
 
-#: ../src/bet_config.c:584
+#: ../src/bet_config.c:586
 #, fuzzy
 msgid "Labels for transactions:"
 msgstr "_Склонировать транзакцию"
 
-#: ../src/bet_config.c:589 ../src/bet_config.c:608 ../src/bet_config.c:626
+#: ../src/bet_config.c:591 ../src/bet_config.c:610 ../src/bet_config.c:628
 #, fuzzy
 msgid "By default"
 msgstr "Сбросить до исходных"
 
 #. mise en place de la paddingbox des catégories
-#: ../src/bet_config.c:590 ../src/bet_config.c:609 ../src/bet_config.c:627
-#: ../src/bet_config.c:690 ../src/bet_hist.c:182 ../src/bet_hist.c:2108
+#: ../src/bet_config.c:592 ../src/bet_config.c:611 ../src/bet_config.c:629
+#: ../src/bet_config.c:692 ../src/bet_hist.c:182 ../src/bet_hist.c:2108
 #: ../src/bet_hist.c:2114 ../src/categories_onglet.c:365
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:2996 ../src/etats_config.c:7082
@@ -583,8 +583,8 @@ msgid "Categories"
 msgstr "Категории"
 
 #. mise en place de la paddingbox des ib
-#: ../src/bet_config.c:591 ../src/bet_config.c:610 ../src/bet_config.c:628
-#: ../src/bet_config.c:699 ../src/bet_hist.c:191 ../src/bet_hist.c:2112
+#: ../src/bet_config.c:593 ../src/bet_config.c:612 ../src/bet_config.c:630
+#: ../src/bet_config.c:701 ../src/bet_hist.c:191 ../src/bet_hist.c:2112
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3800 ../src/etats_config.c:7159
 #: ../src/export_csv.c:823 ../src/fenetre_principale.c:302
@@ -593,29 +593,29 @@ msgstr "Категории"
 msgid "Budgetary lines"
 msgstr "Бюджетные линии"
 
-#: ../src/bet_config.c:603
+#: ../src/bet_config.c:605
 #, fuzzy
 msgid "Labels for scheduled transactions:"
 msgstr "Показать запланированные транзакции"
 
-#: ../src/bet_config.c:621
+#: ../src/bet_config.c:623
 #, fuzzy
 msgid "Labels for futur data:"
 msgstr "_Склонировать транзакцию"
 
-#: ../src/bet_config.c:635
+#: ../src/bet_config.c:637
 msgid ""
 "Order by default if the data are not zero:\n"
 "\tnotes, payee, category and budgetary line."
 msgstr ""
 
-#: ../src/bet_config.c:714 ../src/bet_hist.c:211
+#: ../src/bet_config.c:716 ../src/bet_hist.c:211
 #, fuzzy
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Выбранный финансовый год используется в этом файле"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:928 ../src/bet_hist.c:566 ../src/bet_hist.c:1646
+#: ../src/bet_config.c:930 ../src/bet_hist.c:566 ../src/bet_hist.c:1646
 #: ../src/categories_onglet.c:178 ../src/etats_affiche.c:2434
 #: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:181 ../src/import_csv.c:86
@@ -623,7 +623,7 @@ msgstr "Выбранный финансовый год используется 
 msgid "Category"
 msgstr "Категория"
 
-#: ../src/bet_config.c:941 ../src/bet_future.c:862 ../src/bet_future.c:2401
+#: ../src/bet_config.c:943 ../src/bet_future.c:862 ../src/bet_future.c:2401
 #: ../src/bet_future.c:2552 ../src/bet_future.c:2819 ../src/bet_future.c:2885
 #: ../src/bet_hist.c:1639 ../src/etats_affiche.c:2441
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1339
@@ -632,32 +632,32 @@ msgstr "Категория"
 msgid "Budgetary line"
 msgstr "Бюджетная линия"
 
-#: ../src/bet_config.c:1282
+#: ../src/bet_config.c:1415
 #, fuzzy
 msgid "Loan Capital: "
 msgstr "Банковский счёт:"
 
 #. Duration
-#: ../src/bet_config.c:1302 ../src/bet_finance_ui.c:288
-#: ../src/bet_finance_ui.c:1114 ../src/bet_finance_ui.c:1556
+#: ../src/bet_config.c:1431 ../src/bet_finance_ui.c:288
+#: ../src/bet_finance_ui.c:1117 ../src/bet_finance_ui.c:1559
 #, fuzzy
 msgid "Duration: "
 msgstr "Табулятор:"
 
-#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1440 ../src/bet_finance_ui.c:763
 #, fuzzy
 msgid "year"
 msgstr "лет"
 
-#: ../src/bet_config.c:1320
+#: ../src/bet_config.c:1449
 #, fuzzy
 msgid "Date of first repayment: "
 msgstr "способ платежа:"
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1333 ../src/bet_finance_ui.c:1100
-#: ../src/bet_finance_ui.c:1542
+#: ../src/bet_config.c:1462 ../src/bet_finance_ui.c:1103
+#: ../src/bet_finance_ui.c:1545
 #, fuzzy
 msgid "Annuel rate interest: "
 msgstr "Ежегодный бюджет:"
@@ -665,50 +665,46 @@ msgstr "Ежегодный бюджет:"
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1343 ../src/bet_finance_ui.c:283
-#: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
-#: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
+#: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr ""
 
-#: ../src/bet_config.c:1351
+#: ../src/bet_config.c:1480
 #, fuzzy
 msgid "Fees per month: "
 msgstr "Три месяца:"
 
-#: ../src/bet_config.c:1374 ../src/bet_finance_ui.c:409
+#: ../src/bet_config.c:1499 ../src/bet_finance_ui.c:409
 #, fuzzy
 msgid "Rate Type: "
 msgstr "Тип:"
 
-#: ../src/bet_config.c:1378 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1503 ../src/bet_finance_ui.c:413
 msgid "CAGR"
 msgstr ""
 
-#: ../src/bet_config.c:1382 ../src/bet_finance_ui.c:416
+#: ../src/bet_config.c:1508 ../src/bet_finance_ui.c:416
 msgid "Proportional rate"
 msgstr ""
 
-#: ../src/bet_config.c:1393
-msgid "Apply"
-msgstr ""
-
-#: ../src/bet_config.c:1448 ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1570 ../src/bet_finance_ui.c:1669
 #, fuzzy
 msgid " year "
 msgstr "год %d"
 
-#: ../src/bet_config.c:1450 ../src/bet_finance_ui.c:1668
+#: ../src/bet_config.c:1572 ../src/bet_finance_ui.c:1671
 #, fuzzy
 msgid " years "
 msgstr "лет"
 
-#: ../src/bet_config.c:1506 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1662 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr ""
 
-#: ../src/bet_config.c:1577
+#: ../src/bet_config.c:1733
 msgid "Account with deferred debit card"
 msgstr ""
 
@@ -719,7 +715,7 @@ msgid "Credits simulator"
 msgstr "Кредитная карта"
 
 #. capital
-#: ../src/bet_finance_ui.c:232 ../src/bet_finance_ui.c:1532
+#: ../src/bet_finance_ui.c:232 ../src/bet_finance_ui.c:1535
 #, fuzzy
 msgid "Loan capital: "
 msgstr "Банковский счёт:"
@@ -787,13 +783,13 @@ msgid ""
 msgstr ""
 
 #. Fees
-#: ../src/bet_finance_ui.c:578
+#: ../src/bet_finance_ui.c:578 ../src/bet_finance_ui.c:1278
 #, fuzzy
 msgid "Fees"
 msgstr "Гонорар"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1294
+#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1297
 #, fuzzy
 msgid "Monthly paid"
 msgstr "Ежемесячно"
@@ -812,49 +808,49 @@ msgstr ""
 msgid "years"
 msgstr "лет"
 
-#: ../src/bet_finance_ui.c:989 ../src/bet_finance_ui.c:1795
+#: ../src/bet_finance_ui.c:992 ../src/bet_finance_ui.c:1798
 msgid "View amortization table"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:997 ../src/bet_finance_ui.c:1810
+#: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1813
 msgid "View credits simulator"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1013 ../src/bet_finance_ui.c:1957
+#: ../src/bet_finance_ui.c:1016 ../src/bet_finance_ui.c:1960
 msgid "Show amortization schedule to date"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1015 ../src/bet_finance_ui.c:1827
-#: ../src/bet_finance_ui.c:1959
+#: ../src/bet_finance_ui.c:1018 ../src/bet_finance_ui.c:1830
+#: ../src/bet_finance_ui.c:1962
 msgid "Show amortization schedule from the beginning"
 msgstr ""
 
 #. Print list
-#: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
+#: ../src/bet_finance_ui.c:1033 ../src/bet_finance_ui.c:1848
 #: ../src/bet_hist.c:1944 ../src/bet_tab.c:1720 ../src/bet_tab.c:2962
 #, fuzzy
 msgid "Print the array"
 msgstr "Принтер"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1957 ../src/bet_tab.c:1730
+#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1861
+#: ../src/bet_finance_ui.c:1887 ../src/bet_hist.c:1957 ../src/bet_tab.c:1730
 #, fuzzy
 msgid "Export the array"
 msgstr "Принтер"
 
-#: ../src/bet_finance_ui.c:1079 ../src/bet_finance_ui.c:1520
-#: ../src/bet_finance_ui.c:1639
+#: ../src/bet_finance_ui.c:1082 ../src/bet_finance_ui.c:1523
+#: ../src/bet_finance_ui.c:1642
 msgid "Amortization Table"
 msgstr ""
 
 #. capital
-#: ../src/bet_finance_ui.c:1090
+#: ../src/bet_finance_ui.c:1093
 #, fuzzy
 msgid "Loan amount: "
 msgstr "Банковский счёт:"
 
-#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:816 ../src/bet_tab.c:849
+#: ../src/bet_finance_ui.c:1190 ../src/bet_future.c:816 ../src/bet_tab.c:849
 #: ../src/etats_affiche.c:2406 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1294
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:161
@@ -863,78 +859,72 @@ msgstr "Банковский счёт:"
 msgid "Date"
 msgstr "Дата"
 
-#: ../src/bet_finance_ui.c:1199 ../src/etats_affiche.c:2399
+#: ../src/bet_finance_ui.c:1202 ../src/etats_affiche.c:2399
 msgid "Number"
 msgstr "Номер"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1218
+#: ../src/bet_finance_ui.c:1221
 msgid "Capital remaining"
 msgstr ""
 
 #. Interests
-#: ../src/bet_finance_ui.c:1237
+#: ../src/bet_finance_ui.c:1240
 #, fuzzy
 msgid "Interests"
 msgstr "Доля"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1256
+#: ../src/bet_finance_ui.c:1259
 msgid "Capital repaid"
 msgstr ""
 
-#. Fees
-#: ../src/bet_finance_ui.c:1275
-#, fuzzy
-msgid "Insurance"
-msgstr "Страховка : Автомобиль"
-
-#: ../src/bet_finance_ui.c:1777 ../src/bet_finance_ui.c:1780
+#: ../src/bet_finance_ui.c:1780 ../src/bet_finance_ui.c:1783
 #, fuzzy
 msgid "Calculate"
 msgstr "все даты"
 
-#: ../src/bet_finance_ui.c:1791
+#: ../src/bet_finance_ui.c:1794
 #, fuzzy
 msgid "Amortization"
 msgstr "Связывание при импорте"
 
-#: ../src/bet_finance_ui.c:1806
+#: ../src/bet_finance_ui.c:1809
 #, fuzzy
 msgid "Credits"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1823 ../src/bet_finance_ui.c:1953
+#: ../src/bet_finance_ui.c:1826 ../src/bet_finance_ui.c:1956
 #, fuzzy
 msgid "Start date"
 msgstr "Начало:"
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1941 ../src/bet_tab.c:2959
+#: ../src/bet_finance_ui.c:1845 ../src/bet_hist.c:1941 ../src/bet_tab.c:2959
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:377
 msgid "Print"
 msgstr "Печать"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1954 ../src/bet_tab.c:2972
+#: ../src/bet_finance_ui.c:1858 ../src/bet_hist.c:1954 ../src/bet_tab.c:2972
 #: ../src/categories_onglet.c:580 ../src/etats_onglet.c:167
 #: ../src/export.c:203 ../src/imputation_budgetaire.c:614
 msgid "Export"
 msgstr "Экспортировать"
 
-#: ../src/bet_finance_ui.c:1891
+#: ../src/bet_finance_ui.c:1894
 #, fuzzy
 msgid "credit.csv"
 msgstr "Приход"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2058 ../src/bet_tab.c:3094
+#: ../src/bet_finance_ui.c:1911 ../src/bet_hist.c:2058 ../src/bet_tab.c:3094
 #: ../src/imputation_budgetaire.c:454
 msgid "Cannot save file."
 msgstr "Невозможно сохранить файл"
 
-#: ../src/bet_finance_ui.c:1951
+#: ../src/bet_finance_ui.c:1954
 msgid "At today"
 msgstr ""
 
-#: ../src/bet_finance_ui.c:1995 ../src/gsb_scheduler_list.c:2154
+#: ../src/bet_finance_ui.c:1998 ../src/gsb_scheduler_list.c:2154
 msgid "months"
 msgstr "месяцев"
 
@@ -1185,7 +1175,7 @@ msgstr ""
 
 #: ../src/bet_future.c:2932
 #, fuzzy
-msgid "You must create at least one cash account"
+msgid "You must have at least one account with deferred debit card."
 msgstr "Необходимо выбрать хотя бы два счёта"
 
 #: ../src/bet_future.c:2971 ../src/bet_future.c:3252
@@ -11364,6 +11354,10 @@ msgstr ""
 #, fuzzy
 msgid "Personnal finances manager"
 msgstr "Общедоступное управление личными финансовыми средствами\n"
+
+#, fuzzy
+#~ msgid "Insurance"
+#~ msgstr "Страховка : Автомобиль"
 
 #, fuzzy
 #~ msgid "Effective date: "

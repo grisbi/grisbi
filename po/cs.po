@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-20 19:46+0100\n"
+"POT-Creation-Date: 2013-01-29 06:28+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -93,7 +93,7 @@ msgstr "Další zůstatek"
 msgid "Additional balances"
 msgstr "Další zůstatky"
 
-#: ../src/accueil.c:946 ../src/bet_finance_ui.c:1639
+#: ../src/accueil.c:946 ../src/bet_finance_ui.c:1642
 msgid " at "
 msgstr " v "
 
@@ -470,94 +470,94 @@ msgstr "Chování seznamu transakcí"
 msgid "Transactions list contents"
 msgstr "Obsah seznamu transakcí"
 
-#: ../src/bet_config.c:97 ../src/etats_config.c:6373
+#: ../src/bet_config.c:99 ../src/etats_config.c:6373
 msgid "Month"
 msgstr "Měsíc"
 
-#: ../src/bet_config.c:98 ../src/etats_config.c:6377
+#: ../src/bet_config.c:100 ../src/etats_config.c:6377
 msgid "Year"
 msgstr "Rok"
 
-#: ../src/bet_config.c:118 ../src/parametres.c:870
+#: ../src/bet_config.c:120 ../src/parametres.c:870
 msgid "General Options"
 msgstr "Obecné volby"
 
 #. Calculation of period
-#: ../src/bet_config.c:122
+#: ../src/bet_config.c:124
 msgid "Common data"
 msgstr "Běžná data"
 
 #. option pour les comptes de caisse
-#: ../src/bet_config.c:129
+#: ../src/bet_config.c:131
 msgid "Option for cash accounts"
 msgstr "Možnosti účtů hotovosti"
 
-#: ../src/bet_config.c:131
+#: ../src/bet_config.c:133
 msgid "Add the forecast tab for cash accounts"
 msgstr "Přidat záložku prognóz k hotovostním účtům"
 
-#: ../src/bet_config.c:168
+#: ../src/bet_config.c:170
 msgid "Beginning of period"
 msgstr "Začátek období"
 
-#: ../src/bet_config.c:177
+#: ../src/bet_config.c:179
 msgid "1st day of month"
 msgstr "první den v měsíci"
 
-#: ../src/bet_config.c:183
+#: ../src/bet_config.c:185
 msgid "date today"
 msgstr "dnešní datum"
 
-#: ../src/bet_config.c:203
+#: ../src/bet_config.c:205
 msgid "Note: This option is used if no starting date for forecasts."
 msgstr "Poznámka: toto nastavení platí pro prognózy bez počátečního data"
 
-#: ../src/bet_config.c:260 ../src/parametres.c:879
+#: ../src/bet_config.c:262 ../src/parametres.c:879
 msgid "Accounts data"
 msgstr "Detaily účtu"
 
 #. Data for the forecast
-#: ../src/bet_config.c:287
+#: ../src/bet_config.c:289
 msgid "Data for the forecast"
 msgstr "Data pro prognózu"
 
 #. Sources of historical data
-#: ../src/bet_config.c:292
+#: ../src/bet_config.c:294
 msgid "Sources of historical data"
 msgstr "Zdroje historických dat"
 
 #. Data for the credit
-#: ../src/bet_config.c:302
+#: ../src/bet_config.c:304
 msgid "Credit Data"
 msgstr "Data půjčky"
 
 #. set the choice of account
-#: ../src/bet_config.c:338 ../src/gsb_assistant_reconcile_config.c:403
+#: ../src/bet_config.c:340 ../src/gsb_assistant_reconcile_config.c:403
 msgid "Account: "
 msgstr "Účet: "
 
-#: ../src/bet_config.c:352
+#: ../src/bet_config.c:354
 msgid "Use the budget module"
 msgstr "Použít modul rozpočtů"
 
 #. partie mensuelle
-#: ../src/bet_config.c:421
+#: ../src/bet_config.c:423
 #, fuzzy
 msgid "Duration estimation:"
 msgstr "Odhad trvání"
 
-#: ../src/bet_config.c:584
+#: ../src/bet_config.c:586
 #, fuzzy
 msgid "Labels for transactions:"
 msgstr "Popisky transakcí"
 
-#: ../src/bet_config.c:589 ../src/bet_config.c:608 ../src/bet_config.c:626
+#: ../src/bet_config.c:591 ../src/bet_config.c:610 ../src/bet_config.c:628
 msgid "By default"
 msgstr "Výchozí"
 
 #. mise en place de la paddingbox des catégories
-#: ../src/bet_config.c:590 ../src/bet_config.c:609 ../src/bet_config.c:627
-#: ../src/bet_config.c:690 ../src/bet_hist.c:182 ../src/bet_hist.c:2108
+#: ../src/bet_config.c:592 ../src/bet_config.c:611 ../src/bet_config.c:629
+#: ../src/bet_config.c:692 ../src/bet_hist.c:182 ../src/bet_hist.c:2108
 #: ../src/bet_hist.c:2114 ../src/categories_onglet.c:365
 #: ../src/etats_config.c:537 ../src/etats_config.c:540
 #: ../src/etats_config.c:2996 ../src/etats_config.c:7082
@@ -566,8 +566,8 @@ msgid "Categories"
 msgstr "Kategorie"
 
 #. mise en place de la paddingbox des ib
-#: ../src/bet_config.c:591 ../src/bet_config.c:610 ../src/bet_config.c:628
-#: ../src/bet_config.c:699 ../src/bet_hist.c:191 ../src/bet_hist.c:2112
+#: ../src/bet_config.c:593 ../src/bet_config.c:612 ../src/bet_config.c:630
+#: ../src/bet_config.c:701 ../src/bet_hist.c:191 ../src/bet_hist.c:2112
 #: ../src/etats_config.c:546 ../src/etats_config.c:549
 #: ../src/etats_config.c:3800 ../src/etats_config.c:7159
 #: ../src/export_csv.c:823 ../src/fenetre_principale.c:302
@@ -576,17 +576,17 @@ msgstr "Kategorie"
 msgid "Budgetary lines"
 msgstr "Rozpočty"
 
-#: ../src/bet_config.c:603
+#: ../src/bet_config.c:605
 #, fuzzy
 msgid "Labels for scheduled transactions:"
 msgstr "Popisky plánovaných transakcí"
 
-#: ../src/bet_config.c:621
+#: ../src/bet_config.c:623
 #, fuzzy
 msgid "Labels for futur data:"
 msgstr "Popisek budoucích dat"
 
-#: ../src/bet_config.c:635
+#: ../src/bet_config.c:637
 #, fuzzy
 msgid ""
 "Order by default if the data are not zero:\n"
@@ -595,12 +595,12 @@ msgstr ""
 "Výchozí řazení, pokud jsou neprázdná data: poznámky, plátce/příjemce, "
 "kategorie a rozpočet."
 
-#: ../src/bet_config.c:714 ../src/bet_hist.c:211
+#: ../src/bet_config.c:716 ../src/bet_hist.c:211
 msgid "Choose the financial year or 12 months rolling"
 msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 
 #. name of the div sous-div column
-#: ../src/bet_config.c:928 ../src/bet_hist.c:566 ../src/bet_hist.c:1646
+#: ../src/bet_config.c:930 ../src/bet_hist.c:566 ../src/bet_hist.c:1646
 #: ../src/categories_onglet.c:178 ../src/etats_affiche.c:2434
 #: ../src/etats_config.c:684 ../src/export_csv.c:814
 #: ../src/gsb_transactions_list.c:181 ../src/import_csv.c:86
@@ -608,7 +608,7 @@ msgstr "Zvolte fiskální rok nebo pohyblivých 12 měsíců"
 msgid "Category"
 msgstr "Kategorie"
 
-#: ../src/bet_config.c:941 ../src/bet_future.c:862 ../src/bet_future.c:2401
+#: ../src/bet_config.c:943 ../src/bet_future.c:862 ../src/bet_future.c:2401
 #: ../src/bet_future.c:2552 ../src/bet_future.c:2819 ../src/bet_future.c:2885
 #: ../src/bet_hist.c:1639 ../src/etats_affiche.c:2441
 #: ../src/etats_config.c:688 ../src/gsb_form.c:1339
@@ -617,75 +617,71 @@ msgstr "Kategorie"
 msgid "Budgetary line"
 msgstr "Rozpočet"
 
-#: ../src/bet_config.c:1282
+#: ../src/bet_config.c:1415
 msgid "Loan Capital: "
 msgstr "Výše jistiny: "
 
 #. Duration
-#: ../src/bet_config.c:1302 ../src/bet_finance_ui.c:288
-#: ../src/bet_finance_ui.c:1114 ../src/bet_finance_ui.c:1556
+#: ../src/bet_config.c:1431 ../src/bet_finance_ui.c:288
+#: ../src/bet_finance_ui.c:1117 ../src/bet_finance_ui.c:1559
 msgid "Duration: "
 msgstr "Trvání: "
 
-#: ../src/bet_config.c:1311 ../src/bet_finance_ui.c:763
+#: ../src/bet_config.c:1440 ../src/bet_finance_ui.c:763
 msgid "year"
 msgstr "rok"
 
-#: ../src/bet_config.c:1320
+#: ../src/bet_config.c:1449
 #, fuzzy
 msgid "Date of first repayment: "
 msgstr "Datum první splátky: "
 
 #. taux
 #. Annuel rate interest
-#: ../src/bet_config.c:1333 ../src/bet_finance_ui.c:1100
-#: ../src/bet_finance_ui.c:1542
+#: ../src/bet_config.c:1462 ../src/bet_finance_ui.c:1103
+#: ../src/bet_finance_ui.c:1545
 msgid "Annuel rate interest: "
 msgstr "Roční úroková míra: "
 
 #. Local Variables:
 #. c-basic-offset: 4
 #. End:
-#: ../src/bet_config.c:1343 ../src/bet_finance_ui.c:283
-#: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1109
-#: ../src/bet_finance_ui.c:1551 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
+#: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: ../src/bet_config.c:1351
+#: ../src/bet_config.c:1480
 msgid "Fees per month: "
 msgstr "Měsíční poplatky: "
 
-#: ../src/bet_config.c:1374 ../src/bet_finance_ui.c:409
+#: ../src/bet_config.c:1499 ../src/bet_finance_ui.c:409
 msgid "Rate Type: "
 msgstr "Typ úročení: "
 
-#: ../src/bet_config.c:1378 ../src/bet_finance_ui.c:413
+#: ../src/bet_config.c:1503 ../src/bet_finance_ui.c:413
 msgid "CAGR"
 msgstr "CAGR"
 
-#: ../src/bet_config.c:1382 ../src/bet_finance_ui.c:416
+#: ../src/bet_config.c:1508 ../src/bet_finance_ui.c:416
 msgid "Proportional rate"
 msgstr "proporcionální sazba"
 
-#: ../src/bet_config.c:1393
-msgid "Apply"
-msgstr "Použít"
-
-#: ../src/bet_config.c:1448 ../src/bet_finance_ui.c:1666
+#: ../src/bet_config.c:1570 ../src/bet_finance_ui.c:1669
 msgid " year "
 msgstr " rok "
 
-#: ../src/bet_config.c:1450 ../src/bet_finance_ui.c:1668
+#: ../src/bet_config.c:1572 ../src/bet_finance_ui.c:1671
 msgid " years "
 msgstr " let "
 
-#: ../src/bet_config.c:1506 ../src/bet_finance_ui.c:691
+#: ../src/bet_config.c:1662 ../src/bet_finance_ui.c:691
 msgid "You must enter at least one value for the capital"
 msgstr "Musíte zadat nejméně jednu hodnotu pro půjčku"
 
-#: ../src/bet_config.c:1577
+#: ../src/bet_config.c:1733
 msgid "Account with deferred debit card"
 msgstr ""
 
@@ -695,7 +691,7 @@ msgid "Credits simulator"
 msgstr "Simulace půjčky"
 
 #. capital
-#: ../src/bet_finance_ui.c:232 ../src/bet_finance_ui.c:1532
+#: ../src/bet_finance_ui.c:232 ../src/bet_finance_ui.c:1535
 msgid "Loan capital: "
 msgstr "Výše jistiny: "
 
@@ -765,12 +761,12 @@ msgstr ""
 "bez poplatků"
 
 #. Fees
-#: ../src/bet_finance_ui.c:578
+#: ../src/bet_finance_ui.c:578 ../src/bet_finance_ui.c:1278
 msgid "Fees"
 msgstr "Poplatky"
 
 #. Monthly paid
-#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1294
+#: ../src/bet_finance_ui.c:597 ../src/bet_finance_ui.c:1297
 msgid "Monthly paid"
 msgstr "Měsíční splátka"
 
@@ -787,46 +783,46 @@ msgstr "Přibližné náklady"
 msgid "years"
 msgstr "let"
 
-#: ../src/bet_finance_ui.c:989 ../src/bet_finance_ui.c:1795
+#: ../src/bet_finance_ui.c:992 ../src/bet_finance_ui.c:1798
 msgid "View amortization table"
 msgstr "Zobrazit tabulku amortizace"
 
-#: ../src/bet_finance_ui.c:997 ../src/bet_finance_ui.c:1810
+#: ../src/bet_finance_ui.c:1000 ../src/bet_finance_ui.c:1813
 msgid "View credits simulator"
 msgstr "Zobrazit simulaci půjčky"
 
-#: ../src/bet_finance_ui.c:1013 ../src/bet_finance_ui.c:1957
+#: ../src/bet_finance_ui.c:1016 ../src/bet_finance_ui.c:1960
 msgid "Show amortization schedule to date"
 msgstr "Zobrazit rozpis amortizace do data"
 
-#: ../src/bet_finance_ui.c:1015 ../src/bet_finance_ui.c:1827
-#: ../src/bet_finance_ui.c:1959
+#: ../src/bet_finance_ui.c:1018 ../src/bet_finance_ui.c:1830
+#: ../src/bet_finance_ui.c:1962
 msgid "Show amortization schedule from the beginning"
 msgstr "Zobrazit rozpis amortizace od začátku"
 
 #. Print list
-#: ../src/bet_finance_ui.c:1030 ../src/bet_finance_ui.c:1845
+#: ../src/bet_finance_ui.c:1033 ../src/bet_finance_ui.c:1848
 #: ../src/bet_hist.c:1944 ../src/bet_tab.c:1720 ../src/bet_tab.c:2962
 msgid "Print the array"
 msgstr "Vytisknout tabulku"
 
 #. Export list
-#: ../src/bet_finance_ui.c:1040 ../src/bet_finance_ui.c:1858
-#: ../src/bet_finance_ui.c:1884 ../src/bet_hist.c:1957 ../src/bet_tab.c:1730
+#: ../src/bet_finance_ui.c:1043 ../src/bet_finance_ui.c:1861
+#: ../src/bet_finance_ui.c:1887 ../src/bet_hist.c:1957 ../src/bet_tab.c:1730
 msgid "Export the array"
 msgstr "Exportovat tabulku"
 
-#: ../src/bet_finance_ui.c:1079 ../src/bet_finance_ui.c:1520
-#: ../src/bet_finance_ui.c:1639
+#: ../src/bet_finance_ui.c:1082 ../src/bet_finance_ui.c:1523
+#: ../src/bet_finance_ui.c:1642
 msgid "Amortization Table"
 msgstr "Tabulka amortizace"
 
 #. capital
-#: ../src/bet_finance_ui.c:1090
+#: ../src/bet_finance_ui.c:1093
 msgid "Loan amount: "
 msgstr "Částka půjčky: "
 
-#: ../src/bet_finance_ui.c:1187 ../src/bet_future.c:816 ../src/bet_tab.c:849
+#: ../src/bet_finance_ui.c:1190 ../src/bet_future.c:816 ../src/bet_tab.c:849
 #: ../src/etats_affiche.c:2406 ../src/export_csv.c:784
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_form.c:1294
 #: ../src/gsb_form_widget.c:416 ../src/gsb_reconcile.c:161
@@ -835,73 +831,68 @@ msgstr "Částka půjčky: "
 msgid "Date"
 msgstr "Datum"
 
-#: ../src/bet_finance_ui.c:1199 ../src/etats_affiche.c:2399
+#: ../src/bet_finance_ui.c:1202 ../src/etats_affiche.c:2399
 msgid "Number"
 msgstr "Číslo"
 
 #. Capital restant dû
-#: ../src/bet_finance_ui.c:1218
+#: ../src/bet_finance_ui.c:1221
 msgid "Capital remaining"
 msgstr "Zbývající jistina"
 
 #. Interests
-#: ../src/bet_finance_ui.c:1237
+#: ../src/bet_finance_ui.c:1240
 msgid "Interests"
 msgstr "Úroky"
 
 #. Capital repaid
-#: ../src/bet_finance_ui.c:1256
+#: ../src/bet_finance_ui.c:1259
 msgid "Capital repaid"
 msgstr "Splaceno z jistiny"
 
-#. Fees
-#: ../src/bet_finance_ui.c:1275
-msgid "Insurance"
-msgstr "Pojištění"
-
-#: ../src/bet_finance_ui.c:1777 ../src/bet_finance_ui.c:1780
+#: ../src/bet_finance_ui.c:1780 ../src/bet_finance_ui.c:1783
 msgid "Calculate"
 msgstr "Spočítat"
 
-#: ../src/bet_finance_ui.c:1791
+#: ../src/bet_finance_ui.c:1794
 msgid "Amortization"
 msgstr "Amortizace"
 
-#: ../src/bet_finance_ui.c:1806
+#: ../src/bet_finance_ui.c:1809
 msgid "Credits"
 msgstr "Půjčky"
 
-#: ../src/bet_finance_ui.c:1823 ../src/bet_finance_ui.c:1953
+#: ../src/bet_finance_ui.c:1826 ../src/bet_finance_ui.c:1956
 #, fuzzy
 msgid "Start date"
 msgstr "Počáteční datum: "
 
-#: ../src/bet_finance_ui.c:1842 ../src/bet_hist.c:1941 ../src/bet_tab.c:2959
+#: ../src/bet_finance_ui.c:1845 ../src/bet_hist.c:1941 ../src/bet_tab.c:2959
 #: ../src/etats_onglet.c:177 ../src/gsb_transactions_list.c:377
 msgid "Print"
 msgstr "Tisk"
 
-#: ../src/bet_finance_ui.c:1855 ../src/bet_hist.c:1954 ../src/bet_tab.c:2972
+#: ../src/bet_finance_ui.c:1858 ../src/bet_hist.c:1954 ../src/bet_tab.c:2972
 #: ../src/categories_onglet.c:580 ../src/etats_onglet.c:167
 #: ../src/export.c:203 ../src/imputation_budgetaire.c:614
 msgid "Export"
 msgstr "Export"
 
-#: ../src/bet_finance_ui.c:1891
+#: ../src/bet_finance_ui.c:1894
 msgid "credit.csv"
 msgstr "pujcka.csv"
 
-#: ../src/bet_finance_ui.c:1908 ../src/bet_hist.c:2058 ../src/bet_tab.c:3094
+#: ../src/bet_finance_ui.c:1911 ../src/bet_hist.c:2058 ../src/bet_tab.c:3094
 #: ../src/imputation_budgetaire.c:454
 msgid "Cannot save file."
 msgstr "Nelze uložit soubor."
 
-#: ../src/bet_finance_ui.c:1951
+#: ../src/bet_finance_ui.c:1954
 #, fuzzy
 msgid "At today"
 msgstr "dnešní datum"
 
-#: ../src/bet_finance_ui.c:1995 ../src/gsb_scheduler_list.c:2154
+#: ../src/bet_finance_ui.c:1998 ../src/gsb_scheduler_list.c:2154
 msgid "months"
 msgstr "měsíce"
 
@@ -1152,7 +1143,7 @@ msgstr ""
 
 #: ../src/bet_future.c:2932
 #, fuzzy
-msgid "You must create at least one cash account"
+msgid "You must have at least one account with deferred debit card."
 msgstr "Musíte vybrat nejméně dva účty."
 
 #: ../src/bet_future.c:2971 ../src/bet_future.c:3252
@@ -11787,6 +11778,12 @@ msgstr ""
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
 msgstr "Osobní správce financí"
+
+#~ msgid "Apply"
+#~ msgstr "Použít"
+
+#~ msgid "Insurance"
+#~ msgstr "Pojištění"
 
 #~ msgid "Effective date: "
 #~ msgstr "Účinné datum: "
