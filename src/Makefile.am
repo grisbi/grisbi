@@ -18,7 +18,11 @@ endif
 if HAVE_SSL
 libgrisbi_la_LIBADD += plugins/openssl/openssl.la
 endif
-libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS) $(GOFFICE_LIBS)
+if HAVE_GOFFICE
+libgrisbi_la_LIBADD += $(GOFFICE_LIBS)
+AM_CPPFLAGS += -I$(GOFFICE_CFLAGS)
+endif
+libgrisbi_la_LIBADD += $(GRISBI_LIBS) $(GTK_MAC_LIBS)
 
 libgrisbi_la_SOURCES = \
 	accueil.c		\

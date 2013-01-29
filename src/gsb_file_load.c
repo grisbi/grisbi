@@ -534,10 +534,12 @@ void gsb_file_load_start_element ( GMarkupParseContext *context,
                         attribute_values );
             }
 
+#ifdef HAVE_GOFFICE
             else if ( !strcmp ( element_name, "Bet_graph" ) )
             {
                 gsb_file_load_bet_graph_part ( attribute_names, attribute_values );
             }
+#endif /* HAVE_GOFFICE */
 
             else if ( !strcmp ( element_name, "Bet_historical" ) )
             {
@@ -3827,6 +3829,7 @@ void gsb_file_load_bet_part ( const gchar **attribute_names,
 }
 
 
+#ifdef HAVE_GOFFICE
  /**
  * load the bet_graph preferences in the grisbi file
  *
@@ -3865,6 +3868,7 @@ void gsb_file_load_bet_graph_part ( const gchar **attribute_names,
 
     while ( attribute_names[i] );
 }
+#endif /* HAVE_GOFFICE */
 
 
 /**

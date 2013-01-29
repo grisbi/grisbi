@@ -101,9 +101,11 @@ static gulong gsb_file_save_bank_part ( gulong iterator,
 static gulong gsb_file_save_bet_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
+#ifdef HAVE_GOFFICE
 static gulong gsb_file_save_bet_graph_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content );
+#endif /* HAVE_GOFFICE */
 static gulong gsb_file_save_color_part ( gulong iterator,
                         gulong *length_calculated,
                         gchar **file_content,
@@ -352,9 +354,11 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
                         &length_calculated,
                         &file_content );
 
+#ifdef HAVE_GOFFICE
     iterator = gsb_file_save_bet_graph_part ( iterator,
                         &length_calculated,
                         &file_content );
+#endif /* HAVE_GOFFICE */
 
     iterator = gsb_file_save_report_part ( iterator,
 					   &length_calculated,
@@ -2884,6 +2888,7 @@ gulong gsb_file_save_bet_part ( gulong iterator,
 }
 
 
+#ifdef HAVE_GOFFICE
 /**
  * save the bet graph preferences part
  *
@@ -2920,6 +2925,7 @@ gulong gsb_file_save_bet_graph_part ( gulong iterator,
     /* and return the new iterator */
     return iterator;
 }
+#endif /* HAVE_GOFFICE */
 
 
 /* Local Variables: */
