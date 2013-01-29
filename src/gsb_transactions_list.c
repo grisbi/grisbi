@@ -1213,7 +1213,7 @@ gfloat gsb_transactions_list_get_row_align ( void )
 	    return 0;
 
     window = gtk_tree_view_get_bin_window ( tree_view );
-    if ( !GDK_IS_DRAWABLE ( window ) )
+    if ( !gdk_window_is_visible ( GDK_WINDOW ( window ) ) )
         return 0;
 
     height_win = gdk_window_get_height ( window );
