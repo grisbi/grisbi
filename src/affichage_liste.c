@@ -979,6 +979,8 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
     GdkWindow *drawable;
     GdkRectangle rectangle;
     GdkPixbuf *pixbuf_cursor;
+    cairo_surface_t *s;
+    cairo_t *cr;
 
     /* get the cell coord */
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view )),
@@ -1007,15 +1009,16 @@ gboolean gsb_transaction_list_config_drag_begin ( GtkWidget *tree_view,
                         tree_column,
                         &rectangle );
 
-    pixbuf_cursor = gdk_pixbuf_get_from_drawable ( NULL,
-                        GDK_DRAWABLE ( drawable ),
-                        gdk_colormap_get_system (),
-                        rectangle.x,
-                        rectangle.y,
-                        0,
-                        0,
-                        rectangle.width,
-                        rectangle.height );
+    s = cairo_image_surface_create ( CAIRO_FORMAT_A1, 3, 3 );
+    cr = cairo_create ( s );
+    cairo_rectangle ( cr, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
+    cairo_fill ( cr );
+    cairo_destroy ( cr );
+
+    pixbuf_cursor = gdk_pixbuf_get_from_surface ( s, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
+
+    cairo_surface_destroy (s);
+
     gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
 
     g_object_unref ( pixbuf_cursor );
