@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A charmap selector widget.
  *
@@ -27,127 +26,25 @@
 #include <config.h>
 #endif
 
-#include "include.h"
-#include <glib/gi18n.h>
-
-/*START_INCLUDE*/
+/*#include <goffice/goffice-config.h>
+*/
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
-#include "utils_str.h"
-/*END_INCLUDE*/
-
-struct cb_find_entry {
-	const char *enc;
-	gboolean found;
-	int i;
-	GSList *path;
-};
-
-/*START_STATIC*/
-static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl);
-static int charset_order (const void *_a, const void *_b);
-static void cs_build_menu (GOCharmapSel *cs);
-static void cs_class_init (GtkWidgetClass *widget_klass);
-static void cs_emphasize_label (GtkLabel *label);
-static void cs_get_property (GObject     *object,
-		 guint        prop_id,
-		 GValue      *value,
-		 GParamSpec  *pspec);
-static void cs_init (GOCharmapSel *cs);
-static gboolean cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling);
-static void cs_set_property (GObject      *object,
-		 guint         prop_id,
-		 const GValue *value,
-		 GParamSpec   *pspec);
-static void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs);
-static char const * get_locale_encoding_name (GOCharmapSel *cs);
-static const char * go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
-				    const char *encoding);
-static gboolean iconv_supported (const char *to, const char *from);
-static int lgroups_order (const void *_a, const void *_b);
-static void set_menu_to_default (GOCharmapSel *cs, gint item);
-/*END_STATIC*/
-
-/*START_EXTERN*/
-/*END_EXTERN*/
-
-
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkseparatormenuitem.h>
+/*#include <goffice/utils/go-glib-extras.h>
+*/#include <glib/gi18n-lib.h>
+#include <gsf/gsf-impl-utils.h>
 #include <string.h>
 #include <stdlib.h>
+
+/**
+ * GOCharmapSelTestDirection:
+ * @GO_CHARMAP_SEL_TO_UTF8: to UTF-8.
+ * @GO_CHARMAP_SEL_FROM_UTF8: from UTF-8.
+ **/
 
 #define CS(x) GO_CHARMAP_SEL (x)
 
 #define CHARMAP_NAME_KEY "Name of Character Encoding"
-
-
-/* name -> CharsetInfo* mapping */
-static GHashTable *encoding_hash;
-
-struct _GOCharmapSel {
-	GtkHBox box;
-	GOOptionMenu *encodings;
-	GtkMenu *encodings_menu;
-	GOCharmapSelTestDirection test;
-};
-
-typedef struct {
-	GtkHBoxClass parent_class;
-
-	gboolean (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
-} GOCharmapSelClass;
-
-
-typedef GOCharmapSel Cs;
-typedef GOCharmapSelClass CsClass;
-
-/* Signals we emit */
-enum {
-	CHARMAP_CHANGED,
-	LAST_SIGNAL
-};
-
-enum {
-	PROP_0,
-	PROP_TEST_DIRECTION
-};
-
-#define	GSF_CLASS_FULL(name, prefix, base_init, base_finalize, \
-			   class_init, class_finalize, instance_init, parent_type, \
-		       abstract, interface_decl) \
-GType									\
-prefix ## _get_type (void)						\
-{									\
-	static GType type = 0;						\
-	if (type == 0) {						\
-		static GTypeInfo const object_info = {			\
-			sizeof (name ## Class),				\
-			(GBaseInitFunc) base_init,			\
-			(GBaseFinalizeFunc) base_finalize,		\
-			(GClassInitFunc) class_init,			\
-			(GClassFinalizeFunc) class_finalize,		\
-			NULL,	/* class_data */			\
-			sizeof (name),					\
-			0,	/* n_preallocs */			\
-			(GInstanceInitFunc) instance_init,		\
-			NULL						\
-		};							\
-		type = g_type_register_static (parent_type, #name,	\
-			&object_info, (GTypeFlags) abstract);		\
-		interface_decl						\
-	}								\
-	return type;							\
-}
-#define	GSF_CLASS(name, prefix, class_init, instance_init, parent) \
-	GSF_CLASS_FULL(name, prefix, NULL, NULL, class_init, NULL, \
-				instance_init, parent, 0, {})
-GSF_CLASS (GOCharmapSel, go_charmap_sel,
-	   cs_class_init, cs_init, GTK_TYPE_HBOX)
 
 /* ------------------------------------------------------------------------- */
 
@@ -196,7 +93,8 @@ static LGroupInfo lgroups[] = {
 	{NULL, LG_LAST}
 };
 
-static int lgroups_order (const void *_a, const void *_b)
+static int
+lgroups_order (const void *_a, const void *_b)
 {
 	const LGroupInfo *a = (const LGroupInfo *)_a;
 	const LGroupInfo *b = (const LGroupInfo *)_b;
@@ -274,7 +172,7 @@ static CharsetInfo charset_trans_array[] = {
 	{N_("Icelandic (MacIcelandic)"),          "x-mac-icelandic",       LG_OTHER, CI_MINOR},
 	{N_("Japanese (EUC-JP)"),                 "EUC-JP",                LG_JAPANESE, CI_MINOR},
 	{N_("Japanese (ISO-2022-JP)"),            "ISO-2022-JP",           LG_JAPANESE, CI_MINOR},
-	{N_("Japanese (Shift_JIS)"),              "Shift_JIS",             LG_JAPANESE, CI_MINOR},
+	{N_("Japanese (Shift_JIS)"),              "CP932",             LG_JAPANESE, CI_MINOR},
 	{N_("Korean (EUC-KR)"),                   "EUC-KR",                LG_KOREAN, CI_MINOR},
 	{N_("Korean (ISO-2022-KR)"),              "ISO-2022-KR",           LG_KOREAN, CI_MINOR},
 	{N_("Korean (JOHAB)"),                    "x-johab",               LG_KOREAN, CI_MINOR},
@@ -312,7 +210,8 @@ static CharsetInfo charset_trans_array[] = {
 	{NULL,                                    NULL,                    LG_LAST, 0}
 };
 
-static int charset_order (const void *_a, const void *_b)
+static int
+charset_order (const void *_a, const void *_b)
 {
 	const CharsetInfo *a = (const CharsetInfo *)_a;
 	const CharsetInfo *b = (const CharsetInfo *)_b;
@@ -328,7 +227,65 @@ static int charset_order (const void *_a, const void *_b)
 
 /* ------------------------------------------------------------------------- */
 
+/* name -> CharsetInfo* mapping */
+static GHashTable *encoding_hash;
+
+struct _GOCharmapSel {
+	GtkBox box;
+	GOOptionMenu *encodings;
+	GtkMenu *encodings_menu;
+	GOCharmapSelTestDirection test;
+};
+
+typedef struct {
+	GtkBoxClass parent_class;
+
+	gboolean (* charmap_changed) (GOCharmapSel *cs, char const *new_charmap);
+} GOCharmapSelClass;
+
+
+typedef GOCharmapSel Cs;
+typedef GOCharmapSelClass CsClass;
+
+/* Signals we emit */
+enum {
+	CHARMAP_CHANGED,
+	LAST_SIGNAL
+};
+
+enum {
+	PROP_0,
+	PROP_TEST_DIRECTION
+};
+
+
+
+
 static guint cs_signals[LAST_SIGNAL] = { 0 };
+
+static gint go_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
+{
+	return g_ascii_strcasecmp ((char const *) v1, (char const *)v2) == 0;
+}
+
+/* a char* hash function from ASU */
+static guint go_ascii_strcase_hash (gconstpointer v)
+{
+	unsigned const char *s = (unsigned const char *)v;
+	unsigned const char *p;
+	guint h = 0, g;
+
+	for(p = s; *p != '\0'; p += 1) {
+		h = ( h << 4 ) + g_ascii_tolower (*p);
+		if ( ( g = h & 0xf0000000 ) ) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+
+	return h /* % M */;
+}
+
 
 static void cs_set_property      (GObject          *object,
 				  guint             prop_id,
@@ -340,7 +297,8 @@ static void cs_get_property      (GObject          *object,
 				  GValue           *value,
 				  GParamSpec       *pspec);
 
-static gboolean iconv_supported (const char *to, const char *from)
+static gboolean
+iconv_supported (const char *to, const char *from)
 {
 	GIConv ic = g_iconv_open (to, from);
 	if (ic == NULL || ic == (GIConv)-1)
@@ -350,8 +308,9 @@ static gboolean iconv_supported (const char *to, const char *from)
 	return TRUE;
 }
 
-const char * go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
-				    const char *encoding)
+const char *
+go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
+				  const char *encoding)
 {
 	CharsetInfo const *ci;
 
@@ -361,7 +320,8 @@ const char * go_charmap_sel_get_encoding_name (G_GNUC_UNUSED GOCharmapSel *cs,
 	return ci ? _(ci->charset_title) : NULL;
 }
 
-static char const * get_locale_encoding_name (GOCharmapSel *cs)
+static char const *
+get_locale_encoding_name (GOCharmapSel *cs)
 {
 	char const *locale_encoding;
 	char const *name;
@@ -371,9 +331,10 @@ static char const * get_locale_encoding_name (GOCharmapSel *cs)
 	return name ? name : locale_encoding;
 }
 
-static void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs)
+static void
+encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs)
 {
-	g_return_if_fail (IS_GO_CHARMAP_SEL (cs));
+	g_return_if_fail (GO_IS_CHARMAP_SEL (cs));
 	g_return_if_fail (optionmenu == cs->encodings);
 
 	g_signal_emit (G_OBJECT (cs),
@@ -382,39 +343,39 @@ static void encodings_changed_cb (GOOptionMenu *optionmenu, GOCharmapSel *cs)
 		       go_charmap_sel_get_encoding (cs));
 }
 
-static void set_menu_to_default (GOCharmapSel *cs, gint item)
+static void
+set_menu_to_default (GOCharmapSel *cs, gint item)
 {
 	GSList sel = { GINT_TO_POINTER (item - 1), NULL};
 
-	g_return_if_fail (cs != NULL && IS_GO_CHARMAP_SEL (cs));
+	g_return_if_fail (cs != NULL && GO_IS_CHARMAP_SEL (cs));
 
 	go_option_menu_set_history (cs->encodings, &sel);
 }
 
-static gboolean cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
+static gboolean
+cs_mnemonic_activate (GtkWidget *w, gboolean group_cycling)
 {
 	GOCharmapSel *cs = GO_CHARMAP_SEL (w);
 	gtk_widget_grab_focus (GTK_WIDGET (cs->encodings));
 	return TRUE;
 }
 
-static void cs_emphasize_label (GtkLabel *label)
+static void
+cs_emphasize_label (GtkLabel *label)
 {
-	char *text = g_strconcat ("<b>", gtk_label_get_label (label), "</b>", NULL);
-
-	gtk_label_set_use_underline (label, FALSE);
+	char *text = g_markup_printf_escaped ("<b>%s</b>",
+					      gtk_label_get_label (label));
 	gtk_label_set_use_markup (label, TRUE);
 	gtk_label_set_label (label, text);
 	g_free (text);
 }
 
-static void cs_init (GOCharmapSel *cs)
+static void
+cs_init (GOCharmapSel *cs)
 {
 	cs->test = GO_CHARMAP_SEL_TO_UTF8;
 
-	/* There is a problem in mk_include as we access
-	 * go_option_menu_get_type(); through a macro.  So, KEEP this
-	 * comment to make mk_include happy.  --benj  */
 	cs->encodings = GO_OPTION_MENU (go_option_menu_new ());
 
 	g_signal_connect (G_OBJECT (cs->encodings), "changed",
@@ -424,7 +385,8 @@ static void cs_init (GOCharmapSel *cs)
 }
 
 
-static void cs_build_menu (GOCharmapSel *cs)
+static void
+cs_build_menu (GOCharmapSel *cs)
 {
         GtkWidget *item;
 	GtkMenu *menu;
@@ -435,12 +397,8 @@ static void cs_build_menu (GOCharmapSel *cs)
 
 	while (lgroup->group_name) {
 		CharsetInfo const *charset_trans;
-		GtkMenu *submenu;
-		gint cnt = 0;
+		GtkMenu *submenu = NULL;
 
-		item = gtk_menu_item_new_with_label (_(lgroup->group_name));
-
-		submenu = GTK_MENU (gtk_menu_new ());
 		charset_trans = charset_trans_array;
 
 		while (charset_trans->lgroup != LG_LAST) {
@@ -450,34 +408,37 @@ static void cs_build_menu (GOCharmapSel *cs)
 					? charset_trans->to_utf8_iconv_name
 					: charset_trans->from_utf8_iconv_name;
 				if (name) {
+					if (!submenu)
+						submenu = GTK_MENU (gtk_menu_new ());
 					subitem = gtk_check_menu_item_new_with_label
 						(_(charset_trans->charset_title));
+					gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (subitem), TRUE);
 					gtk_widget_show (subitem);
-					gtk_menu_shell_append ( GTK_MENU_SHELL (submenu), subitem );
+					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					if (charset_trans->imp == CI_MAJOR)
 						cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (subitem))));
 					g_object_set_data (G_OBJECT (subitem), CHARMAP_NAME_KEY,
 							   (gpointer)name);
-					cnt++;
 				} else if (0) {
 					g_print ("Unsupported: %s\n", charset_trans->aliases);
 				}
 			}
 			charset_trans++;
 		}
-		if (cnt > 0) {
-			gtk_menu_item_set_submenu ( GTK_MENU_ITEM (item), GTK_WIDGET (submenu) );
+		if (submenu) {
+			GtkWidget *item =
+				gtk_menu_item_new_with_label (_(lgroup->group_name));
+
+			gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), GTK_WIDGET (submenu));
 			gtk_widget_show (item);
-			gtk_menu_shell_append ( GTK_MENU_SHELL (menu), item );
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
-		} else {
-			g_object_unref (item);
 		}
                 lgroup++;
         }
 	item = gtk_separator_menu_item_new ();
 	gtk_widget_show (item);
-	gtk_menu_shell_append ( GTK_MENU_SHELL (menu), item );
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	lg_cnt++;
 
 	{
@@ -485,9 +446,10 @@ static void cs_build_menu (GOCharmapSel *cs)
 							      get_locale_encoding_name (cs),
 							      NULL);
 		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
+		gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (item), TRUE);
 		g_free (locale_encoding_menu_title);
 		gtk_widget_show (item);
-		gtk_menu_shell_append ( GTK_MENU_SHELL (menu), item );
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 		lg_cnt++;
 		cs_emphasize_label (GTK_LABEL (gtk_bin_get_child (GTK_BIN (item))));
 	}
@@ -497,7 +459,8 @@ static void cs_build_menu (GOCharmapSel *cs)
 	set_menu_to_default (cs, lg_cnt);
 }
 
-static void cs_class_init (GtkWidgetClass *widget_klass)
+static void
+cs_class_init (GtkWidgetClass *widget_klass)
 {
 	CharsetInfo *ci;
 	size_t i;
@@ -510,7 +473,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 
 	cs_signals[CHARMAP_CHANGED] =
 		g_signal_new ("charmap_changed",
-			      GO_CHARMAP_SEL_TYPE,
+			      GO_TYPE_CHARMAP_SEL,
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GOCharmapSelClass, charmap_changed),
 			      NULL, NULL,
@@ -537,9 +500,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!lgroups[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   cgroup_name, group_name);
-			if ( lgroups[i].collate_key )
-			     g_free ( lgroups[i].collate_key );
-			lgroups[i].collate_key = my_strdup (group_name);
+			lgroups[i].collate_key = g_strdup (group_name);
 		}
 	}
 	qsort (lgroups, G_N_ELEMENTS (lgroups) - 2, sizeof (lgroups[0]),
@@ -559,9 +520,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		if (!charset_trans_array[i].collate_key) {
 			g_warning ("Failed to generate collation key for [%s] [%s]",
 				   ctitle, title);
-			if ( charset_trans_array[i].collate_key )
-			    g_free ( charset_trans_array[i].collate_key );
-			charset_trans_array[i].collate_key = my_strdup (title);
+			charset_trans_array[i].collate_key = g_strdup (title);
 		}
 	}
 	qsort (charset_trans_array, G_N_ELEMENTS (charset_trans_array) - 1,
@@ -574,8 +533,8 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 	/* ---------------------------------------- */
 
 	encoding_hash =
-		g_hash_table_new_full (g_str_hash,
-				       g_str_equal,
+		g_hash_table_new_full (go_ascii_strcase_hash,
+				       go_ascii_strcase_equal,
 				       (GDestroyNotify)g_free,
 				       NULL);
 
@@ -583,7 +542,7 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 		const char *aliases = ci->aliases;
 		char *autoaliases = NULL;
 
-		if (strchr (aliases, '#') == 0) {
+		if (strchr (aliases, '#') == NULL) {
 			/* Sigh.  This sucks quite a lot.  */
 			if (strncmp (aliases, "ISO-", 4) == 0) {
 				autoaliases =
@@ -606,22 +565,18 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 				alias = g_strndup (aliases, sep - aliases);
 				aliases = sep + 1;
 			} else {
-				alias = my_strdup (aliases);
+				alias = g_strdup (aliases);
 				aliases = NULL;
 			}
 
 			if (ci->to_utf8_iconv_name == NULL &&
 			    iconv_supported ("UTF-8", alias)) {
-			        if ( ci->to_utf8_iconv_name )
-				    g_free ( ci->to_utf8_iconv_name );
-				ci->to_utf8_iconv_name = my_strdup (alias);
+				ci->to_utf8_iconv_name = g_strdup (alias);
 			}
 
 			if (ci->from_utf8_iconv_name == NULL &&
 			    iconv_supported (alias, "UTF-8")) {
-				if ( ci->from_utf8_iconv_name )
-				    g_free ( ci->from_utf8_iconv_name );
-				ci->from_utf8_iconv_name = my_strdup (alias);
+				ci->from_utf8_iconv_name = g_strdup (alias);
 			}
 
 			g_hash_table_insert (encoding_hash, alias, ci);
@@ -631,28 +586,41 @@ static void cs_class_init (GtkWidgetClass *widget_klass)
 	}
 }
 
-GtkWidget * go_charmap_sel_new (GOCharmapSelTestDirection test)
+GSF_CLASS (GOCharmapSel, go_charmap_sel,
+	   cs_class_init, cs_init, GTK_TYPE_BOX)
+
+GtkWidget *
+go_charmap_sel_new (GOCharmapSelTestDirection test)
 {
-	return g_object_new (GO_CHARMAP_SEL_TYPE, "TestDirection", test, NULL);
+	return g_object_new (GO_TYPE_CHARMAP_SEL, "TestDirection", test, NULL);
 }
 
-gchar const * go_charmap_sel_get_encoding (GOCharmapSel *cs)
+gchar const *
+go_charmap_sel_get_encoding (GOCharmapSel *cs)
 {
-    GtkMenuItem *selection;
-    char const *locale_encoding;
-    char const *encoding;
+	GtkMenuItem *selection;
+	char const *locale_encoding;
+	char const *encoding;
 
-    g_get_charset (&locale_encoding);
+	g_get_charset (&locale_encoding);
 
-    g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), locale_encoding);
+ 	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), locale_encoding);
 
-    selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
-    encoding = (char const *) g_object_get_data (G_OBJECT (selection),
-						 CHARMAP_NAME_KEY);
-    return encoding ? encoding : locale_encoding;
+ 	selection = GTK_MENU_ITEM (go_option_menu_get_history (cs->encodings));
+	encoding = (char const *) g_object_get_data (G_OBJECT (selection),
+						     CHARMAP_NAME_KEY);
+	return encoding ? encoding : locale_encoding;
 }
 
-static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
+struct cb_find_entry {
+	const char *enc;
+	gboolean found;
+	int i;
+	GSList *path;
+};
+
+static void
+cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 {
 	GtkWidget *sub;
 
@@ -684,16 +652,13 @@ static void cb_find_entry (GtkMenuItem *w, struct cb_find_entry *cl)
 	cl->i++;
 }
 
-/*
- * TODO dOm : this function seems not to be used :
- * warning: ‘go_charmap_sel_set_encoding’ defined but not used
- * Is it possible to remove it ? */
-gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
+gboolean
+go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 {
 	struct cb_find_entry cl;
 	CharsetInfo const *ci;
 
-	g_return_val_if_fail (IS_GO_CHARMAP_SEL (cs), FALSE);
+	g_return_val_if_fail (GO_IS_CHARMAP_SEL (cs), FALSE);
 	g_return_val_if_fail (enc != NULL, FALSE);
 
 	ci = g_hash_table_lookup (encoding_hash, enc);
@@ -721,8 +686,8 @@ gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc)
 	return TRUE;
 }
 
-
-static void cs_set_property (GObject      *object,
+static void
+cs_set_property (GObject      *object,
 		 guint         prop_id,
 		 const GValue *value,
 		 GParamSpec   *pspec)
@@ -741,7 +706,8 @@ static void cs_set_property (GObject      *object,
 }
 
 
-static void cs_get_property (GObject     *object,
+static void
+cs_get_property (GObject     *object,
 		 guint        prop_id,
 		 GValue      *value,
 		 GParamSpec  *pspec)

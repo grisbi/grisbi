@@ -1,4 +1,3 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2003 Andreas J. Guelzow
  *
@@ -24,13 +23,14 @@
 #ifndef _GO_CHARMAP_SEL_H_
 #define _GO_CHARMAP_SEL_H_
 
+#include <glib-object.h>
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
 
-#define GO_CHARMAP_SEL_TYPE        (go_charmap_sel_get_type ())
-#define GO_CHARMAP_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_CHARMAP_SEL_TYPE, GOCharmapSel))
-#define IS_GO_CHARMAP_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_CHARMAP_SEL_TYPE))
+#define GO_TYPE_CHARMAP_SEL        (go_charmap_sel_get_type ())
+#define GO_CHARMAP_SEL(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), GO_TYPE_CHARMAP_SEL, GOCharmapSel))
+#define GO_IS_CHARMAP_SEL(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), GO_TYPE_CHARMAP_SEL))
 
 typedef struct _GOCharmapSel GOCharmapSel;
 
@@ -39,14 +39,13 @@ typedef enum {
 	GO_CHARMAP_SEL_FROM_UTF8
 } GOCharmapSelTestDirection;
 
-/* START_INCLUDE_H */
-/* END_INCLUDE_H */
+GType        go_charmap_sel_get_type (void);
+GtkWidget *  go_charmap_sel_new (GOCharmapSelTestDirection test);
 
-/* START_DECLARATION */
-gchar const * go_charmap_sel_get_encoding (GOCharmapSel *cs);
-GtkWidget * go_charmap_sel_new (GOCharmapSelTestDirection test);
-gboolean go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
-/* END_DECLARATION */
+gchar const *go_charmap_sel_get_encoding (GOCharmapSel *cs);
+gboolean     go_charmap_sel_set_encoding (GOCharmapSel *cs, const char *enc);
+
+const char  *go_charmap_sel_get_encoding_name (GOCharmapSel *cs, const char *enc);
 
 G_END_DECLS
 
