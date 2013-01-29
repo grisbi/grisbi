@@ -242,7 +242,7 @@ void gsb_form_create_widgets ( void )
      * top : the values specific for the scheduled transactions
      * middle : the values for transactions and scheduled transactions
      * bottom : the buttons valid/cancel */
-    transaction_form = gtk_vbox_new ( FALSE, 5 );
+    transaction_form = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_container_add ( GTK_CONTAINER ( form_expander ),
 			transaction_form );
 
@@ -302,7 +302,7 @@ void gsb_form_create_widgets ( void )
 
     /* the buttons part is a hbox, with the recuperate child split
      * on the left and valid/cancel on the right */
-    form_button_part = gtk_vbox_new ( FALSE, 0 );
+    form_button_part = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX (transaction_form), form_button_part, FALSE, FALSE, 0 );
 
     /* add a separator between the transaction and button part */

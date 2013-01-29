@@ -159,7 +159,7 @@ GtkWidget *bet_historical_create_page ( void )
     gpointer pointeur;
 
     devel_debug (NULL);
-    page = gtk_vbox_new ( FALSE, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_set_name ( page, "historical_page" );
 
     /* titre de la page */

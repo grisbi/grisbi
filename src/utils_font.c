@@ -83,7 +83,7 @@ GtkWidget *utils_font_create_button ( gchar **fontname,
     gtk_box_pack_start ( GTK_BOX ( hbox_font ), font_name_label,
 			 TRUE, TRUE, 5 );
 
-    gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_vseparator_new (),
+    gtk_box_pack_start ( GTK_BOX ( hbox_font ), gtk_separator_new ( GTK_ORIENTATION_VERTICAL ),
 			 FALSE, FALSE, 0 );
 
     font_size_label = gtk_label_new (NULL);

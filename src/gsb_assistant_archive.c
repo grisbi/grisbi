@@ -202,7 +202,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
     gtk_box_pack_start ( GTK_BOX (page), vbox, FALSE, FALSE, 0 );
 
     /* set up the menu */
@@ -357,7 +357,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );
@@ -402,13 +402,13 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
     GtkTextBuffer * buffer;
     GtkTextIter iter;
 
-    page = gtk_vbox_new ( FALSE, 0 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     0 );
 
     /* we create 2 vbox, one for congratulation, one for failed,
      * only one will be showed */
-    vbox_congratulation = gtk_vbox_new (FALSE, 0);
+    vbox_congratulation = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_congratulation,
 			 TRUE, TRUE, 0 );
@@ -448,7 +448,7 @@ static GtkWidget *gsb_assistant_archive_page_success ( void )
 			     -1 );
 
     /* make the failed box */
-    vbox_failed = gtk_vbox_new (FALSE, 0 );
+    vbox_failed = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox_failed,
 			 TRUE, TRUE, 0 );

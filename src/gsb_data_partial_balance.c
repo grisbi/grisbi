@@ -1604,7 +1604,7 @@ GtkWidget *gsb_partial_balance_create_list_accounts ( GtkWidget *entry )
     GtkTreeSelection *selection;
     gint i = 0;
 
-    vbox = gtk_vbox_new ( FALSE, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
     sw = gtk_scrolled_window_new (NULL, NULL);
     gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw),
                         GTK_SHADOW_ETCHED_IN);
@@ -1697,7 +1697,7 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
     main_vbox = new_vbox_with_title_and_icon ( _("Partial balance details"), "payment.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 

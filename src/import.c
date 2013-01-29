@@ -414,7 +414,7 @@ GtkWidget *import_create_file_selection_page ( GtkWidget * assistant )
     GSList * tmp;
 	gchar* tmpstr;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     paddingbox = new_paddingbox_with_title ( vbox, TRUE, _("Choose file to import"));
@@ -1207,7 +1207,7 @@ GtkWidget *cree_ligne_recapitulatif ( struct struct_compte_importation * compte 
     GtkWidget *button;
     gchar* tmpstr;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     if ( compte -> filename )
@@ -2313,7 +2313,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), frame, TRUE, TRUE, 0 );
     gtk_widget_show ( frame );
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox);
     gtk_widget_show ( vbox );
 
@@ -2324,7 +2324,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gtk_box_pack_start ( GTK_BOX ( vbox), scrolled_window, TRUE, TRUE, 0 );
     gtk_widget_show ( scrolled_window );
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 10 );
     gtk_widget_show ( vbox );
@@ -3749,7 +3749,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
                         _("Manage import associations"),
                         "payees.png" );
 
-    vbox = gtk_vbox_new ( FALSE, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( vbox_main ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -3778,7 +3778,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
 
     /* Create Add/Remove buttons */
-    vbox2 = gtk_vbox_new ( FALSE, 5 );
+    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */

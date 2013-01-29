@@ -212,7 +212,7 @@ GtkWidget *bet_finance_create_simulator_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_vbox_new ( FALSE, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -369,7 +369,7 @@ GtkWidget *bet_finance_create_saisie_widget ( GtkWidget *parent )
     GtkWidget *button_1, *button_2;
     gchar *tmp_str;
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* Frais */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -1072,7 +1072,7 @@ GtkWidget *bet_finance_create_amortization_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_vbox_new ( FALSE, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -1513,7 +1513,7 @@ GtkWidget *bet_finance_create_account_page ( void )
 
     devel_debug (NULL);
 
-    page = gtk_vbox_new ( FALSE, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* titre de la page */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);

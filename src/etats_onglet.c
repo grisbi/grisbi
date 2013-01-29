@@ -101,7 +101,7 @@ GtkWidget *creation_onglet_etats ( void )
 {
     GtkWidget *tab, *vbox;
 
-    tab = gtk_vbox_new ( FALSE, 6 );
+    tab = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 
     /* création de la barre d'outils */
     reports_toolbar = gtk_handle_box_new ( );
@@ -115,7 +115,7 @@ GtkWidget *creation_onglet_etats ( void )
     gtk_box_pack_start ( GTK_BOX ( tab ), notebook_etats, TRUE, TRUE, 0 );
 
     /* création de la partie droite */
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook_etats ), vbox, gtk_label_new ( _("Reports")));
 
     /* On met une scrolled window qui sera remplit par l'état */

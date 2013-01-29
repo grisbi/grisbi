@@ -407,7 +407,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
     GtkWidget * font_button_transactions, * vbox, * font_button_title;
     GtkSizeGroup * size_group;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Fonts") );
 

@@ -139,7 +139,7 @@ GtkWidget * print_transactions_list_layout_config ( GtkPrintOperation * operatio
 
     size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Layout") );
 

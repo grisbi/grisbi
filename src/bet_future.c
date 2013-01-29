@@ -294,7 +294,7 @@ GtkWidget *bet_future_create_dialog ( gint account_number )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
-	vbox = gtk_vbox_new ( FALSE, 0 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), vbox, TRUE, TRUE, 0 );
 	gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -2272,7 +2272,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
-    main_vbox = gtk_vbox_new ( FALSE, 0 );
+    main_vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( main_vbox ), 12 );
 
@@ -2427,7 +2427,7 @@ static GtkWidget *bet_transfert_create_dialog ( gint account_number )
     gtk_box_pack_start ( GTK_BOX ( hbox ), date_entry, FALSE, FALSE, 0 );
 
     /* boite verticale pour rendre actif ou non les champs ci-dessous */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     g_object_set_data ( G_OBJECT ( dialog ), "bet_transfert_main_vbox_data", vbox );
 
     /* check button Automatic creation of the direct debit transaction */

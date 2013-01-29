@@ -141,7 +141,7 @@ GtkWidget *categories_create_list ( void )
 			category_interface );
 
     /* We create the main vbox */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_show ( vbox );
 
     /* on y ajoute la barre d'outils */

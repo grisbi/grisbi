@@ -146,7 +146,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     devel_debug ( NULL );
 
-    vbox = gtk_vbox_new ( FALSE, 15 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
     gtk_widget_show ( vbox );
 
     /* on met le titre du fichier */
@@ -181,7 +181,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_scrolled_window_set_shadow_type ( GTK_SCROLLED_WINDOW ( base_scroll ),
                         GTK_SHADOW_NONE );
 
-    base = gtk_vbox_new ( FALSE, 15 );
+    base = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER ( base ), 12 );
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( base_scroll ), base );
     gtk_widget_show ( base_scroll );
@@ -191,7 +191,7 @@ GtkWidget *creation_onglet_accueil ( void )
     size_group_accueil = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
     /* on crée la première frame dans laquelle on met les états des comptes */
-    frame_etat_comptes_accueil = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_comptes_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( base ), frame_etat_comptes_accueil, FALSE, FALSE, 0 );
 
     /* on met la liste des comptes et leur état dans la frame */
@@ -201,7 +201,7 @@ GtkWidget *creation_onglet_accueil ( void )
 
     /* mise en place de la partie fin des comptes passif */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed liabilities accounts") );
-    frame_etat_fin_compte_passif = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_fin_compte_passif = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_fin_compte_passif, FALSE, FALSE, 0 );
     run.mise_a_jour_fin_comptes_passifs = TRUE;
 
@@ -209,7 +209,7 @@ GtkWidget *creation_onglet_accueil ( void )
     /* mise en place de la partie des échéances manuelles ( non affiché ) */
     /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Run out manual scheduled transactions") );
-    frame_etat_echeances_manuelles_accueil = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_echeances_manuelles_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_manuelles_accueil, FALSE, FALSE, 6 );
 
@@ -217,28 +217,28 @@ GtkWidget *creation_onglet_accueil ( void )
     /* mise en place de la partie des échéances auto  ( non affiché )*/
     /*     sera mis à jour automatiquement si nécessaire */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Automatic scheduled transactions entered") );
-    frame_etat_echeances_auto_accueil = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_echeances_auto_accueil = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_echeances_auto_accueil, FALSE, FALSE, 6 );
 
 
     /* partie des fin d'échéances */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Closed scheduled transactions") );
-    main_page_finished_scheduled_transactions_part = gtk_vbox_new ( FALSE, 0 );
+    main_page_finished_scheduled_transactions_part = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), main_page_finished_scheduled_transactions_part, FALSE, FALSE, 6 );
 
 
     /* partie des soldes minimaux autorisés */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under authorized balance") );
-    frame_etat_soldes_minimaux_autorises = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_soldes_minimaux_autorises = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_autorises, FALSE, FALSE, 6 );
 
 
     /* partie des soldes minimaux voulus */
     paddingbox = new_paddingbox_with_title ( base, FALSE, _("Accounts under desired balance") );
-    frame_etat_soldes_minimaux_voulus = gtk_vbox_new ( FALSE, 0 );
+    frame_etat_soldes_minimaux_voulus = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_set_spacing ( GTK_BOX ( paddingbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), frame_etat_soldes_minimaux_voulus, FALSE, FALSE, 6 );
 
@@ -748,7 +748,7 @@ static void update_liste_comptes_accueil ( gboolean force )
     utils_container_remove_children ( frame_etat_comptes_accueil );
 
     /* Create the handle vbox  */
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_add ( GTK_CONTAINER ( frame_etat_comptes_accueil ), vbox );
 
     /* Préparation de la séparation de l'affichage des comptes en fonction
@@ -1521,7 +1521,7 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	show_paddingbox ( frame_etat_echeances_manuelles_accueil );
 
 	/* on y place la liste des échéances */
-	vbox = gtk_vbox_new ( FALSE, 6 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 	gtk_container_add ( GTK_CONTAINER(frame_etat_echeances_manuelles_accueil), vbox );
 	gtk_widget_show ( vbox );
 
@@ -1662,7 +1662,7 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 
 	/* on y place la liste des échéances */
 
-	vbox = gtk_vbox_new ( FALSE, 5 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_echeances_auto_accueil ), vbox);
 	gtk_widget_show ( vbox);
 
@@ -1817,7 +1817,8 @@ void update_soldes_minimaux ( gboolean force )
         {
             if ( !vbox_1 )
             {
-            vbox_1 = gtk_vbox_new ( TRUE, 5 );
+            vbox_1 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+            gtk_box_set_homogeneous ( GTK_BOX ( vbox_1 ), TRUE );
             gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_autorises ), vbox_1 );
             gtk_widget_show ( vbox_1 );
             show_paddingbox ( frame_etat_soldes_minimaux_autorises );
@@ -1842,7 +1843,8 @@ void update_soldes_minimaux ( gboolean force )
         {
             if ( !vbox_2 )
             {
-            vbox_2 = gtk_vbox_new ( TRUE, 5 );
+            vbox_2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+            gtk_box_set_homogeneous ( GTK_BOX ( vbox_2 ), TRUE );
             gtk_container_add ( GTK_CONTAINER ( frame_etat_soldes_minimaux_voulus ), vbox_2 );
             gtk_widget_show ( vbox_2 );
             show_paddingbox ( frame_etat_soldes_minimaux_voulus );
@@ -2117,7 +2119,7 @@ void update_fin_comptes_passifs ( gboolean force )
 
     if ( g_slist_length ( liste_tmp ) )
     {
-	vbox = gtk_vbox_new ( FALSE, 0 );
+	vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 	gtk_container_add ( GTK_CONTAINER ( frame_etat_fin_compte_passif ), vbox );
 	gtk_widget_show ( vbox );
 

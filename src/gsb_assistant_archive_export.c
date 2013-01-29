@@ -159,7 +159,7 @@ static GtkWidget *gsb_assistant_archive_export_page_choose ( GtkWidget *assistan
     GSList *tmp_list;
 
     /* create the page */
-    vbox_page = gtk_vbox_new ( FALSE, 0);
+    vbox_page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_set_border_width ( GTK_CONTAINER(vbox_page), 12 );
     paddingbox = new_paddingbox_with_title (vbox_page, TRUE,
 					    _("Select the archive to export"));
@@ -286,7 +286,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
 {
     GtkWidget * vbox, * hbox;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label = gtk_label_new ( NULL );
@@ -329,7 +329,7 @@ static GtkWidget *gsb_assistant_archive_export_page_succes ( GtkWidget *assistan
 {
     GtkWidget *vbox;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     archive_export_label_success = gtk_label_new ( NULL );

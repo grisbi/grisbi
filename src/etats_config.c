@@ -1523,7 +1523,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     GtkWidget *radio_2;
 
     /* la vbox qui contient la ligne complète */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* la première hbox pour le type de donnée concernée */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );

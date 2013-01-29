@@ -116,7 +116,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     GtkWidget *frame, *label, *table, *vbox, *hbox, *button, *separator;
 
     frame = gtk_frame_new ( NULL );
-    vbox = gtk_vbox_new ( FALSE, 3 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 3 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 3 );
     gtk_container_add ( GTK_CONTAINER ( frame ), vbox );
 

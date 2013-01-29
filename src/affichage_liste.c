@@ -156,8 +156,10 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
-    vbox_label = gtk_vbox_new ( TRUE, 5);
-    vbox_buttons = gtk_vbox_new ( TRUE, 5);
+    vbox_label = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    gtk_box_set_homogeneous ( GTK_BOX ( vbox_label ), TRUE );
+    vbox_buttons = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+    gtk_box_set_homogeneous ( GTK_BOX ( vbox_buttons ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /* fill the table */

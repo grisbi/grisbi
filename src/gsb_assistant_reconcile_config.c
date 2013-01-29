@@ -261,7 +261,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
     GtkWidget *button;
 	gchar* tmpstr;
 
-    page = gtk_vbox_new (FALSE, 5);
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     tmpstr = g_strdup_printf (_("Still %d transactions to link with a reconciliation."),
@@ -375,7 +375,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     GtkWidget *button;
     GtkWidget *hbox;
 
-    page = gtk_vbox_new ( FALSE, 0 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, FALSE,
@@ -522,7 +522,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
     GtkWidget *label;
     GtkWidget *hbox;
 
-    page = gtk_vbox_new (FALSE, 5);
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5);
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     /* for now we juste create the widgets, but cannot fill here,
@@ -604,7 +604,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     };
 
 
-    page = gtk_vbox_new ( FALSE, 0 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     /* the number of transactions to link */
@@ -708,7 +708,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
     GtkWidget *page;
     GtkWidget *label;
 
-    page = gtk_vbox_new ( FALSE, 0 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     label = gtk_label_new (_("Congratulations!\n\n"

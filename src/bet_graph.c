@@ -497,7 +497,7 @@ static void bet_graph_affiche_sub_divisions ( struct_bet_graph_data *parent,
     notebook = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "notebook_sub_div" ) );
     gtk_notebook_set_show_tabs ( GTK_NOTEBOOK ( notebook ), FALSE );
 
-    box_pie = gtk_vbox_new ( FALSE, 0 );
+    box_pie = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), box_pie, gtk_label_new ( _("Graph") ) );
 
     /* Set the graph */
@@ -735,7 +735,7 @@ static GogPlot *bet_graph_create_graph_page  ( struct_bet_graph_data *self,
     if ( add_page )
     {
         /* Set the new page */
-        child = gtk_vbox_new (FALSE, 0);
+        child = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
         gtk_notebook_prepend_page ( self->notebook, child, gtk_label_new ( _("Graph") ) );
     }
     else

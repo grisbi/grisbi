@@ -49,7 +49,7 @@ GtkWidget * new_stock_image_label ( GsbButtonStyle style, const gchar * stock_id
 {
     GtkWidget * vbox, *hbox, * label, * image;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
 
     /* Define image */
@@ -99,7 +99,7 @@ GtkWidget * new_image_label ( GsbButtonStyle style, const gchar * image_name, co
     GtkWidget *label = NULL;
     GtkWidget *image;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     /* Define image */

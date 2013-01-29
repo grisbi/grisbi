@@ -163,7 +163,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     /* devel_debug (NULL); */
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Beginning of period") );
@@ -280,7 +280,7 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_widget_show ( notebook );
 
     /* Data for the account of type GSB_TYPE_BANK, GSB_TYPE_CASH */
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
     gtk_widget_show ( vbox );
 
@@ -295,7 +295,7 @@ GtkWidget *bet_config_account_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), widget, FALSE, FALSE, 0 );
 
     /* Data for the account of type GSB_TYPE_LIABILITIES */
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_notebook_append_page ( GTK_NOTEBOOK ( notebook ), vbox, NULL );
     gtk_widget_show ( vbox );
 
@@ -328,7 +328,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     GtkWidget *label;
     gint account_number;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
@@ -376,7 +376,7 @@ GtkWidget *bet_config_account_get_forecast_data ( gchar *title )
     GtkWidget *widget;
     GtkWidget *paddingbox;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
 
     /* Calculation of duration */
@@ -409,7 +409,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
 
     if ( origin == SPP_ORIGIN_CONFIG )
     {
-        box = gtk_vbox_new ( FALSE, 0 );
+        box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
         pointeur = GINT_TO_POINTER ( 0 );
     }
     else if ( origin == SPP_ORIGIN_ARRAY )
@@ -575,7 +575,7 @@ GtkWidget *bet_config_get_select_labels_widget ( GtkWidget *container )
     gint origine;
     gint select;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( container ), vbox, FALSE, FALSE, 0 );
 
     /* set labels for transactions */
@@ -660,7 +660,7 @@ GtkWidget *bet_config_account_get_select_historical_data ( gchar *title )
     GtkWidget *paddingbox;
     GtkWidget *hbox;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
     hbox = bet_config_get_select_historical_data ( paddingbox, account_page );
@@ -1246,7 +1246,7 @@ GtkWidget *bet_config_account_get_finance_data ( gchar *title )
     GtkWidget *widget;
     GtkWidget *paddingbox;
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
 
     /* Data of credit */
@@ -1275,7 +1275,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     GtkWidget *image;
     GtkWidget *button;
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     /* Loan Capital */
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );

@@ -169,7 +169,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
     GtkListStore * model;
     GSList * tmp_list;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
     padding_box = new_paddingbox_with_title ( vbox, TRUE, _("Select accounts to export" ) );
 
@@ -436,7 +436,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     GtkWidget * vbox, * hbox, * label, * combo;
     gchar *tmpstr;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
 
     tmpstr = make_pango_attribut ( "size=\"x-large\"",

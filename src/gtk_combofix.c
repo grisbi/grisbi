@@ -621,7 +621,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
     priv -> visible_items = 0;
 
     /* the combofix is a vbox */
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_container_add ( GTK_CONTAINER ( combofix ), vbox );
     gtk_widget_show ( vbox );
 

@@ -460,7 +460,7 @@ GtkWidget *gsb_automem_radiobutton_new ( const gchar *choice1,
 {
     GtkWidget *button1, *button2, *vbox;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start (GTK_BOX(vbox), button1, FALSE, FALSE, 0 );
@@ -555,7 +555,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
     if ( orientation == GTK_ORIENTATION_HORIZONTAL )
         box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     else
-        box = gtk_vbox_new ( FALSE, 6 );
+        box = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 
     button1 = gtk_radio_button_new_with_mnemonic ( NULL, choice1 );
     gtk_box_pack_start ( GTK_BOX ( box ), button1, FALSE, FALSE, 0 );

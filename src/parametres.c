@@ -205,7 +205,7 @@ static GtkWidget *onglet_accueil ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Configuration of the main page"),
                         "title.png" );
 
-    vbox = gtk_vbox_new ( FALSE, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -253,7 +253,7 @@ static GtkWidget *onglet_accueil ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), sw, TRUE,TRUE, 0 );
 
     /* Create Add/Edit/Remove buttons */
-    vbox2 = gtk_vbox_new ( FALSE, 5 );
+    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */

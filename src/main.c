@@ -588,7 +588,7 @@ GtkWidget *gsb_main_create_main_window ( void )
     gtk_window_set_resizable ( GTK_WINDOW ( run.window ), TRUE );
 
     /* create the main window : a vbox */
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     g_object_set_data ( G_OBJECT ( run.window ), "main_vbox", vbox );
     gtk_container_add ( GTK_CONTAINER ( run.window ), vbox );
     g_signal_connect ( G_OBJECT ( vbox ),

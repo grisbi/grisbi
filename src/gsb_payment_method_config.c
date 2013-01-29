@@ -209,7 +209,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     gsb_payment_method_config_fill_list (GTK_TREE_MODEL (payment_method_model));
 
     /* Create "Add" & "Remove" buttons */
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
 			 FALSE, FALSE, 0 );
 

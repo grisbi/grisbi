@@ -135,7 +135,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
 
     /* Order buttons in a vbox */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
 			 FALSE, FALSE, 0 );
 

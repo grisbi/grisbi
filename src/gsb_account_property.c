@@ -201,7 +201,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     devel_debug ( NULL );
 
     /* la fenetre ppale est une vbox avec les détails en haut et appliquer en bas */
-    onglet = gtk_vbox_new ( FALSE, 5 );
+    onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_set_name ( onglet, "properties_page" );
     gtk_container_set_border_width ( GTK_CONTAINER ( onglet ), 10 );
 
@@ -222,7 +222,7 @@ GtkWidget *gsb_account_property_create_page ( void )
                         GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC );
     gtk_box_pack_start ( GTK_BOX ( onglet ), scrolled_window, TRUE, TRUE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
 
     gtk_scrolled_window_add_with_viewport ( GTK_SCROLLED_WINDOW ( scrolled_window ), vbox );
     gtk_viewport_set_shadow_type ( GTK_VIEWPORT ( gtk_bin_get_child ( GTK_BIN ( scrolled_window ) ) ),
@@ -329,7 +329,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
-    vbox2 = gtk_vbox_new (FALSE, 0);
+    vbox2 = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX (hbox), vbox2, FALSE, FALSE, 0 );
 
     /* we need to create first the text_view because used in callbacks */

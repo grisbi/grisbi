@@ -134,7 +134,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
 	    gsb_currency_link_config_fill_list ( tree_model );
 
     /* Create Add/Remove buttons */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */

@@ -2884,7 +2884,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
-        vbox = gtk_vbox_new ( FALSE, 0 );
+        vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 0 );
 
         combofix = metatree_get_combofix ( iface, division, sub_division, type_division );
@@ -3754,7 +3754,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     gtk_misc_set_alignment ( GTK_MISC ( label ), 0, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, TRUE, TRUE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 0 );
 
     combofix = metatree_get_combofix ( iface, division, sub_division, META_TREE_TRANSACTION );

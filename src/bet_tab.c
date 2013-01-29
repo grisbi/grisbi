@@ -710,7 +710,7 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *tree_view;
 
     devel_debug (NULL);
-    page = gtk_vbox_new ( FALSE, 5 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_set_name ( page, "forecast_page" );
 
     /* create the title */

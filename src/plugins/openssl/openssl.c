@@ -303,13 +303,13 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, TRUE, TRUE, 6 );
 
     /* Ugly dance to force alignement. */
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
     icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, TRUE, TRUE, 6 );
 
     label = gtk_label_new ("");

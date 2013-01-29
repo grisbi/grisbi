@@ -365,7 +365,7 @@ static GtkWidget *gsb_assistant_account_page_finish ( GtkWidget *assistant )
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
-    vbox = gtk_vbox_new (FALSE, 5);
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX (page),
 			 vbox,
 			 FALSE, FALSE, 0 );

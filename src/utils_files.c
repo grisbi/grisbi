@@ -528,7 +528,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     gtk_widget_set_size_request ( dialog, 600, -1 );
     gtk_dialog_set_response_sensitive   ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK, FALSE );
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(vbox), 12 );
     gtk_container_add ( GTK_CONTAINER ( dialog_get_content_area ( dialog ) ), vbox );
 

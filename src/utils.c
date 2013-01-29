@@ -295,7 +295,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
     GtkWidget *vbox, *hbox, *paddingbox, *label;
 	gchar* tmp_str;
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     if ( GTK_IS_BOX(parent) )
     {
 	gtk_box_pack_start ( GTK_BOX ( parent ), vbox,
@@ -323,7 +323,7 @@ GtkWidget *new_paddingbox_with_title (GtkWidget *parent, gboolean fill, const gc
 			 FALSE, FALSE, 0 );
 
     /* Then make the vbox itself */
-    paddingbox = gtk_vbox_new ( FALSE, 6 );
+    paddingbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), paddingbox,
 			 TRUE, TRUE, 0);
 
@@ -360,7 +360,7 @@ GtkWidget *new_vbox_with_title_and_icon ( gchar *title,
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
-    vbox_pref = gtk_vbox_new ( FALSE, 6 );
+    vbox_pref = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_widget_show ( vbox_pref );
 
     eb = gtk_event_box_new ();

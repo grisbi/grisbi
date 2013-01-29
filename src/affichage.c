@@ -187,7 +187,7 @@ GtkWidget * onglet_display_fonts ( void )
 				        conf.utilise_fonte_listes );
 
     /*     on crée la vbox qui contiendra la font button et le raz */
-    vbox = gtk_vbox_new ( FALSE, 10 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     gtk_widget_set_sensitive ( vbox, conf.utilise_fonte_listes );
@@ -208,7 +208,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* change colors */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Colors") );
 
-    vbox = gtk_vbox_new ( FALSE, 10 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 10 );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
@@ -703,7 +703,7 @@ GtkWidget *tab_display_toolbar ( void )
     GtkWidget *vbox;
     GtkWidget *button;
 
-    vbox_pref = gtk_vbox_new ( FALSE, 10 );
+    vbox_pref = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 10 );
 
     /* Headings bar */
     vbox = new_vbox_with_title_and_icon ( _("Headings bar"), "organization.png" );

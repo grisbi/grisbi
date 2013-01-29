@@ -99,7 +99,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
 
     /* All stuff will be put in a huge vbox, with an hbox containing
      * quick summary. */
-    vbox_general = gtk_vbox_new ( FALSE, 0 );
+    vbox_general = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     headings_eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( headings_eb );
@@ -192,7 +192,7 @@ GtkWidget *gsb_gui_create_general_notebook (void )
     /* the main right page is a vbox with a notebook on the top
      * and the form on the bottom */
 
-    vbox = gtk_vbox_new ( FALSE, 0 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     /* append the notebook */
     notebook_general = gtk_notebook_new ( );

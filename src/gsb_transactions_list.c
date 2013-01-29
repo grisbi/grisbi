@@ -307,14 +307,14 @@ GtkWidget *creation_fenetre_operations ( void )
 
     /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
     /*     des boutons de conf au milieu, le transaction_form en bas */
-    win_operations = gtk_vbox_new ( FALSE, 6 );
+    win_operations = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 
     /* création de la barre d'outils */
     transaction_toolbar = gtk_handle_box_new ();
     gtk_box_pack_start ( GTK_BOX ( win_operations ), transaction_toolbar, FALSE, FALSE, 0);
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
-    tree_view_vbox = gtk_vbox_new ( FALSE, 0 );
+    tree_view_vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
 
     gtk_box_pack_start ( GTK_BOX ( win_operations ), tree_view_vbox, TRUE, TRUE, 0);

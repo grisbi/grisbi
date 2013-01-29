@@ -325,7 +325,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     }
 
     /* Create Add/Remove buttons */
-    vbox = gtk_vbox_new ( FALSE, 5 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 0 );
 
     /* Button "Add" */
@@ -953,7 +953,7 @@ gboolean gsb_currency_config_add_currency ( GtkWidget *button,
 					       "currencies.png" );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), main_vbox, TRUE, TRUE, 0 );
 
-    vbox = gtk_vbox_new ( FALSE, 12 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( main_vbox ), vbox, TRUE, TRUE, 0 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 12 );
 
@@ -1191,7 +1191,7 @@ GtkWidget *gsb_currency_config_create_box_popup ( GCallback select_callback )
     gtk_container_add (GTK_CONTAINER (sw), treeview);
     gtk_container_set_resize_mode (GTK_CONTAINER (sw), GTK_RESIZE_PARENT);
 
-    vbox = gtk_vbox_new ( FALSE, 6 );
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX(vbox), sw,
 			 TRUE, TRUE, 0 );
 

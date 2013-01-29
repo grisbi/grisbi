@@ -194,7 +194,7 @@ GtkWidget *gsb_category_assistant_create_choice_page ( GtkWidget *assistant )
     GtkCellRenderer *cell;
     gint col_offset;
 
-    page = gtk_vbox_new ( FALSE, 6 );
+    page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     sw = gtk_scrolled_window_new (NULL, NULL);
