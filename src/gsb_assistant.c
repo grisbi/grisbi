@@ -147,7 +147,7 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     style = gtk_widget_get_style ( eb );
     gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
-    hbox = gtk_hbox_new ( FALSE, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_container_add ( GTK_CONTAINER(eb), hbox );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 

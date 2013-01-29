@@ -95,7 +95,7 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
 					     _("Reconciliation: sort transactions") );
 
     /* la partie du milieu est une hbox avec les types */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 TRUE, TRUE, 0 );
 
@@ -180,7 +180,8 @@ GtkWidget *gsb_reconcile_sort_config_create ( void )
     gsb_reconcile_sort_config_fill();
 
     /* set the arrows under the list */
-    vbox_fleches_tri = gtk_hbox_new ( TRUE, 10 );
+    vbox_fleches_tri = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
+    gtk_box_set_homogeneous ( GTK_BOX ( vbox_fleches_tri ), TRUE );
     gtk_box_pack_start ( GTK_BOX (paddingbox), vbox_fleches_tri,
 			 FALSE, FALSE, 0);
 

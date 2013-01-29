@@ -2951,7 +2951,7 @@ GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_vi
     GtkWidget *button;
 
     /* Hbox */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     /* print button */
     button = gsb_automem_stock_button_new ( conf.display_toolbar,

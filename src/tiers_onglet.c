@@ -329,7 +329,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     GtkWidget *hbox, *button;
 
     /* Hbox */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
@@ -669,7 +669,7 @@ gboolean edit_payee ( GtkTreeView * view )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, title );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );

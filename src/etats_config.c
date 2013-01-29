@@ -1526,7 +1526,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     vbox = gtk_vbox_new ( FALSE, 5 );
 
     /* la première hbox pour le type de donnée concernée */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     /* on crée le premier lien ne sert pas si c'est la première ligne */
@@ -1542,9 +1542,9 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
 
     /* avant de créer le bouton des champs, on doit créer hbox_txt, hbox_chq et les 2 check button */
     gsb_data_report_text_comparison_set_hbox_text ( text_comparison_number,
-                        gtk_hbox_new ( FALSE, 5 ) );
+                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 ) );
     gsb_data_report_text_comparison_set_hbox_cheque ( text_comparison_number,
-                        gtk_hbox_new ( FALSE, 5 ) );
+                        gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 ) );
 
     /* on crée le radio bouton de sélection entre les deux types de recherche caché par défaut */
     radio_1 = gtk_radio_button_new ( NULL );
@@ -1565,7 +1565,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
                         GINT_TO_POINTER ( text_comparison_number ) );
 
     /* la suite se met dans hbox_txt en 2ème row */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );
@@ -1602,7 +1602,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), entry, FALSE, FALSE, 0 );
 
     /* on crée maintenant la 2ème row qui concerne les tests de chq */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );
@@ -1645,7 +1645,7 @@ static GtkWidget *etats_config_onglet_texte_new_comparison_line ( GtkWidget *par
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), combo, FALSE, FALSE, 0 );
 
     /* on crée la hbox pour la deuxième partie de la comparaison*/
-    hbox_2 = gtk_hbox_new ( FALSE, 5 );
+    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gsb_data_report_text_comparison_set_hbox_second_part ( text_comparison_number, hbox_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox_1 ), hbox_2, FALSE, FALSE, 0 );
 
@@ -2126,7 +2126,7 @@ static GtkWidget *etats_config_onglet_montants_new_comparison_line ( GtkWidget *
     GtkWidget *entry;
     GtkWidget *combo;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
 
     /* on crée le premier lien ne sert pas si c'est la première ligne */
     if ( with_link )
@@ -2159,7 +2159,7 @@ static GtkWidget *etats_config_onglet_montants_new_comparison_line ( GtkWidget *
     gsb_data_report_amount_comparison_set_button_link_first_to_second_part ( amount_comparison_number, combo );
 
     /* the hbox is created in hbox_2 and is used later */
-    hbox_2 = gtk_hbox_new ( FALSE, 5 );
+    hbox_2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gsb_data_report_amount_comparison_set_hbox_second_part ( amount_comparison_number, hbox_2 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), hbox_2, FALSE, FALSE, 0 );
 

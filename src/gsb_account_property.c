@@ -232,7 +232,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox, FALSE, _("Account details"));
 
    /* création de la ligne du nom du compte */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account name: ") );
@@ -253,7 +253,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_nom_compte, TRUE, TRUE, 0 );
 
     /* create the box of kind of account */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account type: ") );
@@ -271,7 +271,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_type_compte, TRUE, TRUE, 0);
 
     /* create the currency line */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account currency: ") );
@@ -306,7 +306,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* création de la ligne du titulaire du compte */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Account holder"));
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Holder name: ") );
@@ -326,7 +326,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_titulaire_compte, TRUE, TRUE, 0);
 
     /* address of the holder line */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     vbox2 = gtk_vbox_new (FALSE, 0);
@@ -373,7 +373,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
     /* création de la ligne de l'établissement financier */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Bank"));
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Financial institution: ") );
@@ -397,7 +397,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), edit_bank_button, FALSE, FALSE, 0 );
 
     /* création du numéro BIC */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("BIC code: ") );
@@ -411,7 +411,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_bic, TRUE, TRUE, 0 );
 
      /* création de la ligne du numéro IBAN */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("IBAN number: ") );
@@ -440,7 +440,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), detail_IBAN, FALSE, FALSE, 0 );
 
     /* create the code of bank */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Bank sort code: ") );
@@ -454,7 +454,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), label_code_banque, TRUE, TRUE, 0 );
 
     /* création de la ligne du guichet */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Bank branch code: ") );
@@ -475,7 +475,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     gtk_box_pack_start ( GTK_BOX(hbox), detail_guichet, TRUE, TRUE, 0);
 
     /* création de la ligne du numéro du compte */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Account number / Key: ") );
@@ -512,7 +512,7 @@ GtkWidget *gsb_account_property_create_page ( void )
     /* création de la ligne du solde initial */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Balances"));
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(paddingbox), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Initial balance: ") );
@@ -528,7 +528,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
 
     /* création de la ligne du solde mini autorisé */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Minimum authorised balance: ") );
@@ -545,7 +545,7 @@ GtkWidget *gsb_account_property_create_page ( void )
 
 
     /* création de la ligne du solde mini voulu */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Minimum desired balance: ") );

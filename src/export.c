@@ -451,7 +451,7 @@ GtkWidget * create_export_account_resume_page ( struct exported_account * accoun
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 0 );
 
     /* Layout */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );
 

@@ -299,7 +299,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
     gtk_dialog_set_default_response ( GTK_DIALOG ( dialog ), GTK_RESPONSE_OK );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ), hbox, TRUE, TRUE, 6 );
 
     /* Ugly dance to force alignement. */
@@ -331,7 +331,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
                         additional_message, file_name ) );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 6 );
 
-    hbox2 = gtk_hbox_new ( FALSE, 6 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox2, FALSE, FALSE, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox2 ),
                         gtk_label_new ( _("Password: ") ),

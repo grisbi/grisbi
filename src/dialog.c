@@ -743,7 +743,7 @@ const gchar *dialogue_hint_with_entry ( gchar *text, gchar *hint, gchar *entry_d
                         NULL );
     gtk_message_dialog_set_markup ( GTK_MESSAGE_DIALOG ( dialog ), format_text );
 
-    hbox = gtk_hbox_new (FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) ) ),
                         hbox,
                         FALSE, FALSE, 0);

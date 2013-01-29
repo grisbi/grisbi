@@ -127,7 +127,7 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_frame_set_label_widget ( GTK_FRAME(frame), label);
 
     /* number of reconcile */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Reconciliation reference: ") );
@@ -149,10 +149,10 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_table_set_row_spacings ( GTK_TABLE ( table ), 3 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), table, FALSE, FALSE, 0);
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 3, 1, 2 );
 
-    separator = gtk_hseparator_new();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_table_attach_defaults ( GTK_TABLE ( table ), separator, 0, 3, 3, 4 );
 
     separator = gtk_vseparator_new ();
@@ -251,7 +251,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     separator = gtk_hseparator_new();
     gtk_box_pack_start ( GTK_BOX ( vbox ), separator, FALSE, FALSE, 0);
 
-    hbox = gtk_hbox_new ( TRUE, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     reconcile_sort_list_button = gtk_check_button_new_with_label (_("Sort by method of payment"));
@@ -261,7 +262,8 @@ GtkWidget *gsb_reconcile_create_box ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), reconcile_sort_list_button, FALSE, FALSE, 0);
 
     /* make the buttons */
-    hbox = gtk_hbox_new ( TRUE, 3 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_end ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0);
 
     button = gtk_button_new_from_stock ( GTK_STOCK_CANCEL );

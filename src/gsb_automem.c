@@ -553,7 +553,7 @@ GtkWidget *gsb_automem_radiobutton3_new ( const gchar *choice1,
     GtkWidget *button3 = NULL;
 
     if ( orientation == GTK_ORIENTATION_HORIZONTAL )
-        box = gtk_hbox_new ( FALSE, 6 );
+        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     else
         box = gtk_vbox_new ( FALSE, 6 );
 
@@ -835,7 +835,7 @@ GtkWidget *gsb_automem_stock_button_menu_new ( GsbButtonStyle style,
 
     vbox = new_stock_image_label ( style, stock_id, name );
 
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX(hbox), vbox, TRUE, TRUE, 0 );
 
     arrow = gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE );

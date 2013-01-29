@@ -141,7 +141,7 @@ GtkWidget *gsb_gui_create_report_toolbar ( void )
 {
     GtkWidget *hbox, *button;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
 
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
@@ -1146,7 +1146,7 @@ void exporter_etat ( void )
     g_object_set_data ( G_OBJECT(fenetre_nom), "basename",
 			 gsb_data_report_get_report_name ( gsb_gui_navigation_get_current_report () ) );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX(hbox), gtk_label_new ( _("File format: ") ),
 			 FALSE, FALSE, 0 );
 

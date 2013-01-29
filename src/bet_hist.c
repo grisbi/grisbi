@@ -174,7 +174,7 @@ GtkWidget *bet_historical_create_page ( void )
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_container_add ( GTK_CONTAINER ( align ), hbox );
     g_object_set_data ( G_OBJECT ( account_page ), "bet_historical_data", hbox );
 
@@ -1933,7 +1933,7 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
     GtkWidget *button;
 
     /* Hbox */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     /* print button */
     button = gsb_automem_stock_button_new ( conf.display_toolbar,

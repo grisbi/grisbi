@@ -120,7 +120,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* Change Grisbi Logo */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Grisbi logo") );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     check_button = gtk_check_button_new_with_label ( _("Display a logo"));
@@ -129,7 +129,7 @@ GtkWidget * onglet_display_fonts ( void )
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( check_button ),
 				   etat.utilise_logo );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     /*     le logo est grisé ou non suivant qu'on l'utilise ou pas */
@@ -177,7 +177,7 @@ GtkWidget * onglet_display_fonts ( void )
     /* Change fonts */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Fonts") );
 
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     check_button = gtk_check_button_new_with_label (
@@ -211,7 +211,7 @@ GtkWidget * onglet_display_fonts ( void )
     vbox = gtk_vbox_new ( FALSE, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), vbox, FALSE, FALSE, 10 );
 
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 10 );
 
     color_combobox = gsb_color_create_color_combobox ( );
@@ -370,7 +370,7 @@ GtkWidget *onglet_display_addresses ( void )
                         ( GCallback ) update_homepage_title, NULL );
 
     /* Choice of title type */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     radiogroup = gtk_radio_button_new_with_label ( NULL, _("Accounting entity") );
@@ -407,7 +407,7 @@ GtkWidget *onglet_display_addresses ( void )
                         entry );
     gtk_box_pack_start ( GTK_BOX( hbox ), radio, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 

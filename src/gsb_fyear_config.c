@@ -105,7 +105,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 					       "financial-years.png" );
     paddingbox = new_paddingbox_with_title ( vbox_pref, TRUE,
 					     _("Known financial years") );
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 TRUE, TRUE, 0);
 
@@ -160,7 +160,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 5 );
 
     /* Associate operations : under the list */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -181,7 +181,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 
     /* create a hbox, the table on the left
      * and the warning on the right */
-    hbox = gtk_hbox_new ( FALSE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_pack_start ( GTK_BOX (paddingbox), hbox,
 			 FALSE, FALSE, 0 );
 

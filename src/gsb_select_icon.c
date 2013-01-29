@@ -176,7 +176,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     content_area = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
 
     /* création hbox pour GtkEntry répertoire et bouton sélection des répertoires */
-    hbox = gtk_hbox_new ( FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
 	gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( content_area ), hbox, FALSE, FALSE, 5 );
 

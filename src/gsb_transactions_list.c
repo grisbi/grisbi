@@ -332,7 +332,7 @@ GtkWidget *creation_barre_outils_transaction ( void )
     gint account_number;
 
     /* Hbox */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     /* Add various icons */
     button = gsb_automem_imagefile_button_new ( conf.display_toolbar,

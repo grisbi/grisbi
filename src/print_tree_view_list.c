@@ -974,7 +974,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
 
     /* set up the title, this is never saved, so ask each time */
     /* title line */
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     entry = gsb_automem_entry_new ( &title_string, NULL, NULL);
@@ -1015,7 +1015,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_hbox_new ( FALSE, 12 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Transactions font") );
@@ -1032,7 +1032,7 @@ GtkWidget *print_tree_view_list_layout_config ( GtkPrintOperation *operation, gp
     gtk_box_pack_start ( GTK_BOX ( hbox ), font_button_transactions, TRUE, TRUE, 0 );
 
     /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 12);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Title font") );

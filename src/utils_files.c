@@ -533,7 +533,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     gtk_container_add ( GTK_CONTAINER ( dialog_get_content_area ( dialog ) ), vbox );
 
     /* Warning label */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     warn = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON );
@@ -599,7 +599,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, TRUE, TRUE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
     go_charmap_sel = go_charmap_sel_new (GO_CHARMAP_SEL_TO_UTF8);

@@ -295,7 +295,7 @@ static GtkWidget *gsb_assistant_archive_export_page_name ( GtkWidget *assistant 
     gtk_box_pack_start ( GTK_BOX ( vbox ), archive_export_label, FALSE, FALSE, 0 );
 
     /* Layout */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 gtk_label_new ( _("Export format: ") ),
 			 FALSE, FALSE, 0 );

@@ -298,7 +298,7 @@ GtkWidget *gsb_currency_config_create_page ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Currencies"), "currencies.png" );
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known currencies"));
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
 
     /* Currency list */

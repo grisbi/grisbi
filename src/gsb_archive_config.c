@@ -252,7 +252,7 @@ GtkWidget *gsb_archive_config_create ( void )
 			 FALSE, FALSE,
 			 0 );
 
-    hbox = gtk_hbox_new (FALSE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX (check_paddingbox),
 			 hbox,
 			 TRUE, FALSE,

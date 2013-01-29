@@ -149,7 +149,7 @@ void gsb_form_config_make_configuration_box ( GtkWidget *vbox_parent )
     /* we can organize the form
      * either the same for all the accounts
      * either each account has its own configuration */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX (paddingbox), hbox, FALSE, FALSE, 0 );
 
     /* the accounts option_menu */
@@ -310,13 +310,11 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
     GtkWidget *button;
     GtkWidget *label;
 
-    hbox = gtk_hbox_new ( FALSE,
-			  5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
 
     /* line number choice */
 
-    hbox2 = gtk_hbox_new ( FALSE,
-			   5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 hbox2,
 			 FALSE,
@@ -362,8 +360,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 
     /* columns number choice */
 
-    hbox2 = gtk_hbox_new ( FALSE,
-			   5 );
+    hbox2 = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_end ( GTK_BOX ( hbox ),
 		       hbox2,
 		       FALSE,
@@ -1186,7 +1183,6 @@ gboolean gsb_form_config_drag_begin ( GtkWidget *tree_view,
     pixbuf_cursor = gdk_pixbuf_get_from_surface ( s, rectangle.x, rectangle.y, rectangle.width, rectangle.height );
 
     cairo_surface_destroy (s);
-
 
     gtk_drag_source_set_icon_pixbuf ( tree_view, pixbuf_cursor );
     g_object_unref (pixbuf_cursor);

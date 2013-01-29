@@ -171,7 +171,7 @@ GtkWidget *bet_config_general_get_period_widget ( GtkWidget *container )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( vbox ), label, FALSE, FALSE, 5) ;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5) ;
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -333,7 +333,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     /* set the choice of account */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 5 );
 
     label = gtk_label_new ( _("Account: ") );
@@ -414,7 +414,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     }
     else if ( origin == SPP_ORIGIN_ARRAY )
     {
-        box = gtk_hbox_new ( FALSE, 0 );
+        box = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
         pointeur = GINT_TO_POINTER ( 1 );
     }
 
@@ -424,7 +424,7 @@ GtkWidget *bet_config_get_duration_widget ( gint origin )
     gtk_label_set_justify ( GTK_LABEL ( label ), GTK_JUSTIFY_LEFT );
     gtk_box_pack_start ( GTK_BOX ( box ), label, FALSE, FALSE, 5 ) ;
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( box ), hbox, FALSE, FALSE, 0 ) ;
 
     spin_button = gtk_spin_button_new_with_range ( 1.0, prev_month_max, 1.0);
@@ -685,7 +685,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     gint year;
 
     /* Choix des données sources */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( container ), hbox, FALSE, FALSE, 0 );
 
     button_1 = gtk_radio_button_new_with_label ( NULL,
@@ -1278,7 +1278,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     vbox = gtk_vbox_new ( FALSE, 5 );
 
     /* Loan Capital */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Loan Capital: ") );
@@ -1316,7 +1316,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Date of first Repayment */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Date of first repayment: ") );
@@ -1329,7 +1329,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), widget, FALSE, FALSE, 5 );
 
     /* Annuel rate interest */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Annuel rate interest: ") );
@@ -1347,7 +1347,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* frais */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Fees per month: ") );
@@ -1370,7 +1370,7 @@ GtkWidget *bet_config_get_finance_widget ( GtkWidget *parent )
     gtk_box_pack_start ( GTK_BOX ( hbox ), label, FALSE, FALSE, 5 );
 
     /* Rate Type */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 5);
 
     label = gtk_label_new ( _("Rate Type: ") );
@@ -1574,7 +1574,7 @@ static GtkWidget *bet_config_account_get_select_bank_card ( void )
     GtkWidget *combo;
 
     /* partie de gestion des comptes cartes avec débit différé */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     button = gtk_check_button_new_with_label ( _("Account with deferred debit card") );
     gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button ), FALSE );

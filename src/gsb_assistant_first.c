@@ -197,7 +197,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *dialog;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15);
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -273,7 +273,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
-    hbox = gtk_hbox_new ( FALSE, 6);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -293,7 +293,7 @@ static GtkWidget *gsb_assistant_first_page_2 ( GtkWidget *assistant )
 			 FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 
@@ -335,7 +335,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     GtkWidget *hbox;
     GtkWidget *image;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
     vbox = new_vbox_with_title_and_icon ( _("Reconciliation"), "reconciliationlg.png" );
@@ -344,7 +344,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     paddingbox = new_paddingbox_with_title (vbox, FALSE,
 					    _("Error getting reconciliations"));
 
-    hbox = gtk_hbox_new ( FALSE, 15 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 15 );
 
     image = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG );

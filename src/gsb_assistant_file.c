@@ -262,7 +262,7 @@ static GtkWidget *gsb_assistant_file_page_2 ( GtkWidget *assistant )
     GtkWidget *table;
     GtkWidget *filename_entry;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -377,7 +377,7 @@ static GtkWidget *gsb_assistant_file_page_3 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *vbox;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -416,7 +416,7 @@ static GtkWidget *gsb_assistant_file_page_4 ( GtkWidget *assistant )
     GtkWidget *vbox;
     GtkWidget *button_list;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -448,7 +448,7 @@ static GtkWidget *gsb_assistant_file_page_5 ( GtkWidget *assistant )
     GtkWidget *page;
     GtkWidget *bank_page;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 
@@ -479,7 +479,7 @@ static GtkWidget *gsb_assistant_file_page_finish ( GtkWidget *assistant,
     GtkWidget *label;
     GtkWidget *button;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 

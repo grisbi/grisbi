@@ -219,7 +219,7 @@ void gsb_form_create_widgets ( void )
     }
 
     /* Expander has a composite label */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_expander_set_label_widget ( GTK_EXPANDER(form_expander), hbox );
 
     /* set the label transaction form */
@@ -306,14 +306,15 @@ void gsb_form_create_widgets ( void )
     gtk_box_pack_start ( GTK_BOX (transaction_form), form_button_part, FALSE, FALSE, 0 );
 
     /* add a separator between the transaction and button part */
-    separator = gtk_hseparator_new ();
+    separator = gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL );
     gtk_box_pack_start ( GTK_BOX (form_button_part), separator, FALSE, FALSE, 0 );
 
     /* Hbox containing buttons */
-    hbox_buttons = gtk_hbox_new ( FALSE, 0 );
+    hbox_buttons = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX (form_button_part), hbox_buttons, FALSE, FALSE, 0 );
 
-    hbox_buttons_inner = gtk_hbox_new ( TRUE, 0 );
+    hbox_buttons_inner = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox_buttons_inner ), TRUE );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons), hbox_buttons_inner, FALSE, FALSE, 0 );
 
     /* create the check button to recover the children of splits */

@@ -199,7 +199,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     GtkWidget *button;
     GtkWidget *hbox;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page), 10 );
 
     vbox = gtk_vbox_new (FALSE, 5);
@@ -225,7 +225,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_misc_set_padding ( GTK_MISC (label), 24, 0 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -273,7 +273,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  ( sens_desensitive_pointeur ),
@@ -309,7 +309,7 @@ static GtkWidget *gsb_assistant_archive_page_menu ( GtkWidget *assistant )
     gtk_misc_set_alignment ( GTK_MISC (label), 0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (vbox), label, FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     g_signal_connect ( G_OBJECT (button),
                         "toggled",
                         G_CALLBACK  (sens_desensitive_pointeur),
@@ -353,7 +353,7 @@ static GtkWidget *gsb_assistant_archive_page_archive_name ( GtkWidget *assistant
     GtkWidget *vbox;
     GtkWidget *label;
 
-    page = gtk_hbox_new (FALSE, 15);
+    page = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_container_set_border_width ( GTK_CONTAINER (page),
 				     10 );
 

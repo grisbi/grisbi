@@ -1147,7 +1147,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
-    hbox = gtk_hbox_new ( FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 

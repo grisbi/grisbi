@@ -104,7 +104,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     vbox_pref = new_vbox_with_title_and_icon ( _("Links between currencies"), "currencies.png" );
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE, _("Known links"));
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 0);
 
     /* links list */
@@ -157,7 +157,7 @@ GtkWidget *gsb_currency_link_config_create_page ( void )
     paddingbox = new_paddingbox_with_title (vbox_pref, FALSE, _("Link properties"));
 
     /* Create hbox line */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ),
 			 hbox,
 			 TRUE, TRUE, 0 );

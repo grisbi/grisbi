@@ -132,7 +132,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
     /* Known payment methods */
     paddingbox = new_paddingbox_with_title (vbox_pref, TRUE,
 					    _("Known payment methods"));
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 TRUE, TRUE, 0 );
 
@@ -1282,7 +1282,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), FALSE );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, _("Payment method is used by transactions") );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );
@@ -1312,7 +1312,7 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), label, FALSE, FALSE, 0 );
     gtk_widget_show (label);
 
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Associate transactions with: "));

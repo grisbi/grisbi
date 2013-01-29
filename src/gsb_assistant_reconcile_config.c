@@ -456,7 +456,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
 			GTK_EXPAND | GTK_FILL, 0, 0, 0 );
 
     /* create the button */
-    hbox = gtk_hbox_new (TRUE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX (page),
 			 hbox,
 			 FALSE, FALSE,
@@ -555,7 +556,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
 			 FALSE, FALSE, 12 );
 
     /* set the button to run the association */
-    hbox = gtk_hbox_new (TRUE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX (page),
 			 hbox,
 			 FALSE, FALSE,
@@ -674,7 +676,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
     }
 
     /* set the button to associate */
-    hbox = gtk_hbox_new (TRUE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_box_pack_start ( GTK_BOX (page),
 			 hbox,
 			 FALSE, FALSE,

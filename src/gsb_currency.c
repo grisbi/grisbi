@@ -537,7 +537,7 @@ void gsb_currency_exchange_dialog ( gint account_currency_number,
     tmpstr = g_strdup_printf ( _("Please enter data for the transaction") );
 
     /* Ugly dance to avoid side effects on dialog's vbox. */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
     paddingbox = new_paddingbox_with_title ( hbox, TRUE, tmpstr );
     gtk_container_set_border_width ( GTK_CONTAINER(hbox), 6 );

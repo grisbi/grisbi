@@ -225,7 +225,7 @@ static GtkWidget *onglet_accueil ( void )
     /* Take into account the planned operations in the calculation of balances */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Calculation of balances") );
 
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -241,7 +241,7 @@ static GtkWidget *onglet_accueil ( void )
     paddingbox = new_paddingbox_with_title (vbox, FALSE,
                         _("Balances partials of the list of accounts") );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, TRUE, TRUE, 5);
 
     sw = gtk_scrolled_window_new (NULL, NULL);
@@ -394,7 +394,7 @@ static GtkWidget *onglet_accueil ( void )
     }
 
     /* mettre les soldes partiels sous les comptes si possibles */
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -556,7 +556,7 @@ gboolean preferences ( gint page )
     tree = create_preferences_tree();
     hpaned = gtk_hpaned_new();
     gtk_paned_add1 ( GTK_PANED(hpaned), tree );
-    hbox = gtk_hbox_new ( FALSE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
 
     /* Frame for preferences */
@@ -1176,7 +1176,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Memorize last opened files in menu */
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Memorise last opened files: ") );
@@ -1211,7 +1211,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button, FALSE, FALSE, 0 );
 
     /* Automatic backup every x minutes */
-    hbox = gtk_hbox_new ( FALSE, 6);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Make a backup copy every "),
@@ -1228,7 +1228,7 @@ GtkWidget *onglet_fichier ( void )
     gtk_box_pack_start ( GTK_BOX (hbox), label, FALSE, FALSE, 0 );
 
     /* if automatic backup, choose a dir */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("Backup directory: ") );
@@ -1257,7 +1257,7 @@ GtkWidget *onglet_fichier ( void )
 #if IS_DEVELOPMENT_VERSION == 1
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Config file") );
 
-    hbox = gtk_hbox_new ( FALSE, 6);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0);
 
     button = gsb_automem_checkbutton_new (_("Use the config file of version stable as model"),
@@ -1397,7 +1397,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
                         &conf.execute_scheduled_of_month,
                         NULL, NULL );
 
-    hbox = gtk_hbox_new ( FALSE, 0);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (
@@ -1628,7 +1628,7 @@ GtkWidget *gsb_config_date_format_chosen ( GtkWidget *parent, gint sens )
     else
     {
         paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Date format") );
-        hbox = gtk_hbox_new ( FALSE, 0 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_1, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), button_2, FALSE, FALSE, 0 );
@@ -1703,7 +1703,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
 
     size_group = gtk_size_group_new ( GTK_SIZE_GROUP_HORIZONTAL );
 
-    dec_hbox = gtk_hbox_new ( FALSE, 0 );
+    dec_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new ( _("Decimal point: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
@@ -1716,7 +1716,7 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     gtk_combo_box_text_append_text ( GTK_COMBO_BOX_TEXT ( dec_sep ), "," );
     gtk_box_pack_start ( GTK_BOX ( dec_hbox ), dec_sep, FALSE, FALSE, 0 );
 
-    thou_hbox = gtk_hbox_new ( FALSE, 0 );
+    thou_hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     label = gtk_label_new (_("Thousands separator: ") );
     gtk_misc_set_alignment ( GTK_MISC ( label ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group ), label );
@@ -1741,7 +1741,8 @@ GtkWidget *gsb_config_number_format_chosen ( GtkWidget *parent, gint sens )
     else
     {
         paddingbox = new_paddingbox_with_title ( parent, FALSE, _("Decimal and thousands separator") );
-        hbox = gtk_hbox_new ( TRUE, 0 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+        gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
         gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), dec_hbox, FALSE, FALSE, 0 );
         gtk_box_pack_start ( GTK_BOX ( hbox ), thou_hbox, FALSE, FALSE, 0 );

@@ -155,7 +155,7 @@ GtkWidget *onglet_affichage_operations ( void )
     /* heading and boxes for layout */
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _( "Display modes" ) );
 
-    hbox = gtk_hbox_new ( FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
     vbox_label = gtk_vbox_new ( TRUE, 5);
     vbox_buttons = gtk_vbox_new ( TRUE, 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
@@ -228,7 +228,7 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Primary sorting option") );
 
-    hbox = gtk_hbox_new ( FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gtk_combo_box_text_new ();
@@ -248,7 +248,7 @@ GtkWidget *onglet_affichage_operations ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE,
                         _("Secondary sorting option") );
 
-    hbox = gtk_hbox_new ( FALSE, 5);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5);
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 0 );
 
     button = gtk_combo_box_text_new ();
@@ -571,7 +571,7 @@ GtkWidget *onglet_form_completion ( void )
                         vbox_pref ),
                         FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -583,7 +583,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -595,7 +595,7 @@ GtkWidget *onglet_form_completion ( void )
     gtk_widget_set_sensitive ( button, conf.automatic_completion_payee );
     gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 20 );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), hbox, FALSE, FALSE, 0 );
 
     button = gsb_automem_checkbutton_new (
@@ -630,7 +630,7 @@ GtkWidget *onglet_form_completion ( void )
                         G_CALLBACK ( gsb_transactions_list_display_update_combofix), NULL),
                         FALSE, FALSE, 0 );
 
-    hbox = gtk_hbox_new ( FALSE, 5 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX (vbox_pref), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new (

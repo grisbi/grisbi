@@ -415,7 +415,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 
     /* set up the font of the transactions,
      * by default use the font of the lists */
-    hbox = gtk_hbox_new (FALSE, 12);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);
@@ -435,7 +435,7 @@ GtkWidget * print_config_show_config ( GtkPrintOperation * operation,
 			TRUE, TRUE, 0);
 
     /* set up the font for the title */
-    hbox = gtk_hbox_new (FALSE, 12);
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 12 );
     gtk_box_pack_start (GTK_BOX ( paddingbox ),
 			hbox,
 			FALSE, FALSE, 0);

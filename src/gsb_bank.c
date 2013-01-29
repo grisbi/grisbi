@@ -473,7 +473,7 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     paddingbox = new_paddingbox_with_title ( paned1, FALSE,
 					     _("Known banks") );
 
-    hbox = gtk_hbox_new ( FALSE, 10 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 10 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox,
 			 FALSE, FALSE, 0);
 

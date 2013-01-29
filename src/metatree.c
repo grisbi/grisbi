@@ -1761,7 +1761,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     g_free ( tmpstr1 );
     g_free ( tmpstr2 );
 
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
@@ -1861,7 +1861,7 @@ gboolean find_destination_blob ( MetatreeInterface * iface,
     gtk_box_pack_start ( GTK_BOX ( hbox ), combofix, TRUE, TRUE, 0 );
 
     /* other choice, just remove the division */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox,
 			 FALSE, FALSE, 0 );
 
@@ -2877,7 +2877,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), button, FALSE, FALSE, 0 );
 
         /* create the list containing division and sub-division without the current division */
-        hbox = gtk_hbox_new ( FALSE, 6 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
@@ -2898,7 +2898,7 @@ gboolean metatree_find_destination_blob ( MetatreeInterface *iface,
         /* on reset le choix */
         button_action_selected = 0;
 
-        hbox = gtk_hbox_new ( FALSE, 6 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
         gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
         label = gtk_label_new ( _("Select the destination: ") );
@@ -3747,7 +3747,7 @@ static gboolean metatree_select_transactions_destination ( MetatreeInterface *if
     }
 
     /* create the list containing division and sub-division without the current division */
-    hbox = gtk_hbox_new ( FALSE, 6 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( _("Select the destination: ") );

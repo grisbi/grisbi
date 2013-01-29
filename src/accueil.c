@@ -150,7 +150,7 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_show ( vbox );
 
     /* on met le titre du fichier */
-    hbox_title = gtk_hbox_new ( FALSE, 0 );
+    hbox_title = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 
     eb = gtk_event_box_new ();
     style = gtk_widget_get_style ( eb );
@@ -302,7 +302,7 @@ static gboolean saisie_echeance_accueil ( GtkWidget *event_box,
     gtk_dialog_set_default_response ( GTK_DIALOG (dialog), GTK_RESPONSE_OK );
 
 	/* first we reparent the form in the dialog */
-	hbox = gtk_hbox_new ( FALSE, 0 );
+	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
 	gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, TRUE, TRUE, 0 );
 	gtk_container_set_border_width ( GTK_CONTAINER(hbox), 12 );
 	gtk_widget_reparent ( form_transaction_part, hbox );
@@ -1556,7 +1556,8 @@ void update_liste_echeances_manuelles_accueil ( gboolean force )
 	    account_number = gsb_data_scheduled_get_account_number (scheduled_number);
 	    currency_number = gsb_data_scheduled_get_currency_number (scheduled_number);
 
-	    hbox = gtk_hbox_new ( TRUE, 5 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+        gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
 
@@ -1681,7 +1682,8 @@ void update_liste_echeances_auto_accueil ( gboolean force )
 	    currency_number = gsb_data_transaction_get_currency_number (transaction_number);
 
 
-	    hbox = gtk_hbox_new ( TRUE, 5 );
+        hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
+        gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show (  hbox );
 
@@ -2159,7 +2161,8 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
     currency_number = gsb_data_scheduled_get_currency_number ( scheduled_number) ;
 
     /* append in the page the finished scheduled transaction */
-    hbox = gtk_hbox_new ( TRUE, 0 );
+    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    gtk_box_set_homogeneous ( GTK_BOX ( hbox ), TRUE );
     gtk_widget_show (  hbox );
 
     /* label à gauche */
@@ -2179,7 +2182,7 @@ gboolean gsb_main_page_update_finished_scheduled_transactions ( gint scheduled_n
 
     /* label à droite */
     amount = gsb_data_scheduled_get_amount ( scheduled_number );
-    
+
     if ( amount.mantissa >= 0 )
     {
         amount = gsb_real_abs ( amount );
