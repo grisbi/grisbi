@@ -146,7 +146,7 @@ void gtktable_attach_label ( gchar * text, gdouble properties, int x, int x2, in
 	g_signal_connect_swapped ( G_OBJECT ( event_box ),
 				    "button_press_event",
 				    G_CALLBACK ( gtktable_click_sur_ope_etat ),
-				    (GtkObject *) GINT_TO_POINTER (transaction_number) );
+				    GINT_TO_POINTER (transaction_number) );
 	gtk_table_attach ( GTK_TABLE ( table_etat ), event_box,
 			   x, x2, y, y2,
 			   GTK_SHRINK | GTK_FILL,
