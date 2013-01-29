@@ -2929,7 +2929,7 @@ gboolean bet_transfert_new_line_dialog ( GtkTreeModel *tab_model,
     bet_transfert_dialog = bet_transfert_create_dialog ( account_number );
     if ( bet_transfert_dialog == NULL )
     {
-        dialogue_warning ( _("You must create at least one cash account") );
+        dialogue_warning ( _("You must have at least one account with deferred debit card.") );
         return FALSE;
     }
 
