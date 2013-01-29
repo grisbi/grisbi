@@ -763,14 +763,8 @@ void update_titres_tree_view ( void )
         col = GTK_TREE_VIEW_COLUMN ( transactions_tree_view_columns[i] );
         gtk_tree_view_column_set_title ( col, ( titres_colonnes_liste_operations[i] ) );
 
-/*         for gtk3
- *          button = gtk_tree_view_column_get_button  ( col );
- */
-        button = col->button;
-        if ( button )
-        {
-            gtk_widget_set_tooltip_text ( button, tips_col_liste_operations[i] );
-        }
+        button = gtk_tree_view_column_get_button  ( col );
+        gtk_widget_set_tooltip_text ( button, tips_col_liste_operations[i] );
     }
 }
 
@@ -827,11 +821,8 @@ GtkWidget *gsb_transactions_list_create_tree_view ( GtkTreeModel *model )
 
         gtk_tree_view_column_set_clickable ( col, TRUE );
 
-    /* set the tooltips */
-/*         for gtk3
- *          button = gtk_tree_view_column_get_button  ( col );
- */
-        button = col->button;
+        /* set the tooltips */
+        button = gtk_tree_view_column_get_button  ( col );
         gtk_widget_set_tooltip_text ( button, tips_col_liste_operations[i] );
 
         g_signal_connect ( G_OBJECT ( button ),
