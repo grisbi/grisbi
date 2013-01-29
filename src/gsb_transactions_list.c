@@ -1619,11 +1619,11 @@ gboolean gsb_transactions_list_key_press ( GtkWidget *widget,
 
     case GDK_KEY_P:         /* touche P */
     case GDK_KEY_p:         /* touche p */
-    case GDK_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/
+    case GDK_KEY_F12:       /* touche F12 pour pointer dépointer comme avec <ctrl>p*/
 
         if ( ( ev -> state & GDK_CONTROL_MASK ) == GDK_CONTROL_MASK
             ||
-            ev -> keyval == GDK_F12 )
+            ev -> keyval == GDK_KEY_F12 )
         {
             gsb_transactions_list_switch_mark (
                         gsb_data_account_get_current_transaction_number ( account_number ) );

@@ -541,7 +541,7 @@ static gboolean main_window_key_press_event ( GtkWidget *widget,
 {
     switch ( event -> keyval )
     {
-        case GDK_F11 :
+        case GDK_KEY_F11 :
             if ( conf.full_screen )
                 gtk_window_unfullscreen ( GTK_WINDOW ( widget ) );
             else

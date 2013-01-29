@@ -668,7 +668,7 @@ gboolean gsb_calendar_entry_calendar_key_press ( GtkCalendar *pCalendar,
 	    break ;
 
 	case GDK_KEY_Page_Down :
-	case GDK_KP_Page_Down :
+	case GDK_KEY_KP_Page_Down :
 	    /* next month */
 	    g_date_add_months (date, 1);
 	    break ;

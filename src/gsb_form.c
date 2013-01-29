@@ -2239,7 +2239,7 @@ gboolean gsb_form_key_press_event ( GtkWidget *widget,
 	    }
 	    break;
 
-	case GDK_KP_Subtract:
+	case GDK_KEY_KP_Subtract:
 	case GDK_KEY_minus:
 	    /* decrease the check of 1 */
 	    if (element_number == TRANSACTION_FORM_CHEQUE)
