@@ -740,7 +740,7 @@ gboolean gsb_grisbi_change_state_window ( GtkWidget *window,
     {
         show = !( event->new_window_state & GDK_WINDOW_STATE_MAXIMIZED );
 
-        gtk_statusbar_set_has_resize_grip ( GTK_STATUSBAR ( gsb_status_get_status_bar () ), show );
+        gtk_window_set_has_resize_grip ( GTK_WINDOW ( window ), show );
         conf.maximize_screen = !show;
     }
     else if ( event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN )
