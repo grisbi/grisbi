@@ -97,6 +97,13 @@ static gint current_child_line = 0;
 gboolean print_report ( GtkWidget *button,
 			gpointer null )
 {
+    dialogue_warning_hint ( _("This feature is no longer available.\n"
+                        "If it is necessary please use a stable version"),
+                        _("feature is no longer available" ) );
+
+
+    return FALSE;
+
     if (!table_etat)
     {
 	dialogue_error_hint (_("Please select a report before trying to print it."), _("No report selected"));
@@ -153,13 +160,13 @@ gboolean print_report_begin ( GtkPrintOperation *operation,
     columns_width = g_malloc0 ( ncols * sizeof ( gdouble ) );
 
     /* get first the size of the table */
-    for ( i = 0; i < ncols ; i++ )
+/*    for ( i = 0; i < ncols ; i++ )
         table_size = table_size + ( GTK_TABLE ( table_etat ) -> cols)[i].allocation;
 
     for ( i = 0; i < ncols ; i++ )
         columns_width[i] = ( page_width * ( GTK_TABLE ( table_etat ) -> cols)[i].allocation ) / table_size;
 
-    /* calculate the nb of rows in 1 page and in the first page */
+*/    /* calculate the nb of rows in 1 page and in the first page */
     nb_rows_per_page = page_height / size_row;
     nb_rows_first_page = (page_height - size_title) / size_row;
 
@@ -211,8 +218,8 @@ gboolean print_report_draw_page ( GtkPrintOperation *operation,
 	children = current_child_table;
     else
     {
-	children = g_list_last (GTK_TABLE (table_etat) -> children);
-	is_title = TRUE;
+/*	children = g_list_last (GTK_TABLE (table_etat) -> children);
+*/	is_title = TRUE;
     }
 
     while (children)
