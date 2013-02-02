@@ -1380,7 +1380,7 @@ static gboolean bet_config_account_date_key_press_event ( GtkWidget *entry,
                         GdkEventKey *event,
                         GtkWidget *parent )
 {
-    if (  event->keyval == GDK_Return || event->keyval == GDK_KP_Enter )
+    if (  event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter )
     {
         GtkWidget *widget;
 
