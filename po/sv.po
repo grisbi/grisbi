@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-29 06:28+0100\n"
+"POT-Creation-Date: 2013-02-02 08:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -658,6 +658,22 @@ msgstr ""
 
 #: ../src/bet_config.c:1733
 msgid "Account with deferred debit card"
+msgstr ""
+
+#: ../src/bet_data.c:1874
+#, c-format
+msgid ""
+"Warning: the start date of the period of deferred debit card account (%s) is "
+"reached or exceeded. All operations of this card account must be entered or "
+"they will not be taken into account in the period.\n"
+"\n"
+"If you have entered all transactions, confirm with \"Yes\".\n"
+"If you have yet to enter into transactions on behalf deferred debit card "
+"finish with \"No\" and update the account before you start."
+msgstr ""
+
+#: ../src/bet_data.c:1881
+msgid "Confirmation of the change of period"
 msgstr ""
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:292
