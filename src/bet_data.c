@@ -26,6 +26,7 @@
 #endif
 
 #include "include.h"
+#include <glib/gi18n.h>
 
 /*START_INCLUDE*/
 #include "bet_data.h"
@@ -1861,6 +1862,28 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
     if ( g_date_compare ( date_jour, transfert -> date_bascule ) >= 0 )
     {
         gboolean same_month = FALSE;
+        gchar *msg;
+        const gchar *tmp_str;
+
+        if ( transfert -> type == 0 )
+            tmp_str = gsb_data_account_get_name ( transfert->replace_account );
+        else
+            tmp_str = gsb_data_partial_balance_get_name ( transfert->replace_account );
+
+        msg = g_strdup_printf (
+                        _("Warning: the start date of the period of deferred debit card account (%s) "
+                          "is reached or exceeded. All operations of this card account must be entered "
+                          "or they will not be taken into account in the period.\n\n"
+                          "If you have entered all transactions, confirm with \"Yes\".\n"
+                          "If you have yet to enter into transactions on behalf deferred debit card finish "
+                          "with \"No\" and update the account before you start."),
+                        tmp_str );
+        if (!question_yes_no_hint (_("Confirmation of the change of period"), msg , GTK_RESPONSE_CANCEL ))
+        {
+            g_free ( msg );
+            return;
+        }
+            g_free ( msg );
 
         if ( g_date_get_month ( transfert->date ) == g_date_get_month ( transfert->date_bascule ) )
             same_month = TRUE;
