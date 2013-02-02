@@ -970,7 +970,6 @@ gboolean gsb_file_close ( void )
 		 &&
 		 nom_fichier_comptes )
 		gsb_file_util_modify_lock ( FALSE );
-        gsb_gui_init_general_vbox ( );
 
 	    /* free all the variables */
  	    init_variables ();

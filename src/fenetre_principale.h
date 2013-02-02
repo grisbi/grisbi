@@ -34,7 +34,6 @@ GtkWidget *gsb_gui_get_general_notebook (void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_headings_update_title ( gchar * title );
 void gsb_gui_init_general_notebook ( void );
-void gsb_gui_init_general_vbox ( void );
 gint gsb_gui_get_hpaned_left_width ( void );
 void gsb_gui_notebook_change_page ( GsbGeneralNotebookPages page );
 void gsb_gui_on_account_change_page ( GsbAccountNotebookPages page );
