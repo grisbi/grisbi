@@ -76,7 +76,7 @@ static GtkWidget *hpaned_general = NULL;
 static GtkWidget *notebook_general = NULL;
 
 /** Notebook of the account pane. */
-GtkWidget *account_page = NULL;
+static GtkWidget *account_page = NULL;
 
 static GtkWidget * headings_eb = NULL;
 
@@ -560,6 +560,12 @@ void gsb_gui_update_all_toolbars ( void )
     bet_array_update_toolbar ( );
     bet_historical_update_toolbar ( );
     bet_finance_update_all_finance_toolbars ( );
+}
+
+
+GtkWidget *gsb_gui_get_account_page ( void )
+{
+    return account_page;
 }
 
 

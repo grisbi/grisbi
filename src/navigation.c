@@ -137,7 +137,6 @@ static gboolean navigation_tree_drag_data_get ( GtkTreeDragSource *drag_source,
 
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 extern GtkWidget *label_last_statement;
 extern GtkWidget *menu_import_rules;
 /*END_EXTERN*/
@@ -1168,9 +1167,9 @@ gboolean gsb_gui_navigation_select_line ( GtkTreeSelection *selection,
 	    gsb_menu_update_view_menu ( account_number );
 
 	    /* set the form */
-        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( account_page ),
+        gsb_gui_on_account_switch_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
                         NULL,
-                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) ),
+                        gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) ),
                         NULL );
 	    /* gsb_form_show ( FALSE ); */
 

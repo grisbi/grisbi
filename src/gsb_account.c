@@ -60,7 +60,6 @@
 
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 /*END_EXTERN*/
 
 
@@ -134,7 +133,8 @@ gboolean gsb_account_new ( kind_account account_type,
 
         /* Go to accounts properties */
         gtk_notebook_set_current_page ( GTK_NOTEBOOK ( notebook_general ), GSB_ACCOUNT_PAGE );
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), GSB_PROPERTIES_PAGE );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ),
+                        GSB_PROPERTIES_PAGE );
 
         gsb_account_property_fill_page ();
     }

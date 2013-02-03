@@ -125,7 +125,6 @@ static gint width_spin_button = 50;
 
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 extern struct conditional_message delete_msg[];
 extern struct conditional_message messages[];
 extern gchar *nom_fichier_comptes;
@@ -1941,7 +1940,7 @@ void gsb_localisation_update_affichage ( gint type_maj )
         kind_account kind;
 
         account_number = gsb_gui_navigation_get_current_account ( );
-        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( account_page ) );
+        account_current_page = gtk_notebook_get_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ) );
 
         kind = gsb_data_account_get_kind ( account_number );
         switch ( kind )

@@ -30,6 +30,7 @@ typedef enum GSB_ACCOUNT_NOTEBOOK_PAGES {
 
 /* START_DECLARATION */
 GtkWidget *gsb_gui_create_general_widgets ( void );
+GtkWidget *gsb_gui_get_account_page ( void );
 GtkWidget *gsb_gui_get_general_notebook (void );
 void gsb_gui_headings_update_suffix ( gchar * suffix );
 void gsb_gui_headings_update_title ( gchar * title );

@@ -148,7 +148,6 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 /*END_STATIC*/
 
 /*START_EXTERN*/
-extern GtkWidget *account_page;
 extern const gdouble prev_month_max;
 extern gint valeur_echelle_recherche_date_import;
 /*END_EXTERN*/
@@ -547,6 +546,7 @@ static gboolean bet_array_update_average_column ( GtkTreeModel *model,
 void bet_array_refresh_estimate_tab ( gint account_number )
 {
     GtkWidget *widget;
+    GtkWidget *account_page;
     GtkWidget *tree_view;
     GtkTreeIter iter;
     GtkTreeModel *tree_model;
@@ -567,6 +567,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
     gint currency_number;
 
     devel_debug (NULL);
+    account_page = gsb_gui_get_account_page ();
 
     tmp_range = struct_initialise_bet_range ( );
 
@@ -708,10 +709,13 @@ GtkWidget *bet_array_create_page ( void )
     GtkWidget *label_title;
     GtkWidget *label;
     GtkWidget *tree_view;
+    GtkWidget *account_page;
 
     devel_debug (NULL);
     page = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_set_name ( page, "forecast_page" );
+
+    account_page = gsb_gui_get_account_page ();
 
     /* create the title */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -719,7 +723,9 @@ GtkWidget *bet_array_create_page ( void )
 
     label_title = gtk_label_new ("Estimate array");
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_array_title", label_title );
+    g_object_set_data ( G_OBJECT ( account_page ),
+                        "bet_array_title",
+                        label_title );
 
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5) ;
@@ -792,7 +798,7 @@ GtkWidget *bet_array_create_tree_view ( GtkWidget *container )
     /* create the estimate treeview */
     tree_view = gtk_tree_view_new ( );
     gtk_tree_view_set_rules_hint ( GTK_TREE_VIEW ( tree_view ), FALSE );
-    g_object_set_data ( G_OBJECT ( account_page ), "bet_estimate_treeview", tree_view );
+    g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ), "bet_estimate_treeview", tree_view );
     g_object_set_data ( G_OBJECT ( tree_view ), "origin_data_model",
                         GINT_TO_POINTER ( SPP_ESTIMATE_TREE_ORIGIN_DATA ) );
     g_object_set_data ( G_OBJECT ( tree_view ), "color_data_model",
@@ -1791,7 +1797,7 @@ void bet_array_list_change_menu ( GtkWidget *menu_item,
 
     if ( origine == SPP_ORIGIN_TRANSACTION )
     {
-        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( account_page ), 0 );
+        gtk_notebook_set_current_page ( GTK_NOTEBOOK ( gsb_gui_get_account_page () ), 0 );
         transaction_list_select ( number );
         gsb_transactions_list_edit_transaction ( number );
     }
@@ -2347,11 +2353,13 @@ gboolean bet_array_initializes_account_settings ( gint account_number )
     GtkWidget *widget = NULL;
     GtkWidget *button = NULL;
     GtkWidget *toggled = NULL;
+    GtkWidget *account_page;
     gpointer pointeur;
     gint param;
     gint months;
 
     /* devel_debug_int ( account_number ); */
+    account_page = gsb_gui_get_account_page ();
     button = g_object_get_data ( G_OBJECT ( account_page ), "bet_account_spin_button" );
 
     param = gsb_data_account_get_bet_spin_range ( account_number );
