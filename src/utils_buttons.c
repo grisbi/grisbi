@@ -391,6 +391,40 @@ void utils_radiobutton_set_active_index ( GtkWidget *radiobutton,
 }
 
 
+
+/**
+ * Création d'un GtkToolButton à partir d'une image et d'un label
+ *
+ * \param image_name    filename
+ * \param label_name    label for button
+ *
+ * \return a GtkToolItem or NULL
+ * */
+GtkToolItem *utils_buttons_new_from_image_label ( const gchar *image_name, const gchar *label_name )
+{
+    GtkToolItem *button = NULL;
+    GtkWidget *image;
+    gchar *filename;
+
+    filename = g_build_filename ( gsb_dirs_get_pixmaps_dir (), image_name, NULL );
+    if ( filename )
+    {
+        image = gtk_image_new_from_file ( filename );
+        g_free ( filename );
+        button = gtk_tool_button_new ( image, label_name );
+    }
+
+    return button;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ * */
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */
