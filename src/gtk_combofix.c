@@ -676,6 +676,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
 
     /* set the popup but don't show it */
     priv -> popup = gtk_window_new ( GTK_WINDOW_POPUP );
+    g_object_ref ( G_OBJECT ( priv -> popup ) );
     g_signal_connect ( G_OBJECT ( priv -> popup ),
                         "key-press-event",
                         G_CALLBACK (gtk_combofix_popup_key_press_event),
@@ -786,6 +787,15 @@ static void gtk_combofix_finalize ( GObject *combofix )
 
     if ( priv -> old_entry && strlen ( priv -> old_entry ) )
         g_free ( priv -> old_entry );
+
+    /* Unref/free the model first, to workaround gtk/gail bug #694711 */
+    gtk_tree_view_set_model ( GTK_TREE_VIEW ( priv -> tree_view ), NULL );
+    g_object_unref ( priv -> model_sort );
+    g_object_unref ( priv -> model_filter );
+    g_object_unref ( priv -> store );
+
+    gtk_widget_destroy ( priv -> popup );
+    g_object_unref ( priv -> popup );
 
     G_OBJECT_CLASS ( gtk_combofix_parent_class ) -> finalize ( combofix );
 }
