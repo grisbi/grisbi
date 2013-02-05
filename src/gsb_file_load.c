@@ -2073,6 +2073,7 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
     gint i=0;
     gint transaction_number = 0;
     gint account_number = 0;
+    GDate *parsed_date;
 
     if ( !attribute_names[i] )
         return;
@@ -2164,14 +2165,18 @@ void gsb_file_load_transactions ( const gchar **attribute_names,
             case 'D':
                 if ( !strcmp ( attribute_names[i], "Dt" ))
                 {
+                        parsed_date = gsb_parse_date_string_safe ( attribute_values[i] );
                         gsb_data_transaction_set_date ( transaction_number,
-                                gsb_parse_date_string_safe (attribute_values[i]));
+                                parsed_date );
+                        g_date_free ( parsed_date );
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Dv" ))
                 {
+                        parsed_date = gsb_parse_date_string_safe ( attribute_values[i] );
                         gsb_data_transaction_set_value_date ( transaction_number,
-                                gsb_parse_date_string_safe (attribute_values[i]));
+                                parsed_date );
+                        g_date_free ( parsed_date );
                 }
 
                 else
