@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 08:29+0100\n"
+"POT-Creation-Date: 2013-02-08 20:01+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -549,6 +549,12 @@ msgstr ""
 msgid "Accounts data"
 msgstr "账户明细"
 
+#. set the choice of account
+#: ../src/bet_config.c:266
+#, fuzzy
+msgid "Select an account"
+msgstr "选择银行账户"
+
 #. Data for the forecast
 #: ../src/bet_config.c:289
 #, fuzzy
@@ -684,12 +690,9 @@ msgstr "支付方式:"
 msgid "Annuel rate interest: "
 msgstr "年度预算:"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
-#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:22
 #, no-c-format
 msgid "%"
 msgstr ""
@@ -1245,7 +1248,7 @@ msgstr ""
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
-#: ../src/tiers_onglet.c:684
+#: ../src/tiers_onglet.c:679
 msgid "Name"
 msgstr "名称"
 
@@ -1415,12 +1418,12 @@ msgstr ""
 msgid "Hide grid"
 msgstr "活动"
 
-#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:24
+#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:2
 #, fuzzy
 msgid "Show grid"
 msgstr "对账"
 
-#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1082
+#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1078
 #, fuzzy
 msgid "Options"
 msgstr "支出"
@@ -1475,7 +1478,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "收入"
 
-#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1169
+#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1165
 #, fuzzy
 msgid "Select"
 msgstr "选择所有"
@@ -1484,7 +1487,7 @@ msgstr "选择所有"
 #: ../src/etats_config.c:5242 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:517
 #: ../src/gsb_transactions_list.c:177 ../src/import.c:3351
-#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:250
+#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:248
 msgid "Amount"
 msgstr "总计"
 
@@ -1575,7 +1578,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:697
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:692
 msgid "Description"
 msgstr "描述"
 
@@ -1696,7 +1699,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:516 ../src/imputation_budgetaire.c:190
-#: ../src/navigation.c:1059 ../src/tiers_onglet.c:240
+#: ../src/navigation.c:1059 ../src/tiers_onglet.c:238
 msgid "Account"
 msgstr "账户"
 
@@ -1791,7 +1794,7 @@ msgstr "导出类别"
 
 #: ../src/categories_onglet.c:589 ../src/etats_onglet.c:187
 #: ../src/gsb_scheduler_list.c:278 ../src/gsb_transactions_list.c:349
-#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:344
+#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:335
 #, fuzzy
 msgid "Delete"
 msgstr "选择"
@@ -1803,7 +1806,7 @@ msgstr "请输入一个类别"
 
 #: ../src/categories_onglet.c:598 ../src/gsb_scheduler_list.c:288
 #: ../src/gsb_transactions_list.c:358 ../src/imputation_budgetaire.c:634
-#: ../src/tiers_onglet.c:353
+#: ../src/tiers_onglet.c:344
 msgid "Edit"
 msgstr "编辑"
 
@@ -1815,11 +1818,11 @@ msgstr "类别"
 
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:319
 #: ../src/gsb_transactions_list.c:385 ../src/imputation_budgetaire.c:645
-#: ../src/tiers_onglet.c:363
+#: ../src/tiers_onglet.c:354
 msgid "View"
 msgstr ""
 
-#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:358
 #, fuzzy
 msgid "Change view mode"
 msgstr "单行模式"
@@ -1836,14 +1839,14 @@ msgid "Subcategory view"
 msgstr "子类别"
 
 #: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:573
-#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:480
+#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:471
 #, fuzzy
 msgid "Complete view"
 msgstr "没有完成的细目分类"
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:752 ../src/imputation_budgetaire.c:757
-#: ../src/tiers_onglet.c:659
+#: ../src/tiers_onglet.c:654
 #, fuzzy, c-format
 msgid "Properties for %s"
 msgstr "%s 的结果"
@@ -2758,7 +2761,7 @@ msgstr "选择所有"
 #: ../src/etats_config.c:2567 ../src/etats_config.c:2822
 #: ../src/etats_config.c:3104 ../src/etats_config.c:3909
 #: ../src/etats_config.c:4099 ../src/etats_config.c:7352 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1237 ../src/tiers_onglet.c:1448
+#: ../src/import.c:2278 ../src/tiers_onglet.c:1233 ../src/tiers_onglet.c:1448
 msgid "Unselect all"
 msgstr "取消选择所有"
 
@@ -2872,7 +2875,7 @@ msgstr "支出预算行"
 
 #. on fixe le titre et le suffixe de la barre d'information
 #: ../src/etats_config.c:3984 ../src/navigation.c:1950
-#: ../src/tiers_onglet.c:230 ../src/tiers_onglet.c:589
+#: ../src/tiers_onglet.c:228 ../src/tiers_onglet.c:584
 #, fuzzy
 msgid "Payees"
 msgstr "日"
@@ -3545,8 +3548,8 @@ msgstr "本报表是空的。您需要重新定制。"
 #. Cheques deposit
 #: ../src/etats_onglet.c:912
 msgid ""
-"This report displays the cheques deposit. You just need to select the account"
-"(s). By default all accounts are selected."
+"This report displays the cheques deposit. You just need to select the "
+"account(s). By default all accounts are selected."
 msgstr "本报表显示支票存入。您只需要选择账户。默认情况下选中所有的账户。"
 
 #. Monthly outgoings by payee
@@ -9638,7 +9641,7 @@ msgstr "转换交易为计划交易"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/import.c:3707 ../src/tiers_onglet.c:1084
+#: ../src/import.c:3707 ../src/tiers_onglet.c:1080
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -9677,7 +9680,7 @@ msgid ""
 "specific payee representing your landlord."
 msgstr ""
 
-#: ../src/import.c:3827 ../src/tiers_onglet.c:1187
+#: ../src/import.c:3827 ../src/tiers_onglet.c:1183
 #, fuzzy
 msgid "Payee name"
 msgstr "一般总计"
@@ -10305,7 +10308,7 @@ msgid "No sub-payee"
 msgstr "没有子类"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:336
+#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:327
 #, fuzzy
 msgid "New payee"
 msgstr "新支付方式"
@@ -10504,21 +10507,21 @@ msgstr "新账户"
 msgid "Remove this account"
 msgstr "删除账户"
 
-#: ../src/navigation.c:2148 ../src/tiers_onglet.c:349
+#: ../src/navigation.c:2148 ../src/tiers_onglet.c:340
 #, fuzzy
 msgid "Delete selected payee"
 msgstr "删除第三方"
 
-#: ../src/navigation.c:2163 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2163 ../src/tiers_onglet.c:349
 msgid "Edit selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:371
+#: ../src/navigation.c:2184 ../src/tiers_onglet.c:362
 #, fuzzy
 msgid "Manage payees"
 msgstr "首页"
 
-#: ../src/navigation.c:2192 ../src/tiers_onglet.c:379
+#: ../src/navigation.c:2192 ../src/tiers_onglet.c:370
 msgid "Remove unused payees"
 msgstr ""
 
@@ -11241,25 +11244,21 @@ msgstr "信用卡"
 msgid " [Transaction imported without date]"
 msgstr " [导入的交易没有日期]"
 
-#: ../src/tiers_onglet.c:311
-msgid "Warning you will crush the existing note."
-msgstr ""
-
-#: ../src/tiers_onglet.c:340
+#: ../src/tiers_onglet.c:331
 #, fuzzy
 msgid "Create a new payee"
 msgstr "新增账户"
 
-#: ../src/tiers_onglet.c:375 ../src/tiers_onglet.c:865
+#: ../src/tiers_onglet.c:366 ../src/tiers_onglet.c:860
 #, fuzzy
 msgid "Manage the payees"
 msgstr "类别详情"
 
-#: ../src/tiers_onglet.c:383 ../src/tiers_onglet.c:431
+#: ../src/tiers_onglet.c:374 ../src/tiers_onglet.c:422
 msgid "Remove orphan payees"
 msgstr ""
 
-#: ../src/tiers_onglet.c:432
+#: ../src/tiers_onglet.c:423
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -11268,33 +11267,33 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:446
+#: ../src/tiers_onglet.c:437
 #, c-format
 msgid "Removed %d payees."
 msgstr ""
 
-#: ../src/tiers_onglet.c:451
+#: ../src/tiers_onglet.c:442
 msgid "There is no payee to remove."
 msgstr ""
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:474
+#: ../src/tiers_onglet.c:465
 msgid "Payee view"
 msgstr ""
 
-#: ../src/tiers_onglet.c:740
+#: ../src/tiers_onglet.c:735
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: ../src/tiers_onglet.c:744
+#: ../src/tiers_onglet.c:739
 #, fuzzy
 msgid "Payee already exists"
 msgstr "文件已经存在"
 
-#: ../src/tiers_onglet.c:866
+#: ../src/tiers_onglet.c:861
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -11303,22 +11302,22 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done. "
 msgstr ""
 
-#: ../src/tiers_onglet.c:988
+#: ../src/tiers_onglet.c:983
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:992
+#: ../src/tiers_onglet.c:987
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1044
+#: ../src/tiers_onglet.c:1040
 #, fuzzy
 msgid "Choose a payee"
 msgstr "选择导入的文件"
 
-#: ../src/tiers_onglet.c:1046
+#: ../src/tiers_onglet.c:1042
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -11327,46 +11326,46 @@ msgid ""
 "   %string%, string_1%string_2"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1065
+#: ../src/tiers_onglet.c:1061
 #, fuzzy
 msgid "Enter the new payee"
 msgstr "输入新第三方的名称"
 
-#: ../src/tiers_onglet.c:1067
+#: ../src/tiers_onglet.c:1063
 #, fuzzy
 msgid "Enter the name of the new payee"
 msgstr "输入新子预算行的名称"
 
-#: ../src/tiers_onglet.c:1090
+#: ../src/tiers_onglet.c:1086
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1123
+#: ../src/tiers_onglet.c:1119
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1177
+#: ../src/tiers_onglet.c:1173
 #, fuzzy
 msgid "Payee number"
 msgstr "支票编号"
 
-#: ../src/tiers_onglet.c:1203
+#: ../src/tiers_onglet.c:1199
 #, fuzzy
 msgid "Total number of payees: "
 msgstr "删除第三方:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1220
+#: ../src/tiers_onglet.c:1216
 #, fuzzy
 msgid "Number of selected payees: "
 msgstr "删除第三方:"
 
-#: ../src/tiers_onglet.c:1323
+#: ../src/tiers_onglet.c:1320
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "一般总计:"
 
-#: ../src/tiers_onglet.c:1329
+#: ../src/tiers_onglet.c:1328
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "新支付方式"
@@ -11387,15 +11386,19 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1576
+#: ../src/tiers_onglet.c:1574
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1580
+#: ../src/tiers_onglet.c:1578
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1678
+#: ../src/tiers_onglet.c:1679
+msgid "Warning you will crush the existing note."
+msgstr ""
+
+#: ../src/tiers_onglet.c:1683
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11681,97 +11684,100 @@ msgstr ""
 msgid "No font defined"
 msgstr "没有定义汇率"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+msgid "Diagram"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:3
 #, fuzzy
-msgid "<b>Additional line</b>"
-msgstr "初始余额"
+msgid "<b>Options for the axis</b>"
+msgstr "选择现金账户"
 
 #: ../src/ui/bet_graph.ui.h:4
-#, fuzzy
-msgid "<b>Grid</b>"
-msgstr "调整"
+msgid "<b>Options for the X axis</b>"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:6
-msgid "<b>Options for the X axis</b>"
+msgid "Outside"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:7
-#, fuzzy
-msgid "<b>Options for the Y axis</b>"
-msgstr "选择现金账户"
+msgid "Inside"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:8
-#, fuzzy
-msgid "<b>Options for the axis</b>"
-msgstr "选择现金账户"
+msgid "Show Labels"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:9
-#, fuzzy
-msgid "<b>Options for the columns</b>"
-msgstr "选择现金账户"
-
-#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr "调整"
 
+#: ../src/ui/bet_graph.ui.h:10
+msgid "Low"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:11
-msgid "Crosses the Y axis at 0"
+msgid "High"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:12
-msgid "Diagram"
+msgid "Intersection point of X Y axes"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
-msgid "Display the grids above the plot"
-msgstr "显示（子）类别的名称"
+msgid "<b>Additional line</b>"
+msgstr "初始余额"
 
 #: ../src/ui/bet_graph.ui.h:14
-msgid "Gap:"
+msgid "Crosses the Y axis at 0"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:15
-msgid "High"
-msgstr ""
+#, fuzzy
+msgid "<b>Options for the Y axis</b>"
+msgstr "选择现金账户"
 
 #: ../src/ui/bet_graph.ui.h:16
-msgid "Inside"
-msgstr ""
+#, fuzzy
+msgid "<b>Grid</b>"
+msgstr "调整"
 
 #: ../src/ui/bet_graph.ui.h:17
-msgid "Intersection point of X Y axes"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Low"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:19
 msgid "Major grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:20
+#: ../src/ui/bet_graph.ui.h:18
 msgid "Minor grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:21
-msgid "Outside"
+#: ../src/ui/bet_graph.ui.h:19
+#, fuzzy
+msgid "<b>Options for the columns</b>"
+msgstr "选择现金账户"
+
+#: ../src/ui/bet_graph.ui.h:20
+msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:22
+#: ../src/ui/bet_graph.ui.h:23
+#, fuzzy
+msgid "Display the grids above the plot"
+msgstr "显示（子）类别的名称"
+
+#: ../src/ui/bet_graph.ui.h:24
 #, fuzzy
 msgid "Select the chart type"
 msgstr "选择资产账户"
-
-#: ../src/ui/bet_graph.ui.h:23
-msgid "Show Labels"
-msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
@@ -11795,10 +11801,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Accounts file title: "
 #~ msgstr "账户文件标题:"
-
-#, fuzzy
-#~ msgid "Select an account"
-#~ msgstr "选择银行账户"
 
 #, fuzzy
 #~ msgid "Initial date : "

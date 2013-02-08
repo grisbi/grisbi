@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 08:29+0100\n"
+"POT-Creation-Date: 2013-02-08 20:01+0100\n"
 "PO-Revision-Date: 2011-02-19 01:39+0100\n"
 "Last-Translator: Markus7cz <markus7cz@gmail.com>\n"
 "Language-Team: \n"
@@ -516,6 +516,11 @@ msgstr "Poznámka: toto nastavení platí pro prognózy bez počátečního data
 msgid "Accounts data"
 msgstr "Detaily účtu"
 
+#. set the choice of account
+#: ../src/bet_config.c:266
+msgid "Select an account"
+msgstr "Vyberte účet"
+
 #. Data for the forecast
 #: ../src/bet_config.c:289
 msgid "Data for the forecast"
@@ -643,12 +648,9 @@ msgstr "Datum první splátky: "
 msgid "Annuel rate interest: "
 msgstr "Roční úroková míra: "
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
-#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:22
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -1180,7 +1182,7 @@ msgstr ""
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
-#: ../src/tiers_onglet.c:684
+#: ../src/tiers_onglet.c:679
 msgid "Name"
 msgstr "Název"
 
@@ -1354,12 +1356,12 @@ msgstr ""
 msgid "Hide grid"
 msgstr "Archivy"
 
-#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:24
+#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:2
 #, fuzzy
 msgid "Show grid"
 msgstr "Zobrazit _odsouhlasené"
 
-#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1082
+#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1078
 msgid "Options"
 msgstr "Volby"
 
@@ -1408,7 +1410,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "Příjmy"
 
-#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1169
+#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1165
 msgid "Select"
 msgstr "Vybrat"
 
@@ -1416,7 +1418,7 @@ msgstr "Vybrat"
 #: ../src/etats_config.c:5242 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:517
 #: ../src/gsb_transactions_list.c:177 ../src/import.c:3351
-#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:250
+#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:248
 msgid "Amount"
 msgstr "Částka"
 
@@ -1500,7 +1502,7 @@ msgid "Check the box to automatically change start date"
 msgstr "Zaškrtněte pro automatickou změnu počátečního data"
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:697
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:692
 msgid "Description"
 msgstr "Popis"
 
@@ -1614,7 +1616,7 @@ msgstr "prognoza.csv"
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:516 ../src/imputation_budgetaire.c:190
-#: ../src/navigation.c:1059 ../src/tiers_onglet.c:240
+#: ../src/navigation.c:1059 ../src/tiers_onglet.c:238
 msgid "Account"
 msgstr "Účet"
 
@@ -1708,7 +1710,7 @@ msgstr "Exportovat soubor kategorií Grisbi (.cgsb)"
 
 #: ../src/categories_onglet.c:589 ../src/etats_onglet.c:187
 #: ../src/gsb_scheduler_list.c:278 ../src/gsb_transactions_list.c:349
-#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:344
+#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:335
 msgid "Delete"
 msgstr "Odstranit"
 
@@ -1718,7 +1720,7 @@ msgstr "Odstranit vybranou kategorii"
 
 #: ../src/categories_onglet.c:598 ../src/gsb_scheduler_list.c:288
 #: ../src/gsb_transactions_list.c:358 ../src/imputation_budgetaire.c:634
-#: ../src/tiers_onglet.c:353
+#: ../src/tiers_onglet.c:344
 msgid "Edit"
 msgstr "Upravit"
 
@@ -1729,11 +1731,11 @@ msgstr "Upravit vybranou kategorii"
 
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:319
 #: ../src/gsb_transactions_list.c:385 ../src/imputation_budgetaire.c:645
-#: ../src/tiers_onglet.c:363
+#: ../src/tiers_onglet.c:354
 msgid "View"
 msgstr "Pohled"
 
-#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:358
 msgid "Change view mode"
 msgstr "Změnit pohled"
 
@@ -1747,13 +1749,13 @@ msgid "Subcategory view"
 msgstr "Pohled dle podkategorií"
 
 #: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:573
-#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:480
+#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:471
 msgid "Complete view"
 msgstr "Úplný pohled"
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:752 ../src/imputation_budgetaire.c:757
-#: ../src/tiers_onglet.c:659
+#: ../src/tiers_onglet.c:654
 #, c-format
 msgid "Properties for %s"
 msgstr "Vlastnosti pro %s"
@@ -1852,8 +1854,8 @@ msgid ""
 "Your account file should not be readable by anybody else, but it is. You "
 "should change its permissions."
 msgstr ""
-"Váš soubor účtů by neměl být čitelný pro nikoho jiného, ale přesto je. Měl"
-"(a) byste změnit jeho oprávnění."
+"Váš soubor účtů by neměl být čitelný pro nikoho jiného, ale přesto je. "
+"Měl(a) byste změnit jeho oprávnění."
 
 #: ../src/dialog.c:73
 #, c-format
@@ -2673,7 +2675,7 @@ msgstr "Označit vše"
 #: ../src/etats_config.c:2567 ../src/etats_config.c:2822
 #: ../src/etats_config.c:3104 ../src/etats_config.c:3909
 #: ../src/etats_config.c:4099 ../src/etats_config.c:7352 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1237 ../src/tiers_onglet.c:1448
+#: ../src/import.c:2278 ../src/tiers_onglet.c:1233 ../src/tiers_onglet.c:1448
 msgid "Unselect all"
 msgstr "Odznačit vše"
 
@@ -2782,7 +2784,7 @@ msgstr "Výdajové rozpočty"
 
 #. on fixe le titre et le suffixe de la barre d'information
 #: ../src/etats_config.c:3984 ../src/navigation.c:1950
-#: ../src/tiers_onglet.c:230 ../src/tiers_onglet.c:589
+#: ../src/tiers_onglet.c:228 ../src/tiers_onglet.c:584
 msgid "Payees"
 msgstr "Plátci/příjemci"
 
@@ -3408,8 +3410,8 @@ msgstr "Tato sestava je prázdná. Je potřeba ji celou nadefinovat."
 #. Cheques deposit
 #: ../src/etats_onglet.c:912
 msgid ""
-"This report displays the cheques deposit. You just need to select the account"
-"(s). By default all accounts are selected."
+"This report displays the cheques deposit. You just need to select the "
+"account(s). By default all accounts are selected."
 msgstr ""
 "Tato sestava zobrazí vklady šeků. Musíte pouze zvolit účty. Jako výchozí "
 "nastavení jsou vybrány všechny účty."
@@ -9630,7 +9632,7 @@ msgstr "Sloučit importované transakce s nalezenými transakcemi"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Automaticky přiřadit kategorii plátce/příjemce, pokud je to možné"
 
-#: ../src/import.c:3707 ../src/tiers_onglet.c:1084
+#: ../src/import.c:3707 ../src/tiers_onglet.c:1080
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Rozpoznané číslo uložit do pole Číslo šeku/platby"
 
@@ -9670,7 +9672,7 @@ msgstr ""
 "mohou být přiřazeny určitému plátci/příjemci reprezentujícímu vašeho "
 "domácího."
 
-#: ../src/import.c:3827 ../src/tiers_onglet.c:1187
+#: ../src/import.c:3827 ../src/tiers_onglet.c:1183
 msgid "Payee name"
 msgstr "Jméno plátce/příjemce"
 
@@ -10231,7 +10233,7 @@ msgid "No sub-payee"
 msgstr "Žádný pod-plátce/příjemce"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:336
+#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:327
 msgid "New payee"
 msgstr "Nový plátce/příjemce"
 
@@ -10441,19 +10443,19 @@ msgstr "_Nový účet"
 msgid "Remove this account"
 msgstr "_Odstranit aktuální účet"
 
-#: ../src/navigation.c:2148 ../src/tiers_onglet.c:349
+#: ../src/navigation.c:2148 ../src/tiers_onglet.c:340
 msgid "Delete selected payee"
 msgstr "Odstranit vybraného plátce/příjemce"
 
-#: ../src/navigation.c:2163 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2163 ../src/tiers_onglet.c:349
 msgid "Edit selected payee"
 msgstr "Upravit vybraného plátce/příjemce"
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:371
+#: ../src/navigation.c:2184 ../src/tiers_onglet.c:362
 msgid "Manage payees"
 msgstr "Spravovat plátce/příjemce"
 
-#: ../src/navigation.c:2192 ../src/tiers_onglet.c:379
+#: ../src/navigation.c:2192 ../src/tiers_onglet.c:370
 msgid "Remove unused payees"
 msgstr "Odstranit nepoužité plátce/příjemce"
 
@@ -11152,23 +11154,19 @@ msgstr "ccard)"
 msgid " [Transaction imported without date]"
 msgstr " [Transakce byla naimportována bez datumu]"
 
-#: ../src/tiers_onglet.c:311
-msgid "Warning you will crush the existing note."
-msgstr "Pozor, toto smaže existující poznámku."
-
-#: ../src/tiers_onglet.c:340
+#: ../src/tiers_onglet.c:331
 msgid "Create a new payee"
 msgstr "Vytvořit nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:375 ../src/tiers_onglet.c:865
+#: ../src/tiers_onglet.c:366 ../src/tiers_onglet.c:860
 msgid "Manage the payees"
 msgstr "Spravovat plátce/příjemce"
 
-#: ../src/tiers_onglet.c:383 ../src/tiers_onglet.c:431
+#: ../src/tiers_onglet.c:374 ../src/tiers_onglet.c:422
 msgid "Remove orphan payees"
 msgstr "Odstranit osiřelé plátce/příjemce"
 
-#: ../src/tiers_onglet.c:432
+#: ../src/tiers_onglet.c:423
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -11182,21 +11180,21 @@ msgstr ""
 "\n"
 "Jste si jist(a) že chcete pokračovat?"
 
-#: ../src/tiers_onglet.c:446
+#: ../src/tiers_onglet.c:437
 #, c-format
 msgid "Removed %d payees."
 msgstr "Odstraněno %d plátců/příjemců."
 
-#: ../src/tiers_onglet.c:451
+#: ../src/tiers_onglet.c:442
 msgid "There is no payee to remove."
 msgstr "Žádný plátce / příjemce k odstranění."
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:474
+#: ../src/tiers_onglet.c:465
 msgid "Payee view"
 msgstr "Pohled za plátce/příjemce"
 
-#: ../src/tiers_onglet.c:740
+#: ../src/tiers_onglet.c:735
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -11205,11 +11203,11 @@ msgstr ""
 "Zkoušíte přejmenovat aktuálního plátce/příjemce na '%s' ale tento plátce/"
 "příjemce již existuje. Prosím zvolte jiné jméno."
 
-#: ../src/tiers_onglet.c:744
+#: ../src/tiers_onglet.c:739
 msgid "Payee already exists"
 msgstr "Plátce/příjemce již existuje"
 
-#: ../src/tiers_onglet.c:866
+#: ../src/tiers_onglet.c:861
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -11223,21 +11221,21 @@ msgstr ""
 "\n"
 "Doporučujeme nyní zazálohovat soubor účtů, pokud jste to ještě neudělal(a). "
 
-#: ../src/tiers_onglet.c:988
+#: ../src/tiers_onglet.c:983
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Jeden plátce/příjemce byl nahrazen novým."
 
-#: ../src/tiers_onglet.c:992
+#: ../src/tiers_onglet.c:987
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d plátců/příjemců bylo nahrazeno novým."
 
-#: ../src/tiers_onglet.c:1044
+#: ../src/tiers_onglet.c:1040
 msgid "Choose a payee"
 msgstr "Zvolte plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1046
+#: ../src/tiers_onglet.c:1042
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -11251,41 +11249,41 @@ msgstr ""
 "   %řetězec, řetězec%\n"
 "   %řetězec%, řetězec_1%řetězec_2"
 
-#: ../src/tiers_onglet.c:1065
+#: ../src/tiers_onglet.c:1061
 msgid "Enter the new payee"
 msgstr "Zadejte nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1067
+#: ../src/tiers_onglet.c:1063
 msgid "Enter the name of the new payee"
 msgstr "Zadejte jméno nového plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1090
+#: ../src/tiers_onglet.c:1086
 msgid "Save the payees in the notes"
 msgstr "Uložit plátce/příjemce do poznámek"
 
-#: ../src/tiers_onglet.c:1123
+#: ../src/tiers_onglet.c:1119
 msgid "List of payees who will be modified"
 msgstr "Seznam plátců/příjemců, kteří budou upraveni"
 
-#: ../src/tiers_onglet.c:1177
+#: ../src/tiers_onglet.c:1173
 msgid "Payee number"
 msgstr "Číslo plátce/příjemce"
 
-#: ../src/tiers_onglet.c:1203
+#: ../src/tiers_onglet.c:1199
 msgid "Total number of payees: "
 msgstr "Celkový počet plátců/příjemců: "
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1220
+#: ../src/tiers_onglet.c:1216
 msgid "Number of selected payees: "
 msgstr "Počet vybraných plátců/příjemců: "
 
-#: ../src/tiers_onglet.c:1323
+#: ../src/tiers_onglet.c:1320
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Hledaný plátce/příjemce: %s"
 
-#: ../src/tiers_onglet.c:1329
+#: ../src/tiers_onglet.c:1328
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Nový plátce/příjemce: %s"
@@ -11313,15 +11311,19 @@ msgstr ""
 "\n"
 "Opravdu pokračovat?"
 
-#: ../src/tiers_onglet.c:1576
+#: ../src/tiers_onglet.c:1574
 msgid "You must choose a payee for searching."
 msgstr "Pro vyhledávání musíte vybrat plátce/příjemce."
 
-#: ../src/tiers_onglet.c:1580
+#: ../src/tiers_onglet.c:1578
 msgid "Beware you don't use one of models for the research."
 msgstr "Pozor ať nepoužijete jeden z modelů pro výzkum."
 
-#: ../src/tiers_onglet.c:1678
+#: ../src/tiers_onglet.c:1679
+msgid "Warning you will crush the existing note."
+msgstr "Pozor, toto smaže existující poznámku."
+
+#: ../src/tiers_onglet.c:1683
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11700,97 +11702,100 @@ msgstr "Konverze se nezdařila, zkuste jinou znakovou sadu"
 msgid "No font defined"
 msgstr "Není zvoleno písmo"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+msgid "Diagram"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:3
 #, fuzzy
-msgid "<b>Additional line</b>"
-msgstr "Další zůstatek"
+msgid "<b>Options for the axis</b>"
+msgstr "Možnosti účtů hotovosti"
 
 #: ../src/ui/bet_graph.ui.h:4
-#, fuzzy
-msgid "<b>Grid</b>"
-msgstr " <b>%s odsouhlasení</b> "
+msgid "<b>Options for the X axis</b>"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:6
-msgid "<b>Options for the X axis</b>"
+msgid "Outside"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:7
-#, fuzzy
-msgid "<b>Options for the Y axis</b>"
-msgstr "Možnosti účtů hotovosti"
+msgid "Inside"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:8
-#, fuzzy
-msgid "<b>Options for the axis</b>"
-msgstr "Možnosti účtů hotovosti"
+msgid "Show Labels"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:9
-#, fuzzy
-msgid "<b>Options for the columns</b>"
-msgstr "Možnosti účtů hotovosti"
-
-#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr " <b>%s odsouhlasení</b> "
 
+#: ../src/ui/bet_graph.ui.h:10
+msgid "Low"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:11
-msgid "Crosses the Y axis at 0"
+msgid "High"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:12
-msgid "Diagram"
+msgid "Intersection point of X Y axes"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
-msgid "Display the grids above the plot"
-msgstr "Zobrazit tip dne"
+msgid "<b>Additional line</b>"
+msgstr "Další zůstatek"
 
 #: ../src/ui/bet_graph.ui.h:14
-msgid "Gap:"
+msgid "Crosses the Y axis at 0"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:15
-msgid "High"
-msgstr ""
+#, fuzzy
+msgid "<b>Options for the Y axis</b>"
+msgstr "Možnosti účtů hotovosti"
 
 #: ../src/ui/bet_graph.ui.h:16
-msgid "Inside"
-msgstr ""
+#, fuzzy
+msgid "<b>Grid</b>"
+msgstr " <b>%s odsouhlasení</b> "
 
 #: ../src/ui/bet_graph.ui.h:17
-msgid "Intersection point of X Y axes"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Low"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:19
 msgid "Major grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:20
+#: ../src/ui/bet_graph.ui.h:18
 msgid "Minor grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:21
-msgid "Outside"
+#: ../src/ui/bet_graph.ui.h:19
+#, fuzzy
+msgid "<b>Options for the columns</b>"
+msgstr "Možnosti účtů hotovosti"
+
+#: ../src/ui/bet_graph.ui.h:20
+msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:22
+#: ../src/ui/bet_graph.ui.h:23
+#, fuzzy
+msgid "Display the grids above the plot"
+msgstr "Zobrazit tip dne"
+
+#: ../src/ui/bet_graph.ui.h:24
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Zvolte mapu znaků"
-
-#: ../src/ui/bet_graph.ui.h:23
-msgid "Show Labels"
-msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
@@ -11828,9 +11833,6 @@ msgstr "Osobní správce financí"
 
 #~ msgid "Accounts file title: "
 #~ msgstr "Název souboru účtů: "
-
-#~ msgid "Select an account"
-#~ msgstr "Vyberte účet"
 
 #, fuzzy
 #~ msgid "Place under the accounts of the partial balance if possible"

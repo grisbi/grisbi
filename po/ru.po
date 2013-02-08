@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 08:29+0100\n"
+"POT-Creation-Date: 2013-02-08 20:01+0100\n"
 "PO-Revision-Date: 2010-02-11 19:06+0300\n"
 "Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -527,6 +527,12 @@ msgstr ""
 msgid "Accounts data"
 msgstr "Подробнее о счёте"
 
+#. set the choice of account
+#: ../src/bet_config.c:266
+#, fuzzy
+msgid "Select an account"
+msgstr "Выделить банковские счета"
+
 #. Data for the forecast
 #: ../src/bet_config.c:289
 #, fuzzy
@@ -662,12 +668,9 @@ msgstr "способ платежа:"
 msgid "Annuel rate interest: "
 msgstr "Ежегодный бюджет:"
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
-#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:22
 #, no-c-format
 msgid "%"
 msgstr ""
@@ -1213,7 +1216,7 @@ msgstr ""
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
-#: ../src/tiers_onglet.c:684
+#: ../src/tiers_onglet.c:679
 msgid "Name"
 msgstr "Имя"
 
@@ -1381,12 +1384,12 @@ msgstr ""
 msgid "Hide grid"
 msgstr "Архивы"
 
-#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:24
+#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:2
 #, fuzzy
 msgid "Show grid"
 msgstr "Показать _выверенные"
 
-#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1082
+#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1078
 msgid "Options"
 msgstr "Параметры"
 
@@ -1436,7 +1439,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "Входящие"
 
-#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1169
+#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1165
 msgid "Select"
 msgstr "Выбрать"
 
@@ -1444,7 +1447,7 @@ msgstr "Выбрать"
 #: ../src/etats_config.c:5242 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:517
 #: ../src/gsb_transactions_list.c:177 ../src/import.c:3351
-#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:250
+#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:248
 msgid "Amount"
 msgstr "Сумма"
 
@@ -1532,7 +1535,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:697
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:692
 msgid "Description"
 msgstr "Описание"
 
@@ -1651,7 +1654,7 @@ msgstr ""
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:516 ../src/imputation_budgetaire.c:190
-#: ../src/navigation.c:1059 ../src/tiers_onglet.c:240
+#: ../src/navigation.c:1059 ../src/tiers_onglet.c:238
 msgid "Account"
 msgstr "Счёт"
 
@@ -1740,7 +1743,7 @@ msgstr "Экспортировать файл с категориями Grisbi (
 
 #: ../src/categories_onglet.c:589 ../src/etats_onglet.c:187
 #: ../src/gsb_scheduler_list.c:278 ../src/gsb_transactions_list.c:349
-#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:344
+#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:335
 msgid "Delete"
 msgstr "Удалить"
 
@@ -1750,7 +1753,7 @@ msgstr "Удалить выбранную категорию"
 
 #: ../src/categories_onglet.c:598 ../src/gsb_scheduler_list.c:288
 #: ../src/gsb_transactions_list.c:358 ../src/imputation_budgetaire.c:634
-#: ../src/tiers_onglet.c:353
+#: ../src/tiers_onglet.c:344
 msgid "Edit"
 msgstr "_Правка"
 
@@ -1761,11 +1764,11 @@ msgstr "Изменить выбранную категорию"
 
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:319
 #: ../src/gsb_transactions_list.c:385 ../src/imputation_budgetaire.c:645
-#: ../src/tiers_onglet.c:363
+#: ../src/tiers_onglet.c:354
 msgid "View"
 msgstr "Вид"
 
-#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:358
 msgid "Change view mode"
 msgstr "Сменить вид категорий"
 
@@ -1779,13 +1782,13 @@ msgid "Subcategory view"
 msgstr "Видны подкатегории"
 
 #: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:573
-#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:480
+#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:471
 msgid "Complete view"
 msgstr "Полный вид"
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:752 ../src/imputation_budgetaire.c:757
-#: ../src/tiers_onglet.c:659
+#: ../src/tiers_onglet.c:654
 #, c-format
 msgid "Properties for %s"
 msgstr "Свойства %s"
@@ -2663,7 +2666,7 @@ msgstr "Выделить все"
 #: ../src/etats_config.c:2567 ../src/etats_config.c:2822
 #: ../src/etats_config.c:3104 ../src/etats_config.c:3909
 #: ../src/etats_config.c:4099 ../src/etats_config.c:7352 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1237 ../src/tiers_onglet.c:1448
+#: ../src/import.c:2278 ../src/tiers_onglet.c:1233 ../src/tiers_onglet.c:1448
 msgid "Unselect all"
 msgstr "Снять выделение"
 
@@ -2768,7 +2771,7 @@ msgstr ""
 
 #. on fixe le titre et le suffixe de la barre d'information
 #: ../src/etats_config.c:3984 ../src/navigation.c:1950
-#: ../src/tiers_onglet.c:230 ../src/tiers_onglet.c:589
+#: ../src/tiers_onglet.c:228 ../src/tiers_onglet.c:584
 msgid "Payees"
 msgstr "Получатели платежей"
 
@@ -3412,8 +3415,8 @@ msgstr ""
 #. Cheques deposit
 #: ../src/etats_onglet.c:912
 msgid ""
-"This report displays the cheques deposit. You just need to select the account"
-"(s). By default all accounts are selected."
+"This report displays the cheques deposit. You just need to select the "
+"account(s). By default all accounts are selected."
 msgstr ""
 "Этот отчёт выводит депозит по чекам. Вам нужно всего лишь выбрать счёт. По "
 "умолчанию отчёт создаётся по всем счетам."
@@ -9328,7 +9331,7 @@ msgstr "Объединять импортированные проводки с 
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "По возможности автоматически привязывать категорию получателя"
 
-#: ../src/import.c:3707 ../src/tiers_onglet.c:1084
+#: ../src/import.c:3707 ../src/tiers_onglet.c:1080
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
@@ -9366,7 +9369,7 @@ msgstr ""
 "примеру, все метки QIF, содержащие слово «рента», будут связаны с "
 "получателем, представляющим домовладельца."
 
-#: ../src/import.c:3827 ../src/tiers_onglet.c:1187
+#: ../src/import.c:3827 ../src/tiers_onglet.c:1183
 msgid "Payee name"
 msgstr "Название получателя"
 
@@ -9932,7 +9935,7 @@ msgid "No sub-payee"
 msgstr ""
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:336
+#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:327
 msgid "New payee"
 msgstr "Новый получатель"
 
@@ -10130,19 +10133,19 @@ msgstr "_Создать счёт"
 msgid "Remove this account"
 msgstr "_Удалить активный счёт"
 
-#: ../src/navigation.c:2148 ../src/tiers_onglet.c:349
+#: ../src/navigation.c:2148 ../src/tiers_onglet.c:340
 msgid "Delete selected payee"
 msgstr "Удалить выбранного получателя"
 
-#: ../src/navigation.c:2163 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2163 ../src/tiers_onglet.c:349
 msgid "Edit selected payee"
 msgstr ""
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:371
+#: ../src/navigation.c:2184 ../src/tiers_onglet.c:362
 msgid "Manage payees"
 msgstr "Управление получателями"
 
-#: ../src/navigation.c:2192 ../src/tiers_onglet.c:379
+#: ../src/navigation.c:2192 ../src/tiers_onglet.c:370
 msgid "Remove unused payees"
 msgstr "Удалить неактивных"
 
@@ -10833,24 +10836,20 @@ msgstr ""
 msgid " [Transaction imported without date]"
 msgstr ""
 
-#: ../src/tiers_onglet.c:311
-msgid "Warning you will crush the existing note."
-msgstr ""
-
-#: ../src/tiers_onglet.c:340
+#: ../src/tiers_onglet.c:331
 msgid "Create a new payee"
 msgstr "Создать нового получателя"
 
-#: ../src/tiers_onglet.c:375 ../src/tiers_onglet.c:865
+#: ../src/tiers_onglet.c:366 ../src/tiers_onglet.c:860
 msgid "Manage the payees"
 msgstr "Управление получателями платежей"
 
-#: ../src/tiers_onglet.c:383 ../src/tiers_onglet.c:431
+#: ../src/tiers_onglet.c:374 ../src/tiers_onglet.c:422
 #, fuzzy
 msgid "Remove orphan payees"
 msgstr "Имя файла со счетами"
 
-#: ../src/tiers_onglet.c:432
+#: ../src/tiers_onglet.c:423
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -10859,32 +10858,32 @@ msgid ""
 "Are you sure you want to do that?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:446
+#: ../src/tiers_onglet.c:437
 #, c-format
 msgid "Removed %d payees."
 msgstr "Удалено получателей платежей: %d."
 
-#: ../src/tiers_onglet.c:451
+#: ../src/tiers_onglet.c:442
 msgid "There is no payee to remove."
 msgstr ""
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:474
+#: ../src/tiers_onglet.c:465
 msgid "Payee view"
 msgstr ""
 
-#: ../src/tiers_onglet.c:740
+#: ../src/tiers_onglet.c:735
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: ../src/tiers_onglet.c:744
+#: ../src/tiers_onglet.c:739
 msgid "Payee already exists"
 msgstr "Получатель с таким именем уже есть"
 
-#: ../src/tiers_onglet.c:866
+#: ../src/tiers_onglet.c:861
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -10898,21 +10897,21 @@ msgstr ""
 "\n"
 "Рекомендуется создать резервную копию открытого файла со счетами."
 
-#: ../src/tiers_onglet.c:988
+#: ../src/tiers_onglet.c:983
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Один получатель будет заменен на другого."
 
-#: ../src/tiers_onglet.c:992
+#: ../src/tiers_onglet.c:987
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "%d получателей будет заменено на другого."
 
-#: ../src/tiers_onglet.c:1044
+#: ../src/tiers_onglet.c:1040
 msgid "Choose a payee"
 msgstr "Выберите получателя"
 
-#: ../src/tiers_onglet.c:1046
+#: ../src/tiers_onglet.c:1042
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -10926,43 +10925,43 @@ msgstr ""
 "   %string, string%\n"
 "   %string%, string_1%string_2"
 
-#: ../src/tiers_onglet.c:1065
+#: ../src/tiers_onglet.c:1061
 msgid "Enter the new payee"
 msgstr "Укажите нового получателя"
 
-#: ../src/tiers_onglet.c:1067
+#: ../src/tiers_onglet.c:1063
 msgid "Enter the name of the new payee"
 msgstr "Введите имя нового получателя"
 
-#: ../src/tiers_onglet.c:1090
+#: ../src/tiers_onglet.c:1086
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1123
+#: ../src/tiers_onglet.c:1119
 msgid "List of payees who will be modified"
 msgstr "Список изменяемых получателей"
 
-#: ../src/tiers_onglet.c:1177
+#: ../src/tiers_onglet.c:1173
 msgid "Payee number"
 msgstr "Номер получателя"
 
-#: ../src/tiers_onglet.c:1203
+#: ../src/tiers_onglet.c:1199
 #, fuzzy
 msgid "Total number of payees: "
 msgstr "Общее число получателей:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1220
+#: ../src/tiers_onglet.c:1216
 #, fuzzy
 msgid "Number of selected payees: "
 msgstr "Число выбранных получателей:"
 
-#: ../src/tiers_onglet.c:1323
+#: ../src/tiers_onglet.c:1320
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Искомый получатель : %s"
 
-#: ../src/tiers_onglet.c:1329
+#: ../src/tiers_onglet.c:1328
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Новый получатель: %s"
@@ -10990,15 +10989,19 @@ msgstr ""
 "\n"
 "Вы уверены?"
 
-#: ../src/tiers_onglet.c:1576
+#: ../src/tiers_onglet.c:1574
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1580
+#: ../src/tiers_onglet.c:1578
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1678
+#: ../src/tiers_onglet.c:1679
+msgid "Warning you will crush the existing note."
+msgstr ""
+
+#: ../src/tiers_onglet.c:1683
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11275,97 +11278,100 @@ msgstr ""
 msgid "No font defined"
 msgstr "Шрифт не определён"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+msgid "Diagram"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:3
 #, fuzzy
-msgid "<b>Additional line</b>"
-msgstr "Дополнительный баланс"
+msgid "<b>Options for the axis</b>"
+msgstr "Выделить наличные счета"
 
 #: ../src/ui/bet_graph.ui.h:4
-#, fuzzy
-msgid "<b>Grid</b>"
-msgstr " <b>Выверка счёта «%s»</b> "
+msgid "<b>Options for the X axis</b>"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:6
-msgid "<b>Options for the X axis</b>"
+msgid "Outside"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:7
-#, fuzzy
-msgid "<b>Options for the Y axis</b>"
-msgstr "Выделить наличные счета"
+msgid "Inside"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:8
-#, fuzzy
-msgid "<b>Options for the axis</b>"
-msgstr "Выделить наличные счета"
+msgid "Show Labels"
+msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:9
-#, fuzzy
-msgid "<b>Options for the columns</b>"
-msgstr "Выделить наличные счета"
-
-#: ../src/ui/bet_graph.ui.h:10
 #, fuzzy
 msgid "<b>Position</b>"
 msgstr " <b>Выверка счёта «%s»</b> "
 
+#: ../src/ui/bet_graph.ui.h:10
+msgid "Low"
+msgstr ""
+
 #: ../src/ui/bet_graph.ui.h:11
-msgid "Crosses the Y axis at 0"
+msgid "High"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:12
-msgid "Diagram"
+msgid "Intersection point of X Y axes"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:13
 #, fuzzy
-msgid "Display the grids above the plot"
-msgstr "Показывать совет дня"
+msgid "<b>Additional line</b>"
+msgstr "Дополнительный баланс"
 
 #: ../src/ui/bet_graph.ui.h:14
-msgid "Gap:"
+msgid "Crosses the Y axis at 0"
 msgstr ""
 
 #: ../src/ui/bet_graph.ui.h:15
-msgid "High"
-msgstr ""
+#, fuzzy
+msgid "<b>Options for the Y axis</b>"
+msgstr "Выделить наличные счета"
 
 #: ../src/ui/bet_graph.ui.h:16
-msgid "Inside"
-msgstr ""
+#, fuzzy
+msgid "<b>Grid</b>"
+msgstr " <b>Выверка счёта «%s»</b> "
 
 #: ../src/ui/bet_graph.ui.h:17
-msgid "Intersection point of X Y axes"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Low"
-msgstr ""
-
-#: ../src/ui/bet_graph.ui.h:19
 msgid "Major grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:20
+#: ../src/ui/bet_graph.ui.h:18
 msgid "Minor grid"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:21
-msgid "Outside"
+#: ../src/ui/bet_graph.ui.h:19
+#, fuzzy
+msgid "<b>Options for the columns</b>"
+msgstr "Выделить наличные счета"
+
+#: ../src/ui/bet_graph.ui.h:20
+msgid "Gap:"
 msgstr ""
 
-#: ../src/ui/bet_graph.ui.h:22
+#: ../src/ui/bet_graph.ui.h:23
+#, fuzzy
+msgid "Display the grids above the plot"
+msgstr "Показывать совет дня"
+
+#: ../src/ui/bet_graph.ui.h:24
 #, fuzzy
 msgid "Select the chart type"
 msgstr "Выделить все"
-
-#: ../src/ui/bet_graph.ui.h:23
-msgid "Show Labels"
-msgstr ""
 
 #: ../share/grisbi.desktop.in.h:2
 #, fuzzy
@@ -11389,10 +11395,6 @@ msgstr "Общедоступное управление личными фина�
 #, fuzzy
 #~ msgid "Accounts file title: "
 #~ msgstr "Название файла счёта:"
-
-#, fuzzy
-#~ msgid "Select an account"
-#~ msgstr "Выделить банковские счета"
 
 #~ msgid "Report : "
 #~ msgstr "Отчёт:"

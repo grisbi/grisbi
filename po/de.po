@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-02 08:29+0100\n"
+"POT-Creation-Date: 2013-02-08 20:01+0100\n"
 "PO-Revision-Date: 2012-12-02 16:47+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -515,6 +515,11 @@ msgstr ""
 msgid "Accounts data"
 msgstr "Konten Einstellungen"
 
+#. set the choice of account
+#: ../src/bet_config.c:266
+msgid "Select an account"
+msgstr "Konto auswählen"
+
 #. Data for the forecast
 #: ../src/bet_config.c:289
 msgid "Data for the forecast"
@@ -636,12 +641,9 @@ msgstr "Datum erste Tilgung: "
 msgid "Annuel rate interest: "
 msgstr "Zinssatz jährlich: "
 
-#. Local Variables:
-#. c-basic-offset: 4
-#. End:
 #: ../src/bet_config.c:1472 ../src/bet_finance_ui.c:283
 #: ../src/bet_finance_ui.c:396 ../src/bet_finance_ui.c:1112
-#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:2
+#: ../src/bet_finance_ui.c:1554 ../src/ui/bet_graph.ui.h:22
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -1166,7 +1168,7 @@ msgstr "Es wurden keine oder fehlerhafte Daten eingegeben."
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
-#: ../src/tiers_onglet.c:684
+#: ../src/tiers_onglet.c:679
 msgid "Name"
 msgstr "Name"
 
@@ -1332,11 +1334,11 @@ msgstr "Datum %s : Betrag %s"
 msgid "Hide grid"
 msgstr "Gitter verbergen"
 
-#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:24
+#: ../src/bet_graph.c:1034 ../src/bet_graph.c:1068 ../src/ui/bet_graph.ui.h:2
 msgid "Show grid"
 msgstr "Gitter anzeigen"
 
-#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1082
+#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1078
 msgid "Options"
 msgstr "Einstellungen"
 
@@ -1386,7 +1388,7 @@ msgstr "Ausgaben"
 msgid "Incomes"
 msgstr "Einnahmen"
 
-#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1169
+#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1165
 msgid "Select"
 msgstr "Auswählen"
 
@@ -1394,7 +1396,7 @@ msgstr "Auswählen"
 #: ../src/etats_config.c:5242 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:598 ../src/gsb_scheduler_list.c:517
 #: ../src/gsb_transactions_list.c:177 ../src/import.c:3351
-#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:250
+#: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:248
 msgid "Amount"
 msgstr "Betrag"
 
@@ -1479,7 +1481,7 @@ msgstr ""
 "Für eine automatische Änderung vom Beginndatum die 'Checkbox' auswählen"
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:697
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:692
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1589,7 +1591,7 @@ msgstr "Prognose.csv"
 #: ../src/gsb_assistant_reconcile_config.c:598
 #: ../src/gsb_payment_method_config.c:162 ../src/gsb_reconcile_config.c:104
 #: ../src/gsb_scheduler_list.c:516 ../src/imputation_budgetaire.c:190
-#: ../src/navigation.c:1059 ../src/tiers_onglet.c:240
+#: ../src/navigation.c:1059 ../src/tiers_onglet.c:238
 msgid "Account"
 msgstr "Konto"
 
@@ -1685,7 +1687,7 @@ msgstr "Kategorien (*.cgsb) exportieren"
 
 #: ../src/categories_onglet.c:589 ../src/etats_onglet.c:187
 #: ../src/gsb_scheduler_list.c:278 ../src/gsb_transactions_list.c:349
-#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:344
+#: ../src/imputation_budgetaire.c:624 ../src/tiers_onglet.c:335
 msgid "Delete"
 msgstr "Löschen"
 
@@ -1695,7 +1697,7 @@ msgstr "Die ausgewählte Kategorie löschen"
 
 #: ../src/categories_onglet.c:598 ../src/gsb_scheduler_list.c:288
 #: ../src/gsb_transactions_list.c:358 ../src/imputation_budgetaire.c:634
-#: ../src/tiers_onglet.c:353
+#: ../src/tiers_onglet.c:344
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -1706,11 +1708,11 @@ msgstr "Die ausgewählte Kategorie bearbeiten"
 
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:319
 #: ../src/gsb_transactions_list.c:385 ../src/imputation_budgetaire.c:645
-#: ../src/tiers_onglet.c:363
+#: ../src/tiers_onglet.c:354
 msgid "View"
 msgstr "Ansicht"
 
-#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:367
+#: ../src/categories_onglet.c:612 ../src/tiers_onglet.c:358
 msgid "Change view mode"
 msgstr "Die Darstellung ändern"
 
@@ -1724,13 +1726,13 @@ msgid "Subcategory view"
 msgstr "Unterkategorien"
 
 #: ../src/categories_onglet.c:672 ../src/gsb_transactions_list.c:573
-#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:480
+#: ../src/imputation_budgetaire.c:709 ../src/tiers_onglet.c:471
 msgid "Complete view"
 msgstr "Vollständig"
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:752 ../src/imputation_budgetaire.c:757
-#: ../src/tiers_onglet.c:659
+#: ../src/tiers_onglet.c:654
 #, c-format
 msgid "Properties for %s"
 msgstr "Eigenschaften von %s"
@@ -2645,7 +2647,7 @@ msgstr "Alle auswählen"
 #: ../src/etats_config.c:2567 ../src/etats_config.c:2822
 #: ../src/etats_config.c:3104 ../src/etats_config.c:3909
 #: ../src/etats_config.c:4099 ../src/etats_config.c:7352 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1237 ../src/tiers_onglet.c:1448
+#: ../src/import.c:2278 ../src/tiers_onglet.c:1233 ../src/tiers_onglet.c:1448
 msgid "Unselect all"
 msgstr "Alle abwählen"
 
@@ -2752,7 +2754,7 @@ msgstr "Gruppen Ausgaben"
 
 #. on fixe le titre et le suffixe de la barre d'information
 #: ../src/etats_config.c:3984 ../src/navigation.c:1950
-#: ../src/tiers_onglet.c:230 ../src/tiers_onglet.c:589
+#: ../src/tiers_onglet.c:228 ../src/tiers_onglet.c:584
 msgid "Payees"
 msgstr "Empfänger"
 
@@ -3384,8 +3386,8 @@ msgstr ""
 #. Cheques deposit
 #: ../src/etats_onglet.c:912
 msgid ""
-"This report displays the cheques deposit. You just need to select the account"
-"(s). By default all accounts are selected."
+"This report displays the cheques deposit. You just need to select the "
+"account(s). By default all accounts are selected."
 msgstr ""
 "Dieser Bericht zeigt alle Einnahmen an. Es müssen nur die Konten ausgewählt "
 "werden, in der Vorlage sind alle Konten ausgewählt."
@@ -9673,7 +9675,7 @@ msgstr "Importierte Buchungen mit vorhandenen Buchungen zusammenführen"
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr "Empfänger automatisch eintragen"
 
-#: ../src/import.c:3707 ../src/tiers_onglet.c:1084
+#: ../src/import.c:3707 ../src/tiers_onglet.c:1080
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr "Eine Nummer extrahieren und in das Feld für Schecknummer einfügen"
 
@@ -9711,7 +9713,7 @@ msgstr ""
 "Suchkriterium und einem Empfänger dem ausgewählten Empfänger zugeordnet "
 "werden."
 
-#: ../src/import.c:3827 ../src/tiers_onglet.c:1187
+#: ../src/import.c:3827 ../src/tiers_onglet.c:1183
 msgid "Payee name"
 msgstr "Empfänger Name"
 
@@ -10275,7 +10277,7 @@ msgid "No sub-payee"
 msgstr "Kein Teil-Empfänger"
 
 #. * Find a unique name for payee
-#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:336
+#: ../src/meta_payee.c:326 ../src/navigation.c:2140 ../src/tiers_onglet.c:327
 msgid "New payee"
 msgstr "Empfänger erstellen"
 
@@ -10483,19 +10485,19 @@ msgstr "Konto erstellen"
 msgid "Remove this account"
 msgstr "Konto löschen"
 
-#: ../src/navigation.c:2148 ../src/tiers_onglet.c:349
+#: ../src/navigation.c:2148 ../src/tiers_onglet.c:340
 msgid "Delete selected payee"
 msgstr "Den ausgewählten Empfänger löschen"
 
-#: ../src/navigation.c:2163 ../src/tiers_onglet.c:358
+#: ../src/navigation.c:2163 ../src/tiers_onglet.c:349
 msgid "Edit selected payee"
 msgstr "Den ausgewählten Empfänger bearbeiten"
 
-#: ../src/navigation.c:2184 ../src/tiers_onglet.c:371
+#: ../src/navigation.c:2184 ../src/tiers_onglet.c:362
 msgid "Manage payees"
 msgstr "Empfänger verwalten"
 
-#: ../src/navigation.c:2192 ../src/tiers_onglet.c:379
+#: ../src/navigation.c:2192 ../src/tiers_onglet.c:370
 msgid "Remove unused payees"
 msgstr "Verwaiste löschen"
 
@@ -11201,23 +11203,19 @@ msgstr "Kreditkarte"
 msgid " [Transaction imported without date]"
 msgstr " [Importierte Buchungen ohne Datum]"
 
-#: ../src/tiers_onglet.c:311
-msgid "Warning you will crush the existing note."
-msgstr "Warnung : Die vorhandene Notiz wird gelöscht."
-
-#: ../src/tiers_onglet.c:340
+#: ../src/tiers_onglet.c:331
 msgid "Create a new payee"
 msgstr "Einen neuen Empfänger erstellen"
 
-#: ../src/tiers_onglet.c:375 ../src/tiers_onglet.c:865
+#: ../src/tiers_onglet.c:366 ../src/tiers_onglet.c:860
 msgid "Manage the payees"
 msgstr "Empfänger verwalten"
 
-#: ../src/tiers_onglet.c:383 ../src/tiers_onglet.c:431
+#: ../src/tiers_onglet.c:374 ../src/tiers_onglet.c:422
 msgid "Remove orphan payees"
 msgstr "Verwaiste Empfänger löschen"
 
-#: ../src/tiers_onglet.c:432
+#: ../src/tiers_onglet.c:423
 msgid ""
 "This will remove all the payees wich are not used in any transactions.  "
 "Payees linked to an archived transactions will not be removed, even if not "
@@ -11230,21 +11228,21 @@ msgstr ""
 "\n"
 "Sollen diese Empfänger gelöscht werden?"
 
-#: ../src/tiers_onglet.c:446
+#: ../src/tiers_onglet.c:437
 #, c-format
 msgid "Removed %d payees."
 msgstr "Es wurden %d Empfänger gelöscht."
 
-#: ../src/tiers_onglet.c:451
+#: ../src/tiers_onglet.c:442
 msgid "There is no payee to remove."
 msgstr "Es sind keine Empfänger für eine Löschung vorhanden."
 
 #. Edit transaction
-#: ../src/tiers_onglet.c:474
+#: ../src/tiers_onglet.c:465
 msgid "Payee view"
 msgstr "Einfach"
 
-#: ../src/tiers_onglet.c:740
+#: ../src/tiers_onglet.c:735
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
@@ -11254,11 +11252,11 @@ msgstr ""
 "ein Empfänger mit diesem Namen vorhanden. Bitte wählen Sie einen anderen "
 "Namen aus."
 
-#: ../src/tiers_onglet.c:744
+#: ../src/tiers_onglet.c:739
 msgid "Payee already exists"
 msgstr "Der Empfänger ist bereits vorhanden"
 
-#: ../src/tiers_onglet.c:866
+#: ../src/tiers_onglet.c:861
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -11275,21 +11273,21 @@ msgstr ""
 "jetzt beenden, eine Sicherungskopie erstellen und den Assistenten erneut "
 "aufzurufen."
 
-#: ../src/tiers_onglet.c:988
+#: ../src/tiers_onglet.c:983
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr "Es wurde ein Empfänger durch einen neuen Empfänger ersetzt."
 
-#: ../src/tiers_onglet.c:992
+#: ../src/tiers_onglet.c:987
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr "Es wurden %d Empfänger durch einen neuen Empfänger ersetzt."
 
-#: ../src/tiers_onglet.c:1044
+#: ../src/tiers_onglet.c:1040
 msgid "Choose a payee"
 msgstr "Empfänger auswählen"
 
-#: ../src/tiers_onglet.c:1046
+#: ../src/tiers_onglet.c:1042
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -11303,41 +11301,41 @@ msgstr ""
 "   %am Anfang, am Ende%\n"
 "   %am Anfang und Ende%, in der%Mitte"
 
-#: ../src/tiers_onglet.c:1065
+#: ../src/tiers_onglet.c:1061
 msgid "Enter the new payee"
 msgstr "Empfänger eingeben"
 
-#: ../src/tiers_onglet.c:1067
+#: ../src/tiers_onglet.c:1063
 msgid "Enter the name of the new payee"
 msgstr "Den Namen vom neuen Empfänger eingeben"
 
-#: ../src/tiers_onglet.c:1090
+#: ../src/tiers_onglet.c:1086
 msgid "Save the payees in the notes"
 msgstr "Den Namen vom Empfänger in das Feld Notizen eintragen"
 
-#: ../src/tiers_onglet.c:1123
+#: ../src/tiers_onglet.c:1119
 msgid "List of payees who will be modified"
 msgstr "Auflistung der Änderungen"
 
-#: ../src/tiers_onglet.c:1177
+#: ../src/tiers_onglet.c:1173
 msgid "Payee number"
 msgstr "Empfänger Nummer"
 
-#: ../src/tiers_onglet.c:1203
+#: ../src/tiers_onglet.c:1199
 msgid "Total number of payees: "
 msgstr "Gesamtanzahl der Empfänger: "
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1220
+#: ../src/tiers_onglet.c:1216
 msgid "Number of selected payees: "
 msgstr "Anzahl der ausgewählten Empfänger: "
 
-#: ../src/tiers_onglet.c:1323
+#: ../src/tiers_onglet.c:1320
 #, c-format
 msgid "Payee sought: %s"
 msgstr "Empfänger Suchkriterium : %s"
 
-#: ../src/tiers_onglet.c:1329
+#: ../src/tiers_onglet.c:1328
 #, c-format
 msgid "New payee: %s"
 msgstr "Neuer Empfänger : %s"
@@ -11364,16 +11362,20 @@ msgstr ""
 "\n"
 "Soll die Ersetzung durchgeführt werden?"
 
-#: ../src/tiers_onglet.c:1576
+#: ../src/tiers_onglet.c:1574
 msgid "You must choose a payee for searching."
 msgstr "Es muss der Name von einem Empfänger für die Suche eingegeben werden."
 
-#: ../src/tiers_onglet.c:1580
+#: ../src/tiers_onglet.c:1578
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 "Einen Empfänger auswählen oder bei der Eingabe das '%' Zeichen verwenden."
 
-#: ../src/tiers_onglet.c:1678
+#: ../src/tiers_onglet.c:1679
+msgid "Warning you will crush the existing note."
+msgstr "Warnung : Die vorhandene Notiz wird gelöscht."
+
+#: ../src/tiers_onglet.c:1683
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
@@ -11771,89 +11773,92 @@ msgstr ""
 msgid "No font defined"
 msgstr "Keine Schrift definiert"
 
+#. Local Variables:
+#. c-basic-offset: 4
+#. End:
+#: ../src/ui/bet_graph.ui.h:1
+msgid "Diagram"
+msgstr "Diagramm - Grisbi"
+
 #: ../src/ui/bet_graph.ui.h:3
-msgid "<b>Additional line</b>"
-msgstr "<b>Hilfsachse</b>"
+msgid "<b>Options for the axis</b>"
+msgstr "<b>Einstellungen für alle Achsen</b>"
 
 #: ../src/ui/bet_graph.ui.h:4
-msgid "<b>Grid</b>"
-msgstr "<b>Gitter</b>"
+msgid "<b>Options for the X axis</b>"
+msgstr "<b>Einstellungen für X-Achse</b>"
 
 #: ../src/ui/bet_graph.ui.h:5
 msgid "<b>Major ticks</b>"
 msgstr "<b>Intervallmarken</b>"
 
 #: ../src/ui/bet_graph.ui.h:6
-msgid "<b>Options for the X axis</b>"
-msgstr "<b>Einstellungen für X-Achse</b>"
-
-#: ../src/ui/bet_graph.ui.h:7
-msgid "<b>Options for the Y axis</b>"
-msgstr "<b>Einstellungen für Y-Achse</b>"
-
-#: ../src/ui/bet_graph.ui.h:8
-msgid "<b>Options for the axis</b>"
-msgstr "<b>Einstellungen für alle Achsen</b>"
-
-#: ../src/ui/bet_graph.ui.h:9
-msgid "<b>Options for the columns</b>"
-msgstr "<b>Einstellungen für Spalten</b>"
-
-#: ../src/ui/bet_graph.ui.h:10
-msgid "<b>Position</b>"
-msgstr "<b>Beschriftung</b>"
-
-#: ../src/ui/bet_graph.ui.h:11
-msgid "Crosses the Y axis at 0"
-msgstr "Schnittpunkt für Y-Achse ist 0"
-
-#: ../src/ui/bet_graph.ui.h:12
-msgid "Diagram"
-msgstr "Diagramm - Grisbi"
-
-#: ../src/ui/bet_graph.ui.h:13
-msgid "Display the grids above the plot"
-msgstr "Das Gitter anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:14
-msgid "Gap:"
-msgstr "Abstand:"
-
-#: ../src/ui/bet_graph.ui.h:15
-msgid "High"
-msgstr "oben Anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:16
-msgid "Inside"
-msgstr "Mittig"
-
-#: ../src/ui/bet_graph.ui.h:17
-msgid "Intersection point of X Y axes"
-msgstr "Schnittpunkt X und Y Achse"
-
-#: ../src/ui/bet_graph.ui.h:18
-msgid "Low"
-msgstr "unten Anzeigen"
-
-#: ../src/ui/bet_graph.ui.h:19
-msgid "Major grid"
-msgstr "Hauptgitter"
-
-#: ../src/ui/bet_graph.ui.h:20
-msgid "Minor grid"
-msgstr "Hilfsgitter"
-
-#: ../src/ui/bet_graph.ui.h:21
 msgid "Outside"
 msgstr "Außerhalb"
 
-#: ../src/ui/bet_graph.ui.h:22
-msgid "Select the chart type"
-msgstr "Den Chart-Typ auswählen"
+#: ../src/ui/bet_graph.ui.h:7
+msgid "Inside"
+msgstr "Mittig"
 
-#: ../src/ui/bet_graph.ui.h:23
+#: ../src/ui/bet_graph.ui.h:8
 msgid "Show Labels"
 msgstr "Beschriftung anzeigen"
+
+#: ../src/ui/bet_graph.ui.h:9
+msgid "<b>Position</b>"
+msgstr "<b>Beschriftung</b>"
+
+#: ../src/ui/bet_graph.ui.h:10
+msgid "Low"
+msgstr "unten Anzeigen"
+
+#: ../src/ui/bet_graph.ui.h:11
+msgid "High"
+msgstr "oben Anzeigen"
+
+#: ../src/ui/bet_graph.ui.h:12
+msgid "Intersection point of X Y axes"
+msgstr "Schnittpunkt X und Y Achse"
+
+#: ../src/ui/bet_graph.ui.h:13
+msgid "<b>Additional line</b>"
+msgstr "<b>Hilfsachse</b>"
+
+#: ../src/ui/bet_graph.ui.h:14
+msgid "Crosses the Y axis at 0"
+msgstr "Schnittpunkt für Y-Achse ist 0"
+
+#: ../src/ui/bet_graph.ui.h:15
+msgid "<b>Options for the Y axis</b>"
+msgstr "<b>Einstellungen für Y-Achse</b>"
+
+#: ../src/ui/bet_graph.ui.h:16
+msgid "<b>Grid</b>"
+msgstr "<b>Gitter</b>"
+
+#: ../src/ui/bet_graph.ui.h:17
+msgid "Major grid"
+msgstr "Hauptgitter"
+
+#: ../src/ui/bet_graph.ui.h:18
+msgid "Minor grid"
+msgstr "Hilfsgitter"
+
+#: ../src/ui/bet_graph.ui.h:19
+msgid "<b>Options for the columns</b>"
+msgstr "<b>Einstellungen für Spalten</b>"
+
+#: ../src/ui/bet_graph.ui.h:20
+msgid "Gap:"
+msgstr "Abstand:"
+
+#: ../src/ui/bet_graph.ui.h:23
+msgid "Display the grids above the plot"
+msgstr "Das Gitter anzeigen"
+
+#: ../src/ui/bet_graph.ui.h:24
+msgid "Select the chart type"
+msgstr "Den Chart-Typ auswählen"
 
 #: ../share/grisbi.desktop.in.h:2
 msgid "Personnal finances manager"
@@ -11895,9 +11900,6 @@ msgstr "Finanzprogramm für Privatpersonen"
 
 #~ msgid "Accounts file title: "
 #~ msgstr "Bezeichnung: "
-
-#~ msgid "Select an account"
-#~ msgstr "Konto auswählen"
 
 #~ msgid "display the data graph"
 #~ msgstr "Diagramm anzeigen"
