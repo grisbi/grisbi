@@ -266,7 +266,7 @@ GtkWidget *bet_config_account_create_account_page ( void )
     account_page = gsb_gui_get_account_page ();
 
     /* set the choice of account */
-    widget = bet_config_account_get_select_account ( "Select an account" );
+    widget = bet_config_account_get_select_account ( _("Select an account") );
     gtk_box_pack_start ( GTK_BOX ( vbox_pref ), widget, FALSE, FALSE, 0 );
     gtk_widget_show_all ( vbox_pref );
 
@@ -335,7 +335,7 @@ GtkWidget *bet_config_account_get_select_account ( gchar *title )
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     /* set the choice of account */
-    paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
+    paddingbox = new_paddingbox_with_title ( vbox, FALSE, title );
 
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 5 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 5 );
