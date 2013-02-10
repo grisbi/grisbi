@@ -1527,7 +1527,7 @@ GtkWidget *bet_finance_create_account_page ( void )
     gtk_box_pack_start ( GTK_BOX ( page ), align, FALSE, FALSE, 5);
 
     label_title = gtk_label_new ( _("Amortization Table") );
-    g_object_set_data ( G_OBJECT ( gsb_gui_get_account_page () ),
+    g_object_set_data ( G_OBJECT ( account_page ),
                         "bet_finance_amortization_title",
                         label_title );
     gtk_container_add ( GTK_CONTAINER ( align ), label_title );
