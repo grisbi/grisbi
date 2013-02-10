@@ -2157,6 +2157,8 @@ gboolean transaction_list_get_variance ( gint transaction_number )
     }
 
     mother_record = white_record -> mother_row;
+    if ( !mother_record )
+        return FALSE;
 
     for (i=0 ; i < mother_record -> number_of_children -1 ; i++)
     {
