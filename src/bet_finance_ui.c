@@ -1781,8 +1781,8 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
     GtkToolItem *item;
 
     toolbar = gtk_toolbar_new ( );
-    g_object_set_data ( G_OBJECT ( simulator_toolbar ), "tree_view", tree_view );
-    g_object_set_data ( G_OBJECT ( simulator_toolbar ), "page", parent );
+    g_object_set_data ( G_OBJECT ( toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     if ( simulator )
     {
