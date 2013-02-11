@@ -86,7 +86,9 @@ extern GdkColor text_color[2];
 /*END_EXTERN*/
 
 
-static GObjectClass *parent_class = NULL;  /* GObject stuff - nothing to worry about */
+G_DEFINE_TYPE_EXTENDED (
+    CustomList, custom_list, G_TYPE_OBJECT, 0,
+    G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, custom_list_tree_model_init));
 
 
 /**
@@ -144,52 +146,6 @@ CustomList *custom_list_new (void)
 
 
 /**
- * we register our new type and its interfaces with the type system.
- * extern is necessary for mk_include to set that function in custom_list.h
- *
- * \param
- *
- * \return	Gtype
- * */
-GType custom_list_get_type (void)
-{
-    static GType custom_list_type = 0;
-
-    /* Some boilerplate type registration stuff */
-    if (custom_list_type == 0)
-    {
-	static const GTypeInfo custom_list_info =
-	{
-	    sizeof (CustomListClass),
-	    NULL,                                         /* base_init */
-	    NULL,                                         /* base_finalize */
-	    (GClassInitFunc) custom_list_class_init,
-	    NULL,                                         /* class finalize */
-	    NULL,                                         /* class_data */
-	    sizeof (CustomList),
-	    0,                                           /* n_preallocs */
-	    (GInstanceInitFunc) custom_list_init
-	};
-	static const GInterfaceInfo tree_model_info =
-	{
-	    (GInterfaceInitFunc) custom_list_tree_model_init,
-	    NULL,
-	    NULL
-	};
-
-	/* First register the new derived type with the GObject type system */
-	custom_list_type = g_type_register_static (G_TYPE_OBJECT, "CustomList",
-						   &custom_list_info, (GTypeFlags)0);
-
-	/* Now register our GtkTreeModel interface with the type system */
-	g_type_add_interface_static (custom_list_type, GTK_TYPE_TREE_MODEL, &tree_model_info);
-    }
-
-    return custom_list_type;
-}
-
-
-/**
  * Init callback for the type system
  * called once when our new class is created
  *
@@ -199,12 +155,9 @@ GType custom_list_get_type (void)
  * */
 static void custom_list_class_init (CustomListClass *klass)
 {
-    GObjectClass *object_class;
+    GObjectClass *gobject_class = G_OBJECT_CLASS ( klass );
 
-    parent_class = (GObjectClass*) g_type_class_peek_parent (klass);
-    object_class = (GObjectClass*) klass;
-
-    object_class->finalize = custom_list_finalize;
+    gobject_class->finalize = custom_list_finalize;
 }
 
 
@@ -297,7 +250,7 @@ void custom_list_finalize (GObject *object)
     transaction_model_initialize ();
 
     /* must chain up - finalize parent */
-    (* parent_class->finalize) (object);
+    G_OBJECT_CLASS(custom_list_parent_class)->finalize (object);
 }
 
 
