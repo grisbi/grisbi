@@ -32,3 +32,4 @@ doxygen/
 *.swp
 tags
 test-driver
+outgoing
