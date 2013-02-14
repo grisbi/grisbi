@@ -97,6 +97,7 @@ gboolean transaction_list_create (void)
 
     custom_list = custom_list_new ();
     transaction_model_set_model (custom_list);
+    g_object_unref ( custom_list );
 
     return (custom_list != NULL);
 }

@@ -157,7 +157,7 @@ void init_variables ( void )
 
     /* if ever there is still something from the previous list,
      * erase now */
-    transaction_model_initialize();
+    transaction_model_set_model ( NULL );
 
     gsb_data_account_init_variables ();
     gsb_data_transaction_init_variables ();

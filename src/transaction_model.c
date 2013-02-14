@@ -56,62 +56,6 @@ static CustomList *custom_list = NULL;
 
 
 /**
- * erase the custom_list variable and free the memory used by the list
- * called when closing a file, while destroying the list
- *
- * \param
- *
- * \return
- * */
-void transaction_model_initialize ( void )
-{
-    gint i;
-
-    if (!custom_list)
-	return;
-
-    /* free all records and free all memory used by the list */
-    for (i=0 ; i<custom_list -> num_rows ; i++)
-    {
-	CustomRecord *record;
-	gint j;
-
-	record = custom_list -> rows[i];
-	for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
-	    if (record -> visible_col[j])
-		g_free (record -> visible_col[j]);
-
-	if (record -> number_of_children)
-	{
-	    gint k;
-	    for (k=0 ; k<record -> number_of_children ; k++)
-	    {
-		CustomRecord *child_record;
-
-		child_record = record -> children_rows[k];
-
-		for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
-		    if (child_record -> visible_col[j])
-			g_free (child_record -> visible_col[j]);
-		g_free (child_record);
-	    }
-	    g_free (record -> children_rows);
-
-	    for (k=0 ; k<TRANSACTION_LIST_ROWS_NB ; k++)
-		record -> transaction_records[k] -> number_of_children = 0;
-	}
-	g_free (record);
-    }
-    g_free (custom_list -> rows);
-    g_free (custom_list -> visibles_rows);
-
-    /* cannot free custom_list without crashing grisbi... perhaps done automatically
-     * when destroying the tree view ? */
-    /*     g_free (custom_list); */
-    custom_list = NULL;
-}
-
-/**
  * return the CustomList
  *
  * \param
@@ -132,7 +76,13 @@ CustomList *transaction_model_get_model (void)
  * */
 void transaction_model_set_model ( CustomList *new_custom_list )
 {
+    if ( custom_list )
+        g_object_unref ( G_OBJECT ( custom_list ) );
+
     custom_list = new_custom_list;
+
+    if ( custom_list )
+        g_object_ref ( G_OBJECT ( custom_list ) );
 }
 
 

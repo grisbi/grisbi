@@ -294,7 +294,45 @@ static void custom_list_init (CustomList *custom_list)
  * */
 void custom_list_finalize (GObject *object)
 {
-    transaction_model_initialize ();
+    CustomList *custom_list;
+    gint i;
+
+    custom_list = CUSTOM_LIST ( object );
+
+    /* free all records and free all memory used by the list */
+    for (i=0 ; i<custom_list -> num_rows ; i++)
+    {
+	CustomRecord *record;
+	gint j;
+
+	record = custom_list -> rows[i];
+	for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+	    if (record -> visible_col[j])
+		g_free (record -> visible_col[j]);
+
+	if (record -> number_of_children)
+	{
+	    gint k;
+	    for (k=0 ; k<record -> number_of_children ; k++)
+	    {
+		CustomRecord *child_record;
+
+		child_record = record -> children_rows[k];
+
+		for (j=0 ; j<CUSTOM_MODEL_VISIBLE_COLUMNS ; j++)
+		    if (child_record -> visible_col[j])
+			g_free (child_record -> visible_col[j]);
+		g_free (child_record);
+	    }
+	    g_free (record -> children_rows);
+
+	    for (k=0 ; k<TRANSACTION_LIST_ROWS_NB ; k++)
+		record -> transaction_records[k] -> number_of_children = 0;
+	}
+	g_free (record);
+    }
+    g_free (custom_list -> rows);
+    g_free (custom_list -> visibles_rows);
 
     /* must chain up - finalize parent */
     (* parent_class->finalize) (object);
