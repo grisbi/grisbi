@@ -1984,6 +1984,7 @@ void gsb_gui_navigation_set_navigation_pages ( GtkTreeModel *model,
                         NAVIGATION_ORDRE, ordre,
                         -1);
 
+    g_object_unref ( G_OBJECT ( pixbuf ) );
     g_free ( tmp_str );
     g_free ( title );
 
