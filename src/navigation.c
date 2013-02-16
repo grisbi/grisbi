@@ -251,6 +251,9 @@ GtkWidget *gsb_gui_navigation_create_navigation_pane ( void )
     gtk_tree_selection_set_mode ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( navigation_tree_view ) ),
                         GTK_SELECTION_SINGLE );
     gtk_tree_view_set_model ( GTK_TREE_VIEW ( navigation_tree_view ), GTK_TREE_MODEL( navigation_model ) );
+    /* FIXME, since navigation_model is a static variable, we _do_ hold a ref...
+       Maybe we should be using a WeakRef? */
+    g_object_unref ( G_OBJECT ( navigation_model ) );
 
     /* Handle drag & drop */
     navigation_dst_iface = GTK_TREE_DRAG_DEST_GET_IFACE ( navigation_model );
