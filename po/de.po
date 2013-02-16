@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-08 20:23+0100\n"
-"PO-Revision-Date: 2013-01-25 22:34+0100\n"
+"PO-Revision-Date: 2013-02-16 20:07+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -685,11 +685,18 @@ msgid ""
 "If you have yet to enter into transactions on behalf deferred debit card "
 "finish with \"No\" and update the account before you start."
 msgstr ""
+"Warnung: für das Ausgabenkonto mit verzögerten Buchungen (%s) ist das "
+"Beginndatum erreicht oder abgelaufen. Für dieses Konto müssen alle Buchungen "
+"erfasst sein, ansonsten erfolgt keine "
+"Berücksichtigung für die gewählte Zeitspanne.\n"
+"\n"
+"Wenn alle Buchungen bereits erfasst sind bitte mit \"Ja\" bestätigen.\n"
+"Wenn noch nicht alle Buchungen erfasst sind bitte \"Nein\" auswählen, die "
+"Buchungen erfassen und danach den Vorgang wiederholen."
 
 #: ../src/bet_data.c:1882
-#, fuzzy
 msgid "Confirmation of the change of period"
-msgstr "Konfiguration Startseite"
+msgstr "Die Änderung vom Beginndatum bestätigen"
 
 #: ../src/bet_finance_ui.c:222 ../src/fenetre_principale.c:292
 #: ../src/navigation.c:1220 ../src/navigation.c:1957
@@ -1129,9 +1136,9 @@ msgid "One of the two fields is required"
 msgstr "Die Eingabe in zumindest ein Feld ist erforderlich"
 
 #: ../src/bet_future.c:2932
-#, fuzzy
 msgid "You must have at least one account with deferred debit card."
-msgstr "Ausgabenkonto mit verzögerten Buchungen"
+msgstr ""
+"Es muss zumindest ein Ausgabenkonto mit verzögerten Buchungen vorhanden sein."
 
 #: ../src/bet_future.c:2971 ../src/bet_future.c:3252
 msgid "Error: You must select an account."
@@ -10612,10 +10619,13 @@ msgid ""
 "This feature is no longer available.\n"
 "If it is necessary please use a stable version"
 msgstr ""
+"Diese Funktionalität ist nicht mehr verfügbar.\n"
+"Falls diese Funktionalität erforderlich ist bitte eine ältere Version von "
+"Grisbi verwenden"
 
 #: ../src/print_report.c:102
 msgid "feature is no longer available"
-msgstr ""
+msgstr "Funktionalität ist nicht mehr verfügbar"
 
 #: ../src/print_report.c:109
 msgid "Please select a report before trying to print it."
