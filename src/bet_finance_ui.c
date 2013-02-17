@@ -1835,6 +1835,7 @@ static GtkWidget *bet_finance_create_simulator_toolbar ( GtkWidget *parent,
 
     /* Export button */
     item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array") );
     g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
