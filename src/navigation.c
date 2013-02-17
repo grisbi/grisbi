@@ -862,6 +862,8 @@ void gsb_gui_navigation_update_account_iter ( GtkTreeModel *model,
                         NAVIGATION_SENSITIVE, !gsb_data_account_get_closed_account ( account_number ),
                         NAVIGATION_REPORT, -1,
                         -1 );
+
+    g_object_unref ( G_OBJECT ( pixbuf ) );
 }
 
 
