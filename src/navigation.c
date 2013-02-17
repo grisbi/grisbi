@@ -1884,6 +1884,8 @@ void gsb_gui_navigation_init_pages_list ( void )
 {
     GQueue *new_queue;
 
+    gsb_gui_navigation_free_pages_list ( );
+
     new_queue = g_queue_new ( );
     pages_list = new_queue;
     gsb_gui_navigation_set_page_list_order ( default_navigation_order_list );
@@ -1909,8 +1911,12 @@ void gsb_gui_navigation_clear_pages_list ( void )
  */
 void gsb_gui_navigation_free_pages_list ( void )
 {
+    if ( ! pages_list )
+        return;
+
     g_queue_foreach ( pages_list, (GFunc) g_free, NULL );
     g_queue_free ( pages_list );
+    pages_list = NULL;
 }
 
 
