@@ -92,7 +92,8 @@ static gboolean bet_array_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev );
 static void bet_array_list_change_menu ( GtkWidget *menu_item,
                         GtkTreeSelection *tree_selection );
-static GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view );
+static GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
+                        GtkWidget *tree_view );
 static void bet_array_list_context_menu ( GtkWidget *tree_view,
                         GtkTreePath *path );
 static void bet_array_list_delete_all_menu ( GtkWidget *menu_item,
@@ -702,6 +703,7 @@ void bet_array_refresh_estimate_tab ( gint account_number )
 GtkWidget *bet_array_create_page ( void )
 {
     GtkWidget *page;
+    GtkWidget *frame;
     GtkWidget *widget = NULL;
     GtkWidget *initial_date = NULL;
     GtkWidget *hbox;
@@ -716,6 +718,10 @@ GtkWidget *bet_array_create_page ( void )
     gtk_widget_set_name ( page, "forecast_page" );
 
     account_page = gsb_gui_get_account_page ();
+
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( page ), frame, FALSE, FALSE, 0 );
 
     /* create the title */
     align = gtk_alignment_new (0.5, 0.0, 0.0, 0.0);
@@ -766,13 +772,8 @@ GtkWidget *bet_array_create_page ( void )
     g_object_set_data ( G_OBJECT ( tree_view ), "label_title", label_title );
 
     /* on y ajoute la barre d'outils */
-    bet_array_toolbar = gtk_handle_box_new ( );
-    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "tree_view", tree_view );
-    g_object_set_data ( G_OBJECT ( bet_array_toolbar ), "page", page );
-    gtk_widget_show ( bet_array_toolbar );
-
-    gtk_box_pack_start ( GTK_BOX ( page ), bet_array_toolbar, FALSE, FALSE, 0 );
-    gtk_box_reorder_child ( GTK_BOX ( page ), bet_array_toolbar, 0 );
+    bet_array_toolbar = bet_array_list_create_toolbar ( page, tree_view );
+    gtk_container_add ( GTK_CONTAINER ( frame ), bet_array_toolbar );
 
     gtk_widget_show_all ( page );
 
@@ -2953,53 +2954,45 @@ gboolean bet_array_list_size_allocate ( GtkWidget *tree_view,
  *
  *
  * */
-GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent, GtkWidget *tree_view )
+GtkWidget *bet_array_list_create_toolbar ( GtkWidget *parent,
+                        GtkWidget *tree_view )
 {
-    GtkWidget *hbox;
-    GtkWidget *button;
+    GtkWidget *toolbar;
+    GtkToolItem *item;
 
-    /* Hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    toolbar = gtk_toolbar_new ( );
+    g_object_set_data ( G_OBJECT ( toolbar ), "tree_view", tree_view );
+    g_object_set_data ( G_OBJECT ( toolbar ), "page", parent );
 
     /* print button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                        GTK_STOCK_PRINT,
-                        _("Print"),
-                        NULL,
-                        NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Print the array") );
-    g_signal_connect ( G_OBJECT ( button ),
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_PRINT );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the array") );
+    g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
                         G_CALLBACK ( print_tree_view_list ),
                         tree_view );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_SAVE,
-					   _("Export"),
-					   NULL,
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Export the array of forecast") );
-    g_signal_connect ( G_OBJECT ( button ),
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export the array of forecast") );
+    g_signal_connect ( G_OBJECT ( item ),
                         "clicked",
                         G_CALLBACK ( bet_array_export_tab ),
                         tree_view );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
 #ifdef HAVE_GOFFICE
     /* graph button */
-    button = bet_graph_button_menu_new ( conf.display_toolbar,
+    item = bet_graph_button_menu_new ( toolbar,
                         "forecast_graph",
                         G_CALLBACK ( bet_graph_line_graph_new ),
                         tree_view );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 5 );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 #endif /* HAVE_GOFFICE */
 
-    gtk_widget_show_all ( hbox );
-
-    return ( hbox );
-
+    return ( toolbar );
 }
 
 

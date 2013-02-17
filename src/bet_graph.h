@@ -21,7 +21,7 @@
 
 
 /* START_DECLARATION */
-GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
+GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
                         const gchar *type_graph,
                         GCallback callback,
                         GtkWidget *tree_view );

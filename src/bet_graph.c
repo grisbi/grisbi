@@ -45,6 +45,7 @@
 #include "gsb_file.h"
 #include "navigation.h"
 #include "structures.h"
+#include "utils.h"
 #include "utils_gtkbuilder.h"
 #include "utils_dates.h"
 #include "utils_real.h"
@@ -108,8 +109,8 @@ struct _struct_bet_graph_button
     GCallback callback;                 /* fonction de callback */
     gboolean is_visible;                /* TRUE si le bouton est visible dans la barre d'outils */
     gint origin_tab;                    /* BET_ONGLETS_PREV ou BET_ONGLETS_HIST */
-    GtkWidget *box;
-    GtkWidget *button;
+    GtkWidget *toolbar;
+    GtkToolItem *button;
     GtkWidget *tree_view;
     struct_bet_graph_prefs *prefs;      /* préférences pour le graphique */
 };
@@ -1608,78 +1609,61 @@ static gboolean bet_graph_notebook_change_page ( GtkNotebook *notebook,
 static void bet_graph_popup_choix_graph_activate ( GtkMenuItem *menuitem,
                         struct_bet_graph_button *self )
 {
-    GtkWidget *parent;
-    GList *tmp_list;
-    gint origin_tab = 0;
+    GtkToolItem *item;
+    gchar *tmp_str;
+    gint nbre_elemnts;
+    struct_bet_graph_prefs *prefs;
 
-    parent = gtk_widget_get_parent ( self->box );
-    tmp_list = g_object_get_data ( G_OBJECT ( parent ), "button_list" );
+    prefs = self->prefs;
 
-    while ( tmp_list )
+    /* on définit l'origine du bouton */
+    if ( self->origin_tab == BET_ONGLETS_PREV )
     {
-        struct_bet_graph_button *self;
-        struct_bet_graph_prefs *prefs;
-
-        self = tmp_list -> data;
-
-        prefs = self->prefs;
-        origin_tab = self->origin_tab;
-        if ( self->is_visible == TRUE )
-        {
-            self->is_visible = FALSE;
-            if ( strcmp ( self->service_id, "GogLinePlot" ) == 0 )
-                prefs->type_graph = 1;
-            else
-                prefs->type_graph = 0;
-            origin_tab = self->origin_tab;
-
-            break;
-        }
-
-        tmp_list = tmp_list -> next;
+        tmp_str = g_strdup ( "forecast_graph" );
+        nbre_elemnts = gtk_toolbar_get_n_items ( GTK_TOOLBAR ( self->toolbar ) ) -1;
+    }
+    else
+    {
+        tmp_str = g_strdup ( "historical_graph" );
+        nbre_elemnts = gtk_toolbar_get_n_items ( GTK_TOOLBAR ( self->toolbar ) ) -1;
     }
 
-    gtk_container_foreach ( GTK_CONTAINER ( self->box ), ( GtkCallback ) gtk_widget_destroy, NULL );
+    /* on change le type de graphique */
+    prefs->type_graph = !prefs->type_graph;
 
-    self->is_visible = TRUE;
-    self->button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                        self->name,
-                        self->filename,
-                        NULL,
-                        NULL );
+    item = gtk_toolbar_get_nth_item ( GTK_TOOLBAR ( self->toolbar ), nbre_elemnts );
+    if ( item )
+        gtk_container_remove ( GTK_CONTAINER ( self->toolbar ), GTK_WIDGET ( item ) );
 
-    g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
-    g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
-    g_signal_connect ( G_OBJECT ( self->button ),
-                        "clicked",
-                        self->callback,
+    item = bet_graph_button_menu_new ( self->toolbar,
+                        tmp_str,
+                        G_CALLBACK ( self->callback ),
                         self->tree_view );
 
-    gtk_box_pack_start ( GTK_BOX ( self->box ), self->button, TRUE, TRUE, 0 );
+    g_free ( tmp_str );
 
-    gsb_file_set_modified ( TRUE );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( self->toolbar ), item, -1 );
+
+    gtk_widget_show_all ( self->toolbar );
 
     /* on lance le graphique */
-    gtk_button_clicked ( GTK_BUTTON ( self->button ) );
+    g_signal_emit_by_name( item, "clicked", self->tree_view, NULL );
 }
 
 
 /**
+ * construit le menu popup du bouton
  *
- *
- * \param
- * \param
+ * \param button
  * \param
  *
  * \return FALSE
  * */
-static gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
-                        GdkEventButton *event,
+static void bet_graph_popup_choix_graph_menu ( GtkWidget *button,
                         GList *liste )
 {
     GtkWidget *menu;
     GtkWidget *menu_item;
-    GtkWidget *icon;
     GList *tmp_list;
 
     menu = gtk_menu_new ();
@@ -1692,9 +1676,8 @@ static gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
 
         self = tmp_list -> data;
 
-        icon = gtk_image_new_from_file ( g_build_filename ( gsb_dirs_get_pixmaps_dir ( ), self->filename, NULL ) );
-        menu_item = gtk_image_menu_item_new_with_label  ( self->name );
-        gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ), icon );
+        menu_item = utils_menu_new_item_from_image_label ( self->filename, self->name );
+
         g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( bet_graph_popup_choix_graph_activate ),
@@ -1707,15 +1690,8 @@ static gboolean bet_graph_popup_choix_graph_menu ( GtkWidget *button,
         tmp_list = tmp_list -> next;
     }
 
+    gtk_menu_tool_button_set_menu ( GTK_MENU_TOOL_BUTTON ( button ), menu );
     gtk_widget_show_all ( menu );
-    gtk_menu_popup ( GTK_MENU ( menu ),
-                        NULL, button,
-                        set_popup_position,
-                        button,
-                        1,
-                        gtk_get_current_event_time ( ) );
-
-    return FALSE;
 }
 
 
@@ -1923,22 +1899,20 @@ static GDate *bet_graph_get_date_debut_periode ( void )
 /**
  * retourne un bouton pour choisir entre un graph ligne ou colonne
  *
- * \param
- * \param
- * \param
- * \param
+ * \param type_graph    forecast_graph or historical_graph
+ * \param callback
+ * \paramtree_view
  *
- * \return button
+ * \return item
  * */
-GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
+GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
                         const gchar *type_graph,
                         GCallback callback,
                         GtkWidget *tree_view )
 {
-    GtkWidget *arrow_button = NULL;
-    GtkWidget *box;
-    GtkWidget *box_button;
+    GtkToolItem *item = NULL;
     GList *liste = NULL;
+    gchar *tooltip = NULL;
     gint origin_tab = 0;
     struct_bet_graph_button *self;
     struct_bet_graph_prefs *prefs = NULL;
@@ -1947,12 +1921,6 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     if ( !bet_graph_initialise_builder ( ) )
         return NULL;
 
-    /* boite qui contiendra les deux boutons */
-    box = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_menu_box" ) );
-
-    /* boite qui contiendra le bouton actif */
-    box_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "box_button" ) );
-
     /* initialisation des préférences */
     if ( strcmp ( type_graph, "forecast_graph" ) == 0 )
     {
@@ -1960,7 +1928,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
             prefs_prev = struct_initialise_bet_graph_prefs ();
         prefs = prefs_prev;
         origin_tab = BET_ONGLETS_PREV;
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( box_button ), _("Display the graph of forecast") );
+        tooltip = g_strdup ( _("Display the graph of forecast") );
     }
     else if ( strcmp ( type_graph, "historical_graph" ) == 0 )
     {
@@ -1968,7 +1936,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
             prefs_hist = struct_initialise_bet_graph_prefs ();
         prefs = prefs_hist;
         origin_tab = BET_ONGLETS_HIST;
-        gtk_widget_set_tooltip_text ( GTK_WIDGET ( box_button ), _("Display the monthly graph") );
+        tooltip = g_strdup ( _("Display the monthly graph") );
     }
 
     /* initialisation des données du premier bouton */
@@ -1978,7 +1946,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     self->filename = g_strdup ( "graph-histo.png" );
     self->service_id = g_strdup ( "GogBarColPlot" );
     self->callback = callback;
-    self->box = box_button;
+    self->toolbar = toolbar;
     self->tree_view = tree_view;
     self->origin_tab = origin_tab;
     self->prefs = prefs;
@@ -1987,19 +1955,14 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     if ( prefs->type_graph == 0 )
     {
         self->is_visible = TRUE;
-        self->button = gsb_automem_imagefile_button_new ( style,
-                    self->name,
-                    self->filename,
-                    NULL,
-                    NULL );
-
+        item = utils_buttons_menu_new_from_image_label ( self->filename, self->name );
+        self->button = item;
         g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
         g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
         g_signal_connect ( G_OBJECT ( self->button ),
-                    "clicked",
-                    self->callback,
-                    self->tree_view );
-        gtk_box_pack_start ( GTK_BOX ( self->box ), self->button, TRUE, TRUE, 0 );
+                        "clicked",
+                        self->callback,
+                        self->tree_view );
     }
     liste = g_list_append ( liste, self );
 
@@ -2010,7 +1973,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     self->filename = g_strdup ( "graph-line.png" );
     self->service_id = g_strdup ( "GogLinePlot" );
     self->callback = callback;
-    self->box = box_button;
+    self->toolbar = toolbar;
     self->tree_view = tree_view;
     self->origin_tab = origin_tab;
     self->prefs = prefs;
@@ -2019,33 +1982,31 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     if ( prefs->type_graph == 1 )
     {
         self->is_visible = TRUE;
-        self->button = gsb_automem_imagefile_button_new ( style,
-                    self->name,
-                    self->filename,
-                    NULL,
-                    NULL );
-
+        item = utils_buttons_menu_new_from_image_label ( self->filename, self->name );
+        self->button = item;
         g_object_set_data ( G_OBJECT ( self->button ), "service_id", self->service_id );
         g_object_set_data ( G_OBJECT ( self->button ), "origin_tab", GINT_TO_POINTER ( origin_tab ) );
         g_signal_connect ( G_OBJECT ( self->button ),
-                    "clicked",
-                    self->callback,
-                    self->tree_view );
-        gtk_box_pack_start ( GTK_BOX ( self->box ), self->button, TRUE, TRUE, 0 );
+                        "clicked",
+                        self->callback,
+                        self->tree_view );
     }
     liste = g_list_append ( liste, self );
 
-    /* on attache la liste des boutons servira  plus tard */
-    g_object_set_data ( G_OBJECT ( box ), "button_list", liste );
+    if ( tooltip )
+    {
+        gtk_tool_item_set_tooltip_text ( GTK_TOOL_ITEM ( item ), tooltip );
+        g_free ( tooltip );
+    }
 
-    /* bouton qui ouvre le menu de choix du bouton actif */
-    arrow_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "arrow_button" ) );
-    g_signal_connect ( G_OBJECT ( arrow_button ),
-                        "button-press-event",
+    gtk_menu_tool_button_set_menu ( GTK_MENU_TOOL_BUTTON ( item ), gtk_menu_new () );
+
+    g_signal_connect ( G_OBJECT ( item ),
+                        "show-menu",
                         G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
                         liste );
 
-    return box;
+    return item;
 }
 
 
