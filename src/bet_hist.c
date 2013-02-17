@@ -1994,25 +1994,9 @@ GtkWidget *bet_historical_create_toolbar ( GtkWidget *parent,
  *
  *
  * */
-void bet_historical_update_toolbar ( void )
+void bet_historical_update_toolbar ( gint toolbar_style )
 {
-    GtkWidget *page;
-    GtkWidget *tree_view;
-    GList *list = NULL;
-
-    page = g_object_get_data ( G_OBJECT ( bet_historical_toolbar ), "page" );
-    tree_view = g_object_get_data ( G_OBJECT ( bet_historical_toolbar ), "tree_view" );
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( bet_historical_toolbar ) );
-
-    if ( list )
-    {
-        gtk_container_remove ( GTK_CONTAINER ( bet_historical_toolbar ),
-                               GTK_WIDGET ( list -> data ) );
-        g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( bet_historical_toolbar ),
-                        bet_historical_create_toolbar ( page, tree_view ) );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( bet_historical_toolbar ), toolbar_style );
 }
 
 

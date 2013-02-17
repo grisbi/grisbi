@@ -3111,25 +3111,9 @@ void bet_array_export_tab ( GtkWidget *menu_item, GtkTreeView *tree_view )
  *
  *
  * */
-void bet_array_update_toolbar ( void )
+void bet_array_update_toolbar ( gint toolbar_style )
 {
-    GtkWidget *page;
-    GtkWidget *tree_view;
-    GList *list = NULL;
-
-    page = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "page" );
-    tree_view = g_object_get_data ( G_OBJECT ( bet_array_toolbar ), "tree_view" );
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( bet_array_toolbar ) );
-
-    if ( list )
-    {
-        gtk_container_remove ( GTK_CONTAINER ( bet_array_toolbar ),
-                               GTK_WIDGET ( list -> data ) );
-        g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( bet_array_toolbar ),
-                        bet_array_list_create_toolbar ( page, tree_view ) );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( bet_array_toolbar ), toolbar_style );
 }
 /**
  * crée une transacction du montant et à la date du transfert en exécutant

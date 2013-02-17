@@ -50,6 +50,7 @@
 #include "structures.h"
 #include "tiers_onglet.h"
 #include "traitement_variables.h"
+#include "utils_buttons.h"
 #include "erreur.h"
 /*END_INCLUDE*/
 
@@ -551,15 +552,33 @@ gboolean gsb_gui_is_hpaned_general ( void )
  */
 void gsb_gui_update_all_toolbars ( void )
 {
+    gint toolbar_style = 0;
+
+    switch ( conf.display_toolbar )
+    {
+        case GSB_BUTTON_TEXT:
+            toolbar_style = GTK_TOOLBAR_TEXT;
+            break;
+        case GSB_BUTTON_ICON:
+            toolbar_style = GTK_TOOLBAR_ICONS;
+            break;
+        case GSB_BUTTON_BOTH:
+            toolbar_style = GTK_TOOLBAR_BOTH;
+            break;
+        case GSB_BUTTON_BOTH_HORIZ:
+            toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
+            break;
+    }
+
     gsb_gui_update_transaction_toolbar ( );
     gsb_gui_update_scheduler_toolbar ( );
     payees_update_toolbar_list ( );
     categories_update_toolbar_list ( );
     budgetary_lines_update_toolbar_list ( );
     gsb_gui_update_reports_toolbar ( );
-    bet_array_update_toolbar ( );
-    bet_historical_update_toolbar ( );
-    bet_finance_update_all_finance_toolbars ( );
+    bet_array_update_toolbar ( toolbar_style );
+    bet_historical_update_toolbar ( toolbar_style );
+    bet_finance_update_all_finance_toolbars ( toolbar_style );
 }
 
 

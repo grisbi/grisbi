@@ -2155,26 +2155,8 @@ GtkWidget *bet_finance_get_capital_entry ( void )
  *
  *
  */
-void bet_finance_update_all_finance_toolbars ( void )
+void bet_finance_update_all_finance_toolbars ( gint toolbar_style )
 {
-    gint toolbar_style = 0;
-
-    switch ( conf.display_toolbar )
-    {
-        case GSB_BUTTON_TEXT:
-            toolbar_style = GTK_TOOLBAR_TEXT;
-            break;
-        case GSB_BUTTON_ICON:
-            toolbar_style = GTK_TOOLBAR_ICONS;
-            break;
-        case GSB_BUTTON_BOTH:
-            toolbar_style = GTK_TOOLBAR_BOTH;
-            break;
-        case GSB_BUTTON_BOTH_HORIZ:
-            toolbar_style = GTK_TOOLBAR_BOTH_HORIZ;
-            break;
-    }
-
     gtk_toolbar_set_style ( GTK_TOOLBAR ( account_toolbar ), toolbar_style );
     gtk_toolbar_set_style ( GTK_TOOLBAR ( amortization_toolbar ), toolbar_style );
     gtk_toolbar_set_style ( GTK_TOOLBAR ( simulator_toolbar ), toolbar_style );

@@ -20,7 +20,7 @@ void bet_historical_refresh_data ( GtkTreeModel *tab_model,
                         GDate *date_max );
 void bet_historical_set_fyear_from_combobox ( GtkWidget *combo_box, gint fyear );
 void bet_historical_set_page_title ( gint account_number );
-void bet_historical_update_toolbar ( void );
+void bet_historical_update_toolbar ( gint toolbar_style );
 /* END_DECLARATION */
 
 #endif /*_BALANCE_ESTIMATE_HIST_H*/
