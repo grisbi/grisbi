@@ -2595,6 +2595,7 @@ GtkWidget *gsb_data_account_get_account_icon_image ( gint account_number )
 
     pixbuf = gsb_data_account_get_account_icon_pixbuf ( account_number );
     image = gtk_image_new_from_pixbuf ( pixbuf );
+    g_object_unref ( G_OBJECT ( pixbuf ) );
 
     return image;
 }
@@ -2616,7 +2617,10 @@ GdkPixbuf *gsb_data_account_get_account_icon_pixbuf ( gint account_number )
         return NULL;
 
     if ( account -> pixbuf )
+    {
+        g_object_ref ( account -> pixbuf );
         return account -> pixbuf;
+    }
     else
     {
         GdkPixbuf *pixbuf = NULL;
