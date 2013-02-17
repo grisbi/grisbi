@@ -5440,6 +5440,7 @@ void gsb_file_load_logo_accueil ( const gchar **attribute_names,
 
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_object_unref ( G_OBJECT ( pixbuf ) );
             i++;
             continue;
         }
