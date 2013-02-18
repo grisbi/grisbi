@@ -326,6 +326,7 @@ void free_variables ( void )
 #ifdef HAVE_GOFFICE
     struct_free_bet_graph_prefs ();
 #endif /* HAVE_GOFFICE */
+    gsb_menu_free_ui_manager ( );
 }
 
 
