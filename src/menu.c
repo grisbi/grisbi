@@ -921,6 +921,22 @@ GtkUIManager *gsb_menu_get_ui_manager ( void )
  *
  *
  **/
+void gsb_menu_free_ui_manager ( void )
+{
+    if ( ! ui_manager )
+        return;
+
+    g_object_unref ( G_OBJECT ( ui_manager ) );
+    ui_manager = NULL;
+}
+
+
+/**
+ *
+ *
+ *
+ *
+ **/
 gboolean gsb_menu_reinit_largeur_col_menu ( void )
 {
     gint current_page;
