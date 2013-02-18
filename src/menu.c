@@ -371,6 +371,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
                         NULL );
 
     gtk_ui_manager_insert_action_group ( ui_manager, actions, 0 );
+    g_object_unref ( G_OBJECT ( actions ) );
+
     merge_id = gtk_ui_manager_add_ui_from_string ( ui_manager,
                         ui_manager_buffer, -1, NULL );
 
@@ -399,6 +401,7 @@ void efface_derniers_fichiers_ouverts ( void )
     gsb_menu_ui_manager_remove_action_group ( ui_manager,
                         recent_files_action_group,
                         recent_files_merge_id );
+    g_object_unref ( G_OBJECT ( recent_files_action_group ) );
     recent_files_action_group = NULL;
 }
 
@@ -452,7 +455,7 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
                     tmp_name,
                     GTK_UI_MANAGER_MENUITEM,
                     FALSE );
-
+        g_object_unref ( G_OBJECT ( action ) );
         g_free ( tmp_name );
         g_free ( tmp_label );
     }
@@ -797,6 +800,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
         gsb_menu_ui_manager_remove_action_group ( ui_manager,
                         move_to_account_action_group,
                         move_to_account_merge_id );
+        g_object_unref ( G_OBJECT ( move_to_account_action_group ) );
         move_to_account_action_group = NULL;
     }
 
@@ -841,6 +845,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
                         tmp_name,
                         GTK_UI_MANAGER_MENUITEM,
                         FALSE );
+            g_object_unref ( G_OBJECT ( action ) );
             g_free ( tmp_name );
         }
 
