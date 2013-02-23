@@ -545,9 +545,11 @@ gboolean preferences ( gint page )
                         GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
                         NULL );
 
-    if ( conf.prefs_width )
-        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ),
-                        conf.prefs_width, -1 );
+    if ( conf.prefs_width && conf.prefs_width > 830 )
+        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), conf.prefs_width, -1 );
+    else
+        gtk_window_set_default_size ( GTK_WINDOW ( fenetre_preferences ), 830, -1 );
+
     gtk_window_set_position ( GTK_WINDOW ( fenetre_preferences ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable ( GTK_WINDOW ( fenetre_preferences ), TRUE );
 
