@@ -647,7 +647,7 @@ static void gtk_combofix_init ( GtkComboFix *combofix )
                         combofix,
                         G_CONNECT_AFTER | G_CONNECT_SWAPPED);
     g_signal_connect_swapped ( G_OBJECT ( combofix -> entry ),
-                        "expose-event",
+                        "draw",
                         G_CALLBACK ( gtk_combofix_expose_entry ),
                         combofix );
     g_signal_connect_after ( G_OBJECT ( combofix -> entry ),
