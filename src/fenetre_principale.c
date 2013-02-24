@@ -143,7 +143,7 @@ GtkWidget *gsb_gui_create_general_widgets ( void )
     gsb_gui_update_show_headings ();
 
     /* Then create and fill the main hpaned. */
-    hpaned_general = gtk_hpaned_new ();
+    hpaned_general = gtk_paned_new ( GTK_ORIENTATION_HORIZONTAL );
     g_signal_connect ( G_OBJECT ( hpaned_general ),
 		       "size_allocate",
 		       G_CALLBACK ( gsb_gui_hpaned_size_allocate ),

@@ -555,7 +555,7 @@ gboolean preferences ( gint page )
 
     /* Create List & Tree for topics */
     tree = create_preferences_tree();
-    hpaned = gtk_hpaned_new();
+    hpaned = gtk_paned_new( GTK_ORIENTATION_HORIZONTAL );
     gtk_paned_add1 ( GTK_PANED(hpaned), tree );
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_paned_add2 ( GTK_PANED (hpaned), hbox );
