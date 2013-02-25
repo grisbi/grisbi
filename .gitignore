@@ -18,12 +18,8 @@ stamp-h1
 grisbi*.tar.*
 m4
 *.exe
-.anjuta*
 depcomp
-grisbi.anjuta
-grisbi.spec.mageia*
 TODO*
-NEWS.new
 doxygen/
 *.o
 *.ho
@@ -32,4 +28,3 @@ doxygen/
 *.swp
 tags
 test-driver
-outgoing
