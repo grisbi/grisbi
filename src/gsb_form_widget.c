@@ -106,6 +106,7 @@ GSList *gsb_form_widget_get_list ( void )
 gboolean gsb_form_widget_free_list ( void )
 {
     GSList *tmp_list;
+    GtkWidget *widget_signals;
 
     devel_debug (NULL);
 
@@ -127,6 +128,35 @@ gboolean gsb_form_widget_free_list ( void )
         {
             if (GTK_IS_WIDGET (element -> element_widget))
             {
+                widget_signals = NULL;
+                if ( GTK_IS_ENTRY ( element -> element_widget ) )
+                {
+                    widget_signals = element -> element_widget;
+                }
+                else if ( GTK_IS_COMBOFIX ( element -> element_widget ) )
+                {
+                    widget_signals = GTK_COMBOFIX ( element -> element_widget ) -> entry;
+                }
+
+                if ( widget_signals )
+                {
+                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
+                        G_CALLBACK ( gsb_form_entry_get_focus ),
+                        GINT_TO_POINTER ( element -> element_number ));
+                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
+                        G_CALLBACK ( gsb_form_entry_lose_focus ),
+                        GINT_TO_POINTER ( element -> element_number ));
+                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
+                        G_CALLBACK ( gsb_form_button_press_event ),
+                        GINT_TO_POINTER ( element -> element_number ));
+                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
+                        G_CALLBACK ( gsb_form_key_press_event ),
+                        GINT_TO_POINTER ( element -> element_number ));
+                    g_signal_handlers_disconnect_by_func ( G_OBJECT ( widget_signals ),
+                        G_CALLBACK ( gsb_form_combo_selection_changed ),
+                        GINT_TO_POINTER ( element -> element_number ));
+                }
+
                 /* if there is something in the combofix we destroy, the popup will
                  * be showed because destroying the gtk_entry will erase it directly,
                  * so the simpliest way to avoid that is to erase now the entry, but with
