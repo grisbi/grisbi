@@ -100,6 +100,7 @@ static gboolean gsb_scheduler_list_set_color_of_mother ( gint mother_scheduled_n
 static void gsb_scheduler_list_set_model ( GtkTreeModel *model );
 static void gsb_scheduler_list_set_sorted_model ( GtkTreeModelSort *tree_model_sort );
 static void gsb_scheduler_list_set_tree_view ( GtkWidget *tree_view );
+static gboolean gsb_scheduler_list_show_notes ( GtkWidget *item );
 static gboolean gsb_scheduler_list_size_allocate ( GtkWidget *tree_view,
                         GtkAllocation *allocation,
                         gpointer null );
@@ -198,6 +199,7 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
 {
     GtkWidget *vbox, *scrolled_window;
     GtkWidget *tree_view;
+    GtkWidget *frame;
 	GtkTreeModel *tree_model;
 
     devel_debug (NULL);
@@ -205,12 +207,14 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     /* first, a vbox */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_container_set_border_width ( GTK_CONTAINER ( vbox ), 0 );
-    gtk_widget_show ( vbox );
 
-    /* create the toolbar */
-    scheduler_toolbar = gtk_handle_box_new ();
-    gtk_widget_show ( scheduler_toolbar );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), scheduler_toolbar, FALSE, FALSE, 0 );
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, FALSE, FALSE, 0 );
+
+    /* création de la barre d'outils */
+    scheduler_toolbar = creation_barre_outils_echeancier ();
+    gtk_container_add ( GTK_CONTAINER ( frame ), scheduler_toolbar );
 
     /* create the scrolled window */
     scrolled_window = gtk_scrolled_window_new ( NULL, NULL);
@@ -238,12 +242,14 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
     gsb_scheduler_list_create_list_columns (tree_view);
 
     /* begin by hiding the notes */
-    gsb_scheduler_list_show_notes ();
+    gsb_scheduler_list_show_notes ( scheduler_display_hide_notes );
 
     g_signal_connect ( G_OBJECT ( gtk_tree_view_get_selection ( GTK_TREE_VIEW ( tree_view ) ) ),
                         "changed",
                         G_CALLBACK ( gsb_scheduler_list_selection_changed ),
                         NULL );
+
+    gtk_widget_show_all ( vbox );
 
     return vbox;
 }
@@ -259,75 +265,76 @@ GtkWidget *gsb_scheduler_list_create_list ( void )
  */
 GtkWidget *creation_barre_outils_echeancier ( void )
 {
-    GtkWidget *hbox, *button;
+    GtkWidget *toolbar;
+    GtkToolItem *item;
 
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    toolbar = gtk_toolbar_new ();
 
-    /* Common actions */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-					       _("_New scheduled"),
-					       "new-scheduled.png",
-					       G_CALLBACK (gsb_scheduler_list_edit_transaction),
-					       GINT_TO_POINTER(-1) );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Prepare form to create a new scheduled transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* new scheduled button */
+    item = utils_buttons_new_from_image_label ( "new-scheduled.png", _("New scheduled") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
+                        _("Prepare form to create a new scheduled transaction") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
+                        GINT_TO_POINTER ( -1 ) );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    scheduler_button_delete = gsb_automem_stock_button_new ( conf.display_toolbar,
-							    GTK_STOCK_DELETE,
-							    _("Delete"),
-							    G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
-							    NULL );
+    /* delete button */
+    scheduler_button_delete = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE ) );
     gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_delete),
-				  _("Delete selected scheduled transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_delete, FALSE, FALSE, 0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_delete ),
+                        _("Delete selected scheduled transaction"));
+    g_signal_connect ( G_OBJECT ( scheduler_button_delete ),
+                        "clicked",
+                        G_CALLBACK ( gsb_scheduler_list_delete_scheduled_transaction_by_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_delete ), -1 );
 
-    scheduler_button_edit = gsb_automem_stock_button_new ( conf.display_toolbar,
-							  GTK_STOCK_EDIT,
-							  _("Edit"),
-							  G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
-							  0 );
+    /* edit button */
+    scheduler_button_edit = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT ) );
     gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_edit),
-				_("Edit selected transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_edit, FALSE, FALSE, 0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_edit ),
+                        _("Edit selected transaction"));
+    g_signal_connect_swapped ( G_OBJECT ( scheduler_button_edit ),
+                        "clicked",
+                        G_CALLBACK ( gsb_scheduler_list_edit_transaction ),
+                        0 );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_edit ), -1 );
 
     /* Display/hide comments */
-    scheduler_display_hide_notes = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-									_("Notes"),
-									"comments.png",
-									G_CALLBACK ( gsb_scheduler_list_show_notes ),
-									0 );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_display_hide_notes),
-				  _("Display the notes of scheduled transactions") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_display_hide_notes,
-			 FALSE, FALSE, 0 );
+    scheduler_display_hide_notes = GTK_WIDGET ( utils_buttons_new_from_image_label ( "comments.png", _("Notes") ) );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
+                        _("Display the notes of scheduled transactions") );
+    g_signal_connect ( G_OBJECT ( scheduler_display_hide_notes ),
+                        "clicked",
+                        G_CALLBACK ( gsb_scheduler_list_show_notes ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_display_hide_notes ), -1 );
 
     /* Execute transaction */
-    scheduler_button_execute = gsb_automem_stock_button_new ( conf.display_toolbar,
-							     GTK_STOCK_EXECUTE,
-							     _("Execute"),
-							     G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
-							     NULL );
+    scheduler_button_execute = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_EXECUTE ) );
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (scheduler_button_execute),
-				  _("Execute current scheduled transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), scheduler_button_execute, FALSE, FALSE, 0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_execute ),
+                        _("Execute current scheduled transaction"));
+    g_signal_connect ( G_OBJECT ( scheduler_button_execute ),
+                        "clicked",
+                        G_CALLBACK ( gsb_scheduler_list_execute_transaction ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_execute ), -1 );
 
-    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-						GTK_STOCK_SELECT_COLOR, _("View"),
-						G_CALLBACK (popup_scheduled_view_mode_menu),
-						NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Change display mode of scheduled transaction list"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
+                        _("Change display mode of scheduled transaction list"));
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( popup_scheduled_view_mode_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    gtk_widget_show_all ( hbox );
-
-    return ( hbox );
+    return toolbar;
 }
-
 
 
 /**
@@ -335,19 +342,9 @@ GtkWidget *creation_barre_outils_echeancier ( void )
  *
  *
  */
-void gsb_gui_update_scheduler_toolbar ( void )
+void gsb_gui_scheduler_toolbar_set_style ( gint toolbar_style )
 {
-    GList * list = NULL;
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( scheduler_toolbar ) );
-
-    if ( list )
-    {
-	gtk_container_remove ( GTK_CONTAINER ( scheduler_toolbar ),
-			       GTK_WIDGET ( list -> data ) );
-	g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( scheduler_toolbar ), creation_barre_outils_echeancier () );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( scheduler_toolbar ), toolbar_style );
 }
 
 
@@ -787,27 +784,24 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
  *
  * \return FALSE
  */
-gboolean gsb_scheduler_list_show_notes ( void )
+gboolean gsb_scheduler_list_show_notes ( GtkWidget *item )
 {
     if ( scheduler_display_hide_notes )
     {
         if ( conf.display_toolbar != GSB_BUTTON_ICON )
         {
-            GtkWidget *label;
-
-            label = g_object_get_data ( G_OBJECT ( scheduler_display_hide_notes ), "label" );
             if ( etat.affichage_commentaire_echeancier )
-                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("Frequency/Mode") );
+                gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Frequency/Mode") );
             else
-                gtk_label_set_text_with_mnemonic ( GTK_LABEL ( label ), _("Notes") );
+                gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Notes") );
         }
 
         if ( etat.affichage_commentaire_echeancier )
-            gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                 _("Display the frequency and mode of scheduled transactions") );
         else
-            gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_display_hide_notes ),
-                _("Display the notes of scheduled transactions") );
+            gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
+                        _("Display the notes of scheduled transactions") );
     }
 
     gtk_tree_view_column_set_visible ( GTK_TREE_VIEW_COLUMN ( scheduler_list_column[COL_NB_FREQUENCY] ),
@@ -2386,7 +2380,7 @@ void popup_scheduled_context_menu ( void )
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
                         G_CALLBACK ( gsb_scheduler_list_show_notes ),
-                        NULL );
+                        scheduler_display_hide_notes );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
 
     /* Separator */
