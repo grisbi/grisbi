@@ -304,18 +304,22 @@ void gsb_transactions_list_update_tree_view ( gint account_number,
 GtkWidget *creation_fenetre_operations ( void )
 {
     GtkWidget *win_operations;
+    GtkWidget *frame;
 
-    /*   la fenetre des opé est une vbox : la liste en haut, le solde et  */
-    /*     des boutons de conf au milieu, le transaction_form en bas */
+    /* la fenetre des opé est une vbox : la liste en haut, le solde et
+     * des boutons de conf au milieu, le transaction_form en bas */
     win_operations = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
 
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( win_operations ), frame, FALSE, FALSE, 0 );
+
     /* création de la barre d'outils */
-    transaction_toolbar = gtk_handle_box_new ();
-    gtk_box_pack_start ( GTK_BOX ( win_operations ), transaction_toolbar, FALSE, FALSE, 0);
+    transaction_toolbar = creation_barre_outils_transaction ();
+    gtk_container_add ( GTK_CONTAINER ( frame ), transaction_toolbar );
 
     /* tree_view_vbox will contain the tree_view, we will see later to set it directly */
     tree_view_vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
-
 
     gtk_box_pack_start ( GTK_BOX ( win_operations ), tree_view_vbox, TRUE, TRUE, 0);
 
@@ -327,90 +331,95 @@ GtkWidget *creation_fenetre_operations ( void )
 
 GtkWidget *creation_barre_outils_transaction ( void )
 {
-    GtkWidget *hbox, *menu, *button;
-    GtkWidget *alignement;
+    GtkWidget *toolbar;
+    GtkToolItem *item;
+    GtkToolItem *separator;
     gint account_number;
 
-    /* Hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    toolbar = gtk_toolbar_new ();
 
-    /* Add various icons */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-					       _("New transaction"),
-					       "new-transaction.png",
-					       G_CALLBACK ( new_transaction ),
-					       GINT_TO_POINTER(-1) );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Blank the form to create a new transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* new transaction button */
+    item = utils_buttons_new_from_image_label ( "new-transaction.png", _("New transaction") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Blank the form to create a new transaction") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( new_transaction ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_DELETE,
-					   _("Delete"),
-					   G_CALLBACK ( remove_transaction ),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Delete selected transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* delete button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected transaction") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( remove_transaction ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_EDIT,
-					   _("Edit"),
-					   G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Edit current transaction"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* edit button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit current transaction") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( gsb_transactions_list_edit_current_transaction ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-					       _("Reconcile"),
-					       "reconciliation.png",
-					       G_CALLBACK (gsb_reconcile_run_reconciliation),
-					       GINT_TO_POINTER(-1) );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Start account reconciliation"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* reconcile button */
+    item = utils_buttons_new_from_image_label ( "reconciliation.png", _("Reconcile") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Start account reconciliation") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( gsb_reconcile_run_reconciliation ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    /* This stuff needs GTK+ 2.10 to work. */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					    GTK_STOCK_PRINT,
-					    _("Print"),
-					    G_CALLBACK (print_transactions_list),
-					    NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Print the transactions list"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, FALSE, 0 );
+    /* print button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_PRINT );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Print the transactions list") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( print_transactions_list ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    menu = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-					      GTK_STOCK_SELECT_COLOR, _("View"),
-					      G_CALLBACK (popup_transaction_view_mode_menu),
-					      NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu),
-				  _("Change display mode of the list"));
-    gtk_box_pack_start ( GTK_BOX(hbox), menu, FALSE, FALSE, 0 );
+    /* select the number of lines */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change display mode of the list") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( popup_transaction_view_mode_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    menu_import_rules = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-							    GTK_STOCK_EXECUTE, _("Import rules"),
-							    G_CALLBACK (popup_transaction_rules_menu),
-							    NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET (menu_import_rules),
-				  _("Quick file import by rules"));
-    gtk_box_pack_start ( GTK_BOX(hbox), menu_import_rules, FALSE, FALSE, 0 );
+    /* select the rule */
+    menu_import_rules = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_EXECUTE ) );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( menu_import_rules ), _("Import rules") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( menu_import_rules ), _("Quick file import by rules") );
+    g_signal_connect ( G_OBJECT ( menu_import_rules ),
+                        "clicked",
+                        G_CALLBACK ( popup_transaction_rules_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( menu_import_rules ), -1 );
 
-    alignement = gtk_alignment_new ( 1, 0, 0, 0 );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), alignement, TRUE, TRUE, 0 );
+    /* add a separator */
+    separator = gtk_separator_tool_item_new ();
+    gtk_separator_tool_item_set_draw ( GTK_SEPARATOR_TOOL_ITEM ( separator ), FALSE );
+    gtk_tool_item_set_expand (GTK_TOOL_ITEM ( separator ), TRUE );
 
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-					       _("Recreates archive"),
-					       "archive_24.png",
-					       G_CALLBACK ( gsb_transactions_list_hide_transactions_in_archive_line ),
-					       NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Recreates the line of the archive and hiding the transactions") );
-    g_object_set_data ( G_OBJECT ( transaction_toolbar ), "archived_button", button );
-    gtk_container_add ( GTK_CONTAINER ( alignement ), button );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), separator, -1 );
 
-    gtk_widget_show_all ( hbox );
+    /* archive button */
+    item = utils_buttons_new_from_image_label ( "archive_24.png", _("Recreates archive") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
+                        _("Recreates the line of the archive and hiding the transactions") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( gsb_transactions_list_hide_transactions_in_archive_line ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
+    g_object_set_data ( G_OBJECT ( toolbar ), "archived_button", item );
 
     account_number = gsb_gui_navigation_get_current_account ( );
     if ( gsb_data_import_rule_account_has_rule ( account_number ) )
@@ -419,11 +428,11 @@ GtkWidget *creation_barre_outils_transaction ( void )
 	    gtk_widget_hide ( menu_import_rules );
 
     if ( gsb_data_archive_store_account_have_transactions_visibles ( account_number ) )
-        gsb_transaction_list_set_visible_archived_button ( TRUE );
+        gtk_widget_set_visible ( GTK_WIDGET ( item ), TRUE );
     else
-        gsb_transaction_list_set_visible_archived_button ( FALSE );
+        gtk_widget_set_visible ( GTK_WIDGET ( item ), FALSE );
 
-    return ( hbox );
+    return ( toolbar );
 }
 
 
@@ -432,22 +441,9 @@ GtkWidget *creation_barre_outils_transaction ( void )
  *
  *
  */
-void gsb_gui_update_transaction_toolbar ( void )
+void gsb_gui_transaction_toolbar_set_style ( gint toolbar_style )
 {
-    GtkWidget *transaction_toolbar;
-    GList * list = NULL;
-
-    transaction_toolbar = gsb_transactions_list_get_toolbar ( );
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( transaction_toolbar ) );
-
-    if ( list )
-    {
-        gtk_container_remove ( GTK_CONTAINER ( transaction_toolbar ),
-                        GTK_WIDGET ( list -> data ) );
-        g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( transaction_toolbar ), creation_barre_outils_transaction ( ) );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( transaction_toolbar ), toolbar_style );
 }
 
 
@@ -4598,7 +4594,7 @@ gboolean gsb_transactions_list_delete_import_rule ( gint import_rule_number )
     gsb_data_import_rule_remove ( import_rule_number );
 
     /* on met à jour la barre de menu */
-    gsb_gui_update_transaction_toolbar ( );
+    gtk_widget_hide ( menu_import_rules );
 
     return TRUE;
 }

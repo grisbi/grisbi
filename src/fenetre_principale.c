@@ -570,7 +570,7 @@ void gsb_gui_update_all_toolbars ( void )
             break;
     }
 
-    gsb_gui_update_transaction_toolbar ( );
+    gsb_gui_transaction_toolbar_set_style ( toolbar_style );
     gsb_gui_scheduler_toolbar_set_style ( toolbar_style );
     gsb_gui_payees_toolbar_set_style ( toolbar_style );
     categories_update_toolbar_list ( );

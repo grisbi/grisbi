@@ -46,7 +46,7 @@ gint find_element_col ( gint element_number );
 gint find_element_col_for_archive ( void );
 gint find_element_col_split ( gint element_number );
 gint find_element_line ( gint element_number );
-void gsb_gui_update_transaction_toolbar ( void );
+void gsb_gui_transaction_toolbar_set_style ( gint toolbar_style );
 gchar *gsb_transactions_get_category_real_name ( gint transaction_number );
 gboolean gsb_transactions_list_add_transactions_from_archive ( gint archive_number,
                         gint account_number,
