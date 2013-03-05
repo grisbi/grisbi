@@ -8,10 +8,10 @@
 
 
 /* START_DECLARATION */
+void gsb_gui_payees_toolbar_set_style ( gint toolbar_style );
 GtkWidget *payees_create_list ( void );
 void payees_fill_list ( void );
 void payees_init_variables_list ( void );
-void payees_update_toolbar_list ( void );
 GtkWidget *payees_get_tree_view ( void );
 GtkTreeStore *payees_get_tree_store ( void );
 

@@ -167,6 +167,7 @@ void payees_init_variables_list ( void )
 GtkWidget *payees_create_list ( void )
 {
     GtkWidget *onglet, *scroll_window;
+    GtkWidget *frame;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;
@@ -179,6 +180,10 @@ GtkWidget *payees_create_list ( void )
     onglet = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
     gtk_widget_show ( onglet );
 
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( onglet ), frame, FALSE, FALSE, 0 );
+
     /* We create the gtktreeview and model early so that they can be referenced. */
     payee_tree = gtk_tree_view_new();
 
@@ -188,9 +193,8 @@ GtkWidget *payees_create_list ( void )
     payee_tree_model = gtk_tree_store_new ( META_TREE_NUM_COLUMNS, META_TREE_COLUMN_TYPES );
 
     /* on y ajoute la barre d'outils */
-    payee_toolbar = gtk_handle_box_new ();
-    gtk_widget_show ( payee_toolbar );
-    gtk_box_pack_start ( GTK_BOX ( onglet ), payee_toolbar, FALSE, FALSE, 0 );
+    payee_toolbar = creation_barre_outils_tiers ();
+    gtk_container_add ( GTK_CONTAINER ( frame ), payee_toolbar );
 
     /* création de l'arbre principal */
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -312,6 +316,8 @@ GtkWidget *payees_create_list ( void )
     overwrite_payee -> hidden = FALSE;
     overwrite_payee -> default_answer = FALSE;
 
+    gtk_widget_show_all ( onglet );
+
     return ( onglet );
 }
 
@@ -326,71 +332,77 @@ GtkWidget *payees_create_list ( void )
  */
 GtkWidget *creation_barre_outils_tiers ( void )
 {
-    GtkWidget *hbox, *button;
+    GtkWidget *toolbar;
+    GtkToolItem *item;
 
-    /* Hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    toolbar = gtk_toolbar_new ();
 
-    /* Add various icons */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-					       _("New payee"), "new-payee.png",
-					       G_CALLBACK ( appui_sur_ajout_payee ),
-					       payee_tree_model );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Create a new payee"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* New payee button */
+    item = utils_buttons_new_from_image_label ( "new-payee.png", _("New payee") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new payee") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( appui_sur_ajout_payee ),
+                        payee_tree_model );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_DELETE, _("Delete"),
-					   G_CALLBACK ( supprimer_division ),
-					   payee_tree );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Delete selected payee"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* delete button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected payee") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( supprimer_division ),
+                        payee_tree );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_EDIT, _("Edit"),
-					   G_CALLBACK ( edit_payee ),
-					   payee_tree );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Edit selected payee"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* edit button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit selected payee") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( edit_payee ),
+                        payee_tree );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-						GTK_STOCK_SELECT_COLOR,
-						_("View"),
-						G_CALLBACK ( popup_payee_view_mode_menu ),
-						NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Change view mode"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* Change view mode button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( popup_payee_view_mode_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-	button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-						_("Manage payees"), "payeesmg.png",
-						G_CALLBACK ( payees_manage_payees ),
-						NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Manage the payees"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* Manage payees button */
+    item = utils_buttons_new_from_image_label ( "payeesmg.png", _("Manage payees") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Manage the payees") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( payees_manage_payees ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-					   GTK_STOCK_DELETE, _("Remove unused payees"),
-					   G_CALLBACK ( payees_remove_unused_payees ),
-					   NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-				  _("Remove orphan payees"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    /* Remove unused payees button */
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Remove unused payees") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Remove orphan payees") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( payees_remove_unused_payees ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    gtk_widget_show_all ( hbox );
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( payee_tree_model ), FALSE, "selection" );
 
-    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( payee_tree_model ),
-					    FALSE, "selection" );
-
-    return ( hbox );
+    return ( toolbar );
 }
-
 
 
 /**
@@ -398,19 +410,9 @@ GtkWidget *creation_barre_outils_tiers ( void )
  *
  *
  */
-void payees_update_toolbar_list ( void )
+void gsb_gui_payees_toolbar_set_style ( gint toolbar_style )
 {
-    GList * list = NULL;
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( payee_toolbar ) );
-
-    if ( list )
-    {
-	gtk_container_remove ( GTK_CONTAINER ( payee_toolbar ),
-			       GTK_WIDGET ( list -> data ) );
-	g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( payee_toolbar ), creation_barre_outils_tiers () );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( payee_toolbar ), toolbar_style );
 }
 
 
