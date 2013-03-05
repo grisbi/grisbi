@@ -13,7 +13,6 @@ void budgetary_lines_fill_list ( void );
 void budgetary_lines_exporter_list ( void );
 void budgetary_lines_importer_list ( void );
 void budgetary_lines_init_variables_list ( void );
-void budgetary_lines_update_toolbar_list ( void );
 GtkTreeStore *budgetary_lines_get_tree_store ( void );
 GtkWidget *budgetary_lines_get_tree_view ( void );
 
@@ -25,5 +24,6 @@ GtkTreePath *budgetary_hold_position_get_path ( void );
 gboolean budgetary_hold_position_set_expand ( gboolean expand );
 gboolean budgetary_hold_position_set_path ( GtkTreePath *path );
 gboolean gsb_budget_update_combofix ( gboolean force );
+void gsb_gui_budgetary_lines_toolbar_set_style ( gint toolbar_style );
 /* END_DECLARATION */
 #endif

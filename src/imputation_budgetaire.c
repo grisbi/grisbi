@@ -65,6 +65,7 @@ static gboolean budgetary_line_list_button_press ( GtkWidget *tree_view,
                         GdkEventButton *ev,
                         gpointer null );
 static void budgetary_line_list_popup_context_menu ( void );
+static GtkWidget *creation_barre_outils_ib ( void );
 static gboolean edit_budgetary_line ( GtkTreeView * view );
 static gboolean popup_budgetary_line_view_mode_menu ( GtkWidget * button );
 static void selectionne_sub_budgetary ( GtkTreeModel * model );
@@ -113,6 +114,7 @@ GtkWidget *budgetary_lines_create_list ( void )
 {
     GtkWidget *scroll_window;
     GtkWidget *vbox;
+    GtkWidget *frame;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
     GtkTreeDragDestIface * dst_iface;
@@ -132,12 +134,14 @@ GtkWidget *budgetary_lines_create_list ( void )
 
     /* We create the main vbox */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_widget_show ( vbox );
+
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, FALSE, FALSE, 0 );
 
     /* on y ajoute la barre d'outils */
-    budgetary_toolbar = gtk_handle_box_new ( );
-    gtk_widget_show ( budgetary_toolbar );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), budgetary_toolbar, FALSE, FALSE, 0 );
+    budgetary_toolbar = creation_barre_outils_ib ();
+    gtk_container_add ( GTK_CONTAINER ( frame ), budgetary_toolbar );
 
     /* création de l'arbre principal */
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -252,6 +256,8 @@ GtkWidget *budgetary_lines_create_list ( void )
 
     /* création de la structure de sauvegarde de la position */
     budgetary_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+
+    gtk_widget_show_all ( vbox );
 
     return ( vbox );
 }
@@ -568,31 +574,36 @@ GtkWidget *creation_barre_outils_ib ( void )
 {
     GtkWidget *hbox, *button;
 
-    /* Hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    GtkWidget *toolbar;
+    GtkToolItem *item;
+
+    toolbar = gtk_toolbar_new ();
 
     /* New budgetary line button */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                                _("New\nbudgetary line"), "new-ib.png",
-                                G_CALLBACK ( appui_sur_ajout_imputation ),
-                                budgetary_line_tree_model );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Create a new budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (1) );
+    item = utils_buttons_new_from_image_label ( "new-ib.png", _("New\nbudgetary line") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new budgetary line") );
+    g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (1) );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( appui_sur_ajout_imputation ),
+                        budgetary_line_tree_model );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* New sub budgetary line button */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                                _("New sub\nbudgetary line"),
-                                "new-sub-ib.png",
-                                G_CALLBACK ( appui_sur_ajout_imputation ),
-                                budgetary_line_tree_model );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "selection" );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "sub-division" );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Create a new sub-budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (2) );
+    item = utils_buttons_new_from_image_label ( "new-sub-ib.png", _("New sub\nbudgetary line") );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "sub-division" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new sub-budgetary line") );
+    g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (2) );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( appui_sur_ajout_imputation ),
+                        budgetary_line_tree_model );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
     button = gsb_automem_stock_button_new ( conf.display_toolbar,
@@ -600,58 +611,73 @@ GtkWidget *creation_barre_outils_ib ( void )
                                 _("Import"),
                                 G_CALLBACK ( budgetary_lines_importer_list ),
                                 NULL );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_OPEN );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Import a Grisbi budgetary line file (.igsb)"
                         " or create from a list of categories (.cgsb)" ) );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( budgetary_lines_importer_list ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                GTK_STOCK_SAVE,
-                                _("Export"),
-                                G_CALLBACK ( budgetary_lines_exporter_list ),
-                                NULL );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Export a Grisbi budgetary line file (.igsb)") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( budgetary_lines_exporter_list ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
     button = gsb_automem_stock_button_new ( conf.display_toolbar,
                                 GTK_STOCK_DELETE, _("Delete"),
                                 G_CALLBACK ( supprimer_division ),
                                 budgetary_line_tree );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ), button, "selection" );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Delete selected budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected budgetary line") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( supprimer_division ),
+                        budgetary_line_tree );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
     button = gsb_automem_stock_button_new ( conf.display_toolbar,
                                 GTK_STOCK_EDIT, _("Edit"),
                                 G_CALLBACK ( edit_budgetary_line ),
                                 budgetary_line_tree );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL(budgetary_line_tree_model), button, "selection" );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Edit selected budgetary line") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( budgetary_line_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit selected budgetary line") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( edit_budgetary_line ),
+                        budgetary_line_tree );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* View button */
-    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-                                GTK_STOCK_SELECT_COLOR,
-                                _("View"),
-                                G_CALLBACK(popup_budgetary_line_view_mode_menu),
-                                NULL );
-
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ), _("Change display mode") );
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-
-    gtk_widget_show_all ( hbox );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change display mode") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( popup_budgetary_line_view_mode_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( budgetary_line_tree_model ), FALSE, "selection" );
 
-    return ( hbox );
+    return toolbar;
 }
 
 
@@ -660,20 +686,9 @@ GtkWidget *creation_barre_outils_ib ( void )
  *
  *
  */
-void budgetary_lines_update_toolbar_list ( void )
+void gsb_gui_budgetary_lines_toolbar_set_style ( gint toolbar_style )
 {
-    GList *list = NULL;
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( budgetary_toolbar ) );
-
-    if ( list )
-    {
-        gtk_container_remove ( GTK_CONTAINER ( budgetary_toolbar ),
-                               GTK_WIDGET ( list -> data ) );
-        g_list_free ( list );
-    }
-
-    gtk_container_add ( GTK_CONTAINER ( budgetary_toolbar ), creation_barre_outils_ib () );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( budgetary_toolbar ), toolbar_style );
 }
 
 
