@@ -112,15 +112,23 @@ void categories_init_variables_list ( void )
  */
 GtkWidget *categories_create_list ( void )
 {
+    GtkWidget *scroll_window, *vbox;
+    GtkWidget *frame;
     GtkTreeViewColumn *column;
     GtkCellRenderer *cell;
-    GtkWidget *scroll_window, *vbox;
     GtkTreeDragDestIface * dst_iface;
     GtkTreeDragSourceIface * src_iface;
     static GtkTargetEntry row_targets[] = {
 	{ "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_WIDGET, 0 }
     };
     MetatreeInterface *category_interface;
+
+    /* We create the main vbox */
+    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
+
+    /* frame pour la barre d'outils */
+    frame = gtk_frame_new ( NULL );
+    gtk_box_pack_start ( GTK_BOX ( vbox ), frame, FALSE, FALSE, 0 );
 
     category_interface = category_get_metatree_interface ( );
 
@@ -137,17 +145,11 @@ GtkWidget *categories_create_list ( void )
     gtk_tree_sortable_set_sort_func ( GTK_TREE_SORTABLE(categ_tree_model),
 				      META_TREE_TEXT_COLUMN, metatree_sort_column,
 				      NULL, NULL );
-    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface",
-			category_interface );
+    g_object_set_data ( G_OBJECT (categ_tree_model), "metatree-interface", category_interface );
 
-    /* We create the main vbox */
-    vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 5 );
-    gtk_widget_show ( vbox );
-
-    /* on y ajoute la barre d'outils */
-    category_toolbar = gtk_handle_box_new ();
-    gtk_widget_show ( category_toolbar );
-    gtk_box_pack_start ( GTK_BOX ( vbox ), category_toolbar, FALSE, FALSE, 0 );
+    /* on y ajoute la barre d'outils après la création du model */
+    category_toolbar = creation_barre_outils_categ ();
+    gtk_container_add ( GTK_CONTAINER ( frame ), category_toolbar );
 
     /* création de l'arbre principal */
     scroll_window = gtk_scrolled_window_new ( NULL, NULL );
@@ -253,6 +255,8 @@ GtkWidget *categories_create_list ( void )
 
     /* création de la structure de sauvegarde de la position */
     category_hold_position = g_malloc0 ( sizeof ( struct metatree_hold_position ) );
+
+    gtk_widget_show_all ( vbox );
 
     return ( vbox );
 }
@@ -536,88 +540,94 @@ void categories_importer_list ( void )
  */
 GtkWidget *creation_barre_outils_categ ( void )
 {
-    GtkWidget *hbox, *button;
-    /* hbox */
-    hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
+    GtkWidget *toolbar;
+    GtkToolItem *item;
+
+    toolbar = gtk_toolbar_new ();
 
     /* New category button */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                                                _("New\ncategory"),
-                                                "new-categ.png",
-                                                G_CALLBACK ( appui_sur_ajout_category ),
-                                                categ_tree_model );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Create a new category"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (1) );
+    item = utils_buttons_new_from_image_label ( "new-categ.png", _("New\ncategory") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new category") );
+    g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (1) );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( appui_sur_ajout_category ),
+                        categ_tree_model );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* New sub category button */
-    button = gsb_automem_imagefile_button_new ( conf.display_toolbar,
-                                                _("New sub\ncategory"),
-                                                "new-sub-categ.png",
-                                                G_CALLBACK (appui_sur_ajout_category),
-                                                categ_tree_model );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "selection" );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "sub-division" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Create a new sub-category"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
-    g_object_set_data ( G_OBJECT ( button ), "type", GINT_TO_POINTER (2) );
+    item = utils_buttons_new_from_image_label ( "new-sub-categ.png", _("New sub\ncategory") );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "sub-division" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Create a new sub-category") );
+    g_object_set_data ( G_OBJECT ( item ), "type", GINT_TO_POINTER (2) );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( appui_sur_ajout_category ),
+                        categ_tree_model );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Import button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                            GTK_STOCK_OPEN,
-                                            _("Import"),
-                                            G_CALLBACK ( categories_importer_list ),
-                                            NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Import a Grisbi category file (.cgsb)"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_OPEN );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Import") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Import a Grisbi category file (.cgsb)") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( categories_importer_list ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Export button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                            GTK_STOCK_SAVE,
-                                            _("Export"),
-                                            G_CALLBACK ( categories_exporter_list ),
-                                            NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Export a Grisbi category file (.cgsb)"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SAVE );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Export") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Export a Grisbi category file (.cgsb)") );
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( categories_exporter_list ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Delete button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                            GTK_STOCK_DELETE, _("Delete"),
-                                            G_CALLBACK ( supprimer_division ), arbre_categ );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Delete selected category"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Delete selected category") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( supprimer_division ),
+                        arbre_categ );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Properties button */
-    button = gsb_automem_stock_button_new ( conf.display_toolbar,
-                                            GTK_STOCK_EDIT, _("Edit"),
-                                            G_CALLBACK ( edit_category ), arbre_categ );
-    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ), button, "selection" );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Edit selected category"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    metatree_register_widget_as_linked ( GTK_TREE_MODEL ( categ_tree_model ),
+                        GTK_WIDGET ( item ),
+                        "selection" );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Edit selected category") );
+    g_signal_connect_swapped ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( edit_category ),
+                        arbre_categ );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* View button */
-    button = gsb_automem_stock_button_menu_new ( conf.display_toolbar,
-                                                 GTK_STOCK_SELECT_COLOR,
-                                                 _("View"),
-                                                 G_CALLBACK ( popup_category_view_mode_menu ),
-                                                 NULL );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( button ),
-                                  _("Change view mode"));
-    gtk_box_pack_start ( GTK_BOX ( hbox ), button, FALSE, TRUE, 0 );
+    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode"));
+    g_signal_connect ( G_OBJECT ( item ),
+                        "clicked",
+                        G_CALLBACK ( popup_category_view_mode_menu ),
+                        NULL );
+    gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
-    gtk_widget_show_all ( hbox );
+    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( categ_tree_model ), FALSE, "selection" );
 
-    metatree_set_linked_widgets_sensitive ( GTK_TREE_MODEL ( categ_tree_model ),
-                                            FALSE, "selection" );
-
-    return ( hbox );
+    return ( toolbar );
 }
 
 
@@ -626,19 +636,9 @@ GtkWidget *creation_barre_outils_categ ( void )
  *
  *
  */
-void categories_update_toolbar_list ( void )
+void gsb_gui_categories_toolbar_set_style ( gint toolbar_style )
 {
-    GList * list = NULL;
-
-    list = gtk_container_get_children ( GTK_CONTAINER ( category_toolbar ) );
-
-    if ( list )
-    {
-        gtk_container_remove ( GTK_CONTAINER ( category_toolbar ),
-                               GTK_WIDGET ( list -> data ) );
-        g_list_free ( list );
-    }
-    gtk_container_add ( GTK_CONTAINER ( category_toolbar ), creation_barre_outils_categ () );
+    gtk_toolbar_set_style ( GTK_TOOLBAR ( category_toolbar ), toolbar_style );
 }
 
 
@@ -885,6 +885,7 @@ void appui_sur_ajout_category ( GtkTreeModel *model,
     gint type;
 
     type = GPOINTER_TO_INT ( g_object_get_data ( G_OBJECT (button), "type" ) );
+
     if ( type == 1 )
         metatree_new_division ( model );
     else

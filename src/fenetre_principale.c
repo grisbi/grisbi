@@ -573,7 +573,7 @@ void gsb_gui_update_all_toolbars ( void )
     gsb_gui_transaction_toolbar_set_style ( toolbar_style );
     gsb_gui_scheduler_toolbar_set_style ( toolbar_style );
     gsb_gui_payees_toolbar_set_style ( toolbar_style );
-    categories_update_toolbar_list ( );
+    gsb_gui_categories_toolbar_set_style ( toolbar_style );
     budgetary_lines_update_toolbar_list ( );
     gsb_gui_update_reports_toolbar ( );
     bet_array_update_toolbar ( toolbar_style );
