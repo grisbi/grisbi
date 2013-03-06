@@ -82,7 +82,9 @@ extern gchar **tab_noms_derniers_fichiers_ouverts;
 static gboolean block_menu_cb = FALSE;
 static GtkUIManager *ui_manager;
 static gint merge_id = -1;
+static GtkActionGroup *recent_files_action_group = NULL;
 static gint recent_files_merge_id = -1;
+static GtkActionGroup *move_to_account_action_group = NULL;
 static gint move_to_account_merge_id = -1;
 
 static const gchar *ui_manager_buffer =
@@ -158,6 +160,58 @@ static const gchar *ui_manager_buffer =
 "</ui>";
 
 
+/**
+ * remove all actions of an action group
+ *
+ * \param action_group
+ *
+ * \return
+ * */
+static void gsb_menu_action_group_remove_actions ( GtkActionGroup *action_group )
+{
+    GList *tmp_list;
+
+    tmp_list = gtk_action_group_list_actions ( action_group );
+
+    while ( tmp_list )
+    {
+        GtkAction *action;
+
+        action = tmp_list->data;
+        tmp_list = tmp_list->next;
+
+        gtk_action_group_remove_action ( action_group, action );
+    }
+
+    g_list_free ( tmp_list );
+}
+
+
+/**
+ * initialise un action_group temporaire
+ *
+ * \param manager
+ * \param action_group
+ *
+ * \return
+ **/
+static void gsb_menu_ui_manager_remove_action_group ( GtkUIManager *manager,
+                        GtkActionGroup *action_group,
+                        gint merge_id )
+{
+    gsb_menu_action_group_remove_actions ( action_group );
+    gtk_ui_manager_remove_action_group ( ui_manager, action_group );
+    gtk_ui_manager_remove_ui ( ui_manager, merge_id );
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ **/
 GtkWidget *init_menus ( GtkWidget *vbox )
 {
     GtkWidget *menubar;
@@ -335,10 +389,17 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 
 /**
  * Blank the "Recent files submenu".
- */
+ *
+ * \param
+ *
+ * \return
+ * */
 void efface_derniers_fichiers_ouverts ( void )
 {
-    gtk_ui_manager_remove_ui ( ui_manager, recent_files_merge_id );
+    gsb_menu_ui_manager_remove_action_group ( ui_manager,
+                        recent_files_action_group,
+                        recent_files_merge_id );
+    recent_files_action_group = NULL;
 }
 
 
@@ -348,9 +409,6 @@ void efface_derniers_fichiers_ouverts ( void )
 gboolean affiche_derniers_fichiers_ouverts ( void )
 {
     gint i;
-    GtkActionGroup * action_group;
-
-    efface_derniers_fichiers_ouverts ();
 
     if ( conf.nb_derniers_fichiers_ouverts > conf.nb_max_derniers_fichiers_ouverts )
     {
@@ -362,38 +420,30 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         return FALSE;
     }
 
-    action_group = gtk_action_group_new ( "Group2" );
-
-    for ( i = 0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
-    {
-        gchar *tmp_name;
-        GtkAction *action;
-
-        tmp_name = g_strdup_printf ( "LastFile%d", i );
-
-        action = gtk_action_new ( tmp_name,
-                        tab_noms_derniers_fichiers_ouverts[i],
-                        "",
-                        "" );
-        g_free ( tmp_name );
-        g_signal_connect ( action,
-                        "activate",
-                        G_CALLBACK ( gsb_file_open_direct_menu ),
-                        GINT_TO_POINTER ( i ) );
-        gtk_action_group_add_action ( action_group, action );
-    }
-
-    gtk_ui_manager_insert_action_group ( ui_manager, action_group, 1 );
+    if ( recent_files_action_group )
+        efface_derniers_fichiers_ouverts ();
 
     recent_files_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
+    recent_files_action_group = gtk_action_group_new ( "Group2" );
 
     for ( i=0 ; i < conf.nb_derniers_fichiers_ouverts ; i++ )
     {
         gchar *tmp_name;
         gchar *tmp_label;
+        GtkAction *action;
 
         tmp_name = g_strdup_printf ( "LastFile%d", i );
         tmp_label = g_strdup_printf ( "_%d LastFile%d", i, i );
+
+        action = gtk_action_new ( tmp_name,
+                        tab_noms_derniers_fichiers_ouverts[i],
+                        "",
+                        "" );
+        g_signal_connect ( action,
+                        "activate",
+                        G_CALLBACK ( gsb_file_open_direct_menu ),
+                        GINT_TO_POINTER ( i ) );
+        gtk_action_group_add_action ( recent_files_action_group, action );
 
         gtk_ui_manager_add_ui ( ui_manager,
                     recent_files_merge_id,
@@ -406,6 +456,8 @@ gboolean affiche_derniers_fichiers_ouverts ( void )
         g_free ( tmp_name );
         g_free ( tmp_label );
     }
+
+    gtk_ui_manager_insert_action_group ( ui_manager, recent_files_action_group, 1 );
 
     /* add a separator */
     gtk_ui_manager_add_ui ( ui_manager,
@@ -739,13 +791,17 @@ gboolean gsb_menu_update_view_menu ( gint account_number )
 gboolean gsb_menu_update_accounts_in_menus ( void )
 {
     GSList *list_tmp;
-    GtkActionGroup * action_group;
 
-    if ( move_to_account_merge_id != -1 )
-        gtk_ui_manager_remove_ui ( ui_manager, move_to_account_merge_id );
+    if ( move_to_account_action_group )
+    {
+        gsb_menu_ui_manager_remove_action_group ( ui_manager,
+                        move_to_account_action_group,
+                        move_to_account_merge_id );
+        move_to_account_action_group = NULL;
+    }
 
     move_to_account_merge_id = gtk_ui_manager_new_merge_id ( ui_manager );
-    action_group = gtk_action_group_new ( "Group3" );
+    move_to_account_action_group = gtk_action_group_new ( "Group3" );
 
     /* create the closed accounts and accounts in the menu to move a transaction */
     list_tmp = gsb_data_account_get_list_accounts ();
@@ -772,7 +828,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
             if ( gsb_gui_navigation_get_current_account () == i )
                 gtk_action_set_sensitive ( action, FALSE );
 
-            gtk_action_group_add_action ( action_group, action );
+            gtk_action_group_add_action ( move_to_account_action_group, action );
             g_signal_connect ( action,
                         "activate",
                         G_CALLBACK ( move_selected_operation_to_account_nb ),
@@ -791,7 +847,7 @@ gboolean gsb_menu_update_accounts_in_menus ( void )
         list_tmp = list_tmp -> next;
     }
 
-    gtk_ui_manager_insert_action_group ( ui_manager, action_group, 2 );
+    gtk_ui_manager_insert_action_group ( ui_manager, move_to_account_action_group, 2 );
     gtk_ui_manager_ensure_update ( ui_manager );
 
     return FALSE;
