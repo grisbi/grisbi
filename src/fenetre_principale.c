@@ -72,7 +72,6 @@ static gboolean on_simpleclick_event_run ( GtkWidget * button, GdkEvent * button
 
 /* données des widgets généraux */
 static GtkWidget *vbox_general = NULL;
-static GtkWidget *hpaned_general = NULL;
 static GtkWidget *notebook_general = NULL;
 
 /** Notebook of the account pane. */
@@ -94,6 +93,7 @@ static GtkWidget * headings_suffix = NULL;
  */
 GtkWidget *gsb_gui_create_general_widgets ( void )
 {
+    GtkWidget *hpaned_general;
     GtkWidget * hbox, * arrow_eb, * arrow_left, * arrow_right;
     GtkStyle * style;
 
@@ -505,7 +505,7 @@ gboolean gsb_gui_hpaned_size_allocate ( GtkWidget *hpaned,
 
 
 /**
- * initialise notebook_general, hpaned_general et vbox_general
+ * initialise notebook_general et vbox_general
  *
  *
  */
@@ -520,27 +520,13 @@ void gsb_gui_init_general_vbox ( void )
 
 
 /**
- * initialise notebook_general, hpaned_general et vbox_general
+ * initialise notebook_general et vbox_general
  *
  *
  */
 void gsb_gui_init_general_notebook ( void )
 {
         notebook_general = NULL;
-}
-
-
-/**
- * test l'existence de hpaned_general
- *
- *
- */
-gboolean gsb_gui_is_hpaned_general ( void )
-{
-    if ( hpaned_general && GTK_IS_WIDGET ( hpaned_general ) )
-        return TRUE;
-    else
-        return FALSE;
 }
 
 
