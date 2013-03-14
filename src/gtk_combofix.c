@@ -1797,16 +1797,23 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
 
         gtk_tree_model_get ( model, &iter, COMBOFIX_COL_REAL_STRING, &tmp_str, -1 );
 
-        if ( tmp_str
-         &&
-         tmp_item
-         &&
-         g_utf8_collate ( g_utf8_casefold ( tmp_str, -1 ),
-         g_utf8_casefold ( tmp_item, -1 ) ) == 0 )
-            break;
+        if ( tmp_str && tmp_item )
+        {
+            gchar *tmp_str_casefold, *tmp_item_casefold;
+            int collate;
+
+            tmp_str_casefold = g_utf8_casefold ( tmp_str, -1 );
+            tmp_item_casefold = g_utf8_casefold ( tmp_item, -1 );
+            collate = g_utf8_collate ( tmp_str_casefold , tmp_item_casefold );
+            g_free ( tmp_item_casefold );
+            g_free ( tmp_str_casefold );
+
+            if ( collate  == 0 )
+                break;
+        }
 
         result = gtk_tree_model_iter_next ( model, &iter);
-	}
+    }
 
     g_free ( tmp_item );
 
