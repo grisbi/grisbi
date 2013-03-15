@@ -1392,18 +1392,21 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
     GSList *sup_payees;
     gchar *tmpstr;
     const gchar *str_cherche;
+    gchar *str_replace_wildcard;
 
     devel_debug ("Enter page finish");
     sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
     combo = g_object_get_data ( G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text ( combo );
     entry = g_object_get_data ( G_OBJECT (assistant), "new_payee");
+    str_replace_wildcard = gsb_string_remplace_joker ( str_cherche, "..." );
+
     if ( g_slist_length (sup_payees) == 1 )
     {
     tmpstr = g_strdup_printf (
                         _("You are about to replace one payee which name contain %s by %s\n\n"
                         "Are you sure?"),
-                        gsb_string_remplace_joker ( str_cherche, "..." ),
+                        str_replace_wildcard,
                         gtk_entry_get_text ( entry) );
     }
     else
@@ -1412,12 +1415,13 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
                         _("You are about to replace %d payees whose names contain %s by %s\n\n"
                         "Are you sure?"),
                         g_slist_length (sup_payees),
-                        gsb_string_remplace_joker ( str_cherche, "..." ),
+                        str_replace_wildcard,
                         gtk_entry_get_text ( entry) );
     }
     label = g_object_get_data ( G_OBJECT (assistant), "finish_label" );
     gtk_label_set_markup ( label, tmpstr );
 
+    g_free ( str_replace_wildcard );
     g_free ( tmpstr);
 
     return FALSE;
