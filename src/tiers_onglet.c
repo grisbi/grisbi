@@ -519,7 +519,7 @@ void payees_fill_list ( void )
     /* Compute payee balances. */
     gsb_data_payee_update_counters ();
 
-    // add the virtually unused payee to the top of the list
+    /* add the virtually unused payee to the top of the list */
     empty_payee = gsb_data_payee_get_empty_payee ( );
     payee_number = gsb_data_payee_get_no_payee ( empty_payee );
     gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
