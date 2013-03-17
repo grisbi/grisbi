@@ -33,7 +33,11 @@
 /*START_INCLUDE*/
 #include "utils_files.h"
 #include "dialog.h"
+#ifdef HAVE_GOFFICE
+#include <goffice/goffice.h>
+#else
 #include "go-charmap-sel.h"
+#endif /* HAVE_GOFFICE */
 #include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_file_config.h"

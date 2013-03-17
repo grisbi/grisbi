@@ -26,13 +26,12 @@
 #include <config.h>
 #endif
 
-/*#include <goffice/goffice-config.h>
-*/
+#ifndef HAVE_GOFFICE
 #include "go-charmap-sel.h"
 #include "go-optionmenu.h"
-/*#include <goffice/utils/go-glib-extras.h>
-*/#include <glib/gi18n-lib.h>
 #include <gsf/gsf-impl-utils.h>
+
+#include <glib/gi18n-lib.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -723,3 +722,5 @@ cs_get_property (GObject     *object,
 		break;
 	}
 }
+
+#endif /* NOT HAVE_GOFFICE */

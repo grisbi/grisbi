@@ -30,6 +30,8 @@
  * USA
  */
 
+#ifndef HAVE_GOFFICE
+
 #ifndef _GO_OPTIONMENU_H_
 #define _GO_OPTIONMENU_H_
 
@@ -84,3 +86,4 @@ GtkWidget *go_option_menu_get_history (GOOptionMenu *option_menu);
 G_END_DECLS
 
 #endif /* _GO_OPTIONMENU_H_ */
+#endif /* NOT HAVE_GOFFICE */

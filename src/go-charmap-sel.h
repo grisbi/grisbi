@@ -20,6 +20,8 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+#ifndef HAVE_GOFFICE
+
 #ifndef _GO_CHARMAP_SEL_H_
 #define _GO_CHARMAP_SEL_H_
 
@@ -50,3 +52,4 @@ const char  *go_charmap_sel_get_encoding_name (GOCharmapSel *cs, const char *enc
 G_END_DECLS
 
 #endif /* _GO_CHARMAP_SEL_H_ */
+#endif /* NOT HAVE_GOFFICE */

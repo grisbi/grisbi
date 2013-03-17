@@ -56,7 +56,7 @@ dnl ================================================================
 
 LT_LIB_M
 
-PKG_CHECK_MODULES(GRISBI, [gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 zlib])
+PKG_CHECK_MODULES(GRISBI, [gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14 zlib])
 # Temporary hack until Mandriva ships zlib.pc
 #PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
 GRISBI_LIBS="$LIBM $GRISBI_LIBS"

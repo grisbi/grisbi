@@ -36,7 +36,11 @@
 #include "bet_data.h"
 #include "import_csv.h"
 #include "dialog.h"
+#ifdef HAVE_GOFFICE
+#include <goffice/goffice.h>
+#else
 #include "go-charmap-sel.h"
+#endif /* HAVE_GOFFICE */
 #include "utils_file_selection.h"
 #include "gsb_account.h"
 #include "gsb_account_property.h"

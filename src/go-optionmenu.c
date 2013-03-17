@@ -35,8 +35,7 @@
 #include <config.h>
 #endif
 
-/*#include <goffice/goffice-config.h>
-*/
+#ifndef HAVE_GOFFICE
 #include "go-optionmenu.h"
 
 #include <gdk/gdkkeysyms.h>
@@ -490,3 +489,5 @@ go_option_menu_get_type (void)
 
 	return option_menu_type;
 }
+
+#endif /* NOT HAVE_GOFFICE */
