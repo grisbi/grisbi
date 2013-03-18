@@ -2731,6 +2731,7 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 {
     GdkPixbuf *pixbuf;
     GtkWidget *image;
+    gchar *std_pixbuf_filename;
     gchar *name_icon;
     gchar *new_icon;
     gint current_account;
@@ -2739,18 +2740,18 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 
     current_account = gsb_gui_navigation_get_current_account ();
 
-    name_icon = gsb_data_account_get_name_icon ( current_account );
-    if ( name_icon == NULL || g_file_test ( name_icon, G_FILE_TEST_EXISTS ) == FALSE )
-        name_icon = gsb_data_account_get_account_standard_pixbuf_filename (
+    std_pixbuf_filename = gsb_data_account_get_account_standard_pixbuf_filename (
                         gsb_data_account_get_kind ( current_account ) );
 
+    name_icon = gsb_data_account_get_name_icon ( current_account );
+    if ( name_icon == NULL || g_file_test ( name_icon, G_FILE_TEST_EXISTS ) == FALSE )
+        name_icon = std_pixbuf_filename;
+
     new_icon = gsb_select_icon_create_window ( name_icon );
-    if ( new_icon )
+
+    if ( new_icon && strcmp ( new_icon, name_icon ) != 0 )
     {
-        if ( strcmp ( new_icon, name_icon ) == 0 )
-            return;
-        else if ( strcmp ( new_icon, gsb_data_account_get_account_standard_pixbuf_filename (
-         gsb_data_account_get_kind ( current_account ) ) ) == 0 )
+        if ( strcmp ( new_icon, std_pixbuf_filename ) == 0 )
         {
             gsb_data_account_set_name_icon ( current_account, NULL );
             gsb_data_account_set_account_icon_pixbuf ( current_account, NULL );
@@ -2769,6 +2770,8 @@ void gsb_data_account_change_account_icon ( GtkWidget *button, gpointer data )
 
         gsb_file_set_modified ( TRUE );
     }
+
+    g_free ( std_pixbuf_filename );
 }
 
 
