@@ -368,6 +368,7 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
             i++;
         }
         gtk_icon_view_set_model (GTK_ICON_VIEW ( icon_view ), GTK_TREE_MODEL (store));
+        g_object_unref ( G_OBJECT ( store ) );
         g_dir_close ( dir );
     }
     else
