@@ -27,6 +27,7 @@ void gsb_gui_toggle_line_view_mode ( GtkRadioAction *action,
                         gpointer user_data );
 gboolean gsb_gui_toggle_show_archived ( void );
 gboolean gsb_gui_toggle_show_reconciled ( void );
+void gsb_menu_free_ui_manager ( void );
 GtkUIManager *gsb_menu_get_ui_manager ( void );
 gboolean gsb_menu_set_block_menu_cb ( gboolean etat );
 gboolean gsb_menu_set_menus_select_scheduled_sensitive ( gboolean sensitive );
