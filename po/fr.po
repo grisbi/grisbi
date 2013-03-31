@@ -4368,7 +4368,7 @@ msgstr "Code BIC : "
 
 #: ../src/gsb_account_property.c:417
 msgid "IBAN number: "
-msgstr "Numéro IBAN : "
+msgstr "N° IBAN : "
 
 #: ../src/gsb_account_property.c:446
 msgid "Bank sort code: "
@@ -4380,7 +4380,7 @@ msgstr "Guichet / Agence : "
 
 #: ../src/gsb_account_property.c:481
 msgid "Account number / Key: "
-msgstr "Numéro de compte / Clé : "
+msgstr "N° de compte / Clé : "
 
 #. création de la ligne du solde initial
 #: ../src/gsb_account_property.c:513
@@ -7202,7 +7202,7 @@ msgid ""
 msgstr ""
 "Numéro de colonne invalide dans gsb_data_account_get_element_sort() dans "
 "data_account.c\n"
-"Numéro de colonne %d\n"
+"N° de colonne : %d\n"
 
 #. TODO dOm : the value of g_strdup_printf was not used.
 #. I add the devel_debug function to print it. Is it OK ?
@@ -8907,7 +8907,7 @@ msgstr "Sélectionner le répertoire des icônes"
 
 #: ../src/gsb_transactions_list.c:187
 msgid "Cheque number"
-msgstr "Numéro de chèque"
+msgstr "N° de chèque"
 
 #: ../src/gsb_transactions_list.c:200
 msgid "Delete a child transaction."
@@ -9794,7 +9794,7 @@ msgstr "Texte"
 
 #: ../src/import_csv.c:85
 msgid "Voucher number"
-msgstr "Numéro de pièce comptable"
+msgstr "N° de pièce comptable"
 
 #: ../src/import_csv.c:91
 msgid "Credit (amount)"
@@ -11274,7 +11274,7 @@ msgstr "Liste des tiers qui seront modifiés"
 
 #: ../src/tiers_onglet.c:1173
 msgid "Payee number"
-msgstr "Numéro du tiers"
+msgstr "N° du tiers"
 
 #: ../src/tiers_onglet.c:1199
 msgid "Total number of payees: "
