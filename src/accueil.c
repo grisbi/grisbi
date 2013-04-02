@@ -157,6 +157,8 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
     label_titre_fichier = gtk_label_new ( NULL );
+    g_object_add_weak_pointer ( G_OBJECT ( label_titre_fichier ),
+                                (gpointer*)&label_titre_fichier );
 
     if ( etat.utilise_logo )
     {
@@ -2240,7 +2242,7 @@ void gsb_main_page_update_homepage_title ( const gchar *title )
     gchar * tmp_str;
 
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
-    if ( !label_titre_fichier || !GTK_IS_LABEL ( label_titre_fichier ) )
+    if ( !label_titre_fichier )
         return;
 
     tmp_str = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title );
