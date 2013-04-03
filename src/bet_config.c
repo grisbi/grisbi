@@ -122,8 +122,7 @@ GtkWidget *bet_config_general_create_general_page ( void )
 
     /* Calculation of period */
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _("Common data") );
-
-    widget = bet_config_general_get_period_widget ( paddingbox );
+    bet_config_general_get_period_widget ( paddingbox );
 
     /* add a separator */
     gtk_box_pack_start ( GTK_BOX ( vbox ), gtk_separator_new ( GTK_ORIENTATION_HORIZONTAL ), FALSE, FALSE, 5 );
@@ -667,12 +666,11 @@ GtkWidget *bet_config_account_get_select_historical_data ( gchar *title )
 {
     GtkWidget *vbox;
     GtkWidget *paddingbox;
-    GtkWidget *hbox;
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 0 );
 
     paddingbox = new_paddingbox_with_title ( vbox, FALSE, _(title) );
-    hbox = bet_config_get_select_historical_data ( paddingbox, gsb_gui_get_account_page () );
+    bet_config_get_select_historical_data ( paddingbox, gsb_gui_get_account_page () );
 
     return vbox;
 }

@@ -97,7 +97,7 @@ struct struct_etat_affichage html_affichage = {
 void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y, int y2,
 			  enum alignement align, gint transaction_number )
 {
-    int pad, realsize, realcolumns;
+    int pad, realsize;
     gint current_report_number;
 
     current_report_number = gsb_gui_navigation_get_current_report ();
@@ -136,10 +136,6 @@ void html_attach_label ( gchar * text, gdouble properties, int x, int x2, int y,
 		realsize ++;
 	}
     }
-    if ( gsb_data_report_get_show_report_transactions (current_report_number))
-	realcolumns = (float)((nb_colonnes / 2) + 1);
-    else
-	realcolumns = nb_colonnes;
 
     switch ( align )
     {

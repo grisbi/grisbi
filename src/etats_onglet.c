@@ -1119,11 +1119,9 @@ gboolean gsb_report_export_change_format ( GtkWidget * combo, GtkWidget * select
 void exporter_etat ( void )
 {
     GtkWidget *fenetre_nom, *hbox, * combo;
-    gint resultat, current_report_number;
+    gint resultat;
     gchar * nom_etat;
     GtkWidget *notebook_general;
-
-    current_report_number = gsb_gui_navigation_get_current_report ();
 
     notebook_general = gsb_gui_get_general_notebook ( );
     if ( gtk_notebook_get_current_page ( GTK_NOTEBOOK ( notebook_general)) != GSB_REPORTS_PAGE )

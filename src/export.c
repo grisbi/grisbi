@@ -161,7 +161,6 @@ void export_accounts ( void )
 GtkWidget * export_create_selection_page ( GtkWidget * assistant )
 {
     GtkWidget * view, * vbox, * padding_box, * sw;
-    GtkWidget *combo;
     GtkWidget *button;
     GtkWidget *button_select;
     GtkTreeViewColumn *column;
@@ -236,7 +235,7 @@ GtkWidget * export_create_selection_page ( GtkWidget * assistant )
                         G_CALLBACK ( export_account_all_toggled ),
                         view );
 
-    combo = gsb_automem_radiobutton3_new_with_title ( vbox,
+    gsb_automem_radiobutton3_new_with_title ( vbox,
 					    _("Select options to export" ),
 					    _("QIF format" ), _("CSV format" ), NULL,
 					    &etat.export_file_format,

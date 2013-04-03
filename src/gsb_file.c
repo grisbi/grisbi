@@ -972,6 +972,7 @@ gboolean gsb_file_close ( void )
 
 	    /* free all the variables */
  	    init_variables ();
+        gsb_gui_init_general_vbox ( );
         gsb_account_property_clear_config ( );
 
         gsb_main_set_grisbi_title ( -1 );

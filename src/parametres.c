@@ -1567,16 +1567,12 @@ gboolean gsb_config_metatree_re_sort_divisions ( GtkWidget *checkbutton,
  * */
 GtkWidget *onglet_localisation ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox;
-
+    GtkWidget *vbox_pref;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Localization"), "locale.png" );
 
-/*    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Choose Language") ); */
-
-    paddingbox = gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
-
-    paddingbox = gsb_config_number_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+    gsb_config_date_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
+    gsb_config_number_format_chosen ( vbox_pref, GTK_ORIENTATION_VERTICAL );
 
     return vbox_pref;
 }

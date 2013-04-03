@@ -513,20 +513,20 @@ void recuperation_noms_colonnes_et_tips ( void )
 /* ************************************************************************************************************** */
 GtkWidget *onglet_diverse_form_and_lists ( void )
 {
-    GtkWidget *vbox_pref, *paddingbox, *radiogroup;
+    GtkWidget *vbox_pref, *paddingbox;
 
     vbox_pref = new_vbox_with_title_and_icon ( _("Form behavior"),
 					       "form.png" );
 
     /* What to do if RETURN is pressed into transaction form */
-    radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
+    gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("Pressing RETURN in transaction form"),
 							 _("selects next field"),
 							 _("terminates transaction"),
 							 &conf.entree, NULL, NULL);
 
     /* How to display financial year */
-    radiogroup = gsb_automem_radiobutton_new_with_title (vbox_pref,
+    gsb_automem_radiobutton_new_with_title (vbox_pref,
 							 _("Automatic financial year is set"),
 							 _("according to transaction date"),
 							 _("according to transaction value date"),
@@ -1054,7 +1054,6 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
     gint end_drag_column;
     gint element;
     gint old_element;
-    gint current_account;
 
     /* get the cell position */
     gdk_window_get_pointer ( gtk_tree_view_get_bin_window ( GTK_TREE_VIEW ( tree_view ) ),
@@ -1082,7 +1081,6 @@ gboolean gsb_transaction_list_config_drag_end ( GtkWidget *tree_view,
         return ( FALSE );
 
     element = tab_affichage_ope[start_drag_row][start_drag_column];
-    current_account = gsb_gui_navigation_get_current_account ( );
 
     /* save the old position et désensitive le bouton correspondant */
     old_element = tab_affichage_ope[end_drag_row][end_drag_column];
