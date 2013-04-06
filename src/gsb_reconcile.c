@@ -636,6 +636,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     /* update the P and T to R in the list */
     transaction_list_update_element (ELEMENT_MARK);
 
+    /* update the reconcile number if necessary */
+    transaction_list_update_element ( ELEMENT_RECONCILE_NB );
+
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 
     /* go back to the normal transactions list */
