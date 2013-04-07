@@ -2187,12 +2187,55 @@ void struct_free_bet_transaction_current_fyear ( TransactionCurrentFyear *self )
 
 
 /**
+ * met à 0 tous les montants retenus pour les données historiques
+ *
+ * \param account_number
+ *
+ * \return
+ * */
+void bet_data_hist_set_all_retened_amount_null ( gint account_number )
+{
+    GHashTableIter iter;
+    gpointer key, value;
+
+    if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
+        return;
+
+    g_hash_table_iter_init ( &iter, bet_hist_div_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_hist_div *shd = ( struct_hist_div* ) value;
+
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        {
+            if ( shd -> div_edited )
+                bet_data_set_div_amount ( account_number, shd -> div_number, 0, null_real );
+        }
+        else
+        {
+            GHashTableIter new_iter;
+
+            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+            {
+                struct_hist_div *sub_shd = ( struct_hist_div* ) value;
+
+                if ( sub_shd->div_edited )
+                    bet_data_set_div_amount ( account_number, shd->div_number, sub_shd->div_number, null_real );
+            }
+        }
+    }
+}
+
+
+/**
  *
  *
  * \param
  *
  * \return
  * */
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

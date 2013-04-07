@@ -35,12 +35,14 @@
 
 /*START_INCLUDE*/
 #include "file_obfuscate.h"
+#include "bet_data.h"
 #include "dialog.h"
 #include "gsb_assistant.h"
 #include "gsb_data_account.h"
 #include "gsb_data_bank.h"
 #include "gsb_data_budget.h"
 #include "gsb_data_category.h"
+#include "gsb_data_partial_balance.h"
 #include "gsb_data_payee.h"
 #include "gsb_data_reconcile.h"
 #include "gsb_data_report.h"
@@ -125,29 +127,88 @@ gboolean file_obfuscate_run ( void )
 	/*  remove the swp file */
 	gsb_file_util_modify_lock (FALSE);
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_accounts_details)))
-	{
-	    /* hide the details of account but not the names */
-	    tmp_list = gsb_data_account_get_list_accounts ();
-	    while (tmp_list)
-	    {
-		gint account_number = gsb_data_account_get_no_account (tmp_list -> data);
+    /* hide the accounts data */
+    tmp_list = gsb_data_account_get_list_accounts ();
+    while ( tmp_list )
+    {
+		gint account_number = gsb_data_account_get_no_account ( tmp_list -> data );
 
-		gsb_data_account_set_id (account_number,
-					 g_strdup_printf ("id account %d", account_number));
-		gsb_data_account_set_comment (account_number, NULL);
-		gsb_data_account_set_holder_name (account_number, NULL);
-		gsb_data_account_set_holder_address (account_number, NULL);
-		gsb_data_account_set_init_balance (account_number, null_real);
-		gsb_data_account_set_mini_balance_wanted (account_number, null_real);
-		gsb_data_account_set_mini_balance_authorized (account_number, null_real);
-		gsb_data_account_set_bank_branch_code (account_number, NULL);
-		gsb_data_account_set_bank_account_number (account_number, NULL);
-		gsb_data_account_set_bank_account_key (account_number, NULL);
+        /* hide the IBAN number */
+        gsb_data_account_set_bank_account_iban ( account_number, NULL );
+
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_accounts_details ) ) )
+        {
+            /* hide the details of account but not the names */
+            gchar *tmp_str;
+
+            tmp_str = g_strdup_printf ( "id account %d", account_number );
+            gsb_data_account_set_id ( account_number, tmp_str );
+            g_free ( tmp_str );
+
+            gsb_data_account_set_comment (account_number, NULL);
+            gsb_data_account_set_holder_name (account_number, NULL);
+            gsb_data_account_set_holder_address (account_number, NULL);
+            gsb_data_account_set_init_balance (account_number, null_real);
+            gsb_data_account_set_mini_balance_wanted (account_number, null_real);
+            gsb_data_account_set_mini_balance_authorized (account_number, null_real);
+            gsb_data_account_set_bank_branch_code (account_number, NULL);
+            gsb_data_account_set_bank_account_number (account_number, NULL);
+            gsb_data_account_set_bank_account_key (account_number, NULL);
+        }
+
+        if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_accounts_names ) ) )
+        {
+            /* hide the accounts names */
+            gchar *tmp_str;
+
+            tmp_str = g_strdup_printf ( "Account n°%d", account_number );
+            gsb_data_account_set_name ( account_number, tmp_str );
+            g_free ( tmp_str );
+
+	    }
+
+        /* hide the budgetary data */
+        if ( gsb_data_account_get_bet_use_budget ( account_number ) )
+        {
+            /* hide the historiques data */
+            gint bet_hist_data;
+
+            bet_hist_data = gsb_data_account_get_bet_hist_data ( account_number );
+
+            if ( bet_hist_data == 0 && gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_categories ) ) )
+            {
+                bet_data_hist_set_all_retened_amount_null ( account_number );
+            }
+            if ( bet_hist_data == 1 && gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_budgets ) ) )
+            {
+                bet_data_hist_set_all_retened_amount_null ( account_number );
+            }
+            gsb_data_account_set_bet_finance_capital ( account_number, 0.0 );
+            gsb_data_account_set_bet_finance_taux_annuel ( account_number, 0.0 );
+            gsb_data_account_set_bet_finance_frais ( account_number, 0.0 );
+            gsb_data_account_set_bet_finance_capital ( account_number, 0.0 );
+            gsb_data_account_set_bet_months ( account_number, 0 );
+        }
 
 		tmp_list = tmp_list -> next;
-	    }
 	}
+
+    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_accounts_names ) ) )
+    {
+        /* hide the partial balance accounts names */
+        tmp_list = gsb_data_partial_balance_get_list ();
+        while ( tmp_list )
+        {
+            gint partial_balance_number = gsb_data_partial_balance_get_number ( tmp_list->data );
+            gchar *tmp_str;
+
+            tmp_str = g_strdup_printf ( "Partial balance n°%d", partial_balance_number );
+            gsb_data_partial_balance_set_name ( partial_balance_number, tmp_str );
+            g_free ( tmp_str );
+
+            tmp_list = tmp_list->next;
+        }
+    }
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_amount)))
 	{
@@ -175,32 +236,21 @@ gboolean file_obfuscate_run ( void )
 	    }
 	}
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_accounts_names)))
-	{
-	    /* hide the accounts names */
-	    tmp_list = gsb_data_account_get_list_accounts ();
-	    while (tmp_list)
-	    {
-		gint account_number = gsb_data_account_get_no_account (tmp_list -> data);
-
-		gsb_data_account_set_name (account_number,
-					   g_strdup_printf ("Account n°%d", account_number));
-
-		tmp_list = tmp_list -> next;
-	    }
-	}
-
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_payee)))
 	{
 	    /* hide the payees names */
 	    tmp_list = gsb_data_payee_get_payees_list ();
 	    while (tmp_list)
 	    {
-		gint payee_number = gsb_data_payee_get_no_payee (tmp_list -> data);
+            gint payee_number = gsb_data_payee_get_no_payee (tmp_list -> data);
+            gchar *tmp_str;
 
-		gsb_data_payee_set_name (payee_number,
-					 g_strdup_printf ( "Payee n°%d", payee_number));
-		gsb_data_payee_set_description (payee_number, NULL);
+            tmp_str = g_strdup_printf ( "Payee n°%d", payee_number );
+            gsb_data_payee_set_name ( payee_number, tmp_str );
+            g_free ( tmp_str );
+
+            gsb_data_payee_set_description (payee_number, NULL);
+            gsb_data_payee_set_search_string ( payee_number, NULL );
 
 		tmp_list = tmp_list -> next;
 	    }
@@ -212,21 +262,25 @@ gboolean file_obfuscate_run ( void )
 	    tmp_list = gsb_data_category_get_categories_list ();
 	    while (tmp_list)
 	    {
-		GSList *list_sub_categ;
-		gint category_number = gsb_data_category_get_no_category (tmp_list -> data);
+            GSList *list_sub_categ;
+            gint category_number = gsb_data_category_get_no_category (tmp_list -> data);
+            gchar *tmp_str;
 
-		gsb_data_category_set_name (category_number,
-					    g_strdup_printf ( "Category n°%d", category_number));
+            tmp_str = g_strdup_printf ( "Category n°%d", category_number );
+            gsb_data_category_set_name ( category_number, tmp_str );
+            g_free ( tmp_str );
 
-		list_sub_categ = gsb_data_category_get_sub_category_list (category_number);
-		while (list_sub_categ)
-		{
-		    gint sub_categ_number = gsb_data_category_get_no_sub_category (list_sub_categ -> data);
+            list_sub_categ = gsb_data_category_get_sub_category_list (category_number);
+            while (list_sub_categ)
+            {
+                gint sub_categ_number = gsb_data_category_get_no_sub_category (list_sub_categ -> data);
 
-		    gsb_data_category_set_sub_category_name (category_number, sub_categ_number,
-							     g_strdup_printf ("Sub-category n°%d", sub_categ_number));
-		    list_sub_categ = list_sub_categ -> next;
-		}
+                tmp_str = g_strdup_printf ("Sub-category n°%d", sub_categ_number);
+                gsb_data_category_set_sub_category_name ( category_number, sub_categ_number, tmp_str );
+                g_free ( tmp_str );
+
+                list_sub_categ = list_sub_categ -> next;
+            }
 		tmp_list = tmp_list -> next;
 	    }
 	}
@@ -237,22 +291,26 @@ gboolean file_obfuscate_run ( void )
 	    tmp_list = gsb_data_budget_get_budgets_list ();
 	    while (tmp_list)
 	    {
-		GSList *list_sub_budget;
-		gint budget_number = gsb_data_budget_get_no_budget (tmp_list -> data);
+            GSList *list_sub_budget;
+            gint budget_number = gsb_data_budget_get_no_budget (tmp_list -> data);
+            gchar *tmp_str;
 
-		gsb_data_budget_set_name (budget_number,
-					  g_strdup_printf ( "Budget n°%d", budget_number));
+            tmp_str = g_strdup_printf ( "Budget n°%d", budget_number );
+            gsb_data_budget_set_name ( budget_number, tmp_str );
+            g_free ( tmp_str );
 
-		list_sub_budget = gsb_data_budget_get_sub_budget_list (budget_number);
-		while (list_sub_budget)
-		{
-		    gint sub_budget_number = gsb_data_budget_get_no_sub_budget (list_sub_budget -> data);
+            list_sub_budget = gsb_data_budget_get_sub_budget_list (budget_number);
+            while (list_sub_budget)
+            {
+                gint sub_budget_number = gsb_data_budget_get_no_sub_budget (list_sub_budget -> data);
 
-		    gsb_data_budget_set_sub_budget_name (budget_number, sub_budget_number,
-							 g_strdup_printf ("Sub-budget n°%d", sub_budget_number));
-		    list_sub_budget = list_sub_budget -> next;
-		}
-		tmp_list = tmp_list -> next;
+                tmp_str = g_strdup_printf ( "Sub-budget n°%d", sub_budget_number );
+                gsb_data_budget_set_sub_budget_name ( budget_number, sub_budget_number, tmp_str );
+                g_free ( tmp_str );
+
+                list_sub_budget = list_sub_budget -> next;
+            }
+            tmp_list = tmp_list -> next;
 	    }
 	}
 
@@ -286,25 +344,27 @@ gboolean file_obfuscate_run ( void )
 	    tmp_list = gsb_data_bank_get_bank_list ();
 	    while (tmp_list)
 	    {
-		gint bank_number = gsb_data_bank_get_no_bank (tmp_list -> data);
+            gint bank_number = gsb_data_bank_get_no_bank (tmp_list -> data);
+            gchar *tmp_str;
 
-		gsb_data_bank_set_name (bank_number,
-					g_strdup_printf ("Bank n°%d", bank_number));
-		gsb_data_bank_set_code (bank_number, NULL);
-		gsb_data_bank_set_bank_address (bank_number, NULL);
-		gsb_data_bank_set_bank_tel (bank_number, NULL);
-		gsb_data_bank_set_bank_mail (bank_number, NULL);
-		gsb_data_bank_set_bank_web (bank_number, NULL);
-		gsb_data_bank_set_bank_note (bank_number, NULL);
-		gsb_data_bank_set_correspondent_name (bank_number, NULL);
-		gsb_data_bank_set_correspondent_tel (bank_number, NULL);
-		gsb_data_bank_set_correspondent_mail (bank_number, NULL);
-		gsb_data_bank_set_correspondent_fax (bank_number, NULL);
+            tmp_str = g_strdup_printf ( "Bank n°%d", bank_number );
+            gsb_data_bank_set_name ( bank_number, tmp_str );
+            g_free ( tmp_str );
 
-		tmp_list = tmp_list -> next;
+            gsb_data_bank_set_code (bank_number, NULL);
+            gsb_data_bank_set_bic ( bank_number, NULL );
+            gsb_data_bank_set_bank_address (bank_number, NULL);
+            gsb_data_bank_set_bank_tel (bank_number, NULL);
+            gsb_data_bank_set_bank_mail (bank_number, NULL);
+            gsb_data_bank_set_bank_web (bank_number, NULL);
+            gsb_data_bank_set_bank_note (bank_number, NULL);
+            gsb_data_bank_set_correspondent_name (bank_number, NULL);
+            gsb_data_bank_set_correspondent_tel (bank_number, NULL);
+            gsb_data_bank_set_correspondent_mail (bank_number, NULL);
+            gsb_data_bank_set_correspondent_fax (bank_number, NULL);
+
+            tmp_list = tmp_list -> next;
 	    }
-
-
 	}
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button_reports)))
@@ -313,12 +373,14 @@ gboolean file_obfuscate_run ( void )
 	    tmp_list = gsb_data_report_get_report_list ();
 	    while (tmp_list)
 	    {
-		gint report_number = gsb_data_report_get_report_number (tmp_list -> data);
+            gint report_number = gsb_data_report_get_report_number (tmp_list -> data);
+            gchar *tmp_str;
 
-		gsb_data_report_set_report_name ( report_number,
-						  g_strdup_printf ( "Report n°%d", report_number));
+            tmp_str = g_strdup_printf ( "Report n°%d", report_number );
+            gsb_data_report_set_report_name ( report_number, tmp_str );
+            g_free ( tmp_str );
 
-		tmp_list = tmp_list -> next;
+            tmp_list = tmp_list -> next;
 	    }
 	}
 
@@ -353,6 +415,8 @@ gboolean file_obfuscate_run ( void )
 	else
 	    dialogue_error_hint (g_strdup_printf (_("Grisbi couldn't save the file\n'%s'"), filename ),
 				 _("Obfuscation failed") );
+
+    g_free ( filename );
 
 	/* bye bye */
 	exit (0);
@@ -449,6 +513,8 @@ GtkWidget *file_obfuscate_page_1 ( void )
 			 button_reconcile,
 			 FALSE, FALSE, 0);
     register_button_as_linked ( button_everything, button_reconcile );
+
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_everything ), TRUE );
 
     gtk_widget_show_all (vbox);
     return vbox;
