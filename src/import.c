@@ -2002,9 +2002,6 @@ void gsb_import_create_imported_transactions ( struct struct_compte_importation 
 
     if ( progress )
         gtk_widget_destroy ( progress );
-
-    /* some payee should have been added, so update the combofix */
-    gsb_form_widget_update_payee_combofix ();
 }
 
 
@@ -2102,9 +2099,6 @@ void gsb_import_add_imported_transactions ( struct struct_compte_importation *im
 	}
 	list_tmp = list_tmp -> next;
     }
-
-    /** some payee should have been added, so update the combofix */
-    gsb_form_widget_update_payee_combofix ();
 
     /* if we are on the current account, we need to update the tree_view */
     if (gsb_gui_navigation_get_current_account () == account_number)

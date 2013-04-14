@@ -44,6 +44,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report.h"
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gsb_fyear.h"
@@ -1263,18 +1264,24 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
 
 
 /**
- * update the payee combofix in the form with the current list of payee
+ * update the payee combofix in the form with the current current report
  *
- * \param
+ * \param report_number
+ * \param sens              FALSE remove report TRUE add report
  *
  * \return FALSE
  * */
-gboolean gsb_form_widget_update_payee_combofix ( void )
+gboolean gsb_form_widget_update_payee_combofix ( gint report_number,
+                        gint sens )
 {
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-    gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget
+    if ( sens )
+        gtk_combofix_append_report (  GTK_COMBOFIX ( gsb_form_widget_get_widget
                         (TRANSACTION_FORM_PARTY)),
-                        gsb_data_payee_get_name_and_report_list ());
+                        gsb_data_report_get_report_name ( report_number ) );
+    else
+        gtk_combofix_remove_report ( GTK_COMBOFIX ( gsb_form_widget_get_widget
+                        (TRANSACTION_FORM_PARTY)),
+                        gsb_data_report_get_report_name ( report_number ) );
 
     return FALSE;
 }

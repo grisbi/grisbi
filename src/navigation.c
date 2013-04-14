@@ -50,6 +50,7 @@
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
+#include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
@@ -776,8 +777,11 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_m
 
     if ( report == GPOINTER_TO_INT (data))
     {
-	gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
-	return TRUE;
+        if ( gsb_data_report_get_append_in_payee ( report ) )
+            gsb_form_widget_update_payee_combofix ( report, FALSE );
+
+        gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
+        return TRUE;
     }
 
     return FALSE;
