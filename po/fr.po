@@ -3049,7 +3049,7 @@ msgstr "Afficher le nombre d'opérations avec les totaux"
 
 #: ../src/etats_config.c:6589
 msgid "Consider the payees of this report as a multiple payee."
-msgstr "Considérer les tiers de ce rapport comme un tiers multiple."
+msgstr "Considérer les tiers de cet état comme un tiers multiple."
 
 #: ../src/etats_config.c:6607
 msgid ""
