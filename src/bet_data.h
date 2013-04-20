@@ -174,7 +174,7 @@ gboolean bet_data_hist_add_div ( gint account_number,
                         gint div_number,
                         gint sub_div_nb );
 gsb_real bet_data_hist_get_div_amount ( gint account_nb, gint div_number, gint sub_div_nb );
-void bet_data_hist_set_all_retened_amount_null ( gint account_number );
+void bet_data_hist_reset_all_amounts ( gint account_number );
 gboolean bet_data_init_variables ( void );
 void bet_data_insert_div_hist ( struct_hist_div *shd, struct_hist_div *sub_shd );
 gboolean bet_data_populate_div ( gint transaction_number,

@@ -2187,13 +2187,13 @@ void struct_free_bet_transaction_current_fyear ( TransactionCurrentFyear *self )
 
 
 /**
- * met à 0 tous les montants retenus pour les données historiques
+ * Sets to 0 all the amounts selected for historical data (ou "archival")
  *
  * \param account_number
  *
  * \return
  * */
-void bet_data_hist_set_all_retened_amount_null ( gint account_number )
+void bet_data_hist_reset_all_amounts ( gint account_number )
 {
     GHashTableIter iter;
     gpointer key, value;
