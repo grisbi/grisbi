@@ -696,7 +696,10 @@ void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
         pixbuf_logo = gsb_select_icon_resize_logo_pixbuf ( pixbuf );
 	}
     else
+    {
         pixbuf_logo = pixbuf ;
+        g_object_ref ( G_OBJECT ( pixbuf_logo ) );
+    }
 }
 
 
