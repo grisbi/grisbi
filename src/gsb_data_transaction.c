@@ -2546,8 +2546,7 @@ gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
          &&
          !strcmp ( id, transaction -> transaction_id )
          &&
-         account_number == gsb_data_transaction_get_account_number (
-         transaction -> transaction_number ) )
+         account_number ==  transaction -> account_number )
             return transaction -> transaction_number;
 
         tmp_list = tmp_list -> next;
@@ -2775,6 +2774,51 @@ gboolean gsb_data_transaction_remove_transaction_in_transaction_list ( gint tran
     transactions_list = g_slist_remove ( transactions_list, transaction );
 
     return TRUE;
+}
+
+
+/**
+ * renvoie la liste des opérations concernées par un fichier importé.
+ *
+ * \param account_number
+ * \param first_date_import     date de début de recherche
+ *
+ * \return
+ * */
+GSList *gsb_import_get_transactions_list_for_import ( gint account_number,
+                        GDate *first_date_import )
+{
+    GSList *tmp_list;
+    GSList *ope_list = NULL;
+
+    tmp_list = g_slist_copy ( transactions_list );
+    tmp_list = g_slist_sort ( tmp_list, (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
+    while ( tmp_list )
+    {
+        struct_transaction *transaction;
+        GDate *ope_date;
+
+        transaction = tmp_list->data;
+
+        if ( transaction->value_date && g_date_valid ( transaction->value_date ) )
+            ope_date = transaction->value_date;
+        else
+            ope_date = transaction->date;
+
+        if ( transaction->account_number == account_number
+         &&
+         g_date_compare ( ope_date, first_date_import ) >= 0 )
+        {
+            ope_list = g_slist_append ( ope_list,  GINT_TO_POINTER ( transaction->transaction_number ) );
+        }
+
+        tmp_list = tmp_list->next;
+    }
+
+    g_slist_free ( tmp_list );
+
+    return ope_list;
 }
 
 
