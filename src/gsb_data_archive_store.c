@@ -80,16 +80,15 @@ gboolean gsb_data_archive_store_init_variables ( void )
 {
     if ( archive_store_list )
     {
-        GSList* tmp_list = archive_store_list;
+        GSList *tmp_list;
+
+        tmp_list = archive_store_list;
         while ( tmp_list )
         {
             struct_store_archive *archive;
-            gint archive_number;
 
             archive = tmp_list -> data;
-            archive_number = gsb_data_archive_store_get_archive_number (
-                        archive -> archive_store_number );
-            transaction_list_remove_archive ( archive_number );
+            transaction_list_remove_archive ( archive->archive_number );
             tmp_list = tmp_list -> next;
             _gsb_data_archive_store_free ( archive );
         }
@@ -206,11 +205,13 @@ void gsb_data_archive_store_create_list ( void )
  */
 static void _gsb_data_archive_store_free ( struct_store_archive *archive )
 {
-    if ( ! archive )
+    if ( !archive )
         return;
+
     g_free ( archive );
+
     if ( archive_store_buffer == archive )
-    archive_store_buffer = NULL;
+        archive_store_buffer = NULL;
 }
 
 /**
