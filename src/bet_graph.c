@@ -726,7 +726,7 @@ static gboolean bet_graph_on_motion ( GtkWidget *event_box,
  * Création de la page pour le graphique initialisée
  *
  * \param
- * \param   add_page    
+ * \param   add_page
  *
  * \return GogPlot
  * */
@@ -1897,7 +1897,7 @@ static gboolean bet_graph_populate_lines_by_historical_line ( struct_bet_graph_d
     /* on met la division sous division comme titre */
     self->title = g_strconcat ( bet_data_get_div_name ( div_number, sub_div_nb, NULL ), " = ", str_amount, NULL );
 
-    g_date_free ( start_current_fyear );   
+    g_date_free ( start_current_fyear );
 
     /* return value */
     return TRUE;
@@ -1946,6 +1946,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
                         GtkWidget *tree_view )
 {
     GtkWidget *arrow_button = NULL;
+    GtkWidget *arrow;
     GtkWidget *box;
     GtkWidget *box_button;
     GList *liste = NULL;
@@ -1953,15 +1954,12 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     struct_bet_graph_button *self;
     struct_bet_graph_prefs *prefs = NULL;
 
-    /* Initialisation d'un nouveau GtkBuilder */
-    if ( !bet_graph_initialise_builder ( ) )
-        return NULL;
-
     /* boite qui contiendra les deux boutons */
-    box = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "button_menu_box" ) );
+    box = gtk_hbox_new ( FALSE, 0 );
 
     /* boite qui contiendra le bouton actif */
-    box_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "box_button" ) );
+    box_button = gtk_vbox_new ( TRUE, 0 );
+    gtk_box_pack_start ( GTK_BOX ( box ), box_button, FALSE, FALSE, 0 );
 
     /* initialisation des préférences */
     if ( strcmp ( type_graph, "forecast_graph" ) == 0 )
@@ -2049,7 +2047,12 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     g_object_set_data ( G_OBJECT ( box ), "button_list", liste );
 
     /* bouton qui ouvre le menu de choix du bouton actif */
-    arrow_button = GTK_WIDGET ( gtk_builder_get_object ( bet_graph_builder, "arrow_button" ) );
+    arrow_button = gtk_button_new ();
+    gtk_button_set_relief ( GTK_BUTTON ( arrow_button ),GTK_RELIEF_NONE );
+    arrow = gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE );
+    gtk_container_add ( GTK_CONTAINER ( arrow_button ), arrow );
+    gtk_box_pack_start ( GTK_BOX ( box ), arrow_button, FALSE, FALSE, 0 );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( arrow_button ), _("Select the type of chart") );
     g_signal_connect ( G_OBJECT ( arrow_button ),
                         "button-press-event",
                         G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
@@ -2266,7 +2269,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
                             self->title_Y,
                             self->title_Y2,
                             gsb_data_account_get_name ( self->account_number ) );
-            g_date_free ( start_current_fyear );   
+            g_date_free ( start_current_fyear );
         }
         else
         {
@@ -2278,7 +2281,7 @@ void bet_graph_montly_graph_new ( GtkWidget *button,
             title = g_strdup_printf ( _("Monthly amounts since %s for the account: '%s'"),
                             tmp_str,
                             gsb_data_account_get_name ( self->account_number ) );
-            g_date_free ( date_debut_periode );   
+            g_date_free ( date_debut_periode );
             g_free ( tmp_str );
         }
     }
