@@ -1084,6 +1084,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
     gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
+    gtk_style_unref ( pStyleLabelNomCompte );
 
     /* Création d'une boite à évènement qui sera rattachée au nom du compte */
     pEventBox = gtk_event_box_new ();
@@ -1143,6 +1144,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
+    gtk_style_unref ( pStyleLabelSoldePointe );
 
     /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
     pEventBox = gtk_event_box_new ();
@@ -1202,6 +1204,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
+    gtk_style_unref ( pStyleLabelSoldeCourant );
 
     /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
     pEventBox = gtk_event_box_new ();
