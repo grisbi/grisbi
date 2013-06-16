@@ -200,6 +200,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number )
 {
     GtkWidget *widget;
+    GSList *tmp_list;
 
     if (!element_number)
 	return NULL;
@@ -246,8 +247,10 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    widget = gtk_combofix_new (
-                        gsb_data_payee_get_name_and_report_list ( ) );
+        tmp_list = gsb_data_payee_get_name_and_report_list ( );
+	    widget = gtk_combofix_new ( tmp_list );
+        gsb_data_payee_free_name_and_report_list ( tmp_list );
+
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_payee );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),

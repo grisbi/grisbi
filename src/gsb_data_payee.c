@@ -530,31 +530,41 @@ GSList *gsb_data_payee_get_name_and_report_list ( void )
 
 	if ( gsb_data_report_get_append_in_payee (report_number))
 	{
+        gchar *tmp_str;
+
+        tmp_str = my_strdup ( gsb_data_report_get_report_name ( report_number ) );
 	    if ( tmp_list )
-		tmp_list = g_slist_append ( tmp_list,
-					    g_strconcat ( "\t",
-							  my_strdup (gsb_data_report_get_report_name(report_number)),
-							  NULL ));
+            tmp_list = g_slist_append ( tmp_list, g_strconcat ( "\t", tmp_str, NULL ) );
 	    else
 	    {
-		tmp_list = g_slist_append ( tmp_list,
-					    g_strdup(_("Report")));
-		tmp_list = g_slist_append ( tmp_list,
-					    g_strconcat ( "\t",
-							  my_strdup (gsb_data_report_get_report_name(report_number)),
-							  NULL ));
+            tmp_list = g_slist_append ( tmp_list, g_strdup ( _("Report") ) );
+            tmp_list = g_slist_append ( tmp_list, g_strconcat ( "\t", tmp_str, NULL ) );
 	    }
+        g_free ( tmp_str );
 	}
 	pointer = pointer -> next;
     }
 
     if (tmp_list)
-	return_list = g_slist_append ( return_list,
-				       tmp_list );
+        return_list = g_slist_append ( return_list, tmp_list );
 
     return return_list;
 }
 
+
+void gsb_data_payee_free_name_and_report_list ( GSList *liste )
+{
+    if ( g_slist_length ( liste ) == 2 )
+    {
+        GSList *tmp_list;
+
+        tmp_list = g_slist_nth_data ( liste, 1 );
+        g_slist_foreach ( tmp_list, (GFunc) g_free, NULL );
+        g_slist_free ( tmp_list );
+    }
+    g_slist_free ( liste->data );
+    g_slist_free ( liste );
+}
 
 /**
  * return the description of the payee
