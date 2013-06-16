@@ -61,6 +61,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -311,6 +312,7 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
 
     /* old_label = NAME + NUMBER */
     old_label = g_strdup ( gsb_data_reconcile_get_name ( reconcile_number ) );
+
     /* return account NAME + '1' */
     if ( !old_label )
     {
@@ -332,12 +334,17 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
      * if found, get the biggest number until we find a non digit character */
     __expand = 1;
     tmp = old_label + ( strlen ( old_label ) - 1 ) * sizeof ( gchar );
-    while ( isdigit ( *tmp ) && tmp >= old_label )
+
+    while ( tmp >= old_label )
     {
+        if ( !isdigit ( tmp[0] ) )
+            break;
+
         if ( *tmp != '9' )
             __expand = 0;
         tmp--;
     }
+
     tmp ++; /* step forward to the first digit */
 
     __reconcile_number = utils_str_atoi ( tmp ) + 1;
