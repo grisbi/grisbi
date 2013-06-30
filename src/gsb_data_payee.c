@@ -897,3 +897,118 @@ gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_s
 
     return TRUE;
 }
+
+
+/**
+ * renvoie le nombre de tiers non utilisé (fonction à revoir )
+ *
+ * \param
+ *
+ * \return nb_unused
+ */
+gint gsb_data_payee_get_unused_payees ( void )
+{
+    GSList *tmp_list;
+    GSList *used = NULL;
+    gint nb_unused = 0;
+
+    /* on tient compte de toutes les opérations : méthode courte*/
+    if ( etat.add_archive_in_total_balance )
+    {
+        /* it scans the list of sheduled transactions. fix bug 538 */
+        tmp_list = gsb_data_scheduled_get_scheduled_list ();
+        while (tmp_list)
+        {
+            gint payee_number;
+
+            payee_number = gsb_data_scheduled_get_party_number (
+                                gsb_data_scheduled_get_scheduled_number (
+                                tmp_list -> data ) );
+            if ( !g_slist_find (used, GINT_TO_POINTER ( payee_number ) ) )
+            {
+                used = g_slist_append ( used, GINT_TO_POINTER ( payee_number ) );
+            }
+            tmp_list = tmp_list -> next;
+        }
+
+        /* now check each payee to know if it is used */
+        tmp_list = gsb_data_payee_get_payees_list ();
+        while (tmp_list)
+        {
+            struct_payee *payee = tmp_list->data;
+
+            tmp_list = tmp_list->next;
+
+            if ( payee->payee_nb_transactions == 0
+             &&
+             (!used
+              ||
+              !g_slist_find ( used, GINT_TO_POINTER ( payee->payee_number ) ) ) )
+            {
+                /* payee not used */
+                nb_unused++;
+            }
+        }
+
+        return nb_unused;
+    }
+
+    /* méthode longue */
+    /* first we create a list of used payees */
+    tmp_list = gsb_data_transaction_get_complete_transactions_list ();
+    while (tmp_list)
+    {
+        gint payee_number;
+
+        payee_number = gsb_data_transaction_get_party_number (
+                    gsb_data_transaction_get_transaction_number (tmp_list -> data));
+        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+        {
+            used = g_slist_append ( used, GINT_TO_POINTER (payee_number));
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    /* it also scans the list of sheduled transactions. fix bug 538 */
+    tmp_list = gsb_data_scheduled_get_scheduled_list ();
+    while (tmp_list)
+    {
+        gint payee_number;
+
+        payee_number = gsb_data_scheduled_get_party_number (
+                        gsb_data_scheduled_get_scheduled_number (
+                        tmp_list -> data));
+        if (!g_slist_find (used, GINT_TO_POINTER (payee_number)))
+        {
+            used = g_slist_append ( used, GINT_TO_POINTER (payee_number));
+        }
+        tmp_list = tmp_list -> next;
+    }
+
+    /* now check each payee to know if it is used */
+    tmp_list = gsb_data_payee_get_payees_list ();
+    while (tmp_list)
+    {
+        struct_payee *payee = tmp_list->data;
+
+        tmp_list = tmp_list->next;
+        if ( !used || !g_slist_find (used, GINT_TO_POINTER (payee->payee_number)))
+        {
+            /* payee not used */
+            nb_unused++;
+        }
+    }
+    return nb_unused;
+}
+
+
+/**
+ *
+ *
+ * \param
+ *
+ * \return
+ */
+/* Local Variables: */
+/* c-basic-offset: 4 */
+/* End: */

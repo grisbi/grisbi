@@ -111,6 +111,9 @@ static GtkWidget *payee_toolbar;
 static GtkWidget *payee_tree = NULL;
 static GtkTreeStore *payee_tree_model = NULL;
 
+/* variable for display payees without transactions */
+static gboolean display_unused_payees;
+
 /* variable for the management of the cancelled edition */
 static gboolean sortie_edit_payee = FALSE;
 
@@ -151,6 +154,7 @@ void payees_init_variables_list ( void )
     payee_tree = NULL;
     etat.no_devise_totaux_tiers = 1;
 
+    display_unused_payees = FALSE;
     sortie_edit_payee = FALSE;
 }
 
@@ -448,6 +452,23 @@ void payees_remove_unused_payees ( void )
 
 
 /**
+ * Fonction de callback d'affichage des tiers inutilisés
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static void payee_menu_display_unused_payees_activate ( GtkWidget *item,
+                        gpointer data )
+{
+    display_unused_payees = gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( item ) );
+
+    payees_fill_list ();
+}
+
+
+/**
  * Popup a menu that allow changing the view mode of the category
  * metatree.
  *
@@ -458,6 +479,7 @@ void payees_remove_unused_payees ( void )
 gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 {
     GtkWidget *menu, *menu_item;
+    gint nb_unused;
 
     menu = gtk_menu_new ();
 
@@ -473,6 +495,33 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+    /* menu pour afficher les tiers inutilisés */
+    if ( ( nb_unused = gsb_data_payee_get_unused_payees () ) == 0 )
+    {
+        menu_item = gtk_check_menu_item_new_with_label ( _("Display unused payees") );
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    }
+    else
+    {
+        gchar *tmp_str;
+        gchar *tmp_str_1;
+
+        tmp_str = g_strdup_printf (" (%d)", nb_unused );
+        tmp_str_1 = g_strconcat ( _("Display unused payees"), tmp_str, NULL );
+        menu_item = gtk_check_menu_item_new_with_label ( tmp_str_1 );
+        g_free ( tmp_str );
+        g_free ( tmp_str_1 );
+    }
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), display_unused_payees );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( payee_menu_display_unused_payees_activate ),
+                        NULL );
 
     gtk_widget_show_all ( menu );
 
@@ -519,7 +568,7 @@ void payees_fill_list ( void )
     /* Compute payee balances. */
     gsb_data_payee_update_counters ();
 
-/*    add the virtually unused payee to the top of the list */
+    /* add the virtually unused payee to the top of the list */
     empty_payee = gsb_data_payee_get_empty_payee ( );
     payee_number = gsb_data_payee_get_no_payee ( empty_payee );
     gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
@@ -532,15 +581,15 @@ void payees_fill_list ( void )
 
     while ( payee_list_tmp )
     {
-        payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
+        payee_number = gsb_data_payee_get_no_payee ( payee_list_tmp->data);
 
-        /* no display the payee without transactions (archived) */
-        if ( gsb_data_payee_get_nb_transactions ( payee_number ) )
+        if ( display_unused_payees || gsb_data_payee_get_nb_transactions ( payee_number ) )
         {
-            gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
-            fill_division_row ( GTK_TREE_MODEL(payee_tree_model),
-                        payee_get_metatree_interface ( ),
-                        &iter_payee, payee_number );
+            gtk_tree_store_append ( GTK_TREE_STORE ( payee_tree_model ), &iter_payee, NULL );
+            fill_division_row ( GTK_TREE_MODEL ( payee_tree_model ),
+                        payee_get_metatree_interface (),
+                        &iter_payee,
+                        payee_number );
         }
         payee_list_tmp = payee_list_tmp -> next;
     }
