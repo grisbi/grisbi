@@ -2463,61 +2463,6 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number,
 
 
 /**
- * find a transaction by the method of payment content in a given account
- *
- * \param string
- * \param account_number
- *
- * \return the number of the transaction or 0 if not found
- * */
-gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-                        gint account_number )
-{
-    GSList *tmp_list;
-    gint64 number_1;
-    gchar *endptr;
-
-    if (!string)
-        return 0;
-
-    errno = 0;
-    number_1 = g_ascii_strtoll ( string, &endptr, 10);
-    if ( errno == ERANGE )
-        return 0;
-
-    if ( endptr )
-        return 0;
-
-    tmp_list = transactions_list;
-    while (tmp_list)
-    {
-        struct_transaction *transaction;
-
-        transaction = tmp_list -> data;
-
-        if ( transaction -> method_of_payment_content
-         &&
-         transaction -> account_number == account_number )
-        {
-            gint64 number_2;
-
-            errno = 0;
-            number_2 = g_ascii_strtoll ( transaction -> method_of_payment_content, &endptr, 10);
-            if ( errno == ERANGE )
-                return 0;
-            if ( endptr )
-                return 0;
-
-            if ( number_1 == number_2 )
-                return transaction -> transaction_number;
-        }
-        tmp_list = tmp_list -> next;
-    }
-    return 0;
-}
-
-
-/**
  * find a transaction by its id
  *
  * \param id a string containing an id
