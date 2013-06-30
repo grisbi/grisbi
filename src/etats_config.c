@@ -6587,7 +6587,8 @@ GtkWidget *onglet_affichage_etat_generalites ( void )
 			 0 );
     gtk_widget_show ( hbox );
 
-    bouton_inclure_dans_tiers = gtk_check_button_new_with_label ( _("Consider the payees of this report as a multiple payee.") );
+    bouton_inclure_dans_tiers = gtk_check_button_new_with_label (
+                        _("Consider the payees of this report as a virtual payee.") );
     gtk_box_pack_start ( GTK_BOX ( hbox ),
 			 bouton_inclure_dans_tiers,
 			 FALSE,

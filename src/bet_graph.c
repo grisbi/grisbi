@@ -2052,7 +2052,7 @@ GtkWidget *bet_graph_button_menu_new ( GsbButtonStyle style,
     arrow = gtk_arrow_new ( GTK_ARROW_DOWN, GTK_SHADOW_NONE );
     gtk_container_add ( GTK_CONTAINER ( arrow_button ), arrow );
     gtk_box_pack_start ( GTK_BOX ( box ), arrow_button, FALSE, FALSE, 0 );
-    gtk_widget_set_tooltip_text ( GTK_WIDGET ( arrow_button ), _("Select the type of chart") );
+    gtk_widget_set_tooltip_text ( GTK_WIDGET ( arrow_button ), _("Select the chart type") );
     g_signal_connect ( G_OBJECT ( arrow_button ),
                         "button-press-event",
                         G_CALLBACK ( bet_graph_popup_choix_graph_menu ),
