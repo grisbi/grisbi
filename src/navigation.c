@@ -35,6 +35,7 @@
 #include "bet_data.h"
 #include "bet_finance_ui.h"
 #include "categories_onglet.h"
+#include "dialog.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
 #include "gsb_account.h"
@@ -1001,6 +1002,23 @@ gboolean navigation_change_account ( gint new_account )
 
     /* unset the last date written */
     gsb_date_free_last_date ();
+
+    /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
+    if ( gsb_data_account_get_kind ( new_account ) == GSB_TYPE_CASH )
+    {
+        gsb_real balance;
+
+        balance = gsb_data_account_get_current_balance ( new_account );
+
+        if ( balance.mantissa < 0 )
+        {
+            dialogue_error ( _("This account cannot be negative.\n\n"
+                        "You must make positive the balance of this account "
+                        "before you can use it.") );
+
+            return ( FALSE );
+        }
+    }
 
     return FALSE;
 }
