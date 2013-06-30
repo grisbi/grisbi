@@ -849,13 +849,13 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
         /* update value in the tree view */
         metatree_update_tree_view ( iface );
-
-        gsb_file_set_modified ( TRUE );
     }
 
     /* supprime dans la liste des division  */
     iface -> remove_div ( no_division );
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
+
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
