@@ -2166,17 +2166,32 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             if ( tmp_str && strcmp ( imported_transaction->id_operation, tmp_str ) == 0 )
             {
                 imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-                continue;
+                break;
             }
+
             /* if no id, check the cheque */
-            if ( imported_transaction->cheque
-             &&
-             gsb_data_transaction_find_by_payment_content ( imported_transaction -> cheque, account_number ) )
+            if ( imported_transaction->cheque )
             {
-                /* found the cheque, forget that transaction */
-                imported_transaction -> action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-                continue;
+                tmp_str = gsb_data_transaction_get_method_of_payment_content ( transaction_number );
+                if ( tmp_str && strcmp ( imported_transaction->cheque, tmp_str ) == 0 )
+                {
+                    if ( etat.get_fusion_import_transactions )
+                    {
+                        imported_transaction->action = IMPORT_TRANSACTION_ASK_FOR_TRANSACTION;
+                        imported_transaction->ope_correspondante = transaction_number;
+                        demande_confirmation = TRUE;
+                    }
+                    else
+                    {
+                        /* found the cheque, forget that transaction */
+                        imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+                    }
+                    break;
+                }
+                if ( tmp_str )
+                    continue;
             }
+
             /* no id, no cheque, try to find the transaction */
             day = g_date_get_day ( imported_transaction->date );
             month = g_date_get_month ( imported_transaction->date );
@@ -2217,6 +2232,8 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
 
     return demande_confirmation;
 }
+
+
 /**
  * called if we are not sure about some transactions to import
  * ask here to the user
@@ -2240,6 +2257,7 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     gint return_exponent;
     gint action_derniere_ventilation;
     gint result;
+    gboolean ope_visible = FALSE;
 
     /* pbiava the 03/17/2009 modifications pour la fusion des opérations */
     if ( etat.get_fusion_import_transactions )
@@ -2326,6 +2344,9 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	{
 	    const gchar *tiers;
 
+        /* on est certain d'afficher une opération au moins */
+        ope_visible = TRUE;
+
 	    hbox = gtk_hbox_new ( FALSE, 5 );
 	    gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 	    gtk_widget_show ( hbox );
@@ -2406,6 +2427,10 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
 	list_tmp = list_tmp -> next;
     }
 
+    /* si on n'a rien a afficher on sort */
+    if ( !ope_visible )
+        gtk_widget_destroy ( dialog );
+
 dialog_return:
     result = gtk_dialog_run ( GTK_DIALOG ( dialog ));
 
@@ -2426,6 +2451,13 @@ dialog_return:
         struct struct_ope_importation *ope_import;
 
         ope_import = list_tmp -> data;
+
+        /* on ne fait rien pour une opération existante */
+        if ( ope_import -> action == IMPORT_TRANSACTION_LEAVE_TRANSACTION )
+        {
+            list_tmp = list_tmp -> next;
+            continue;
+        }
 
         /* si c'est une opé de ventil, elle n'était pas affichée, dans ce cas si l'action de la
            dernière ventil était 0, on fait de même pour les filles */
