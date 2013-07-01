@@ -147,6 +147,7 @@ enum bet_historical_data_columns {
 
 
 /* START_DECLARATION */
+void bet_data_free_variables ( void );
 GDate *bet_data_array_get_date_max ( gint account_number );
 gboolean bet_data_future_add_lines ( struct_futur_data *scheduled );
 GHashTable *bet_data_future_get_list ( void );

@@ -227,16 +227,23 @@ void bet_data_update_bet_module ( gint account_number, guint page )
  * */
 gboolean bet_data_init_variables ( void )
 {
+    if ( bet_hist_div_list )
+        g_hash_table_destroy ( bet_hist_div_list );
     bet_hist_div_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_hist_div );
+
+    if ( bet_future_list )
+        g_hash_table_destroy ( bet_future_list );
     bet_future_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_future );
     future_number = 0;
 
+    if ( bet_transfert_list )
+        g_hash_table_destroy ( bet_transfert_list );
     bet_transfert_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
@@ -244,6 +251,21 @@ gboolean bet_data_init_variables ( void )
     transfert_number = 0;
 
     return FALSE;
+}
+
+
+/**
+ * used to free the global variables
+ *
+ * \param
+ *
+ * \return
+ * */
+void bet_data_free_variables ( void )
+{
+    g_hash_table_destroy ( bet_hist_div_list );
+    g_hash_table_destroy ( bet_future_list );
+    g_hash_table_destroy ( bet_transfert_list );
 }
 
 
