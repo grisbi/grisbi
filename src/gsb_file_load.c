@@ -3511,6 +3511,7 @@ void gsb_file_load_archive ( const gchar **attribute_names,
 void gsb_file_load_reconcile ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+    GDate *date;
     gint i=0;
     gint reconcile_number = 0;
 
@@ -3560,8 +3561,9 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Idate" ))
     {
-        gsb_data_reconcile_set_init_date ( reconcile_number,
-                           gsb_parse_date_string_safe (attribute_values[i]));
+        date = gsb_parse_date_string_safe ( attribute_values[i] );
+        gsb_data_reconcile_set_init_date ( reconcile_number, date );
+        g_free ( date );
         i++;
         continue;
     }
@@ -3569,8 +3571,9 @@ void gsb_file_load_reconcile ( const gchar **attribute_names,
     if ( !strcmp ( attribute_names[i],
                "Fdate" ))
     {
-        gsb_data_reconcile_set_final_date ( reconcile_number,
-                            gsb_parse_date_string_safe (attribute_values[i]));
+        date = gsb_parse_date_string_safe ( attribute_values[i] );
+        gsb_data_reconcile_set_final_date ( reconcile_number, date );
+        g_free ( date );
         i++;
         continue;
     }
