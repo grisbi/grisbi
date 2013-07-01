@@ -2763,7 +2763,7 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 {
     GdkPixbuf *pixbuf = NULL;
     gchar *new_string = NULL;
-    gchar * str64;
+    gchar *str64;
 
     pixbuf = gsb_select_icon_get_logo_pixbuf ( );
     if ( pixbuf )
@@ -2773,6 +2773,8 @@ gulong gsb_file_save_logo_part ( gulong iterator,
         new_string = g_markup_printf_escaped ( "\t<Logo\n"
                         "\t\tImage=\"%s\" />\n",
                         my_safe_null_str(str64) );
+
+        g_free ( str64 );
     }
 
     iterator = gsb_file_save_append_part ( iterator,
@@ -2824,6 +2826,8 @@ gulong gsb_file_save_account_icon_part ( gulong iterator,
                             "\t\tImage=\"%s\" />\n",
                             account_number,
                             my_safe_null_str(str64) );
+
+        g_free ( str64 );
 
         iterator = gsb_file_save_append_part ( iterator,
                         length_calculated,
