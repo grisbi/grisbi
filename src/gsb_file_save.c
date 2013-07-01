@@ -1088,7 +1088,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     kind = gsb_data_account_get_kind ( account_number );
 
     /* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Account\n"
+	first_string_to_free = g_markup_printf_escaped ( "\t<Account\n"
  					       "\t\tName=\"%s\"\n"
 					       "\t\tId=\"%s\"\n"
 					       "\t\tNumber=\"%d\"\n"
@@ -1173,8 +1173,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
             gsb_data_account_get_bet_credit_card ( account_number ),
             gsb_data_account_get_bet_hist_data ( account_number ),
             gsb_data_account_get_bet_hist_fyear ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_CAP:
             bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
@@ -1197,12 +1198,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_bet_finance_frais ( account_number ),
                         gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
                 gsb_data_account_get_bet_finance_type_taux ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_ASSET:
         case BET_ONGLETS_SANS:
-            new_string = g_strconcat ( new_string, " />\n", NULL );
+            new_string = g_strconcat ( first_string_to_free, " />\n", NULL );
+            g_free ( first_string_to_free );
             break;
         default:
             bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
@@ -1226,13 +1229,17 @@ gulong gsb_file_save_account_part ( gulong iterator,
             gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
             gsb_data_account_get_bet_hist_data ( account_number ),
             gsb_data_account_get_bet_hist_fyear ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         }
     }
     else
-        new_string = g_strconcat ( new_string, " />\n", NULL );
+    {
+        new_string = g_strconcat ( first_string_to_free, " />\n", NULL );
+        g_free ( first_string_to_free );
+    }
 
 	g_free (sort_list);
 	g_free (sort_kind_column);
