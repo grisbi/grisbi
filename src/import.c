@@ -2230,6 +2230,9 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
         list_tmp = list_tmp -> next;
     }
 
+    if ( ope_list )
+        g_slist_free ( ope_list );
+
     return demande_confirmation;
 }
 
