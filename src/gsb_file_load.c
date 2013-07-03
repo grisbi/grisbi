@@ -174,8 +174,6 @@ static gboolean gsb_file_load_update_previous_version ( void );
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -1029,13 +1027,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_view" ))
-                    affichage_echeances = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_custom_number" ))
-                    affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_custom_menu" ))
-                    affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -6718,16 +6716,16 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Type_affichage_des_echeances" ))
     {
-    affichage_echeances = utils_str_atoi ( text);
+    etat.affichage_echeances = utils_str_atoi ( text);
 
     /* Compatibility issue. */
-    switch ( affichage_echeances )
+    switch ( etat.affichage_echeances )
     {
-        case 0: affichage_echeances = SCHEDULER_PERIODICITY_MONTH_VIEW; break;
-        case 1: affichage_echeances = SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW; break;
-        case 2: affichage_echeances = SCHEDULER_PERIODICITY_YEAR_VIEW; break;
-        case 3: affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW; break;
-        case 4: affichage_echeances = SCHEDULER_PERIODICITY_CUSTOM_VIEW; break;
+        case 0: etat.affichage_echeances = SCHEDULER_PERIODICITY_MONTH_VIEW; break;
+        case 1: etat.affichage_echeances = SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW; break;
+        case 2: etat.affichage_echeances = SCHEDULER_PERIODICITY_YEAR_VIEW; break;
+        case 3: etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW; break;
+        case 4: etat.affichage_echeances = SCHEDULER_PERIODICITY_CUSTOM_VIEW; break;
     }
 
     return;
@@ -6736,14 +6734,14 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Affichage_echeances_perso_nb_libre" ))
     {
-    affichage_echeances_perso_nb_libre = utils_str_atoi ( text);
+    etat.affichage_echeances_perso_nb_libre = utils_str_atoi ( text);
     return;
     }
 
     if ( !strcmp ( element_name,
            "Type_affichage_perso_echeances" ))
     {
-    affichage_echeances_perso_j_m_a = utils_str_atoi ( text);
+    etat.affichage_echeances_perso_j_m_a = utils_str_atoi ( text);
     return;
     }
 

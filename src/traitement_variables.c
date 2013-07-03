@@ -102,8 +102,6 @@ gchar *adresse_secondaire = NULL;
 
 
 /*START_EXTERN*/
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern GtkTreeModel *bank_list_model;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint current_tree_view_width;
@@ -211,9 +209,9 @@ void init_variables ( void )
         g_free ( nom_fichier_comptes );
     nom_fichier_comptes = NULL;
 
-    affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
-    affichage_echeances_perso_nb_libre = 0;
-    affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
+    etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW;
+    etat.affichage_echeances_perso_nb_libre = 0;
+    etat.affichage_echeances_perso_j_m_a = PERIODICITY_DAYS;
 
     /* initialization of titles and logo part */
     if ( titre_fichier && strlen ( titre_fichier ) )

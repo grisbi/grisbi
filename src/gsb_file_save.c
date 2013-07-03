@@ -156,8 +156,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -796,9 +794,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.no_devise_totaux_categ,
 	etat.no_devise_totaux_ib,
     my_safe_null_str ( navigation_order_list ),
-	affichage_echeances,
-	affichage_echeances_perso_nb_libre,
-	affichage_echeances_perso_j_m_a,
+	etat.affichage_echeances,
+	etat.affichage_echeances_perso_nb_libre,
+	etat.affichage_echeances_perso_j_m_a,
 	valeur_echelle_recherche_date_import,
 	etat.get_copy_payee_in_note,
 	etat.get_extract_number_for_check,

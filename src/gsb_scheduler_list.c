@@ -123,8 +123,6 @@ static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button );
 
 
 /*START_EXTERN*/
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern struct conditional_message delete_msg[];
 /*END_EXTERN*/
 
@@ -1667,7 +1665,7 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 
     /* on calcule la date de fin de l'affichage */
 
-    switch ( affichage_echeances )
+    switch ( etat.affichage_echeances )
     {
 	case SCHEDULER_PERIODICITY_ONCE_VIEW:
 	    return NULL;
@@ -1700,22 +1698,22 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 	    break;
 
 	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
-	    switch ( affichage_echeances_perso_j_m_a )
+	    switch ( etat.affichage_echeances_perso_j_m_a )
 	    {
 		case PERIODICITY_DAYS:
-		    g_date_add_days ( end_date, affichage_echeances_perso_nb_libre );
+		    g_date_add_days ( end_date, etat.affichage_echeances_perso_nb_libre );
 		    break;
 
 		case PERIODICITY_WEEKS:
-		    g_date_add_days ( end_date, affichage_echeances_perso_nb_libre * 7 );
+		    g_date_add_days ( end_date, etat.affichage_echeances_perso_nb_libre * 7 );
 		    break;
 
 		case PERIODICITY_MONTHS:
-		    g_date_add_months ( end_date, affichage_echeances_perso_nb_libre );
+		    g_date_add_months ( end_date, etat.affichage_echeances_perso_nb_libre );
 		    break;
 
 		case PERIODICITY_YEARS:
-		    g_date_add_years ( end_date, affichage_echeances_perso_nb_libre );
+		    g_date_add_years ( end_date, etat.affichage_echeances_perso_nb_libre );
 		    break;
 	    }
     }
@@ -2130,7 +2128,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
     gsb_gui_headings_update_suffix ( "" );
     g_free ( tmpstr );
 
-    affichage_echeances = periodicity;
+    etat.affichage_echeances = periodicity;
     gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
     gsb_scheduler_list_select (-1);
@@ -2176,7 +2174,7 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 
     label = gtk_label_new ( _("Show transactions for the next: "));
     gtk_box_pack_start ( GTK_BOX(hbox2), label, FALSE, FALSE, 0 );
-    entry = gsb_automem_spin_button_new ( &affichage_echeances_perso_nb_libre,
+    entry = gsb_automem_spin_button_new ( &etat.affichage_echeances_perso_nb_libre,
 					  NULL, NULL );
     gtk_box_pack_start ( GTK_BOX(hbox2), entry, FALSE, FALSE, 6 );
 
@@ -2188,15 +2186,15 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     {
 	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), names[i] );
     }
-    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), affichage_echeances_perso_j_m_a );
+    gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), etat.affichage_echeances_perso_j_m_a );
 
     gtk_widget_show_all ( dialog );
 
     switch ( gtk_dialog_run ( GTK_DIALOG ( dialog ) ) )
     {
 	case GTK_RESPONSE_OK:
-	    affichage_echeances_perso_j_m_a = gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) );
-	    affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
+	    etat.affichage_echeances_perso_j_m_a = gtk_combo_box_get_active ( GTK_COMBO_BOX (combobox) );
+	    etat.affichage_echeances_perso_nb_libre = utils_str_atoi ( gtk_entry_get_text ( GTK_ENTRY(entry)) );
 	    gtk_widget_destroy ( dialog );
 	    return TRUE;
     }
