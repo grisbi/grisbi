@@ -61,8 +61,6 @@ enum periodicity_units {
 void gsb_gui_update_scheduler_toolbar ( void );
 gboolean gsb_scheduler_list_append_new_scheduled ( gint scheduled_number,
                         GDate *end_date );
-gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
-                        gpointer item );
 gboolean gsb_scheduler_list_clone_selected_scheduled ( GtkWidget *menu_item,
                         gint *scheduled_number );
 GtkWidget *gsb_scheduler_list_create_list ( void );

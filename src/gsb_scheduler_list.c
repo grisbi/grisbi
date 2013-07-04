@@ -3,7 +3,7 @@
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
 /*      2009 Thomas Peel (thomas.peel@live.fr)                                */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2013 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -117,7 +117,6 @@ static gboolean gsb_scheduler_list_switch_expander ( gint scheduled_number );
 static gboolean gsb_scheduler_list_update_white_child ( gint white_line_number,
                         gint mother_scheduled_number );
 static void popup_scheduled_context_menu ( void );
-static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button );
 
 /*END_STATIC*/
 
@@ -134,6 +133,8 @@ static GtkWidget *tree_view_scheduler_list;
 static GtkTreeModel *tree_model_scheduler_list;
 static GtkTreeModelSort *tree_model_sort_scheduler_list;
 
+static GtkSortType sort_type;
+
 static GtkTreeViewColumn *scheduler_list_column[SCHEDULER_COL_VISIBLE_COLUMNS];
 
 static gint last_scheduled_number;
@@ -144,7 +145,6 @@ GSList *scheduled_transactions_taken;
 
 /** used to save and restore the width of the scheduled list */
 gint scheduler_col_width[SCHEDULER_COL_VISIBLE_COLUMNS];
-
 gint scheduler_current_tree_view_width = 0;
 
 /* toolbar */
@@ -157,10 +157,132 @@ static GtkWidget *scheduler_button_execute = NULL;
 static GtkWidget *scheduler_button_delete = NULL;
 static GtkWidget *scheduler_button_edit = NULL;
 
+/* popup view menu */
+static gchar *periodicity_names[] = { N_("Unique view"), N_("Week view"), N_("Month view"),
+            N_("Two months view"), N_("Quarter view"),
+            N_("Year view"), N_("Custom view"), NULL, };
+
+static gboolean view_menu_block_cb = FALSE;
+
+static gchar *j_m_a_names[] = { N_("days"), N_("weeks"), N_("months"), N_("years"), NULL };
 
 
+/**
+ * called from the toolbar to change the scheduler view
+ *
+ * \param periodicity 	the new view wanted
+ * \param item		not used
+ *
+ * \return FALSE
+ * */
+static void gsb_scheduler_list_change_scheduler_view ( GtkWidget *item,
+                        gpointer pointer_periodicity )
+{
+    gchar *tmpstr;
+    gint periodicity;
 
-static GtkSortType sort_type;
+    periodicity = GPOINTER_TO_INT ( pointer_periodicity );
+    if ( view_menu_block_cb || periodicity == etat.affichage_echeances )
+        return;
+
+    if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
+    {
+        if ( !gsb_scheduler_list_popup_custom_periodicity_dialog () )
+            return;
+    }
+
+    tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
+                        g_dgettext ( NULL, periodicity_names[periodicity] ),
+                        NULL );
+    gsb_gui_headings_update_title ( tmpstr );
+    gsb_gui_headings_update_suffix ( "" );
+    g_free ( tmpstr );
+
+    etat.affichage_echeances = periodicity;
+    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
+    gsb_scheduler_list_select (-1);
+
+    gsb_file_set_modified ( TRUE );
+
+    return;
+}
+
+
+/**
+ * affichage du popup view menu
+ *
+ * \param button
+ * \param event
+ * \param user data
+ *
+ * \return
+ */
+static gboolean popup_scheduled_view_mode_menu ( GtkWidget *button,
+                        GdkEvent  *event,
+                        gpointer   user_data )
+{
+    GtkWidget *menu, *item;
+    GSList *group = NULL;
+    gint nbre_echeances;
+    gint i;
+
+    view_menu_block_cb = TRUE;
+    menu = gtk_menu_new ();
+
+    /* on enlève la ligne blanche */
+    nbre_echeances = gtk_tree_model_iter_n_children ( tree_model_scheduler_list, NULL ) - 1;
+
+    for ( i = 0 ; periodicity_names[i] ; i++ )
+    {
+        gchar *tmp_str;
+
+        if ( i == etat.affichage_echeances )
+        {
+            if ( i == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
+            {
+                tmp_str = g_strdup_printf ("%s (%d - %d %s)",
+                                g_dgettext ( NULL, periodicity_names[i] ),
+                                nbre_echeances,
+                                etat.affichage_echeances_perso_nb_libre,
+                                g_dgettext ( NULL,
+                                j_m_a_names[etat.affichage_echeances_perso_j_m_a] ) );
+            }
+            else
+            {
+                tmp_str = g_strdup_printf ("%s (%d)",
+                                g_dgettext ( NULL, periodicity_names[i] ),
+                                nbre_echeances );
+            }
+            item = gtk_radio_menu_item_new_with_label ( group, tmp_str );
+
+            g_free ( tmp_str );
+        }
+        else
+            item = gtk_radio_menu_item_new_with_label ( group,
+                        g_dgettext ( NULL, periodicity_names[i] ) );
+
+        group = gtk_radio_menu_item_get_group ( GTK_RADIO_MENU_ITEM ( item ) );
+        if ( i == etat.affichage_echeances )
+            gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( item ), TRUE );
+
+        g_signal_connect ( G_OBJECT ( item ),
+                        "toggled",
+                        G_CALLBACK ( gsb_scheduler_list_change_scheduler_view ),
+                        GINT_TO_POINTER ( i ) );
+
+        gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
+    }
+
+    gtk_widget_show_all ( menu );
+    gtk_menu_popup ( GTK_MENU ( menu ), NULL, button, set_popup_position, button, 1,
+                gtk_get_current_event_time () );
+
+    view_menu_block_cb = FALSE;
+
+    return TRUE;
+}
+
 
 /**
  *
@@ -327,7 +449,6 @@ GtkWidget *creation_barre_outils_echeancier ( void )
 }
 
 
-
 /**
  *
  *
@@ -346,39 +467,6 @@ void gsb_gui_update_scheduler_toolbar ( void )
 	g_list_free ( list );
     }
     gtk_container_add ( GTK_CONTAINER ( scheduler_toolbar ), creation_barre_outils_echeancier () );
-}
-
-
-/**
- *
- *
- *
- */
-gboolean popup_scheduled_view_mode_menu ( GtkWidget *button )
-{
-    GtkWidget *menu, *item;
-    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
-			_("Two months view"), _("Quarter view"),
-			_("Year view"), _("Custom view"), NULL, };
-    int i;
-
-    menu = gtk_menu_new ();
-
-    for ( i = 0 ; names[i] ; i++ )
-    {
-	item = gtk_menu_item_new_with_label ( names[i] );
-	g_signal_connect_swapped ( G_OBJECT ( item ), "activate",
-				    G_CALLBACK ( gsb_scheduler_list_change_scheduler_view ),
-				    GINT_TO_POINTER(i) );
-	gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), item );
-    }
-
-    gtk_widget_show_all ( menu );
-
-    gtk_menu_popup ( GTK_MENU(menu), NULL, button, set_popup_position, button, 1,
-		     gtk_get_current_event_time());
-
-    return FALSE;
 }
 
 
@@ -2101,45 +2189,6 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
 
 
 /**
- * called from the toolbar to change the scheduler view
- *
- * \param periodicity 	the new view wanted
- * \param item		not used
- *
- * \return FALSE
- * */
-gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity periodicity,
-                        gpointer item )
-{
-    gchar * names[] = { _("Unique view"), _("Week view"), _("Month view"),
-			_("Two months view"), _("Quarter view"),
-			_("Year view"), _("Custom view"), NULL };
-	gchar* tmpstr;
-
-    if ( periodicity == SCHEDULER_PERIODICITY_CUSTOM_VIEW )
-    {
-	if ( !gsb_scheduler_list_popup_custom_periodicity_dialog () )
-	    return FALSE;
-    }
-
-    tmpstr = g_strconcat ( _("Scheduled transactions"), " : ",
-					    names[periodicity], NULL);
-    gsb_gui_headings_update_title ( tmpstr );
-    gsb_gui_headings_update_suffix ( "" );
-    g_free ( tmpstr );
-
-    etat.affichage_echeances = periodicity;
-    gsb_scheduler_list_fill_list (gsb_scheduler_list_get_tree_view ());
-    gsb_scheduler_list_set_background_color (gsb_scheduler_list_get_tree_view ());
-    gsb_scheduler_list_select (-1);
-
-    gsb_file_set_modified ( TRUE );
-    return FALSE;
-}
-
-
-
-/**
  * called when the user choose a custom periodicity on the toolbar
  *
  * \param
@@ -2148,8 +2197,7 @@ gboolean gsb_scheduler_list_change_scheduler_view ( enum scheduler_periodicity p
  * */
 gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
 {
-    GtkWidget * dialog, *hbox, *hbox2, *paddingbox, *label, *entry, *combobox;
-    gchar * names[] = { _("days"), _("weeks"), _("months"), _("years"), NULL };
+    GtkWidget *dialog, *hbox, *hbox2, *paddingbox, *label, *entry, *combobox;
     int i;
 
     dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"),
@@ -2182,9 +2230,10 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     combobox = gtk_combo_box_new_text ();
     gtk_box_pack_start ( GTK_BOX(hbox2), combobox, FALSE, FALSE, 0 );
 
-    for ( i = 0; names[i]; i++ )
+    for ( i = 0; j_m_a_names[i]; i++ )
     {
-	gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ), names[i] );
+        gtk_combo_box_append_text ( GTK_COMBO_BOX ( combobox ),
+                        g_dgettext ( NULL, j_m_a_names[etat.affichage_echeances_perso_j_m_a] ) );
     }
     gtk_combo_box_set_active ( GTK_COMBO_BOX ( combobox ), etat.affichage_echeances_perso_j_m_a );
 
