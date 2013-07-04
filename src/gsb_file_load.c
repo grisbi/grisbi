@@ -937,6 +937,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
                         gtk_window_set_default_icon ( pixbuf );
                         gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                        g_object_unref ( G_OBJECT ( pixbuf ) );
                         g_free ( chemin_logo );
                     }
                 }
@@ -979,6 +980,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                     {
                         gtk_window_set_default_icon ( pixbuf );
                         gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                        g_object_unref ( G_OBJECT ( pixbuf ) );
                     }
                 }
 
@@ -6771,6 +6773,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
         {
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_object_unref ( G_OBJECT ( pixbuf ) );
         }
         if ( chemin_logo && strlen (chemin_logo) > 0 )
             g_free ( chemin_logo );

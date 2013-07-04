@@ -672,7 +672,11 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
     if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
 	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
     {
-        return gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+        GdkPixbuf *tmp_pixbuf;
+
+        tmp_pixbuf = gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+        g_object_unref ( G_OBJECT ( pixbuf ) );
+        return tmp_pixbuf;
 	}
     else
         return pixbuf;
@@ -726,9 +730,6 @@ GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
         ratio_height ++;
     ratio = ( ratio_width > ratio_height ) ? ratio_width : ratio_height;
 
-    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-               gdk_pixbuf_get_width ( pixbuf )/ratio,
-               gdk_pixbuf_get_height ( pixbuf )/ratio );
     tmp = gdk_pixbuf_scale_simple ( pixbuf,
                         gdk_pixbuf_get_width ( pixbuf )/ratio,
                         gdk_pixbuf_get_height ( pixbuf )/ratio,
