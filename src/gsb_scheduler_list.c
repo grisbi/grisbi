@@ -1767,22 +1767,26 @@ GDate *gsb_scheduler_list_get_end_date_scheduled_showed ( void )
 	case SCHEDULER_PERIODICITY_MONTH_VIEW:
 	    g_date_add_months ( end_date, 1 );
 	    end_date -> day = 1;
+	    g_date_subtract_days ( end_date, 1 );
 	    break;
 
 	case SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW:
 	    g_date_add_months ( end_date, 2 );
 	    end_date -> day = 1;
+	    g_date_subtract_days ( end_date, 1 );
 	    break;
 
 	case SCHEDULER_PERIODICITY_TRIMESTER_VIEW:
 	    g_date_add_months ( end_date, 3 );
 	    end_date -> day = 1;
+	    g_date_subtract_days ( end_date, 1 );
 	    break;
 
 	case SCHEDULER_PERIODICITY_YEAR_VIEW:
 	    g_date_add_years ( end_date, 1 );
 	    end_date -> day = 1;
 	    end_date -> month = 1;
+	    g_date_subtract_days ( end_date, 1 );
 	    break;
 
 	case SCHEDULER_PERIODICITY_CUSTOM_VIEW:
