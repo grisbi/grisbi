@@ -815,8 +815,8 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
 
     if ( number_1 == -1 )
     {
-        if ( date_1) g_free ( date_1);
-        if ( date_2) g_free ( date_2);
+        if ( date_1) g_date_free ( date_1);
+        if ( date_2) g_date_free ( date_2);
         if ( sort_type == GTK_SORT_ASCENDING )
             return 1;
         else
@@ -824,8 +824,8 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
     }
     else if ( number_2 == -1 )
     {
-        if ( date_1) g_free ( date_1);
-        if ( date_2) g_free ( date_2);
+        if ( date_1) g_date_free ( date_1);
+        if ( date_2) g_date_free ( date_2);
         if ( sort_type == GTK_SORT_ASCENDING )
             return -1;
         else
@@ -836,8 +836,12 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
         return_value = g_date_compare ( date_1, date_2 );
 
     if ( return_value )
-        return return_value;
+    {
+        if ( date_1) g_date_free ( date_1);
+        if ( date_2) g_date_free ( date_2);
 
+        return return_value;
+    }
     /* if we are here it's because we are in a child of split */
     if ( number_1 < 0 )
     {
@@ -857,8 +861,8 @@ gint gsb_scheduler_list_default_sort_function ( GtkTreeModel *model,
     if (! return_value )
         return_value = number_1 - number_2;
 
-    if ( date_1) g_free ( date_1);
-    if ( date_2) g_free ( date_2);
+    if ( date_1) g_date_free ( date_1);
+    if ( date_2) g_date_free ( date_2);
 
     return return_value;
 }
