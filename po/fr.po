@@ -8844,7 +8844,7 @@ msgstr "Périodicité de l'échéancier"
 
 #: ../src/gsb_scheduler_list.c:2177
 msgid "Show transactions for the next: "
-msgstr "Montrer les opérations pour le : "
+msgstr "Montrer les opérations pour : "
 
 #. Edit transaction
 #: ../src/gsb_scheduler_list.c:2318 ../src/gsb_transactions_list.c:2505
