@@ -2591,7 +2591,7 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
  *
  * \return the slist of transactions structures
  * */
-GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
+GSList *gsb_data_transaction_get_metatree_transactions_list ( void )
 {
     GSList *list_tmp;
 
@@ -2600,12 +2600,19 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    if ( etat.metatree_sort_transactions == 1 )
+    switch ( etat.metatree_sort_transactions )
+    {
+        case 1 :
         list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date );
-    else
+        break;
+        case 2 :
         list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+        break;
+        default :
+        break;
+    }
 
     return list_tmp;
 }
