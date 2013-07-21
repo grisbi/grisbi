@@ -1018,7 +1018,8 @@ GtkStyle *gsb_main_page_get_default_label_style ( )
     style_label = gtk_style_copy ( gtk_widget_get_style ( label ) );
     style_label -> fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_nom_compte_normal" ) );
     style_label ->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_nom_compte_prelight" ) );
-    gtk_widget_destroy ( label );
+    g_object_ref_sink ( G_OBJECT ( label ) );
+    g_object_unref ( G_OBJECT ( label ) );
 
     return style_label;
 }
