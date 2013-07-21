@@ -2492,8 +2492,9 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
                         gpointer user_data )
 {
     GDate * date_a = NULL, * date_b = NULL;
-    gchar * string_a, * string_b;
+    gchar *string_a = NULL, *string_b = NULL;
     gint no_div_a, no_sous_div_a, no_div_b, no_sous_div_b;
+    gint return_value;
 
     gtk_tree_model_get ( model, a,
 			 META_TREE_DATE_COLUMN, &date_a,
@@ -2508,34 +2509,69 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
 
     /* on affiche en premier les opérations sans div sous_division */
     if ( no_div_a == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return -1;
+    }
+
     if ( no_div_b == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return 1;
+    }
+
     if ( no_div_a == no_div_b && no_sous_div_a == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return -1;
+    }
+
     if ( no_div_a == no_div_b && no_sous_div_b == 0 )
-        return 1;
-
-    if (!string_b)
-        return 1;
-    if (!string_a)
-        return -1;
-
-    if ( ! date_a && ! date_b )
     {
-        return g_utf8_collate ( string_a, string_b );
-    }
+        g_free ( string_a );
+        g_free ( string_b );
 
-    if ( ! date_b )
-    {
         return 1;
     }
-    else if ( ! date_a )
+
+    if ( !string_b )
     {
+        g_free ( string_a );
+        return 1;
+    }
+
+    if ( !string_a )
+    {
+        g_free ( string_b );
         return -1;
     }
 
-    return g_date_compare ( date_a, date_b );
+    if ( !date_a && !date_b )
+    {
+        return_value = g_utf8_collate ( string_a, string_b );
+        g_free ( string_a );
+        g_free ( string_b );
+
+        return return_value;
+    }
+
+    g_free ( string_a );
+    g_free ( string_b );
+
+    if ( !date_b )
+        return 1;
+    else if ( !date_a )
+        return -1;
+
+    return_value = g_date_compare ( date_a, date_b );
+
+    return return_value;
 }
 
 
