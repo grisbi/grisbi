@@ -21,6 +21,7 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
 gboolean gsb_data_category_fill_transaction_by_string ( gint transaction_number,
                         const gchar *string,
                         gboolean is_transaction );
+void gsb_data_categorie_free_name_list ( GSList *liste );
 gsb_real gsb_data_category_get_balance ( gint no_category );
 GSList *gsb_data_category_get_categories_list ( void );
 gsb_real gsb_data_category_get_direct_balance ( gint no_category );

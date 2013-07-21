@@ -264,8 +264,9 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    widget = gtk_combofix_new (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
+        tmp_list = gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE );
+	    widget = gtk_combofix_new ( tmp_list );
+        gsb_data_categorie_free_name_list ( tmp_list );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
