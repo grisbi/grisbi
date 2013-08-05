@@ -4430,10 +4430,10 @@ msgid ""
 msgstr ""
 "Vous changez la devise du compte, voulez-vous aussi changer la devise des "
 "transactions ?\n"
-"(oui changera la devise de toutes les transactions de %s à %s, les "
+"(oui changera la devise de toutes les opérations de %s à %s, les "
 "transactions avec une autre devise resteront les mêmes).\n"
 "\n"
-"Les transactions archivées et rapprochées ne seront pas modifiées."
+"Les opérations archivées et rapprochées ne seront pas modifiées."
 
 #: ../src/gsb_account_property.c:815
 msgid "Change the transactions currency"
@@ -4688,14 +4688,14 @@ msgid ""
 "\n"
 "Press Cancel if you don't want make an archive now\n"
 msgstr ""
-"Il y a de nombreuses transactions dans votre fichier (%d) et il est "
+"Il y a de nombreuses opérations dans votre fichier (%d) et il est "
 "conseillé de ne pas garder plus de %d transactions non archivées.\n"
 "Pour augmenter la vitesse, vous devez les archiver (la limite actuelle et le "
 "contrôle à l'ouverture peuvent être modifiés dans les préférences).\n"
 "\n"
-"Cet assistant va vous guider dans le processus d'archivage des transactions. "
+"Cet assistant va vous guider dans le processus d'archivage des opérations. "
 "Par défaut, Grisbi n'exporte aucune archive dans des fichiers séparés, il "
-"marque juste les transactions comme archivées et ne les utilise plus.\n"
+"marque juste les opérations comme archivées et ne les utilise plus.\n"
 "\n"
 "Vous pourrez toujours les exporter dans un fichier archive séparé si "
 "nécessaire.\n"
@@ -4713,7 +4713,7 @@ msgid ""
 "\n"
 "You can still export them into a separate archive file if necessary.\n"
 msgstr ""
-"Cet assistant va vous guider dans le processus d'archivage des transactions "
+"Cet assistant va vous guider dans le processus d'archivage des opérations "
 "de Grisbi afin d'améliorer sa rapidité.\n"
 "\n"
 "Par défaut, Grisbi n'exporte pas ses archives dans des fichiers séparés. Il "
@@ -4739,7 +4739,7 @@ msgstr "Tri par date"
 #: ../src/gsb_assistant_archive.c:222
 msgid "Grisbi will archive all transactions between initial and final dates."
 msgstr ""
-"Grisbi archivera les transactions dont les dates sont comprises entre la "
+"Grisbi archivera les opérations dont les dates sont comprises entre la "
 "date initiale et la date finale"
 
 #: ../src/gsb_assistant_archive.c:262
@@ -4761,7 +4761,7 @@ msgstr "Archiver les opérations appartenant à l'état"
 #: ../src/gsb_assistant_archive.c:307
 msgid "Grisbi will archive transactions selected by a report."
 msgstr ""
-"Grisbi archivera toutes les transactions appartenant à l'état sélectionné"
+"Grisbi archivera toutes les opérations appartenant à l'état sélectionné"
 
 #: ../src/gsb_assistant_archive.c:319 ../src/gsb_form_transaction.c:384
 msgid "Report: "
@@ -5268,7 +5268,7 @@ msgstr ""
 
 #: ../src/gsb_assistant_reconcile_config.c:202
 msgid "Associate orphan transactions to a reconciliation"
-msgstr "Associer des transactions orphelines à un rapprochement"
+msgstr "Associer des opérations orphelines à un rapprochement"
 
 #. update the string containing the number of transactions to link
 #. update the labels
@@ -5450,7 +5450,7 @@ msgstr ""
 
 #: ../src/gsb_assistant_reconcile_config.c:1164
 msgid "All the selected transactions have to belong to the same account !"
-msgstr "Toutes les transactions choisies doivent appartenir au même compte !"
+msgstr "Toutes les opérations choisies doivent appartenir au même compte !"
 
 #. ok, all the transactions belong to the same account, we can
 #. * show a dialog to select the reconcile
@@ -7421,7 +7421,7 @@ msgstr ""
 "le recréer avec un nouvel identifiant\n"
 ".\n"
 "Aucune transaction ne sera perdue ! Mais dans certains cas, vous devrez "
-"modifier la sous-catégorie pour ces transactions."
+"modifier la sous-catégorie pour ces opérations."
 
 #: ../src/gsb_debug.c:93
 msgid "Duplicate sub-budgetary lines check"
@@ -7444,7 +7444,7 @@ msgstr ""
 "le recréer avec un nouvel identifiant.\n"
 "\n"
 "Aucune opération ne sera perdue ! Mais, dans certains cas, vous devrez "
-"modifier la sous-imputation pour ces transactions."
+"modifier la sous-imputation pour ces opérations."
 
 #: ../src/gsb_debug.c:106
 msgid "Orphan countra-transactions check"
@@ -7462,7 +7462,7 @@ msgstr ""
 "contre-opérations. C'est peut-être à cause de bogues ou en raison "
 "d'importations ayant échouées.\n"
 "Pour résoudre ce problème, vous devrez modifier manuellement le fichier .gsb "
-"(avec un éditeur de texte) et fixer les transactions en utilisant leur ID "
+"(avec un éditeur de texte) et fixer les opérations en utilisant leur ID "
 "numérique."
 
 #: ../src/gsb_debug.c:114
@@ -7474,7 +7474,7 @@ msgid ""
 "This test will look for transactions wich have non existant categories/sub-"
 "categories."
 msgstr ""
-"Ce test recherche des transactions ayant des catégories/sous-catégories "
+"Ce test recherche des opérations ayant des catégories/sous-catégories "
 "inexistantes."
 
 #: ../src/gsb_debug.c:116
@@ -7483,9 +7483,9 @@ msgid ""
 "If you choose to continue, Grisbi will remove that category error and that "
 "transactions will have no categories."
 msgstr ""
-"Grisbi a trouvé des transactions avec des catégories/sous-catégories "
+"Grisbi a trouvé des opérations avec des catégories/sous-catégories "
 "inexistantes. Si vous choisissez de continuer, Grisbi supprimera ces "
-"catégories et ces transactions n'auront plus de catégorie."
+"catégories et ces opérations n'auront plus de catégorie."
 
 #: ../src/gsb_debug.c:121
 msgid "Incorrect budget/sub-budget number"
@@ -7496,7 +7496,7 @@ msgid ""
 "This test will look for transactions wich have non existant budgets/sub-"
 "budgets."
 msgstr ""
-"Ce test recherche des transactions ayant des imputations/sous-imputations "
+"Ce test recherche des opérations ayant des imputations/sous-imputations "
 "inexistantes."
 
 #: ../src/gsb_debug.c:123
@@ -7505,9 +7505,9 @@ msgid ""
 "choose to continue, Grisbi will remove that budget error and that "
 "transactions will have no budgets."
 msgstr ""
-"Grisbi a trouvé des transactions avec des imputations/sous-imputations "
+"Grisbi a trouvé des opérations avec des imputations/sous-imputations "
 "inexistantes. Si vous choisissez de continuer, Grisbi supprimera ces "
-"imputations et ces transactions n'auront plus d'imputation."
+"imputations et ces opérations n'auront plus d'imputation."
 
 #: ../src/gsb_debug.c:128
 msgid "Incorrect payee number"
@@ -7522,8 +7522,8 @@ msgid ""
 "Grisbi found some transactions with non existants payees If you choose to "
 "continue, Grisbi will remove them and that transactions will have no payee."
 msgstr ""
-"Grisbi a trouvé des transactions avec des tiers inexistants. Si vous "
-"choisissez de continuer, Grisbi supprimera ces tiers et ces transactions "
+"Grisbi a trouvé des opérations avec des tiers inexistants. Si vous "
+"choisissez de continuer, Grisbi supprimera ces tiers et ces opérations "
 "n'auront plus de tiers."
 
 #: ../src/gsb_debug.c:152
@@ -7923,7 +7923,7 @@ msgstr ""
 "Vous avez ouvert une archive.\n"
 "Il n'ya pas de limite dans Grisbi, vous pouvez faire ce que vous voulez  et "
 "l'enregistrer plus tard (nouveaux rapports, ...) mais n'oubliez pas que "
-"c'est une archive avant de modifier certaines transactions ou informations "
+"c'est une archive avant de modifier certaines opérations ou informations "
 "importantes."
 
 #: ../src/gsb_file_load.c:8906
@@ -10328,7 +10328,7 @@ msgid ""
 "along with their division."
 msgstr ""
 "Si vous voulez la supprimer tout en conservant les  opérations associées, "
-"vous pouvez les transférer vers une autre (sous-)%s. Sinon, les transactions "
+"vous pouvez les transférer vers une autre (sous-)%s. Sinon, les opérations "
 "peuvent être simplement supprimées."
 
 #: ../src/metatree.c:1769
@@ -10545,7 +10545,7 @@ msgstr "Calcul des soldes"
 msgid ""
 "Take into account the scheduled operations in the calculation of balances"
 msgstr ""
-"Prendre en compte les transactions planifiées dans le calcul des soldes"
+"Prendre en compte les opérations planifiées dans le calcul des soldes"
 
 #: ../src/parametres.c:242
 msgid "Balances partials of the list of accounts"
@@ -11058,7 +11058,7 @@ msgstr "Bordures : séparer les colonnes par un trait"
 
 #: ../src/print_transactions_list.c:238
 msgid "Fill the background as the transactions list"
-msgstr "Utiliser le même fond d'écran que la liste des transactions."
+msgstr "Utiliser le même fond d'écran que la liste des opérations."
 
 #: ../src/print_transactions_list.c:246
 msgid "Print the archives lines"
@@ -11380,7 +11380,7 @@ msgid ""
 "transactions with your bank receipts, you are guaranteed that your accounts "
 "are in perfect shape."
 msgstr ""
-"Vous pouvez rapprocher les transactions en fonction de votre état financier "
+"Vous pouvez rapprocher les opérations en fonction de votre état financier "
 "réel comme on le voit sur vos reçus de banque.\n"
 "\n"
 "Si vous passez chaque mois juste 15 min pour mettre en concordance Grisbi "
@@ -11588,7 +11588,7 @@ msgid ""
 "column titles to sort transactions differently. For example, you can sort "
 "transactions by payee or category name."
 msgstr ""
-"Vous pouvez trier la liste des transactions selon n'importe quelle donnée.\n"
+"Vous pouvez trier la liste des opérations selon n'importe quelle donnée.\n"
 "\n"
 "Cliquez avec le bouton droit de la souris sur le <i>titre la colonne</i> qui "
 "contient la donnée puis choisissez-la comme critère. Par exemple vous pouvez "
@@ -11604,7 +11604,7 @@ msgstr ""
 msgid ""
 "You can have future scheduled transactions 'executed' before their date, "
 msgstr ""
-"Vous pouvez prévoir d'exécuter des transactions planifiées avant leur date,"
+"Vous pouvez prévoir d'exécuter des opérations planifiées avant leur date,"
 
 #: ../src/tip.c:101
 msgid ""
