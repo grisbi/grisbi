@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009-2013 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -538,6 +538,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 {
     GSList *list_tmp_transactions;
     GDate *date;
+    const GDate *initial_date;
     gint account_number;
     gint reconcile_number;
     gsb_real real;
@@ -574,6 +575,20 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 				_("Reconciliation can't be completed.") );
 	g_free ( tmpstr );
 	return FALSE;
+    }
+
+    /* teste la validité de la date de fin */
+    reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
+    initial_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+    if ( g_date_compare ( initial_date, date ) >= 0 )
+    {
+        gchar *tmp_str;
+
+        tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), gsb_format_gdate ( date ) );
+        dialogue_warning_hint ( tmp_str, _("Reconciliation can't be completed.") );
+        g_free ( tmp_str );
+
+        return FALSE;
     }
 
     if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
