@@ -812,7 +812,7 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
  */
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
-    GtkWidget *table, *label, *check_button;
+    GtkWidget *table, *label;
 
     table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -847,14 +847,6 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
                         budgetary_lines_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
                         1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-
-    check_button = gsb_automem_checkbutton_new (
-                        _("Add transactions archived in the totals"),
-                        &etat.add_archive_in_total_balance,
-                        G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
-                        NULL);
-    gtk_table_attach ( GTK_TABLE ( table ), check_button,
-                        0, 1, 3, 4, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     return ( table );
 }

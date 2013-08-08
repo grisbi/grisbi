@@ -1423,6 +1423,7 @@ static GtkWidget *gsb_config_scheduler_page ( void )
 GtkWidget *onglet_metatree ( void )
 {
     GtkWidget *vbox_pref, *paddingbox, *total_currencies;
+    GtkWidget *check_button;
 
     vbox_pref = new_vbox_with_title_and_icon (
                         _("Payees, categories and budgetaries"),
@@ -1431,6 +1432,15 @@ GtkWidget *onglet_metatree ( void )
     paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Totals currencies") );
     total_currencies = gsb_currency_config_create_totals_page ( );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), total_currencies, FALSE, FALSE, 0 );
+
+    /* calcul des totaux */
+    paddingbox = new_paddingbox_with_title ( vbox_pref, FALSE, _("Calculation of totals") );
+    check_button = gsb_automem_checkbutton_new (
+                        _("Add transactions archived in the totals"),
+                        &etat.add_archive_in_total_balance,
+                        G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
+                        NULL);
+    gtk_box_pack_start ( GTK_BOX ( paddingbox ), check_button, FALSE, FALSE, 0 );
 
     /* tri des opérations */
     gsb_automem_radiobutton3_new_with_title ( vbox_pref,
