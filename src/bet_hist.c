@@ -1917,6 +1917,7 @@ void bet_historical_fyear_hide_present_futures_fyears ( void )
         tmp_list = tmp_list -> next;
     }
 
+    g_date_free ( date );
 }
 
 
