@@ -4879,7 +4879,7 @@ msgstr "Choisissez un état"
 #: ../src/gsb_assistant_archive.c:957
 #, c-format
 msgid "%d transactions out of %d will be archived."
-msgstr "%d opérations sur %d ont été archivées."
+msgstr "%d opérations sur %d seront archivées."
 
 #. create the assistant
 #: ../src/gsb_assistant_archive_export.c:109
