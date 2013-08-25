@@ -1482,7 +1482,7 @@ gboolean gsb_data_account_set_currency ( gint account_number,
 
 /** get the bank on the account given
  * \param account_number no of the account
- * \return last number of reconcile or 0 if the account doesn't exist
+ * \return last number of reconciliation or 0 if the account doesn't exist
  * */
 gint gsb_data_account_get_bank ( gint account_number )
 {

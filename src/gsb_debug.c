@@ -69,8 +69,8 @@ static gboolean gsb_debug_try_fix ( gboolean (* fix) () );
 /** Tests  */
 struct gsb_debug_test debug_tests [8] = {
     /* Check for reconciliation inconcistency.  */
-    { N_("Incorrect reconcile totals"),
-      N_("This test will look for accounts where reconcile totals do not match reconciled transactions."),
+    { N_("Incorrect reconciliation totals"),
+      N_("This test will look at accounts where the reconciled total which does not match with reconciled transactions."),
       N_("Grisbi found accounts where reconciliation totals are inconsistent with the "
         "sum of reconcilied transactions and initial balance.\n\n"
         "The cause may be the elimination or modification of reconciliations or changes "

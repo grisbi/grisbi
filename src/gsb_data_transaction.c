@@ -73,7 +73,7 @@ typedef struct
     gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
     gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
     gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
-    gint reconcile_number;              /**< the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
+    gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
                                              it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
                                              will re-R after the change, and that value will help the user to find wich statement it belong.
                                              o always check marked_transaction before checking reconcile_number here */

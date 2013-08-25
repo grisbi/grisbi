@@ -394,7 +394,7 @@ gboolean file_obfuscate_run ( void )
 
         if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_reconcile ) ) )
         {
-            /* hide the reconciles */
+            /* hide the reconciliations */
             GList *reconcile_list;
             reconcile_list = gsb_data_reconcile_get_reconcile_list ();
             while ( reconcile_list )
@@ -497,7 +497,7 @@ GtkWidget *file_obfuscate_page_1 ( void )
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_reports, FALSE, FALSE, 0 );
     register_button_as_linked ( button_everything, button_reports );
 
-    button_reconcile = gtk_check_button_new_with_label (_("Hide reconcile names and amounts"));
+    button_reconcile = gtk_check_button_new_with_label (_("Hide reconciliation names and amounts"));
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), button_reconcile, FALSE, FALSE, 0 );
     register_button_as_linked ( button_everything, button_reconcile );
 

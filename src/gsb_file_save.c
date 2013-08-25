@@ -227,6 +227,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             do_chmod = TRUE;
         else
             do_chmod = FALSE;
+
+        g_print ("Avant : uid = %d gid = %d\n", buf.st_uid, buf.st_gid );
     }
     else
         /* the file doesn't exist, so we will set the only user chmod */
@@ -481,8 +483,10 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             chmod ( filename, S_IRUSR | S_IWUSR );
         }
         /* restores uid and gid */
-        chown ( filename, buf.st_uid, buf.st_gid );
-#endif /*_MSC_VER */
+        g_print ("Après : uid = %d gid = %d\n", buf.st_uid, buf.st_gid );
+
+/*        chown ( filename, buf.st_uid, buf.st_gid );
+*/#endif /*_MSC_VER */
     }
 
     run.is_saving = FALSE;

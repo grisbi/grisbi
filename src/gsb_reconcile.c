@@ -559,8 +559,11 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     reconcile_number = gsb_data_reconcile_get_number_by_name (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry )));
     if (reconcile_number)
     {
-	dialogue_warning_hint ( _("There is already a reconcile with that name, you must use another name or let it free.\nIf the reconcile name is ending by a number,\nit will be automatically incremented."),
-				_("Reconciliation can't be completed.") );
+	dialogue_warning_hint ( _("There is already a reconciliation with that "
+                        "name, you must use another name or let it free.\nIf the "
+                        "reconcile name is ending by a number,\n"
+                        "it will be automatically incremented."),
+                        _("Reconciliation can't be completed.") );
 	return FALSE;
     }
 

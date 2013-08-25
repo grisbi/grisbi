@@ -380,7 +380,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
             /* we will have to convert the method of payments numbers */
             payment_conversion_list = NULL;
-            /* we will have to set the final date and balance in the last reconcile */
+            /* we will have to set the final date and balance in the last bank reconciliation */
             reconcile_conversion_list = NULL;
         }
 
@@ -7037,8 +7037,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Date_dernier_releve" ))
     {
-        /* as the date comes before the last number of reconcile, the fastest way is to use
-         * a buffer for ther reconcile structure, and when we have the last number of reconcile,
+        /* as the date comes before the last number of bank reconciliation, the fastest way is to use
+         * a buffer for ther reconciliation structure, and when we have the last number of reconciliation,
          * we append the buffer to the list */
         buffer_reconcile_conversion = g_malloc0 (sizeof (struct reconcile_conversion_struct));
         if (buffer_reconcile_conversion)

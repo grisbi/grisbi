@@ -178,7 +178,7 @@ GtkResponseType gsb_assistant_reconcile_config_run ( void )
      * this can happen by 2 ways :
      * for old users of Grisbi, before i don't remember what version, there were no reconcile number,
      * 		the reconciled transactions were juste marked R
-     * before the 0.6.0, ctrl R didn't permit to choose a reconcile
+     * before the 0.6.0, ctrl R didn't permit to choose a reconciliation
      *
      * for the 2nd item, no problem, we show a list of reconciles and the user can choose what reconcile he wants
      * for the first item the problem is there is no reconcile number to go with that transactions...
@@ -322,8 +322,9 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 			 button,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new (_("	This will make all the work for you if you create previously all the needed reconciles\n"
-			     "	and adjust the date of the known reconciles."));
+    label = gtk_label_new (_("	This will make all the work for you if you create "
+                        "previously all the needed reconciliations\n"
+                        "	and adjust the date of the known reconciliations."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
     gtk_box_pack_start ( GTK_BOX (page),
@@ -332,7 +333,8 @@ static GtkWidget *gsb_assistant_reconcile_config_page_menu ( GtkWidget *assistan
 
     /* associate the transactions without reconcile number by hand */
     button = gtk_radio_button_new_with_label ( gtk_radio_button_get_group (GTK_RADIO_BUTTON (button)),
-					       _("Associate by hands the transactions without reconciliation number with the known reconciles"));
+                        _("Associate by hands the transactions without "
+                        "reconciliation number with the known reconciliation"));
     g_object_set_data ( G_OBJECT (button),
 			"next_page", GINT_TO_POINTER (RECONCILE_ASSISTANT_MANUALLY_ASSOCIATE));
     g_signal_connect ( G_OBJECT (button),
@@ -379,7 +381,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_new_reconcile ( void )
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     paddingbox = new_paddingbox_with_title ( page, FALSE,
-					     _("Fill the fields and click the button \"Create the new reconcile\""));
+					     _("Fill the fields and click the button \"Create the new reconciliation\""));
 
     /* create the table, this is the same as the reconcile config,
      * but here it's to create new ones */
@@ -537,10 +539,10 @@ static GtkWidget *gsb_assistant_reconcile_config_page_automatically_associate ( 
 			 separator,
 			 FALSE, FALSE, 0 );
 
-    label = gtk_label_new ( _("This assistant try to find a reconciliation to each orphan transaction,\n"
-			     "according to the date of the transaction and the dates of the reconcile.\n"
+    label = gtk_label_new ( _("This assistant try to find a bank reconciliation to each orphan transaction,\n"
+			     "according to the date of the transaction and the dates of the reconciliations.\n"
 			     "If all the orphan transactions cannot be linked here, you should check\n"
-			     "if you did create all the necessary reconciles (first choice in the assistant\n"
+			     "if you did create all the necessary reconciliations (first choice in the assistant\n"
 			     "menu page) or check the transactions themselves."));
     gtk_misc_set_alignment ( GTK_MISC (label),
 			     0, 0.5 );
@@ -679,7 +681,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_manually_associate ( GtkWi
 			 hbox,
 			 FALSE, FALSE,
 			 10 );
-    button = gtk_button_new_with_label ( _("Link the selection to a reconcile..."));
+    button = gtk_button_new_with_label ( _("Link the selection to a reconciliation..."));
     g_signal_connect ( G_OBJECT (button),
 		       "clicked",
 		       G_CALLBACK (gsb_assistant_reconcile_config_lauch_manu_asso),
@@ -709,7 +711,7 @@ static GtkWidget *gsb_assistant_reconcile_config_page_success ( void )
     gtk_container_set_border_width ( GTK_CONTAINER(page), 12 );
 
     label = gtk_label_new (_("Congratulations!\n\n"
-			     "You have linked all the transactions without reconcile.\n"
+			     "You have linked all the transactions without reconciliation.\n"
 			     "Normally you needn't have to come back to that assistant ; it shouldn't have any way now\n"
 			     "	to have some transactions without reconciliation number."));
     gtk_box_pack_start ( GTK_BOX (page),
@@ -749,11 +751,11 @@ static gboolean gsb_assistant_reconcile_config_page_menu_toggled ( GtkWidget *bu
 
 
 /**
- * called when the user click on the button 'create the new reconcile'
- * check the entries and create the corresponding reconcile
+ * called when the user click on the button 'create the new reconciliation'
+ * check the entries and create the corresponding reconciliation
  *
  * \param button
- * \param label a message label, hidden at the beginning, that will say ok the reconcile is created
+ * \param label a message label, hidden at the beginning, that will say ok the reconciliation is created
  * 		or if there is a problem...
  *
  * \return FALSE
@@ -786,7 +788,7 @@ static gboolean gsb_assistant_reconcile_config_page_add_new_reconcile ( GtkWidge
     /* check there is a name */
     if ( !strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_name_entry ) ) ) )
     {
-        string = make_red ( _("Please give a name to the new reconcile.") );
+        string = make_red ( _("Please give a name to the new reconciliation.") );
         gtk_label_set_markup ( GTK_LABEL ( label) , string );
         gtk_widget_grab_focus ( reconcile_name_entry );
         g_free ( string );
@@ -896,7 +898,7 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 
     /* calculate how many transactions can be associated automatically,
      * to avoid to do that 2 times, we set each transactions in a structure with
-     * the associated number of reconcile */
+     * the associated number of bank reconciliation */
     if (list_association)
     {
 	g_slist_free (list_association);
@@ -944,16 +946,16 @@ gboolean gsb_assistant_reconcile_config_update_auto_asso ( GtkWidget *assistant,
 
     if (associate_number)
     {
-	string = g_strdup_printf (_("Grisbi can associate %d transactions to a reconcile.\n"
-				    "Please click on the launch button to create the links"),
-				  associate_number);
+	string = g_strdup_printf (_("Grisbi can associate %d transactions to a reconciliation.\n"
+                        "Please click on the launch button to create the links."),
+                        associate_number);
 	gtk_widget_set_sensitive ( button_run_association,
 				   TRUE );
     }
     else
     {
 	string = my_strdup (_("There is no transaction that Grisbi can link.\n"
-			      "Check if you created all the necesssary reconciles."));
+			      "Check if you created all the necesssary reconciliations."));
 	gtk_widget_set_sensitive ( button_run_association,
 				   FALSE );
     }
@@ -998,7 +1000,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 
     /* now there is 2 way :
      * either transactions_to_link is 0, we go directly to the succes page
-     * either it's not null, and the user should create more reconciles */
+     * either it's not null, and the user should create more reconciliations */
     if (transactions_to_link)
     {
 	gchar *string;
@@ -1014,7 +1016,7 @@ static gboolean gsb_assistant_reconcile_config_lauch_auto_asso ( GtkWidget *butt
 
 	gtk_label_set_text ( GTK_LABEL (label_possible_association),
 			     _("There is no transaction that Grisbi can link.\n"
-			       "Check if you created all the necesssary reconciles."));
+			       "Check if you created all the necesssary reconciliations."));
 	gtk_widget_set_sensitive ( button_run_association,
 				   FALSE );
     }
