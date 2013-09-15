@@ -158,6 +158,9 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     new_icon = g_strdup ( name_icon );
 
+    if ( path_icon && strlen ( path_icon ) > 0 )
+        g_free ( path_icon );
+
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
                             GTK_WINDOW ( run.window ),
@@ -321,7 +324,6 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
     GError *error = NULL;
     GtkTreePath *tree_path = NULL;
 
-
     devel_debug ( path_icon );
 
     dir = g_dir_open ( path_icon, 0, &error );
@@ -346,10 +348,13 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
                             liste -> data, NULL );
             if ( g_strcmp0 ( tmpstr, name_icon ) == 0 )
             {
-                gchar *tmpstr = utils_str_itoa ( i );
+                gchar *tmpstr;
+
+                tmpstr = utils_str_itoa ( i-1 );
                 tree_path = gtk_tree_path_new_from_string ( tmpstr );
                 g_free ( tmpstr );
             }
+
             pixbuf = gdk_pixbuf_new_from_file_at_size ( tmpstr, 32, 32, NULL);
             if ( pixbuf )
             {

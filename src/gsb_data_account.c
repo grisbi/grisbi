@@ -2672,12 +2672,9 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 
     pixbuf = gdk_pixbuf_new_from_file ( filename, &error );
     if ( pixbuf )
-        g_object_set_data ( G_OBJECT ( pixbuf ), "name_icon", filename );
+        g_object_set_data_full ( G_OBJECT ( pixbuf ), "name_icon", filename, g_free );
     else
         devel_debug ( error -> message );
-
-    if ( filename )
-        g_free ( filename );
 
     return pixbuf;
 }
