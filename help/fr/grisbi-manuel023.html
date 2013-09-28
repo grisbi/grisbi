@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Configuration de Grisbi</title>
+</head>
+<body>
+<a href="grisbi-manuel022.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel024.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="setup">Chapitre 22  Configuration de Grisbi</h1>
+<p>Pour avoir accès aux paramètres de configuration de Grisbi, cliquez sur le menu <span class="c007">Edition - Préférences</span>. La fenêtre de configuration s’ouvre, et vous pouvez en changer la taille et la position. </p><p>Cette fenêtre se compose de deux panneaux verticaux : le panneau des onglets à gauche, et le panneau des réglages à droite.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_sections.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.1: Fenêtre de configuration</td></tr>
+</table></div>
+<a id="setup-sections-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Il y a vingt-sept onglets qui sont regroupés en six sections :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Généralités</span> ;
+	</li><li class="li-itemize"><span class="c007">Affichage</span> ;
+	</li><li class="li-itemize"><span class="c007">Opérations</span> ;
+	</li><li class="li-itemize"><span class="c007">Formulaire des opérations</span> ;
+	</li><li class="li-itemize"><span class="c007">Ressources</span> ;
+	</li><li class="li-itemize"><span class="c007">Budget prévisionnel</span>.
+</li></ul><p>
+La fenêtre de configuration s’ouvre en affichant l’onglet <span class="c007">Fichiers</span> dans le panneau des réglages à droite.</p><p>Vous pouvez sélectionner un autre onglet en cliquant sur son nom, ou en naviguant dans le panneau des onglets avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span>, <span class="c001">&lt;Page Bas&gt;</span>.</p><p>Vous pouvez naviguer entre le panneau des onglets et les différentes options du panneau des réglages avec les touches <span class="c001">&lt;Tabulation&gt;</span>, <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Flèche Gauche&gt;</span> et <span class="c001">&lt;Flèche Droit&gt;</span>.</p>
+<h2 class="section" id="setup-general">22.1  Généralités</h2>
+<h3 class="subsection" id="setup-general-files">22.1.1  Fichiers</h3>
+<p>Cet onglet définit la façon dont Grisbi utilise vos fichiers de comptes.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_files.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.2: Gestion des fichiers de comptes et des sauvegardes</td></tr>
+</table></div>
+<a id="setup-files-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-general-files-manage">Gestion des fichiers de comptes</h4>
+<p>Vous pouvez y définir :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Chargement automatique du dernier fichier consulté</span> ;
+	</li><li class="li-itemize"><span class="c007">Enregistrer automatiquement en fermant</span> : lors de la fermeture du fichier ou de l’application ; par défaut, Grisbi n’enregistre pas automatiquement le fichier s’il a été modifié et vous demande si vous voulez l’enregistrer ;
+	</li><li class="li-itemize"><span class="c007">Forcer l’enregistrement des fichiers verrouillés</span> : Grisbi permettant à plusieurs utilisateurs d’avoir accès au même fichier de comptes, le fichier en cours d’utilisation est verrouillé en écriture pour les autres utilisateurs qui voudraient l’utiliser en même temps ; mais vous pouvez vouloir forcer l’enregistrement par ces utilisateurs, ou ne vouloir l’enregistrer que si le fichier n’est pas en cours d’utilisation par un autre ; par défaut, l’enregistrement est forcé ;
+	</li><li class="li-itemize"><span class="c007">Chiffrer le fichier Grisbi</span> : le <span class="c003">chiffrement du fichier de comptes</span><a id="hevea_default357"></a> permet de ne le lire et le modifier que si vous connaissez le mot de passe ; par défaut, il n’est pas chiffré ;
+	<p>	<span class="c009">Attention</span> : il n’existe <em>aucune</em> méthode pour récupérer un fichier chiffré dont on a perdu le mot de passe.
+	</p><p>	<span class="c009">Attention</span> : pour une raison inconnue, l’utilisation de cette fonction de Grisbi sous Windows peut rendre le fichier de comptes totalement inutilisable ; il est donc recommandé de faire des sauvegardes très souvent, ou mieux encore, de ne pas l’utiliser : son utilisation est à vos risques et périls ;
+	</p></li><li class="li-itemize"><span class="c007">Compresser le fichier Grisbi</span> : la <span class="c003">compression du fichier de comptes</span> <a id="hevea_default358"></a> permet d’avoir un fichier moins volumineux ; dans ce cas, il ne sera plus lisible directement avec un éditeur de texte ; par défaut, il est compressé, et cette compression est faite au format <span class="c010">.GZ</span> ;
+	</li><li class="li-itemize"><span class="c007">Mémorisation des derniers fichiers ouverts</span> : réglage du nombre des derniers fichiers ouverts accessibles par le menu <span class="c007">Fichier - Derniers fichiers</span>.
+</li></ul><p>
+<span class="c010">Note</span> : il est conseillé de sélectionner l’option <span class="c007"> Enregistrer automatiquement en fermant</span> : les modifications sont sauvegardées à la fermeture de Grisbi sans rien demander à l’utilisateur.</p>
+<h4 class="subsubsection" id="setup-general-files-backup">Sauvegardes</h4>
+<p>Vous pouvez y définir :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Créer un fichier de sauvegarde unique</span> : ce fichier de sauvegarde automatique sera créé par défaut à la racine de votre répertoire personnel, avec une extension automatique du nom de fichier ; par défaut, Grisbi fait plutôt des sauvegardes automatiques à intervalles réguliers ;
+	</li><li class="li-itemize"><span class="c007">Compresser le fichier de sauvegarde</span> : par défaut, il n’est pas compressé ;
+	</li><li class="li-itemize"><span class="c007">Effectuer une copie de sauvegarde après avoir ouvert les fichiers</span> : dans ce cas, vous indiquerez plus bas un répertoire de sauvegarde ; par défaut, il n’y a pas de sauvegarde automatique après l’ouverture du fichier de comptes ;
+	</li><li class="li-itemize"><span class="c007">Effectuer une copie de sauvegarde avant d’enregistrer les fichiers</span> : dans ce cas, vous indiquerez plus bas un répertoire de sauvegarde ; par défaut, il y a une sauvegarde automatique avant l’enregistrement du fichier de comptes ;
+	</li><li class="li-itemize"><span class="c007">Effectuer une copie de sauvegarde toutes les …  minutes</span> : réglage de l’intervalle entre deux sauvegardes automatiques, en minutes ;
+	</li><li class="li-itemize"><span class="c007">Répertoire de sauvegarde</span> : la liste déroulante permet d’ouvrir différents volumes de stockage, et le choix <span class="c007">Autre</span> ouvre un gestionnaire de fichiers qui permet d’identifier le chemin du répertoire actuel, et de naviguer dans le système de fichiers pour définir le répertoire de sauvegarde.
+</li></ul><p>
+<span class="c010">Note</span> : il est conseillé de sélectionner l’option <span class="c007"> Effectuer une copie de sauvegarde avant d’enregistrer les fichiers</span> : Grisbi sauvegarde l’ancien fichier avant de faire une sauvegarde des dernières modifications.</p><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_). </p>
+<h4 class="subsubsection" id="setup-general-files-config">Fichier de configuration</h4>
+<p>Vous pouvez choisir ici d’<span class="c007">Utiliser le <span class="c003">fichier de configuration</span> de la version stable comme modèle</span><a id="hevea_default359"></a>. Cela peut être utile si vous voulez essayer une version en cours de développement en conservant tous vos réglages de la version stable.</p>
+<h3 class="subsection" id="setup-general-archives">22.1.2  Archives</h3>
+<p>Cet onglet sert à gérer les archives existantes et l’automatisation de l’archivage.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_history.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.3: Gestion des archives</td></tr>
+</table></div>
+<a id="setup-history-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-general-archives-existing">Archives existantes</h4>
+<p>Un tableau affiche la <span class="c003">liste des archives</span><a id="hevea_default360"></a> faites précédemment, avec les informations relatives au mode de sélection des opérations utilisé pour la création de l’archive :</p><ul class="itemize"><li class="li-itemize">
+	le nom de l’archive ;
+	</li><li class="li-itemize">si les opérations ont été sélectionnées par date : les dates initiale et finale de l’archive ;
+	</li><li class="li-itemize">si les opérations ont été sélectionnées par exercice : l’année de l’exercice ;	
+	</li><li class="li-itemize">si les opérations ont été sélectionnées par un état : le nom de cet état.
+	</li></ul><p>	</p>
+<h4 class="subsubsection" id="setup-general-archives-remove">Modifier l’archive</h4>
+<p>Si vous sélectionnez une ligne d’archive par un clic dans le tableau, son nom apparaît dans le champ libellé <span class="c007">Nom</span>, et les deux boutons de <span class="c003">suppression d’archive</span><a id="hevea_default361"></a> <span class="c007">Supprimer l’archive</span> et <span class="c007">Supprimer l’archive et les opérations</span> deviennent actifs ; vous pouvez alors :</p><ul class="itemize"><li class="li-itemize">
+	dans le champ <span class="c007">Nom</span> : modifier le nom de l’archive ;	
+	</li><li class="li-itemize">par le bouton <span class="c007">Supprimer l’archive</span> : par un clic, vous supprimez le statut <em>archive</em> des opérations appartenant à l’archive sélectionnée ; ces opérations seront donc à nouveau visibles dans la liste des opérations ; une fenêtre d’avertissement et de validation s’affiche et vous pouvez soit valider, soit annuler cette action ; cette opération est réversible, en recréant la même archive ;
+	</li><li class="li-itemize">par le bouton <span class="c007">Supprimer l’archive et les opérations</span> : par un clic, vous supprimez du fichier de comptes de Grisbi l’archive sélectionnée <em>et toutes les opérations contenues dans celle-ci</em> ; une fenêtre d’avertissement et de validation s’affiche et vous pouvez soit valider, soit annuler cette action ; cette <span class="c003">opération est irréversible</span><a id="hevea_default362"></a>, et il est vivement conseillé d’exporter auparavant l’archive vers un fichier au format GSB, QIF ou CSV (voir <span class="c007">Fichier - Exporter une archive vers un fichier GSB/ QIF/CSV/...</span><p>
+<span class="c009">Attention</span> : si vous choisissez cette dernière fonction, il n’y aura pas d’autre avertissement, et l’archive sera supprimée <em>IMMÉDIATEMENT</em> ainsi que toutes ses opérations. Cette suppression est irréversible !
+</p></li></ul>
+<h4 class="subsubsection" id="setup-general-archives-create">Avertissement et création automatique</h4>
+<p>Lorsqu’un certain nombre d’opérations enregistrées est atteint, Grisbi peut d’une part afficher un <span class="c003">avertissement</span><a id="hevea_default363"></a> que cette quantité d’opérations n’a pas été encore archivée, d’autre part lancer automatiquement la <span class="c003">création d’une archive</span><a id="hevea_default364"></a>.</p><p>En cliquant sur la case libellée <span class="c007">Créer automatiquement une archive si nécessaire</span>, vous validez cette fonction d’archivage automatique.</p><p>Avec le libellé <span class="c007">Avertir si plus de …  opérations ne sont pas archivées</span>, vous pouvez définir ce nombre d’opérations. La valeur par défaut est 3000.</p>
+<h3 class="subsection" id="setup-general-import">22.1.3  Importer</h3>
+<p>Cet onglet sert à configurer certains paramètres d’importation de données.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_import.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.4: Paramètres d’importation</td></tr>
+</table></div>
+<a id="setup-import-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-general-import-parameters">Paramètres pour l’import</h4>
+<p>Quand vous importez un compte, Grisbi vérifie, pour chaque opération de ce compte, si elle existe déjà dans votre fichier de comptes : si l’opération importée comporte un identifiant bancaire (ce qui est généralement le cas), il commence par chercher une opération qui a le même identifiant. S’il ne trouve pas, il va chercher une opération du même montant et à une date proche.</p><p>Le champ de libellé <span class="c007">Intervalle de recherche des opérations similaires</span> permet de définir combien de jours avant et après la date de l’opération importée Grisbi va faire cette recherche. Ainsi, une opération datée du 10 du mois sera recherchée 5 jours avant et après si le réglage est de 5 (sa valeur par défaut est 2).</p><p>Vous pouvez faire les choix suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Fusionner les opérations importées avec les opérations trouvées</span> : fusionne les opérations importées à partir d’un fichier au format OFX avec les opérations planifiées trouvées dans l’intervalle de temps défini ci-dessus ;
+	</li><li class="li-itemize"><span class="c007">Associer automatiquement la catégorie au tiers si c’est possible</span> : associe au tiers la catégorie et l’imputation budgétaire de la dernière opération ayant eu le même tiers, sauf pour les chèques ;
+	</li><li class="li-itemize"><span class="c007">Extraire un numéro à enregistrer dans N° chèque/virement</span> : récupère un numéro contenu dans le tiers pour le sauvegarder dans le champ <span class="c007">N° chèque/virement</span>.
+</li></ul>
+<h4 class="subsubsection" id="setup-general-import-financialyear">Définition de l’exercice</h4>
+<p>Vous pouvez définir quelle type de date sera utilisée pour l’attribution de l’<span class="c003">exercice</span><a id="hevea_default365"></a> à chaque opération importée, en choisissant entre les boutons :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Utiliser la date de l’opération</span> : c’est le choix par défaut ; 
+	</li><li class="li-itemize"><span class="c007">Utiliser la date de valeur ou la date de l’opération si non présente</span>.
+</li></ul>
+<h3 class="subsection" id="setup-general-importLinks">22.1.4  Associations pour l’import</h3>
+<p>
+<a id="setup-importLinks-img"></a>
+</p><div class="picins"><img src="image/screenshot/setup_importLinks.png"></div><p>
+
+Lorsque vous importez un fichier, vous pouvez établir une association entre une <span class="c003">chaîne de caractères</span><a id="hevea_default366"></a> de ce fichier et un tiers. Par exemple, tous les libellés QIF contenant «loyer » peuvent être associés à un tiers qui peut, par exemple, représenter votre propriétaire. Cela permet de définir automatiquement des tiers à partir d’informations avec lesquelles vous savez qu’elles ont un rapport.</p><p>La section <span class="c007">Associations pour l’import</span> affiche le tableau des associations tiers-chaîne de caractères, et deux boutons <span class="c007">Ajouter</span> et <span class="c007">Enlever</span>. La section <span class="c007">Détails des associations</span> affiche un champ de saisie et une liste déroulante pour le <span class="c007">Nom du tiers</span>, et un champ de saisie pour la <span class="c007">Chaîne recherchée</span> : cela permet d’afficher les paramètres de l’association pour l’import<a id="hevea_default367"></a> sélectionnée dans le tableau, ou de créer ou modifier une association.</p><p><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+</p><p>
+Pour ajouter une association, procédez comme suit :
+</p><ul class="itemize"><li class="li-itemize">
+	saisissez un nom dans le champ <span class="c007">Nom du tiers</span> ; Grisbi vous propose le complètement automatique d’après les tiers connus ; ou bien sélectionnez un tiers dans la liste déroulante ;
+	</li><li class="li-itemize">saisissez une chaîne de caractères à rechercher dans le champ <span class="c007">Chaîne recherchée</span> ; vous pouvez utiliser le caractère «% » comme joker, par exemple «Carte Visa% », «%Tresor Public% » ou «VIR % BANQUE » ;
+	</li><li class="li-itemize">cliquez sur le bouton <span class="c007">Ajouter</span> ; l’association s’affiche dans le tableau.
+</li></ul><p>Pour modifier une association, procédez comme suit :
+</p><ul class="itemize"><li class="li-itemize">
+	modification du tiers :
+		<ol class="enumerate" type=1><li class="li-enumerate">
+			sélectionnez l’association dans le tableau par un clic de souris : ses paramètres apparaissent dans la zone <span class="c007">Détails des associations</span>,
+			</li><li class="li-enumerate">dans cette zone, modifiez le tiers dans le champ de saisie libellé <span class="c007">Nom du tiers</span>, ou grâce à la liste déroulante à sa droite, indiquée par un petit triangle noir ;	
+	<p>			<span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+		</p></li></ol>		
+	</li><li class="li-itemize">modification de la chaîne recherchée :		
+		<ol class="enumerate" type=1><li class="li-enumerate">
+			dans la colonne <span class="c007">Chaîne recherchée</span> du tableau, cliquez sur la ligne de l’association : cela met son champ <span class="c007">Chaîne recherchée</span> en mode édition,
+			</li><li class="li-enumerate">modifiez-la, puis validez par la touche <span class="c001">&lt;Entrée&gt;</span> ; le champ <span class="c007">Chaîne recherchée</span> de cette association est mis à jour.	
+		</li></ol>
+</li></ul><p>Pour supprimer une association, procédez comme suit :
+</p><ul class="itemize"><li class="li-itemize">
+	sélectionnez-la dans le tableau par un clic de souris ;
+	</li><li class="li-itemize">cliquez sur le bouton <span class="c007">Enlever</span> ; l’association disparaît du tableau.
+</li></ul>
+<h3 class="subsection" id="setup-general-programs">22.1.5  Programmes</h3>
+<p>Cet onglet permet de définir le programme qui sera lancé par les différents choix du menu <span class="c007">Aide</span>. Le champ <span class="c003">navigateur Web</span><a id="hevea_default368"></a> permet de définir ce programme, qui affichera directement les contenus au format HTML dont Grisbi connaît l’adresse <span class="c003">URL</span> <a id="hevea_default369"></a>, comme le Manuel de l’Utilisateur en ligne.</p><p>
+<a id="setup-programs-img"></a>
+</p><div class="picins"><img src="image/screenshot/setup_programs.png"></div><p>Dans le champ <span class="c007">Navigateur Web</span>, la commande <span class="c001">xdg-open</span>, reconnue par tous les bons systèmes d’exploitation, lance votre navigateur par défaut. Vous pouvez aussi saisir la commande qui lance un autre navigateur, par exemple <span class="c001">firefox</span> ou bien, si vous voulez un affichage ultra-rapide, un navigateur ultra-léger comme Dillo ou Midori (commande <span class="c001">dillo</span> ou <span class="c001">midori</span>).</p><p>
+<span class="c010">Note</span> : dans cette commande, vous devrez peut-être indiquer aussi le chemin d’accès complet à la commande.</p><p><br>
+
+</p><p><span class="c010">Note</span> : cela peut fonctionner de saisir une commande pour lancer l’affichage du manuel en pdf, par ex. <span class="c001">evince chemin/grisbi-manuel-img-xxx.pdf</span> avec son chemin ; il se peut que cela affiche aussi une erreur peu importante, mais si vous préférez ce format …</p>
+<h3 class="subsection" id="setup-general-planned">22.1.6  Échéancier</h3>
+<p>L’échéancier peut vous signifier une <span class="c003">alerte d’opération planifiée</span><a id="hevea_default370"></a> à l’approche d’une échéance, par un message qui s’affiche dans la page d’accueil. Vous pouvez choisir entre les boutons :
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="setup-plannedtransactions-img"></a>
+	<div class="picins"><img src="image/screenshot/setup_plannedtransactions.png"></div>
+			<span class="c007">Alerter/Exécuter les opérations planifiées arrivées à terme</span> : le message n’apparaît qu’à la date où l’opération est échue ; c’est le choix par défaut ;
+	</li><li class="li-itemize"><span class="c007">Alerter/Exécuter les opérations planifiées du mois</span> : le message apparaît dès le 1er jour du mois pour toutes les opérations échues durant le mois.
+</li></ul><p>Vous pouvez aussi y définir avec l’incrémenteur le <span class="c007">Nombre de jours avant l’alerte ou l’exécution des opérations</span>.</p><p><br>
+<br>
+<br>
+<br>
+
+</p>
+<h3 class="subsection" id="setup-general-localisation">22.1.7  Paramètres régionaux</h3>
+<h4 class="subsubsection" id="sec371">Choisir le format de la date</h4>
+<p><a id="hevea_default371"></a><a id="hevea_default372"></a><a id="hevea_default373"></a></p><p>Grisbi vous laisse le choix dans le format de la date. Vous pouvez choisir son format entre les boutons :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">dd/mm/yy</span> : affichage du jour, du mois et de l’année ; c’est le format utilisé dans les pays francophones, et c’est le format par défaut ; 
+	</li><li class="li-itemize"><span class="c007">mm/dd/yy</span> : affichage du mois, du jour et de l’année ; c’est le format utilisé dans les pays anglophones ;
+	</li><li class="li-itemize"><span class="c007">dd.mm.yy</span> : affichage du jour, du mois et de l’année ; c’est le format utilisé en Europe centrale.	
+</li></ul>
+<h4 class="subsubsection" id="sec372">Choisir le séparateur décimal et le séparateur des milliers</h4>
+<p><a id="hevea_default374"></a></p><p>Vous pouvez choisir dans les deux listes déroulantes :
+</p><ul class="itemize"><li class="li-itemize">
+	le <span class="c003">séparateur décimal</span> ; la virgule est le séparateur utilisé dans les pays francophones, et c’est le séparateur par défaut ; 
+	</li><li class="li-itemize">le <span class="c003">séparateur des milliers</span> ; l’espace est le séparateur utilisé dans les pays francophones, et c’est le séparateur par défaut.
+</li></ul>
+<h3 class="subsection" id="setup-general-home">22.1.8  Accueil</h3>
+<p>Il s’agit de la configuration de trois aspects de la page d’accueil.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_home.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.5: Configuration de la page d’accueil</td></tr>
+</table></div>
+<a id="setup-home-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-general-home-final">Pluriel de final</h4>
+<p>Ce <span class="c003">pluriel du mot «final »</span> <a id="hevea_default375"></a>apparaît notamment dans la page d’accueil. Vous pouvez choisir le pluriel de «Solde final », entre <span class="c007">Soldes finals</span> (choix par défaut) et <span class="c007">Soldes finaux</span>. En effet, l’emploi de l’un ou l’autre est possible, c’est donc à votre convenance. </p>
+<h4 class="subsubsection" id="setup-general-home-balance">Calcul des soldes</h4>
+<p>Vous pouvez aussi <span class="c007">Prendre en compte les transactions planifiées dans le calcul des soldes</span><a id="hevea_default376"></a> en cochant la case correspondante : c’est le choix par défaut.</p>
+<h4 class="subsubsection" id="setup-general-home-partBalance">Soldes partiels de la liste des comptes</h4>
+<p>La page d’accueil affiche le solde de chaque compte créé dans Grisbi, ainsi que le solde final de tous les comptes. Vous pouvez aussi lui faire afficher les soldes de plusieurs comptes, groupés par vous-mêmes en <span class="c003">groupes de comptes</span><a id="hevea_default377"></a>. Ces <span class="c003">soldes partiels</span><a id="hevea_default378"></a> seront affichés en-dessous des <span class="c003">soldes des comptes</span><a id="hevea_default379"></a>, et leur ordre peut être ajusté à votre convenance, ainsi que leur couleur.</p><p>
+Le tableau <span class="c007">Soldes partiels de la liste des comptes</span> affiche les groupes de comptes<a id="hevea_default380"></a> et leurs paramètres : <span class="c007">Nom</span>, <span class="c007">Liste des comptes</span>, <span class="c007">Colorise</span>, <span class="c007">Type de compte</span>, <span class="c007">Devise</span>.</p><p>
+Vous pouvez ajuster l’ordre d’<span class="c003">affichage des soldes partiels</span><a id="hevea_default381"></a> dans la page d’accueil de plusieurs manières :</p><ul class="itemize"><li class="li-itemize">
+	en cochant la case <span class="c007">Mettre le solde partiel sous ses comptes si c’est possible</span> qui se trouve sous le tableau ;
+	</li><li class="li-itemize">en modifiant les numéros d’ordre des groupes dans le tableau ;
+	</li><li class="li-itemize">en sélectionnant la ligne du groupe dans le tableau et en déplaçant la sélection dans la liste.
+</li></ul><p>
+Pour <span class="c003">ajouter un groupe de comptes</span><a id="hevea_default382"></a> dans la liste, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur <span class="c007">Ajouter</span> ; la fenêtre <span class="c007">Détail des soldes partiels</span> s’affiche ;
+	</li><li class="li-enumerate">saisissez le nom de votre nouveau groupe de comptes dans le champ <span class="c007">Nom</span> ;
+	</li><li class="li-enumerate">sélectionnez au moins deux comptes dans la liste <span class="c007">Nom du compte</span>, en utilisant la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> ; 
+	</li><li class="li-enumerate">le libellé <span class="c007">Liste des comptes</span> indique les numéros d’ordre des comptes choisis (ces numéros correspondent à l’ordre de création de chaque compte) ;
+	</li><li class="li-enumerate">le libellé <span class="c007">Position dans la liste des comptes</span> indique le numéro d’ordre de création du groupe de comptes.
+	</li><li class="li-enumerate">quand il est négatif, le solde s’affiche par défaut en noir ; cochez la case <span class="c007">Colorise</span> pour qu’il s’affiche en rouge dans ce cas, puis validez par le bouton <span class="c007">Valider</span> ;
+	</li><li class="li-enumerate">si les comptes sélectionnés ont des devises différentes, une fenêtre s’ouvre, sélectionnez la devise du solde partiel, puis validez par le bouton <span class="c007">Valider</span> ;
+	</li><li class="li-enumerate">le tableau <span class="c007">Soldes partiels de la liste des comptes</span> affiche maintenant la ligne de votre nouveau groupe de comptes. 
+</li></ol><p>
+Pour <span class="c003">modifier un groupe de comptes</span><a id="hevea_default383"></a> dans la liste, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	sélectionnez un groupe de comptes par un clic sur sa ligne ;
+	</li><li class="li-enumerate">cliquez sur <span class="c007">Modifier</span> : la fenêtre <span class="c007">Détail des soldes partiels</span> s’affiche : les comptes du groupe sont affichés sur fond grisé ;
+	</li><li class="li-enumerate">modifiez le nom de votre groupe de comptes dans le champ <span class="c007">Nom</span> ;
+	</li><li class="li-enumerate">changez votre sélection de comptes (gardez au moins deux comptes dans la liste), en utilisant la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> ; 
+	</li><li class="li-enumerate">le libellé <span class="c007">Liste des comptes</span> indique les numéros d’ordre modifiés des comptes choisis ;
+	</li><li class="li-enumerate">le libellé <span class="c007">Position dans la liste des comptes</span> indique le même numéro d’ordre de création du groupe de comptes qu’auparavant.<p>	</p></li><li class="li-enumerate">cochez la case <span class="c007">Colorié en rouge</span>, si le solde est négatif, à votre convenance, puis validez par le bouton <span class="c007">Valider</span> ;
+	</li><li class="li-enumerate">si les comptes sélectionnés ont des devises différentes, une fenêtre s’ouvre, sélectionnez la devise du solde partiel, puis validez par le bouton <span class="c007">Valider</span> ;
+	</li><li class="li-enumerate">le tableau <span class="c007">Soldes partiels de la liste des comptes</span> affiche maintenant la ligne de votre nouveau groupe de comptes modifié. 
+</li></ol><p>Pour <span class="c003">supprimer un groupe de comptes</span><a id="hevea_default384"></a> dans la liste, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	sélectionnez un groupe de comptes par un clic sur sa ligne ;
+	</li><li class="li-enumerate">cliquez sur <span class="c007">Enlever</span> ; le groupe de comptes sélectionné disparaît de la liste.
+</li></ol>
+<h2 class="section" id="setup-display">22.2  Affichage</h2>
+<h3 class="subsection" id="setup-display-logo">22.2.1  Polices, logo et couleurs</h3>
+<p>Vous pouvez modifier le logo de Grisbi, la police de caractères utilisés et certaines couleurs.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_fonts_logo.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.6: Logo de Grisbi, polices de caractères et couleurs</td></tr>
+</table></div>
+<a id="setup-fonts-logo-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-display-logo-icon">Logo de Grisbi</h4>
+<p>Vous pouvez afficher ou non un logo dans la page d’accueil de Grisbi en (dé)cochant le bouton <span class="c007">Afficher un logo</span>. Le logo par défaut est le même que celui qui est affiché en miniature devant le libellé <span class="c007">Cliquez sur la prévisualisation pour modifier le logo</span>. Vous pouvez le changer à votre convenance. </p><p>
+Pour changer le logo, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur la prévisualisation du logo ;
+	</li><li class="li-enumerate">une fenêtre de gestionnaire de fichiers s’affiche ;
+	</li><li class="li-enumerate">naviguez dans l’arborescence des fichiers pour trouver votre nouveau logo ; ce doit être un fichier avec une extension de format d’image ; puis validez ;
+	</li><li class="li-enumerate">la prévisualisation du nouveau logo s’affiche.
+</li></ol><p>
+Cette fonction est surtout intéressante pour les trésoriers d’associations (ou d’autres organisations) qui pourront ainsi imprimer des états avec leur logo au lieu de celui de Grisbi.</p><p><span class="c010">Note</span> : le logo de Grisbi existe en plusieurs formats, dont PNG et SVG.
+</p>
+<h4 class="subsubsection" id="setup-display-logo-fonts">Polices</h4>
+<p>Pour changer la police de caractères utilisée dans Grisbi pour les opérations, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur la case <span class="c007">Choisir une police pour les opérations</span> : cela valide le champ indiquant le nom de la police courante et sa taille ;
+	</li><li class="li-enumerate">cliquez sur ce champ : une fenêtre de choix de police s’affiche ;
+	</li><li class="li-enumerate">sélectionnez la police, le style et la taille puis validez par le bouton <span class="c007">Valider</span>.
+</li></ol>
+<h4 class="subsubsection" id="setup-display-logo-colors">Couleurs</h4>
+<p>Toutes les couleurs accessibles dans la liste déroulante commençant par <span class="c007">Couleur de fond 1 de la liste des opérations</span> sont modifiables ; pour les modifier, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur la liste déroulante et choisissez l’une des possibilités proposées ;
+	</li><li class="li-enumerate">cliquez sur le pavé de choix des couleurs juste à droite : la fenêtre de palette des couleurs s’affiche ;
+	</li><li class="li-enumerate">sélectionnez la couleur désirée, puis validez par le bouton <span class="c007">Valider</span>.
+</li></ol><p>La <span class="c007">Couleur pour l’opération qui donne le solde à aujourd’hui</span> sert à distinguer le solde du compte quand on a choisi l’option <span class="c007">Exécuter les opérations planifiées du mois</span> (voir la section <a href="#setup-general-planned">22.1.6</a>, <span class="c007">Échéancier</span>).</p><p>Vous pouvez revenir aux réglages de couleur d’origine en cliquant sur le bouton <span class="c007">Restaurer les réglages par défaut</span>.</p>
+<h3 class="subsection" id="setup-display-messages">22.2.2  Messages et alertes</h3>
+<p>Cet onglet permet d’autoriser ou non l’affichage des messages et des alertes que vous renvoie Grisbi.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_messages_alerts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.7: Messages et alertes</td></tr>
+</table></div>
+<a id="setup-messages-alerts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-display-messages-trick">Astuce du jour</h4>
+<p>Avec la case à cocher <span class="c007">Afficher l’astuce du jour</span>, vous autorisez ou non l’affichage de la fenêtre de l’astuce du jour<a id="hevea_default385"></a> dans la page d’accueil, à chaque démarrage de Grisbi (par défaut, elle ne sera pas affichée). De toutes manières, cette fenêtre peut aussi être affichée à tout moment, en sélectionnant le menu <span class="c007">Aide - Astuce du jour</span>.</p>
+<h4 class="subsubsection" id="sec384">Afficher les messages ou alertes suivants</h4>
+<p>En (dé)cochant la case correspondante, vous pouvez autoriser ou non l’affichage des <span class="c003">messages d’alerte</span><a id="hevea_default386"></a><a id="hevea_default387"></a> suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Option de sécurité non implémentée</span> ;
+	</li><li class="li-itemize"><span class="c007">Le chiffrement est irréversible</span> ;
+	</li><li class="li-itemize"><span class="c007">Le fichier de comptes est lisible par tous</span> ;
+	</li><li class="li-itemize"><span class="c007">Le fichier <span class="c010">nom_de_votre_fichier.gsb</span> est déjà ouvert</span> ;
+	</li><li class="li-itemize"><span class="c007">Comptes sous le solde minimal voulu </span><a id="hevea_default388"></a> ;
+	</li><li class="li-itemize"><span class="c007">Pas d’imputation budgétaire saisie</span> ;
+	</li><li class="li-itemize"><span class="c007">Récupération des ventilations ?</span> ;
+	</li><li class="li-itemize"><span class="c007">Pas d’incohérence</span> ;
+	</li><li class="li-itemize"><span class="c007">Confirmation d’un (dé)rapprochement manuel</span> ;
+	</li><li class="li-itemize"><span class="c007">Dates de début et de fin du rapprochement</span> ;
+	</li><li class="li-itemize"><span class="c007">Vous utilisez Grisbi version <em>numéro-de-version-de-Grisbi</em></span>.
+</li></ul><p>Par défaut, l’affichage de tous ces messages est validé.</p>
+<h3 class="subsection" id="setup-display-addresses">22.2.3  Adresses et titres</h3>
+<p>Cet onglet permet de saisir un titre et des adresses.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_adresses.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.8: Adresses et titres</td></tr>
+</table></div>
+<a id="setup-adresses-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-display-addresses-titles">Titres</h4>
+<p>Grisbi affiche en haut de sa page d’accueil, à droite de l’icône <span class="c007">Grisbi</span>, un <span class="c003">titre</span><a id="hevea_default389"></a><a id="hevea_default390"></a> qui permet d’identifier sur quel document vous travaillez actuellement, sous la forme «libellé - Grisbi». Vous pouvez définir ici ce libellé, parmi les trois suivants :</p><ul class="itemize"><li class="li-itemize">
+	l’<span class="c007">Entité comptable</span> : c’est le nom du domaine de comptabilité sur lequel vous travaillez, par exemple «Ma comptabilité » ou «Association », et que vous avez saisi à la création du fichier de comptes ; vous pouvez le modifier ici dans le champ <span class="c007">Nom de l’entité comptable</span> ; cela peut être utile si vous gérez plusieurs <span class="c003">entités comptables</span><a id="hevea_default391"></a> ;
+	</li><li class="li-itemize">le <span class="c007">Titulaire du compte</span> : Grisbi affiche le nom du titulaire (ou du propriétaire) du dernier compte consulté ; si ce titulaire n’est pas renseigné dans les propriétés du compte, Grisbi affiche le nom de ce compte ;
+	</li><li class="li-itemize">le <span class="c007">Nom du fichier de comptes</span> : c’est le <span class="c003">nom du fichier</span><a id="hevea_default392"></a><a id="hevea_default393"></a> dans le répertoire courant, sous la forme <span class="c010">nom_de__votre_fichier.gsb</span>, et c’est le choix par défaut.
+</li></ul>
+<h4 class="subsubsection" id="setup-display-addresses-address">Adresses</h4>
+<p>Vous pouvez indiquer ici deux adresses différentes pour le titulaire, dans les deux champs juste en-dessous.</p>
+<h3 class="subsection" id="setup-display-third">22.2.4  Tiers, catégories et imputations budgétaires</h3>
+<p>Cet onglet permet de définir certains paramètres d’affichage de ces trois onglets.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_thirdCategories.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.9: Tiers, catégories et imputations budgétaires</td></tr>
+</table></div>
+<a id="setup-thirdCategories-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-display-third-currencies">Devises des totaux</h4>
+<p>Vous pouvez ici définir individuellement la <span class="c003">devise utilisée pour les totaux</span><a id="hevea_default394"></a> des différents onglets <span class="c007">Tiers</span>, <span class="c007">Catégories</span> et <span class="c007">Imputations budgétaires</span>. Pour chacun, sélectionnez la devise dans la liste déroulante correspondante. Le choix ne peut être fait que parmi les devises que connaît votre fichier de comptes (voir la section <a href="#setup-resources-currencies">22.5.1</a>, <span class="c007">Devises</span>).</p>
+<h4 class="subsubsection" id="setup-display-third-sum">Calcul des totaux</h4>
+<p>La case <span class="c007">Ajouter les opérations archivées aux totaux</span>, cochée par défaut, permet de tenir ou non compte des opérations archivées dans le <span class="c003">calcul des totaux</span><a id="hevea_default395"></a><a id="hevea_default396"></a>, pour les onglets <span class="c007">Tiers</span>, <span class="c007">Catégories</span> et <span class="c007">Imputations budgétaires</span>. Lorsque cette option est cochée, les totaux dans ces onglets comptabilisent les opérations archivées. Dans le cas contraire les totaux ne comptabilisent que les opérations non archivées.</p><p>
+<span class="c009">Attention</span> : ne décochez cette case qu’en connaissance de cause, car ces totaux risqueraient alors de ne pas refléter la réalité !</p>
+<h4 class="subsubsection" id="setup-display-third-sort">Option de tri pour les opérations</h4>
+<p>Vous pouvez choisir l’<span class="c003">ordre d’affichage des opérations</span><a id="hevea_default397"></a>, parmi deux critères de tri :</p><ul class="itemize"><li class="li-itemize">
+	tri par numéro : c’est le choix par défaut ;
+	</li><li class="li-itemize">tri par date croissante ;
+	</li><li class="li-itemize">tri par date décroissante.
+</li></ul>
+<h4 class="subsubsection" id="setup-display-third-mouse">Action associée au double clic sur une sous-catégorie ou sous-imputation budgétaire</h4>
+<p>Vous pouvez définir l’action qu’exécutera le <span class="c003">double-clic</span> de la souris<a id="hevea_default398"></a><a id="hevea_default399"></a> sur une sous-catégorie ou une sous-imputation budgétaire, parmi les choix suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	développer la ligne : c’est le choix par défaut ;
+	</li><li class="li-itemize">éditer la ligne ;
+	</li><li class="li-itemize">gérer la ligne.
+</li></ul>
+<h3 class="subsection" id="setup-display-toolbars">22.2.5  Éléments de l’interface</h3>
+<p>Ces trois éléments de la fenêtre de Grisbi peuvent être configurés. Pour les identifier correctement, voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span> .
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_toolbar.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.10: Éléments de l’interface</td></tr>
+</table></div>
+<a id="setup-toolbar-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="sec394">Barre d’information</h4>
+<p>La barre d’information<a id="hevea_default400"></a> peut être masquée ou affichée en (dé)cochant la case correspondante <span class="c007">Afficher la barre d’information</span>. </p>
+<h4 class="subsubsection" id="sec395">Panneau de navigation</h4>
+<p>Vous pouvez choisir la possibilité du changement d’onglet avec la molette de la souris dans le panneau de navigation<a id="hevea_default401"></a>, en cochant la case <span class="c007">Ajouter le défilement avec la souris dans le panneau de navigation</span> : c’est le choix par défaut.</p>
+<h4 class="subsubsection" id="sec396">Barre d’outils</h4>
+<p>Vous pouvez choisir le mode d’affichage des boutons de la barre d’outils<a id="hevea_default402"></a>, avec :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">du texte</span> ;
+	</li><li class="li-itemize"><span class="c007">des icônes</span> ;
+	</li><li class="li-itemize"><span class="c007">les deux</span> : c’est le choix par défaut.
+</li></ul>
+<h2 class="section" id="setup-operations">22.3  Opérations</h2>
+<h3 class="subsection" id="setup-operations-list">22.3.1  Comportement de la liste</h3>
+<p>Cet onglet permet de configurer la liste des opérations.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_listBehaviour.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.11: Configuration de la liste des opérations</td></tr>
+</table></div>
+<a id="setup-listBehaviour-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-operations-list-modes">Modes d’affichage</h4>
+<p>Vous pouvez choisir le <span class="c003">mode d’affichage</span> de la liste<a id="hevea_default403"></a><a id="hevea_default404"></a>, c’est à dire le <span class="c003">nombre de lignes</span> qui sont affichées pour chaque opération : sélectionnez, dans la liste déroulante, le mode d’affichage (<span class="c007">Vue simple</span>, <span class="c007">Mode «deux lignes »</span> ou <span class="c007">Mode «trois lignes »</span>) dans la liste des opérations des comptes (voir la section <a href="grisbi-manuel009.html#transactions-list-description">8.2.1</a>, <span class="c007">Description</span>). Le mode <span class="c007">Vue complète</span> ne peut être configuré, car il affiche évidemment toutes les lignes.</p><p><span class="c010">Note</span> : le contenu de chaque ligne choisie dépend de la configuration de l’affichage des champs : voir la section <a href="#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>.
+</p><p>Vous pouvez choisir les fonctions suivantes, à votre convenance :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Ouvrir l’opération sélectionnée avec un simple clic</span><a id="hevea_default405"></a> : c’est le choix par défaut ;
+	</li><li class="li-itemize"><span class="c007">Surligner l’opération qui donne le solde à aujourd’hui</span><a id="hevea_default406"></a> : le <span class="c003">surlignage</span><a id="hevea_default407"></a> permet de distinguer l’opération qui donne le solde du jour en coloriant son fond de façon spécifique ; c’est utile lorsque l’on exécute par avance des opérations futures, et c’est le choix par défaut.
+</li></ul>
+<h4 class="subsubsection" id="sec400">Option de tri primaire</h4>
+<p>Le <span class="c003">tri primaire</span><a id="hevea_default408"></a> sert à déterminer la date pour laquelle le solde est calculé après chaque opération. Vous pouvez choisir l’un de ces deux critères pour ce tri primaire :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Tri par date de valeur ou par date de l’opération si non présente</span> : les opérations sont triées par date de valeur ; dans le cas où cette date n’est pas renseignée, elle est remplacée par la date de l’opération ; c’est le tri par défaut de Grisbi ;
+	</li><li class="li-itemize"><span class="c007">Tri par date de valeur puis par date de l’opération</span> : les opérations sont triées par date de valeur, et pour chaque date, elles sont triées par date de l’opération.
+</li></ul><p>
+<span class="c010">Note</span> : le choix du tri primaire fait ici modifie nécessairement la chronologie des opérations, donc le solde calculé après chaque ligne d’opération.</p><p>
+<span class="c010">Note</span> : pour trier les opérations par date d’opération ou par date de valeur, il faut qu’une colonne de la liste des opérations affiche cette date (voir la section <a href="grisbi-manuel009.html#transactions-list-fields">8.2.2</a>, <span class="c007">Champs d’information et de saisie</span>), et que vous ayez sélectionné <span class="c007">Date d’opération</span> ou <span class="c007">Date de valeur</span> dans le menu contextuel par un clic-droit dans le libellé de la colonne (voir la section <a href="grisbi-manuel009.html#transactions-list-sorts">8.2.4</a>, <span class="c007">Tris</span>).</p>
+<h4 class="subsubsection" id="sec401">Option de tri secondaire</h4>
+<p>Vous pouvez choisir l’un de ces quatre critères pour le <span class="c003">tri secondaire</span><a id="hevea_default409"></a> :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Tri par numéro d’opération</span> : c’est le tri par défaut de Grisbi ;
+	</li><li class="li-itemize"><span class="c007">Tri par montant (crédit débit)</span> ;
+	</li><li class="li-itemize"><span class="c007">Tri par tiers ou par numéro d’opération si non présent</span> : les opérations sont triées par tiers ; dans le cas où le tiers n’est pas renseigné, le tri est fait par numéro d’opération ;
+	</li><li class="li-itemize"><span class="c007">Tri par date puis par numéro d’opération</span> : les opérations sont triées par date, et pour chaque date, elles sont triées par numéro d’opération.
+</li></ul>
+<h4 class="subsubsection" id="setup-operations-list-differenciation">Différenciation des comptes</h4>
+<p>La <span class="c003">différenciation des comptes</span><a id="hevea_default410"></a>
+<a id="hevea_default411"></a> est la possibilité de régler leur affichage indépendamment : vous pouvez choisir de <span class="c007">Retenir les réglages de l’affichage séparément pour chaque compte</span> en cochant la case correspondante.</p>
+<h3 class="subsection" id="setup-operations-cells">22.3.2  Cellules de la liste des opérations</h3>
+<p>Vous pouvez définir le nombre et l’emplacement exact des champs des opérations dans la liste des opérations, grâce aux deux tableaux 
+décrits ci-dessous.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_listCells.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.12: Cellules de la liste des opérations</td></tr>
+</table></div>
+<a id="setup-listCells-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p><span class="c010">Note</span> : la disposition de l’affichage des champs des opérations dans la liste des opérations des comptes est totalement indépendante de celle de l’affichage des champs dans le formulaire de saisie, qui est elle-même décrite dans la section <a href="#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span>.</p>
+<h4 class="subsubsection" id="setup-operations-cells-display">Prévisualisation de la liste des opérations</h4>
+<p>Le tableau de prévisualisation présente un aperçu des <span class="c003">champs d’une opération</span><a id="hevea_default412"></a>, dont le contenu est affiché dans la liste des opérations de l’onglet <span class="c007">Opérations</span> de chaque compte.</p><p>Ce tableau comprend quatre lignes et sept colonnes, qui définissent 28 <span class="c003">cellules</span><a id="hevea_default413"></a>, qui peuvent donc afficher au maximum 28 champs. Vous pouvez modifier la <span class="c003">largeur des colonnes</span><a id="hevea_default414"></a> en cliquant, dans la ligne des libellés des colonnes, sur le séparateur entre deux d’entre-elles (sans relâcher) et en le déplaçant avec la souris.</p><p>
+<span class="c010">Note</span> : le <span class="c003">libellé de chaque colonne</span><a id="hevea_default415"></a>
+de ce tableau est celui du champ de la première ligne de cette colonne, quand il est rempli.
+</p><p>Un même champ ne peut être présent que dans une seule cellule de la liste des opérations.</p><p>
+Vous pouvez <span class="c003">déplacer un champ</span><a id="hevea_default416"></a>
+d’une cellule à une autre cellule en cliquant (sans relâcher) sur son nom et en le déplaçant dans l’autre cellule. Si celle-ci contient déjà un champ, celui-ci disparaît et doit être éventuellement remis en place dans une autre cellule.</p>
+<h4 class="subsubsection" id="sec405">Contenu de la liste des opérations</h4>
+<p><a id="hevea_default417"></a></p><p>Le tableau montre tous les <span class="c003">champs affichables</span><a id="hevea_default418"></a> dans le tableau de prévisualisation, donc dans la liste des opérations. Il sert à choisir les champs affichés dans la prévisualisation. Chaque cellule de ce tableau peut avoir deux couleurs :</p><ul class="itemize"><li class="li-itemize">
+	gris foncé quand ce champ ne se trouve pas déjà dans la prévisualisation et qu’on peut l’y mettre ;
+	</li><li class="li-itemize">rouge quand ce champ se trouve déjà dans la prévisualisation.
+</li></ul><p>
+Pour <span class="c003">ajouter un champ</span> dans la prévisualisation<a id="hevea_default419"></a>, cliquez sur son nom (sur fond gris foncé) dans le tableau de contenu : la couleur de sa cellule passe au rouge, tandis que le nom de ce champ apparaît dans les dernières lignes du tableau de prévisualisation. Déplacez ensuite ce champ dans la cellule qui vous convient.</p><p>
+Pour <span class="c003">enlever un champ</span> de la prévisualisation<a id="hevea_default420"></a>, cliquez sur son nom (sur fond rouge) dans le tableau de contenu : la couleur de sa cellule passe au gris foncé, tandis que ce champ disparaît de la prévisualisation.</p><p>Pour <span class="c003">modifier un champ</span> de la prévisualisation<a id="hevea_default421"></a>, déplacez-le dans une autre cellule et ajoutez un autre champ à la place.</p><p><span class="c010">Note</span> : il est possible d’enlever tous les champs du tableau de prévisualisation, et dans ce cas la liste des opérations ne contiendra l’<span class="c003">affichage d’aucune opération</span> <a id="hevea_default422"></a>.</p><p>
+Grisbi vous offre une très grande <span class="c003">souplesse</span> pour l’affichage des <span class="c003">champs des opérations</span><a id="hevea_default423"></a><a id="hevea_default424"></a> dans la liste des opérations des comptes : d’une part, vous pouvez positionner n’importe quel champ d’information sur n’importe quelle cellule de n’importe laquelle des quatre lignes du tableau de prévisualisation ; d’autre part, le menu <span class="c007">Mode d’affichage</span> de la liste d’opérations permet quatre possibilités d’affichage (<span class="c007">Vue simple</span>, <span class="c007">Mode «deux lignes »</span>, <span class="c007">Mode «trois lignes »</span> et <span class="c007">Vue complète</span>), qui peuvent être configurés dans le paragraphe <a href="#setup-operations-list-modes">22.3.1</a>, <span class="c007">Modes d’affichage</span>. Vous pouvez donc, suivant le <span class="c007">Mode d’affichage</span> sélectionné, afficher quatre jeux de lignes que vous voulez, par exemple :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Vue simple</span> : affichage de la ligne 1 ;
+	</li><li class="li-itemize"><span class="c007">Mode «deux lignes »</span> : affichage des lignes 3-4 ;
+	</li><li class="li-itemize"><span class="c007">Mode «trois lignes »</span> : affichage des lignes 1-2-4 ;
+	</li><li class="li-itemize"><span class="c007">Vue complète</span> : affichage des lignes 1-2-3-4, évidemment.
+</li></ul>
+<h3 class="subsection" id="setup-operations-remove">22.3.3  Messages avant suppression</h3>
+<p>En (dé)cochant la case correspondante, vous pouvez autoriser ou non l’affichage des messages suivants :</p><ul class="itemize"><li class="li-itemize">
+						<a id="setup-messagesDelete-img"></a>
+	<div class="picins"><img src="image/screenshot/setup_messagesDelete.png"></div>
+			<span class="c007">Supprimer une sous-opération</span> ;
+	</li><li class="li-itemize"><span class="c007">Supprimer une opération</span> ;
+	</li><li class="li-itemize"><span class="c007">Supprimer une sous-opération planifiée</span> ;
+	</li><li class="li-itemize"><span class="c007">Supprimer une opération planifiée</span> ;
+	</li><li class="li-itemize"><span class="c007">Supprimer cette occurrence ou toutes, de l’opération sélectionnée</span> ; 
+	</li><li class="li-itemize"><span class="c007">Supprimer une règle d’importation de fichier</span>.
+</li></ul><p>Par défaut, l’affichage de tous ces messages est validé.</p><p><br>
+<br>
+<br>
+<br>
+
+</p>
+<h3 class="subsection" id="setup-operations-reconciliation">22.3.4  Rapprochement</h3>
+<p>Cet onglet permet de gérer les rapprochements effectués antérieurement.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_reconciliation.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.13: Gestion des rapprochements antérieurs</td></tr>
+</table></div>
+<a id="setup-reconciliation-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="setup-operations-reconciliation-date">Sélection de la date de fin de rapprochement</h4>
+<p>Vous pouvez définir la date de fin de rapprochement<a id="hevea_default425"></a>
+parmi ces deux dates :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date de début plus un mois</span> ; c’est la date par défaut ;
+	</li><li class="li-itemize"><span class="c007">Date du jour</span>.
+</li></ul>
+<h4 class="subsubsection" id="sec409">Liste des rapprochements</h4>
+<p><a id="hevea_default426"></a></p><p>Le tableau <span class="c003">liste tous les rapprochements</span><a id="hevea_default427"></a> déjà effectués dans tous les comptes de votre fichier de comptes. </p><p>Pour afficher tous les rapprochements d’un ou plusieurs comptes, cliquez sur le petit triangle à gauche de leurs noms. Vous pouvez alors sélectionner un des rapprochements par un clic sur sa ligne, son numéro s’affiche dans la colonne <span class="c007">Compte</span>, et ses dates (initiale et finale) et soldes (initial et final) s’affichent dans leurs colonnes respectives.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p>
+<h4 class="subsubsection" id="sec410">Rapprochement sélectionné</h4>
+<p><a id="hevea_default428"></a></p><p>Quand vous sélectionnez un rapprochement dans le tableau, le détail de ses caractéristiques apparaît dans les différents champs, que vous pouvez modifier en cas de besoin.</p><p>
+Le bouton <span class="c007">Supprimer le rapprochement</span><a id="hevea_default429"></a> permet de <span class="c003">supprimer le rapprochement</span> sélectionné ; dans ce cas, toutes les opérations rapprochées liées à ce rapprochement perdront leur statut d’opérations rapprochées, retrouveront le statut d’opérations pointées et seront donc marquées «<span class="c010">P</span> ». </p><p>
+<span class="c009">Attention</span> : la suppression d’un rapprochement, la modification ou la suppression de certaines caractéristiques d’un rapprochement, peuvent avoir des conséquences importantes sur le compte concerné, par exemple la cohérence entre les dates (initiale et finale), ou entre les soldes (initial et final) de deux rapprochements consécutifs, pouvant aller jusqu’à rendre votre fichier de comptes inutilisable. Il est donc fortement conseillé de faire une <span class="c010">copie de sauvegarde</span> de votre fichier de comptes auparavant.</p><p>Le bouton <span class="c007">Trouver les opérations marquées et non associées à un rapprochement</span><a id="hevea_default430"></a> permet d’aider à rétablir une continuité des rapprochements et de réparer certaines erreurs. Les <span class="c003">opérations marquées</span><a id="hevea_default431"></a> correspondent à des opérations qui peuvent avoir une lettre «<span class="c010">P</span> », «<span class="c010">R</span> » ou «<span class="c010">T</span> » dans la colonne <span class="c007">P/R</span>. Si vous cliquez sur ce bouton, un assistant s’ouvre, qui permet de :</p><ul class="itemize"><li class="li-itemize">
+	créer directement à la main autant de relevés que nécessaire, juste par leur date et soldes ;
+	</li><li class="li-itemize">associer automatiquement les opérations orphelines à un relevé correspondant à sa date ; cela est très pratique pour les opérations orphelines créées par l’usage incorrect de la touche <span class="c001">&lt;Ctrl&gt;&lt;R&gt;</span> ;
+	</li><li class="li-itemize">associer manuellement les opérations orphelines à des relevés.
+</li></ul>
+<h3 class="subsection" id="setup-operations-sort">22.3.5  Options de tri pour les rapprochements</h3>
+<p>Vous pouvez configurer ici l’ordre d’affichage de la liste des opérations<a id="hevea_default432"></a> lors d’un rapprochement des opérations d’un compte (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>). Cet ordre peut être configuré par un tri selon les modes de règlement. Cela peut être utile si votre relevé bancaire présente un ordre particulier selon ces modes de règlement, et si vous voulez faire correspondre l’affichage de Grisbi avec ce relevé.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_reconciliation_sort.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.14: Options de tri pour les rapprochements</td></tr>
+</table></div>
+<a id="setup-reconciliation-sort-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Un tableau affiche la liste des comptes de votre fichier de comptes. Pour afficher tous les modes de règlement d’un ou plusieurs comptes, cliquez sur le petit triangle à gauche de leur nom.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Vous pouvez choisir, individuellement pour chaque compte, que les opérations de votre compte se présentent triées par mode de règlement.</p><p>Vous pouvez aussi, individuellement pour chaque compte, y <span class="c007">Séparer les modes neutres</span><a id="hevea_default433"></a> : un <span class="c003">mode neutre</span> est un mode de règlement qui peut être indifféremment un débit ou un crédit, comme par exemple un virement, au contraire du mode <span class="c007">Prélèvement</span> qui est toujours un débit, ou du mode <span class="c007">Dépôt</span> qui est toujours un crédit. </p><p>
+Pour ajuster un ordre particulier pour un compte, procédez comme suit :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez, sur la ligne du compte concerné, dans la case de la colonne <span class="c007">Tri par mode</span> ;
+	</li><li class="li-enumerate">cliquez, sur la même ligne, dans la case de la colonne <span class="c007">Séparer les modes neutres</span>, si vous le voulez : ces modes se séparent en deux, l’un positif et l’autre négatif ;
+	</li><li class="li-enumerate">cliquez sur l’un des modes de règlement et déplacez-le à la position voulue avec les boutons <span class="c007">Monter</span> ou <span class="c007">Descendre</span> ;
+	</li><li class="li-enumerate">recommencez cette action sur les autres modes jusqu’à l’obtention de l’ordre de tri voulu pour ce compte.
+</li></ol>
+<h2 class="section" id="setup-form">22.4  Formulaire des opérations</h2>
+<h3 class="subsection" id="setup-form-content">22.4.1  Contenu</h3>
+<p>Vous pouvez définir le nombre et l’emplacement exact des champs constituant le formulaire de saisie des opérations, grâce aux deux tableaux décrits ci-dessous.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_transactions_form.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.15: Formulaire des opérations</td></tr>
+</table></div>
+<a id="setup-transactions-form-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p><span class="c010">Note</span> : la disposition de l’affichage des champs dans le formulaire de saisie est totalement indépendante de celle de l’affichage des champs dans la liste des opérations des comptes, qui est elle-même décrite dans la section <a href="#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>.</p>
+<h4 class="subsubsection" id="setup-form-content-display">Prévisualisation de la structure du formulaire</h4>
+<p>Ce tableau de prévisualisation présente un aperçu des champs du formulaire de saisie des opérations tels qu’ils seront affichés dans l’onglet <span class="c007">Opérations</span> d’un compte.</p><p>Le formulaire peut avoir de 4 à 6 colonnes et de 1 à 4 lignes. Vous pouvez en diminuer ou augmenter le nombre grâce aux boutons <span class="c007">Enlever</span> et <span class="c007">Ajouter</span> à côté des libellés <span class="c007">lignes</span> et <span class="c007">colonnes</span> sous ce tableau à gauche et à droite. Vous pouvez modifier la <span class="c003">largeur des colonnes</span><a id="hevea_default434"></a> en cliquant sur le séparateur entre deux d’entre-elles (sans relâcher) et en le déplaçant avec la souris.</p><p>
+<span class="c010">Note</span> : bien que les colonnes de ce tableau soient nommées ici «Col 1 » à «Col 6 », le libellé d’une colonne dans le formulaire de saisie est <em>toujours</em> le libellé du champ situé sur la première ligne de ce tableau de prévisualisation.
+</p><p>Une <span class="c003">cellule</span><a id="hevea_default435"></a> est définie par l’intersection d’une ligne et d’une colonne. Un même champ ne peut être présent que dans une seule cellule du formulaire.</p><p>Vous pouvez <span class="c003">déplacer un champ</span><a id="hevea_default436"></a> d’une cellule à une autre cellule en cliquant (sans relâcher) sur son nom et en le déplaçant dans l’autre cellule. Si celle-ci n’est pas vide, les deux champs sont intervertis. </p>
+<h4 class="subsubsection" id="setup-form-content-fields">Contenu de la structure du formulaire</h4>
+<p>Ce tableau montre tous les champs affichables dans le tableau de prévisualisation. Il sert à définir les champs affichés dans la prévisualisation. Chaque cellule de ce tableau peut avoir deux couleurs :</p><ul class="itemize"><li class="li-itemize">
+	gris clair quand ce champ ne se trouve pas déjà dans la prévisualisation et qu’on peut l’y mettre ;
+	</li><li class="li-itemize">gris foncé quand ce champ se trouve déjà dans la prévisualisation.
+</li></ul><p>
+Pour <span class="c003">ajouter un champ</span> dans la prévisualisation<a id="hevea_default437"></a>, cliquez sur son nom dans ce tableau de contenu : la couleur de sa cellule passe au gris foncé, tandis que le nom de ce champ apparaît dans la prévisualisation. La première ligne se complète d’abord si elle a des cellules vides, sinon la suivante fait de même, etc.</p><p>
+Pour <span class="c003">enlever un champ</span> de la prévisualisation<a id="hevea_default438"></a>, cliquez sur son nom dans ce tableau de contenu : la couleur de sa cellule passe au gris clair, tandis que ce champ disparaît de la prévisualisation.</p><p>
+<span class="c010">Note</span> : il est impossible d’enlever les champs <span class="c007">Date</span>, <span class="c007">Débit</span> et <span class="c007">Crédit</span>, car ce sont les informations minimales indispensables à une opération.</p>
+<h3 class="subsection" id="setup-form-behaviour">22.4.2  Comportement</h3>
+<blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_formBehaviour.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.16: Comportement du formulaire des opérations</td></tr>
+</table></div>
+<a id="setup-formBehaviour-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Vous pouvez définir les comportements suivants du formulaire :
+</p><ul class="itemize"><li class="li-itemize">
+	l’appui sur la <span style="color:#AD1637"><span class="c002">touche </span><span class="c001">&lt;Entrée&gt;</span></span><a id="hevea_default439"></a> possède l’une ou l’autre des fonctions suivantes :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">sélectionne le prochain champ</span> ; c’est le choix par défaut,
+			</li><li class="li-itemize"><span class="c007">termine l’enregistrement de l’opération</span> ;
+		</li></ul>
+		
+	</li><li class="li-itemize">la <span class="c003">détermination automatique de l’exercice</span><a id="hevea_default440"></a> se fait de l’une ou l’autre des manières suivantes :
+		
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">correspond à la date de l’opération</span> : c’est le choix par défaut,
+			</li><li class="li-itemize"><span class="c007">correspond à la date de valeur de l’opération</span> ;
+		</li></ul>
+	</li><li class="li-itemize">le <span class="c003">séparateur décimal</span> <a id="hevea_default441"></a>peut être automatique en cochant la case <span class="c007">Ajout automatique du séparateur dans les champs numériques s’il est omis</span>.
+</li></ul>
+<h3 class="subsection" id="setup-form-input">22.4.3  Aide à la saisie du formulaire</h3>
+<p>En (dé)cochant la case correspondante, vous pouvez autoriser ou non les fonctions suivantes :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Remplissage automatique des opérations à partir du tiers</span> : lorsque vous avez saisi le tiers, les autres champs du formulaire sont remplis avec les données de la dernière opération ayant le même tiers ; c’est le choix par défaut ; de plus, vous pouvez choisir :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Efface le champ Crédit ou Débit</span>,
+			</li><li class="li-itemize"><span class="c007">Récupérer automatiquement les sous-opérations de l’opération associée</span> : les champs des sous-opérations sont remplis avec les données de la dernière opération ventilée ayant le même tiers que celui déjà saisi,
+			</li><li class="li-itemize"><span class="c007">Limiter le remplissage avec des tiers appartenant au compte courant</span> : la recherche de l’opération se fait dans le compte courant ; si la case n’est pas cochée, elle se fait dans la totalité des comptes ;
+		</li></ul>
+	</li><li class="li-itemize"><span class="c007">Mélanger les catégories de débit/crédit</span> : lorsque l’on déroule la liste des catégories, elles sont triées par ordre alphabétique plutôt que par débit puis crédit ;
+	</li><li class="li-itemize"><span class="c007">Remplissage sensible à la casse</span> : le remplissage automatique tient compte de la <span class="c003">casse</span><a id="hevea_default442"></a> des caractères ;
+	</li><li class="li-itemize"><span class="c007">Ne pas permettre la création de nouveau tiers</span> ;
+	</li><li class="li-itemize"><span class="c007">Ne pas autoriser la création de nouvelles catégories/imputations budgétaires</span>.
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_enterHelp.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.17: Aide à la saisie du formulaire</td></tr>
+</table></div>
+<a id="setup-enterHelp-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Vous pouvez aussi définir le <span class="c007">Nombre maximum de lignes dans les menus déroulants (0 pour aucune limite)</span>, en saisissant un nombre dans le champ adjacent ; la valeur par défaut est 0, et il vaut mieux garder cette valeur, car c’est le fonctionnement le plus pratique. 
+</p>
+<h2 class="section" id="setup-resources">22.5  Ressources</h2>
+<h3 class="subsection" id="setup-resources-currencies">22.5.1  Devises</h3>
+<p>Cet onglet affiche le <span class="c003">tableau des devises</span><a id="hevea_default443"></a> connues par votre fichier de comptes, ainsi que les propriétés de la devise quand elle est sélectionnée.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_currencies.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.18: Configuration des devises</td></tr>
+</table></div>
+<a id="setup-currencies-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Cela permet d’<span class="c003">ajouter ou de supprimer des devises</span><a id="hevea_default444"></a>, de définir leurs nom, symbole et code ISO, ainsi que le nombre de chiffres après la virgule nécessaires. Par exemple, si votre système le permet, vous pouvez saisir <span class="c001">&lt;AltGr&gt;&lt;e&gt;</span> pour le symbole de l’euro. </p><p>
+Pour ajouter une devise, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur le bouton <span class="c007">Ajouter</span> : la fenêtre de sélection de la devise s’affiche ;
+	</li><li class="li-enumerate">cliquez sur la devise choisie dans la liste ;
+	</li><li class="li-enumerate">cochez la case <span class="c007">Afficher les devises obsolètes</span> si vous voulez aussi afficher d’anciennes devises ;
+	</li><li class="li-enumerate">modifiez les propriétés de la devise dans la zone <span class="c007">Détails de la devise</span>, si nécessaire ;
+	</li><li class="li-enumerate">validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>Pour modifier une devise, sélectionnez-la et modifiez-en ses détails.</p><p>
+Pour supprimer une devise, cliquez sur le bouton <span class="c007">Enlever</span> ; si vous essayez de supprimer une devise utilisée dans un de vos comptes, Grisbi refusera.</p>
+<h3 class="subsection" id="setup-resources-rate">22.5.2  Liens entre devises</h3>
+<p>Ce tableau <span class="c003">liste les devises</span><a id="hevea_default445"></a> que votre fichier de comptes connaît et donne leurs <span class="c003">taux de change</span><a id="hevea_default446"></a><a id="hevea_default447"></a>, ainsi que d’autres détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_exchangerate.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.19: Configuration des taux de change</td></tr>
+</table></div>
+<a id="setup-exchangerate-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+Pour ajouter un lien entre deux devises, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur le bouton <span class="c007">Ajouter</span> : une nouvelle ligne de lien s’affiche ;
+	</li><li class="li-enumerate">sélectionnez ce lien par un clic sur sa ligne ;
+	</li><li class="li-enumerate">dans la zone <span class="c007">Propriétés du lien</span>, définissez la devise de départ et celle d’arrivée grâce aux deux listes déroulantes, et saisissez le taux de change dans le champ vide ;
+	</li><li class="li-enumerate">cochez la case <span class="c007">Taux de change fixe</span> si c’est le cas ;
+	</li><li class="li-enumerate">validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>Pour supprimer un lien, cliquez sur le bouton <span class="c007">Enlever</span> ; si vous essayez de supprimer un lien d’une devise utilisée dans un de vos comptes, Grisbi refusera.</p>
+<h3 class="subsection" id="setup-resources-banks">22.5.3  Banques</h3>
+<p>Cet onglet <span class="c003">liste les banques</span><a id="hevea_default448"></a> que vous avez entrées dans votre fichier de comptes, ainsi que
+tous leurs détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_bank.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.20: Configuration des établissements financiers</td></tr>
+</table></div>
+<a id="setup-bank-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Le tableau <span class="c007">Banques connues</span> affiche la liste de ces banques. En sélectionnant une banque par un clic sur sa ligne, les sections <span class="c007">Détails de la banque</span>, <span class="c007">Correspondant</span> et <span class="c007">Remarques</span> affichent tous les <span class="c003">détails sur la banque</span><a id="hevea_default449"></a> que vous avez déjà entrés dans Grisbi.</p><p>
+Pour <span class="c003">ajouter une banque</span><a id="hevea_default450"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur le bouton <span class="c007">Ajouter</span> : une nouvelle ligne <span class="c007">Nouvelle banque</span> s’affiche ;
+	</li><li class="li-enumerate">sélectionnez cette banque par un clic sur sa ligne ;
+	</li><li class="li-enumerate">dans la zone <span class="c007">Détails de la banque</span>, saisissez ses nom, code, Code BIC, adresses, téléphone et site Internet ;
+	</li><li class="li-enumerate">dans la zone <span class="c007">Correspondant</span>, saisissez le nom de votre contact ;
+	</li><li class="li-enumerate">validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>Pour <span class="c003">modifier une banque</span><a id="hevea_default451"></a>, sélectionnez-la et modifiez-en ses détails.</p><p>
+Pour <span class="c003">supprimer une banque</span><a id="hevea_default452"></a>, sélectionnez-la, cliquez sur le bouton <span class="c007">Enlever</span>, puis validez dans la fenêtre de confirmation.</p><p>
+<span class="c009">Attention</span> : cette suppression est irréversible.</p>
+<h3 class="subsection" id="setup-resources-financialyear">22.5.4  Exercices</h3>
+<p>Cet onglet permet de créer de nouveaux exercices, et de modifier ou supprimer des exercices existants.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_financialyear.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.21: Configuration des exercices</td></tr>
+</table></div>
+<a id="setup-financialyear-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+Le tableau <span class="c007">Exercices définis</span> affiche la <span class="c003">liste des exercices</span><a id="hevea_default453"></a> déjà définis dans votre fichier de comptes.</p><p>
+Pour <span class="c003">ajouter un exercice</span><a id="hevea_default454"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	cliquez sur le bouton <span class="c007">Ajouter</span> : une nouvelle ligne <span class="c007">Nouvel exercice</span> s’affiche ;
+	</li><li class="li-enumerate">dans la zone <span class="c007">Détails sur l’exercice</span>, saisissez son nom et ses dates de début et de fin : les dates peuvent être saisies, comme dans le formulaire de saisie des opérations, au clavier (voir la section <a href="grisbi-manuel009.html#transactions-new-dates">8.6.2</a>, <span class="c007">Saisie de date au clavier</span>) ou au calendrier (voir la section <a href="grisbi-manuel009.html#transactions-new-calendar">8.6.3</a>, <span class="c007">Saisie de date au calendrier</span>) ;
+	</li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Associer les opérations sans exercice</span>, si vous voulez que votre nouvel exercice soit affecté automatiquement à toutes les opérations correspondantes ; si vous validez la fenêtre qui s’affiche ensuite, Grisbi affiche le nombre d’opérations qui ont été associées à l’exercice concerné ;
+	</li><li class="li-enumerate">cochez la case <span class="c007">Activer les exercices dans le formulaire de saisie d’opérations</span>, si vous voulez afficher un champ <span class="c007">Exercice</span> dans le formulaire de saisie, et ainsi pouvoir entrer un exercice lors de la saisie des opérations ;
+	</li><li class="li-enumerate">validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p><span class="c010">Note</span> : les exercices ne doivent pas se chevaucher ; si c’est le cas, Grisbi affiche un message d’alerte en rouge .
+</p><p>
+Pour <span class="c003">modifier un exercice</span><a id="hevea_default455"></a>, sélectionnez-le et modifiez-en ses détails.</p><p>
+Pour <span class="c003">supprimer un exercice</span><a id="hevea_default456"></a>, sélectionnez-le, cliquez sur le bouton <span class="c007">Enlever</span>, puis validez la fenêtre de confirmation. </p><p>
+<span class="c010">Note</span> : cette suppression ne fait que supprimer l’exercice dans le tableau <span class="c007">Exercices définis</span>, ainsi que le champ <span class="c007">Exercice</span> dans le formulaire de saisie des opérations et dans toutes les opérations qui y sont associées. Mais en aucun cas elle ne supprime les opérations elles-mêmes…</p><p>
+Le bouton <span class="c007">Associer les opérations sans exercice</span><a id="hevea_default457"></a><a id="hevea_default458"></a> permet d’attribuer automatiquement un exercice à toutes les opérations qui en sont dépourvues, en fonction de leur date d’opération (ou de leur date de valeur). C’est aussi le bouton <em>magique</em> dans le cas d’un fichier importé d’une ancienne version (ou au format QIF) ; si vous validez la fenêtre qui s’affiche ensuite, Grisbi affiche le nombre d’opérations qui ont été associées à l’exercice concerné.</p><p>La zone <span class="c007">Détails sur l’exercice</span><a id="hevea_default459"></a> affiche les paramètres de l’exercice sélectionné dans le tableau <span class="c007">Exercices définis</span>.</p><p>La case <span class="c007">Activer les exercices dans le formulaire de saisie d’opérations</span><a id="hevea_default460"></a><a id="hevea_default461"></a> permet d’<span class="c003">activer l’affichage des exercices</span> dans ce formulaire, et ainsi d’entrer un exercice lors de la saisie des opérations. Si cela n’est pas le cas, vous devrez le faire manuellement dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span> et éventuellement la section <a href="grisbi-manuel009.html#transactions-list-fields">8.2.2</a>, <span class="c007">Champs d’information et de saisie</span>).
+</p><p>Vous pouvez aussi désactiver l’affichage des exercices en décochant la case <span class="c007">Activez les exercices dans le formulaire de saisie d’opérations</span>.
+S’il est désactivé, et si vous rappelez, dans le formulaire de saisie des opérations, une opération dont l’exercice n’est plus affiché, la mention <span class="c007">Automatique</span> apparaîtra à la place du libellé de l’exercice.</p>
+<h3 class="subsection" id="setup-resources-modes">22.5.5  Modes de règlement</h3>
+<p>Cet onglet permet de configurer, compte par compte, les différents modes de règlement disponibles dans Grisbi, et apparaissant donc dans la liste déroulante<a id="hevea_default462"></a><a id="hevea_default463"></a> du formulaire
+de saisie des opérations.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_modes.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.22: Configuration des modes de règlement</td></tr>
+</table></div>
+<a id="setup-modes-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ce tableau affiche la liste de tous vos comptes dans l’ordre où ils sont affichés dans le panneau de navigation (et non celui où ils ont été créés), précédés d’un petit triangle. Un clic sur ce triangle déroule ou enroule la liste des modes de règlement disponibles pour le compte concerné.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>Ces modes de règlement sont les suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Débit</span> ;
+	</li><li class="li-itemize"><span class="c007">Crédit</span> ;
+	</li><li class="li-itemize"><span class="c007">Virement</span> : un virement peut être entrant ou sortant. Ce mode doit donc être proposé tant au débit qu’au crédit. Grisbi considère par défaut qu’il est neutre (un mode neutre est un mode de règlement qui peut être indifféremment un débit ou un crédit).
+</li></ul><p>
+De même, un autre clic sur le triangle devant le type <span class="c007">Débit</span> déroule ou enroule la liste des modes de règlement disponibles :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Carte de crédit</span> ;
+	</li><li class="li-itemize"><span class="c007">Prélèvement</span> ;
+	</li><li class="li-itemize"><span class="c007">Chèque</span>.
+</li></ul><p>Pour le type <span class="c007">Crédit</span>, le seul mode de règlement disponible est <span class="c007">Dépôt</span>.</p><p>Pour <span class="c003">ajouter un nouveau mode de règlement</span><a id="hevea_default464"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	Sélectionnez le compte concerné, ou un de ses deux types <span class="c007">Débit</span> ou <span class="c007">Crédit</span>, par un clic. Le bouton <span class="c007">Ajouter</span> devient actif ;
+	</li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Ajouter</span> : une nouvelle ligne <span class="c007">Nouveau mode de règlement</span> s’affiche, provisoirement dans la section <span class="c007">Débit</span> ;
+	</li><li class="li-enumerate">sélectionnez ce <span class="c007">Nouveau mode de règlement</span> par un clic sur sa ligne ;
+	</li><li class="li-enumerate">si vous cliquez sur le bouton dans la colonne <span class="c007">Défaut</span>, la liste des modes de paiement sera positionnée par défaut sur ce nouveau mode à chaque nouvelle opération dans ce compte ;
+	</li><li class="li-enumerate">dans la zone <span class="c007">Détails sur le mode de règlement</span> :
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			saisissez son nom dans le champ <span class="c007">Nom</span> : choisissez un nom pas trop long, pour son affichage correct dans le formulaire de saisie,
+			</li><li class="li-enumerate">si vous cochez la case <span class="c007">Ajoute entrée pour un numéro</span>, le champ <span class="c007">N° chèque/virement</span> est ajouté dans le formulaire de Grisbi pour le mode de règlement sélectionné, et cela valide la case <span class="c007">Activer</span>,
+			</li><li class="li-enumerate">si vous cochez la case <span class="c007">Activer</span>, l’incrémentation automatique du champ <span class="c007">N° chèque/virement</span> du formulaire de saisie des opérations est validée ; cette numérotation automatique fonctionne aussi pour tous les modes, c’est à vous d’imaginer ce que vous pouvez en faire (par exemple, vous pouvez numéroter automatiquement vos remises de chèques),
+			</li><li class="li-enumerate">dans le champ <span class="c007">Numérotation auto</span>, entrez des caractères, dont le dernier devra être numérique, à partir duquel la numérotation commencera, par exemple «Règlement1»,
+			</li><li class="li-enumerate">dans la liste déroulante de libellé <span class="c007">Type</span>, choisissez le type d’opération : <span class="c007">Débit</span>, <span class="c007">Crédit</span> ou <span class="c007">Neutre</span> pour un type indifférent.
+		</li></ol>
+</li></ol><p>Pour <span class="c003">modifier un mode de règlement</span><a id="hevea_default465"></a>, sélectionnez-le et modifiez-en les détails.</p><p>
+Pour <span class="c003">supprimer un mode de règlement</span><a id="hevea_default466"></a>, sélectionnez-le, cliquez sur le bouton <span class="c007">Enlever</span>, puis validez dans la fenêtre de confirmation.</p>
+<h2 class="section" id="setup-budget">22.6  Budget prévisionnel</h2>
+<p>Cet onglet permet de configurer les différents paramètres des budgets prévisionnels pour les différents comptes de votre fichier de comptes.</p>
+<h3 class="subsection" id="setup-budget-general">22.6.1  Généralités</h3>
+<p>Cet onglet permet de définir les <span class="c003">paramètres généraux</span><a id="hevea_default467"></a> pour l’ensemble de vos budgets.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_budget_general.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.23: Configuration générale des budgets prévisionnels</td></tr>
+</table></div>
+<a id="setup-budgetGeneral-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Pour le configurer, choisissez le <span class="c007">Début de la période</span> servant de référence pour établir les prévisions, en cliquant sur l’un des deux boutons dans la zone <span class="c007">Données communes</span> : soit le <span class="c007">1er jour du mois</span> (c’est le choix par défaut), soit <span class="c007">Aujourd’hui</span>. </p><p><span class="c010">Note</span> : ce choix n’est utilisé qu’en l’absence d’une date de début renseignée dans l’onglet <span class="c007">Prévisions</span> du compte concerné (voir la section <a href="grisbi-manuel018.html#budget-estimate-summary">17.2.2</a>, <span class="c007">En-tête des prévisions</span>).
+</p><p>De plus, choisissez si les <span class="c003">comptes de caisse</span><a id="hevea_default468"></a> pourront aussi avoir leur tableau de <span class="c003">prévisions</span>, en cochant la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span>.</p>
+<h3 class="subsection" id="setup-budget-data">22.6.2  Données des comptes</h3>
+<p>Cet onglet permet de valider la fonctionnalité de budget prévisionnel et d’en configurer les paramètres, pour chacun des comptes à budgétiser.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_budget_data1.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.24: Configuration des budgets : choix des comptes</td></tr>
+</table></div>
+<a id="setup-budgetData1-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>La zone <span class="c007">Sélectionner un compte</span> affiche :
+</p><ul class="itemize"><li class="li-itemize">
+	une liste déroulante pour choisir le compte sur lequel vous voulez faire les prévisions ;
+	</li><li class="li-itemize">la case à cocher <span class="c007">Utiliser le module budgétaire</span>, pour <span class="c003">valider le module budgétaire</span><a id="hevea_default469"></a> pour ce compte.
+</li></ul><p>Plusieurs comptes peuvent ainsi faire l’objet de prévisions, indépendamment et simultanément. </p><p>
+Pour <span class="c003">configurer le module budgétaire</span><a id="hevea_default470"></a> pour un compte, sélectionnez ce compte dans la liste déroulante, puis cochez la case <span class="c007">Utiliser le module budgétaire</span>. Une autre case à cocher de libellé <span class="c007">Compte avec carte à débit différé</span> s’affiche en-dessous ; suivant le type de compte concerné et si vous cochez ou non cette case, le contenu du bas de la fenêtre est différent ; il y a plusieurs cas :</p><ul class="itemize"><li class="li-itemize">
+	type compte de passif ;
+	</li><li class="li-itemize">type compte bancaire ;
+	</li><li class="li-itemize">type compte de caisse ;		
+	</li><li class="li-itemize">type compte de passif avec carte bancaire à débit différé ;	
+	</li><li class="li-itemize">type compte bancaire avec carte bancaire à débit différé ;
+	</li><li class="li-itemize">type compte de caisse avec carte bancaire à débit différé ;
+	</li><li class="li-itemize">type compte d’actif.	
+</li></ul><p>		</p>
+<h4 class="subsubsection" id="setup-budget-data-liability">Type compte de passif</h4>
+<p>Pour ces comptes, une case à cocher et une seule zone supplémentaire s’affichent :
+</p><ul class="itemize"><li class="li-itemize">
+	la case de libellé <span class="c007">Compte avec carte à débit différé</span> ; 
+	</li><li class="li-itemize">la zone <span class="c007">Données du crédit</span>.
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_budget_dataLiability.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.25: Configuration d’un budget pour un compte de passif</td></tr>
+</table></div>
+<a id="setup_budget_dataLiability-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>De plus, dans le pavé des détails du compte concerné, un nouvel onglet <span class="c007">Tableau d’amortissement</span> s’est ajouté entre les deux autres onglets <span class="c007">Opérations</span> et <span class="c007">Propriétés</span>.</p><p>
+Pour configurer les prévisions de ce compte, procédez comme suit :</p><ul class="itemize"><li class="li-itemize">
+	ne cochez pas la case de libellé <span class="c007">Compte avec carte à débit différé</span> ; 	</li><li class="li-itemize">dans la zone <span class="c007">Données du crédit</span>, saisissez les données du crédit en vous référant aux documents du crédit que vous avez contracté avec votre organisme bancaire :
+		<ul class="itemize"><li class="li-itemize">
+			 <span class="c007">Capital emprunté</span> ; 
+			 </li><li class="li-itemize"><span class="c007">Durée</span> : en nombre d’années ;
+			 </li><li class="li-itemize"><span class="c007">Date de la première échéance</span> ;
+			 </li><li class="li-itemize"><span class="c007">Taux d’intérêt annuel</span> : pour plus de précision de calcul, vous pouvez saisir jusqu’à trois décimales ;
+			 </li><li class="li-itemize"><span class="c007">Frais par échéance</span> : en valeur absolue ;
+			 </li><li class="li-itemize"><span class="c007">Type du taux appliqué</span> : <span class="c007">Taux actuariel</span> (c’est le choix par défaut) ou <span class="c007">Taux proportionnel</span> ;
+			 </li><li class="li-itemize">validez la fenêtre par le bouton <span class="c007">Fermer</span>, sinon par la touche <span class="c001">&lt;Échap&gt;</span>.	
+		</li></ul>
+</li></ul>
+<h4 class="subsubsection" id="setup-budget-data-bank">Type compte bancaire</h4>
+<p>Pour ces comptes, une case à cocher et deux zones supplémentaires s’affichent :
+</p><ul class="itemize"><li class="li-itemize">
+	une case de libellé <span class="c007">Compte avec carte à débit différé</span> ; 
+	</li><li class="li-itemize">une zone <span class="c007">Données pour le tableau des prévisions</span> ;
+	</li><li class="li-itemize">une zone <span class="c007">Sources des données historiques</span>.
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_budget_dataBank.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.26: Configuration d’un budget pour un compte de banque ou de caisse avec prévisions</td></tr>
+</table></div>
+<a id="setup_budget_dataBank-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>De plus, dans le pavé des détails du compte concerné, deux nouveaux onglets <span class="c007">Prévisions</span> et <span class="c007">Données historiques</span> se sont ajoutés entre les deux autres onglets <span class="c007">Opérations</span> et <span class="c007">Propriétés</span>.</p><p>
+Pour configurer les prévisions de ce compte, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	ne cochez pas la case de libellé <span class="c007">Compte avec carte à débit différé</span> ;	 
+	</li><li class="li-enumerate">dans la zone <span class="c007">Données pour le tableau des prévisions</span> :	
+		<ol class="enumerate" type=a><li class="li-enumerate">	
+			définissez la <span class="c007">Durée d’estimation</span> : période de temps sur laquelle les prévisions seront calculées, en nombre de mois ou d’années ; elle est au maximum de 5 ans, 
+			</li><li class="li-enumerate">définissez le <span class="c007">Libellé des opérations</span> : comment sont décrites les opérations, par une description <span class="c007">Par défaut</span>, par les <span class="c007">Catégories</span> ou par les <span class="c007">Imputations budgétaires</span>,
+			</li><li class="li-enumerate">définissez le <span class="c007">Libellé des opérations planifiées</span> : comment sont décrites les opérations planifiées, par une description <span class="c007">Par défaut</span>, par les <span class="c007">Catégories</span> ou par les <span class="c007">Imputations budgétaires</span>,		
+			</li><li class="li-enumerate">définissez le <span class="c007">Libellé des données prévisionnelles</span> : comment sont décrites les données prévisionnelles, par une description <span class="c007">Par défaut</span>, par les <span class="c007">Catégories</span> ou par les <span class="c007">Imputations budgétaires</span> ; 			
+			<br>
+
+			<span class="c010">Note</span> : la description <span class="c007">Par défaut</span> est le contenu du premier de ces champs pour chaque opération, s’il existe et dans cet ordre : <span class="c007">Remarques</span>, <span class="c007">Tiers</span>, <span class="c007">Catégories</span> et <span class="c007">Imputations budgétaires</span>.
+		</li></ol>			
+	</li><li class="li-enumerate">dans la zone <span class="c007">Sources des données historiques</span> :
+		<ol class="enumerate" type=a><li class="li-enumerate">	
+			définissez l’origine des <span class="c003">données de référence</span><a id="hevea_default471"></a> pour établir les prévisions, grâce à l’un des deux boutons <span class="c007">Catégories</span> (c’est le choix par défaut) ou <span class="c007">Imputations budgétaires</span>,
+			</li><li class="li-enumerate">définissez la <span class="c003">période de référence</span><a id="hevea_default472"></a> pour établir les prévisions, grâce à une liste déroulante permettant de choisir soit un exercice, soit <span class="c007">12 mois glissants</span> ; 			
+			<br>
+
+			<span class="c010">Note</span> : le choix des exercices ne s’affiche que si au moins un exercice a été défini (voir la section <a href="grisbi-manuel016.html#financialyear-start">15.2</a>, <span class="c007">Mise en place des exercices</span>). 			
+			<br>
+
+			<span class="c010">Note</span> : ces deux choix peuvent aussi être faits dans l’onglet <span class="c007">Données historiques</span> du compte concerné.
+			</li><li class="li-enumerate">validez la fenêtre par le bouton <span class="c007">Fermer</span>, sinon par la touche <span class="c001">&lt;Échap&gt;</span>.	
+		</li></ol>
+</li></ol>
+<h4 class="subsubsection" id="setup-budget-data-cash">Type compte de caisse</h4>
+<p>Pour les comptes de caisse, deux cas se présentent, suivant l’état de la case à cocher <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span> (voir la section <a href="#setup-budget-general">22.6.1</a>, <span class="c007">Généralités</span>) :</p>
+<h5 class="paragraph" id="sec430">Sans prévisions :</h5>
+<p>si vous n’avez pas coché la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span>, une case à cocher et deux zones supplémentaires s’affichent :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/setup_budget_dataCash.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 22.27: Configuration d’un budget pour un compte de caisse sans prévisions</td></tr>
+</table></div>
+<a id="setup_budget_dataCash-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	une case de libellé <span class="c007">Compte avec carte à débit différé</span> ; 
+	</li><li class="li-itemize">une zone <span class="c007">Sources des données historiques</span>.
+</li></ul><p> 
+De plus, dans le pavé des détails du compte concerné, un seul nouvel onglet <span class="c007">Données historiques</span> s’est ajouté entre les deux autres onglets <span class="c007">Opérations</span> et <span class="c007">Propriétés</span> ; </p><p>
+Pour configurer les prévisions de ce compte, procédez comme suit :
+</p><ol class="enumerate" type=1><li class="li-enumerate">	
+	définissez l’origine des <span class="c003">données de référence</span><a id="hevea_default473"></a> pour établir les prévisions, grâce à l’un des deux boutons <span class="c007">Catégories</span> (c’est le choix par défaut) ou <span class="c007">Imputations budgétaires</span> ;
+	</li><li class="li-enumerate">définissez la <span class="c003">période de référence</span><a id="hevea_default474"></a> pour établir les prévisions, grâce à une liste déroulante permettant de choisir soit un exercice, soit <span class="c007">12 mois glissants</span> ; 	
+	<br>
+
+	<span class="c010">Note</span> : le choix des exercices ne s’affiche que si au moins un exercice a été défini (voir la section <a href="grisbi-manuel016.html#financialyear-start">15.2</a>, <span class="c007">Mise en place des exercices</span>).
+	
+	<br>
+
+	<span class="c010">Note</span> : ces deux choix peuvent aussi être faits dans l’onglet <span class="c007">Données historiques</span> du compte concerné.
+	</li><li class="li-enumerate">validez la fenêtre par le bouton <span class="c007">Fermer</span>, sinon par la touche <span class="c001">&lt;Échap&gt;</span>.	
+</li></ol>
+<h5 class="paragraph" id="sec431">Avec prévisions :</h5>
+<p>si vous avez coché la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span>, une case à cocher et deux zones supplémentaires s’affichent :
+</p><ul class="itemize"><li class="li-itemize">
+	une case de libellé <span class="c007">Compte avec carte à débit différé</span> ; 
+	</li><li class="li-itemize">une zone <span class="c007">Données pour le tableau des prévisions</span>, seulement si vous avez coché la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span> ; 
+	</li><li class="li-itemize">une zone <span class="c007">Sources des données historiques</span>.
+</li></ul><p>
+De plus, dans le pavé des détails du compte concerné, deux nouveaux onglets <span class="c007">Prévisions</span> et <span class="c007">Données historiques</span> se sont ajoutés entre les deux autres onglets <span class="c007">Opérations</span> et <span class="c007">Propriétés</span>.</p><p>
+La configuration des prévisions de ce compte se fait de la même manière que pour les comptes bancaires (voir le paragraphe <a href="#setup-budget-data-bank">22.6.2</a>, <span class="c007">Type compte bancaire</span>).</p>
+<h4 class="subsubsection" id="setup-budget-data-liabilityWithCard">Type compte de passif avec carte bancaire à débit différé</h4>
+<p>Pour ces comptes, la fenêtre de configuration est la même que pour un compte de caisse, elle se configure de la même manière, et le pavé des détails affiche les mêmes onglets (voir le paragraphe <a href="#setup-budget-data-cash">22.6.2</a> <span class="c007">Type compte de caisse</span>, <span class="c007">Sans prévisions</span>).</p>
+<h4 class="subsubsection" id="setup-budget-data-bankWithCard">Type compte bancaire avec carte bancaire à débit différé</h4>
+<p>Pour ces comptes, la fenêtre de configuration est la même que pour un compte bancaire, elle se configure de la même manière, et le pavé des détails affiche les mêmes onglets (voir le paragraphe <a href="#setup-budget-data-bank">22.6.2</a>, <span class="c007">Type compte bancaire</span>).</p>
+<h4 class="subsubsection" id="setup-budget-data-cashWithCard">Type compte de caisse avec carte bancaire à débit différé</h4>
+<p>Cette possibilité permet d’établir des prévisions sur ce type de compte auquel pourrait être dédiée une carte bancaire, qui pourrait être par exemple un porte-monnaie électronique à débit différé, si cela existe, ou toute autre utilisation dont vous pourriez avoir besoin.</p><p>
+Pour les comptes de caisse, deux cas se présentent, suivant l’état de la case à cocher <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span> (voir la section <a href="#setup-budget-general">22.6.1</a>, <span class="c007">Généralités</span>) :</p>
+<h5 class="paragraph" id="sec435">Sans prévisions :</h5>
+<p> si vous n’avez pas coché la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span>, la fenêtre de configuration est la même que pour un compte de caisse sans prévisions, elle se configure de la même manière, et le pavé des détails affiche les mêmes onglets (voir le paragraphe <a href="#setup-budget-data-cash">22.6.2</a>, <span class="c007">Type compte de caisse</span>, <span class="c007">Sans prévisions</span>).</p>
+<h5 class="paragraph" id="sec436">Avec prévisions :</h5>
+<p> si vous avez coché la case <span class="c007">Ajouter le tableau des prévisions aux comptes de caisse</span>, la fenêtre de configuration est la même que pour un compte bancaire, elle se configure de la même manière, et le pavé des détails affiche les mêmes onglets (voir le paragraphe <a href="#setup-budget-data-bank">22.6.2</a>, <span class="c007">Type compte bancaire</span>).</p>
+<h4 class="subsubsection" id="setup-budget-data-asset">Type compte d’actif</h4>
+<p>Il n’y a pas de module budgétaire pour un compte d’actif, on ne peut donc pas le valider.</p>
+<hr>
+<a href="grisbi-manuel022.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel024.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Comptabilité d’association</title>
+</head>
+<body>
+<a href="grisbi-manuel019.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel021.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="association">Chapitre 19  Comptabilité d’association</h1>
+<h2 class="section" id="association-intro">19.1  Introduction à la comptabilité d’association</h2>
+<p>Si vous gérez les <span class="c003">comptes d’une association</span><a id="hevea_default303"></a>, vous avez déjà constaté que les opérations enregistrées sur votre compte bancaire ne reflètent pas complètement la totalité de vos mouvements financiers. En effet, en plus des dépenses de fonctionnement réglées directement sur ce compte, la majorité de vos opérations consiste souvent en remises de chèques ou d’espèces, et en remboursements de frais engagés par les adhérents. </p><p>Pour avoir une comptabilité claire et précise, il importe d’une part de pouvoir enregistrer les opérations avec le bon tiers, d’autre part de pouvoir vérifier que les remboursements sont bien faits. Pour cela, en plus des <span class="c007">Comptes bancaires</span>, vous pouvez gérer des <span class="c007">Comptes d’attente</span>, pour des achats à rembourser à vos adhérents ou pour des remises de chèques ou d’espèces, des <span class="c007">Comptes d’avances</span>, pour les avances que vous recevez et celles que vous consentez, et des <span class="c007">Comptes de caisse</span> pour les opérations en espèces. Tous ces types de comptes sont présentés en détail dans la section <a href="grisbi-manuel008.html#accounts-type">7.7</a>, <span class="c007">Types de comptes de Grisbi</span>. </p><p>Grisbi vous permet aussi de créer des «<span class="c003">tiers virtuels</span><a id="hevea_default304"></a> », qui simplifient énormément la saisie de nombreuses opérations similaires telles que les versements de cotisation (voir l’option <span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span> dans la section <a href="grisbi-manuel022.html#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>). </p><p>
+Selon la taille de l’association, son statut fiscal ou divers aspects, sa comptabilité peut être soumise à certaines obligations légales. Vous aurez avantage à consulter des guides de comptabilité d’association, qui donnent des exemples complets de gestion d’association, par exemple le Guide pratique &amp; complet des associations, Pierre Ratelade, Top éditions Paris, 1999, 220 pages, ISBN : 2-8773-1168-6, ainsi que des sites Internet relatifs au cadre des associations et du Plan Comptable :
+par exemple :</p><ul class="itemize"><li class="li-itemize">
+	<a href="http://www.plancomptable.com/index.htm"><em>Plan Comptable Général</em></a> ;
+	</li><li class="li-itemize"><a href="http://www.plancomptable.com/titre-IV/titre-IV_chapitre-III_section-1.htm#431-1"><em>Plan de Comptes</em></a> ;	
+	</li><li class="li-itemize"><a href="http://www.loi1901.com/regle_comptable.php"><em>La maison des associations loi 1901</em></a> ;
+	</li><li class="li-itemize">la page «Comment compter » sur le <a href="http://www.associations.gouv.fr/704-comment-compter.html"><em>Site officiel des Associations</em></a> ;
+	</li><li class="li-itemize">le Plan Comptable Général sur le site <a href="http://www.compta-online.com/pcg"><em>Compta On Line</em></a>.
+</li></ul><p>Vous pouvez donc gérer votre association de deux manières différentes :
+</p><ul class="itemize"><li class="li-itemize">
+	si votre <span class="c003">association</span><a id="hevea_default305"></a> <em>n’est pas soumise</em> à l’obligation d’utiliser le plan comptable, vous la gérerez comme bon vous semble, d’une manière simple, proche d’une comptabilité personnelle : consultez la section <a href="#asso-simple">19.2</a>, <span class="c007">Comptabilité d’association simple</span>, qui donne deux exemples détaillés ; et de toute façon, vous pouvez aussi utiliser le cadre du Plan Comptable si cela vous est utile ou nécessaire ;
+	</li><li class="li-itemize">si votre association<a id="hevea_default306"></a> <em>est soumise</em> à l’obligation d’utiliser le <span class="c003"><em>Plan Comptable</em></span><a id="hevea_default307"></a>, consultez la section <a href="#association-plan">19.3</a>, <span class="c007">Comptabilité d’association et de petite entreprise avec plan comptable</span>, qui donne les premiers éléments pour démarrer la comptabilité d’une association conformément aux règles légales. 
+</li></ul>
+<h2 class="section" id="asso-simple">19.2  Comptabilité d’association simple</h2>
+<p>Cette section vous propose d’aborder une comptabilité simple à travers deux exemples. Les dépenses de fonctionnement étant des opérations très simples, ces exemples s’attachent surtout à expliciter les remises de chèques et les remboursements de dépenses faites par vos adhérents. Cela pourra sans doute vous paraître compliqué, mais ils montrent la bonne façon d’avoir une comptabilité d’association rigoureuse. </p><p>Nous considérons pour ces exemples que les exercices et imputations budgétaires ne sont pas renseignés. </p><p>Imaginons que vous soyez le trésorier de l’A.P.P.P.P., l’<em>Amicale
+des Pauvres Poivrots Privés de Pinard</em>…</p>
+<h3 class="subsection" id="asso-simple-firstCase">19.2.1  Premier cas de figure</h3>
+<p>Votre adhérent Hector Boyau achète un tire-bouchon atomique pour le compte de l’association. Cette dépense est réellement à imputer dans la comptabilité de l’association. Il importe donc de l’enregistrer <span class="c010">avec le tiers et la catégorie réels</span>. Saisissez les opérations suivantes :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	achat du tire-bouchon atomique par Hector Boyau :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte d’avances,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 20 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Les cavistes du Commerce et de la Gare réunis</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Achats : Petit matériel</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat d’un tire-bouchon atomique par Hector Boyau</em> ; 
+		</li></ul>
+L’achat est passé avec le tiers réel et la catégorie réelle. Le compte d’avances est débiteur, donc l’association doit de l’argent à quelqu’un. 
+	</li><li class="li-enumerate">remboursement à Hector Boyau par chèque :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte bancaire,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 20 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Régularisation d’avances</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Compte d’avances</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Remboursement du tire-bouchon atomique à Hector Boyau</em>. 
+		</li></ul>
+</li></ol><p>
+Le tiers Hector Boyau n’a fait que servir d’intermédiaire et aucune opération ne 
+doit lui être affectée dans cette transaction. Le compte d’avances revient à zéro, donc l’association n’a plus de dette. Le compte bancaire a bien enregistré la dépense des 20 euros.</p><p>
+Faites ensuite un rapprochement dans le compte d’avances, dont le solde sera égal au solde précédent du compte (le total des sorties étant égal à celui des entrées, le solde reste identique). </p>
+<h3 class="subsection" id="asso-simple-secondCase">19.2.2  Deuxième cas de figure </h3>
+<p>Vous achetez pour vos adhérents du pinard en bouteilles et en cubitainers, que vous leur revendez à prix coûtant. Ces achats ne concernent pas l’association mais constituent plutôt un service rendu aux membres. Vous allez les enregistrer avec le tiers réel mais surtout pas avec la catégorie. </p><p>Vous pouvez bien entendu utiliser le compte d’avances ordinaire pour enregistrer ces achats et ventes. Mais les opérations vont se mélanger avec les autres avances et vous aurez de la peine à distinguer où en sont vos stocks. Surtout si vous êtes un membre très actif de l’association ! Créez donc deux comptes d’avances spécialisés, un compte <em>Pinard en bouteilles</em> et un autre <em>Pinard en cubi</em>.</p><p>
+Soixante bouteilles ont été achetées 180 euros par votre adhérent Hector Boyau à la Coopérative du Père Jutard ; saisissez les opérations comme suit : </p><ol class="enumerate" type=1><li class="li-enumerate">
+	achat des bouteilles :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte d’avances,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 180 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Coopérative du Père Jutard</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Pinard en bouteilles</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat de 60 bouteilles par Hector Boyau</em> ;
+		</li></ul><p>L’achat est passé avec le tiers réel mais avec la catégorie <em>Virement</em>. Le compte d’avances est débiteur, donc l’association doit de l’argent à quelqu’un. Le compte <em>Pinard en bouteilles</em> est créditeur de 60 bouteilles, soit 180 euros.</p><p>	</p></li><li class="li-enumerate">remboursement à Hector Boyau :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte bancaire,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 180 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Régularisation d’avances</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Compte d’avances</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Remboursement des 60 bouteilles à Hector Boyau</em> ;
+		</li></ul><p>Le tiers Hector Boyau n’a fait que servir d’intermédiaire et aucune opération ne doit lui être affectée dans cette transaction. Le compte d’avances revient à zéro, donc l’association n’a plus de dette. Le compte bancaire a bien enregistré la dépense des 180 euros. </p><p>	</p></li><li class="li-enumerate">vente de 5 bouteilles à Yves Remord, réglée par chèque :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <em>Chèques à encaisser</em>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 15 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Yves Remord</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Pinard en bouteilles</em>,
+			</li><li class="li-itemize"><span class="c007">N° chèque/virement</span> : n°de chèque = 123456,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>5 bouteilles</em> ;
+		</li></ul><p>L’achat est passé avec le tiers réel mais avec la catégorie <em>Virement</em>. Le compte <em>Chèques à encaisser</em> est créditeur, et le chèque fera partie de la prochaine remise de chèques. Le compte <em>Pinard en bouteilles</em> est débité de 15 euros, il ne reste plus que 165 euros soit 55 bouteilles. </p><p>
+Lorsque toutes les bouteilles seront vendues, vous n’aurez plus qu’à rapprocher les opérations de cette vente pour les faire disparaître du solde. </p><p>	</p></li><li class="li-enumerate">remise de chèques à la banque :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <em>Chèques à encaisser</em>,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 15 euros (en réalité plus, à savoir la totalité des chèques à remettre),
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Remise de chèques</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Compte bancaire</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Bordereau de remise n</em><sup><span style="font-style:italic">o</span></sup><em> 17</em>.
+		</li></ul><p>		
+Vous n’aurez plus qu’à rapprocher les opérations de cette remise pour les faire disparaître du solde.</p><p>Si Yves Remord vous avait payé en espèces la démarche aurait été la même mais avec le compte d’espèces et une remise en espèces. 
+</p></li></ol><p>
+Si Hector Boyau avait acheté 60 bouteilles et 10 cubis pour 280 euros, l’opération d’achat aurait été passée en opération ventilée comme suit : </p><ol class="enumerate" type=1><li class="li-enumerate">
+	achat de 60 bouteilles et 10 cubis :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte d’avances, 
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 280 euros,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Coopérative du Père Jutard</em>,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Opération ventilée</em>,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat de 60 bouteilles et 10 cubis par Hector Boyau</em> ;
+		</li></ul>
+	</li><li class="li-enumerate">détail de la ventilation :
+		<ul class="itemize"><li class="li-itemize">
+			opération 1 : 
+				<ul class="itemize"><li class="li-itemize">
+					<span class="c007">Catégorie</span> : <em>Virement : Pinard en bouteilles</em>,
+					</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat de 60 bouteilles par Hector Boyau</em>,
+					</li><li class="li-itemize">Montant 180 euros ;
+				</li></ul>
+			</li><li class="li-itemize">opération 2 :
+				<ul class="itemize"><li class="li-itemize">
+					<span class="c007">Catégorie</span> : <em>Virement : Pinard en cubis</em>,
+					</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat de 10 cubis par Hector Boyau</em>,
+					</li><li class="li-itemize">Montant 100 euros. 
+				</li></ul>
+		</li></ul>
+Les comptes <em>Pinard en bouteilles</em> et <em>Pinard en cubi</em> ont chacun été crédités du montant des achats leur revenant. 
+</li></ol><p>
+Le reste des opérations est identique au premier cas de figure (voir la section <a href="#asso-simple-firstCase">19.2.1</a>, <span class="c007">Premier cas de figure</span>). </p><p>
+Maintenant, nous vous proposons un petit exercice, pour vous permettre de voir si vous avez compris le principe : <em>Hector Boyau a pris 10 bouteilles pour lui et demande donc qu’on ne lui rembourse que 150 euros. Comment enregistrez-vous cela ?</em> Vous trouverez la réponse en fin de chapitre (voir le paragraphe <a href="#association-answer-1">19.4</a>, <span class="c007">Exercice 1</span>).</p>
+<h2 class="section" id="association-plan">19.3  Comptabilité d’association et de petite entreprise avec plan comptable</h2>
+<p>Cette section vous donne les premiers éléments pour démarrer la comptabilité d’une association ou d’une petite entreprise conformément aux règles légales. Si cette organisation y est soumise, le trésorier devra obligatoirement utiliser les dispositions légales.</p><p>Pour illustrer ce chapitre, un embryon de comptabilité d’association a été créé : le fichier <span style="font-family:sans-serif;font-weight:bold;color:#AD1637">Association.gsb</span><a id="hevea_default308"></a> est disponible soit sur le site de Grisbi dans la rubrique <a href="http://www.grisbi.org"><em>Téléchargement</em></a>, soit sur le site de <a href="http://sourceforge.net/projects/grisbi/files/Documentation"><em>Sourceforge</em></a>.</p><p>
+<span class="c010">Note</span> : Grisbi est un logiciel de comptabilité personnelle ; il fait, avant tout, de la comptabilité de trésorerie, mais en réalité, il peut quasiment tout faire et est très capable de faire de la comptabilité d’association ou de petite entreprise ; cependant, selon votre besoin, vous pourriez avoir intérêt à utiliser un logiciel plus spécialisé tel que Gnucash.</p><p>
+<span class="c010">Note</span> : ce manuel est le manuel d’utilisation du logiciel Grisbi, et n’est en aucun cas un manuel de comptabilité d’association ou d’entreprise ; veuillez vous reporter aux documents adéquats en cas de besoin.</p>
+<h3 class="subsection" id="association-plan-creation">19.3.1  Création d’une comptabilité d’association ou de petite entreprise avec plan comptable</h3>
+<p>Pour créer votre comptabilité, vous devez créer un nouveau <span class="c003">fichier de comptes</span><a id="hevea_default309"></a>, spécifique à votre association ou à votre entreprise. Au cours de cette procédure, vous devrez sélectionner <em>obligatoirement</em> une des listes de catégories prédéfinies nommée <span class="c007">Plan comptable…</span> (voir la section <a href="grisbi-manuel004.html#start-newfile">3.3</a>, <span class="c007">Création d’un nouveau fichier de comptes</span>).</p><p>
+Le <span class="c003">plan comptable</span><a id="hevea_default310"></a> est l’ensemble des règles d’évaluation et de tenue des comptes d’une entité ; un plan de comptes est une liste ordonnée des comptes.</p><p>
+Vous pouvez consulter le résumé du <a href="http://www.plancomptable.com/titre-IV/titre-IV_chapitre-III_section-1.htm#431-1"><em>Plan de comptes</em></a>.
+Le premier chiffre représente la classe (de 1 à 8). Les comptes des classes 1 à 5 enregistrent les opérations qui concernent le patrimoine (Comptes de bilan), les comptes des classes 6 et 7 enregistrent les opérations qui concernent l’activité (Comptes de résultat) et la classe 8 regroupe des comptes spéciaux.</p><p>
+Vous pouvez aussi consulter une liste des comptes plus détaillée ici <a href="http://www.plancomptable.com/titre-IV/liste_des_comptes_sa.htm"><em>Liste des Comptes</em></a>. La numérotation est limitée à 5 chiffres, dont le premier correspond à une <span class="c003">classe comptable</span><a id="hevea_default311"></a>, mais si vous gérez une petite association ou une petite entreprise, une numérotation à 3 chiffres pourra être suffisante.</p><p>
+Les comptes des classes 1 à 5 seront à créer en tant que comptes dans Grisbi au fur et à mesure en fonction des besoins (voir la section <a href="#association-plan-activity">19.3.3</a>, <span class="c007">Mouvements entre comptes</span>) ; les comptes des classes 6 et 7 sont à utiliser tels quels dans Grisbi, en tant que catégories : classe 6 pour enregistrer les charges (appelées souvent dépenses), classe 7 pour enregistrer les produits (appelés souvent recettes).</p><p>
+Voici, à titre d’exemple, une liste de comptes couramment utilisés dans une association et une petite entreprise, présentés par classe, avec des comptes à 2 chiffres, et des subdivisions numérotées sur 3 chiffres ou plus :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">1. Comptes de capitaux—Fonds propres—Emprunts et dettes assimilées</span> (passif) :
+		<ul class="itemize"><li class="li-itemize">
+			 <span class="c007">10. Fonds associatifs et réserves</span> :
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">102. Fonds associatifs</span> : il représente l’équivalent du patrimoine pour un compte de particulier ou le capital dans une entreprise ;
+				</li></ul>
+			</li><li class="li-itemize"><span class="c007">11. Report à nouveau</span> ;	
+			</li><li class="li-itemize"><span class="c007">12. Résultat</span> ;	
+		</li></ul> 
+	 </li><li class="li-itemize"><span class="c007">2. Comptes d’immobilisations</span> (actif) : ils comprennent, au besoin, des biens immobiliers et des biens matériels (matériel de bureau, ordinateurs, véhicules, etc.) ;
+	 </li><li class="li-itemize"><span class="c007">3. Comptes de stocks</span> (actif) ;
+	 </li><li class="li-itemize"><span class="c007">4. Comptes de tiers</span> (actif / passif) :
+		 <ul class="itemize"><li class="li-itemize">
+			 <span class="c007">40. Fournisseurs et comptes rattachés</span> (passif) :
+				 <ul class="itemize"><li class="li-itemize">
+					<span class="c007">401. Fournisseurs divers</span> : vous y enregistrez les factures de fournisseurs divers et les règlements ; à tout instant il représente la dette de l’association envers ces fournisseurs ; vous créerez autant de comptes que nécessaire pour les fournisseurs réguliers, dont vous voulez suivre facilement la dette, et vous les numéroterez <em>401 TARTEMPION</em>, <em>401 DURAND</em>, <em>401 XX</em>, etc. ;
+				 </li></ul>
+			 </li><li class="li-itemize"><span class="c007">41. Usagers et comptes rattachés</span> (actif) :
+				 <ul class="itemize"><li class="li-itemize"> 
+					<span class="c007">411. Clients divers : ceux qui doivent de l’argent à l’association</span> ; numérotez-les <em>411 XX</em>, <em>411 YY</em>, etc. ; 
+<p><span class="c010">Note</span> : cela peut être tous les adhérents si vous voulez enregistrer dans la comptabilité les appels de cotisations, voire lancer automatiquement ces appels en les programmant dans l’échéancier ; comme cette procédure peut être assez lourde, on se contente souvent d’enregistrer la recette de la cotisation dans le compte de produit adéquat, en mettant le nom de l’adhérent dans le champ <span class="c007">Remarques</span>.
+</p><p><span class="c010">Note</span> : Grisbi vous permet aussi de créer des «<span class="c003">tiers virtuels</span><a id="hevea_default312"></a> », qui simplifient énormément la saisie de nombreuses opérations similaires telles que ces versements de cotisation (voir l’option <span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span> dans la section <a href="grisbi-manuel022.html#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>).										
+				 </p></li></ul>
+			 </li><li class="li-itemize"><span class="c007">46. Débiteurs divers et créditeurs divers</span> (actif / passif) ; vous créerez au moins le compte 461 ci-dessous :
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">461. Président</span> : ce sont les dépenses faites par le président et qui doivent lui être remboursées ; vous créerez de même les comptes <span class="c007">462. Trésorier</span> et <span class="c007">463. Secrétaire</span> ;
+				 </li></ul>
+			 </li><li class="li-itemize"><span class="c007">47. Comptes d’attente</span> (actif / passif) ; vous créerez au moins le compte ci-dessous :
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">471. Compte d’attente</span> ;
+				 </li></ul>
+			 </li><li class="li-itemize"><span class="c007">48. Comptes de régularisation</span> (actif / passif) : vous créerez les comptes ci-dessous pour les utiliser en fin d’exercice :
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">481. Charges à répartir sur plusieurs exercices</span>,
+					 </li><li class="li-itemize"><span class="c007">486. Charges constatées d’avance</span>,
+					 </li><li class="li-itemize"><span class="c007">487. Produits constatés d’avance</span> ;
+				 </li></ul>
+		 </li></ul>
+	 </li><li class="li-itemize"><span class="c007">5. Comptes Financiers</span> (actif) :	 
+		 <ul class="itemize"><li class="li-itemize">
+			 <span class="c007">51. Banques, établissements financiers et assimilés</span>, avec les sous-classes suivantes ouvertes pour cet exercice :
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">5112. Chèques à encaisser</span>,
+					 </li><li class="li-itemize"><span class="c007">512. Banque</span>,
+					 </li><li class="li-itemize"><span class="c007">514. Banque Postale</span> ;
+				 </li></ul>
+			 </li><li class="li-itemize"><span class="c007">53. Caisses</span> :					 
+				 <ul class="itemize"><li class="li-itemize">
+					 <span class="c007">531. Caisse espèces</span>.
+				 </li></ul>					 					 
+		 </li></ul> 
+</li></ul><p>
+Quel que soit le plan de comptes utilisé, vous pourrez supprimer tous ceux dont vous n’aurez pas besoin.</p><p>
+<span class="c010">Note</span> : il est fortement recommandé, lors de la création des comptes, de leur donner un solde nul. Par la suite, dans le cas de reprise d’une comptabilité d’un exercice précédent, il vous faudra passer une série d’écritures issues de la Balance générale finale, c’est-à-dire tous les comptes non nuls en fin d’exercice, contre-balancés par le compte 890 (voir la section <a href="#association-plan-opening">19.3.2</a>, <span class="c007">Reprise d’une comptabilité dans Grisbi</span>).</p><p>
+Une fois que vous avez créé ce <span class="c003">plan comptable</span><a id="hevea_default313"></a>, vous pouvez utiliser toutes les autres fonctionnalités de Grisbi (saisies d’opérations, rapprochement, ventilation, échéancier, exercices, états, etc.), décrites dans les autres chapitres de ce manuel, et de la même manière que pour une comptabilité personnelle.</p><p>
+Lorsque vous aurez créé tous les comptes, vérifiez le résultat dans la page d’accueil de Grisbi, puis continuez à utiliser votre nouvelle comptabilité avec les sections suivantes.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_account_creation.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.1: Page d’accueil après création de tous les comptes</td></tr>
+</table></div>
+<a id="asso-account-creation-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h3 class="subsection" id="association-plan-opening">19.3.2  Reprise d’une comptabilité dans Grisbi</h3>
+<p>Pour reprendre la comptabilité déjà existante de votre association dans Grisbi, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	créez l’exercice de l’année en cours dans votre fichier de comptes (voir la section <a href="grisbi-manuel016.html#financialyear-start">15.2</a>, <span class="c007">Mise en place des exercices</span>) ;
+	</li><li class="li-enumerate">dans le compte <span class="c007">890. Bilan d’Ouverture</span>, débitez de la somme des soldes de tous les comptes créditeurs en passant par une opération ventilée ;
+	</li><li class="li-enumerate">dans le compte <span class="c007">890. Bilan d’Ouverture</span>, créditez de la somme des soldes de tous les comptes débiteurs en passant par une opération ventilée.
+</li></ol><p>	
+				
+À titre d’exemple, saisissez les soldes des comptes de bilan à la date du jour de la saisie (théoriquement le 1er jour de l’exercice) :
+</p><ul class="itemize"><li class="li-itemize">
+	un solde bancaire de 300 ;
+	</li><li class="li-itemize">un solde de 50 dans la caisse espèces ;
+	</li><li class="li-itemize">plusieurs chèques d’un total de 150 à encaisser ;
+	</li><li class="li-itemize">un solde du Fonds associatif de 350 ;
+	</li><li class="li-itemize">une dette de 80 due au Président pour un achat effectué par lui pour l’association ;
+	</li><li class="li-itemize">le résultat de l’exercice précédent de 70.			
+</li></ul><p>
+<span class="c010">Note</span> : aucun résultat n’est destiné à rester durablement au compte <span class="c007">12. Résultat</span>, qui devra alors être apuré selon les décisions de l’assemblée générale. En attendant, il peut être facultativement viré au compte <span class="c007">88. Résultat en instance d’affectation</span>.</p><p>
+Une fois ces opérations saisies, le compte <span class="c007">890. Bilan d’ouverture</span> et la page d’accueil devraient se présenter ainsi :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_renew.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.2: Bilan d’ouverture : reprise des «À nouveaux »</td></tr>
+</table></div>
+<a id="asso-renew-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_afterOpening.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.3: Page d’accueil après bilan d’ouverture</td></tr>
+</table></div>
+<a id="asso-afterOpening-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h3 class="subsection" id="association-plan-activity">19.3.3  Mouvements entre comptes</h3>
+<p>Les mouvements entre comptes se font comme pour une comptabilité personnelle. Voici quelques exemples d’écritures courantes dans la comptabilité d’une association ou d’une petite entreprise (sans TVA) :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	facture d’achat ou de frais payée comptant : une seule écriture suffit pour comptabiliser le flux économique et le flux financier ; par exemple, achat de 80 € de carburant auto :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">514. Banque Postale</span>,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 80 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : nom du fournisseur,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 606. Achats non stockés de matières et fournitures,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : numéro de la facture ;
+		</li></ul>
+	</li><li class="li-enumerate">facture d’achat ou de frais payée à crédit : deux écritures sont nécessaires :
+		<ul class="itemize"><li class="li-itemize">
+			pour comptabiliser le flux économique (l’achat) :
+				<ul class="itemize"><li class="li-itemize">
+					sur le compte <span class="c007">401. Fournisseurs divers</span>,
+					</li><li class="li-itemize"><span class="c007">Débit</span> : 80 €,					
+					</li><li class="li-itemize"><span class="c007">Tiers</span> : nom du fournisseur,
+					</li><li class="li-itemize"><span class="c007">Catégorie</span> : 606. Achats non stockés de matières et fournitures,
+					</li><li class="li-itemize"><span class="c007">Remarques</span> : numéro de la facture ;
+				</li></ul>			
+			</li><li class="li-itemize">pour comptabiliser le flux financier (le paiement) :
+				<ul class="itemize"><li class="li-itemize">
+					sur le compte <span class="c007">514. Banque Postale</span>,
+					</li><li class="li-itemize"><span class="c007">Débit</span> : 80 €,					
+					</li><li class="li-itemize"><span class="c007">Tiers</span> : nom du fournisseur,
+					</li><li class="li-itemize"><span class="c007">Catégorie</span> : Virement : 401. Fournisseurs,
+					</li><li class="li-itemize"><span class="c007">N° chèque/virement</span> : numéro du chèque ou du virement ;
+				</li></ul>
+		</li></ul>	
+	</li><li class="li-enumerate">vente au comptant ; sur le même principe, pour une vente dans une petite entreprise non assujettie à la TVA :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">5112. Chèques à encaisser</span>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 80 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : nom du client,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 707. Ventes de marchandises (par exemple),
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : numéro de la facture ;
+		</li></ul>						
+	</li><li class="li-enumerate">remise des chèques des clients à la banque :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">514. Banque Postale</span>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 80 € (ou plus, avec éventuellement d’autres chèques),					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Bordereau de remise n° xxxx,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : Virement 5112. Chèques à encaisser.
+		</li></ul>		
+</li></ol><p>
+Maintenant, un autre petit exercice : <em>comment comptabiliser une vente à crédit (3 écritures) ?</em> Vous trouverez la réponse en fin de chapitre (voir le paragraphe <a href="#association-answer-2">19.4</a>, <span class="c007">Exercice 2</span>).</p>
+<h3 class="subsection" id="association-plan-analytic">19.3.4  Comptabilité analytique</h3>
+<p>La comptabilité générale classe les charges et les produits par nature. Pour une association, il peut être nécessaire de tenir une comptabilité analytique qui classe recettes et dépenses (charges et produits) par destination ou par fonction. Il y a deux grandes classes :</p><ul class="itemize"><li class="li-itemize">
+	la classe <em>Gestion générale</em>, qui permet d’appréhender les frais généraux de l’association ;
+	</li><li class="li-itemize">la classe <em>Activités</em>, qui permet d’appréhender les coûts des diverses manifestations organisées.
+</li></ul><p>Dans Grisbi, cette double imputation peut être traitée en utilisant les <span class="c007">Imputations budgétaires</span>. Vous numéroterez ces imputations budgétaires en utilisant la classe 9 qui est disponible, et en créant deux blocs de sous-classes :</p><ul class="itemize"><li class="li-itemize">
+	91 à 94 pour la <em>Gestion Générale</em> ;
+	</li><li class="li-itemize">95 à 99 pour les <em>Activités</em>.
+</li></ul><p>
+Voici deux exemples de tels mouvements :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dépense de gestion générale pour l’achat de fournitures informatiques :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">514. Banque Postale</span> et par chèque,		
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 60 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Bureau Tique,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 60 Achats (sauf 603) : 6064. Fourniture administratives,
+			</li><li class="li-itemize"><span class="c007">Imputation</span> : 91. Gestion Générale,
+			</li><li class="li-itemize"><span class="c007">Exercice</span> : 2012,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : Cartouches d’encre ;
+		</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_ink_expense.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.4: Saisie d’une opération d’achat de cartouches d’encre</td></tr>
+</table></div>
+<a id="asso-ink-expense-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>	</p></li><li class="li-enumerate">dépense pour l’achat de boisson pour la manifestation Activité 2 :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">514. Banque Postale</span> et par chèque,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 300 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Truc Enplume,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 60. Achats (sauf 603) : 6070. Achats de marchandises,
+			</li><li class="li-itemize"><span class="c007">Imputation</span> : 96. Manifestation : 962. Activité 2,
+			</li><li class="li-itemize"><span class="c007">Exercice</span> : 2012,
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : Achat de boissons.
+		</li></ul>
+</li></ol><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_drink_expense.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.5: Saisie d’une opération d’achat de boissons pour la manifestation Activité 2</td></tr>
+</table></div>
+<a id="asso-drink-expense-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+	</p><p>Vous pourrez en tirer des états plus ou moins détaillés, à vous de les créer suivant vos besoins, par exemple :
+		
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_analyticExpenses.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.6: État détaillé des dépenses analytiques de Gestion générale et Activités</td></tr>
+</table></div>
+<a id="asso-analyticExpenses-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+	</p>
+<h3 class="subsection" id="sec294">19.3.5  Travaux de fin d’exercice</h3>
+<p> <a id="association-plan-closingWork"></a></p><p>En fin d’exercice, un certain nombre d’opérations doivent être comptabilisées ; voici quelques exemples :</p>
+<h4 class="subsubsection" id="sec295">Dépréciation des biens immobilisés</h4>
+<p>Constatez la dépréciation des biens immobilisés dont l’association ou la petite entreprise est propriétaire ; par exemple pour l’amortissement d’un ordinateur de bureau acheté 500 euros sur 5 ans :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	créez le compte <span class="c007">28183. Amortissement matériel de bureau et informatique</span> ;		
+	</li><li class="li-enumerate">sur ce compte ;
+	</li><li class="li-enumerate"><span class="c007">Débit</span> : 100 € (correspondant à 500/5) ;
+	</li><li class="li-enumerate"><span class="c007">Tiers</span> : Amortissement matériel informatique ;
+	</li><li class="li-enumerate"><span class="c007">Catégorie</span> : 681. Dotation aux amortissements - Charges d’exploitation.
+</li></ol><p>Vous devrez comptabiliser cette opération chaque année pendant 5 ans. Si vous avez acheté le bien en cours d’année, vous devrez faire un calcul au prorata temporis pour la 1ère année.</p>
+<h4 class="subsubsection" id="sec296">Comptabilisation des stocks</h4>
+<ol class="enumerate" type=1><li class="li-enumerate">
+	annulation du stock initial (stock à la fin de l’exercice précédent) :
+		<ul class="itemize"><li class="li-itemize">
+			créez le compte <span class="c007">370. Stock de marchandises</span>,		
+			</li><li class="li-itemize">sur ce compte,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : montant du stock initial,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Annulation stock initial,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 6037. Variation de stocks de marchandises ;
+		</li></ul>
+	</li><li class="li-enumerate">enregistrement du stock final :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">370. Stock de marchandises</span>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : montant du stock final (suivant inventaire),					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Enregistrement stock final,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 6037. Variation de stocks de marchandises.
+		</li></ul>				
+</li></ol><p><span class="c010">Note</span> : pour tout ce qui concerne les écritures de régularisation de fin d’exercice (charges à payer, charges constatées d’avance, etc.), qui assurent le respect de l’indépendance des exercices, consultez la documentation comptable mentionnée dans la section <a href="#association-intro">19.1</a>, <span class="c007">Introduction à la comptabilité d’association</span>.</p>
+<h3 class="subsection" id="sec297">19.3.6  Documents de synthèse</h3>
+<p> <a id="association-plan-synthesis"></a></p><p>Lors de la clôture d’un exercice, vous devez créer un certain nombre d’états. En particulier, trois états doivent être obligatoirement présentés lors de l’assemblée générale de l’association, qui est en charge d’approuver les comptes de l’exercice ; ce sont :</p><ul class="itemize"><li class="li-itemize">
+	la Situation patrimoniale (Bilan) en fin d’exercice, présentée selon deux colonnes, Actif et Passif ;
+	</li><li class="li-itemize">les Produits et Charges (Résultat) de l’exercice, qui est un résumé des mouvements Charges, enregistrés dans les comptes de classe 6, et des mouvements Produits, enregistrés dans les comptes de classe 7 ;
+	</li><li class="li-itemize">la Comptabilité Analytique, qui est une synthèse des Produits et Charges par nature, enregistrés dans les comptes de classe 9, si cette fonction est tenue dans la comptabilité.
+</li></ul><p>
+<span class="c010">Note</span> : pour «Produits et Charges », on parle très fréquemment dans les associations de «Dépenses et Recettes » ; comme vous ne pouvez savoir si les documents comptables devront un jour être approuvés par un Commissaire aux comptes ou être présentés à une administration, il est conseillé d’anticiper cela, donc d’utiliser tout de suite le terme Produits et Charges, et ceci dès la création d’une comptabilité d’association. 
+</p><p>Par ailleurs, Grisbi permet de créer des états préparatoires synthétiques de toutes sortes ; pour cela, consultez les chapitres :
+</p><ul class="itemize"><li class="li-itemize">
+	<a href="grisbi-manuel021.html#reports">20</a>, <span class="c007">États</span> ;
+	</li><li class="li-itemize"><a href="grisbi-manuel022.html#reportscreation">21</a>, <span class="c007">Création d’un état</span>.
+</li></ul>
+<h3 class="subsection" id="association-plan-synthesis-parameters">19.3.7  Paramétrage des états synthétiques de clôture d’un exercice</h3>
+<p>Pour configurer chacun des trois états, suivez la procédure de création à partir de la section <a href="grisbi-manuel022.html#reportscreation-start">21.1</a>, <span class="c007">Choix du modèle de l’état de départ</span>. Ajustez, dans la fenêtre de création/modification des états, les paramètres communs et les paramètres spécifiques à cet état, comme indiqué ci-dessous ; une fois chaque configuration terminée et validée, l’état concerné apparaîtra sous l’onglet <span class="c007">États</span> du panneau de navigation de Grisbi.</p>
+<h4 class="subsubsection" id="sec299">Paramètres communs à ces trois états :</h4>
+<ul class="itemize"><li class="li-itemize">
+	<span class="c007">Dates</span> :
+		<ul class="itemize"><li class="li-itemize">
+			cochez <span class="c007">Utiliser les exercices</span>,
+<p>			
+			<span class="c010">Note</span> : pour pouvoir utiliser des exercices, il faut que ceux-ci soient configurés dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel016.html#financialyear-start">15.2</a>, <span class="c007">Mise en place des exercices</span>).
+			</p></li><li class="li-itemize">cochez <span class="c007">Détailler les exercices utilisés</span>,
+			</li><li class="li-itemize">sélectionnez l’exercice voulu dans la liste juste en-dessous ;
+		</li></ul>
+	</li><li class="li-itemize"><span class="c007">Virements</span> : cochez <span class="c007">Inclure les virements de ou vers les comptes</span> et choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Comptes</span> : choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Tiers</span> : choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Catégories</span> : choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Imputations budgétaires</span> : choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Modes de règlement</span> : choisissez <span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Divers</span> : cochez <span class="c007">Sélectionner toutes les opérations</span>.		
+</li></ul><p>	</p><p>		
+</p>
+<h4 class="subsubsection" id="sec300">Paramètres pour l’état Situation patrimoniale (Bilan) :</h4>
+<p>		
+			
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Groupement des données</span> :
+		<ul class="itemize"><li class="li-itemize">
+			cochez <span class="c007">Regrouper les opérations par compte</span>,				
+			</li><li class="li-itemize">dans le tableau, faites monter le libellé <span class="c007">Compte</span> en tête ;
+		</li></ul>					
+	</li><li class="li-itemize"><span class="c007">Séparation des données</span> : ne rien cocher ;			
+	</li><li class="li-itemize"><span class="c007">Généralités</span> :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Nom de l’état</span> : saisissez un nom, sachant que cet état correspond au bilan au jj/mm/aa ; 
+		</li></ul>									
+	</li><li class="li-itemize"><span class="c007">Titres</span> : dans la zone <span class="c007">Comptes</span>, cocher <span class="c007">Afficher le nom du compte</span> et <span class="c007">Afficher un sous-total lors d’un changement de compte</span> ;
+	</li><li class="li-itemize"><span class="c007">Opérations</span> : ne pas cocher <span class="c007">Afficher les opérations</span>.
+</li></ul><p>		
+</p>
+<h4 class="subsubsection" id="sec301">Paramètres pour l’état Produits et Charges de l’exercice (Résultat) :</h4>
+<p>		
+			
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Groupement des données</span> :
+		<ul class="itemize"><li class="li-itemize">
+			cochez <span class="c007">Regrouper les opérations par catégorie</span>,				
+			</li><li class="li-itemize">dans le tableau, faites monter le libellé <span class="c007">Catégorie</span> en tête ;
+		</li></ul>					
+	</li><li class="li-itemize"><span class="c007">Séparation des données</span> : cochez <span class="c007">Séparer les revenus et les dépenses</span> ;			
+	</li><li class="li-itemize"><span class="c007">Généralités</span> :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Nom de l’état</span> : saisissez un nom, par exemple «Revenus et dépenses de l’exercice xxxx » ou, de préférence, «Produits et Charges de l’exercice xxxx » ; 
+		</li></ul>									
+	</li><li class="li-itemize"><span class="c007">Titres</span> : dans la zone <span class="c007">Catégories</span>, cochez toutes les cinq cases ;
+	</li><li class="li-itemize"><span class="c007">Opérations</span> : ne pas cocher <span class="c007">Afficher les opérations</span>.							
+</li></ul><p>		
+</p>
+<h4 class="subsubsection" id="sec302">Paramètres pour l’état Comptabilité Analytique :</h4>
+<p>
+		
+</p><ul class="itemize"><li class="li-itemize">			
+	<span class="c007">Groupement des données</span> :
+		<ul class="itemize"><li class="li-itemize">
+			cochez <span class="c007">Regrouper les opérations par imputation budgétaire</span>,				
+			</li><li class="li-itemize">dans le tableau, faites monter le libellé <span class="c007">Imputation budgétaire</span> en tête ;
+		</li></ul>					
+	</li><li class="li-itemize"><span class="c007">Séparation des données</span> : ne rien cocher ;			
+	</li><li class="li-itemize"><span class="c007">Généralités</span> :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Nom de l’état</span> : saisissez un nom, par exemple «Comptabilité analytique exercice xxxx » ;
+		</li></ul>									 
+	</li><li class="li-itemize"><span class="c007">Titres</span> : dans la zone <span class="c007">Imputations budgétaires</span>, cochez les quatre premières cases, mais pas la case <span class="c007">Afficher «Pas de sous-imputation si absente»</span>.			
+</li></ul><p>		</p>
+<h3 class="subsection" id="association-plan-closingResult">19.3.8  Clôture d’un exercice</h3>
+<p>Grisbi ne dispose pas de la fonction de clôture automatique en fin d’exercice comptable. Cela ne doit pas empêcher le respect des règles du PCG (Plan Comptable Général) Art. 441/12, ce qui peut sembler un peu fastidieux, mais cela ne se produit qu’une fois par an… Les sections suivantes indiquent comment procéder :</p>
+<h4 class="subsubsection" id="sec304">Solde des comptes de produits et charges, Résultat et Bilan :</h4>
+<p>Pour solder les comptes de produits et charges, il faut les virer au compte <span class="c007">12. Résultat</span> ; procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	imprimez l’état Produits et Charges de l’exercice afin d’obtenir le solde de chaque compte des classes 6 et 7 
+	(au besoin, voir la section <a href="#association-plan-synthesis-parameters">19.3.7</a>, <span class="c007">Paramétrage des états synthétiques de clôture d’un exercice</span>) ;<blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_chargesProducts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.7: État Produits et Charges de l’exercice (Résultat)</td></tr>
+</table></div>
+<a id="asso-chargesProducts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>	</p></li><li class="li-enumerate">faites un virement de tous les comptes de charges au compte <span class="c007">12. Résultat</span> :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">12. Résultat</span>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : somme des soldes des comptes de la classe 6 (charges),					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Virement des comptes de charges à Résultat,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : Opération ventilée : ventiler le solde de tous les comptes de la classe 6 (charges) ;
+		</li></ul>			
+	</li><li class="li-enumerate">faites un virement de tous les comptes de produits au compte <span class="c007">12. Résultat</span> :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">12. Résultat</span>,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : somme des soldes des comptes de la classe 7 (produits),					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Virement des comptes de produits à Résultat,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : Opération ventilée : ventiler le solde de tous les comptes de la classe 7 (produits) ;
+		</li></ul>	
+	</li><li class="li-enumerate">constatez le solde du compte <span class="c007">12. Résultat</span> ; 
+	<blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_chargesProductsClosing.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.8: Clôture des comptes de produits et charges et détermination du résultat de l’exercice</td></tr>
+</table></div>
+<a id="asso-chargesProductsClosing-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>	</p></li><li class="li-enumerate">vérifiez que les soldes des comptes de produits et charges sont égaux à zéro à la fin de l’exercice et que tout est regroupé dans le compte <span class="c007">12. Résultat</span> ; le solde du compte Résultat représente le bénéfice ou les pertes de l’exercice ;
+	</li><li class="li-enumerate">imprimez enfin le bilan de l’exercice.
+	</li></ol><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/asso_balanceSheet.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.9: État Situation patrimoniale (Bilan)</td></tr>
+</table></div>
+<a id="asso-balanceSheet-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="sec305">Clôture et réouverture des comptes :</h4>
+<p>Ces écritures permettent le report des soldes des comptes de bilan sur l’exercice suivant (À nouveau).</p><ol class="enumerate" type=1><li class="li-enumerate">
+	clôture des comptes d’actif  :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">891. Bilan de clôture</span>,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : somme des comptes d’actif (ils apparaissent en positif sur l’état «Situation patrimoniale »),
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Clôture des comptes d’actif,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <span class="c007">Opération ventilée</span> : ventiler les soldes de tous les comptes d’actif ;
+		</li></ul>
+	</li><li class="li-enumerate">clôture des comptes de passif  :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">891. Bilan de clôture</span>,
+			</li><li class="li-itemize"><span class="c007">Date</span> : date de fin d’exercice,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : somme des soldes des comptes de passif (ils apparaissent en négatif sur l’état «Situation patrimoniale »),
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Clôture comptes de passif,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <span class="c007">Opération ventilée</span> : ventiler les soldes de tous les comptes de passif ;
+		</li></ul><p>						</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+		<div class="center">
+		<img src="image/screenshot/asso_accounts_closing.png">
+		</div>
+		<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.10: Clôture des comptes d’actif et de passif</td></tr>
+</table></div>
+		<a id="asso-accounts-closing-img"></a>
+		<div class="center"><hr class="c012"></div></blockquote><p>
+				</p><p>	</p></li><li class="li-enumerate">réouverture des comptes d’actif au début de l’exercice suivant  :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">890. Bilan d’ouverture</span>,
+			</li><li class="li-itemize"><span class="c007">Débit</span> : somme des soldes des comptes d’actif (ils apparaissent en positif),
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Ouverture des comptes d’actif,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <span class="c007">Opération ventilée</span> : ventiler les soldes de tous les comptes d’actif ;
+		</li></ul>		
+	</li><li class="li-enumerate">réouverture des comptes de passif au début de l’exercice suivant  :
+			<ul class="itemize"><li class="li-itemize">
+			sur le compte <span class="c007">890. Bilan d’ouverture</span>,
+			</li><li class="li-itemize"><span class="c007">Date</span> : date de début de l’exercice suivant,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : somme des soldes des comptes de passif,
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Ouverture des comptes de passif,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <span class="c007">Opération ventilée</span> : ventiler les soldes de tous les comptes de passif ;
+		</li></ul>
+	</li><li class="li-enumerate">vous pourrez alors archiver les opérations de l’exercice passé, qui restent consultables, mais qui ne devront jamais plus être modifiées, pour assurer l’intangibilité et l’irréversibilité des informations.
+</li></ol><p>		</p><p>						</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+		<div class="center">
+		<img src="image/screenshot/asso_accounts_reopening.png">
+		</div>
+		<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 19.11: Réouverture des comptes d’actif et de passif</td></tr>
+</table></div>
+		<a id="asso-accounts-reopening-img"></a>
+		<div class="center"><hr class="c012"></div></blockquote><p>
+				</p><p><span class="c009">Attention</span> : Grisbi ne dispose pas de la fonction de clôture automatique en fin d’exercice comptable ; la conservation intégrale de vos données après la clôture d’un exercice n’est donc pas totalement assurée, car vous pourriez encore les modifier par inadvertance; il vous appartient de veiller à la pérennité de vos données, par exemple en faisant une copie de sauvegarde de votre fichier de comptes à la date de la fin de cet exercice.</p>
+<h2 class="section" id="sec306">19.4  Réponses aux exercices</h2>
+<p> <a id="association-answer"></a></p>
+<h5 class="paragraph" id="association-answer-1">Exercice 1 : <em>Hector Boyau a pris 10 bouteilles pour lui et demande donc qu’on ne lui rembourse que 150 euros. Comment enregistrez-vous cela ?</em></h5>
+<p>Hector Boyau avait acheté 60 bouteilles et 10 cubis pour 280 euros, l’opération d’achat avait été passée en opération ventilée (voir la section <a href="#asso-simple-secondCase">19.2.2</a>, <span class="c007">Deuxième cas de figure</span>) :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	achat de 10 bouteilles à l’association par Hector Boyau :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte d’avances ; 
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 30 euros ;
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Hector Boyau</em> ;
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : Pinard en bouteilles</em> ;
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Achat de 10 bouteilles par Hector Boyau</em>.
+		</li></ul>
+	</li><li class="li-enumerate">remboursement à Hector Boyau :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte bancaire ; 
+			</li><li class="li-itemize"><span class="c007">Débit</span> : 150 euros ;
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : <em>Remboursement Hector Boyau</em> ;
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : <em>Virement : compte d’avances</em> ;
+			</li><li class="li-itemize"><span class="c007">Remarques</span> : <em>Remboursement des 50 bouteilles à Hector Boyau</em>.
+		</li></ul>
+</li></ol><p>	
+</p>
+<h5 class="paragraph" id="association-answer-2">Exercice 2 : <em>Comment comptabiliser une vente à crédit</em> ? Trois écritures sont nécessaires :</h5>
+<ol class="enumerate" type=1><li class="li-enumerate">
+	vente à crédit (flux économique) :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte 411. Clients,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 80 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : numéro de facture et nom du client,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : 707. Ventes de marchandises (par exemple)
+		</li></ul>				
+	</li><li class="li-enumerate">réception du chèque (flux financier) :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte 5112. Chèques à encaisser,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 80 €,					
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : nom du client,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : Virement : 411. Clients ;
+		</li></ul>
+	</li><li class="li-enumerate">remise des chèques des clients à la banque :
+		<ul class="itemize"><li class="li-itemize">
+			sur le compte 512. Compte bancaire,
+			</li><li class="li-itemize"><span class="c007">Crédit</span> : 80 € (ou plus, avec éventuellement d’autres chèques),				
+			</li><li class="li-itemize"><span class="c007">Tiers</span> : Bordereau de remise n° xxxx,
+			</li><li class="li-itemize"><span class="c007">Catégorie</span> : Virement 5112. Chèques à encaisser ;
+		</li></ul>
+</li></ol><p>	
+	
+	
+	
+	</p>
+<hr>
+<a href="grisbi-manuel019.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel021.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

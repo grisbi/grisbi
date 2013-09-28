@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Opérations d’un compte</title>
+</head>
+<body>
+<a href="grisbi-manuel008.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel010.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="transactions">Chapitre 8  Opérations d’un compte</h1>
+<p>Les différents comptes que vous avez créés contiennent les opérations. Pour afficher la liste des comptes enregistrés dans votre fichier de comptes, utilisez la barre d’information ou le panneau de navigation (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span> et la section <a href="grisbi-manuel008.html#accounts-list">7.1</a>, <span class="c007">Liste des comptes</span>).</p><p>Pour afficher les opérations d’un compte, sélectionnez ce compte dans la liste : l’onglet <span class="c007">Opérations</span> s’affiche par défaut. Il possède quatre éléments principaux :</p><ul class="itemize"><li class="li-itemize">
+	 la barre d’outils ;
+	 </li><li class="li-itemize">la liste des opérations ;
+	 </li><li class="li-itemize">le formulaire de saisie des opérations ;
+	 </li><li class="li-itemize">le <span class="c003">solde pointé</span><a id="hevea_default80"></a>.
+</li></ul><p>
+<span class="c010">Note</span> : si vous n’avez jamais fait de rapprochement, donc pas de pointages, Grisbi ne peut ni calculer ni afficher de solde pointé.</p>
+<h2 class="section" id="transactions-functions">8.1  Barre d’outils</h2>
+<p>La barre d’outils présente les fonctions suivantes : </p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Nouvelle Opération</span> : va à la fin de la liste des opérations et ouvre le formulaire de saisie vierge ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> : supprime l’opération sélectionnée ;
+	 </li><li class="li-itemize"><span class="c007">Éditer</span> : ouvre le formulaire de saisie pour l’opération sélectionnée et permet de la modifier ;
+	 </li><li class="li-itemize"><span class="c007">Rapprocher</span> : ouvre la page de rapprochement du compte sélectionné (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>) ;
+	 </li><li class="li-itemize"><span class="c007">Imprimer</span> : ouvre la fenêtre de sélection de l’imprimante et de ses
+	options ;
+	 </li><li class="li-itemize"><span class="c007">Affichage</span> : ouvre un menu déroulant ; vous pouvez choisir l’<span class="c003">affichage des opérations</span><a id="hevea_default81"></a> parmi quatre possibilités (<span class="c007">Vue simple</span>, <span class="c007">Mode «deux lignes »</span>, <span class="c007">Mode «trois lignes »</span> et <span class="c007">Vue complète</span>), ainsi que l’affichage ou non des <span class="c003">opérations rapprochées</span><a id="hevea_default82"></a> et des <span class="c003">lignes d’archives</span><a id="hevea_default83"></a>.
+</li></ul><p>
+Les options du menu <span class="c007">Affichage</span> influent par défaut sur l’affichage de tous les comptes. Vous pouvez préférer un affichage différent pour chaque compte, cela est configurable dans le menu <span class="c007">Édition - Préférences</span> (voir le paragraphe <a href="grisbi-manuel023.html#setup-operations-list-differenciation">22.3.1</a>, <span class="c007">Différenciation des comptes</span>).</p><p>La <span class="c003">barre d’outils</span><a id="hevea_default84"></a> peut être déplacée dans l’écran en cliquant sur sa poignée (petit rectangle vertical à gauche de la barre) et en la déplaçant. Pour la réattacher à son emplacement d’origine dans le pavé des détails, la remettre en haut de la fenêtre, le haut de la poignée sur le petit trait qui visualise sa place d’origine.</p>
+<h2 class="section" id="transactions-list">8.2  Liste des opérations</h2>
+<h3 class="subsection" id="transactions-list-description">8.2.1  Description</h3>
+<p>La liste des opérations s’affiche dans le panneau des détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/transactions_list.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.1: Liste des opérations</td></tr>
+</table></div>
+<a id="transactions-list-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Elle affiche en haut la barre des libellés des colonnes. Vous pouvez <span class="c003">élargir ou rétrécir une colonne</span><a id="hevea_default85"></a> en cliquant sur le séparateur entre deux colonnes et en le déplaçant. Pour rétablir la largeur des colonnes à leur valeur par défaut, sélectionnez le menu <span class="c007">Affichage - Réinitialiser la largeur des colonnes</span>.</p><p>Vous pouvez déplacer la liste des opérations vers le haut ou vers le bas avec la molette de la souris, ou bien avec la souris et l’ascenseur vertical. Le déplacement vers la gauche ou la droite se fait avec la souris et l’ascenseur horizontal.</p><p>Vous pouvez choisir d’afficher ou non les <span class="c003">opérations rapprochées</span><a id="hevea_default86"></a> et les <span class="c003">lignes d’archives</span><a id="hevea_default87"></a> : sélectionnez <span class="c007">Affichage - Montrer les opérations rapprochées</span> ou <span class="c007">Affichage - Montrer les lignes d’archives</span> dans la barre de menus ou dans la barre d’outils (voir la section <a href="grisbi-manuel005.html#home-menus-display">4.4.3</a>, <span class="c007">Menu Affichage</span> ou la fonction <span class="c007">Affichage</span> dans la section <a href="#transactions-functions">8.1</a>, <span class="c007">Barre d’outils</span>).</p><p>
+Du point de vue de la base de données de Grisbi, une opération est constituée de ses <span class="c003">champs d’information</span><a id="hevea_default88"></a>. Les champs d’information de chaque opération s’affichent dans les différentes <span class="c003">cellules</span><a id="hevea_default89"></a> définies par l’intersection des lignes et des colonnes. Il ne peut y avoir au maximum que quatre lignes et sept colonnes, ce qui définit un maximum de vingt-huit champs d’information pour chaque opération.</p><p>Chaque opération peut être affichée sur 1, 2, 3 ou 4 lignes, suivant le mode d’affichage sélectionné (voir la section <a href="grisbi-manuel005.html#home-menus-display">4.4.3</a>, menu <span class="c007">Affichage</span> dans la barre de menus ou la fonction <span class="c007">Affichage</span> dans la section <a href="#transactions-functions">8.1</a>, <span class="c007">Barre d’outils</span>). L’affichage courant y est indiqué par une coche. </p><p>Vous pouvez aussi configurer le contenu de ces lignes, ainsi que la mémorisation des réglages de l’affichage, individuellement pour chaque compte, dans le menu <span class="c007">Édition - Préférences</span> (voir les sections <a href="grisbi-manuel023.html#setup-operations-list">22.3.1</a>, <span class="c007">Comportement de la liste</span> et <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>).</p><p>Le <span class="c003">libellé d’une colonne</span><a id="hevea_default90"></a> est toujours le nom du champ d’information affiché dans la première ligne des opérations.</p><p>Pour des raisons de lisibilité de l’affichage, Grisbi n’affiche aucune bordure aux cellules, colonnes, lignes et opérations, mais présente une alternance de couleurs de fond violet et blanc à chaque ligne.</p>
+<h3 class="subsection" id="transactions-list-fields">8.2.2  Champs d’information et de saisie</h3>
+<p>Grisbi sait gérer, pour chaque opération, une liste complète de champs d’information et de saisie<a id="hevea_default91"></a><a id="hevea_default92"></a>, qui sont les suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date de l’opération</span><a id="hevea_default93"></a> : <span class="c003">date</span> à laquelle est réalisée l’opération ; elle peut être utilisée pour calculer les soldes ;
+	</li><li class="li-itemize"><span class="c007">Date de valeur</span><a id="hevea_default94"></a> : <span class="c003">date</span> à laquelle la banque comptabilise l’opération ; c’est cette date qui fait foi pour le calcul des intérêts et des agios ; elle peut être utilisée pour calculer les soldes ;
+	</li><li class="li-itemize"><span class="c007">Tiers</span> ;
+	</li><li class="li-itemize"><span class="c007">Imputation budgétaire</span> ;
+	</li><li class="li-itemize"><span class="c007">Débit</span> ;
+	</li><li class="li-itemize"><span class="c007">Crédit</span> ;
+	</li><li class="li-itemize"><span class="c007">Solde</span> : montant toujours calculé <em>après</em> l’opération affichée dans la même ligne ; il dépend chronologiquement du <span class="c003">tri primaire</span><a id="hevea_default95"></a> sélectionné ; un <span class="c003">solde négatif</span><a id="hevea_default96"></a> est affiché en rouge ;
+	</li><li class="li-itemize"><span class="c007">Montant</span> : utilisé dans le cas de virement vers un compte dans une <span class="c003">devise différente</span><a id="hevea_default97"></a> ; voir la section <a href="#transactions-new-transfer">8.6.7</a>, <span class="c007">Virements</span> ; 
+	</li><li class="li-itemize"><span class="c007">Moyen de paiement</span> ;
+	</li><li class="li-itemize"><span class="c007">N° rapprochement</span> : numéro de chaque rapprochement dans chaque compte ;
+	</li><li class="li-itemize"><span class="c007">Exercice</span> ;
+	</li><li class="li-itemize"><span class="c007">Catégorie</span> ;
+	</li><li class="li-itemize"><span class="c007">P/R</span> : statut de l’opération, <em>Pointé</em> ou <em>Rapproché</em> ;
+	</li><li class="li-itemize"><span class="c007">Pièce comptable</span>, par exemple le numéro de la facture (<span class="c007">Pièce comptable</span> et <span class="c007">Numéro d’opération</span> sont des références réciproques qui assurent la traçabilité de l’opération) ;
+	</li><li class="li-itemize"><span class="c007">Remarques</span> : informations éventuelles sur l’opération ;
+	</li><li class="li-itemize"><span class="c007">Infos banque/guichet</span>, utile uniquement si vous enregistrez un chèque reçu ;
+	</li><li class="li-itemize"><span class="c007">Numéro d’opération</span> : il s’agit d’un numéro d’ordre unique que Grisbi attribue à chaque opération ; vous pouvez reporter ce numéro sur la pièce comptable correspondante (<span class="c007">Numéro d’opération</span> et <span class="c007">Pièce comptable</span> sont des références réciproques qui assurent la traçabilité de l’opération) ;
+	</li><li class="li-itemize"><span class="c007">N° chèque</span> ou <span class="c007">N° chèque/virement </span>, si le mode de règlement sélectionné permet cette saisie ;
+	</li><li class="li-itemize"><span class="c007">Devise de l’opération</span> ;
+	</li><li class="li-itemize"><span class="c007">Taux de change</span> ;
+	</li><li class="li-itemize"><span class="c007">Mode de règlement de la <span class="c003">contre-opération</span></span><a id="hevea_default98"></a> : vous pouvez le configurer pour chaque compte dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-resources-modes">22.5.5</a>, <span class="c007">Modes de règlement</span>) ;
+	</li><li class="li-itemize"><span class="c007">Auto/Manuel</span> : statut de l’exécution d’une opération planifiée
+</li></ul><p>La liste des opérations et le formulaire de saisie utilisent chacun un sous-ensemble de ces champs. Vous pouvez voir les deux listes complètes dans les tableaux du menu <span class="c007">Édition - Préférences</span>, onglets <span class="c007">Cellules de la liste des opérations</span> et <span class="c007">Contenu</span>, ou dans les sections <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span> et <a href="grisbi-manuel023.html#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span>.</p>
+<h3 class="subsection" id="transactions-list-fields-manage">8.2.3  Gestion des champs d’information</h3>
+<p><a id="hevea_default99"></a>
+Grisbi affiche par défaut, dans la liste des opérations, un certain nombre de ces champs (tiers, catégorie, débit, etc.). Mais vous pouvez aussi <span class="c003">gérer les champs d’information</span><a id="hevea_default100"></a> différemment, c’est à dire afficher de nouveaux champs, les modifier ou en supprimer l’affichage, à votre convenance. 
+Vous pouvez soit faire ces manipulations dans le menu <span class="c007">Édition - Préférences - Opérations - Cellules de la liste des opérations</span>, qui offre un aperçu complet de la disposition des champs dans les cellules, et permet de faire plusieurs modifications facilement (voir la section <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>), soit le faire directement dans la liste des opérations, en suivant les méthodes ci-dessous :</p>
+<h4 class="subsubsection" id="transactions-list-fields-add">Ajout d’un champ d’information</h4>
+<p>Pour <span class="c003">ajouter un champ d’information</span><a id="hevea_default101"></a> dans une cellule, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez <span class="c007">Affichage - Vue complète</span> dans la barre d’outils ou <span class="c007">Affichage - Montrer quatre lignes par opération</span> dans la barre de menus, pour vous assurer de voir toutes les vingt-huit cellules ;
+	 </li><li class="li-enumerate">cliquez-droit dans une des cellules vides de la colonne où vous voulez ajouter ce champ : faites-le précisément, car rien ne permet d’identifier sur quelle cellule vous avez cliqué ;
+	 </li><li class="li-enumerate">un menu contextuel s’affiche ; sélectionnez <span class="c007">Modifier le contenu de la cellule</span> ; vérifiez qu’il n’y a pas déjà de champ d’information dans cette cellule, en constatant qu’aucun champ de la liste déroulante n’a de coche à gauche de son nom ;
+	 </li><li class="li-enumerate">choisissez un champ d’information proposé dans la liste ; ce champ s’ajoute dans la cellule choisie, et toutes les opérations de la liste l’affichent.
+</li></ol>
+<h4 class="subsubsection" id="transactions-list-fields-modify">Modification d’un champ d’information</h4>
+<p>Pour <span class="c003">modifier un champ d’information</span><a id="hevea_default102"></a> dans une cellule, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez <span class="c007">Affichage - Vue complète</span> dans la barre d’outils ou <span class="c007">Affichage - Montrer quatre lignes par opération</span> dans la barre de menus, pour vous assurer de voir toutes les vingt-huit cellules ;
+	 </li><li class="li-enumerate">cliquez-droit dans une des cellules de la colonne dont vous voulez modifier le champ : faites-le précisément, car rien ne permet d’identifier sur quelle cellule vous avez cliqué ;
+	 </li><li class="li-enumerate">un menu contextuel s’affiche ; sélectionnez <span class="c007">Modifier le contenu de la cellule</span> ; le champ d’information actuel dans cette cellule est indiqué par une coche à gauche de son nom ;
+	 </li><li class="li-enumerate">choisissez un autre champ d’information proposé dans la liste ; ce champ remplace le précédent dans la cellule choisie, et toutes les opérations de la liste l’affichent.
+</li></ol>
+<h4 class="subsubsection" id="transactions-list-fields-remove">Suppression d’un champ d’information</h4>
+<p>Pour <span class="c003">supprimer un champ d’information</span><a id="hevea_default103"></a> dans une cellule, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez <span class="c007">Affichage - Vue complète</span> dans la barre d’outils ou <span class="c007">Affichage - Montrer quatre lignes par opération</span> dans la barre de menus, pour vous assurer de voir toutes les vingt-huit cellules ;
+	 </li><li class="li-enumerate">cliquez-droit dans la cellule du champ à supprimer : faites-le précisément, car rien ne permet d’identifier sur quelle cellule vous avez cliqué ;
+	 </li><li class="li-enumerate">un menu contextuel s’affiche ; sélectionnez <span class="c007">Modifier le contenu de la cellule</span> ; le champ d’information actuel dans cette cellule est indiqué par une coche à gauche de son nom ;
+	 </li><li class="li-enumerate">choisissez <span class="c007">Effacer la cellule</span> dans la liste ; le champ d’information actuel disparaît pour toutes les opérations de la liste (mais les informations ne sont en aucun cas supprimées de votre fichier de comptes).
+</li></ol>
+<h4 class="subsubsection" id="transactions-list-fields-move">Déplacement d’un champ d’information</h4>
+<p>Pour <span class="c003">déplacer un champ d’information</span><a id="hevea_default104"></a>, vous pouvez le supprimer puis l’ajouter dans un autre champ vide, mais vous pouvez aussi le faire dans le menu <span class="c007">Édition - Préférences - Opérations - Cellules de la liste des opérations</span>. Voir la section <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>.</p>
+<h3 class="subsection" id="transactions-list-sorts">8.2.4  Tris</h3>
+<p>Pour changer l’ordre d’affichage des opérations, vous pouvez faire un <span class="c003">tri sur les opérations</span><a id="hevea_default105"></a> sur un des champs d’information ; procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez-droit sur le libellé de la colonne qui contient le champ d’information choisi comme critère de tri ;
+	 </li><li class="li-enumerate">un menu contextuel affiche la liste des champs de cette colonne ; 	sélectionnez le champ choisi comme critère de tri ;
+	 </li><li class="li-enumerate">toutes les opérations s’affichent, triées selon le critère choisi ;
+	 </li><li class="li-enumerate">un petit triangle noir apparaît à droite du libellé de la colonne ; il pointe vers le bas si le tri est ascendant, vers le haut si le tri est descendant ;
+<p>	 <span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+	 </p></li><li class="li-enumerate">cliquez sur ce triangle pour changer l’ordre du tri.
+</li></ol><p><span class="c010">Note</span> : un tri sur l’affichage réalisé ainsi n’affecte en aucun cas le solde à chaque ligne, qui est calculé après chaque opération ; suivant le tri et les options d’affichage que vous avez choisi, le solde à chaque ligne peut présenter une évolution non chronologique. </p><p>
+Vous pouvez aussi configurer l’ordre général des tris dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-operations-list-modes">22.3.1</a>, <span class="c007">Modes d’affichage</span>).</p><p><span class="c010">Note</span> : le choix du critère de tri primaire (date d’opération ou date de valeur) qui peut y avoir été fait modifie nécessairement le solde affiché à chaque ligne d’opération, puisque Grisbi calcule et affiche le solde à chaque ligne.</p>
+<h2 class="section" id="transactions-form">8.3  Formulaire de saisie</h2>
+<p>Le formulaire de saisie est situé en-dessous de la liste des opérations, où une ligne affiche, à gauche de <span class="c007">Formulaire de saisie des opérations</span>, un petit triangle qui permet d’<span class="c003">afficher ou de masquer</span><a id="hevea_default106"></a> ce formulaire.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/transactions_form.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.2: Formulaire de saisie des opérations</td></tr>
+</table></div>
+<a id="transactions-form-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p><span class="c010">Note</span> : ce triangle peut être remplacé, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>Le formulaire de saisie comprend par défaut les sept champs suivants : <span class="c007">Date de l’opération</span>, <span class="c007">Tiers</span>, <span class="c007">Débit</span>, <span class="c007">Crédit</span>, <span class="c007">Catégorie</span>, <span class="c007">Moyen de paiement</span> et <span class="c007">Remarques</span>. Vous pouvez avoir besoin de champs supplémentaires, par exemple <span class="c007">Exercice</span>, <span class="c007">Imputation budgétaire</span> ou autre. Pour cela, allez dans le menu <span class="c007">Édition - Préférences - Formulaire des opérations - Contenu</span>, ou cliquez-droit dans le formulaire de saisie, dans une zone grise en dehors des champs de saisie, sélectionnez <span class="c007">Configurer le formulaire</span> (voir la section <a href="grisbi-manuel023.html#setup-form">22.4</a>, <span class="c007">Formulaire des opérations</span>).</p><p>
+Pour connaître l’ensemble des champs que peut gérer Grisbi, voir la section <a href="#transactions-list-fields">8.2.2</a>, <span class="c007">Champs d’information et de saisie</span>.</p><p>Une fois le formulaire affiché, un menu contextuel accessible par un clic-droit dans un champ de saisie permet d’effectuer les actions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Couper</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Copier</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Coller</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Tout sélectionner</span> (dans le champ de saisie) ;
+	 </li><li class="li-itemize"><span class="c007">Méthodes de saisie</span><a id="hevea_default107"></a> ;
+	 </li><li class="li-itemize"><span class="c007">Insérer un caractère de contrôle Unicode</span><a id="hevea_default108"></a>.
+</li></ul><p>
+Le choix <span class="c007">methodes de saisie</span> permet de changer les caractères accentués.</p><p>Le choix <span class="c007">Insérer un caractere de controle Unicode</span> permet d’insérer un code Unichar qui modifie la présentation ; par exemple RLO (forçage droite-à-gauche) renverse l’ordre des lettres et la position du texte.</p><p>De plus, un autre menu contextuel, accessible par un clic-droit en dehors d’un champ de saisie, permet d’accéder à la <span class="c003">configuration du formulaire</span><a id="hevea_default109"></a> : vous pouvez en configurer précisément le contenu, la présentation, le comportement, ainsi que les paramètres d’aide à la saisie, dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-form">22.4</a>, <span class="c007">Formulaire des opérations</span>).</p>
+<h2 class="section" id="transactions-balance">8.4  Solde pointé</h2>
+<p>En-dessous de la liste des opérations, sur la même ligne que le formulaire de saisie, s’affichent à droite deux informations : la date du dernier relevé bancaire rapproché et le <span class="c003">solde pointé</span><a id="hevea_default110"></a> correspondant à ce dernier rapprochement, à moins que vous ne pointiez très régulièrement vos opérations, auquel cas il correspond au solde tel que le connaît votre banque (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>).</p>
+<h2 class="section" id="transactions-selection">8.5  Sélection d’une opération </h2>
+<p>Pour sélectionner une opération, vous avez deux moyens :</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur une de ses lignes ;
+	 </li><li class="li-itemize">déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span> et <span class="c001">&lt;Flèche Bas&gt;</span>.
+</li></ul><p>L’opération apparaît alors sur fond rouge et ses détails s’affichent dans le formulaire.</p><p>Un menu contextuel est disponible sur la liste des opérations. Un clic-droit sur la ligne d’une opération permet les fonctions suivantes, selon le contexte :
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="transactions-contextMenu-img"></a>
+	<div class="picins"><img src="image/screenshot/transactions_contextMenu.png"></div>
+			 <span class="c007">Afficher la contre-opération</span><a id="hevea_default111"></a> : ce choix est présent seulement si l’opération est un virement ;
+	 </li><li class="li-itemize"><span class="c007">Éditer l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Nouvelle opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Utiliser l’opération sélectionnée comme modèle</span> ;
+	 </li><li class="li-itemize"><span class="c007">Cloner l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Convertir l’opération en opération planifiée</span> : cela permet de créer
+	facilement des échéances après coup ;
+	 </li><li class="li-itemize"><span class="c007">Déplacer l’opération vers un autre compte</span> ;
+	 </li><li class="li-itemize"><span class="c007">Modifier le contenu de la cellule</span>.
+</li></ul>
+<h2 class="section" id="transactions-new">8.6  Saisie d’une nouvelle opération</h2>
+<p>La saisie d’une opération se fait dans le formulaire de saisie, situé en-dessous de la liste des opérations.</p><p>Pour saisir une nouvelle opération, ouvrez ou affichez le formulaire de saisie avec l’une de ces méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 sélectionnez la ligne vide en bas de la liste des opérations et appuyez sur la touche <span class="c001">&lt;Entrée&gt;</span> ;
+	 </li><li class="li-itemize">appuyez sur la combinaison de touches <span class="c001">&lt;Ctrl&gt;&lt;T&gt;</span> ;
+	 </li><li class="li-itemize">double-cliquez sur la ligne vide ;
+	 </li><li class="li-itemize">dans la barre de menus, sélectionnez <span class="c007">Édition - Nouvelle opération</span> ;
+	 </li><li class="li-itemize">dans la barre de menus, sélectionnez <span class="c007">Montrer le formulaire de saisie d’opérations</span> ;
+	 </li><li class="li-itemize">dans la barre d’outils, cliquez sur <span class="c007">Nouvelle opération</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Nouvelle opération</span> ;
+	 </li><li class="li-itemize">cliquez sur le petit triangle d’<span class="c003">affichage/masquage</span><a id="hevea_default112"></a> du formulaire de saisie des opérations à gauche de son libellé.
+<p>	 <span class="c010">Note</span> : ce triangle peut être remplacé, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+</p></li></ul><p>
+La dernière ligne, entièrement vide, en bas de la liste des opérations, apparaît sur fond rouge, le formulaire de saisie vierge s’affiche, avec seule la date du jour, ou la dernière date entrée, sur fond bleu.</p><p>
+Saisissez les différentes informations concernant votre opération dans les différents champs du formulaire. Certains champs peuvent être renseignés soit avec le clavier, soit avec une liste déroulante. Si vous utilisez le clavier, cette saisie sera automatiquement enregistrée dans la liste déroulante de ce champ. Si vous le voulez, vous pourrez toujours supprimer plus tard ce choix dans la liste : reportez-vous aux différents chapitres traitant de ces listes (<span class="c007">Tiers</span>, <span class="c007">Catégories</span>, <span class="c007">Imputations budgétaires</span> et les différents onglets de la section <span class="c007">Ressources</span> du menu <span class="c007">Édition - Préférences</span>.</p><p>Chaque champ de saisie doit être renseigné par le type de donnée qui lui convient (date, nombre, texte), sinon l’arrière-plan du champ deviendra rouge. </p><p>Une fois le dernier champ du formulaire saisi et validé, l’opération s’affiche dans la liste des opérations, et la ligne active, en rouge, passe à la dernière ligne vide de la liste.</p><p>
+Les sous-sections suivantes donnent les différentes méthodes de saisie disponibles.</p>
+<h3 class="subsection" id="transactions-new-keyboard">8.6.1  Commandes principales au clavier</h3>
+<p>La touche <span class="c001">&lt;Tabulation&gt;</span> permet le déplacement dans le formulaire.</p><p>La touche <span class="c001">&lt;Entrée&gt;</span> permet soit de se déplacer dans le formulaire de saisie, soit de valider la saisie ; cela est configurable dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-form-behaviour">22.4.2</a>, <span class="c007">Comportement</span>). Cette configuration affecte à la fois la touche <span class="c001">&lt;Entrée&gt;</span> du clavier alphabétique et celle du pavé numérique.</p><p>La touche <span class="c001">&lt;Échap&gt;</span> permet d’annuler la saisie en cours.</p>
+<h3 class="subsection" id="transactions-new-dates">8.6.2  Saisie de date au clavier</h3>
+<p>La date du jour ou la dernière date entrée s’affiche automatiquement à l’ouverture du formulaire.</p><p>
+Vous pouvez saisir la date avec l’un de ces formats :</p><ul class="itemize"><li class="li-itemize">
+	 jj/mm/aa (avec délimiteur) ;
+	 </li><li class="li-itemize">jjmmaa ou jjmm (sans délimiteur) ; dans ce cas, vous devrez bien utiliser deux chiffres pour les jour, mois et année ;
+	 </li><li class="li-itemize">j/m/a si le jour, le mois ou l’année ne comportent qu’un seul chiffre (par ex. : 1/1/1 pour le premier janvier 2001).
+</li></ul><p>De plus, il n’est pas nécessaire de saisir l’année si celle-ci est identique à l’année en cours, ni le mois si celui-ci est le mois en cours, car Grisbi complétera automatiquement.</p><p>
+Enfin, vous pouvez incrémenter ou décrémenter la date affichée :</p><ul class="itemize"><li class="li-itemize">
+	 par jour avec les touches <span class="c001">&lt;+&gt;</span> ou <span class="c001">&lt;-&gt;</span> ;
+	 </li><li class="li-itemize">par semaine avec les touches <span class="c001">&lt;Majuscule&gt;</span> <span class="c001">&lt;+&gt;</span> ou <span class="c001">&lt;Majuscule&gt;</span> <span class="c001">&lt;-&gt;</span> ;
+	 </li><li class="li-itemize">par mois avec les touches<span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span> ;
+	 </li><li class="li-itemize">par année avec les combinaisons de touches <span class="c001">&lt;Majuscule&gt;</span> <span class="c001">&lt;Page Haut&gt;</span>
+	ou <span class="c001">&lt;Majuscule&gt;</span> <span class="c001">&lt;Page Bas&gt;</span>.
+</li></ul>
+<h3 class="subsection" id="transactions-new-calendar">8.6.3  Saisie de date au calendrier</h3>
+<p>Un double-clic sur la date, ou la combinaison de touches <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;Entrée&gt;</span>, affiche un calendrier permettant de sélectionner la date.</p><p>
+Vous pouvez alors sélectionner une nouvelle date avec la souris ou le clavier :
+
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="transactions-calendar-img"></a>
+	<div class="picins"><img src="image/screenshot/transactions_calendar.png"></div>
+			les touches <span class="c001">&lt;+&gt;</span> ou <span class="c001">&lt;-&gt;</span>, de même que <span class="c001">&lt;Flèche Gauche&gt;</span> ou <span class="c001">&lt;Flèche Droite&gt;</span>, permettent de passer au jour précédent ou suivant ;
+	</li><li class="li-itemize">les touches <span class="c001">&lt;Flèche Haut&gt;</span> ou <span class="c001">&lt;Flèche Bas&gt;</span> permettent de passer à la semaine précédente ou suivante ;
+	</li><li class="li-itemize">les touches <span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span> permettent de passer au mois précédent ou suivant ;
+	</li><li class="li-itemize">les touches <span class="c001">&lt;Début&gt;</span> ou <span class="c001">&lt;Fin&gt;</span> permettent de passer au premier jour ou au dernier jour du mois.
+	</li><li class="li-itemize">un clic sur le bouton <span class="c007">Annuler</span> ou l’appui sur la touche <span class="c001">&lt;Échap&gt;</span> ferme le calendrier sans modifier la date ;
+	</li><li class="li-itemize">un double-clic ou l’appui sur la touche <span class="c001">&lt;Entrée&gt;</span> valide la date sélectionnée.
+</li></ul><p><br>
+
+</p>
+<h3 class="subsection" id="transactions-new-lists">8.6.4  Listes déroulantes</h3>
+<p>Certains champs disposent d’une liste déroulante de choix déjà définis. Vous pouvez y sélectionner un libellé avec la souris, ou préférer saisir les données au clavier dans le champ de saisie.</p><p>L’ouverture d’une liste déroulante peut se faire avec la souris en cliquant sur le petit triangle à droite du champ, ou avec les touches du clavier <span class="c001">&lt;Page Bas&gt;</span> ou <span class="c001">&lt;Flèche bas&gt;</span>, le déplacement dans cette liste peut se faire avec la souris, ou avec les touches <span class="c001">&lt;Page Haut&gt;</span>, <span class="c001">&lt;Page Bas&gt;</span>, <span class="c001">&lt;Flèche haut&gt;</span> ou <span class="c001">&lt;Flèche bas&gt;</span>, et la validation d’un choix à l’intérieur d’une liste déroulante se fait avec la touche <span class="c001">&lt;Entrée&gt;</span>.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Grisbi vous proposera de compléter automatiquement le mot saisi dès qu’il en aura reconnu suffisamment de caractères. L’<span class="c003">auto-complètement</span><a id="hevea_default113"></a> apparaît sur fond bleu. Pour accepter celui proposé, appuyez sur la touche <span class="c001">&lt;Tabulation&gt;</span> ou la touche <span class="c001">&lt;Entrée&gt;</span>, selon votre choix de configuration, sinon continuez la saisie.</p><p>Les listes déroulantes des devises, exercices et modes de règlement s’ouvrent avec la touche <span class="c001">&lt;Espace&gt;</span> ; on s’y déplace avec les touches <span class="c001">&lt;Flèche Haut&gt;</span> et <span class="c001">&lt;Flèche Bas&gt;</span> et l’on valide avec la touche <span class="c001">&lt;Espace&gt;</span>.</p>
+<h3 class="subsection" id="transactions-new-numbers">8.6.5  Saisie de formules</h3>
+<p>Dans le formulaire de saisie, vous pouvez saisir les nombres, avec ou sans décimales, dans les champs tels que <span class="c007">Débit</span> et <span class="c007">Crédit</span>, à l’aide du clavier.</p><p>Vous pouvez aussi y saisir des <span class="c003">formules arithmétiques</span><a id="hevea_default114"></a><a id="hevea_default115"></a> simples, à l’aide des quatre opérateurs d’addition, soustraction, multiplication et division. Cela remplace la <span class="c003">calculatrice</span><a id="hevea_default116"></a> sur votre bureau.</p><p>Pour saisir une formule, saisissez-la comme si c’était un texte, par exemple «3,40-2,10» , puis continuez normalement la saisie des autres champs de votre opération ; si elle est mal écrite, elle s’affiche sur fond rouge. Lorsque vous la validez, le résultat «1,30 » s’affiche dans le champ de saisie, et si la formule est toujours mal écrite, le message «###ERR### » s’affiche à la place et sur fond rouge.</p><p>Cette calculatrice accepte la multiplication ou la division, mais de manière exclusive de l’addition ou de la soustraction ; c’est-à-dire qu’on peut mélanger additions et soustractions dans une saisie mais pas une multiplication (ou une division) et un quelconque autre opérateur : on ne peut pas mettre de parenthèses pour indiquer un ordre de priorité d’opération.</p><p>Cette fonctionnalité peut être très utile, notamment pour réajuster les montants d’une opération ventilée en cas d’écart. </p>
+<h3 class="subsection" id="transactions-new-cheque">8.6.6  Remise de chèques ou d’espèces</h3>
+<p>Pour enregistrer une <span class="c003">remise de chèques</span><a id="hevea_default117"></a>, vous les déposez d’abord sur votre compte bancaire à la banque qui vous remet un bordereau de remise, puis vous saisissez l’opération de remise, en crédit sur votre compte bancaire.</p><p>Pour enregistrer une <span class="c003">remise d’espèces</span><a id="hevea_default118"></a>, vous les déposez d’abord soit sur votre compte bancaire à la banque qui vous remet un bordereau de remise, soit dans votre porte-monnaie, puis vous saisissez l’opération de remise, en crédit sur votre compte de caisse. </p><p>
+Si vous recevez beaucoup de chèques (par exemple parce que vous gérez une association et que vos adhérents payent leur cotisation par chèque), vous avez deux méthodes de gestion :</p><ul class="itemize"><li class="li-itemize">
+	soit vous enregistrez individuellement une opération pour chaque chèque dans votre compte bancaire, puis vous groupez ces chèques pour les déposer à la banque ; votre bordereau de remise ne contient alors que leur montant global ; lors du rapprochement bancaire, votre relevé bancaire ne mentionne que ce montant global, mais non le montant de chaque chèque saisi dans votre compte bancaire ; de ce fait, le pointage est rendu peu facile (vous devriez au moins avoir fait auparavant une liste de ces chèques) ;
+	</li><li class="li-itemize">soit vous enregistrez une seule opération pour tous vos chèques, vous aurez alors perdu l’information du tiers de chaque chèque, et cette information n’apparaîtra pas dans l’onglet <span class="c007">Tiers</span>, même si vous essayez de ventiler cette opération.
+</li></ul><p>
+Si aucune de ces méthodes ne vous convient, une meilleure solution consiste à utiliser un <em>compte d’attente</em>. Pour cela, la méthode est explicitée en détails au paragraphe <a href="grisbi-manuel008.html#accounts-type-bank-waiting-remittance">7.7.1</a>, <span class="c007">Remise de chèques ou d’espèces</span>. </p>
+<h3 class="subsection" id="transactions-new-transfer">8.6.7  Virements</h3>
+<p>Le terme <span class="c003">virement</span><a id="hevea_default119"></a> recouvre deux notions différentes : les virements externes et les virements internes. Voici dans chaque cas les méthodes de saisie conseillées.</p>
+<h4 class="subsubsection" id="transactions-new-transfer-external">Virements externes</h4>
+<p>Les <span class="c003">virements externes</span><a id="hevea_default120"></a> sont des virements que votre banque, ou vous-même si vous passez un ordre par Internet, effectue vers ou à partir de votre compte. Ils peuvent être entrants (par ex. si votre employeur donne l’ordre à votre banque de vous virer le montant de votre salaire) ou sortants (par ex. si vous donnez l’ordre à votre banque de faire un virement Swift pour payer une facture à l’étranger).</p><p>Il s’agit d’un type d’opération assimilable à un chèque, et vous pourrez la saisir en sélectionnant le <span class="c007">Moyen de paiement</span> : <span class="c007">Virement</span> dans le formulaire de saisie.</p>
+<h4 class="subsubsection" id="transactions-new-transfer-internal">Virements internes</h4>
+<p>Les <span class="c003">virements internes</span><a id="hevea_default121"></a> sont des transferts entre vos différents comptes de Grisbi, et qui n’ont pas forcément d’équivalent en banque ; voici quelques exemples :</p><ul class="itemize"><li class="li-itemize">
+	si vous utilisez un compte de caisse, lorsque vous faites un retrait d’espèces à la banque, vous saisissez dans Grisbi un virement vers ce compte de caisse, mais le type d’opération est <span class="c007">Retrait</span> ;
+	</li><li class="li-itemize">si vous utilisez un compte d’avances, lorsque vous établissez ou recevez un chèque de remboursement, vous saisissez un virement interne, bien que le type d’opération soit <span class="c007">Chèque</span> ;
+	</li><li class="li-itemize">si vous utilisez un compte de passif pour gérer un emprunt, vous saisissez le prélèvement mensuel effectué par votre banque comme un virement interne de votre compte bancaire vers votre compte de passif, en tant que type <span class="c007">Prélèvement</span> ;
+	</li><li class="li-itemize">si vous utilisez un compte bancaire pour une carte bancaire à débit différé, vous saisissez le prélèvement mensuel par votre banque comme un virement de votre compte courant vers ce compte de carte.
+</li></ul><p>Par contre, si vous n’utilisez aucun de ces comptes et que votre fichier de comptes contient uniquement un compte courant et un compte d’épargne, alors les virements internes et externes ont toutes les chances de correspondre aux mêmes opérations, à savoir des virements d’un compte vers l’autre. Ce sera bien une opération du type <span class="c007">Virement</span>, et vous l’enregistrerez dans la catégorie <span class="c007">Virement : Compte d’épargne</span> ou <span class="c007">Virement : Compte courant</span>, selon le cas. </p><p>Vous pouvez réaliser des virements entre comptes en sélectionnant la catégorie <em>Virement : le_compte_ à_virer</em>. Selon que vous saisissez son montant en <span class="c007">Débit</span> ou en <span class="c007">Crédit</span>, ce sera un virement <em>vers le compte</em> ou un virement <em>à partir du compte</em>. Il est bien sûr nécessaire que les deux comptes se trouvent dans le même fichier de comptes.</p><p>La <span class="c003">contre-opération</span><a id="hevea_default122"></a><a id="hevea_default123"></a><a id="hevea_default124"></a>, c’est-à-dire le virement correspondant dans le compte destinataire ou dans le compte origine, sera automatiquement créée dans ce compte (voir la section <a href="#transactions-associatedOperation">8.9</a>, <span class="c007">Affichage d’une contre-opération</span>). </p><p>Si les deux comptes utilisent des <span class="c003">devises différentes</span><a id="hevea_default125"></a>, Grisbi effectuera automatiquement la conversion, et le débit et le crédit feront apparaître clairement les devises. Par exemple, si vous faites un virement d’un compte en euros vers un compte en yens, le débit apparaîtra en euros dans le compte en euros, le crédit en euros dans le compte en yens, et son solde en yens dans ce compte sera correct. Et si vous voulez voir apparaître en plus le crédit en yens dans le compte en yens, vous devrez configurer la liste des opérations pour afficher le champ <span class="c007">Montant</span>, et ajuster le nombre de lignes affichées dans la liste des opérations (voir la section <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>).</p>
+<h3 class="subsection" id="transactions-new-advance">8.6.8  Avances : consentement et réception</h3>
+<p>Vous pouvez être amené à <span class="c003">consentir ou recevoir une avance</span><a id="hevea_default126"></a><a id="hevea_default127"></a> de fonds : il peut s’agir, par exemple, d’une avance sur votre salaire ou d’un achat que vous faites pour le compte d’un de vos amis. </p><p>
+Vous pouvez gérer cela de deux manières : la plus simple est de créer une catégorie dédiée, et d’y affecter les opérations de débit et de crédit ; quand toutes les avances sont remboursées, le solde de cette catégorie, affiché dans la liste des catégories, doit être égal à zéro (voir la section <a href="grisbi-manuel014.html#categories-list">13.2</a>, <span class="c007">Liste des catégories et des sous-catégories</span>). Une manière plus intéressante est de créer un compte d’avances, qui permet une vision plus immédiate de l’état des avances en cours : elle est décrite en détails dans le paragraphe <a href="grisbi-manuel008.html#accounts-type-bank-advance">7.7.1</a>, <span class="c007">Compte d’avances</span>.</p>
+<h2 class="section" id="transactions-virtualThird">8.7  Saisie d’opérations avec tiers virtuel</h2>
+<p>Grisbi vous permet d’utiliser des tiers virtuels : un tiers virtuel est un <em>état</em> qui représente une liste de plusieurs tiers.</p><p>Lorsque vous saisissez une opération avec pour tiers un tiers virtuel, Grisbi enregistre, au moment de sa validation, une opération identique (montant, catégorie, imputation budgétaire, moyen de paiement etc.) pour <em>chacun</em> des tiers représentés par ce tiers virtuel. Par exemple, vous pouvez saisir en une seule fois un appel à cotisation pour 200 adhérents d’une association, ce qui représente un gain de temps très appréciable…</p><p>
+Pour <span class="c003">saisir une opération avec un tiers virtuel</span><a id="hevea_default128"></a>, saisissez ce tiers dans le champ <span class="c007">Tiers</span> du formulaire de saisie, sous la forme «État : nom_du_tiers_virtuel». </p><p>
+Pour créer un tiers virtuel, créez un état contenant une liste de tiers : voir le paragraphe <a href="grisbi-manuel022.html#reportscreation-display-general-virtualThird">21.4.1</a>, <span class="c007">Tiers virtuel</span>.</p><p>
+Pour modifier un tiers virtuel, modifiez l’état qui l’a créé : voir la section <a href="grisbi-manuel021.html#reports-modify">20.6</a>, <span class="c007">Modification d’un état</span>.</p><p>
+Pour supprimer un tiers virtuel, vous avez deux possibilités :</p><ul class="itemize"><li class="li-itemize">
+	décochez la case <span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span> dans l’état qui le définit, puis validez (voir la section <a href="grisbi-manuel021.html#reports-modify">20.6</a>, <span class="c007">Modification d’un état</span>) ;
+	</li><li class="li-itemize">supprimez l’état qui le définit (voir la section <a href="grisbi-manuel021.html#reports-delete">20.8</a>, <span class="c007">Suppression d’un état</span>).
+</li></ul>
+<h2 class="section" id="transactions-breakdown">8.8  Ventilation d’une opération</h2>
+<p><span class="c003">Ventiler une opération</span><a id="hevea_default129"></a> signifie répartir son montant entre plusieurs lignes (par exemple, vos achats au supermarché peuvent se répartir entre les catégories <em>Alimentation</em> et <em>Soins : Habillement</em>). Vous pouvez aussi répartir une somme sur la même catégorie, mais avec des informations différentes dans le champ <span class="c007">Remarques</span> (par exemple pour mémoriser le détail d’une opération).</p>
+<h3 class="subsection" id="transactions-breakdown-master">8.8.1  Saisie de l’opération ventilée</h3>
+<p>Pour <span class="c003">saisir une opération ventilée</span><a id="hevea_default130"></a>, procédez comme suit :
+	 
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans le formulaire, commencez la saisie de votre opération comme une opération normale jusqu’au champ <span class="c007">Catégories</span>, où vous choisissez la catégorie <span class="c007">Opération ventilée</span> (vers la fin du menu déroulant, mais il est plus simple de taper «O ») ;
+	 </li><li class="li-enumerate">continuez à saisir les autres données, puis validez :
+	 </li><li class="li-enumerate">dans la liste des opérations, apparaissent la première ligne de la nouvelle opération en caractères rouges sur fond bleu, et en-dessous une nouvelle ligne, sur fond rouge donc sélectionnée, avec un total égal à zéro et un écart égal à la différence entre ce total et la valeur totale de l’opération ventilée, donc en négatif ;
+		
+			<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/transactions_breakdown.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.3: Saisie de l’opération ventilée</td></tr>
+</table></div>
+	<a id="transactions-breakdown-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+		<p>	 </p></li><li class="li-enumerate">dans le formulaire, le curseur est dans le champ <span class="c007">Débit</span>, et les champs <span class="c007">Date</span>, <span class="c007">Tiers</span> et <span class="c007">Moyen de paiement</span> sont grisés, ce qui signifie qu’on ne peut plus les modifier : il s’agit du formulaire de sous-opération, qui est prêt pour la saisie des sous-opérations ;
+	 </li><li class="li-enumerate">passez à la sous-section suivante <span class="c007">Saisie des sous-opérations ventilées</span>.
+</li></ol>
+<h3 class="subsection" id="transactions-breakdown-slave">8.8.2  Saisie des sous-opérations ventilées</h3>
+<p>Pour saisir les <span class="c003">sous-opérations ventilées</span><a id="hevea_default131"></a>, continuez la saisie comme suit :</p><p><span class="c010">Note</span> : le montant d’une sous-opération peut-être le résultat d’une opération portant sur plusieurs achats ou dépenses inscrites sur un ticket de caisse ou une facture ; vous pouvez donc utiliser la <span class="c003">calculatrice</span><a id="hevea_default132"></a> dans les champs de saisie <span class="c007">Débit</span> ou <span class="c007">Crédit</span> pour obtenir plus facilement les montants des sous-opérations (voir la section <a href="#transactions-new-numbers">8.6.5</a>, <span class="c007">Saisie de formules</span>).</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans ce formulaire de sous-opération, saisissez les champs libres (non grisés), puis validez votre première sous-opération ;
+	 </li><li class="li-enumerate">dans la liste des opérations, cette sous-opération s’affiche sur fond rose, et une nouvelle ligne apparaît, sur fond rouge donc sélectionnée, qui affiche un total égal à la première sous-opération saisie, en négatif, et un écart égal à la différence entre la valeur totale de l’opération ventilée et la valeur de cette sous-opération, en négatif ;
+		
+			<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/transactions_breakdown_sub1.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.4: Saisie de la première sous-opération ventilée</td></tr>
+</table></div>
+	<a id="transactions-breakdown-sub1-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+		<p>	 </p></li><li class="li-enumerate">il y a au moins deux sous-opérations dans une opération ventilée (sinon cela n’a aucun intérêt…) ; donc, dans le formulaire de sous-opération, saisissez une deuxième sous-opération de la même manière, puis validez : cette sous-opération s’affiche sur fond rose et une nouvelle ligne apparaît, sur fond rouge donc sélectionnée, qui affiche le dernier total des sous-opérations saisies et le dernier écart  ;
+		le total des sous-opérations a augmenté (en négatif) du montant de cette deuxième sous-opération, tandis que l’écart a diminué (en négatif) du même montant ; <p>			</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/transactions_breakdown_sub2.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.5: Saisie de la deuxième sous-opération ventilée</td></tr>
+</table></div>
+	<a id="transactions-breakdown-sub2-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote><p>
+		</p><p>	 </p></li><li class="li-enumerate">si l’écart n’est pas nul, on peut alors saisir une troisième sous-opération de la même manière,
+				<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/transactions_breakdown_sub3.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.6: Saisie de la troisième sous-opération ventilée</td></tr>
+</table></div>
+	<a id="transactions-breakdown-sub3-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			et ainsi de suite jusqu’à ce que le montant de votre dernière sous-opération soit exactement égal à l’écart affiché ; validez celle-ci : la dernière sous-opération s’affiche sur fond rose et une nouvelle ligne sur fond rose apparaît, vide, ce qui indique qu’il n’y a plus d’écart et que la somme des sous-opérations est bien égale à la valeur totale de l’opération ventilée.
+		
+			<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/transactions_breakdown_complete.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.7: Saisie de la dernière sous-opération ventilée</td></tr>
+</table></div>
+	<a id="transactions-breakdown-complete-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			 
+		 </li><li class="li-enumerate">passez à la sous-section suivante <span class="c007">Validation de l’opération ventilée</span>.
+</li></ol>
+<h3 class="subsection" id="transactions-breakdown-validation">8.8.3  Validation de l’opération ventilée</h3>
+<p>À ce moment, toutes les sous-opérations sont entrées et validées et, dans la liste des opérations, la ligne de l’opération ventilée est affichée sur fond rouge, donc sélectionnée. Le formulaire réaffiche les données que vous y avez saisies. Toutes les sous-opérations étant correctes, validez l’opération ventilée, qui s’affiche alors dans la liste des opérations, en caractères noirs et sur fond rouge, sans les sous-opérations.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/transactions_breakdown_oneLine.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.8: Opération ventilée validée</td></tr>
+</table></div>
+<a id="transactions-breakdown-oneLine-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Une fois le dernier champ du formulaire saisi et validé, la ligne active, en rouge, passe à la dernière ligne vide de la liste, comme pour une opération normale.</p><p>Vous pouvez vérifier tout le contenu de cette opération ventilée, en cliquant sur le petit triangle à gauche de sa ligne pour dérouler l’opération. 
+</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Vous pouvez alors modifier les sous-opérations en les sélectionnant et en modifiant leurs champs de la même manière, et de façon à ce que finalement leur somme soit égale à la valeur de l’opération ventilée.</p>
+<h3 class="subsection" id="transactions-new-recall">8.8.4  Rappel automatique d’une opération</h3>
+<p>Le <span class="c003">rappel automatique</span><a id="hevea_default133"></a> d’une opération vous permet de saisir beaucoup plus rapidement une opération affectée à un tiers déjà connu par Grisbi : lors de la saisie du tiers, dès que vous sortez de la zone de saisie, les autres champs du formulaire sont automatiquement complétés à l’identique de la dernière opération saisie pour ce tiers. À vous de les modifier si nécessaire avant de valider l’opération. </p><p>Vous pouvez ajuster finement ce comportement dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-form-input">22.4.3</a>, <span class="c007">Aide à la saisie du formulaire</span>).</p><p>
+<span class="c010">Note</span> : si vous ne modifiez aucun champ et que vous validez l’opération, vous obtiendrez une opération purement et simplement dupliquée, mais qui portera la date du jour courant.
+</p><p>Ce rappel automatique fonctionne pour les opérations normales comme pour les opérations ventilées ; dans ce dernier cas, un champ supplémentaire <span class="c007">Restaurer les sous-opérations</span> apparaît en bas du formulaire de saisie, à gauche des boutons <span class="c007">Annuler</span> et <span class="c007">Valider</span>, et vous pouvez cocher la case correspondante en cliquant dessus ou sur le champ, et selon votre besoin.</p>
+<h2 class="section" id="transactions-associatedOperation">8.9  Affichage d’une contre-opération</h2>
+<p>Lorsque vous saisissez une opération de type virement, d’un compte vers un autre, ou sur un compte à partir d’un autre, Grisbi crée automatiquement la contre-opération dans l’autre compte (voir le paragraphe <a href="#transactions-new-transfer-internal">8.6.7</a>, <span class="c007">Virements internes</span>).</p><p>Pour <span class="c003">afficher la contre-opération</span><a id="hevea_default134"></a> d’un virement, cliquez-droit sur sa ligne dans un des deux comptes et dans le menu contextuel, sélectionnez <span class="c007">Afficher la contre-opération</span> : l’autre compte s’affiche et l’opération est sélectionnée (sur fond rouge). Si vous refaites exactement la même manipulation dans ce même compte, le compte d’origine et son virement se réaffichent.</p>
+<h2 class="section" id="transactions-modify">8.10  Modification d’une opération</h2>
+<p>Pour modifier une opération ou une sous-opération ventilée, sélectionnez-la pour qu’elle s’affiche dans le formulaire de saisie, puis passez en mode édition par l’une de ces méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 appuyez sur la touche du clavier <span class="c001">&lt;Entrée&gt;</span> ;
+	 </li><li class="li-itemize">dans la barre de menus, sélectionnez <span class="c007">Édition - Éditer l’opération</span> ;
+	 </li><li class="li-itemize">dans la barre d’outils, cliquez sur <span class="c007">Éditer</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Éditer l’opération</span> ;
+	 </li><li class="li-itemize">dans l’un des champs du formulaire, cliquez-gauche.
+</li></ul><p>Si le formulaire de saisie n’était pas affiché, il s’affiche. La date s’affiche sur fond bleu dans le formulaire.</p><p>Il est alors possible de modifier toutes les informations désirées, en se déplaçant dans les champs de saisie. </p><p>La combinaison de touches <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;P&gt;</span> donne ou retire à une opération sélectionnée le statut d’<span class="c003">opération pointée</span><a id="hevea_default135"></a>, et <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;R&gt;</span> celui d’<span class="c003">opération rapprochée</span><a id="hevea_default136"></a> (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>). Vous pouvez aussi donner à une opération le statut d’opération pointée, mais uniquement celui-ci, par la combinaison <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;Clic&gt;</span> dans la colonne P/R, sur la ligne de l’opération à pointer.</p><p>
+Si l’opération a déjà été rapprochée (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>), il est par contre impossible de modifier son montant. Les autres champs restent modifiables. Si vous avez vraiment et impérativement besoin de modifier le montant (mais si vous avez déjà rapproché l’opération, cela ne devrait pas être le cas), procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez l’opération ;
+	 </li><li class="li-enumerate">annulez son statut <em>Rapproché</em> en appuyant sur la combinaison de touches <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;R&gt;</span> ;
+	 </li><li class="li-enumerate">modifiez l’opération ;
+	 </li><li class="li-enumerate">appuyez à nouveau sur la combinaison de touches <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;R&gt;</span>. Si vous ne le faisiez pas, le rapprochement relatif à cette opération serait faussé, d’une valeur égale à la différence entre le précédent et le nouveau montant de cette opération.
+</li></ol><p><span class="c009">Attention</span> : cette manipulation est hautement déconseillée, car elle fausse momentanément le rapprochement associé à cette opération, et il redevient exact à la fin, si vous n’en avez pas modifié le montant (cette manipulation sera d’ailleurs probablement automatiquement désactivée dans une future version de Grisbi dans le cas d’une comptabilité de type association).</p>
+<h2 class="section" id="transactions-delete">8.11  Suppression d’une opération</h2>
+<p>Pour supprimer une opération, sélectionnez-la, et utilisez l’une de ces
+méthodes :
+</p><ul class="itemize"><li class="li-itemize">
+	 appuyez sur la touche du clavier <span class="c001">&lt;Suppr&gt;</span> ;
+	 </li><li class="li-itemize">dans la barre de menus, sélectionnez <span class="c007">Édition - Supprimer une opération</span> ;
+	 </li><li class="li-itemize">dans la barre d’outils, cliquez-gauche sur <span class="c007">Supprimer</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Supprimer l’opération</span>.
+</li></ul><p>
+La suppression d’une sous-opération ventilée se fait de la même façon, mais vous devrez faire en sorte que finalement la somme des sous-opérations soit égale à la valeur de l’opération ventilée.</p><p>La suppression n’est pas possible si :</p><ul class="itemize"><li class="li-itemize">
+	 l’opération est ouverte en modification : il faut préalablement sortir du mode édition, en utilisant la touche <span class="c001">&lt;Échap&gt;</span> ;
+	 </li><li class="li-itemize">l’opération est <span class="c003">rapprochée</span><a id="hevea_default137"></a> (il faut préalablement annuler son statut <em>Rapproché</em> en appuyant sur la combinaison de touches <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;R&gt;</span>).
+</li></ul><p>
+<span class="c009">Attention</span> : cette dernière manipulation est hautement déconseillée car elle fausse le rapprochement associé à cette opération.</p>
+<h2 class="section" id="transactions-model">8.12  Opération sélectionnée comme modèle</h2>
+<p>Pour utiliser une <span class="c003">opération comme modèle</span><a id="hevea_default138"></a>, sélectionnez-la, et utilisez l’une de ces méthodes :
+</p><ul class="itemize"><li class="li-itemize">
+	 dans la barre de menus, sélectionnez <span class="c007">Édition - Utiliser l’opération sélectionnée comme modèle</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Édition - Utiliser l’opération sélectionnée comme modèle</span>.
+</li></ul><p>
+Une nouvelle opération s’affiche sur fond rouge, dans une nouvelle ligne en-dessous de l’opération sélectionnée précédemment ; elle n’a évidemment ni le statut <em>Pointé</em> ni le statut <em>Rapproché</em>.</p><p>Vous pouvez alors éditer cette nouvelle opération, par exemple en modifiant sa date.</p>
+<h2 class="section" id="transactions-duplicate">8.13  Clonage d’une opération</h2>
+<p>Pour cloner une opération, sélectionnez-la pour qu’elle s’affiche dans le formulaire de saisie, puis utilisez l’une de ces deux méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 dans la barre de menus, sélectionnez <span class="c007">Édition - Cloner l’opération</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Cloner l’opération</span>.
+</li></ul><p>
+L’opération sélectionnée précédemment apparaît toujours sur fond rouge, et l’opération clonée s’affiche dans une nouvelle ligne en-dessous ; elle n’a évidemment ni le statut <em>Pointé</em> ni le statut <em>Rapproché</em>.</p><p>Vous pouvez alors éditer cette nouvelle opération, par exemple en modifiant la date.</p>
+<h2 class="section" id="transactions-schedule">8.14  Conversion d’une opération en opération planifiée</h2>
+<p>Pour convertir une opération en opération planifiée, sélectionnez-la pour qu’elle s’affiche dans le formulaire de saisie, puis utilisez l’une de ces deux méthodes :
+</p><ul class="itemize"><li class="li-itemize">
+	 dans la barre de menus, sélectionnez <span class="c007">Édition - Convertir en opération planifiée</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Convertir l’opération en opération planifiée</span>.
+</li></ul><p>
+L’onglet <span class="c007">Échéancier</span> s’affiche. La nouvelle opération apparaît dans la liste des opérations planifiées, et le formulaire de saisie s’affiche avec les paramètres de l’opération. Vérifiez ou éditez ces paramètres selon vos besoins, puis validez.</p>
+<h2 class="section" id="transactions-move">8.15  Déplacement d’une opération vers un autre compte</h2>
+<p>Pour déplacer une opération dans un autre compte, sélectionnez-la, puis utilisez l’une de ces deux méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 dans la barre de menus, sélectionnez <span class="c007">Édition - Déplacer l’opération vers un autre compte</span> et choisissez le compte destinataire dans la liste ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Déplacer l’opération vers un autre compte</span> et choisissez le compte destinataire dans la liste.
+</li></ul><p>Il est bien entendu que les deux comptes doivent se trouver dans le même fichier de comptes.</p><p>
+<span class="c010">Note</span> : il est impossible de déplacer une opération si elle a le statut <em>Rapproché</em>. Par contre, c’est possible si elle a le statut <em>Pointé</em>.</p>
+<h2 class="section" id="transactions-currencies">8.16  Gestion des devises</h2>
+<p>Grisbi est capable de gérer des opérations dans une <span class="c003">devise différente</span><a id="hevea_default139"></a> de celle du compte, avec ou sans frais de change.</p><p>
+Pour utiliser une devise différente de celle du compte, vous devez tout d’abord procéder aux configurations suivantes :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 créer la devise, si elle ne l’est pas déjà, dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-resources-currencies">22.5.1</a>, <span class="c007">Devises</span>) ;
+	 </li><li class="li-enumerate">configurer l’affichage du champ <span class="c007">Choix de la devise</span> dans le formulaire de saisie des opérations (voir la section <a href="grisbi-manuel023.html#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span>).
+</li></ol><p>Lors de la saisie de l’opération, choisissez la devise dans laquelle l’opération doit être enregistrée. Il y a deux cas possibles :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/transactions_changeRate.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 8.9: Taux de change et frais</td></tr>
+</table></div>
+<a id="transactions-changeRate-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	 si la devise a été déclarée comme faisant partie de la <span class="c003">zone euro</span><a id="hevea_default140"></a>, Grisbi fait automatiquement la conversion et ne vous demande pas s’il y a des <span class="c003">frais de change</span><a id="hevea_default141"></a>. Si toutefois vous désirez entrer des frais de change pour une devise de la zone euro, il vous faudra revenir sur cette opération en modification, cliquer sur le bouton <span class="c007">Change</span> et saisir dans la fenêtre le montant des frais ;
+	 </li><li class="li-itemize">si la devise n’est pas dans la zone euro, son taux de change n’a pas été enregistré, et Grisbi vous le demande à ce moment, ainsi que les frais de change éventuels. Ils n’apparaîtront pas dans le montant converti mais seront débités de votre compte. Vous pouvez aussi bien sûr les saisir en tant qu’opération indépendante dans la catégorie <em>Frais financiers : Frais bancaires</em>, ou tout autre catégorie à votre convenance.
+</li></ul><p>
+<span class="c010">Note</span> : vous pouvez inverser le sens de la conversion (un euro vaut X Devise, ou bien une Devise vaut Y euros) en cliquant sur les flèches à droite du nom de la devise. Vous pouvez ainsi entrer exactement le taux de change tel qu’il vous est communiqué. Ce taux peut être ajusté à tout moment après la création de l’opération. 
+</p><p>Si vous faites un <span class="c003">virement entre comptes de devises différentes</span><a id="hevea_default142"></a><a id="hevea_default143"></a><a id="hevea_default144"></a>, Grisbi créera la <span class="c003">contre-opération</span><a id="hevea_default145"></a> dans la devise du compte de destination de façon automatique si le taux de change de la devise est fixe, sinon il vous le demandera avant de passer l’écriture. </p>
+<h2 class="section" id="transactions-fillcombo">8.17  Nouveau tiers, catégorie ou imputation budgétaire</h2>
+<p>Il peut arriver que vous ayez besoin d’un nouveau tiers, d’une nouvelle catégorie ou d’une nouvelle imputation budgétaire pendant une saisie d’opération. Dans ce cas, Grisbi permet d’en faire la création «à la volée » : saisissez le nouveau nom dans la zone de liste déroulante, et Grisbi l’ajoutera automatiquement à la liste. Vous pourrez ultérieurement faire toutes les modifications nécessaires dans les onglets <span class="c007">Tiers</span> (voir la section <a href="grisbi-manuel013.html#thirdparties-modify">12.6</a>, <span class="c007">Modification d’un tiers</span>), <span class="c007">Catégories</span> (voir la section <a href="grisbi-manuel014.html#categories-modify">13.6</a>, <span class="c007">Modification d’une catégorie ou d’une sous-catégorie</span>) ou <span class="c007">Imputations budgétaires</span> (voir la section <a href="grisbi-manuel015.html#budgetarylines-modify">14.6</a>, <span class="c007">Modification d’une (sous-) imputation budgétaire</span>).</p><p> 
+<span class="c010">Note</span> : pour saisir une <span class="c003">catégorie</span><a id="hevea_default146"></a><a id="hevea_default147"></a><a id="hevea_default148"></a>
+(ou une <span class="c003">imputation budgétaire</span> : sous-imputation budgétaire<a id="hevea_default149"></a><a id="hevea_default150"></a><a id="hevea_default151"></a>) avec une sous-catégorie (ou sous-imputation), il faut respecter la syntaxe <em>catégorie : sous-catégorie</em> (avec les deux points comme séparateur, encadrés par des espaces), sinon Grisbi ne comprendra pas. De même si vous ajoutez une nouvelle sous-catégorie (ou sous-imputation budgétaire) à une catégorie (ou imputation) existante.
+</p><p>Vous pouvez également créer un tiers, une catégorie ou une imputation budgétaire directement dans leur onglet respectif, sélectionné dans le panneau de navigation.</p>
+<h2 class="section" id="transactions-print">8.18  Impression de la liste des opérations</h2>
+<p>Pour imprimer la liste des opérations, cliquez sur le bouton <span class="c007">Imprimer</span> de la barre d’outils ; une fenêtre d’impression s’ouvre, dont l’aspect et les fonctions dépendent de votre gestionnaire d’impression ; vous aurez le plus souvent les choix suivants :</p><ul class="itemize"><li class="li-itemize">
+	imprimer dans un fichier (au format PostScript, PDF ou SVG) ;
+	</li><li class="li-itemize">imprimer avec votre imprimante.
+</li></ul><p>En fonction de votre gestionnaire d’impression, vous pourrez disposer de réglages divers tels que la taille et l’orientation de la feuille, la résolution, la police d’impression et sa taille, etc.</p><p>
+<span class="c010">Note</span> : la liste des opérations de certains comptes peut être très longue ; affichez un aperçu avant impression pour vérifier ce que vous allez imprimer.</p>
+<hr>
+<a href="grisbi-manuel008.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel010.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

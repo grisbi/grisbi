@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Export et import de comptes</title>
+</head>
+<body>
+<a href="grisbi-manuel005.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel007.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="move">Chapitre 5  Export et import de comptes</h1>
+<p>Vous ne pouvez pas utiliser directement dans Grisbi des données qui ont été créées par d’autres applications de comptabilité personnelle, et réciproquement. Comme ces applications fonctionnent différemment, leurs données sont structurées différemment: il faut donc convertir leur structure de données avant de pouvoir les utiliser. </p><p>Cette conversion ne peut pas se faire d’un seul coup sur l’ensemble des données, mais doit se faire indépendamment pour chaque compte géré par l’application. Pour convertir chacun de ces comptes, il faut donc d’une part les «exporter » de l’application d’origine, puis les «importer » dans l’application de destination.</p><p><span class="c009">Attention</span> : ne pas confondre LE «fichier de comptes » qui contient toutes les données de tous les comptes créés pour la gestion d’une entité comptable (dans Grisbi, ce fichier porte l’extension <span class="c010">.gsb</span>), et LES «fichiers de compte », qui sont des fichiers ne contenant que les données d’un seul compte à la fois, et créés uniquement pour exporter ou importer ces données d’une application de comptabilité à une autre. Ces «fichiers de compte » doivent avoir un format de fichier (ou une extension) obligatoirement compatible avec l’application d’origine ET l’application de destination.
+</p><p>Grisbi supporte actuellement les formats de données de compte de comptabilité personnelle Gnucash, OFX, CSV et QIF.</p>
+<h2 class="section" id="move-import">5.1  Import de comptes d’un autre logiciel</h2>
+<p>Si vous voulez utiliser dans Grisbi des données de comptes qui ont été créés
+dans une autre application de comptabilité, vous devez d’abord exporter individuellement chacun des comptes de cette application dans un fichier, puis les importer dans Grisbi grâce à ces fichiers.</p>
+<h3 class="subsection" id="move-import-exportinit">5.1.1  Export d’un fichier de compte d’un autre logiciel</h3>
+<p>La première étape consiste, dans l’application de comptabilité personnelle
+d’origine, à exporter chaque compte dans un fichier au format choisi. Le format choisi doit être compatible à l’exportation par l’application d’origine <em>et</em> compatible à l’importation par Grisbi.</p><p>La procédure d’exportation est bien évidemment différente pour chaque logiciel, donc référez-vous à sa documentation. Si vous voulez exporter tous les comptes, vous devrez obtenir autant de fichiers que vous avez de comptes gérés par l’application.</p>
+<h3 class="subsection" id="move-import-importinit">5.1.2  Import de fichiers de compte d’un autre logiciel dans Grisbi</h3>
+<p><span class="c010">Note</span> : Grisbi permet d’importer un ou plusieurs fichiers de compte au cours de la même procédure. Bien que l’on puisse importer les fichiers de compte un par un, il est important de bien importer tous les fichiers de compte simultanément, afin que Grisbi puisse recréer les liens entre les comptes, particulièrement en ce qui concerne les opérations de virement.
+</p><p>Pour plus de renseignements sur les <span class="c003">types de compte</span><a id="hevea_default33"></a> que Grisbi sait gérer, voir la section <a href="grisbi-manuel008.html#accounts-type">7.7</a>, <span class="c007">Types de comptes de Grisbi</span>.</p><p>Vous pouvez définir quelle date sera utilisée pour l’attribution d’un exercice à 
+chaque opération importée, voir le paragraphe <a href="grisbi-manuel023.html#setup-general-import-financialyear">22.1.3</a>, <span class="c007">Définition de l’exercice</span>.</p><p>Lorsque vous importez un fichier, Grisbi vous permet d’établir une association entre une chaîne de caractères de ce fichier et un tiers. Par exemple, tous les libellés contenant «loyer » peuvent être associés à un tiers qui représente votre propriétaire. Cela doit être configuré dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-general-importLinks">22.1.4</a>, <span class="c007">Associations pour l’import</span>).</p><p>
+Dans le menu <span class="c007">Fichier</span> de Grisbi, choisissez l’option <span class="c007">Importer un
+fichier</span>, ce qui ouvre la fenêtre de l’assistant d’importation. L’importation des fichiers de compte se déroule en cinq étapes :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	accueil de l’assistant d’importation ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">sélection des fichiers de compte à importer :	
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			cliquez sur le bouton <span class="c007">Ajouter un ou des fichiers</span> : une fenêtre de gestionnaire de fichiers s’ouvre,	
+			</li><li class="li-enumerate">cherchez le répertoire où se trouvent ces fichiers de compte,
+			</li><li class="li-enumerate">sélectionnez un ou plusieurs fichiers de compte (avec la combinaison <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> et <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span>) ; vous pouvez aussi changer la locale (encodage des caracteres) des fichiers à importer dans le menu déroulant <span class="c007">Codage</span>,
+			</li><li class="li-enumerate">validez la fenêtre pour revenir à la fenêtre de sélection des fichiers de compte,
+			</li><li class="li-enumerate">si les sélections voulues sont bien cochées, vous pouvez valider par le bouton <span class="c007">Suivant</span> ;
+		</li></ol>		 
+	</li><li class="li-enumerate">fin de la préparation de l’importation des fichiers de compte : si tout s’est bien passé, cette fenêtre donne la liste des fichiers de compte qui seront importés ; continuez l’importation en validant par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">création et paramétrage de chaque compte importé dans Grisbi : vous pouvez passer en revue chaque compte et y choisir les actions suivantes  :
+		<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/QIF_import_files_setup.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 5.1: Paramétrage de chaque compte importé</td></tr>
+</table></div>
+	<a id="QIF-import-files-setup-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			
+		<ul class="itemize"><li class="li-itemize">
+			créer un nouveau compte,
+			</li><li class="li-itemize">ajouter des opérations à un compte : si des opérations planifiées sont trouvées dans l’intervalle de temps spécifié, une fenêtre spécifique s’ouvre pour savoir ce que vous voulez en faire : soit fusionner ces opérations planifiées avec les opérations importées correspondantes, soit ajouter les opérations importées en sus de celles-là (voir la section <a href="grisbi-manuel023.html#setup-general-import-parameters">22.1.3</a>, <span class="c007">Paramètres pour l’import</span>),
+			</li><li class="li-itemize">marquer les opérations d’un compte : si des <span class="c003">opérations orphelines</span><a id="hevea_default34"></a> sont trouvées, une fenêtre s’ouvrira en fin d’import pour savoir ce que vous voulez en faire : soit les ajouter, soit les ignorer,
+			</li><li class="li-itemize">définir la devise du compte (ou bien en créer une nouvelle),
+			</li><li class="li-itemize">inverser le montant de l’opération (utile pour les comptes de carte bancaire de la Banque Postale, par exemple),
+			</li><li class="li-itemize">créer une règle d’importation rapide si le fichier est au format QIF ou OFX,
+			</li><li class="li-itemize">quand tout est correct, validez l’importation par le bouton <span class="c007">Suivant</span> ;
+		</li></ul>
+	
+	 </li><li class="li-enumerate">validation de la fin de l’importation : valider par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>Si, et seulement si vous venez de créer votre fichier de comptes juste avant cette importation de données de comptes, revenez à la fin de la section <a href="grisbi-manuel004.html#start-newfile-end">3.3</a>, <span class="c007">Création d’un nouveau fichier de comptes</span>. Allez juste après la fin de la procédure de création du fichier de comptes, au paragraphe commençant par <em>D’une manière ou d’une autre…</em> , ce qui vous proposera de créer tout de suite d’autres comptes.</p><p>
+Sinon, vous pouvez commencer à utiliser le compte que vous venez de créer.</p>
+<h2 class="section" id="move-export">5.2  Export de comptes à partir de Grisbi</h2>
+<p>Si vous voulez utiliser, dans une autre application de comptabilité, des données de compte qui ont été créées par Grisbi, vous devez d’abord exporter ces données dans des fichiers, puis les importer dans l’autre application grâce à ces fichiers. Le format de fichier choisi doit être compatible à l’exportation par Grisbi <em>et</em> compatible à l’importation par l’application de destination.</p><p>Dans le menu <span class="c007">Fichier</span> choisissez l’option <span class="c007">Exporter vers un fichier QIF/CSV/…</span>  qui ouvre l’assistant Export des comptes. L’exportation des comptes comporte quatre étapes :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	accueil de l’assistant ; cette fenêtre indique que, comme les formats de fichier QIF et CSV ne supportent pas les devises, toutes les opérations seront converties dans la devise de leur compte respectif ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">sélectionnez les comptes à exporter en cliquant dans la case correspondante ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">pour chaque compte, définissez le nom du fichier, le répertoire de destination et le format d’exportation, puis validez par le bouton <span class="c007">Suivant</span>  ;
+		<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/QIF_export.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 5.2: Export des comptes</td></tr>
+</table></div>
+	<a id="QIF-export-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			
+	</li><li class="li-enumerate">la fenêtre de fin de l’exportation s’affiche ; validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p><span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_).</p>
+<hr>
+<a href="grisbi-manuel005.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel007.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

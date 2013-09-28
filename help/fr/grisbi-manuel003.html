@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Introduction</title>
+</head>
+<body>
+<a href="grisbi-manuel002.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel004.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="introduction">Chapitre 2  Introduction</h1>
+<h2 class="section" id="introduction-general">2.1  Généralités</h2>
+<p>Grisbi est un logiciel libre de comptabilité personnelle, développé en Langage C avec le support GTK2, originellement pour la plate-forme GNU/Linux. Il y a maintenant un <span class="c003">portage</span><a id="hevea_default2"></a> sous Windows, Mac OSX, FreeBSD, des paquetages pour différentes distributions Linux, et d’autres possibilités à découvrir sur le site de <a href="http://www.grisbi.org"><em>Grisbi</em></a> ou celui de <a href="http://sourceforge.net">Sourceforge</a>.</p><p>Le principe de base est de vous permettre de classer de façon simple et intuitive vos opérations financières, quelles qu’elles soient, afin de pouvoir les exploiter au mieux en fonction de vos besoins.</p><p>Grisbi a pris le parti de la simplicité et de l’efficacité pour un usage de
+base, sans toutefois exclure la sophistication nécessaire à un usage plus avancé. Les fonctionnalités futures tenteront toujours de respecter ces critères.</p>
+<h2 class="section" id="introduction-features">2.2  Fonctionnalités</h2>
+<h3 class="subsection" id="sec22">2.2.1  Ce que Grisbi sait faire</h3>
+<ul class="itemize"><li class="li-itemize">
+	Logiciel développé par des Français, donc en totale conformité avec la logique française de la comptabilité
+	</li><li class="li-itemize">Interface simple et intuitive, avec commande d’affichage plein écran
+	</li><li class="li-itemize">Gestion multi-comptes et multi-utilisateurs
+	</li><li class="li-itemize">Gestion des paramètres locaux (dates, séparateurs décimal et des milliers)	
+	</li><li class="li-itemize">Comptes bancaires, de caisse, d’actif et de passif
+	</li><li class="li-itemize">Gestion multi-devises, avec prise en charge des taux de change et des frais de change
+	</li><li class="li-itemize">Gestion des cartes bancaires (débit immédiat ou différé)	
+	</li><li class="li-itemize">Description des opérations avec : date, date de valeur, exercice, tiers,
+	montant, devise, catégorie et sous-catégorie, imputation et sous-imputation
+	budgétaires (permettant de tenir une comptabilité analytique), remarque, numéro d’écriture (attribué par Grisbi), numéro de pièce
+	comptable, références bancaires
+	</li><li class="li-itemize">Auto-complètement des tiers, catégories et imputations budgétaires avec rappel automatique des opérations et des sous-opérations pour un tiers donné
+	</li><li class="li-itemize">Option d’effacement des champs Crédit et Débit pour l’auto-complètement
+	</li><li class="li-itemize">Calcul du solde en fonction de la date de l’opération ou de sa date de valeur
+	</li><li class="li-itemize">Virement entre comptes, y compris de devises différentes, avec contre-écriture automatique
+	</li><li class="li-itemize">Planification d’opérations avec validation automatique ou manuelle
+	</li><li class="li-itemize">Surveillance des échéances
+	</li><li class="li-itemize">Déplacement et clonage des opérations
+	</li><li class="li-itemize">Clonage des opérations planifiées
+	</li><li class="li-itemize">Colorisation des débits dans l’échancier
+	</li><li class="li-itemize">Analyse et rapports financiers grâce au puissant module de génération
+	d’états
+	</li><li class="li-itemize">Plusieurs états pré-formatés disponibles et personnalisables
+	</li><li class="li-itemize">Tiers virtuels créés par les états
+	</li><li class="li-itemize">Impression des états
+	</li><li class="li-itemize">Simulation de crédits et tableaux d’amortissement avec impression et export des données
+	</li><li class="li-itemize">Budget prévisionnel avec graphiques sur les prévisions et les données historiques
+	</li><li class="li-itemize">Gestion des cartes bancaires (débit immédiat ou différé)
+	</li><li class="li-itemize">Comptabilité d’association avec plan comptable
+	</li><li class="li-itemize">Ordre d’affichage des comptes par glisser/déposer dans la liste des comptes
+	</li><li class="li-itemize">Import de fichiers aux formats QIF, OFX, Gnucash ou CSV
+	</li><li class="li-itemize">Import de fichiers de catégories dans les imputations budgétaires
+	</li><li class="li-itemize">Export de fichiers aux formats QIF ou CSV
+	</li><li class="li-itemize">Icônes personnalisées dans le fichier de comptes
+	</li><li class="li-itemize">Icône de Grisbi au format <span class="c003">SVG</span><a id="hevea_default3"></a>
+	</li><li class="li-itemize">Encore plus de menus contextuels sur le bouton droit de la souris (panneau de navigation)
+	</li><li class="li-itemize">Nombreux raccourcis-clavier pour une bonne ergonomie
+</li></ul>
+<h3 class="subsection" id="sec23">2.2.2  Ce que Grisbi ne sait pas encore faire</h3>
+<ul class="itemize"><li class="li-itemize">
+	La ventilation automatique des remboursements d’emprunt
+	</li><li class="li-itemize">Le rapprochement par Internet
+</li></ul>
+<h2 class="section" id="sec24">2.3  Évolution du logiciel</h2>
+<h3 class="subsection" id="sec25">2.3.1  Développement et versions</h3>
+<p>Grisbi étant un logiciel en plein développement, toute remarque (idée,
+bogue, documentation…) est la bienvenue. Vous pouvez l’envoyer aux différentes listes indiquées dans la section <a href="#introduction-contacts">2.4</a> <span class="c007">Contacts</span> ou sur le site de <a href="http://www.grisbi.org"><em>Grisbi</em></a>.</p><p>Vous pouvez, si vous avez le goût de l’aventure, télécharger les versions en 
+cours de développement sur le système de gestion de contenu Git de Grisbi.</p><p>En effet, le code des nouvelles versions de Grisbi est bien souvent figé
+plusieurs semaines avant la distribution effective de celles-ci, le temps pour 
+l’équipe de développement de vérifier et d’éradiquer les ultimes bogues. Pendant cette période, le format du fichier de comptes ne bouge plus, et vous pouvez donc, avec un minimum de précautions (sauvegardes fréquentes, etc.), bénéficier des dernières améliorations avec plusieurs semaines d’avance, et également participer au débogage.</p><p>Vous pouvez enfin avoir accès à toutes les évolutions du code postérieures à
+la version 0.3.2 (version à partir de laquelle nous avons mis en place un CVS sur le 
+site de Grisbi.</p><p>Notez qu’à partir de la version 0.6, les versions de numéro mineur pair (par ex. 0.<U>8</U>) sont des versions stables, tandis que celles de numéro mineur impair sont instables et ne devraient pas être utilisées en conditions normales ; de ce fait seules les versions stables sont mentionnées ici.</p>
+<h3 class="subsection" id="sec26">2.3.2  Nouveautés de la version 0.6, depuis la version 0.4.5</h3>
+<ul class="itemize"><li class="li-itemize">
+	Refonte de l’interface graphique
+	</li><li class="li-itemize">Support de la bibliothèque GTK+2 pour un environnement plus sympathique et un portage simplifié sous Windows
+	</li><li class="li-itemize">Plus aucune dépendance vis-à-vis de Gnome
+	</li><li class="li-itemize">Version Windows native (merci à François Terrot)
+	</li><li class="li-itemize">Support UTF-8 natif
+	</li><li class="li-itemize">Impression des états par LaTeX
+	</li><li class="li-itemize">Export des états en HTML
+	</li><li class="li-itemize">Amélioration de l’interface utilisateur :
+		<ul class="itemize"><li class="li-itemize">
+		amélioration des messages, les utilisateurs peuvent en ignorer,
+		</li><li class="li-itemize">amélioration de la gestion des erreurs de segmentation,
+		</li><li class="li-itemize">amélioration de la fenêtre des préférences,
+		</li><li class="li-itemize">menu contextuel sur la liste des opérations,
+		</li><li class="li-itemize">amélioration des items ;
+		</li></ul>
+	</li><li class="li-itemize">Listes de comptes et d’états complètement cliquables
+	</li><li class="li-itemize">Configuration globale en XML (merci à Axel Rousseau)
+	</li><li class="li-itemize">Réécriture de l’import de fichiers :
+		<ul class="itemize"><li class="li-itemize">
+		support des formats QIF, OFX, Gnucash ou CSV,
+		</li><li class="li-itemize">import incrémental,
+		</li><li class="li-itemize">rapprochement automatique ;
+		</li></ul>
+	</li><li class="li-itemize">Début de la traduction italienne par Giorgio Mandolfo
+	</li><li class="li-itemize">Taux de change cachés sur une session pour éviter de les
+	ressaisir
+	</li><li class="li-itemize">Support des attributs de texte (gras, italique, grand, petit) pour les états
+	</li><li class="li-itemize">Nouveau logo avec la mascotte Grisbi sur un signe euro (merci à André Pascual)
+	</li><li class="li-itemize">Logo d’attente animé modifiable
+	</li><li class="li-itemize">Complètement des listes sensible à la casse des caractères
+	</li><li class="li-itemize">Amélioration de la saisie des détails des banques
+	</li><li class="li-itemize">Support du clavier dans les arbres des tiers, catégories et imputations
+	budgétaires
+	</li><li class="li-itemize">Échéances automatiques à terme cliquables
+	</li><li class="li-itemize">Échéances ventilables
+	</li><li class="li-itemize">Opérations convertibles en échéances
+	</li><li class="li-itemize">Opérations déplaçables dans un autre compte
+</li></ul>
+<h3 class="subsection" id="sec27">2.3.3  Nouveautés de la version 0.8</h3>
+<ul class="itemize"><li class="li-itemize">
+	Module budgétaire dans la version de base
+	</li><li class="li-itemize">Simulateur de crédits et tableaux d’amortissement avec possibilité d’imprimer et d’exporter les données dans un tableur
+	</li><li class="li-itemize">Tableau d’amortissement pour les comptes de passif avec possibilité d’imprimer et d’exporter les données dans un tableur
+	</li><li class="li-itemize">Gestion des paramètres locaux (format des dates, séparateurs décimal et des milliers)
+	</li><li class="li-itemize">Incorporation des icônes personnalisées dans le fichier de comptes
+	</li><li class="li-itemize">Colorisation des débits dans l’échéancier
+	</li><li class="li-itemize">Clonage des opérations planifiées
+</li></ul>
+<h3 class="subsection" id="sec28">2.3.4  Nouveautés de la version 1.0</h3>
+<ul class="itemize"><li class="li-itemize">
+	Graphiques sur les prévisions
+	</li><li class="li-itemize">Gestion des cartes bancaires (débit immédiat ou différé)
+	</li><li class="li-itemize">Comptabilité d’association avec plan comptable
+	</li><li class="li-itemize">Icône de Grisbi au format <span class="c003">SVG</span><a id="hevea_default4"></a>
+	</li><li class="li-itemize">Encore plus de menus contextuels sur le bouton droit de la souris
+	</li><li class="li-itemize">Import de fichiers de catégories dans les imputations budgétaires
+	</li><li class="li-itemize">Modification de l’ordre d’affichage des comptes par glisser/déposer dans la liste des comptes
+	</li><li class="li-itemize">Calcul du solde en fonction de la date de l’opération ou de sa date de valeur
+	</li><li class="li-itemize">Option d’effacement des champs Crédit et Débit pour l’auto-complètement
+	</li><li class="li-itemize">Affichage des tiers inutilisés	
+	</li><li class="li-itemize">Commande d’affichage plein écran par la touche de fonction <span class="c001">&lt;F11&gt;</span>
+	</li><li class="li-itemize">Raccourci-clavier <span class="c001">&lt;Ctrl&gt;&lt;T&gt;</span> pour l’appel d’une nouvelle opération
+	</li><li class="li-itemize">Accès direct au manuel de l’utilisateur par le menu <span class="c007">Aide</span> ou le raccourci-clavier <span class="c001">&lt;Ctrl&gt;&lt;H&gt;</span>
+</li></ul>
+<h3 class="subsection" id="sec29">2.3.5  Et pour le futur ?</h3>
+<p>Les prochaines versions (non stable 1.1 et stable 1.2) utiliseront toujours la bibliothèque GTK version 2.
+Les futures versions (non stable 1.3 et stable 1.4) bénéficieront de la nouvelle bibliothèque GTK version 3.</p>
+<h2 class="section" id="introduction-contacts">2.4  Contacts</h2>
+<p>Outre les courriers aux auteurs, vous disposez de plusieurs listes de diffusion 
+pour nous contacter ou obtenir des informations.</p><p>Pour être tenu(e) au courant des évolutions de Grisbi, vous pouvez vous inscrire 
+sur la <a href="mailto:grisbi-info@lists.sourceforge.net"><em>liste d’information</em></a> prévue à cet effet. 
+Vous recevrez juste un courriel à la sortie de chaque nouvelle version.</p><p>Si vous souhaitez participer au développement de Grisbi, il existe une <a href="mailto:grisbi-devel@lists.sourceforge.net"><em>liste développement</em></a>.</p><p>Si vous avez envie de compiler régulièrement les dernières évolutions du code de Grisbi à partir du Git, vous trouverez avantage à vous abonner à la <a href="mailto:grisbi-cvs@lists.sourceforge.net"><em>liste
+d’informations du Git</em></a> afin d’être averti des
+<span class="c001">commit</span>.</p><p>Par ailleurs, nous avons décidé d’entreprendre l’internationalisation de Grisbi
+et, si vous souhaitez nous aider, vous pouvez dans un premier temps nous contacter sur la liste de développement.</p><p>Des listes spécialisées seront créées pour chaque langue selon les besoins.
+Pour l’instant, seule la <a href="mailto:grisbi-l10n-en@lists.sourceforge.net"><em>liste de traduction anglaise</em></a> est créée.</p><p>Pour vous abonner à l’une de ces listes, rendez vous simplement sur la page
+<span class="c001">http://lists.sourceforge.net/lists/listinfo/</span><em>liste</em> en remplaçant <em>liste</em> par le nom de la liste qui vous intéresse. Ou bien allez sur le site de <a href="http://www.grisbi.org">Grisbi</a> dans la rubrique <span class="c001">Contacts</span>.</p><p>N’hésitez pas de toute façon à consulter régulièrement le site officiel de Grisbi.</p>
+<h2 class="section" id="introduction-authors">2.5  Auteurs et contributions</h2>
+<p><a href="mailto:cedric@grisbi.org">Cédric <span class="c008">Auger</span></a> est à la base du projet, et il continue à en être développeur.</p><p><a href="mailto:daniel@cartron.org">Daniel <span class="c008">Cartron</span></a> a rédigé la documentation jusqu’à la version 0.4.0, fourni des conseils en comptabilité
+et en ergonomie, et créé le premier site de Grisbi. Sa passion des fichiers de
+comptes ultracompliqués amène un plus indéniable à la découverte de bogues inédits.</p><p><a href="mailto:andre@linuxgraphic.org">André <span class="c008">Pascual</span></a>, de
+<a href="http://www.linuxgraphic.org"><em>Linuxgraphic</em></a>, est l’auteur de notre logo.</p><p><a href="mailto:sbi@april.org">Sébastien <span class="c008">Blondeel</span></a> a écrit les scripts permettant de produire les différents formats de la documentation et ceux relatifs à la conversion des images aux formats adéquats. Il est également l’artisan de l’adoption de LaTeX pour la rédaction de la documentation. En outre, son expérience de l’édition électronique en fait un précieux conseiller, source de nombreuses suggestions.</p><p><a href="mailto:bdrieu@april.org">Benjamin <span class="c008">Drieu</span></a>,développeur pour Grisbi et empaqueteur officiel pour Debian.</p><p><a href="mailto:dionysos@grisbi.org">Alain <span class="c008">Portal</span></a>, qui commençait à s’ennuyer dans l’empaquetage RedHat, s’essaye au développement. Son amour du travail bien fait et son opiniâtreté font de lui, pour le moment, un correcteur de bogues. Il participe également à l’élaboration de la documentation. Il se prend une envie de commencer à coder dans la version instable.</p><p>Loic <a href="mailto:lbreilloux@users.sourceforge.net"><span class="c008">Breilloux</span></a> a mis à jour la documentation pour la version 0.5.1 et va tâcher de faire les mises à jour de la documentation pour les versions futures.</p><p><a href="mailto:gerald@grisbi.org">Gérald <span class="c008">Niel</span></a> a remplacé
+Daniel <span class="c008">Cartron</span> dans le rôle de webmestre et est donc le créateur de la nouvelle version du site de <a href="http://www.grisbi.org"><em>Grisbi</em></a>. Il est
+également responsable des paquets Slackware.</p><p><a href="mailto:juliette@grisbi.org">Juliette <span class="c008">Martin</span></a> assure la tâche
+ingrate de relecture de la documentation. S’il reste des erreurs, c’est
+certainement qu’elles étaient bien cachées pour avoir échappé à ses yeux
+attentifs.</p><p><a href="mailto:grisbi@terrot.net">François <span class="c008">Terrot</span></a> a rejoint l’équipe afin d’assurer le portage de Grisbi sous Windows.</p><p><a href="mailto:pierre.biava@nerim.net">Pierre <span class="c008">Biava</span></a> a rejoint l’équipe de développement en 2008.</p><p><a href="mailto:didier.chevalier35@gmail.com">Didier <span class="c008">Chevalier</span></a>, <a href="mailto:guneeyoufix@gmail.com">William <span class="c008">Ollivier</span></a> et <a href="mailto:grisbi@remars.com">Mickaël <span class="c008">Remars</span></a> ont eux aussi participé au développement.</p><p><a href="mailto:jl.duflot@laposte.net">Jean-Luc <span class="c008">Duflot</span></a> a réalisé pour la version 0.6 une grosse mise à jour du manuel, qui en avait bien besoin depuis 2004, et a continué sur la 0.8 et la 1.0.</p><p><a href="mailto:al1.letient@free.fr">Alain <span class="c008">Letient</span></a> a effectué avec ténacité la relecture du manuel 0.6 et a réalisé son iconographie, et a aussi continué sur les versions 0.8 et 1.0.</p><p><a href="mailto:guy@guy-lebegue.fr">Guy <span class="c008">Lebègue</span></a>, d’abord pour la version 0.8, puis avec <a href="mailto:ciboulette05@club-internet.fr">Michèle <span class="c008">Bondil</span></a> pour la 1.0, ont réalisé la partie Comptabilité d’association, qui nécessite bien des compétences de spécialiste en comptabilité.</p>
+<h2 class="section" id="introduction-thanks">2.6  Remerciements</h2>
+<p>Merci à <a href="http://www.tuxfamily.org"><em>TuxFamily</em></a> qui a longtemps mis à notre disposition tous les outils dont nous avions besoin pour développer Grisbi
+(site Internet, ftp, CVS, listes de diffusions, etc.). Hélas, les attaques
+de pirates subies fin 2003 - début 2004 par <em>TuxFamily</em> nous ont contraint à chercher un nouvel hébergement. Nous remercions donc aujourd’hui <a href="http://sourceforge.net"><em>SourceForge</em></a>, la plateforme sur laquelle nous avons migré, et souhaitons un prompt et rapide rétablissement à <em>TuxFamily</em> qui fait cruellement défaut à des centaines de projets libres.</p><p>Un grand merci également à tous les contributeurs de la liste de développement qui participent à l’évolution de Grisbi par leurs suggestions, remarques et rapports de bogues, ainsi qu’aux nombreux relecteurs du <span class="c007">Manuel de l’utilisateur</span>, qui contribuent à en faire un meilleur outil.</p>
+<h2 class="section" id="introduction-licenses">2.7  Licences</h2>
+<p>Le programme est soumis aux termes de la Licence Publique Generale GNU
+(en anglais : GNU General Public License). Les corrections de bogues et mises à jour ne sont pas garanties.</p><p>Le manuel est soumis aux termes de la Licence de Documentation Libre GNU (en anglais : GNU Free Documentation License).</p><p>Permission est accordée de copier, distribuer et/ou modifier ce document
+selon les termes de la Licence de Documentation Libre GNU version 1.1 ou toute version ultérieure publiée par la Free Software Foundation.</p>
+<h2 class="section" id="introduction-manual">2.8  À propos du présent manuel</h2>
+<p>Vous avez sous les yeux la version 0.9.93 du manuel, en date du  14 septembre 2013, qui correspond à la version 0.9.93 du logiciel Grisbi. </p><p>Ce manuel a été écrit avec le formateur de texte LaTeX<a id="hevea_default5"></a>, et il est disponible sous le format de fichier PDF ou HTML, avec ou sans illustrations (copies d’écran) dans ces deux formats. </p><p>Il est accessible directement dans le logiciel Grisbi par le menu <span class="c007">Aide - Manuel</span> de la barre de menus, sous le format HTML et avec illustrations.</p><p>Cependant, tous ces différents formats et versions peuvent être téléchargés sur le site de <a href="http://www.grisbi.org"><em>Grisbi</em></a> ou celui de <a href="http://sourceforge.net/projects/grisbi/files/Documentation"><em>Sourceforge</em></a>, ainsi que les versions correspondantes du logiciel.</p><p>Les outils nécessaires à leur lecture sont présentés dans la section <a href="#introduction-manual-readers">2.8.3</a> <span class="c007">Logiciels de lecture</span>.</p>
+<h3 class="subsection" id="introduction-manual-presentation">2.8.1  Présentation</h3>
+<p>Bien que le logiciel Grisbi soit conçu pour être le plus intuitif possible et que la plupart des fonctions soient immédiatement compréhensibles, il est nécessaire de disposer d’un manuel de référence. Ce manuel a été conçu selon les principes suivants :</p><ul class="itemize"><li class="li-itemize"> 
+	le plus exhaustif possible, donc description de toutes les fonctionnalités ;
+	</li><li class="li-itemize">chapitres organisés suivant une trame la plus identique possible : présentation du chapitre - description de l’affichage, description des fonctions, pour faciliter le repérage dans le document ;
+	</li><li class="li-itemize">rédaction des paragraphes récurrents d’un chapitre à l’autre d’une manière la plus identique possible, pour faciliter la lecture rapide ;
+	</li><li class="li-itemize">recherche d’information facilitée grâce aux nombreux liens hypertexte, à un index et à un glossaire.
+</li></ul><p>
+Voici une description succincte des différents chapitres :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Préambule</span> explique l’origine du nom donné à ce logiciel ;
+	</li><li class="li-itemize"><span class="c007">Introduction</span> présente le logiciel, le manuel, leurs auteurs et les contacts ;
+	</li><li class="li-itemize"><span class="c007">Premier démarrage de Grisbi</span> est le chapitre <em>indispensable</em> pour commencer l’utilisation du logiciel ;
+	</li><li class="li-itemize"><span class="c007">Accueil</span> décrit les éléments principaux de l’interface graphique et leur manipulation à la souris et au clavier (raccourcis) ;
+	</li><li class="li-itemize"><span class="c007">Export et Import de comptes</span> décrit comment échanger des données avec les autres logiciels ;
+	</li><li class="li-itemize"><span class="c007">Gestion des données</span> présente les options des fichiers de comptes, les sauvegardes et les archives ainsi que leur gestion ;
+	</li><li class="li-itemize"><span class="c007">Gestion des comptes</span> décrit les propriétés des comptes, leur gestion et les différents types de comptes avec leur utilisation ;
+	</li><li class="li-itemize"><span class="c007">Opérations d’un compte</span> décrit les manipulations sur les opérations, les champs d’information et de saisie utilisés et leur gestion, la création d’opérations et leur gestion ;
+	</li><li class="li-itemize"><span class="c007">Rapprochement bancaire</span> détaille la procédure de rapprochement d’un compte et la gestion des rapprochements ;		
+	</li><li class="li-itemize"><span class="c007">Échéancier</span> décrit la planification des opérations futures et leur manipulation ;
+	</li><li class="li-itemize"><span class="c007">Recherches</span> fait le point sur les possibilités de recherche de données ;
+	</li><li class="li-itemize"><span class="c007">Tiers</span>, <span class="c007">Catégories</span>, <span class="c007">Imputations budgétaires</span> et <span class="c007">Exercices</span> décrivent la gestion de ces données ;
+	</li><li class="li-itemize"><span class="c007">Simulation de crédit</span> décrit les méthodes et la gestion de simulations ;
+	</li><li class="li-itemize"><span class="c007">Budgets prévisionnels</span> décrit les outils et les procédures de création de budget et de tableaux d’amortissement, ainsi que leur gestion ;
+	</li><li class="li-itemize"><span class="c007">Gestion des cartes bancaires et leurs prévisions</span> décrit la gestion de ces cartes, notamment celles à débit différé, et les méthodes de prévision ;	
+	</li><li class="li-itemize"><span class="c007">Comptabilité d’association</span> présente deux introductions pour les trésoriers d’association ;
+	</li><li class="li-itemize"><span class="c007">États</span> et <span class="c007">Création d’un état</span> décrivent la gestion et la création des états ;
+	</li><li class="li-itemize"><span class="c007">Configuration de Grisbi</span> détaille toutes les possibilités de réglage du logiciel ;
+	</li><li class="li-itemize"><span class="c007">Outils de maintenance</span> donne quelques clés à utiliser en cas d’erreurs ou de bogues.
+</li></ul>
+<h3 class="subsection" id="introduction-manual-conventions">2.8.2  Conventions typographiques du présent manuel</h3>
+<p>La liste suivante définit et illustre les conventions typographiques utilisées comme aides visuelles à l’identification d’éléments particuliers du texte du document :</p><ul class="itemize"><li class="li-itemize">
+	les composants d’interface sont des titres de fenêtre, des noms d’icône et de bouton, des noms de menu et d’autres options qui apparaissent sur l’écran du moniteur ; ils sont présentés ainsi : <br>
+    cliquez sur <span class="c007">Retour</span> ;
+	</li><li class="li-itemize">le libellé des touches du clavier représente ce qui est écrit sur les touches du clavier ; il est présenté ainsi : <br>
+    appuyez sur la touche <span class="c001">&lt;Entrée&gt;</span> ;	
+	</li><li class="li-itemize">les combinaisons de touches sont une série de touches à enfoncer 	simultanément (à moins d’indication contraire) pour réaliser une fonction 	unique ; elles sont présentées ainsi : <br>
+    appuyez sur la combinaison de touches <span class="c001">&lt;Ctrl&gt;&lt;R&gt;</span> ;
+	</li><li class="li-itemize">les commandes qui font partie d’une instruction et qui doivent être saisies sont présentées ainsi : <br>
+    tapez <span class="c001">grisbi</span> pour démarrer le programme ;
+	</li><li class="li-itemize">les noms de fichier et de répertoire sont présentés ainsi : <br>
+    <span class="c010">grisbi-n.n.n.rpm</span> et <span class="c010">/usr/local/bin</span> ;	
+	</li><li class="li-itemize">les lignes de commande consistent en une commande et peuvent inclure un ou plusieurs paramètres possibles de la commande ; elles sont présentées ainsi : <br>
+    	<span class="c001">rpm -Uvh grisbi-n.n.n.rpm</span> ;
+	</li><li class="li-itemize">toute suite de caractères alphanumériques en bleu, dans le document au format PDF ou HTML, est un lien hypertexte, renvoyant soit à une image, une autre partie du document, un mot indexé ou encore au glossaire (pour PDF uniquement);
+	</li><li class="li-itemize">les mots ou groupes de mots référencés dans l’index sont mis en valeur dans les chapitres ainsi : <br>
+    	<span class="c002">terme référencé</span> pour le format PDF ; <br>
+     en marron pour le format HTML. 
+</li></ul><p>
+De plus, une <span class="c010">Note</span> souligne un point particulier à prendre en compte, tandis qu’un <span class="c009">Attention</span> indique soit un point très important pour la compréhension, soit une erreur à ne pas faire sous peine de dommage important pour vos données ; un <span class="c009">Attention</span> est <em>à respecter impérativement</em>.</p>
+<h3 class="subsection" id="introduction-manual-readers">2.8.3  Logiciels de lecture</h3>
+<p>Pour lire ce document, nous vous recommandons l’utilisation des logiciels libres, qui respectent tous votre vie privée et la confidentialité de vos données ; les logiciels suivants disposent des fonctionnalités de liens hypertexte : 
+</p><ul class="itemize"><li class="li-itemize">
+	pour le format PDF : 
+		<ul class="itemize"><li class="li-itemize">
+				Linux : Evince, Epdfviewer, Firefox, Ghostscript, MuPDF, Okular,
+				</li><li class="li-itemize">Mac : Okular, Vindaloo, Xpdf,
+				</li><li class="li-itemize">Windows : Evince, Firefox, MuPDF, Okular, SumatraPdf ;
+		</li></ul>
+	</li><li class="li-itemize">pour le format HTML :
+		<ul class="itemize"><li class="li-itemize">
+				Linux : Arora, Dillo, Firefox, Kazehakase, Links2, Midori, SeaMonkey,
+				</li><li class="li-itemize">Mac : Arora, Camino, Firefox, SeaMonkey, Shiira,
+				</li><li class="li-itemize">Windows : Arora, Firefox, Iron, K-Meleon, Midori, SeaMonkey.
+		</li></ul>
+</li></ul><p>
+Bref, vous avez le choix !</p><p>
+Ces logiciels sont tous téléchargeables sur leur propre site Internet et sont tous placés sous une licence de logiciel libre, et vous pouvez en plus en lire une présentation sur le site de <a href="http://www.framasoft.net/rubrique2.html"><em>Framasoft</em></a>.
+</p>
+<hr>
+<a href="grisbi-manuel002.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel004.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

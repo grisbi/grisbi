@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Création d’un état</title>
+</head>
+<body>
+<a href="grisbi-manuel021.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel023.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="reportscreation">Chapitre 21  Création d’un état</h1>
+<p>Ce chapitre détaille la création d’un état à partir de modèles, au moyen de la fenêtre de création/modification. Pour toute autre action sur les états, consultez le chapitre <a href="grisbi-manuel021.html#reports">20</a>, <span class="c007">États</span>.</p><p>
+La création d’un état se compose de quatre étapes :</p><ol class="enumerate" type=1><li class="li-enumerate">
+le choix du modèle de l’état de départ : <span class="c003">vierge</span><a id="hevea_default327"></a>, <span class="c003">préformaté</span><a id="hevea_default328"></a> ou <span class="c003">préexistant</span><a id="hevea_default329"></a> ; 
+</li><li class="li-enumerate">la sélection des données que vous souhaitez extraire de votre fichier de comptes ; suivant le modèle choisi, Grisbi ne sélectionne que certaines données ; par votre sélection, vous ajouterez les données qui vous intéressent, et retirerez celles qui ne vous intéressent pas ;
+</li><li class="li-enumerate">l’organisation des données ; vous pouvez utiliser jusqu’à quatre niveaux de regroupement, chacun de ces niveaux étant imbriqué dans le niveau supérieur ;
+</li><li class="li-enumerate">l’affichage des données de la façon adéquate (tri, type d’information affichée, <span class="c003">titres des colonnes</span><a id="hevea_default330"></a>, etc.).
+</li></ol><p>À la fin, quand vous en avez terminé avec toutes les sélections, l’organisation et l’affichage des données, et que vous avez bien donné un nom à votre état, vous pouvez valider ce nouvel état par le bouton <span class="c007">Valider</span> dans la fenêtre de création/modification. Votre nouvel état apparaîtra alors dans la liste des états, dans le panneau de navigation.</p>
+<h2 class="section" id="reportscreation-start">21.1  Choix du modèle de l’état de départ</h2>
+<p>Vous disposez de trois possibilités :</p><ul class="itemize"><li class="li-itemize">
+créer un nouvel état à partir de rien :
+<ol class="enumerate" type=1><li class="li-enumerate">
+		dans la barre d’outils, cliquez sur l’outil <span class="c007">Nouvel état</span>, ou bien dans le panneau de navigation, cliquez-droit sur l’onglet <span class="c007">Nouvel état</span> ou sur un quelconque de ses sous-onglets, et sélectionnez <span class="c007">Nouvel état</span>, 
+		</li><li class="li-enumerate">une fenêtre s’affiche, contenant une liste déroulante et une zone de description,
+<blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_new.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.1: Choix du modèle de l’état de départ</td></tr>
+</table></div>
+<a id="reportcreation-new-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>		</p></li><li class="li-enumerate">sélectionnez <span class="c004">État vierge</span><a id="hevea_default331"></a> dans la liste déroulante ; par défaut, Grisbi ne sélectionne aucune donnée ; par votre sélection, vous ajouterez les données qui vous intéressent, et retirerez celles qui ne vous intéressent pas,
+		</li><li class="li-enumerate">validez : la fenêtre de création/modification des états s’affiche ; cet état porte par défaut le nom <span class="c007">État vierge</span>, et vous pouvez lui donner un nouveau <span class="c003">nom</span><a id="hevea_default332"></a> (voir la section <a href="#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>),
+</li></ol></li><li class="li-itemize">créer un état à partir d’un <span class="c003">état préformaté</span><a id="hevea_default333"></a> :
+<ol class="enumerate" type=1><li class="li-enumerate">
+		dans la barre d’outils, cliquez sur l’outil <span class="c007">Nouvel état</span>, ou bien dans le panneau de navigation, cliquez-droit sur l’onglet <span class="c007">Nouvel état</span> ou sur un quelconque de ses sous-onglets, et sélectionnez <span class="c007">Nouvel état</span>,
+		</li><li class="li-enumerate">une fenêtre s’affiche, contenant une liste déroulante et une zone de description, 
+		</li><li class="li-enumerate">sélectionnez un des états préformatés, autre que <span class="c007">État vierge</span> ou <span class="c007">Recherche</span> (qui sert uniquement à rechercher des informations dans la base de données de Grisbi (voir la section <a href="grisbi-manuel012.html#search-advanced">11.3</a>, <span class="c007">Recherche par états</span>),
+		</li><li class="li-enumerate">validez : la fenêtre de création/modification des états s’affiche ; cet état porte par défaut le nom de l’état préformaté, et vous pouvez lui donner un nouveau <span class="c003">nom</span><a id="hevea_default334"></a> (voir la section <a href="#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>) ,
+</li></ol></li><li class="li-itemize">créer un état à partir d’un <span class="c003">état préexistant</span><a id="hevea_default335"></a> :
+<ol class="enumerate" type=1><li class="li-enumerate">
+		sélectionnez un état préexistant dans le panneau de navigation ou la barre d’information,
+		</li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Propriétés</span> dans la barre d’outils,
+		</li><li class="li-enumerate">la fenêtre de création/modification des états s’affiche ; la première chose que vous devrez faire sera de lui donner un nouveau <span class="c003">nom</span><a id="hevea_default336"></a> pour ne pas seulement modifier l’état préexistant (voir la section <a href="#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>). 
+</li></ol>
+</li></ul>
+<h2 class="section" id="reportscreation-selection">21.2  Sélection des données</h2>
+<p>La fenêtre de création/modification des états s’affiche, et vous pouvez en changer la taille et la position. Cette fenêtre comprend deux panneaux verticaux :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.2: Fenêtre de création/modification des états</td></tr>
+</table></div>
+<a id="reportcreation-datas-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	 le panneau de gauche liste les trois grandes étapes de création d’un état : sélection, organisation et affichage des données ; chacune de ces étapes comprend une sous-liste que vous pouvez enrouler ou dérouler en cliquant sur le petit triangle à gauche du nom de l’étape ;<p>	<span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+	 </p></li><li class="li-itemize">le panneau de droite affiche comme titre le critère sélectionné dans les sous-listes, et son contenu, c’est-à-dire les différentes sélections possibles.
+</li></ul><p>Vous pouvez sélectionner un autre onglet en cliquant sur son nom, ou en naviguant dans le panneau des onglets avec les touches du clavier <span class="c001">&lt;Tabulation&gt;</span>, <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Flèche Gauche&gt;</span>, <span class="c001">&lt;Flèche Droit&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span>, <span class="c001">&lt;Page Bas&gt;</span>.</p><p> 
+Vous pouvez sélectionner vos données selon les critères suivants :</p><ul class="itemize"><li class="li-itemize">
+	la date ou l’exercice ;
+	</li><li class="li-itemize">le fait que l’opération soit ou non un virement et le type
+	de virement ;
+	</li><li class="li-itemize">le compte dans lequel l’opération est enregistrée ;
+	</li><li class="li-itemize">le tiers ;
+	</li><li class="li-itemize">la (sous-) catégorie ;
+	</li><li class="li-itemize">la (sous-) imputation budgétaire ;
+	</li><li class="li-itemize">du texte, pouvant se trouver dans :
+		<ul class="itemize"><li class="li-itemize">
+			 des tiers (y compris sur une partie du nom),
+			 </li><li class="li-itemize">les informations de tiers,
+			 </li><li class="li-itemize">des (sous-) catégories (y compris sur une partie du nom),
+			 </li><li class="li-itemize">des (sous-) imputations budgétaires (y compris sur une partie du nom),
+			 </li><li class="li-itemize">des remarques,
+			 </li><li class="li-itemize">des informations bancaires,
+			 </li><li class="li-itemize">des pièces comptables,
+			 </li><li class="li-itemize">des numéros de chèque ou de virement,
+			 </li><li class="li-itemize">des numéros de rapprochement ;
+		</li></ul> 
+	</li><li class="li-itemize">le montant ;
+	</li><li class="li-itemize">le mode de règlement ;
+	</li><li class="li-itemize">divers : le fait qu’une opération soit rapprochée ou non et qu’elle soit ventilée ou non.
+</li></ul><p>
+La fenêtre de création/modification possède donc autant d’onglets que la liste ci-dessus possède d’items. Par défaut, Grisbi considère que vous désirez utiliser toutes les opérations de votre fichier de comptes. Vous ne devez donc garder que les opérations qui vous intéressent, en excluant les autres ; la sélection finale sera obtenue après application de toutes les sélections ci-dessus. Il est donc conseillé de vérifer tous les critères de sélection de la fenêtre de création/modification avant de valider votre état, bien que vous puissiez reprendre la sélection par la suite.</p><p>
+Les sous-sections suivantes décrivent en détail toutes ces possibilités de sélection de données.</p>
+<h3 class="subsection" id="reportscreation-selection-dates">21.2.1  Dates (ou exercices)</h3>
+<p>Vous pouvez sélectionner soit des plages de dates, soit des exercices si
+vous en avez défini.</p>
+<h4 class="subsubsection" id="sec326">Dates</h4>
+<p>Le choix par défaut est <span class="c007">Utiliser des plages de dates</span>. S’il a été changé, vous pouvez le resélectionner en cochant le bouton <span class="c007">Utiliser des plages de dates</span>. </p><p>Vous pouvez faire les sélections suivantes :
+
+</p><ul class="itemize"><li class="li-itemize">
+					<a id="reportcreation-datas-dates-img"></a>
+	<div class="picins"><img src="image/screenshot/reportcreation_datas_dates.png"></div>
+			<span class="c007">Toutes</span> : toutes les dates ;
+	</li><li class="li-itemize"><span class="c007">Personnalisé</span> : une plage de dates personnalisée ; les zones de saisie des dates initiale et finale situées dans le bas du panneau deviennent actives ;
+	</li><li class="li-itemize">des plages de dates prédéfinies qui vous permettent d’avoir un état valable en permanence sans être obligé de ressaisir à chaque fois les dates initiale et finale. Ces plages sont : 
+	 <ul class="itemize"><li class="li-itemize">
+		<span class="c007">Total à ce jour</span>,
+		</li><li class="li-itemize"><span class="c007">Mois en cours</span>,
+		</li><li class="li-itemize"><span class="c007">Année en cours</span>,
+		</li><li class="li-itemize"><span class="c007">Mois en cours jusqu’à aujourd’hui</span>,
+		</li><li class="li-itemize"><span class="c007">Année en cours jusqu’à aujourd’hui</span>,
+		</li><li class="li-itemize"><span class="c007">Mois précédent</span>, c’est la sélection par défaut,
+		</li><li class="li-itemize"><span class="c007">Année précédente</span>,
+		</li><li class="li-itemize"><span class="c007">30 derniers jours</span>,
+		</li><li class="li-itemize"><span class="c007">3 derniers mois</span>,
+		</li><li class="li-itemize"><span class="c007">6 derniers mois</span>,
+		</li><li class="li-itemize"><span class="c007">12 derniers mois</span>.
+	 </li></ul>
+</li></ul><p>Pour continuer vos sélections, passez à l’onglet suivant.</p><p><br>
+<br>
+
+</p>
+<h4 class="subsubsection" id="sec327">Exercices</h4>
+<p>Pour sélectionner vos opérations par exercice, cochez le bouton correspondant <span class="c007">Utiliser les exercices</span> (voir aussi le chapitre <a href="grisbi-manuel016.html#financialyear">15</a>, <span class="c007">Exercices</span>). Vous pouvez faire les sélections suivantes :
+</p><ul class="itemize"><li class="li-itemize">
+					<a id="reportcreation-datas-financialyear-img"></a>
+	<div class="picins"><img src="image/screenshot/reportcreation_datas_financialyear.png"></div>
+		<span class="c007">Tous les exercices</span> ; ce choix est intéressant si vous décidez ensuite de séparer les opérations par exercices lors de l’affichage de l’état (voir la section <a href="#reportscreation-organisation-separation">21.3.2</a>, <span class="c007">Séparation des données</span>) ;
+</li><li class="li-itemize"><span class="c007">Exercice courant</span> ;
+</li><li class="li-itemize"><span class="c007">Exercice précédent</span> : ces deux choix vous permettent d’avoir des états qui seront toujours valables malgré les changements d’exercices ;
+</li><li class="li-itemize"><span class="c007">Détailler les exercices utilisés</span> : sélectionnez ou désélectionnez un ou plusieurs des exercices définis dans votre fichier de comptes, en cliquant sur leur nom dans la liste juste en-dessous.
+</li></ul><p>Pour continuer vos sélections, passez à l’onglet suivant.</p><p><br>
+
+</p>
+<h3 class="subsection" id="reportscreation-selection-transfer">21.2.2  Virements</h3>
+<p>Vous choisissez ici la façon dont votre état traitera les opérations de virement. En cochant le bouton adéquat, vous pouvez faire les sélections suivantes :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_transfers.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.3: Sélection de virement</td></tr>
+</table></div>
+<a id="reportcreation-datas-transfers-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Ne pas inclure les virements</span> : aucune des opérations de virement entre vos comptes ne sera incluse dans votre état ; cette option est intéressante si vous faites un état comportant tous les comptes ;
+	</li><li class="li-itemize"><span class="c007">Inclure les virements de ou vers les comptes d’actif et de passif</span> : ces comptes étant normalement utilisés pour vos créances et dettes (emprunts, prêts, etc.), il peut être intéressant de conserver ces virements dans votre état ;
+	</li><li class="li-itemize"><span class="c007">Inclure les virements de ou vers les comptes ne figurant pas dans l’état</span> : c’est le choix par défaut, il vous permet d’éliminer les virements entre comptes figurant dans l’état ;
+	</li><li class="li-itemize"><span class="c007">Inclure les virements de ou vers les comptes</span> : ceux que vous voulez conserver dans l’état ; ceci active la liste des comptes de votre fichier juste en-dessous, ainsi que les libellés de sélection par type de compte dans la partie droite du panneau : sélectionnez les comptes pour lesquels vous souhaitez conserver les virements, en cliquant sur leur nom dans la liste (la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> est possible), ou en cliquant sur les libellés, qui vous permettent de choisir :
+	
+	<ul class="itemize"><li class="li-itemize">
+		 <span class="c007">Sélectionner tout</span>,
+		 </li><li class="li-itemize"><span class="c007">Désélectionner tout</span>,
+		 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes bancaires</span>,
+		 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes de caisse</span>,
+		 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes de passif</span>,
+		 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes d’actif</span> ;
+	</li></ul> 
+	
+	</li><li class="li-itemize"><span class="c007">Exclure les opérations qui ne sont pas des virements</span>. Ceci vous permet par exemple de vérifier que tous vos virements s’équilibrent (le solde de l’état devra dans ce cas être égal à zéro).
+</li></ul><p>
+Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-accounts">21.2.3  Comptes</h3>
+<p>Pour sélectionner vos opérations en fonction des comptes où elles ont été enregistrées, cochez la case <span class="c007">Sélectionner les opérations uniquement sur certains comptes</span>, qui par défaut ne l’est pas.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_accounts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.4: Sélection de compte</td></tr>
+</table></div>
+<a id="reportcreation-datas-accounts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ceci active la liste des comptes de votre fichier juste en-dessous, ainsi que les libellés de sélection par type de compte dans la partie droite du panneau ; sélectionnez les comptes désirés, en cliquant sur leur nom dans la liste (la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> est possible), ou en cliquant sur les libellés, qui vous permettent de choisir :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Sélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Désélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes bancaires</span> ;
+	 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes de caisse</span> ;
+	 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes de passif</span> ;
+	 </li><li class="li-itemize"><span class="c007">Sélectionner les comptes d’actif</span>.
+</li></ul><p>
+Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-thirdparties">21.2.4  Tiers</h3>
+<p>Pour sélectionner vos opérations en fonction des tiers avec lesquels elles ont été enregistrées, cochez la case <span class="c007">Détailler les tiers</span>, qui par défaut ne l’est pas.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_thirdparts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.5: Sélection de tiers</td></tr>
+</table></div>
+<a id="reportcreation-datas-thirdparts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ceci active la liste des tiers de votre fichier juste en-dessous, ainsi que les libellés de sélection dans la partie droite du panneau ; sélectionnez les tiers désirés, en cliquant sur leur nom (la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> est possible), ou en cliquant sur les libellés, qui vous permettent de choisir :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Sélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Désélectionner tout</span>.
+</li></ul><p>
+Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-categories">21.2.5  Catégories</h3>
+<p>Pour sélectionner vos opérations en fonction des catégories avec lesquelles elles ont été enregistrées, cochez la case <span class="c007">Détailler les catégories utilisées</span>, qui par défaut ne l’est pas.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_categories.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.6: Sélection de catégorie</td></tr>
+</table></div>
+<a id="reportcreation-datas-categories-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ceci active la liste des catégories de votre fichier juste en-dessous, ainsi que les libellés de sélection dans la partie droite du panneau ; vous pouvez (dés)afficher les sous-catégories en cliquant sur le petit triangle à gauche du nom de la catégorie.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc. </p><p>Sélectionnez les (sous-) catégories, individuellement en cliquant sur leur case à gauche, ou en cliquant sur les libellés, qui vous permettent de choisir :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Sélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Désélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Catégories de revenus</span> ;
+	 </li><li class="li-itemize"><span class="c007">Catégories de dépenses</span>.
+</li></ul><p>Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-budgetarylines">21.2.6  Imputations budgétaires</h3>
+<p>Cela fonctionne exactement comme pour le critère <span class="c007">Catégories</span>.</p><p>Pour sélectionner vos opérations en fonction des imputations budgétaires avec lesquelles elles ont été enregistrées, cochez la case <span class="c007">Détailler les imputations budgétaires utilisées</span>, qui par défaut ne l’est pas.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_budgetlines.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.7: Sélection d’imputation budgétaire</td></tr>
+</table></div>
+<a id="reportcreation-datas-budgetlines-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ceci active la liste des imputations budgétaires juste en-dessous, ainsi que les libellés de sélection dans la partie droite du panneau ; vous pouvez (dés)afficher les sous-imputations budgétaires en cliquant sur le petit triangle à gauche du nom de l’imputation.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>Sélectionnez les (sous-) imputations budgétaires, individuellement en cliquant sur leur case à gauche, ou en cliquant sur les libellés, qui vous permettent de choisir :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Sélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Désélectionner tout</span> ;
+	</li><li class="li-itemize"><span class="c007">Imputation budgétaire de revenus</span> ;
+	</li><li class="li-itemize"><span class="c007">Imputation budgétaire de dépenses</span>.
+</li></ul><p>
+Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-text">21.2.7  Textes</h3>
+<p><span class="c010">Note</span> : il se peut que la fenêtre de création/modification des états n’affiche pas entièrement le panneau droit de sélection de texte : il vous faudra alors agrandir manuellement sa taille.
+</p><p>Vous pouvez faire des sélections complexes basées sur le contenu (texte ou nombre) enregistré dans les champs d’une opération. Il s’agit de comparer le contenu du champ sélectionné à une valeur à travers un opérateur, et ceci pour toutes les opérations de votre fichier de comptes, tout au moins celles qui ont déjà été sélectionnées par les autres sélections de votre état en cours de création.</p><p>
+Créer une sélection d’après les <span class="c007">Textes</span> consiste donc à définir une phrase simple du type sujet-verbe-complément, et plus précisément ici, une instruction «champ-opérateur-valeur ». Les opérateurs sont soit <span class="c003">alphanumériques</span><a id="hevea_default337"></a> s’il vous faut comparer des textes, soit <span class="c003">numériques</span><a id="hevea_default338"></a> pour comparer des nombres. </p><p>
+Pour sélectionner vos opérations en fonction de certains contenus enregistrés dans leurs champs, cochez la case <span class="c007">Sélectionner les opérations d’après leur contenu</span>, qui par défaut ne l’est pas.
+Ceci active les champs de définition de la phrase, qui s’affiche par défaut sur trois lignes juste en-dessous.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_text.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.8: Sélection de texte</td></tr>
+</table></div>
+<a id="reportcreation-datas-text-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+La 1re ligne sert à définir le champ. Les champs disponibles sont :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">tiers</span> ;
+	 </li><li class="li-itemize"><span class="c007">information du tiers</span> ;
+	 </li><li class="li-itemize"><span class="c007">catégorie</span> ;
+	 </li><li class="li-itemize"><span class="c007">sous-catégorie</span> ;
+	 </li><li class="li-itemize"><span class="c007">imputation budgétaire</span> ;
+	 </li><li class="li-itemize"><span class="c007">sous-imputation budgétaire</span> ;
+	 </li><li class="li-itemize"><span class="c007">remarque</span> ;
+	 </li><li class="li-itemize"><span class="c007">information bancaire</span> ;
+	 </li><li class="li-itemize"><span class="c007">pièce comptable</span> ;
+	 </li><li class="li-itemize"><span class="c007">n°chèque</span> ;
+	 </li><li class="li-itemize"><span class="c007">n°de rapprochement</span>.
+</li></ul><p>La 2e ligne sert à définir l’opérateur à appliquer et la valeur si le contenu du champ est un texte. </p><p>Les <span class="c003">opérateurs alphanumériques</span><a id="hevea_default339"></a> disponibles sont :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">contient</span> ;
+	</li><li class="li-itemize"><span class="c007">ne contient pas</span> ;
+	</li><li class="li-itemize"><span class="c007">commence par</span> ;
+	</li><li class="li-itemize"><span class="c007">se termine par</span> ;
+	</li><li class="li-itemize"><span class="c007">est vide</span> ;
+	</li><li class="li-itemize"><span class="c007">est non vide</span>.
+</li></ul><p>La 3e ligne sert à définir l’opérateur à appliquer et la valeur si le contenu du champ est un nombre. </p><p>Les <span class="c003">opérateurs numériques</span><a id="hevea_default340"></a> disponibles sont :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">égal</span> ;
+	</li><li class="li-itemize"><span class="c007">inférieur</span> ;
+	</li><li class="li-itemize"><span class="c007">inférieur ou égal</span> ;
+	</li><li class="li-itemize"><span class="c007">supérieur</span> ;
+	</li><li class="li-itemize"><span class="c007">supérieur ou égal</span> ;
+	</li><li class="li-itemize"><span class="c007">différent de</span> ;
+	</li><li class="li-itemize"><span class="c007">le plus grand</span>.
+</li></ul><p>De plus, la 3e ligne permet de faire une double comparaison de façon à pouvoir, par exemple, sélectionner les contenus supérieurs à une valeur donnée, sauf les contenus égaux à une autre valeur. Pour cela, un opérateur concatène deux instructions «champ-opérateur-valeur ». </p><p>Les <span class="c003">opérateurs de concaténation</span><a id="hevea_default341"></a> sont :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">et</span> ;
+	</li><li class="li-itemize"><span class="c007">ou</span> ;
+	</li><li class="li-itemize"><span class="c007">sauf</span> ;
+	</li><li class="li-itemize"><span class="c007">stop</span> (qui est le choix par défaut, et qui signifie qu’il n’y a pas d’autre
+	critère à appliquer).
+</li></ul><p>
+Ces trois lignes permettent de définir une instruction de deux manières différentes :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 si le contenu du champ est un texte, l’instruction sera du type «champ-opérateur alphanumérique-texte » (utilisation des seules lignes 1 et 2) ;
+	 </li><li class="li-enumerate">si le contenu du champ est un nombre, l’instruction sera du type «champ-opérateur numérique-texte » «opérateur de concaténation » «opérateur numérique-texte » (utilisation des seules lignes 1 et 3).
+</li></ol><p>Tous les contenus des champs contenant du texte sont considérés comme du texte, à l’exception des champs <span class="c007">n°chèque</span>, <span class="c007">pièce comptable</span> et <span class="c007">n°de rapprochement</span>, qui peuvent être considérés soit comme du texte, soit comme des nombres, car ils sont enregistrés comme tels dans votre fichier de comptes. En effet, d’une part leur signification n’est pas purement numérique (vous ne chercherez jamais à les additionner ou les multiplier, n’est-ce pas ?), d’autre part, il n’est pas impossible qu’ils puissent contenir des lettres. Par exemple, le champ <span class="c007">tiers</span> (un nom est un texte) autorisera donc seulement le premier type d’instruction, tandis que le champ <span class="c007">n°chèque</span>, <span class="c007">pièce comptable</span> ou <span class="c007">rapprochement bancaire</span> autoriseront le premier et le deuxième type d’instruction, que vous choisirez selon votre besoin ; dans les deux cas, la ligne d’instruction non utilisée restera en grisé.</p><p>
+En pratique, pour créer une instruction, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans la 1re ligne, choisissez, à droite de <span class="c007">Opérations dont</span>, le champ dans la liste déroulante commençant par <span class="c007">tiers</span> ; 
+	 </li><li class="li-enumerate">si le choix de la 2e ou 3e ligne vous est laissé, cliquez sur le bouton à gauche de l’une d’elles, en fonction de ce que vous voulez sélectionner ; celle qui n’est pas choisie s’affiche en grisé ; 
+	 </li><li class="li-enumerate">si la 2e ligne est validée :
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			 choisissez l’opérateur dans la liste déroulante commençant par <span class="c007">contient</span>,
+			 </li><li class="li-enumerate">saisissez, dans la zone à droite de la liste, le texte que vous recherchez dans vos opérations ;
+		</li></ol>	
+	 </li><li class="li-enumerate">si la 3e ligne est validée : 	
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			 choisissez, à droite de <span class="c007">est</span>, l’opérateur dans la première liste déroulante commençant par <span class="c007">égal</span>,
+			 </li><li class="li-enumerate">saisissez, dans la zone à droite de <span class="c007">à</span>, le nombre que vous voulez comparer dans vos opérations,
+			 </li><li class="li-enumerate">l’instruction est terminée si vous laissez <span class="c007">stop</span> dans la deuxième liste déroulante commençant par <span class="c007">et</span> ; si vous faites un autre choix que <span class="c007">stop</span> dans cette deuxième liste, la suite de l’instruction est validée et vous pouvez compléter l’instruction,
+			 </li><li class="li-enumerate">choisissez alors, à droite, l’opérateur dans la troisième liste déroulante commençant par <span class="c007">égal</span>,
+			 </li><li class="li-enumerate">saisissez, dans le champ à droite de <span class="c007">à</span>, le nombre que vous vous voulez comparer dans vos opérations ;
+		</li></ol>	
+	 </li><li class="li-enumerate">l’instruction est terminée.
+</li></ol><p>Si vous voulez affiner votre sélection, vous pouvez encore créer une ou
+plusieurs autres instructions, qui seront liées aux précédentes par des opérateurs de concaténation : ceux-ci sont les mêmes que ci-dessus, excepté le <span class="c007">stop</span> qui n’a pas de raison d’être ici, puisqu’il s’agit de continuer. </p><p>
+Pour ajouter une instruction supplémentaire, procédez comme suit :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_multiplesText.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.9: Sélection multiple de texte</td></tr>
+</table></div>
+<a id="reportcreation-datas-multiplesText-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	à la fin de la 3e ligne d’une instruction, à droite, cliquez sur le libellé <span class="c007">Ajouter</span> ;
+	 </li><li class="li-itemize">trois nouvelles lignes s’affichent pour définir votre nouvelle instruction ; elles sont identiques aux lignes de la première instruction, sauf que la 1re ligne commence par une liste déroulante commençant par <span class="c007">et</span> ;
+	 </li><li class="li-itemize">choisissez l’opérateur de concaténation ( <span class="c007">et</span>, <span class="c007">ou</span>, <span class="c007">sauf</span>) qui vous convient pour ajouter votre nouvelle instruction ;
+	 </li><li class="li-itemize">définissez cette nouvelle instruction comme vous l’avez fait pour la première.
+</li></ul><p>
+Pour supprimer une instruction, cliquez sur le libellé <span class="c007">Retirer</span> à la fin de
+sa 3e ligne.</p><p>
+Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-amount">21.2.8  Montants</h3>
+<p>La sélection d’après les <span class="c007">Montants</span> fonctionne de manière semblable à celle des <span class="c007">Textes</span>, mais elle est plus simple car il ne s’agit ici que de nombres, sans texte.</p><p>
+<span class="c010">Note</span> : il se peut que la fenêtre de création/modification des états n’affiche pas entièrement le panneau droit de sélection de texte : il vous faudra alors agrandir manuellement sa taille.</p><p>
+Vous pouvez faire des sélections complexes basées sur le nombre enregistré dans les champs d’une opération. Il s’agit de comparer le contenu du champ sélectionné à une valeur à travers un opérateur, et ceci pour toutes les opérations de votre fichier de comptes, tout au moins celles qui ont déjà été sélectionnées par les autres sélections de votre état en cours de création.</p><p>
+Créer une sélection consiste donc à définir une phrase simple du type sujet-verbe-complément, et plus précisément ici, une instruction «champ-opérateur-valeur ». Les opérateurs sont uniquement <span class="c003">numériques</span><a id="hevea_default342"></a>, pour comparer des nombres. </p><p>
+Pour sélectionner vos opérations en fonction de certains contenus enregistrés dans leurs champs, cochez la case <span class="c007">Sélectionner les opérations d’après les montants</span>, qui par défaut ne l’est pas. Ceci active les champs de définition de la phrase, qui s’affiche par défaut sur une seule ligne juste en-dessous.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_amounts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.10: Sélection de montant</td></tr>
+</table></div>
+<a id="reportcreation-datas-amounts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Cette ligne sert à définir l’opérateur à appliquer et le nombre à comparer. Les <span class="c003">opérateurs numériques</span><a id="hevea_default343"></a> disponibles sont :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">égal</span> ;
+	</li><li class="li-itemize"><span class="c007">inférieur</span> ;
+	</li><li class="li-itemize"><span class="c007">inférieur ou égal</span> ;
+	</li><li class="li-itemize"><span class="c007">supérieur à</span> ;
+	</li><li class="li-itemize"><span class="c007">supérieur ou égal</span> ;
+	</li><li class="li-itemize"><span class="c007">différent de</span> ;
+	</li><li class="li-itemize"><span class="c007">nul</span> ;
+	</li><li class="li-itemize"><span class="c007">non nul</span> ;
+	</li><li class="li-itemize"><span class="c007">positif</span> ;
+	</li><li class="li-itemize"><span class="c007">négatif</span>.
+</li></ul><p>De plus, elle permet de faire une double comparaison, de façon à pouvoir, par exemple, sélectionner les contenus supérieurs à une valeur donnée, sauf les contenus égaux à une autre valeur. Pour cela, un deuxième opérateur concatène deux instructions «champ-opérateur-valeur ». </p><p>Les <span class="c003">opérateurs de concaténation</span><a id="hevea_default344"></a> sont :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">et</span> ;
+	</li><li class="li-itemize"><span class="c007">ou</span> ;
+	</li><li class="li-itemize"><span class="c007">sauf</span> ;
+	</li><li class="li-itemize"><span class="c007">stop</span> (qui est le choix par défaut, et qui signifie qu’il n’y a pas d’autre critère à appliquer).
+</li></ul><p>Cette ligne permet de définir l’instruction de la manière suivante : elle sera du type «champ-opérateur numérique-texte » «opérateur de concaténation » «opérateur numérique-texte ».</p><p>
+<span class="c010">Note</span> : les dépenses sont des montants négatifs ; ces montants doivent donc être précédés du signe «<span class="c010">-</span> » (moins) dans les champs où vous saisissez des montants négatifs, par exemple -72,15.</p><p>
+<span class="c010">Note</span> : Grisbi ne fera pas de contrôle de cohérence sur vos critères. Par exemple, si vous voulez sélectionner les opérations «dont le numéro de relevé est supérieur ou égal à 20 sauf celles dont le numéro de relevé est supérieur ou égal à 5 », vous obtiendrez un état vide, tout simplement. L’erreur peut être difficile à déceler, et on n’est jamais trop fort pour ce calcul !
+</p><p>En pratique, pour créer une instruction, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans l’unique ligne, choisissez, à droite de <span class="c007">Opérations dans lesquelles le montant est</span>, le champ dans la liste déroulante commençant par <span class="c007">égal</span> ; 
+	</li><li class="li-enumerate">saisissez, dans la zone à droite de <span class="c007">à</span>, le nombre que vous voulez comparer dans vos opérations ;
+	</li><li class="li-enumerate">l’instruction est terminée si vous laissez <span class="c007">stop</span> dans la deuxième liste déroulante commençant par <span class="c007">et</span> ; si vous faites un autre choix que <span class="c007">stop</span> dans cette deuxième liste, la suite de l’instruction est validée et vous pouvez compléter l’instruction ;
+	 </li><li class="li-enumerate">choisissez alors, à droite, l’opérateur dans la troisième liste déroulante commençant par <span class="c007">égal</span> ;
+	</li><li class="li-enumerate">saisissez, dans le champ à droite de <span class="c007">à</span>, le nombre que vous voulez comparer dans vos opérations ;
+	</li><li class="li-enumerate">l’instruction est terminée.
+</li></ol><p>Si vous voulez affiner votre sélection, vous pouvez ajouter une ou
+plusieurs autres instructions, qui seront liées aux précédentes par des opérateurs de concaténation : ceux-ci sont les mêmes que ci-dessus, excepté le <span class="c007">stop</span> qui n’a pas de raison d’être ici, puisqu’il s’agit de continuer. Pour créer une instruction supplémentaire, procédez comme suit :</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_multiplesAmounts.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.11: Sélection multiple de montant</td></tr>
+</table></div>
+<a id="reportcreation-datas-multiplesAmounts-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	 cliquez sur le libellé <span class="c007">Ajouter</span> ;
+	 </li><li class="li-itemize">une nouvelle ligne s’affiche pour définir votre nouvelle instruction ; elle est identique aux lignes de la première instruction, sauf que la 1re ligne commence par une liste déroulante commençant par <span class="c007">et</span> ;
+	 </li><li class="li-itemize">choisissez l’opérateur de concaténation ( <span class="c007">et</span>, <span class="c007">ou</span>, <span class="c007">sauf</span>) qui vous convient pour ajouter votre nouvelle instruction ;
+	 </li><li class="li-itemize">définissez cette nouvelle instruction comme vous l’avez fait pour la première.
+</li></ul><p>
+Pour supprimer une instruction, cliquez sur le libellé <span class="c007">Retirer</span> à la fin de sa ligne.</p><p>Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-paiementmode">21.2.9  Modes de règlement</h3>
+<p>Pour sélectionner vos opérations en fonction du mode de règlement, cochez la case <span class="c007">Sélectionner les opérations en fonction des modes de règlement</span>, qui par défaut 
+ne l’est pas.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_modes.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.12: Sélection des mode de règlement</td></tr>
+</table></div>
+<a id="reportcreation-datas-modes-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Ceci active la liste des modes de règlement de votre fichier juste en-dessous, ainsi que les libellés de sélection dans la partie droite du panneau ; sélectionnez les modes de règlement désirés, en cliquant sur leur nom (la sélection multiple avec <span class="c001">&lt;Ctrl&gt;&lt;Clic&gt;</span> ou <span class="c001">&lt;Majuscule&gt;&lt;Clic&gt;</span> est possible), ou en cliquant sur les libellés, qui vous permettent de choisir :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Sélectionner tout</span> ;
+	 </li><li class="li-itemize"><span class="c007">Désélectionner tout</span>.
+</li></ul><p>Pour continuer vos sélections, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-selection-misc">21.2.10  Divers</h3>
+<p>Vous pouvez affiner votre sélection en ajoutant des critères sur les opérations rapprochées et ventilées.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_datas_misc.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.13: Sélections diverses</td></tr>
+</table></div>
+<a id="reportcreation-datas-misc-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="sec337">Opérations rapprochées</h4>
+<p>En cochant le bouton adéquat, vous pouvez sélectionner :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">toutes les opérations ; c’est le cas par défaut</span> ;
+	</li><li class="li-itemize"><span class="c007">les opérations non rapprochées uniquement</span> ;
+	</li><li class="li-itemize"><span class="c007">les opérations rapprochées uniquement</span>.
+</li></ul>
+<h4 class="subsubsection" id="sec338">Détail des opérations ventilées</h4>
+<p>En cochant le bouton, vous pouvez choisir de ne pas détailler les opérations ventilées. Par défaut la case n’est pas cochée.</p><p>Vos sélections sont terminées. Pour organiser vos données, passez à l’onglet suivant.</p>
+<h2 class="section" id="reportscreation-organisation">21.3  Organisation des données</h2>
+<p>Organiser les données de votre état signifie les grouper ou les séparer suivant vos besoins.</p>
+<h3 class="subsection" id="reportscreation-organisation-group">21.3.1  Groupement des données</h3>
+<p>Cet onglet permet de grouper vos données selon différents critères et différents niveaux.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_organisation_grouping.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.14: Organisation des niveaux de regroupement</td></tr>
+</table></div>
+<a id="reportcreation-organisation-grouping-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="reportscreation-organisation-group-operations">Regroupement des opérations</h4>
+<p>Sous ce libellé, définissez les <span class="c003">niveaux de regroupement</span><a id="hevea_default345"></a> que vous voulez pour votre état, en cochant la case correspondante parmi les possibilités suivantes :</p><ul class="itemize"><li class="li-itemize">
+	le compte ;
+	</li><li class="li-itemize">le tiers ;
+	</li><li class="li-itemize">la catégorie ; c’est le cas par défaut ;
+	</li><li class="li-itemize">l’imputation budgétaire.
+</li></ul><p>Il est rare qu’ils soient tous les quatre nécessaires, et il se peut tout à fait que vous désiriez n’en utiliser aucun. C’est votre choix. </p>
+<h4 class="subsubsection" id="reportscreation-organisation-group-levels">Organisation des niveaux de regroupement</h4>
+<p>Sous ce libellé, l’ordre par défaut des niveaux est indiqué dans un cadre. Si vous avez sélectionné les quatre niveaux en gardant l’ordre par défaut, vos opérations seront regroupées, au plus haut niveau, par catégories. À l’intérieur de chaque catégorie, les opérations seront regroupées par imputation budgétaire, à l’intérieur de chaque imputation budgétaire, par tiers, et enfin à l’intérieur de chaque tiers, par compte.</p><p>Ajustez cet ordre en sélectionnant avec la souris le niveau à déplacer, puis cliquez sur les flèches <span class="c007">Monter</span> ou <span class="c007">Descendre</span> pour le placer à l’endroit voulu. Répétez l’opération autant de fois que nécessaire.</p><p>Seuls les niveaux sélectionnés dans <span class="c007">Regroupement des opérations</span> doivent être correctement positionnés, et les autres ne seront pas concernés.</p><p>
+Pour continuer l’organisation de vos données, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-organisation-separation">21.3.2  Séparation des données</h3>
+<p>Vous pouvez choisir de séparer vos données en cochant les cases suivantes :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Séparer les revenus et les dépenses</span> ; par défaut, ils sont séparés ;
+	</li><li class="li-itemize"><span class="c007">Séparer les résultats par exercice</span> : ce choix n’est disponible que si vous avez choisi de sélectionner les opérations selon les exercices dans l’onglet <span class="c007">Sélection/Dates</span> ;
+	</li><li class="li-itemize"><span class="c007">Séparer les résultats par période</span> : en cochant cette case, deux listes déroulantes sont validées :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Période de temps</span> : vous avez le choix entre journée, semaine, mois et année ; choisissez la période voulue dans la liste,
+			</li><li class="li-itemize"><span class="c007">Début de la semaine</span> : vous avez le choix entre tous les jours de la semaine ; choisissez le jour de départ de la période dans la liste.
+		</li></ul> 
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_organisation_separation.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.15: Séparation des données</td></tr>
+</table></div>
+<a id="reportcreation-organisation-separation-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+Pour configurer l’affichage de vos données, passez à l’onglet suivant.</p>
+<h2 class="section" id="reportscreation-display">21.4  Affichage des données</h2>
+<p>Cet onglet vous permet de définir la façon dont les données de votre état, sélectionnées et
+organisées dans les étapes précédentes, seront affichées. Il comprend quatre onglets :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Généralités</span> ;
+	</li><li class="li-itemize"><span class="c007">Titres</span> ;
+	</li><li class="li-itemize"><span class="c007">Opérations</span> ;
+	</li><li class="li-itemize"><span class="c007">Devises</span>.
+</li></ul>
+<h3 class="subsection" id="reportscreation-display-general">21.4.1  Généralités</h3>
+<p>Dans cet onglet vous pouvez définir les paramètres suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Nom de l’état</span><a id="hevea_default346"></a> : saisissez son <span class="c003">nom</span>, il est à votre entière convenance ;
+	</li><li class="li-itemize"><span class="c007">Afficher le nombre d’opérations avec les totaux</span> : si vous cochez cette case, à chaque fois que l’état affichera un total ou un sous-total, il affichera à gauche de celui-ci et entre parenthèses le nombre d’opérations correspondantes ;	
+	</li><li class="li-itemize"><span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span> : si cette case est cochée, l’ensemble des tiers que vous avez éventuellement sélectionnés pour cet état forme un <span class="c003">«tiers virtuel »</span> <a id="hevea_default347"></a> ; ce tiers virtuel a pour nom le nom de l’état (voir le paragraphe <a href="#reportscreation-display-general-virtualThird">21.4.1</a>, <span class="c007">Tiers virtuel</span>). 
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_display_main.png"> :
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.16: Affichage des généralités</td></tr>
+</table></div>
+<a id="reportcreation-display-main-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="reportscreation-display-general-virtualThird">Tiers virtuel</h4>
+<p>Grisbi permet d’utiliser des tiers virtuels : un tiers virtuel est un <em>état</em> qui représente une liste de plusieurs tiers.</p><p>Lorsque vous saisissez une opération avec pour tiers un tiers virtuel, Grisbi enregistre, au moment de sa validation, une opération identique (montant, catégorie, imputation budgétaire, moyen de paiement etc.) pour <em>chacun</em> des tiers représentés par ce tiers virtuel. Par exemple, vous pouvez saisir en une seule fois un appel à cotisation pour 200 adhérents d’une association, ce qui représente un gain de temps très appréciable …</p><p>
+La création d’un tiers virtuel est celle d’un état comprenant la liste de tous les tiers qui vous intéressent.</p><p>Pour <span class="c003">créer un tiers virtuel</span><a id="hevea_default348"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	commencez la procédure de création d’un état à la section <a href="#reportscreation-start">21.1</a> ; <span class="c007">Choix du modèle de l’état de départ</span> ; 
+	</li><li class="li-enumerate">quand la fenêtre de choix du modèle s’affiche, sélectionnez <span class="c007">État vierge</span> dans la liste déroulante, puis validez : la fenêtre de création/modification des états s’affiche ;
+	</li><li class="li-enumerate">dans l’onglet <span class="c007">Tiers</span>, cochez la case <span class="c007">Détailler les tiers</span>, puis sélectionnez tous les tiers que vous voulez voir dans votre tiers virtuel : soit un par un avec la combinaison <span class="c001">&lt;Ctrl&gt;</span> <span class="c001">&lt;Clic-gauche&gt;</span> de la souris, soit en groupe avec la combinaison <span class="c001">&lt;Majuscule&gt;</span> <span class="c001">&lt;Clic-gauche&gt;</span> de la souris ; 
+	</li><li class="li-enumerate">dans l’onglet <span class="c007">Généralités</span>, saisissez le nom de votre tiers virtuel dans le champ <span class="c007">Nom de l’état</span>, cochez la case <span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span>, puis validez.
+</li></ol><p>Votre nouveau tiers virtuel apparaît alors dans la liste des états, dans le panneau de navigation.</p><p>
+<span class="c010">Note</span> : comme le tiers virtuel ainsi créé est un état, il ne s’affiche pas dans la liste des tiers, mais dans celle des états, et il est géré de la même manière que les autres états. </p><p>
+Pour <span class="c003">modifier un tiers virtuel</span><a id="hevea_default349"></a>, modifiez l’état qui le définit (voir la section <a href="grisbi-manuel021.html#reports-modify">20.6</a>, <span class="c007">Modification d’un état</span>).</p><p>
+Pour <span class="c003">supprimer un tiers virtuel</span><a id="hevea_default350"></a>, vous avez deux possibilités :</p><ul class="itemize"><li class="li-itemize">
+	décochez la case <span class="c007">Considérer les tiers de ce rapport comme un tiers virtuel</span> dans l’état qui le définit, puis validez (voir la section <a href="grisbi-manuel021.html#reports-modify">20.6</a>, <span class="c007">Modification d’un état</span>) ;
+	</li><li class="li-itemize">supprimez l’état qui le définit (voir la section <a href="grisbi-manuel021.html#reports-delete">20.8</a>, <span class="c007">Suppression d’un état</span>).
+</li></ul><p>
+La saisie d’une opération avec un tiers virtuel est décrite dans la section <a href="grisbi-manuel009.html#transactions-virtualThird">8.7</a>, <span class="c007">Saisie d’opérations avec tiers virtuel</span>.</p><p>
+Pour continuer la configuration de l’affichage de vos données, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-display-titles">21.4.2  Titres</h3>
+<p>Les choix affichés dans cet onglet dépendent étroitement des choix de <span class="c003">niveaux de regroupement</span><a id="hevea_default351"></a> que vous avez faits dans l’étape <span class="c007">Organisation</span>. En effet, seuls les niveaux sélectionnés seront actifs, et les autres sont affichés en grisé. </p><p>
+Cocher une des cases actives a pour effet d’afficher l’information correspondante dans le titre ou dans le pied du niveau de regroupement. Les noms seront affichés dans le titre et les sous-totaux dans le pied.</p><p>
+Vous pouvez choisir d’afficher :</p><ul class="itemize"><li class="li-itemize">
+	pour les <span class="c007">Comptes</span> :	
+		<ul class="itemize"><li class="li-itemize">
+			le nom du compte,
+			</li><li class="li-itemize">un sous-total lors d’un changement de compte ;
+		</li></ul> 	
+	</li><li class="li-itemize">pour les <span class="c007">Tiers</span> :	
+		<ul class="itemize"><li class="li-itemize">
+			le nom du tiers,
+			</li><li class="li-itemize">un sous-total lors du changement de tiers ;
+		</li></ul> 	
+	</li><li class="li-itemize">pour les <span class="c007">Catégories</span> :	
+		<ul class="itemize"><li class="li-itemize">
+			le nom de la sous-catégorie,
+			</li><li class="li-itemize">un sous-total lors du changement de catégorie,	
+			</li><li class="li-itemize">les sous-catégories,
+			</li><li class="li-itemize">un sous-total lors du changement de sous-catégorie,	
+			</li><li class="li-itemize"><span class="c007">Pas de sous-catégorie</span> si elle est absente (par défaut cette mention n’est pas affichée) ;
+		</li></ul> 	
+	</li><li class="li-itemize">pour les <span class="c007">Imputations budgétaires</span> :	
+		<ul class="itemize"><li class="li-itemize">
+			le nom de la sous-imputation,
+			</li><li class="li-itemize">un sous-total lors du changement d’imputation,
+			</li><li class="li-itemize">les sous-imputations,			
+			</li><li class="li-itemize">un sous-total lors du changement de sous-imputation,
+			</li><li class="li-itemize"><span class="c007">Pas de sous-imputation</span> si elle est absente (par défaut ce choix n’est pas coché).
+		</li></ul> 
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_display_titles.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.17: Affichage des titres</td></tr>
+</table></div>
+<a id="reportcreation-display-titles-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Pour continuer la configuration de l’affichage de vos données, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-display-transactions">21.4.3  Opérations</h3>
+<p>Dans cet onglet, vous pouvez déterminer la façon dont les opérations sélectionnées dans l’état seront affichées. Pour les afficher, cochez la case <span class="c007">Afficher les opérations</span>, qui par défaut ne l’est pas.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_display_transactions.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.18: Affichage des opérations</td></tr>
+</table></div>
+<a id="reportcreation-display-transactions-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h4 class="subsubsection" id="sec349">Inclure les renseignements suivants</h4>
+<p>Vous pouvez choisir quelles informations seront affichées en cochant la case correspondante. Cette case a une action globale et (dés)active simultanément toutes les informations. C’est bien utile pour passer d’un état affichant les informations à un état ne les affichant pas.</p><p>Vous pouvez choisir d’afficher les renseignements suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">n°d’opération</span> ;
+	</li><li class="li-itemize"><span class="c007">tiers</span> ;
+	</li><li class="li-itemize"><span class="c007">imputation budgétaire</span> ;	
+	</li><li class="li-itemize"><span class="c007">mode de règlement</span> ;
+	</li><li class="li-itemize"><span class="c007">information bancaire</span> ;
+	</li><li class="li-itemize"><span class="c007">date</span> ;
+	</li><li class="li-itemize"><span class="c007">catégorie</span> ;
+	</li><li class="li-itemize"><span class="c007">sous-imputation budgétaire</span> ;
+	</li><li class="li-itemize"><span class="c007">n°chèque/virement</span> ;
+	</li><li class="li-itemize"><span class="c007">n°de rapprochement</span> ;
+	</li><li class="li-itemize"><span class="c007">date de valeur</span> ;
+	</li><li class="li-itemize"><span class="c007">sous-catégorie</span> ;
+	</li><li class="li-itemize"><span class="c007">notes</span> ;
+	</li><li class="li-itemize"><span class="c007">pièce comptable</span> ;
+	</li><li class="li-itemize"><span class="c007">exercice</span>.
+</li></ul><p>Si vous vous interrogez sur l’utilité d’un <span class="c003">état sans opérations</span><a id="hevea_default352"></a>, pensez 
+que cela ne veut pas dire qu’il n’affichera rien. Vous pouvez avoir un 
+état affichant uniquement les imputations et sous-imputations 
+budgétaires. Cet état s’appelle <em>Budget</em>.</p><p>Si vous décidez d’afficher les opérations, vous pouvez alors sélectionner
+individuellement chaque information devant être affichée.</p><p>Pour plus de détails sur ces informations, voir la section <a href="grisbi-manuel009.html#transactions-list-fields">8.2.2</a>, <span class="c007">Champs d’information et de saisie</span>.</p>
+<h4 class="subsubsection" id="reportscreation-display-transactions-coltitles">Colonnes</h4>
+<p>Cliquer sur la case <span class="c007">Afficher les titres des colonnes</span> vous donne l’affichage des <span class="c003">titres des colonnes</span><a id="hevea_default353"></a> pour chaque information affichée. Cela valide aussi les boutons :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">à chaque changement de section</span> (ou changement de niveau de regroupement) ;
+	</li><li class="li-itemize"><span class="c007">en haut de l’état</span>.
+</li></ul><p>Cochez l’un de ces deux boutons selon votre besoin.</p>
+<h4 class="subsubsection" id="sec351">Classement des opérations</h4>
+<p>Vous pouvez aussi déterminer le critère de <span class="c003">classement des opérations</span><a id="hevea_default354"></a> à l’intérieur de chaque section (ou <span class="c003">niveau de regroupement</span> <a id="hevea_default355"></a>). Par défaut, c’est la date de l’opération qui est sélectionnée, mais vous pouvez utiliser un autre critère de tri dans la liste déroulante, de façon à obtenir un état trié, par exemple par tiers ou par numéro de chèque.</p>
+<h4 class="subsubsection" id="reportscreation-display-transactions-clickable">Opérations cliquables</h4>
+<p>Enfin, vous disposez d’une case à cocher (non cochée par défaut) qui vous permet
+de rendre toutes les <span class="c003">opérations cliquables</span> (ou interactives) de l’état.</p><p>Lorsque votre état terminé est validé et affiché dans le pavé des détails, si vous passez le curseur de votre souris au-dessus des opérations, leur texte passera en rouge, et si vous cliquez sur l’une d’entre elles, elle s’affichera dans l’onglet <span class="c007">Opérations</span> du compte concerné et sera sélectionnée : la barre d’information affiche le nom du compte où est enregistrée l’opération et son solde, le panneau de navigation affiche aussi ce nom, le pavé des détails de l’état est remplacé par celui de l’onglet <span class="c007">Opérations</span> de ce compte, l’opération est sélectionnée, et enfin le formulaire de saisie est ouvert et affiche le contenu de l’opération, prêt pour une modification éventuelle.</p><p>Cette fonction peut vous permettre de faire des recherches très poussées, vu la multiplicité des options de création des états. Elle peut aussi tout simplement vous permettre de corriger facilement une opération si vous constatez en lisant votre état qu’une information est erronée. Par contre, elle ralentit le temps de création de l’état, n’en abusez donc pas, à moins que votre machine soit suffisamment puissante pour vous le permettre.</p><p>
+Pour continuer la configuration de l’affichage de vos données, passez à l’onglet suivant.</p>
+<h3 class="subsection" id="reportscreation-display-currencies">21.4.4  Devises</h3>
+<p>Les montants des opérations sont affichés dans la devise dans laquelle elles ont été enregistrées, mais les totaux sont calculés dans une seule devise, que vous pouvez choisir ici. </p><p>Vous pouvez choisir, indépendamment, la devise pour les totaux suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	totaux généraux ;
+	</li><li class="li-itemize">tiers ;
+	</li><li class="li-itemize">catégories ;
+	</li><li class="li-itemize">imputations budgétaires ;
+	</li><li class="li-itemize">comparaisons de montant.
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reportcreation_display_currencies.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 21.19: Affichage des devises</td></tr>
+</table></div>
+<a id="reportcreation-display-currencies-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Il faut bien sûr que vous ayez au préalable créé la devise choisie (voir la section <a href="grisbi-manuel009.html#transactions-currencies">8.16</a>, <span class="c007">Gestion des devises</span>). </p><p>
+<span class="c010">Note</span> : Il n’est parfois pas possible de vérifier le total d’une addition car ses différentes composantes ne sont pas toutes dans la même <span class="c003">devise</span><a id="hevea_default356"></a>…</p><p>Il est plus que probable que vous ne choisirez la plupart du temps qu’une seule et même devise pour tous ces totaux, mais c’est une possibilité supplémentaire qu’offre là Grisbi !</p><p>
+Vous avez terminé la création de votre nouvel état. Pour l’enregistrer, validez-le par le bouton <span class="c007">Valider</span> dans la fenêtre de création/modification. Votre nouvel état apparaît alors dans la liste des états, dans le panneau de navigation.
+</p>
+<hr>
+<a href="grisbi-manuel021.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel023.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

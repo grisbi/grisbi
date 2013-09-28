@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Gestion des données</title>
+</head>
+<body>
+<a href="grisbi-manuel006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel008.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="datamanagement">Chapitre 6  Gestion des données</h1>
+<p>Les données que vous avez entrées dans Grisbi et les traitements que vous en avez faits sont en nombre important ; de ce fait ils ne doivent en aucun cas être perdus, et leur quantité ne doit pas être un obstacle à leur bonne gestion. Grisbi propose donc trois outils pour faire face à ces problématiques : <span class="c007">Gestion des fichiers de comptes</span>, <span class="c007">Sauvegardes</span> et <span class="c007">Archives</span>.</p>
+<h2 class="section" id="datamanagement-files">6.1  Gestion des fichiers de comptes</h2>
+<p>Vous pouvez définir les options de gestion suivantes :</p><ul class="itemize"><li class="li-itemize">
+	le chargement automatique du dernier fichier consulté ;
+	</li><li class="li-itemize">l’enregistrement automatique lors de la fermeture ;
+	</li><li class="li-itemize">le <span class="c003">forçage de l’enregistrement</span><a id="hevea_default35"></a> des fichiers verrouillés ;
+	</li><li class="li-itemize">le <span class="c003">chiffrement du fichier de comptes</span><a id="hevea_default36"></a><a id="hevea_default37"></a> ;
+	</li><li class="li-itemize">la <span class="c003">compression</span> du fichier de comptes<a id="hevea_default38"></a><a id="hevea_default39"></a> ;
+	</li><li class="li-itemize">la mémorisation des derniers fichiers ouverts.
+</li></ul><p>Toutes ces options sont explicitées en détail et peuvent être configurées dans le menu <span class="c007">Édition - Préférences</span> (voir le paragraphe <a href="grisbi-manuel023.html#setup-general-files-manage">22.1.1</a>, <span class="c007">Gestion des fichiers de comptes</span>).</p>
+<h2 class="section" id="datamanagement-backup">6.2  Sauvegardes</h2>
+<p>D’une manière générale, quelles que soient les données que vous possédez dans le disque dur de votre ordinateur, vous devez impérativement en faire des sauvegardes, pour la simple raison que <em>tout système de stockage de données a une durée de vie limitée</em>. Faire des sauvegardes a pour but de limiter les risques de pertes de données. </p><p>Grisbi vous permet de faire des sauvegardes automatiques de votre fichier de comptes. Ces sauvegardes devraient être stockées dans un répertoire spécial ou une partition spéciale du disque de votre ordinateur, avec les sauvegardes de toutes vos autres données, ce qui vous permettrait alors de sauvegarder facilement ce répertoire ou cette partition, de préférence sur des supports de type différents, indépendants de l’ordinateur, et mis en lieu sûr.</p><p>
+<span class="c010">Note</span> : vous êtes maintenant prévenu(e), prenez ces conseils au sérieux : ne prenez pas de risques avec vos données, cela peut vous éviter bien des déboires…</p><p>Grisbi peut enregistrer automatiquement, dans un répertoire à définir, soit un fichier de sauvegarde unique qui est remplacé régulièrement, soit des fichiers de sauvegarde qui s’accumulent dans ce répertoire.</p><p>Les fichiers de sauvegarde ont un nom de la forme <span class="c010">nom_du_fichier_AAAAMMJJTHHMMSS.gsb</span>, où <em>nom_du_fichier</em> est le nom de votre fichier de comptes, <em>AAAAMMJJ</em> est la date en année-mois-jours, <em>T</em> est un séparateur, et <em>HHMMSS</em> est l’heure en heures-minutes-secondes. Ce format est basé sur le format international de date ISO 8601, ce qui permet, entre autres, le classement automatique dans l’ordre alphanumérique et chronologique dans votre répertoire de sauvegarde.</p><p>
+Grisbi vous propose les options de sauvegarde suivantes :</p><ul class="itemize"><li class="li-itemize">
+	la création d’un fichier de sauvegarde unique, sinon les fichiers de sauvegarde s’ajoutent dans leur répertoire ;
+	</li><li class="li-itemize">la <span class="c003">compression du fichier de sauvegarde</span><a id="hevea_default40"></a><a id="hevea_default41"></a>, pour occuper moins d’espace disque ;
+	</li><li class="li-itemize">la sauvegarde après l’ouverture du fichier de comptes ; 
+	</li><li class="li-itemize">la sauvegarde avant l’enregistrement du fichier de comptes ; 
+	</li><li class="li-itemize">le réglage de l’intervalle entre deux sauvegardes, en minutes ;
+	</li><li class="li-itemize">la définition du <span class="c003">répertoire de sauvegarde</span><a id="hevea_default42"></a><a id="hevea_default43"></a>.
+</li></ul><p>
+Toutes ces options sont décrites en détail et peuvent être configurées dans le menu <span class="c007">Édition - Préférences</span> (voir le paragraphe <a href="grisbi-manuel023.html#setup-general-files-backup">22.1.1</a>, <span class="c007">Sauvegardes</span>).</p>
+<h2 class="section" id="datamanagement-history">6.3  Archives</h2>
+<p>Une archive est une sorte de «mise entre parenthèses » d’une partie des opérations de tous les comptes de votre fichier de comptes. Les opérations à l’intérieur d’une archive ne sont plus affichées et ne peuvent plus faire l’objet de traitements, mais elles sont toujours conservées dans ce fichier. Vous pouvez toujours et à tout moment désarchiver une archive existante pour en afficher les opérations et l’inclure dans un traitement. </p><p>Lorsque vous utilisez Grisbi, vous entrez des opérations dans vos différents comptes. Ces opérations sont toutes enregistrées dans la mémoire et sur le disque dur de l’ordinateur, et une petite partie est affichée sur l’écran. L’affichage et le traitement des opérations consomme donc de la mémoire et du temps de microprocesseur.</p><p>Au fur et à mesure que le temps passe, il y a de plus en plus d’opérations enregistrées, donc leur affichage et leurs traitements demandent de plus en plus d’espace mémoire et de temps de microprocesseur. Votre ordinateur devient donc de plus en plus lent, mais évidemment, cela dépend toujours de ses propres caractéristiques.</p><p>Pour limiter cette perte de performances dans l’affichage et le traitement, en particulier dans l’établissement d’états ou dans la recherche d’informations, Grisbi vous propose de choisir une partie des opérations et de les mettre dans une archive, c’est-à-dire de les mettre à part pour leur éviter d’être concernées par de futurs affichages ou traitements. </p><p>La mise en archive peut être manuelle ou automatisée. Grisbi considère qu’au-delà de trois mille opérations dans un compte, les traitements deviennent trop lents, donc d’une part il vous avertit si vous dépassez ce nombre d’opérations et vous propose d’en archiver manuellement une partie, d’autre part il peut vous proposer d’archiver ces trois mille opérations en lançant automatiquement un assistant.</p><p>Que vous fassiez un archivage manuellement ou avec l’assistant, le processus de comptage est ensuite remis à zéro et Grisbi vous proposera de nouveau la même chose après trois mille opérations supplémentaires.</p>
+<h3 class="subsection" id="datamanagement-history-list">6.3.1  Archives dans la liste des opérations</h3>
+<p>L’<span class="c003">affichage d’une archive</span><a id="hevea_default44"></a> apparaît tout en haut de la liste des opérations <em>de chaque compte</em>, sous la forme d’une ligne d’opération sur fond vert, indiquant sa date de création, son nom et ses paramètres de création (dates, exercice ou état), ainsi que le <span class="c003">nombre d’opérations archivées</span><a id="hevea_default45"></a> <em>pour le compte affiché</em>, et le <span class="c003">nombre total d’opérations</span><a id="hevea_default46"></a> dans votre fichier de comptes.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/datamanagement_history_line.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 6.1: Ligne d’une archive</td></tr>
+</table></div>
+<a id="datamanagement-history-line-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Vous pouvez afficher ou masquer toutes les lignes d’archives dans la liste des opérations de tous les comptes en sélectionnant le menu <span class="c007">Affichage - Montrer les lignes d’archives</span>, ou en cliquant sur l’outil <span class="c007">Affichage</span> de la barre d’outils, puis en sélectionnant <span class="c007">Montrer les lignes d’archives</span> dans sa liste déroulante.</p><p>Si vous voulez consulter les opérations à l’intérieur d’une archive, vous pouvez ouvrir cette archive en double-cliquant sur sa ligne : après validation dans la fenêtre qui apparaît, les opérations sont affichées dans la liste. </p><p><span class="c010">Note</span> : il ne s’agit que d’une ouverture de l’archive pour affichage, et en aucun cas cette archive n’est supprimée. À la prochaine utilisation de Grisbi, la ligne verte de l’archive réapparaîtra en haut de la liste de chaque compte. Pour une véritable suppression de l’archive, voir la section <a href="#datamanagement-history-remove">6.3.6</a>, <span class="c007">Suppression d’une archive</span>.</p>
+<h3 class="subsection" id="datamanagement-history-new">6.3.2  Création d’une archive</h3>
+<p>Pour créer une archive, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans la barre de menus, sélectionnez <span class="c007">Fichier - Créer une archive</span> : la fenêtre de l’assistant de création d’archive s’affiche ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">dans la fenêtre suivante, vous pouvez choisir le mode de sélection des opérations à archiver :
+		<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/datamanagement_history_create.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 6.2: Création d’une archive</td></tr>
+</table></div>
+	<a id="datamanagement-history-create-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Tri par date</span> : saisissez les <span class="c007">Date initiale</span> et <span class="c007">Date finale</span> dans les champs adéquats,
+			</li><li class="li-itemize"><span class="c007">Archiver les opérations par exercice</span> : sélectionnez un exercice disponible dans la liste déroulante,
+			</li><li class="li-itemize"><span class="c007">Archiver les opérations appartenant à l’état</span> : sélectionnez un état disponible dans la liste déroulante ;
+<p>			<span class="c010">Note</span> : la dernière ligne dans la fenêtre indique soit une erreur de saisie de ces paramètres, soit le nombre d’opérations qui seront archivées et le nombre total d’opérations de votre fichier de comptes. 
+		</p></li></ul>
+	</li><li class="li-enumerate">validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">dans la fenêtre suivante, saisissez le nom que vous voulez pour cette archive ; validez par le bouton <span class="c007">Appliquer</span> ;
+	</li><li class="li-enumerate">la dernière fenêtre vous informe que l’archive a été créée, et affiche le <span class="c003">nombre d’opérations archivées</span><a id="hevea_default47"></a> et le nombre total d’opérations de votre fichier de comptes, <em>tous comptes confondus</em> ; validez par le bouton <span class="c007">Précédent</span> pour créer une autre archive, sinon par le bouton <span class="c007">Fermer</span>.
+</li></ol><p><span class="c010">Note</span> : au cas où Grisbi serait devenu plus lent après avoir créé une archive, vous pouvez le configurer pour ne pas charger les opérations rapprochées (R) au démarrage, afin d’augmenter sa rapidité (voir la section <a href="grisbi-manuel009.html#transactions-functions">8.1</a>, <span class="c007">Barre d’outils</span>).</p><p>
+L’archive apparaît alors tout en haut de la liste des opérations <em>de chaque compte</em> (voir la section <a href="#datamanagement-history-list">6.3.1</a>, <span class="c007">Archives dans la liste des opérations</span>).</p>
+<h3 class="subsection" id="datamanagement-history-auto">6.3.3  Avertissement de création et création automatique d’archives</h3>
+<p>Lorsqu’un certain nombre d’opérations enregistrées est atteint, Grisbi peut d’une part vous avertir que cette quantité d’opérations n’a pas été encore archivée, d’autre part lancer automatiquement la création d’une d’archive (voir le paragraphe <a href="grisbi-manuel023.html#setup-general-archives-create">22.1.2</a>, <span class="c007">Avertissement et création automatique</span>).</p><p>En cliquant sur la case libellée <span class="c007">Créer automatiquement une archive si nécessaire</span>, vous validez la fonction d’archivage automatique.</p><p>Avec le libellé <span class="c007">Avertir si plus de …  opérations ne sont pas archivées</span>, vous pouvez définir ce nombre d’opérations. La valeur par défaut est 3000.</p>
+<h3 class="subsection" id="datamanagement-history-parameters">6.3.4  Paramètres d’une archive</h3>
+<p>Vous pouvez consulter les paramètres qui ont été définis pendant la création d’une archive, dans le menu
+<span class="c007">Édition - Préférences - Archives</span>. Pour cela, voir la section <a href="grisbi-manuel023.html#setup-general-archives-existing">22.1.2</a>, <span class="c007">Archives existantes</span>.</p>
+<h3 class="subsection" id="datamanagement-history-modify">6.3.5  Modification d’une archive</h3>
+<p>Vous pouvez, uniquement, <span class="c003">modifier le nom d’une archive</span><a id="hevea_default48"></a> dans le menu <span class="c007">Édition - Préférences</span>. Pour cela, voir le paragraphe <a href="grisbi-manuel023.html#setup-general-archives-remove">22.1.2</a>, <span class="c007">Modifier l’archive</span>.</p>
+<h3 class="subsection" id="datamanagement-history-remove">6.3.6  Suppression d’une archive</h3>
+<p>Vous pouvez <span class="c003">supprimer une archive</span><a id="hevea_default49"></a> existante, dans le menu <span class="c007">Édition - Préférences</span>. Il y a deux fonctions de suppression distinctes : la suppression d’une archive tout en <em>conservant</em> ses opérations, et la suppression d’une archive tout en <em>supprimant</em> toutes ses opérations. Pour cela, voir le paragraphe <a href="grisbi-manuel023.html#setup-general-archives-remove">22.1.2</a>, <span class="c007">Modifier l’archive</span>. </p>
+<h3 class="subsection" id="datamanagement-history-export">6.3.7  Export d’une archive</h3>
+<p>Exporter une archive permet de créer un fichier contenant l’archive, afin de la stocker, ou de l’utiliser dans un autre fichier de comptes de Grisbi ou dans une autre application de comptabilité. L’exportation ne peut se faire qu’à travers les formats de fichiers <span class="c003">GSB</span><a id="hevea_default50"></a>, <span class="c003">QIF</span><a id="hevea_default51"></a> ou <span class="c003">CSV</span><a id="hevea_default52"></a>.</p><p>
+<span class="c009">Attention</span> : les formats de fichiers QIF et CSV ne supportent pas les devises, et toutes les opérations seront converties dans la devise de leur compte respectif.
+</p><p>Pour exporter une archive, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans la barre de menus, sélectionnez <span class="c007">Fichier - Exporter une archive vers un fichier GSB, QIF ou CSV... </span> : la fenêtre de l’assistant d’exportation d’archive s’affiche ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">un tableau affiche la liste des archives existantes avec leur nom et, selon le cas, leurs dates initiale et finale, leur exercice ou le nom de l’état ; sélectionnez l’archive à exporter en cochant la case dans sa ligne ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">une fenêtre de gestionnaire de fichiers s’affiche ; modifiez éventuellement le nom du fichier sous lequel l’archive sera exportée, le dossier où elle sera enregistrée et le format du fichier d’exportation ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">la dernière fenêtre vous informe que l’archive a été exportée ; validez par le bouton <span class="c007">Fermer</span>.
+</li></ol>
+<hr>
+<a href="grisbi-manuel006.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel008.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>
