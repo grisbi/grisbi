@@ -38,5 +38,7 @@ gint gsb_data_payee_set_new_number ( gint no_payee,
 				     gint new_no_payee );
 gboolean gsb_data_payee_set_search_string ( gint no_payee, const gchar *search_string );
 void gsb_data_payee_update_counters ( void );
+gboolean gsb_data_payee_compare_payees_by_name ( gpointer payee_ptr_a,
+                                                 gpointer payee_ptr_b);
 /* END_DECLARATION */
 #endif

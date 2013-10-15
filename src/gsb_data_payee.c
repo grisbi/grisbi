@@ -493,6 +493,29 @@ GSList *gsb_data_payee_get_name_list ( void )
 }
 
 /**
+ * compare the name of the payee
+ *
+ * \param payee_ptr_a a pointer a pointer to the struct of the payee a
+ * \param payee_ptr_b a pointer a pointer to the struct of the payee b
+ *
+ * \return a > b or NULL if problem
+ * */
+gboolean gsb_data_payee_compare_payees_by_name (gpointer payee_ptr_a,
+                                                gpointer payee_ptr_b)
+{
+    struct_payee *payee_a, *payee_b;
+    gchar *name_a, *name_b;
+    if ( !payee_ptr_a || !payee_ptr_b )
+	return 0;
+
+    payee_a = payee_ptr_a;
+    payee_b = payee_ptr_b;
+    name_a = payee_a -> payee_name;
+    name_b = payee_b -> payee_name;
+    return g_utf8_collate ( name_a, name_b );
+}
+
+/**
  * return a g_slist of names of all the payees and
  * the name of the reports which have to be with the payees
  * it's not a copy of the gchar...

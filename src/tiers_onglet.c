@@ -577,7 +577,9 @@ void payees_fill_list ( void )
                 &iter_payee, payee_number );
 
     /** Then, populate tree with payee. */
-    payee_list_tmp = gsb_data_payee_get_payees_list ();
+    payee_list_tmp = g_slist_copy ( gsb_data_payee_get_payees_list () );
+
+    payee_list_tmp = g_slist_sort ( payee_list_tmp, (GCompareFunc) gsb_data_payee_compare_payees_by_name);
 
     while ( payee_list_tmp )
     {
@@ -593,6 +595,8 @@ void payees_fill_list ( void )
         }
         payee_list_tmp = payee_list_tmp -> next;
     }
+
+    g_slist_free ( payee_list_tmp );
 
     /* Reattach the model */
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
