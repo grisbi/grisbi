@@ -25,6 +25,7 @@ dnl ================================================================
 AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
 AC_HEADER_STDC
+AM_PROG_AR
 AC_PROG_LIBTOOL
 
 dnl needed on osx
