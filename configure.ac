@@ -196,7 +196,7 @@ dnl WError support
 dnl ================================================================
 
 AC_ARG_ENABLE(werror,
- 	[AC_HELP_STRING([--enable-werror],
+ 	[AS_HELP_STRING([--enable-werror],
  	[Treates warning as errors (default=no)])],,
  	enable_werror=no)
 if test "x$enable_werror" = xyes ; then
@@ -213,7 +213,7 @@ dnl NoOptim support
 dnl ================================================================
 
 AC_ARG_ENABLE(nooptim,
- 	[AC_HELP_STRING([--enable-nooptim],
+ 	[AS_HELP_STRING([--enable-nooptim],
  	[Outputs a summary of memory usage when grisbi terminates (default=no)])],,
  	enable_nooptim=no)
 if test "x$enable_nooptim" = xyes ; then
