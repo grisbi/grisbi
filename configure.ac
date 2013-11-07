@@ -10,6 +10,7 @@ AC_INIT([grisbi],[grisbi_version],[http://grisbi.tuxfamily.org/mantis/login_sele
 AC_CONFIG_SRCDIR(src/main.c)
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR(.)
 
 AC_DEFINE(GRISBI_MAJOR_VERSION, grisbi_major_version, [grisbi major version])
 AC_SUBST(GRISBI_MAJOR_VERSION, grisbi_major_version)
