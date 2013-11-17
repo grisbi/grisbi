@@ -247,7 +247,7 @@ AM_CONDITIONAL(PLATFORM_OSX, test "$platform_osx" = "yes")
 if test "x$platform_osx" = xyes; then
   AC_DEFINE([OS_OSX],[1],[Defined if system is Mac OS X])
   dnl check for native osx
-  gdk_windowing=`$PKG_CONFIG --variable=target gdk-2.0`
+  gdk_windowing=`$PKG_CONFIG --variable=targets gdk-3.0`
   AC_MSG_CHECKING([for GDK-Quartz])
 
   if test "x$gdk_windowing" = xquartz; then
