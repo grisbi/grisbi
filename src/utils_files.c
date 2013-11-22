@@ -82,7 +82,7 @@ enum {
 };
 
 
-static gchar *charset_array[] = {
+static const gchar *charset_array[] = {
     "ISO-8859-1",
     "ISO-8859-15",
     "windows-1252",
@@ -90,7 +90,7 @@ static gchar *charset_array[] = {
     NULL};
 
 
-static gchar *all_charset_array[] = {
+static const gchar *all_charset_array[] = {
     "IBM850",
     "ISO-8859-1",
     "ISO-8859-15",
