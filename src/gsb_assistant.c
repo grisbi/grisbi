@@ -100,7 +100,7 @@ static gboolean gsb_assistant_change_page ( GtkNotebook *notebook,
  *
  */
 GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
-                        gchar * image_filename,
+                        const gchar * image_filename,
                         GCallback enter_callback )
 {
     GtkWidget * assistant, *notebook, *hbox, *label, *image, *view, *eb;
