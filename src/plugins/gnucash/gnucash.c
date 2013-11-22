@@ -199,7 +199,6 @@ void recuperation_donnees_gnucash_compte ( xmlNodePtr compte_node )
 {
     struct struct_compte_importation *compte;
     gchar * type = child_content ( compte_node, "type" );
-    gsb_real null_real = { 0, 0 };
 
     compte = calloc ( 1, sizeof ( struct struct_compte_importation ));
 
