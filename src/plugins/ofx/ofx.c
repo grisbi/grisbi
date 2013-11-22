@@ -114,7 +114,7 @@ int ofx_proc_statement_cb(struct OfxStatementData data, void * statement_data);
 gboolean recuperation_donnees_ofx ( GtkWidget * assistant, struct imported_file * imported )
 {
     GSList *liste_tmp;
-    gchar *argv[2] = { "", "" };
+    const gchar *argv[2] = { "", "" };
 
     liste_comptes_importes_ofx = NULL;
     compte_ofx_importation_en_cours = NULL;
