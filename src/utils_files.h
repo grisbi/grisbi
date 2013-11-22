@@ -17,7 +17,7 @@ gint get_utf8_line_from_file ( FILE *fichier,
                         gchar **string,
                         const gchar *coding_system );
 gchar *safe_file_name ( gchar *filename );
-FILE* utf8_fopen ( const gchar *utf8filename, gchar *mode );
+FILE* utf8_fopen ( const gchar *utf8filename, const gchar *mode );
 gint utf8_remove ( const gchar *utf8filename );
 gboolean utils_files_create_XDG_dir ( void );
 GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar * titre );
