@@ -21,13 +21,13 @@ struct cached_exchange_rate {
 /** ISO 4217 currency.  Not specific to Grisbi. */
 struct iso_4217_currency
 {
-    gchar * continent;
-    gchar * currency_name;
-    gchar * country_name;
-    gchar * currency_code;
-    gchar * currency_nickname;
+    const gchar * continent;
+    const gchar * currency_name;
+    const gchar * country_name;
+    const gchar * currency_code;
+    const gchar * currency_nickname;
     gboolean active;
-    gchar *flag_filename;
+    const gchar *flag_filename;
     gint floating_point;  /** Number of digits after the point => 2 : 0.00 / 1 : 0.0 */
     gboolean main_currency;	/** Skip this when autodetecting base
 				 * currency, in case there are
