@@ -184,7 +184,7 @@ void initialize_debugging ( void )
 {
     /* un int pour stocker le level de debug et une chaine qui contient sa version texte */
     gint debug_variable=0;
-    gchar *debug_level="";
+    const gchar *debug_level="";
 	gchar* tmpstr1;
 	gchar* tmpstr2;
 
