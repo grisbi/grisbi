@@ -2686,7 +2686,7 @@ GdkPixbuf *gsb_data_account_get_account_standard_pixbuf ( kind_account account_k
 
 gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account account_kind )
 {
-    gchar *account_icon;
+    const gchar *account_icon;
     gchar *filename;
 
     switch ( account_kind )
