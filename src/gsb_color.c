@@ -209,7 +209,7 @@ void gsb_color_initialise_couleurs_par_defaut ( void )
  *
  * \return a GdkColor
  * */
-GdkColor *gsb_color_get_couleur ( gchar *couleur )
+GdkColor *gsb_color_get_couleur ( const gchar *couleur )
 {
     if ( strcmp ( couleur, "couleur_bleue" ) == 0 )
         return &couleur_bleue;
@@ -264,7 +264,7 @@ GdkColor *gsb_color_get_couleur ( gchar *couleur )
  *
  * \return TRUE
  * */
-gboolean gsb_color_set_couleur ( gchar *couleur,
+gboolean gsb_color_set_couleur ( const gchar *couleur,
                         gchar *component,
                         gint value )
 {
@@ -293,7 +293,7 @@ gboolean gsb_color_set_couleur ( gchar *couleur,
  *
  * \return textual specification of color in the hexadecimal form #rrrrggggbbbb
  * */
-gchar *gsb_color_get_couleur_to_string ( gchar *couleur )
+gchar *gsb_color_get_couleur_to_string ( const gchar *couleur )
 {
     GdkColor *color;
     gchar *string;
@@ -312,7 +312,7 @@ gchar *gsb_color_get_couleur_to_string ( gchar *couleur )
  *\param gint indice du tableau
  *
  * */
-GdkColor *gsb_color_get_couleur_with_indice ( gchar *couleur,
+GdkColor *gsb_color_get_couleur_with_indice ( const gchar *couleur,
                         gint indice )
 {
 
@@ -334,7 +334,7 @@ GdkColor *gsb_color_get_couleur_with_indice ( gchar *couleur,
  *
  * \return TRUE
  * */
-gboolean gsb_color_set_couleur_with_indice ( gchar *couleur,
+gboolean gsb_color_set_couleur_with_indice ( const gchar *couleur,
                         gint indice,
                         gchar *component,
                         gint value )
