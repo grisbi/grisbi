@@ -273,8 +273,8 @@ gchar *get_debug_time ( void )
  *
  * \return
  * */
-void debug_message_string ( gchar *prefixe,
-                        gchar *file,
+void debug_message_string ( const gchar *prefixe,
+                        const gchar *file,
                         gint line,
                         const char *function,
                         const gchar *message,
@@ -323,8 +323,8 @@ void debug_message_string ( gchar *prefixe,
  *
  * \return
  * */
-void debug_message_int ( gchar *prefixe,
-                        gchar *file,
+void debug_message_int ( const gchar *prefixe,
+                        const gchar *file,
                         gint line,
                         const char *function,
                         gint message,
@@ -369,8 +369,8 @@ void debug_message_int ( gchar *prefixe,
  *
  * \return
  * */
-void debug_message_real ( gchar *prefixe,
-                        gchar *file,
+void debug_message_real ( const gchar *prefixe,
+                        const gchar *file,
                         gint line,
                         const char *function,
                         gsb_real message,
@@ -571,8 +571,8 @@ void gsb_debug_finish_log ( void )
  *
  *
  */
-void debug_print_log_string ( gchar *prefixe,
-                        gchar *file,
+void debug_print_log_string ( const gchar *prefixe,
+                        const gchar *file,
                         gint line,
                         const char *function,
                         const gchar *msg )
