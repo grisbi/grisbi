@@ -2703,6 +2703,7 @@ gchar *gsb_data_account_get_account_standard_pixbuf_filename ( kind_account acco
     case GSB_TYPE_LIABILITIES:
         account_icon = "ac_liability.png";
         break;
+    case GSB_TYPE_BALANCE:
     default:
         account_icon = "ac_bank.png";
         break;
@@ -3288,6 +3289,7 @@ gint gsb_data_account_get_bet_use_budget ( gint account_number )
             return account -> bet_use_budget;
             break;
         case GSB_TYPE_ASSET:
+        case GSB_TYPE_BALANCE:
             return -1;
             break;
         default:
@@ -3569,6 +3571,7 @@ gint gsb_data_account_get_bet_credit_card ( gint account_number )
             return account->bet_credit_card;
             break;
         case GSB_TYPE_ASSET:
+        case GSB_TYPE_BALANCE:
             return 0;
             break;
         default:
