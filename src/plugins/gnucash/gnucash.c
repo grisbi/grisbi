@@ -312,7 +312,6 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
     {
       struct struct_compte_importation * split_account = NULL;
       struct gnucash_category * categ = NULL;
-      struct gnucash_split * split;
       enum operation_etat_rapprochement p_r = OPERATION_NORMALE;
       gsb_real amount;
 
@@ -399,8 +398,8 @@ void recuperation_donnees_gnucash_transaction ( xmlNodePtr transaction_node )
 
       while ( split_list )
 	{
-	  struct gnucash_split * split = split_list -> data;
-	  struct struct_compte_importation * account = NULL;
+	  split = split_list -> data;
+	  account = NULL;
 
 	  transaction = new_transaction_from_split ( split, tiers, date );
 	  transaction -> ope_de_ventilation = 1;
