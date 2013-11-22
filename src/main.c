@@ -132,7 +132,7 @@ int main ( int argc, char **argv )
         initialize_debugging ( );
 #endif
 
-#if GSB_GMEMPROFILE
+#ifdef GSB_GMEMPROFILE
     g_mem_set_vtable(glib_mem_profiler_table);
 #endif
 
@@ -229,7 +229,7 @@ void main_linux ( int argc, char **argv )
     libgoffice_shutdown ( );
 #endif /* HAVE_GOFFICE */
 
-#if GSB_GMEMPROFILE
+#ifdef GSB_GMEMPROFILE
     g_mem_profile();
 #endif
 
@@ -359,7 +359,7 @@ void main_mac_osx ( int argc, char **argv )
     libgoffice_shutdown ( );
 #endif /* HAVE_GOFFICE */
 
-#if GSB_GMEMPROFILE
+#ifdef GSB_GMEMPROFILE
     g_mem_profile();
 #endif
 
@@ -454,7 +454,7 @@ void main_win_32 (  int argc, char **argv )
     libgoffice_shutdown ( );
 #endif /* HAVE_GOFFICE */
 
-#if GSB_GMEMPROFILE
+#ifdef GSB_GMEMPROFILE
     g_mem_profile();
 #endif
 
