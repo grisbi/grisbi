@@ -43,20 +43,20 @@
 /*END_EXTERN*/
 
 /*START_STATIC*/
-static gchar * child_content ( xmlNodePtr node, gchar * child_name );
+static gchar * child_content ( xmlNodePtr node, const gchar * child_name );
 static struct struct_compte_importation * find_imported_account_by_name ( gchar * name );
 static struct struct_compte_importation * find_imported_account_by_uid ( gchar * guid );
 static struct gnucash_category * find_imported_categ_by_uid ( gchar * guid );
 static struct gnucash_split * find_split ( GSList * split_list, gsb_real amount,
 				    struct struct_compte_importation * account,
 				    struct gnucash_category * categ );
-static xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name );
+static xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name );
 static gchar * get_currency ( xmlNodePtr currency_node );
 static gsb_real gnucash_value ( gchar * value );
 static struct gnucash_split * new_split ( gsb_real amount, gchar * account, gchar * categ );
 static struct struct_ope_importation * new_transaction_from_split ( struct gnucash_split * split,
 							     gchar * tiers, GDate * date );
-static gboolean node_strcmp ( xmlNodePtr node, gchar * name );
+static gboolean node_strcmp ( xmlNodePtr node, const gchar * name );
 static xmlDocPtr parse_gnucash_file ( gchar * filename );
 static void recuperation_donnees_gnucash_book ( xmlNodePtr book_node );
 static void recuperation_donnees_gnucash_categorie ( xmlNodePtr categ_node );
@@ -609,9 +609,10 @@ xmlDocPtr parse_gnucash_file ( gchar * filename )
 
     if ( tag )
 	{
-        gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split", "cmdty",
-                        "ts", "slots", "slot", "price", "sx", "fs", NULL };
-        gchar **iter;
+        const gchar *ns[14] = { "gnc", "cd", "book", "act", "trn", "split",
+			"cmdty", "ts", "slots", "slot", "price", "sx", "fs", NULL };
+
+        const gchar **iter;
 
         tag += 7;
         *tag = 0;
@@ -808,14 +809,14 @@ struct struct_ope_importation * new_transaction_from_split ( struct gnucash_spli
 
 
 
-gboolean node_strcmp ( xmlNodePtr node, gchar * name )
+gboolean node_strcmp ( xmlNodePtr node, const gchar * name )
 {
   return node -> name && ! strcmp ( ( gchar *) node -> name, name );
 }
 
 
 
-xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name )
+xmlNodePtr get_child ( xmlNodePtr node, const gchar * child_name )
 {
   xmlNodePtr iter_node = node -> children;
 
@@ -833,7 +834,7 @@ xmlNodePtr get_child ( xmlNodePtr node, gchar * child_name )
 }
 
 
-gchar * child_content ( xmlNodePtr node, gchar * child_name )
+gchar * child_content ( xmlNodePtr node, const gchar * child_name )
 {
   xmlNodePtr child_node;
 
