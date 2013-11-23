@@ -2480,8 +2480,16 @@ void bet_graph_set_configuration_variables ( const gchar *string )
  * */
 void struct_free_bet_graph_prefs ( void )
 {
-    g_free ( prefs_prev );
-    g_free ( prefs_hist );
+    if ( prefs_prev )
+    {
+        g_free ( prefs_prev );
+        prefs_prev = NULL;
+    }
+    if ( prefs_hist )
+    {
+        g_free ( prefs_hist );
+        prefs_hist = NULL;
+    }
 }
 
 
