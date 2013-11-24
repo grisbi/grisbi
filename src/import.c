@@ -2566,8 +2566,11 @@ gint gsb_import_create_transaction ( struct struct_ope_importation *imported_tra
         {
             /* Before leaving, we retrieve the data from payee */
             if ( etat.get_copy_payee_in_note )
-                gsb_data_transaction_set_notes ( transaction_number,
-                        imported_transaction -> tiers );
+            {
+                if ( gsb_data_transaction_get_notes ( transaction_number ) == NULL )
+                    gsb_data_transaction_set_notes ( transaction_number,
+                            imported_transaction -> tiers );
+            }
             if ( etat.get_extract_number_for_check )
             {
                 tmpstr = gsb_string_extract_int ( imported_transaction -> tiers );
