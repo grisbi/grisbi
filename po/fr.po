@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-08-25 17:22+0200\n"
-"PO-Revision-Date: 2013-06-30 22:11+0100\n"
-"Last-Translator: Pierre Biava <pierre.biava@nerim.net>\n"
+"PO-Revision-Date: 2013-12-01 20:15+0100\n"
+"Last-Translator: Duflot <jld78@sfr.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -1211,7 +1211,7 @@ msgstr "Jan"
 
 #: ../src/bet_graph.c:151
 msgid "Feb"
-msgstr "fev"
+msgstr "Fev"
 
 #: ../src/bet_graph.c:151
 msgid "Mar"
@@ -1227,7 +1227,7 @@ msgstr "Mai"
 
 #: ../src/bet_graph.c:152
 msgid "Jun"
-msgstr "jun"
+msgstr "Jun"
 
 #: ../src/bet_graph.c:152
 msgid "Jul"
@@ -1306,7 +1306,7 @@ msgstr "Montant total : "
 msgid ""
 "<span weight=\"bold\">Display subdivisions items of budgetary: %s</span>"
 msgstr ""
-"<span weight=\"bold\" size=\"large\">Affiche les sous imputations "
+"<span weight=\"bold\" size=\"large\">Affiche les sous-imputations "
 "budgétaires de : %s</span>"
 
 #: ../src/bet_graph.c:487
@@ -1527,7 +1527,7 @@ msgstr "Modifier la ligne"
 
 #: ../src/bet_tab.c:1642
 msgid "Delete all occurences of the selection"
-msgstr "Supprimer toutes les occurences de la ligne"
+msgstr "Supprimer toutes les occurrences de la ligne"
 
 #: ../src/bet_tab.c:1657
 msgid "Convert selection to scheduled transaction"
@@ -1707,7 +1707,7 @@ msgstr "Éditer"
 #: ../src/categories_onglet.c:602 ../src/categories_onglet.c:1110
 #: ../src/navigation.c:2263
 msgid "Edit selected category"
-msgstr "Editer la catégorie sélectionnée"
+msgstr "Éditer la catégorie sélectionnée"
 
 #: ../src/categories_onglet.c:608 ../src/gsb_scheduler_list.c:439
 #: ../src/gsb_transactions_list.c:385 ../src/imputation_budgetaire.c:645
@@ -1852,8 +1852,7 @@ msgstr ""
 "Soit le fichier est déjà ouvert par un autre utilisateur soit il n'a pas été "
 "fermé correctement (Grisbi a peut-être planté).\n"
 "Vous ne pourrez enregistrer vos modifications qu'en activant l'option "
-"« Forcer l'enregistrement des fichiers verrouillés » de la boîte de dialogue "
-"« Paramètres. »"
+"« Forcer l'enregistrement des fichiers verrouillés » dans les Préférences."
 
 #: ../src/dialog.c:79
 msgid "Account under desired balance"
@@ -1923,11 +1922,11 @@ msgid ""
 "can be guessed. Please check in the Preferences window for more information."
 msgstr ""
 "Dans les versions précédentes de Grisbi, la date de début, de fin ainsi que "
-"les montants des rapprochements n'était pas sauvegardés. C'est désormais le "
-"cas, Grisbi va tenter de deviner ces valeurs à partir de vos comptes. Bien "
-"que cela n'ait aucune incidence sur l'intégrité des données, de mauvaises "
-"valeurs peuvent être trouvées. Vérifier dans la fenêtre « Préférences » pour "
-"plus d'information."
+"les montants des rapprochements n'étaient pas sauvegardés. C'est désormais "
+"le cas, Grisbi va tenter de deviner ces valeurs à partir de vos comptes. "
+"Bien que cela n'ait aucune incidence sur l'intégrité des données, de "
+"mauvaises valeurs peuvent être trouvées. Vérifier dans la fenêtre "
+"« Préférences » pour plus d'information."
 
 #: ../src/dialog.c:110
 #, c-format
@@ -2576,7 +2575,7 @@ msgid ""
 "All payees have been selected. Grisbi will run faster without the \"Detail "
 "payees used\" option activated."
 msgstr ""
-"Tous les tierss ont été sélectionnés ; Grisbi sera plus rapide\n"
+"Tous les tiers ont été sélectionnés ; Grisbi sera plus rapide\n"
 "en retirant l'option « Détailler les tiers utilisés »"
 
 #: ../src/etats_config.c:1897
@@ -3274,8 +3273,7 @@ msgstr "Importer un fichier d'état (.egsb)"
 
 #: ../src/etats_onglet.c:171
 msgid "Export selected report to egsb, HTML, Tex, CSV, PostScript"
-msgstr ""
-"Exporter l'état sélectionné dans un fichier egsb, HTML, Tex, CSV, PostScript"
+msgstr "Exporter l'état sélectionné dans un fichier egsb, HTML, CSV"
 
 #: ../src/etats_onglet.c:181
 msgid "Print selected report"
@@ -3291,7 +3289,7 @@ msgstr "Propriétés"
 
 #: ../src/etats_onglet.c:200
 msgid "Edit selected report"
-msgstr "Editer l'état sélectionné"
+msgstr "Éditer l'état sélectionné"
 
 #: ../src/etats_onglet.c:205
 msgid "Clone"
@@ -3693,7 +3691,7 @@ msgid ""
 "to keep depending on the level of privacy needed."
 msgstr ""
 "Cet assistant produit une copie rendue anonyme de votre fichier de comptes, "
-"avec vos données personnelles remplacées par des valeurs non signicatives. "
+"avec vos données personnelles remplacées par des valeurs non significatives. "
 "Attachez ce fichier au rapport de bogue que vous envoyez.\n"
 "\n"
 "Cela dit, vérifiez avant l'envoi que les bogues sont toujours présents avec "
@@ -3802,7 +3800,7 @@ msgid ""
 "there is no personal information anymore in this file.Grisbi will close "
 "immediatly after saving the obfuscated file"
 msgstr ""
-"Appuyez sur le bouton 'Fermer' pour anonymiser le fichier.\n"
+"Appuyez sur le bouton « Fermer » pour anonymiser le fichier.\n"
 "\n"
 "Le fichier anonymisé sera nommé %s et enregistré dans le même répertoire que "
 "l'original.\n"
@@ -3837,7 +3835,7 @@ msgid ""
 "obfuscate at the end."
 msgstr ""
 "Cet assistant produit une copie rendue anonyme de votre fichier de comptes, "
-"avec vos données personnelles remplacées par des valeurs non signicatives. "
+"avec vos données personnelles remplacées par des valeurs non significatives. "
 "Attachez ce fichier au rapport de bogue que vous envoyez.\n"
 "\n"
 "Cela dit, vérifiez avant l'envoi que les bogues sont toujours présents avec "
@@ -4429,9 +4427,9 @@ msgid ""
 "Archived and reconcilied transactions will be left unmodified."
 msgstr ""
 "Vous changez la devise du compte, voulez-vous aussi changer la devise des "
-"transactions ?\n"
-"(oui changera la devise de toutes les opérations de %s à %s, les "
-"transactions avec une autre devise resteront les mêmes).\n"
+"opérations ?\n"
+"(OUI changera la devise de toutes les opérations de %s à %s, les opérations "
+"avec une autre devise resteront les mêmes).\n"
 "\n"
 "Les opérations archivées et rapprochées ne seront pas modifiées."
 
@@ -4520,7 +4518,7 @@ msgstr ""
 "perdues et toutes les opérations qui lui sont liées seront à nouveau "
 "considérées comme des opérations normales.\n"
 "\n"
-"Voulez vous continuer ?"
+"Voulez-vous continuer ?"
 
 #: ../src/gsb_archive_config.c:470
 msgid "Deleting an archive"
@@ -4547,7 +4545,7 @@ msgstr ""
 "Toutes les informations caractérisant cette archive seront perdues.\n"
 "Vous pouvez aussi exporter cette archive dans un autre fichier...\n"
 "\n"
-"Voulez vous continuer ?"
+"Voulez-vous continuer ?"
 
 #: ../src/gsb_archive_config.c:536
 msgid "Deleting an archive and its transactions"
@@ -4691,7 +4689,7 @@ msgstr ""
 "Il y a de nombreuses opérations dans votre fichier (%d) et il est conseillé "
 "de ne pas garder plus de %d opérations non archivées.\n"
 "Pour augmenter la vitesse, vous devez les archiver (la limite actuelle et le "
-"contrôle à l'ouverture peuvent être modifiés dans les préférences).\n"
+"contrôle à l'ouverture peuvent être modifiés dans les Préférences).\n"
 "\n"
 "Cet assistant va vous guider dans le processus d'archivage des opérations. "
 "Par défaut, Grisbi n'exporte aucune archive dans des fichiers séparés, il "
@@ -4789,8 +4787,8 @@ msgstr ""
 "vous pouvez le configurer pour ne pas charger les opérations rapprochées (R) "
 "au démarrage, afin d'augmenter sa rapidité.\n"
 "\n"
-"Appuyez sur le bouton 'Précédent' pour créer une autre archive ou sur "
-"'Fermeture' pour quitter cet assistant."
+"Appuyez sur le bouton « Précédent » pour créer une autre archive ou sur « "
+"Fermeture » pour quitter cet assistant."
 
 #: ../src/gsb_assistant_archive.c:471
 msgid "Failed!"
@@ -4808,7 +4806,7 @@ msgstr ""
 "Le plus probable, c'est que vous essayiez de créer une archive vide que "
 "Grisbi a lâchement refusé de créer.\n"
 "\n"
-"Cliquez sur le bouton 'Précédent' pour essayer de nouveau ou annulez ce "
+"Cliquez sur le bouton « Précédent » pour essayer de nouveau ou annulez ce "
 "processus."
 
 #: ../src/gsb_assistant_archive.c:589
@@ -4896,7 +4894,7 @@ msgstr ""
 "Cet assistant vous aide à exporter une archive dans un fichier au format "
 "gsb, QIF ou CSV.\n"
 "Notez que rien ne sera effacé dans Grisbi. Si vous voulez effacer un fichier "
-"d'archive vous devez le faire à partir du menu préférences."
+"d'archive vous devez le faire à partir du menu Préférences."
 
 #: ../src/gsb_assistant_archive_export.c:165
 msgid "Select the archive to export"
@@ -4934,8 +4932,8 @@ msgstr ""
 "Erreur !\n"
 "Une erreur est intervenue pendant l'enregistrement de l'archive\n"
 "\n"
-"Veuillez cliquer sur le bouton 'Précédent' pour corriger le problème,\n"
-"ou sur 'Fermer' pour annuler l'action."
+"Veuillez cliquer sur le bouton « Précédent » pour corriger le problème,\n"
+"ou sur « Fermer » pour annuler l'action."
 
 #: ../src/gsb_assistant.c:277
 #, c-format
@@ -4964,8 +4962,8 @@ msgstr ""
 "\n"
 "L'assistant suivant va vous aider à créer et configurer un nouveau fichier "
 "de compte \n"
-"N'ayez aucunes craintes, vous pourrez tout modifier ensuite dans les "
-"'Préférences'.\n"
+"N'ayez aucune crainte, vous pourrez tout modifier ensuite dans les « "
+"Préférences ».\n"
 "\n"
 "Une fois le fichier créé, vous devrez créer un nouveau compte ou importer "
 "des données précédentes"
@@ -4991,8 +4989,8 @@ msgstr ""
 "monnaie.\n"
 "Cet assistant va vous aider à créer un nouveau fichier de comptes.\n"
 "\n"
-"Chaque étape de cet assistant pourra être éditée ultérieurement dans la zone "
-"'Préférences'. Une fois votre fichier de compte créé, vous pourrez alors "
+"Chaque étape de cet assistant pourra être éditée ultérieurement dans les « "
+"Préférences ». Une fois votre fichier de compte créé, vous pourrez alors "
 "créer un nouveau compte à partir de zéro ou importer des données "
 "précédentes, par ex. de votre précédent logiciel de comptabilité ou du site "
 "internet de votre banque."
@@ -5068,11 +5066,11 @@ msgstr ""
 "par défaut.\n"
 "L'assistant suivant va vous aider à créer un nouveau compte\n"
 "\n"
-"Souvenez vous que toutes les valeurs pourront être modifiées dans les "
-"préférences.\n"
+"Souvenez-vous que toutes les valeurs pourront être modifiées dans les « "
+"Préférences ».\n"
 "\n"
-"Selectionnez la façon de créer votre compte puis appuyez sur le bouton "
-"Fermer."
+"Sélectionnez la façon de créer votre compte puis appuyez sur le bouton « "
+"Fermer »."
 
 #: ../src/gsb_assistant_file.c:504
 msgid "Create a new account from scratch"
@@ -5216,7 +5214,7 @@ msgstr ""
 "Bien que cela n'ait pas d'impact sur l'intégrité des données, des valeurs "
 "erronées peuvent être trouvées.\n"
 "\n"
-"Vous aurez plus d'information en allant dans les «Préférences»."
+"Vous aurez plus d'information en allant dans les « Préférences »."
 
 #: ../src/gsb_assistant_reconcile_config.c:170
 msgid "No marked transactions without reconciliation found!"
@@ -5255,9 +5253,9 @@ msgid ""
 "precisely (you will be able to create new reconciliations in the next step). "
 "Previous reconciliations will be available too."
 msgstr ""
-"Grisbi a trouvé %d transactions marquées et non rapprochées, cela peut "
-"arriver avec un fichier généré par une ancienne version de Grisbi ou lors "
-"d'un mauvais usage de Ctrl-R.\n"
+"Grisbi a trouvé %d opérations marquées et non rapprochées, cela peut arriver "
+"avec un fichier généré par une ancienne version de Grisbi ou lors d'un "
+"mauvais usage de Ctrl-R.\n"
 "\n"
 "Cet assistant va vous aider à associer ces opérations à un rapprochement.\n"
 "\n"
@@ -5307,7 +5305,7 @@ msgid ""
 "Automatically associate transactions without reconciliation number with the "
 "known reconciliations"
 msgstr ""
-"Associer automatiquement chaque transaction orpheline avec un rapprochement "
+"Associer automatiquement chaque opération orpheline avec un rapprochement "
 "connu"
 
 #: ../src/gsb_assistant_reconcile_config.c:325
@@ -5333,7 +5331,7 @@ msgid ""
 msgstr ""
 "\tVous contrôlez tout et avez beaucoup de temps à passer sur votre "
 "ordinateur !\n"
-"\t(vous allez pouvoir choisir un rapprochement pour chaque transaction "
+"\t(vous allez pouvoir choisir un rapprochement pour chaque opération "
 "orpheline)."
 
 #: ../src/gsb_assistant_reconcile_config.c:384
@@ -5369,7 +5367,7 @@ msgid ""
 "assistant\n"
 "menu page) or check the transactions themselves."
 msgstr ""
-"Cet assistant va essayer d'associer chaque transaction orpheline avec un "
+"Cet assistant va essayer d'associer chaque opération orpheline avec un "
 "rapprochement bancaire\n"
 "en comparant les dates respectives des opérations et des rapprochements.\n"
 "\n"
@@ -5385,7 +5383,7 @@ msgstr "Lancer l'association automatique"
 #: ../src/gsb_assistant_reconcile_config.c:622
 msgid "Select the transaction(s) you want to associate with a reconciliation: "
 msgstr ""
-"Selectionnez l'(es) opération(s) que vous voulez associer à un "
+"Sélectionnez l'(es) opération(s) que vous voulez associer à un "
 "rapprochement : "
 
 #: ../src/gsb_assistant_reconcile_config.c:684
@@ -5447,7 +5445,7 @@ msgid ""
 "There is no transaction that Grisbi can link.\n"
 "Check if you created all the necesssary reconciliations."
 msgstr ""
-"Grisbi ne peut associer aucune transaction à un rapprochement.\n"
+"Grisbi ne peut associer aucune opération à un rapprochement.\n"
 "Vérifiez que vous avez créé le(s) rapprochement(s) nécessaire(s)."
 
 #: ../src/gsb_assistant_reconcile_config.c:1166
@@ -5629,7 +5627,7 @@ msgstr "Couleur des données futures dans l'onglet prévisions"
 
 #: ../src/gsb_color.c:440
 msgid "Background of bet solde"
-msgstr "Couleurs des lignes de solde de début de mois"
+msgstr "Couleur des lignes de solde de début de mois"
 
 #: ../src/gsb_color.c:441
 msgid "Background of bet transfer"
@@ -5667,8 +5665,7 @@ msgstr "Modifier le taux de change"
 #: ../src/gsb_currency.c:737
 #, c-format
 msgid "The exchange rate or the transaction amount in %s must be filled."
-msgstr ""
-"Le taux de change ou le montant de la transaction en %s doit être rempli."
+msgstr "Le taux de change ou le montant de l'opération en %s doit être rempli."
 
 #: ../src/gsb_currency_config.c:91 ../src/gsb_currency_config.c:92
 #: ../src/gsb_currency_config.c:93 ../src/gsb_currency_config.c:94
@@ -5725,7 +5722,7 @@ msgstr "Niger"
 
 #: ../src/gsb_currency_config.c:95
 msgid "Senegal"
-msgstr "Senegal"
+msgstr "Sénégal"
 
 #: ../src/gsb_currency_config.c:96 ../src/gsb_currency_config.c:97
 #: ../src/gsb_currency_config.c:98
@@ -5758,7 +5755,7 @@ msgstr "Livre égyptienne"
 
 #: ../src/gsb_currency_config.c:100
 msgid "Egypt"
-msgstr "Egypte"
+msgstr "Égypte"
 
 #: ../src/gsb_currency_config.c:101
 msgid "Ethiopian Birr"
@@ -5767,7 +5764,7 @@ msgstr "Birr"
 # #####
 #: ../src/gsb_currency_config.c:101
 msgid "Ethiopia"
-msgstr "Ethiopie"
+msgstr "Éthiopie"
 
 #: ../src/gsb_currency_config.c:102
 msgid "Gambian Dalasi"
@@ -5863,7 +5860,7 @@ msgstr "Naira"
 
 #: ../src/gsb_currency_config.c:113
 msgid "Nigeria"
-msgstr "Nigeria"
+msgstr "Nigéria"
 
 #: ../src/gsb_currency_config.c:114
 msgid "Rwanda Franc"
@@ -6048,7 +6045,7 @@ msgstr "Roupie indienne"
 
 #: ../src/gsb_currency_config.c:134
 msgid "Bhutan"
-msgstr "Buthan"
+msgstr "Bouthan"
 
 #: ../src/gsb_currency_config.c:135
 msgid "India"
@@ -6104,7 +6101,7 @@ msgstr "Kazakhstan"
 
 #: ../src/gsb_currency_config.c:142
 msgid "Kuwaiti Dinar"
-msgstr "Dinar koweitien"
+msgstr "Dinar koweïtien"
 
 #: ../src/gsb_currency_config.c:142
 msgid "Kuwait"
@@ -6168,7 +6165,7 @@ msgstr "Israël"
 
 #: ../src/gsb_currency_config.c:150
 msgid "New Taiwan Dollar"
-msgstr "Dollar taïwanàis"
+msgstr "Dollar taïwanais"
 
 #: ../src/gsb_currency_config.c:150
 msgid "Taiwan, Province of China"
@@ -6268,7 +6265,7 @@ msgstr "Baht"
 
 #: ../src/gsb_currency_config.c:162
 msgid "Thailand"
-msgstr "Thailande"
+msgstr "Thaïlande"
 
 #: ../src/gsb_currency_config.c:163
 msgid "Turkish Lira"
@@ -6280,11 +6277,11 @@ msgstr "Turquie"
 
 #: ../src/gsb_currency_config.c:164
 msgid "United Arab Emirates Dirham"
-msgstr "Dirham des E A.U."
+msgstr "Dirham des E.A.U."
 
 #: ../src/gsb_currency_config.c:164
 msgid "United Arab Emirates"
-msgstr "Emirats Arabes Unis"
+msgstr "Émirats Arabes Unis"
 
 #: ../src/gsb_currency_config.c:165
 msgid "Viet Nam Dong"
@@ -6576,7 +6573,7 @@ msgstr "San Marino"
 
 #: ../src/gsb_currency_config.c:210
 msgid "Latvian Lats"
-msgstr "Lats Letton"
+msgstr "Lats letton"
 
 #: ../src/gsb_currency_config.c:210
 msgid "Latvia"
@@ -6798,11 +6795,11 @@ msgstr "Trinité-et-Tobago"
 
 #: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:256
 msgid "United States Dollar"
-msgstr "Dollar des Etats-Unis"
+msgstr "Dollar des États-Unis"
 
 #: ../src/gsb_currency_config.c:240 ../src/gsb_currency_config.c:1384
 msgid "United States"
-msgstr "Etats-Unis"
+msgstr "États-Unis"
 
 #: ../src/gsb_currency_config.c:241 ../src/gsb_currency_config.c:242
 #: ../src/gsb_currency_config.c:243 ../src/gsb_currency_config.c:244
@@ -7164,7 +7161,7 @@ msgstr "Taux de change fixe"
 
 #: ../src/gsb_currency_link_config.c:250
 msgid "First currency"
-msgstr "Première Devise"
+msgstr "Première devise"
 
 #: ../src/gsb_currency_link_config.c:252
 msgid "Exchange"
@@ -7392,7 +7389,7 @@ msgstr ""
 "pas cohérent avec la somme des opérations rapprochées et du solde initial.\n"
 "\n"
 "La cause peut être la suppression ou la modification de rapprochements ou la "
-"modification des soldes des rapprochements dans les préférences."
+"modification des soldes des rapprochements dans les « Préférences »."
 
 #: ../src/gsb_debug.c:80
 msgid "Duplicate sub-categories check"
@@ -7418,7 +7415,7 @@ msgstr ""
 "Si vous choisissez de continuer, Grisbi effacera un des deux doublons pour "
 "le recréer avec un nouvel identifiant\n"
 ".\n"
-"Aucune transaction ne sera perdue ! Mais dans certains cas, vous devrez "
+"Aucune opération ne sera perdue ! Mais dans certains cas, vous devrez "
 "modifier la sous-catégorie pour ces opérations."
 
 #: ../src/gsb_debug.c:93
@@ -7458,9 +7455,9 @@ msgid ""
 msgstr ""
 "Dans certains cas rares, les transferts ne sont pas correctement liés à des "
 "contre-opérations. C'est peut-être à cause de bogues ou en raison "
-"d'importations ayant échouées.\n"
+"d'importations ayant échoué.\n"
 "Pour résoudre ce problème, vous devrez modifier manuellement le fichier .gsb "
-"(avec un éditeur de texte) et fixer les opérations en utilisant leur ID "
+"(avec un éditeur de texte) et modifier les opérations en utilisant leur ID "
 "numérique."
 
 #: ../src/gsb_debug.c:114
@@ -7554,7 +7551,7 @@ msgid ""
 "The following debug tests found inconsistencies in this accounts file:\n"
 "\n"
 msgstr ""
-"Les tests suivants ont trouvé des incohérences dans ce fichier: \n"
+"Les tests suivants ont trouvé des incohérences dans ce fichier : \n"
 "\n"
 
 #: ../src/gsb_debug.c:252
@@ -7619,7 +7616,7 @@ msgid ""
 "Transaction #%d is linked to transaction #%d, which is linked to transaction "
 "#%d.\n"
 msgstr ""
-"L'opération N°%d à une contre-opération N°%d, qui est, elle même, liée a la "
+"L'opération N°%d a une contre-opération N°%d, qui est, elle-même, liée à la "
 "contre-opération N°%d.\n"
 
 #. sub-category not found
@@ -7715,7 +7712,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
-"activées ... C'est une mauvaise chose.\n"
+"activées... C'est une mauvaise chose.\n"
 "Le chemin des sauvegardes est « %s », essayez d'y trouver des copies de "
 "sauvegarde\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
@@ -7729,7 +7726,7 @@ msgid ""
 "happened to you current file."
 msgstr ""
 "Grisbi ne peut pas ouvrir le fichier et les sauvegardes ne semblent pas être "
-"activées ... C'est une mauvaise chose.\n"
+"activées... C'est une mauvaise chose.\n"
 "Contactez les développeurs de Grisbi sur devel@listes.grisbi.org pour leur "
 "expliquer ce qui s'est passé."
 
@@ -7751,7 +7748,7 @@ msgid ""
 msgstr ""
 "Grisbi n'a pas pu sauvegarder ce fichier car il est marqué comme utilisé. "
 "Veuillez le sauvegarder sous un autre nom ou activer l'option « %s » dans "
-"les préférences."
+"les « Préférences »."
 
 #. Warn if file is used by someone else?
 #: ../src/gsb_file.c:564 ../src/gsb_file.c:817 ../src/parametres.c:1164
@@ -7785,7 +7782,7 @@ msgid ""
 msgstr ""
 "Le document « %s » est verrouillé mais a été modifié.  Si vous voulez "
 "l'enregistrer, vous devez annuler et le sauvegarder sous un autre nom ou "
-"alors activer l'option « %s » dans les préférences."
+"alors activer l'option « %s » dans les « Préférences »."
 
 #: ../src/gsb_file.c:816 ../src/gsb_file.c:827 ../src/main.c:880
 msgid "unnamed"
@@ -7919,7 +7916,7 @@ msgid ""
 "transactions or important information."
 msgstr ""
 "Vous avez ouvert une archive.\n"
-"Il n'ya pas de limite dans Grisbi, vous pouvez faire ce que vous voulez  et "
+"Il n'y a pas de limite dans Grisbi, vous pouvez faire ce que vous voulez  et "
 "l'enregistrer plus tard (nouveaux rapports, ...) mais n'oubliez pas que "
 "c'est une archive avant de modifier certaines opérations ou informations "
 "importantes."
@@ -7943,7 +7940,7 @@ msgstr ""
 
 #: ../src/gsb_file_others.c:205
 msgid "There is no budgetary line to record. Back."
-msgstr "Il n'y a pas d'imputation bufgétaire à enregistrer. Retour."
+msgstr "Il n'y a pas d'imputation budgétaire à enregistrer. Retour."
 
 #: ../src/gsb_file_others.c:295
 msgid "There is no report to record. Back."
@@ -7970,7 +7967,7 @@ msgstr ""
 "Ces listes ont donc été supprimées lors de l'importation.\n"
 "Les devises ont été initialisées aussi avec la première devise du fichier "
 "Grisbi.\n"
-"Vous devriez vérifier et ajuster les proprétés de ce compte."
+"Vous devriez vérifier et ajuster les propriétés de ce compte."
 
 #: ../src/gsb_file_others.c:590
 msgid "Importing a report"
@@ -8221,7 +8218,7 @@ msgstr ""
 "Il y a plusieurs sous-opérations, si vous continuez, elles seront "
 "supprimées.\n"
 "\n"
-"Etes vous certain ?"
+"Êtes-vous certain ?"
 
 #. propose to configure the form
 #: ../src/gsb_form.c:3682
@@ -8407,7 +8404,7 @@ msgid ""
 msgstr ""
 "Si vous supprimez cet exercice, toutes les opérations associées se "
 "retrouveront sans exercice \n"
-"Etes-vous sûr de vouloir continuer ?"
+"Êtes-vous sûr de vouloir continuer ?"
 
 #: ../src/gsb_fyear_config.c:769
 msgid "Automatic association of financial years?"
@@ -8732,7 +8729,7 @@ msgstr "Supprimer l'opération sélectionnée"
 
 #: ../src/gsb_scheduler_list.c:413
 msgid "Edit selected transaction"
-msgstr "Editer l'opération sélectionnée"
+msgstr "Éditer l'opération sélectionnée"
 
 #: ../src/gsb_scheduler_list.c:423 ../src/gsb_scheduler_list.c:900
 msgid "Display the notes of scheduled transactions"
@@ -8801,13 +8798,13 @@ msgid ""
 "Do you really want to delete the child of the scheduled transaction with "
 "party '%s' ?"
 msgstr ""
-"Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
+"Voulez-vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
 #: ../src/gsb_scheduler_list.c:2084
 #, c-format
 msgid ""
 "Do you really want to delete the scheduled transaction with party '%s' ?"
-msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
+msgstr "Voulez-vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: ../src/gsb_scheduler_list.c:2133
 #, c-format
@@ -8817,7 +8814,7 @@ msgid ""
 "\n"
 "%s : %s [%s %s]"
 msgstr ""
-"Voulez-vous effacer simplement cette occurence ou l'opération planifiée "
+"Voulez-vous effacer simplement cette occurrence ou l'opération planifiée "
 "complète ?\n"
 "\n"
 "%s : %s [%s %s]"
@@ -8828,7 +8825,7 @@ msgstr "Supprimer cette opération planifiée ?"
 
 #: ../src/gsb_scheduler_list.c:2149
 msgid "All the occurences"
-msgstr "Toutes les occurences"
+msgstr "Toutes les occurrences"
 
 #: ../src/gsb_scheduler_list.c:2150
 msgid "Only this one"
@@ -8903,7 +8900,7 @@ msgstr ""
 "Les numéros des sous-opérations concernées sont :\n"
 " %s\n"
 "\n"
-"Voulez vous les supprimer ?"
+"Voulez-vous les supprimer ?"
 
 #: ../src/gsb_scheduler_list.c:2941 ../src/gsb_transactions_list.c:4649
 msgid "Remove orphan children"
@@ -8944,7 +8941,7 @@ msgstr "Supprimer une opération planifiée."
 
 #: ../src/gsb_transactions_list.c:216
 msgid "Delete one or all occurences of scheduled transaction."
-msgstr "Supprimer cette occurence ou toutes de l'opération sélectionnée"
+msgstr "Supprimer cette occurrence ou toutes de l'opération sélectionnée"
 
 #: ../src/gsb_transactions_list.c:221
 msgid "Delete a rule file import."
@@ -9034,7 +9031,7 @@ msgstr "R"
 #: ../src/gsb_transactions_list.c:1493
 #, c-format
 msgid "Do you want to add the transactions of the archive %s into the list?"
-msgstr "Voulez vous charger les opérations de l'archive « %s » dans la liste ?"
+msgstr "Voulez-vous charger les opérations de l'archive « %s » dans la liste ?"
 
 #: ../src/gsb_transactions_list.c:1506
 msgid ""
@@ -9094,7 +9091,7 @@ msgid ""
 msgstr ""
 "L'opération a disparu de la liste...\n"
 "Ne vous inquiétez pas, c'est parce que vous avez l'avez rapprochée, et que "
-"vous avez choisi de ne pas montrer les opérations rapprochées dans la liste, "
+"vous avez choisi de ne pas montrer les opérations rapprochées dans la liste. "
 "Il vous suffit de les faire apparaître (alt+R) pour vérifier ce que  vous "
 "avez fait."
 
@@ -9132,12 +9129,12 @@ msgstr ""
 msgid ""
 "Do you really want to delete the child of the transaction with party '%s' ?"
 msgstr ""
-"Voulez vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
+"Voulez-vous vraiment supprimer la sous-opération avec le tiers « %s » ?"
 
 #: ../src/gsb_transactions_list.c:2286
 #, c-format
 msgid "Do you really want to delete transaction with party '%s' ?"
-msgstr "Voulez vous vraiment supprimer l'opération avec le tiers « %s » ?"
+msgstr "Voulez-vous vraiment supprimer l'opération avec le tiers « %s » ?"
 
 #: ../src/gsb_transactions_list.c:2489
 msgid "Displays the contra-transaction"
@@ -9247,7 +9244,7 @@ msgstr ""
 "Les numéros des sous-opérations concernées sont :\n"
 " %s\n"
 "\n"
-"Voulez vous les supprimer ?"
+"Voulez-vous les supprimer ?"
 
 #: ../src/gsb_transactions_list_sort.c:356
 #, c-format
@@ -9261,7 +9258,7 @@ msgid ""
 "the options in preferences"
 msgstr ""
 "Vous ne pouvez pas créer de nouveau tiers, catégorie ou sous-catégorie sans "
-"modifier l'option correspondante dans les préférences"
+"modifier l'option correspondante dans les « Préférences »"
 
 #: ../src/gtk_combofix.c:1285
 msgid "Warning you cannot create payee or category"
@@ -9277,7 +9274,7 @@ msgstr "oui"
 
 #: ../src/help.c:87 ../src/help.c:93 ../src/help.c:99
 msgid "no"
-msgstr "no"
+msgstr "non"
 
 #: ../src/help.c:89
 msgid "OFX support: "
@@ -9440,7 +9437,7 @@ msgid ""
 "No file has been imported, please double check that they are valid files.  "
 "Please make sure that they are not compressed and that their format is valid."
 msgstr ""
-"Aucun dossier n'a été importé, Vérifiez que les fichiers sont valides."
+"Aucun dossier n'a été importé, Vérifiez que les fichiers sont valides. "
 "Assurez vous qu'ils ne sont pas compressés et que leur format est valide."
 
 #: ../src/import.c:1045
@@ -9469,7 +9466,7 @@ msgid ""
 msgstr ""
 "<span size=\"x-large\">%s</span>\n"
 "\n"
-"Que voulez vous faire avec les données du fichier <span foreground=\"blue\">"
+"Que voulez-vous faire avec les données du fichier <span foreground=\"blue\">"
 "%s</span> ?\n"
 
 #: ../src/import.c:1284
@@ -9500,7 +9497,7 @@ msgstr ""
 "La devise du compte importé %s est %s.\n"
 "Cette devise n'existe pas mais vous pouvez la créer en cliquant sur OUI.\n"
 "\n"
-"Voulez vous la créer ?"
+"Voulez-vous la créer ?"
 
 #: ../src/import.c:1425
 #, c-format
@@ -9550,7 +9547,7 @@ msgid ""
 "\n"
 "Please contact the Grisbi team to find the problem."
 msgstr ""
-"Pas de compte en mémoire maintenant, c'est mauvais ...\n"
+"Pas de compte en mémoire maintenant, c'est mauvais...\n"
 "Il vaut mieux arrêter l'importation, avant un crash.\n"
 "\n"
 "Veuillez contacter l'équipe Grisbi pour trouver le problème."
@@ -9567,7 +9564,7 @@ msgid ""
 msgstr ""
 "Vous venez d'importer des opérations rapprochées, mais elles ne sont pas "
 "associées avec un numéro de rapprochement. Vous pourrez le faire plus tard "
-"via la fenêtre des préférences."
+"dans les « Préférences »."
 
 #: ../src/import.c:1919
 msgid "Imported account"
@@ -9633,7 +9630,7 @@ msgstr "Opérations orphelines pour : %s"
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marquez les opérations que vous voulez ajouter à la liste et cliquez sur le "
-"bouton Valider"
+"bouton « Valider »"
 
 #: ../src/import.c:3347
 msgid "Mark"
@@ -9708,8 +9705,8 @@ msgid ""
 msgstr ""
 "Cela permet d'associer une chaîne de recherche à un tiers à chaque fois que "
 "vous importez un fichier.\n"
-"Par exemple, tous les libellés QIF contenant «loyer» peuvent être associés à "
-"un tiers qui représente votre propriétaire."
+"Par exemple, tous les libellés QIF contenant « loyer » peuvent être associés "
+"à un tiers qui représente votre propriétaire."
 
 #: ../src/import.c:3844 ../src/tiers_onglet.c:1232
 msgid "Payee name"
@@ -9827,15 +9824,15 @@ msgstr "Débit (signé)"
 
 #: ../src/import_csv.c:106
 msgid "Comma"
-msgstr "virgule «,»"
+msgstr "virgule « , »"
 
 #: ../src/import_csv.c:107
 msgid "Semi-colon"
-msgstr "point-virgule «;»"
+msgstr "point-virgule « ; »"
 
 #: ../src/import_csv.c:108
 msgid "Colon"
-msgstr "deux points «:»"
+msgstr "deux points « : »"
 
 #: ../src/import_csv.c:109
 msgid "Tabulation"
@@ -10464,7 +10461,7 @@ msgid ""
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
-"Ce Compte ne peut pas être négatif\n"
+"Ce compte ne peut pas être négatif\n"
 "\n"
 "Vous devez rendre le solde positif avant de pouvoir l'utiliser"
 
@@ -10569,7 +10566,7 @@ msgstr "Mettre le solde partiel sous ses comptes si c'est possible"
 #. Create dialog
 #: ../src/parametres.c:543
 msgid "Grisbi preferences"
-msgstr "Paramètres de Grisbi"
+msgstr "Préférences de Grisbi"
 
 #: ../src/parametres.c:573
 msgid "Main"
@@ -11219,7 +11216,7 @@ msgstr ""
 "Vous allez supprimer tous les tiers non utilisés par des opérations.\n"
 "Les tiers utilisés par des opérations archivées ne le seront pas.\n"
 "\n"
-"Voulez vous continuer ?"
+"Voulez-vous continuer ?"
 
 #: ../src/tiers_onglet.c:441
 #, c-format
@@ -11344,7 +11341,7 @@ msgstr ""
 "Vous êtes sur le point de remplacer un tiers contenant %s\n"
 "par %s\n"
 "\n"
-"<span weight=\"bold\">Etes-vous sûr ?</span>"
+"<span weight=\"bold\">Êtes-vous sûr ?</span>"
 
 #: ../src/tiers_onglet.c:1464
 #, c-format
@@ -11377,7 +11374,7 @@ msgid ""
 "\n"
 "If you answer YES, the existing note will be replaced by %s."
 msgstr ""
-"Voulez vous remplacer la remarque existante ?\n"
+"Voulez-vous remplacer la remarque existante ?\n"
 "\n"
 "Si vous répondez OUI la remarque sera remplacée par %s."
 
@@ -11392,7 +11389,7 @@ msgstr ""
 "réel comme on le voit sur vos reçus de banque.\n"
 "\n"
 "Si vous passez chaque mois juste 15 min pour mettre en concordance Grisbi "
-"avec vos relevés bancaires, vous êtes assurés que vos comptes seront en "
+"avec vos relevés bancaires, vous êtes assuré que vos comptes seront en "
 "parfait état."
 
 #: ../src/tip.c:45
@@ -11460,8 +11457,8 @@ msgstr ""
 "Vous pouvez chiffrer vos fichiers Grisbi pour protéger votre vie privée.\n"
 "\n"
 "Sélectionnez l'option \"Chiffrer le fichier Grisbi\" dans l'onglet "
-"<i>Fichiers</i>  des Préférences et entrez un mot de passe la prochaine fois "
-"que vous enregistrez votre fichier.\n"
+"<i>Fichiers</i>  des « Préférences » et entrez un mot de passe la prochaine "
+"fois que vous enregistrez votre fichier.\n"
 "\n"
 "Le chiffrement est irréversible, si vous perdez votre mot de passe, il n'y a "
 "aucun moyen de restaurer vos comptes Grisbi. À utiliser avec précaution !"
