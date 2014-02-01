@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-25 17:22+0200\n"
+"POT-Creation-Date: 2014-02-01 14:54+0100\n"
 "PO-Revision-Date: 2007-04-05 00:03+0000\n"
 "Last-Translator: Fabio Erculiani <fabio.erculiani@gmail.com>\n"
 "Language-Team: Italian <LL@li.org>\n"
@@ -899,7 +899,7 @@ msgstr "Carica un documento di conto:"
 #: ../src/gsb_assistant_reconcile_config.c:600 ../src/gsb_form.c:1294
 #: ../src/gsb_form_widget.c:451 ../src/gsb_reconcile.c:162
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:170
-#: ../src/import.c:3354 ../src/import_csv.c:81
+#: ../src/import.c:3357 ../src/import_csv.c:81
 msgid "Date"
 msgstr "Data"
 
@@ -1093,7 +1093,7 @@ msgstr "Scegli il metodo di pagamento"
 #: ../src/fenetre_principale.c:287 ../src/gsb_assistant_reconcile_config.c:600
 #: ../src/gsb_form.c:1315 ../src/gsb_form_widget.c:471
 #: ../src/gsb_scheduler_list.c:602 ../src/gsb_transactions_list.c:172
-#: ../src/import.c:3361 ../src/import_csv.c:83 ../src/meta_payee.c:78
+#: ../src/import.c:3364 ../src/import_csv.c:83 ../src/meta_payee.c:78
 #, fuzzy
 msgid "Payee"
 msgstr "Debitore/Creditore"
@@ -1141,8 +1141,8 @@ msgstr "Note"
 #: ../src/etats_affiche.c:1845 ../src/export_csv.c:625 ../src/export_csv.c:737
 #: ../src/export_csv.c:749 ../src/gsb_data_category.c:1057
 #: ../src/gsb_data_payment.c:635 ../src/gsb_data_payment.c:719
-#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2310 ../src/import.c:2787
-#: ../src/import.c:2805 ../src/plugins/ofx/ofx.c:438
+#: ../src/gsb_data_payment.c:758 ../src/gsb_form.c:2310 ../src/import.c:2790
+#: ../src/import.c:2808 ../src/plugins/ofx/ofx.c:438
 msgid "Transfer"
 msgstr "Tasferimento"
 
@@ -1248,7 +1248,7 @@ msgstr ""
 #: ../src/gsb_archive_config.c:102 ../src/gsb_assistant_archive_export.c:153
 #: ../src/gsb_fyear_config.c:285 ../src/gsb_transactions_list.c:2091
 #: ../src/imputation_budgetaire.c:785 ../src/parametres.c:333
-#: ../src/tiers_onglet.c:728
+#: ../src/tiers_onglet.c:732
 msgid "Name"
 msgstr "Nome"
 
@@ -1423,7 +1423,7 @@ msgstr "Attiva"
 msgid "Show grid"
 msgstr "Riconcilia"
 
-#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1127
+#: ../src/bet_graph.c:1372 ../src/tiers_onglet.c:1131
 #, fuzzy
 msgid "Options"
 msgstr "Uscite"
@@ -1483,7 +1483,7 @@ msgstr ""
 msgid "Incomes"
 msgstr "Entrate"
 
-#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1214
+#: ../src/bet_hist.c:554 ../src/tiers_onglet.c:1218
 #, fuzzy
 msgid "Select"
 msgstr "Seleziona tutto"
@@ -1491,7 +1491,7 @@ msgstr "Seleziona tutto"
 #: ../src/bet_hist.c:585 ../src/categories_onglet.c:198
 #: ../src/etats_config.c:5243 ../src/export_csv.c:808
 #: ../src/gsb_assistant_reconcile_config.c:600 ../src/gsb_scheduler_list.c:603
-#: ../src/gsb_transactions_list.c:177 ../src/import.c:3368
+#: ../src/gsb_transactions_list.c:177 ../src/import.c:3371
 #: ../src/imputation_budgetaire.c:200 ../src/tiers_onglet.c:252
 msgid "Amount"
 msgstr "Totale"
@@ -1583,7 +1583,7 @@ msgid "Check the box to automatically change start date"
 msgstr ""
 
 #. Description entry
-#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:741
+#: ../src/bet_tab.c:866 ../src/etats_onglet.c:277 ../src/tiers_onglet.c:745
 msgid "Description"
 msgstr "Descrizione"
 
@@ -1782,7 +1782,7 @@ msgid "Create a new sub-category"
 msgstr "Inserire nome per nuova sottocategoria"
 
 #: ../src/categories_onglet.c:570 ../src/etats_onglet.c:158
-#: ../src/import.c:449 ../src/import.c:3672 ../src/imputation_budgetaire.c:602
+#: ../src/import.c:449 ../src/import.c:3675 ../src/imputation_budgetaire.c:602
 #: ../src/parametres.c:601 ../src/utils_files.c:576
 msgid "Import"
 msgstr "Importa"
@@ -1851,7 +1851,7 @@ msgstr "Ripartizione incopleta"
 
 #: ../src/categories_onglet.c:718 ../src/categories_onglet.c:722
 #: ../src/imputation_budgetaire.c:752 ../src/imputation_budgetaire.c:757
-#: ../src/tiers_onglet.c:703
+#: ../src/tiers_onglet.c:707
 #, fuzzy, c-format
 msgid "Properties for %s"
 msgstr "Risultato per %s"
@@ -2764,8 +2764,8 @@ msgstr "Seleziona i conti da includere nel rapporto:"
 #: ../src/etats_config.c:2553 ../src/etats_config.c:2808
 #: ../src/etats_config.c:3090 ../src/etats_config.c:3895
 #: ../src/etats_config.c:4085 ../src/etats_config.c:7339 ../src/export.c:612
-#: ../src/gsb_assistant.c:123 ../src/tiers_onglet.c:1499
-#: ../src/tiers_onglet.c:1519
+#: ../src/gsb_assistant.c:123 ../src/tiers_onglet.c:1503
+#: ../src/tiers_onglet.c:1523
 msgid "Select all"
 msgstr "Seleziona tutto"
 
@@ -2773,7 +2773,7 @@ msgstr "Seleziona tutto"
 #: ../src/etats_config.c:2568 ../src/etats_config.c:2823
 #: ../src/etats_config.c:3105 ../src/etats_config.c:3910
 #: ../src/etats_config.c:4100 ../src/etats_config.c:7354 ../src/export.c:607
-#: ../src/import.c:2278 ../src/tiers_onglet.c:1282 ../src/tiers_onglet.c:1501
+#: ../src/import.c:2278 ../src/tiers_onglet.c:1286 ../src/tiers_onglet.c:1505
 msgid "Unselect all"
 msgstr "Deseleziona tutto"
 
@@ -2888,7 +2888,7 @@ msgstr "Linee budget uscite"
 
 #. on fixe le titre et le suffixe de la barre d'information
 #: ../src/etats_config.c:3985 ../src/navigation.c:1983
-#: ../src/tiers_onglet.c:232 ../src/tiers_onglet.c:633
+#: ../src/tiers_onglet.c:232 ../src/tiers_onglet.c:637
 #, fuzzy
 msgid "Payees"
 msgstr "Giorni"
@@ -4475,12 +4475,12 @@ msgstr ""
 msgid "Spacing around indicator"
 msgstr ""
 
-#: ../src/gsb_account.c:166
+#: ../src/gsb_account.c:173
 #, c-format
 msgid "Delete account \"%s\"?"
 msgstr "Eliminare il conto \"%s\"?"
 
-#: ../src/gsb_account.c:170
+#: ../src/gsb_account.c:177
 #, fuzzy
 msgid ""
 "This will irreversibly remove this account and all operations that were "
@@ -7438,34 +7438,34 @@ msgstr "Nessuna personalizzazione definita"
 
 #. sinon on l'ajoute dans la liste des tiers
 #. on récupère le nom de l'état
-#: ../src/gsb_data_payee.c:540 ../src/gsb_form.c:3059 ../src/gsb_form.c:3060
+#: ../src/gsb_data_payee.c:563 ../src/gsb_form.c:3059 ../src/gsb_form.c:3060
 #: ../src/gtk_combofix.c:243 ../src/gtk_combofix.c:680
 #: ../src/gtk_combofix.c:761 ../src/navigation.c:1275
 msgid "Report"
 msgstr "Rapporto"
 
-#: ../src/gsb_data_payee.c:747
+#: ../src/gsb_data_payee.c:770
 #, c-format
 msgid "The transaction %d has a payee n%d but it doesn't exist."
 msgstr ""
 
 #. Deposit = Dépôt
-#: ../src/gsb_data_payment.c:724 ../src/import.c:2769
+#: ../src/gsb_data_payment.c:724 ../src/import.c:2772
 #: ../src/plugins/ofx/ofx.c:426
 msgid "Deposit"
 msgstr "Deposito"
 
 #. pas trouvé de définition remplacé par carte de crédit
 #. Point of sale = Point de vente remplacé par carte de crédit
-#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2262 ../src/import.c:2775
-#: ../src/import.c:2781
+#: ../src/gsb_data_payment.c:733 ../src/gsb_form.c:2262 ../src/import.c:2778
+#: ../src/import.c:2784
 msgid "Credit card"
 msgstr "Carta di credito"
 
 #. Electronic payment remplacé par Direct debit = Prélèvement
 #. Merchant initiated debit remplacé par Direct debit = Prélèvement
-#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2299 ../src/import.c:2793
-#: ../src/import.c:2811
+#: ../src/gsb_data_payment.c:742 ../src/gsb_form.c:2299 ../src/import.c:2796
+#: ../src/import.c:2814
 msgid "Direct debit"
 msgstr "Bancomat"
 
@@ -7919,7 +7919,7 @@ msgid ""
 "please check it and try again."
 msgstr ""
 
-#: ../src/gsb_file_load.c:350 ../src/gsb_file_save.c:403
+#: ../src/gsb_file_load.c:350 ../src/gsb_file_save.c:401
 #, fuzzy
 msgid ""
 "This build of Grisbi does not support encryption.\n"
@@ -7928,7 +7928,7 @@ msgstr ""
 "Questa versione di Grisbi non supporta OFX, ricompila Grisbi con il supporto "
 "per OFX abilitato"
 
-#: ../src/gsb_file_load.c:352 ../src/gsb_file_save.c:405
+#: ../src/gsb_file_load.c:352 ../src/gsb_file_save.c:403
 #, fuzzy, c-format
 msgid "Cannot open encrypted file '%s'"
 msgstr "Impossibile aprire il file '%s': %s"
@@ -7971,8 +7971,8 @@ msgid "There is no category to record. Back."
 msgstr ""
 
 #: ../src/gsb_file_others.c:159 ../src/gsb_file_others.c:249
-#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:428
-#: ../src/gsb_file_save.c:447
+#: ../src/gsb_file_others.c:341 ../src/gsb_file_save.c:426
+#: ../src/gsb_file_save.c:445
 #, c-format
 msgid "Cannot save file '%s': %s"
 msgstr "Impossibile salvare il gile '%s': %s"
@@ -8109,14 +8109,14 @@ msgid "Direct deposit"
 msgstr "Deposito diretto"
 
 #. Check = Chèque
-#: ../src/gsb_form.c:2280 ../src/import.c:2576 ../src/import.c:2624
-#: ../src/import.c:2750 ../src/plugins/ofx/ofx.c:406
+#: ../src/gsb_form.c:2280 ../src/import.c:2579 ../src/import.c:2627
+#: ../src/import.c:2753 ../src/plugins/ofx/ofx.c:406
 #, fuzzy
 msgid "Check"
 msgstr "Controllo"
 
 #. Cash withdrawal = retrait en liquide
-#: ../src/gsb_form.c:2289 ../src/import.c:2799
+#: ../src/gsb_form.c:2289 ../src/import.c:2802
 msgid "Cash withdrawal"
 msgstr ""
 
@@ -8955,17 +8955,17 @@ msgstr ""
 msgid "Remove orphan children"
 msgstr "Nome del documento dei conti"
 
-#: ../src/gsb_select_icon.c:162
+#: ../src/gsb_select_icon.c:165
 #, fuzzy
 msgid "Browse icons"
 msgstr "Sfoglia"
 
 #. création du bouton de sélection des répertoires
-#: ../src/gsb_select_icon.c:188
+#: ../src/gsb_select_icon.c:191
 msgid "Browse"
 msgstr "Sfoglia"
 
-#: ../src/gsb_select_icon.c:401
+#: ../src/gsb_select_icon.c:406
 #, fuzzy
 msgid "Select icon directory"
 msgstr "Seleziona tutto"
@@ -9430,14 +9430,14 @@ msgstr "Seleziona i file da importare"
 msgid "File name"
 msgstr "Nome possessore"
 
-#: ../src/import.c:549 ../src/import.c:704 ../src/import.c:4445
+#: ../src/import.c:549 ../src/import.c:704 ../src/import.c:4448
 #: ../src/import_csv.c:1083 ../src/import_csv.c:1109
 #, fuzzy, c-format
 msgid "Unable to read file: %s\n"
 msgstr "Impossibile aprire il file '%s': %s"
 
-#: ../src/import.c:652 ../src/import.c:761 ../src/import.c:4341
-#: ../src/import.c:4364
+#: ../src/import.c:652 ../src/import.c:761 ../src/import.c:4344
+#: ../src/import.c:4367
 msgid "Unknown"
 msgstr "Sconosciuto"
 
@@ -9640,7 +9640,7 @@ msgstr "Transazione trovata : %02d/%02d/%04d ; %s ; %4.2f ; %s"
 msgid "Transaction found: %s ; %s ; %s"
 msgstr "Transazione trovata : %02d/%02d/%04d ; %s ; %4.2f"
 
-#: ../src/import.c:2890
+#: ../src/import.c:2893
 #, fuzzy, c-format
 msgid ""
 "Warning : the cheque number %s is already used.\n"
@@ -9649,27 +9649,27 @@ msgstr ""
 "Attenzione: questo numero di assegno è già usato.\n"
 "Continuare?"
 
-#: ../src/import.c:3263
+#: ../src/import.c:3266
 #, fuzzy, c-format
 msgid "Orphaned transactions for: %s"
 msgstr "Transazione orfana"
 
-#: ../src/import.c:3281
+#: ../src/import.c:3284
 #, fuzzy
 msgid "Mark transactions you want to add to the list and click the OK button"
 msgstr ""
 "Marca le transazioni che vuoi aggiungere alla liste e clicca sul bottone "
 "aggiungi"
 
-#: ../src/import.c:3347
+#: ../src/import.c:3350
 msgid "Mark"
 msgstr "Marca"
 
-#: ../src/import.c:3401
+#: ../src/import.c:3404
 msgid "The id of the imported and chosen accounts are different"
 msgstr "Gli ID dei conti selezionati e importati sono differenti"
 
-#: ../src/import.c:3402
+#: ../src/import.c:3405
 #, fuzzy
 msgid ""
 "Perhaps you choose a wrong account?  If you choose to continue, the id of "
@@ -9678,159 +9678,159 @@ msgstr ""
 "Per esempio hai scelto il conto sbagliato?  Se scegli di continuare, l'ID "
 "delconto sarà cambiato.  Vuoi continuare ?"
 
-#: ../src/import.c:3650
+#: ../src/import.c:3653
 #, fuzzy, c-format
 msgid "%s #%d"
 msgstr "a %s %d"
 
-#: ../src/import.c:3677
+#: ../src/import.c:3680
 #, fuzzy
 msgid "Import settings"
 msgstr "Esporta categorie"
 
-#: ../src/import.c:3684
+#: ../src/import.c:3687
 msgid "Threshold while matching transaction date during import (in days): "
 msgstr ""
 
-#: ../src/import.c:3703
+#: ../src/import.c:3706
 #, fuzzy
 msgid "Merge the imported transactions with the transactions found"
 msgstr "Converti la transazione in una transazione schedulata"
 
-#: ../src/import.c:3713
+#: ../src/import.c:3716
 msgid "Automatically associate the category of the payee if it is possible"
 msgstr ""
 
-#: ../src/import.c:3724 ../src/tiers_onglet.c:1129
+#: ../src/import.c:3727 ../src/tiers_onglet.c:1133
 msgid "Extracting a number and save it in the field No Cheque/Virement"
 msgstr ""
 
-#: ../src/import.c:3732
+#: ../src/import.c:3735
 msgid "Coping the original payee in the notes"
 msgstr ""
 
-#: ../src/import.c:3739
+#: ../src/import.c:3742
 #, fuzzy
 msgid "Set the financial year"
 msgstr "Scegli l'anno finanziario"
 
-#: ../src/import.c:3740
+#: ../src/import.c:3743
 #, fuzzy
 msgid "According to the date"
 msgstr "a seconda della data di registrazione"
 
-#: ../src/import.c:3741
+#: ../src/import.c:3744
 msgid "According to the value date (if fail, try with the date)"
 msgstr ""
 
-#: ../src/import.c:3766
+#: ../src/import.c:3769
 #, fuzzy
 msgid "Manage import associations"
 msgstr "Dettagli categorie"
 
-#: ../src/import.c:3773 ../src/parametres.c:610
+#: ../src/import.c:3776 ../src/parametres.c:610
 #, fuzzy
 msgid "Import associations"
 msgstr "Azione"
 
-#: ../src/import.c:3775
+#: ../src/import.c:3778
 msgid ""
 "This will associate a search string to a payee every time you import a file. "
 "For instance, all QIF labels containing 'Rent' could be associated with  a "
 "specific payee representing your landlord."
 msgstr ""
 
-#: ../src/import.c:3844 ../src/tiers_onglet.c:1232
+#: ../src/import.c:3847 ../src/tiers_onglet.c:1236
 #, fuzzy
 msgid "Payee name"
 msgstr "Totale generale"
 
-#: ../src/import.c:3858
+#: ../src/import.c:3861
 #, fuzzy
 msgid "Search string"
 msgstr "Cerca"
 
-#: ../src/import.c:3867
+#: ../src/import.c:3870
 #, fuzzy
 msgid "Details of associations"
 msgstr "Non dettagliare transazioni conciliate"
 
 #. Create entry liste des tiers
-#: ../src/import.c:3876
+#: ../src/import.c:3879
 #, fuzzy
 msgid "Payee name: "
 msgstr "Totale generale:"
 
 #. Create entry search string
-#: ../src/import.c:3899
+#: ../src/import.c:3902
 #, fuzzy
 msgid "Search string: "
 msgstr "Cerca:"
 
-#: ../src/import.c:4193
+#: ../src/import.c:4196
 #, c-format
 msgid "You cannot choose this payee because it already has an association"
 msgstr ""
 
-#: ../src/import.c:4429
+#: ../src/import.c:4432
 #, c-format
 msgid ""
 "%s is neither an OFX file, neither a QIF file. Nothing will be done for that "
 "file."
 msgstr ""
 
-#: ../src/import.c:4489
+#: ../src/import.c:4492
 #, c-format
 msgid ""
 "%s was not imported successfully. An error occured while getting the "
 "transactions."
 msgstr ""
 
-#: ../src/import.c:4586
+#: ../src/import.c:4589
 msgid "Import a file with a rule"
 msgstr ""
 
 #. text for paddingbox
-#: ../src/import.c:4597
+#: ../src/import.c:4600
 #, fuzzy, c-format
 msgid "Properties of the rule: %s\n"
 msgstr "Risultato per %s"
 
-#: ../src/import.c:4616
+#: ../src/import.c:4619
 #, fuzzy, c-format
 msgid "Imported transactions will be added to the account %s.\n"
 msgstr ""
 "Tutte le transazioni saranno convertite in correnze dei rispettivi account."
 
-#: ../src/import.c:4619
+#: ../src/import.c:4622
 #, fuzzy, c-format
 msgid "Imported transactions will mark transactions in the account %s.\n"
 msgstr ""
 "Una ripartizione della transazione è un trasferimento a questo conto.\n"
 
 #. textstring 2
-#: ../src/import.c:4624
+#: ../src/import.c:4627
 #, fuzzy, c-format
 msgid "Currency to import is %s.\n"
 msgstr "Proprietà moneta"
 
-#: ../src/import.c:4633
+#: ../src/import.c:4636
 #, fuzzy, c-format
 msgid "Amounts of the transactions will be inverted.\n"
 msgstr "Transazioni automatiche pianificate"
 
 #. label filename
-#: ../src/import.c:4646
+#: ../src/import.c:4649
 #, fuzzy
 msgid "Name of the file to import: "
 msgstr "Nome del documento dei conti:"
 
-#: ../src/import.c:4747
+#: ../src/import.c:4750
 #, fuzzy, c-format
 msgid "Unable to create tmp file: %s\n"
 msgstr "Impossibile aprire il file '%s': %s"
 
-#: ../src/import.c:4776
+#: ../src/import.c:4779
 #, fuzzy, c-format
 msgid "cannot unzip file '%s': %s"
 msgstr "Impossibile aprire il file '%s': %s"
@@ -11334,7 +11334,7 @@ msgstr "[Transazione importata senza data]"
 msgid "Create a new payee"
 msgstr "Crea un nuovo conto"
 
-#: ../src/tiers_onglet.c:370 ../src/tiers_onglet.c:909
+#: ../src/tiers_onglet.c:370 ../src/tiers_onglet.c:913
 #, fuzzy
 msgid "Manage the payees"
 msgstr "Dettagli categorie"
@@ -11372,19 +11372,19 @@ msgstr ""
 msgid "Display unused payees"
 msgstr "Nome del documento dei conti"
 
-#: ../src/tiers_onglet.c:784
+#: ../src/tiers_onglet.c:788
 #, c-format
 msgid ""
 "You tried to rename current payee to '%s' but this payee already exists.  "
 "Please choose another name."
 msgstr ""
 
-#: ../src/tiers_onglet.c:788
+#: ../src/tiers_onglet.c:792
 #, fuzzy
 msgid "Payee already exists"
 msgstr "Il file esiste già"
 
-#: ../src/tiers_onglet.c:910
+#: ../src/tiers_onglet.c:914
 msgid ""
 "This wizard will help you to simplify the list of payees.\n"
 "\n"
@@ -11393,22 +11393,22 @@ msgid ""
 "It is better to make a backup of your Grisbi file if you have not yet done. "
 msgstr ""
 
-#: ../src/tiers_onglet.c:1032
+#: ../src/tiers_onglet.c:1036
 #, c-format
 msgid "One payee was replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1036
+#: ../src/tiers_onglet.c:1040
 #, c-format
 msgid "%d payees were replaced with a new one."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1089
+#: ../src/tiers_onglet.c:1093
 #, fuzzy
 msgid "Choose a payee"
 msgstr "Seleziona i file da importare"
 
-#: ../src/tiers_onglet.c:1091
+#: ../src/tiers_onglet.c:1095
 msgid ""
 "Select one payee in the list that you modify to serve as the basis for your "
 "research.\n"
@@ -11417,51 +11417,51 @@ msgid ""
 "   %string%, string_1%string_2"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1110
+#: ../src/tiers_onglet.c:1114
 #, fuzzy
 msgid "Enter the new payee"
 msgstr "Inserisci il nuovo nome della categoria personalizzata"
 
-#: ../src/tiers_onglet.c:1112
+#: ../src/tiers_onglet.c:1116
 #, fuzzy
 msgid "Enter the name of the new payee"
 msgstr "Inserisci il nome della linea sotto-budget"
 
-#: ../src/tiers_onglet.c:1135
+#: ../src/tiers_onglet.c:1139
 msgid "Save the payees in the notes"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1168
+#: ../src/tiers_onglet.c:1172
 msgid "List of payees who will be modified"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1222
+#: ../src/tiers_onglet.c:1226
 #, fuzzy
 msgid "Payee number"
 msgstr "il numero dell'assegno"
 
-#: ../src/tiers_onglet.c:1248
+#: ../src/tiers_onglet.c:1252
 #, fuzzy
 msgid "Total number of payees: "
 msgstr "Elimina una categoria personalizzata:"
 
 #. ajoute le nombre de tiers sélectionnés
-#: ../src/tiers_onglet.c:1265
+#: ../src/tiers_onglet.c:1269
 #, fuzzy
 msgid "Number of selected payees: "
 msgstr "Elimina una categoria personalizzata:"
 
-#: ../src/tiers_onglet.c:1369
+#: ../src/tiers_onglet.c:1373
 #, fuzzy, c-format
 msgid "Payee sought: %s"
 msgstr "Totale generale:"
 
-#: ../src/tiers_onglet.c:1377
+#: ../src/tiers_onglet.c:1381
 #, fuzzy, c-format
 msgid "New payee: %s"
 msgstr "Nuovo metodo di pagamento"
 
-#: ../src/tiers_onglet.c:1456
+#: ../src/tiers_onglet.c:1460
 #, c-format
 msgid ""
 "You are about to replace one payee which name contain %s by %s\n"
@@ -11469,7 +11469,7 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1464
+#: ../src/tiers_onglet.c:1468
 #, c-format
 msgid ""
 "You are about to replace %d payees whose names contain %s by %s\n"
@@ -11477,19 +11477,19 @@ msgid ""
 "Are you sure?"
 msgstr ""
 
-#: ../src/tiers_onglet.c:1627
+#: ../src/tiers_onglet.c:1631
 msgid "You must choose a payee for searching."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1631
+#: ../src/tiers_onglet.c:1635
 msgid "Beware you don't use one of models for the research."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1732
+#: ../src/tiers_onglet.c:1736
 msgid "Warning you will crush the existing note."
 msgstr ""
 
-#: ../src/tiers_onglet.c:1736
+#: ../src/tiers_onglet.c:1740
 #, c-format
 msgid ""
 "Do you want overwrite the existing note.\n"
