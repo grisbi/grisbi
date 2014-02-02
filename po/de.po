@@ -5,20 +5,20 @@
 #
 # Martin Stromberger <ma.stromberger@gmx.at>, 2007, 2008.
 # Martin Stromberger <ma.stromberger@gmx.at>, 2008, 2009, 2010, 2011.
-# Martin Stromberger <ma.stromberger@gmx.at>, 2012.
+# Martin Stromberger <ma.stromberger@gmx.at>, 2012, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-01 14:54+0100\n"
-"PO-Revision-Date: 2012-12-02 16:47+0100\n"
+"PO-Revision-Date: 2014-02-02 19:53+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. mise en place de la partie fin des comptes passif
@@ -230,9 +230,8 @@ msgid "Titles"
 msgstr "Bezeichnungen"
 
 #: ../src/affichage.c:377
-#, fuzzy
 msgid "Accounting entity"
-msgstr "Konto Details"
+msgstr "Bezeichnung"
 
 #: ../src/affichage.c:389
 msgid "Account owner name"
@@ -244,9 +243,8 @@ msgstr "Dateiname"
 
 #. label account name
 #: ../src/affichage.c:415 ../src/gsb_assistant_file.c:285
-#, fuzzy
 msgid "Name of accounting entity: "
-msgstr "Saldo vom Konto : %s"
+msgstr "Bezeichnung: "
 
 #: ../src/affichage.c:428
 msgid "Addresses"
@@ -691,11 +689,18 @@ msgid ""
 "If you have yet to enter into transactions on behalf deferred debit card "
 "finish with \"No\" and update the account before you start."
 msgstr ""
+"Warnung: für das Ausgabenkonto mit verzögerten Buchungen (%s) ist das "
+"Beginndatum erreicht oder abgelaufen. Für dieses Konto müssen alle Buchungen "
+"erfasst sein, ansonsten erfolgt keine Berücksichtigung für die gewählte "
+"Zeitspanne.\n"
+"\n"
+"Wenn alle Buchungen bereits erfasst sind bitte mit \"Ja\" bestätigen.\n"
+"Wenn noch nicht alle Buchungen erfasst sind bitte \"Nein\" auswählen, die "
+"Buchungen erfassen und danach den Vorgang wiederholen."
 
 #: ../src/bet_data.c:1903
-#, fuzzy
 msgid "Confirmation of the change of period"
-msgstr "Konfiguration Startseite"
+msgstr "Die Änderung vom Beginndatum bestätigen"
 
 #: ../src/bet_finance_ui.c:221 ../src/fenetre_principale.c:292
 #: ../src/navigation.c:1244 ../src/navigation.c:1987
@@ -1097,7 +1102,6 @@ msgstr "Teilsaldo"
 
 #. Create the dialog
 #: ../src/bet_future.c:2264
-#, fuzzy
 msgid "Configuring a deferred debit account"
 msgstr "Saldo von Ausgabenkonto übernehmen"
 
@@ -1130,9 +1134,8 @@ msgstr "Hauptkonto"
 
 #. Effective Date
 #: ../src/bet_future.c:2422
-#, fuzzy
 msgid "Date of debit: "
-msgstr "Datum erste Tilgung: "
+msgstr "Ausgabedatum: "
 
 #: ../src/bet_future.c:2435
 msgid "Automatic creation of the direct debit transaction"
@@ -1147,9 +1150,9 @@ msgid "One of the two fields is required"
 msgstr "Die Eingabe in zumindest ein Feld ist erforderlich"
 
 #: ../src/bet_future.c:2932
-#, fuzzy
 msgid "You must have at least one account with deferred debit card."
-msgstr "Ausgabenkonto mit verzögerten Buchungen"
+msgstr ""
+"Es muss zumindest ein Ausgabenkonto mit verzögerten Buchungen vorhanden sein."
 
 #: ../src/bet_future.c:2971 ../src/bet_future.c:3252
 msgid "Error: You must select an account."
@@ -1247,52 +1250,48 @@ msgid "Dec"
 msgstr "Dez"
 
 #: ../src/bet_graph.c:158
-#, fuzzy
 msgid "January"
-msgstr "manuell"
+msgstr "Januar"
 
 #: ../src/bet_graph.c:158
 msgid "February"
-msgstr ""
+msgstr "Februar"
 
 #: ../src/bet_graph.c:158
-#, fuzzy
 msgid "March"
-msgstr "Alle Einnahmen und Ausgaben"
+msgstr "März"
 
 #: ../src/bet_graph.c:158
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: ../src/bet_graph.c:159
 msgid "June"
-msgstr ""
+msgstr "Juni"
 
 #: ../src/bet_graph.c:159
 msgid "July"
-msgstr ""
+msgstr "Juli"
 
 #: ../src/bet_graph.c:159
 msgid "August"
-msgstr ""
+msgstr "August"
 
 #: ../src/bet_graph.c:160
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: ../src/bet_graph.c:160
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: ../src/bet_graph.c:160
-#, fuzzy
 msgid "November"
-msgstr "Nr."
+msgstr "November"
 
 #: ../src/bet_graph.c:160
-#, fuzzy
 msgid "December"
-msgstr "Empfänger Nummer"
+msgstr "Dezember"
 
 #: ../src/bet_graph.c:462
 msgid "total amount: "
@@ -1373,10 +1372,10 @@ msgid "Select the chart type"
 msgstr "Den Chart-Typ auswählen"
 
 #: ../src/bet_graph.c:2268
-#, fuzzy, c-format
+#, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr ""
-"Auflistung nach %s in der Zeitspanne vom  Geschäftsjahr %s für das Konto: "
+"Auflistung nach %s in der Zeitspanne vom Geschäftsjahr %s für das Konto: "
 "«%s»"
 
 #: ../src/bet_graph.c:2281
@@ -3045,7 +3044,6 @@ msgid "Display the number of transactions with the totals"
 msgstr "Die Anzahl der Buchungen im Verhältnis zu allen Buchungen anzeigen"
 
 #: ../src/etats_config.c:6591
-#, fuzzy
 msgid "Consider the payees of this report as a virtual payee."
 msgstr "Den Bericht in der Auswahlliste der Empfänger anzeigen"
 
@@ -3780,7 +3778,6 @@ msgid "Hide reports names"
 msgstr "Namen von Berichten"
 
 #: ../src/file_obfuscate.c:500
-#, fuzzy
 msgid "Hide reconciliation names and amounts"
 msgstr "Namen und Beträge von Abstimmungen"
 
@@ -5317,7 +5314,6 @@ msgstr ""
 "zuordnen"
 
 #: ../src/gsb_assistant_reconcile_config.c:325
-#, fuzzy
 msgid ""
 "\tThis will make all the work for you if you create previously all the "
 "needed reconciliations\n"
@@ -5328,7 +5324,6 @@ msgstr ""
 "\t wenn entsprechende Abstimmungen vorhanden sind."
 
 #: ../src/gsb_assistant_reconcile_config.c:336
-#, fuzzy
 msgid ""
 "Associate by hands the transactions without reconciliation number with the "
 "known reconciliation"
@@ -5346,7 +5341,6 @@ msgstr ""
 "\t Diese Variante ist sehr zeitaufwändig."
 
 #: ../src/gsb_assistant_reconcile_config.c:384
-#, fuzzy
 msgid "Fill the fields and click the button \"Create the new reconciliation\""
 msgstr "Daten eingeben und danach \"Eine neue Abstimmung erstellen\" aufrufen"
 
@@ -5367,7 +5361,6 @@ msgid "Create the new reconciliation"
 msgstr "Eine neue Abstimmung erstellen"
 
 #: ../src/gsb_assistant_reconcile_config.c:542
-#, fuzzy
 msgid ""
 "This assistant try to find a bank reconciliation to each orphan "
 "transaction,\n"
@@ -5395,12 +5388,10 @@ msgid "Select the transaction(s) you want to associate with a reconciliation: "
 msgstr "Buchungen für eine Zuordnung auswählen: "
 
 #: ../src/gsb_assistant_reconcile_config.c:684
-#, fuzzy
 msgid "Link the selection to a reconciliation..."
 msgstr "Auswahl zuordnen..."
 
 #: ../src/gsb_assistant_reconcile_config.c:713
-#, fuzzy
 msgid ""
 "Congratulations!\n"
 "\n"
@@ -5425,7 +5416,6 @@ msgid "The final date is not valid, please check it."
 msgstr "Das Enddatum ist nicht gültig, Dateneingabe überprüfen."
 
 #: ../src/gsb_assistant_reconcile_config.c:791
-#, fuzzy
 msgid "Please give a name to the new reconciliation."
 msgstr "Bitte einen Namen für die Abstimmung eingeben."
 
@@ -5445,7 +5435,7 @@ msgid "Reconciliation %s successfully appended!"
 msgstr "Abstimmung %s erfolgreich abgeschlossen !"
 
 #: ../src/gsb_assistant_reconcile_config.c:949
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Grisbi can associate %d transactions to a reconciliation.\n"
 "Please click on the launch button to create the links."
@@ -5456,7 +5446,6 @@ msgstr ""
 
 #: ../src/gsb_assistant_reconcile_config.c:957
 #: ../src/gsb_assistant_reconcile_config.c:1018
-#, fuzzy
 msgid ""
 "There is no transaction that Grisbi can link.\n"
 "Check if you created all the necesssary reconciliations."
@@ -7384,12 +7373,10 @@ msgstr "Der Speicher kann nicht zugeteilt werden"
 
 #. Check for reconciliation inconcistency.
 #: ../src/gsb_debug.c:72
-#, fuzzy
 msgid "Incorrect reconciliation totals"
 msgstr "Ungültiger Abstimmungsbetrag"
 
 #: ../src/gsb_debug.c:73
-#, fuzzy
 msgid ""
 "This test will look at accounts where the reconciled total which does not "
 "match with reconciled transactions."
@@ -8148,6 +8135,9 @@ msgid ""
 "\n"
 "Please enter another amount or cancel this transaction."
 msgstr ""
+"Dieses Konto kann nicht negativ sein.\n"
+"\n"
+"Bitte einen anderen Betrag eingeben oder die Buchung abbrechen."
 
 #: ../src/gsb_form.c:2948
 msgid ""
@@ -8572,7 +8562,6 @@ msgid "Reconciliation can't be completed."
 msgstr "Die Abstimmung kann nicht fertiggestellt werden."
 
 #: ../src/gsb_reconcile.c:562
-#, fuzzy
 msgid ""
 "There is already a reconciliation with that name, you must use another name "
 "or let it free.\n"
@@ -8641,7 +8630,6 @@ msgid "Delete the reconcile"
 msgstr "Abstimmung löschen"
 
 #: ../src/gsb_reconcile_config.c:283
-#, fuzzy
 msgid "Find all marked transactions not associated with a reconciliation"
 msgstr "Buchungen ohne Abstimmungsnummer auflisten"
 
@@ -9290,25 +9278,23 @@ msgstr "Warnung: es dürfen keine Empfänger oder Kategorien erstellt werden"
 
 #: ../src/help.c:83
 msgid "GnuCash support: "
-msgstr ""
+msgstr "GnuCash Unterstützung: "
 
 #: ../src/help.c:85 ../src/help.c:91 ../src/help.c:97
-#, fuzzy
 msgid "yes"
-msgstr "Jahre"
+msgstr "Ja"
 
 #: ../src/help.c:87 ../src/help.c:93 ../src/help.c:99
-#, fuzzy
 msgid "no"
-msgstr "Notiz"
+msgstr "Nein"
 
 #: ../src/help.c:89
 msgid "OFX support: "
-msgstr ""
+msgstr "OFX Unterstützung: "
 
 #: ../src/help.c:95
 msgid "OpenSSL support: "
-msgstr ""
+msgstr "OpenSSL Unterstützung: "
 
 #: ../src/help.c:122
 msgid "Programming"
@@ -9372,7 +9358,7 @@ msgstr "Gnucash"
 
 #: ../src/import.c:216
 msgid "Open Financial Exchange"
-msgstr ""
+msgstr "OFX Datenformat für den Finanzdaten-Austausch"
 
 #: ../src/import.c:286
 #, c-format
@@ -10495,6 +10481,9 @@ msgid ""
 "\n"
 "You must make positive the balance of this account before you can use it."
 msgstr ""
+"Dieses Konto kann nicht negativ sein.\n"
+"\n"
+"Bitte einen positiven Saldo herstellen damit das Konto benutzt werden kann."
 
 #: ../src/navigation.c:1051
 msgid "Last statement: "
@@ -10747,7 +10736,6 @@ msgstr "Hinweis für eine geplante Buchung in Tagen davor anzeigen: "
 
 #. calcul des totaux
 #: ../src/parametres.c:1437
-#, fuzzy
 msgid "Calculation of totals"
 msgstr "Berechnung der Salden"
 
@@ -10835,9 +10823,9 @@ msgstr ""
 "  -v, --version           die Versionsnummer anzeigen und beenden\n"
 
 #: ../src/parse_cmdline.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Grisbi version %s"
-msgstr "Grisbi Version %s, %s\n"
+msgstr "Grisbi Version %s"
 
 #: ../src/parse_cmdline.c:225
 #, c-format
@@ -11288,7 +11276,6 @@ msgid "Payee view"
 msgstr "Einfach"
 
 #: ../src/tiers_onglet.c:505 ../src/tiers_onglet.c:514
-#, fuzzy
 msgid "Display unused payees"
 msgstr "Verwaiste löschen"
 
