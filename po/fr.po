@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2013-12-01 20:15+0100\n"
 "Last-Translator: Duflot <jld78@sfr.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -8554,7 +8554,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 msgid "Reconciliation can't be completed."
 msgstr "Le rapprochement ne peut pas être terminé."
 
@@ -8576,6 +8576,10 @@ msgid "Invalid date: '%s'"
 msgstr "Date invalide: '%s'"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr "Vous pouvez fixer la date initiale du rapprochement dans les préférences."
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8583,7 +8587,7 @@ msgstr ""
 "Pour le rapprochement, vous devez définir un nom ou, au moins, un numéro,\n"
 "il sera automatiquement incrémenté plus tard"
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, c-format
 msgid "Last statement: %s"
 msgstr "Dernier relevé : %s"

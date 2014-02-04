@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2007-02-11 22:04+0100\n"
 "Last-Translator: E.Huijsing <lighthous@users.sourceforge.net>\n"
 "Language-Team: Dutch <en@li.org>\n"
@@ -8681,7 +8681,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "Controlenummer"
@@ -8700,13 +8700,17 @@ msgid "Invalid date: '%s'"
 msgstr "Datum onbekende"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr ""
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
 msgstr ""
 
 # datum laaste automatische controle
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Laatste datum"

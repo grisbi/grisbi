@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2005-12-19 11:25+0100\n"
 "Last-Translator: Jianyu Tang <jianyunet@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -8553,7 +8553,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "调整数量"
@@ -8572,12 +8572,16 @@ msgid "Invalid date: '%s'"
 msgstr "非法日期"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr ""
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "最后声明"

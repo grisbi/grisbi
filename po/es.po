@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2010-05-09 11:48+0100\n"
 "Last-Translator: Carlos M. Cámara Mora <cmcamara@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -8677,7 +8677,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 msgid "Reconciliation can't be completed."
 msgstr "La reconciliación no puede ser completada."
 
@@ -8700,6 +8700,10 @@ msgid "Invalid date: '%s'"
 msgstr "Fecha no válida: '%s'"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr ""
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8707,7 +8711,7 @@ msgstr ""
 "Debe poner un nombre a la reconciliación ; al menos, elija un número,\n"
 "será incrementado automáticamente más tarde"
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, c-format
 msgid "Last statement: %s"
 msgstr "Última operación: %s"

@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2005-12-19 11:24+0100\n"
 "Last-Translator: Mircea Aronovici <bucuresti@free.fr>\n"
 "Language-Team: <bucuresti@free.fr>\n"
@@ -8651,7 +8651,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 #, fuzzy
 msgid "Reconciliation can't be completed."
 msgstr "Număr de apropiere"
@@ -8670,12 +8670,17 @@ msgid "Invalid date: '%s'"
 msgstr "Dată neconformă"
 
 #: ../src/gsb_reconcile.c:599
+#, fuzzy
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr "A nu anunţa de absenţa numărului de apropriere"
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
 msgstr ""
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, fuzzy, c-format
 msgid "Last statement: %s"
 msgstr "Ultima situaţie bancară"
@@ -13750,9 +13755,6 @@ msgstr ""
 
 #~ msgid "Do not warn about incomplete split"
 #~ msgstr "A nu anunţa în timpul unei ventilaţii incomplecte"
-
-#~ msgid "Do not warn about no reconciliation reference"
-#~ msgstr "A nu anunţa de absenţa numărului de apropriere"
 
 #~ msgid "Do not warn about existing reconciliation reference"
 #~ msgstr "A nu anunţa că numărul de apropriere există deja"

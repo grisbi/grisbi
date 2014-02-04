@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2012-10-01 18:49+0300\n"
 "Last-Translator: Valdis Vītoliņš <valdis.vitolins@odo.lv>\n"
 "Language-Team: LATVIAN <info@odo.lv>\n"
@@ -8500,7 +8500,7 @@ msgstr ""
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 msgid "Reconciliation can't be completed."
 msgstr "Saskaņošanu neizdevās pabeigt."
 
@@ -8522,6 +8522,10 @@ msgid "Invalid date: '%s'"
 msgstr "Nepareizs datums: '%s'"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr ""
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8529,7 +8533,7 @@ msgstr ""
 "Jums ir nepieciešams iznēlēties saskaņošanas nosaukumu, vai vismaz numuru,\n"
 "vēlāk tas tiks automātiski palielināts"
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, c-format
 msgid "Last statement: %s"
 msgstr "Pēdējais paziņojums: %s"

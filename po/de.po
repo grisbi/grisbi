@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-01 14:54+0100\n"
+"POT-Creation-Date: 2014-02-04 20:02+0100\n"
 "PO-Revision-Date: 2014-02-02 19:53+0100\n"
 "Last-Translator: Martin Stromberger <ma.stromberger@gmx.at>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -1375,8 +1375,7 @@ msgstr "Den Chart-Typ auswählen"
 #, c-format
 msgid "Amounts %s - %s for the account: '%s'"
 msgstr ""
-"Auflistung nach %s in der Zeitspanne vom Geschäftsjahr %s für das Konto: "
-"«%s»"
+"Auflistung nach %s in der Zeitspanne vom Geschäftsjahr %s für das Konto: «%s»"
 
 #: ../src/bet_graph.c:2281
 #, c-format
@@ -8557,7 +8556,7 @@ msgstr "Es ist eine Abweichung zur errechneten Prüfsumme aufgetreten."
 
 #: ../src/gsb_reconcile.c:554 ../src/gsb_reconcile.c:566
 #: ../src/gsb_reconcile.c:578 ../src/gsb_reconcile.c:591
-#: ../src/gsb_reconcile.c:600
+#: ../src/gsb_reconcile.c:607
 msgid "Reconciliation can't be completed."
 msgstr "Die Abstimmung kann nicht fertiggestellt werden."
 
@@ -8579,6 +8578,10 @@ msgid "Invalid date: '%s'"
 msgstr "Ungültiges Datum: '%s'"
 
 #: ../src/gsb_reconcile.c:599
+msgid "You can set the initial date of the reconciliation in the preferences."
+msgstr ""
+
+#: ../src/gsb_reconcile.c:606
 msgid ""
 "You need to set a name to the reconciliation ; at least, set a number,\n"
 "it will be automatically incremented later"
@@ -8587,7 +8590,7 @@ msgstr ""
 "erfassen.\n"
 "Die Nummer wird bei der nächsten Abstimmung automatisch erhöht"
 
-#: ../src/gsb_reconcile.c:612
+#: ../src/gsb_reconcile.c:619
 #, c-format
 msgid "Last statement: %s"
 msgstr "Letzte Abstimmung: %s"
