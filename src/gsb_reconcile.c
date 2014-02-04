@@ -542,7 +542,7 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     gint account_number;
     gint reconcile_number;
     gsb_real real;
-	gchar* tmpstr;
+	gchar *tmp_str;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -572,26 +572,33 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     date = gsb_calendar_entry_get_date (reconcile_new_date_entry);
     if (!date)
     {
-	gchar* tmpstr = g_strdup_printf ( _("Invalid date: '%s'"),
+    tmp_str = g_strdup_printf ( _("Invalid date: '%s'"),
 						  gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry )));
-	dialogue_warning_hint ( tmpstr,
+	dialogue_warning_hint ( tmp_str,
 				_("Reconciliation can't be completed.") );
-	g_free ( tmpstr );
+	g_free ( tmp_str );
 	return FALSE;
     }
 
     /* teste la validité de la date de fin */
     reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
-    initial_date = gsb_data_reconcile_get_final_date ( reconcile_number );
-    if ( g_date_compare ( initial_date, date ) >= 0 )
+    if ( reconcile_number )
     {
-        gchar *tmp_str;
+        initial_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+        if ( g_date_compare ( initial_date, date ) >= 0 )
+        {
+            tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), gsb_format_gdate ( date ) );
+            dialogue_warning_hint ( tmp_str, _("Reconciliation can't be completed.") );
+            g_free ( tmp_str );
 
-        tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), gsb_format_gdate ( date ) );
-        dialogue_warning_hint ( tmp_str, _("Reconciliation can't be completed.") );
+            return FALSE;
+        }
+    }
+    else
+    {
+        tmp_str = g_strdup ( _("You can set the initial date of the reconciliation in the preferences.") );
+        dialogue_warning ( tmp_str );
         g_free ( tmp_str );
-
-        return FALSE;
     }
 
     if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
@@ -609,10 +616,10 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
     }
 
-    tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
+    tmp_str = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			 tmpstr);
-    g_free ( tmpstr );
+			 tmp_str);
+    g_free ( tmp_str );
 
     /* create the new reconcile structure */
     reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
