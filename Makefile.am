@@ -1,6 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = src po pixmaps help share
+SUBDIRS = src po pixmaps share
+if DOC
+SUBDIRS += help
+endif
 man_MANS = grisbi.1
 
 EXTRA_DIST = \

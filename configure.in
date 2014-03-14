@@ -277,6 +277,17 @@ else
 fi
 
 dnl ================================================================
+dnl doc
+dnl ================================================================
+
+AC_ARG_ENABLE(doc,
+  [AC_HELP_STRING([--disable-doc],
+  [Install user documentation (default=yes)])],,
+  enable_doc=yes)
+AM_CONDITIONAL(DOC, test "$enable_doc" = "yes")
+
+
+dnl ================================================================
 dnl Makefiles
 dnl ================================================================
 
@@ -320,6 +331,7 @@ echo "
                 Build with goffice:        $build_goffice
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
+                Install user doc:          $enable_doc
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
