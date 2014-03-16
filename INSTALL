@@ -9,7 +9,7 @@ Requirements:
 
 Installation steps:
 
- - ./configure --prefix=/path/to/install/grisbi
+ - ./configure --prefix=/path_to_install_grisbi
  - make
  - make install
 

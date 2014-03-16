@@ -1,6 +1,17 @@
 New in version 1.0.0
-- adding french help
-- Adding graphics to the budgets
+- Chart on budget estimates
+- Bankcard management with estimates
+- Accountancy adapted to associations
+- More contextual menus
+- Adding of goffice's library for the graphs
+- Import of categories files in budgetary lines
+- Change the accounts list order by drag and drop
+- Balance in function of operation date or its value date
+- Display of unused payees
+- Full screen display through F11 function key
+- New operation through <Ctrl><T> keyboard shortcut
+- User manual direct access through Help menu or <Ctrl><H> keyboard shortcut
+- new french user manual
 - fixes many bugs
 - fix many memory leaks
 
