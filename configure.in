@@ -277,14 +277,14 @@ else
 fi
 
 dnl ================================================================
-dnl doc
+dnl french doc
 dnl ================================================================
 
-AC_ARG_ENABLE(doc,
-  [AC_HELP_STRING([--disable-doc],
-  [Install user documentation (default=yes)])],,
-  enable_doc=yes)
-AM_CONDITIONAL(DOC, test "$enable_doc" = "yes")
+AC_ARG_ENABLE(frenchdoc,
+  [AC_HELP_STRING([--disable-frenchdoc],
+  [Install french user documentation (default=yes)])],,
+  enable_frenchdoc=yes)
+AM_CONDITIONAL(FRENCHDOC, test "$enable_frenchdoc" = "yes")
 
 
 dnl ================================================================
@@ -331,7 +331,7 @@ echo "
                 Build with goffice:        $build_goffice
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
-                Install user doc:          $enable_doc
+                Install french user doc:   $enable_frenchdoc
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then
