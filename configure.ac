@@ -58,12 +58,17 @@ dnl ================================================================
 
 LT_LIB_M
 
-PKG_CHECK_MODULES(GRISBI, [gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14 zlib])
-# Temporary hack until Mandriva ships zlib.pc
-#PKG_CHECK_MODULES(GRISBI, [gtk+-2.0 >= 2.12.0 glib-2.0 >= 2.18.0 gmodule-2.0 >= 2.18.0])
-GRISBI_LIBS="$LIBM $GRISBI_LIBS"
-AC_SUBST(GRISBI_LIBS)
-# </hack>
+grisbi_modules="gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14"
+PKG_CHECK_MODULES(ZLIB, [zlib], have_zlib_pc=yes, have_zlib_pc=no)
+if test "$have_zlib_pc" = "yes"; then
+	grisbi_modules="$grisbi_modules zlib"
+fi
+PKG_CHECK_MODULES(GRISBI, [$grisbi_modules])
+if test "$have_zlib_pc" = "no"; then
+	AC_CHECK_LIB([z],[gzwrite])
+	GRISBI_LIBS="$LIBM $GRISBI_LIBS"
+	AC_SUBST(GRISBI_LIBS)
+fi
 
 dnl ================================================================
 dnl Defined if Grisbi is a development version
