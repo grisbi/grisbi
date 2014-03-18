@@ -140,14 +140,14 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* create the model */
     reconcile_model = gtk_tree_store_new ( NUM_RECONCILIATION_COLUMNS,
-					   G_TYPE_STRING,    /* Name account or reconcile */
+					   G_TYPE_STRING,    /* Name account or reconciliation */
 					   G_TYPE_STRING,    /* init date  */
 					   G_TYPE_STRING,    /* final date  */
 					   G_TYPE_STRING,    /* init balance  */
 					   G_TYPE_STRING,    /* final balance  */
 					   G_TYPE_INT,       /* Account number */
 					   G_TYPE_INT,       /* Bold or regular text */
-					   G_TYPE_INT );     /* reconcile number */
+					   G_TYPE_INT );     /* reconciliation number */
     reconcile_treeview = gtk_tree_view_new_with_model ( GTK_TREE_MODEL (reconcile_model) );
     g_object_unref (G_OBJECT(reconcile_model));
     gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (reconcile_treeview), TRUE);
@@ -280,7 +280,7 @@ GtkWidget *gsb_reconcile_config_create ( void )
 
     /* set the button to find non-associated transactions */
 	button = gtk_button_new_with_label (
-                        _("Find all marked transactions not associated with a reconcile number"));
+                        _("Find all marked transactions not associated with a reconciliation"));
 	gtk_button_set_relief ( GTK_BUTTON (button),
 			GTK_RELIEF_NONE );
 	g_signal_connect ( G_OBJECT (button), "clicked",
@@ -500,8 +500,8 @@ gboolean gsb_reconcile_config_update_line ( GtkWidget *entry,
 }
 
 /**
- * callback called when the user click on 'Delete the reconcile'
- * this will delete the selected reconcile and will mark all the concerned
+ * callback called when the user click on 'Delete the reconciliation'
+ * this will delete the selected reconciliation and will mark all the concerned
  * transactions as P
  *
  * \param button

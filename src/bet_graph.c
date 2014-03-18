@@ -1917,10 +1917,6 @@ GtkToolItem *bet_graph_button_menu_new ( GtkWidget *toolbar,
     struct_bet_graph_button *self;
     struct_bet_graph_prefs *prefs = NULL;
 
-    /* Initialisation d'un nouveau GtkBuilder */
-    if ( !bet_graph_initialise_builder ( ) )
-        return NULL;
-
     /* initialisation des préférences */
     if ( strcmp ( type_graph, "forecast_graph" ) == 0 )
     {

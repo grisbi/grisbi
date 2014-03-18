@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>États</title>
+</head>
+<body>
+<a href="grisbi-manuel020.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel022.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="reports">Chapitre 20  États</h1>
+<h2 class="section" id="reports-intro">20.1  Introduction</h2>
+<p>Grisbi vous permet de créer des états de comptabilité. Un état représente un statut actuel de vos comptes, formaté selon certains critères, entièrement choisis par l’utilisateur. Cela rend cette fonction entièrement personnalisable et très puissante.</p><p>
+Grisbi tient compte de toutes les données de votre fichier de comptes, y compris les archives. Vous pouvez choisir la période de temps, les comptes, les tiers, les catégories, les imputations budgétaires, les modes de règlement, le caractère rapproché ou non des opérations, les (sous-) opérations ventilées, etc. En fait toutes les informations décrivant une opération peuvent servir de <span class="c003">critère de tri</span><a id="hevea_default315"></a>. Vous pouvez ensuite organiser hiérarchiquement l’affichage de l’état ainsi défini, par comptes, tiers, catégories ou imputations budgétaires, ajouter des séparations, et enfin afficher des libellés de données, des totaux ou sous-totaux au choix, et des données quelconques des opérations.</p><p>Par exemple, vous pouvez afficher la liste de toutes les dépenses d’un mois tous comptes confondus, ou toutes les opérations d’une catégorie sur une année, etc. Vous pouvez ajouter et enchaîner pratiquement autant de critères qu’il y a d’informations décrivant une opération, de façon à obtenir tous types de représentations imaginables.</p><p>
+L’onglet <span class="c007">États</span> sert à créer des états et à mémoriser tous leurs paramètres, ce qui permet de les réafficher ultérieurement à la demande.</p><p>
+La liste des états existants s’affiche dans le panneau de navigation en cliquant sur le petit triangle à gauche de l’onglet <span class="c007">États</span>. Tant que vous n’avez pas créé vous-même au moins un état, cette liste est vide.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Pour avoir accès à la <span class="c003">gestion des états</span><a id="hevea_default316"></a>, déroulez d’abord la liste des états dans le panneau de navigation en cliquant sur le petit triangle, puis cliquez sur un des sous-onglets, ou déplacez-y la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span> <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span> ou avec la molette de la souris, ou encore, sélectionnez <span class="c007">États</span> en cliquant sur l’un des deux petits triangles à gauche de la barre d’information, et faites défiler les différents items (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span>).</p><p>Le pavé des détails affiche deux éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la barre d’outils ;
+	 </li><li class="li-itemize">l’état complet, si un état a été sélectionné.
+</li></ul>
+<h2 class="section" id="reports-functions">20.2  Barre d’outils</h2>
+<p>La barre d’outils des états présente les fonctions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Nouvel état</span> : ouvre une fenêtre comprenant la liste déroulante des états préformatés avec une description pour chacun d’eux ;
+	 </li><li class="li-itemize"><span class="c007">Importer</span> : permet d’importer un état contenu dans un fichier ;
+	 </li><li class="li-itemize"><span class="c007">Exporter</span> : permet d’exporter un état dans un fichier de format 	divers ;
+	 </li><li class="li-itemize"><span class="c007">Imprimer</span> : ouvre la fenêtre du gestionnaire d’imprimante et de 	ses options ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> : supprime l’état sélectionné ;
+	 </li><li class="li-itemize"><span class="c007">Propriétés</span> : affiche les paramètres de l’état sélectionné pour éventuellement les modifier, les améliorer ou les adapter ;
+	 </li><li class="li-itemize"><span class="c007">Cloner</span> : permet de faire une copie identique à l’état sélectionné.
+</li></ul><p>La barre d’outils peut être déplacée dans l’écran en cliquant sur sa poignée (petit rectangle vertical à gauche de la barre) et en la déplaçant. Pour la réattacher à son emplacement d’origine dans le pavé des détails, la remettre en haut de la fenêtre, le haut de la poignée sur le petit trait qui visualise sa place d’origine.</p>
+<h2 class="section" id="reports-selection">20.3  Sélection d’un état</h2>
+<p>Pour sélectionner un état, vous avez deux moyens :</p><ul class="itemize"><li class="li-itemize">
+	 dans le panneau de navigation, cliquez sur le nom de l’état, ou déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span> <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span> ou avec la molette de la souris ;
+	 </li><li class="li-itemize">dans la barre d’information, cliquez sur l’un des deux petits triangles à sa gauche pour faire défiler les différents états.
+<p>	 <span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+</p></li></ul><p>
+	<span class="c010">Note</span> : les états ne peuvent être <span class="c003">listés</span><a id="hevea_default317"></a> que si la liste est déroulée dans le panneau de navigation.</p><p>
+<span class="c010">Note</span> : tant que vous n’avez pas créé vous-même au moins un état, cette liste est vide.
+</p><p>Le nom de l’état apparaît alors dans la barre d’information, et, dans le panneau de navigation, sur fond bleu. Le contenu de l’état s’affiche dans le pavé des détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/reports_display.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 20.1: Onglet des états</td></tr>
+</table></div>
+<a id="reports-display-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>L’affichage se présente de la manière que vous avez définie au moment de la création de l’état. Il est toujours possible de le modifier (voir la section <a href="#reports-modify">20.6</a>, <span class="c007">Modification d’un état</span>).</p>
+<h2 class="section" id="sec314">20.4  Les états préformatés</h2>
+<p>Grisbi fournit par défaut plusieurs états préformatés que vous pouvez utiliser tels quels, ou bien comme base pour créer les vôtres. Ils sont accessibles à partir de la fonction <span class="c007">Nouvel état</span> et sont les suivants :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Revenus et dépenses du mois dernier</span> ;
+	</li><li class="li-itemize"><span class="c007">Revenus et dépenses du mois en cours</span> ;
+	</li><li class="li-itemize"><span class="c007">Budget annuel</span> ;
+	</li><li class="li-itemize"><span class="c007">État vierge</span> : pour créer un état à partir de rien ;
+	</li><li class="li-itemize"><span class="c007">Remise de chèques</span> : pour faire un état sur tous les chèques encaissés ;
+	</li><li class="li-itemize"><span class="c007">Dépenses mensuelles par tiers</span> ;
+	</li><li class="li-itemize"><span class="c007">Recherche</span> : pour faire des recherches d’opération.
+</li></ul>
+<h2 class="section" id="sec315">20.5  Création d’un nouvel état</h2>
+<p>Pour créer un nouvel état, consultez le chapitre <a href="grisbi-manuel022.html#reportscreation">21</a>, <span class="c007">Création d’un état</span>. La procédure complète de création d’un état et de sa personnalisation est explicitée en détail dans les différentes sections de ce chapitre.</p>
+<h2 class="section" id="reports-modify">20.6  Modification d’un état</h2>
+<p>Pour modifier un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-le dans le panneau de navigation ou avec la barre d’information ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Propriétés</span> dans la barre d’outils ;
+	 </li><li class="li-enumerate">la fenêtre de création/modification s’ouvre, la même que celle utilisée pour la création d’un état ; vous pouvez y modifier ou y ajouter tous les paramètres relatifs à un état ;
+	 </li><li class="li-enumerate">validez.
+</li></ol><p>La modification peut se ramener à changer le compte pour lequel vous voulez établir cet état, mais elle peut aussi représenter quelque chose de beaucoup plus complexe. Pour plus de précisions, voir la section <a href="grisbi-manuel022.html#reportscreation-selection">21.2</a>, <span class="c007">Sélection des données</span>.</p>
+<h2 class="section" id="sec317">20.7  Clonage d’un état</h2>
+<p>Pour cloner un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-le dans le panneau de navigation ou avec la barre d’information ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Cloner</span> dans la barre d’outils ;
+	 </li><li class="li-enumerate">la fenêtre de création/modification s’ouvre, la même que celle utilisée pour la création d’un état ; vous pouvez y modifier ou y ajouter tous les paramètres relatifs à un état ;
+	 </li><li class="li-enumerate">validez.
+</li></ol><p>Grisbi duplique intégralement l’état d’origine, y compris son nom ; le clone de l’état apparaît en grisé à la fin de la liste des états dans le panneau de navigation ; la première chose que vous devrez faire sera de lui donner un nouveau <span class="c003">nom</span><a id="hevea_default318"></a> (voir la section <a href="grisbi-manuel022.html#reportscreation-display-general">21.4.1</a>, <span class="c007">Généralités</span>). </p>
+<h2 class="section" id="reports-delete">20.8  Suppression d’un état</h2>
+<p>Pour supprimer un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-le dans le panneau de navigation ou avec la barre d’information ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Supprimer</span> dans la barre d’outils, ou cliquez-droit dans le panneau de navigation sur l’état concerné et sélectionnez <span class="c007">Supprimer cet état</span> ;
+	 </li><li class="li-enumerate">une boîte de dialogue s’ouvre et vous demande la confirmation ou l’annulation de cette suppression.
+</li></ol><p><span class="c009">Attention</span> : si vous validez la suppression, l’état sera détruit irrémédiablement ; cette opération est <span class="c003">irréversible</span><a id="hevea_default319"></a>.</p>
+<h2 class="section" id="reports-importexport">20.9  Import et export </h2>
+<p>En plus des états préformatés et de ceux que vous pouvez créer vous-même, Grisbi vous permet d’exporter ou d’importer des états créés dans un autre fichier de comptes.</p>
+<h3 class="subsection" id="reports-importexport-import">20.9.1  Import d’un état </h3>
+<p>Pour importer un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez sur l’outil <span class="c007">Importer</span> dans la barre d’outils : une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">choisissez le répertoire et le nom du fichier à importer, dont l’<span class="c003">extension</span> doit être <span class="c010">.egsb</span><a id="hevea_default320"></a> ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Ouvrir</span> ; 
+	 </li><li class="li-enumerate">une boîte d’informations s’affiche ; lisez attentivement les avertissements ou instructions, puis cliquez sur le bouton <span class="c007">Fermer</span> ;
+	 </li><li class="li-enumerate">l’état importé est listé dans le panneau de navigation ; suivez éventuellement les instructions qui viennent de vous être données.
+</li></ol><p><span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_).
+</p><p>Vous pouvez ensuite personnaliser le nouvel état importé. Il est probable que vous ayez au moins à vérifier si le nom des comptes sélectionnés est correct.</p>
+<h3 class="subsection" id="reports-importexport-export">20.9.2  Export d’un état </h3>
+<p>Pour exporter un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez l’état dans le panneau de navigation ou avec la barre d’information ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Exporter</span> dans la barre d’outils : une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">par défaut, le nom du fichier à exporter est celui de l’état ;
+	modifiez-le éventuellement et sélectionnez le format du fichier désiré (son extension) ;
+	 </li><li class="li-enumerate">choisissez son répertoire de destination ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Enregistrer</span>.
+</li></ol><p><span class="c010">Note</span> : le format du fichier est par défaut le format des pages web (<span class="c003">.html</span>)<a id="hevea_default321"></a>, mais on peut choisir aussi le format natif de Grisbi (<span class="c003">.egsb</span>)<a id="hevea_default322"></a>, ou encore un format de texte (<span class="c003">CSV</span>)<a id="hevea_default323"></a>.</p><p>Dans le cas d’une exportation en format <span class="c003">HTML</span><a id="hevea_default324"></a>, le fichier est conforme à la norme XHTML 1.0, ce qui devrait garantir son bon affichage par les navigateurs modernes. Il est également encodé en Unicode, ce qui peut causer des problèmes auprès des navigateurs web qui ne sont pas configurés correctement pour auto-détecter le contenu d’une page web.</p>
+<h2 class="section" id="reports-print">20.10  Impression d’un état</h2>
+<p>Pour imprimer un état, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-le dans le panneau de navigation ou avec la barre d’information ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Imprimer</span> de la barre d’outils. Une fenêtre d’impression s’ouvre, dont l’aspect et les fonctions dépendent de votre gestionnaire d’impression ; vous aurez le plus souvent les choix suivants :
+		 <ul class="itemize"><li class="li-itemize">
+			 imprimer dans un fichier (en format <span class="c003">PostScript</span><a id="hevea_default325"></a>, <span class="c003">PDF</span><a id="hevea_default326"></a> ou <span class="c003">SVG</span><a id="hevea_default327"></a>),
+			 </li><li class="li-itemize">imprimer avec votre imprimante.
+		 </li></ul>
+</li></ol><p>En fonction de votre gestionnaire d’impression, vous pourrez disposer de réglages divers tels que la taille et l’orientation de la feuille, la résolution, la police d’impression et sa taille, etc.</p>
+<hr>
+<a href="grisbi-manuel020.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel022.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

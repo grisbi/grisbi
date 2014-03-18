@@ -1,3 +1,4 @@
+EN COURS DE MODIFICATIONS POUR LA VERSION 1.0
 Main Grisbi authors:
 ====================
 
@@ -6,8 +7,10 @@ Programming:
   Benjamin Drieu (bdrieu@april.org)
   Cédric Auger (cedric@grisbi.org)
   François Terrot (francois.terrot@grisbi.org)
-  Pierre Biava (grisbi@pierre.biava.name)
+  Pierre Biava (pierre.biava@nerim.net)
   Mickaël Remars (grisbi@remars.com)
+  Rémi Cardona (remi@gentoo.org)
+  Ludovic Rousseau (ludovic.rousseau@gmail.com)
 
 Graphics:
   André Pascual (andre@linuxgraphic.org)
@@ -19,8 +22,9 @@ Documentation:
   Alain Portal (dionysos[at]grisbi.org)
   Benjamin Drieu (bdrieu[at]april.org)
   Daniel Cartron (doc[at]grisbi.org)
+  Jean-Luc Duflot (jl.duflot[at]laposte.net)
   Loic Breilloux (loic.breilloux[at]libertysurf.fr)
-
+ 
 Translation:
   Achilleas Kaskamanidis (achilk55[at]gmail.com) (Greek)
   Alain Portal (dionysos[at]grisbi.org) (English)
@@ -49,6 +53,7 @@ Packaging:
   Thierry Thomas (thierry@pompo.net)
   Vincent Marqueton (vincent[at]marqueton.com)
   Christian Baluchiterium (christian.baluchiterium@orange.fr)
+  William Ollivier (guneeyoufix@gmail.com)
 
 Contributors:
   Axel Rousseau (axel584@axel584.org)

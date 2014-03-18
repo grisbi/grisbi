@@ -43,21 +43,10 @@ desktop-file-install --vendor mandriva \
     $RPM_BUILD_ROOT%_datadir/applications/%{name}.desktop
 
 mkdir -p $RPM_BUILD_ROOT%_datadir/icons/hicolor/48x48/apps
-cp -f $RPM_BUILD_ROOT%{_datadir}/pixmaps/grisbi/grisbi.png \
-    $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/grisbi.png
+cp -f $RPM_BUILD_ROOT%{_datadir}/pixmaps/grisbi/grisbi.svg \
+    $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/48x48/apps/grisbi.svg
 
 %find_lang %{name} %{name}-tips
-
-%if %mdkversion < 200900
-%post
-%update_menus
-%endif
-
-
-%if %mdkversion < 200900
-%postun
-%clean_menus
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -77,6 +66,12 @@ rm -rf $RPM_BUILD_ROOT
 %_iconsdir/hicolor/48x48/apps/%name.png
 
 %changelog
+* Sun Mar 16 2014 Pierre Biava <pierre.biava@nerim.net> 1.0.0-1.mga1.x86_64.rpm
+- new version 1.0.0
+
+* Fri Dec 30 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.9-1mdv2010.2
+- new version 0.8.9
+
 * Sat Aug 06 2011 Pierre Biava <grisbi@pierre.biava.name> 0.8.8-1mdv2010.2
 - new version 0.8.8
 

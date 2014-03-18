@@ -97,7 +97,14 @@ gboolean gsb_account_new ( kind_account account_type,
 
     /* set the icon_name */
     if ( name_icon )
+    {
+        GdkPixbuf *pixbuf;
+
         gsb_data_account_set_name_icon ( account_number, name_icon );
+        pixbuf = gdk_pixbuf_new_from_file_at_size ( name_icon , 32, 32, NULL );
+        if ( pixbuf )
+            gsb_data_account_set_account_icon_pixbuf ( account_number, pixbuf );
+    }
 
     gsb_data_account_set_currency ( account_number, currency_number);
     gsb_data_account_set_bank (account_number, bank_number);

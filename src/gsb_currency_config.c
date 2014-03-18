@@ -213,7 +213,7 @@ struct iso_4217_currency iso_4217_currencies[] = {
     { N_("Europe"), N_("Netherlands Guilder"), N_("Netherlands"), "NLG", "ƒ", FALSE, "NLG.png", 2, 1 },
     { N_("Europe"), N_("New Yugoslavian Dinar"), N_("Serbia and Montenegro"), "YUD", NULL, FALSE, "YUV.png", 2, 1 },
     { N_("Europe"), N_("Norwegian Krone"), N_("Norway"), "NOK", NULL, TRUE, "NOK.png", 2, 1 },
-    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLZ", NULL, TRUE, "PLN.png", 2, 1 },
+    { N_("Europe"), N_("Polish Zloty"), N_("Poland"), "PLN", NULL, TRUE, "PLN.png", 2, 1 },
     { N_("Europe"), N_("Portuguese Escudo"), N_("Portugal"), "PTE", NULL, FALSE, "PTE.png", 2, 1 },
     { N_("Europe"), N_("Pound Sterling"), N_("United Kingdom"), "GBP", "£", TRUE, "GBP.png", 2, 1 },
     { N_("Europe"), N_("Romanian Leu"), N_("Romania"), "ROL", NULL, TRUE, "ROL.png", 2, 1 },
@@ -812,7 +812,7 @@ gboolean gsb_currency_config_select_currency ( GtkTreeSelection *selection,
  */
 GtkWidget *gsb_currency_config_create_totals_page ( void )
 {
-    GtkWidget *table, *label, *check_button;
+    GtkWidget *table, *label;
 
     table = gtk_table_new ( 4, 2, FALSE );
     gtk_table_set_col_spacings ( GTK_TABLE ( table ), 5 );
@@ -847,14 +847,6 @@ GtkWidget *gsb_currency_config_create_totals_page ( void )
                         budgetary_lines_fill_list );
     gtk_table_attach ( GTK_TABLE ( table ), combo_devise_totaux_ib,
                         1, 2, 2, 3, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
-
-    check_button = gsb_automem_checkbutton_new (
-                        _("Add transactions archived in the totals"),
-                        &etat.add_archive_in_total_balance,
-                        G_CALLBACK ( gsb_config_metatree_re_sort_divisions ),
-                        NULL);
-    gtk_table_attach ( GTK_TABLE ( table ), check_button,
-                        0, 1, 3, 4, GTK_SHRINK | GTK_FILL, 0, 0, 0 );
 
     return ( table );
 }

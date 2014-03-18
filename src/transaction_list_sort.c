@@ -190,7 +190,7 @@ void transaction_list_sort_get_column ( gint *sort_col,
 
 
 /**
- * set if the sorting function is normal (by columns) or for reconcile
+ * set if the sorting function is normal (by columns) or for reconciliation
  *
  * \param use_reconcile_sort	TRUE to sort for reconciliation, FALSE for column sort
  *
@@ -216,11 +216,11 @@ void transaction_list_sort_set_reconcile_sort ( gboolean use_reconcile_sort )
 
 
 /**
- * get if the sorting function is normal (by columns) or for reconcile
+ * get if the sorting function is normal (by columns) or for reconciliation
  *
  * \param
  *
- * \return TRUE if the list is sorted for reconcile, FALSE if column sort
+ * \return TRUE if the list is sorted for reconciliation, FALSE if column sort
  * */
 gboolean transaction_list_sort_get_reconcile_sort ( void )
 {

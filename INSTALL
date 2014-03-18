@@ -3,12 +3,13 @@ How to install Grisbi :
 
 Requirements:
 
- - GTK 2.2, 2.10 is needed to be able to print
+ - GTK 2.24
  - libofx (optional)
+ - goffice (optional)
 
 Installation steps:
 
- - ./configure --prefix=/path/to/install/grisbi
+ - ./configure --prefix=/path_to_install_grisbi
  - make
  - make install
 

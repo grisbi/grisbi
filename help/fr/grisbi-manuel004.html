@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Premier démarrage de Grisbi</title>
+</head>
+<body>
+<a href="grisbi-manuel003.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel005.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="start">Chapitre 3  Premier démarrage de Grisbi</h1>
+<h2 class="section" id="start-first">3.1  Assistant premier démarrage</h2>
+<p>Au premier démarrage de Grisbi, l’assistant premier démarrage s’affiche pour
+vous aider à configurer l’application. Il comprend deux étapes, qui concernent
+la gestion du <span class="c003">fichier de comptes</span><a id="hevea_default6"></a> (chargement et enregistrement automatiques,
+chiffrement et copies de sauvegarde).</p><p>Il est conseillé de cocher les options :</p><ul class="itemize"><li class="li-itemize">
+chargement automatique du dernier fichier consulté ;
+</li><li class="li-itemize">enregistrer automatiquement en fermant ;
+</li><li class="li-itemize">effectuer une copie de sauvegarde avant d’enregistrer le fichier.
+</li></ul><p>Cet assistant est suivi automatiquement par un deuxième, l’assistant de création du <span class="c003">fichier de comptes</span><a id="hevea_default7"></a>. Puis vient automatiquement un troisième assistant, l’assistant de création de compte, qui permet de créer le premier compte. Tout cela est décrit en détail dans la section <a href="#start-newfile">3.3</a> ci-dessous.</p><p>À tout moment vous pouvez sortir de n’importe quel assistant par le bouton <span class="c007">Annuler</span>.</p><p>Si vous ne voulez pas utiliser l’assistant premier démarrage, vous pouvez à la
+place utiliser un fichier exemple (voir la section ci-dessous).</p>
+<h2 class="section" id="start-example">3.2  Fichier exemple</h2>
+<p>Si vous voulez utiliser Grisbi immédiatement sans être obligé de rentrer tout un tas d’opérations, par exemple pour vous faire une idée des possibilités de ce logiciel, vous pouvez télécharger le fichier <span class="c010">Example_1.0.gsb</span>, soit sur le site de Grisbi dans la rubrique Téléchargement, soit sur le site Sourceforge.</p><p>
+<span class="c010">Note</span> : dans ce fichier exemple, les noms des tiers sont de pure invention ; seul un hasard indépendant de notre volonté peut avoir fait que ce soit celui d’une personne ou d’une entité existante.</p>
+<h2 class="section" id="start-newfile">3.3  Création d’un nouveau fichier de comptes</h2>
+<p>La première fois que vous utiliserez Grisbi, vous devrez d’abord créer un <span class="c003">fichier
+de comptes</span><a id="hevea_default8"></a>. L’extension de ce fichier sera <span class="c010">.gsb</span> et son nom <span class="c010">nom-de-votre-fichier.gsb</span>. </p><p>Immédiatement après, il vous faudra créer au minimum un compte, et par la suite quelques autres comptes (comptes courants, d’épargne, de crédit, éventuellement un compte d’espèces et quelques comptes de transition) qui contiendront leurs opérations respectives. </p><p>Pour une gestion familiale, vous n’aurez normalement qu’un seul fichier de comptes, car cela permet tous les échanges entre vos différents comptes. Si vous gérez une association, ou une autre famille sans rapport comptable avec la première, vous créerez un autre fichier de comptes, qui portera un autre nom <span class="c010">nom-de-votre-deuxième-fichier.gsb</span>. Ainsi les <span class="c003">entités comptables</span><a id="hevea_default9"></a> resteront bien séparées.</p><p>
+<span class="c009">Attention</span> : pour une entité comptable donnée, il est nécessaire et important de bien distinguer LE «<span class="c003">fichier de comptes</span><a id="hevea_default10"></a> » et LES «<span class="c003">fichiers de compte</span><a id="hevea_default11"></a> » :</p><ul class="itemize"><li class="li-itemize">
+	LE «fichier de comptes » que vous aurez créé aura pour extension <span class="c010">.gsb</span> et pour nom <span class="c010">nom-de-votre-fichier.gsb</span> ; il contient toutes les données de tous les comptes créés pour la gestion d’une entité comptable ;
+	</li><li class="li-itemize">LES «fichiers de compte » sont des fichiers que vous pourriez être amené(e) à utiliser ou à créer pour importer ou exporter des données d’une application de comptabilité à une autre ; ces fichiers ne contiendront que les données d’un seul compte (courant ou autre) à la fois ; ils auront des extensions différentes (<span class="c010">.ofx</span>, <span class="c010">.csv</span> ou <span class="c010">.qif</span>) suivant leur contenu ; pour plus de détails, voir le chapitre <a href="grisbi-manuel006.html#move">5</a>, <span class="c007">Export et import de comptes</span>.
+</li></ul><p>
+Autrement dit, l’ensemble des comptes de votre foyer est enregistré dans un fichier de comptes, et l’ensemble des comptes de votre association l’est dans un autre fichier de comptes ; et un compte dans Grisbi peut correspondre à un fichier de compte, mais seulement lorsqu’on parle d’importation ou d’exportation de données.</p><p>
+Le déroulement général de la procédure de création d’un fichier de comptes est le suivant : cliquez sur le menu <span class="c007">Fichier - Nouveau fichier de comptes</span> ; l’assistant de création de fichier de comptes s’ouvre, qui comprend six étapes. À la sixième étape, l’assistant vous propose :</p><ul class="itemize"><li class="li-itemize">
+	soit de créer un nouveau compte, et il enchaîne sur l’assistant de création de compte, qui comprend lui-même cinq étapes, pour créer le premier compte (car il est indispensable de disposer d’au moins un compte) ;
+	</li><li class="li-itemize">soit d’utiliser des données déjà existantes, et il enchaîne alors sur l’assistant d’importation des opérations, qui comprend aussi cinq étapes, pour importer des opérations de comptes existants.
+</li></ul><p>Après la création de ce premier compte ou l’importation d’opérations de comptes existants, si vous voulez créer d’autres comptes, vous retournerez à la fin de la procédure de création du fichier de comptes, ce qui vous renverra dans les deux cas vers la création d’un nouveau compte.</p><p>
+Pour créer votre fichier de comptes, cliquez sur le menu <span class="c007">Fichier - Nouveau fichier de comptes</span> ; la procédure détaillée est la suivante :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	fenêtre d’accueil : validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">configuration
+		générale :
+		<p>						</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+		<div class="center">
+		<img src="image/screenshot/start_file_create.png">
+		</div>
+		<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 3.1: Configuration générale du fichier de comptes</td></tr>
+</table></div>
+		<a id="start-file-create-img"></a>
+		<div class="center"><hr class="c012"></div></blockquote><p>
+						
+		</p><ol class="enumerate" type=a><li class="li-enumerate"> 
+		 	choisissez le nom de l’entité comptable dont vous gérez la comptabilité, par exemple «Ma comptabilité », qui pourra être choisi comme titre de la page d’accueil de l’application Grisbi,
+			</li><li class="li-enumerate">saisissez le nom du fichier de comptes avec son arborescence complète ; Grisbi vous propose par défaut le même nom que celui de l’entité comptable, mais vous pouvez le modifier,
+			</li><li class="li-enumerate">cochez la case <span class="c007">Chiffrer le fichier Grisbi</span> si vous voulez chiffrer le fichier de comptes,
+			</li><li class="li-enumerate">sélectionnez le <span class="c003">format de la date</span><a id="hevea_default12"></a> avec l’un des deux boutons : dd/mm/yyyy pour jour/mois/année, ou mm/dd/yyyy pour mois/jour/année,
+			</li><li class="li-enumerate">choisissez le <span class="c003">séparateur</span><a id="hevea_default13"></a> décimal et celui des milliers dans les listes déroulantes,
+			 </li><li class="li-enumerate">renseignez l’adresse (facultatif),
+			 </li><li class="li-enumerate">validez par le bouton <span class="c007">Suivant</span> ;
+		</li></ol><p>
+		
+	</p></li><li class="li-enumerate">sélection de la <span class="c003">devise</span><a id="hevea_default14"></a> de base :
+		<ol class="enumerate" type=a><li class="li-enumerate"> 
+		 	cliquez sur la devise choisie dans la liste,
+			</li><li class="li-enumerate">cochez la case <span class="c007">Afficher les devises obsolètes</span> si vous voulez aussi afficher d’anciennes devises,
+			</li><li class="li-enumerate">validez par le bouton <span class="c007">Suivant</span> ;
+		</li></ol>
+	</li><li class="li-enumerate">sélection des <span class="c003">types de catégories</span><a id="hevea_default15"></a> utilisées :
+		<ol class="enumerate" type=a><li class="li-enumerate"> 
+		 	cliquez sur la catégorie choisie dans la liste, qui comprend : <span class="c007">Catégories générales</span>, <span class="c007">Liste vide</span>, <span class="c007">Comptabilité libérale</span>, <span class="c007">Plan comptable associatif simplifié</span> et <span class="c007">Plan comptable associatif</span>,
+			</li><li class="li-enumerate">cochez la case <span class="c007">Afficher l’ensemble des catégories</span> si vous voulez aussi afficher d’autres catégories libellées en anglais,
+			</li><li class="li-enumerate">validez par le bouton <span class="c007">Suivant</span> ;
+		</li></ol>		<p>	</p></li><li class="li-enumerate">définition des <span class="c003">banques</span><a id="hevea_default16"></a> détenant vos comptes :
+		<ol class="enumerate" type=a><li class="li-enumerate"> 
+		 	cliquez sur <span class="c007">Ajouter</span> pour définir une banque ; renseignez les détails de la banque (nom, code banque, etc.), puis validez par le bouton <span class="c007">Ajouter</span> pour valider la banque,
+			</li><li class="li-enumerate">sélectionnez une banque dans la liste et validez par le bouton <span class="c007">Enlever</span> pour supprimer une banque, puis confirmez dans la fenêtre qui s’ouvre,
+			</li><li class="li-enumerate">répétez les actions a et b autant de fois que nécessaire,
+			</li><li class="li-enumerate">validez par le bouton <span class="c007">Suivant</span> pour passer à l’étape suivante, <span class="c007">Création d’un nouveau compte</span> ;
+		</li></ol>		 	<p>	</p></li><li class="li-enumerate">configuration terminée : la configuration du fichier de comptes est terminée, et cette fenêtre vous propose de choisir l’une des deux méthodes de création de votre premier
+compte :
+<blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/start_account_choice.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 3.2: Choix du premier compte</td></tr>
+</table></div>
+<a id="start-account-choice-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>		</p><ul class="itemize"><li class="li-itemize">
+			<span class="c007">Créer un nouveau compte vide</span> : si vous cochez cette ligne, puis si vous validez par le bouton <span class="c007">Fermer</span>, cette fenêtre se ferme et l’assistant de création de nouveau compte démarre. Reportez-vous à la section <a href="grisbi-manuel008.html#accounts-new">7.4</a>, <span class="c007">Création d’un nouveau compte</span>, qui décrit entièrement cette procédure, puis revenez à cette page ;<p>			</p></li><li class="li-itemize"><span class="c007">À partir de données provenant d’un fichier bancaire ou d’un autre logiciel</span> : si vous cochez cette ligne, puis si vous validez par le bouton <span class="c007">Fermer</span>, cette fenêtre se ferme et l’assistant d’importation des données d’un fichier de compte par Grisbi démarre. Reportez-vous à la section <a href="grisbi-manuel006.html#move-import-importinit">5.1.2</a>, <span class="c007">Import de fichiers de compte d’un autre logiciel dans Grisbi</span>, qui décrit entièrement cette procédure, puis revenez à cette page.
+		</li></ul></li></ol><p><a id="start-newfile-end"></a></p><p><span style="font-style:italic;font-weight:bold">D’une manière ou d’une autre</span>, vous venez donc de créer votre fichier de comptes, ainsi que le premier compte de ce fichier. </p><p>
+Si vous voulez créer maintenant d’autres comptes, sélectionnez le menu <span class="c007">Édition - Nouveau compte</span> pour créer un autre compte (voir la section <a href="grisbi-manuel008.html#accounts-new">7.4</a>, <span class="c007">Création d’un nouveau compte</span>).</p><p>
+Sinon, vous pouvez commencer à utiliser le compte que vous venez de créer ou celui dont vous venez d’importer les données.</p><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_).</p>
+<h2 class="section" id="start-save">3.4  Enregistrement de votre fichier de comptes</h2>
+<p>Vos opérations ne sont pas écrites au fur et à mesure de leur saisie comme 
+elles peuvent l’être dans d’autres logiciels ; vous devez donc enregistrer votre fichier de comptes avant de quitter. N’ayez crainte, Grisbi vous prévient si vous ne l’avez pas fait. </p><p>Vous pouvez configurer les options d’enregistrement du fichier de comptes dans le menu <span class="c007">Édition - Préférences</span>, voir le paragraphe <a href="grisbi-manuel023.html#setup-general-files-manage">22.1.1</a>, <span class="c007">Gestion des fichiers de comptes</span>.</p>
+<h2 class="section" id="sec43">3.5  Import à partir d’un autre logiciel de comptabilité personnelle</h2>
+<p>Voir la section <a href="grisbi-manuel006.html#move-import-importinit">5.1.2</a> pour importer des fichiers de compte d’un autre logiciel dans Grisbi. Pour le moment, Grisbi supporte
+les formats Gnucash, OFX, CSV et QIF.</p>
+<hr>
+<a href="grisbi-manuel003.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel005.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

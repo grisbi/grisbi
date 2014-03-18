@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Échéancier</title>
+</head>
+<body>
+<a href="grisbi-manuel010.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel012.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="plannedtransactions">Chapitre 10  Échéancier</h1>
+<p>L’échéancier permet de planifier des opérations qui reviennent régulièrement avec des dates ou des intervalles de temps déterminés. Une fois qu’une opération est enregistrée dans l’échéancier, Grisbi recopie automatiquement l’opération planifiée dans la liste des opérations dès que sa <span class="c003">date d’échéance</span><a id="hevea_default172"></a> est atteinte. </p><p>De plus, Grisbi affiche dans la page d’accueil des alertes au déclenchement des échéances de ces opérations (voir la section <a href="grisbi-manuel005.html#home-details-homepage">4.3.1</a>, <span class="c007">Affichage de la page d’accueil</span>.</p><p>
+Pour planifier des opérations, cliquez sur <span class="c007">Échéancier</span> dans le panneau de navigation, ou sélectionnez <span class="c007">Opérations Planifiées</span> avec la barre d’information (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span>).</p><p>Un calendrier s’affiche en bas du panneau de navigation, et le pavé des détails possède alors trois éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la barre d’outils ;
+	 </li><li class="li-itemize">la liste des opérations planifiées ;
+	 </li><li class="li-itemize">le formulaire de saisie des opérations planifiées.
+</li></ul><p>
+Vous pouvez configurer les paramètres des alertes de l’échéancier dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-general-planned">22.1.6</a>, <span class="c007">Échéancier</span>).</p>
+<h2 class="section" id="plannedtransactions-functions">10.1  Barre d’outils</h2>
+<p>La barre d’outils des opérations planifiées présente les fonctions suivantes : </p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Nouvelle Échéance</span> : ouvre le formulaire de saisie vierge ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> : supprime l’opération planifiée sélectionnée ;
+	 </li><li class="li-itemize"><span class="c007">Éditer</span> : ouvre le formulaire de saisie pour l’opération sélectionnée et permet de la modifier ;
+	 </li><li class="li-itemize"><span class="c007">Remarques</span> ou <span class="c007">Périodicité/Mode</span> : affiche la colonne <span class="c007">Remarques</span> à la place des colonnes <span class="c007">Périodicité</span> et <span class="c007">Mode</span>, ou inversement ; 
+	 </li><li class="li-itemize"><span class="c007">Exécuter</span> : exécute l’opération planifiée sélectionnée, c’est-à-dire la recopie dans la liste des opérations du compte concerné ;
+	 </li><li class="li-itemize"><span class="c007">Affichage</span> : une liste déroulante permet de choisir l’affichage des opérations planifiées : toutes, selon diverses périodicités, ou selon un réglage personnalisé.
+</li></ul><p>
+La barre d’outils peut être déplacée dans l’écran en cliquant sur sa poignée (petit rectangle vertical à gauche de la barre) et en la déplaçant. Pour la réattacher à son emplacement d’origine dans le pavé des détails, la remettre en haut de la fenêtre, le haut de la poignée sur le petit trait qui visualise sa place d’origine.</p>
+<h2 class="section" id="plannedtransactions-list">10.2  Liste des opérations planifiées</h2>
+<h3 class="subsection" id="plannedtransactions-list-description">10.2.1  Description</h3>
+<p>La liste des opérations planifiées s’affiche dans le panneau des
+détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/planned_transactions_list.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.1: Liste des opérations planifiées</td></tr>
+</table></div>
+<a id="planned-transactions-list-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Elle affiche en haut la barre des libellés des colonnes. Vous pouvez <span class="c003">élargir ou rétrécir une colonne</span><a id="hevea_default173"></a> en cliquant sur le séparateur entre deux colonnes et en le déplaçant. Pour rétablir la <span class="c003">largeur des colonnes</span><a id="hevea_default174"></a> à leur valeur par défaut, sélectionnez le menu <span class="c007">Affichage - Réinitialiser la largeur des colonnes</span>.</p><p>Vous pouvez déplacer la liste des opérations planifiées vers le haut ou vers le bas avec la molette de la souris, ou bien avec la souris et l’ascenseur vertical. Le déplacement éventuel vers la gauche ou la droite se fait avec la souris et l’ascenseur horizontal.</p><p>
+Chaque opération est affichée sur une seule ligne et au maximum six colonnes, ce qui fait au maximum six champs d’information pour chaque opération planifiée. Les champs d’affichage, ainsi que les <span class="c003">libellés des colonnes</span><a id="hevea_default175"></a>, sont les suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Date</span> : la date de l’opération ;
+	 </li><li class="li-itemize"><span class="c007">Compte</span> : le compte concerné ;
+	 </li><li class="li-itemize"><span class="c007">Tiers</span> ;
+	 </li><li class="li-itemize"><span class="c007">Périodicité</span> : la périodicité de l’opération ;
+	 </li><li class="li-itemize"><span class="c007">Mode</span> : le mode d’exécution, automatique ou manuel ; 
+	 </li><li class="li-itemize"><span class="c007">Montant</span> : le montant de l’opération ; un <span class="c003">montant négatif</span><a id="hevea_default176"></a> est affiché en rouge.
+<p><span class="c010">Note</span> : si l’affichage du champ <span class="c007">Remarques</span> a été demandé, il s’affiche à la place des champs <span class="c007">Périodicité</span> et <span class="c007">Mode</span>, ce qui ne fait plus que cinq colonnes et cinq champs affichés.	 
+</p></li></ul><p>
+Une ligne supplémentaire vide s’affiche juste en-dessous de la dernière ligne d’opération, et sert à créer une nouvelle opération planifiée (voir la section <a href="#plannedtransactions-new">10.6</a>, <span class="c007">Nouvelle opération planifiée</span>).</p><p>
+Pour des raisons de lisibilité de l’affichage, Grisbi présente une alternance de couleurs de fond violet et blanc à chaque ligne.</p><p>
+En cliquant sur l’outil <span class="c007">Affichage</span> dans la barre d’outils, une liste déroulante vous permet de choisir plusieurs modes d’affichage des prochaines occurrences :
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="planned-transactions-display-img"></a>
+	<div class="picins"><img src="image/screenshot/planned_transactions_display.png"></div>
+			 <span class="c007">Vue unique</span> : la prochaine occurrence de chaque opération ; 
+	 </li><li class="li-itemize"><span class="c007">Vue hebdomadaire</span> ; à échéance de 7 jours ;
+	 </li><li class="li-itemize"><span class="c007">Vue mensuelle</span> : à échéance de 30 jours ;
+	 </li><li class="li-itemize"><span class="c007">Vue bimestrielle</span> : à échéance de 60 jours ;
+	 </li><li class="li-itemize"><span class="c007">Vue trimestrielle</span> : à échéance de 90 jours ;
+	 </li><li class="li-itemize"><span class="c007">Vue annuelle</span> : à échéance d’un an ;
+	 </li><li class="li-itemize"><span class="c007">Vue personnalisée</span> : à échéance d’un nombre quelconque de jours, semaines, mois ou années.
+<p>	 	  
+	 L’affichage courant y est indiqué par une coche, ainsi que le nombre d’opérations dans cette vue.
+</p></li></ul><p>
+<br>
+<br>
+
+</p><p>Si vous choisissez l’affichage personnalisé, une nouvelle fenêtre affiche deux listes déroulantes pour choisir le nombre et la période désirés.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/planned_transactions_display_custom.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.2: Choix de l’affichage de la période personnalisée</td></tr>
+</table></div>
+<a id="planned-transactions-display-custom-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h3 class="subsection" id="plannedtransactions-list-sorts">10.2.2  Tris</h3>
+<p>Pour changer l’ordre d’affichage des opérations planifiées, vous pouvez faire un <span class="c003">tri sur les opérations</span><a id="hevea_default177"></a> sur un des champs d’information ; procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez sur le libellé de la colonne qui contient le champ d’information choisi comme critère de tri ; les seuls critères de tri possibles sont la <span class="c007">Date</span>, le <span class="c007">Compte</span> et le <span class="c007">Tiers</span>.
+	 </li><li class="li-enumerate">toutes les opérations s’affichent, triées selon le critère choisi ;
+	 </li><li class="li-enumerate">un petit triangle noir apparaît à droite du libellé de la colonne ; il pointe vers le bas si le tri est ascendant, vers le haut si le tri est descendant ;<p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.
+	 </p></li><li class="li-enumerate">cliquez sur ce triangle pour changer l’ordre du tri.
+</li></ol>
+<h2 class="section" id="plannedtransactions-form">10.3  Formulaire de saisie des opérations planifiées</h2>
+<p>Le formulaire de saisie des opérations planifiées s’affiche en-dessous de la liste des opérations planifiées. Il est similaire au formulaire de saisie des opérations ordinaires, mais il comprend, dans sa partie supérieure, une ligne supplémentaire de trois à six champs pour indiquer :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/planned_transactions_form.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.3: Formulaire de saisie des opérations planifiées</td></tr>
+</table></div>
+<a id="planned-transactions-form-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><ul class="itemize"><li class="li-itemize">
+	le compte affecté ; dans le cas d’un virement entre deux comptes, vous pouvez sélectionner l’un ou l’autre des deux comptes (origine ou destination) ; le type de l’opération (débit ou crédit) doit être renseigné dans le champ adéquat, et la contre-opération sera automatiquement créée dans l’autre compte au moment de l’exécution de l’opération planifiée ;
+	
+	</li><li class="li-itemize">le mode d’exécution :
+	
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Manuel</span> : vous devrez exécuter manuellement la saisie dans le formulaire en sélectionnant la fonction <span class="c007">Exécuter</span> dans la barre de fonctions ou dans le menu contextuel (voir la section <a href="#plannedtransactions-execution">10.11</a>, <span class="c007">Exécution d’une opération planifiée</span>,
+			</li><li class="li-itemize"><span class="c007">Automatique</span> : l’opération sera automatiquement saisie dans la liste des opérations à la date programmée ;
+		</li></ul>
+	
+	</li><li class="li-itemize">la <span class="c007">Périodicité</span> :
+		<ul class="itemize"><li class="li-itemize">
+			<span class="c007">Une fois</span>,
+			</li><li class="li-itemize"><span class="c007">Hebdomadaire</span>,
+			</li><li class="li-itemize"><span class="c007">Mensuelle</span>,
+			</li><li class="li-itemize"><span class="c007">Bimestrielle</span>,
+			</li><li class="li-itemize"><span class="c007">Trimestrielle</span>,
+			</li><li class="li-itemize"><span class="c007">Annuelle</span>,
+			</li><li class="li-itemize"><span class="c007">Personnalisée</span> ; dans ce cas, vous devrez préciser plus finement le nombre de périodes entre chaque saisie ou demande de validation de l’opération, ainsi que la période voulue (jours, semaines, mois, années) ;
+		
+			<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/planned_transactions_frequency_custom.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.4: Saisie d’une périodicité personnalisée</td></tr>
+</table></div>
+	<a id="planned-transactions-frequency_custom-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			</li></ul>
+</li><li class="li-itemize">la <span class="c007">Date limite</span> des échéances ; le choix par défaut est <span class="c007">Aucune</span> ; un double-clic ou la combinaison de touches <span class="c001">&lt;Ctrl&gt;&lt;Entrée&gt;</span> dans ce champ ouvre un calendrier (voir la section <a href="#plannedtransactions-calendar">10.4</a>, <span class="c007">Calendrier et prévisions</span>) ; vous pouvez aussi saisir manuellement la date en utilisant les multiples combinaisons de touches telles que décrites dans la section <a href="grisbi-manuel009.html#transactions-new-dates">8.6.2</a>, <span class="c007">Saisie de date au clavier</span>.
+</li></ul><p>
+La partie inférieure du formulaire est strictement identique au formulaire de saisie des opérations ordinaires, et est géré de la même manière ,
+voir la section <a href="grisbi-manuel009.html#transactions-form">8.3</a>, <span class="c007">Formulaire de saisie</span>.</p><p>
+Une fois le formulaire affiché, un menu contextuel accessible par un clic-droit dans un champ de saisie permet d’effectuer les actions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Couper</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Copier</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Coller</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Tout sélectionner</span> (dans le champ de saisie) ;
+	 </li><li class="li-itemize"><span class="c007">Méthodes de saisie</span> ;
+	 </li><li class="li-itemize"><span class="c007">Insérer un caractère de contrôle Unicode</span>.
+</li></ul><p>Le choix <span class="c007">methodes de saisie</span> permet de changer les caractères accentués.</p><p>Le choix <span class="c007">Insérer un caractere de controle Unicode</span> permet d’insérer un code Unichar qui modifie la présentation ; par exemple RLO (forçage droite-à-gauche) renverse l’ordre des lettres et la position du texte.</p><p>
+De plus, un autre menu contextuel accessible par un clic-droit dans le formulaire de saisie, dans une zone grise en dehors des champs de saisie, permet d’accéder à la configuration du formulaire, en sélectionnant <span class="c007">Configurer le formulaire</span> (voir la section <a href="grisbi-manuel023.html#setup-form">22.4</a>, <span class="c007">Formulaire des opérations</span>).</p><p>
+Notez que le choix des types d’opérations est nécessairement lié au type du compte sélectionné (voir la section <a href="grisbi-manuel008.html#accounts-type">7.7</a>, <span class="c007">Types de compte de Grisbi</span>).</p>
+<h2 class="section" id="plannedtransactions-calendar">10.4  Calendrier et prévisions</h2>
+<p>Un calendrier s’affiche à la place du bas du panneau de navigation. Il indique en caractères gras les dates auxquelles des opérations planifiées de tous les comptes arrivent à échéance, et sur fond bleu la date du jour.</p><p>Cliquez sur le calendrier pour le sélectionner. Vous pouvez le parcourir avec la souris ou le clavier :
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="planned-transactions-calendar-img"></a>
+	<div class="picins"><img src="image/screenshot/planned_transactions_calendar.png"></div>
+			
+	les touches <span class="c001">&lt;Flèche Gauche&gt;</span> ou <span class="c001">&lt;Flèche Droite&gt;</span>, permettent de passer au jour précédent ou suivant ;
+	</li><li class="li-itemize">les touches <span class="c001">&lt;Flèche Haut&gt;</span> ou <span class="c001">&lt;Flèche Bas&gt;</span> permettent de passer à la semaine précédente ou suivante ;
+	</li><li class="li-itemize">la combinaison de touches <span class="c001">&lt;Ctrl&gt;&lt;Flèche Gauche&gt;</span> ou <br>
+<span class="c001">&lt;Ctrl&gt;&lt;Flèche Droite&gt;</span> permet de passer au mois précédent ou suivant ;
+	</li><li class="li-itemize">la combinaison de touches <span class="c001">&lt;Ctrl&gt;&lt;Flèche Haut&gt;</span> ou <br>
+<span class="c001">&lt;Ctrl&gt;&lt;Flèche Bas&gt;</span> permet de passer à l’année précédente ou suivante.
+</li></ul><p>
+<br>
+<br>
+<br>
+
+</p>
+<h2 class="section" id="plannedtransactions-selection">10.5  Sélection d’une opération planifiée</h2>
+<p>Pour sélectionner une opération planifiée, vous avez deux moyens :</p><ul class="itemize"><li class="li-itemize">
+	 cliquer sur sa ligne ;
+	 </li><li class="li-itemize">déplacer la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span> et <span class="c001">&lt;Flèche Bas&gt;</span>.
+</li></ul><p>L’opération apparaît alors sur fond bleu et ses détails s’affichent dans le formulaire.</p><p>
+Un menu contextuel est disponible sur la liste des opérations planifiées. Un clic-droit sur la ligne d’une opération permet les fonctions suivantes, selon le contexte :
+</p><ul class="itemize"><li class="li-itemize">
+						<a id="planned-transactions-context-img"></a>
+	<div class="picins"><img src="image/screenshot/planned_transactions_context.png"></div>
+			 <span class="c007">Éditer l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Cloner l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Nouvelle opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer l’opération</span> ;
+	 </li><li class="li-itemize"><span class="c007">Afficher les remarques</span> ;
+	 </li><li class="li-itemize"><span class="c007">Afficher Périodicité/Mode</span> ;	 
+	 </li><li class="li-itemize"><span class="c007">Exécuter l’opération</span>.
+</li></ul>
+<h2 class="section" id="plannedtransactions-new">10.6  Nouvelle opération planifiée</h2>
+<p>La saisie d’une opération planifiée se fait d’une manière similaire à la saisie d’une opération ordinaire.</p><p>Vous pouvez ouvrir le formulaire de saisie avec l’une de ces méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 sélectionnez la ligne vide en bas de la liste des opérations et appuyez sur la touche <span class="c001">&lt;Entrée&gt;</span> ;
+	 </li><li class="li-itemize">double-cliquez sur la ligne vide ;
+	 </li><li class="li-itemize">dans la barre d’outils, cliquez-gauche sur l’outil <span class="c007">Nouvelle échéance</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez le choix <span class="c007">Nouvelle opération</span> ;
+	 </li><li class="li-itemize">cliquez-gauche sur le petit triangle d’affichage/masquage à gauche du libellé <span class="c007">Formulaire de saisie des opérations</span>, tout en bas du pavé des détails. 
+</li></ul><p><span class="c010">Note</span> : ce triangle peut être remplacé, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Renseignez les champs avec les paramètres de votre opération planifiée. Pour plus de détails sur la saisie de ces paramètres dans le formulaire, voir les sections <a href="#plannedtransactions-form">10.3</a>, <span class="c007">Formulaire de saisie des opérations planifiées</span> et <a href="#plannedtransactions-calendar">10.4</a>, <span class="c007">Calendrier et prévisions</span>. </p>
+<h2 class="section" id="plannedtransactions-breakdown">10.7  Ventilation d’une opération planifiée</h2>
+<p>La ventilation d’une opération planifiée se fait d’une manière similaire à la ventilation d’une opération ordinaire. Une fois que vous avez renseigné les champs de la première ligne du formulaire (voir la section <a href="#plannedtransactions-form">10.3</a>, <span class="c007">Formulaire de saisie des opérations planifiées</span>), saisissez les autres paramètres de l’opération dans la partie inférieure de ce formulaire (voir la section <a href="grisbi-manuel009.html#transactions-form">8.3</a>, <span class="c007">Formulaire de saisie</span>), et procédez à la saisie de l’opération planifiée ventilée, comme décrit précisément dans la section <a href="grisbi-manuel009.html#transactions-breakdown">8.9</a>, <span class="c007">Ventilation d’une opération</span>.</p>
+<h2 class="section" id="plannedtransactions-modify">10.8  Modification d’une opération planifiée</h2>
+<p>Pour modifier une opération planifiée, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-la dans la liste ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Éditer</span> dans la barre d’outils, ou cliquez-droit sur la ligne de l’opération et sélectionnez <span class="c007">Éditer l’opération</span> dans le menu contextuel ;
+	 </li><li class="li-enumerate">le formulaire de saisie s’ouvre sur le champ <span class="c007">Date</span> : vous pouvez alors modifier toutes les données de l’opération ;
+	 </li><li class="li-enumerate">validez par le bouton <span class="c007">Valider</span>.
+</li></ol>
+<h2 class="section" id="plannedtransactions-duplicate">10.9  Clonage d’une opération planifiée</h2>
+<p>Pour cloner une opération planifiée, sélectionnez-la pour qu’elle s’affiche dans le formulaire de saisie, puis utilisez l’une de ces deux méthodes :</p><ul class="itemize"><li class="li-itemize">
+	 dans la barre de menus, sélectionnez <span class="c007">Édition - Cloner l’opération</span> ;
+	 </li><li class="li-itemize">dans le menu contextuel, sélectionnez <span class="c007">Cloner l’opération</span>.
+</li></ul><p>
+L’opération sélectionnée précédemment apparaît toujours sur fond rouge, et l’opération clonée s’affiche dans une nouvelle ligne en-dessous.</p><p>Vous pouvez alors éditer cette nouvelle opération, par exemple en modifiant la date.</p>
+<h2 class="section" id="plannedtransactions-comments">10.10  Remarques des opérations planifiées</h2>
+<p>Vous pouvez afficher ou cacher les remarques de deux manières :</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur l’outil <span class="c007">Remarques</span> dans la barre d’outils ;
+	 </li><li class="li-itemize">cliquez-droit sur la ligne de l’opération et sélectionnez <span class="c007">Afficher/Masquer les remarques</span> dans le menu contextuel.
+</li></ul><p>Les remarques de toutes les opérations s’affichent alors à la place des colonnes <span class="c007">Périodicité</span> et <span class="c007">Mode</span> dans la liste des opérations planifiées. Recommencer la même séquence réaffiche les colonnes <span class="c007">Périodicité</span> et <span class="c007">Mode</span> à la place de la colonne <span class="c007">Remarques</span>.</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/planned_transactions_list_comments.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.5: Affichage des remarques des opérations planifiées</td></tr>
+</table></div>
+<a id="planned-transactions-list-comments-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h2 class="section" id="plannedtransactions-execution">10.11  Exécution d’une opération planifiée</h2>
+<p>La fonction <span class="c007">Exécuter une opération planifiée</span> sert uniquement à faire la recopie, dans le formulaire de saisie, de l’occurrence d’une opération sélectionnée dans la liste des opérations planifiées. Pour que cette occurrence soit effectivement transférée dans la liste des opérations du compte concerné, il est nécessaire de valider ensuite le formulaire de saisie, après avoir éventuellement modifié l’opération. </p><p>
+Pour exécuter une occurrence d’une opération planifiée, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-la dans la liste ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Exécuter</span> dans la barre d’outils, ou cliquez-droit sur la ligne de l’opération et sélectionnez <span class="c007">Exécuter l’opération</span> dans le menu contextuel ;
+	 </li><li class="li-enumerate">l’occurrence sélectionnée de l’opération s’affiche dans le formulaire de saisie ; vous pouvez alors la modifier selon votre besoin ;
+	 </li><li class="li-enumerate">validez par le bouton <span class="c007">Valider</span> ; l’occurrence de l’opération est transférée dans la liste des opérations du compte concerné, et la liste des opérations planifiées affiche l’occurrence suivante (si elle existe, car l’opération planifiée peut être unique) de l’opération planifiée. 
+</li></ol><p>
+<span class="c010">Note</span> : après cette validation, la recopie est faite sans autre avertissement.</p><p>
+Vous pouvez aussi vérifier que l’occurrence exécutée de l’opération planifiée se trouve maintenant bien dans la liste des opérations du compte concerné.</p>
+<h2 class="section" id="plannedtransactions-remove">10.12  Suppression d’une opération planifiée</h2>
+<p>Pour supprimer une opération planifiée, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 sélectionnez-la dans la liste ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Supprimer</span> dans la barre d’outils, ou cliquez-droit sur la ligne de l’opération et sélectionnez <span class="c007">Supprimer l’opération</span> dans le menu contextuel ;
+	 </li><li class="li-enumerate">une boîte de dialogue s’ouvre et vous propose de supprimer, soit toutes les occurrences (toutes les opérations, courante et futures, seront supprimées), soit uniquement l’occurrence courante (seule l’opération affichée sera supprimée) ;
+		<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/planned_transactions_delete.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 10.6: Suppression d’une opération planifiée</td></tr>
+</table></div>
+	<a id="planned-transactions-delete-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			 </li><li class="li-enumerate">faites votre choix, la suppression est exécutée immédiatement.
+</li></ol><p>
+<span class="c009">Attention</span> : immédiatement après le choix entre <span class="c007">Toutes les occurrences</span> et <span class="c007">Juste celle-ci</span>, la suppression est exécutée sans autre avertissement. </p><p>
+<span class="c009">Attention</span> : la suppression d’une opération planifiée est <span class="c003">irréversible</span><a id="hevea_default178"></a> ! </p>
+<hr>
+<a href="grisbi-manuel010.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel012.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

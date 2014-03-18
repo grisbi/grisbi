@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Gestion des comptes </title>
+</head>
+<body>
+<a href="grisbi-manuel007.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel009.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="accounts">Chapitre 7  Gestion des comptes </h1>
+<p>Grisbi sait gérer quatre types de compte, dont l’utilisation est décrite précisément dans la section <a href="#accounts-type">7.7</a>, <span class="c007">Types de compte de Grisbi</span> :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c003">compte bancaire</span><a id="hevea_default53"></a> : il permet de faire tout type d’opération ;
+	</li><li class="li-itemize"><span class="c003">compte de caisse</span><a id="hevea_default54"></a> : il ne permet de gérer que des espèces ;
+	</li><li class="li-itemize"><span class="c003">compte de passif</span><a id="hevea_default55"></a> : il permet de gérer une dette que vous remboursez ; 
+	</li><li class="li-itemize"><span class="c003">compte d’actif</span><a id="hevea_default56"></a> : il permet de gérer un bien qui se déprécie avec le temps. 
+</li></ul>
+<h2 class="section" id="accounts-list">7.1  Liste des comptes</h2>
+<p>Pour lister les comptes, déroulez d’abord l’onglet <span class="c007">Comptes</span> dans le panneau de navigation en cliquant sur le petit triangle à sa gauche. Le panneau de navigation affiche la liste des comptes, que vous pouvez faire défiler en cliquant successivement sur l’un des deux petits triangles à gauche dans la barre d’information.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Vous pouvez modifier l’ordre d’affichage des comptes dans le panneau de navigation, en cliquant et déplaçant le nom d’un compte vers le haut ou vers le bas dans la liste des comptes du panneau de navigation.</p>
+<h2 class="section" id="accounts-selection">7.2  Sélection d’un compte</h2>
+<p>Pour sélectionner et afficher le contenu d’un compte, utilisez l’une des méthodes suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur son nom dans le panneau de navigation ;
+	 </li><li class="li-itemize">déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span>, ou avec la molette de la souris ;
+	 </li><li class="li-itemize">dans la barre d’information, cliquez sur l’un des deux petits triangles à gauche pour faire défiler les comptes.
+</li></ul><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc.</p><p>
+Le panneau de navigation affiche le nom du compte sur fond bleu ; la barre d’information affiche, à gauche, le nom du compte sélectionné et, complètement à droite, le solde de ce compte ; le pavé des détails affiche la liste des opérations dans l’onglet <span class="c007">Opérations</span>.</p><p>
+Le pavé des détails affiche par défaut deux onglets, pour les comptes de banque ou de caisse :
+</p><ul class="itemize"><li class="li-itemize">
+	 l’onglet <span class="c007">Opérations</span> ;
+	 </li><li class="li-itemize">l’onglet <span class="c007">Propriétés</span>.
+</li></ul><p>Il peut aussi afficher, si le module budgétaire a été activé pour le compte sélectionné, trois autres onglets qui ne sont pas décrits dans ce chapitre (voir le chapitre <a href="grisbi-manuel018.html#budget">17</a>, <span class="c007">Budgets Prévisionnels</span>) :
+</p><ul class="itemize"><li class="li-itemize">
+	 soit les onglets <span class="c007">Prévisions</span> et <span class="c007">Données historiques</span>, pour les comptes de banque ou de caisse ;
+	 </li><li class="li-itemize">soit l’onglet <span class="c007">Tableau d’amortissement</span>, pour les comptes de passif.
+</li></ul><p>
+Il se peut que certains comptes soient <span class="c003">clos</span><a id="hevea_default57"></a>, donc leur affichage est masqué. Vous pouvez cependant les afficher en sélectionnant le menu <span class="c007">Affichage - Montrer les comptes clos</span>. Pour faire l’opération inverse, voir la section <a href="#accounts-properties">7.3</a>, <span class="c007">Propriétés d’un compte</span>. </p>
+<h2 class="section" id="accounts-properties">7.3  Propriétés d’un compte</h2>
+<p>L’onglet <span class="c007">Propriétés</span> permet de renseigner et d’afficher les informations relatives au compte sélectionné.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/account_new_properties.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 7.1: Propriétés d’un compte</td></tr>
+</table></div>
+<a id="account-new-properties-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Pour afficher les propriétés d’un compte, sélectionnez-le, puis cliquez sur l’onglet <span class="c007">Propriétés</span> dans le pavé des détails. Cet onglet affiche toutes les informations et propriétés qui ont déjà été renseignées sur le compte sélectionné.
+Pour modifier ces données, voir la section <a href="#accounts-modify">7.5</a>, <span class="c007">Modifier un compte</span>.</p><p>Voici les différentes informations qu’un compte peut contenir :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Nom du compte</span> : ce peut-être un nom quelconque, par exemple <em>Compte courant</em>, <em>Compte livret</em>, <em>Compte banque 1</em> ou <em>Compte banque 2</em>;	
+<p><span class="c010">Note</span> : dans le cas d’une comptabilité numérotée (association ou petite entreprise), les noms des comptes sont précédés du numéro fourni par le plan comptable, par exemple «512. Compte banque X » ; ce libellé est donc une donnée alphanumérique.</p><p>	</p></li><li class="li-itemize"><span class="c007">Type du compte</span> : pour plus de détails, voir la section <a href="#accounts-type">7.7</a> ;	
+	</li><li class="li-itemize"><span class="c007">Devise du compte</span> : la devise dans laquelle les opérations de ce compte sont libellées (voir les sections <a href="grisbi-manuel023.html#setup-resources-currencies">22.5.1</a> et <a href="grisbi-manuel023.html#setup-resources-rate">22.5.2</a>) ;	
+	</li><li class="li-itemize"><span class="c007">Compte clos</span><a id="hevea_default58"></a> : case à cocher qui vous permet de masquer le compte dans le panneau de navigation et dans la barre d’information, sans pour autant le supprimer ; il pourra être affiché à nouveau en cliquant sur le menu <span class="c007">Affichage - Montrer les comptes clos</span> ;	
+	</li><li class="li-itemize"><span class="c007">Nom du titulaire</span> : le titulaire d’un compte peut être différent pour chaque compte, par exemple si vous ouvrez un livret d’épargne pour chacun de vos enfants ;	
+	 </li><li class="li-itemize"><span class="c007">Adresse du titulaire</span> : le titulaire peut avoir la même adresse que le titulaire principal, ou bien une adresse différente qu’il faudra préciser ici (voir le paragraphe <a href="grisbi-manuel023.html#setup-display-addresses-address">22.2.3</a>, <span class="c007">Adresses</span>) ;
+	</li><li class="li-itemize"><span class="c007">Établissement financier</span> : la banque qui gère votre compte ; vous pouvez choisir une banque indiquée dans la liste déroulante, ou bien cliquer sur <span class="c007">Ajouter une nouvelle banque</span> ; il est conseillé de renseigner ce champ (voir la section <a href="grisbi-manuel023.html#setup-resources-banks">22.5.3</a>) ;	
+	</li><li class="li-itemize"><span class="c007">Numéro IBAN</span> : le code que vous trouverez sur votre relevé d’identité bancaire (RIB) ou IBAN fourni par la banque (voir la section <a href="grisbi-manuel023.html#setup-resources-banks">22.5.3</a>) ;	
+	</li><li class="li-itemize"><span class="c007">Guichet / Agence</span> : l’adresse de votre agence bancaire, à relever également sur votre RIB (voir la section <a href="grisbi-manuel023.html#setup-resources-banks">22.5.3</a>) ;	
+	</li><li class="li-itemize"><span class="c007">Numéro du compte / Clé</span> : voir sur votre RIB (voir la section <a href="grisbi-manuel023.html#setup-resources-banks">22.5.3</a>) ;	
+	</li><li class="li-itemize"><span class="c007">Solde initial</span> : le solde de votre dernier relevé bancaire au moment de la création du compte ; il est conseillé de laisser le solde initial du compte à zéro et de créer par la suite une opération initiale du montant nécessaire, car cela facilitera la gestion future des rapprochements ;	
+	</li><li class="li-itemize"><span class="c007">Solde minimal autorisé</span> : le solde minimal que vous autorise votre
+	établissement financier, plus communément appelé autorisation de découvert ;	
+	</li><li class="li-itemize"><span class="c007">Solde minimal voulu</span> : le solde minimal que vous aimeriez respecter ; pour un bon fonctionnement de la mise en couleur des soldes dans la page <span class="c007">Accueil</span>, il doit être supérieur ou égal au solde minimal autorisé ;	
+	</li><li class="li-itemize"><span class="c007">Commentaires</span> : zone de saisie pour des commentaires informels sur le compte : date d’ouverture, taux de rendement, etc. (voir la section <a href="grisbi-manuel023.html#setup-resources-banks">22.5.3</a>).
+</li></ul>
+<h2 class="section" id="accounts-new">7.4  Création d’un nouveau compte</h2>
+<p><span class="c010">Note</span> : avant de commencer la création d’un nouveau compte, il est conseillé de consulter la section <a href="#accounts-type">7.7</a>, <span class="c007">Types de compte de Grisbi</span>, et la section <a href="grisbi-manuel023.html#setup-resources-modes">22.5.5</a>, <span class="c007">Modes de règlement</span>, qui donnent beaucoup plus de détails sur les possibilités que Grisbi vous propose.
+</p><p>Pour créer un nouveau compte dans votre fichier de comptes, cliquez sur le menu <span class="c007">Édition - Nouveau compte</span> ; l’assistant de création de compte
+s’ouvre, qui comprend cinq étapes :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	accueil de l’assistant ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">sélection du type de compte : faites votre choix parmi les quatre types de compte proposés, puis validez par le bouton <span class="c007">Suivant</span> ;
+<p><span class="c010">Note</span> : lorsque vous créez un nouveau compte, faites attention à choisir un type de compte correct, sinon vous pourriez être amené, plus tard, à transférer toutes les opérations que vous y auriez saisies dans un nouveau compte plus adéquat.
+	</p></li><li class="li-enumerate">créer un nouveau compte  :
+		
+			<blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/account_new_creation.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 7.2: Création d’un nouveau compte</td></tr>
+</table></div>
+	<a id="account-new-creation-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote>
+			
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			choisissez la <span class="c003">devise</span><a id="hevea_default59"></a> du compte dans la liste déroulante, qui propose les devises que connaît déjà votre fichier de comptes ; sinon, cliquez sur <span class="c007">Ajouter/Changer</span>, une fenêtre s’affiche, où une liste déroulante vous propose toutes les devises du monde connues par Grisbi ; les détails de la devise sélectionnée s’affichent en-dessous, dans des champs que vous pouvez encore modifier ; puis validez par le bouton <span class="c007">Fermer</span>,
+			</li><li class="li-enumerate">choisissez la <span class="c003">banque</span><a id="hevea_default60"></a> qui détient ce compte dans la liste déroulante, qui propose les banques que connaît déjà votre fichier de comptes ; sinon, cliquez sur <span class="c007">Ajouter une nouvelle banque</span> : une fenêtre s’affiche, où vous pouvez renseigner le nom de la banque et de nombreux autres détails ; puis validez par le bouton <span class="c007">Fermer</span>,
+			</li><li class="li-enumerate">choisissez l’<span class="c003">icône</span><a id="hevea_default61"></a> du compte : une fenêtre s’affiche, où vous pouvez soit choisir un répertoire dans la liste déroulante puis cliquer sur une des icônes en-dessous, soit chercher un fichier dans le système de fichiers de votre ordinateur (bouton <span class="c007">Parcourir</span>) ; une fois votre icône trouvée, validez par le bouton <span class="c007">Valider</span>,
+			</li><li class="li-enumerate">saisissez le solde initial, puis validez par le bouton <span class="c007">Suivant</span> ;
+<p><span class="c010">Note</span> : il est conseillé de laisser le solde initial du compte à zéro et, si besoin est, de créer par la suite une opération initiale du montant nécessaire, car cela facilitera la gestion future des rapprochements.
+		</p></li></ol><p>	</p></li><li class="li-enumerate">saisissez le nom du compte, celui qui apparaîtra dans le panneau de navigation, puis validez par le bouton <span class="c007">Fermer</span> ;
+	<p>			</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+	<div class="center">
+	<img src="image/screenshot/account_new_name.png">
+	</div>
+	<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 7.3: Saisie du nom du nouveau compte</td></tr>
+</table></div>
+	<a id="account-new-name-img"></a>
+	<div class="center"><hr class="c012"></div></blockquote><p>
+			</p></li><li class="li-enumerate">le nouveau compte est alors créé, sélectionnez-le dans le panneau de navigation : son nom apparaît sur fond bleu, le pavé des détails affiche son onglet <span class="c007">Opérations</span> qui est évidemment vide, et vous pouvez modifier ou compléter son onglet <span class="c007">Propriétés</span>.
+</li></ol><p>
+Si, et seulement si vous venez de créer votre fichier de comptes juste avant cette création de compte, revenez à la fin de la section <a href="grisbi-manuel004.html#start-newfile-end">3.3</a>, <span class="c007">Création d’un nouveau fichier de comptes</span>. Allez juste après la fin de la procédure de création du fichier de comptes, au paragraphe commençant par <em>D’une manière ou d’une autre…</em> , ce qui vous proposera de créer tout de suite d’autres comptes.</p><p>
+Sinon, vous pouvez commencer à utiliser le compte que vous venez de créer.</p><p>
+Vous pouvez aussi configurer précisément les modes de règlement des opérations de ce compte dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-resources-modes">22.5.5</a>, <span class="c007">Modes de règlement</span>).</p>
+<h2 class="section" id="accounts-modify">7.5  Modification d’un compte </h2>
+<p>Pour modifier un compte, sélectionnez le compte dans le panneau de navigation ou avec la barre d’information, puis cliquez sur l’onglet <span class="c007">Propriétés</span> dans le pavé des détails.
+</p><p>Les champs suivants doivent obligatoirement être renseignés :
+</p><ul class="itemize"><li class="li-itemize">
+	 le <span class="c007">Nom du compte</span> ;
+	 </li><li class="li-itemize">le <span class="c007">Type du compte</span> ;
+	 </li><li class="li-itemize">la <span class="c007">Devise du compte</span> ;
+	 </li><li class="li-itemize">le <span class="c007">Solde initial</span>.
+</li></ul><p>
+Tous les autres champs sont facultatifs. </p><p>Vous pourrez modifier à tout moment <em>toutes</em> ces informations, sauf la devise si vous avez choisi l’euro, ou si vous avez converti en euro un compte
+existant, comme indiqué dans la section <a href="#accounts-switcheuro">7.8</a>, <span class="c007">Conversion d’un compte en euros</span>.</p><p>Les champs <span class="c007">Type du compte</span>, <span class="c007">Devise du compte</span>, <span class="c007">Établissement financier</span> donnent accès à une liste déroulante permettant de renseigner le champ.</p><p>Les champs de texte peuvent être remplis au clavier, et un menu contextuel accessible par un clic-droit dans un champ de saisie permet d’effectuer les actions suivantes :
+</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Couper</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Copier</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Coller</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> (la sélection) ;
+	 </li><li class="li-itemize"><span class="c007">Tout sélectionner</span> (dans le champ de saisie) ;
+	 </li><li class="li-itemize"><span class="c007">Méthodes de saisie</span> ;
+	 </li><li class="li-itemize"><span class="c007">Insérer un caractère de contrôle Unicode</span><a id="hevea_default62"></a>.
+</li></ul><p>
+Les <span class="c003">methodes de saisie</span><a id="hevea_default63"></a> permettent de changer les caractères accentués.</p><p><span class="c003">Insérer un caractere de controle Unicode</span> permet d’insérer un code Unichar qui modifie la présentation ; par exemple RLO (forçage droite-à-gauche) renverse l’ordre des lettres et la position du texte.</p><p>
+<span class="c009">Attention</span> : si vous modifiez certaines propriétés comme le type du compte, cela nécessitera d’adapter aux nouvelles propriétés du compte, individuellement, toutes les opérations déjà saisies. Dans tous les cas, avant de procéder à une quelconque modification des comptes, faites <span class="c010">impérativement</span> une sauvegarde de votre fichier de comptes.</p>
+<h2 class="section" id="accounts-delete">7.6  Suppression d’un compte </h2>
+<p>Pour supprimer un compte, cliquez sur le menu <span class="c007">Édition - Supprimer le
+compte courant</span>. Une boîte de dialogue de confirmation s’ouvre ; si
+c’est vraiment ce que vous voulez, validez la suppression.</p><p>
+<span class="c009">Attention</span> : il n’y aura pas d’autre avertissement, et le compte est supprimé (ainsi que toutes ses opérations). Cette opération est <span class="c003">irréversible</span><a id="hevea_default64"></a> !</p>
+<h2 class="section" id="accounts-type">7.7  Types de compte de Grisbi</h2>
+<p>Comme énoncé en début de chapitre, Grisbi sait gérer quatre <span class="c003">types de compte</span><a id="hevea_default65"></a> :</p><ul class="itemize"><li class="li-itemize">
+	compte bancaire : il permet de faire tout type d’opération ;
+	</li><li class="li-itemize">compte de caisse : il ne permet de gérer que des espèces ;
+	</li><li class="li-itemize">compte de passif : il permet de gérer une dette que vous remboursez ; 
+	</li><li class="li-itemize">compte d’actif : il permet de gérer un bien qui se déprécie avec le temps. 
+</li></ul><p>
+Cette section décrit les fonctionnalités et l’utilisation de chacun de ces types de compte.</p>
+<h3 class="subsection" id="accounts-type-bank">7.7.1  Type compte bancaire</h3>
+<p>Le type de compte <em>compte bancaire</em> admet tous les types d’opérations, en débit ou en crédit. De ce fait, il doit être utilisé pour tous les comptes suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	compte bancaire ou compte courant ;
+	</li><li class="li-itemize">compte d’épargne ;
+	</li><li class="li-itemize">compte de	<span class="c003">carte bancaire à débit immédiat</span><a id="hevea_default66"></a> ;
+	</li><li class="li-itemize">compte de <span class="c003">carte de crédit</span><a id="hevea_default67"></a> ;		
+	</li><li class="li-itemize">compte d’attente ;
+	</li><li class="li-itemize">compte d’avances. 
+</li></ul><p>Les paragraphes suivants décrivent ces comptes qui doivent utiliser le type de compte <em>compte bancaire</em>.</p>
+<h4 class="subsubsection" id="accounts-type-bank-misc">Compte bancaire, courant, d’épargne ou de carte bancaire à débit immédiat</h4>
+<p>Ces comptes servent à enregistrer toutes les opérations que vous pouvez faire avec votre banque : </p><ul class="itemize"><li class="li-itemize">
+	virement de compte à compte ;
+	</li><li class="li-itemize">prélèvement sur le compte ;
+	</li><li class="li-itemize">émission et dépôt de chèques ; 
+	</li><li class="li-itemize">achat, remboursement, retrait et dépôt avec une <span class="c003">carte bancaire à débit immédiat</span><a id="hevea_default68"></a>. 
+</li></ul>
+<h4 class="subsubsection" id="accounts-type-bank-creditcard">Compte de carte de crédit</h4>
+<p>Un compte de carte de crédit est un compte de carte bancaire qui peut recevoir du débit, mais aussi du crédit, soit sous forme de virement, soit sous forme de prêt (par ex. un crédit renouvelable). Son solde peut donc être positif ou négatif.</p>
+<h4 class="subsubsection" id="accounts-type-bank-waiting">Compte d’attente</h4>
+<p>Un compte d’attente sert à enregistrer des opérations (normalement des recettes) en attendant de les virer vers un compte bancaire ou de caisse. Il est normalement créditeur, jusqu’au moment du virement vers le compte bancaire ou de caisse, qui le ramène à un solde nul.</p><p>La <span class="c003">remise de chèques</span><a id="hevea_default69"></a> et la <span class="c003">remise d’espèces</span><a id="hevea_default70"></a> sont des exemples-type de l’utilité du compte d’attente. </p>
+<h5 class="paragraph" id="accounts-type-bank-waiting-remittance"><span class="c007">Remise de chèques ou d’espèces :</span></h5>
+<p>Si vous recevez peu ou peu souvent de chèques (ou d’espèces), le plus simple est de les saisir directement dans votre compte bancaire (ou dans votre compte de caisse). Dans ce cas, reportez-vous à la section <a href="grisbi-manuel009.html#transactions-new-cheque">8.6.6</a>, <span class="c007">Remise de chèques ou d’espèces</span>.</p><p>
+Mais si vous recevez beaucoup de chèques (par exemple parce que vous gérez une association et que vos adhérents payent leur cotisation par chèque), le plus efficace est d’utiliser un compte d’attente.</p><p>
+La méthode consiste donc à créer un <em>compte d’attente</em>, que vous nommez par exemple <em>Chèques à encaisser</em>. Au fur et à mesure de la réception des chèques, vous les enregistrez individuellement dans ce compte, donc chaque chèque correspond à un <span class="c007">Tiers</span>. Quand vous déposez les chèques à la banque, vous faites un virement de ce compte <em>Chèques à encaisser</em> vers votre compte bancaire, du montant de l’ensemble de ces chèques, donc du solde du compte <em>Chèques à encaisser</em>. Utilisez pour l’occasion un tiers <em>Remise de chèques</em>, et dans le champ <span class="c007">Remarques</span>, saisissez le numéro de votre bordereau de remise.
+</p><p>Le solde du compte <em>Chèques à encaisser</em> revient alors à zéro, et le compte bancaire est crédité du montant de la remise, exactement comme le sera votre relevé bancaire. Ainsi vous gardez et l’information du tiers pour chaque chèque, et celle de la remise globale.</p><p>Vous faites ensuite un pseudo-rapprochement du compte <em>Chèques à encaisser</em> en simulant un relevé de solde nul avant la prochaine réception d’un chèque : vérifiez que ce rapprochement a bien un numéro, ou donnez-en lui un, par exemple REM-01, ce qui vous permettra ultérieurement de retrouver quel chèque faisait partie de quelle remise. Ce pseudo-rapprochement est appelé <span class="c003"><em>lettrage</em></span><a id="hevea_default71"></a>.</p><p>
+Par exemple, si vous avez reçu deux chèques, vous enregistrez dans votre compte <em>Chèques à encaisser</em> les deux opérations :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Durand <span class="c007">Crédit</span> : 20 <span class="c007">Catégorie</span> : <em>Cotisations</em> <span class="c007">Mode de règlement</span> : <em>Chèque</em>
+	</li><li class="li-itemize"><span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Dupond <span class="c007">Crédit</span> : 40 <span class="c007">Catégorie</span> : <em>Cotisations</em> <span class="c007">Mode de règlement</span> : <em>Chèque</em>
+</li></ul><p>Puis lors de la remise des deux chèques à la banque, dans votre compte bancaire, vous enregistrez l’opération :</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Remise de chèques <span class="c007">Crédit</span> : 60 <span class="c007">Catégorie</span> : <em>Virement : Chèques à encaisser</em> <span class="c007">Mode de règlement</span> : <em>Chèque</em>
+</li></ul><p><span class="c010">Note</span> : vous pouvez enregistrer cette opération soit dans votre compte bancaire en <span class="c007">Crédit</span> et <span class="c007">Catégorie</span> : <em>Virement : Chèques à encaisser</em>, soit dans votre compte <em>Chèques à encaisser</em> en <span class="c007">Débit</span> et <span class="c007">Catégorie</span> : <em>Virement : Compte bancaire</em> ; dans les deux cas, Grisbi crée automatiquement la contre-opération dans l’autre compte.</p><p>Le compte <em>Chèques à encaisser</em> est alors soldé à zéro, mais il garde la trace des chèques déposés à la banque, et dans votre compte bancaire n’apparaît que le montant global du bordereau de remise, que vous pourrez pointer avec votre relevé de compte de la banque.</p><p>
+Bien entendu, si une partie de vos adhérents vous paye en espèces, vous pouvez utiliser de la même façon un compte nommé par exemple <em>Remise d’espèces</em>.</p>
+<h4 class="subsubsection" id="accounts-type-bank-advance">Compte d’avances</h4>
+<p>Un compte d’avances sert à enregistrer à la fois les avances que vous recevez et celles que vous consentez. Il peut s’agir, par exemple, d’une avance sur votre salaire ou d’un achat que vous faites pour le compte d’un de vos amis.</p><p>
+<span class="c010">Note</span> : le compte d’avances peut être déroutant pour le novice, puisqu’il fonctionne à l’envers, comme vous le découvrirez plus loin. Pour vous faciliter les choses, vous pouvez considérer que le compte d’avances se comporte comme un tiers qui vous donne ou à qui vous donnez de l’argent.</p>
+<h5 class="paragraph" id="sec95"><span class="c007">Réception d’une avance :</span></h5>
+<p> quand vous <span class="c003">recevez une avance</span><a id="hevea_default72"></a>, vous enregistrez l’opération par un virement du compte d’avances vers un compte bancaire. Le tiers sera la personne ou l’organisation de qui vous recevez l’avance, et la catégorie sera <em>Virement : Compte bancaire</em>. Dans le champ <span class="c007">Notes</span>, vous indiquez le motif de l’avance. Le compte d’avances est donc débiteur quand vous devez de l’argent. Lorsque vous remboursez cette avance, vous faites un virement du compte bancaire, avec le même tiers et la même remarque, vers le compte d’avances, dont le solde redevient nul.</p><p>Pour une avance en espèces, remplacez le compte bancaire par un compte de caisse.</p><p>Dans le cas où l’avance vous est versée par chèque, et si vous avez créé un compte d’attente <em>Chèques à encaisser</em>, vous devrez d’abord enregistrer le chèque dans le compte d’avances, puis faire un virement du montant du chèque, du compte d’avances vers ce compte <em>Chèques à encaisser</em>, et ensuite faire votre virement de remise de chèque, de ce compte <em>Chèques à encaisser</em> vers votre compte bancaire (voir le paragraphe <a href="#accounts-type-bank-waiting">7.7.1</a>, <span class="c007">Compte d’attente</span>). </p><p>Vous ferez ensuite un rapprochement du compte d’avances pour faire disparaître ces opérations.</p>
+<h5 class="paragraph" id="sec96"><span class="c007">Consentement d’une avance :</span></h5>
+<p> inversement, si vous <span class="c003">consentez une avance</span><a id="hevea_default73"></a>, vous enregistrez l’opération par un virement d’un compte bancaire vers le compte d’avances. Le tiers sera la personne ou l’organisation à qui vous faites l’avance, et la catégorie sera <em>Virement : Compte d’avances</em>. Dans le champ <span class="c007">Remarques</span>, vous indiquerez le motif de l’avance. Le compte d’avances est donc créditeur quand on vous doit de l’argent. Lorsque cette avance vous est remboursée, vous enregistrez l’opération par un virement du compte d’avances vers le compte bancaire, avec le même tiers et la même remarque, et la catégorie sera <span class="c007">Virement : Compte bancaire</span>. Le solde de votre compte d’avances redevient nul.</p><p>Pour une avance en espèces, remplacez le compte bancaire par un compte de caisse.</p><p>Dans le cas où l’avance vous est remboursée par chèque, et si vous avez créé un compte d’attente <em>Chèques à encaisser</em>, vous devrez d’abord enregistrer le chèque dans le compte d’avances, puis faire un virement du montant du chèque, du compte d’avances vers ce compte <em>Chèques à encaisser</em>, et ensuite faire votre virement de remise de chèque, de ce compte <em>Chèques à encaisser</em> vers votre compte bancaire (voir le paragraphe <a href="#accounts-type-bank-waiting">7.7.1</a>, <span class="c007">Compte d’attente</span>). </p><p>Vous ferez ensuite un rapprochement du compte d’avances pour faire disparaître ces opérations.</p><p>
+Un compte d’avances vous permet donc de vérifier facilement si vos créances ou vos dettes sont éteintes. Sans cette méthode cette vérification est difficile, sinon impossible.</p><p>
+<span class="c010">Note</span> : lorsque vous faites un état des recettes et dépenses, ces opérations devraient être <em>transparentes</em>, puisqu’elles s’annulent deux à deux quand chaque avance est remboursée. En pratique, lors de l’édition de ce genre d’état, vous devrez le configurer pour qu’il ne prenne pas en compte les virements entre comptes, et ainsi ces opérations seront totalement invisibles (voir la section <a href="grisbi-manuel022.html#reportscreation-selection-transfer">21.2.2</a>, <span class="c007">Virements</span>).</p><p>
+<span class="c010">Note</span> : lorsque vous créez un nouveau compte, choisissez donc de préférence le type de compte <em>compte bancaire</em>, sauf si votre nouveau compte devra avoir une utilisation plus spécifique comme celles décrites dans les paragraphes ci-dessous.</p>
+<h3 class="subsection" id="accounts-type-cash">7.7.2  Type compte de caisse</h3>
+<p>Le type de compte <em>compte de caisse</em> est destiné uniquement aux opérations réglées en espèces ; vous ne pouvez pas y sélectionner de mode de paiement et il ne peut en aucun cas devenir négatif. De ce fait, il doit être utilisé pour tous les comptes suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	compte de caisse ;
+	</li><li class="li-itemize">porte-monnaie électronique. 
+</li></ul><p>
+Un compte de caisse permet d’enregistrer dans votre comptabilité les retraits de la banque, pour alimenter la caisse, et les recettes et dépenses en espèces. En ce qui concerne les dépenses, il n’est pas toujours possible ni même utile d’enregistrer toutes les menues dépenses. Mais vous pouvez les enregistrer globalement, par exemple en fin de mois, dans des catégories adéquates ou bien dans une catégorie <span class="c007">Dépenses diverses</span>, ceci afin de vider ce compte de caisse. Comme ceci, vous n’aurez pas de flou dans la caisse.</p><p>Un compte de caisse accepte les virements en provenance d’autres comptes. Lorsque vous faites un retrait en espèces sur votre compte bancaire, enregistrez-le en tant que virement vers le compte de caisse.</p>
+<h3 class="subsection" id="accounts-type-liabilities">7.7.3  Type compte de passif</h3>
+<p>Le type de compte <em>compte de passif</em> est un compte qui représente une dette, par exemple un <span class="c003">emprunt</span><a id="hevea_default74"></a>. De ce fait, il doit être utilisé pour tous les comptes suivants :</p><ul class="itemize"><li class="li-itemize">
+	compte d’emprunt ;
+	</li><li class="li-itemize">compte de <span class="c003">carte bancaire à débit différé</span><a id="hevea_default75"></a>.
+	
+</li></ul>
+<h4 class="subsubsection" id="accounts-type-liabilities-loan">Compte d’emprunt</h4>
+<p>Un compte d’emprunt sert à gérer un emprunt. Son solde initial est nul, mais, dès que vous contractez une dette, il devient négatif du montant de cette dette, et augmente ensuite à chaque remboursement versé, pour devenir nul après son dernier remboursement. </p><p>En pratique, le solde initial de ce compte est nul, mais il devient (fortement) négatif dès la première opération, à savoir le virement, par l’organisme de crédit, du montant de l’emprunt sur votre compte courant. Vous enregistrez à ce moment-là un virement du compte de passif vers ce compte courant, ce qui vous permet de procéder à votre achat.</p><p>Par exemple, quand l’organisme de crédit Crédit Bitoire vous verse le montant de 20 000 pour acheter chez Auto Matique une voiture qui coûte 25 000, vous créez un compte de passif appelé <em>Emprunt</em>, et dans ce compte, vous saisissez l’opération suivante : </p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Crédit Bitoire <span class="c007">Débit</span> : 20 000 <span class="c007">Catégorie</span> : <em>Virement : Banque Yze</em> <span class="c007">Remarques</span> : Dette emprunt Crédit Bitoire
+</li></ul><p><span class="c010">Note</span> : si ce virement est fait directement par l’organisme de crédit sur le compte du vendeur, la catégorie devra être, par exemple, <em>Virement : Compte Immobilisation</em>; vous pouvez n’avoir qu’un seul compte d’immobilisation pour tous vos biens, ou bien un compte par bien acheté.</p><p>
+À chaque fois que vous versez une échéance de votre <span class="c003">emprunt</span><a id="hevea_default76"></a>, vous enregistrez un virement de votre compte courant vers le compte <em>Emprunt</em>, du montant du capital remboursé, en catégorie <em>Virement : Emprunt</em>, et une dépense sur ce compte courant, du montant des intérêts, en catégorie <em>Frais financiers : Charges d’emprunts</em>. Éventuellement, ajoutez-y une dépense pour l’assurance, en catégorie <em>Assurances</em>. De cette façon, vous saurez à tout moment le montant du capital restant à rembourser, mais aussi le coût de l’emprunt.</p><p>Par exemple, à chaque échéance, vous saisissez une opération ventilée sur votre compte courant :</p><ul class="itemize"><li class="li-itemize">
+	opération maître : <span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Crédit Bitoire <span class="c007">Débit</span> : 350 <span class="c007">Catégorie</span> : <em>Opération ventilée</em>
+	</li><li class="li-itemize">1re opération ventilée : <span class="c007">Débit</span> : 300 <span class="c007">Catégorie</span> : <em>Virement : Emprunt</em>
+	</li><li class="li-itemize">2e opération ventilée : <span class="c007">Débit</span> : 50 <span class="c007">Catégorie</span> : <em>Frais financiers : Charges d’emprunts</em>
+</li></ul><p>
+N’oubliez pas que, si le montant de l’échéance est constant, à l’intérieur de chaque échéance suivante, le capital remboursé augmente et l’intérêt versé diminue (voir le tableau d’amortissement de l’emprunt). </p><p>
+Vous pourrez donc parfaitement utiliser un compte de passif pour gérer vos emprunts ; comme Grisbi ne propose pas pour l’instant la ventilation automatique des remboursements d’emprunt (amortissements, intérêts et frais reportés automatiquement de votre tableau d’amortissement), vous pourrez tout de même saisir une opération planifiée et ventilée pour les remboursements, en mode manuel ou automatique, et vous ajusterez les montants à chaque échéance selon votre tableau (voir la section <a href="grisbi-manuel017.html#credit-amortization">16.3</a>, <span class="c007">Tableau d’amortissement</span>).</p><p>
+Lorsqu’un compte de passif est soldé, ce qui signifie que vous avez remboursé la dette correspondante, Grisbi vous prévient en affichant un message dans la partie inférieure du pavé des détails de la page d’accueil (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, Accueil). </p>
+<h4 class="subsubsection" id="accounts-type-cash-deferredCards">Compte de carte bancaire à débit différé</h4>
+<p>Les cartes bancaires à débit différé peuvent être gérées de différentes manières, mais il est préférable de les gérer dans un compte spécifique, qui sera de type compte de passif, puisque leur solde ne peut pas être positif.</p><p>Vous trouverez tous les détails pour gérer correctement ces cartes bancaires dans la section <a href="grisbi-manuel019.html#bankcard-deferredCard">18.2</a>, <span class="c007">Carte bancaire à débit différé</span>.</p>
+<h3 class="subsection" id="accounts-type-assets">7.7.4  Type compte d’actif</h3>
+<p>Le type de compte <em>compte d’actif</em> est un compte qui représente un bien, par exemple une voiture. Son solde initial est nul, mais il devient positif dès que vous possédez ce bien, d’un montant égal à sa valeur, puis il diminue avec le temps à mesure de sa dépréciation, pour finir à une valeur nulle. Les opérations se font par virement. On peut le considérer comme le contraire d’un compte de passif.</p><p>
+En pratique, le solde initial de ce compte est nul, mais il devient (fortement) positif dès la première opération, à savoir l’achat de ce bien. Vous enregistrez à ce moment-là un virement de votre compte courant vers ce <span class="c003">compte d’actif</span><a id="hevea_default77"></a>, égal au prix d’achat du bien, ce qui vous permet de procéder à votre achat.</p><p>Par exemple, quand vous achetez la voiture à 25 000 chez Auto Matique, vous créez un compte d’actif appelé <em>Compte Immobilisation</em>, et dans votre compte courant, vous saisissez l’opération suivante : </p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date</span> : jj/mm/aa <span class="c007">Tiers</span> : Auto Matique <span class="c007">Débit</span> : 25 000 <span class="c007">Catégorie</span> : <span class="c007">Virement : Compte Immobilisation Remarques</span> : Actif achat voiture
+</li></ul><p>Votre compte <em>Immobilisation</em> enregistre donc une opération en crédit, du montant de cette voiture.</p><p>
+À chaque fois que vous constatez une <span class="c003">dépréciation</span><a id="hevea_default78"></a><a id="hevea_default79"></a> de ce bien, vous enregistrez un retrait du compte d’actif, du montant de la dépréciation, dans la catégorie <em>Amortissements : Dépréciation</em>. Ces retraits pourront être faits jusqu’à ce que le solde du compte soit nul. De cette façon vous connaîtrez en permanence la valeur de votre bien.</p><p>Par exemple, au bout d’un an la cotation de votre voiture (par ex. dans votre journal préféré) a perdu une certaine valeur ; dans votre compte <em>Immobilisation</em>, vous saisissez l’opération suivante : </p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Date</span> : 31/12/2012 <span class="c007">Tiers</span> : Dépréciation Voiture <span class="c007">Débit</span> : 5000 <span class="c007">Catégorie</span> : Amortissements : Dépréciation
+</li></ul><p>
+Lors de l’achat, le montant que vous possédez réellement est votre apport personnel. Au cours du temps, vous remboursez les mensualités de votre emprunt, tandis que votre bien se déprécie. Le solde des comptes d’actif et de passif vous donnera à tout moment le montant que vous possédez globalement.</p>
+<h2 class="section" id="accounts-switcheuro">7.8  Conversion d’un compte en euros</h2>
+<p>Cette section devient de plus en plus obsolète au fur et à mesure que le 
+temps passe, mais nous la maintenons encore pour vous permettre l’éventuel
+import de vieux fichiers de compte.</p><p>Cette fonction n’existe plus à partir de la version 0.8 de Grisbi. Donc, si vous avez absolument
+besoin de réaliser cette opération, le seul moyen serait de la faire en utilisant une version précédente, de la manière suivante :</p><p>
+<span class="c009">Attention</span> : cette procédure n’est qu’une proposition, et n’a pas été
+testée avec toutes les versions précédentes de Grisbi. C’est pour cela qu’il est
+de la plus haute importance de sauvegarder auparavant votre fichier de comptes en lieu sûr.</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 avant tout, faites une copie de votre fichier de comptes actuel, renommez-le (par ex. en <span class="c010">comptesSauvegarde.gsb)</span> et placez-le en lieu sûr ;
+	 </li><li class="li-enumerate">choisissez une version ancienne de Grisbi, la moins ancienne possible 	et qui dispose de la fonction de conversion en euros ; vous devriez pouvoir la trouver, ainsi que son manuel, à la page du site de <a href="http://www.grisbi.org"><em>Grisbi</em></a> ; installez-la ;
+	 </li><li class="li-enumerate">importez le compte voulu en suivant les instructions du manuel de cette ancienne version de Grisbi que vous venez d’installer ;
+	 </li><li class="li-enumerate">procédez à la conversion de ce compte en euros ;
+	 </li><li class="li-enumerate">exportez ce compte en suivant les instructions du même manuel ; vous obtenez alors un fichier d’export ;
+	 </li><li class="li-enumerate">redémarrez votre nouvelle version de Grisbi et ouvrez votre fichier de comptes habituel (pas la sauvegarde, évidemment !) ;
+	 </li><li class="li-enumerate">procédez à l’importation du fichier d’export ;
+	 </li><li class="li-enumerate">si tout se passe bien, vous disposez maintenant de votre compte converti en euros.
+</li></ol><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_). </p>
+<hr>
+<a href="grisbi-manuel007.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel009.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

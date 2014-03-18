@@ -73,7 +73,7 @@ typedef struct
     gint marked_transaction;            /**<  OPERATION_NORMALE=nothing, OPERATION_POINTEE=P, OPERATION_TELERAPPROCHEE=T, OPERATION_RAPPROCHEE=R */
     gint archive_number;                /**< if it's an archived transaction, contains the number of the archive */
     gshort automatic_transaction;       /**< 0=manual, 1=automatic (scheduled transaction) */
-    gint reconcile_number;              /**< the number of reconcile, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
+    gint reconcile_number;              /**< the number of reconciliation, carreful : can be filled without marked_transaction=OPERATION_RAPPROCHEE sometimes,
                                              it happen if the user did ctrl R to un-R the transaction, we keep reconcile_number because most of them
                                              will re-R after the change, and that value will help the user to find wich statement it belong.
                                              o always check marked_transaction before checking reconcile_number here */
@@ -2430,61 +2430,6 @@ GSList *gsb_data_transaction_get_children ( gint transaction_number,
 
 
 /**
- * find a transaction by the method of payment content in a given account
- *
- * \param string
- * \param account_number
- *
- * \return the number of the transaction or 0 if not found
- * */
-gint gsb_data_transaction_find_by_payment_content ( const gchar *string,
-                        gint account_number )
-{
-    GSList *tmp_list;
-    gint64 number_1;
-    gchar *endptr;
-
-    if (!string)
-        return 0;
-
-    errno = 0;
-    number_1 = g_ascii_strtoll ( string, &endptr, 10);
-    if ( errno == ERANGE )
-        return 0;
-
-    if ( endptr )
-        return 0;
-
-    tmp_list = transactions_list;
-    while (tmp_list)
-    {
-        struct_transaction *transaction;
-
-        transaction = tmp_list -> data;
-
-        if ( transaction -> method_of_payment_content
-         &&
-         transaction -> account_number == account_number )
-        {
-            gint64 number_2;
-
-            errno = 0;
-            number_2 = g_ascii_strtoll ( transaction -> method_of_payment_content, &endptr, 10);
-            if ( errno == ERANGE )
-                return 0;
-            if ( endptr )
-                return 0;
-
-            if ( number_1 == number_2 )
-                return transaction -> transaction_number;
-        }
-        tmp_list = tmp_list -> next;
-    }
-    return 0;
-}
-
-
-/**
  * find a transaction by its id
  *
  * \param id a string containing an id
@@ -2513,8 +2458,7 @@ gint gsb_data_transaction_find_by_id ( gchar *id, gint account_number )
          &&
          !strcmp ( id, transaction -> transaction_id )
          &&
-         account_number == gsb_data_transaction_get_account_number (
-         transaction -> transaction_number ) )
+         account_number ==  transaction -> account_number )
             return transaction -> transaction_number;
 
         tmp_list = tmp_list -> next;
@@ -2614,7 +2558,7 @@ gint gsb_data_transaction_check_content_payment ( gint payment_number,
  *
  * \return the slist of transactions structures
  * */
-GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
+GSList *gsb_data_transaction_get_metatree_transactions_list ( void )
 {
     GSList *list_tmp;
 
@@ -2623,12 +2567,19 @@ GSList *gsb_data_transaction_get_transactions_list_by_date ( void )
     else
         list_tmp = g_slist_copy ( transactions_list );
 
-    if ( etat.metatree_sort_transactions == 1 )
+    switch ( etat.metatree_sort_transactions )
+    {
+        case 1 :
         list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date );
-    else
+        break;
+        case 2 :
         list_tmp = g_slist_sort (list_tmp,
                         (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+        break;
+        default :
+        break;
+    }
 
     return list_tmp;
 }
@@ -2742,6 +2693,51 @@ gboolean gsb_data_transaction_remove_transaction_in_transaction_list ( gint tran
     transactions_list = g_slist_remove ( transactions_list, transaction );
 
     return TRUE;
+}
+
+
+/**
+ * renvoie la liste des opérations concernées par un fichier importé.
+ *
+ * \param account_number
+ * \param first_date_import     date de début de recherche
+ *
+ * \return
+ * */
+GSList *gsb_import_get_transactions_list_for_import ( gint account_number,
+                        GDate *first_date_import )
+{
+    GSList *tmp_list;
+    GSList *ope_list = NULL;
+
+    tmp_list = g_slist_copy ( transactions_list );
+    tmp_list = g_slist_sort ( tmp_list, (GCompareFunc) classement_sliste_transactions_par_date_decroissante );
+
+    while ( tmp_list )
+    {
+        struct_transaction *transaction;
+        GDate *ope_date;
+
+        transaction = tmp_list->data;
+
+        if ( transaction->value_date && g_date_valid ( transaction->value_date ) )
+            ope_date = transaction->value_date;
+        else
+            ope_date = transaction->date;
+
+        if ( transaction->account_number == account_number
+         &&
+         g_date_compare ( ope_date, first_date_import ) >= 0 )
+        {
+            ope_list = g_slist_append ( ope_list,  GINT_TO_POINTER ( transaction->transaction_number ) );
+        }
+
+        tmp_list = tmp_list->next;
+    }
+
+    g_slist_free ( tmp_list );
+
+    return ope_list;
 }
 
 

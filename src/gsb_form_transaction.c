@@ -393,39 +393,30 @@ GSList *gsb_form_transaction_get_parties_list_from_report ( void )
             tab_char = g_strsplit ( string, " : ", 2 );
 
             report_number = gsb_data_report_get_report_by_name (tab_char[1]);
-
             if (report_number)
             {
-            GSList *list_transactions;
-            GSList *list_tmp;
+                GSList *list_payees;
+                GSList *list_tmp;
 
-            list_transactions = recupere_opes_etat (report_number);
+                list_payees = gsb_data_report_get_payee_numbers_list ( report_number );
+                list_tmp = list_payees;
+                while ( list_tmp )
+                {
+                    parties_list = g_slist_append ( parties_list, list_tmp->data );
 
-            list_tmp = list_transactions;
+                    list_tmp = list_tmp->next;
+                }
 
-            while ( list_tmp )
-            {
-                gint transaction_number;
-
-                transaction_number = gsb_data_transaction_get_transaction_number (list_tmp -> data);
-
-                if ( !g_slist_find ( parties_list,
-                         GINT_TO_POINTER (gsb_data_transaction_get_party_number (transaction_number))))
-                parties_list = g_slist_append ( parties_list,
-                                GINT_TO_POINTER ( gsb_data_transaction_get_party_number (transaction_number)));
-                list_tmp = list_tmp -> next;
-            }
-            g_slist_free ( list_transactions );
             }
             else
-            /* the report was not found, set -1 */
-            parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
-            g_strfreev ( tab_char );
+                /* the report was not found, set -1 */
+                parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( -1 ) );
+                g_strfreev ( tab_char );
         }
     }
     else
-	/* no party so not a report */
-	parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
+        /* no party so not a report */
+        parties_list = g_slist_append ( parties_list, GINT_TO_POINTER ( - 1) );
 
     return parties_list;
 }

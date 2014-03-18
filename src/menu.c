@@ -148,7 +148,7 @@ static const gchar *ui_manager_buffer =
 "    <menu name='Help' action='HelpMenuAction' >"
 "      <menuitem name='Manual' action='ManualAction'/>"
 "      <menuitem name='QuickStart' action='QuickStartAction'/>"
-"      <menuitem name='Translation' action='TranslationAction'/>"
+/*"      <menuitem name='Translation' action='TranslationAction'/>"*/
 "      <menuitem name='About' action='AboutAction'/>"
 "      <separator/>"
 "      <menuitem name='GrisbiWebsite' action='GrisbiWebsiteAction'/>"
@@ -303,8 +303,8 @@ GtkWidget *init_menus ( GtkWidget *vbox )
 	#endif
         {"QuickStartAction", NULL, _("_Quick start"), NULL, NULL,
          G_CALLBACK ( help_quick_start ) },
-        {"TranslationAction", NULL, _("_Translation"), NULL, NULL,
-         G_CALLBACK ( help_translation ) },
+        /* {"TranslationAction", NULL, _("_Translation"), NULL, NULL,
+         G_CALLBACK ( help_translation ) }, */
         {"AboutAction", GTK_STOCK_ABOUT, _("_About Grisbi..."), NULL, NULL,
          G_CALLBACK ( a_propos ) },
         {"GrisbiWebsiteAction", NULL, _("_Grisbi website"), NULL, NULL,

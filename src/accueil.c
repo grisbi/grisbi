@@ -157,6 +157,8 @@ GtkWidget *creation_onglet_accueil ( void )
     gtk_widget_modify_bg ( eb, 0, &(style -> bg[GTK_STATE_ACTIVE]) );
 
     label_titre_fichier = gtk_label_new ( NULL );
+    g_object_add_weak_pointer ( G_OBJECT ( label_titre_fichier ),
+                                (gpointer*)&label_titre_fichier );
 
     if ( etat.utilise_logo )
     {
@@ -1013,7 +1015,8 @@ GtkStyle *gsb_main_page_get_default_label_style ( )
     style_label = gtk_style_copy ( gtk_widget_get_style ( label ) );
     style_label -> fg[GTK_STATE_NORMAL] = *( gsb_color_get_couleur ( "couleur_nom_compte_normal" ) );
     style_label ->fg[GTK_STATE_PRELIGHT] = *( gsb_color_get_couleur ( "couleur_nom_compte_prelight" ) );
-    gtk_widget_destroy ( label );
+    g_object_ref_sink ( G_OBJECT ( label ) );
+    g_object_unref ( G_OBJECT ( label ) );
 
     return style_label;
 }
@@ -1079,6 +1082,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
     gtk_misc_set_alignment ( GTK_MISC ( pLabel ), MISC_LEFT, MISC_VERT_CENTER );
     gtk_size_group_add_widget ( GTK_SIZE_GROUP ( size_group_accueil ), pLabel );
     gtk_widget_set_style ( pLabel, pStyleLabelNomCompte );
+    g_object_unref ( pStyleLabelNomCompte );
 
     /* Création d'une boite à évènement qui sera rattachée au nom du compte */
     pEventBox = gtk_event_box_new ();
@@ -1138,6 +1142,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldePointe );
+    g_object_unref ( pStyleLabelSoldePointe );
 
     /* Création d'une boite à évènement qui sera rattachée au solde pointé du compte */
     pEventBox = gtk_event_box_new ();
@@ -1197,6 +1202,7 @@ void gsb_main_page_affiche_ligne_du_compte ( GtkWidget *pTable,
         }
     }
     gtk_widget_set_style ( pLabel, pStyleLabelSoldeCourant );
+    g_object_unref ( pStyleLabelSoldeCourant );
 
     /* Création d'une boite à évènement qui sera rattachée au solde courant du compte */
     pEventBox = gtk_event_box_new ();
@@ -2231,7 +2237,7 @@ void gsb_main_page_update_homepage_title ( const gchar *title )
     gchar * tmp_str;
 
     /* at the first use of grisbi,label_titre_fichier doesn't still exist */
-    if ( !label_titre_fichier || !GTK_IS_LABEL ( label_titre_fichier ) )
+    if ( !label_titre_fichier )
         return;
 
     tmp_str = g_markup_printf_escaped ("<span size=\"x-large\">%s</span>", title );

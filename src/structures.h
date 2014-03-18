@@ -14,8 +14,7 @@
 #define VERSION_FICHIER "0.6.0"
 
 /* Define this when in Git development branch. */
-#define IS_DEVELOPMENT_VERSION 1
-#define IS_DEVELOPMENT_VERSION 1
+#define IS_DEVELOPMENT_VERSION 0
 
 #define VERSION_FICHIER_ETAT "0.6.0"
 #define VERSION_FICHIER_CATEG "0.6.0"
@@ -97,6 +96,9 @@ struct gsb_etat_t
 
     /* variables sur l'échéancier */
     gint affichage_commentaire_echeancier;      /* à 1 si le commentaire est affiché */
+    gint affichage_echeances;                   /* affichage de la période affichée dans la vue échéancier */
+    gint affichage_echeances_perso_nb_libre;    /* nombre de périodicité des échéances personnalisées */
+    gint affichage_echeances_perso_j_m_a;       /* type de périodicité des échéances personnalisées */
 
     /* variables pour les metatree */
     gint metatree_sort_transactions;        /* 1 = sorting by increasing date 2 = Sort by date descending */

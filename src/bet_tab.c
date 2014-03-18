@@ -3127,7 +3127,22 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                         gboolean same_month )
 {
     GSList *tmp_list;
+    GDate *date_debut_comparaison;
+    GDate *date_fin_comparaison;
+    GDateDay day;
+    GDateMonth month;
+    GDateYear year;
     gboolean find = FALSE;
+
+    day = g_date_get_day ( transfert->date );
+    month = g_date_get_month ( transfert->date );
+    year = g_date_get_year ( transfert->date );
+
+    date_debut_comparaison = g_date_new_dmy ( day, month, year );
+    g_date_subtract_days ( date_debut_comparaison, valeur_echelle_recherche_date_import );
+
+    date_fin_comparaison = g_date_new_dmy ( day, month, year );
+    g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
     if ( same_month )
     {
@@ -3164,7 +3179,9 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                 date = gsb_data_transaction_get_value_date_or_date ( transaction_number );
 
                 /* ignore transaction which are different date */
-                if ( g_date_compare ( date, transfert->date ) != 0 )
+                if ( g_date_compare ( date, date_debut_comparaison ) < 0
+                 ||
+                 g_date_compare ( date, date_fin_comparaison ) > 0 )
                     continue;
 
                 if ( transfert->main_category_number )
@@ -3251,7 +3268,9 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
             date = gsb_data_scheduled_get_date ( scheduled_number );
 
             /* ignore scheduled which are different date */
-            if ( g_date_compare ( date, transfert->date ) != 0 )
+            if ( g_date_compare ( date, date_debut_comparaison ) < 0
+             ||
+             g_date_compare ( date, date_fin_comparaison ) > 0 )
                 continue;
 
             if ( transfert->main_category_number )
@@ -3298,6 +3317,8 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
             g_date_free ( tmp_date );
         }
     }
+    g_date_free ( date_debut_comparaison );
+    g_date_free ( date_fin_comparaison );
 }
 
 

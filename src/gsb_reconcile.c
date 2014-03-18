@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*     Copyright (C)	2000-2008 Cédric Auger (cedric@grisbi.org)	          */
-/*			2003-2008 Benjamin Drieu (bdrieu@april.org)	                      */
-/*                      2009-2010 Pierre Biava (grisbi@pierre.biava.name)     */
-/* 			http://www.grisbi.org				                              */
+/*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
+/*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
+/*                      2009-2013 Pierre Biava (grisbi@pierre.biava.name)     */
+/*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -61,6 +61,7 @@
 #include "utils_dates.h"
 #include "utils_real.h"
 #include "utils_str.h"
+#include "erreur.h"
 /*END_INCLUDE*/
 
 /*START_STATIC*/
@@ -313,6 +314,7 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
 
     /* old_label = NAME + NUMBER */
     old_label = g_strdup ( gsb_data_reconcile_get_name ( reconcile_number ) );
+
     /* return account NAME + '1' */
     if ( !old_label )
     {
@@ -334,12 +336,17 @@ gchar *gsb_reconcile_build_label ( int reconcile_number )
      * if found, get the biggest number until we find a non digit character */
     __expand = 1;
     tmp = old_label + ( strlen ( old_label ) - 1 ) * sizeof ( gchar );
-    while ( isdigit ( *tmp ) && tmp >= old_label )
+
+    while ( tmp >= old_label )
     {
+        if ( !isdigit ( tmp[0] ) )
+            break;
+
         if ( *tmp != '9' )
             __expand = 0;
         tmp--;
     }
+
     tmp ++; /* step forward to the first digit */
 
     __reconcile_number = utils_str_atoi ( tmp ) + 1;
@@ -533,10 +540,11 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 {
     GSList *list_tmp_transactions;
     GDate *date;
+    const GDate *initial_date;
     gint account_number;
     gint reconcile_number;
     gsb_real real;
-	gchar* tmpstr;
+	gchar *tmp_str;
 
     account_number = gsb_gui_navigation_get_current_account ();
 
@@ -553,8 +561,11 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     reconcile_number = gsb_data_reconcile_get_number_by_name (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry )));
     if (reconcile_number)
     {
-	dialogue_warning_hint ( _("There is already a reconcile with that name, you must use another name or let it free.\nIf the reconcile name is ending by a number,\nit will be automatically incremented."),
-				_("Reconciliation can't be completed.") );
+	dialogue_warning_hint ( _("There is already a reconciliation with that "
+                        "name, you must use another name or let it free.\nIf the "
+                        "reconcile name is ending by a number,\n"
+                        "it will be automatically incremented."),
+                        _("Reconciliation can't be completed.") );
 	return FALSE;
     }
 
@@ -563,12 +574,33 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
     date = gsb_calendar_entry_get_date (reconcile_new_date_entry);
     if (!date)
     {
-	gchar* tmpstr = g_strdup_printf ( _("Invalid date: '%s'"),
+    tmp_str = g_strdup_printf ( _("Invalid date: '%s'"),
 						  gtk_entry_get_text ( GTK_ENTRY ( reconcile_new_date_entry )));
-	dialogue_warning_hint ( tmpstr,
+	dialogue_warning_hint ( tmp_str,
 				_("Reconciliation can't be completed.") );
-	g_free ( tmpstr );
+	g_free ( tmp_str );
 	return FALSE;
+    }
+
+    /* teste la validité de la date de fin */
+    reconcile_number = gsb_data_reconcile_get_account_last_number ( account_number );
+    if ( reconcile_number )
+    {
+        initial_date = gsb_data_reconcile_get_final_date ( reconcile_number );
+        if ( g_date_compare ( initial_date, date ) >= 0 )
+        {
+            tmp_str = g_strdup_printf ( _("Invalid date: '%s'"), gsb_format_gdate ( date ) );
+            dialogue_warning_hint ( tmp_str, _("Reconciliation can't be completed.") );
+            g_free ( tmp_str );
+
+            return FALSE;
+        }
+    }
+    else
+    {
+        tmp_str = g_strdup ( _("You can set the initial date of the reconciliation in the preferences.") );
+        dialogue_warning ( tmp_str );
+        g_free ( tmp_str );
     }
 
     if (!strlen (gtk_entry_get_text ( GTK_ENTRY ( reconcile_number_entry ))))
@@ -586,10 +618,10 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 	gsb_reconcile_list_button_clicked (reconcile_sort_list_button, NULL);
     }
 
-    tmpstr = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
+    tmp_str = g_strdup_printf ( _("Last statement: %s"), gsb_format_gdate (date));
     gtk_label_set_text ( GTK_LABEL ( label_last_statement ),
-			 tmpstr);
-    g_free ( tmpstr );
+			 tmp_str);
+    g_free ( tmp_str );
 
     /* create the new reconcile structure */
     reconcile_number = gsb_data_reconcile_new (gtk_entry_get_text (GTK_ENTRY (reconcile_number_entry)));
@@ -637,6 +669,9 @@ gboolean gsb_reconcile_finish_reconciliation ( GtkWidget *button,
 
     /* update the P and T to R in the list */
     transaction_list_update_element (ELEMENT_MARK);
+
+    /* update the reconcile number if necessary */
+    transaction_list_update_element ( ELEMENT_RECONCILE_NB );
 
     run.mise_a_jour_liste_comptes_accueil = TRUE;
 

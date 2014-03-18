@@ -1,7 +1,7 @@
-			     GRISBI 0.9.4
+			     GRISBI 1.0.0
 
-Grisbi is a personal multi-platform accounting application, written with
-Gtk and released under the GNU GPL license.
+Grisbi is a personal accounting application for Linux, written with
+Gtk and released under the GPL license.
 
 Our aim is to provide you with the most simple and intuitive software
 for basic use, although it can be very powerful if you spend a little
@@ -10,15 +10,14 @@ time on the setup.
 Grisbi is an application written by French developers, so it
 perfectly respects French accounting rules. Grisbi can manage multiple
 accounts, currencies and users. It manages third party, expenditure
-and receipt categories, and also budgetary lines, financial years, and
-other information that make Grisbi adapted for associations (except
-those that require double entry accounting). 
+and receipt categories, budgetary lines, financial years, budget
+estimates, bankcard management and other information that make Grisbi
+adapted for associations.
 
 The complete manual is available on line. The version that comes with
-the software is not illustrated, but you can replace it by the
-illustrated version at any time, which is available for download on
-this site.  The manual will be soon completed with a Guide concerning
-accounting for associations.
+the software is illustrated, but you can replace it by the
+non-illustrated version at any time, which is available for download on
+line.
 
 If you want to keep updated with Grisbi releases, you may subscribe to
 the mailing list infos@grisbi.org (see Contacts) and if you like to
@@ -30,13 +29,23 @@ Grisbi is free software, any contribution is welcome.
 This product includes software developed by the OpenSSL Project for
 use in the OpenSSL Toolkit (http://www.openssl.org/).
 
-Website :     http://www.grisbi.org/
+Website :     http://www.grisbi.org
 Bug reports : http://www.grisbi.org/bugtracking
               mailto:bugs-report@grisbi.org
 
 
 === Release history ===
 
+  Version 1.0.0 : 17/03/2014
+  Version 0.8.9 : 30/12/2011
+  Version 0.8.8 : 13/04/2011
+  Version 0.8.7 : 05/06/2011
+  Version 0.8.6 : 22/05/2011
+  Version 0.8.5 : 13/04/2011
+  Version 0.8.4 : 12/03/2011
+  Version 0.8.3 : 06/03/2011
+  Version 0.8.2 : 22/02/2011
+  Version 0.8.0 : 21/02/2011
   Version 0.6.0 : 05/05/2010
   Version 0.5.9 : 10/07/2006
   Version 0.5.8 : 19/12/2005

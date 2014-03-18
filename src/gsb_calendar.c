@@ -47,10 +47,7 @@ static void click_sur_jour_calendrier_echeance ( GtkWidget *calendrier,
 /*END_STATIC*/
 
 
-enum periodicity_units affichage_echeances_perso_j_m_a;
 static GtkWidget *scheduled_calendar;
-gint affichage_echeances;
-gint affichage_echeances_perso_nb_libre;     /* contient le contenu de l'entrÃ©e */
 
 /*START_EXTERN*/
 /*END_EXTERN*/

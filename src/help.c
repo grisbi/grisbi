@@ -123,7 +123,9 @@ _("Programming"),
 "Francois Terrot (<grisbi@terrot.net>)",
 "Pierre Biava (<pierre.biava@nerim.net>)",
 "Mickaël Remars (<grisbi@remars.com>)",
-"William Ollivier (<guneeyoufix@gmail.com>)"
+"William Ollivier (<guneeyoufix@gmail.com>)",
+"Rémi Cardona (remi@gentoo.org)",
+"Ludovic Rousseau (ludovic.rousseau@gmail.com)"
 "\n",
 
 _("Packaging"),
@@ -162,11 +164,17 @@ NULL);
 
   const gchar *documenters [] = {
 "Alain Portal (<aportal@univ-monpt2.fr>)",
+"Benjamin Drieu (bdrieu[at]april.org)",
 "Daniel Cartron (<doc@grisbi.org>)",
+"Jean-Luc Duflot (jl.duflot[at]laposte.net)",
+"Loic Breilloux (loic.breilloux[at]libertysurf.fr)",
 NULL};
 
   const gchar *artists [] = {
 "Andre Pascual (<andre@linuxgraphic.org>)",
+"Jakub 'jimmac' Steiner (jimmac[at]ximian.com)",
+"Jean-Baptiste Renard (renardjb[at]free.fr)",
+"Tuomas 'tigert' Kuosmanen (tigert[at]gimp.org)",
 NULL};
 
   const gchar *license = "This program is free software; you can redistribute "

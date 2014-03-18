@@ -341,7 +341,8 @@ gint my_strcmp ( gchar *string_1, gchar *string_2 )
  *
  * \return -1 string_1 before string_2 (or string_2 NULL) ; 0 if same or NULL everyone ; +1 if string_1 after string_2 (or string_1 NULL)
  * */
-gint my_strcasecmp ( const gchar *string_1, const gchar *string_2 )
+gint my_strcasecmp ( const gchar *string_1,
+                        const gchar *string_2 )
 {
     if (!string_1 && string_2)
 	    return 1;
@@ -357,12 +358,10 @@ gint my_strcasecmp ( const gchar *string_1, const gchar *string_2 )
             gint retour;
             gchar *new_1, *new_2;
 
-            new_1 = g_utf8_collate_key ( g_utf8_casefold ( string_1,-1 ),
-                         -1 );
-            new_2 = g_utf8_collate_key ( g_utf8_casefold (  string_2,-1 ),
-                         -1 );
-            retour = strcmp ( new_1,
-                      new_2 );
+            new_1 = g_utf8_casefold ( string_1, -1 );
+            new_2 = g_utf8_casefold (  string_2, -1 );
+            retour = g_utf8_collate ( new_1, new_2);
+
             g_free ( new_1 );
             g_free ( new_2 );
             return ( retour );

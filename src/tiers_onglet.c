@@ -111,6 +111,9 @@ static GtkWidget *payee_toolbar;
 static GtkWidget *payee_tree = NULL;
 static GtkTreeStore *payee_tree_model = NULL;
 
+/* variable for display payees without transactions */
+static gboolean display_unused_payees;
+
 /* variable for the management of the cancelled edition */
 static gboolean sortie_edit_payee = FALSE;
 
@@ -151,6 +154,7 @@ void payees_init_variables_list ( void )
     payee_tree = NULL;
     etat.no_devise_totaux_tiers = 1;
 
+    display_unused_payees = FALSE;
     sortie_edit_payee = FALSE;
 }
 
@@ -448,6 +452,23 @@ void payees_remove_unused_payees ( void )
 
 
 /**
+ * Fonction de callback d'affichage des tiers inutilisés
+ *
+ * \param
+ * \param
+ *
+ * \return
+ */
+static void payee_menu_display_unused_payees_activate ( GtkWidget *item,
+                        gpointer data )
+{
+    display_unused_payees = gtk_check_menu_item_get_active ( GTK_CHECK_MENU_ITEM ( item ) );
+
+    payees_fill_list ();
+}
+
+
+/**
  * Popup a menu that allow changing the view mode of the category
  * metatree.
  *
@@ -458,6 +479,7 @@ void payees_remove_unused_payees ( void )
 gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 {
     GtkWidget *menu, *menu_item;
+    gint nb_unused;
 
     menu = gtk_menu_new ();
 
@@ -473,6 +495,33 @@ gboolean popup_payee_view_mode_menu ( GtkWidget * button )
 		       G_CALLBACK(expand_arbre_division), (gpointer) 2 );
     g_object_set_data ( G_OBJECT(menu_item), "tree-view", payee_tree );
     gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+
+    /* Separator */
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), gtk_separator_menu_item_new() );
+
+    /* menu pour afficher les tiers inutilisés */
+    if ( ( nb_unused = gsb_data_payee_get_unused_payees () ) == 0 )
+    {
+        menu_item = gtk_check_menu_item_new_with_label ( _("Display unused payees") );
+        gtk_widget_set_sensitive ( menu_item, FALSE );
+    }
+    else
+    {
+        gchar *tmp_str;
+        gchar *tmp_str_1;
+
+        tmp_str = g_strdup_printf (" (%d)", nb_unused );
+        tmp_str_1 = g_strconcat ( _("Display unused payees"), tmp_str, NULL );
+        menu_item = gtk_check_menu_item_new_with_label ( tmp_str_1 );
+        g_free ( tmp_str );
+        g_free ( tmp_str_1 );
+    }
+    gtk_check_menu_item_set_active ( GTK_CHECK_MENU_ITEM ( menu_item ), display_unused_payees );
+    gtk_menu_shell_append ( GTK_MENU_SHELL ( menu ), menu_item );
+    g_signal_connect ( G_OBJECT ( menu_item ),
+                        "activate",
+                        G_CALLBACK ( payee_menu_display_unused_payees_activate ),
+                        NULL );
 
     gtk_widget_show_all ( menu );
 
@@ -528,22 +577,26 @@ void payees_fill_list ( void )
                 &iter_payee, payee_number );
 
     /** Then, populate tree with payee. */
-    payee_list_tmp = gsb_data_payee_get_payees_list ();
+    payee_list_tmp = g_slist_copy ( gsb_data_payee_get_payees_list () );
+
+    payee_list_tmp = g_slist_sort ( payee_list_tmp, (GCompareFunc) gsb_data_payee_compare_payees_by_name);
 
     while ( payee_list_tmp )
     {
-        payee_number = gsb_data_payee_get_no_payee (payee_list_tmp -> data);
+        payee_number = gsb_data_payee_get_no_payee ( payee_list_tmp->data);
 
-        /* no display the payee without transactions (archived) */
-        if ( gsb_data_payee_get_nb_transactions ( payee_number ) )
+        if ( display_unused_payees || gsb_data_payee_get_nb_transactions ( payee_number ) )
         {
-            gtk_tree_store_append (GTK_TREE_STORE (payee_tree_model), &iter_payee, NULL);
-            fill_division_row ( GTK_TREE_MODEL(payee_tree_model),
-                        payee_get_metatree_interface ( ),
-                        &iter_payee, payee_number );
+            gtk_tree_store_append ( GTK_TREE_STORE ( payee_tree_model ), &iter_payee, NULL );
+            fill_division_row ( GTK_TREE_MODEL ( payee_tree_model ),
+                        payee_get_metatree_interface (),
+                        &iter_payee,
+                        payee_number );
         }
         payee_list_tmp = payee_list_tmp -> next;
     }
+
+    g_slist_free ( payee_list_tmp );
 
     /* Reattach the model */
     gtk_tree_view_set_model (GTK_TREE_VIEW (payee_tree),
@@ -1392,18 +1445,21 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
     GSList *sup_payees;
     gchar *tmpstr;
     const gchar *str_cherche;
+    gchar *str_replace_wildcard;
 
     devel_debug ("Enter page finish");
     sup_payees = g_object_get_data ( G_OBJECT (assistant), "sup_payees" );
     combo = g_object_get_data ( G_OBJECT (assistant), "payee");
     str_cherche = gtk_combofix_get_text ( combo );
     entry = g_object_get_data ( G_OBJECT (assistant), "new_payee");
+    str_replace_wildcard = gsb_string_remplace_joker ( str_cherche, "..." );
+
     if ( g_slist_length (sup_payees) == 1 )
     {
     tmpstr = g_strdup_printf (
                         _("You are about to replace one payee which name contain %s by %s\n\n"
                         "Are you sure?"),
-                        gsb_string_remplace_joker ( str_cherche, "..." ),
+                        str_replace_wildcard,
                         gtk_entry_get_text ( entry) );
     }
     else
@@ -1412,12 +1468,13 @@ static gboolean gsb_assistant_payees_enter_page_finish ( GtkWidget *assistant )
                         _("You are about to replace %d payees whose names contain %s by %s\n\n"
                         "Are you sure?"),
                         g_slist_length (sup_payees),
-                        gsb_string_remplace_joker ( str_cherche, "..." ),
+                        str_replace_wildcard,
                         gtk_entry_get_text ( entry) );
     }
     label = g_object_get_data ( G_OBJECT (assistant), "finish_label" );
     gtk_label_set_markup ( label, tmpstr );
 
+    g_free ( str_replace_wildcard );
     g_free ( tmpstr);
 
     return FALSE;

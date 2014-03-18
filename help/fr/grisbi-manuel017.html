@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Simulation de crédits</title>
+</head>
+<body>
+<a href="grisbi-manuel016.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel018.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="credit">Chapitre 16  Simulation de crédits</h1>
+<p>L’onglet <span class="c007">Simulateur de crédits</span> permet de simuler les différents aspects d’un ou de plusieurs crédits. Il affiche les différents paramètres d’une liste de crédits, calculés à partir du montant emprunté, du taux, des frais attachés et de durées comprises dans une plage de durées. Il calcule et affiche aussi le tableau d’amortissement d’un crédit d’une durée déterminée, sélectionné dans cette liste.</p><p>
+Pour avoir accès à la simulation de crédits, sélectionnez <span class="c007">Simulateur de crédits</span> dans le panneau de navigation ou avec la barre d’information (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span>).</p><p>La barre d’information affiche, à gauche, le nom de cet onglet.</p><p>Le pavé des détails affiche deux éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la barre d’outils ;
+	 </li><li class="li-itemize">la page <span class="c007">Simulateur de crédits</span> ou <span class="c007">Tableau d’amortissement</span>, selon le choix fait dans la barre d’outils.
+</li></ul>
+<h2 class="section" id="credit-functions">16.1  Barre d’outils</h2>
+<p>La barre d’outils du simulateur de crédits présente les fonctions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Calculer</span> : ne s’affiche que si vous êtes dans la page <span class="c007">Simulateur de crédits</span> ; elle lance le calcul d’une liste de crédits ; 
+	 </li><li class="li-itemize"><span class="c007">Amortissement</span> : ne s’affiche que si vous êtes dans la page <span class="c007">Simulateur de crédits</span> ; cliquez dessus pour afficher la page <span class="c007">Tableau d’amortissement</span> ;
+	 </li><li class="li-itemize"><span class="c007">Crédits</span> : ne s’affiche que si vous êtes dans la page <span class="c007">Amortissement</span> ; cliquez dessus pour afficher la page <span class="c007">Simulateur de crédits</span> ;
+	 </li><li class="li-itemize"><span class="c007">Imprimer</span> : ouvre la fenêtre de sélection de l’imprimante et de ses options ;
+	 </li><li class="li-itemize"><span class="c007">Exporter</span> : permet d’exporter dans un fichier le tableau affiché dans la page <span class="c007">Simulateur de crédits</span> ou <span class="c007">Amortissement</span>.
+</li></ul><p>
+La barre d’outils peut être déplacée dans l’écran en cliquant sur sa poignée (petit rectangle vertical à gauche de la barre) et en la déplaçant. Pour la réattacher à son emplacement d’origine dans le pavé des détails, la remettre en haut de la fenêtre, le haut de la poignée sur le petit trait qui visualise sa place d’origine.</p>
+<h2 class="section" id="credit-simulation">16.2  Simulateur de crédits</h2>
+<p>Pour afficher les détails du <span class="c007">Simulateur de crédits</span>, sélectionnez son onglet dans le panneau de navigation ou avec la barre d’information (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span>), ou bien, s’il est déjà sélectionné, sélectionnez <span class="c007">Crédits</span> dans la barre d’outils.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/credit_simulation.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 16.1: Simulateur de crédits</td></tr>
+</table></div>
+<a id="credit-simulation-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Le simulateur de crédits se compose de deux éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la définition du crédit ; 
+	 </li><li class="li-itemize">la liste des crédits simulés.
+</li></ul>
+<h3 class="subsection" id="credit-simulation-definition">16.2.1  Définition du crédit</h3>
+<p>La <span class="c007">Définition du crédit</span> s’affiche en haut du panneau des détails, sous la barre d’outils. Elle affiche et permet de définir les caractéristiques principales du crédit suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 le capital emprunté ; 
+	 </li><li class="li-itemize">la devise du crédit ;
+	 </li><li class="li-itemize">le taux d’intérêt annuel ;
+	 </li><li class="li-itemize">la plage de durée du crédit ;
+	 </li><li class="li-itemize">les frais, en pourcentage du capital emprunté ;
+	 </li><li class="li-itemize">le type du taux appliqué.
+</li></ul>
+<h3 class="subsection" id="credit-simulation-list">16.2.2  Liste des crédits simulés</h3>
+<p>La liste des crédits simulés s’affiche en bas du panneau des détails, sous la <span class="c007">Définition du crédit</span>. Elle affiche les caractéristiques détaillées de tous les crédits dont la durée fait partie de la plage de durées choisie dans la définition du crédit. </p><p>La liste affiche en haut la barre de libellés des colonnes. Vous pouvez <span class="c003">élargir ou rétrécir une colonne</span><a id="hevea_default253"></a> en cliquant sur le séparateur entre deux colonnes et en le déplaçant. </p><p>
+La liste des crédits simulés affiche autant de lignes qu’il y a de durées de crédits possibles dans la plage de durées choisie dans la définition du crédit. Ses champs d’affichage sont les suivants :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Durée</span> ;
+	 </li><li class="li-itemize"><span class="c007">Nombre d’échéances</span> ;
+	 </li><li class="li-itemize"><span class="c007">Capital emprunté</span> ;
+	 </li><li class="li-itemize"><span class="c007">Taux d’intérêt annuel</span> ;
+	 </li><li class="li-itemize"><span class="c007">Montant de l’échéance hors frais</span> ;
+	 </li><li class="li-itemize"><span class="c007">Montant des frais</span> ;
+	 </li><li class="li-itemize"><span class="c007">Mensualité</span> ;
+	 </li><li class="li-itemize"><span class="c007">Coût total du crédit</span>.
+</li></ul><p>
+Vous pouvez déplacer la liste des crédits vers le haut ou vers le bas avec la molette de la souris, ou bien avec la souris et l’ascenseur vertical. </p><p>Chaque crédit est affiché sur une ligne. Pour une bonne lisibilité de l’affichage, Grisbi présente une alternance de couleurs de fond violet et blanc à chaque ligne.</p><p>
+Pour sélectionner un crédit, vous avez deux moyens :
+</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur une de ses lignes ;
+	 </li><li class="li-itemize">déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>.
+</li></ul><p>
+La ligne apparaît alors sur fond rouge.</p><p>
+Un menu contextuel est disponible par un clic-droit sur une ligne, et propose les actions suivantes :
+</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Afficher le tableau d’amortissement</span> ;
+	 </li><li class="li-itemize"><span class="c007">Imprimer le tableau</span> ;
+	 </li><li class="li-itemize"><span class="c007">Exporter le tableau</span>.
+</li></ul>
+<h2 class="section" id="credit-amortization">16.3  Tableau d’amortissement</h2>
+<p>Pour afficher les détails des amortissements, sélectionnez <span class="c007">Amortissement</span> dans la barre 
+d’outil.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/credit_amortization.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 16.2: Tableau d’amortissement</td></tr>
+</table></div>
+<a id="credit-amortization-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Le tableau d’amortissement se compose de deux éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la définition du crédit ; 
+	 </li><li class="li-itemize">le tableau d’amortissement détaillé.
+</li></ul>
+<h3 class="subsection" id="credit-amortization-definition">16.3.1  Définition du crédit</h3>
+<p>La définition du crédit s’affiche en haut du panneau des détails, sous la barre d’outils. Elle affiche, <em>mais ne permet pas de définir</em>, les caractéristiques principales du crédit suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 le montant emprunté ; 
+	 </li><li class="li-itemize">le taux d’intérêt annuel ;
+	 </li><li class="li-itemize">la durée du crédit.
+</li></ul>
+<h3 class="subsection" id="credit-amortization-details">16.3.2  Tableau d’amortissement détaillé</h3>
+<p>Le tableau d’amortissement détaillé s’affiche en bas du panneau des détails, sous la <span class="c007">Définition du crédit</span>. Il affiche les caractéristiques détaillées de chaque échéance d’un crédit dont les caractéristiques principales sont affichées dans la définition du crédit juste au-dessus, et qui a été sélectionné dans la liste des crédits. </p><p>Il affiche en haut la barre de libellés des colonnes. Vous pouvez <span class="c003">élargir ou rétrécir une colonne</span><a id="hevea_default254"></a> en cliquant sur le séparateur entre deux colonnes et en le déplaçant. </p><p>
+Le tableau d’amortissement affiche autant de lignes qu’il y a d’échéances dans le crédit choisi. Ses champs d’affichage sont les suivants :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Numéro de l’échéance</span> ;
+	 </li><li class="li-itemize"><span class="c007">Capital restant dû</span> ;
+	 </li><li class="li-itemize"><span class="c007">Montant des intérêts</span> ;
+	 </li><li class="li-itemize"><span class="c007">Capital remboursé</span> ;
+	 </li><li class="li-itemize"><span class="c007">Montant des frais</span> ;
+	 </li><li class="li-itemize"><span class="c007">Mensualité</span>.
+</li></ul><p>
+Vous pouvez déplacer la liste des échéances vers le haut ou vers le bas avec la molette de la souris, ou bien avec la souris et l’ascenseur vertical. </p><p>Chaque échéance est affichée sur une ligne. Pour une bonne lisibilité de l’affichage, Grisbi présente une alternance de couleurs de fond violet et blanc à chaque ligne.</p><p>
+Pour sélectionner une échéance, vous avez deux moyens :
+</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur une de ses lignes ;
+	 </li><li class="li-itemize">déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span>et <span class="c001">&lt;Page Bas&gt;</span>.
+</li></ul><p>
+La ligne apparaît alors sur fond rouge.</p><p>
+Un menu contextuel est disponible par un clic-droit sur une ligne, et propose les actions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Afficher le simulateur de crédits</span> : affiche la zone de définition du crédit et la liste des crédits possibles ;
+	 </li><li class="li-itemize"><span class="c007">Imprimer le tableau</span> ;
+	 </li><li class="li-itemize"><span class="c007">Exporter le tableau</span>.
+</li></ul>
+<h2 class="section" id="credit-new">16.4  Simulation d’un nouveau crédit</h2>
+<p>Pour avoir accès à la simulation d’un nouveau crédit, cliquez sur <span class="c007">Crédits</span> dans la barre d’outils (si cette fonction n’apparaît pas, c’est que le simulateur de crédits est déjà affiché).</p><p>
+<span class="c010">Note</span> : À l’ouverture du simulateur de crédits, Grisbi affiche dans le pavé des détails les paramètres de définition du crédit et la liste des crédits générés lors d’une simulation précédente.
+</p><p>Pour simuler un nouveau crédit, entrez ses paramètres dans la définition du crédit :
+</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Capital emprunté</span> : le montant emprunté dans le champ de saisie, et sa devise dans la liste déroulante ; 
+	 </li><li class="li-itemize"><span class="c007">Intérêt annuel</span> : le taux d’intérêt annuel dans le champ de saisie ou à l’aide de l’incrémenteur ;
+	 </li><li class="li-itemize"><span class="c007">Plage de durée</span> : la plage de durée du crédit dans la liste déroulante, ce qui va vous permettre de comparer les crédits ;
+	 </li><li class="li-itemize"><span class="c007">Frais</span> : les frais, en pourcentage du capital emprunté, dans le champ de saisie ou à l’aide de l’incrémenteur ; pour plus de précision de calcul, vous pouvez saisir jusqu’à trois décimales ;
+	 </li><li class="li-itemize"><span class="c007">Type du taux</span> : le type du taux appliqué, avec les boutons <span class="c007">Taux actuariel</span> ou <span class="c007">Taux proportionnel</span> ; pour plus de précision de calcul, vous pouvez saisir jusqu’à trois décimales.
+</li></ul><p>
+<span class="c010">Note</span> : le taux d’intérêt est dit <span class="c003">taux actuariel</span><a id="hevea_default255"></a> lorsque les intérêts sont versés à la fin de la période annuelle ; le <span class="c003">taux proportionnel</span><a id="hevea_default256"></a> est le taux nominal divisé par une unité de temps ; par exemple, le taux proportionnel mensuel est égal au taux nominal annuel divisé par 12.
+</p><p>La liste des crédits se met à jour automatiquement et affiche tous les crédits possibles en fonction de leur durée. </p><p>Pour afficher le tableau d’amortissement de l’un des crédits, vous avez deux moyens :</p><ul class="itemize"><li class="li-itemize">
+	 sélectionnez-le, puis sélectionnez <span class="c007">Amortissement</span> dans la barre d’outils ; 
+	 </li><li class="li-itemize">cliquez-droit sur sa ligne, puis sélectionnez <span class="c007">Afficher le tableau d’amortissement</span> dans le menu contextuel.
+</li></ul><p>
+<span class="c010">Note</span> : Grisbi n’enregistre pas le résultat des différentes simulations de crédit que vous avez faites : il enregistre uniquement dans le fichier de comptes les paramètres de définition du crédit saisis pour la dernière simulation ; il peut alors la rejouer ultérieurement ; pour conserver indéfiniment ces paramètres, utilisez les fonctions <span class="c007">Imprimer</span> et <span class="c007">Exporter</span>, explicitées ci-dessous.</p>
+<h2 class="section" id="credit-export">16.5  Export d’une simulation de crédits ou d’un tableau d’amortissement</h2>
+<p>Grisbi vous permet d’exporter ces données, soit pour les enregistrer, soit pour les importer dans une autre application, par exemple un tableur pour y faire des calculs spécifiques.</p><p>Pour exporter une simulation de crédits ou un tableau d’amortissement, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans la page <span class="c007">Simulateur de Crédit</span> ou <span class="c007">Tableau d’amortissement</span>, cliquez sur l’outil <span class="c007">Exporter</span> dans la barre d’outils ; ou bien cliquez-droit sur une des lignes du tableau, puis sélectionnez <span class="c007">Exporter le tableau</span> dans le menu contextuel ; une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">saisissez le nom du fichier à exporter, dont l’extension sera <span class="c010">.csv</span> ;
+	 </li><li class="li-enumerate">choisissez son répertoire de destination ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Enregistrer</span>.
+</li></ol><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_).</p>
+<h2 class="section" id="credit-print">16.6  Impression d’une simulation de crédits ou d’un tableau d’amortissement</h2>
+<p>Pour imprimer une simulation de crédits ou un tableau d’amortissement, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans la page <span class="c007">Simulateur de Crédit</span> ou <span class="c007">Tableau d’amortissement</span>, cliquez sur le bouton <span class="c007">Imprimer</span> de la barre d’outils, ou bien cliquez-droit sur une des lignes du tableau, puis sélectionnez <span class="c007">Imprimer le tableau</span> dans le menu contextuel ;
+	 </li><li class="li-enumerate">une fenêtre d’impression s’ouvre, dont l’aspect et les fonctions dépendent de votre gestionnaire d’impression ; vous aurez le plus souvent les choix suivants :
+		 <ul class="itemize"><li class="li-itemize">
+			 imprimer dans un fichier (en format <span class="c003">PostScript</span><a id="hevea_default257"></a>, <span class="c003">PDF</span><a id="hevea_default258"></a> ou <span class="c003">SVG</span><a id="hevea_default259"></a>) ; 
+			 </li><li class="li-itemize">imprimer avec votre imprimante.
+		 </li></ul>
+</li></ol><p>
+En fonction de votre gestionnaire d’impression, vous pourrez disposer de réglages divers tels que la taille et l’orientation de la feuille, la résolution, la police d’impression et sa taille, etc.
+
+</p>
+<hr>
+<a href="grisbi-manuel016.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel018.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

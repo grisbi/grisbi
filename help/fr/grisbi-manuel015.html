@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Imputations budgétaires</title>
+</head>
+<body>
+<a href="grisbi-manuel014.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel016.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="budgetarylines">Chapitre 14  Imputations budgétaires</h1>
+<p>Grisbi vous permet de classer vos opérations selon des axes budgétaires, en plus du classement dans des catégories. </p><p>Une imputation budgétaire définit la fonction de l’opération : il s’agit du travail, de la vie courante, des vacances, d’un projet d’aménagement, etc. Tandis qu’une imputation comptable, nommée <span class="c007">Catégorie</span> dans Grisbi, définit la nature de l’opération : frais de transport, habillement, etc. D’une autre manière, <em>pourquoi</em> et <em>quoi</em>…  Voir aussi le chapitre <a href="grisbi-manuel014.html#categories">13</a>, <span class="c007">Catégories</span>.</p><p>
+Cette information complémentaire à celle de l’imputation comptable vous permet de mieux appréhender vos flux financiers, sans pour autant vous surcharger en catégories et sous-catégories. Prenons un exemple : vous voulez savoir combien vous ont coûté vos vacances. Dans Grisbi vous allez simplement créer une imputation budgétaire <span class="c007">Vacances</span> ; chacune de vos dépenses d’alimentation sera affectée à une catégorie (imputation comptable), par exemple <span class="c007">Alimentation : Epicerie</span>, ET à l’imputation budgétaire <span class="c007">Vacances</span>. Vous pouvez même aller plus loin et créer des sous-imputations budgétaires <span class="c007">Vacances :été</span> et <span class="c007">Vacances :hiver</span>. Ensuite, dans l’onglet <span class="c007">Imputations budgétaires</span>, vous verrez d’un seul coup d’œil combien vous ont coûté vos vacances, éventuellement avec un sous-total par vacances d’été et d’hiver. Et bientôt vous pourrez utiliser ces informations pour votre budget.</p><p>
+Si vous préférez vous passer des imputations budgétaires, désactivez leur affichage dans le formulaire de saisie des opérations grâce au menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span>) et dans la liste des opérations grâce au même menu (voir la section <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>), et vous n’aurez plus à vous en occuper. De toutes façons et par rapport à notre exemple, la liste des catégories intégrée par défaut dans Grisbi contient déjà la catégorie <span class="c007">Vacances</span>.</p><p>
+Après son installation, Grisbi ne propose pas par défaut de liste d’imputations budgétaires, et il n’y a pas de champ <span class="c007">imputation budgétaire</span> dans le formulaire de saisie des opérations. Pour pouvoir utiliser cette fonctionnalité, vous devrez <span class="c003">activer l’affichage de l’imputation budgétaire</span><a id="hevea_default226"></a> dans ce formulaire au moyen du menu <span class="c007">Édition - Préférences </span> (voir la section <a href="grisbi-manuel023.html#setup-form-content">22.4.1</a>, <span class="c007">Contenu</span>) et dans la liste des opérations dans le même menu (voir la section <a href="grisbi-manuel023.html#setup-operations-cells">22.3.2</a>, <span class="c007">Cellules de la liste des opérations</span>). Vous pouvez aussi vous servir de votre liste de catégories comme base pour établir votre liste d’imputations budgétaires (voir la section <a href="#budgetarylines-importexport-importCategories">14.10.2</a>, <span class="c007">Import d’une liste de (sous-) catégories</span>).</p><p>
+<span class="c010">Note</span> : si vous utilisez les imputations budgétaires, toutes vos opérations devraient être affectées à une imputation budgétaire <em>et</em> à une sous-imputation budgétaire, pour deux raisons : elles pourront ainsi être bien classées, donc facilement gérées, et de plus, si elles ne sont pas affectées, elles pourraient ne pas être prises en compte dans les budgets prévisionnels.</p><p>
+<span class="c010">Note</span> : Il est donc conseillé de bien étudier votre liste d’imputations budgétaires, pour éviter d’avoir à la modifier fréquemment pour cause d’incohérences ou de redondances. Si vous avez vraiment des opérations inclassables, créez une imputation ou des sous-imputations «Divers », mais n’abusez pas de leur emploi.</p><p>
+L’onglet <span class="c007">Imputations budgétaires</span> sert à gérer toutes les imputations et sous-imputations budgétaires de votre fichier de comptes. </p><p>Pour avoir accès à la gestion des imputations budgétaires, sélectionnez <span class="c007">Imputations budgétaires</span> dans le panneau de navigation ou avec la barre d’information (voir le chapitre <a href="grisbi-manuel005.html#home">4</a>, <span class="c007">Accueil</span>).</p><p>La barre d’information affiche, à gauche, le nom de l’imputation et de la sous-imputation budgétaire sélectionnées dans le pavé des détails et, complètement à droite, le solde des opérations affectées.</p><p>Le pavé des détails affiche deux éléments :
+</p><ul class="itemize"><li class="li-itemize">
+	 la barre d’outils ;
+	 </li><li class="li-itemize">la liste des imputations budgétaires.
+</li></ul>
+<h2 class="section" id="budgetarylines-functions">14.1  Barre d’outils</h2>
+<p>La barre d’outils des imputations budgétaires présente les fonctions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Nouvelle imputation</span> : ouvre une fenêtre pour créer une nouvelle imputation budgétaire ;
+	 </li><li class="li-itemize"><span class="c007">Nouvelle sous-imputation</span> : ouvre une fenêtre pour créer une nouvelle sous-imputation budgétaire ;
+	 </li><li class="li-itemize"><span class="c007">Importer</span> : permet d’importer une liste d’imputations budgétaires contenue dans un fichier ;
+	 </li><li class="li-itemize"><span class="c007">Exporter</span> : permet d’exporter une liste d’imputations budgétaires dans un fichier ;
+	 </li><li class="li-itemize"><span class="c007">Supprimer</span> : supprime l’imputation ou la sous-imputation budgétaire sélectionnée ;
+	 </li><li class="li-itemize"><span class="c007">Éditer</span> : ouvre une fenêtre pour modifier le nom de l’imputation ou de la sous-imputation budgétaire sélectionnée ;
+	 </li><li class="li-itemize"><span class="c007">Affichage</span> : ouvre un menu déroulant pour afficher la liste des 	imputations, avec ou sans leurs sous-imputations budgétaires.
+</li></ul><p>La barre d’outils peut être déplacée dans l’écran en cliquant sur sa poignée (petit rectangle vertical à gauche de la barre) et en la déplaçant. Pour la réattacher à son emplacement d’origine dans le pavé des détails, la remettre en haut de la fenêtre, le haut de la poignée sur le petit trait qui visualise sa place d’origine.</p>
+<h2 class="section" id="budgetarylines-list">14.2  Liste des imputations budgétaires</h2>
+<p>La liste des imputations et sous-imputations budgétaires s’affiche dans le panneau des 
+détails.
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/budgetarylines_list.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 14.1: Liste des imputations et des sous-imputations budgétaires</td></tr>
+</table></div>
+<a id="budgetarylines-list-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>Elle affiche en haut la barre des libellés des colonnes ; ses champs d’affichage sont les suivants :
+</p><ul class="itemize"><li class="li-itemize">
+	 le nom de l’imputation ou de la sous-imputation budgétaire ;
+	 </li><li class="li-itemize">le compte concerné ;
+	 </li><li class="li-itemize">le montant total des opérations affectées aux imputations et sous-imputations budgétaires, et le montant de chaque opération affectée à ces imputations et sous-imputations budgétaires si leurs lignes sont déroulées.
+</li></ul><p>Vous pouvez déplacer la liste des imputations budgétaires vers le haut ou vers le bas avec la molette de la souris, ou bien avec la souris et l’ascenseur vertical. Le déplacement éventuel vers la gauche ou la droite se fait avec la souris et l’ascenseur horizontal.</p><p>Pour afficher les sous-imputations d’une imputation budgétaire, cliquez sur le petit triangle à gauche de son nom, ou bien double-cliquez sur sa ligne ;
+cela affiche le libellé de toutes les sous-imputations, et éventuellement, en première position, <span class="c004">Pas de sous-imputation</span><a id="hevea_default227"></a>.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc. </p><p>
+Vous pouvez afficher plusieurs <span class="c003">imputations budgétaires déroulées</span><a id="hevea_default228"></a>. Pour ne plus les afficher, <span class="c003">enroulez les imputations budgétaires</span><a id="hevea_default229"></a> en cliquant sur le petit triangle à gauche de leur nom, ou bien double-cliquez sur leur ligne. Vous pouvez aussi dérouler ou enrouler toutes les imputations budgétaires de la liste, en cliquant sur l’outil <span class="c007">Affichage</span><a id="hevea_default230"></a> dans la barre d’outils et en choisissant <span class="c007">Vue des imputations et des sous-imputations</span>. Pour afficher seulement les imputations, cliquez sur l’outil <span class="c007">Affichage</span> dans la barre d’outils et choisissez <span class="c007">Vue des imputations uniquement</span>.</p><p>Les imputations et sous-imputations de votre fichier de comptes sont affichées par ordre alphabétique, avec deux exceptions : la première imputation affichée est toujours l’imputation de libellé <span class="c004">Pas d’imputation</span><a id="hevea_default231"></a>, qui reçoit toutes les opérations dont l’imputation n’est pas définie, et, à l’intérieur d’une imputation, la première sous-imputation affichée est toujours la sous-imputation de libellé <span class="c004">Pas de sous-imputation</span> <a id="hevea_default232"></a>, qui reçoit toutes les opérations dont la sous-imputation n’est pas définie.</p><p>Le nombre d’opérations affectées à chaque imputation ou sous-imputation budgétaire s’affiche, entre parenthèses, à la suite de son nom, et le montant total des opérations affectées à ces imputations ou sous-imputations budgétaires s’affiche dans la colonne <span class="c007">Montant</span>, à droite sur la même ligne. </p><p><span class="c010">Note</span> : vous pouvez configurer la <span class="c003">devise des totaux</span><a id="hevea_default233"></a> de toutes les (sous-) imputations budgétaires dans le menu <span class="c007">Édition - Préférences</span> (voir la section <a href="grisbi-manuel023.html#setup-display-third-currencies">22.2.4</a>, <span class="c007">Devises des totaux</span>).</p>
+<h2 class="section" id="budgetarylines-selection">14.3  Sélection d’une (sous-) imputation budgétaire</h2>
+<p>Pour sélectionner une imputation ou une sous-imputation budgétaire, vous avez deux moyens :</p><ul class="itemize"><li class="li-itemize">
+	 cliquez sur sa ligne ;
+	 </li><li class="li-itemize">déplacez la sélection avec les touches du clavier <span class="c001">&lt;Flèche Haut&gt;</span>, <span class="c001">&lt;Flèche Bas&gt;</span>, <span class="c001">&lt;Page Haut&gt;</span> ou <span class="c001">&lt;Page Bas&gt;</span>.
+</li></ul><p>Le nom de l’imputation ou sous-imputation budgétaire apparaît alors sur fond rose.</p><p>
+Un menu contextuel est disponible par un clic-droit sur la liste des imputations budgétaires ; selon la ligne sélectionnée, vous pouvez exécuter les fonctions suivantes :</p><ul class="itemize"><li class="li-itemize">
+	 pour une imputation budgétaire : <span class="c007">Éditer l’imputation sélectionnée</span> ;
+	 </li><li class="li-itemize">pour l’imputation budgétaire <span class="c007">Pas de sous-imputation</span> :
+		<ul class="itemize"><li class="li-itemize">
+			 si elle est vide :<span class="c007">Éditer l’imputation sélectionnée</span>,
+			 </li><li class="li-itemize">si elle contient des opérations : <span class="c007">Transférer les opérations dans une autre sous-imputation</span>,
+		</li></ul>
+	 </li><li class="li-itemize">pour	une sous-imputation quelconque :	
+		<ul class="itemize"><li class="li-itemize">
+			 <span class="c007">Éditer la sous-imputation sélectionnée</span>,
+			 </li><li class="li-itemize"><span class="c007">Gérer les sous-imputations</span>,			 
+		</li></ul>		
+	 </li><li class="li-itemize">pour une opération quelconque : <span class="c007">Transférer des opérations identiques dans une autre sous-imputation</span>.	
+</li></ul>
+<h2 class="section" id="budgetarylines-transactions">14.4  Les opérations d’une (sous-) imputation budgétaire</h2>
+<p>Une ligne de libellé <span class="c007">Pas de sous-imputation</span> se comporte exactement comme une ligne de sous-imputation budgétaire.</p><p>Pour afficher les opérations, cliquez sur le petit triangle à gauche du libellé <span class="c007">Pas de sous-imputation</span> ou celui d’une sous-imputation, ou bien double-cliquez sur sa ligne,
+ce qui déroule la liste. Les opérations sont alors décrites sur une seule ligne, avec leur date, leur remarque éventuelle, le nom du compte concerné et leur montant.</p><p><span class="c010">Note</span> : ces triangles peuvent être remplacés, en fonction du thème de l’environnement de bureau ou du gestionnaire de fenêtres que vous utilisez, par d’autres caractères tels que +, -, &gt;, &lt;, etc. </p><p>
+Vous pouvez afficher plusieurs lignes de <span class="c003">sous-imputations budgétaires déroulées</span><a id="hevea_default234"></a>. Pour ne plus les afficher, <span class="c003">enroulez les opérations</span><a id="hevea_default235"></a> d’une sous-imputation budgétaire en cliquant sur le petit triangle à gauche de son nom, ou bien double-cliquez sur leur ligne. Vous pouvez aussi dérouler ou enrouler toutes les opérations de toutes les imputations et sous-imputations budgétaires de la liste, en cliquant sur l’outil <span class="c007">Affichage</span><a id="hevea_default236"></a> dans la barre d’outils, et en faisant votre choix entre <span class="c007">Vue des imputations uniquement</span>, <span class="c007">Vue des imputations et sous-imputations</span> ou <span class="c007">Vue complète</span>.</p><p>
+Vous pouvez <span class="c003">déplacer une opération</span><a id="hevea_default237"></a> d’une sous-imputation vers une autre sous-imputation de la liste en sélectionnant cette opération et en faisant un glisser-déplacer sur la sous-imputation cible, exactement à l’endroit où son nom est entouré d’une bordure pointillée.</p><p>
+Un <span class="c003">double-clic</span> sur une ligne d’opération d’une imputation<a id="hevea_default238"></a> ou d’une sous-imputation budgétaire<a id="hevea_default239"></a> ferme l’onglet <span class="c007">Imputations budgétaires</span>, ouvre l’onglet <span class="c007">Comptes</span> et le sous-onglet du compte contenant cette opération, sélectionne l’opération concernée et l’affiche dans le formulaire de saisie. De cette façon, cette opération peut être affichée et modifiée facilement.</p>
+<h2 class="section" id="budgetarylines-new">14.5  Création d’une (sous-) imputation budgétaire</h2>
+<p>La création d’une imputation budgétaire au cours de la saisie d’une opération n’est possible que si le champ d’information a été créé préalablement dans le formulaire de saisie des opérations (voir la section <a href="grisbi-manuel023.html#setup-form">22.4</a>, <span class="c007">Formulaire des opérations</span>).</p><p><a id="budgetarylines-new-img"></a>
+</p><div class="picins"><img src="image/screenshot/budgetarylines_new.png"></div><p>La façon la plus immédiate pour créer une imputation ou une sous-imputation budgétaire est de saisir son nom au cours de la création d’une nouvelle opération dans l’onglet des comptes (voir la section <a href="grisbi-manuel009.html#transactions-fillcombo">8.16</a>, <span class="c007">Nouveau tiers, catégorie ou imputation budgétaire</span>) ; mais vous pouvez aussi en créer ici, en cliquant sur l’outil <span class="c007">Nouvelle imputation</span> ou <span class="c007">Nouvelle sous-imputation</span>. Une boîte de dialogue s’ouvre ; suivant le cas, renseignez le nom de l’imputation et cochez si elle contiendra des crédits ou des débits, ou renseignez uniquement le nom de la sous-imputation, puis validez.</p><p>
+L’outil <span class="c007">Nouvelle sous-imputation</span><a id="budgetarylines-newsub"></a> de la barre d’outils ne devient actif que lorsqu’une imputation budgétaire est sélectionnée dans la liste.</p><p><br>
+
+</p>
+<h2 class="section" id="budgetarylines-modify">14.6  Modification d’une (sous-) imputation budgétaire</h2>
+<p>Pour modifier une imputation ou une sous-imputation budgétaire, procédez comme suit :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+				
+			<a id="budgetarylines-infos-img"></a>
+	<div class="picins"><img src="image/screenshot/budgetarylines_infos.png"></div>
+			 sélectionnez sa ligne ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Éditer</span> dans la barre d’outils, ou sélectionnez <span class="c007">Éditer l’imputation sélectionnée</span> ou <span class="c007">Éditer la sous-imputation sélectionnée</span> dans le menu contextuel accessible par un clic-droit ;
+	 </li><li class="li-enumerate">une boîte de dialogue s’ouvre : modifiez son nom et, uniquement pour les imputations, son type (crédit ou débit) ;
+	 </li><li class="li-enumerate">validez.
+</li></ol><p><br>
+<br>
+
+</p>
+<h2 class="section" id="budgetarylines-transfer">14.7  Transfert d’opérations dans une autre sous-imputation</h2>
+<p>Vous pouvez <span class="c003">transférer des opérations dans une autre sous-imputation</span><a id="hevea_default240"></a> ayant pour point commun soit le tiers, soit la remarque, soit les deux ; pour cela, procédez comme suit :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+			
+			<a id="budgetarylines_transfer-img"></a>
+	<div class="picins"><img src="image/screenshot/budgetarylines_transfer.png"></div>
+			 sélectionnez la ligne de l’opération concernée ;
+	 </li><li class="li-enumerate">sélectionnez <span class="c007">Transférer des opérations identiques dans une autre sous-imputation</span>, dans le menu contextuel accessible par un clic-droit ;
+	 </li><li class="li-enumerate">une boîte de dialogue s’affiche ; cochez l’une des deux cases <span class="c007">Utiliser le tiers…</span>  et <span class="c007">Utiliser la note…</span>  ou les deux selon votre besoin ;
+	 </li><li class="li-enumerate">renseignez le champ libellé <span class="c007">Sélectionner la destination</span>, ou choisissez une imputation et une sous-imputation dans la liste déroulante ;
+	 </li><li class="li-enumerate">validez.
+</li></ol><p><span class="c010">Note</span> : la saisie du champ libellé <span class="c007">Sélectionner la destination</span> bénéficie de la fonction d’<span class="c003">auto-complètement</span><a id="hevea_default241"></a>.</p><p><br>
+<br>
+<br>
+<br>
+<br>
+
+</p>
+<h2 class="section" id="budgetarylines-management">14.8  Gestion des sous-imputations budgétaires</h2>
+<p>Vous pouvez modifier l’organisation de vos sous-imputations budgétaires en <span class="c003">déplaçant le contenu d’une sous-imputation</span><a id="hevea_default242"></a> vers une autre ou vers une nouvelle imputation. Pour cela, sélectionnez une sous-imputation, puis cliquez-droit et choisissez dans le menu contextuel : </p><ul class="itemize"><li class="li-itemize">
+	 pour la sous-imputation <span class="c007">Pas de sous-imputation</span> : sélectionnez <span class="c007">Transférer les opérations dans une autre sous-imputation</span> : une fenêtre s’affiche ; sélectionnez la destination dans la liste déroulante, puis validez ;<p>	 </p></li><li class="li-itemize">pour les autres sous-imputations : sélectionnez <span class="c007">Gérer les sous-imputations</span>, une fenêtre s’affiche ; sélectionnez l’action désirée  :
+	 		<ul class="itemize"><li class="li-itemize">
+			 <span class="c007">Transférer les opérations dans une imputation ou une sous-imputation</span> : sélectionnez l’imputation de destination dans la liste déroulante, puis validez,
+			 </li><li class="li-itemize"><span class="c007">Transférer «nom de la sous-imputation sélectionnée » dans une autre imputation</span> : sélectionnez l’imputation de destination dans la liste déroulante, puis validez,
+			 </li><li class="li-itemize"><span class="c007">Convertir «nom de la sous-imputation sélectionnée » en nouvelle imputation</span> : validez, la sous-imputation est devenue une imputation.
+		</li></ul>
+</li></ul><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/budgetarylines_management.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 14.2: Gestion des sous-imputations budgétaires</td></tr>
+</table></div>
+<a id="budgetarylines-management-img"></a>
+<div class="center"><hr class="c012"></div></blockquote>
+<h2 class="section" id="budgetarylines-delete">14.9  Suppression d’une (sous-) imputation budgétaire</h2>
+<p>Pour supprimer une imputation ou une sous-imputation budgétaire, procédez comme suit :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+				
+			<a id="budgetarylines-delete-img"></a>
+	<div class="picins"><img src="image/screenshot/budgetarylines_delete.png"></div>
+			
+	 sélectionnez-la dans la liste ;
+	 </li><li class="li-enumerate">cliquez sur l’outil <span class="c007">Supprimer</span> dans la barre d’outils ;
+	 </li><li class="li-enumerate">une boîte de dialogue s’ouvre et vous propose soit de ré-affecter les opérations de cette (sous-) imputation vers une autre (sous-) imputation budgétaire, soit de la supprimer purement et simplement, y compris toutes ses opérations ; 
+	 </li><li class="li-enumerate">faites votre choix puis validez.
+</li></ol><p><span class="c009">Attention</span> : la suppression d’une imputation ou d’une sous-imputation budgétaire est <span class="c003">irréversible</span><a id="hevea_default243"></a> ! </p><p>
+<span class="c010">Note</span> : si la (sous-) imputation budgétaire que vous voulez supprimer ne contient aucune opération, aucune boîte de dialogue ne s’ouvrira et Grisbi la supprimera immédiatement.</p><p><br>
+
+</p>
+<h2 class="section" id="budgetarylines-importexport">14.10  Import et export</h2>
+<p>Grisbi vous permet d’importer ou d’exporter les imputations budgétaires d’un fichier de comptes, ce qui peut éviter de recréer tout un ensemble d’imputations budgétaires si on peut le trouver ailleurs déjà fait.</p>
+<h3 class="subsection" id="budgetarylines-importexport-import">14.10.1  Import d’une liste de (sous-) imputations budgétaires </h3>
+<p>Pour <span class="c003">importer une liste de (sous-) imputations budgétaires</span><a id="hevea_default244"></a><a id="hevea_default245"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez sur l’outil <span class="c007">Importer</span> dans la barre d’outils : une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">choisissez le répertoire et le nom du fichier à importer, dont l’<span class="c003">extension</span> doit être <span class="c010">.igsb</span><a id="hevea_default246"></a> ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Ouvrir</span> ; 
+	 </li><li class="li-enumerate">une boîte de dialogue vous informe, éventuellement, que ce fichier contient déjà des opérations, et que sa liste d’imputations budgétaires et celle de votre fichier de comptes en cours seront fusionnées. Si cela vous convient, validez par le bouton <span class="c007">Valider</span>.
+</li></ol><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_). 
+</p><p>Si vous avez validé, il vous appartient ensuite de supprimer une à une toutes les imputations budgétaires que vous ne voulez pas garder, ou d’en créer de nouvelles.</p><p>Si vous commencez un fichier de comptes neuf, vous aurez avantage à supprimer les imputations budgétaires existantes par défaut avant d’importer une autre liste.</p>
+<h3 class="subsection" id="budgetarylines-importexport-importCategories">14.10.2  Import d’une liste de (sous-) catégories </h3>
+<p>Si vous voulez vous servir de votre liste de (sous-) catégories comme base pour établir votre liste d’imputations budgétaires, vous devez d’abord exporter votre liste de (sous-) catégories dans un fichier. Pour cela, reportez-vous à la section <a href="grisbi-manuel014.html#categories-importexport-export">13.10.2</a>, <span class="c007">Export de vos (sous-) catégories</span>. </p><p>Puis, pour <span class="c003">importer votre liste de (sous-) catégories</span><a id="hevea_default247"></a><a id="hevea_default248"></a>, procédez comme suit : </p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez sur l’outil <span class="c007">Importer</span> dans la barre d’outils : une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">dans le coin en bas et à droite de la fenêtre, sélectionnez dans la liste déroulante <span class="c007">Fichier des catégories Grisbi (*.cgsb</span>) ;
+	 </li><li class="li-enumerate">choisissez le répertoire et le nom du fichier à importer, dont l’<span class="c003">extension</span> doit être <span class="c010">.cgsb</span><a id="hevea_default249"></a> ;
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Ouvrir</span> ; 
+	 </li><li class="li-enumerate">une boîte de dialogue vous propose, soit de fusionner votre liste de catégories avec votre liste d’imputations budgétaires existantes, soit que votre liste de catégories remplace votre liste d’imputations budgétaires existantes ; dans le cas de la fusion, cliquez sur le bouton <span class="c007">Valider</span>, sinon dans le cas du remplacement, cliquez sur le bouton <span class="c007">Remplacer l’existant</span>.
+</li></ol>
+<h3 class="subsection" id="budgetarylines-importexport-budgetary">14.10.3  Export de vos (sous-) imputations budgétaires</h3>
+<p>Pour <span class="c003">exporter la liste de vos (sous-) imputations budgétaires</span><a id="hevea_default250"></a><a id="hevea_default251"></a>, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 cliquez sur l’outil <span class="c007">Exporter</span> dans la barre d’outils : une fenêtre de gestionnaire de fichiers s’affiche ;
+	 </li><li class="li-enumerate">saisissez le nom du fichier à exporter, dont l’<span class="c003">extension</span> sera <span class="c010">.igsb</span><a id="hevea_default252"></a> :
+	 </li><li class="li-enumerate">choisissez son répertoire de destination :
+	 </li><li class="li-enumerate">cliquez sur le bouton <span class="c007">Enregistrer</span>.
+</li></ol><p>
+<span class="c009">Attention</span> : d’une manière générale, il est déconseillé d’avoir des accents ou des espaces dans les noms des répertoires et fichiers utilisés par Grisbi. Si c’est le cas, renommez-les maintenant. Par exemple, les espaces peuvent être remplacées par des tirets bas (_). </p>
+<hr>
+<a href="grisbi-manuel014.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel016.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

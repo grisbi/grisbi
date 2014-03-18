@@ -174,8 +174,6 @@ static gboolean gsb_file_load_update_previous_version ( void );
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -381,7 +379,7 @@ gboolean gsb_file_load_open_file ( gchar *filename )
 
             /* we will have to convert the method of payments numbers */
             payment_conversion_list = NULL;
-            /* we will have to set the final date and balance in the last reconcile */
+            /* we will have to set the final date and balance in the last bank reconciliation */
             reconcile_conversion_list = NULL;
         }
 
@@ -933,6 +931,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                         pixbuf = gdk_pixbuf_new_from_file ( chemin_logo, NULL );
                         gtk_window_set_default_icon ( pixbuf );
                         gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                        g_object_unref ( G_OBJECT ( pixbuf ) );
                         g_free ( chemin_logo );
                     }
                 }
@@ -975,6 +974,7 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                     {
                         gtk_window_set_default_icon ( pixbuf );
                         gsb_select_icon_set_logo_pixbuf ( pixbuf );
+                        g_object_unref ( G_OBJECT ( pixbuf ) );
                     }
                 }
 
@@ -1023,13 +1023,13 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 }
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_view" ))
-                    affichage_echeances = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_custom_number" ))
-                    affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances_perso_nb_libre = utils_str_atoi ( attribute_values[i]);
 
                 else if ( !strcmp ( attribute_names[i], "Scheduler_custom_menu" ))
-                    affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
+                    etat.affichage_echeances_perso_j_m_a = utils_str_atoi ( attribute_values[i]);
 
                 else
                     unknown = 1;
@@ -3499,9 +3499,9 @@ void gsb_file_load_archive ( const gchar **attribute_names,
 void gsb_file_load_reconcile ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
+    GDate *date;
     gint i=0;
     gint reconcile_number = 0;
-    GDate *date;
 
     if ( !attribute_names[i] )
     return;
@@ -6751,16 +6751,16 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Type_affichage_des_echeances" ))
     {
-    affichage_echeances = utils_str_atoi ( text);
+    etat.affichage_echeances = utils_str_atoi ( text);
 
     /* Compatibility issue. */
-    switch ( affichage_echeances )
+    switch ( etat.affichage_echeances )
     {
-        case 0: affichage_echeances = SCHEDULER_PERIODICITY_MONTH_VIEW; break;
-        case 1: affichage_echeances = SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW; break;
-        case 2: affichage_echeances = SCHEDULER_PERIODICITY_YEAR_VIEW; break;
-        case 3: affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW; break;
-        case 4: affichage_echeances = SCHEDULER_PERIODICITY_CUSTOM_VIEW; break;
+        case 0: etat.affichage_echeances = SCHEDULER_PERIODICITY_MONTH_VIEW; break;
+        case 1: etat.affichage_echeances = SCHEDULER_PERIODICITY_TWO_MONTHS_VIEW; break;
+        case 2: etat.affichage_echeances = SCHEDULER_PERIODICITY_YEAR_VIEW; break;
+        case 3: etat.affichage_echeances = SCHEDULER_PERIODICITY_ONCE_VIEW; break;
+        case 4: etat.affichage_echeances = SCHEDULER_PERIODICITY_CUSTOM_VIEW; break;
     }
 
     return;
@@ -6769,14 +6769,14 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Affichage_echeances_perso_nb_libre" ))
     {
-    affichage_echeances_perso_nb_libre = utils_str_atoi ( text);
+    etat.affichage_echeances_perso_nb_libre = utils_str_atoi ( text);
     return;
     }
 
     if ( !strcmp ( element_name,
            "Type_affichage_perso_echeances" ))
     {
-    affichage_echeances_perso_j_m_a = utils_str_atoi ( text);
+    etat.affichage_echeances_perso_j_m_a = utils_str_atoi ( text);
     return;
     }
 
@@ -6806,6 +6806,7 @@ void gsb_file_load_general_part_before_0_6 ( GMarkupParseContext *context,
         {
             gtk_window_set_default_icon ( pixbuf );
             gsb_select_icon_set_logo_pixbuf ( pixbuf );
+            g_object_unref ( G_OBJECT ( pixbuf ) );
         }
         if ( chemin_logo && strlen (chemin_logo) > 0 )
             g_free ( chemin_logo );
@@ -7069,8 +7070,8 @@ void gsb_file_load_account_part_before_0_6 ( GMarkupParseContext *context,
     if ( !strcmp ( element_name,
            "Date_dernier_releve" ))
     {
-        /* as the date comes before the last number of reconcile, the fastest way is to use
-         * a buffer for ther reconcile structure, and when we have the last number of reconcile,
+        /* as the date comes before the last number of bank reconciliation, the fastest way is to use
+         * a buffer for ther reconciliation structure, and when we have the last number of reconciliation,
          * we append the buffer to the list */
         buffer_reconcile_conversion = g_malloc0 (sizeof (struct reconcile_conversion_struct));
         if (buffer_reconcile_conversion)

@@ -1858,7 +1858,7 @@ gboolean gsb_transactions_list_switch_mark ( gint transaction_number )
 /**
  * switch the mark of the transaction in the list between R or empty
  * it will mark/unmark the transaction and update the marked amount
- * when we mark, we show a list of reconcile and try to find the last reconcile used by that
+ * when we mark, we show a list of reconciliation and try to find the last reconciliation used by that
  * 	transaction if it exists, from the 0.6.0, a transaction marked R shouldn't be without
  * 	reconcile number (but if come from before, it could happen)
  * when we unmark, we keep the reconcile number into the transaction to find it easily when the user
@@ -1944,8 +1944,8 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
     else
     {
 	/* this is a non R transaction we want to mark R
-	 * we show a list of possible reconcile to the user ; he must
-	 * associate the transaction with a reconcile */
+	 * we show a list of possible reconciliation to the user ; he must
+	 * associate the transaction with a reconciliation */
 	gint reconcile_number;
 
 	reconcile_number = gsb_transactions_list_choose_reconcile ( account_number,transaction_number );
@@ -2009,13 +2009,13 @@ gboolean gsb_transactions_list_switch_R_mark ( gint transaction_number )
 
 
 /**
- * create a popup with the list of the reconciles for the given account
+ * create a popup with the list of the reconciliations for the given account
  * to choose one
  *
  * \param account_number
- * \param transaction_number, we will select that reconcile in the list
+ * \param transaction_number, we will select that reconciliation in the list
  *
- * \return the number of the chosen reconcile or 0 if cancel
+ * \return the number of the chosen reconciliation or 0 if cancel
  * */
 gint gsb_transactions_list_choose_reconcile ( gint account_number,
                         gint transaction_number )

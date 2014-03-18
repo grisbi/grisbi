@@ -153,7 +153,7 @@ enum combofix_columns {
     COMBOFIX_COL_VISIBLE_STRING = 0,    /* string : what we see in the combofix */
     COMBOFIX_COL_REAL_STRING,           /* string : what we set in the entry when selecting something */
     COMBOFIX_COL_VISIBLE,               /* boolean : if that line has to be showed */
-    COMBOFIX_COL_LIST_NUMBER,           /* int : the number of the list 1, 2 ou 3 (CREDIT DEBIT SPECIAL) */
+    COMBOFIX_COL_LIST_NUMBER,           /* int : the number of the list 0, 1 ou 2 (CREDIT DEBIT SPECIAL) */
     COMBOFIX_COL_SEPARATOR,             /* TRUE : if this is a separator */
     COMBOFIX_N_COLUMNS,
 };
@@ -168,8 +168,156 @@ enum combofix_key_direction {
 /*START_EXTERN*/
 /*END_EXTERN*/
 
+/* *********************** the first part contains the static functions ******************************************** */
+/**
+* supprime le séparateur pour les états comme tiers
+*
+* \param model
+* \param iter_parent
+*
+* \return the position of parent_iter
+* */
+static void gtk_combofix_remove_for_report ( GtkTreeModel *model,
+                        GtkTreeIter *iter_parent )
+{
+    GtkTreeIter iter;
+    gboolean separator;
 
-/* *********************** the first part contains all the extern functions ******************************************** */
+    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    do
+    {
+        gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
+                        COMBOFIX_COL_SEPARATOR, &separator,
+			            -1 );
+        if ( separator )
+        {
+            break;
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
+
+    gtk_tree_store_remove ( GTK_TREE_STORE ( model ), iter_parent );
+    gtk_tree_store_remove ( GTK_TREE_STORE ( model ), &iter );
+}
+
+
+/**
+* vérifie si il existe un séparateur, l'ajoute si nécessaire
+*
+* \param model
+* \param iter_parent
+*
+* \return the position of parent_iter
+* */
+static gboolean gtk_combofix_search_for_report ( GtkTreeModel *model,
+                        GtkTreeIter *iter_parent )
+{
+    GtkTreeIter iter;
+    gchar *tmp_str;
+    gboolean separator;
+
+    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter );
+    do
+    {
+        gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter,
+                        COMBOFIX_COL_SEPARATOR, &separator,
+			            -1 );
+
+        if ( separator )
+        {
+            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter );
+            iter_parent = &iter;
+
+            return FALSE;
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter ) );
+
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        COMBOFIX_COL_LIST_NUMBER, 0,
+                        COMBOFIX_COL_SEPARATOR, TRUE,
+                        -1 );
+
+    tmp_str = g_strdup ( _("Report") );
+    gtk_tree_store_append ( GTK_TREE_STORE ( model ), &iter, NULL );
+    gtk_tree_store_set ( GTK_TREE_STORE ( model ),
+                        &iter,
+                        COMBOFIX_COL_VISIBLE_STRING, tmp_str,
+                        COMBOFIX_COL_REAL_STRING, tmp_str,
+                        COMBOFIX_COL_VISIBLE, TRUE,
+                        COMBOFIX_COL_LIST_NUMBER, 1,
+                        -1 );
+    g_free ( tmp_str );
+    iter_parent = &iter;
+
+    return TRUE;
+}
+
+
+/**
+* vérifie si l'état dont le nom est passé en paramètre existe
+*
+* \param model
+* \param report_name
+*
+* \return TRUE if exist or FALSE
+* */
+static gboolean gtk_combofix_search_report ( GtkTreeModel *model,
+                        const gchar *report_name )
+{
+    GtkTreeIter iter;
+    GtkTreeIter iter_parent;
+    gboolean separator;
+
+    /* on recherche le parent des états */
+    gtk_tree_model_get_iter_first (  GTK_TREE_MODEL( model ), &iter_parent );
+    do
+    {
+        gtk_tree_model_get ( GTK_TREE_MODEL( model ), &iter_parent,
+                        COMBOFIX_COL_SEPARATOR, &separator,
+			            -1 );
+
+        if ( separator )
+        {
+            gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent );
+            break;
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL( model ), &iter_parent ) );
+
+    if ( !gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( model ), &iter_parent ) )
+        return FALSE;
+
+    if ( !gtk_tree_model_iter_children ( GTK_TREE_MODEL ( model ), &iter, &iter_parent ) )
+        return FALSE;
+    do
+    {
+        gchar *tmp_str = NULL;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL( model ),
+                        &iter,
+                        COMBOFIX_COL_VISIBLE_STRING, &tmp_str,
+                        -1 );
+
+        if ( tmp_str )
+        {
+            if ( g_utf8_collate ( tmp_str, report_name ) == 0 )
+            {
+                g_free ( tmp_str );
+                return TRUE;
+            }
+            g_free ( tmp_str );
+        }
+    }
+    while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( model ), &iter ) );
+
+    return FALSE;
+}
+
+
+/* *********************** the second part contains all the extern functions ******************************************** */
 
 /**
  * create a combofix, with several list set one after the others
@@ -497,6 +645,49 @@ void gtk_combofix_append_text ( GtkComboFix *combofix, const gchar *text )
 
 
 /**
+* append a report as payee in a combofix
+*
+* \param combofix
+* \param report_name    the name of report
+*
+* \return
+* */
+void gtk_combofix_append_report ( GtkComboFix *combofix,
+                        const gchar *report_name )
+{
+    GtkComboFixPrivate *priv;
+    GtkTreeIter iter_parent;
+    gchar *tmp_str;
+    gchar *tmp_str2;
+
+    g_return_if_fail ( combofix );
+    g_return_if_fail ( GTK_IS_COMBOFIX ( combofix ) );
+
+    if ( !report_name || strlen ( report_name ) == 0 )
+        return;
+
+    priv = combofix->priv;
+
+    /* on cherche la partie etats on l'ajoute si nécessaire */
+    if ( gtk_combofix_search_for_report ( GTK_TREE_MODEL ( priv->store ), &iter_parent ) )
+        priv -> visible_items++;
+
+    /* on sort si l'état demandé existe déjà */
+    if ( gtk_combofix_search_report ( GTK_TREE_MODEL ( priv->store ), report_name ) )
+        return;
+
+    /* sinon on l'ajoute dans la liste des tiers */
+    tmp_str = g_strdup ( _("Report") );
+    tmp_str2 = g_strconcat ( tmp_str, " : ", report_name, NULL );
+    gtk_combofix_fill_iter_child ( priv->store, &iter_parent, report_name, tmp_str2, 1 );
+    priv -> visible_items++;
+
+    g_free ( tmp_str );
+    g_free ( tmp_str2 );
+}
+
+
+/**
 * remove a line in a combofix
 *
 * \param combofix text
@@ -550,6 +741,92 @@ void gtk_combofix_remove_text ( GtkComboFix *combofix, const gchar *text )
 
 
 /**
+* remove a report in a payee combofix
+*
+* \param combofix
+* \param report_number
+*
+* \return
+* */
+void gtk_combofix_remove_report ( GtkComboFix *combofix,
+                        const gchar *report_name )
+{
+    GtkComboFixPrivate *priv;
+    GtkTreeIter iter;
+    gchar *tmp_str;
+    gchar *tmp_str2;
+    gboolean valid;
+
+    /* on récupère le nom de l'état */
+    tmp_str = g_strdup ( _("Report") );
+    tmp_str2 = g_strconcat ( tmp_str, " : ", report_name, NULL );
+    g_free ( tmp_str );
+
+    priv = combofix->priv;
+    valid = gtk_tree_model_get_iter_first ( GTK_TREE_MODEL ( priv->store ), &iter);
+
+    while ( valid )
+    {
+        gboolean separator;
+
+        gtk_tree_model_get ( GTK_TREE_MODEL ( priv->store ), &iter,
+                    COMBOFIX_COL_SEPARATOR, &separator,
+                    -1 );
+
+        valid = gtk_tree_model_iter_next ( GTK_TREE_MODEL ( priv->store ), &iter );
+
+        if ( separator )
+        {
+            break;
+        }
+    }
+
+    if ( valid )
+    {
+        if ( gtk_tree_model_iter_has_child ( GTK_TREE_MODEL ( priv->store ), &iter ) )
+        {
+            gint children;
+            GtkTreeIter child;
+
+            children = gtk_tree_model_iter_n_children ( GTK_TREE_MODEL ( priv->store ), &iter );
+            valid = FALSE;
+
+            if ( gtk_tree_model_iter_children ( GTK_TREE_MODEL ( priv->store ), &child, &iter ) )
+            {
+                do
+                {
+                    gtk_tree_model_get ( GTK_TREE_MODEL ( priv->store ), &child,
+                                COMBOFIX_COL_REAL_STRING, &tmp_str,
+                                -1 );
+
+                    if ( strcmp ( tmp_str, tmp_str2 ) == 0 )
+                    {
+                        g_free ( tmp_str );
+                        valid = TRUE;
+                        children --;
+                        break;
+                    }
+
+                    g_free ( tmp_str );
+                }
+                while ( gtk_tree_model_iter_next ( GTK_TREE_MODEL ( priv->store ), &child ) );
+
+                if ( valid )
+                    gtk_tree_store_remove ( priv->store, &child );
+            }
+            if ( children == 0 )
+            {
+                gtk_combofix_remove_for_report ( GTK_TREE_MODEL ( priv->store ), &iter );
+            }
+        }
+        else
+            gtk_combofix_remove_for_report ( GTK_TREE_MODEL ( priv->store ), &iter );
+    }
+    g_free ( tmp_str2 );
+}
+
+
+/**
 *
 *
 * \param combofix text
@@ -570,7 +847,7 @@ void gtk_combofix_set_selection_callback ( GtkComboFix *combofix,
 }
 
 
-/* *********************** the second part contains the construct object functions ******************************************** */
+/* *********************** the third part contains the construct object functions ******************************************** */
 
 /**
 * called when create a new combofix
@@ -801,7 +1078,7 @@ static void gtk_combofix_finalize ( GObject *combofix )
 }
 
 
-/* *********************** the third part contains all the static functions ******************************************** */
+/* *********************** the fourth part contains all the static functions ******************************************** */
 
 /**
 * fill the model of the combofix given in param
@@ -1807,16 +2084,23 @@ static gboolean gtk_combofix_select_item ( GtkComboFix *combofix,
 
         gtk_tree_model_get ( model, &iter, COMBOFIX_COL_REAL_STRING, &tmp_str, -1 );
 
-        if ( tmp_str
-         &&
-         tmp_item
-         &&
-         g_utf8_collate ( g_utf8_casefold ( tmp_str, -1 ),
-         g_utf8_casefold ( tmp_item, -1 ) ) == 0 )
-            break;
+        if ( tmp_str && tmp_item )
+        {
+            gchar *tmp_str_casefold, *tmp_item_casefold;
+            int collate;
+
+            tmp_str_casefold = g_utf8_casefold ( tmp_str, -1 );
+            tmp_item_casefold = g_utf8_casefold ( tmp_item, -1 );
+            collate = g_utf8_collate ( tmp_str_casefold , tmp_item_casefold );
+            g_free ( tmp_item_casefold );
+            g_free ( tmp_str_casefold );
+
+            if ( collate  == 0 )
+                break;
+        }
 
         result = gtk_tree_model_iter_next ( model, &iter);
-	}
+    }
 
     g_free ( tmp_item );
 

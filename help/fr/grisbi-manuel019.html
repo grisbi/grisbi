@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Gestion des cartes bancaires et leurs prévisions </title>
+</head>
+<body>
+<a href="grisbi-manuel018.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel020.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="bankcard">Chapitre 18  Gestion des cartes bancaires et leurs prévisions </h1>
+<p>Les cartes bancaires sont des instruments bancaires très utilisés. Il en existe plusieurs types :</p><ul class="itemize"><li class="li-itemize">
+	 carte à débit immédiat,
+	 </li><li class="li-itemize">carte à débit différé,
+	 </li><li class="li-itemize">carte de crédit,
+	 </li><li class="li-itemize">porte-monnaie électronique.
+</li></ul>
+<h2 class="section" id="bankcard-quickCard">18.1  Carte bancaire à débit immédiat</h2>
+<p>Une carte bancaire à débit immédiat vous permet de régler vos achats et de faire des retraits dans les distributeurs de billets. Elle fonctionne en liaison avec votre compte courant. </p>
+<h3 class="subsection" id="bankcard-quickCard-manage">18.1.1  Gestion d’une carte bancaire à débit immédiat</h3>
+<p>Toutes les opérations faites avec cette carte sont comptabilisées et débitées sur votre compte courant, immédiatement. Chaque opération se comporte exactement comme si c’était un chèque. Le relevé bancaire périodique liste donc ces opérations avec toutes les autres.</p><p>Pour gérer vos opérations sur une carte bancaire, saisissez-les dans votre compte courant, comme n’importe quelle opération, et faites les rapprochements bancaires régulièrement (voir le chapitre <a href="grisbi-manuel010.html#reconciliation">9</a>, <span class="c007">Rapprochement bancaire</span>).</p><p>Vous pouvez posséder plusieurs cartes bancaires à débit immédiat attachées au même compte courant. </p>
+<h3 class="subsection" id="bankcard-quickCard-budget">18.1.2  Prévisions pour une carte bancaire à débit immédiat</h3>
+<p>Les opérations sur ces cartes étant portées sur le compte courant avec toutes les autres opérations, la carte bancaire est alors un moyen de paiement comme les autres (chèques, virements, etc.). Vous ne pourrez donc pas faire une budgétisation spécifique à ces dépenses de carte. Les prévisions budgétaires se feront alors normalement, par la sélection des (sous-) catégories ou des (sous-) imputations budgétaires dans l’onglet <span class="c007">Données historiques</span> de ce compte (voir le chapitre <a href="grisbi-manuel018.html#budget">17</a>, <span class="c007">Budgets prévisionnels</span>). </p>
+<h2 class="section" id="bankcard-deferredCard">18.2  Carte bancaire à débit différé</h2>
+<p>Une carte bancaire à débit différé vous permet de régler vos achats et de faire des retraits dans les distributeurs de billets ; de plus, elle est liée à un compte spécifique ouvert chez votre banque, et se caractérise par les éléments suivants :</p><ul class="itemize"><li class="li-itemize">
+	 une <span class="c003">période</span><a id="hevea_default290"></a><a id="hevea_default291"></a> pendant laquelle les dépenses sont comptabilisées dans le compte de la carte ; cette période, communément d’un mois, ne commence pas nécessairement le premier jour du mois ; par exemple, elle peut débuter le 20 du mois, et se terminer le 19 du mois suivant ;
+	 </li><li class="li-itemize">un relevé de la banque qui vous informe de l’ensemble des dépenses après la fin de la période ;
+	 </li><li class="li-itemize">une date de prélèvement, à laquelle le montant total des dépenses de cette période est prélevé par la banque sur votre compte courant.
+</li></ul><p>
+<span class="c010">Note</span> : selon le contrat de la carte, les retraits en distributeur automatique ne bénéficient pas obligatoirement du débit différé, et il faudra alors les gérer dans le compte courant comme pour une carte à débit immédiat.</p>
+<h3 class="subsection" id="bankcard-deferredCard-manage">18.2.1  Gestion manuelle d’une carte bancaire à débit différé</h3>
+<p>Si vous possédez une ou plusieurs cartes bancaires à débit différé, vous pouvez tout à fait gérer leurs opérations dans votre compte courant, en saisissant pour date d’opération :
+</p><ul class="itemize"><li class="li-itemize">
+	 soit leur date d’opération réelle, mais les soldes après chaque opération ne tiendront pas compte du différé de débit ;
+	 </li><li class="li-itemize">soit la date du prélèvement par la banque, mais vous perdez alors l’information de la date d’opération ;
+	 </li><li class="li-itemize">soit leur date d’opération et leur date de valeur mise à la date de prélèvement, et vous conservez ces informations.
+</li></ul><p>Dans ces trois cas, les rapprochements de ce compte courant devront être faits avec à la fois son relevé de compte et tous ceux de vos comptes de carte, ce qui les rendra assez compliqués.</p><p>
+Puisque ces cartes sont gérées par votre banque à travers un compte spécifique, la manière la plus logique sera de gérer ces cartes dans Grisbi à travers un ou plusieurs comptes dédiés, qui seront du type compte de passif, car leur solde ne peut pas être positif.</p><p>
+Si vous avez une seule carte bancaire à débit différé, créez d’abord un compte dédié à cette carte, avec un solde initial nul. Ensuite, sa gestion se déroule comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	pendant toute la période de la carte, saisissez dans ce compte de carte toutes les opérations faites avec la carte (achats, mais aussi remboursements) ;
+	</li><li class="li-enumerate">après la date du début de période suivante, vous recevez de la banque le relevé de compte de cette carte ;
+	</li><li class="li-enumerate">faites le rapprochement de ce compte de carte avec ce relevé de compte ;
+	</li><li class="li-enumerate">saisissez une opération de remise à zéro du compte de carte en faisant un virement depuis le compte courant et portant la date de prélèvement ;
+	</li><li class="li-enumerate">à la date de prélèvement, la banque prélève sur votre compte courant un montant égal au solde de la carte pour la période précédente ;
+	</li><li class="li-enumerate">vous pouvez alors faire le rapprochement de ce compte courant avec son relevé de compte. 
+</li></ol><p>
+Si vous avez plusieurs cartes bancaires à débit différé, vous avez deux possibilités :</p><ul class="itemize"><li class="li-itemize">
+	soit vous créez un seul compte pour toutes ces cartes, à la condition <em>impérative</em> que leurs dates de prélèvement et leurs périodes de comptabilisation soient identiques, et vous gérez ce compte comme ci-dessus ;
+	</li><li class="li-itemize">soit vous créez un compte pour chacune des cartes et vous gérez chaque compte comme ci-dessus ; c’est ce qui est conseillé pour avoir une meilleure lisibilité des comptes ; dans ce cas, vous pouvez aussi afficher leur solde global dans la page d’accueil, en créant un <span class="c003">groupe de comptes</span><a id="hevea_default292"></a> pour toutes ces cartes (voir dans le menu <span class="c007">Édition - Préférences</span>, le paragraphe <a href="grisbi-manuel023.html#setup-general-home-partBalance">22.1.8</a>, <span class="c007">Soldes partiels de la liste des comptes</span>).
+</li></ul>
+<h3 class="subsection" id="bankcard-deferredCard-budget">18.2.2  Gestion automatique et prévisions pour une carte bancaire à débit différé</h3>
+<p><span class="c010">Note</span> : dans cette section, nous appelons «compte carte » le compte dans lequel vous saisissez les dépenses de la carte bancaire à débit différé, et «compte principal » votre compte courant bancaire, celui qui gère vos opérations ordinaires, à partir duquel sera débité le solde du compte carte.</p><p>
+Pour assurer cette gestion automatique, Grisbi dispose de quatre fonctionnalités : </p><ol class="enumerate" type=1><li class="li-enumerate">
+	 		dans l’onglet <span class="c007">Prévisions</span> du compte principal, l’<span class="c003">affichage du solde</span> des dépenses effectuées <span class="c003">sur le compte carte</span><a id="hevea_default293"></a>, à la date de prélèvement, en temps réel et jusqu’à la fin de la période de cette carte ; ensuite, ce solde est figé ;
+	 		</li><li class="li-enumerate">dans l’onglet <span class="c007">Opérations</span> du compte carte, la <span class="c003">remise à zéro automatique du solde</span><a id="hevea_default294"></a><a id="hevea_default295"></a>, par la création automatique de l’opération de débit dans ce compte, à la date de début de la période suivante ;
+<p>			<span class="c010">Note</span> : ces deux premières fonctionnalités sont liées : on ne peut pas les dissocier.	
+			</p></li><li class="li-enumerate">dans l’onglet <span class="c007">Opérations</span> du compte principal, le <span class="c003">débit automatique</span><a id="hevea_default296"></a><a id="hevea_default297"></a> du montant du solde du compte carte, à la date de prélèvement ;
+<p>			<span class="c010">Note</span> : Grisbi opère comme le fait votre banque : il met à zéro le solde du compte carte à la date de début de période suivante de la carte (2e fonctionnalité), et il débite le compte principal du montant de ce solde du compte carte à la date de prèlèvement de la carte (3e fonctionnalité) ; ces deux opérations sont donc dissociées. 
+			 		
+	 </p></li><li class="li-enumerate">dans l’onglet <span class="c007">Prévisions</span> du compte principal, les <span class="c003">prévisions de dépenses</span><a id="hevea_default298"></a><a id="hevea_default299"></a> sur le compte carte, pour les mois suivants, basées sur une opération planifiée d’un montant que l’on aura estimé à partir des dépenses passées ;<p>et tout ceci tout au long de la période de prévisions.			 
+</p></li></ol><p>
+Les sous-sections suivantes décrivent les différentes actions qu’il vous faudra exécuter, dans l’ordre :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	création d’un compte carte, des catégories et des tiers ;
+	</li><li class="li-enumerate">configuration d’un compte carte et du compte principal ;
+	</li><li class="li-enumerate">configuration des quatre fonctionnalités ;
+	</li><li class="li-enumerate">création de l’opération planifiée.
+</li></ol>
+<h4 class="subsubsection" id="sec278">Création d’un compte carte, des catégories et des tiers</h4>
+<p>Pour assurer la gestion automatique d’une carte bancaire, vous devez définir un compte carte, ainsi qu’au moins un nouveau tiers et deux nouvelles catégories (ou imputations budgétaires) pour identifier les opérations automatiques ; le compte carte sera réservé à la saisie des dépenses avec la carte bancaire, et sera du type compte de passif, car son solde ne peut pas être positif. Les noms employés ici ne sont que des exemples et vous pouvez définir ceux que vous préférez. </p><p>Procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	créez un compte de passif, par exemple «Compte CB DD » (pour Carte Bancaire Débit Différé) (voir la section <a href="grisbi-manuel008.html#accounts-new">7.4</a>, <span class="c007">Création d’un nouveau compte</span>) ; pendant cette création, ou bien par la suite dans son onglet <span class="c007">Propriétés</span>(voir la section <a href="grisbi-manuel008.html#accounts-properties">7.3</a>, <span class="c007">Propriétés d’un compte</span>), définissez-y les montants maximaux de dépenses pour l’activation des alertes : 
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			 mettez à zéro le champ <span class="c007">Solde initial</span>,
+			 </li><li class="li-enumerate">renseignez le champ <span class="c007">Solde minimal autorisé</span> par un nombre en-dessous duquel vous serez averti d’arrêter les dépenses (pour éviter aussi le message d’alerte «<span class="c007">Compte sous le solde minimal autorisé</span> » à la moindre dépense) ; ce nombre négatif peut être estimé par un maximum de vos dépenses mensuelles, ou bien défini par votre contrat de carte bancaire, par ex. -2000,
+			 </li><li class="li-enumerate">renseignez le champ <span class="c007">Solde minimal voulu</span> par un nombre en-dessous duquel vous serez averti du risque de dépassement de dépenses (pour éviter aussi le message d’alerte «<span class="c007">Compte sous le solde minimal voulu</span> » à la moindre dépense) ; ce nombre négatif peut être estimé par un maximum voulu de vos dépenses mensuelles, par ex. -1800 (il doit être supérieur au <span class="c007">Solde minimal autorisé</span>),	
+		</li></ol>
+	</li><li class="li-enumerate">dans l’onglet <span class="c007">Catégories</span> (ou <span class="c007">Imputations budgétaires</span>), créez une nouvelle catégorie (ou imputation budgétaire), par exemple «Raz CB DD », de type <span class="c007">Crédit</span>, qui sera dédiée, dans le compte carte à l’opération de remise à zéro du solde de ce compte carte ;
+	</li><li class="li-enumerate">dans le même onglet, créez une nouvelle catégorie (ou imputation budgétaire), par exemple «Débit CB DD », de type <span class="c007">Débit</span>, qui sera dédiée, dans le compte principal, à l’opération de débit du solde du compte carte ;
+<p>	<span class="c010">Note</span> : il est <em>obligatoire</em> que ces catégories (ou imputations budgétaires) soient utilisés <em>uniquement</em> pour ces opérations, sinon cela ne fonctionnera pas.		
+	</p></li><li class="li-enumerate">dans l’onglet <span class="c007">Tiers</span>, créez un nouveau tiers, par exemple «GRISBI RAZ CB DD », qui sera dédié, dans le compte carte, à l’opération de remise à zéro du solde de ce compte carte ; 
+	</li><li class="li-enumerate">dans le même onglet, créez aussi un nouveau tiers, par exemple «GRISBI DÉBIT COMPTE PRINCIPAL », qui sera dédié, dans le compte principal, à l’opération de débit du solde du compte carte.
+<p>	<span class="c010">Note</span> : ces tiers peuvent aussi être utilisés pour d’autres opérations ; vous pouvez aussi ne créer qu’un seul tiers pour ces deux fonctions, avec un nom adéquat, mais en avoir deux différents et réservés à ces fonctions permet une meilleure lisibilité des opérations. 		
+</p></li></ol><p>
+Si vous avez plusieurs cartes bancaires à débit différé, vous avez deux possibilités :</p><ul class="itemize"><li class="li-itemize">
+	soit vous créez un seul compte pour toutes ces cartes, à la condition <em>impérative</em> que leurs dates de prélèvement et leurs périodes de comptabilisation soient identiques ; cela vous permettra de configurer toutes les cartes en une seule fois, mais vous n’aurez pas une bonne lisibilité sur les opérations de chacune des cartes, et le rapprochement de ce compte sera compliqué car il devra être fait avec tous les relevés de compte de carte ;
+	
+	</li><li class="li-itemize">soit vous créez un compte pour chacune des cartes ; c’est ce qui est conseillé pour avoir une meilleure lisibilité des comptes, et les rapprochements se feront compte par compte ; dans ce cas, vous pouvez aussi créer un un <span class="c003">groupe de comptes</span><a id="hevea_default300"></a> pour toutes ces cartes, ce qui vous permettra de les configurer tous en une seule fois et de n’avoir qu’une seule ligne de prévisions, et vous pourrez aussi afficher leur solde global dans la page d’accueil, (voir dans le menu <span class="c007">Édition - Préférences</span>, le paragraphe <a href="grisbi-manuel023.html#setup-general-home-partBalance">22.1.8</a>, <span class="c007">Soldes partiels de la liste des comptes</span>).
+</li></ul>
+<h4 class="subsubsection" id="sec279">Configuration d’un compte carte et du compte principal</h4>
+<p>Pour configurer ces comptes, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	 dans le menu <span class="c007">Préférences - Budget prévisionnel - Données des comptes</span>, sélectionnez le compte principal dans la liste déroulante, et cochez la case <span class="c007">Utiliser le module budgétaire</span> (voir le chapitre <a href="grisbi-manuel018.html#budget">17</a>, <span class="c007">Budgets prévisionnels</span>) ;	
+	 </li><li class="li-enumerate">dans le même menu, sélectionnez le compte carte («Compte CB DD ») dans la liste déroulante, et cochez la case <span class="c007">Utiliser le module budgétaire</span> puis, juste en-dessous, cochez la case <span class="c007">Compte avec carte à débit différé</span> ; validez par le bouton <span class="c007">Fermer</span> ;	
+	 </li><li class="li-enumerate">dans l’onglet <span class="c007">Prévisions</span> de votre compte principal :
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			 dans l’en-tête des prévisions, réglez la <span class="c007">Durée d’estimation</span> à deux mois minimum,
+			 </li><li class="li-enumerate">sur la même ligne, pour la <span class="c007">Date de départ</span>, cochez la case <span class="c007">Automatique</span>.	 
+		</li></ol>
+</li></ol>
+<h4 class="subsubsection" id="sec280">Configuration des quatre fonctionnalités</h4>
+<p>Vous pouvez maintenant configurer l’une après l’autre les quatre fonctionnalités décrites dans la section <a href="#bankcard-deferredCard-budget">18.2.2</a>, <span class="c007">Gestion automatique et prévisions pour une carte bancaire à débit différé</span>.</p><p>Ces quatre fonctionnalités sont configurables dans une fenêtre unique, accessible dans l’onglet <span class="c007">Prévisions</span> du compte principal ; les deux premières sont fonctionnellement liées, et on ne peut pas les dissocier ; les deux dernières sont indépendantes, et vous pouvez les configurer séparément, selon votre besoin. Cependant, il est conseillé de les configurer toutes, car ce serait dommage de se priver d’une gestion de carte entièrement automatisée !</p><p>
+Dans le tableau des prévisions du compte principal, cliquez-droit sur une ligne proche de la date de prélèvement de la carte bancaire, et sélectionnez <span class="c007">Insérer le solde d’un compte à débit différé</span> : la fenêtre <span class="c007">Configuration d’un compte à débit différé</span> s’affiche :
+</p><blockquote class="figure"><div class="center"><hr class="c012"></div>
+<div class="center">
+<img src="image/screenshot/bankcard_defferedAccount.png">
+</div>
+<div class="caption"><table class="c000 cellpading0"><tr><td class="c011">Figure 18.1: Configuration d’un compte à débit différé</td></tr>
+</table></div>
+<a id="bankcard_defferedAccount-img"></a>
+<div class="center"><hr class="c012"></div></blockquote><p>
+Vous pouvez à tout moment fermer cette fenêtre en cliquant sur le bouton <span class="c007">Valider</span> ; vous pouvez <span class="c003">afficher la fenêtre de configuration</span><a id="hevea_default301"></a> par un double-clic sur la ligne libellée <span class="c007">Solde du compte : Compte carte bancaire DD</span> et affichée sur fond vert, puis la modifier si besoin est ; vous pouvez aussi la supprimer en sélectionnant <span class="c007">Supprimer la ligne</span> dans le menu contextuel accessible par un clic-droit sur cette ligne. </p><ol class="enumerate" type=1><li class="li-enumerate">
+<p>	</p>dans la zone <span class="c007">Liste des comptes</span>, sélectionnez le compte carte («Compte CB DD ») ; vous pouvez aussi choisir un groupe de comptes cartes défini auparavant, qui se comportera de la même manière qu’un compte carte ;
+<p>	<span class="c010">Note</span> : cette zone n’affiche que les comptes pour lesquels la case de libellé <span class="c007">Compte avec carte à débit différé</span> a été cochée, voir la section <a href="grisbi-manuel023.html#setup-budget-data">22.6.2</a>, <span class="c007">Données des comptes</span>, ou bien des groupes de ces comptes.
+	</p></li><li class="li-enumerate">dans la zone <span class="c007">Compte carte à débit différé</span> :	 
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			dans le champ libellé <span class="c007">Date de début de la période</span>, saisissez la date du début de la <em>prochaine</em> période de la carte,
+			</li><li class="li-enumerate">en-dessous, dans le champ nommé <span class="c007">Tiers</span>, saisissez le nom du tiers dédié «GRISBI RAZ CB DD », 	 
+			</li><li class="li-enumerate">en-dessous, dans le champ nommé <span class="c007">Catégorie</span> à gauche ou <span class="c007">Imputation budgétaire</span> à droite, saisissez le nom de la catégorie (ou de l’imputation budgétaire) dédiée «Raz CB DD » ; cette saisie n’est pas obligatoire, mais cela permet d’y affecter les opérations de remise à zéro du solde de compte carte, sinon elles seront affectées à la catégorie <span class="c007">Pas de catégorie</span> ;
+		</li></ol>				
+	</li><li class="li-enumerate">dans la zone <span class="c007">Compte principal</span> :
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			dans le champ libellé <span class="c007">Date de prélèvement</span>, saisissez la <em>prochaine</em> date de prélèvement de la carte ;		
+		</li></ol>			 	 
+	</li><li class="li-enumerate">si vous validez la fenêtre, elle se ferme et la ligne <span class="c007">Solde du compte : Compte CB DD</span> s’affiche alors sur fond vert dans le tableau de prévisions du compte principal, à la date de prélèvement ; il sera mis à jour à chaque saisie de nouvelle opération sur le compte de carte ; de plus, la remise à zéro du compte carte sera faite automatiquement à la <em>prochaine</em> date de début de période ; ces deux fonctionnalités sont liées et on ne peut pas les dissocier ; 
+	</li><li class="li-enumerate">si ces deux premières fonctionnalités (affichage du solde des dépenses dans l’onglet Prévisions et remise à zéro automatique du solde du compte carte) vous suffisent, <span class="c010">vous pouvez arrêter ici la configuration ; sinon, continuez</span> ;
+<p>	<span class="c010">Note</span> : vous pourrez toujours reprendre ici la configuration de la troisième fonctionnalité, ultérieurement.
+</p><p>	</p></li><li class="li-enumerate">dans la zone <span class="c007">Compte principal</span> :
+		<ol class="enumerate" type=a><li class="li-enumerate">
+			si vous désirez la troisième fonctionnalité (débit automatique du solde du compte carte dans le compte principal), cochez la case <span class="c007">Création automatique de l’opération de débit</span>,
+<p>			<span class="c010">Note</span> : vous pouvez tout à fait choisir de ne pas activer cette fonctionnalité si elle ne vous convient pas, et dans ce cas, vous devrez saisir cette opération de débit manuellement chaque mois…			</p></li><li class="li-enumerate">en-dessous, dans le champ nommé <span class="c007">Tiers</span>, saisissez le nom du tiers dédié «GRISBI DÉBIT COMPTE PRINCIPAL » ; cela est <em>obligatoire</em>, sinon Grisbi ne créera pas l’opération de débit du compte principal,
+			</li><li class="li-enumerate">choisissez le mode de paiement dans la liste déroulante à droite ; normalement, il ne s’agit pas d’un virement interne, puisque Grisbi dissocie les opérations de remise à zéro du compte carte et de débit du compte principal : préférez alors <span class="c007">Prélèvement</span>, ou tout autre mode que vous auriez créé à cet effet,
+			</li><li class="li-enumerate">en dessous, dans le champ nommé <span class="c007">Catégorie</span> à gauche ou <span class="c007">Imputation budgétaire</span> à droite, saisissez le nom de la catégorie dédiée (ou de l’imputation budgétaire) «Débit CB DD » ; cela n’est <em>pas obligatoire</em>, mais il est conseillé de le faire pour un bon classement des opérations ;
+		</li></ol>
+	</li><li class="li-enumerate">si vous validez la fenêtre, elle se ferme et le solde du compte carte sera débité à la date de prélèvement de la carte, dans l’onglet <span class="c007">Opérations</span> du compte principal ; si cette troisième fonctionnalité (débit automatique du solde du compte carte dans le compte principal) vous suffit, <span class="c010">vous pouvez arrêter ici la configuration ; sinon, continuez</span>;
+<p>			<span class="c010">Note</span> : vous pourrez toujours reprendre ici la configuration de la quatrième fonctionnalité, ultérieurement.	
+	</p></li><li class="li-enumerate">si vous désirez la quatrième fonctionnalité (prévisions de dépenses pour les mois suivants, basées sur une opération planifiée d’un montant estimé à partir des dépenses passées), cochez la case <span class="c007">Remplacement de l’opération planifiée dans les prévisions</span> : dans les champs juste en-dessous, le tiers pour cette opération planifiée a déjà été saisi, et vous devrez saisir une catégorie si cela n’a pas déjà été fait ; ces tiers et catégories devront être les mêmes dans l’<span class="c010">opération planifiée que vous devrez créer dans la section suivante</span> ;
+<p>	<span class="c010">Note</span> : vous pouvez tout à fait choisir de ne pas activer cette fonctionnalité si elle ne vous convient pas, et dans ce cas, vous ne disposerez pas de la prévision des dépenses de carte pour tous les mois suivants après celui du débit automatique…						 
+	</p></li><li class="li-enumerate">validez par le bouton <span class="c007">Valider</span>.					
+</li></ol><p>			 </p>
+<h4 class="subsubsection" id="sec281">Création de l’opération planifiée</h4>
+<p>Cette opération planifiée s’affichera dans les <span class="c007">Prévisions</span> du compte principal à la date de prélèvement de la carte ; dans l’onglet <span class="c007">Échéancier</span>, créez une opération planifiée avec les paramètres suivants :</p><ul class="itemize"><li class="li-itemize">
+	 <span class="c007">Compte</span> : le compte principal,		
+	 </li><li class="li-itemize"><span class="c007">Opération planifiée</span> : Automatique,
+	 </li><li class="li-itemize"><span class="c007">Périodicité</span> : Mensuelle,
+	 </li><li class="li-itemize"><span class="c007">Date limite</span> : aucune,	 
+	 </li><li class="li-itemize"><span class="c007">Date</span> : saisissez de préférence la même date que la date de prélèvement du solde du compte carte dans le compte principal, mais vous pouvez aussi saisir une date différente,
+	 </li><li class="li-itemize"><span class="c007">Tiers</span> : le même que pour l’opération de débit dans le compte principal, soit «GRISBI DÉBIT COMPTE PRINCIPAL »,
+	 </li><li class="li-itemize"><span class="c007">Catégorie</span> (ou <span class="c007">Imputation budgétaire</span>) : la même que pour l’opération de débit dans le compte principal, soit «Débit CB DD »,
+	 </li><li class="li-itemize"><span class="c007">Mode de règlement</span> : sélectionnez <span class="c007">Prélèvement</span> dans la liste déroulante, car il s’agit d’un prélèvement par la banque.	
+	 </li><li class="li-itemize"><span class="c007">Débit</span> : le montant qui représente soit une estimation du montant moyen de vos dépenses mensuelles avec votre carte, soit un majorant de ce montant.
+</li></ul><p>	
+</p><p>	<span class="c010">Note</span> : vous pouvez aussi vous servir des onglets <span class="c007">Données historiques</span> et <span class="c007">Prévisions</span> du compte carte pour faire cette estimation de vos dépenses futures.</p><p>
+<span class="c010">Note</span> : si vous avez plusieurs cartes bancaires à débit différé, vous devrez configurer une opération planifiée pour chacun des comptes cartes.</p><p>
+Si vous avez coché l’option <span class="c007">Remplacement de l’opération planifiée dans les prévisions</span> dans la fenêtre <span class="c007">Configuration d’un compte à débit différé</span>, seule la ligne <span class="c007">Solde du compte : Compte CB DD</span> apparaît dans le tableau des prévisions du compte principal, à la <em>prochaine</em> date de prélèvement de la carte, et pour les mois suivants, seule celle de l’opération planifiée apparaît.
+		
+Si vous n’avez pas coché l’option <span class="c007">Remplacement de l’opération planifiée dans les prévisions</span> dans la fenêtre <span class="c007">Configuration d’un compte à débit différé</span>, deux lignes apparaissent dans le tableau des prévisions du compte principal : la ligne <span class="c007">Solde du compte : Compte CB DD</span>, à la <em>prochaine</em> date de prélèvement de la carte, et celle de l’opération planifiée à sa propre date ; et pour les mois suivants, seule celle de l’opération planifiée apparaît. C’est une fonctionnalité que vous pouvez préférer, mais cela fausse la prévision pour le premier mois, en la majorant d’environ deux fois.</p><p>
+Toutes les configurations sont maintenant terminées.</p>
+<h4 class="subsubsection" id="sec282">Utilisation des quatre fonctionnalités</h4>
+<p>L’utilisation de ces quatre fonctionnalités est donc la suivante :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	saisissez dans le compte carte, jusqu’à la fin de la période de la carte, les opérations de dépenses avec cette carte ; le solde de ce compte devient de plus en plus négatif, au fur et à mesure des saisies de dépenses ; il s’affiche en même temps dans la ligne <span class="c007">Solde du compte : Compte CB DD</span> du tableau des prévisions du compte principal ;
+	</li><li class="li-enumerate">lorsque vous démarrez Grisbi à la <span class="c007">Date de début de la période</span> de la carte ou dans les jours suivants, le compte carte et le compte principal ne sont pas modifiés ; mais dès la première ouverture de l’onglet <span class="c007">Prévisions</span> du compte principal, <em>les opérations automatiques se déclenchent et s’enchaînent automatiquement</em> : la remise à zéro du solde du compte carte, le démarrage de la période suivante, le figeage de la ligne <span class="c007">Solde du compte : Compte CB DD</span> dans le tableau de prévisions du compte principal, et enfin la création d’une nouvelle ligne de solde de la carte pour le mois suivant, qui va évoluer avec les dépenses sur cette carte ;
+	</li><li class="li-enumerate">quand vous recevez le relevé de compte du compte carte, faites le rapprochement de ce compte ;	
+	</li><li class="li-enumerate">à la date de prélèvement du solde du compte carte, l’onglet <span class="c007">Opérations</span> du compte principal est débité du montant du solde de la carte, sous le tiers «GRISBI DÉBIT COMPTE PRINCIPAL » et la catégorie «Débit CB DD » ; dans l’onglet <span class="c007">Prévisions</span> du compte principal, un double-clic sur la ligne de débit du solde de la carte (libellée «GRISBI DÉBIT COMPTE PRINCIPAL » ou «Débit CB DD ») <span class="c003">affiche le débit du solde de la carte bancaire</span> <a id="hevea_default302"></a> dans l’onglet <span class="c007">Opérations</span> de ce compte ;
+	</li><li class="li-enumerate">à sa propre date, l’échéance de l’opération planifiée pour cette date est supprimée si l’option de remplacement de l’échéance a été cochée, tandis que les échéances suivantes subsistent ; mais si l’option n’a pas été cochée, l’échéance pour cette date subsiste, ainsi que les échéances suivantes.
+</li></ol><p>et tout ceci pour tous vos comptes de carte.</p><p>
+Finalement, quand vous avez configuré les quatre fonctionnalités dans le tableau des prévisions du compte principal, la ligne <span class="c007">Solde au …</span> indique le solde au dernier jour du mois qui contient le dernier prélèvement du solde du compte carte, et qui est, suivant le cas :
+</p><ol class="enumerate" type=1><li class="li-enumerate">
+	si vous avez coché l’option <span class="c007">Remplacement de l’opération planifiée dans les prévisions</span>, le montant restant, compte tenu du seul débit du solde du compte carte ; dans ce cas, la prévision en fin de mois est réelle pour ce mois-là, et basée sur l’opération planifiée pour les mois suivants ; 
+	</li><li class="li-enumerate">si vous n’avez pas coché l’option <span class="c007">Remplacement de l’opération planifiée dans les prévisions</span>, le montant restant, compte tenu du débit du solde du compte carte et de l’échéance de l’opération planifiée ; dans ce cas, la prévision en fin de mois est majorée d’environ deux fois pour ce mois-là, et basée sur l’opération planifiée pour les mois suivants : c’est une fonctionnalité que vous pouvez préférer, mais cela fausse la prévision pour le premier mois.
+</li></ol><p> 
+<span class="c010">Note</span> : si vous avez dépassé la date de début de la période suivante de la carte alors que vous n’avez pas encore saisi toutes les opérations de la période précédente dans le compte carte, et si vous ouvrez l’onglet <span class="c007">Prévisions</span> du compte principal, une fenêtre d’avertissement s’affiche et vous propose soit d’annuler, soit de continuer cette action ; si vous annulez, ouvrez alors l’onglet <span class="c007">Opérations</span> du compte carte et saisissez-y les dernières opérations manquantes ; vous pourrez ensuite ouvrir le compte principal et son onglet <span class="c007">Prévisions</span> en validant la fenêtre d’avertissement, et vous constaterez que la ligne <span class="c007">Solde du compte : Compte CB DD</span> tient compte de toutes les opérations du compte carte ; si vous continuez, les opérations automatiques seront effectuées, et le solde du compte carte sera figé sans ces opérations non saisies : s’il vous arrive de faire cette erreur malgré l’avertissement, vous devrez corriger les montants manuellement, voire refaire la configuration de cette gestion automatique.</p>
+<h2 class="section" id="bankcard-creditCard">18.3  Carte de crédit</h2>
+<p>Une carte de crédit est une carte de paiement que vous pouvez alimenter avec le montant d’une réserve de crédit renouvelable. Comme il faut gérer le crédit, le remboursement du crédit et les dépenses, le solde peut aussi bien être positif que négatif : vous devrez la gérer dans un compte de type compte bancaire.</p><p>
+Les contrats sur ces cartes peuvent être très variés selon les organismes bancaires, et offrent de multiples possibilités, qui ne peuvent être détaillées ici pour chaque type de contrat ; pour leur configuration et leur gestion, vous pouvez vous inspirer des informations et des procédures données dans les sections suivantes :</p><ul class="itemize"><li class="li-itemize">
+	généralités sur les comptes : section <a href="grisbi-manuel008.html#accounts-type">7.7</a>, <span class="c007">Types de compte de Grisbi</span> ;
+	</li><li class="li-itemize">usage du type compte bancaire : section <a href="grisbi-manuel008.html#accounts-type-bank">7.7.1</a>, <span class="c007">Type compte bancaire</span> ;
+	</li><li class="li-itemize">usage du type compte de passif : section <a href="grisbi-manuel008.html#accounts-type-liabilities">7.7.3</a>, <span class="c007">Type compte de passif</span> ;
+	</li><li class="li-itemize">généralités sur les emprunts : section <a href="grisbi-manuel018.html#budget-amortization">17.3</a>, <span class="c007">Tableau d’amortissement</span> ;
+	</li><li class="li-itemize">création d’un suivi d’emprunt : section <a href="grisbi-manuel018.html#budget-amortizationCreate">17.6</a>, <span class="c007">Création d’un tableau d’amortissement</span> ;
+	</li><li class="li-itemize">gestion et prévisions d’une carte bancaire à débit immédiat : section <a href="#bankcard-quickCard">18.1</a>, <span class="c007">Carte bancaire à débit immédiat</span> ;
+	</li><li class="li-itemize">gestion manuelle et gestion automatique et prévisions d’une carte bancaire à débit différé : section <a href="#bankcard-deferredCard">18.2</a>, <span class="c007">Carte bancaire à débit différé</span>.
+</li></ul>
+<h2 class="section" id="bankcard-purse">18.4  Porte-monnaie électronique</h2>
+<p>Un <span class="c003">porte-monnaie électronique</span><a id="hevea_default303"></a> est une carte de paiement qui est alimentée par une somme d’argent prélevée sur un compte bancaire. Ce montant est utilisé pour régler de petites dépenses. Comme son solde ne peut pas être négatif, vous devrez gérer ce porte-monnaie dans un compte de type compte de caisse, comme s’il n’y avait que des espèces.</p>
+<hr>
+<a href="grisbi-manuel018.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel020.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

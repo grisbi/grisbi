@@ -1020,8 +1020,7 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 	{
 	    if ( set_debit )
 	    {
-		debit_list = g_slist_append ( debit_list,
-					      category -> category_name);
+		debit_list = g_slist_append ( debit_list, g_strdup ( category -> category_name ) );
 		debit_list = gsb_data_category_append_sub_category_to_list ( debit_list,
 									     category -> sub_category_list);
 	    }
@@ -1030,8 +1029,7 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 	{
 	    if ( set_credit )
 	    {
-		credit_list = g_slist_append ( credit_list,
-					       category -> category_name);
+		credit_list = g_slist_append ( credit_list, g_strdup ( category -> category_name ) );
 		credit_list = gsb_data_category_append_sub_category_to_list ( credit_list,
 									      category -> sub_category_list);
 	    }
@@ -1055,10 +1053,8 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 	GSList *special_list = NULL;
 
 	if (set_split)
-	    special_list = g_slist_append ( special_list,
-					    _("Split of transaction"));
-	special_list = g_slist_append ( special_list,
-					_("Transfer"));
+	    special_list = g_slist_append ( special_list, g_strdup ( _("Split of transaction") ) );
+	special_list = g_slist_append ( special_list, g_strdup ( _("Transfer") ) );
 
 	/* append the accounts name with a tab at the beginning */
 
@@ -1080,6 +1076,34 @@ GSList *gsb_data_category_get_name_list ( gboolean set_debit,
 				       special_list );
     }
     return return_list;
+}
+
+
+/**
+ * free the memory used by gsb_data_category_get_name_list
+ *
+ * \param liste
+ *
+ * \return
+ */
+void gsb_data_categorie_free_name_list ( GSList *liste )
+{
+    gint nbre_list;
+    gint i;
+
+    nbre_list = g_slist_length ( liste );
+
+    for ( i = 0; i < nbre_list -1; i++ )
+    {
+        GSList *tmp_list;
+
+        tmp_list = liste->data;
+        liste = liste->next;
+        g_slist_foreach ( tmp_list, (GFunc) g_free, NULL );
+        g_slist_free ( tmp_list );
+    }
+
+    g_slist_free ( liste );
 }
 
 

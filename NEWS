@@ -1,15 +1,33 @@
-New in version 0.9.4
-- Adding of goffice's library for the graphs (EXPERIMENTAL)
-- Added tests for new date parsing feature (month as string in english)
-- Add mouse scrolling support on the navigation tree
-- Add a regex store
-- adds the calculation of the balance depending on the value date or the date operations
-- Add more diversity to date string tests
-- Adding the option "Erase Fields Credit and Debit" for the automatic filling of transactions
-- Adding a context menu to the left panel
-- Suppression de nombreuses fuites de mémoire
-- Correction de nombreux bugs
-- Gros travail de nettoyage du code de Grisbi
+New in version 1.0.0
+- Chart on budget estimates
+- Bankcard management with estimates
+- Accountancy adapted to associations
+- More contextual menus
+- Adding of goffice's library for the graphs
+- Import of categories files in budgetary lines
+- Change the accounts list order by drag and drop
+- Balance in function of operation date or its value date
+- Display of unused payees
+- Full screen display through F11 function key
+- New operation through <Ctrl><T> keyboard shortcut
+- User manual direct access through Help menu or <Ctrl><H> keyboard shortcut
+- new french user manual
+- fixes many bugs
+- fix many memory leaks
+
+New in version 0.8.9
+- update of the manual page
+- fixes bug 1432
+- fixe a potential crash when closing Grisbi
+- minor changes
+
+New in version 0.8.8
+- update the Russian translation
+- fixes bug 1373: the transaction is not transferred to the new account when use the Edit menu
+- fixes bug 1365: corrects the name of the International Russian currency RUB -> RUR
+- fixes some bugs in the navigation in the left panel of Grisbi
+- fixes a crash when the number of recently used files = 0
+- removal the display of the build date for the stable versions of Grisbi
 
 New in version 0.8.7
 - fixes a problem of gtk version under Windows.

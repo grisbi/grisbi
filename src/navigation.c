@@ -35,6 +35,7 @@
 #include "bet_data.h"
 #include "bet_finance_ui.h"
 #include "categories_onglet.h"
+#include "dialog.h"
 #include "etats_onglet.h"
 #include "fenetre_principale.h"
 #include "gsb_account.h"
@@ -50,6 +51,7 @@
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_form_scheduler.h"
+#include "gsb_form_widget.h"
 #include "gsb_real.h"
 #include "gsb_reconcile.h"
 #include "gsb_scheduler_list.h"
@@ -779,8 +781,11 @@ static gboolean gsb_gui_navigation_remove_report_iterator ( GtkTreeModel *tree_m
 
     if ( report == GPOINTER_TO_INT (data))
     {
-	gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
-	return TRUE;
+        if ( gsb_data_report_get_append_in_payee ( report ) )
+            gsb_form_widget_update_payee_combofix ( report, FALSE );
+
+        gtk_tree_store_remove ( GTK_TREE_STORE(tree_model), iter );
+        return TRUE;
     }
 
     return FALSE;
@@ -1000,6 +1005,23 @@ gboolean navigation_change_account ( gint new_account )
 
     /* unset the last date written */
     gsb_date_free_last_date ();
+
+    /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
+    if ( gsb_data_account_get_kind ( new_account ) == GSB_TYPE_CASH )
+    {
+        gsb_real balance;
+
+        balance = gsb_data_account_get_current_balance ( new_account );
+
+        if ( balance.mantissa < 0 )
+        {
+            dialogue_error ( _("This account cannot be negative.\n\n"
+                        "You must make positive the balance of this account "
+                        "before you can use it.") );
+
+            return ( FALSE );
+        }
+    }
 
     return FALSE;
 }

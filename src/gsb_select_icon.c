@@ -158,6 +158,9 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
 
     new_icon = g_strdup ( name_icon );
 
+    if ( path_icon && strlen ( path_icon ) > 0 )
+        g_free ( path_icon );
+
     path_icon = g_path_get_dirname ( name_icon );
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
                             GTK_WINDOW ( run.window ),
@@ -318,7 +321,6 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
     GError *error = NULL;
     GtkTreePath *tree_path = NULL;
 
-
     devel_debug ( path_icon );
 
     dir = g_dir_open ( path_icon, 0, &error );
@@ -343,10 +345,13 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
                             liste -> data, NULL );
             if ( g_strcmp0 ( tmpstr, name_icon ) == 0 )
             {
-                gchar *tmpstr = utils_str_itoa ( i );
+                gchar *tmpstr;
+
+                tmpstr = utils_str_itoa ( i-1 );
                 tree_path = gtk_tree_path_new_from_string ( tmpstr );
                 g_free ( tmpstr );
             }
+
             pixbuf = gdk_pixbuf_new_from_file_at_size ( tmpstr, 32, 32, NULL);
             if ( pixbuf )
             {
@@ -365,6 +370,7 @@ GtkTreePath * gsb_select_icon_fill_icon_view (  gchar * name_icon )
             i++;
         }
         gtk_icon_view_set_model (GTK_ICON_VIEW ( icon_view ), GTK_TREE_MODEL (store));
+        g_object_unref ( G_OBJECT ( store ) );
         g_dir_close ( dir );
     }
     else
@@ -668,7 +674,11 @@ GdkPixbuf *gsb_select_icon_get_default_logo_pixbuf ( void )
     if ( gdk_pixbuf_get_width (pixbuf) > LOGO_WIDTH ||
 	     gdk_pixbuf_get_height (pixbuf) > LOGO_HEIGHT )
     {
-        return gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+        GdkPixbuf *tmp_pixbuf;
+
+        tmp_pixbuf = gsb_select_icon_resize_logo_pixbuf ( pixbuf );
+        g_object_unref ( G_OBJECT ( pixbuf ) );
+        return tmp_pixbuf;
 	}
     else
         return pixbuf;
@@ -692,7 +702,10 @@ void gsb_select_icon_set_logo_pixbuf ( GdkPixbuf *pixbuf )
         pixbuf_logo = gsb_select_icon_resize_logo_pixbuf ( pixbuf );
 	}
     else
+    {
         pixbuf_logo = pixbuf ;
+        g_object_ref ( G_OBJECT ( pixbuf_logo ) );
+    }
 }
 
 
@@ -719,9 +732,6 @@ GdkPixbuf *gsb_select_icon_resize_logo_pixbuf ( GdkPixbuf *pixbuf )
         ratio_height ++;
     ratio = ( ratio_width > ratio_height ) ? ratio_width : ratio_height;
 
-    tmp = gdk_pixbuf_new ( GDK_COLORSPACE_RGB, TRUE, 8,
-               gdk_pixbuf_get_width ( pixbuf )/ratio,
-               gdk_pixbuf_get_height ( pixbuf )/ratio );
     tmp = gdk_pixbuf_scale_simple ( pixbuf,
                         gdk_pixbuf_get_width ( pixbuf )/ratio,
                         gdk_pixbuf_get_height ( pixbuf )/ratio,

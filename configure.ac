@@ -5,7 +5,7 @@ m4_define(grisbi_minor_version, 1)
 m4_define(grisbi_micro_version, 1)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
-AC_INIT([grisbi],[grisbi_version],[http://grisbi.tuxfamily.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.fr.html])
+AC_INIT([grisbi],[grisbi_version],[http://www.grisbi.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.php])
 
 AC_CONFIG_SRCDIR(src/main.c)
 AC_CONFIG_HEADERS([config.h])
@@ -274,6 +274,17 @@ else
 fi
 
 dnl ================================================================
+dnl french doc
+dnl ================================================================
+
+AC_ARG_ENABLE(frenchdoc,
+  [AC_HELP_STRING([--disable-frenchdoc],
+  [Install french user documentation (default=yes)])],,
+  enable_frenchdoc=yes)
+AM_CONDITIONAL(FRENCHDOC, test "$enable_frenchdoc" = "yes")
+
+
+dnl ================================================================
 dnl Makefiles
 dnl ================================================================
 
@@ -284,6 +295,9 @@ help/C/Makefile
 help/de/Makefile
 help/en/Makefile
 help/fr/Makefile
+help/fr/image/Makefile
+help/fr/image/icon/Makefile
+help/fr/image/screenshot/Makefile
 pixmaps/Makefile
 pixmaps/flags/Makefile
 po/Makefile.in
@@ -314,6 +328,7 @@ echo "
                 Build with goffice:        $build_goffice
                 Build gtk_mac_integration: $os_osx
                 CUnit/unit tests support:  $build_cunit
+                Install french user doc:   $enable_frenchdoc
 
 "
 if expr ${GRISBI_MINOR_VERSION} % 2 > /dev/null; then

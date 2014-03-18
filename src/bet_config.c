@@ -688,6 +688,7 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     GtkWidget *widget;
     GtkWidget *hbox;
     GtkWidget *button_1, *button_2;
+    GDate *date_jour;
     gchar *str_year;
     gint year;
 
@@ -725,7 +726,10 @@ GtkWidget *bet_config_get_select_historical_data ( GtkWidget *container,
     g_object_set_data ( G_OBJECT ( notebook ), "bet_config_hist_fyear_combo", widget );
 
     /* hide the present financial year */
-    year = g_date_get_year ( gdate_today ( ) );
+    date_jour = gdate_today ( );
+    year = g_date_get_year ( date_jour );
+    g_date_free ( date_jour );
+
     str_year = utils_str_itoa ( year );
     gsb_fyear_hide_iter_by_name ( bet_fyear_model, str_year );
     g_free ( str_year );

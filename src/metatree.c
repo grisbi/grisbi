@@ -849,13 +849,13 @@ gboolean supprimer_division ( GtkTreeView * tree_view )
 
         /* update value in the tree view */
         metatree_update_tree_view ( iface );
-
-        gsb_file_set_modified ( TRUE );
     }
 
     /* supprime dans la liste des division  */
     iface -> remove_div ( no_division );
     metatree_remove_iter_and_select_next ( tree_view, model, &iter );
+
+    gsb_file_set_modified ( TRUE );
 
     return FALSE;
 }
@@ -1070,12 +1070,8 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 			     META_TREE_NO_DIV_COLUMN, &no_division,
 			     META_TREE_NO_SUB_DIV_COLUMN, &no_sub_division,
 			     -1 );
-    if ( etat.metatree_sort_transactions )
-        list_tmp_transactions = gsb_data_transaction_get_transactions_list_by_date ();
-    else if ( etat.add_archive_in_total_balance )
-        list_tmp_transactions = gsb_data_transaction_get_complete_transactions_list ();
-    else
-        list_tmp_transactions = gsb_data_transaction_get_transactions_list ();
+
+    list_tmp_transactions = gsb_data_transaction_get_metatree_transactions_list ();
 
 	while ( list_tmp_transactions )
 	{
@@ -1108,6 +1104,7 @@ gboolean division_column_expanded  ( GtkTreeView * treeview, GtkTreeIter * iter,
 	    }
 	    list_tmp_transactions = list_tmp_transactions -> next;
 	}
+    g_slist_free ( list_tmp_transactions );
     }
 
     /* on colorise les lignes du tree_view */
@@ -2492,8 +2489,9 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
                         gpointer user_data )
 {
     GDate * date_a = NULL, * date_b = NULL;
-    gchar * string_a, * string_b;
+    gchar *string_a = NULL, *string_b = NULL;
     gint no_div_a, no_sous_div_a, no_div_b, no_sous_div_b;
+    gint return_value;
 
     gtk_tree_model_get ( model, a,
 			 META_TREE_DATE_COLUMN, &date_a,
@@ -2508,34 +2506,69 @@ gboolean metatree_sort_column  ( GtkTreeModel * model,
 
     /* on affiche en premier les opérations sans div sous_division */
     if ( no_div_a == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return -1;
+    }
+
     if ( no_div_b == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return 1;
+    }
+
     if ( no_div_a == no_div_b && no_sous_div_a == 0 )
+    {
+        g_free ( string_a );
+        g_free ( string_b );
+
         return -1;
+    }
+
     if ( no_div_a == no_div_b && no_sous_div_b == 0 )
-        return 1;
-
-    if (!string_b)
-        return 1;
-    if (!string_a)
-        return -1;
-
-    if ( ! date_a && ! date_b )
     {
-        return g_utf8_collate ( string_a, string_b );
-    }
+        g_free ( string_a );
+        g_free ( string_b );
 
-    if ( ! date_b )
-    {
         return 1;
     }
-    else if ( ! date_a )
+
+    if ( !string_b )
     {
+        g_free ( string_a );
+        return 1;
+    }
+
+    if ( !string_a )
+    {
+        g_free ( string_b );
         return -1;
     }
 
-    return g_date_compare ( date_a, date_b );
+    if ( !date_a && !date_b )
+    {
+        return_value = g_utf8_collate ( string_a, string_b );
+        g_free ( string_a );
+        g_free ( string_b );
+
+        return return_value;
+    }
+
+    g_free ( string_a );
+    g_free ( string_b );
+
+    if ( !date_b )
+        return 1;
+    else if ( !date_a )
+        return -1;
+
+    return_value = g_date_compare ( date_a, date_b );
+
+    return return_value;
 }
 
 

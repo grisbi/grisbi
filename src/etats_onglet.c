@@ -964,11 +964,10 @@ void efface_etat ( void )
         return;
 
    /* remove the report */
+    /* First update reports list in navigation. */
+    gsb_gui_navigation_remove_report ( current_report_number);
 
     gsb_data_report_remove ( current_report_number );
-
-    /* Update reports list in navigation. */
-    gsb_gui_navigation_remove_report ( current_report_number);
 
     gsb_gui_unsensitive_report_widgets ();
 

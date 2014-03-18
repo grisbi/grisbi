@@ -44,6 +44,7 @@
 #include "gsb_data_category.h"
 #include "gsb_data_form.h"
 #include "gsb_data_payee.h"
+#include "gsb_data_report.h"
 #include "gsb_form.h"
 #include "gsb_form_transaction.h"
 #include "gsb_fyear.h"
@@ -199,6 +200,7 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
                         gint account_number )
 {
     GtkWidget *widget;
+    GSList *tmp_list;
 
     if (!element_number)
 	return NULL;
@@ -245,8 +247,10 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_PARTY:
-	    widget = gtk_combofix_new (
-                        gsb_data_payee_get_name_and_report_list ( ) );
+        tmp_list = gsb_data_payee_get_name_and_report_list ( );
+	    widget = gtk_combofix_new ( tmp_list );
+        gsb_data_payee_free_name_and_report_list ( tmp_list );
+
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_payee );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -260,8 +264,9 @@ GtkWidget *gsb_form_widget_create ( gint element_number,
 	    break;
 
 	case TRANSACTION_FORM_CATEGORY:
-	    widget = gtk_combofix_new (
-                         gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE ) );
+        tmp_list = gsb_data_category_get_name_list ( TRUE, TRUE, TRUE, TRUE );
+	    widget = gtk_combofix_new ( tmp_list );
+        gsb_data_categorie_free_name_list ( tmp_list );
 	    gtk_combofix_set_force_text ( GTK_COMBOFIX (widget),
 					  etat.combofix_force_category );
 	    gtk_combofix_set_max_items ( GTK_COMBOFIX (widget),
@@ -1263,18 +1268,24 @@ gboolean gsb_form_widget_amount_entry_validate ( gint element_number )
 
 
 /**
- * update the payee combofix in the form with the current list of payee
+ * update the payee combofix in the form with the current current report
  *
- * \param
+ * \param report_number
+ * \param sens              FALSE remove report TRUE add report
  *
  * \return FALSE
  * */
-gboolean gsb_form_widget_update_payee_combofix ( void )
+gboolean gsb_form_widget_update_payee_combofix ( gint report_number,
+                        gint sens )
 {
-    if ( gsb_data_form_check_for_value ( TRANSACTION_FORM_PARTY ))
-    gtk_combofix_set_list ( GTK_COMBOFIX ( gsb_form_widget_get_widget
+    if ( sens )
+        gtk_combofix_append_report (  GTK_COMBOFIX ( gsb_form_widget_get_widget
                         (TRANSACTION_FORM_PARTY)),
-                        gsb_data_payee_get_name_and_report_list ());
+                        gsb_data_report_get_report_name ( report_number ) );
+    else
+        gtk_combofix_remove_report ( GTK_COMBOFIX ( gsb_form_widget_get_widget
+                        (TRANSACTION_FORM_PARTY)),
+                        gsb_data_report_get_report_name ( report_number ) );
 
     return FALSE;
 }

@@ -228,16 +228,23 @@ void bet_data_update_bet_module ( gint account_number, guint page )
  * */
 gboolean bet_data_init_variables ( void )
 {
+    if ( bet_hist_div_list )
+        g_hash_table_destroy ( bet_hist_div_list );
     bet_hist_div_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_hist_div );
+
+    if ( bet_future_list )
+        g_hash_table_destroy ( bet_future_list );
     bet_future_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
                         (GDestroyNotify) struct_free_bet_future );
     future_number = 0;
 
+    if ( bet_transfert_list )
+        g_hash_table_destroy ( bet_transfert_list );
     bet_transfert_list = g_hash_table_new_full ( g_str_hash,
                         g_str_equal,
                         (GDestroyNotify) g_free,
@@ -245,6 +252,21 @@ gboolean bet_data_init_variables ( void )
     transfert_number = 0;
 
     return FALSE;
+}
+
+
+/**
+ * used to free the global variables
+ *
+ * \param
+ *
+ * \return
+ * */
+void bet_data_free_variables ( void )
+{
+    g_hash_table_destroy ( bet_hist_div_list );
+    g_hash_table_destroy ( bet_future_list );
+    g_hash_table_destroy ( bet_transfert_list );
 }
 
 
@@ -2188,12 +2210,55 @@ void struct_free_bet_transaction_current_fyear ( TransactionCurrentFyear *self )
 
 
 /**
+ * Sets to 0 all the amounts selected for historical data (ou "archival")
+ *
+ * \param account_number
+ *
+ * \return
+ * */
+void bet_data_hist_reset_all_amounts ( gint account_number )
+{
+    GHashTableIter iter;
+    gpointer key, value;
+
+    if ( g_hash_table_size ( bet_hist_div_list ) == 0 )
+        return;
+
+    g_hash_table_iter_init ( &iter, bet_hist_div_list );
+    while ( g_hash_table_iter_next ( &iter, &key, &value ) )
+    {
+        struct_hist_div *shd = ( struct_hist_div* ) value;
+
+        if ( g_hash_table_size ( shd -> sub_div_list ) == 0 )
+        {
+            if ( shd -> div_edited )
+                bet_data_set_div_amount ( account_number, shd -> div_number, 0, null_real );
+        }
+        else
+        {
+            GHashTableIter new_iter;
+
+            g_hash_table_iter_init ( &new_iter, shd -> sub_div_list );
+            while ( g_hash_table_iter_next ( &new_iter, &key, &value ) )
+            {
+                struct_hist_div *sub_shd = ( struct_hist_div* ) value;
+
+                if ( sub_shd->div_edited )
+                    bet_data_set_div_amount ( account_number, shd->div_number, sub_shd->div_number, null_real );
+            }
+        }
+    }
+}
+
+
+/**
  *
  *
  * \param
  *
  * \return
  * */
+
 /* Local Variables: */
 /* c-basic-offset: 4 */
 /* End: */

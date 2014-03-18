@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<title>Manuel de l'utilisateur de Grisbi 
+
+
+
+
+
+</title>
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+</head>
+<body>
+<!--HEVEA command line is: hevea -fix -O -I ../hva grisbi-manuel.tex -->
+<!--HACHA command line is: hacha grisbi-manuel.html -->
+<table class="title"><tr><td style="padding:1ex"><h1 class="titlemain"><span class="c006"><span class="c005"><span class="c008">Manuel de l’utilisateur de Grisbi</span><br>
+</span></span><blockquote class="figure"><div class="center"><hr class="c012"></div><span class="c006"><span class="c005">
+</span></span><div class="center"><span class="c006"><span class="c005">
+<img src="image/manuel-logo.png">
+</span></span></div><span class="c006"><span class="c005">
+</span></span><div class="center"><hr class="c012"></div></blockquote></h1><h3 class="titlerest">Copyright © 2001-2003 Daniel <span class="c008">Cartron</span><br>
+Copyright © 2004 Alain <span class="c008">Portal</span><br>
+Copyright © 2004 Loïc <span class="c008">Breilloux</span><br>
+Copyright © 2004 Benjamin <span class="c008">Drieu</span><br>
+Copyright © 2011-2014 Jean-Luc <span class="c008">Duflot</span></h3><h3 class="titlerest">Version 1.0 du 12 février 2014</h3></td></tr>
+</table><p>				</p><ul>
+<li><a href="grisbi-manuel001.html">Table des matières</a>
+</li><li><a href="grisbi-manuel002.html">Préambule</a>
+<ul>
+<li><a href="grisbi-manuel002.html#sec3">Étymologie</a>
+</li><li><a href="grisbi-manuel002.html#sec11">Bibliographie</a>
+</li><li><a href="grisbi-manuel002.html#sec12">Filmographie</a>
+</li></ul>
+</li><li><a href="grisbi-manuel003.html">Introduction</a>
+<ul>
+<li><a href="grisbi-manuel003.html#introduction-general">Généralités</a>
+</li><li><a href="grisbi-manuel003.html#introduction-features">Fonctionnalités</a>
+</li><li><a href="grisbi-manuel003.html#sec24">Évolution du logiciel</a>
+</li><li><a href="grisbi-manuel003.html#introduction-contacts">Contacts</a>
+</li><li><a href="grisbi-manuel003.html#introduction-authors">Auteurs et contributions</a>
+</li><li><a href="grisbi-manuel003.html#introduction-thanks">Remerciements</a>
+</li><li><a href="grisbi-manuel003.html#introduction-licenses">Licences</a>
+</li><li><a href="grisbi-manuel003.html#introduction-manual">À propos du présent manuel</a>
+</li></ul>
+</li><li><a href="grisbi-manuel004.html">Premier démarrage de Grisbi</a>
+<ul>
+<li><a href="grisbi-manuel004.html#start-first">Assistant premier démarrage</a>
+</li><li><a href="grisbi-manuel004.html#start-example">Fichier exemple</a>
+</li><li><a href="grisbi-manuel004.html#start-newfile">Création d’un nouveau fichier de comptes</a>
+</li><li><a href="grisbi-manuel004.html#start-save">Enregistrement de votre fichier de comptes</a>
+</li><li><a href="grisbi-manuel004.html#sec43">Import à partir d’un autre logiciel de comptabilité personnelle</a>
+</li></ul>
+</li><li><a href="grisbi-manuel005.html">Accueil</a>
+<ul>
+<li><a href="grisbi-manuel005.html#home-synthesis">Barre d’information</a>
+</li><li><a href="grisbi-manuel005.html#home-accounting">Panneau de navigation</a>
+</li><li><a href="grisbi-manuel005.html#home-details">Pavé des détails</a>
+</li><li><a href="grisbi-manuel005.html#home-menus">Barre de menus</a>
+</li><li><a href="grisbi-manuel005.html#home-shortcuts">Raccourcis-clavier</a>
+</li></ul>
+</li><li><a href="grisbi-manuel006.html">Export et import de comptes</a>
+<ul>
+<li><a href="grisbi-manuel006.html#move-import">Import de comptes d’un autre logiciel</a>
+</li><li><a href="grisbi-manuel006.html#move-export">Export de comptes à partir de Grisbi</a>
+</li></ul>
+</li><li><a href="grisbi-manuel007.html">Gestion des données</a>
+<ul>
+<li><a href="grisbi-manuel007.html#datamanagement-files">Gestion des fichiers de comptes</a>
+</li><li><a href="grisbi-manuel007.html#datamanagement-backup">Sauvegardes</a>
+</li><li><a href="grisbi-manuel007.html#datamanagement-history">Archives</a>
+</li></ul>
+</li><li><a href="grisbi-manuel008.html">Gestion des comptes </a>
+<ul>
+<li><a href="grisbi-manuel008.html#accounts-list">Liste des comptes</a>
+</li><li><a href="grisbi-manuel008.html#accounts-selection">Sélection d’un compte</a>
+</li><li><a href="grisbi-manuel008.html#accounts-properties">Propriétés d’un compte</a>
+</li><li><a href="grisbi-manuel008.html#accounts-new">Création d’un nouveau compte</a>
+</li><li><a href="grisbi-manuel008.html#accounts-modify">Modification d’un compte </a>
+</li><li><a href="grisbi-manuel008.html#accounts-delete">Suppression d’un compte </a>
+</li><li><a href="grisbi-manuel008.html#accounts-type">Types de compte de Grisbi</a>
+</li><li><a href="grisbi-manuel008.html#accounts-switcheuro">Conversion d’un compte en euros</a>
+</li></ul>
+</li><li><a href="grisbi-manuel009.html">Opérations d’un compte</a>
+<ul>
+<li><a href="grisbi-manuel009.html#transactions-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel009.html#transactions-list">Liste des opérations</a>
+</li><li><a href="grisbi-manuel009.html#transactions-form">Formulaire de saisie</a>
+</li><li><a href="grisbi-manuel009.html#transactions-balance">Solde pointé</a>
+</li><li><a href="grisbi-manuel009.html#transactions-selection">Sélection d’une opération </a>
+</li><li><a href="grisbi-manuel009.html#transactions-new">Saisie d’une nouvelle opération</a>
+</li><li><a href="grisbi-manuel009.html#transactions-currencies">Saisie d’une opération en devises</a>
+</li><li><a href="grisbi-manuel009.html#transactions-virtualThird">Saisie d’une opération avec tiers virtuel</a>
+</li><li><a href="grisbi-manuel009.html#transactions-breakdown">Ventilation d’une opération</a>
+</li><li><a href="grisbi-manuel009.html#transactions-modify">Modification d’une opération</a>
+</li><li><a href="grisbi-manuel009.html#transactions-delete">Suppression d’une opération</a>
+</li><li><a href="grisbi-manuel009.html#transactions-model">Opération sélectionnée comme modèle</a>
+</li><li><a href="grisbi-manuel009.html#transactions-duplicate">Clonage d’une opération</a>
+</li><li><a href="grisbi-manuel009.html#transactions-schedule">Conversion d’une opération en opération planifiée</a>
+</li><li><a href="grisbi-manuel009.html#transactions-move">Déplacement d’une opération vers un autre compte</a>
+</li><li><a href="grisbi-manuel009.html#transactions-fillcombo">Nouveau tiers, catégorie ou imputation budgétaire</a>
+</li><li><a href="grisbi-manuel009.html#transactions-print">Impression de la liste des opérations</a>
+</li></ul>
+</li><li><a href="grisbi-manuel010.html">Rapprochement bancaire</a>
+<ul>
+<li><a href="grisbi-manuel010.html#reconciliation-account">Rapprochement d’un compte</a>
+</li><li><a href="grisbi-manuel010.html#reconciliation-manage">Gestion des rapprochements des comptes</a>
+</li><li><a href="grisbi-manuel010.html#reconciliation-solve">Résolution de problèmes de rapprochement</a>
+</li></ul>
+</li><li><a href="grisbi-manuel011.html">Échéancier</a>
+<ul>
+<li><a href="grisbi-manuel011.html#plannedtransactions-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-list">Liste des opérations planifiées</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-form">Formulaire de saisie des opérations planifiées</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-calendar">Calendrier et prévisions</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-selection">Sélection d’une opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-new">Nouvelle opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-breakdown">Ventilation d’une opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-modify">Modification d’une opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-duplicate">Clonage d’une opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-comments">Remarques des opérations planifiées</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-execution">Exécution d’une opération planifiée</a>
+</li><li><a href="grisbi-manuel011.html#plannedtransactions-remove">Suppression d’une opération planifiée</a>
+</li></ul>
+</li><li><a href="grisbi-manuel012.html">Recherches </a>
+<ul>
+<li><a href="grisbi-manuel012.html#search-list">Recherche dans les listes d’opérations et d’opérations planifiées </a>
+</li><li><a href="grisbi-manuel012.html#search-simple">Recherche dans les tiers, catégories ou imputations budgétaires </a>
+</li><li><a href="grisbi-manuel012.html#search-advanced">Recherche par états </a>
+</li></ul>
+</li><li><a href="grisbi-manuel013.html">Tiers</a>
+<ul>
+<li><a href="grisbi-manuel013.html#thirdparties-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-list">Liste des tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-selection">Sélection d’un tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-transactions">Les opérations d’un tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-new">Création d’un tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-modify">Modification d’un tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-management">Gestion des tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-delete">Suppression d’un tiers</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-unused">Tiers inutilisés</a>
+</li><li><a href="grisbi-manuel013.html#thirdparties-virtualCreate">Tiers virtuels</a>
+</li></ul>
+</li><li><a href="grisbi-manuel014.html">Catégories</a>
+<ul>
+<li><a href="grisbi-manuel014.html#categories-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel014.html#categories-list">Liste des catégories et des sous-catégories</a>
+</li><li><a href="grisbi-manuel014.html#categories-selection">Sélection d’une catégorie ou d’une sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-transactions">Les opérations d’une catégorie ou d’une sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-new">Création d’une catégorie ou d’une sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-modify">Modification d’une catégorie ou d’une sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-transfer">Transfert d’opérations dans une autre sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-management">Gestion des sous-catégories</a>
+</li><li><a href="grisbi-manuel014.html#categories-delete">Suppression d’une catégorie ou d’une sous-catégorie</a>
+</li><li><a href="grisbi-manuel014.html#categories-importexport">Import et export </a>
+</li></ul>
+</li><li><a href="grisbi-manuel015.html">Imputations budgétaires</a>
+<ul>
+<li><a href="grisbi-manuel015.html#budgetarylines-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-list">Liste des imputations budgétaires</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-selection">Sélection d’une (sous-) imputation budgétaire</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-transactions">Les opérations d’une (sous-) imputation budgétaire</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-new">Création d’une (sous-) imputation budgétaire</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-modify">Modification d’une (sous-) imputation budgétaire</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-transfer">Transfert d’opérations dans une autre sous-imputation</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-management">Gestion des sous-imputations budgétaires</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-delete">Suppression d’une (sous-) imputation budgétaire</a>
+</li><li><a href="grisbi-manuel015.html#budgetarylines-importexport">Import et export</a>
+</li></ul>
+</li><li><a href="grisbi-manuel016.html">Exercices</a>
+<ul>
+<li><a href="grisbi-manuel016.html#sec215">Exemples d’utilisation</a>
+</li><li><a href="grisbi-manuel016.html#financialyear-start">Mise en place des exercices</a>
+</li><li><a href="grisbi-manuel016.html#sec217">Création, modification et suppression d’un exercice</a>
+</li></ul>
+</li><li><a href="grisbi-manuel017.html">Simulation de crédits</a>
+<ul>
+<li><a href="grisbi-manuel017.html#credit-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel017.html#credit-simulation">Simulateur de crédits</a>
+</li><li><a href="grisbi-manuel017.html#credit-amortization">Tableau d’amortissement</a>
+</li><li><a href="grisbi-manuel017.html#credit-new">Simulation d’un nouveau crédit</a>
+</li><li><a href="grisbi-manuel017.html#credit-export">Export d’une simulation de crédits ou d’un tableau d’amortissement</a>
+</li><li><a href="grisbi-manuel017.html#credit-print">Impression d’une simulation de crédits ou d’un tableau d’amortissement</a>
+</li></ul>
+</li><li><a href="grisbi-manuel018.html">Budgets prévisionnels</a>
+<ul>
+<li><a href="grisbi-manuel018.html#budget-data">Données historiques</a>
+</li><li><a href="grisbi-manuel018.html#budget-estimate">Prévisions</a>
+</li><li><a href="grisbi-manuel018.html#budget-amortization">Tableau d’amortissement</a>
+</li><li><a href="grisbi-manuel018.html#budget-create">Création d’un budget prévisionnel</a>
+</li><li><a href="grisbi-manuel018.html#budget-modify">Modification d’un budget prévisionnel</a>
+</li><li><a href="grisbi-manuel018.html#budget-amortizationCreate">Création d’un tableau d’amortissement</a>
+</li><li><a href="grisbi-manuel018.html#budget-remove">Suppression d’un tableau de données historiques, de prévisions ou d’amortissement</a>
+</li><li><a href="grisbi-manuel018.html#budget-export">Export d’un tableau de données historiques, de prévisions ou d’amortissement</a>
+</li><li><a href="grisbi-manuel018.html#budget-print">Impression d’un tableau de données historiques, de prévisions ou d’amortissement</a>
+</li></ul>
+</li><li><a href="grisbi-manuel019.html">Gestion des cartes bancaires et leurs prévisions </a>
+<ul>
+<li><a href="grisbi-manuel019.html#bankcard-quickCard">Carte bancaire à débit immédiat</a>
+</li><li><a href="grisbi-manuel019.html#bankcard-deferredCard">Carte bancaire à débit différé</a>
+</li><li><a href="grisbi-manuel019.html#bankcard-creditCard">Carte de crédit</a>
+</li><li><a href="grisbi-manuel019.html#bankcard-purse">Porte-monnaie électronique</a>
+</li></ul>
+</li><li><a href="grisbi-manuel020.html">Comptabilité d’association</a>
+<ul>
+<li><a href="grisbi-manuel020.html#association-intro">Introduction à la comptabilité d’association</a>
+</li><li><a href="grisbi-manuel020.html#asso-simple">Comptabilité d’association simple</a>
+</li><li><a href="grisbi-manuel020.html#association-plan">Comptabilité d’association et de petite entreprise avec plan comptable</a>
+</li><li><a href="grisbi-manuel020.html#sec307">Réponses aux exercices</a>
+</li></ul>
+</li><li><a href="grisbi-manuel021.html">États</a>
+<ul>
+<li><a href="grisbi-manuel021.html#reports-intro">Introduction</a>
+</li><li><a href="grisbi-manuel021.html#reports-functions">Barre d’outils</a>
+</li><li><a href="grisbi-manuel021.html#reports-selection">Sélection d’un état</a>
+</li><li><a href="grisbi-manuel021.html#sec314">Les états préformatés</a>
+</li><li><a href="grisbi-manuel021.html#sec315">Création d’un nouvel état</a>
+</li><li><a href="grisbi-manuel021.html#reports-modify">Modification d’un état</a>
+</li><li><a href="grisbi-manuel021.html#sec317">Clonage d’un état</a>
+</li><li><a href="grisbi-manuel021.html#reports-delete">Suppression d’un état</a>
+</li><li><a href="grisbi-manuel021.html#reports-importexport">Import et export </a>
+</li><li><a href="grisbi-manuel021.html#reports-print">Impression d’un état</a>
+</li></ul>
+</li><li><a href="grisbi-manuel022.html">Création d’un état</a>
+<ul>
+<li><a href="grisbi-manuel022.html#reportscreation-start">Choix du modèle de l’état de départ</a>
+</li><li><a href="grisbi-manuel022.html#reportscreation-selection">Sélection des données</a>
+</li><li><a href="grisbi-manuel022.html#reportscreation-organisation">Organisation des données</a>
+</li><li><a href="grisbi-manuel022.html#reportscreation-display">Affichage des données</a>
+</li></ul>
+</li><li><a href="grisbi-manuel023.html">Configuration de Grisbi</a>
+<ul>
+<li><a href="grisbi-manuel023.html#setup-general">Généralités</a>
+</li><li><a href="grisbi-manuel023.html#setup-display">Affichage</a>
+</li><li><a href="grisbi-manuel023.html#setup-operations">Opérations</a>
+</li><li><a href="grisbi-manuel023.html#setup-form">Formulaire des opérations</a>
+</li><li><a href="grisbi-manuel023.html#setup-resources">Ressources</a>
+</li><li><a href="grisbi-manuel023.html#setup-budget">Budget prévisionnel</a>
+</li></ul>
+</li><li><a href="grisbi-manuel024.html">Outils de maintenance</a>
+<ul>
+<li><a href="grisbi-manuel024.html#maintenance-file-debug">Déboguer le fichier de comptes</a>
+</li><li><a href="grisbi-manuel024.html#maintenance-file-anonymous">Rendre anonyme le fichier de comptes</a>
+</li><li><a href="grisbi-manuel024.html#maintenance-QIF-anonymous">Rendre anonyme le fichier QIF</a>
+</li><li><a href="grisbi-manuel024.html#maintenance-debug-mode">Mode de débogage</a>
+</li></ul>
+</li><li><a href="grisbi-manuel025.html">Index</a>
+</li></ul>
+<!--FOOTER-->
+<hr style="height:2"><blockquote class="quote"><em>Ce document a été traduit de L<sup>A</sup>T<sub>E</sub>X par </em><a href="http://hevea.inria.fr"><em>H<span style="font-size:small"><sup>E</sup></span>V<span style="font-size:small"><sup>E</sup></span>A</em></a></blockquote></body>
+</html>

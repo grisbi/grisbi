@@ -2771,6 +2771,7 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     gchar* tmpstr;
     gint mother_number;
     gint account_number;
+    gsb_real number = null_real;
 
     devel_debug_int ( transaction_number );
 
@@ -2891,12 +2892,10 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
     /* check if debit or credit is > 0 */
     widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_DEBIT );
 
-    if ( widget && mother_number )
+    if ( widget )
     {
-        gsb_real number = null_real;
-
         if ( gsb_form_widget_check_empty ( widget ) == FALSE )
-            number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
+            number = gsb_real_opposite ( utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) ) );
 
 	    if ( gsb_form_widget_check_empty ( widget ) == TRUE
          ||
@@ -2905,14 +2904,32 @@ gboolean gsb_form_validate_form_transaction ( gint transaction_number,
             widget = gsb_form_widget_get_widget ( TRANSACTION_FORM_CREDIT );
             number = utils_real_get_from_string ( gtk_entry_get_text ( GTK_ENTRY ( widget ) ) );
 
-            if ( gsb_form_widget_check_empty ( widget ) == TRUE
+            if ( ( gsb_form_widget_check_empty ( widget ) == TRUE
              ||
              number.mantissa == 0 )
+             && mother_number )
             {
                 dialogue_error ( _("You must enter an amount.") );
 
                 return (FALSE);
             }
+        }
+    }
+
+    /* check if balance is < 0 and account_kind == GSB_TYPE_CASH */
+    if ( gsb_data_account_get_kind ( account_number ) == GSB_TYPE_CASH )
+    {
+        gsb_real balance;
+
+        balance = gsb_real_add ( number,
+                        gsb_data_account_get_current_balance ( account_number ) );
+
+        if ( balance.mantissa < 0 )
+        {
+            dialogue_error ( _("This account cannot be negative.\n\n"
+                        "Please enter another amount or cancel this transaction.") );
+
+            return ( FALSE );
         }
     }
 

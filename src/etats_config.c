@@ -3664,7 +3664,7 @@ static gboolean etats_config_recupere_info_to_etat ( gint report_number )
 
     /* update the payee combofix in the form, to add that report if asked */
     if ( gsb_data_report_get_append_in_payee ( report_number ) )
-        gsb_form_widget_update_payee_combofix ( );
+        gsb_form_widget_update_payee_combofix ( report_number, TRUE );
 
     /* on avertit grisbi de la modification à enregistrer */
     gsb_file_set_modified ( TRUE );

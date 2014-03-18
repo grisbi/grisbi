@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="hevea 2.09">
+<link rel="stylesheet" type="text/css" href="grisbi-manuel.css">
+<title>Outils de maintenance</title>
+</head>
+<body>
+<a href="grisbi-manuel023.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel025.html"><img src="next_motif.gif" alt="Next"></a>
+<hr>
+<h1 class="chapter" id="maintenance">Chapitre 23  Outils de maintenance</h1>
+<p>Dans le cas où vous auriez des <span class="c003">problèmes de stabilité</span><a id="hevea_default483"></a> avec Grisbi, la première précaution devrait être de <span class="c009">ne pas enregistrer votre fichier de comptes</span> si vous venez d’y faire des modifications ; en effet, dans ce cas, vous risqueriez d’introduire des erreurs dans ce fichier, qui pourraient être difficiles à détecter et réparer. </p><p>Essayez alors d’ouvrir le fichier <span class="c010">Example_1.0.gsb</span>, que vous pourrez télécharger sur le site de Grisbi dans la rubrique <a href="http://www.grisbi.org"><em>Téléchargement</em></a>, ou sur le site SourceForge dans l’onglet <a href="http://sourceforge.net/projects/grisbi/"><em>Files</em></a>. Faites-y quelques actions similaires à celles que vous aviez faites avec votre propre fichier de comptes avant la survenue de votre problème. Si Grisbi fonctionne correctement, c’est probablement que ce problème se situe dans votre fichier de comptes.</p><p>
+Grisbi met à votre disposition quelques outils pour vous aider à sortir de ce mauvais pas (voir la section <a href="grisbi-manuel005.html#home-menus-file">4.4.1</a>, <span class="c007">Menu Fichier</span>) :
+</p><ul class="itemize"><li class="li-itemize">
+	<span class="c007">Déboguer le fichier de comptes</span> ; 
+	</li><li class="li-itemize"><span class="c007">Rendre anonyme le fichier de comptes</span> ; 
+	</li><li class="li-itemize"><span class="c007">Rendre anonyme le fichier QIF</span> ;
+	</li><li class="li-itemize"><span class="c007">Mode de débogage</span>.
+</li></ul>
+<h2 class="section" id="maintenance-file-debug">23.1  Déboguer le fichier de comptes</h2>
+<p>Cet outil peut vous aider à chercher des <span class="c003">incohérences</span> dans votre fichier de comptes<a id="hevea_default484"></a>, qui peuvent être causées par des bogues ou par de mauvaises manipulations.</p><p>Pour déboguer votre fichier de comptes, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans la barre de menus, sélectionnez <span class="c007">Déboguer le fichier de comptes</span> ; la fenêtre de l’assistant de débogage s’ouvre ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">Grisbi recherche des incohérences dans le fichier ; l’affichage dépend évidemment de ce qu’il trouve, et ne peut donc être détaillé ici ; en tout état de cause, suivez les instructions données ; si Grisbi ne trouve rien d’anormal, il affiche <span class="c007">Pas d’incohérence trouvée</span> ; validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>
+Si votre fichier de comptes a bien été réparé ou s’il n’a rien d’anormal, vous pouvez alors l’utiliser avec Grisbi.</p>
+<h2 class="section" id="maintenance-file-anonymous">23.2  Rendre anonyme le fichier de comptes</h2>
+<p>Cet outil produit une copie de votre fichier de comptes, anonymée par remplacement de vos <span class="c003">données personnelles</span><a id="hevea_default485"></a> par des données non significatives. En joignant cette copie anonymée au rapport de bogue que vous envoyez, vous ne risquez pas de divulguer vos données personnelles.</p><p>
+Pour anonymer le fichier de comptes, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans la barre de menus, sélectionnez <span class="c007">Rendre anonyme le fichier de comptes</span> ; la fenêtre de l’assistant d’anonymation s’ouvre ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">sélectionnez les données à cacher dans la liste ; validez par le bouton <span class="c007">Suivant</span> ;<p>	
+<span class="c009">Attention</span> : seules les données sélectionnées seront anonymées dans votre fichier, et toutes les autres resteront compréhensibles.</p><p>	</p></li><li class="li-enumerate">la dernière fenêtre de l’assistant s’ouvre ; validez par le bouton <span class="c007">Fermer</span> ;
+	</li><li class="li-enumerate">une boîte de dialogue s’ouvre et affiche <span class="c007">L’opération pour anonymer le fichier a réussi</span> ; validez par le bouton <span class="c007">Fermer</span> ;
+	</li><li class="li-enumerate">Grisbi se ferme.
+</li></ol><p>Le fichier anonymé se nomme <span class="c010">nom-de-votre-fichier-de-comptes-obfuscated.gsb</span> et est enregistré dans le même répertoire que l’original. Il est au format XML, donc vous pouvez vérifier avec un editeur de texte si des données personnelles non souhaitées seraient encore présentes.</p><p>
+Vérifiez que le bogue est toujours présent avec ce fichier, et si oui, envoyez ce fichier avec vos explications à la <a href="bugsreports@listes.grisbi.org"><em>liste de rapports de bogues</em></a>, ou déposez-le sur le <a href="http://bugs.grisbi.org"><em>gestionnaire de bogues Mantis</em></a>.</p>
+<h2 class="section" id="maintenance-QIF-anonymous">23.3  Rendre anonyme le fichier QIF</h2>
+<p>Vous pouvez ici anonymer seulement le <span class="c003">fichier d’exportation d’un compte</span><a id="hevea_default486"></a><a id="hevea_default487"></a>, au lieu de le faire pour l’ensemble de vos comptes avec l’anonymation de votre fichier de comptes comme ci-dessus.</p><p>Si vous avez auparavant exporté un compte dans un fichier au format QIF (voir la section <a href="grisbi-manuel006.html#move-export">5.2</a>, <span class="c007">Export de comptes à partir de Grisbi</span>), cet outil produit une copie de ce fichier, anonymé par remplacement de vos données personnelles par des données non significatives. En joignant cette copie anonymée au rapport de bogue que vous envoyez, vous ne risquez pas de divulguer vos données personnelles.</p><p>
+Pour anonymer un fichier QIF, procédez comme suit :</p><ol class="enumerate" type=1><li class="li-enumerate">
+	dans la barre de menus, sélectionnez <span class="c007">Rendre anonyme le fichier QIF</span> ; la fenêtre de l’assistant d’anonymation s’ouvre ; validez par le bouton <span class="c007">Suivant</span> ;
+	</li><li class="li-enumerate">un gestionnaire de fichiers s’ouvre ; sélectionnez le fichier QIF que vous voulez anonymer, puis validez ;
+	</li><li class="li-enumerate">une boîte de dialogue s’ouvre et annonce le succès de l’opération ; le fichier se nomme <span class="c010">nom-de-votre-fichier-QIF-anonymized.qif</span> et son chemin est indiqué ; validez par le bouton <span class="c007">Fermer</span>.
+</li></ol><p>
+Envoyez ce fichier QIF avec vos explications à la <a href="bugsreports@listes.grisbi.org"><em>liste de rapports de bogues</em></a>, ou déposez-le sur le <a href="http://bugs.grisbi.org"><em>gestionnaire de bogues Mantis</em></a>.</p>
+<h2 class="section" id="maintenance-debug-mode">23.4  Mode de débogage</h2>
+<p>Pour utiliser ce <span class="c003">mode de réparation</span><a id="hevea_default488"></a>, sélectionnez <span class="c007">Mode de débogage</span> dans la barre de menus ; une boîte de dialogue s’ouvre, qui indique que le mode de débogage est démarré et qui donne le nom du fichier-journal (ou fichier de log) et son chemin ; validez par le bouton <span class="c007">Fermer</span>.</p><p>Grisbi a créé le fichier-journal (ou fichier de log) <span class="c010">nom-de-votre-fichier-log.txt</span>.</p><p>
+Envoyez ce fichier avec votre fichier de comptes ou votre fichier QIF anonymé, et avec vos explications à la <a href="bugsreports@listes.grisbi.org"><em>liste de rapports de bogues</em></a>, ou déposez-le sur le <a href="http://bugs.grisbi.org"><em>gestionnaire de bogues Mantis</em></a>.</p><hr>
+<a href="grisbi-manuel023.html"><img src="previous_motif.gif" alt="Previous"></a>
+<a href="index.html"><img src="contents_motif.gif" alt="Up"></a>
+<a href="grisbi-manuel025.html"><img src="next_motif.gif" alt="Next"></a>
+</body>
+</html>

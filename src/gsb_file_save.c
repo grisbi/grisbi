@@ -158,8 +158,6 @@ static gulong gsb_file_save_transaction_part ( gulong iterator,
 /*START_EXTERN*/
 extern gchar *adresse_commune;
 extern gchar *adresse_secondaire;
-extern gint affichage_echeances;
-extern gint affichage_echeances_perso_nb_libre;
 extern gint bet_array_col_width[BET_ARRAY_COLUMNS];
 extern gint display_one_line;
 extern gint display_three_lines;
@@ -479,8 +477,8 @@ gboolean gsb_file_save_save_file ( const gchar *filename,
             chmod ( filename, S_IRUSR | S_IWUSR );
         }
         /* restores uid and gid */
-        chown ( filename, buf.st_uid, buf.st_gid );
-#endif /*_MSC_VER */
+/*        chown ( filename, buf.st_uid, buf.st_gid );
+*/#endif /*_MSC_VER */
     }
 
     run.is_saving = FALSE;
@@ -792,9 +790,9 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	etat.no_devise_totaux_categ,
 	etat.no_devise_totaux_ib,
     my_safe_null_str ( navigation_order_list ),
-	affichage_echeances,
-	affichage_echeances_perso_nb_libre,
-	affichage_echeances_perso_j_m_a,
+	etat.affichage_echeances,
+	etat.affichage_echeances_perso_nb_libre,
+	etat.affichage_echeances_perso_j_m_a,
 	valeur_echelle_recherche_date_import,
 	etat.get_copy_payee_in_note,
 	etat.get_extract_number_for_check,
@@ -1084,7 +1082,7 @@ gulong gsb_file_save_account_part ( gulong iterator,
     kind = gsb_data_account_get_kind ( account_number );
 
     /* now we can fill the file content */
-	new_string = g_markup_printf_escaped ( "\t<Account\n"
+	first_string_to_free = g_markup_printf_escaped ( "\t<Account\n"
  					       "\t\tName=\"%s\"\n"
 					       "\t\tId=\"%s\"\n"
 					       "\t\tNumber=\"%d\"\n"
@@ -1169,8 +1167,9 @@ gulong gsb_file_save_account_part ( gulong iterator,
             gsb_data_account_get_bet_credit_card ( account_number ),
             gsb_data_account_get_bet_hist_data ( account_number ),
             gsb_data_account_get_bet_hist_fyear ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_CAP:
             bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
@@ -1193,12 +1192,14 @@ gulong gsb_file_save_account_part ( gulong iterator,
                         gsb_data_account_get_bet_finance_frais ( account_number ),
                         gsb_data_account_get_currency_floating_point ( account_number ), TRUE ) ),
                 gsb_data_account_get_bet_finance_type_taux ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         case BET_ONGLETS_ASSET:
         case BET_ONGLETS_SANS:
-            new_string = g_strconcat ( new_string, " />\n", NULL );
+            new_string = g_strconcat ( first_string_to_free, " />\n", NULL );
+            g_free ( first_string_to_free );
             break;
         default:
             bet_str = g_markup_printf_escaped ( "\t\tBet_credit_card=\"%d\"\n"
@@ -1222,13 +1223,17 @@ gulong gsb_file_save_account_part ( gulong iterator,
             gsb_data_account_get_bet_select_label ( account_number, SPP_ORIGIN_FUTURE ),
             gsb_data_account_get_bet_hist_data ( account_number ),
             gsb_data_account_get_bet_hist_fyear ( account_number ) );
-            new_string = g_strconcat ( new_string, "\n", bet_str, NULL );
+            new_string = g_strconcat ( first_string_to_free, "\n", bet_str, NULL );
             g_free ( bet_str );
+            g_free ( first_string_to_free );
             break;
         }
     }
     else
-        new_string = g_strconcat ( new_string, " />\n", NULL );
+    {
+        new_string = g_strconcat ( first_string_to_free, " />\n", NULL );
+        g_free ( first_string_to_free );
+    }
 
 	g_free (sort_list);
 	g_free (sort_kind_column);
@@ -2769,7 +2774,7 @@ gulong gsb_file_save_logo_part ( gulong iterator,
 {
     GdkPixbuf *pixbuf = NULL;
     gchar *new_string = NULL;
-    gchar * str64;
+    gchar *str64;
 
     pixbuf = gsb_select_icon_get_logo_pixbuf ( );
     if ( pixbuf )
@@ -2779,6 +2784,8 @@ gulong gsb_file_save_logo_part ( gulong iterator,
         new_string = g_markup_printf_escaped ( "\t<Logo\n"
                         "\t\tImage=\"%s\" />\n",
                         my_safe_null_str(str64) );
+
+        g_free ( str64 );
     }
 
     iterator = gsb_file_save_append_part ( iterator,
@@ -2830,6 +2837,8 @@ gulong gsb_file_save_account_icon_part ( gulong iterator,
                             "\t\tImage=\"%s\" />\n",
                             account_number,
                             my_safe_null_str(str64) );
+
+        g_free ( str64 );
 
         iterator = gsb_file_save_append_part ( iterator,
                         length_calculated,
