@@ -40,6 +40,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Initialize libtool
 LT_INIT
+LT_LIB_M
 
 dnl ================================================================
 dnl Check for NLS support.
@@ -56,8 +57,6 @@ dnl ================================================================
 dnl Main Grisbi libraries
 dnl ================================================================
 
-LT_LIB_M
-
 grisbi_modules="gtk+-3.0 >= 3.0.12 glib-2.0 >= 2.28 libgsf-1 >= 1.14"
 PKG_CHECK_MODULES(ZLIB, [zlib], have_zlib_pc=yes, have_zlib_pc=no)
 if test "$have_zlib_pc" = "yes"; then
@@ -66,9 +65,11 @@ fi
 PKG_CHECK_MODULES(GRISBI, [$grisbi_modules])
 if test "$have_zlib_pc" = "no"; then
 	AC_CHECK_LIB([z],[gzwrite])
-	GRISBI_LIBS="$LIBM $GRISBI_LIBS"
 	AC_SUBST(GRISBI_LIBS)
 fi
+
+# $LIBM courtesy of LT_LIB_M
+GRISBI_LIBS="$LIBM $GRISBI_LIBS"
 
 dnl ================================================================
 dnl Defined if Grisbi is a development version
