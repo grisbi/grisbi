@@ -29,4 +29,5 @@ doxygen/
 *.ho
 *~
 *.md5
+ar-lib
 test-driver
