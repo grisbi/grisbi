@@ -444,7 +444,7 @@ gboolean bet_data_search_div_hist ( gint account_number, gint div_number, gint s
     {
         if ( sub_div_nb == 0 )
             return_val = TRUE;
-        else if ( sub_div_nb > 0 );
+        else if ( sub_div_nb > 0 )
         {
             sub_key = utils_str_itoa ( sub_div_nb );
             if ( g_hash_table_lookup ( shd -> sub_div_list, sub_key ) )
