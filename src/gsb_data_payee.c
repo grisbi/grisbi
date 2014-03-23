@@ -766,13 +766,14 @@ void gsb_data_payee_add_transaction_to_payee ( gint transaction_number )
      * we show a debug warning and get without payee */
     if (!payee)
     {
-	gchar *tmpstr;
-	tmpstr = g_strdup_printf ( _("The transaction %d has a payee n°%d but it doesn't exist."),
-				   transaction_number,
-				   gsb_data_transaction_get_party_number (transaction_number));
-	warning_debug (tmpstr);
-	g_free (tmpstr);
-	payee = empty_payee;
+        gchar *tmpstr;
+
+        tmpstr = g_strdup_printf ( "The transaction %d has a payee %d but it doesn't exist.",
+                       transaction_number,
+                       gsb_data_transaction_get_party_number (transaction_number));
+        warning_debug (tmpstr);
+        g_free (tmpstr);
+        payee = empty_payee;
     }
 
     payee -> payee_nb_transactions ++;

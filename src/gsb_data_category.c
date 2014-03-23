@@ -1435,14 +1435,15 @@ void gsb_data_category_add_transaction_to_category ( gint transaction_number,
      * we show a debug warning and get without categ */
     if (!category)
     {
-	gchar *tmpstr;
-	tmpstr = g_strdup_printf ( _("The transaction %d has a category n°%d and sub-category n°%d but they don't exist."),
-				   transaction_number,
-				   category_id,
-				   sub_category_id );
-	warning_debug (tmpstr);
-	g_free (tmpstr);
-	category = empty_category;
+        gchar *tmpstr;
+
+        tmpstr = g_strdup_printf ( "The transaction %d has a category %d and sub-category %d but they don't exist.",
+                       transaction_number,
+                       category_id,
+                       sub_category_id );
+        warning_debug (tmpstr);
+        g_free (tmpstr);
+        category = empty_category;
     }
 
     /* ok, now category is on the structure or on empty_category */

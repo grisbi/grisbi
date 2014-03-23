@@ -1278,14 +1278,15 @@ void gsb_data_budget_add_transaction_to_budget ( gint transaction_number,
      * we show a debug warning and get without budget */
     if (!budget)
     {
-	gchar *tmpstr;
-	tmpstr = g_strdup_printf ( _("The transaction %d has a budget n°%d and sub-budget n°%d but they don't exist."),
-				   transaction_number,
-				   budget_id,
-				   sub_budget_id );
-	warning_debug (tmpstr);
-	g_free (tmpstr);
-	budget = empty_budget;
+        gchar *tmpstr;
+
+        tmpstr = g_strdup_printf ( "The transaction %d has a budget %d and sub-budget %d but they don't exist.",
+                       transaction_number,
+                       budget_id,
+                       sub_budget_id );
+        warning_debug (tmpstr);
+        g_free (tmpstr);
+        budget = empty_budget;
     }
 
     /* now budget is on the budget structure or on empty_budget */
