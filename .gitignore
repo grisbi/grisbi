@@ -27,4 +27,5 @@ doxygen/
 *.md5
 *.swp
 tags
+ar-lib
 test-driver
