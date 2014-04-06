@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger  (cedric@grisbi.org)           */
 /*          2005-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2014 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -234,7 +234,10 @@ gboolean recuperation_donnees_qif ( GtkWidget *assistant, struct imported_file *
                 }
             }
             else
+            {
                 name_preced = FALSE;
+                returned_value = -2;
+            }
         }
         while ( returned_value != EOF && returned_value != -2 );
 
