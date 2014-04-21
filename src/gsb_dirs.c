@@ -31,6 +31,7 @@
 #include "gsb_dirs.h"
 #include "structures.h"
 
+static gchar *help_dir;
 static gchar *locale_dir;
 static gchar *pixmaps_dir;
 static gchar *categories_dir;
@@ -60,6 +61,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
     dir = g_win32_get_package_installation_directory_of_module ( NULL );
 
     categories_dir = g_build_filename ( dir, "share/grisbi/categories", NULL );
+    help_dir = g_build_filename ( dir, "share/doc/grisbi", NULL );
     locale_dir = g_strconcat ( dir, "/share/locale", NULL );
     pixmaps_dir = g_strconcat ( dir, "/share/pixmaps/grisbi", NULL );
     ui_dir = g_strconcat ( dir, "/share/grisbi/ui", NULL );
@@ -87,6 +89,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
                 gchar *res_path = gtkosx_application_get_resource_path ();
                 
                 categories_dir = g_build_filename ( res_path, "share/grisbi/categories", NULL );
+                help_dir = g_build_filename ( res_path, "share/doc/grisbi", NULL );
                 locale_dir = g_build_filename (res_path, "/share/locale", NULL );
                 pixmaps_dir = g_build_filename (res_path, "/share/pixmaps/grisbi", NULL );
                 ui_dir = g_build_filename (res_path, "/share/grisbi/ui", NULL );
@@ -96,6 +99,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
             else
             {
                 categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
+                help_dir = g_strdup ( HELP_PATH );
                 locale_dir = g_strdup ( LOCALEDIR );
                 pixmaps_dir = g_strdup ( PIXMAPS_DIR );
                 ui_dir = g_strdup ( UI_DIR );
@@ -106,6 +110,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
     #else
     {
         categories_dir = g_build_filename ( DATA_PATH, "categories", NULL );
+        help_dir = g_strdup ( HELP_PATH );
         locale_dir = g_strdup ( LOCALEDIR );
         pixmaps_dir = g_strdup ( PIXMAPS_DIR );
         ui_dir = g_strdup ( UI_DIR );
@@ -131,6 +136,7 @@ void gsb_dirs_init ( char* gsb_bin_path )
 void gsb_dirs_shutdown ( void )
 {
     g_free ( categories_dir );
+    g_free ( help_dir );
     g_free ( locale_dir );
     g_free ( pixmaps_dir );
     g_free ( ui_dir );
@@ -147,6 +153,12 @@ void gsb_dirs_shutdown ( void )
 const gchar *gsb_dirs_get_categories_dir ( void )
 {
     return categories_dir;
+}
+
+
+const gchar *gsb_dirs_get_help_dir ( void )
+{
+    return help_dir;
 }
 
 

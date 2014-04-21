@@ -44,6 +44,7 @@
 #include "gsb_data_account.h"
 #include "gsb_data_mix.h"
 #include "gsb_debug.h"
+#include "gsb_dirs.h"
 #include "gsb_file.h"
 #include "gsb_form.h"
 #include "gsb_scheduler_list.h"
@@ -492,7 +493,7 @@ gboolean help_manual ( void )
     gchar *lang = _("en");
     gchar *string;
 
-    string = g_build_filename ( HELP_PATH, lang, "manual.html", NULL );
+    string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "manual.html", NULL );
 
     if (g_file_test ( string,
 		      G_FILE_TEST_EXISTS ))
@@ -503,7 +504,7 @@ gboolean help_manual ( void )
     else
     {
 	g_free (string);
-	string = g_build_filename ( HELP_PATH, lang, "grisbi-manuel.html", NULL );
+	string = g_build_filename ( gsb_dirs_get_help_dir (), lang, "grisbi-manuel.html", NULL );
 	lance_navigateur_web (string);
 	g_free (string);
     }
