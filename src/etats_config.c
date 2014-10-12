@@ -399,6 +399,7 @@ void personnalisation_etat (void)
     GtkCellRenderer *cell;
     GtkTreeIter iter, iter2;
     GtkTreeSelection *selection ;
+    gboolean etat;
 
     if ( !(current_report_number = gsb_gui_navigation_get_current_report()))
 	return;
@@ -983,8 +984,12 @@ void personnalisation_etat (void)
     sens_desensitive_pointeur ( button_group_by_categ,
 				bouton_afficher_noms_categ );
 
-    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_detail_categ ),
-				   gsb_data_report_get_category_detail_used (current_report_number));
+    etat = gsb_data_report_get_category_detail_used ( current_report_number);
+
+    gtk_toggle_button_set_active ( GTK_TOGGLE_BUTTON ( button_detail_categ ), etat );
+
+    /* on oblige l'utilisations des opérations filles si sélection des opérations selon catégories */
+    gtk_widget_set_sensitive ( bouton_pas_detailler_ventilation, !etat );
 
     sens_desensitive_pointeur ( button_detail_categ,
 				hbox_detaille_categ_etat );
@@ -1998,6 +2003,9 @@ gboolean report_tree_update_style_iterator ( GtkTreeModel * tree_model,
 
 	    if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON ( button_detail_categ )))
 		italic = TRUE;
+
+        gtk_widget_set_sensitive ( GTK_WIDGET ( bouton_pas_detailler_ventilation ), !italic );
+
 	    break;
 
 	case 5:

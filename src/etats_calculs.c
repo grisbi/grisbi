@@ -337,7 +337,7 @@ GSList *recupere_opes_etat ( gint report_number )
 	    tmp_list = tmp_list -> next;
     }
 
-
+    /* on traite les comptes concernés */
     tmp_list = gsb_data_account_get_list_accounts ();
 
     while ( tmp_list )
@@ -366,15 +366,25 @@ GSList *recupere_opes_etat ( gint report_number )
 		{
 		    /* si c'est une opé ventilée, dépend de la conf */
 
-		    if ( gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp)
-			 &&
-			 !gsb_data_report_get_not_detail_split (report_number))
-			goto operation_refusee;
+            if ( gsb_data_transaction_get_split_of_transaction ( transaction_number_tmp ) )
+            {
+                if ( gsb_data_report_get_category_detail_used ( report_number ) )
+                    goto operation_refusee;
 
-		    if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp)
-			 &&
-			 gsb_data_report_get_not_detail_split (report_number))
-			goto operation_refusee;
+                if ( !gsb_data_report_get_not_detail_split ( report_number ) )
+                    goto operation_refusee;
+
+            }
+
+            if ( gsb_data_transaction_get_mother_transaction_number ( transaction_number_tmp ) )
+            {
+                if ( !gsb_data_report_get_category_detail_used ( report_number ) )
+                {
+                    if ( gsb_data_report_get_not_detail_split ( report_number ) )
+                        goto operation_refusee;
+                }
+
+            }
 
 		    /* on vérifie ensuite si un texte est recherché */
 
