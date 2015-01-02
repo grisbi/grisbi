@@ -1409,6 +1409,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
     while ( path_ok )
     {
         gchar *model_string;
+        gint showed;
         gint show_row = 0;
         gint model_string_length;
 
@@ -1416,6 +1417,7 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                         &iter,
                         COMBOFIX_COL_REAL_STRING, &model_string,
                         COMBOFIX_COL_SEPARATOR, &separator,
+                        COMBOFIX_COL_VISIBLE, &showed,
                         -1 );
 
         /* The separators are never showed */
@@ -1463,6 +1465,12 @@ static gchar *gtk_combofix_update_visible_rows ( GtkComboFix *combofix,
                         &iter,
                         COMBOFIX_COL_VISIBLE, show_row,
                         -1 );
+        if (show_row != showed)
+            gtk_tree_store_set ( GTK_TREE_STORE (model),
+                        &iter,
+                        COMBOFIX_COL_VISIBLE, show_row,
+                        -1 );
+
 
         /* increment the path :
          * 	go to see the children only if the mother is showed */
