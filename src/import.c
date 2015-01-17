@@ -2994,17 +2994,15 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
             transaction_number = GPOINTER_TO_INT ( list_tmp_transactions->data );
 
-            list_tmp_transactions = list_tmp_transactions->next;
-
             /* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
              * une id comparable */
             tmp_str = gsb_data_transaction_get_id ( transaction_number );
             if ( tmp_str && strcmp ( ope_import->id_operation, tmp_str ) == 0 )
             {
                 ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
-                continue;
-            }
 
+                break;
+            }
             /* si on n'a rien trouvé par id, */
             /* on fait le tour de la liste d'opés pour trouver des opés comparable */
             /* cad même date avec + ou - une échelle et même montant et pas une opé de ventil */
@@ -3034,7 +3032,10 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
                 /* on a retouvé une opé de même date et même montant, on l'ajoute à la liste
                  * des opés trouvées */
                 ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
+
+                break;
             }
+            list_tmp_transactions = list_tmp_transactions->next;
         }
 
         /* à ce stade, ope_trouvees contient la ou les opés qui sont comparables à l'opé importée */
