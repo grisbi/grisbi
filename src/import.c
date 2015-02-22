@@ -3002,11 +3002,15 @@ void pointe_opes_importees ( struct struct_compte_importation *imported_account,
 
             /* si l'opé d'import a une id, on recherche dans la liste d'opé pour trouver
              * une id comparable */
-            tmp_str = gsb_data_transaction_get_id ( transaction_number );
-            if ( tmp_str && strcmp ( ope_import->id_operation, tmp_str ) == 0 )
+            if ( ope_import->id_operation )
             {
-                ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
-                continue;
+                tmp_str = gsb_data_transaction_get_id ( transaction_number );
+                if ( tmp_str && strcmp ( ope_import->id_operation, tmp_str ) == 0 )
+                {
+                    ope_trouvees = g_slist_append ( ope_trouvees, list_tmp_transactions->data );
+
+                    break;
+                }
             }
 
             /* si on n'a rien trouvé par id, */
