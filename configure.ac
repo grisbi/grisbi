@@ -5,6 +5,8 @@ m4_define(grisbi_minor_version, 0)
 m4_define(grisbi_micro_version, 0)
 m4_define(grisbi_version, grisbi_major_version.grisbi_minor_version.grisbi_micro_version)
 
+m4_pattern_allow([AM_PROG_AR])
+
 AC_INIT([grisbi],[grisbi_version],[http://www.grisbi.org/mantis/login_select_proj_page.php?ref=bug_report_page.php],[grisbi],[http://www.grisbi.org/index.php])
 
 AC_CONFIG_SRCDIR(src/main.c)
@@ -26,6 +28,7 @@ dnl ================================================================
 AC_PROG_CC
 AC_USE_SYSTEM_EXTENSIONS
 AC_HEADER_STDC
+AM_PROG_AR
 AC_PROG_LIBTOOL
 
 dnl needed on osx
