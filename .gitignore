@@ -31,3 +31,4 @@ doxygen/
 *.md5
 ar-lib
 test-driver
+compile
