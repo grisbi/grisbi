@@ -23,7 +23,7 @@ Notes:
   latest versions
 
 - GtkOSXApplication
-  https://wiki.gnome.org/GTK+/OSX/Integration
+  https://wiki.gnome.org/Projects/GTK%2B/OSX/Integration
 
 $ jhbuild buildone gtk-mac-integration
 
