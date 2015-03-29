@@ -3159,7 +3159,7 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
     date_fin_comparaison = g_date_new_dmy ( day, month, year );
     g_date_add_days ( date_fin_comparaison, valeur_echelle_recherche_date_import );
 
-	/* Si même mois on cherche une opération existante dans le compte */
+    /* Si même mois on cherche une opération existante dans le compte */
     if ( same_month )
     {
         GDate *date_jour;
@@ -3220,8 +3220,9 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                             amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
-						gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
                         gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
                         find = TRUE;
                         break;
                     }
@@ -3246,8 +3247,9 @@ void bet_array_create_transaction_from_transfert ( struct_transfert_data *transf
                             amount = gsb_data_partial_balance_get_balance_at_date ( transfert -> replace_account, date_bascule );
                         }
                         gsb_data_transaction_set_amount ( transaction_number, amount );
-						gsb_data_transaction_set_date ( transaction_number, transfert->date );
+                        gsb_data_transaction_set_date ( transaction_number, transfert->date );
                         gsb_transactions_list_update_transaction ( transaction_number );
+                        gsb_transactions_list_update_tree_view ( transfert->account_number, FALSE );
                         find = TRUE;
                         break;
                     }
