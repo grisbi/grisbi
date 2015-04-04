@@ -266,7 +266,7 @@ if test "x$platform_osx" = xyes; then
         platform=darwin/quartz
         AC_MSG_RESULT(yes)
         AC_DEFINE(GDK_QUARTZ,[1],[Using GDK Quartz (not X11)])
-        PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration, [os_osx=yes], [os_osx=no])
+        PKG_CHECK_MODULES(GTK_MAC, gtk-mac-integration-gtk2, [os_osx=yes], [os_osx=no])
         if test "x$os_osx" = xyes; then
 	      AC_DEFINE([GTKOSXAPPLICATION],[1],[Defined if app is GtkOSXApplication])
 	      AC_SUBST(GTK_MAC_LIBS)
