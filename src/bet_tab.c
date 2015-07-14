@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C) 2007 Dominique Parisot                                   */
 /*          zionly@free.org                                                   */
-/*          2008-2011 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2605,7 +2605,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No data by default") ) );
                 break;
@@ -2621,7 +2621,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_transaction_get_budgetary_number (
                                     transaction_number ),
-                                    gsb_data_transaction_get_sub_category_number (
+                                    gsb_data_transaction_get_sub_budgetary_number (
                                     transaction_number ),
                                     _("No budgetary line") ) );
                 break;
@@ -2655,7 +2655,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No data by default") ) );
                 break;
@@ -2671,7 +2671,7 @@ gchar *bet_array_list_get_description ( gint account_number,
                 desc = g_strdup ( gsb_data_budget_get_name (
                                     gsb_data_scheduled_get_budgetary_number (
                                     scheduled_number ),
-                                    gsb_data_scheduled_get_sub_category_number (
+                                    gsb_data_scheduled_get_sub_budgetary_number (
                                     scheduled_number ),
                                     _("No budgetary line") ) );
                 break;
