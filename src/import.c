@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2004-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*                      2008-2013 Pierre Biava (grisbi@pierre.biava.name)     */
+/*                      2008-2015 Pierre Biava (grisbi@pierre.biava.name)     */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2162,11 +2162,14 @@ gboolean gsb_import_define_action ( struct struct_compte_importation *imported_a
             list_tmp_transactions = list_tmp_transactions->next;
 
             /* first check the id */
-            tmp_str = gsb_data_transaction_get_id ( transaction_number );
-            if ( tmp_str && strcmp ( imported_transaction->id_operation, tmp_str ) == 0 )
+            if ( imported_transaction->id_operation )
             {
-                imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
-                break;
+                tmp_str = gsb_data_transaction_get_id ( transaction_number );
+                if ( tmp_str && strcmp ( imported_transaction->id_operation, tmp_str ) == 0 )
+                {
+                    imported_transaction->action = IMPORT_TRANSACTION_LEAVE_TRANSACTION;
+                    break;
+                }
             }
 
             /* if no id, check the cheque */
