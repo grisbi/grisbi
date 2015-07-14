@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2009 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2008-2012 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2008-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -2697,49 +2697,45 @@ void gsb_file_load_category ( const gchar **attribute_names,
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        /*     we test at the beginning if the attribute_value is NULL, if yes, */
+        /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
-    {
+        if ( !strcmp (attribute_values[i], "(null)"))
+        {
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Nb" ))
+        {
+            buffer_new_div_sous_div->no_div = utils_str_atoi ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Na" ))
+        {
+            buffer_new_div_sous_div->name = g_strdup ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Kd" ))
+        {
+            buffer_new_div_sous_div->type = utils_str_atoi ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        /* normally, shouldn't come here */
         i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        buffer_new_div_sous_div -> no_div = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
-    {
-        buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Kd" ))
-    {
-        buffer_new_div_sous_div -> type = utils_str_atoi ( attribute_values[i] );
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
     }
     while ( attribute_names[i] );
 
-    buffer_new_div_sous_div -> new_no_div = gsb_data_category_test_create_category (
-                        buffer_new_div_sous_div -> no_div,
-                        buffer_new_div_sous_div -> name,
-                        buffer_new_div_sous_div -> type );
+    buffer_new_div_sous_div->new_no_div = gsb_data_category_test_create_category (
+                        buffer_new_div_sous_div->no_div,
+                        buffer_new_div_sous_div->name,
+                        buffer_new_div_sous_div->type );
 }
 
 
@@ -2754,45 +2750,41 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
                         const gchar **attribute_values)
 {
     gint i=0;
-    gint category_number = 0;
+    gint div_number = 0;
 
     if ( !attribute_names[i] )
-    return;
+        return;
 
     do
     {
     /*     we test at the beginning if the attribute_value is NULL, if yes, */
     /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
+    if ( !strcmp (attribute_values[i], "(null)"))
     {
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Nbc" ))
+    if ( !strcmp ( attribute_names[i], "Nbc" ))
     {
-        category_number = utils_str_atoi (attribute_values[i]);
+        div_number = utils_str_atoi (attribute_values[i]);
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
+    if ( !strcmp ( attribute_names[i], "Nb" ))
     {
-        if ( category_number == buffer_new_div_sous_div -> no_div )
-            buffer_new_div_sous_div -> no_sub_div = utils_str_atoi ( attribute_values[i] );
+        if ( div_number == buffer_new_div_sous_div->no_div )
+            buffer_new_div_sous_div->no_sub_div = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
+    if ( !strcmp ( attribute_names[i], "Na" ))
     {
-        if ( category_number == buffer_new_div_sous_div -> no_div )
-            buffer_new_div_sous_div -> name = g_strdup ( attribute_values[i] );
+        if ( div_number == buffer_new_div_sous_div->no_div )
+            buffer_new_div_sous_div->name = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2803,17 +2795,16 @@ void gsb_file_load_sub_category ( const gchar **attribute_names,
     while ( attribute_names[i] );
 
     if ( !gsb_data_category_test_create_sub_category (
-                            buffer_new_div_sous_div -> new_no_div,
-                            buffer_new_div_sous_div -> no_sub_div,
-							buffer_new_div_sous_div -> name ) )
+                        buffer_new_div_sous_div->new_no_div,
+                        buffer_new_div_sous_div->no_sub_div,
+                        buffer_new_div_sous_div->name ) )
     {
         gchar *tmpstr = g_strdup_printf ( "no_category = %d no_sub_category = %d nom = %s\n",
-                            buffer_new_div_sous_div -> new_no_div,
-                            buffer_new_div_sous_div -> no_sub_div,
-							buffer_new_div_sous_div -> name );
+                        buffer_new_div_sous_div->new_no_div,
+                        buffer_new_div_sous_div->no_sub_div,
+                        buffer_new_div_sous_div->name );
         devel_debug ( tmpstr );
     }
-
 }
 
 
@@ -2828,54 +2819,54 @@ void gsb_file_load_budgetary ( const gchar **attribute_names,
                         const gchar **attribute_values )
 {
     gint i=0;
-    gint budget_number = 0;
+
+    g_free ( buffer_new_div_sous_div );
+    buffer_new_div_sous_div = g_malloc0 ( sizeof ( struct new_div_sous_div_struct ) );
 
     if ( !attribute_names[i] )
-    return;
+        return;
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        /*     we test at the beginning if the attribute_value is NULL, if yes, */
+        /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-              "(null)"))
-    {
+        if ( !strcmp (attribute_values[i], "(null)"))
+        {
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Nb" ))
+        {
+            buffer_new_div_sous_div->no_div = utils_str_atoi ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Na" ))
+        {
+            buffer_new_div_sous_div->name = g_strdup ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Kd" ))
+        {
+            buffer_new_div_sous_div->type = utils_str_atoi ( attribute_values[i] );
+            i++;
+            continue;
+        }
+
+        /* normally, shouldn't come here */
         i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Nb" ))
-    {
-        budget_number = gsb_data_budget_new_with_number ( utils_str_atoi (attribute_values[i]));
-
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-               "Na" ))
-    {
-        gsb_data_budget_set_name ( budget_number,
-                             attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Kd" ))
-    {
-        gsb_data_budget_set_type ( budget_number,
-                                                                                         utils_str_atoi (attribute_values[i]));
-        i++;
-        continue;
-    }
-
-    /* normally, shouldn't come here */
-    i++;
     }
     while ( attribute_names[i] );
+
+    buffer_new_div_sous_div->new_no_div = gsb_data_budget_test_create_budget (
+                        buffer_new_div_sous_div -> no_div,
+                        buffer_new_div_sous_div -> name,
+                        buffer_new_div_sous_div -> type );
 }
 
 
@@ -2890,48 +2881,41 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
                         const gchar **attribute_values)
 {
     gint i=0;
-    gint budget_number = 0;
-    gint sub_budget_number = 0;
+    gint div_number = 0;
 
     if ( !attribute_names[i] )
-    return;
+        return;
 
     do
     {
-    /*     we test at the beginning if the attribute_value is NULL, if yes, */
-    /*        go to the next */
+        /*     we test at the beginning if the attribute_value is NULL, if yes, */
+        /*        go to the next */
 
-    if ( !strcmp (attribute_values[i],
-         "(null)"))
+        if ( !strcmp (attribute_values[i], "(null)"))
+        {
+            i++;
+            continue;
+        }
+
+        if ( !strcmp ( attribute_names[i], "Nbb" ) )
+        {
+            div_number = utils_str_atoi (attribute_values[i]);
+            i++;
+            continue;
+        }
+
+    if ( !strcmp ( attribute_names[i], "Nb" ))
     {
+        if ( div_number == buffer_new_div_sous_div->no_div )
+            buffer_new_div_sous_div->no_sub_div = utils_str_atoi ( attribute_values[i] );
         i++;
         continue;
     }
 
-    if ( !strcmp ( attribute_names[i], "Nbb" )
-     ||
-     !strcmp ( attribute_names[i], "Nbc" )  )
+    if ( !strcmp ( attribute_names[i], "Na" ))
     {
-        budget_number = utils_str_atoi (attribute_values[i]);
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Nb" ))
-    {
-        sub_budget_number = gsb_data_budget_new_sub_budget_with_number ( utils_str_atoi (attribute_values[i]),
-                                                                 budget_number );
-        i++;
-        continue;
-    }
-
-    if ( !strcmp ( attribute_names[i],
-                                   "Na" ))
-    {
-        gsb_data_budget_set_sub_budget_name ( budget_number,
-                          sub_budget_number,
-                          attribute_values[i] );
+        if ( div_number == buffer_new_div_sous_div->no_div )
+            buffer_new_div_sous_div->name = g_strdup ( attribute_values[i] );
         i++;
         continue;
     }
@@ -2940,6 +2924,18 @@ void gsb_file_load_sub_budgetary ( const gchar **attribute_names,
     i++;
     }
     while ( attribute_names[i] );
+
+    if ( !gsb_data_budget_test_create_sub_budget (
+                        buffer_new_div_sous_div->new_no_div,
+                        buffer_new_div_sous_div->no_sub_div,
+                        buffer_new_div_sous_div->name ) )
+    {
+        gchar *tmpstr = g_strdup_printf ( "no_budget = %d no_sub_budget = %d nom = %s\n",
+                        buffer_new_div_sous_div->new_no_div,
+                        buffer_new_div_sous_div->no_sub_div,
+                        buffer_new_div_sous_div->name );
+        devel_debug ( tmpstr );
+    }
 }
 
 

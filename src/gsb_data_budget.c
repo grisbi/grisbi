@@ -2,7 +2,7 @@
 /*                                                                            */
 /*     Copyright (C)    2000-2008 Cédric Auger (cedric@grisbi.org)            */
 /*          2003-2008 Benjamin Drieu (bdrieu@april.org)                       */
-/*          2009-2010 Pierre Biava (grisbi@pierre.biava.name)                 */
+/*          2009-2015 Pierre Biava (grisbi@pierre.biava.name)                 */
 /*          http://www.grisbi.org                                             */
 /*                                                                            */
 /*  This program is free software; you can redistribute it and/or modify      */
@@ -790,6 +790,10 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
     struct_budget *budget;
     gchar *return_value;
 
+    devel_debug (NULL);
+
+printf ("no_budget = %d no_sub_budget = %d\n", no_budget, no_sub_budget );
+
     budget = gsb_data_budget_get_structure ( no_budget );
 
     if (!budget || !no_budget)
@@ -806,12 +810,14 @@ gchar *gsb_data_budget_get_name ( gint no_budget,
 
 	if (sub_budget)
 	{
+printf ("sub_budget -> sub_budget_name = %s\n", sub_budget -> sub_budget_name );
 	    return_value = g_strconcat ( return_value,
 					 " : ",
 					 sub_budget -> sub_budget_name,
 					 NULL );
 	}
     }
+printf ("return_value = %s\n", return_value );
     return return_value;
 }
 
@@ -1597,6 +1603,102 @@ gint gsb_data_budget_get_sub_budget_list_length ( gint budget_number )
         return 0;
 
     return g_slist_length ( budget->sub_budget_list );
+}
+
+
+/**
+ * Teste l'existence d'un budget et le crée si nécessaire
+ *
+ *
+ * \param gint          no_budget
+ * \param const gchar   name of budget
+ * \param gint          type of budget
+ *
+ * \return gint         no_budget
+ * */
+
+gint gsb_data_budget_test_create_budget ( gint no_budget,
+                        const gchar *name,
+                        gint budget_type )
+{
+    GSList *list_tmp;
+    gint budget_number = 0;
+    struct_budget *budget;
+
+    list_tmp = g_slist_find_custom ( budget_list,
+                        name,
+                        (GCompareFunc) gsb_data_budget_get_pointer_from_name_in_glist );
+
+    if ( list_tmp )
+    {
+        budget = list_tmp->data;
+        return budget->budget_number;
+    }
+    else
+    {
+        budget = gsb_data_budget_get_structure ( no_budget );
+
+        if ( !budget )
+        {
+            budget_number = gsb_data_budget_new_with_number ( no_budget );
+            gsb_data_budget_set_name ( budget_number, name );
+            gsb_data_budget_set_type ( budget_number, budget_type );
+        }
+        else
+        {
+            budget_number = gsb_data_budget_new (name);
+            gsb_data_budget_set_type ( budget_number, budget_type );
+            gsb_budget_update_combofix ( FALSE );
+        }
+        return budget_number;
+    }
+}
+
+
+/**
+ * Teste l'existence d'un sous budget et le crée si nécessaire
+ *
+ *
+ * \param gint          no_budget
+ * \param gint          no_sub_budget
+ * \param const gchar   name of sub budget
+ *
+ * \return gboolean     TRUE or FALSE
+ * */
+gboolean gsb_data_budget_test_create_sub_budget ( gint no_budget,
+                        gint no_sub_budget,
+                        const gchar *name )
+{
+    GSList *list_tmp;
+    gint sub_budget_number = 0;
+    struct_budget *budget;
+    struct_sub_budget *sub_budget;
+
+    budget = gsb_data_budget_get_structure ( no_budget );
+    list_tmp = g_slist_find_custom ( budget->sub_budget_list,
+                        name,
+                        (GCompareFunc) gsb_data_budget_get_pointer_from_sub_name_in_glist );
+
+    if ( list_tmp )
+        return TRUE;
+    else
+    {
+        sub_budget = gsb_data_budget_get_sub_budget_structure ( no_budget,
+                        no_sub_budget );
+        if ( !sub_budget )
+        {
+            sub_budget_number = gsb_data_budget_new_sub_budget_with_number (
+                        no_sub_budget, no_budget );
+            gsb_data_budget_set_sub_budget_name ( no_budget, no_sub_budget, name );
+        }
+        else
+        {
+            sub_budget_number = gsb_data_budget_new_sub_budget ( no_budget, name );
+            gsb_budget_update_combofix ( FALSE );
+        }
+        return TRUE;
+    }
+    return FALSE;
 }
 
 
