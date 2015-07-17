@@ -755,7 +755,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 					   "\t\tOne_line_showed=\"%d\"\n"
 					   "\t\tTwo_lines_showed=\"%d\"\n"
 					   "\t\tThree_lines_showed=\"%d\"\n"
-					   "\t\tRemind_form_per_account=\"%d\"\n"
 					   "\t\tTransaction_column_width=\"%s\"\n"
 					   "\t\tTransaction_column_align=\"%s\"\n"
 					   "\t\tScheduler_column_width=\"%s\"\n"
@@ -810,7 +809,6 @@ gulong gsb_file_save_general_part ( gulong iterator,
 	display_one_line,
 	display_two_lines,
 	display_three_lines,
-    0,
 	my_safe_null_str(transaction_column_width_write),
 	my_safe_null_str ( transaction_column_align_write ),
 	my_safe_null_str(scheduler_column_width_write),
