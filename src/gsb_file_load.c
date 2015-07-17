@@ -871,6 +871,8 @@ void gsb_file_load_general_part ( const gchar **attribute_names,
                 if ( !strcmp ( attribute_names[i], "Export_file_format" ) )
                     etat.export_file_format = utils_str_atoi ( attribute_values[i] );
 
+                else if ( !strcmp ( attribute_names[i], "Export_files_traitement" ) )
+                    etat.export_files_traitement = utils_str_atoi ( attribute_values[i] );
                 else
                     unknown = 1;
                 break;
