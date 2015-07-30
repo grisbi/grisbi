@@ -1919,11 +1919,20 @@ void bet_data_transfert_update_date_if_necessary ( struct_transfert_data *transf
         bet_data_transfert_create_reset_credit_card ( transfert );
 
         /* on incrémente la date de prélèvement */
-        tmp_date = gsb_date_copy ( transfert -> date );
+        tmp_date = gsb_date_copy ( transfert->date );
 
         g_date_free ( transfert->date );
         g_date_add_months ( tmp_date, 1 );
-        transfert -> date = tmp_date;
+
+        if ( transfert->main_last_banking_date )
+        {
+            transfert->date = gsb_date_get_last_banking_day_of_month ( tmp_date );
+            g_date_free ( tmp_date );
+        }
+        else
+        {
+            transfert->date = tmp_date;
+        }
 
         /* on incrémente la date de bascule */
         tmp_date = gsb_date_copy ( transfert->date_bascule );
