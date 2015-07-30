@@ -703,7 +703,7 @@ GDate *gsb_date_get_last_banking_day_of_month ( const GDate *date )
     switch ( week_day )
     {
     case G_DATE_SUNDAY :
-        g_date_subtract_days ( tmp_date, 1 );
+        g_date_subtract_days ( tmp_date, 2 );
     case G_DATE_SATURDAY :
         g_date_subtract_days ( tmp_date, 1 );
         break;
