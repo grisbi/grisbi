@@ -77,6 +77,8 @@ struct gsb_etat_t
     gchar * csv_separator;                              /** CSV separator to use while parsing a CSV file. */
     gboolean csv_skipped_lines [ CSV_MAX_TOP_LINES ];   /* Contains a pointer to skipped lines in CSV preview. */
 
+    gint get_qif_use_field_extract_method_payment;      /* use the field 'N' to define the method of payment */
+
     /* export files */
     gint export_file_format;                /* EXPORT_QIF or EXPORT_CSV */
     gboolean export_files_traitement;       /* 0 = traitement individuel, 1 = traitement automatique */
@@ -319,5 +321,26 @@ enum _bet_type_onglets
     BET_ONGLETS_CAP,
 };
 
+/* recopie des types de transaction de la libofx en attendant une version propre */
+typedef enum
+{
+    GSB_OFX_CREDIT,     /**< Generic credit */
+    GSB_OFX_DEBIT,      /**< Generic debit */
+    GSB_OFX_INT,        /**< Interest earned or paid (Note: Depends on signage of amount) */
+    GSB_OFX_DIV,        /**< Dividend */
+    GSB_OFX_FEE,        /**< FI fee */
+    GSB_OFX_SRVCHG,     /**< Service charge */
+    GSB_OFX_DEP,        /**< Deposit */
+    GSB_OFX_ATM,        /**< ATM debit or credit (Note: Depends on signage of amount) */
+    GSB_OFX_POS,        /**< Point of sale debit or credit (Note: Depends on signage of amount) */
+    GSB_OFX_XFER,       /**< Transfer */
+    GSB_OFX_CHECK,      /**< Check */
+    GSB_OFX_PAYMENT,    /**< Electronic payment */
+    GSB_OFX_CASH,       /**< Cash withdrawal */
+    GSB_OFX_DIRECTDEP,  /**< Direct deposit */
+    GSB_OFX_DIRECTDEBIT,/**< Merchant initiated debit */
+    GSB_OFX_REPEATPMT,  /**< Repeating payment/standing order */
+    GSB_OFX_OTHER       /**< Somer other type of transaction */
+  } GSB_OFXTransactionType;
 
 #endif
