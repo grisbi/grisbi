@@ -1682,15 +1682,15 @@ GtkWidget *gsb_partial_balance_create_dialog ( gint action, gint spin_value )
         dialog = gtk_dialog_new_with_buttons ( _("Add a partial balance"),
                             GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL,
-                            GTK_STOCK_CANCEL, 0,
-                            GTK_STOCK_OK, 1,
+                            "gtk-cancel", 0,
+                            "gtk-ok", 1,
                             NULL );
     else
         dialog = gtk_dialog_new_with_buttons ( _("Modify a partial balance"),
                             GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL,
-                            GTK_STOCK_CANCEL, 0,
-                            GTK_STOCK_OK, 1,
+                            "gtk-cancel", 0,
+                            "gtk-ok", 1,
                             NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
 
@@ -1775,8 +1775,8 @@ gint gsb_partial_balance_request_currency ( GtkWidget *parent )
     dialog = gtk_dialog_new_with_buttons ( _("Enter the currency of the balance part"),
                             GTK_WINDOW ( parent ),
                             GTK_DIALOG_MODAL,
-                            GTK_STOCK_CANCEL, 0,
-                            GTK_STOCK_OK, 1,
+                            "gtk-cancel", 0,
+                            "gtk-ok", 1,
                             NULL );
     gtk_widget_set_size_request ( dialog, -1, 150 );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
