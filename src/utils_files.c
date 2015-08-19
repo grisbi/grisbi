@@ -366,7 +366,7 @@ GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
                         NULL, NULL, NULL );
 
     bouton_cancel = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
-                                GTK_STOCK_CANCEL,
+                                "gtk-cancel",
                                 GTK_RESPONSE_CANCEL);
     g_signal_connect ( G_OBJECT (bouton_cancel),
 		       "clicked",
@@ -374,7 +374,7 @@ GtkWidget *utils_files_create_file_chooser ( GtkWidget *parent, gchar *titre )
 		       chooser );
 
     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( chooser ),
-                                GTK_STOCK_OPEN,
+                                "gtk-open",
                                 GTK_RESPONSE_ACCEPT);
 
 	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -525,8 +525,8 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     dialog = gtk_dialog_new_with_buttons ( _("Select a charmap"),
                             GTK_WINDOW ( assistant ),
                             GTK_DIALOG_MODAL,
-                            GTK_STOCK_CANCEL, 0,
-                            GTK_STOCK_OK, GTK_RESPONSE_OK,
+                            "gtk-cancel", 0,
+                            "gtk-ok", GTK_RESPONSE_OK,
                             NULL );
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_widget_set_size_request ( dialog, 600, -1 );
@@ -540,7 +540,7 @@ gchar *utils_files_create_sel_charset ( GtkWidget *assistant,
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( vbox ), hbox, FALSE, FALSE, 0 );
 
-    warn = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_BUTTON );
+    warn = gtk_image_new_from_stock ( "gtk-dialog-warning", GTK_ICON_SIZE_BUTTON );
     gtk_box_pack_start ( GTK_BOX ( hbox ), warn, FALSE, FALSE, 0 );
 
     label = gtk_label_new ( NULL );

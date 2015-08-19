@@ -625,9 +625,9 @@ GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
     g_object_set_data ( G_OBJECT ( hbox ), "initial", GINT_TO_POINTER ( initial ) );
 
     if ( msg == GTK_MESSAGE_WARNING )
-        icon_0 = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_WARNING, GTK_ICON_SIZE_MENU );
+        icon_0 = gtk_image_new_from_stock ( "gtk-dialog-warning", GTK_ICON_SIZE_MENU );
     else
-        icon_0 = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_MENU );
+        icon_0 = gtk_image_new_from_stock ( "gtk-dialog-error", GTK_ICON_SIZE_MENU );
 
     g_object_set_property ( G_OBJECT ( icon_0 ), "no-show-all", &value );
     if ( tooltip_0 )
@@ -635,7 +635,7 @@ GtkWidget *utils_get_image_with_etat ( GtkMessageType msg,
     gtk_box_pack_start ( GTK_BOX ( hbox ), icon_0, FALSE, FALSE, 0 );
     g_object_set_data ( G_OBJECT ( hbox ), "icon_0", icon_0 );
 
-    icon_1 = gtk_image_new_from_stock ( GTK_STOCK_APPLY, GTK_ICON_SIZE_MENU );
+    icon_1 = gtk_image_new_from_stock ( "gtk-apply", GTK_ICON_SIZE_MENU );
     g_object_set_property ( G_OBJECT ( icon_1 ), "no-show-all", &value );
 
     if ( tooltip_1 )
