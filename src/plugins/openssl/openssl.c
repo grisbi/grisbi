@@ -291,7 +291,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     dialog = gtk_dialog_new_with_buttons ( _("Grisbi password"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                        "gtk-cancel", GTK_RESPONSE_CANCEL,
                         ( encrypt ? _("Crypt file") : _("Decrypt file") ), GTK_RESPONSE_OK,
                         NULL );
 
@@ -305,8 +305,7 @@ gchar *gsb_file_util_ask_for_crypt_key ( const gchar * file_name, gchar * additi
     /* Ugly dance to force alignement. */
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox, FALSE, FALSE, 6 );
-    icon = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_AUTHENTICATION,
-                        GTK_ICON_SIZE_DIALOG );
+    icon = gtk_image_new_from_icon_name ( "gtk-dialog-authentication", GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( vbox ), icon, FALSE, FALSE, 6 );
 
     vbox = gtk_box_new ( GTK_ORIENTATION_VERTICAL, 6 );
