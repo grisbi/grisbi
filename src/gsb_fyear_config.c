@@ -140,7 +140,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
 			 FALSE, FALSE, 0 );
 
     /* Add button */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect_swapped ( G_OBJECT (button),
 			       "clicked",
 			       G_CALLBACK  (gsb_fyear_config_add_fyear),
@@ -148,7 +148,7 @@ GtkWidget *gsb_fyear_config_create_page ( void )
     gtk_box_pack_start ( GTK_BOX ( vbox ), button,
 			 FALSE, FALSE, 5 );
     /* Remove button */
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    button = gtk_button_new_from_stock ("gtk-remove");
     gtk_widget_set_sensitive ( button, FALSE );
     g_object_set_data ( G_OBJECT (tree_model),
 			"remove_fyear_button", button );
@@ -395,7 +395,7 @@ void gsb_fyear_config_append_line ( GtkTreeModel *model,
 	iter_ptr = &local_iter;
 
     if ( gsb_data_fyear_get_invalid (fyear_number))
-	invalid = GTK_STOCK_DIALOG_WARNING;
+	invalid = "gtk-dialog-warning";
     else
 	invalid = NULL;
 
@@ -539,7 +539,7 @@ gboolean gsb_fyear_config_modify_fyear ( GtkWidget *entry,
      if (gsb_data_fyear_get_invalid (fyear_number))
      {
 	 /* and now focus on the current fyear */
-	 invalid = GTK_STOCK_DIALOG_WARNING;
+	 invalid = "gtk-dialog-warning";
 	 gtk_label_set_markup ( GTK_LABEL (widget),
 				gsb_data_fyear_get_invalid_message (fyear_number));
 	 gtk_widget_show (widget);
@@ -592,7 +592,7 @@ void gsb_fyear_update_invalid ( GtkWidget *tree_view )
 			     FYEAR_NUMBER_COLUMN, &fyear_number,
 			     -1 );
 	if (gsb_data_fyear_get_invalid (fyear_number))
-	    invalid = GTK_STOCK_DIALOG_WARNING;
+	    invalid = "gtk-dialog-warning";
 	else
 	    invalid = NULL;
 
