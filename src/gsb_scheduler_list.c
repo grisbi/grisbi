@@ -401,7 +401,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    scheduler_button_delete = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE ) );
+    scheduler_button_delete = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-delete" ) );
     gtk_widget_set_sensitive ( scheduler_button_delete, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_delete ),
                         _("Delete selected scheduled transaction"));
@@ -412,7 +412,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_delete ), -1 );
 
     /* edit button */
-    scheduler_button_edit = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT ) );
+    scheduler_button_edit = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-edit" ) );
     gtk_widget_set_sensitive ( scheduler_button_edit, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_edit ),
                         _("Edit selected transaction"));
@@ -433,7 +433,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_display_hide_notes ), -1 );
 
     /* Execute transaction */
-    scheduler_button_execute = GTK_WIDGET ( gtk_tool_button_new_from_stock ( GTK_STOCK_EXECUTE ) );
+    scheduler_button_execute = GTK_WIDGET ( gtk_tool_button_new_from_stock ( "gtk-execute" ) );
     gtk_widget_set_sensitive ( scheduler_button_execute, FALSE );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( scheduler_button_execute ),
                         _("Execute current scheduled transaction"));
@@ -443,7 +443,7 @@ GtkWidget *creation_barre_outils_echeancier ( void )
                         NULL );
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), GTK_TOOL_ITEM ( scheduler_button_execute ), -1 );
 
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ),
                         _("Change display mode of scheduled transaction list"));
@@ -2140,7 +2140,7 @@ gboolean gsb_scheduler_list_delete_scheduled_transaction ( gint scheduled_number
                             occurences ));
 
             gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
-                             GTK_STOCK_CANCEL, 2,
+                             "gtk-cancel", 2,
                              _("All the occurences"), 1,
                              _("Only this one"), 0,
                              NULL );
@@ -2206,8 +2206,8 @@ gboolean gsb_scheduler_list_popup_custom_periodicity_dialog (void)
     dialog = gtk_dialog_new_with_buttons ( _("Show scheduled transactions"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-apply", GTK_RESPONSE_OK,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -2367,7 +2367,7 @@ void popup_scheduled_context_menu ( void )
 
     menu_item = gtk_image_menu_item_new_with_label ( _("Edit transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_EDIT,
+                        gtk_image_new_from_stock ( "gtk-edit",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2381,7 +2381,7 @@ void popup_scheduled_context_menu ( void )
     /* Clone transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Clone transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_COPY,
+                        gtk_image_new_from_stock ( "gtk-copy",
                         GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2398,7 +2398,7 @@ void popup_scheduled_context_menu ( void )
     /* New transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("New transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_NEW,
+                        gtk_image_new_from_stock ( "gtk-new",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2409,7 +2409,7 @@ void popup_scheduled_context_menu ( void )
     /* Delete transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Delete transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_DELETE,
+                        gtk_image_new_from_stock ( "gtk-delete",
 						GTK_ICON_SIZE_MENU ) );
     g_signal_connect ( G_OBJECT ( menu_item ),
                         "activate",
@@ -2445,7 +2445,7 @@ void popup_scheduled_context_menu ( void )
     /* Execute transaction */
     menu_item = gtk_image_menu_item_new_with_label ( _("Execute transaction") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM ( menu_item ),
-                        gtk_image_new_from_stock ( GTK_STOCK_EXECUTE,
+                        gtk_image_new_from_stock ( "gtk-execute",
                         GTK_ICON_SIZE_MENU ) );
     g_signal_connect_swapped ( G_OBJECT ( menu_item ),
                         "activate",
