@@ -325,13 +325,13 @@ void gsb_form_create_widgets ( void )
 			 0 );
 
     /* create the valid/cancel buttons */
-    form_button_valid = gtk_button_new_from_stock (GTK_STOCK_OK);
+    form_button_valid = gtk_button_new_from_stock ("gtk-ok");
     gtk_button_set_relief ( GTK_BUTTON (form_button_valid), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_valid), "clicked",
 		       G_CALLBACK (gsb_form_finish_edition), NULL );
     gtk_box_pack_end ( GTK_BOX (hbox_buttons_inner), form_button_valid, FALSE, FALSE, 0 );
 
-    form_button_cancel = gtk_button_new_from_stock (GTK_STOCK_CANCEL);
+    form_button_cancel = gtk_button_new_from_stock ("gtk-cancel");
     gtk_button_set_relief ( GTK_BUTTON (form_button_cancel), GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT (form_button_cancel), "clicked",
 		       G_CALLBACK (gsb_form_escape_form), NULL );
@@ -3682,7 +3682,7 @@ gboolean gsb_form_button_press ( GtkWidget *vbox,
     /* propose to configure the form */
     menu_item = gtk_image_menu_item_new_with_label ( _("Configure the form") );
     gtk_image_menu_item_set_image ( GTK_IMAGE_MENU_ITEM(menu_item),
-				    gtk_image_new_from_stock ( GTK_STOCK_PROPERTIES,
+				    gtk_image_new_from_stock ( "gtk-properties",
 							       GTK_ICON_SIZE_MENU ));
     g_signal_connect ( G_OBJECT(menu_item),
 		       "activate",

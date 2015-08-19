@@ -322,7 +322,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( hbox2 );
 
-    button = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
+    button = gtk_button_new_from_stock ( "gtk-remove" );
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_remove_line ),
@@ -344,7 +344,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    button = gtk_button_new_from_stock ( GTK_STOCK_ADD );
+    button = gtk_button_new_from_stock ( "gtk-add" );
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_add_line ),
@@ -368,7 +368,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 		       0 );
     gtk_widget_show ( hbox2 );
 
-    button = gtk_button_new_from_stock ( GTK_STOCK_REMOVE );
+    button = gtk_button_new_from_stock ( "gtk-remove" );
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_remove_column ),
@@ -390,7 +390,7 @@ GtkWidget *gsb_form_config_create_sizing_buttons_line ( void )
 			 0 );
     gtk_widget_show ( label );
 
-    button = gtk_button_new_from_stock ( GTK_STOCK_ADD );
+    button = gtk_button_new_from_stock ( "gtk-add" );
     g_signal_connect ( G_OBJECT ( button ),
 		       "clicked",
 		       G_CALLBACK ( gsb_form_config_add_column ),
