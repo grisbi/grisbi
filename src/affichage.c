@@ -490,7 +490,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
         {
             if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ) )
                 gtk_widget_hide ( logo_accueil );
-            preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
+            preview = gtk_image_new_from_stock ( "gtk-missing-image",
                              GTK_ICON_SIZE_BUTTON );
         }
         else
@@ -501,7 +501,7 @@ void change_logo_accueil ( GtkWidget * file_selector )
             {
                 if ( logo_accueil && GTK_IS_WIDGET ( logo_accueil ))
                     gtk_widget_hide ( logo_accueil );
-                preview = gtk_image_new_from_stock ( GTK_STOCK_MISSING_IMAGE,
+                preview = gtk_image_new_from_stock ( "gtk-missing-image",
                                     GTK_ICON_SIZE_BUTTON );
             }
             else
@@ -563,8 +563,8 @@ gboolean modification_logo_accueil ( )
     file_selector = gtk_file_chooser_dialog_new ( _("Select a new logo"),
 					   GTK_WINDOW ( fenetre_preferences ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-open", GTK_RESPONSE_OK,
 					   NULL);
 
     if ( etat.is_pixmaps_dir )
