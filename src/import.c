@@ -801,8 +801,8 @@ GSList *gsb_import_create_file_chooser ( const char *enc, GtkWidget *parent )
     dialog = gtk_file_chooser_dialog_new ( _("Choose files to import."),
                         GTK_WINDOW ( parent ),
                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                        "gtk-cancel", GTK_RESPONSE_CANCEL,
+                        "gtk-open", GTK_RESPONSE_ACCEPT,
                         NULL);
 
     gtk_file_chooser_set_select_multiple ( GTK_FILE_CHOOSER ( dialog ), TRUE );
@@ -1190,7 +1190,7 @@ gboolean affichage_recapitulatif_importation ( GtkWidget * assistant )
                         page, page - 1, -1, G_CALLBACK ( NULL ) );
 
     /* Replace button. */
-    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    gsb_assistant_change_button_next ( assistant, "gtk-go-forward", GTK_RESPONSE_YES );
 
     return ( FALSE );
 }
@@ -2278,9 +2278,9 @@ void confirmation_enregistrement_ope_import ( struct struct_compte_importation *
     dialog = gtk_dialog_new_with_buttons ( tmpstr,
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
-                        GTK_STOCK_SELECT_ALL, -12,
+                        "gtk-select-all", -12,
                         _("Unselect all"), -13,
-                        GTK_STOCK_OK,
+                        "gtk-ok",
                         GTK_RESPONSE_OK,
                         NULL );
     g_free ( tmpstr );
@@ -3273,9 +3273,9 @@ void gsb_import_show_orphan_transactions ( GSList *orphan_list,
     dialog = gtk_dialog_new_with_buttons ( tmp_str,
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_SELECT_ALL, GTK_RESPONSE_ACCEPT,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OK, GTK_RESPONSE_OK,
+                        "gtk-select-all", GTK_RESPONSE_ACCEPT,
+                        "gtk-cancel", GTK_RESPONSE_CANCEL,
+                        "gtk-ok", GTK_RESPONSE_OK,
                         NULL );
 
     g_free ( tmp_str );
@@ -3806,7 +3806,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox2, FALSE, FALSE, 0 );
 
     /* Button "Add" */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK  ( gsb_import_associations_add_assoc ),
@@ -3815,7 +3815,7 @@ GtkWidget * gsb_import_associations_gere_tiers ( void )
     g_object_set_data ( G_OBJECT (vbox_main), "add_button", button );
 
     /* Button "Remove" */
-    button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    button = gtk_button_new_from_stock ("gtk-remove");
     g_signal_connect ( G_OBJECT ( button ),
                         "clicked",
                         G_CALLBACK ( gsb_import_associations_del_assoc ),
@@ -4593,8 +4593,8 @@ gchar **gsb_import_by_rule_ask_filename ( gint rule )
     dialog = gtk_dialog_new_with_buttons (_("Import a file with a rule"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-                        GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+                        "gtk-cancel", GTK_RESPONSE_REJECT,
+                        "gtk-ok", GTK_RESPONSE_ACCEPT,
                         NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -4971,7 +4971,7 @@ GtkWidget *gsb_import_progress_bar_affiche ( struct struct_compte_importation *i
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 0 );
     gtk_container_add ( GTK_CONTAINER ( progress ), hbox );
 
-    image = gtk_image_new_from_icon_name ( GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG );
+    image = gtk_image_new_from_icon_name ( "gtk-dialog-info", GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0 );
 
     align = gtk_alignment_new (0.0, 0.5, 0.0, 0.0);
