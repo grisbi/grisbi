@@ -564,14 +564,14 @@ GtkWidget *gsb_bank_create_page ( gboolean default_sensitive )
     gtk_box_pack_start ( GTK_BOX ( hbox ), vbox,
 			 FALSE, FALSE, 0 );
     /* Add button */
-    button = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    button = gtk_button_new_from_stock ("gtk-add");
     g_signal_connect ( G_OBJECT ( button ), "clicked",
 		       G_CALLBACK  ( gsb_bank_add ),
 		       NULL );
     gtk_box_pack_start ( GTK_BOX ( vbox ), button,
 			 FALSE, FALSE, 5 );
     /* Remove button */
-    delete_bank_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    delete_bank_button = gtk_button_new_from_stock ("gtk-remove");
     gtk_widget_set_sensitive ( delete_bank_button, FALSE );
     g_signal_connect ( G_OBJECT ( delete_bank_button ), "clicked",
 		       G_CALLBACK ( gsb_bank_delete ),
@@ -1028,8 +1028,8 @@ static gboolean gsb_bank_edit_bank ( gint bank_number,
     dialog = gtk_dialog_new_with_buttons ( _("Edit bank"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
+					   "gtk-cancel""gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-apply", GTK_RESPONSE_APPLY,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
