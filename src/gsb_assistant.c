@@ -128,18 +128,18 @@ GtkWidget * gsb_assistant_new ( const gchar * title, const gchar * explanation,
     g_object_set_data ( G_OBJECT(assistant), "button_select", button_select );
 
     button_cancel = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL );
+                        "gtk-cancel", GTK_RESPONSE_CANCEL );
     gtk_widget_set_size_request ( button_cancel, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_cancel", button_cancel );
 
     button_prev = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        GTK_STOCK_GO_BACK, GTK_RESPONSE_NO );
+                        "gtk-go-back", GTK_RESPONSE_NO );
     gtk_widget_set_size_request ( button_prev, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_prev", button_prev );
     gtk_widget_set_sensitive ( button_prev, FALSE );
 
     button_next = gtk_dialog_add_button ( GTK_DIALOG(assistant),
-                        GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+                        "gtk-go-forward", GTK_RESPONSE_YES );
     gtk_widget_set_size_request ( button_next, width, -1 );
     g_object_set_data ( G_OBJECT(assistant), "button_next", button_next );
 
@@ -299,7 +299,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 		gtk_widget_set_sensitive ( button_prev, TRUE );
 		if ( gtk_notebook_get_n_pages ( GTK_NOTEBOOK(notebook) ) == ( next + 1 ) )
 		{
-		    gsb_assistant_change_button_next ( assistant, GTK_STOCK_CLOSE,
+		    gsb_assistant_change_button_next ( assistant, "gtk-close",
 						       GTK_RESPONSE_APPLY );
 		    gsb_assistant_sensitive_button_prev ( assistant,
 							  FALSE );
@@ -311,7 +311,7 @@ GtkResponseType gsb_assistant_run ( GtkWidget * assistant )
 	    case GTK_RESPONSE_NO:
 		if ( next == -1 )
 		{
-		    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+		    gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 						       GTK_RESPONSE_YES );
 		}
 

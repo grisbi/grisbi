@@ -507,7 +507,7 @@ static gboolean gsb_assistant_archive_switch_to_intro ( GtkWidget *assistant,
 
     /* enter into the intro page */
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+				       "gtk-go-forward", GTK_RESPONSE_YES );
     gsb_assistant_sensitive_button_next ( assistant,
 					  TRUE );
     return FALSE;
@@ -532,7 +532,7 @@ static gboolean gsb_assistant_archive_switch_to_menu ( GtkWidget *assistant,
     /* enter into the menu page */
     gtk_label_set_text ( GTK_LABEL (label_archived), NULL );
     gsb_assistant_change_button_next ( assistant,
-                        GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+                        "gtk-go-forward", GTK_RESPONSE_YES );
     gsb_assistant_archive_update_labels ( assistant );
 
     /* set the initial date to the first transaction in grisbi */
@@ -578,7 +578,7 @@ static gboolean gsb_assistant_archive_switch_to_archive_name ( GtkWidget *assist
     gchar * string = NULL;
 
     gsb_assistant_change_button_next ( assistant,
-                    GTK_STOCK_APPLY, GTK_RESPONSE_YES );
+                    "gtk-apply", GTK_RESPONSE_YES );
 
     if ( gtk_widget_is_sensitive (initial_date) )
     {
@@ -663,7 +663,7 @@ static gboolean gsb_assistant_archive_switch_to_success ( GtkWidget *assistant,
     }
 
     gsb_assistant_change_button_next ( assistant,
-                        GTK_STOCK_CLOSE, GTK_RESPONSE_APPLY );
+                        "gtk-close", GTK_RESPONSE_APPLY );
 
     /* fill the archive */
     if (gtk_widget_is_sensitive (initial_date))

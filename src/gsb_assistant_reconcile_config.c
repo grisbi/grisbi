@@ -1190,8 +1190,8 @@ static gboolean gsb_assistant_reconcile_config_lauch_manu_asso ( GtkWidget *butt
     dialog = gtk_dialog_new_with_buttons ( _("Selection of a reconciliation"),
 					   GTK_WINDOW ( assistant ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-ok", GTK_RESPONSE_OK,
 					   NULL );
 
     gtk_window_set_default_size ( GTK_WINDOW ( dialog ), 770, 412 );

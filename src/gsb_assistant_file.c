@@ -609,8 +609,8 @@ static gboolean gsb_assistant_file_choose_filename ( GtkWidget *button,
     dialog = gtk_file_chooser_dialog_new ( _("Create filename"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-ok", GTK_RESPONSE_ACCEPT,
 					   NULL);
 
     tmpstr = g_path_get_basename (gtk_entry_get_text (GTK_ENTRY (entry)));

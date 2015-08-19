@@ -392,7 +392,7 @@ static gboolean gsb_assistant_archive_switch ( GtkWidget *assistant,
 	    /* need to set the next button to the next function,
 	     * because if the export failed and the user did previous button,
 	     * the next button stay in the close state */
-	    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+	    gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 					       GTK_RESPONSE_YES );
 
 	    break;

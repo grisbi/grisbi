@@ -347,7 +347,7 @@ static GtkWidget *gsb_assistant_first_page_3 ( GtkWidget *assistant )
     hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 15 );
     gtk_box_pack_start ( GTK_BOX ( paddingbox ), hbox, FALSE, FALSE, 15 );
 
-    image = gtk_image_new_from_stock ( GTK_STOCK_DIALOG_ERROR, GTK_ICON_SIZE_DIALOG );
+    image = gtk_image_new_from_stock ( "gtk-dialog-error", GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 0);
 
     label = gtk_label_new ( _("When importing the file from the previous version, "
@@ -377,7 +377,7 @@ static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
                         gint new_page )
 {
     if ( result_reconcile == TRUE )
-        gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+        gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 				       GTK_RESPONSE_APPLY );
 
     return FALSE;
@@ -395,7 +395,7 @@ static gboolean gsb_assistant_first_enter_page_2 ( GtkWidget *assistant,
 static gboolean gsb_assistant_first_enter_page_3 ( GtkWidget *assistant,
                         gint new_page )
 {
-    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD,
+    gsb_assistant_change_button_next ( assistant, "gtk-go-forward",
 				       GTK_RESPONSE_APPLY );
 
     return FALSE;
