@@ -321,7 +321,7 @@ void gsb_debug_add_report_page ( GtkWidget * assistant, gint page,
 
     gsb_assistant_add_page ( assistant, scrolled_window, page, page - 1, -1, NULL );
     gsb_assistant_set_next ( assistant, page - 1, page );
-    gsb_assistant_change_button_next ( assistant, GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+    gsb_assistant_change_button_next ( assistant, "gtk-go-forward", GTK_RESPONSE_YES );
 }
 
 
