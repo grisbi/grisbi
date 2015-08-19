@@ -340,7 +340,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* delete button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -352,7 +352,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* edit button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_EDIT );
+    item = gtk_tool_button_new_from_stock ( "gtk-edit" );
     metatree_register_widget_as_linked ( GTK_TREE_MODEL ( payee_tree_model ),
                         GTK_WIDGET ( item ),
                         "selection" );
@@ -364,7 +364,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Change view mode button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_SELECT_COLOR );
+    item = gtk_tool_button_new_from_stock ( "gtk-select-color" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("View") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Change view mode") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -383,7 +383,7 @@ GtkWidget *creation_barre_outils_tiers ( void )
     gtk_toolbar_insert ( GTK_TOOLBAR ( toolbar ), item, -1 );
 
     /* Remove unused payees button */
-    item = gtk_tool_button_new_from_stock ( GTK_STOCK_DELETE );
+    item = gtk_tool_button_new_from_stock ( "gtk-delete" );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON ( item ), _("Remove unused payees") );
     gtk_widget_set_tooltip_text ( GTK_WIDGET ( item ), _("Remove orphan payees") );
     g_signal_connect ( G_OBJECT ( item ),
@@ -709,8 +709,8 @@ gboolean edit_payee ( GtkTreeView * view )
     dialog = gtk_dialog_new_with_buttons ( title,
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_NO,
-                        GTK_STOCK_APPLY, GTK_RESPONSE_OK,
+                        "gtk-cancel", GTK_RESPONSE_NO,
+                        "gtk-apply", GTK_RESPONSE_OK,
                         NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -1339,7 +1339,7 @@ static gboolean gsb_assistant_payees_enter_page_2 ( GtkWidget *assistant )
     gtk_entry_set_text ( GTK_ENTRY ( entry), "" );
 
     gsb_assistant_change_button_next ( assistant,
-				       GTK_STOCK_GO_FORWARD, GTK_RESPONSE_YES );
+				       "gtk-go-forward", GTK_RESPONSE_YES );
     gsb_assistant_sensitive_button_next ( assistant,FALSE );
 
     return FALSE;
