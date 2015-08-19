@@ -165,7 +165,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     dialog = gtk_dialog_new_with_buttons ( _("Browse icons"),
                             GTK_WINDOW ( run.window ),
                             GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                            GTK_STOCK_CANCEL,
+                            "gtk-cancel",
                             GTK_RESPONSE_REJECT,
                             NULL);
 
@@ -173,7 +173,7 @@ gchar * gsb_select_icon_create_window ( gchar *name_icon )
     gtk_window_set_resizable ( GTK_WINDOW ( dialog ), TRUE );
 
     bouton_OK = gtk_dialog_add_button (GTK_DIALOG ( dialog ),
-                                GTK_STOCK_OK,
+                                "gtk-ok",
                                 GTK_RESPONSE_ACCEPT);
     gtk_widget_set_size_request ( dialog, 400, 450 );
     content_area = gtk_dialog_get_content_area ( GTK_DIALOG ( dialog ) );
@@ -403,8 +403,8 @@ void gsb_select_icon_create_file_chooser ( GtkWidget * button,
     chooser = gtk_file_chooser_dialog_new ( _("Select icon directory"),
                         GTK_WINDOW (dialog),
                         GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+                        "gtk-cancel", GTK_RESPONSE_CANCEL,
+                        "gtk-open", GTK_RESPONSE_ACCEPT,
                         NULL);
 
 	gtk_window_set_position ( GTK_WINDOW (chooser), GTK_WIN_POS_CENTER_ON_PARENT );
