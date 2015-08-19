@@ -214,7 +214,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 			 FALSE, FALSE, 0 );
 
     /* "Add payment method" button */
-    bouton_ajouter_type = gtk_button_new_from_stock (GTK_STOCK_ADD);
+    bouton_ajouter_type = gtk_button_new_from_stock ("gtk-add");
     gtk_button_set_relief ( GTK_BUTTON ( bouton_ajouter_type ),
 			    GTK_RELIEF_NONE );
     g_signal_connect ( G_OBJECT ( bouton_ajouter_type ),
@@ -225,7 +225,7 @@ GtkWidget *gsb_payment_method_config_create ( void )
 			 TRUE, FALSE, 5 );
 
     /* "Remove payment method" button */
-    payment_remove_button = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
+    payment_remove_button = gtk_button_new_from_stock ("gtk-remove");
     gtk_button_set_relief ( GTK_BUTTON ( payment_remove_button ),
 			    GTK_RELIEF_NONE );
     gtk_widget_set_sensitive ( payment_remove_button, FALSE );
@@ -1274,8 +1274,8 @@ gboolean gsb_payment_method_config_switch_payment ( gint payment_number )
     dialog = gtk_dialog_new_with_buttons ( _("Delete a payment method"),
 					   GTK_WINDOW ( fenetre_preferences ),
 					   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OK, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-ok", GTK_RESPONSE_OK,
 					   NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
