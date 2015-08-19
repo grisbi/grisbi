@@ -224,8 +224,8 @@ gboolean gsb_file_open_menu ( void )
     selection_fichier = gtk_file_chooser_dialog_new ( _("Open an accounts file"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_OPEN,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-open", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( selection_fichier ), gsb_file_get_last_path () );
@@ -817,7 +817,7 @@ static gint gsb_file_dialog_save ( void )
 				    _("Force saving of locked files"));
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				 "gtk-cancel", GTK_RESPONSE_CANCEL,
 				 NULL );
 	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_CANCEL );
     }
@@ -828,8 +828,8 @@ static gint gsb_file_dialog_save ( void )
         message = g_strdup("");
 	gtk_dialog_add_buttons ( GTK_DIALOG(dialog),
 				 _("Close without saving"), GTK_RESPONSE_NO,
-				 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				 GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+				 "gtk-cancel", GTK_RESPONSE_CANCEL,
+				 "gtk-save", GTK_RESPONSE_OK,
 				 NULL );
 	gtk_dialog_set_default_response ( GTK_DIALOG(dialog), GTK_RESPONSE_OK );
     }
@@ -887,8 +887,8 @@ static gchar *gsb_file_dialog_ask_name ( void )
     dialog = gtk_file_chooser_dialog_new ( _("Name the accounts file"),
 					   GTK_WINDOW ( run.window ),
 					   GTK_FILE_CHOOSER_ACTION_SAVE,
-					   GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					   GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					   "gtk-cancel", GTK_RESPONSE_CANCEL,
+					   "gtk-save", GTK_RESPONSE_OK,
 					   NULL);
 
     gtk_file_chooser_set_current_folder ( GTK_FILE_CHOOSER ( dialog ), gsb_file_get_last_path () );
@@ -1140,8 +1140,8 @@ void gsb_file_save_remove_old_file ( gchar *filename )
                         _("Delete file copy from a previous version of Grisbi"),
                         GTK_WINDOW ( run.window ),
                         GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                        GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
-                        GTK_STOCK_YES, GTK_RESPONSE_OK,
+                        "gtk-no", GTK_RESPONSE_CANCEL,
+                        "gtk-yes", GTK_RESPONSE_OK,
                         NULL );
 
     gtk_window_set_position ( GTK_WINDOW ( dialog ), GTK_WIN_POS_CENTER_ON_PARENT );
@@ -1151,7 +1151,7 @@ void gsb_file_save_remove_old_file ( gchar *filename )
     gtk_container_set_border_width ( GTK_CONTAINER( hbox ), 6 );
     gtk_box_pack_start ( GTK_BOX ( dialog_get_content_area ( dialog ) ), hbox, FALSE, FALSE, 5 );
 
-    image = gtk_image_new_from_stock (GTK_STOCK_DIALOG_WARNING,
+    image = gtk_image_new_from_stock ("gtk-dialog-warning",
                         GTK_ICON_SIZE_DIALOG );
     gtk_box_pack_start ( GTK_BOX ( hbox ), image, FALSE, FALSE, 5 );
 
